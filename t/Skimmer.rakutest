@@ -1,0 +1,68 @@
+use Gnome::SourceSkimTool::ConstEnumType;
+use Gnome::SourceSkimTool::GetFileList;
+use Gnome::SourceSkimTool::HCSkim;
+
+use Test;
+
+#-------------------------------------------------------------------------------
+constant \GetFileList = Gnome::SourceSkimTool::GetFileList;
+
+# pick a class with no other prefix specified
+my Str $*sub-prefix = 'gtk_button';
+my Str $*other-prefix = 'gtk_button';
+
+my Bool $*class-is-leaf = False;
+my Bool $*class-is-role = False; # is leaf implicitly
+my Bool $*class-is-top = False;
+
+# needed dynamic variable set by main program
+my SkimSource $*use-doc-source;
+my Str $*lib-classname;
+my Str $*raku-classname;
+my Str $*raku-parent-classname;
+my Str $*library;
+my Str $*raku-modname;
+my Str $*raku-parent-modname;
+my Str $*include-content;
+my Str $*source-content;
+my Str $*dump-result-dir;
+
+#-------------------------------------------------------------------------------
+my GetFileList $gfl .= new;
+my Gnome::SourceSkimTool::HCSkim $hc-skim .= new;
+
+#-------------------------------------------------------------------------------
+subtest 'GetFileList', {
+  is $gfl.set-source-dir,
+    ( [~] SKIMTOOLROOT, 'Gnome/gtk+-', VGtk3, '/gtk' ),
+    '.set-source-dir()';
+
+  # Test version picks default gtk version 3 source directory
+  lives-ok { $gfl.make-dir-list; }, '.make-dir-list()';
+  my @list = $gfl.load-dir-list;
+  ok @list.elems > 100, '.load-dir-list()';
+
+  lives-ok { $gfl.get-sources; }, '.get-sources()';
+  is $*library, '&gtk-lib', 'check $*library: ' ~ $*library;
+  is $*raku-modname, 'Gtk3', 'check $*raku-modname: ' ~ $*raku-modname;
+  is $*lib-classname, 'GtkButton', 'check $*lib-classname: ' ~ $*lib-classname;
+  is $*raku-classname, 'Button', 'check $*raku-classname: ' ~ $*raku-classname;
+  is $*dump-result-dir, 'xt/NewModules',
+    'check $*dump-result-dir: ' ~ $*dump-result-dir;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'HCSkim', {
+  $hc-skim.guess-parent-classes;
+  is $*raku-parent-classname, 'Bin',
+    'check $*raku-parent-classname: ' ~ $*raku-parent-classname;
+  is $*raku-parent-modname, 'Gtk3',
+    'check $*raku-parent-modname: ' ~ $*raku-parent-modname;
+}
+
+#note $*include-content.substr( 800, 100);
+#note $*source-content.substr( 800, 100);
+
+
+done-testing;
+#=finish
