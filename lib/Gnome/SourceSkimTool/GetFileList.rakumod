@@ -5,9 +5,10 @@ use Gnome::SourceSkimTool::ConstEnumType;
 unit class Gnome::SourceSkimTool::GetFileList;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( ) {
+submethod BUILD ( Str :$test-cwd is copy ) {
 
-  with $*CWD {
+  # $test-cwd may be significant part of path
+  with $test-cwd // $*CWD {
     when / 'gnome-gtk3' / { $*use-doc-source = Gtk3; }
     when / 'gnome-gdk3' / { $*use-doc-source = Gdk3; }
     when / 'gnome-gtk4' / { $*use-doc-source = Gtk4; }
@@ -19,11 +20,74 @@ submethod BUILD ( ) {
     when / 'gnome-pango' / { $*use-doc-source = Pango; }
 
     default {
-      # Testing will be in a different location so choose for gtk doc
-      $*use-doc-source = Gtk3;
+      die 'Use :$test-cwd to specify gnome source for testing';
     }
   }
 }
+
+#-------------------------------------------------------------------------------
+method set-source-dir ( --> Str ) {
+  my $source-root = SKIMTOOLROOT ~ 'Gnome/';
+  my $source-dir = '';
+
+  with $*use-doc-source {
+    when Gtk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gtk'; }
+    when Gdk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gdk'; }
+    when Gtk4 { $source-dir = [~] $source-root, 'gtk+-', VGtk4, '/gtk'; }
+    when Gdk4 { $source-dir = [~] $source-root, 'gtk+-', VGtk4, '/gdk'; }
+#    when  { $source-dir = [~] $source-root, '', , ''; }
+  }
+
+  $source-dir
+}
+
+#-------------------------------------------------------------------------------
+method set-gtkdoc-dir ( --> Str ) {
+  my $dir = '';
+
+  with $*use-doc-source {
+    when Gtk3 { $dir = 'Gtkdoc/Gtk3'; }
+    when Gdk3 { $dir= 'Gtkdoc/Gdk3'; }
+    when Gtk4 { $dir = 'Gtkdoc/Gtk4'; }
+    when Gdk4 { $dir = 'Gtkdoc/Gdk4'; }
+#    when  {  = ''; }
+  }
+
+  mkdir (SKIMTOOLROOT ~ 'Gtkdoc/Gtk3'), 0o700 unless (SKIMTOOLROOT ~ 'Gtkdoc/Gtk3').IO.e;
+
+  $dir
+}
+
+#-------------------------------------------------------------------------------
+method generate-gtkdoc ( ) {
+  my Str $gd = self.set-gtkdoc-dir;
+  my Str $out1 = '--output-dir ' ~ SKIMTOOLROOT ~ $gd;
+  my Str $src = '--source-dir ' ~ self.set-source-dir;
+  my Str $mod = '--module ' ~ $*use-doc-source.key.lc;
+
+  #my Proc $p;
+  shell "/usr/bin/gtkdoc-scan $out1 $src $mod";
+
+  my $curr-dir = $*CWD;
+  chdir SKIMTOOLROOT ~ $gd;
+  my Str $out2 = '--output-dir ' ~ SKIMTOOLROOT ~ $gd ~ '/docs';
+  shell "/usr/bin/gtkdoc-mkdb $out2 $src $mod --xml-mode";
+  chdir $curr-dir;
+}
+
+
+
+
+
+
+
+
+=finish
+
+
+gtkdoc-scan --output-dir d --source-dir Gnome/gtk-4.6.3/gtk --module gtk4
+gtkdoc-mkdb --module gtk3 --source-dir ../Gnome/gtk+-3.24.24/gtk --output-dir e --xml-mode
+
 
 #-------------------------------------------------------------------------------
 method make-dir-list ( ) {

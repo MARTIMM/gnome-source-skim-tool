@@ -1,6 +1,5 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::GetFileList;
-use Gnome::SourceSkimTool::HCSkim;
 
 use Test;
 
@@ -9,7 +8,7 @@ constant \GetFileList = Gnome::SourceSkimTool::GetFileList;
 
 # pick a class with no other prefix specified
 my Str $*sub-prefix = 'gtk_button';
-my Str $*other-prefix = 'gtk_button';
+#my Str $*other-prefix = 'gtk_button';
 
 my Bool $*class-is-leaf = False;
 my Bool $*class-is-role = False; # is leaf implicitly
@@ -26,6 +25,44 @@ my Str $*raku-parent-modname;
 my Str $*include-content;
 my Str $*source-content;
 my Str $*dump-result-dir;
+
+#-------------------------------------------------------------------------------
+my GetFileList $gfl;
+
+#-------------------------------------------------------------------------------
+subtest 'GetFileList', {
+
+  # dies because tests are not done in a gnome raku repo
+  dies-ok { $gfl .= new; }, 'dies when no path set/found';
+  $gfl .= new(:test-cwd<gnome-gtk3>);
+
+  is $gfl.set-source-dir,
+    ( [~] SKIMTOOLROOT, 'Gnome/gtk+-', VGtk3, '/gtk' ),
+    '.set-source-dir()';
+  is $*use-doc-source, Gtk3, 'check $*use-doc-source: ' ~ $*use-doc-source;
+
+  if (SKIMTOOLROOT ~ 'Gtkdoc/Gtk3/docs').IO ~~ :d {
+    skip 'Don\'t need to do long running test all the time', 2;
+  }
+
+  else {
+    is $gfl.set-gtkdoc-dir, 'Gtkdoc/Gtk3', '.set-gtkdoc-dir()';
+    ok (SKIMTOOLROOT ~ 'Gtkdoc/Gtk3').IO.d,
+      'check dir: ' ~ SKIMTOOLROOT ~ 'Gtkdoc/Gtk3';
+
+    $gfl.generate-gtkdoc;
+    ok (SKIMTOOLROOT ~ 'Gtkdoc/Gtk3/docs').IO.d,
+      'check dir: ' ~ SKIMTOOLROOT ~ 'Gtkdoc/Gtk3/docs';
+  }
+
+
+}
+
+
+done-testing;
+
+=finish
+
 
 #-------------------------------------------------------------------------------
 my GetFileList $gfl .= new;

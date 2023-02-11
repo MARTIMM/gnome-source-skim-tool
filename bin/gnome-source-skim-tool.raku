@@ -1,7 +1,6 @@
 #!/usr/bin/env rakudo
 
 use Gnome::SourceSkimTool::GetFileList;
-use Gnome::SourceSkimTool::HCSkim;
 use Gnome::SourceSkimTool::ConstEnumType;
 
 #-------------------------------------------------------------------------------
@@ -16,7 +15,7 @@ my SkimSource $*use-doc-source;
 # $sub-prefix is the name of gnome class. Sometimes another class is defined
 # within the same file. To generate that part, add the $other-prefix.
 my Str $*sub-prefix;            # provided sub prefix is the name of gnome class
-my Str $*other-prefix;          # prefix found within same doc as above prefix
+#my Str $*other-prefix;          # prefix found within same doc as above prefix
 my Str $*lib-classname;         # gnome sub-prefix
 my Str $*raku-classname;        # its Raku counterpart
 my Str $*raku-parent-classname; # the Raku parent class
@@ -32,7 +31,8 @@ my @source-dir-list = ();
 
 #-------------------------------------------------------------------------------
 sub MAIN (
-  Str:D $sub-prefix, Str $other-prefix? is copy,
+  Str:D $sub-prefix,
+# Str $other-prefix? is copy,
 #  Bool :$main = False, Bool :$sig = False, Bool :$prop = False,
 #  Bool :$sub = False, Bool :$types = False, Bool :$test = False,
   Bool :$leaf = False, Bool :$role = False, Bool :$top = False,
@@ -44,10 +44,27 @@ sub MAIN (
   $*class-is-role = $role;
   $*class-is-top = $top;
 
-  $*sub-prefix = $sub-prefix;
-  $*other-prefix = $other-prefix // $sub-prefix;
+  # Make a list of C source files if requested and load the list
+  my GetFileList $gfl .= new;
+  $gfl.generate-gtkdoc if $gtkdoc;
+}
 
-  my Gnome::SourceSkimTool::HSkim $hc-skim .= new;
+
+
+
+
+
+
+
+
+
+
+
+=finish
+
+  $*sub-prefix = $sub-prefix;
+#  $*other-prefix = $other-prefix // $sub-prefix;
+
 
   # Make a list of C source files if requested and load the list
   my GetFileList $gfl .= new;
@@ -56,8 +73,5 @@ sub MAIN (
 
   # Get the C-source content and set some dynamic variables
   $gfl.get-sources;
-
-  # Try to find parent classes
-  $hc-skim.guess-parent-classes;
 }
 
