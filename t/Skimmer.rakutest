@@ -1,5 +1,6 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::GetFileList;
+use Gnome::SourceSkimTool::SkimGtkDoc;
 
 use Test;
 
@@ -41,26 +42,33 @@ subtest 'GetFileList', {
     '.set-source-dir()';
   is $*use-doc-source, Gtk3, 'check $*use-doc-source: ' ~ $*use-doc-source;
 
-  if (SKIMTOOLROOT ~ 'Gtkdoc/Gtk3/docs').IO ~~ :d {
+  my Str $gd = $gfl.set-gtkdoc-dir;
+  if "$gd/docs".IO ~~ :d {
     skip 'Don\'t need to do long running test all the time', 2;
   }
 
   else {
-    is $gfl.set-gtkdoc-dir, 'Gtkdoc/Gtk3', '.set-gtkdoc-dir()';
-    ok (SKIMTOOLROOT ~ 'Gtkdoc/Gtk3').IO.d,
-      'check dir: ' ~ SKIMTOOLROOT ~ 'Gtkdoc/Gtk3';
+    ok $gd ~~ m/ 'Gtkdoc/Gtk3' $/, '.set-gtkdoc-dir()';
+    ok $gd.IO.d, 'check dir: ' ~ $gd;
+    ok "$gd/gtk3.types".IO.r, 'check a file: ' ~ "$gd/gtk3.types";
 
     $gfl.generate-gtkdoc;
-    ok (SKIMTOOLROOT ~ 'Gtkdoc/Gtk3/docs').IO.d,
-      'check dir: ' ~ SKIMTOOLROOT ~ 'Gtkdoc/Gtk3/docs';
+    ok "$gd/docs".IO.d, 'check dir: ' ~ "$gd/docs";
+    ok "$gd/docs/gtkaboutdialog.xml".IO.d,
+       'check dir: ' ~ "$gd/docs/gtkaboutdialog.xml";
   }
+}
 
+#-------------------------------------------------------------------------------
+subtest 'DocSearch', {
+
+  my Gnome::SourceSkimTool::SkimGtkDoc $sgd .= new;
+  $sgd.process-description(:test-cwd<gnome-gtk3>);
 
 }
 
-
+#-------------------------------------------------------------------------------
 done-testing;
-
 =finish
 
 
