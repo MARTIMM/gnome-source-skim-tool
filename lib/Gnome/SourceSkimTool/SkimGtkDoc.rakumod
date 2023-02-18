@@ -11,20 +11,23 @@ unit class Gnome::SourceSkimTool::SkimGtkDoc;
 constant \DocSearch = Gnome::SourceSkimTool::SkimGtkDoc::DocSearch;
 constant \GetFileList = Gnome::SourceSkimTool::GetFileList;
 
-#-------------------------------------------------------------------------------
-#submethod BUILD ( ) { }
+has DocSearch $!actions handles <description functions>;
 
 #-------------------------------------------------------------------------------
-method process-description ( Str :$test-cwd ) {
+submethod BUILD ( ) {
+  $!actions .= new;
+}
+
+#-------------------------------------------------------------------------------
+method process-gtkdocs ( Str :$test-cwd ) {
   my GetFileList $gfl .= new(:$test-cwd);
   my Str $gd = $gfl.set-gtkdoc-dir;
   my Str $fname = $*sub-prefix;
   $fname ~~ s:g/ '_' //;
   my Str $docpath = "$gd/docs/$fname.xml";
-note "doc: $docpath";
+#note "doc: $docpath";
 
-  my DocSearch $actions .= new;
   my XML::Actions $a .= new(:file($docpath));
-  $a.process(:$actions);
-note $actions.description;
+  $a.process(:$!actions);
+#note $!actions.description;
 }

@@ -11,6 +11,11 @@ enum Phase <OutOfPhase Description Functions Signals Properties>;
 has Phase $!phase = OutOfPhase;
 has Str $.description;
 has Hash $.functions;
+has Str $!function-name;
+has Int $!param-count;
+
+has Hash $!fh;
+
 
 has Str $!section-prefix-name;
 has Int $!refsect-level;
@@ -18,6 +23,9 @@ has Int $!refsect-level;
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
+  # Devise the section name using the provided subroutine prefix.
+  # Something like 'gtk_button' or 'gio_file'. The examples must
+  # become 'gtk3-GtkButton' or 'gio-GFile'.
   my Str $sp = $*sub-prefix;
   $sp .= tc;
   $sp ~~ s:g/ '_'(\w) /$0.tc()/;
@@ -42,19 +50,20 @@ submethod BUILD ( ) {
   }
   
   $!section-prefix-name ~= "-$sp";
-note "$?LINE: $!section-prefix-name";
+#note "$?LINE: $!section-prefix-name";
+
+  $!description = '';
+  $!functions = %();
 }
 
 #-------------------------------------------------------------------------------
-method refsect1:start ( Array $parent-path, :$id ) {
-  return unless ?$id;
-
+method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
+  return Truncate unless ?$id;
 
   given $id {
     when "$!section-prefix-name\.description" {
       $!phase = Description;
       $!description = '';
-#      $!processing-doc = True;
       $!refsect-level = 1;
         #self!cleanup(self!convert-to-pod($parent-path[*-1].nodes));
     }
@@ -62,7 +71,9 @@ method refsect1:start ( Array $parent-path, :$id ) {
     when "$!section-prefix-name\.functions_details" {
       $!phase = Functions;
     }
-  } 
+  }
+
+  Recurse
 }
 
 #-------------------------------------------------------------------------------
@@ -73,19 +84,32 @@ method refsect1:end ( Array $parent-path, :$id ) {
     }
   }
 
-#  $!processing-doc = False;
   $!phase = OutOfPhase;
 }
 
 #-------------------------------------------------------------------------------
-method refsect2:start ( Array $parent-path, :$id, :$role ) {
+method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
+  #my ActionResult $ar = Recurse;
   $!refsect-level = 2;
 
   given $!phase {
     when Functions {
-      
+      return Truncate unless %attribs<role> eq 'function';
+      if (%attribs<condition>//'') eq 'deprecated' {
+        note "function %attribs<id> is deprecated";
+        return Truncate;
+      }
+
+      $!function-name = %attribs<id>;
+      $!functions{$!function-name} = %();
+      $!fh := $!functions{$!function-name};
+      $!fh<init> = $!function-name ~~ m/ <|w> new <|w> /.Bool;
+
+#note "$?LINE: $!function-name init: $!fh<init>";
     }
   }
+
+  Recurse
 }
 
 #-------------------------------------------------------------------------------
@@ -111,9 +135,28 @@ method title:start ( Array $parent-path --> ActionResult ) {
     when Description {
       $!description ~= "\n\n=head$!refsect-level ";
       for $parent-path[*-1].nodes -> $n {
-        $!description ~= $n.string if $n ~~ XML::Text;
+        next unless $n ~~ XML::Text;
+        $!description ~= $n.string;
       }
       $!description ~= "\n\n";
+      $ar = Truncate;
+    }
+  }
+
+  $ar
+}
+
+#-------------------------------------------------------------------------------
+method primary:start ( Array $parent-path --> ActionResult ) {
+  my ActionResult $ar = Recurse;
+
+  given $!phase {
+    when Functions {
+      $!functions{$!function-name}<native-name> = '';
+      for $parent-path[*-1].nodes -> $n {
+        next unless $n ~~ XML::Text;
+        $!functions{$!function-name}<native-name> ~= $n.string;
+      }
       $ar = Truncate;
     }
   }
@@ -143,8 +186,71 @@ method xml:text ( Array $parent-path, Str $txt ) {
     when Description {
       $!description ~= self!scan-for-unresolved-items($txt);
     }
+
+    when Functions {
+      if 'programlisting' ~~ any($parent-path[0..*-1]>>.name) {
+        $!fh<returnvalue> = '' unless $!fh<returnvalue>:exists;
+        $!fh<returnvalue> ~= $txt if $parent-path[*-1].name eq 'returnvalue';
+      }
+
+      # Punctuation in argument list;
+      #  '(' start list ≡ init,
+      #  ',' next argument
+      #  ');' end list
+      if 'programlisting' ~~ any($parent-path[0..*-1]>>.name)
+            and $txt ~~ m/ '(' / {
+        $!fh<parameters> = [];
+        $!param-count = 0;
+        $!fh<parameters>[$!param-count] = [];
+      }
+
+      elsif 'programlisting' ~~ any($parent-path[0..*-1]>>.name)
+            and $txt ~~ m/ ',' / {
+        $!param-count++;
+        $!fh<parameters>[$!param-count] = [];
+      }
+
+#      elsif 'programlisting' ~~ any($parent-path[0..*-1]>>.name)
+#            and $txt ~~ m/ ');' / {
+#      }
+
+      # if there is a parent element called 'parameter'
+      elsif 'parameter' ~~ any($parent-path[0..*-1]>>.name) {
+        $!fh<parameters>[$!param-count].push: $txt;
+      }
+    }
   }
 }
+
+#-------------------------------------------------------------------------------
+method programlisting:start ( Array $parent-path, *%attribs ) {
+note $?LINE;
+
+  given $!phase {
+    when Functions {
+#`{{
+      my XML::Element $e = $parent-path[*-1];
+      for $e.nodes {
+        when XML::Element {
+note $?LINE, ', n=', .name;
+          if .name eq 'returnvalue' {
+            $!functions{$!function-name}<returnvalue> = '';
+            for .nodes -> $t {
+              next unless $t ~~ XML::Text;
+              $!functions{$!function-name}<returnvalue> ~= $t.Str;
+            }
+          }
+        }
+
+        when XML::Text {
+note $?LINE, ', t=', .Str;
+        }
+      }
+}}
+    }
+  }
+}
+
 
 #-------------------------------------------------------------------------------
 method !cleanup ( Str $text is copy --> Str ) {
