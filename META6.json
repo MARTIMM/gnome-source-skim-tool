@@ -1,16 +1,23 @@
 {
-  "description": "Raku - Gnome GTK+ Interface",
+  "description": "Reading Gnome C-code and generate Raku modules using GtkDoc",
   "name": "Gnome::SourceSkimTool",
-  "version": "0.1.0",
+  "version": "0.3.1",
   "auth": "cpan:MARTIMM",
   "authors": [ "Marcel Timmerman"],
-  "tags": [ "gnome", "doc"],
+  "tags": [ "Gnome", "GtkDoc"],
 
   "perl": "6",
   "license": "Artistic-2.0",
 
   "provides": {
-    "Gnome::": ""
+    "Gnome::SourceSkimTool::ConstEnumType": "lib/Gnome/SourceSkimTool/ConstEnumType.rakumod",
+    "Gnome::SourceSkimTool::GetFileList": "lib/Gnome/SourceSkimTool/GetFileList.rakumod",
+    "Gnome::SourceSkimTool::SkimGtkDoc::DocSearch": "lib/Gnome/SourceSkimTool/SkimGtkDoc/DocSearch.rakumod",
+    "Gnome::SourceSkimTool::SkimGtkDoc": "lib/Gnome/SourceSkimTool/SkimGtkDoc.rakumod"
+  }
+
+  "x": {
+    "Gnome::SourceSkimTool::": "lib/Gnome/SourceSkimTool/.rakumod"
   },
 
   "source-url": "git://github.com/MARTIMM/gnome-source-skim-tool.git",
