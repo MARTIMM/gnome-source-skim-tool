@@ -17,14 +17,14 @@ my Bool $*class-is-top = False;
 
 # needed dynamic variable set by main program
 my SkimSource $*use-doc-source;
-my Str $*lib-classname;
-my Str $*raku-classname;
-my Str $*raku-parent-classname;
+#my Str $*lib-classname;
+#my Str $*raku-classname;
+#my Str $*raku-parent-classname;
 my Str $*library;
-my Str $*raku-modname;
-my Str $*raku-parent-modname;
-my Str $*include-content;
-my Str $*source-content;
+#my Str $*raku-modname;
+#my Str $*raku-parent-modname;
+#my Str $*include-content;
+#my Str $*source-content;
 my Str $*dump-result-dir;
 
 #-------------------------------------------------------------------------------
@@ -57,14 +57,25 @@ subtest 'GetFileList', {
     ok "$gd/docs/gtkaboutdialog.xml".IO.d,
        'check dir: ' ~ "$gd/docs/gtkaboutdialog.xml";
   }
+
+  is $*library, '&gtk-lib', 'check $*library: ' ~ $*library;
+  is $*dump-result-dir, 'xt/NewModules',
+    'check $*dump-result-dir: ' ~ $*dump-result-dir;
 }
 
 #-------------------------------------------------------------------------------
 subtest 'DocSearch', {
 
   my Gnome::SourceSkimTool::SkimGtkDoc $sgd .= new;
-  $sgd.process-description(:test-cwd<gnome-gtk3>);
+  $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
 
+  like $sgd.description, / '=head1' \s+ Description /,
+       'process-gtkdocs(): description';
+  ok $sgd.functions<gtk-button-new>:exists,
+       '.process-gtkdocs(): functions';
+
+note $?LINE, ', gtk-button-new-with-label, ', $sgd.functions<gtk-button-new-with-label>.gist;
+note $?LINE, ', gtk-button-get-alignment, ', $sgd.functions<gtk-button-get-alignment>.gist;
 }
 
 #-------------------------------------------------------------------------------

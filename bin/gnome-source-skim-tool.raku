@@ -16,14 +16,14 @@ my SkimSource $*use-doc-source;
 # within the same file. To generate that part, add the $other-prefix.
 my Str $*sub-prefix;            # provided sub prefix is the name of gnome class
 #my Str $*other-prefix;          # prefix found within same doc as above prefix
-my Str $*lib-classname;         # gnome sub-prefix
-my Str $*raku-classname;        # its Raku counterpart
-my Str $*raku-parent-classname; # the Raku parent class
+#my Str $*lib-classname;         # gnome sub-prefix
+#my Str $*raku-classname;        # its Raku counterpart
+#my Str $*raku-parent-classname; # the Raku parent class
 my Str $*library;               # native lib sub from Gnome::N
-my Str $*raku-modname;          # Rake module
-my Str $*raku-parent-modname    # Raku parent module
-my Str $*include-content;       # C-include file contents
-my Str $*source-content;        # C-code file contents
+#my Str $*raku-modname;          # Raku module
+#my Str $*raku-parent-modname    # Raku parent module
+#my Str $*include-content;       # C-include file contents
+#my Str $*source-content;        # C-code file contents
 my Str $*dump-result-dir;       # directory where result is dumped
 
 #my Str $source

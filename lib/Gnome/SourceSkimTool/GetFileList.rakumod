@@ -5,24 +5,62 @@ use Gnome::SourceSkimTool::ConstEnumType;
 unit class Gnome::SourceSkimTool::GetFileList;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( Str :$test-cwd is copy ) {
+submethod BUILD ( Str :$test-cwd ) {
 
   # $test-cwd may be significant part of path
   with $test-cwd // $*CWD {
-    when / 'gnome-gtk3' / { $*use-doc-source = Gtk3; }
-    when / 'gnome-gdk3' / { $*use-doc-source = Gdk3; }
-    when / 'gnome-gtk4' / { $*use-doc-source = Gtk4; }
-    when / 'gnome-gdk4' / { $*use-doc-source = Gdk4; }
-    when / 'gnome-glib' / { $*use-doc-source = Glib; }
-    when / 'gnome-gio' / { $*use-doc-source = Gio; }
-    when / 'gnome-gobject' / { $*use-doc-source = GObject; }
-    when / 'gnome-cairo' / { $*use-doc-source = Cairo; }
-    when / 'gnome-pango' / { $*use-doc-source = Pango; }
+    when / 'gnome-gtk3' / {
+      $*use-doc-source = Gtk3;
+      $*library = '&gtk-lib';
+#      $*raku-modname = 'Gtk3';
+    }
+    
+    when / 'gnome-gdk3' / {
+      $*use-doc-source = Gdk3;
+      $*library = '&gdk-lib';
+#      $*raku-modname = 'Gdk3';
+    }
+    
+    when / 'gnome-gtk4' / {
+      $*use-doc-source = Gtk4;
+      $*library = '&gtk4-lib';
+#      $*raku-modname = 'Gtk4';
+    }
+    
+    when / 'gnome-gdk4' / {
+      $*use-doc-source = Gdk4;
+      $*library = '&gdk4-lib';
+ #     $*raku-modname = 'Gtk4';
+    }
+    
+    when / 'gnome-glib' / {
+      $*use-doc-source = Glib;
+    }
+    
+    when / 'gnome-gio' / {
+      $*use-doc-source = Gio;
+    }
+    
+    when / 'gnome-gobject' / {
+      $*use-doc-source = GObject;
+    }
+    
+    when / 'gnome-cairo' / {
+      $*use-doc-source = Cairo;
+    }
+    
+    when / 'gnome-pango' / {
+      $*use-doc-source = Pango;
+    }
 
     default {
       die 'Use :$test-cwd to specify gnome source for testing';
     }
   }
+
+  # test for generated code dump directory 'xt/NewModules'
+  $*dump-result-dir = 'xt/NewModules';
+  mkdir( $*dump-result-dir, 0o766) unless 'xt/NewModules'.IO.e;
 }
 
 #-------------------------------------------------------------------------------
@@ -305,15 +343,10 @@ gtk_win32_embed_widget_get_type
 
 > gtkdoc-mkdb --module gtk3 --source-dir ../../Gnome/gtk+-3.24.24/gtk --output-dir docs --xml-mode
 
-> gcc -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-4 -pthread -lgtk-4 -lgobject-2.0 -lglib-2.0 gtk4-scan.c
-
-
 V4
 > gtkdoc-scan --output-dir d --source-dir Gnome/gtk-4.9.3/gtk --module gtk4
 > gtkdoc-scangobj --module gtk4 --verbose --cflags '\-I../../Gnome/glib-2.74.5/glib -I../../Gnome/glib-2.74.5/gobject'
 > gtkdoc-mkdb --module gtk3 --source-dir ../Gnome/gtk+-3.24.24/gtk --output-dir e --xml-mode
-
-> gcc -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-4 -pthread -lgtk-4 -lgobject-2.0 -lglib-2.0 gtk4-scan.c
 
 #-------------------------------------------------------------------------------
 method make-dir-list ( ) {
