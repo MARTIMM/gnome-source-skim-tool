@@ -75,7 +75,11 @@ subtest 'DocSearch', {
        '.process-gtkdocs(): functions';
 
 note $?LINE, ', gtk-button-new-with-label, ', $sgd.functions<gtk-button-new-with-label>.gist;
-note $?LINE, ', gtk-button-get-alignment, ', $sgd.functions<gtk-button-get-alignment>.gist;
+#note $?LINE, ', gtk-button-set-image-position, ', $sgd.functions<gtk-button-set-image-position>.gist;
+note $?LINE, ', gtk-button-get-image, ', $sgd.functions<gtk-button-get-image>.gist;
+
+  ok $sgd.functions<gtk-button-get-alignment>:!exists,
+    'function gtk-button-get-alignment is deprecated';
 }
 
 #-------------------------------------------------------------------------------
