@@ -2,6 +2,8 @@
 
 * 2023-02-18 0.3.1
   * Add function return value and parameters
+  * Add return value doc
+  * Skip deprecated functions
 
 * 2023-02-17 0.3.0
   * Add scan of functions
