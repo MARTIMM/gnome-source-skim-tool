@@ -7,7 +7,7 @@ use XML;
 unit class Gnome::SourceSkimTool::SkimGtkDoc::DocSearch;
 also is XML::Actions::Work;
 
-enum Phase <OutOfPhase Description Functions FApi Signals Properties>;
+enum Phase <OutOfPhase Description Functions FApi FApiDoc Signals Properties>;
 
 has Phase $!phase = OutOfPhase;
 has Phase $!func-phase = OutOfPhase;
@@ -16,6 +16,7 @@ has Str $.description;
 has Hash $.functions;
 has Str $!function-name;
 has Int $!param-count;
+has Str $!parameter-name;
 
 has Hash $!fh;
 
@@ -100,19 +101,21 @@ note "$?LINE: $!phase, {%attribs<condition>//''}";
     when Functions {
       return Truncate if %attribs<role> ne 'function';
 
-      if (%attribs<condition>//'') ~~ m/ deprecated / {
-        note "function %attribs<id> is deprecated";
-        return Truncate;
-      }
-
       $!function-name = %attribs<id>;
       $!functions{$!function-name} = %();
       $!fh := $!functions{$!function-name};
 
+      if (%attribs<condition>//'') ~~ m/ deprecated / {
+        note "function %attribs<id> is deprecated";
+        $!fh<deprecated> = True;
+        return Truncate;
+      }
+
       # mark info as init method when 'new' is in the funcion name
       $!fh<init> = $!function-name ~~ m/ <|w> new <|w> /.Bool;
+      $!fh<deprecated> = False;
       self!function-scan($parent-path[*-1].nodes);
-
+        
       $ar = Truncate;
 #note "$?LINE: $!function-name init: $!fh<init>";
     }
@@ -288,7 +291,7 @@ method !function-scan ( @nodes ) {
 
   for @nodes -> $n {
     if $n ~~ XML::Element {
-#note $n.name.join(', ');
+#note $n.name;
       given $n.name {
         when 'primary' {
           $!fh<native-name> = self!get-text($n.nodes);
@@ -318,21 +321,49 @@ method !function-scan ( @nodes ) {
             $!fh<parameters>[$!param-count].push: |($text.split(/\s+/));
           }
         }
+        
+        when 'para' {
+          if $!phase ~~ Functions and $!func-phase ~~ OutOfPhase {
+            $!fh<doc><function> =
+              self!scan-for-unresolved-items(self!get-text($n.nodes));
+          }
+        }
 
         when 'refsect3' {
           $!refsect-level = 3;
 
           my %attribs = $n.attribs;
           if %attribs<id> eq "$!function-name\.returns" {
+            # can be changed here w're out of programlisting
+            $!func-phase = FApiDoc;
             my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
             $rv ~~ s/Returns//;
             $!fh<doc><returnvalue> = self!cleanup( $rv, :trim);
+            $!func-phase = OutOfPhase;
           }
 
           elsif %attribs<id> eq "$!function-name\.parameters" {
+            $!func-phase = FApiDoc;
+            self!function-scan($n.nodes);
+            $!func-phase = OutOfPhase;
           }
 
           $!refsect-level = 2;
+        }
+
+        when 'entry' {
+          if $!func-phase ~~ FApiDoc {
+            $!fh<doc><params> = %() unless $!fh<doc><params>:exists;
+            my %attribs = $n.attribs;
+            if %attribs<role> eq 'parameter_name' {
+              $!parameter-name = self!get-text($n.nodes);
+            }
+
+            elsif %attribs<role> eq 'parameter_description' {
+              my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
+              $!fh<doc><params>{$!parameter-name} = $rv;
+            }
+          }
         }
 
         default {
@@ -435,6 +466,10 @@ note $?LINE ~ 'text has ()';
   #    when  { $text ~~ s:g/ <!after '::'> G.. (\w+) /B<Gnome::G..::$0>/; }
     }
 #  }
+
+
+  $text ~~ s:g:i/ true /True/;
+  $text ~~ s:g:i/ false /False/;
 
   $text
 }
