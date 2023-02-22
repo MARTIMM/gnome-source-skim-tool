@@ -1,10 +1,18 @@
+=begin pod
+
+=head1 Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc
+
+=head2 Description
+
+=end pod
+
 use Gnome::SourceSkimTool::ConstEnumType;
 
 use XML::Actions;
 use XML;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::SkimGtkDoc::DocSearch;
+unit class Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc:auth<github:MARTIMM>;
 also is XML::Actions::Work;
 
 enum Phase <OutOfPhase Description Functions FApi FApiDoc Signals Properties>;
@@ -29,10 +37,16 @@ submethod BUILD ( ) {
 
   # Devise the section name using the provided subroutine prefix.
   # Something like 'gtk_button' or 'gio_file'. The examples must
-  # become 'gtk3-GtkButton' or 'gio-GFile'.
+  # become 'GtkButton' or 'GFile'.
   my Str $sp = $*sub-prefix;
   $sp .= tc;
   $sp ~~ s:g/ '_'(\w) /$0.tc()/;
+
+#`{{
+  # (from above comment … become 'gtk3-GtkButton' or 'gio-GFile'.
+NOTE; previously needed to search for e.g. 'gtk3-GtkButton.description' but
+compilation is maybe changed and now it's simpler 'GtkButton.description'.
+
   with $*use-doc-source {
     when Gtk3 {
       $!section-prefix-name = 'gtk3';
@@ -55,6 +69,9 @@ submethod BUILD ( ) {
   
   $!section-prefix-name ~= "-$sp";
 #note "$?LINE: $!section-prefix-name";
+}}
+
+  $!section-prefix-name = $sp;
 
   $!description = '';
   $!functions = %();
@@ -63,6 +80,8 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
   return Truncate unless ?$id;
+
+  note "refsect1: $!section-prefix-name, $id" if $*verbose;
 
   given $id {
     when "$!section-prefix-name\.description" {
@@ -105,11 +124,14 @@ note "$?LINE: $!phase, {%attribs<condition>//''}";
       $!functions{$!function-name} = %();
       $!fh := $!functions{$!function-name};
 
-      if (%attribs<condition>//'') ~~ m/ deprecated / {
-        note "function %attribs<id> is deprecated";
-        $!fh<deprecated> = True;
-        return Truncate;
-      }
+#NOTE; jot all functions down, when reading api-index-deprecated.xml we add
+# these notes too together with signals and properties.
+#      if (%attribs<condition>//'') ~~ m/ deprecated / {
+#        note "function %attribs<id> is deprecated";
+#        $!fh<deprecated> = True;
+#        return Truncate;
+#      }
+
 
       # mark info as init method when 'new' is in the funcion name
       $!fh<init> = $!function-name ~~ m/ <|w> new <|w> /.Bool;
@@ -146,11 +168,14 @@ method title:start ( Array $parent-path --> ActionResult ) {
   given $!phase {
     when Description {
       $!description ~= "\n\n=head$!refsect-level ";
-      for $parent-path[*-1].nodes -> $n {
-        next unless $n ~~ XML::Text;
-        $!description ~= $n.string;
-      }
+#      for $parent-path[*-1].nodes -> $n {
+#        next unless $n ~~ XML::Text;
+#        $!description ~= $n.string;
+#      }
+      $!description ~= self!get-text($parent-path[*-1].nodes);
       $!description ~= "\n\n";
+note $!description;
+
       $ar = Truncate;
     }
   }
