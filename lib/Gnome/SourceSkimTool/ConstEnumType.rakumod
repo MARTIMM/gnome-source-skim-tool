@@ -1,6 +1,6 @@
 
 #-------------------------------------------------------------------------------
-#unit class Gnome::SourceSkimTool::ConstEnumType;
+#unit class Gnome::SourceSkimTool::ConstEnumType:auth<github:MARTIMM>;
 
 #-------------------------------------------------------------------------------
 constant SKIMTOOLROOT is export =
