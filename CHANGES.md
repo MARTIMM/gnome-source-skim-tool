@@ -1,15 +1,20 @@
 ## Change log
 
+ * 2023-02-20 0.4.1
+ * Skip deprecated functions
+
+* 2023-02-20 0.4.0
+  * **Gnome::SourceSkimTool::SkimGtkDoc::PropDoc** Get properties info
+
 * 2023-02-18 0.3.1
-  * Add function return value and parameters
-  * Add return value doc
-  * Skip deprecated functions
+  * **ModuleDoc**; Add function return value and parameters
+  * **ModuleDoc**; Add return value doc
 
 * 2023-02-17 0.3.0
-  * Add scan of functions
+  * **ModuleDoc**; Add scan of functions
 
 * 2023-02-16 0.2.0
-  * Add scan of descriptions
+  * **Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc** Add scan of descriptions
 
 * 2023-02-10 0.1.1
   * Got GtkDoc to work, especially the generated program `*-scan.c`.
