@@ -2,7 +2,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::GetFileList;
+unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( Str :$test-cwd ) {
@@ -76,6 +76,11 @@ method set-source-dir ( --> Str ) {
 #    when  { $source-dir = [~] $source-root, '', , ''; }
   }
 
+  if $*verbose {
+    note "Config root: ", SKIMTOOLROOT;
+    note "Source directory: $source-dir";
+  }
+
   $source-dir
 }
 
@@ -93,6 +98,8 @@ method set-gtkdoc-dir ( --> Str ) {
 
   mkdir $dir, 0o700 unless $dir.IO.e;
 
+  note "Gtk doc directory: $dir" if $*verbose;
+
   $dir
 }
 
@@ -109,6 +116,7 @@ method generate-gtkdoc ( ) {
   my Str $out1 = "--output-dir .";
   my Str $src = '--source-dir ' ~ self.set-source-dir;
   my Str $mod = "--module $mod-name";
+  note "Run: /usr/bin/gtkdoc-scan $out1 $src $mod" if $*verbose;
   shell "/usr/bin/gtkdoc-scan $out1 $src $mod";
 
   # The next step is using gtkdoc-scangobj which wil generate a program. There
@@ -116,6 +124,7 @@ method generate-gtkdoc ( ) {
   # the types list to get rid of those
   with $*use-doc-source {
     when Gtk3 {
+      note "Filter types from $gd/{$mod-name}.types" if $*verbose;
       my @list = ();
       # read the types list
       for "$gd/{$mod-name}.types".IO.slurp.lines -> $l {
@@ -215,12 +224,14 @@ method generate-gtkdoc ( ) {
   }
 
   my Str $cf = '-fPIC';
-  my Str $lf = '-Wl,--no-undefined -Wl,-z,relro -Wl,--as-needed -Wl,-z,now';
+  my Str $lf = ''; #'-Wl,--no-undefined -Wl,-z,relro -Wl,--as-needed -Wl,-z,now';
 
-  shell "/usr/bin/gtkdoc-scangobj $mod --verbose --cflags '$cf -I$glib -I$gobject -I$glib0 -I$gbuild/glib -I$gbuild' --ldflags '$lf -L$gbuild/gobject -L$gbuild/glib -L/usr/lib64 -lgobject-2.0 -lglib-2.0 $other-lib'";
+  note "Run: /usr/bin/gtkdoc-scangobj … " if $*verbose;
+  shell "/usr/bin/gtkdoc-scangobj $mod --verbose --cflags '$cf -I$glib -I$gobject -I$glib0 -I$gbuild/glib -I$gbuild' --ldflags '$lf -L$gbuild/gobject -L$gbuild/glib -L/usr/lib64 -lgobject-2.0 -lglib-2.0 $other-lib' >compile1.log";
 
   my Str $out2 = "--output-dir $gd/docs";
-  shell "/usr/bin/gtkdoc-mkdb $out2 $src $mod --xml-mode";
+  note "Run: /usr/bin/gtkdoc-mkdb $out2 $src $mod --xml-mode" if $*verbose;
+  shell "/usr/bin/gtkdoc-mkdb $out2 $src $mod --xml-mode >compile2.log";
   chdir $curr-dir;
 }
 
