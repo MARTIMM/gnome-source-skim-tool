@@ -1,10 +1,10 @@
 #!/usr/bin/env rakudo
 
-use Gnome::SourceSkimTool::GetFileList;
+use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::ConstEnumType;
 
 #-------------------------------------------------------------------------------
-constant \GetFileList = Gnome::SourceSkimTool::GetFileList;
+constant \Prepare = Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
 my Bool $*class-is-leaf;
 my Bool $*class-is-role; # is leaf implicitly
@@ -26,6 +26,8 @@ my Str $*library;               # native lib sub from Gnome::N
 #my Str $*source-content;        # C-code file contents
 my Str $*dump-result-dir;       # directory where result is dumped
 
+my Bool $*verbose;
+
 #my Str $source
 my @source-dir-list = ();
 
@@ -36,16 +38,18 @@ sub MAIN (
 #  Bool :$main = False, Bool :$sig = False, Bool :$prop = False,
 #  Bool :$sub = False, Bool :$types = False, Bool :$test = False,
   Bool :$leaf = False, Bool :$role = False, Bool :$top = False,
-  Bool :$make-dir-list
+  Bool :$make-dir-list, :$verbose = False
 ) {
   # Gtk interfaces (roles) are always leaf classes but need to cast their
   # object types, so leaf get False if role is True.
   $*class-is-leaf = ($leaf and not $role);
   $*class-is-role = $role;
   $*class-is-top = $top;
+  
+  $*verbose = $verbose;
 
   # Make a list of C source files if requested and load the list
-  my GetFileList $gfl .= new;
+  my Prepare $gfl .= new;
   $gfl.generate-gtkdoc if $gtkdoc;
 }
 
@@ -67,7 +71,7 @@ sub MAIN (
 
 
   # Make a list of C source files if requested and load the list
-  my GetFileList $gfl .= new;
+  my Prepare $gfl .= new;
   $gfl.make-dir-list if $make-dir-list;
   @source-dir-list = $gfl.load-dir-list;
 

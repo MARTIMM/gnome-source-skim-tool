@@ -1,33 +1,56 @@
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::SkimGtkDoc::DocSearch;
-use Gnome::SourceSkimTool::GetFileList;
+use Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc;
+#use Gnome::SourceSkimTool::SkimGtkDoc::PropDoc;
+use Gnome::SourceSkimTool::Prepare;
 
 use XML::Actions;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::SkimGtkDoc;
+unit class Gnome::SourceSkimTool::SkimGtkDoc:auth<github:MARTIMM>;
 
 #-------------------------------------------------------------------------------
-constant \DocSearch = Gnome::SourceSkimTool::SkimGtkDoc::DocSearch;
-constant \GetFileList = Gnome::SourceSkimTool::GetFileList;
+constant \Prepare = Gnome::SourceSkimTool::Prepare;
+constant \ModuleDoc = Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc;
+#constant \PropDoc = Gnome::SourceSkimTool::SkimGtkDoc::PropDoc;
 
-has DocSearch $!actions handles <description functions>;
+has ModuleDoc $!mod-actions handles <description functions>;
+#has PropDoc $!prop-actions;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
-  $!actions .= new;
+  $!mod-actions .= new;
+#  $!prop-actions .= new;
 }
 
 #-------------------------------------------------------------------------------
 method process-gtkdocs ( Str :$test-cwd ) {
-  my GetFileList $gfl .= new(:$test-cwd);
+  my Prepare $gfl .= new(:$test-cwd);
   my Str $gd = $gfl.set-gtkdoc-dir;
+
   my Str $fname = $*sub-prefix;
   $fname ~~ s:g/ '_' //;
   my Str $docpath = "$gd/docs/$fname.xml";
-#note "doc: $docpath";
+  note "document path for module: $docpath" if $*verbose;
 
   my XML::Actions $a .= new(:file($docpath));
-  $a.process(:$!actions);
-#note $!actions.description;
+  $a.process(:actions($!mod-actions));
+  note $!mod-actions.description.substr( 0, 100) if $*verbose;
+
+#TODO; props and signals from xml docbook file!
+
+#`{{
+  $docpath = "$gd/gtk3.args";
+  my Str $xml = $docpath.IO.slurp;
+  $xml = Q:q:to/EOXML/;
+    <?xml version="1.0"?>
+    <!DOCTYPE args>
+    <args>
+    $xml
+    </args>
+  EOXML
+
+  note "document path for module: $docpath" if $*verbose;
+  $a .= new(:$xml);
+  $a.process(:actions($!mod-actions));
+}}
 }

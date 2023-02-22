@@ -1,15 +1,17 @@
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::GetFileList;
+use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::SkimGtkDoc;
 
 use Test;
 
 #-------------------------------------------------------------------------------
-constant \GetFileList = Gnome::SourceSkimTool::GetFileList;
+constant \Prepare = Gnome::SourceSkimTool::Prepare;
 
 # pick a class with no other prefix specified
 my Str $*sub-prefix = 'gtk_button';
 #my Str $*other-prefix = 'gtk_button';
+
+my Bool $*verbose = True;
 
 my Bool $*class-is-leaf = False;
 my Bool $*class-is-role = False; # is leaf implicitly
@@ -27,14 +29,12 @@ my Str $*library;
 #my Str $*source-content;
 my Str $*dump-result-dir;
 
-
-
 #-------------------------------------------------------------------------------
-my GetFileList $gfl;
+my Prepare $gfl;
 my Int $level = 0;
 
 #-------------------------------------------------------------------------------
-subtest 'GetFileList', {
+subtest 'Prepare', {
 
   # dies because tests are not done in a gnome raku repo
   dies-ok { $gfl .= new; }, 'dies when no path set/found';
@@ -46,20 +46,21 @@ subtest 'GetFileList', {
   is $*use-doc-source, Gtk3, 'check $*use-doc-source: ' ~ $*use-doc-source;
 
   my Str $gd = $gfl.set-gtkdoc-dir;
+  ok $gd ~~ m/ 'Gtkdoc/Gtk3' $/, '.set-gtkdoc-dir()';
+  ok $gd.IO.d, 'check dir: ' ~ $gd;
+
   if "$gd/docs".IO ~~ :d {
-    skip 'Don\'t need to do long running test all the time', 2;
+    skip 'Don\'t need to do long running test all the time', 1;
   }
 
   else {
-    ok $gd ~~ m/ 'Gtkdoc/Gtk3' $/, '.set-gtkdoc-dir()';
-    ok $gd.IO.d, 'check dir: ' ~ $gd;
-    ok "$gd/gtk3.types".IO.r, 'check a file: ' ~ "$gd/gtk3.types";
-
     $gfl.generate-gtkdoc;
-    ok "$gd/docs".IO.d, 'check dir: ' ~ "$gd/docs";
-    ok "$gd/docs/gtkaboutdialog.xml".IO.d,
-       'check dir: ' ~ "$gd/docs/gtkaboutdialog.xml";
   }
+
+  ok "$gd/gtk3-sections.txt".IO.r, 'check phase 1: ' ~ "$gd/gtk3-sections.txt";
+  ok "$gd/docs".IO.d, 'check dir: ' ~ "$gd/docs";
+  ok "$gd/docs/gtkaboutdialog.xml".IO.r,
+      'check phase 3: ' ~ "$gd/docs/gtkaboutdialog.xml";
 
   is $*library, '&gtk-lib', 'check $*library: ' ~ $*library;
   is $*dump-result-dir, 'xt/NewModules',
@@ -72,12 +73,15 @@ subtest 'DocSearch', {
   my Gnome::SourceSkimTool::SkimGtkDoc $sgd .= new;
   $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
 
+  display-function-info(%(:doc($sgd.description)));
   display-function-info($sgd.functions);
 
   like $sgd.description, / '=head1' \s+ Description /,
        '.process-gtkdocs(): description';
   ok $sgd.functions<gtk-button-new>:exists,
        '.process-gtkdocs(): functions';
+
+#TODO; comes later
   ok $sgd.functions<gtk-button-get-alignment><deprecated>,
     'function gtk-button-get-alignment is deprecated';
 }
@@ -106,11 +110,11 @@ sub display-function-info ( Hash $info ) {
 
 
 #-------------------------------------------------------------------------------
-my GetFileList $gfl .= new;
+my Prepare $gfl .= new;
 my Gnome::SourceSkimTool::HCSkim $hc-skim .= new;
 
 #-------------------------------------------------------------------------------
-subtest 'GetFileList', {
+subtest 'Prepare', {
   is $gfl.set-source-dir,
     ( [~] SKIMTOOLROOT, 'Gnome/gtk+-', VGtk3, '/gtk' ),
     '.set-source-dir()';
