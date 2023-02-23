@@ -1,10 +1,11 @@
 ## Change log
 
- * 2023-02-20 0.4.1
- * Skip deprecated functions
+* 2023-02-20 0.4.1
+  * Skip deprecated functions
 
 * 2023-02-20 0.4.0
-  * **Gnome::SourceSkimTool::SkimGtkDoc::PropDoc** Get properties info
+  * **ModuleDoc** Get signals info
+  * **ModuleDoc** Get properties info
 
 * 2023-02-18 0.3.1
   * **ModuleDoc**; Add function return value and parameters
