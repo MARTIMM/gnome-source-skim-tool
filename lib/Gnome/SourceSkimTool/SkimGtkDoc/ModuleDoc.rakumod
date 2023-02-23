@@ -21,10 +21,17 @@ has Phase $!phase = OutOfPhase;
 has Phase $!func-phase = OutOfPhase;
 
 has Str $.description;
+
 has Hash $.functions;
 has Str $!function-name;
 has Int $!param-count;
 has Str $!parameter-name;
+
+has Hash $.signals;
+has Str $!signal-name;
+
+has Hash $.properties;
+has Str $!property-name;
 
 has Hash $!fh;
 
@@ -45,7 +52,9 @@ submethod BUILD ( ) {
 #`{{
   # (from above comment … become 'gtk3-GtkButton' or 'gio-GFile'.
 NOTE; previously needed to search for e.g. 'gtk3-GtkButton.description' but
-compilation is maybe changed and now it's simpler 'GtkButton.description'.
+compilation is maybe changed and now it's simpler 'GtkButton.description'. 
+There is also more information. Might be that the run must be done in the
+directory which is done now by ::Prepare.
 
   with $*use-doc-source {
     when Gtk3 {
@@ -94,6 +103,14 @@ method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
     when "$!section-prefix-name\.functions_details" {
       $!phase = Functions;
     }
+
+    when "$!section-prefix-name\.signal-details" {
+      $!phase = Signals;
+    }
+
+    when "$!section-prefix-name\.property-details" {
+      $!phase = Properties;
+    }
   }
 
   Recurse
@@ -114,7 +131,7 @@ method refsect1:end ( Array $parent-path, :$id ) {
 method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
   my ActionResult $ar = Recurse;
   $!refsect-level = 2;
-note "$?LINE: $!phase, {%attribs<condition>//''}";
+note "$?LINE: $!phase, role={%attribs<role>//''}";
 
   given $!phase {
     when Functions {
@@ -141,6 +158,33 @@ note "$?LINE: $!phase, {%attribs<condition>//''}";
       $ar = Truncate;
 #note "$?LINE: $!function-name init: $!fh<init>";
     }
+
+    when Signals {
+      return Truncate if %attribs<role> ne 'signal';
+
+      $!signal-name = %attribs<id>;
+      $!signals{$!signal-name} = %();
+      $!fh := $!signals{$!signal-name};
+      $!fh<deprecated> = False;
+      self!signal-scan($parent-path[*-1].nodes);
+note 'sig: ', $!fh;
+      $ar = Truncate;
+    }
+
+#`{{
+    when Properties {
+      return Truncate if %attribs<role> ne 'property';
+
+      $!property-name = %attribs<id>;
+      $!properties{$!property-name} = %();
+      $!fh := $!properties{$!property-name};
+      $!fh<deprecated> = False;
+      self!function-scan($parent-path[*-1].nodes);
+note 'sig: ', $!fh;
+
+      $ar = Truncate;
+    }
+}}
   }
 
   $ar
@@ -168,13 +212,9 @@ method title:start ( Array $parent-path --> ActionResult ) {
   given $!phase {
     when Description {
       $!description ~= "\n\n=head$!refsect-level ";
-#      for $parent-path[*-1].nodes -> $n {
-#        next unless $n ~~ XML::Text;
-#        $!description ~= $n.string;
-#      }
       $!description ~= self!get-text($parent-path[*-1].nodes);
       $!description ~= "\n\n";
-note $!description;
+#note $!description;
 
       $ar = Truncate;
     }
@@ -182,26 +222,6 @@ note $!description;
 
   $ar
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method primary:start ( Array $parent-path --> ActionResult ) {
-  my ActionResult $ar = Recurse;
-
-  given $!phase {
-    when Functions {
-      $!functions{$!function-name}<native-name> = '';
-      for $parent-path[*-1].nodes -> $n {
-        next unless $n ~~ XML::Text;
-        $!functions{$!function-name}<native-name> ~= $n.string;
-      }
-      $ar = Truncate;
-    }
-  }
-
-  $ar
-}
-}}
 
 #-------------------------------------------------------------------------------
 method type:start ( Array $parent-path, :$role --> ActionResult ) {
@@ -214,14 +234,6 @@ method type:start ( Array $parent-path, :$role --> ActionResult ) {
       $!description ~= self!scan-for-unresolved-items($name);
       $ar = Truncate;
     }
-#`{{
-    when Functions {
-      my Str $name = ($parent-path[*-1].nodes)[0].Str;
-        #self!convert-to-pod($e.nodes);
-#-->>>      $!description ~= self!scan-for-unresolved-items($name);
-      $ar = Truncate;
-    }
-}}
   }
 
   $ar
@@ -233,82 +245,8 @@ method xml:text ( Array $parent-path, Str $txt ) {
     when Description {
       $!description ~= self!scan-for-unresolved-items($txt);
     }
-#`{{
-    when Functions {
-      if 'programlisting' ~~ any($parent-path[0..*-1]>>.name) {
-        if $parent-path[*-1].name eq 'returnvalue' {
-          $!fh<returnvalue> = '' unless $!fh<returnvalue>:exists;
-          $!fh<returnvalue> ~= $txt;
-        }
-      }
-
-      elsif 'refsect2' ~~ any($parent-path[0..*-1]>>.name) {
-        if $parent-path[*-1].name eq 'para' {
-          $!fh<description> = '' unless $!fh<description>:exists;
-          $!fh<description> ~= $txt;
-        }
-      }
-
-      # Punctuation in argument list;
-      #  '(' start list ≡ init,
-      #  ',' next argument
-      #  ');' end list
-      if 'programlisting' ~~ any($parent-path[0..*-1]>>.name)
-            and $txt ~~ m/ '(' / {
-        $!fh<parameters> = [];
-        $!param-count = 0;
-        $!fh<parameters>[$!param-count] = [];
-      }
-
-      elsif 'programlisting' ~~ any($parent-path[0..*-1]>>.name)
-            and $txt ~~ m/ ',' / {
-        $!param-count++;
-        $!fh<parameters>[$!param-count] = [];
-      }
-
-#      elsif 'programlisting' ~~ any($parent-path[0..*-1]>>.name)
-#            and $txt ~~ m/ ');' / {
-#      }
-
-      # if there is a parent element called 'parameter'
-      elsif 'parameter' ~~ any($parent-path[0..*-1]>>.name) {
-        $!fh<parameters>[$!param-count].push: $txt;
-      }
-    }
-}}
   }
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method programlisting:start ( Array $parent-path, *%attribs ) {
-note $?LINE;
-
-  given $!phase {
-    when Functions {
-#`{{
-      my XML::Element $e = $parent-path[*-1];
-      for $e.nodes {
-        when XML::Element {
-note $?LINE, ', n=', .name;
-          if .name eq 'returnvalue' {
-            $!functions{$!function-name}<returnvalue> = '';
-            for .nodes -> $t {
-              next unless $t ~~ XML::Text;
-              $!functions{$!function-name}<returnvalue> ~= $t.Str;
-            }
-          }
-        }
-
-        when XML::Text {
-note $?LINE, ', t=', .Str;
-        }
-      }
-}}
-    }
-  }
-}
-}}
 
 #-------------------------------------------------------------------------------
 # called from <refsect2 id="some function" role="function">
@@ -424,6 +362,130 @@ method !function-scan ( @nodes ) {
 }
 
 #-------------------------------------------------------------------------------
+# called from <refsect2 id="some function" role="function">
+method !signal-scan ( @nodes ) {
+
+  for @nodes -> $n {
+    if $n ~~ XML::Element {
+note "$?LINE: $n.name()";
+      given $n.name {
+        when 'primary' {
+          my Str $text = self!get-text($n.nodes);
+          my Str $section-prefix-name = $!section-prefix-name;
+          $text ~~ s/ $section-prefix-name '::' //;
+          $!fh<native-name> = $text;
+        }
+
+        when 'programlisting' {
+          $!func-phase = FApi;
+          $!fh<doc> = %();
+          self!signal-scan($n.nodes);
+          $!func-phase = OutOfPhase;
+        }
+
+        when 'returnvalue' {
+          if $!func-phase ~~ FApi {
+            $!fh<returnvalue> = self!get-text($n.nodes);
+          }
+        }
+
+        when 'type' {
+          if $!func-phase ~~ FApi {
+            # get the arguments and add a space just after the pointer character
+            my $text = self!get-text($n.nodes);
+            $text ~~ s:g/ '*' \s* /* /;
+
+            # split on spaces to get an array of the argument declaration
+            $!fh<parameters>[$!param-count].push: |($text.split(/\s+/));
+          }
+        }
+        
+        when 'para' {
+note "$?LINE: $!phase, $!func-phase";
+          if $!phase ~~ Signals and $!func-phase ~~ OutOfPhase {
+            #$!fh<doc><signal> = '' unless $!fh<doc><signal>:exists;
+            my Str $sigdoc = self!get-text($n.nodes);
+            if $sigdoc ~~ m/^ Flags ':' / {
+              $sigdoc ~~ s/^ Flags ':' \s* //;
+              $!fh<flags> = $sigdoc;
+            }
+
+            else {
+              $!fh<doc><signal> ~= ' ' ~ self!scan-for-unresolved-items($sigdoc);
+            }
+          }
+        }
+
+        when 'refsect3' {
+          $!refsect-level = 3;
+
+          my %attribs = $n.attribs;
+          if %attribs<id> eq "$!signal-name\.returns" {
+            # can be changed here w're out of programlisting
+            $!func-phase = FApiDoc;
+            my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
+            $rv ~~ s/Returns//;
+            $!fh<doc><returnvalue> = self!cleanup( $rv, :trim);
+            $!func-phase = OutOfPhase;
+          }
+
+          elsif %attribs<id> eq "$!signal-name\.parameters" {
+            $!func-phase = FApiDoc;
+            self!signal-scan($n.nodes);
+            $!func-phase = OutOfPhase;
+          }
+
+          $!refsect-level = 2;
+        }
+
+        when 'entry' {
+          if $!func-phase ~~ FApiDoc {
+            $!fh<doc><params> = %() unless $!fh<doc><params>:exists;
+            my %attribs = $n.attribs;
+            if %attribs<role> eq 'parameter_name' {
+              $!parameter-name = self!get-text($n.nodes);
+            }
+
+            elsif %attribs<role> eq 'parameter_description' {
+              my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
+              $!fh<doc><params>{$!parameter-name} = $rv;
+            }
+          }
+        }
+
+        default {
+          self!signal-scan($n.nodes);
+        }
+      }
+    }
+
+    elsif $n ~~ XML::Text {
+#note $n.Str;
+      # Punctuation in argument list;
+      #  '(' start list ≡ init,
+      #  ',' next argument
+      #  ');' end list
+      if $!func-phase ~~ FApi {
+        my Str $txt = $n.Str;
+        if $txt ~~ m/ '(' / {
+          $!fh<parameters> = [];
+          $!param-count = 0;
+          $!fh<parameters>[$!param-count] = [];
+        }
+
+        elsif $txt ~~ m/ ',' / {
+          $!param-count++;
+          $!fh<parameters>[$!param-count] = [];
+        }
+
+#        elsif $txt ~~ m/ ');' / {
+#        }
+      }
+    }
+  }
+}
+
+#-------------------------------------------------------------------------------
 method !get-text ( @nodes --> Str ) {
   my $text = '';
 
@@ -460,8 +522,9 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
 
   # signals
-  if $text ~~ m/ \s '::' / {
-note $?LINE ~ 'text has ::';
+  if $text ~~ m/ \s '::' \w+ / {
+    $text ~~ s:g/ <|w> '::' (\w+) /I<$0>/;
+note $?LINE ~ 'text has :: -> ', $text;
   }
 
   # properties

@@ -73,17 +73,23 @@ subtest 'DocSearch', {
   my Gnome::SourceSkimTool::SkimGtkDoc $sgd .= new;
   $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
 
-  display-function-info(%(:doc($sgd.description)));
-  display-function-info($sgd.functions);
+#  display-function-info(%(:doc($sgd.description)));
+#  display-function-info($sgd.functions);
+  display-function-info($sgd.signals);
+  display-function-info($sgd.properties);
 
   like $sgd.description, / '=head1' \s+ Description /,
        '.process-gtkdocs(): description';
   ok $sgd.functions<gtk-button-new>:exists,
        '.process-gtkdocs(): functions';
+  ok $sgd.signals<GtkButton-released>:exists,
+       '.process-gtkdocs(): signals';
 
 #TODO; comes later
   ok $sgd.functions<gtk-button-get-alignment><deprecated>,
     'function gtk-button-get-alignment is deprecated';
+  ok $sgd.signals<GtkButton-leave><deprecated>,
+       'signal ::leave is deprecated';
 }
 
 #-------------------------------------------------------------------------------

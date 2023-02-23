@@ -13,7 +13,7 @@ constant \Prepare = Gnome::SourceSkimTool::Prepare;
 constant \ModuleDoc = Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc;
 #constant \PropDoc = Gnome::SourceSkimTool::SkimGtkDoc::PropDoc;
 
-has ModuleDoc $!mod-actions handles <description functions>;
+has ModuleDoc $!mod-actions handles <description functions signals properties>;
 #has PropDoc $!prop-actions;
 
 #-------------------------------------------------------------------------------
