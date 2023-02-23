@@ -167,11 +167,10 @@ note "$?LINE: $!phase, role={%attribs<role>//''}";
       $!fh := $!signals{$!signal-name};
       $!fh<deprecated> = False;
       self!signal-scan($parent-path[*-1].nodes);
-note 'sig: ', $!fh;
+#note 'sig: ', $!fh;
       $ar = Truncate;
     }
 
-#`{{
     when Properties {
       return Truncate if %attribs<role> ne 'property';
 
@@ -179,12 +178,11 @@ note 'sig: ', $!fh;
       $!properties{$!property-name} = %();
       $!fh := $!properties{$!property-name};
       $!fh<deprecated> = False;
-      self!function-scan($parent-path[*-1].nodes);
-note 'sig: ', $!fh;
+      self!property-scan($parent-path[*-1].nodes);
+note 'prop: ', $!fh;
 
       $ar = Truncate;
     }
-}}
   }
 
   $ar
@@ -362,7 +360,7 @@ method !function-scan ( @nodes ) {
 }
 
 #-------------------------------------------------------------------------------
-# called from <refsect2 id="some function" role="function">
+# called from <refsect2 id="some signal" role="signal">
 method !signal-scan ( @nodes ) {
 
   for @nodes -> $n {
@@ -411,7 +409,8 @@ note "$?LINE: $!phase, $!func-phase";
             }
 
             else {
-              $!fh<doc><signal> ~= ' ' ~ self!scan-for-unresolved-items($sigdoc);
+              $!fh<doc><signal> ~=
+                ' ' ~ self!scan-for-unresolved-items($sigdoc);
             }
           }
         }
@@ -486,6 +485,149 @@ note "$?LINE: $!phase, $!func-phase";
 }
 
 #-------------------------------------------------------------------------------
+# called from <refsect2 id="some property" role="property">
+method !property-scan ( @nodes ) {
+
+  for @nodes -> $n {
+    if $n ~~ XML::Element {
+note "$?LINE: $n.name()";
+      given $n.name {
+        when 'primary' {
+          my Str $text = self!get-text($n.nodes);
+          my Str $section-prefix-name = $!section-prefix-name;
+          $text ~~ s/ $section-prefix-name ':' //;
+          $!fh<native-name> = $text;
+        }
+
+        when 'programlisting' {
+          $!func-phase = FApi;
+          $!fh<doc> = %();
+          self!property-scan($n.nodes);
+          $!func-phase = OutOfPhase;
+        }
+#`{{
+        when 'returnvalue' {
+          if $!func-phase ~~ FApi {
+            $!fh<returnvalue> = self!get-text($n.nodes);
+          }
+        }
+}}
+        when 'type' {
+          if $!func-phase ~~ FApi {
+            $!fh<type> = self!get-text($n.nodes);
+          }
+        }
+        
+        when 'para' {
+note "$?LINE: $!phase, $!func-phase";
+          if $!phase ~~ Properties and $!func-phase ~~ OutOfPhase {
+            #$!fh<doc><signal> = '' unless $!fh<doc><signal>:exists;
+            my Str $propdoc = self!get-text($n.nodes);
+            if $propdoc ~~ m/^ Flags ':' / {
+              $propdoc ~~ s/^ Flags ':' \s* //;
+              $!fh<flags> = $propdoc;
+            }
+
+            if $propdoc ~~ m/^ Owner ':' / {
+              $propdoc ~~ s/^ Owner ':' \s* //;
+              $!fh<owner> = $propdoc;
+            }
+
+            if $propdoc ~~ m/^ Default value ':' / {
+              $propdoc ~~ s/^ Default value ':' \s* //;
+              $!fh<default> = $propdoc;
+            }
+
+            if $propdoc ~~ m/^ Allowed value ':' / {
+              $propdoc ~~ s/^ Allowed value ':' \s* //;
+              $!fh<allowed> = $propdoc;
+            }
+
+            # skip since
+            if $propdoc ~~ m/^ Since ':' / { }
+
+            else {
+              $!fh<doc><property> ~=
+                ' ' ~ self!scan-for-unresolved-items($propdoc);
+            }
+          }
+        }
+
+#`{{
+
+        when 'refsect3' {
+          $!refsect-level = 3;
+
+          my %attribs = $n.attribs;
+          if %attribs<id> eq "$!signal-name\.returns" {
+            # can be changed here w're out of programlisting
+            $!func-phase = FApiDoc;
+            my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
+            $rv ~~ s/Returns//;
+            $!fh<doc><returnvalue> = self!cleanup( $rv, :trim);
+            $!func-phase = OutOfPhase;
+          }
+
+          elsif %attribs<id> eq "$!signal-name\.parameters" {
+            $!func-phase = FApiDoc;
+            self!property-scan($n.nodes);
+            $!func-phase = OutOfPhase;
+          }
+
+          $!refsect-level = 2;
+        }
+}}
+
+        when 'entry' {
+          if $!func-phase ~~ FApiDoc {
+            $!fh<doc><params> = %() unless $!fh<doc><params>:exists;
+            my %attribs = $n.attribs;
+            if %attribs<role> eq 'parameter_name' {
+              $!parameter-name = self!get-text($n.nodes);
+            }
+
+            elsif %attribs<role> eq 'parameter_description' {
+              my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
+              $!fh<doc><params>{$!parameter-name} = $rv;
+            }
+          }
+        }
+
+        default {
+          self!property-scan($n.nodes);
+        }
+      }
+    }
+
+    elsif $n ~~ XML::Text {
+#note $n.Str;
+#`{{
+      # Punctuation in argument list;
+      #  '(' start list ≡ init,
+      #  ',' next argument
+      #  ');' end list
+      if $!func-phase ~~ FApi {
+        my Str $txt = $n.Str;
+        if $txt ~~ m/ '(' / {
+          $!fh<parameters> = [];
+          $!param-count = 0;
+          $!fh<parameters>[$!param-count] = [];
+        }
+
+        elsif $txt ~~ m/ ',' / {
+          $!param-count++;
+          $!fh<parameters>[$!param-count] = [];
+        }
+
+#        elsif $txt ~~ m/ ');' / {
+#        }
+      }
+}}
+    }
+  }
+}
+
+#-------------------------------------------------------------------------------
 method !get-text ( @nodes --> Str ) {
   my $text = '';
 
@@ -522,13 +664,16 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
 
   # signals
-  if $text ~~ m/ \s '::' \w+ / {
-    $text ~~ s:g/ <|w> '::' (\w+) /I<$0>/;
+  if $text ~~ m/  '::' \w+ / {
+    $text ~~ s:g/ \w* '::' (\w+) /I<$0>/;
+#    $text ~~ s:g/ <|w> '::' (\w+) /I<$0>/;
 note $?LINE ~ 'text has :: -> ', $text;
   }
 
   # properties
-  if $text ~~ m/ \s ':' / {
+  if $text ~~ m/ ':' \w+ / {
+    $text ~~ s:g/ \w* ':' (\w+) /I<$0>/;
+#    $text ~~ s:g/ <|w> ':' (\w+) /I<$0>/;
 note $?LINE ~ 'text has :';
   }
 

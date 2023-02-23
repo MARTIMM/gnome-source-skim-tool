@@ -75,7 +75,7 @@ subtest 'DocSearch', {
 
 #  display-function-info(%(:doc($sgd.description)));
 #  display-function-info($sgd.functions);
-  display-function-info($sgd.signals);
+#  display-function-info($sgd.signals);
   display-function-info($sgd.properties);
 
   like $sgd.description, / '=head1' \s+ Description /,
@@ -84,12 +84,16 @@ subtest 'DocSearch', {
        '.process-gtkdocs(): functions';
   ok $sgd.signals<GtkButton-released>:exists,
        '.process-gtkdocs(): signals';
+  ok $sgd.signals<GtkButton--use-underline>:exists,
+       '.process-gtkdocs(): properties';
 
 #TODO; comes later
   ok $sgd.functions<gtk-button-get-alignment><deprecated>,
     'function gtk-button-get-alignment is deprecated';
   ok $sgd.signals<GtkButton-leave><deprecated>,
        'signal ::leave is deprecated';
+  ok $sgd.signals<GtkButton--yalign><deprecated>,
+       'property :yalign is deprecated';
 }
 
 #-------------------------------------------------------------------------------
