@@ -167,6 +167,7 @@ note "$?LINE: $!phase, role={%attribs<role>//''}";
       $!fh := $!signals{$!signal-name};
       $!fh<deprecated> = False;
       self!signal-scan($parent-path[*-1].nodes);
+      $!fh<doc><signal> = self!cleanup($!fh<doc><signal>);
 #note 'sig: ', $!fh;
       $ar = Truncate;
     }
@@ -179,7 +180,8 @@ note "$?LINE: $!phase, role={%attribs<role>//''}";
       $!fh := $!properties{$!property-name};
       $!fh<deprecated> = False;
       self!property-scan($parent-path[*-1].nodes);
-note 'prop: ', $!fh;
+#note 'prop: ', $!fh;
+      $!fh<doc><property> = self!cleanup($!fh<doc><property>);
 
       $ar = Truncate;
     }
@@ -365,7 +367,7 @@ method !signal-scan ( @nodes ) {
 
   for @nodes -> $n {
     if $n ~~ XML::Element {
-note "$?LINE: $n.name()";
+#note "$?LINE: $n.name()";
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
@@ -388,29 +390,44 @@ note "$?LINE: $n.name()";
         }
 
         when 'type' {
+#note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent().name()";
           if $!func-phase ~~ FApi {
             # get the arguments and add a space just after the pointer character
-            my $text = self!get-text($n.nodes);
+            my Str $text = self!get-text($n.nodes);
             $text ~~ s:g/ '*' \s* /* /;
 
             # split on spaces to get an array of the argument declaration
             $!fh<parameters>[$!param-count].push: |($text.split(/\s+/));
           }
+
+          elsif $!func-phase ~~ OutOfPhase {
+#note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent.name()";
+            my XML::Node $parent = $n.parent;
+            if $parent.name eq 'link' {
+              my Str $linkend = $parent.attribs<linkend>;
+              my Str $text = self!scan-for-unresolved-items($linkend);
+              $!fh<parameters>[$!param-count].push: |($text.split(/\s+/));
+            }
+          }
         }
-        
+
         when 'para' {
-note "$?LINE: $!phase, $!func-phase";
+note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent.name()";
           if $!phase ~~ Signals and $!func-phase ~~ OutOfPhase {
-            #$!fh<doc><signal> = '' unless $!fh<doc><signal>:exists;
-            my Str $sigdoc = self!get-text($n.nodes);
+            my Str $sigdoc = self!get-text( $n.nodes, :link, :literal);
             if $sigdoc ~~ m/^ Flags ':' / {
+              # get only text
+              $sigdoc = self!get-text($n.nodes);
               $sigdoc ~~ s/^ Flags ':' \s* //;
               $!fh<flags> = $sigdoc;
             }
 
+            # skip since
+            elsif $sigdoc ~~ m/^ Since ':' / { }
+
             else {
-              $!fh<doc><signal> ~=
-                ' ' ~ self!scan-for-unresolved-items($sigdoc);
+note "$?LINE: $sigdoc";
+              $!fh<doc><signal> ~= ' ' ~ $sigdoc;
             }
           }
         }
@@ -479,6 +496,10 @@ note "$?LINE: $!phase, $!func-phase";
 
 #        elsif $txt ~~ m/ ');' / {
 #        }
+
+        else {
+          $!fh<parameters>[$!param-count][*-1] ~= $txt;
+        }
       }
     }
   }
@@ -490,7 +511,7 @@ method !property-scan ( @nodes ) {
 
   for @nodes -> $n {
     if $n ~~ XML::Element {
-note "$?LINE: $n.name()";
+#note "$?LINE: $n.name()";
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
@@ -528,23 +549,23 @@ note "$?LINE: $!phase, $!func-phase";
               $!fh<flags> = $propdoc;
             }
 
-            if $propdoc ~~ m/^ Owner ':' / {
+            elsif $propdoc ~~ m/^ Owner ':' / {
               $propdoc ~~ s/^ Owner ':' \s* //;
               $!fh<owner> = $propdoc;
             }
 
-            if $propdoc ~~ m/^ Default value ':' / {
-              $propdoc ~~ s/^ Default value ':' \s* //;
+            elsif $propdoc ~~ m/^ Default \s+ value ':' / {
+              $propdoc ~~ s/^ Default \s+ value ':' \s* //;
               $!fh<default> = $propdoc;
             }
 
-            if $propdoc ~~ m/^ Allowed value ':' / {
-              $propdoc ~~ s/^ Allowed value ':' \s* //;
+            elsif $propdoc ~~ m/^ Allowed \s+ values ':' / {
+              $propdoc ~~ s/^ Allowed \s+ values ':' \s* //;
               $!fh<allowed> = $propdoc;
             }
 
             # skip since
-            if $propdoc ~~ m/^ Since ':' / { }
+            elsif $propdoc ~~ m/^ Since ':' / { }
 
             else {
               $!fh<doc><property> ~=
@@ -628,7 +649,9 @@ note "$?LINE: $!phase, $!func-phase";
 }
 
 #-------------------------------------------------------------------------------
-method !get-text ( @nodes --> Str ) {
+method !get-text (
+  @nodes, :@skip, Bool :$link = False, Bool :$literal = False --> Str
+) {
   my $text = '';
 
   for @nodes -> $n {
@@ -637,11 +660,50 @@ method !get-text ( @nodes --> Str ) {
     }
 
     elsif $n ~~ XML::Element {
-      $text ~= self!get-text($n.nodes);
+      if $link and $n.name eq 'link' {
+        $text ~= self!linked-items($n.attribs<linkend>);
+      }
+
+      elsif $literal and $n.name eq 'literal' {
+        $text ~= self!scan-for-unresolved-items(self!get-text($n.nodes));
+      }
+
+      # skip any nodes mentioned in the skip list
+      elsif $n.name !~~ any(@skip) {
+        $text ~= self!get-text($n.nodes);
+      }
     }
   }
 
+note "$?LINE: $text";
+
   $text
+}
+
+#-------------------------------------------------------------------------------
+method !linked-items ( Str $text is copy --> Str ) {
+note "$?LINE: $text";
+
+  my Str $section-prefix-name = $!section-prefix-name;
+  if $text ~~ m/ $section-prefix-name / {
+    $text ~~ s/ $section-prefix-name '-' //;
+  }
+
+  else {
+    my Str ( $class, $rest) = $text.split( '-', 2);
+    with $*use-doc-source {
+      when Gtk3 { $class ~~ s:g/ Gtk (\w+) /Gnome::Gtk3::$0/; }
+      when Gdk3 { $class ~~ s:g/ Gdk (\w+) /Gnome::Gdk3::$0/; }
+      when Gtk4 { $class ~~ s:g/ Gtk (\w+) /Gnome::Gtk4::$0/; }
+      when Gdk4 { $class ~~ s:g/ Gdk (\w+) /Gnome::Gdk4::$0/; }
+  #    when  { $text ~~ s:g/ <!after '::'> G.. (\w+) /B<Gnome::G..::$0>/; }
+    }
+
+    $text = "$rest defined in B<$class>";
+  }
+
+note "$?LINE: $text";
+  " I<$text> "
 }
 
 #-------------------------------------------------------------------------------
@@ -661,44 +723,71 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+# :link is from linkend attribute when True in a link element
 method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
 
   # signals
-  if $text ~~ m/  '::' \w+ / {
-    $text ~~ s:g/ \w* '::' (\w+) /I<$0>/;
-#    $text ~~ s:g/ <|w> '::' (\w+) /I<$0>/;
-note $?LINE ~ 'text has :: -> ', $text;
+  my Str $section-prefix-name = $!section-prefix-name;
+  if $text ~~ m/ <|w> $section-prefix-name '::' \w+ / {
+print "$?LINE: text has :: '$text'";
+    $text ~~ s:g/ <|w> $section-prefix-name '::' (\w+) /I<$0>/;
+note " -> $text";
   }
 
-  # properties
-  if $text ~~ m/ ':' \w+ / {
-    $text ~~ s:g/ \w* ':' (\w+) /I<$0>/;
-#    $text ~~ s:g/ <|w> ':' (\w+) /I<$0>/;
-note $?LINE ~ 'text has :';
+  elsif $text ~~ m/ <|w> \w+ '::' \w+ / {
+print "$?LINE: text has :: '$text'";
+    $text ~~ s:g/ <|w> (\w+) '::' (\w+) / I<$1 defined in $0>/;
+note " -> $text";
   }
+
+  elsif $text ~~ m/ <|w> '::' \w+ / {
+print "$?LINE: text has :: '$text'";
+    $text ~~ s:g/ <|w> '::' (\w+) / I<$0>/;
+note " -> $text";
+  }
+
+
+  # properties
+  if $text ~~ m/ <|w> $section-prefix-name ':' \w+ / {
+print "$?LINE: text has : '$text'";
+    $text ~~ s:g/ <|w> $section-prefix-name ':' (\w+) /I<$1 defined in $0>/;
+note " -> $text";
+  }
+
+  elsif $text ~~ m/ <|w> \w+ ':' \w+ / {
+print "$?LINE: text has : '$text'";
+    $text ~~ s:g/ <|w> (\w+) ':' (\w+) / I<$0>/;
+note " -> $text";
+  }
+
+  elsif $text ~~ m/ <|w> ':' \w+ / {
+print "$?LINE: text has : '$text'";
+    $text ~~ s:g/ <|w> ':' (\w+) / I<$0>/;
+note " -> $text";
+  }
+
 
   # css
   if $text ~~ m/ \s '.' / {
     $text ~~ s:g/ \s '.' (<[-\w]>+) / C<.$0>/;
-#note $?LINE ~ 'text has .';
+note "$?LINE: text has . -> $text";
   }
+
 
   # functions
   if $text ~~ m/ '()' \s / {
-note $?LINE ~ 'text has ()';
+note "$?LINE: text has () -> $text";
   }
 
   # classes
-#  else {
-    with $*use-doc-source {
-      # <!after '::'> is needed to keep previously converted text correct
-      when Gtk3 { $text ~~ s:g/ <!after '::'> Gtk (\w+) /B<Gnome::Gtk3::$0>/; }
-      when Gdk3 { $text ~~ s:g/ <!after '::'> Gdk (\w+) /B<Gnome::Gdk3::$0>/; }
-      when Gtk4 { $text ~~ s:g/ <!after '::'> Gtk (\w+) /B<Gnome::Gtk4::$0>/; }
-      when Gdk4 { $text ~~ s:g/ <!after '::'> Gdk (\w+) /B<Gnome::Gdk4::$0>/; }
-  #    when  { $text ~~ s:g/ <!after '::'> G.. (\w+) /B<Gnome::G..::$0>/; }
-    }
-#  }
+  with $*use-doc-source {
+    # <!after '::'> is needed to keep previously converted text correct
+    when Gtk3 { $text ~~ s:g/ <!after '::'> Gtk (\w+) /B<Gnome::Gtk3::$0>/; }
+    when Gdk3 { $text ~~ s:g/ <!after '::'> Gdk (\w+) /B<Gnome::Gdk3::$0>/; }
+    when Gtk4 { $text ~~ s:g/ <!after '::'> Gtk (\w+) /B<Gnome::Gtk4::$0>/; }
+    when Gdk4 { $text ~~ s:g/ <!after '::'> Gdk (\w+) /B<Gnome::Gdk4::$0>/; }
+#    when  { $text ~~ s:g/ <!after '::'> G.. (\w+) /B<Gnome::G..::$0>/; }
+  }
 
 
   $text ~~ s:g:i/ true /True/;

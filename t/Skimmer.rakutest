@@ -75,8 +75,8 @@ subtest 'DocSearch', {
 
 #  display-function-info(%(:doc($sgd.description)));
 #  display-function-info($sgd.functions);
-#  display-function-info($sgd.signals);
-  display-function-info($sgd.properties);
+  display-function-info($sgd.signals<GtkButton-released>);
+#  display-function-info($sgd.properties);
 
   like $sgd.description, / '=head1' \s+ Description /,
        '.process-gtkdocs(): description';
