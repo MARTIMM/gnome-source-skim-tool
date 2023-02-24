@@ -131,7 +131,7 @@ method refsect1:end ( Array $parent-path, :$id ) {
 method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
   my ActionResult $ar = Recurse;
   $!refsect-level = 2;
-note "$?LINE: $!phase, role={%attribs<role>//''}";
+#note "$?LINE: $!phase, role={%attribs<role>//''}";
 
   given $!phase {
     when Functions {
@@ -412,7 +412,7 @@ method !signal-scan ( @nodes ) {
         }
 
         when 'para' {
-note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent.name()";
+#note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent.name()";
           if $!phase ~~ Signals and $!func-phase ~~ OutOfPhase {
             my Str $sigdoc = self!get-text( $n.nodes, :link, :literal);
             if $sigdoc ~~ m/^ Flags ':' / {
@@ -426,7 +426,7 @@ note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent.name()";
             elsif $sigdoc ~~ m/^ Since ':' / { }
 
             else {
-note "$?LINE: $sigdoc";
+#note "$?LINE: $sigdoc";
               $!fh<doc><signal> ~= ' ' ~ $sigdoc;
             }
           }
@@ -540,7 +540,7 @@ method !property-scan ( @nodes ) {
         }
         
         when 'para' {
-note "$?LINE: $!phase, $!func-phase";
+#note "$?LINE: $!phase, $!func-phase";
           if $!phase ~~ Properties and $!func-phase ~~ OutOfPhase {
             #$!fh<doc><signal> = '' unless $!fh<doc><signal>:exists;
             my Str $propdoc = self!get-text($n.nodes);
@@ -675,14 +675,14 @@ method !get-text (
     }
   }
 
-note "$?LINE: $text";
+#note "$?LINE: $text";
 
   $text
 }
 
 #-------------------------------------------------------------------------------
 method !linked-items ( Str $text is copy --> Str ) {
-note "$?LINE: $text";
+#note "$?LINE: $text";
 
   my Str $section-prefix-name = $!section-prefix-name;
   if $text ~~ m/ $section-prefix-name / {
@@ -702,7 +702,7 @@ note "$?LINE: $text";
     $text = "$rest defined in B<$class>";
   }
 
-note "$?LINE: $text";
+#note "$?LINE: $text";
   " I<$text> "
 }
 
@@ -729,21 +729,21 @@ method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
   # signals
   my Str $section-prefix-name = $!section-prefix-name;
   if $text ~~ m/ <|w> $section-prefix-name '::' \w+ / {
-print "$?LINE: text has :: '$text'";
+#print "$?LINE: text has :: '$text'";
     $text ~~ s:g/ <|w> $section-prefix-name '::' (\w+) /I<$0>/;
-note " -> $text";
+#note " -> $text";
   }
 
   elsif $text ~~ m/ <|w> \w+ '::' \w+ / {
-print "$?LINE: text has :: '$text'";
+#print "$?LINE: text has :: '$text'";
     $text ~~ s:g/ <|w> (\w+) '::' (\w+) / I<$1 defined in $0>/;
-note " -> $text";
+#note " -> $text";
   }
 
   elsif $text ~~ m/ <|w> '::' \w+ / {
-print "$?LINE: text has :: '$text'";
+#print "$?LINE: text has :: '$text'";
     $text ~~ s:g/ <|w> '::' (\w+) / I<$0>/;
-note " -> $text";
+#note " -> $text";
   }
 
 
