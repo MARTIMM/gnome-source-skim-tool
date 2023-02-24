@@ -34,7 +34,7 @@ method process-gtkdocs ( Str :$test-cwd ) {
 
   my XML::Actions $a .= new(:file($docpath));
   $a.process(:actions($!mod-actions));
-  note $!mod-actions.description.substr( 0, 100) if $*verbose;
+#note $!mod-actions.description.substr( 0, 100) if $*verbose;
 
 #TODO; props and signals from xml docbook file!
 
