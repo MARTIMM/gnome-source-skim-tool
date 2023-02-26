@@ -179,9 +179,10 @@ digraph gtkdoc {
   'pfxargs [label="prefixed.args", shape=box, color=blue]
   depr [label="deprecated\ninfo", shape=box, color=blue]
   docbook [label="docbook files\n*.xml", shape=box, color=blue]
-  backup [shape=box]
-  RakuModule [shape=box]
-  RakuTest [shape=box]
+  ResultStore [label="Store\nResults", shape=box, color=blue]
+  RakuModule [label="Raku\nmodules", shape=box, color=blue]
+  RakuTest [label="Raku module\ntest files", shape=box, color=blue]
+  SkimTool [label="GtkDoc Skim Tool", color=blue]
   ph1  [label="phase1\nfiles", shape=box]
   ph2  [label="phase2\nfiles", shape=box]
 
@@ -214,7 +215,7 @@ digraph gtkdoc {
   'pfxargs -> SkimTool
   depr -> SkimTool
   docbook -> SkimTool
-  SkimTool -> backup
+  SkimTool -> ResultStore
   SkimTool -> RakuModule
   SkimTool -> RakuTest
 }
