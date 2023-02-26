@@ -38,7 +38,6 @@ method process-gtkdocs ( Str :$test-cwd ) {
   my XML::Actions $a .= new(:file($docpath));
   $a.process(:actions($!mod-actions));
 
-#TODO; types and enums
   self!save-module($gfl);
 }
 
