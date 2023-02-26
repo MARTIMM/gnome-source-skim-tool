@@ -476,29 +476,50 @@ method !signal-scan ( @nodes ) {
     }
 
     elsif $n ~~ XML::Text {
-#note $n.Str;
+#note "$?LINE: $!phase, $!func-phase, {$!param-count//'-'}, '$n.Str()'";
+
       # Punctuation in argument list;
       #  '(' start list ≡ init,
       #  ',' next argument
       #  ');' end list
       if $!func-phase ~~ FApi {
-        my Str $txt = $n.Str;
-        if $txt ~~ m/ '(' / {
+        my Str $text = $n.Str;
+        $text ~~ s/^ \s+ //;
+        $text ~~ s/ \s+ $//;
+        if $text ~~ m/ '(' / {
           $!fh<parameters> = [];
           $!param-count = 0;
           $!fh<parameters>[$!param-count] = [];
         }
 
-        elsif $txt ~~ m/ ',' / {
+        elsif $text ~~ m/ ',' / {
+          # nasty commas next to text
+          if $text ~~ m/^ $<t> = (.+?) ',' $/ {
+            # text in front of a comma
+            $text = $<t>.Str;
+            $text ~~ s:g/ '*' \s* /* /;
+            $!fh<parameters>[$!param-count][*-1] ~= ' ' ~ $text;
+#note "---> $!fh<parameters>[$!param-count].elems(), $!fh<parameters>[$!param-count][*-1]";
+          }
+
           $!param-count++;
           $!fh<parameters>[$!param-count] = [];
+
+          if $text ~~ m/^ ',' $<t> = (.+?) $/ {
+            # text after comma
+            $text = $<t>.Str;
+            $text ~~ s:g/ '*' \s* /* /;
+            $!fh<parameters>[$!param-count][*-1] ~= ' ' ~ $text;
+#note "---> $!fh<parameters>[$!param-count].elems(), $!fh<parameters>[$!param-count][*-1]";
+          }
         }
 
-#        elsif $txt ~~ m/ ');' / {
+#        elsif $text ~~ m/ ');' / {
 #        }
 
         else {
-          $!fh<parameters>[$!param-count][*-1] ~= $txt;
+          $!fh<parameters>[$!param-count][*-1] ~= $text;
+note "---> $!fh<parameters>[$!param-count].elems(), $!fh<parameters>[$!param-count][*-1]";
         }
       }
     }
@@ -726,8 +747,9 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 # :link is from linkend attribute when True in a link element
 method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
 
-  # signals
   my Str $section-prefix-name = $!section-prefix-name;
+
+  # signals
   if $text ~~ m/ <|w> $section-prefix-name '::' \w+ / {
 #print "$?LINE: text has :: '$text'";
     $text ~~ s:g/ <|w> $section-prefix-name '::' (\w+) /I<$0>/;
@@ -751,32 +773,32 @@ method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
   if $text ~~ m/ <|w> $section-prefix-name ':' \w+ / {
 print "$?LINE: text has : '$text'";
     $text ~~ s:g/ <|w> $section-prefix-name ':' (\w+) /I<$1 defined in $0>/;
-note " -> $text";
+#note " -> $text";
   }
 
   elsif $text ~~ m/ <|w> \w+ ':' \w+ / {
-print "$?LINE: text has : '$text'";
+#print "$?LINE: text has : '$text'";
     $text ~~ s:g/ <|w> (\w+) ':' (\w+) / I<$0>/;
-note " -> $text";
+#note " -> $text";
   }
 
   elsif $text ~~ m/ <|w> ':' \w+ / {
-print "$?LINE: text has : '$text'";
+#print "$?LINE: text has : '$text'";
     $text ~~ s:g/ <|w> ':' (\w+) / I<$0>/;
-note " -> $text";
+#note " -> $text";
   }
 
 
   # css
   if $text ~~ m/ \s '.' / {
     $text ~~ s:g/ \s '.' (<[-\w]>+) / C<.$0>/;
-note "$?LINE: text has . -> $text";
+#note "$?LINE: text has . -> $text";
   }
 
 
   # functions
   if $text ~~ m/ '()' \s / {
-note "$?LINE: text has () -> $text";
+#note "$?LINE: text has () -> $text";
   }
 
   # classes
