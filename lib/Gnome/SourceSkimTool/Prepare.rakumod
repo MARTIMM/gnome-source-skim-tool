@@ -57,10 +57,6 @@ submethod BUILD ( Str :$test-cwd ) {
       die 'Use :$test-cwd to specify gnome source for testing';
     }
   }
-
-  # test for generated code dump directory 'xt/NewModules'
-  $*dump-result-dir = 'xt/NewModules';
-  mkdir( $*dump-result-dir, 0o766) unless 'xt/NewModules'.IO.e;
 }
 
 #-------------------------------------------------------------------------------
@@ -380,65 +376,3 @@ V4
 > gtkdoc-scan --output-dir d --source-dir Gnome/gtk-4.9.3/gtk --module gtk4
 > gtkdoc-scangobj --module gtk4 --verbose --cflags '\-I../../Gnome/glib-2.74.5/glib -I../../Gnome/glib-2.74.5/gobject'
 > gtkdoc-mkdb --module gtk3 --source-dir ../Gnome/gtk+-3.24.24/gtk --output-dir e --xml-mode
-
-#-------------------------------------------------------------------------------
-method make-dir-list ( ) {
-  my $source-dir = self.set-source-dir;
-  my $sl-name = self.set-source-list-name;
-
-  # get a sorted list of c code filenames from the source directory
-  my Str $list-text = '';
-  for (dir $source-dir).sort -> $f is copy {
-    next unless $f.Str ~~ / \. c $/;
-    $f .= basename;
-    $f ~~ s/ \. c $//;
-    $list-text ~= "$f\n";
-  }
-
-  # test for the programs config directory and write the list of names
-  mkdir (SKIMTOOLROOT ~ 'Lists'), 0o700 unless (SKIMTOOLROOT ~ 'Lists').IO.e;
-  ( [~] SKIMTOOLROOT, 'Lists/', $sl-name).IO.spurt($list-text);
-
-  # test for dir 'xt/NewModules'
-  $*dump-result-dir = 'xt/NewModules';
-  mkdir( $*dump-result-dir, 0o766) unless 'xt/NewModules'.IO.e;
-}
-
-#-------------------------------------------------------------------------------
-# load the list of source filenames
-method load-dir-list ( --> List ) {
-  my $source-dir = self.set-source-dir;
-  my $sl-name = self.set-source-list-name;
-  
-  ( [~] SKIMTOOLROOT, 'Lists/', $sl-name).IO.slurp.lines.List;
-}
-
-#-------------------------------------------------------------------------------
-method get-sources ( ) {
-  my Str $src-fname = $*sub-prefix;
-
-  with $*use-doc-source {
-    when Pango { $src-fname ~~ s:g/ '_' /-/; }
-    default { $src-fname ~~ s:g/ '_' //; }
-  }
-
-  my @parts = $*other-prefix.split(/<[_-]>/);
-  $*lib-classname = @parts>>.tc.join;
-  $*raku-classname = @parts[1..*-1]>>.tc.join;
-
-  my $source-dir = self.set-source-dir;
-#  my $source-root = SKIMTOOLROOT ~ 'Gnome/';
-
-  $*include-content = "$source-dir/$src-fname.h".IO.slurp;
-  $*source-content = "$source-dir/$src-fname.c".IO.slurp
-    if "$source-dir/$src-fname.c".IO.r;
-
-  with $*use-doc-source {
-    when Gtk3 { $*library = '&gtk-lib'; $*raku-modname = 'Gtk3'; }
-    when Gdk3 { $*library = '&gdk-lib'; $*raku-modname = 'Gdk3'; }
-    when Gtk4 { $*library = '&gtk4-lib'; $*raku-modname = 'Gtk4'; }
-    when Gdk4 { $*library = '&gdk4-lib'; $*raku-modname = 'Gtk4'; }
-#    when  { $source-dir = [~] $source-root, '', , ''; }
-  }
-}
-
