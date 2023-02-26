@@ -11,7 +11,7 @@ constant \Prepare = Gnome::SourceSkimTool::Prepare;
 my Str $*sub-prefix = 'gtk_button';
 #my Str $*other-prefix = 'gtk_button';
 
-my Bool $*verbose = True;
+my Bool $*verbose = False;
 
 my Bool $*class-is-leaf = False;
 my Bool $*class-is-role = False; # is leaf implicitly
@@ -75,8 +75,9 @@ subtest 'DocSearch', {
 
 #  display-function-info(%(:doc($sgd.description)));
 #  display-function-info($sgd.functions);
-  display-function-info($sgd.signals<GtkButton-released>);
+#  display-function-info($sgd.signals);
 #  display-function-info($sgd.properties);
+  display-function-info($sgd.objects);
 
   like $sgd.description, / '=head1' \s+ Description /,
        '.process-gtkdocs(): description';
@@ -84,15 +85,17 @@ subtest 'DocSearch', {
        '.process-gtkdocs(): functions';
   ok $sgd.signals<GtkButton-released>:exists,
        '.process-gtkdocs(): signals';
-  ok $sgd.signals<GtkButton--use-underline>:exists,
+  ok $sgd.properties<GtkButton--use-underline>:exists,
        '.process-gtkdocs(): properties';
 
-#TODO; comes later
-  ok $sgd.functions<gtk-button-get-alignment><deprecated>,
-    'function gtk-button-get-alignment is deprecated';
-  ok $sgd.signals<GtkButton-leave><deprecated>,
+  $sgd.process-apidocs(:test-cwd<gnome-gtk3>);
+  is $sgd.objects<gtk_window_set_icon><object>, 'GtkWindow', '.process-apidocs(): api doc';
+
+  ok $sgd.objects<gtk_button_get_alignment><deprecated>,
+    'function gtk_button_get_alignment is deprecated';
+  ok $sgd.objects<GtkButton::leave><deprecated>,
        'signal ::leave is deprecated';
-  ok $sgd.signals<GtkButton--yalign><deprecated>,
+  ok $sgd.objects<GtkButton:yalign><deprecated>,
        'property :yalign is deprecated';
 }
 
