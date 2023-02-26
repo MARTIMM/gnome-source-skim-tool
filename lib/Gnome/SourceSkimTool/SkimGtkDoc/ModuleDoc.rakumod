@@ -143,7 +143,6 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
 
       # mark info as init method when 'new' is in the funcion name
       $!fh<init> = $!function-name ~~ m/ <|w> new <|w> /.Bool;
-      $!fh<deprecated> = False;
       self!function-scan($parent-path[*-1].nodes);
         
       $ar = Truncate;
@@ -156,7 +155,6 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       $!signal-name = %attribs<id>;
       $!signals{$!signal-name} = %();
       $!fh := $!signals{$!signal-name};
-      $!fh<deprecated> = False;
       self!signal-scan($parent-path[*-1].nodes);
       $!fh<doc><signal> = self!cleanup($!fh<doc><signal>);
 #note 'sig: ', $!fh;
@@ -169,7 +167,6 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       $!property-name = %attribs<id>;
       $!properties{$!property-name} = %();
       $!fh := $!properties{$!property-name};
-      $!fh<deprecated> = False;
       self!property-scan($parent-path[*-1].nodes);
 #note 'prop: ', $!fh;
       $!fh<doc><property> = self!cleanup($!fh<doc><property>);
