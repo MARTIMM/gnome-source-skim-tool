@@ -165,7 +165,8 @@ The module **Gnome::SourceSkimTool::Prepare** takes care of the GtkDoc generatio
 
 ## A diagram
 
-A diagram of the work involved and what the Raku modules do. `Download` means everything coming from elsewhere and unpacking it. `mod*.xml` means the module names from some gnome package, e.g. `gtkbutton.xml`. `prefixed` is the prefix text such as `gtk3`.
+A diagram of the work involved and what the Raku modules do. `Download` means everything coming from elsewhere and unpacking it. `mod*.xml` means the module names from some gnome package, e.g. `gtkbutton.xml`.
+<!-- `prefixed` is the prefix text such as `gtk3`.-->
 
 
 ```plantuml
@@ -174,14 +175,15 @@ digraph gtkdoc {
 
   prepare [label="prepare\nGlib"]
   modx [label="mod*.xml", shape=box, color=blue]
-  pfxsigs [label="prefixed.signals", shape=box, color=blue]
-  pfxargs [label="prefixed.args", shape=box, color=blue]
+  'pfxsigs [label="prefixed.signals", shape=box, color=blue]
+  'pfxargs [label="prefixed.args", shape=box, color=blue]
   depr [label="deprecated\ninfo", shape=box, color=blue]
   docbook [label="docbook files\n*.xml", shape=box, color=blue]
   backup [shape=box]
   RakuModule [shape=box]
   RakuTest [shape=box]
   ph1  [label="phase1\nfiles", shape=box]
+  ph2  [label="phase2\nfiles", shape=box]
 
   'Download and prepare
   download -> prepare [style="dotted"]
@@ -192,21 +194,24 @@ digraph gtkdoc {
 
   'phase 2
   ph1 -> gtkdoc_scangobj
-  gtkdoc_scangobj -> modx
-  gtkdoc_scangobj -> pfxsigs
-  gtkdoc_scangobj -> pfxargs
+  'gtkdoc_scangobj -> modx
+  'gtkdoc_scangobj -> pfxsigs
+  'gtkdoc_scangobj -> pfxargs
+  gtkdoc_scangobj -> ph2
 
   'phase 3  
-  pfxsigs -> gtkdoc_mkdb
-  pfxargs -> gtkdoc_mkdb
-  modx -> gtkdoc_mkdb
+  'pfxsigs -> gtkdoc_mkdb
+  'pfxargs -> gtkdoc_mkdb
+  'modx -> gtkdoc_mkdb
+  ph2 -> gtkdoc_mkdb
   gtkdoc_mkdb -> docbook
   gtkdoc_mkdb -> depr
-
+  gtkdoc_mkdb -> modx
+  
   'raku program
   modx -> SkimTool
-  pfxsigs -> SkimTool
-  pfxargs -> SkimTool
+  'pfxsigs -> SkimTool
+  'pfxargs -> SkimTool
   depr -> SkimTool
   docbook -> SkimTool
   SkimTool -> backup
