@@ -10,6 +10,9 @@ mkdir SKIMTOOLROOT, 0o700 unless SKIMTOOLROOT.IO ~~ :e;
 constant SKIMTOOLDATA is export = SKIMTOOLROOT ~ 'SkimToolData/';
 mkdir SKIMTOOLDATA, 0o700 unless SKIMTOOLDATA.IO ~~ :e;
 
+constant RAKUMODS is export = 'xt/NewRakuModules/';
+mkdir RAKUMODS, 0o700 unless RAKUMODS.IO ~~ :e;
+
 #-------------------------------------------------------------------------------
 #`{{
   A note from https://discourse.gnome.org/t/gtk4-and-gdk-pixbuf/1015
