@@ -141,15 +141,6 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       $!functions{$!function-name} = %();
       $!fh := $!functions{$!function-name};
 
-#NOTE; jot all functions down, when reading api-index-deprecated.xml we add
-# these notes too together with signals and properties.
-#      if (%attribs<condition>//'') ~~ m/ deprecated / {
-#        note "function %attribs<id> is deprecated";
-#        $!fh<deprecated> = True;
-#        return Truncate;
-#      }
-
-
       # mark info as init method when 'new' is in the funcion name
       $!fh<init> = $!function-name ~~ m/ <|w> new <|w> /.Bool;
       $!fh<deprecated> = False;
