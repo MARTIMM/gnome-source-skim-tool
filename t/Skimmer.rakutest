@@ -8,33 +8,34 @@ use Test;
 constant \Prepare = Gnome::SourceSkimTool::Prepare;
 
 # pick a class with no other prefix specified
-my Str $*sub-prefix = 'gtk_button';
+my Str $*sub-prefix;
 #my Str $*other-prefix = 'gtk_button';
 
 my Bool $*verbose = False;
 
+#TODO; get from hierargy
 my Bool $*class-is-leaf = False;
-my Bool $*class-is-role = False; # is leaf implicitly
 my Bool $*class-is-top = False;
+
+#TODO; get from gtk docs
+my Bool $*class-is-role = False; # is leaf implicitly
+
 
 # needed dynamic variable set by main program
 my SkimSource $*use-doc-source;
-#my Str $*lib-classname;
-#my Str $*raku-classname;
-#my Str $*raku-parent-classname;
 my Str $*library;
-#my Str $*raku-modname;
-#my Str $*raku-parent-modname;
-#my Str $*include-content;
-#my Str $*source-content;
-my Str $*dump-result-dir;
 
 #-------------------------------------------------------------------------------
 my Prepare $gfl;
-my Int $level = 0;
+my Gnome::SourceSkimTool::SkimGtkDoc $sgd;
+my Int $level;
 
 #-------------------------------------------------------------------------------
 subtest 'Prepare', {
+
+  # read from 'gtkbutton.xml'
+  $*sub-prefix = 'gtk_button';
+  $level = 0;
 
   # dies because tests are not done in a gnome raku repo
   dies-ok { $gfl .= new; }, 'dies when no path set/found';
@@ -63,21 +64,23 @@ subtest 'Prepare', {
       'check phase 3: ' ~ "$gd/docs/gtkaboutdialog.xml";
 
   is $*library, '&gtk-lib', 'check $*library: ' ~ $*library;
-  is $*dump-result-dir, 'xt/NewModules',
-    'check $*dump-result-dir: ' ~ $*dump-result-dir;
+  is $gfl.set-skim-result-file, SKIMTOOLDATA ~ 'Gtk3/GtkButton.yaml',
+    '.set-skim-result-file()';
+  is RAKUMODS, 'xt/NewRakuModules/', 'check RAKUMODS: ' ~ RAKUMODS;
 }
 
 #-------------------------------------------------------------------------------
 subtest 'DocSearch', {
 
-  my Gnome::SourceSkimTool::SkimGtkDoc $sgd .= new;
+  $level = 0;
+  $sgd .= new;
   $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
 
 #  display-function-info(%(:doc($sgd.description)));
 #  display-function-info($sgd.functions);
 #  display-function-info($sgd.signals);
 #  display-function-info($sgd.properties);
-  display-function-info($sgd.objects);
+#  display-function-info($sgd.objects);
 
   like $sgd.description, / '=head1' \s+ Description /,
        '.process-gtkdocs(): description';
@@ -99,6 +102,23 @@ subtest 'DocSearch', {
        'property :yalign is deprecated';
 }
 
+#`{{
+#-------------------------------------------------------------------------------
+subtest 'types and enums', {
+#TODO; types and enums
+
+  # change module to test for structures defining enums
+  $*sub-prefix = 'gtk_window';
+
+  $gfl .= new(:test-cwd<gnome-gtk3>);
+  my Str $gd = $gfl.set-gtkdoc-dir;
+  $sgd .= new;
+  $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
+}
+}}
+
+#TODO generate Raku module
+#TODO test dump of generated Raku module
 #-------------------------------------------------------------------------------
 done-testing;
 
@@ -121,43 +141,3 @@ sub display-function-info ( Hash $info ) {
 
 =finish
 
-
-#-------------------------------------------------------------------------------
-my Prepare $gfl .= new;
-my Gnome::SourceSkimTool::HCSkim $hc-skim .= new;
-
-#-------------------------------------------------------------------------------
-subtest 'Prepare', {
-  is $gfl.set-source-dir,
-    ( [~] SKIMTOOLROOT, 'Gnome/gtk+-', VGtk3, '/gtk' ),
-    '.set-source-dir()';
-
-  # Test version picks default gtk version 3 source directory
-  lives-ok { $gfl.make-dir-list; }, '.make-dir-list()';
-  my @list = $gfl.load-dir-list;
-  ok @list.elems > 100, '.load-dir-list()';
-
-  lives-ok { $gfl.get-sources; }, '.get-sources()';
-  is $*library, '&gtk-lib', 'check $*library: ' ~ $*library;
-  is $*raku-modname, 'Gtk3', 'check $*raku-modname: ' ~ $*raku-modname;
-  is $*lib-classname, 'GtkButton', 'check $*lib-classname: ' ~ $*lib-classname;
-  is $*raku-classname, 'Button', 'check $*raku-classname: ' ~ $*raku-classname;
-  is $*dump-result-dir, 'xt/NewModules',
-    'check $*dump-result-dir: ' ~ $*dump-result-dir;
-}
-
-#-------------------------------------------------------------------------------
-subtest 'HCSkim', {
-  $hc-skim.guess-parent-classes;
-  is $*raku-parent-classname, 'Bin',
-    'check $*raku-parent-classname: ' ~ $*raku-parent-classname;
-  is $*raku-parent-modname, 'Gtk3',
-    'check $*raku-parent-modname: ' ~ $*raku-parent-modname;
-}
-
-#note $*include-content.substr( 800, 100);
-#note $*source-content.substr( 800, 100);
-
-
-done-testing;
-#=finish
