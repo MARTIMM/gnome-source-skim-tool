@@ -104,6 +104,28 @@ method set-gtkdoc-dir ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+method set-skim-result-file ( --> Str ) {
+  my Str $dir = '';
+  my Str $file = $*sub-prefix;
+  $file .= tc;
+  $file ~~ s:g/ '_' (\w) /$0.tc()/;
+
+  with $*use-doc-source {
+    when Gtk3 { $dir = SKIMTOOLDATA ~ 'Gtk3/'; }
+    when Gdk3 { $dir= SKIMTOOLDATA ~ 'Gdk3/'; }
+    when Gtk4 { $dir = SKIMTOOLDATA ~ 'Gtk4/'; }
+    when Gdk4 { $dir = SKIMTOOLDATA ~ 'Gdk4/'; }
+#    when  { $dir = SKIMTOOLDATA ~ ''; }
+  }
+
+  mkdir $dir, 0o700 unless $dir.IO.e;
+
+  note "Skim result file: $dir$file.yaml" if $*verbose;
+
+  "$dir$file.yaml"
+}
+
+#-------------------------------------------------------------------------------
 method generate-gtkdoc ( ) {
 
   my Str $gd = self.set-gtkdoc-dir;
