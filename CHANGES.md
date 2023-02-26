@@ -1,18 +1,20 @@
 ## Change log
 
-* 2023-02-20 0.4.1
-  * Skip deprecated functions
+* 2023-02-25 0.4.0
+  * **Gnome::SourceSkimTool::SkimGtkDoc::ApiDoc** Get overview of all objects, types and more from `api-index-full.xml`.
+  * **ApiDoc** Get deprecated data from `api-index-deprecated.xml`.
+  * Save results
 
-* 2023-02-20 0.4.0
-  * **ModuleDoc** Get signals info
-  * **ModuleDoc** Get properties info
+* 2023-02-20 0.3.2
+  * **ModuleDoc** Get signals info.
+  * **ModuleDoc** Get properties info.
 
 * 2023-02-18 0.3.1
-  * **ModuleDoc**; Add function return value and parameters
-  * **ModuleDoc**; Add return value doc
+  * **ModuleDoc**; Add function return value and parameters.
+  * **ModuleDoc**; Add return value doc.
 
 * 2023-02-17 0.3.0
-  * **ModuleDoc**; Add scan of functions
+  * **ModuleDoc**; Add scan of functions from generated module files e.g. `gtkbutton.xml`
 
 * 2023-02-16 0.2.0
   * **Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc** Add scan of descriptions
