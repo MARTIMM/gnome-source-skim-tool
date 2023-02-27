@@ -30,6 +30,7 @@ my Prepare $gfl;
 my Gnome::SourceSkimTool::SkimGtkDoc $sgd;
 my Int $level;
 
+#`{{
 #-------------------------------------------------------------------------------
 subtest 'Prepare', {
 
@@ -101,11 +102,13 @@ subtest 'DocSearch', {
   ok $sgd.objects<GtkButton:yalign><deprecated>,
        'property :yalign is deprecated';
 }
+}}
 
-#`{{
 #-------------------------------------------------------------------------------
 subtest 'types and enums', {
-#TODO; types and enums
+#DONE; types and enums
+#TODO: enum values
+  $level = 0;
 
   # change module to test for structures defining enums
   $*sub-prefix = 'gtk_window';
@@ -114,13 +117,16 @@ subtest 'types and enums', {
   my Str $gd = $gfl.set-gtkdoc-dir;
   $sgd .= new;
   $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
+
+  display-function-info($sgd.types);
 }
-}}
 
 #TODO generate Raku module
 #TODO test dump of generated Raku module
 #-------------------------------------------------------------------------------
 done-testing;
+
+#BUG; module result of function not always correct, name has wrong text
 
 #-------------------------------------------------------------------------------
 sub display-function-info ( Hash $info ) {

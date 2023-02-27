@@ -15,7 +15,9 @@ use XML;
 unit class Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc:auth<github:MARTIMM>;
 also is XML::Actions::Work;
 
-enum Phase <OutOfPhase Description Functions FApi FApiDoc Signals Properties>;
+enum Phase <
+  OutOfPhase Description Functions FApi FApiDoc Signals Properties Types
+>;
 
 has Phase $!phase = OutOfPhase;
 has Phase $!func-phase = OutOfPhase;
@@ -32,6 +34,10 @@ has Str $!signal-name;
 
 has Hash $.properties;
 has Str $!property-name;
+
+has Hash $.types;
+has Str $!type-name;
+has Str $!enum_member_name;
 
 has Hash $!fh;
 
@@ -111,7 +117,11 @@ method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
     when "$!section-prefix-name\.property-details" {
       $!phase = Properties;
     }
-  }
+ 
+    when "$!section-prefix-name\.other_details" {
+      $!phase = Types;
+    }
+ }
 
   Recurse
 }
@@ -120,7 +130,7 @@ method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
 method refsect1:end ( Array $parent-path, :$id ) {
   given $!phase {
     when Description {
-      $!description = self!cleanup($!description);
+      $!description = self!cleanup( $!description, :trim);
     }
   }
 
@@ -156,7 +166,7 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       $!signals{$!signal-name} = %();
       $!fh := $!signals{$!signal-name};
       self!signal-scan($parent-path[*-1].nodes);
-      $!fh<doc><signal> = self!cleanup($!fh<doc><signal>);
+      $!fh<doc><signal> = self!cleanup( $!fh<doc><signal>, :trim);
 #note 'sig: ', $!fh;
       $ar = Truncate;
     }
@@ -169,7 +179,22 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       $!fh := $!properties{$!property-name};
       self!property-scan($parent-path[*-1].nodes);
 #note 'prop: ', $!fh;
-      $!fh<doc><property> = self!cleanup($!fh<doc><property>);
+      $!fh<doc><property> = self!cleanup( $!fh<doc><property>, :trim);
+
+      $ar = Truncate;
+    }
+
+    when Types {
+      # skip structure info
+      return Truncate if %attribs<role> eq 'struct';
+
+      $!type-name = %attribs<id>;
+
+      $!types{$!type-name} = %();
+      $!fh := $!types{$!type-name};
+      self!type-scan($parent-path[*-1].nodes);
+#note 'type: ', $!fh;
+      $!fh<type> = self!cleanup( $!fh<type>, :trim);
 
       $ar = Truncate;
     }
@@ -658,6 +683,153 @@ method !property-scan ( @nodes ) {
 }
 
 #-------------------------------------------------------------------------------
+# called from
+#   <refsect2 id="some type" role="enum">
+method !type-scan ( @nodes ) {
+
+  for @nodes -> $n {
+    if $n ~~ XML::Element {
+#note "$?LINE: $n.name()";
+      given $n.name {
+        when 'primary' {
+          my Str $text = self!get-text($n.nodes);
+#          my Str $section-prefix-name = $!section-prefix-name;
+#          $text ~~ s/ $section-prefix-name ':' //;
+          $!fh<native-name> = $text;
+        }
+#`{{
+        when 'programlisting' {
+          $!func-phase = FApi;
+          $!fh<doc> = %();
+          self!type-scan($n.nodes);
+          $!func-phase = OutOfPhase;
+        }
+}}
+#`{{
+        when 'returnvalue' {
+          if $!func-phase ~~ FApi {
+            $!fh<returnvalue> = self!get-text($n.nodes);
+          }
+        }
+}}
+#        when 'type' {
+#          if $!func-phase ~~ FApi {
+#            $!fh<type> = self!get-text($n.nodes);
+#          }
+#        }
+        
+        when 'para' {
+#note "$?LINE: $!phase, $!func-phase";
+          if $!phase ~~ Types and $!func-phase ~~ OutOfPhase {
+            my Str $typedoc = self!get-text($n.nodes);
+#`{{
+            if $typedoc ~~ m/^ Flags ':' / {
+              $typedoc ~~ s/^ Flags ':' \s* //;
+              $!fh<flags> = $typedoc;
+            }
+
+            elsif $typedoc ~~ m/^ Owner ':' / {
+              $typedoc ~~ s/^ Owner ':' \s* //;
+              $!fh<owner> = $typedoc;
+            }
+
+            elsif $typedoc ~~ m/^ Default \s+ value ':' / {
+              $typedoc ~~ s/^ Default \s+ value ':' \s* //;
+              $!fh<default> = $typedoc;
+            }
+
+            elsif $typedoc ~~ m/^ Allowed \s+ values ':' / {
+              $typedoc ~~ s/^ Allowed \s+ values ':' \s* //;
+              $!fh<allowed> = $typedoc;
+            }
+}}
+            # skip since
+            if $typedoc ~~ m/^ Since ':' / { }
+
+            else {
+              $!fh<type> ~= ' ' ~ self!scan-for-unresolved-items($typedoc);
+            }
+          }
+        }
+
+        when 'refsect3' {
+          $!refsect-level = 3;
+
+          my %attribs = $n.attribs;
+note "$?LINE: $!type-name, %attribs.gist()";
+#`{{
+            if %attribs<id> eq "$!type-name\.returns" {
+            # can be changed here w're out of programlisting
+            $!func-phase = FApiDoc;
+            my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
+            $rv ~~ s/Returns//;
+            $!fh<doc><returnvalue> = self!cleanup( $rv, :trim);
+            $!func-phase = OutOfPhase;
+          }
+}}
+          if %attribs<id> eq "$!type-name\.members" {
+            $!func-phase = FApiDoc;
+            $!fh<doc> = [];
+            $!fh<values> = [];
+            $!fh<names> = [];
+            self!type-scan($n.nodes);
+            $!func-phase = OutOfPhase;
+          }
+
+          $!refsect-level = 2;
+        }
+
+        when 'entry' {
+ note "$?LINE: $!func-phase, $!type-name, $n.attribs.gist()";
+         if $!func-phase ~~ FApiDoc {
+            my %attribs = $n.attribs;
+            if %attribs<role> eq 'enum_member_name' {
+              $!enum_member_name = self!get-text($n.nodes);
+              $!fh<names>.push: $!enum_member_name;
+            }
+
+            elsif %attribs<role> eq 'enum_member_description' {
+              my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
+              $!fh<doc>.push: $rv;
+            }
+          }
+        }
+
+        default {
+          self!type-scan($n.nodes);
+        }
+      }
+    }
+
+    elsif $n ~~ XML::Text {
+#note $n.Str;
+#`{{
+      # Punctuation in argument list;
+      #  '(' start list ≡ init,
+      #  ',' next argument
+      #  ');' end list
+      if $!func-phase ~~ FApi {
+        my Str $txt = $n.Str;
+        if $txt ~~ m/ '(' / {
+          $!fh<parameters> = [];
+          $!param-count = 0;
+          $!fh<parameters>[$!param-count] = [];
+        }
+
+        elsif $txt ~~ m/ ',' / {
+          $!param-count++;
+          $!fh<parameters>[$!param-count] = [];
+        }
+
+#        elsif $txt ~~ m/ ');' / {
+#        }
+      }
+}}
+    }
+  }
+}
+
+#-------------------------------------------------------------------------------
 method !get-text (
   @nodes, :@skip, Bool :$link = False, Bool :$literal = False --> Str
 ) {
@@ -799,7 +971,11 @@ print "$?LINE: text has : '$text'";
 #    when  { $text ~~ s:g/ <!after '::'> G.. (\w+) /B<Gnome::G..::$0>/; }
   }
 
+  # some xml remnants
+  $text ~~ s:g/ '&lt;' /</;
+  $text ~~ s:g/ '&gt;' />/;
 
+  # variable changes
   $text ~~ s:g:i/ true /True/;
   $text ~~ s:g:i/ false /False/;
 

@@ -14,7 +14,9 @@ constant \Prepare = Gnome::SourceSkimTool::Prepare;
 constant \ModuleDoc = Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc;
 constant \ApiIndex = Gnome::SourceSkimTool::SkimGtkDoc::ApiIndex;
 
-has ModuleDoc $!mod-actions handles <description functions signals properties>;
+has ModuleDoc $!mod-actions handles <
+  description functions signals properties types
+>;
 has ApiIndex $!api-actions handles <objects>;
 
 #-------------------------------------------------------------------------------
@@ -75,7 +77,8 @@ method !save-module ( Prepare:D $gfl ) {
       %( :description($!mod-actions.description),
          :functions($!mod-actions.functions),
          :signals($!mod-actions.signals),
-         :properties($!mod-actions.properties)
+         :properties($!mod-actions.properties),
+         :types($!mod-actions.types),
        )
     )
   );
