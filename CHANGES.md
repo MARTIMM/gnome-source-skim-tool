@@ -1,5 +1,8 @@
 ## Change log
 
+* 2023-02-27 0.4.1
+  * **ModuleDoc** Get types info.
+
 * 2023-02-25 0.4.0
   * **Gnome::SourceSkimTool::SkimGtkDoc::ApiDoc** Get overview of all objects, types and more from `api-index-full.xml`.
   * **ApiDoc** Get deprecated data from `api-index-deprecated.xml`.
