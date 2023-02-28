@@ -81,7 +81,7 @@ directory which is done now by ::Prepare.
 
 #      when  {  }
   }
-  
+
   $!section-prefix-name ~= "-$sp";
 #note "$?LINE: $!section-prefix-name";
 }}
@@ -532,7 +532,7 @@ method !signal-scan ( @nodes ) {
 
         else {
           $!fh<parameters>[$!param-count][*-1] ~= $text;
-note "---> $!fh<parameters>[$!param-count].elems(), $!fh<parameters>[$!param-count][*-1]";
+#note "---> $!fh<parameters>[$!param-count].elems(), $!fh<parameters>[$!param-count][*-1]";
         }
       }
     }
@@ -756,7 +756,7 @@ method !type-scan ( @nodes ) {
           $!refsect-level = 3;
 
           my %attribs = $n.attribs;
-note "$?LINE: $!type-name, %attribs.gist()";
+#note "$?LINE: $!type-name, %attribs.gist()";
 #`{{
             if %attribs<id> eq "$!type-name\.returns" {
             # can be changed here w're out of programlisting
@@ -780,8 +780,8 @@ note "$?LINE: $!type-name, %attribs.gist()";
         }
 
         when 'entry' {
- note "$?LINE: $!func-phase, $!type-name, $n.attribs.gist()";
-         if $!func-phase ~~ FApiDoc {
+#note "$?LINE: $!func-phase, $!type-name, $n.attribs.gist()";
+          if $!func-phase ~~ FApiDoc {
             my %attribs = $n.attribs;
             if %attribs<role> eq 'enum_member_name' {
               $!enum_member_name = self!get-text($n.nodes);
@@ -863,7 +863,7 @@ method !get-text (
 
 #-------------------------------------------------------------------------------
 method !linked-items ( Str $text is copy --> Str ) {
-#note "$?LINE: $text";
+note "$?LINE: $!section-prefix-name, $text";
 
   my Str $section-prefix-name = $!section-prefix-name;
   if $text ~~ m/ $section-prefix-name / {
@@ -906,6 +906,7 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 #-------------------------------------------------------------------------------
 # :link is from linkend attribute when True in a link element
 method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
+note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
 
   my Str $section-prefix-name = $!section-prefix-name;
 
@@ -931,7 +932,7 @@ method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
 
   # properties
   if $text ~~ m/ <|w> $section-prefix-name ':' \w+ / {
-print "$?LINE: text has : '$text'";
+#print "$?LINE: text has : '$text'";
     $text ~~ s:g/ <|w> $section-prefix-name ':' (\w+) /I<$1 defined in $0>/;
 #note " -> $text";
   }
@@ -974,6 +975,7 @@ print "$?LINE: text has : '$text'";
   # some xml remnants
   $text ~~ s:g/ '&lt;' /</;
   $text ~~ s:g/ '&gt;' />/;
+  $text ~~ s:g/ [ '&#160;' || '&nbsp;' ] / /;
 
   # variable changes
   $text ~~ s:g:i/ true /True/;
