@@ -770,7 +770,7 @@ method !type-scan ( @nodes ) {
           if %attribs<id> eq "$!type-name\.members" {
             $!func-phase = FApiDoc;
             $!fh<doc> = [];
-            $!fh<values> = [];
+#NOTE goes into objects.yaml            $!fh<values> = [];
             $!fh<names> = [];
             self!type-scan($n.nodes);
             $!func-phase = OutOfPhase;
