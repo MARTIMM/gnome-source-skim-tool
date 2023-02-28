@@ -61,8 +61,8 @@ submethod BUILD ( Str :$test-cwd ) {
 
 #-------------------------------------------------------------------------------
 method set-source-dir ( --> Str ) {
-  my $source-root = SKIMTOOLROOT ~ 'Gnome/';
-  my $source-dir = '';
+  my Str $source-root = SKIMTOOLROOT ~ 'Gnome/';
+  my Str $source-dir = '';
 
   with $*use-doc-source {
     when Gtk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gtk'; }
@@ -82,7 +82,7 @@ method set-source-dir ( --> Str ) {
 
 #-------------------------------------------------------------------------------
 method set-gtkdoc-dir ( --> Str ) {
-  my $dir = '';
+  my Str $dir = '';
 
   with $*use-doc-source {
     when Gtk3 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gtk3'; }
@@ -97,6 +97,31 @@ method set-gtkdoc-dir ( --> Str ) {
   note "Gtk doc directory: $dir" if $*verbose;
 
   $dir
+}
+
+#-------------------------------------------------------------------------------
+method set-gtkdoc-file ( Str $postfix --> Str ) {
+  my Str $gtkdoc-fname = '';
+
+  with $*use-doc-source {
+    when Gtk3 {
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gtk3/gtk3-$postfix.txt";
+    }
+    when Gdk3 {
+      $gtkdoc-fname= SKIMTOOLROOT ~ "Gtkdoc/Gdk3/gdk3-$postfix.txt";
+    }
+    when Gtk4 {
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gtk4/gtk4-$postfix.txt";
+    }
+    when Gdk4 {
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gdk4/gdk4-$postfix.txt";
+    }
+#    when  { $d$gtkdoc-fnameir = SKIMTOOLROOT ~ "Gtkdoc//-$postfix.txt"; }
+  }
+
+  note "Gtk doc file: $gtkdoc-fname" if $*verbose;
+
+  $gtkdoc-fname
 }
 
 #-------------------------------------------------------------------------------
