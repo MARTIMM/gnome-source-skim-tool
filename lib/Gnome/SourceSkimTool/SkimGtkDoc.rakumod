@@ -44,6 +44,14 @@ method process-gtkdocs ( Str :$test-cwd ) {
 }
 
 #-------------------------------------------------------------------------------
+=begin pod
+Gather the info from api-index-full.xml, api-index-deprecated.xml and  …decl.xml and store it into the yaml file objects.yaml. This is a one time operation that covers all of the particular gnome package.
+
+  method process-apidocs ( Str :$test-cwd )
+
+=item $test-cwd
+=end pod
+
 method process-apidocs ( Str :$test-cwd ) {
 
   my Prepare $gfl .= new(:$test-cwd);
@@ -63,9 +71,56 @@ method process-apidocs ( Str :$test-cwd ) {
   $a .= new(:file($docpath));
   $a.process(:actions($!api-actions));
 
+  # Get enum values from e.g. ./Gtkdoc/Gtk3/gtk3-decl.txt
+  self!add-enum-values($gfl.set-gtkdoc-file('decl'));
   self!save-objects;
 }
 
+#-------------------------------------------------------------------------------
+method !add-enum-values ( Str $gtkdoc-text ) {
+  my Str $text = $gtkdoc-text.IO.slurp;
+  my Hash $objects := $!api-actions.objects;
+
+  loop {
+    $text ~~ m/ $<enum-text> = [ \< ENUM \> .*? \< \/ ENUM \> ] /;
+    last unless ?$<enum-text>;
+
+    # remove from main text so next loop will get next enum
+    my Str $enum-text = $<enum-text>.Str;
+    $text ~~ s/ $enum-text //;
+
+    # get name of enum
+    $enum-text ~~ m/ \< NAME \> $<enum-name> = [.*?] \< \/ NAME \> /;
+    my Str $enum-name = $<enum-name>.Str;
+    $objects{$enum-name}<values> = [];
+note "$?LINE: $<enum-name>";
+
+    # get content of enum
+    $enum-text ~~ m/ typedef \s+ enum \s '{' \s+
+                     $<enum-list> = [.*?] \s* '}'
+                   /;
+    my Str $enum-list = $<enum-list>.Str;
+
+    # split list on the commas and process each entry
+    my @entries = $enum-list.split(/\s* ',' \s*/);
+    my Int $enum-count = 0;
+    my Str $enum-value;
+    for @entries -> $entry {
+      $entry ~~ / \s+ '=' \s+ $<enum-value> = [.*] $/;
+      if ?$<enum-value> {
+        my Str $enum-value = $<enum-value>.Str;
+        $enum-value ~~ s/ '<<' /+</;
+      }
+
+      else {
+        $enum-value = ($enum-count++).Str;
+      }
+
+      $objects{$enum-name}<values>.push: $enum-value;
+      $objects{$enum-name}<sequential> = $enum-count > 0;
+    }
+  }
+}
 
 #-------------------------------------------------------------------------------
 method !save-module ( Prepare:D $gfl ) {
