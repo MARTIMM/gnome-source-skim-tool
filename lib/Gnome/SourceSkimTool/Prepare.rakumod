@@ -69,7 +69,12 @@ method set-source-dir ( --> Str ) {
     when Gdk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gdk'; }
     when Gtk4 { $source-dir = [~] $source-root, 'gtk-', VGtk4, '/gtk'; }
     when Gdk4 { $source-dir = [~] $source-root, 'gtk-', VGtk4, '/gdk'; }
-#    when  { $source-dir = [~] $source-root, '', , ''; }
+    when Glib { $source-dir = [~] $source-root, 'glib', VGlib, 'glib'; }
+    when Gio { $source-dir = [~] $source-root, 'glib', VGlib, 'gio'; }
+    when GObject { $source-dir = [~] $source-root, 'glib', VGlib, 'gobject'; }
+    when Cairo { $source-dir = [~] $source-root, 'cairo', VCairo, 'src'; }
+    when Pango { $source-dir = [~] $source-root, 'pango', VPango, 'pango'; }
+    #when  { $source-dir = [~] $source-root, '', , ''; }
   }
 
   if $*verbose {
@@ -89,7 +94,12 @@ method set-gtkdoc-dir ( --> Str ) {
     when Gdk3 { $dir= SKIMTOOLROOT ~ 'Gtkdoc/Gdk3'; }
     when Gtk4 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gtk4'; }
     when Gdk4 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gdk4'; }
-#    when  { $dir = SKIMTOOLROOT ~ 'Gtkdoc/'; }
+    when Glib { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Glib'; }
+    when Gio { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gio'; }
+    when GObject { $dir = SKIMTOOLROOT ~ 'Gtkdoc/GObject'; }
+    when Cairo { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Cairo'; }
+    when Pango { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Pango'; }
+    #when  { $dir = SKIMTOOLROOT ~ 'Gtkdoc/'; }
   }
 
   mkdir $dir, 0o700 unless $dir.IO.e;
@@ -116,7 +126,24 @@ method set-gtkdoc-file ( Str $postfix --> Str ) {
     when Gdk4 {
       $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gdk4/gdk4-$postfix.txt";
     }
-#    when  { $d$gtkdoc-fnameir = SKIMTOOLROOT ~ "Gtkdoc//-$postfix.txt"; }
+    when Glib {
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Glib/glib-$postfix.txt";
+    }
+    when Gio {
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gio/gio-$postfix.txt";
+    }
+    when GObject {
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/GObject/gobject-$postfix.txt";
+    }
+    when Cairo {
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Cairo/cairo-$postfix.txt";
+    }
+    when Pango {
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Pango/pango-$postfix.txt";
+    }
+#    when  {
+#      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc//-$postfix.txt";
+#    }
   }
 
   note "Gtk doc file: $gtkdoc-fname" if $*verbose;
@@ -136,6 +163,11 @@ method set-skim-result-file ( --> Str ) {
     when Gdk3 { $dir= SKIMTOOLDATA ~ 'Gdk3/'; }
     when Gtk4 { $dir = SKIMTOOLDATA ~ 'Gtk4/'; }
     when Gdk4 { $dir = SKIMTOOLDATA ~ 'Gdk4/'; }
+    when Glib { $dir = SKIMTOOLDATA ~ 'Glib/'; }
+    when Gio { $dir = SKIMTOOLDATA ~ 'Gio/'; }
+    when GObject { $dir = SKIMTOOLDATA ~ 'GObject/'; }
+    when Cairo { $dir = SKIMTOOLDATA ~ 'Cairo/'; }
+    when Pango { $dir = SKIMTOOLDATA ~ 'Pango/'; }
 #    when  { $dir = SKIMTOOLDATA ~ ''; }
   }
 
@@ -261,9 +293,13 @@ method generate-gtkdoc ( ) {
 
   my $other-lib = '';
   with $*use-doc-source {
-    when Gtk3 {
-      $other-lib = '-lgtk-3';
-    }
+    when Gtk3 { $other-lib = '-lgtk-3'; }
+    when Gdk3 { $other-lib = '-lgdk-3'; }
+    when Gtk4 { $other-lib = '-lgtk-4'; }
+    #when Gdk4 { $other-lib = ''; }
+
+    when Cairo { $other-lib = '-lcairo'; }
+    when Pango { $other-lib = '-lpango'; }
   }
 
   my Str $cf = '-fPIC';
