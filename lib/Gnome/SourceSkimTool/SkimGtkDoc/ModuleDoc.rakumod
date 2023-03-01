@@ -504,11 +504,17 @@ method !signal-scan ( @nodes ) {
             # text after comma
             $text = $<t>.Str;
             $text ~~ s:g/ '*' \s* /* /;
+
+            # when the closing bracket was attached to the word, remove it
+            $text ~~ s/ ')' //;
+            
             $!fh<parameters>[$!param-count][*-1] ~= ' ' ~ $text;
           }
         }
 
         else {
+          # when the closing bracket was attached to the word, remove it
+          $text ~~ s/ ')' //;
           $!fh<parameters>[$!param-count][*-1] ~= $text;
         }
       }
@@ -681,9 +687,9 @@ method !get-text (
         $text ~= self!linked-items($n.attribs<linkend>);
       }
 
-      elsif $literal and $n.name eq 'literal' {
-        $text ~= self!scan-for-unresolved-items(self!get-text($n.nodes));
-      }
+#      elsif $literal and $n.name eq 'literal' {
+#        $text ~= self!scan-for-unresolved-items(self!get-text($n.nodes));
+#      }
 
       # skip any nodes mentioned in the skip list
       elsif $n.name !~~ any(@skip) {
@@ -778,7 +784,15 @@ note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
 
   # functions
   if $text ~~ m/ '()' \s / {
-print "$?LINE: text has () -> $text";
+print "$?LINE: text has (): $text";
+    if $text ~~ m/^ $*sub-prefix / {
+      $text ~~ s:g/^ $*sub-prefix '_' (\w+) '()' /.$0\(\)/;
+    }
+
+    if $text ~~ m/ <|w> new <|w> / {
+      $text ~~ s:g/ new '_' (\w+) '()' /.new(:$0)/;
+    }
+      
 note " --> $text";
   }
 
