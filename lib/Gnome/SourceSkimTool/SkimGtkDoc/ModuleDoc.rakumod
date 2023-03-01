@@ -103,7 +103,6 @@ method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
       $!phase = Description;
       $!description = '';
       $!refsect-level = 1;
-        #self!cleanup(self!convert-to-pod($parent-path[*-1].nodes));
     }
 
     when "$!section-prefix-name\.functions_details" {
@@ -121,7 +120,7 @@ method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
     when "$!section-prefix-name\.other_details" {
       $!phase = Types;
     }
- }
+  }
 
   Recurse
 }
@@ -156,7 +155,6 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       self!function-scan($parent-path[*-1].nodes);
         
       $ar = Truncate;
-#note "$?LINE: $!function-name init: $!fh<init>";
     }
 
     when Signals {
@@ -167,7 +165,6 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       $!fh := $!signals{$!signal-name};
       self!signal-scan($parent-path[*-1].nodes);
       $!fh<doc><signal> = self!cleanup( $!fh<doc><signal>, :trim);
-#note 'sig: ', $!fh;
       $ar = Truncate;
     }
 
@@ -178,7 +175,6 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       $!properties{$!property-name} = %();
       $!fh := $!properties{$!property-name};
       self!property-scan($parent-path[*-1].nodes);
-#note 'prop: ', $!fh;
       $!fh<doc><property> = self!cleanup( $!fh<doc><property>, :trim);
 
       $ar = Truncate;
@@ -193,7 +189,6 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       $!types{$!type-name} = %();
       $!fh := $!types{$!type-name};
       self!type-scan($parent-path[*-1].nodes);
-#note 'type: ', $!fh;
       $!fh<type> = self!cleanup( $!fh<type>, :trim);
 
       $ar = Truncate;
@@ -227,7 +222,6 @@ method title:start ( Array $parent-path --> ActionResult ) {
       $!description ~= "\n\n=head$!refsect-level ";
       $!description ~= self!get-text($parent-path[*-1].nodes);
       $!description ~= "\n\n";
-#note $!description;
 
       $ar = Truncate;
     }
@@ -267,11 +261,9 @@ method !function-scan ( @nodes ) {
 
   for @nodes -> $n {
     if $n ~~ XML::Element {
-#note $n.name;
       given $n.name {
         when 'primary' {
           $!fh<native-name> = self!get-text($n.nodes);
-#            self!scan-for-unresolved-items(self!get-text($n.nodes));
         }
 
         when 'programlisting' {
@@ -349,7 +341,6 @@ method !function-scan ( @nodes ) {
     }
 
     elsif $n ~~ XML::Text {
-#note $n.Str;
       # Punctuation in argument list;
       #  '(' start list ≡ init,
       #  ',' next argument
@@ -366,9 +357,6 @@ method !function-scan ( @nodes ) {
           $!param-count++;
           $!fh<parameters>[$!param-count] = [];
         }
-
-#        elsif $txt ~~ m/ ');' / {
-#        }
       }
     }
   }
@@ -380,7 +368,6 @@ method !signal-scan ( @nodes ) {
 
   for @nodes -> $n {
     if $n ~~ XML::Element {
-#note "$?LINE: $n.name()";
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
@@ -403,7 +390,6 @@ method !signal-scan ( @nodes ) {
         }
 
         when 'type' {
-#note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent().name()";
           if $!func-phase ~~ FApi {
             # get the arguments and add a space just after the pointer character
             my Str $text = self!get-text($n.nodes);
@@ -414,7 +400,6 @@ method !signal-scan ( @nodes ) {
           }
 
           elsif $!func-phase ~~ OutOfPhase {
-#note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent.name()";
             my XML::Node $parent = $n.parent;
             if $parent.name eq 'link' {
               my Str $linkend = $parent.attribs<linkend>;
@@ -425,7 +410,6 @@ method !signal-scan ( @nodes ) {
         }
 
         when 'para' {
-#note "$?LINE: $n.name(), $!phase, $!func-phase, $n.parent.name()";
           if $!phase ~~ Signals and $!func-phase ~~ OutOfPhase {
             my Str $sigdoc = self!get-text( $n.nodes, :link, :literal);
             if $sigdoc ~~ m/^ Flags ':' / {
@@ -439,7 +423,6 @@ method !signal-scan ( @nodes ) {
             elsif $sigdoc ~~ m/^ Since ':' / { }
 
             else {
-#note "$?LINE: $sigdoc";
               $!fh<doc><signal> ~= ' ' ~ $sigdoc;
             }
           }
@@ -450,6 +433,7 @@ method !signal-scan ( @nodes ) {
 
           my %attribs = $n.attribs;
           if %attribs<id> eq "$!signal-name\.returns" {
+
             # can be changed here w're out of programlisting
             $!func-phase = FApiDoc;
             my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
@@ -489,7 +473,6 @@ method !signal-scan ( @nodes ) {
     }
 
     elsif $n ~~ XML::Text {
-#note "$?LINE: $!phase, $!func-phase, {$!param-count//'-'}, '$n.Str()'";
 
       # Punctuation in argument list;
       #  '(' start list ≡ init,
@@ -512,7 +495,6 @@ method !signal-scan ( @nodes ) {
             $text = $<t>.Str;
             $text ~~ s:g/ '*' \s* /* /;
             $!fh<parameters>[$!param-count][*-1] ~= ' ' ~ $text;
-#note "---> $!fh<parameters>[$!param-count].elems(), $!fh<parameters>[$!param-count][*-1]";
           }
 
           $!param-count++;
@@ -523,16 +505,11 @@ method !signal-scan ( @nodes ) {
             $text = $<t>.Str;
             $text ~~ s:g/ '*' \s* /* /;
             $!fh<parameters>[$!param-count][*-1] ~= ' ' ~ $text;
-#note "---> $!fh<parameters>[$!param-count].elems(), $!fh<parameters>[$!param-count][*-1]";
           }
         }
 
-#        elsif $text ~~ m/ ');' / {
-#        }
-
         else {
           $!fh<parameters>[$!param-count][*-1] ~= $text;
-#note "---> $!fh<parameters>[$!param-count].elems(), $!fh<parameters>[$!param-count][*-1]";
         }
       }
     }
@@ -545,7 +522,7 @@ method !property-scan ( @nodes ) {
 
   for @nodes -> $n {
     if $n ~~ XML::Element {
-#note "$?LINE: $n.name()";
+
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
@@ -560,13 +537,7 @@ method !property-scan ( @nodes ) {
           self!property-scan($n.nodes);
           $!func-phase = OutOfPhase;
         }
-#`{{
-        when 'returnvalue' {
-          if $!func-phase ~~ FApi {
-            $!fh<returnvalue> = self!get-text($n.nodes);
-          }
-        }
-}}
+
         when 'type' {
           if $!func-phase ~~ FApi {
             $!fh<type> = self!get-text($n.nodes);
@@ -574,9 +545,7 @@ method !property-scan ( @nodes ) {
         }
         
         when 'para' {
-#note "$?LINE: $!phase, $!func-phase";
           if $!phase ~~ Properties and $!func-phase ~~ OutOfPhase {
-            #$!fh<doc><signal> = '' unless $!fh<doc><signal>:exists;
             my Str $propdoc = self!get-text($n.nodes);
             if $propdoc ~~ m/^ Flags ':' / {
               $propdoc ~~ s/^ Flags ':' \s* //;
@@ -608,31 +577,6 @@ method !property-scan ( @nodes ) {
           }
         }
 
-#`{{
-
-        when 'refsect3' {
-          $!refsect-level = 3;
-
-          my %attribs = $n.attribs;
-          if %attribs<id> eq "$!signal-name\.returns" {
-            # can be changed here w're out of programlisting
-            $!func-phase = FApiDoc;
-            my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
-            $rv ~~ s/Returns//;
-            $!fh<doc><returnvalue> = self!cleanup( $rv, :trim);
-            $!func-phase = OutOfPhase;
-          }
-
-          elsif %attribs<id> eq "$!signal-name\.parameters" {
-            $!func-phase = FApiDoc;
-            self!property-scan($n.nodes);
-            $!func-phase = OutOfPhase;
-          }
-
-          $!refsect-level = 2;
-        }
-}}
-
         when 'entry' {
           if $!func-phase ~~ FApiDoc {
             $!fh<doc><params> = %() unless $!fh<doc><params>:exists;
@@ -653,32 +597,6 @@ method !property-scan ( @nodes ) {
         }
       }
     }
-
-    elsif $n ~~ XML::Text {
-#note $n.Str;
-#`{{
-      # Punctuation in argument list;
-      #  '(' start list ≡ init,
-      #  ',' next argument
-      #  ');' end list
-      if $!func-phase ~~ FApi {
-        my Str $txt = $n.Str;
-        if $txt ~~ m/ '(' / {
-          $!fh<parameters> = [];
-          $!param-count = 0;
-          $!fh<parameters>[$!param-count] = [];
-        }
-
-        elsif $txt ~~ m/ ',' / {
-          $!param-count++;
-          $!fh<parameters>[$!param-count] = [];
-        }
-
-#        elsif $txt ~~ m/ ');' / {
-#        }
-      }
-}}
-    }
   }
 }
 
@@ -689,60 +607,16 @@ method !type-scan ( @nodes ) {
 
   for @nodes -> $n {
     if $n ~~ XML::Element {
-#note "$?LINE: $n.name()";
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
-#          my Str $section-prefix-name = $!section-prefix-name;
-#          $text ~~ s/ $section-prefix-name ':' //;
           $!fh<native-name> = $text;
         }
-#`{{
-        when 'programlisting' {
-          $!func-phase = FApi;
-          $!fh<doc> = %();
-          self!type-scan($n.nodes);
-          $!func-phase = OutOfPhase;
-        }
-}}
-#`{{
-        when 'returnvalue' {
-          if $!func-phase ~~ FApi {
-            $!fh<returnvalue> = self!get-text($n.nodes);
-          }
-        }
-}}
-#        when 'type' {
-#          if $!func-phase ~~ FApi {
-#            $!fh<type> = self!get-text($n.nodes);
-#          }
-#        }
         
         when 'para' {
-#note "$?LINE: $!phase, $!func-phase";
           if $!phase ~~ Types and $!func-phase ~~ OutOfPhase {
             my Str $typedoc = self!get-text($n.nodes);
-#`{{
-            if $typedoc ~~ m/^ Flags ':' / {
-              $typedoc ~~ s/^ Flags ':' \s* //;
-              $!fh<flags> = $typedoc;
-            }
 
-            elsif $typedoc ~~ m/^ Owner ':' / {
-              $typedoc ~~ s/^ Owner ':' \s* //;
-              $!fh<owner> = $typedoc;
-            }
-
-            elsif $typedoc ~~ m/^ Default \s+ value ':' / {
-              $typedoc ~~ s/^ Default \s+ value ':' \s* //;
-              $!fh<default> = $typedoc;
-            }
-
-            elsif $typedoc ~~ m/^ Allowed \s+ values ':' / {
-              $typedoc ~~ s/^ Allowed \s+ values ':' \s* //;
-              $!fh<allowed> = $typedoc;
-            }
-}}
             # skip since
             if $typedoc ~~ m/^ Since ':' / { }
 
@@ -756,21 +630,10 @@ method !type-scan ( @nodes ) {
           $!refsect-level = 3;
 
           my %attribs = $n.attribs;
-#note "$?LINE: $!type-name, %attribs.gist()";
-#`{{
-            if %attribs<id> eq "$!type-name\.returns" {
-            # can be changed here w're out of programlisting
-            $!func-phase = FApiDoc;
-            my $rv = self!scan-for-unresolved-items(self!get-text($n.nodes));
-            $rv ~~ s/Returns//;
-            $!fh<doc><returnvalue> = self!cleanup( $rv, :trim);
-            $!func-phase = OutOfPhase;
-          }
-}}
+
           if %attribs<id> eq "$!type-name\.members" {
             $!func-phase = FApiDoc;
             $!fh<doc> = [];
-#NOTE goes into objects.yaml            $!fh<values> = [];
             $!fh<names> = [];
             self!type-scan($n.nodes);
             $!func-phase = OutOfPhase;
@@ -780,7 +643,6 @@ method !type-scan ( @nodes ) {
         }
 
         when 'entry' {
-#note "$?LINE: $!func-phase, $!type-name, $n.attribs.gist()";
           if $!func-phase ~~ FApiDoc {
             my %attribs = $n.attribs;
             if %attribs<role> eq 'enum_member_name' {
@@ -799,32 +661,6 @@ method !type-scan ( @nodes ) {
           self!type-scan($n.nodes);
         }
       }
-    }
-
-    elsif $n ~~ XML::Text {
-#note $n.Str;
-#`{{
-      # Punctuation in argument list;
-      #  '(' start list ≡ init,
-      #  ',' next argument
-      #  ');' end list
-      if $!func-phase ~~ FApi {
-        my Str $txt = $n.Str;
-        if $txt ~~ m/ '(' / {
-          $!fh<parameters> = [];
-          $!param-count = 0;
-          $!fh<parameters>[$!param-count] = [];
-        }
-
-        elsif $txt ~~ m/ ',' / {
-          $!param-count++;
-          $!fh<parameters>[$!param-count] = [];
-        }
-
-#        elsif $txt ~~ m/ ');' / {
-#        }
-      }
-}}
     }
   }
 }
@@ -856,8 +692,6 @@ method !get-text (
     }
   }
 
-#note "$?LINE: $text";
-
   $text
 }
 
@@ -883,7 +717,6 @@ note "$?LINE: $!section-prefix-name, $text";
     $text = "$rest defined in B<$class>";
   }
 
-#note "$?LINE: $text";
   " I<$text> "
 }
 
@@ -912,54 +745,41 @@ note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
 
   # signals
   if $text ~~ m/ <|w> $section-prefix-name '::' \w+ / {
-#print "$?LINE: text has :: '$text'";
     $text ~~ s:g/ <|w> $section-prefix-name '::' (\w+) /I<$0>/;
-#note " -> $text";
   }
 
   elsif $text ~~ m/ <|w> \w+ '::' \w+ / {
-#print "$?LINE: text has :: '$text'";
     $text ~~ s:g/ <|w> (\w+) '::' (\w+) / I<$1 defined in $0>/;
-#note " -> $text";
   }
 
   elsif $text ~~ m/ <|w> '::' \w+ / {
-#print "$?LINE: text has :: '$text'";
     $text ~~ s:g/ <|w> '::' (\w+) / I<$0>/;
-#note " -> $text";
   }
 
 
   # properties
   if $text ~~ m/ <|w> $section-prefix-name ':' \w+ / {
-#print "$?LINE: text has : '$text'";
     $text ~~ s:g/ <|w> $section-prefix-name ':' (\w+) /I<$1 defined in $0>/;
-#note " -> $text";
   }
 
   elsif $text ~~ m/ <|w> \w+ ':' \w+ / {
-#print "$?LINE: text has : '$text'";
     $text ~~ s:g/ <|w> (\w+) ':' (\w+) / I<$0>/;
-#note " -> $text";
   }
 
   elsif $text ~~ m/ <|w> ':' \w+ / {
-#print "$?LINE: text has : '$text'";
     $text ~~ s:g/ <|w> ':' (\w+) / I<$0>/;
-#note " -> $text";
   }
 
 
   # css
   if $text ~~ m/ \s '.' / {
     $text ~~ s:g/ \s '.' (<[-\w]>+) / C<.$0>/;
-#note "$?LINE: text has . -> $text";
   }
-
 
   # functions
   if $text ~~ m/ '()' \s / {
-#note "$?LINE: text has () -> $text";
+print "$?LINE: text has () -> $text";
+note " --> $text";
   }
 
   # classes

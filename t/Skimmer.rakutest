@@ -30,7 +30,6 @@ my Prepare $gfl;
 my Gnome::SourceSkimTool::SkimGtkDoc $sgd;
 my Int $level;
 
-#`{{
 #-------------------------------------------------------------------------------
 subtest 'Prepare', {
 
@@ -70,6 +69,7 @@ subtest 'Prepare', {
   is RAKUMODS, 'xt/NewRakuModules/', 'check RAKUMODS: ' ~ RAKUMODS;
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 subtest 'DocSearch', {
 
@@ -104,6 +104,7 @@ subtest 'DocSearch', {
 }
 }}
 
+#`{{
 #-------------------------------------------------------------------------------
 subtest 'types and enums', {
   $level = 0;
@@ -126,6 +127,8 @@ subtest 'types and enums', {
 #TODO rename 1st arg to :$_widget and drop last user data pointer
 #TODO generate Raku module
 #TODO test dump of generated Raku module
+}}
+
 #-------------------------------------------------------------------------------
 done-testing;
 
