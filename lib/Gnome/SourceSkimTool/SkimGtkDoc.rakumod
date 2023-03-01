@@ -93,31 +93,84 @@ method !add-enum-values ( Str $gtkdoc-text ) {
     $enum-text ~~ m/ \< NAME \> $<enum-name> = [.*?] \< \/ NAME \> /;
     my Str $enum-name = $<enum-name>.Str;
     $objects{$enum-name}<values> = [];
-note "$?LINE: $<enum-name>";
+    $objects{$enum-name}<names> = [];
+#note "$?LINE: $enum-name";
 
-    # get content of enum
-    $enum-text ~~ m/ typedef \s+ enum \s '{' \s+
+    # get content of enum and remove all comments
+    $enum-text ~~ s:g/ '/*' .*? '*/' //;
+    $enum-text ~~ m/ typedef \s+ enum \s* '{' \s+
                      $<enum-list> = [.*?] \s* '}'
                    /;
     my Str $enum-list = $<enum-list>.Str;
 
     # split list on the commas and process each entry
-    my @entries = $enum-list.split(/\s* ',' \s*/);
+    my @entries = $enum-list.split(/ ',' /);
     my Int $enum-count = 0;
-    my Str $enum-value;
-    for @entries -> $entry {
-      $entry ~~ / \s+ '=' \s+ $<enum-value> = [.*] $/;
-      if ?$<enum-value> {
-        my Str $enum-value = $<enum-value>.Str;
-        $enum-value ~~ s/ '<<' /+</;
+    my Str $entry-value;
+
+    # sometimes ored names are used as a value from the same enum definition.
+    # gather them in a Hash to substitute the previously defined value
+    my Hash $ored-values = %();
+
+    for @entries -> $entry is copy {
+      # cleanup; leading/trailing spaces, (…)
+      $entry ~~ s/^ \s+ //;
+      $entry ~~ s/ \s+ $//;
+      $entry ~~ s:g/ <[\(\)]> //;
+#note "$?LINE: $entry";
+
+      # get the enum name
+      $entry ~~ /^ $<entry-name> = [<-[\s]>+] /;
+      
+      # sometimes an empty entry at the end
+      next unless ?$<entry-name>;
+
+      my Str $entry-name = $<entry-name>.Str;
+
+      $entry ~~ / '=' \s+ $<entry-value> = [.*] $/;
+      if ?$<entry-value> {
+        $entry-value = $<entry-value>.Str;
+print "$?LINE: $enum-name, $entry-name: $entry-value";
+
+        # check for ored values
+        if $entry-value ~~ m/ '|' / {
+          my @v = $entry-value.split(/\s* '|' \s*/);
+          loop ( my Int $i = 0; $i < @v.elems; $i++ ) {
+            @v[$i] = '(' ~ $ored-values{@v[$i]} ~ ')';
+          }
+
+          # Make it a Raku join operation
+          $entry-value = @v.join(' +| ');
+        }
+
+        else {
+          # If there is a C-lang shift left, convert it to a Raku-lang shift
+          $entry-value ~~ s/ '<<' /+</;
+        }
+note "--> $entry-value";
       }
 
       else {
-        $enum-value = ($enum-count++).Str;
+        $entry-value = ($enum-count++).Str;
       }
 
-      $objects{$enum-name}<values>.push: $enum-value;
-      $objects{$enum-name}<sequential> = $enum-count > 0;
+      # temporary use for ored value substitutions
+      $ored-values{$entry-name} = $entry-value;
+
+      $objects{$enum-name}<names>.push: $entry-name;
+      $objects{$enum-name}<values>.push: $entry-value;
+#      $objects{$enum-name}<sequential> = $enum-count > 0;
+    }
+    
+    # if we have counted the entries, then use the simplefied version
+    # and throw away the array
+    if $enum-count > 0 {
+      $objects{$enum-name}<sequential> = True;
+      $objects{$enum-name}<values>:delete;
+    }
+
+    else {
+      $objects{$enum-name}<sequential> = False;
     }
   }
 }
