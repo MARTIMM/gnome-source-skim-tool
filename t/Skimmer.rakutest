@@ -69,7 +69,7 @@ subtest 'Prepare', {
   is RAKUMODS, 'xt/NewRakuModules/', 'check RAKUMODS: ' ~ RAKUMODS;
 }
 
-#`{{
+
 #-------------------------------------------------------------------------------
 subtest 'DocSearch', {
 
@@ -92,6 +92,7 @@ subtest 'DocSearch', {
   ok $sgd.properties<GtkButton--use-underline>:exists,
        '.process-gtkdocs(): properties';
 
+#`{{
   $sgd.process-apidocs(:test-cwd<gnome-gtk3>);
   is $sgd.objects<gtk_window_set_icon><object>, 'GtkWindow', '.process-apidocs(): api doc';
 
@@ -101,8 +102,8 @@ subtest 'DocSearch', {
        'signal ::leave is deprecated';
   ok $sgd.objects<GtkButton:yalign><deprecated>,
        'property :yalign is deprecated';
-}
 }}
+}
 
 #`{{
 #-------------------------------------------------------------------------------
@@ -127,6 +128,8 @@ subtest 'types and enums', {
 #TODO rename 1st arg to :$_widget and drop last user data pointer
 #TODO generate Raku module
 #TODO test dump of generated Raku module
+#TODO mark C-lang examples in comments, indented and unformatted
+#TODO add gnome packages for gdk pixbuf
 }}
 
 #-------------------------------------------------------------------------------
