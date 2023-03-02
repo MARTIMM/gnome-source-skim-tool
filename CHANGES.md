@@ -1,5 +1,8 @@
 ## Change log
 
+* 2023-03-02 0.4.2
+  * **ApiDoc** Add Hierarchy to objects.yaml.
+
 * 2023-02-27 0.4.1
   * **ModuleDoc** Get enums names, store in module yaml file.
   * **ModuleDoc** Get enum values, store in objects.yaml.
