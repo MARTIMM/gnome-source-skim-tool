@@ -4,7 +4,6 @@ use Gnome::SourceSkimTool::SkimGtkDoc::ApiIndex;
 use Gnome::SourceSkimTool::Prepare;
 
 use XML::Actions;
-use YAMLish;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGtkDoc:auth<github:MARTIMM>;
@@ -40,7 +39,7 @@ method process-gtkdocs ( Str :$test-cwd ) {
   my XML::Actions $a .= new(:file($docpath));
   $a.process(:actions($!mod-actions));
 
-  self!save-module($gfl);
+  $!mod-actions.save-module($gfl.set-skim-result-file);
 }
 
 #-------------------------------------------------------------------------------
@@ -58,7 +57,7 @@ method process-apidocs ( Str :$test-cwd ) {
   my Str $gd = $gfl.set-gtkdoc-dir;
 
   $!api-actions .= new;
-
+#`{{
   my Str $docpath = "$gd/docs/api-index-full.xml";
   note "document path for api: $docpath" if $*verbose;
   my XML::Actions $a .= new(:file($docpath));
@@ -72,8 +71,14 @@ method process-apidocs ( Str :$test-cwd ) {
   $a.process(:actions($!api-actions));
 
   # Get enum values from e.g. ./Gtkdoc/Gtk3/gtk3-decl.txt
-  self!add-enum-values($gfl.set-gtkdoc-file('decl'));
-  self!save-objects;
+  self!add-enum-values($gfl.get-gtkdoc-file( '-decl', :txt));
+}}
+$!api-actions.load-objects;
+
+  # Add hierargy info
+  self!add-hierarchy($gfl.get-gtkdoc-file( '.hierarchy', :!txt));
+
+  $!api-actions.save-objects;
 }
 
 #-------------------------------------------------------------------------------
@@ -176,6 +181,65 @@ note "--> $entry-value";
 }
 
 #-------------------------------------------------------------------------------
+method !add-hierarchy ( Str $gtkdoc-text ) {
+  my Str $text = $gtkdoc-text.IO.slurp;
+  my Hash $objects := $!api-actions.objects;
+
+  my Str $current-top-class = '';
+  my Array $classes = [];
+  my Int $previous-indent = 0;
+  for $text.lines -> $line {
+    my Int $indent = 0;
+    $line ~~ m/^ $<indent> = [\s*] $<class> = [.+] $/;
+    $indent = ($<indent>.Str.chars / 2).Int if ?$<indent>;
+    my $class = $<class>.Str;
+    $classes[$indent] = $class;
+
+    if $indent == 0 {
+      $current-top-class = $class;
+    }
+
+    $objects{$class}<class-type> = $current-top-class;
+    if $current-top-class eq 'GInterface' {
+      if $indent > 0 {
+        $objects{$class}<class-type> = 'role';
+        $objects{$class}<location> = 'leaf';
+      }
+    }
+
+    elsif $current-top-class eq 'GBoxed' {
+      $objects{$class}<class-type> = 'boxed';
+      $objects{$class}<location> = 'leaf';
+    }
+
+    elsif $current-top-class eq 'GFlags' {
+      $objects{$class}<class-type> = 'enum';
+      $objects{$class}<location> = 'leaf';
+    }
+
+    elsif $indent == 1 {
+      $objects{$class}<location> = 'top';
+    }
+
+    elsif $indent > 1 {
+#      $objects{$class}<class-type> = 'gobject';
+#      $objects{$class}<parent> = $classes[$indent-1];
+
+      $objects{$class}<class-type> = $classes[2] eq 'GtkWidget'
+                                     ?? 'widget' !! 'gobject';
+      $objects{$class}<parent> = $classes[$indent-1];
+    }
+
+    $classes[$indent] = $class;
+note "$?LINE: $indent, '$line'";
+  }
+}
+
+
+
+
+#`{{
+#-------------------------------------------------------------------------------
 method !save-module ( Prepare:D $gfl ) {
 
   my Str $fname = $gfl.set-skim-result-file;
@@ -191,10 +255,20 @@ method !save-module ( Prepare:D $gfl ) {
     )
   );
 }
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 method !save-objects ( ) {
 
   my $fname = SKIMTOOLDATA ~ 'objects.yaml';
   $fname.IO.spurt(save-yaml($!api-actions.objects));
 }
+
+#-------------------------------------------------------------------------------
+method !load-objects ( --> Hash ) {
+
+  my $fname = SKIMTOOLDATA ~ 'objects.yaml';
+  load-yaml($fname.IO.slurp);
+}
+}}
