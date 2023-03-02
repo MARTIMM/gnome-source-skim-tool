@@ -10,6 +10,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 
 use XML::Actions;
 use XML;
+use YAMLish;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGtkDoc::ApiIndex:auth<github:MARTIMM>;
@@ -61,4 +62,18 @@ method !get-text ( @nodes --> Str ) {
   }
 
   $text
+}
+
+#-------------------------------------------------------------------------------
+method save-objects ( ) {
+
+  my $fname = SKIMTOOLDATA ~ 'objects.yaml';
+  $fname.IO.spurt(save-yaml($!objects));
+}
+
+#-------------------------------------------------------------------------------
+method load-objects ( ) {
+
+  my $fname = SKIMTOOLDATA ~ 'objects.yaml';
+  $!objects = load-yaml($fname.IO.slurp);
 }
