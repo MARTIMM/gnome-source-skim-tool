@@ -110,41 +110,43 @@ method set-gtkdoc-dir ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method set-gtkdoc-file ( Str $postfix --> Str ) {
+method get-gtkdoc-file ( Str $postfix, Bool :$txt = True --> Str ) {
   my Str $gtkdoc-fname = '';
 
   with $*use-doc-source {
     when Gtk3 {
-      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gtk3/gtk3-$postfix.txt";
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gtk3/gtk3$postfix";
     }
     when Gdk3 {
-      $gtkdoc-fname= SKIMTOOLROOT ~ "Gtkdoc/Gdk3/gdk3-$postfix.txt";
+      $gtkdoc-fname= SKIMTOOLROOT ~ "Gtkdoc/Gdk3/gdk3$postfix";
     }
     when Gtk4 {
-      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gtk4/gtk4-$postfix.txt";
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gtk4/gtk4$postfix";
     }
     when Gdk4 {
-      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gdk4/gdk4-$postfix.txt";
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gdk4/gdk4$postfix";
     }
     when Glib {
-      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Glib/glib-$postfix.txt";
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Glib/glib$postfix";
     }
     when Gio {
-      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gio/gio-$postfix.txt";
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gio/gio$postfix";
     }
     when GObject {
-      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/GObject/gobject-$postfix.txt";
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/GObject/gobject$postfix";
     }
     when Cairo {
-      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Cairo/cairo-$postfix.txt";
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Cairo/cairo$postfix";
     }
     when Pango {
-      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Pango/pango-$postfix.txt";
+      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Pango/pango$postfix";
     }
 #    when  {
-#      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc//-$postfix.txt";
+#      $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/…/…$postfix";
 #    }
   }
+
+  $gtkdoc-fname ~= '.txt' if $txt;
 
   note "Gtk doc file: $gtkdoc-fname" if $*verbose;
 
