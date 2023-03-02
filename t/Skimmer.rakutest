@@ -72,9 +72,10 @@ subtest 'Prepare', {
 
 #-------------------------------------------------------------------------------
 subtest 'DocSearch', {
-
   $level = 0;
   $sgd .= new;
+#`{{
+
   $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
 
 #  display-function-info(%(:doc($sgd.description)));
@@ -91,8 +92,9 @@ subtest 'DocSearch', {
        '.process-gtkdocs(): signals';
   ok $sgd.properties<GtkButton--use-underline>:exists,
        '.process-gtkdocs(): properties';
+}}
 
-#`{{
+##`{{
   $sgd.process-apidocs(:test-cwd<gnome-gtk3>);
   is $sgd.objects<gtk_window_set_icon><object>, 'GtkWindow', '.process-apidocs(): api doc';
 
@@ -102,9 +104,10 @@ subtest 'DocSearch', {
        'signal ::leave is deprecated';
   ok $sgd.objects<GtkButton:yalign><deprecated>,
        'property :yalign is deprecated';
-}}
+#}}
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 subtest 'other module', {
   $level = 0;
@@ -119,8 +122,9 @@ subtest 'other module', {
 
   display-function-info($sgd.types);
 }
+}}
 
-#TODO Get hierargy of modules. add info to objects.yaml
+#TODO Add interface (roles) to most highest level of class.
 #TODO Add callback arg count to signals
 #TODO rename 1st arg to :$_widget and drop last user data pointer
 #TODO generate Raku module
