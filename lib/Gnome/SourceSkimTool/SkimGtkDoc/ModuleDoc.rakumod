@@ -10,6 +10,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 
 use XML::Actions;
 use XML;
+use YAMLish;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc:auth<github:MARTIMM>;
@@ -850,4 +851,31 @@ note " --> $text";
   $text ~~ s:g:i/ false /False/;
 
   $text
+}
+
+#-------------------------------------------------------------------------------
+method save-module ( Str:D $fname ) {
+
+  $fname.IO.spurt(
+    save-yaml(
+      %( :description($!description),
+         :functions($!functions),
+         :signals($!signals),
+         :properties($!properties),
+         :types($!types),
+       )
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+method load-module ( Str:D $fname ) {
+
+  my Hash $h = load-yaml($fname.IO.slurp)
+
+  $!description = $h<description>;
+  $!functions = $h<functions>;
+  $!signals = $h<signals>;
+  $!properties = $<properties>;
+  $!types = $h<types>;
 }
