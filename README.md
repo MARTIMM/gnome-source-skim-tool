@@ -4,7 +4,7 @@
 
 The purpose is to get the information out of the source code (`.h` and `.c` files) of packages of Gnome like Glib, (with Gio, GObject), Pango and Cairo (for which Gnome has bindings to), Gtk and Gdk (versions 3 and 4) Atk and a few others.
 
-I have done that myself in the past using a single program and generate Raku modules from the retrieved information. The program is getting a bit awkward to maintain it, because of writing differences found in the code.
+I have done that myself in the past using a single program and generate Raku modules from the retrieved information. The program is getting a bit awkward to maintain, because of writing differences found in the code.
 
 Now I've come across a package of Gnome called `GtkDoc`. It is a bit of a beast to get that working. Gnome apologises for that, that it was intended to be used internally only to get their documentation in a neat display.
 
