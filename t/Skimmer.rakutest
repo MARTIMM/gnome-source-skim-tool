@@ -105,9 +105,8 @@ subtest 'DocSearch', {
 }}
 }
 
-#`{{
 #-------------------------------------------------------------------------------
-subtest 'types and enums', {
+subtest 'other module', {
   $level = 0;
 
   # change module to test for structures defining enums
@@ -119,8 +118,6 @@ subtest 'types and enums', {
   $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
 
   display-function-info($sgd.types);
-
-  $sgd.process-apidocs(:test-cwd<gnome-gtk3>);
 }
 
 #TODO Get hierargy of modules. add info to objects.yaml
@@ -130,7 +127,6 @@ subtest 'types and enums', {
 #TODO test dump of generated Raku module
 #TODO mark C-lang examples in comments, indented and unformatted
 #TODO add gnome packages for gdk pixbuf
-}}
 
 #-------------------------------------------------------------------------------
 done-testing;

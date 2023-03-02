@@ -129,7 +129,9 @@ method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
 method refsect1:end ( Array $parent-path, :$id ) {
   given $!phase {
     when Description {
-      $!description = self!cleanup( $!description, :trim);
+      $!description = self!scan-for-unresolved-items(
+        self!cleanup( $!description, :trim)
+      );
     }
   }
 
@@ -201,6 +203,38 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
 #-------------------------------------------------------------------------------
 method refsect2:end ( Array $parent-path, :$id ) {
   $!refsect-level = 1;
+
+  given $!phase {
+    when Functions {
+      $!fh<doc><function> = ?$!fh<doc><function>
+        ?? self!scan-for-unresolved-items(
+             self!cleanup( $!fh<doc><function>, :trim)
+           )
+        !! ''
+    }
+ 
+    when Signals {
+      $!fh<doc><signal> = ?$!fh<doc><signal>
+        ?? self!scan-for-unresolved-items(
+             self!cleanup( $!fh<doc><signal>, :trim)
+           )
+        !! ''
+    }
+
+    when Properties {
+      $!fh<doc><property> = ?$!fh<doc><property>
+        ?? self!scan-for-unresolved-items(
+             self!cleanup( $!fh<doc><property>, :trim)
+           )
+        !! ''
+    }
+
+    when Types {
+      $!fh<type> = ?$!fh<type>
+         ?? self!scan-for-unresolved-items(self!cleanup( $!fh<type>, :trim))
+         !! '';
+    }
+  }
 }
 
 #-------------------------------------------------------------------------------
@@ -238,7 +272,7 @@ method type:start ( Array $parent-path, :$role --> ActionResult ) {
     when Description {
       my Str $name = ($parent-path[*-1].nodes)[0].Str;
         #self!convert-to-pod($e.nodes);
-      $!description ~= self!scan-for-unresolved-items($name);
+      $!description ~= $name; #self!scan-for-unresolved-items($name);
       $ar = Truncate;
     }
   }
@@ -250,7 +284,7 @@ method type:start ( Array $parent-path, :$role --> ActionResult ) {
 method xml:text ( Array $parent-path, Str $txt ) {
   given $!phase {
     when Description {
-      $!description ~= self!scan-for-unresolved-items($txt);
+      $!description ~= $txt; #self!scan-for-unresolved-items($txt);
     }
   }
 }
@@ -292,8 +326,8 @@ method !function-scan ( @nodes ) {
         
         when 'para' {
           if $!phase ~~ Functions and $!func-phase ~~ OutOfPhase {
-            $!fh<doc><function> =
-              self!scan-for-unresolved-items(self!get-text($n.nodes));
+            $!fh<doc><function> = self!get-text($n.nodes);
+              #self!scan-for-unresolved-items(self!get-text($n.nodes));
           }
         }
 
@@ -577,8 +611,8 @@ method !property-scan ( @nodes ) {
             elsif $propdoc ~~ m/^ Since ':' / { }
 
             else {
-              $!fh<doc><property> ~=
-                ' ' ~ self!scan-for-unresolved-items($propdoc);
+              $!fh<doc><property> ~= ' ' ~ $propdoc;
+                #' ' ~ self!scan-for-unresolved-items($propdoc);
             }
           }
         }
@@ -627,7 +661,7 @@ method !type-scan ( @nodes ) {
             if $typedoc ~~ m/^ Since ':' / { }
 
             else {
-              $!fh<type> ~= ' ' ~ self!scan-for-unresolved-items($typedoc);
+              $!fh<type> ~= ' ' ~ $typedoc; #self!scan-for-unresolved-items($typedoc);
             }
           }
         }
