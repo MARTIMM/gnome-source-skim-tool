@@ -325,7 +325,7 @@ method !function-scan ( @nodes ) {
             $!fh<parameters>[$!param-count].push: |($text.split(/\s+/));
           }
         }
-        
+
         when 'para' {
           # skip paragraphs with a role. those are e.g. used for 'since' info
           if $!phase ~~ Functions and $!func-phase ~~ OutOfPhase and
