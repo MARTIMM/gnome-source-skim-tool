@@ -78,6 +78,9 @@ $!api-actions.load-objects;
   # Add hierargy info
   self!add-hierarchy($gfl.get-gtkdoc-file( '.hierarchy', :!txt));
 
+  # Add role implementation info
+#  self!add-roles($gfl.get-gtkdoc-file( '.interfaces', :!txt));
+
   $!api-actions.save-objects;
 }
 
@@ -199,7 +202,6 @@ method !add-hierarchy ( Str $gtkdoc-text ) {
       $current-top-class = $class;
     }
 
-    $objects{$class}<class-type> = $current-top-class;
     if $current-top-class eq 'GInterface' {
       if $indent > 0 {
         $objects{$class}<class-type> = 'role';
@@ -218,23 +220,38 @@ method !add-hierarchy ( Str $gtkdoc-text ) {
     }
 
     elsif $indent == 1 {
+      $objects{$class}<class-type> = 'gobject';
       $objects{$class}<location> = 'top';
+      $objects{$class}<leaf> = True;
+      $objects{$classes[$indent-1]}<leaf> = False;
     }
 
     elsif $indent > 1 {
-#      $objects{$class}<class-type> = 'gobject';
-#      $objects{$class}<parent> = $classes[$indent-1];
-
       $objects{$class}<class-type> = $classes[2] eq 'GtkWidget'
                                      ?? 'widget' !! 'gobject';
       $objects{$class}<parent> = $classes[$indent-1];
+
+      # Assume this class is a leaf. Then make the parent <leaf> False
+      $objects{$class}<leaf> = True;
+      $objects{$classes[$indent-1]}<leaf> = False;
     }
 
-    $classes[$indent] = $class;
-note "$?LINE: $indent, '$line'";
+    $previous-indent = $indent;
+#note "$?LINE: $indent, $class";
   }
 }
 
+#-------------------------------------------------------------------------------
+method !add-roles ( Str $gtkdoc-text ) {
+  my Str $text = $gtkdoc-text.IO.slurp;
+  my Hash $objects := $!api-actions.objects;
+
+  for $text.lines -> $line {
+    my @class-with-roles = $line.split(/\s+/);
+    my Str $class = @class-with-roles.shift;
+
+  }
+}
 
 
 
