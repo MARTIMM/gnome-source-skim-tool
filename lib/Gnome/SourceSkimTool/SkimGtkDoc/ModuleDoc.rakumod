@@ -871,7 +871,7 @@ method save-module ( Str:D $fname ) {
 #-------------------------------------------------------------------------------
 method load-module ( Str:D $fname ) {
 
-  my Hash $h = load-yaml($fname.IO.slurp)
+  my Hash $h = load-yaml($fname.IO.slurp);
 
   $!description = $h<description>;
   $!functions = $h<functions>;
