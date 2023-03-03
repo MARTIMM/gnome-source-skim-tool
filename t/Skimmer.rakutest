@@ -13,14 +13,6 @@ my Str $*sub-prefix;
 
 my Bool $*verbose = False;
 
-#TODO; get from hierargy
-my Bool $*class-is-leaf = False;
-my Bool $*class-is-top = False;
-
-#TODO; get from gtk docs
-my Bool $*class-is-role = False; # is leaf implicitly
-
-
 # needed dynamic variable set by main program
 my SkimSource $*use-doc-source;
 my Str $*library;
@@ -74,9 +66,12 @@ subtest 'Prepare', {
 subtest 'DocSearch', {
   $level = 0;
   $sgd .= new;
-#`{{
+##`{{
 
   $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
+  display-function-info(%(:f($sgd.functions<gtk-button-get-focus-on-click>)));
+
+#`{{
 
 #  display-function-info(%(:doc($sgd.description)));
 #  display-function-info($sgd.functions);
@@ -94,7 +89,7 @@ subtest 'DocSearch', {
        '.process-gtkdocs(): properties';
 }}
 
-##`{{
+#`{{
   $sgd.process-apidocs(:test-cwd<gnome-gtk3>);
   is $sgd.objects<gtk_window_set_icon><object>, 'GtkWindow', '.process-apidocs(): api doc';
 
@@ -104,7 +99,7 @@ subtest 'DocSearch', {
        'signal ::leave is deprecated';
   ok $sgd.objects<GtkButton:yalign><deprecated>,
        'property :yalign is deprecated';
-#}}
+}}
 }
 
 #`{{
