@@ -326,7 +326,10 @@ method !function-scan ( @nodes ) {
         }
         
         when 'para' {
-          if $!phase ~~ Functions and $!func-phase ~~ OutOfPhase {
+          if $!phase ~~ Functions and
+             $!func-phase ~~ OutOfPhase and
+             $n.attribs<role> ne 'since' {
+
             $!fh<doc><function> = self!get-text($n.nodes);
               #self!scan-for-unresolved-items(self!get-text($n.nodes));
           }
