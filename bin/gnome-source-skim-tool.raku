@@ -6,10 +6,6 @@ use Gnome::SourceSkimTool::ConstEnumType;
 #-------------------------------------------------------------------------------
 constant \Prepare = Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
-my Bool $*class-is-leaf;
-my Bool $*class-is-role; # is leaf implicitly
-my Bool $*class-is-top;
-
 my SkimSource $*use-doc-source;
 
 # $sub-prefix is the name of gnome class. Sometimes another class is defined
@@ -24,16 +20,14 @@ my @source-dir-list = ();
 
 #-------------------------------------------------------------------------------
 sub MAIN (
-  Str:D $sub-prefix,
-  Bool :$leaf = False, Bool :$role = False, Bool :$top = False,
-  :$verbose = False
+  Str:D $sub-prefix, Bool :$verbose = False, Bool :$global = False,
+  Bool :$gtkdoc = False, Bool :$help = False, Bool :$raku = False
 ) {
-  # Gtk interfaces (roles) are always leaf classes but need to cast their
-  # object types, so leaf get False if role is True.
-  $*class-is-leaf = ($leaf and not $role);
-  $*class-is-role = $role;
-  $*class-is-top = $top;
-  
+  if $h {
+    USAGE;
+    exit(0);
+  }
+
   $*verbose = $verbose;
 
   # Make a list of C source files if requested and load the list
@@ -41,11 +35,29 @@ sub MAIN (
   $gfl.generate-gtkdoc if $gtkdoc;
 }
 
+#-------------------------------------------------------------------------------
+sub USAGE ( ) {
+note Q:to/EOHELP/;
 
+  Program to generate Raku modules from the Gnome source code using
+  the GtkDoc tool also used by Gnome to generate there documentation.
 
+  Usage
+    $*PROGRAM-NAME [Options] Arguments
 
+    Options:
+      global          Generate global data only. No Raku module
+                      is generated. Default False.
+      gtkdoc          Generate the gtk doc environment from the source code
+                      using the argument. No Raku module is generated.
+                      Default False.
+      help            Show this info.
+      raku            Generate Raku module from argument. Result is put in
+                      directory './xt/NewRakuModules' together with a test file.
+      verbose         Show some info while stumping. Default False.
 
+    Arguments
+      sub-prefix
 
-
-
-=finish
+EOHELP
+}
