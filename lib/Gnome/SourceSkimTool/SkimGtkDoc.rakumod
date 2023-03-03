@@ -199,6 +199,7 @@ method !add-hierarchy ( Str $gtkdoc-text ) {
     my $class = $<class>.Str;
     $classes[$indent] = $class;
 
+    # it starts at indent 0 so $current-top-class is defined quick
     if $indent == 0 {
       $current-top-class = $class;
     }
