@@ -185,6 +185,7 @@ note "--> $entry-value";
 
 #-------------------------------------------------------------------------------
 method !add-hierarchy ( Str $gtkdoc-text ) {
+ 
   my Str $text = $gtkdoc-text.IO.slurp;
   my Hash $objects := $!api-actions.objects;
 
