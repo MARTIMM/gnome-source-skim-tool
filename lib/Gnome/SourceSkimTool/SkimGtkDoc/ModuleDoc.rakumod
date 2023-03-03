@@ -296,6 +296,7 @@ method !function-scan ( @nodes ) {
 
   for @nodes -> $n {
     if $n ~~ XML::Element {
+#note "$?LINE: $n.name()";
       given $n.name {
         when 'primary' {
           $!fh<native-name> = self!get-text($n.nodes);
@@ -326,12 +327,11 @@ method !function-scan ( @nodes ) {
         }
         
         when 'para' {
-          if $!phase ~~ Functions and
-             $!func-phase ~~ OutOfPhase and
-             $n.attribs<role> ne 'since' {
+          # skip paragraphs with a role. those are e.g. used for 'since' info
+          if $!phase ~~ Functions and $!func-phase ~~ OutOfPhase and
+             $n.attribs<role>:!exists {
 
             $!fh<doc><function> = self!get-text($n.nodes);
-              #self!scan-for-unresolved-items(self!get-text($n.nodes));
           }
         }
 
@@ -741,7 +741,7 @@ method !get-text (
 
 #-------------------------------------------------------------------------------
 method !linked-items ( Str $text is copy --> Str ) {
-note "$?LINE: $!section-prefix-name, $text";
+#note "$?LINE: $!section-prefix-name, $text";
 
   my Str $section-prefix-name = $!section-prefix-name;
   if $text ~~ m/ $section-prefix-name / {
@@ -783,35 +783,35 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 #-------------------------------------------------------------------------------
 # :link is from linkend attribute when True in a link element
 method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
-note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
+#note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
 
   my Str $section-prefix-name = $!section-prefix-name;
 
   # signals
   if $text ~~ m/ <|w> $section-prefix-name '::' \w+ / {
-    $text ~~ s:g/ <|w> $section-prefix-name '::' (\w+) /I<$0>/;
+    $text ~~ s:g/ <|w> $section-prefix-name '::' (<[-\w]>+) /I<signal $0>/;
   }
 
   elsif $text ~~ m/ <|w> \w+ '::' \w+ / {
-    $text ~~ s:g/ <|w> (\w+) '::' (\w+) / I<$1 defined in $0>/;
+    $text ~~ s:g/ <|w> (\w+) '::' (<[-\w]>+) / I<signal $1 defined in $0>/;
   }
 
   elsif $text ~~ m/ <|w> '::' \w+ / {
-    $text ~~ s:g/ <|w> '::' (\w+) / I<$0>/;
+    $text ~~ s:g/ <|w> '::' (<[-\w]>+) / I<signal $0>/;
   }
 
 
   # properties
   if $text ~~ m/ <|w> $section-prefix-name ':' \w+ / {
-    $text ~~ s:g/ <|w> $section-prefix-name ':' (\w+) /I<$1 defined in $0>/;
+    $text ~~ s:g/ <|w> $section-prefix-name ':' (<[-\w]>+) /I<property $0>/;
   }
 
   elsif $text ~~ m/ <|w> \w+ ':' \w+ / {
-    $text ~~ s:g/ <|w> (\w+) ':' (\w+) / I<$0>/;
+    $text ~~ s:g/ <|w> (\w+) ':' (<[-\w]>+) / I<property $1 defined in $0>/;
   }
 
   elsif $text ~~ m/ <|w> ':' \w+ / {
-    $text ~~ s:g/ <|w> ':' (\w+) / I<$0>/;
+    $text ~~ s:g/ <|w> ':' (<[-\w]>+) / I<property $0>/;
   }
 
 
@@ -822,7 +822,7 @@ note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
 
   # functions
   if $text ~~ m/ '()' \s / {
-print "$?LINE: text has (): $text";
+#print "$?LINE: text has (): $text";
     if $text ~~ m/^ $*sub-prefix / {
       $text ~~ s:g/^ $*sub-prefix '_' (\w+) '()' /.$0\(\)/;
     }
@@ -831,7 +831,7 @@ print "$?LINE: text has (): $text";
       $text ~~ s:g/ new '_' (\w+) '()' /.new(:$0)/;
     }
       
-note " --> $text";
+#note " --> $text";
   }
 
   # classes
