@@ -35,22 +35,27 @@ submethod BUILD ( Str :$test-cwd ) {
     
     when / 'gnome-glib' / {
       $*use-doc-source = Glib;
+      $*library = '&glib-lib';
     }
     
     when / 'gnome-gio' / {
       $*use-doc-source = Gio;
+      $*library = '&gio-lib';
     }
     
     when / 'gnome-gobject' / {
       $*use-doc-source = GObject;
+      $*library = '&gobject-lib';
     }
     
     when / 'gnome-cairo' / {
       $*use-doc-source = Cairo;
+      $*library = '&cairo-lib ';
     }
     
     when / 'gnome-pango' / {
       $*use-doc-source = Pango;
+      $*library = '&pango-lib';
     }
 
     default {
@@ -151,6 +156,71 @@ method get-gtkdoc-file ( Str $postfix, Bool :$txt = True --> Str ) {
   note "Gtk doc file: $gtkdoc-fname" if $*verbose;
 
   $gtkdoc-fname
+}
+
+#-------------------------------------------------------------------------------
+method get-raku-class-name (
+  Str $gnome-class is copy, Str $class-type --> Str
+) {
+  my Str $class-name = '';
+
+  with $gnome-class {
+    when m/^ Gtk / and $*use-doc-source ~~ Gtk3 {
+      $gnome-class ~~ s/^ Gtk //;
+      $class-name = 'Gnome::Gtk3::' ~ $gnome-class;
+    }
+    when m/^ Gdk / and $*use-doc-source ~~ Gdk3 {
+      $gnome-class ~~ s/^ Gdk //;
+      $class-name = 'Gnome::Gdk3::' ~ $gnome-class;
+    }
+    when m/^ Gtk / and $*use-doc-source ~~ Gtk4 {
+      $gnome-class ~~ s/^ Gtk //;
+      $class-name = 'Gnome::Gtk4::' ~ $gnome-class;
+    }
+    when m/^ Gdk / and $*use-doc-source ~~ Gdk4 {
+      $gnome-class ~~ s/^ Gdk //;
+      $class-name = 'Gnome::Gdk4::' ~ $gnome-class;
+    }
+    when m/^ G <[A..Z>]> / {
+      $gnome-class ~~ s/^ G //;
+
+      # role in glib most probably a Gio class
+      if $class-type eq 'role' {
+        $class-name = 'Gnome::Gio::' ~ $gnome-class;
+      }
+#TODO what is it when it isn't a role? Gio, GObject or Glib???
+# must find out by generating GtkDoc for those libs first
+      else {
+        $class-name = 'Gnome::Glib::' ~ $gnome-class;
+      }
+    }
+#`{{
+    when m/^ G <[A..Z>]> / {
+      $gnome-class ~~ s/^ G //;
+      $class-name = 'Gnome::Gio::' ~ $gnome-class;
+    }
+    when m/^ G <[A..Z>]> / {
+      $gnome-class ~~ s/^ G //;
+      $class-name = 'Gnome::GObject::' ~ $gnome-class;
+    }
+}}
+    when m/^ Cairo / {
+      $gnome-class ~~ s/^ Cairo //;
+      $class-name = 'Gnome::Cairo::' ~ $gnome-class;
+    }
+    when m/^ Pango / {
+      $gnome-class ~~ s/^ Pango //;
+      $class-name = 'Gnome::Pango::' ~ $gnome-class;
+    }
+#    when m/^ … / and … {
+#      $gnome-class ~~ s/^ G //;
+#      $class-name = 'Gnome::…::' ~ $gnome-class;
+#    }
+  }
+
+  note "Gtk raku class name: $class-name" if $*verbose;
+
+  $class-name
 }
 
 #-------------------------------------------------------------------------------
