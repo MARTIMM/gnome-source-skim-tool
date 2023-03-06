@@ -8,14 +8,11 @@ use Test;
 constant \Prepare = Gnome::SourceSkimTool::Prepare;
 
 # pick a class with no other prefix specified
-my Str $*sub-prefix;
-#my Str $*other-prefix = 'gtk_button';
+my SkimSource $*gnome-package = Gtk3;
+my Str $*gnome-class = 'GtkButton';
+my Hash $*work-data;
 
 my Bool $*verbose = False;
-
-# needed dynamic variable set by main program
-my SkimSource $*use-doc-source;
-my Str $*library;
 
 #-------------------------------------------------------------------------------
 my Prepare $gfl;
@@ -26,20 +23,17 @@ my Int $level;
 subtest 'Prepare', {
 
   # read from 'gtkbutton.xml'
-  $*sub-prefix = 'gtk_button';
+  $*gnome-class = 'GtkButton';
   $level = 0;
 
-  # dies because tests are not done in a gnome raku repo
-  dies-ok { $gfl .= new; }, 'dies when no path set/found';
-  $gfl .= new(:test-cwd<gnome-gtk3>);
+  $gfl .= new;
 
-  is $gfl.set-source-dir,
+  is $*work-data<source-dir>,
     ( [~] SKIMTOOLROOT, 'Gnome/gtk+-', VGtk3, '/gtk' ),
-    '.set-source-dir()';
-  is $*use-doc-source, Gtk3, 'check $*use-doc-source: ' ~ $*use-doc-source;
+    'source-dir';
 
-  my Str $gd = $gfl.set-gtkdoc-dir;
-  ok $gd ~~ m/ 'Gtkdoc/Gtk3' $/, '.set-gtkdoc-dir()';
+  my Str $gd = $*work-data<gtkdoc-dir>;
+  ok $gd ~~ m/ 'Gtkdoc/Gtk3' $/, 'gtkdoc-dir';
   ok $gd.IO.d, 'check dir: ' ~ $gd;
 
   if "$gd/docs".IO ~~ :d {
@@ -55,9 +49,9 @@ subtest 'Prepare', {
   ok "$gd/docs/gtkaboutdialog.xml".IO.r,
       'check phase 3: ' ~ "$gd/docs/gtkaboutdialog.xml";
 
-  is $*library, '&gtk-lib', 'check $*library: ' ~ $*library;
-  is $gfl.set-skim-result-file, SKIMTOOLDATA ~ 'Gtk3/GtkButton.yaml',
-    '.set-skim-result-file()';
+  is $*work-data<library>, '&gtk-lib', 'check library: ' ~ $*work-data<library>;
+  is $*work-data<skim-module-result>, SKIMTOOLDATA ~ 'Gtk3/GtkButton.yaml',
+    'skim-module-result';
   is RAKUMODS, 'xt/NewRakuModules/', 'check RAKUMODS: ' ~ RAKUMODS;
 }
 
@@ -68,7 +62,7 @@ subtest 'DocSearch', {
   $sgd .= new;
 ##`{{
 
-  $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
+  $sgd.process-gtkdocs;
   display-function-info(%(:f($sgd.functions<gtk-button-get-focus-on-click>)));
 
 #`{{
@@ -90,7 +84,7 @@ subtest 'DocSearch', {
 }}
 
 #`{{
-  $sgd.process-apidocs(:test-cwd<gnome-gtk3>);
+  $sgd.process-apidocs;
   is $sgd.objects<gtk_window_set_icon><object>, 'GtkWindow', '.process-apidocs(): api doc';
 
   ok $sgd.objects<gtk_button_get_alignment><deprecated>,
@@ -108,12 +102,12 @@ subtest 'other module', {
   $level = 0;
 
   # change module to test for structures defining enums
-  $*sub-prefix = 'gtk_window';
+  #$*sub-prefix = 'gtk_window';
 
-  $gfl .= new(:test-cwd<gnome-gtk3>);
+  $gfl .= new;
   my Str $gd = $gfl.set-gtkdoc-dir;
   $sgd .= new;
-  $sgd.process-gtkdocs(:test-cwd<gnome-gtk3>);
+  $sgd.process-gtkdocs;
 
   display-function-info($sgd.types);
 }

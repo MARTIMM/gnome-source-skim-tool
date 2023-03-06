@@ -4,14 +4,14 @@ use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::ConstEnumType;
 
 #-------------------------------------------------------------------------------
-constant \Prepare = Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
-
-my SkimSource $*use-doc-source;
+constant \Prepare = Gnome::SourceSkimTool::Prepare;
 
 # $sub-prefix is the name of gnome class. Sometimes another class is defined
 # within the same file. To generate that part, add the $other-prefix.
-my Str $*sub-prefix;            # provided sub prefix is the name of gnome class
-my Str $*library;               # native lib sub from Gnome::N
+
+my SkimSource $*gnome-package;
+my Str $*gnome-class;
+my Hash $*work-data;
 
 my Bool $*verbose;
 
@@ -20,44 +20,59 @@ my @source-dir-list = ();
 
 #-------------------------------------------------------------------------------
 sub MAIN (
-  Str:D $sub-prefix, Bool :$verbose = False, Bool :$global = False,
-  Bool :$gtkdoc = False, Bool :$help = False, Bool :$raku = False
+  Str:D $gnome-package, Str $gnome-class = '',
+  Bool :$g = False, Bool :$v = False,
+  Bool :$d = False, Bool :$h = False, Bool :$r = False,
 ) {
+
+  $*verbose = $v;
+
+  $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
+  if !$*gnome-package {
+    USAGE;
+    exit(1);
+  }
+
   if $h {
     USAGE;
     exit(0);
   }
 
-  $*verbose = $verbose;
-
   # Make a list of C source files if requested and load the list
   my Prepare $gfl .= new;
-  $gfl.generate-gtkdoc if $gtkdoc;
+  $gfl.generate-gtkdoc if $d;
 }
 
 #-------------------------------------------------------------------------------
 sub USAGE ( ) {
-note Q:to/EOHELP/;
+
+  # Need to call Prepare init to get a few values in the output
+  my Prepare $gfl .= new;
+
+  note qq:to/EOHELP/;
 
   Program to generate Raku modules from the Gnome source code using
   the GtkDoc tool also used by Gnome to generate there documentation.
 
   Usage
-    $*PROGRAM-NAME [Options] Arguments
+    {$*PROGRAM.basename} [Options] gnome-package [gnome-class]
 
     Options:
-      global          Generate global data only. No Raku module
-                      is generated. Default False.
-      gtkdoc          Generate the gtk doc environment from the source code
-                      using the argument. No Raku module is generated.
-                      Default False.
-      help            Show this info.
-      raku            Generate Raku module from argument. Result is put in
-                      directory './xt/NewRakuModules' together with a test file.
-      verbose         Show some info while stumping. Default False.
+      d       Generate the gtk doc environment from the source code using the
+              argument. No Raku module is generated. Default False.
+      g       Generate global data only. No Raku module is generated. Default
+              False.
+      h       Show this info.
+      r       Generate Raku module from argument. Result is put in directory
+              '{$*work-data<new-raku-modules>}' together with a test file.
+      v       Show some info while stumping. Default False.
 
     Arguments
-      sub-prefix
+      gnome-package   The package name used for the gnome class. Select from
+                      {SkimSource.keys.sort}. This argument must always be
+                      provided.
+      gnome-class     A gnome class name like GtkButton or GApplication. This is
+                      optional when only the GtkDoc results are to be generated.
 
 EOHELP
 }

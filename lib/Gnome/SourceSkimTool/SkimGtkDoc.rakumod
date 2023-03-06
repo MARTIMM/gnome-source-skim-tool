@@ -25,36 +25,34 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method process-gtkdocs ( Str :$test-cwd ) {
+method process-gtkdocs ( ) {
  
-  my Prepare $gfl .= new(:$test-cwd);
-  my Str $gd = $gfl.set-gtkdoc-dir;
+  my Str $gd = $*work-data<gtkdoc-dir>;
 
   $!mod-actions .= new;
 
-  my Str $fname = $*sub-prefix;
-  $fname ~~ s:g/ '_' //;
+  my Str $fname = $*gnome-class.lc;
   my Str $docpath = "$gd/docs/$fname.xml";
   note "document path for module: $docpath" if $*verbose;
   my XML::Actions $a .= new(:file($docpath));
   $a.process(:actions($!mod-actions));
 
-  $!mod-actions.save-module($gfl.set-skim-result-file);
+  $!mod-actions.save-module($*work-data<skim-module-result>);
 }
 
 #-------------------------------------------------------------------------------
 =begin pod
 Gather the info from api-index-full.xml, api-index-deprecated.xml and  …decl.xml and store it into the yaml file objects.yaml. This is a one time operation that covers all of the particular gnome package.
 
-  method process-apidocs ( Str :$test-cwd )
+  method process-apidocs ( )
 
 =item $test-cwd
 =end pod
 
-method process-apidocs ( Str :$test-cwd ) {
+method process-apidocs ( ) {
 
-  my Prepare $gfl .= new(:$test-cwd);
-  my Str $gd = $gfl.set-gtkdoc-dir;
+  my Prepare $gfl .= new;
+  my Str $gd = $*work-data<gtkdoc-dir>;
 
   $!api-actions .= new;
 #`{{

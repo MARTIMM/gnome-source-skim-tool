@@ -43,12 +43,13 @@ has Str $!enum_member_name;
 has Hash $!fh;
 
 
-has Str $!section-prefix-name;
+#has Str $!section-prefix-name;
 has Int $!refsect-level;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
+#`{{
   # Devise the section name using the provided subroutine prefix.
   # Something like 'gtk_button' or 'gio_file'. The examples must
   # become 'GtkButton' or 'GFile'.
@@ -63,7 +64,7 @@ compilation is maybe changed and now it's simpler 'GtkButton.description'.
 There is also more information. Might be that the run must be done in the
 directory which is done now by ::Prepare.
 
-  with $*use-doc-source {
+  with $*gnome-package {
     when Gtk3 {
       $!section-prefix-name = 'gtk3';
     }
@@ -91,34 +92,35 @@ directory which is done now by ::Prepare.
 
   $!description = '';
   $!functions = %();
+}}
 }
 
 #-------------------------------------------------------------------------------
 method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
   return Truncate unless ?$id;
 
-  note "refsect1: $!section-prefix-name, $id" if $*verbose;
+  note "refsect1: $*gnome-class, $id" if $*verbose;
 
   given $id {
-    when "$!section-prefix-name\.description" {
+    when "$*gnome-class\.description" {
       $!phase = Description;
       $!description = '';
       $!refsect-level = 1;
     }
 
-    when "$!section-prefix-name\.functions_details" {
+    when "$*gnome-class\.functions_details" {
       $!phase = Functions;
     }
 
-    when "$!section-prefix-name\.signal-details" {
+    when "$*gnome-class\.signal-details" {
       $!phase = Signals;
     }
 
-    when "$!section-prefix-name\.property-details" {
+    when "$*gnome-class\.property-details" {
       $!phase = Properties;
     }
  
-    when "$!section-prefix-name\.other_details" {
+    when "$*gnome-class\.other_details" {
       $!phase = Types;
     }
   }
@@ -409,7 +411,7 @@ method !signal-scan ( @nodes ) {
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
-          my Str $section-prefix-name = $!section-prefix-name;
+          my Str $section-prefix-name = $*gnome-class;
           $text ~~ s/ $section-prefix-name '::' //;
           $!fh<native-name> = $text;
         }
@@ -570,7 +572,7 @@ method !property-scan ( @nodes ) {
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
-          my Str $section-prefix-name = $!section-prefix-name;
+          my Str $section-prefix-name = $*gnome-class;
           $text ~~ s/ $section-prefix-name ':' //;
           $!fh<native-name> = $text;
         }
@@ -743,14 +745,14 @@ method !get-text (
 method !linked-items ( Str $text is copy --> Str ) {
 #note "$?LINE: $!section-prefix-name, $text";
 
-  my Str $section-prefix-name = $!section-prefix-name;
+  my Str $section-prefix-name = $*gnome-class;
   if $text ~~ m/ $section-prefix-name / {
     $text ~~ s/ $section-prefix-name '-' //;
   }
 
   else {
     my Str ( $class, $rest) = $text.split( '-', 2);
-    with $*use-doc-source {
+    with $*gnome-package {
       when Gtk3 { $class ~~ s:g/ Gtk (\w+) /Gnome::Gtk3::$0/; }
       when Gdk3 { $class ~~ s:g/ Gdk (\w+) /Gnome::Gdk3::$0/; }
       when Gtk4 { $class ~~ s:g/ Gtk (\w+) /Gnome::Gtk4::$0/; }
@@ -785,7 +787,7 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
 #note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
 
-  my Str $section-prefix-name = $!section-prefix-name;
+  my Str $section-prefix-name = $*gnome-class;
 
   # signals
   if $text ~~ m/ <|w> $section-prefix-name '::' \w+ / {
@@ -823,8 +825,9 @@ method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
   # functions
   if $text ~~ m/ '()' \s / {
 #print "$?LINE: text has (): $text";
-    if $text ~~ m/^ $*sub-prefix / {
-      $text ~~ s:g/^ $*sub-prefix '_' (\w+) '()' /.$0\(\)/;
+    my Str $sub-prefix = $*work-data<sub-prefix>;
+    if $text ~~ m/^ $sub-prefix / {
+      $text ~~ s:g/^ $sub-prefix '_' (\w+) '()' /.$0\(\)/;
     }
 
     if $text ~~ m/ <|w> new <|w> / {
@@ -835,7 +838,7 @@ method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
   }
 
   # classes
-  with $*use-doc-source {
+  with $*gnome-package {
     # <!after '::'> is needed to keep previously converted text correct
     when Gtk3 { $text ~~ s:g/ <!after '::'> Gtk (\w+) /B<Gnome::Gtk3::$0>/; }
     when Gdk3 { $text ~~ s:g/ <!after '::'> Gdk (\w+) /B<Gnome::Gdk3::$0>/; }

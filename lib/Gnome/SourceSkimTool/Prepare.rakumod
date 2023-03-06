@@ -5,71 +5,127 @@ use Gnome::SourceSkimTool::ConstEnumType;
 unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( Str :$test-cwd ) {
+submethod BUILD ( ) {
+  my Str $source-root = SKIMTOOLROOT ~ 'Gnome/';
 
-  # $test-cwd may be significant part of path
-  with $test-cwd // $*CWD {
-    when / 'gnome-gtk3' / {
-      $*use-doc-source = Gtk3;
-      $*library = '&gtk-lib';
-#      $*raku-modname = 'Gtk3';
+  with $*gnome-package {
+    when Gtk3 {
+      $*work-data = %(
+        :library<&gtk-lib>,
+        :source-dir([~] $source-root, 'gtk+-', VGtk3, '/gtk'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gtk3'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gtk3/' !! ''),
+      );
     }
-    
-    when / 'gnome-gdk3' / {
-      $*use-doc-source = Gdk3;
-      $*library = '&gdk-lib';
-#      $*raku-modname = 'Gdk3';
+
+    when Gdk3 {
+      $*work-data = %(
+        :library<&gdk-lib>,
+        :source-dir([~] $source-root, 'gtk+-', VGtk3, '/gdk'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gdk3'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gdk3/' !! ''),
+      );
     }
-    
-    when / 'gnome-gtk4' / {
-      $*use-doc-source = Gtk4;
-      $*library = '&gtk4-lib';
-#      $*raku-modname = 'Gtk4';
+
+    when Gtk4 {
+      $*work-data = %(
+        :library<&gtk4-lib>,
+        :source-dir([~] $source-root, 'gtk-', VGtk4, '/gtk'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gtk4'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gtk4/' !! ''),
+      );
     }
-    
-    when / 'gnome-gdk4' / {
-      $*use-doc-source = Gdk4;
-      $*library = '&gdk4-lib';
- #     $*raku-modname = 'Gtk4';
+
+    when Gdk4 {
+      $*work-data = %(
+        :library<&gdk4-lib>,
+        :source-dir([~] $source-root, 'gtk-', VGtk4, '/gdk'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gdk4'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gdk4/' !! ''),
+      );
     }
-    
-    when / 'gnome-glib' / {
-      $*use-doc-source = Glib;
-      $*library = '&glib-lib';
+
+    when Glib {
+      $*work-data = %(
+        :library<&glib-lib>,
+        :source-dir([~] $source-root, 'glib-', VGlib, '/glib'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Glib'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Glib/' !! ''),
+      );
     }
-    
-    when / 'gnome-gio' / {
-      $*use-doc-source = Gio;
-      $*library = '&gio-lib';
+
+    when Gio {
+      $*work-data = %(
+        :library<&gio-lib>,
+        :source-dir([~] $source-root, 'glib-', VGlib, '/gio'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gio'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gio/' !! ''),
+      );
     }
-    
-    when / 'gnome-gobject' / {
-      $*use-doc-source = GObject;
-      $*library = '&gobject-lib';
+
+    when GObject {
+      $*work-data = %(
+        :library<&gobject-lib>,
+        :source-dir([~] $source-root, 'glib-', VGlib, '/gobject'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/GObject'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'GObject/' !! ''),
+      );
     }
-    
-    when / 'gnome-cairo' / {
-      $*use-doc-source = Cairo;
-      $*library = '&cairo-lib ';
+
+    when Cairo {
+      $*work-data = %(
+        :library<&cairo-lib>,
+        :source-dir([~] $source-root, 'cairo-', VCairo, '/src'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Cairo'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Cairo/' !! ''),
+      );
     }
-    
-    when / 'gnome-pango' / {
-      $*use-doc-source = Pango;
-      $*library = '&pango-lib';
+
+    when Pango {
+      $*work-data = %(
+        :library<&pango-lib>,
+        :source-dir([~] $source-root, 'pango-', VPango, '/pango'),
+        :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Pango'),
+        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Pango/' !! ''),
+      );
     }
 
     default {
       die 'Use :$test-cwd to specify gnome source for testing';
     }
   }
+
+  # Add some more global work data
+  my Str $gclass = $*gnome-class // '';
+  $gclass ~~ s:g/ (\w) (<[A..Z]>) /{$0}_$1.lc()/;
+  $*work-data<sub-prefix> = ?$*gnome-class ?? $gclass !! '';
+
+  $*work-data<new-raku-modules> = 'xt/NewRakuModules/';
+
+  $*work-data<skim-module-result> ~= "$*gnome-class.yaml" if ?$*gnome-class;
+
+
+  # Check existence of directories
+  mkdir $*work-data<gtkdoc-dir>, 0o700
+    if ?$*gnome-package and $*work-data<gtkdoc-dir>.IO !~~ :e;
+  mkdir $*work-data<skim-module-result>, 0o700
+    if ?$*gnome-class and $*work-data<skim-module-result>.IO !~~ :e;
+  mkdir $*work-data<new-raku-modules>, 0o700
+    if ?$*gnome-package and $*work-data<new-raku-modules>.IO !~~ :e;
+
+#  mkdir $*work-data<>, 0o700 unless $*work-data<>.IO.e;
+
+
+  note "Work data: ", $*work-data.gist if $*verbose;
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method set-source-dir ( --> Str ) {
   my Str $source-root = SKIMTOOLROOT ~ 'Gnome/';
   my Str $source-dir = '';
 
-  with $*use-doc-source {
+  with $*gnome-package {
     when Gtk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gtk'; }
     when Gdk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gdk'; }
     when Gtk4 { $source-dir = [~] $source-root, 'gtk-', VGtk4, '/gtk'; }
@@ -94,7 +150,7 @@ method set-source-dir ( --> Str ) {
 method set-gtkdoc-dir ( --> Str ) {
   my Str $dir = '';
 
-  with $*use-doc-source {
+  with $*gnome-package {
     when Gtk3 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gtk3'; }
     when Gdk3 { $dir= SKIMTOOLROOT ~ 'Gtkdoc/Gdk3'; }
     when Gtk4 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gtk4'; }
@@ -113,12 +169,13 @@ method set-gtkdoc-dir ( --> Str ) {
 
   $dir
 }
+}}
 
 #-------------------------------------------------------------------------------
 method get-gtkdoc-file ( Str $postfix, Bool :$txt = True --> Str ) {
   my Str $gtkdoc-fname = '';
 
-  with $*use-doc-source {
+  with $*gnome-package {
     when Gtk3 {
       $gtkdoc-fname = SKIMTOOLROOT ~ "Gtkdoc/Gtk3/gtk3$postfix";
     }
@@ -158,6 +215,7 @@ method get-gtkdoc-file ( Str $postfix, Bool :$txt = True --> Str ) {
   $gtkdoc-fname
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method get-raku-class-name (
   Str $gnome-class is copy, Str $class-type --> Str
@@ -165,19 +223,19 @@ method get-raku-class-name (
   my Str $class-name = '';
 
   with $gnome-class {
-    when m/^ Gtk / and $*use-doc-source ~~ Gtk3 {
+    when m/^ Gtk / and $*gnome-package ~~ Gtk3 {
       $gnome-class ~~ s/^ Gtk //;
       $class-name = 'Gnome::Gtk3::' ~ $gnome-class;
     }
-    when m/^ Gdk / and $*use-doc-source ~~ Gdk3 {
+    when m/^ Gdk / and $*gnome-package ~~ Gdk3 {
       $gnome-class ~~ s/^ Gdk //;
       $class-name = 'Gnome::Gdk3::' ~ $gnome-class;
     }
-    when m/^ Gtk / and $*use-doc-source ~~ Gtk4 {
+    when m/^ Gtk / and $*gnome-package ~~ Gtk4 {
       $gnome-class ~~ s/^ Gtk //;
       $class-name = 'Gnome::Gtk4::' ~ $gnome-class;
     }
-    when m/^ Gdk / and $*use-doc-source ~~ Gdk4 {
+    when m/^ Gdk / and $*gnome-package ~~ Gdk4 {
       $gnome-class ~~ s/^ Gdk //;
       $class-name = 'Gnome::Gdk4::' ~ $gnome-class;
     }
@@ -222,7 +280,9 @@ method get-raku-class-name (
 
   $class-name
 }
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 method set-skim-result-file ( --> Str ) {
   my Str $dir = '';
@@ -230,7 +290,7 @@ method set-skim-result-file ( --> Str ) {
   $file .= tc;
   $file ~~ s:g/ '_' (\w) /$0.tc()/;
 
-  with $*use-doc-source {
+  with $*gnome-package {
     when Gtk3 { $dir = SKIMTOOLDATA ~ 'Gtk3/'; }
     when Gdk3 { $dir= SKIMTOOLDATA ~ 'Gdk3/'; }
     when Gtk4 { $dir = SKIMTOOLDATA ~ 'Gtk4/'; }
@@ -249,27 +309,28 @@ method set-skim-result-file ( --> Str ) {
 
   "$dir$file.yaml"
 }
+}}
 
 #-------------------------------------------------------------------------------
 method generate-gtkdoc ( ) {
 
-  my Str $gd = self.set-gtkdoc-dir;
-  my Str $mod-name = $*use-doc-source.key.lc;
+  my Str $gd = $*work-data<gtkdoc-dir>;   #self.set-gtkdoc-dir;
+  my Str $mod-name = $*gnome-package.key.lc;
 
   my $curr-dir = $*CWD;
   chdir $gd;
 
   # Generate a few files using gtkdoc-scan. See also gtkdoc.md.
   my Str $out1 = "--output-dir .";
-  my Str $src = '--source-dir ' ~ self.set-source-dir;
+  my Str $src = '--source-dir ' ~ $*work-data<source-dir>; #self.set-source-dir;
   my Str $mod = "--module $mod-name";
-  note "Run: /usr/bin/gtkdoc-scan $out1 $src $mod" if $*verbose;
+  note "\nRun: /usr/bin/gtkdoc-scan $out1 $src $mod" if $*verbose;
   shell "/usr/bin/gtkdoc-scan $out1 $src $mod";
 
   # The next step is using gtkdoc-scangobj which wil generate a program. There
   # are however errors when looking at the gtk3 sources. We need to filter
   # the types list to get rid of those
-  with $*use-doc-source {
+  with $*gnome-package {
     when Gtk3 {
       note "Filter types from $gd/{$mod-name}.types" if $*verbose;
       my @list = ();
@@ -277,76 +338,42 @@ method generate-gtkdoc ( ) {
       for "$gd/{$mod-name}.types".IO.slurp.lines -> $l {
         # Filter out following functions from types list.
         next if $l ~~ any(<
-          gtk_action_muxer_get_type
-          gtk_action_helper_get_type
-          gtk_action_observable_get_type
-          gtk_action_observer_get_type
-          gtk_application_accels_get_type
-          gtk_application_impl_dbus_get_type
-          gtk_application_impl_get_type
-          gtk_application_impl_quartz_get_type
+          gtk_action_muxer_get_type gtk_action_helper_get_type
+          gtk_action_observable_get_type gtk_action_observer_get_type
+          gtk_application_accels_get_type gtk_application_impl_dbus_get_type
+          gtk_application_impl_get_type gtk_application_impl_quartz_get_type
           gtk_application_impl_wayland_get_type
-          gtk_application_impl_x11_get_type
-          gtk_box_gadget_get_type
-          gtk_builtin_icon_get_type
-          gtk_color_editor_get_type
-          gtk_color_picker_kwin_get_type
-          gtk_color_picker_portal_get_type
-          gtk_color_picker_shell_get_type
-          gtk_color_plane_get_type
-          gtk_color_scale_get_type
-          gtk_color_swatch_get_type
-          gtk_css_animated_style_get_type
-          gtk_css_custom_gadget_get_type
-          gtk_css_gadget_get_type
-          gtk_css_image_builtin_get_type
-          gtk_css_node_get_type
-          gtk_css_path_node_get_type
-          gtk_css_static_style_get_type
-          gtk_css_style_get_type
-          gtk_css_transient_node_get_type
-          gtk_css_widget_node_get_type
-          gtk_emoji_chooser_get_type
-          gtk_emoji_completion_get_type
-          gtk_graph_data_get_type
-          gtk_icon_get_type
-          gtk_icon_helper_get_type
-          gtk_inspector_action_editor_get_type
-          gtk_inspector_actions_get_type
-          gtk_inspector_css_editor_get_type
+          gtk_application_impl_x11_get_type gtk_box_gadget_get_type
+          gtk_builtin_icon_get_type gtk_color_editor_get_type
+          gtk_color_picker_kwin_get_type gtk_color_picker_portal_get_type
+          gtk_color_picker_shell_get_type gtk_color_plane_get_type
+          gtk_color_scale_get_type gtk_color_swatch_get_type
+          gtk_css_animated_style_get_type gtk_css_custom_gadget_get_type
+          gtk_css_gadget_get_type gtk_css_image_builtin_get_type
+          gtk_css_node_get_type gtk_css_path_node_get_type
+          gtk_css_static_style_get_type gtk_css_style_get_type
+          gtk_css_transient_node_get_type gtk_css_widget_node_get_type
+          gtk_emoji_chooser_get_type gtk_emoji_completion_get_type
+          gtk_graph_data_get_type gtk_icon_get_type
+          gtk_icon_helper_get_type gtk_inspector_action_editor_get_type
+          gtk_inspector_actions_get_type gtk_inspector_css_editor_get_type
           gtk_inspector_css_node_tree_get_type
-          gtk_inspector_data_list_get_type
-          gtk_inspector_general_get_type
-          gtk_inspector_gestures_get_type
-          gtk_inspector_magnifier_get_type
-          gtk_inspector_menu_get_type
-          gtk_inspector_misc_info_get_type
+          gtk_inspector_data_list_get_type gtk_inspector_general_get_type
+          gtk_inspector_gestures_get_type gtk_inspector_magnifier_get_type
+          gtk_inspector_menu_get_type gtk_inspector_misc_info_get_type
           gtk_inspector_object_hierarchy_get_type
-          gtk_inspector_object_tree_get_type
-          gtk_inspector_prop_editor_get_type
-          gtk_inspector_prop_list_get_type
-          gtk_inspector_resource_list_get_type
-          gtk_inspector_selector_get_type
-          gtk_inspector_signals_list_get_type
-          gtk_inspector_size_groups_get_type
-          gtk_inspector_statistics_get_type
-          gtk_inspector_strv_editor_get_type
-          gtk_inspector_visual_get_type
-          gtk_inspector_window_get_type
-          gtk_menu_section_box_get_type
-          gtk_menu_tracker_item_get_type
-          gtk_menu_tracker_item_role_get_type
-          gtk_model_menu_item_get_type
-          gtk_places_view_get_type
-          gtk_places_view_row_get_type
-          gtk_query_get_type
-          gtk_search_engine_tracker3_get_type
-          gtk_search_engine_tracker3_get_type
-          gtk_sidebar_row_get_type
-          gtk_stack_combo_get_type
-          gtk_tooltip_window_get_type
-          gtk_tree_model_css_node_get_type
-          gtk_win32_embed_widget_get_type
+          gtk_inspector_object_tree_get_type gtk_inspector_prop_editor_get_type
+          gtk_inspector_prop_list_get_type gtk_inspector_resource_list_get_type
+          gtk_inspector_selector_get_type gtk_inspector_signals_list_get_type
+          gtk_inspector_size_groups_get_type gtk_inspector_statistics_get_type
+          gtk_inspector_strv_editor_get_type gtk_inspector_visual_get_type
+          gtk_inspector_window_get_type gtk_menu_section_box_get_type
+          gtk_menu_tracker_item_get_type gtk_menu_tracker_item_role_get_type
+          gtk_model_menu_item_get_type gtk_places_view_get_type
+          gtk_places_view_row_get_type gtk_query_get_type
+          gtk_search_engine_tracker3_get_type gtk_sidebar_row_get_type
+          gtk_stack_combo_get_type gtk_tooltip_window_get_type
+          gtk_tree_model_css_node_get_type gtk_win32_embed_widget_get_type
         >);
 
         @list.push: $l;
@@ -355,7 +382,227 @@ method generate-gtkdoc ( ) {
       # Write filtered list
       "$gd/{$mod-name}.types".IO.spurt(@list.join("\n"));
     }
-  }
+
+    when Gtk4 {
+      note "Filter types from $gd/{$mod-name}.types" if $*verbose;
+      my @list = ();
+      # read the types list
+      for "$gd/{$mod-name}.types".IO.slurp.lines -> $l {
+        # Filter out following functions from types list.
+        next if $l ~~ any(<action_holder_get_type graph_data_get_type
+          graph_renderer_get_type gsk_pango_renderer_get_type
+          gtk_accessible_range_get_type gtk_accessible_value_get_type
+          gtk_action_helper_get_type gtk_action_muxer_get_type
+          gtk_action_observable_get_type gtk_action_observer_get_type
+          gtk_alert_dialog_get_type gtk_application_accels_get_type
+          gtk_application_impl_dbus_get_type gtk_application_impl_get_type
+          gtk_application_impl_quartz_get_type
+          gtk_application_impl_wayland_get_type
+          gtk_application_impl_x11_get_type gtk_at_spi_cache_get_type
+          gtk_at_spi_context_get_type gtk_at_spi_root_get_type
+          gtk_baseline_overlay_get_type gtk_builtin_icon_get_type
+          gtk_button_role_get_type gtk_color_dialog_button_get_type
+          gtk_color_dialog_get_type gtk_color_editor_get_type
+          gtk_color_picker_get_type gtk_color_picker_kwin_get_type
+          gtk_color_picker_portal_get_type gtk_color_picker_shell_get_type
+          gtk_color_picker_win32_get_type gtk_color_plane_get_type
+          gtk_color_scale_get_type gtk_color_swatch_get_type
+          gtk_column_list_item_factory_get_type gtk_column_view_cell_get_type
+          gtk_column_view_layout_get_type gtk_column_view_sorter_get_type
+          gtk_column_view_title_get_type gtk_constraint_solver_get_type
+          gtk_css_animated_style_get_type gtk_css_dynamic_get_type
+          gtk_css_image_conic_get_type gtk_css_image_cross_fade_get_type
+          gtk_css_image_invalid_get_type gtk_css_image_paintable_get_type
+          gtk_css_node_get_type gtk_css_static_style_get_type
+          gtk_css_style_get_type gtk_css_transient_node_get_type
+          gtk_css_widget_node_get_type gtk_data_viewer_get_type
+          gtk_emoji_completion_get_type gtk_file_chooser_cell_get_type
+          gtk_file_chooser_error_stack_get_type gtk_file_dialog_get_type
+          gtk_file_launcher_get_type gtk_file_system_model_get_type
+          gtk_focus_overlay_get_type
+          gtk_font_dialog_button_get_type
+          gtk_font_dialog_get_type
+          gtk_fps_overlay_get_type
+          gtk_gizmo_get_type
+          gtk_highlight_overlay_get_type
+          gtk_icon_helper_get_type
+          gtk_im_context_broadway_get_type
+          gtk_im_context_ime_get_type
+          gtk_im_context_quartz_get_type
+          gtk_im_context_wayland_get_type
+          gtk_inscription_get_type
+          gtk_inspector_a11y_get_type
+          gtk_inspector_action_editor_get_type
+          gtk_inspector_actions_get_type
+          gtk_inspector_clipboard_get_type
+          gtk_inspector_controllers_get_type
+          gtk_inspector_css_editor_get_type
+          gtk_inspector_css_node_tree_get_type
+          gtk_inspector_event_recording_get_type
+          gtk_inspector_general_get_type
+          gtk_inspector_list_data_get_type
+          gtk_inspector_logs_get_type
+          gtk_inspector_magnifier_get_type
+          gtk_inspector_measure_graph_get_type
+          gtk_inspector_menu_get_type
+          gtk_inspector_misc_info_get_type
+          gtk_inspector_object_tree_get_type
+          gtk_inspector_overlay_get_type
+          gtk_inspector_prop_editor_get_type
+          gtk_inspector_prop_list_get_type
+          gtk_inspector_recorder_get_type
+          gtk_inspector_recorder_row_get_type
+          gtk_inspector_recording_get_type
+          gtk_inspector_render_recording_get_type
+          gtk_inspector_resource_list_get_type
+          gtk_inspector_shortcuts_get_type
+          gtk_inspector_size_groups_get_type
+          gtk_inspector_start_recording_get_type
+          gtk_inspector_statistics_get_type
+          gtk_inspector_strv_editor_get_type
+          gtk_inspector_tree_data_get_type
+          gtk_inspector_type_popover_get_type
+          gtk_inspector_variant_editor_get_type
+          gtk_inspector_visual_get_type
+          gtk_inspector_window_get_type
+          gtk_joined_menu_get_type
+          gtk_layout_overlay_get_type
+          gtk_list_item_manager_get_type
+          gtk_list_item_widget_get_type
+          gtk_list_list_model_get_type
+          gtk_magnifier_get_type
+          gtk_menu_section_box_get_type
+          gtk_menu_tracker_item_get_type
+          gtk_menu_tracker_item_role_get_type
+          gtk_model_button_get_type
+          gtk_no_media_file_get_type
+          gtk_paned_handle_get_type
+          gtk_places_sidebar_get_type
+          gtk_places_view_get_type
+          gtk_places_view_row_get_type
+          gtk_popover_content_get_type
+          gtk_property_lookup_list_model_get_type
+          gtk_query_get_type
+          gtk_render_node_paintable_get_type
+          gtk_scaler_get_type
+          gtk_search_engine_tracker3_get_type
+          gtk_sidebar_row_get_type
+          gtk_test_at_context_get_type
+          gtk_text_handle_get_type
+          gtk_text_history_get_type
+          gtk_text_layout_get_type
+          gtk_text_view_child_get_type
+          gtk_tooltip_window_get_type
+          gtk_tree_popover_get_type
+          gtk_updates_overlay_get_type
+          gtk_uri_launcher_get_type
+          prop_holder_get_type
+          resource_holder_get_type
+
+        >);
+
+        @list.push: $l;
+      }
+
+      # Write filtered list
+      "$gd/{$mod-name}.types".IO.spurt(@list.join("\n"));
+    }
+
+    when Gdk3 {
+      note "Filter types from $gd/{$mod-name}.types" if $*verbose;
+      my @list = ();
+      # read the types list
+      for "$gd/{$mod-name}.types".IO.slurp.lines -> $l {
+        # Filter out following functions from types list.
+        next if $l ~~ any(<gdk_broadway_device_get_type gdk_broadway_device_manager_get_type
+          gdk_broadway_screen_get_type gdk_device_manager_win32_get_type
+          gdk_device_virtual_get_type gdk_device_win32_get_type
+          gdk_device_winpointer_get_type gdk_device_wintab_get_type
+          gdk_frame_clock_idle_get_type gdk_offscreen_window_get_type
+          gdk_quartz_cursor_get_type gdk_quartz_device_core_get_type
+          gdk_quartz_device_manager_core_get_type 
+          gdk_quartz_display_get_type gdk_quartz_display_manager_get_type
+          gdk_quartz_drag_context_get_type gdk_quartz_gl_context_get_type
+          gdk_quartz_keymap_get_type gdk_quartz_monitor_get_type
+          gdk_quartz_screen_get_type gdk_quartz_visual_get_type
+          gdk_quartz_window_get_type gdk_seat_default_get_type
+          gdk_wayland_seat_get_type gdk_win32_cursor_get_type
+          gdk_win32_display_get_type gdk_win32_display_manager_get_type
+          gdk_win32_drag_context_get_type gdk_win32_gl_context_get_type
+          gdk_win32_keymap_get_type gdk_win32_monitor_get_type
+          gdk_win32_screen_get_type gdk_win32_selection_get_type
+          gdk_win32_window_get_type gdk_window_impl_broadway_get_type
+          gdk_window_impl_get_type gdk_window_impl_x11_get_type
+        >);
+
+        @list.push: $l;
+      }
+
+      # Write filtered list
+      "$gd/{$mod-name}.types".IO.spurt(@list.join("\n"));
+    }
+
+    when Glib {
+      # Create a non-generated file
+      "$gd/{$mod-name}.types".IO.spurt('');
+      
+      # Copy some other files. They were created when that environment was 
+      # compiled or were available in the archive. These files help to
+      # remedy some errors found by the gtkdoc-mkdb program.
+      my Str $gldir = [~] SKIMTOOLROOT, 'Gnome/glib-', VGlib,
+                          "/docs/reference/glib";
+      "$gldir/{$mod-name}-docs.xml".IO.copy("$gd/{$mod-name}-docs.xml");
+      "$gldir/{$mod-name}-overrides.txt".IO.copy(
+        "$gd/{$mod-name}-overrides.txt"
+      );
+      "$gldir/{$mod-name}-sections.txt".IO.copy("$gd/{$mod-name}-sections.txt");
+    }
+
+    when GObject {
+      note "Filter types from $gd/{$mod-name}.types" if $*verbose;
+      my @list = ();
+      # read the types list
+      for "$gd/{$mod-name}.types".IO.slurp.lines -> $l {
+        # Filter out following functions from types list.
+        next if $l ~~ any(<test_module_get_type>);
+
+        @list.push: $l;
+      }
+
+      # Write filtered list
+      "$gd/{$mod-name}.types".IO.spurt(@list.join("\n"));
+    }
+ 
+    when Gio {
+      note "Filter types from $gd/{$mod-name}.types" if $*verbose;
+      my @list = ();
+      # read the types list
+      for "$gd/{$mod-name}.types".IO.slurp.lines -> $l {
+        # Filter out following functions from types list.
+        next if $l ~~ any(<g_delayed_settings_backend_get_type
+          g_inotify_file_monitor_get_type g_keyfile_settings_backend_get_type
+          g_memory_monitor_dbus_get_type g_memory_monitor_portal_get_type
+          g_memory_settings_backend_get_type g_network_monitor_portal_get_type
+          g_nextstep_settings_backend_get_type g_notification_backend_get_type
+          g_notification_server_get_type g_null_settings_backend_get_type
+          g_osx_app_info_get_type g_power_profile_monitor_dbus_get_type
+          g_power_profile_monitor_portal_get_type
+          g_proxy_resolver_portal_get_type g_registry_backend_get_type
+          g_tls_console_interaction_get_type g_win32_app_info_get_type
+          g_win32_file_monitor_get_type g_win32_input_stream_get_type
+          g_win32_output_stream_get_type g_win32_registry_key_get_type
+          g_win32_registry_subkey_iter_get_type
+          g_win32_registry_value_iter_get_type mock_resolver_get_type
+          test_io_stream_get_type
+        >);
+
+        @list.push: $l;
+      }
+
+      # Write filtered list
+      "$gd/{$mod-name}.types".IO.spurt(@list.join("\n"));
+    }
+ }
 
   my $source-root = SKIMTOOLROOT ~ 'Gnome/';
   my $glib0 = [~] $source-root, 'glib-', VGlib;
@@ -364,7 +611,7 @@ method generate-gtkdoc ( ) {
   my $gobject = [~] $glib0, '/gobject';
 
   my $other-lib = '';
-  with $*use-doc-source {
+  with $*gnome-package {
     when Gtk3 { $other-lib = '-lgtk-3'; }
     when Gdk3 { $other-lib = '-lgdk-3'; }
     when Gtk4 { $other-lib = '-lgtk-4'; }
@@ -375,13 +622,15 @@ method generate-gtkdoc ( ) {
   }
 
   my Str $cf = '-fPIC';
-  my Str $lf = ''; #'-Wl,--no-undefined -Wl,-z,relro -Wl,--as-needed -Wl,-z,now';
+  my Str $lf = '-Wl,--no-undefined -Wl,-z,relro -Wl,--as-needed -Wl,-z,now';
 
-  note "Run: /usr/bin/gtkdoc-scangobj … " if $*verbose;
-  shell "/usr/bin/gtkdoc-scangobj $mod --verbose --cflags '$cf -I$glib -I$gobject -I$glib0 -I$gbuild/glib -I$gbuild' --ldflags '$lf -L$gbuild/gobject -L$gbuild/glib -L/usr/lib64 -lgobject-2.0 -lglib-2.0 $other-lib' >compile1.log";
+  my $command = "/usr/bin/gtkdoc-scangobj $mod --verbose --cflags '$cf -I$glib -I$gobject -I$glib0 -I$gbuild/glib -I$gbuild' --ldflags '$lf -L$gbuild/object -L$gbuild/glib -L$gbuild/gio -lgobject-2.0 -lglib-2.0 -lgio-2.0 -L/usr/lib64 $other-lib' >compile1.log";
+
+  note "\nRun: $command" if $*verbose;
+  shell $command;
 
   my Str $out2 = "--output-dir $gd/docs";
-  note "Run: /usr/bin/gtkdoc-mkdb $out2 $src $mod --xml-mode" if $*verbose;
+  note "\nRun: /usr/bin/gtkdoc-mkdb $out2 $src $mod --xml-mode" if $*verbose;
   shell "/usr/bin/gtkdoc-mkdb $out2 $src $mod --xml-mode >compile2.log";
   chdir $curr-dir;
 }
