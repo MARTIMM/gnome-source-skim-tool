@@ -1,5 +1,9 @@
 ## Change log
 
+* 2023-02-04 0.4.3
+  * Need to change the selection based on `$*sub-prefix` because of the 3 packagages Glib, Gio and GObject. The functions prefix all start with `g_` and therefore it cannot decide to which package the prefix belongs.
+  * GtkDoc is now working on glib, gobject, gio and gdk version 3 too. Still stuck on gtk version 4.
+
 * 2023-03-02 0.4.2
   * **ApiDoc** Add Hierarchy to objects.yaml.
 
