@@ -2,9 +2,11 @@
 
 use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::ConstEnumType;
+use Gnome::SourceSkimTool::SkimGtkDoc;
 
 #-------------------------------------------------------------------------------
 constant \Prepare = Gnome::SourceSkimTool::Prepare;
+constant \SkimGtkDoc = Gnome::SourceSkimTool::SkimGtkDoc;
 
 # $sub-prefix is the name of gnome class. Sometimes another class is defined
 # within the same file. To generate that part, add the $other-prefix.
@@ -20,7 +22,7 @@ my @source-dir-list = ();
 
 #-------------------------------------------------------------------------------
 sub MAIN (
-  Str:D $gnome-package, Str $gnome-class = '',
+  Str:D $gnome-package, Str $gnome-class? = '',
   Bool :$g = False, Bool :$v = False,
   Bool :$d = False, Bool :$h = False, Bool :$r = False,
 ) {
@@ -28,7 +30,7 @@ sub MAIN (
   $*verbose = $v;
 
   $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
-  if !$*gnome-package {
+  if ! $*gnome-package.defined {
     USAGE;
     exit(1);
   }
@@ -38,15 +40,22 @@ sub MAIN (
     exit(0);
   }
 
-  # Make a list of C source files if requested and load the list
-  my Prepare $gfl .= new;
-  $gfl.generate-gtkdoc if $d;
+  # Generate the document results using gtkdoc
+  my Prepare $prepare .= new;
+  $prepare.generate-gtkdoc if $d;
+
+  # Generate the global data results from the gtkdocs generated files
+  if $g {
+    my SkimGtkDoc $skim-doc .= new;
+    $skim-doc.process-apidocs;
+  }
 }
 
 #-------------------------------------------------------------------------------
 sub USAGE ( ) {
 
   # Need to call Prepare init to get a few values in the output
+  $*verbose = False;
   my Prepare $gfl .= new;
 
   note qq:to/EOHELP/;
