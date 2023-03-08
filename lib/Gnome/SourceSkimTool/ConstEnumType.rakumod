@@ -31,6 +31,6 @@ enum SkimSource is export <
 
 # GnomeVersions :VGdk3Pixbuf<2.42.8> not interesting anymore
 enum GnomeVersions is export (
-  :VGtk3<3.24.36>, :VGtk4<4.9.3>, :VAtk<2.26.1>, :VCairo<1.17.6>,
+  :VGtk3<3.24.36>, :VGtk4<4.9.4>, :VAtk<2.26.1>, :VCairo<1.17.6>,
   :VGlib<2.74.5>, :VPango<1.50.7>
 );
