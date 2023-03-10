@@ -114,6 +114,8 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       return Truncate if %attribs<role> ne 'function';
 
       $!function-name = %attribs<id>;
+      my Str $rsp = $*work-data<raku-sub-prefix>;
+      $!function-name ~~ s/^ $rsp '-' //;
       note "  function $!function-name" if $*verbose;
 
       $!functions{$!function-name} = %();
@@ -122,7 +124,7 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       # mark info as init method when 'new' is in the funcion name
       $!fh<init> = $!function-name ~~ m/ <|w> new <|w> /.Bool;
       self!function-scan($parent-path[*-1].nodes);
-        
+
       $ar = Truncate;
     }
 
@@ -130,12 +132,14 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       return Truncate if %attribs<role> ne 'signal';
 
       $!signal-name = %attribs<id>;
+      $!signal-name ~~ s/^ $*gnome-class '-' //;
       note "  signal $!signal-name" if $*verbose;
 
       $!signals{$!signal-name} = %();
       $!fh := $!signals{$!signal-name};
       self!signal-scan($parent-path[*-1].nodes);
       $!fh<doc><signal> = self!cleanup( $!fh<doc><signal>, :trim);
+
       $ar = Truncate;
     }
 
@@ -143,6 +147,7 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       return Truncate if %attribs<role> ne 'property';
 
       $!property-name = %attribs<id>;
+      $!property-name ~~ s/^ $*gnome-class '--' //;
       note "  property $!property-name" if $*verbose;
 
       $!properties{$!property-name} = %();
