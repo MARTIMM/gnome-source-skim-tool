@@ -4,8 +4,11 @@ use Gnome::SourceSkimTool::ConstEnumType;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
+has Int $!indent-level;
+
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
+  $!indent-level = 0;
   my Str $source-root = SKIMTOOLROOT ~ 'Gnome/';
 
   with $*gnome-package {
@@ -14,7 +17,9 @@ submethod BUILD ( ) {
         :library<&gtk-lib>,
         :source-dir([~] $source-root, 'gtk+-', VGtk3, '/gtk'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gtk3'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gtk3/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'Gtk3/' !! ''
+        ),
       );
     }
 
@@ -23,7 +28,9 @@ submethod BUILD ( ) {
         :library<&gdk-lib>,
         :source-dir([~] $source-root, 'gtk+-', VGtk3, '/gdk'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gdk3'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gdk3/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'Gdk3/' !! ''
+        ),
       );
     }
 
@@ -32,7 +39,9 @@ submethod BUILD ( ) {
         :library<&gtk4-lib>,
         :source-dir([~] $source-root, 'gtk-', VGtk4, '/gtk'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gtk4'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gtk4/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'Gtk4/' !! ''
+        ),
       );
     }
 
@@ -41,7 +50,9 @@ submethod BUILD ( ) {
         :library<&gdk4-lib>,
         :source-dir([~] $source-root, 'gtk-', VGtk4, '/gdk'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gdk4'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gdk4/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'Gdk4/' !! ''
+        ),
       );
     }
 
@@ -50,7 +61,9 @@ submethod BUILD ( ) {
         :library<&glib-lib>,
         :source-dir([~] $source-root, 'glib-', VGlib, '/glib'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Glib'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Glib/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'Glib/' !! ''
+        ),
       );
     }
 
@@ -59,7 +72,9 @@ submethod BUILD ( ) {
         :library<&gio-lib>,
         :source-dir([~] $source-root, 'glib-', VGlib, '/gio'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gio'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Gio/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'Gio/' !! ''
+        ),
       );
     }
 
@@ -68,7 +83,9 @@ submethod BUILD ( ) {
         :library<&gobject-lib>,
         :source-dir([~] $source-root, 'glib-', VGlib, '/gobject'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/GObject'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'GObject/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'GObject/' !! ''
+        ),
       );
     }
 
@@ -77,7 +94,9 @@ submethod BUILD ( ) {
         :library<&cairo-lib>,
         :source-dir([~] $source-root, 'cairo-', VCairo, '/src'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Cairo'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Cairo/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'Cairo/' !! ''
+        ),
       );
     }
 
@@ -86,7 +105,9 @@ submethod BUILD ( ) {
         :library<&pango-lib>,
         :source-dir([~] $source-root, 'pango-', VPango, '/pango'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Pango'),
-        :skim-module-result( ?$*gnome-class ?? SKIMTOOLDATA ~ 'Pango/' !! ''),
+        :skim-module-result(
+          $*gnome-class.defined ?? SKIMTOOLDATA ~ 'Pango/' !! ''
+        ),
       );
     }
 
@@ -97,79 +118,28 @@ submethod BUILD ( ) {
 
   # Add some more global work data
   my Str $gclass = $*gnome-class // '';
-  $gclass ~~ s:g/ (\w) (<[A..Z]>) /{$0}_$1.lc()/;
-  $*work-data<sub-prefix> = ?$*gnome-class ?? $gclass !! '';
+  $gclass ~~ s:g/ (\w) (<[A..Z]>) /{$0}_{$1}/;
+  $*work-data<sub-prefix> = ?$*gnome-class ?? $gclass.lc() !! '';
 
   $*work-data<new-raku-modules> = 'xt/NewRakuModules/';
 
-  $*work-data<skim-module-result> ~= "$*gnome-class.yaml" if ?$*gnome-class;
-
+  # create directory and then add filename to string
+  if ?$*gnome-class {
+    mkdir $*work-data<skim-module-result>, 0o700
+      if ?$*gnome-class and $*work-data<skim-module-result>.IO !~~ :e;
+    $*work-data<skim-module-result> ~= "$*gnome-class.yaml";
+  }
 
   # Check existence of directories
   mkdir $*work-data<gtkdoc-dir>, 0o700
     if ?$*gnome-package and $*work-data<gtkdoc-dir>.IO !~~ :e;
-  mkdir $*work-data<skim-module-result>, 0o700
-    if ?$*gnome-class and $*work-data<skim-module-result>.IO !~~ :e;
   mkdir $*work-data<new-raku-modules>, 0o700
     if ?$*gnome-package and $*work-data<new-raku-modules>.IO !~~ :e;
 
 #  mkdir $*work-data<>, 0o700 unless $*work-data<>.IO.e;
 
-
-  note "Work data: ", $*work-data.gist if $*verbose;
+  self.display-hash( $*work-data, :label<work-data>);
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method set-source-dir ( --> Str ) {
-  my Str $source-root = SKIMTOOLROOT ~ 'Gnome/';
-  my Str $source-dir = '';
-
-  with $*gnome-package {
-    when Gtk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gtk'; }
-    when Gdk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gdk'; }
-    when Gtk4 { $source-dir = [~] $source-root, 'gtk-', VGtk4, '/gtk'; }
-    when Gdk4 { $source-dir = [~] $source-root, 'gtk-', VGtk4, '/gdk'; }
-    when Glib { $source-dir = [~] $source-root, 'glib', VGlib, 'glib'; }
-    when Gio { $source-dir = [~] $source-root, 'glib', VGlib, 'gio'; }
-    when GObject { $source-dir = [~] $source-root, 'glib', VGlib, 'gobject'; }
-    when Cairo { $source-dir = [~] $source-root, 'cairo', VCairo, 'src'; }
-    when Pango { $source-dir = [~] $source-root, 'pango', VPango, 'pango'; }
-    #when  { $source-dir = [~] $source-root, '', , ''; }
-  }
-
-  if $*verbose {
-    note "Config root: ", SKIMTOOLROOT;
-    note "Source directory: $source-dir";
-  }
-
-  $source-dir
-}
-
-#-------------------------------------------------------------------------------
-method set-gtkdoc-dir ( --> Str ) {
-  my Str $dir = '';
-
-  with $*gnome-package {
-    when Gtk3 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gtk3'; }
-    when Gdk3 { $dir= SKIMTOOLROOT ~ 'Gtkdoc/Gdk3'; }
-    when Gtk4 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gtk4'; }
-    when Gdk4 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gdk4'; }
-    when Glib { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Glib'; }
-    when Gio { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gio'; }
-    when GObject { $dir = SKIMTOOLROOT ~ 'Gtkdoc/GObject'; }
-    when Cairo { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Cairo'; }
-    when Pango { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Pango'; }
-    #when  { $dir = SKIMTOOLROOT ~ 'Gtkdoc/'; }
-  }
-
-  mkdir $dir, 0o700 unless $dir.IO.e;
-
-  note "Gtk doc directory: $dir" if $*verbose;
-
-  $dir
-}
-}}
 
 #-------------------------------------------------------------------------------
 method get-gtkdoc-file ( Str $postfix, Bool :$txt = True --> Str ) {
@@ -214,102 +184,6 @@ method get-gtkdoc-file ( Str $postfix, Bool :$txt = True --> Str ) {
 
   $gtkdoc-fname
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method get-raku-class-name (
-  Str $gnome-class is copy, Str $class-type --> Str
-) {
-  my Str $class-name = '';
-
-  with $gnome-class {
-    when m/^ Gtk / and $*gnome-package ~~ Gtk3 {
-      $gnome-class ~~ s/^ Gtk //;
-      $class-name = 'Gnome::Gtk3::' ~ $gnome-class;
-    }
-    when m/^ Gdk / and $*gnome-package ~~ Gdk3 {
-      $gnome-class ~~ s/^ Gdk //;
-      $class-name = 'Gnome::Gdk3::' ~ $gnome-class;
-    }
-    when m/^ Gtk / and $*gnome-package ~~ Gtk4 {
-      $gnome-class ~~ s/^ Gtk //;
-      $class-name = 'Gnome::Gtk4::' ~ $gnome-class;
-    }
-    when m/^ Gdk / and $*gnome-package ~~ Gdk4 {
-      $gnome-class ~~ s/^ Gdk //;
-      $class-name = 'Gnome::Gdk4::' ~ $gnome-class;
-    }
-    when m/^ G <[A..Z>]> / {
-      $gnome-class ~~ s/^ G //;
-
-      # role in glib most probably a Gio class
-      if $class-type eq 'role' {
-        $class-name = 'Gnome::Gio::' ~ $gnome-class;
-      }
-#TODO what is it when it isn't a role? Gio, GObject or Glib???
-# must find out by generating GtkDoc for those libs first
-      else {
-        $class-name = 'Gnome::Glib::' ~ $gnome-class;
-      }
-    }
-#`{{
-    when m/^ G <[A..Z>]> / {
-      $gnome-class ~~ s/^ G //;
-      $class-name = 'Gnome::Gio::' ~ $gnome-class;
-    }
-    when m/^ G <[A..Z>]> / {
-      $gnome-class ~~ s/^ G //;
-      $class-name = 'Gnome::GObject::' ~ $gnome-class;
-    }
-}}
-    when m/^ Cairo / {
-      $gnome-class ~~ s/^ Cairo //;
-      $class-name = 'Gnome::Cairo::' ~ $gnome-class;
-    }
-    when m/^ Pango / {
-      $gnome-class ~~ s/^ Pango //;
-      $class-name = 'Gnome::Pango::' ~ $gnome-class;
-    }
-#    when m/^ … / and … {
-#      $gnome-class ~~ s/^ G //;
-#      $class-name = 'Gnome::…::' ~ $gnome-class;
-#    }
-  }
-
-  note "Gtk raku class name: $class-name" if $*verbose;
-
-  $class-name
-}
-}}
-
-#`{{
-#-------------------------------------------------------------------------------
-method set-skim-result-file ( --> Str ) {
-  my Str $dir = '';
-  my Str $file = $*sub-prefix;
-  $file .= tc;
-  $file ~~ s:g/ '_' (\w) /$0.tc()/;
-
-  with $*gnome-package {
-    when Gtk3 { $dir = SKIMTOOLDATA ~ 'Gtk3/'; }
-    when Gdk3 { $dir= SKIMTOOLDATA ~ 'Gdk3/'; }
-    when Gtk4 { $dir = SKIMTOOLDATA ~ 'Gtk4/'; }
-    when Gdk4 { $dir = SKIMTOOLDATA ~ 'Gdk4/'; }
-    when Glib { $dir = SKIMTOOLDATA ~ 'Glib/'; }
-    when Gio { $dir = SKIMTOOLDATA ~ 'Gio/'; }
-    when GObject { $dir = SKIMTOOLDATA ~ 'GObject/'; }
-    when Cairo { $dir = SKIMTOOLDATA ~ 'Cairo/'; }
-    when Pango { $dir = SKIMTOOLDATA ~ 'Pango/'; }
-#    when  { $dir = SKIMTOOLDATA ~ ''; }
-  }
-
-  mkdir $dir, 0o700 unless $dir.IO.e;
-
-  note "Skim result file: $dir$file.yaml" if $*verbose;
-
-  "$dir$file.yaml"
-}
-}}
 
 #-------------------------------------------------------------------------------
 method generate-gtkdoc ( ) {
@@ -602,7 +476,7 @@ method generate-gtkdoc ( ) {
       # Write filtered list
       "$gd/{$mod-name}.types".IO.spurt(@list.join("\n"));
     }
- }
+  }
 
   my $source-root = SKIMTOOLROOT ~ 'Gnome/';
   my $glib0 = [~] $source-root, 'glib-', VGlib;
@@ -635,6 +509,47 @@ method generate-gtkdoc ( ) {
   chdir $curr-dir;
 }
 
+#-------------------------------------------------------------------------------
+method display-hash ( $info, Str :$label ) {
+  return unless $*verbose;
+
+  say '';
+
+  if $info ~~ Array {
+    self!dhash(%($info.kv));
+  }
+
+  elsif ?$label {
+    self!dhash(%($label => $info));
+  }
+
+  else {
+    self!dhash(%(:gen-item($info)));
+  }
+}
+
+#-------------------------------------------------------------------------------
+method !dhash ( Hash $info ) {
+  return unless $*verbose;
+
+  for $info.keys.sort -> $k {
+#    say '' if $!indent-level == 0;
+    if $info{$k} ~~ Hash {
+      say '  ' x $!indent-level, $k, ':';
+      $!indent-level++;
+      self!dhash($info{$k});
+      $!indent-level--;
+    }
+
+    elsif $info{$k} ~~ Array {
+      self!dhash(%($info.kv));
+    }
+
+    else {
+      say '  ' x $!indent-level, $k, ': ', $info{$k}.gist;
+    }
+  }
+}
 
 
 
@@ -643,6 +558,155 @@ method generate-gtkdoc ( ) {
 
 
 =finish
+
+#`{{
+#-------------------------------------------------------------------------------
+method set-source-dir ( --> Str ) {
+  my Str $source-root = SKIMTOOLROOT ~ 'Gnome/';
+  my Str $source-dir = '';
+
+  with $*gnome-package {
+    when Gtk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gtk'; }
+    when Gdk3 { $source-dir = [~] $source-root, 'gtk+-', VGtk3, '/gdk'; }
+    when Gtk4 { $source-dir = [~] $source-root, 'gtk-', VGtk4, '/gtk'; }
+    when Gdk4 { $source-dir = [~] $source-root, 'gtk-', VGtk4, '/gdk'; }
+    when Glib { $source-dir = [~] $source-root, 'glib', VGlib, 'glib'; }
+    when Gio { $source-dir = [~] $source-root, 'glib', VGlib, 'gio'; }
+    when GObject { $source-dir = [~] $source-root, 'glib', VGlib, 'gobject'; }
+    when Cairo { $source-dir = [~] $source-root, 'cairo', VCairo, 'src'; }
+    when Pango { $source-dir = [~] $source-root, 'pango', VPango, 'pango'; }
+    #when  { $source-dir = [~] $source-root, '', , ''; }
+  }
+
+  if $*verbose {
+    note "Config root: ", SKIMTOOLROOT;
+    note "Source directory: $source-dir";
+  }
+
+  $source-dir
+}
+
+#-------------------------------------------------------------------------------
+method set-gtkdoc-dir ( --> Str ) {
+  my Str $dir = '';
+
+  with $*gnome-package {
+    when Gtk3 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gtk3'; }
+    when Gdk3 { $dir= SKIMTOOLROOT ~ 'Gtkdoc/Gdk3'; }
+    when Gtk4 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gtk4'; }
+    when Gdk4 { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gdk4'; }
+    when Glib { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Glib'; }
+    when Gio { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Gio'; }
+    when GObject { $dir = SKIMTOOLROOT ~ 'Gtkdoc/GObject'; }
+    when Cairo { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Cairo'; }
+    when Pango { $dir = SKIMTOOLROOT ~ 'Gtkdoc/Pango'; }
+    #when  { $dir = SKIMTOOLROOT ~ 'Gtkdoc/'; }
+  }
+
+  mkdir $dir, 0o700 unless $dir.IO.e;
+
+  note "Gtk doc directory: $dir" if $*verbose;
+
+  $dir
+}
+}}
+
+#`{{
+#-------------------------------------------------------------------------------
+method get-raku-class-name (
+  Str $gnome-class is copy, Str $class-type --> Str
+) {
+  my Str $class-name = '';
+
+  with $gnome-class {
+    when m/^ Gtk / and $*gnome-package ~~ Gtk3 {
+      $gnome-class ~~ s/^ Gtk //;
+      $class-name = 'Gnome::Gtk3::' ~ $gnome-class;
+    }
+    when m/^ Gdk / and $*gnome-package ~~ Gdk3 {
+      $gnome-class ~~ s/^ Gdk //;
+      $class-name = 'Gnome::Gdk3::' ~ $gnome-class;
+    }
+    when m/^ Gtk / and $*gnome-package ~~ Gtk4 {
+      $gnome-class ~~ s/^ Gtk //;
+      $class-name = 'Gnome::Gtk4::' ~ $gnome-class;
+    }
+    when m/^ Gdk / and $*gnome-package ~~ Gdk4 {
+      $gnome-class ~~ s/^ Gdk //;
+      $class-name = 'Gnome::Gdk4::' ~ $gnome-class;
+    }
+    when m/^ G <[A..Z>]> / {
+      $gnome-class ~~ s/^ G //;
+
+      # role in glib most probably a Gio class
+      if $class-type eq 'role' {
+        $class-name = 'Gnome::Gio::' ~ $gnome-class;
+      }
+#TODO what is it when it isn't a role? Gio, GObject or Glib???
+# must find out by generating GtkDoc for those libs first
+      else {
+        $class-name = 'Gnome::Glib::' ~ $gnome-class;
+      }
+    }
+#`{{
+    when m/^ G <[A..Z>]> / {
+      $gnome-class ~~ s/^ G //;
+      $class-name = 'Gnome::Gio::' ~ $gnome-class;
+    }
+    when m/^ G <[A..Z>]> / {
+      $gnome-class ~~ s/^ G //;
+      $class-name = 'Gnome::GObject::' ~ $gnome-class;
+    }
+}}
+    when m/^ Cairo / {
+      $gnome-class ~~ s/^ Cairo //;
+      $class-name = 'Gnome::Cairo::' ~ $gnome-class;
+    }
+    when m/^ Pango / {
+      $gnome-class ~~ s/^ Pango //;
+      $class-name = 'Gnome::Pango::' ~ $gnome-class;
+    }
+#    when m/^ … / and … {
+#      $gnome-class ~~ s/^ G //;
+#      $class-name = 'Gnome::…::' ~ $gnome-class;
+#    }
+  }
+
+  note "Gtk raku class name: $class-name" if $*verbose;
+
+  $class-name
+}
+}}
+
+#`{{
+#-------------------------------------------------------------------------------
+method set-skim-result-file ( --> Str ) {
+  my Str $dir = '';
+  my Str $file = $*sub-prefix;
+  $file .= tc;
+  $file ~~ s:g/ '_' (\w) /$0.tc()/;
+
+  with $*gnome-package {
+    when Gtk3 { $dir = SKIMTOOLDATA ~ 'Gtk3/'; }
+    when Gdk3 { $dir= SKIMTOOLDATA ~ 'Gdk3/'; }
+    when Gtk4 { $dir = SKIMTOOLDATA ~ 'Gtk4/'; }
+    when Gdk4 { $dir = SKIMTOOLDATA ~ 'Gdk4/'; }
+    when Glib { $dir = SKIMTOOLDATA ~ 'Glib/'; }
+    when Gio { $dir = SKIMTOOLDATA ~ 'Gio/'; }
+    when GObject { $dir = SKIMTOOLDATA ~ 'GObject/'; }
+    when Cairo { $dir = SKIMTOOLDATA ~ 'Cairo/'; }
+    when Pango { $dir = SKIMTOOLDATA ~ 'Pango/'; }
+#    when  { $dir = SKIMTOOLDATA ~ ''; }
+  }
+
+  mkdir $dir, 0o700 unless $dir.IO.e;
+
+  note "Skim result file: $dir$file.yaml" if $*verbose;
+
+  "$dir$file.yaml"
+}
+}}
+
 sources from https://www.gtk.org/docs/installations/linux/
 
 Make gtk and gdk libs
