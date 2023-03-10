@@ -63,7 +63,12 @@ subtest 'DocSearch', {
 ##`{{
 
   $sgd.process-gtkdocs;
-  display-function-info(%(:f($sgd.functions<gtk-button-get-focus-on-click>)));
+  
+  $*verbose = True;
+  $gfl.display-hash(
+    $sgd.functions<gtk-button-get-focus-on-click>,
+    :label<get-focus-on-click>
+  );
 
 #`{{
 
@@ -127,6 +132,7 @@ done-testing;
 
 #BUG; module result of function not always correct, name has wrong text
 
+#`{{
 #-------------------------------------------------------------------------------
 sub display-function-info ( Hash $info ) {
   for $info.keys.sort -> $k {
@@ -143,6 +149,5 @@ sub display-function-info ( Hash $info ) {
     }
   }
 }
-
-=finish
+}}
 
