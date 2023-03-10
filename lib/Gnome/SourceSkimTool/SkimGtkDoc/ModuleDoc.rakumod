@@ -47,81 +47,43 @@ has Hash $!fh;
 has Int $!refsect-level;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( ) {
-
-#`{{
-  # Devise the section name using the provided subroutine prefix.
-  # Something like 'gtk_button' or 'gio_file'. The examples must
-  # become 'GtkButton' or 'GFile'.
-  my Str $sp = $*sub-prefix;
-  $sp .= tc;
-  $sp ~~ s:g/ '_'(\w) /$0.tc()/;
-
-#`{{
-  # (from above comment … become 'gtk3-GtkButton' or 'gio-GFile'.
-NOTE; previously needed to search for e.g. 'gtk3-GtkButton.description' but
-compilation is maybe changed and now it's simpler 'GtkButton.description'. 
-There is also more information. Might be that the run must be done in the
-directory which is done now by ::Prepare.
-
-  with $*gnome-package {
-    when Gtk3 {
-      $!section-prefix-name = 'gtk3';
-    }
-    
-    when Gdk3 {
-      $!section-prefix-name = 'gdk3';
-    }
-    
-    when Gtk4 {
-      $!section-prefix-name = 'gtk4';
-    }
-    
-    when Gdk4 {
-      $!section-prefix-name = 'gdk4';
-    }
-
-#      when  {  }
-  }
-
-  $!section-prefix-name ~= "-$sp";
-#note "$?LINE: $!section-prefix-name";
-}}
-
-  $!section-prefix-name = $sp;
-
-  $!description = '';
-  $!functions = %();
-}}
-}
+submethod BUILD ( ) { }
 
 #-------------------------------------------------------------------------------
 method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
   return Truncate unless ?$id;
-
-  note "refsect1: $*gnome-class, $id" if $*verbose;
 
   given $id {
     when "$*gnome-class\.description" {
       $!phase = Description;
       $!description = '';
       $!refsect-level = 1;
+
+      note "\n$*gnome-class description" if $*verbose;
     }
 
     when "$*gnome-class\.functions_details" {
       $!phase = Functions;
+
+      note "\n$*gnome-class functions" if $*verbose;
     }
 
     when "$*gnome-class\.signal-details" {
       $!phase = Signals;
+
+      note "\n$*gnome-class signals" if $*verbose;
     }
 
     when "$*gnome-class\.property-details" {
       $!phase = Properties;
+
+      note "\n$*gnome-class properties" if $*verbose;
     }
  
     when "$*gnome-class\.other_details" {
       $!phase = Types;
+
+      note "\n$*gnome-class other details" if $*verbose;
     }
   }
 
@@ -152,6 +114,8 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       return Truncate if %attribs<role> ne 'function';
 
       $!function-name = %attribs<id>;
+      note "  function $!function-name" if $*verbose;
+
       $!functions{$!function-name} = %();
       $!fh := $!functions{$!function-name};
 
@@ -166,6 +130,8 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       return Truncate if %attribs<role> ne 'signal';
 
       $!signal-name = %attribs<id>;
+      note "  signal $!signal-name" if $*verbose;
+
       $!signals{$!signal-name} = %();
       $!fh := $!signals{$!signal-name};
       self!signal-scan($parent-path[*-1].nodes);
@@ -177,6 +143,8 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       return Truncate if %attribs<role> ne 'property';
 
       $!property-name = %attribs<id>;
+      note "  property $!property-name" if $*verbose;
+
       $!properties{$!property-name} = %();
       $!fh := $!properties{$!property-name};
       self!property-scan($parent-path[*-1].nodes);
@@ -190,6 +158,7 @@ method refsect2:start ( Array $parent-path, *%attribs --> ActionResult  ) {
       return Truncate if %attribs<role> eq 'struct';
 
       $!type-name = %attribs<id>;
+      note "  type $!type-name" if $*verbose;
 
       $!types{$!type-name} = %();
       $!fh := $!types{$!type-name};
@@ -411,7 +380,7 @@ method !signal-scan ( @nodes ) {
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
-          my Str $section-prefix-name = $*gnome-class;
+          my Str $section-prefix-name = $*work-data<sub-prefix>;
           $text ~~ s/ $section-prefix-name '::' //;
           $!fh<native-name> = $text;
         }
@@ -572,7 +541,7 @@ method !property-scan ( @nodes ) {
       given $n.name {
         when 'primary' {
           my Str $text = self!get-text($n.nodes);
-          my Str $section-prefix-name = $*gnome-class;
+          my Str $section-prefix-name = $*work-data<sub-prefix>;
           $text ~~ s/ $section-prefix-name ':' //;
           $!fh<native-name> = $text;
         }
@@ -743,9 +712,9 @@ method !get-text (
 
 #-------------------------------------------------------------------------------
 method !linked-items ( Str $text is copy --> Str ) {
-#note "$?LINE: $!section-prefix-name, $text";
+#note "$?LINE: $text, $*gnome-class, $*work-data<sub-prefix>";
 
-  my Str $section-prefix-name = $*gnome-class;
+  my Str $section-prefix-name = $*work-data<sub-prefix>;
   if $text ~~ m/ $section-prefix-name / {
     $text ~~ s/ $section-prefix-name '-' //;
   }
@@ -757,13 +726,23 @@ method !linked-items ( Str $text is copy --> Str ) {
       when Gdk3 { $class ~~ s:g/ Gdk (\w+) /Gnome::Gdk3::$0/; }
       when Gtk4 { $class ~~ s:g/ Gtk (\w+) /Gnome::Gtk4::$0/; }
       when Gdk4 { $class ~~ s:g/ Gdk (\w+) /Gnome::Gdk4::$0/; }
-  #    when  { $text ~~ s:g/ <!after '::'> G.. (\w+) /B<Gnome::G..::$0>/; }
+      when Glib { $class ~~ s:g/ Glib (\w+) /Gnome::Glib::$0/; }
+      when GObject { $class ~~ s:g/ GObject (\w+) /Gnome::GObject::$0/; }
+      when Gio { $class ~~ s:g/ Gio (\w+) /Gnome::Gio::$0/; }
+      when Pango { $class ~~ s:g/ Pango (\w+) /Gnome::Pango::$0/; }
+      when Cairo { $class ~~ s:g/ Cairo (\w+) /Gnome::Cairo::$0/; }
     }
 
-    $text = "$rest defined in B<$class>";
+    if ?$rest and ?$class {
+      $text = "$rest defined in B<$class>";
+    }
+
+    else {
+      $text = '';
+    }
   }
 
-  " I<$text> "
+  ?$text ?? " I<$text> " !! '';
 }
 
 #-------------------------------------------------------------------------------
@@ -787,7 +766,7 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
 #note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
 
-  my Str $section-prefix-name = $*gnome-class;
+  my Str $section-prefix-name = $*work-data<sub-prefix>;
 
   # signals
   if $text ~~ m/ <|w> $section-prefix-name '::' \w+ / {
@@ -844,7 +823,17 @@ method !scan-for-unresolved-items ( Str $text is copy --> Str ) {
     when Gdk3 { $text ~~ s:g/ <!after '::'> Gdk (\w+) /B<Gnome::Gdk3::$0>/; }
     when Gtk4 { $text ~~ s:g/ <!after '::'> Gtk (\w+) /B<Gnome::Gtk4::$0>/; }
     when Gdk4 { $text ~~ s:g/ <!after '::'> Gdk (\w+) /B<Gnome::Gdk4::$0>/; }
-#    when  { $text ~~ s:g/ <!after '::'> G.. (\w+) /B<Gnome::G..::$0>/; }
+    when Glib { $text ~~ s:g/ <!after '::'> Glib (\w+) /B<Gnome::Glib::$0>/; }
+    when GObject {
+      $text ~~ s:g/ <!after '::'> GObject (\w+) /B<Gnome::GObject::$0>/;
+    }
+    when Gio { $text ~~ s:g/ <!after '::'> Gio (\w+) /B<Gnome::Gio::$0>/; }
+    when Pango {
+      $text ~~ s:g/ <!after '::'> Pango (\w+) /B<Gnome::Pango::$0>/;
+    }
+    when Cairo {
+      $text ~~ s:g/ <!after '::'> Cairo (\w+) /B<Gnome::Cairo::$0>/;
+    }
   }
 
   # some xml remnants
