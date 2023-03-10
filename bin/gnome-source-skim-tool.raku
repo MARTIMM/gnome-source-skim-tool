@@ -16,13 +16,14 @@ my Str $*gnome-class;
 my Hash $*work-data;
 
 my Bool $*verbose;
+my Prepare $prepare;
 
 #my Str $source
 my @source-dir-list = ();
 
 #-------------------------------------------------------------------------------
 sub MAIN (
-  Str:D $gnome-package, Str $gnome-class? = '',
+  Str:D $gnome-package, *@gnome-class,
   Bool :$g = False, Bool :$v = False,
   Bool :$d = False, Bool :$h = False, Bool :$r = False,
 ) {
@@ -30,7 +31,7 @@ sub MAIN (
   $*verbose = $v;
 
   $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
-  if ! $*gnome-package.defined {
+  unless $*gnome-package.defined {
     USAGE;
     exit(1);
   }
@@ -41,13 +42,36 @@ sub MAIN (
   }
 
   # Generate the document results using gtkdoc
-  my Prepare $prepare .= new;
-  $prepare.generate-gtkdoc if $d;
+  if $d {
+    note "\nOption -d; Generate gtkdoc files" if $*verbose;
+    $prepare .= new;
+    $prepare.generate-gtkdoc
+  }
 
   # Generate the global data results from the gtkdocs generated files
+  my SkimGtkDoc $skim-doc .= new;
   if $g {
-    my SkimGtkDoc $skim-doc .= new;
+    note "\nOption -g; Generate global data from gtkdocs generated files"
+      if $*verbose;
     $skim-doc.process-apidocs;
+  }
+
+  for @gnome-class -> $gclass {
+    note "\nGenerate yaml file for module $gclass from gtkdocs files"
+      if $*verbose;
+    $*gnome-class = $gclass;
+    $prepare .= new;
+    $skim-doc.process-gtkdocs;
+  }
+
+  if $r {
+    for @gnome-class -> $gclass {
+      note "\nOption -r; Generate $gclass Raku module from yaml file"
+        if $*verbose;
+      $*gnome-class = $gclass;
+      $prepare .= new;
+#      $skim-doc.process-gtkdocs;
+    }
   }
 }
 
@@ -64,7 +88,7 @@ sub USAGE ( ) {
   the GtkDoc tool also used by Gnome to generate there documentation.
 
   Usage
-    {$*PROGRAM.basename} [Options] gnome-package [gnome-class]
+    {$*PROGRAM.basename} [Options] gnome-package [gnome-class …]
 
     Options:
       d       Generate the gtk doc environment from the source code using the
