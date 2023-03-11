@@ -47,7 +47,13 @@ has Hash $!fh;
 has Int $!refsect-level;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( ) { }
+submethod BUILD ( ) {
+  $!description = %();
+  $!functions = %();
+  $!signals = %();
+  $!properties = %();
+  $!types = %();
+}
 
 #-------------------------------------------------------------------------------
 method refsect1:start ( Array $parent-path, :$id --> ActionResult ) {
@@ -871,11 +877,13 @@ method save-module ( Str:D $fname ) {
 #-------------------------------------------------------------------------------
 method load-module ( Str:D $fname ) {
 
-  my Hash $h = load-yaml($fname.IO.slurp);
+  if $fname.IO ~~ :r {
+    my Hash $h = load-yaml($fname.IO.slurp);
 
-  $!description = $h<description>;
-  $!functions = $h<functions>;
-  $!signals = $h<signals>;
-  $!properties = $<properties>;
-  $!types = $h<types>;
+    $!description = $h<description>;
+    $!functions = $h<functions>;
+    $!signals = $h<signals>;
+    $!properties = $<properties>;
+    $!types = $h<types>;
+  }
 }

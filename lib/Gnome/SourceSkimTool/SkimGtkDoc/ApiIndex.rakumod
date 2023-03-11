@@ -75,5 +75,5 @@ method save-objects ( ) {
 method load-objects ( ) {
 
   my $fname = SKIMTOOLDATA ~ 'objects.yaml';
-  $!objects = load-yaml($fname.IO.slurp);
+  $!objects = load-yaml($fname.IO.slurp) if $fname.IO ~~ :r;
 }
