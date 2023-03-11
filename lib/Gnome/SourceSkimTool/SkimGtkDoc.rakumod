@@ -22,6 +22,8 @@ has ApiIndex $!api-actions handles <objects>;
 submethod BUILD ( ) {
   $!mod-actions .= new;
   $!api-actions .= new;
+
+  $!api-actions.load-objects;
 }
 
 #-------------------------------------------------------------------------------
@@ -33,7 +35,7 @@ method process-gtkdocs ( ) {
 
   my Str $fname = $*gnome-class.lc;
   my Str $docpath = "$gd/docs/$fname.xml";
-  note "document path for module: $docpath" if $*verbose;
+  note "\ndocument path for module: $docpath" if $*verbose;
   my XML::Actions $a .= new(:file($docpath));
   $a.process(:actions($!mod-actions));
 
@@ -55,7 +57,7 @@ method process-apidocs ( ) {
   my Str $gd = $*work-data<gtkdoc-dir>;
 
   $!api-actions .= new;
-#`{{
+
   my Str $docpath = "$gd/docs/api-index-full.xml";
   note "document path for api: $docpath" if $*verbose;
   my XML::Actions $a .= new(:file($docpath));
@@ -70,8 +72,6 @@ method process-apidocs ( ) {
 
   # Get enum values from e.g. ./Gtkdoc/Gtk3/gtk3-decl.txt
   self!add-enum-values($gfl.get-gtkdoc-file( '-decl', :txt));
-}}
-$!api-actions.load-objects;
 
   # Add hierargy info
   self!add-hierarchy($gfl.get-gtkdoc-file( '.hierarchy', :!txt));
