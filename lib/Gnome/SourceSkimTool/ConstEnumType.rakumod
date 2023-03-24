@@ -13,6 +13,10 @@ mkdir SKIMTOOLDATA, 0o700 unless SKIMTOOLDATA.IO ~~ :e;
 constant RAKUMODS is export = 'xt/NewRakuModules/';
 mkdir RAKUMODS, 0o700 unless RAKUMODS.IO ~~ :e;
 
+constant GIRROOT is export = '/usr/share/gir-1.0/';
+
+constant HLSEPARATOR = '#' ~ '-' x 79;
+
 #-------------------------------------------------------------------------------
 #`{{
   A note from https://discourse.gnome.org/t/gtk4-and-gdk-pixbuf/1015
@@ -26,9 +30,22 @@ mkdir RAKUMODS, 0o700 unless RAKUMODS.IO ~~ :e;
 
 # SkimSource Gdk3Pixbuf not interesting anymore
 enum SkimSource is export <
-  Gtk3 Gdk3 Gtk4 Gdk4 Atk Glib Gio GObject Cairo Pango
+  Atk
+  Cairo
+  DBus DBusGLib
+  Gdk3 Gdk4 GdkPixbuf GdkPixdata
+  Gio Glib GObject
+  Gtk3 Gsk4 Gtk4
+  Pango PangoCairo
+  GIRepo
 >;
 
+
+
+
+
+
+=finish
 # GnomeVersions :VGdk3Pixbuf<2.42.8> not interesting anymore
 enum GnomeVersions is export (
   :VGtk3<3.24.36>, :VGtk4<4.9.4>, :VAtk<2.26.1>, :VCairo<1.17.6>,
