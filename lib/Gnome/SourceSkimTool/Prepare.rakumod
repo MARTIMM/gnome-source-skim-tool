@@ -1,6 +1,243 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
 
+
+#-------------------------------------------------------------------------------
+unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
+
+has Int $!indent-level;
+
+#-------------------------------------------------------------------------------
+submethod BUILD ( ) {
+
+  with $*gnome-package {
+    when Gtk3 {
+      $*work-data = %(
+        :library<&gtk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
+        :raku-package<Gnome::Gtk3>,
+        :gir(GIRROOT ~ 'Gtk-3.0.gir'),
+        :sub-prefix<gtk_>,
+      );
+    }
+
+    when Gdk3 {
+      $*work-data = %(
+        :library<&gdk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gdk3/'),
+        :raku-package<Gnome::Gdk3>,
+        :gir(GIRROOT ~ 'Gdk-3.0.gir'),
+        :sub-prefix<gdk_>,
+      );
+    }
+
+    when GdkPixbuf {
+      $*work-data = %(
+        :library<&gdk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'GdkPixbuf/'),
+        :raku-package<Gnome::Gdk3>,
+        :gir(GIRROOT ~ 'GdkPixbuf-2.0.gir'),
+        :sub-prefix<gdk_pixbuf_>,
+      );
+    }
+
+    when Gtk4 {
+      $*work-data = %(
+        :library<&gtk4-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gtk4/'),
+        :raku-package<Gnome::Gtk4>,
+        :gir(GIRROOT ~ 'Gtk-4.0.gir'),
+        :sub-prefix<gtk_>,
+      );
+    }
+
+    when Gdk4 {
+      $*work-data = %(
+        :library<&gdk4-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gdk4/'),
+        :raku-package<Gnome::Gdk4>,
+        :gir(GIRROOT ~ 'Gdk-4.0.gir'),
+        :sub-prefix<gdk_>,
+      );
+    }
+
+    when Gsk4 {
+      $*work-data = %(
+        :library<&gsk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gsk4/'),
+        :raku-package<Gnome::Gsk4>,
+        :gir(GIRROOT ~ 'Gsk-4.0.gir'),
+        :sub-prefix<gsk_>,
+      );
+    }
+
+    when Glib {
+      $*work-data = %(
+        :library<&glib-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Glib/'),
+        :raku-package<Gnome::Glib>,
+        :gir(GIRROOT ~ 'GLib-2.0.gir'),
+        :sub-prefix<g_>,
+      );
+    }
+
+    when Gio {
+      $*work-data = %(
+        :library<&gio-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gio/'),
+        :raku-package<Gnome::Gio>,
+        :gir(GIRROOT ~ 'Gio-2.0.gir'),
+        :sub-prefix<g_>,
+      );
+    }
+
+    when GObject {
+      $*work-data = %(
+        :library<&gobject-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'GObject/'),
+        :raku-package<Gnome::GObject>,
+        :gir(GIRROOT ~ 'GObject-2.0.gir'),
+        :sub-prefix<g_>,
+      );
+    }
+
+    when Cairo {
+      $*work-data = %(
+        :library<&cairo-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Cairo/'),
+        :raku-package<Gnome::Cairo>,
+        :gir(GIRROOT ~ 'cairo-1.0.gir'),
+        :sub-prefix<cairo_>,
+      );
+    }
+
+    when Atk {
+      $*work-data = %(
+        :library<&atk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Atk/'),
+        :raku-package<Gnome::Atk>,
+        :gir(GIRROOT ~ 'Atk-1.0.gir'),
+        :sub-prefix<atk_>,
+      );
+    }
+
+    when Pango {
+      $*work-data = %(
+        :library<&pango-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Pango/'),
+        :raku-package<Gnome::Pango>,
+        :gir(GIRROOT ~ 'Pango-1.0.gir'),
+        :sub-prefix<pango_>,
+      );
+    }
+
+    when PangoCairo {
+      $*work-data = %(
+        :library<&pango-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'PangoCairo/'),
+        :raku-package<Gnome::PangoCairo>,
+        :gir(GIRROOT ~ 'PangoCairo-1.0.gir'),
+        :sub-prefix<_>,
+      );
+    }
+
+    when GIRepo {
+      $*work-data = %(
+#        :library<&pango-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'GIRepository/'),
+        :raku-package<Gnome::GIRepository>,
+        :gir(GIRROOT ~ 'GIRepository-2.0.gir'),
+        :sub-prefix<_>,
+      );
+    }
+
+    default {
+      die 'No SkimSource defined';
+    }
+  }
+
+  mkdir $*work-data<gir-module-path>, 0o700
+    unless $*work-data<gir-module-path>.IO ~~ :e;
+
+  # Add/modify some more global work data
+  if ?$*gnome-class {
+    $*work-data<raku-class-name> =
+      $*work-data<raku-package> ~ "::$*gnome-class";
+
+    my Str $c = $*gnome-class;
+    $c ~~ s/^ (.) /$0.lc()/;
+    $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+    $*work-data<sub-prefix> ~= $c ~ '_';
+
+    $*work-data<gir-module-file> =
+      "$*work-data<gir-module-path>$*gnome-class.gir";
+    $*work-data<raku-module-file> = RAKUMODS ~ "$*gnome-class.rakumod";
+    $*work-data<raku-module-test-file> = RAKUMODS ~ "$*gnome-class.rakutest";
+  }
+
+  self.display-hash( $*work-data, :label<work-data>);
+}
+
+#-------------------------------------------------------------------------------
+method display-hash ( $info, Str :$label ) {
+  return unless $*verbose;
+
+  $!indent-level = 0;
+  say '';
+
+  if $info ~~ Array {
+    self!dhash(%($info.kv));
+  }
+
+  elsif ?$label {
+    self!dhash(%($label => $info));
+  }
+
+  else {
+    self!dhash(%(:gen-item($info)));
+  }
+}
+
+#-------------------------------------------------------------------------------
+method !dhash ( Hash $info ) {
+  return unless $*verbose;
+
+  for $info.keys.sort -> $k {
+#    say '' if $!indent-level == 0;
+    if $info{$k} ~~ Hash {
+      say '  ' x $!indent-level, $k, ':';
+      $!indent-level++;
+      self!dhash($info{$k});
+      $!indent-level--;
+    }
+
+    elsif $info{$k} ~~ Array {
+      self!dhash(%($info.kv));
+    }
+
+    else {
+      say '  ' x $!indent-level, $k, ': ', $info{$k}.gist;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
+
+use Gnome::SourceSkimTool::ConstEnumType;
+
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
@@ -10,157 +247,201 @@ has Int $!indent-level;
 submethod BUILD ( ) {
   $!indent-level = 0;
   my Str $source-root = SKIMTOOLROOT ~ 'Gnome/';
-  my Str $skim-module-result = '';
-  my Str $raku-module-name = $*gnome-class;
+  my Str $gir-module-path;
 
   with $*gnome-package {
     when Gtk3 {
-      $skim-module-result = SKIMTOOLDATA ~ 'Gtk3/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ Gtk //;
-      $raku-module-name = 'Gnome::Gtk3::' ~ $raku-module-name;
       $*work-data = %(
         :library<&gtk-lib>,
         :source-dir([~] $source-root, 'gtk+-', VGtk3, '/gtk'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gtk3'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
+        :raku-package<Gnome::Gtk3>,
+        :sub-prefix<gtk_>,
       );
     }
 
     when Gdk3 {
-      $skim-module-result = SKIMTOOLDATA ~ 'Gdk3/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ Gdk //;
-      $raku-module-name = 'Gnome::Gdk3::' ~ $raku-module-name;
       $*work-data = %(
         :library<&gdk-lib>,
         :source-dir([~] $source-root, 'gtk+-', VGtk3, '/gdk'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gdk3'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gdk3/'),
+        :raku-package<Gnome::Gdk3>,
+        :sub-prefix<gdk_>,
       );
     }
 
     when Gtk4 {
-      $skim-module-result = SKIMTOOLDATA ~ 'Gtk4/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ Gtk //;
-      $raku-module-name = 'Gnome::Gtk4::' ~ $raku-module-name;
       $*work-data = %(
         :library<&gtk4-lib>,
         :source-dir([~] $source-root, 'gtk-', VGtk4, '/gtk'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gtk4'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gtk4/'),
+        :raku-package<Gnome::Gtk4>,
+        :sub-prefix<gtk_>,
       );
     }
 
     when Gdk4 {
-      $skim-module-result = SKIMTOOLDATA ~ 'Gdk4/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ Gdk //;
-      $raku-module-name = 'Gnome::Gdk4::' ~ $raku-module-name;
       $*work-data = %(
         :library<&gdk4-lib>,
         :source-dir([~] $source-root, 'gtk-', VGtk4, '/gdk'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gdk4'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gdk4/'),
+        :raku-package<Gnome::Gdk4>,
+        :sub-prefix<gdk_>,
       );
     }
 
     when Glib {
-      $skim-module-result = SKIMTOOLDATA ~ 'Glib/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ G //;
-      $raku-module-name = 'Gnome::Glib::' ~ $raku-module-name;
       $*work-data = %(
         :library<&glib-lib>,
         :source-dir([~] $source-root, 'glib-', VGlib, '/glib'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Glib'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'Glib/'),
+        :raku-package<Gnome::Glib>,
+        :sub-prefix<g_>,
       );
     }
 
     when Gio {
-      $skim-module-result = SKIMTOOLDATA ~ 'Gio/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ G //;
-      $raku-module-name = 'Gnome::Gio::' ~ $raku-module-name;
       $*work-data = %(
         :library<&gio-lib>,
         :source-dir([~] $source-root, 'glib-', VGlib, '/gio'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Gio'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gio/'),
+        :raku-package<Gnome::Gio>,
+        :sub-prefix<g_>,
       );
     }
 
     when GObject {
-      $skim-module-result = SKIMTOOLDATA ~ 'GObject/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ G //;
-      $raku-module-name = 'Gnome::GObject::' ~ $raku-module-name;
       $*work-data = %(
         :library<&gobject-lib>,
         :source-dir([~] $source-root, 'glib-', VGlib, '/gobject'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/GObject'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'GObject/'),
+        :raku-package<Gnome::GObject>,
+        :sub-prefix<g_>,
       );
     }
 
     when Cairo {
-      $skim-module-result = SKIMTOOLDATA ~ 'Cairo/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ Cairo //;
-      $raku-module-name = 'Gnome::Cairo::' ~ $raku-module-name;
       $*work-data = %(
         :library<&cairo-lib>,
         :source-dir([~] $source-root, 'cairo-', VCairo, '/src'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Cairo'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'Cairo/'),
+        :raku-package<Gnome::Cairo>,
+        :sub-prefix<cairo_>,
       );
     }
 
     when Pango {
-      $skim-module-result = SKIMTOOLDATA ~ 'Pango/' if $*gnome-class.defined;
-      $raku-module-name ~~ s/^ Pango //;
-      $raku-module-name = 'Gnome::Pango::' ~ $raku-module-name;
       $*work-data = %(
         :library<&pango-lib>,
         :source-dir([~] $source-root, 'pango-', VPango, '/pango'),
         :gtkdoc-dir(SKIMTOOLROOT ~ 'Gtkdoc/Pango'),
-        :$skim-module-result,
-        :$raku-module-name,
+        :gir-module-path(SKIMTOOLDATA ~ 'Pango/'),
+        :raku-package<Gnome::Pango>,
+        :sub-prefix<pango_>,
       );
     }
 
     default {
-      die 'Use :$test-cwd to specify gnome source for testing';
+      die 'No SkimSource defined';
     }
   }
 
-  # Add some more global work data
-  my Str $gclass = $*gnome-class // '';
-  $gclass ~~ s:g/ (\w) (<[A..Z]>) /{$0}_{$1}/;
-  $*work-data<sub-prefix> = ?$*gnome-class ?? $gclass.lc() !! '';
-  $*work-data<raku-sub-prefix> = $*work-data<sub-prefix>;
-  $*work-data<raku-sub-prefix> ~~ s:g/ '_' /-/;
-
-  $*work-data<new-raku-modules> = 'xt/NewRakuModules/';
-
-  # create directory and then add filename to string
-  if ?$*gnome-class {
-    mkdir $*work-data<skim-module-result>, 0o700
-      if ?$*gnome-class and $*work-data<skim-module-result>.IO !~~ :e;
-    $*work-data<skim-module-result> ~= "$*gnome-class.yaml";
-  }
+  # create directory
+  $*work-data<gir-module-path> = $*work-data<gir-module-path>;
+  mkdir $*work-data<gir-module-path>, 0o700
+    if $*work-data<gir-module-path>.IO !~~ :e;
 
   # Check existence of directories
   mkdir $*work-data<gtkdoc-dir>, 0o700
     if ?$*gnome-package and $*work-data<gtkdoc-dir>.IO !~~ :e;
+
+
+  $*work-data<new-raku-modules> = 'xt/NewRakuModules/';
   mkdir $*work-data<new-raku-modules>, 0o700
     if ?$*gnome-package and $*work-data<new-raku-modules>.IO !~~ :e;
 
-#  mkdir $*work-data<>, 0o700 unless $*work-data<>.IO.e;
+  # Add/modify some more global work data
+  if ?$*gnome-class {
+    my Str $gclass = $*gnome-class // '';
+    $gclass ~~ s:g/ (\w) (<[A..Z]>) /{$0}_{$1}/;
+    $*work-data<sub-prefix> = ?$*gnome-class ?? $gclass.lc() !! '';
+    $*work-data<raku-sub-prefix> = $*work-data<sub-prefix>;
+    $*work-data<raku-sub-prefix> ~~ s:g/ '_' /-/;
+
+    $*work-data<raku-class-name> = self.raku-class-name;
+
+    # add filename to string
+    $*work-data<gir-module-path> ~= "$*gnome-class.yaml";
+  }
 
   self.display-hash( $*work-data, :label<work-data>);
+}
+
+#-------------------------------------------------------------------------------
+method raku-class-name ( Str :$gnome-name, SkimSource :$package --> Str ) {
+
+  return '' unless ?($gnome-name // $*gnome-class);
+
+  my Str $raku-class-name = $gnome-name // $*gnome-class;
+
+  with $package // $*gnome-package {
+    when Gtk3 {
+      $raku-class-name ~~ s/^ Gtk //;
+      $raku-class-name = 'Gnome::Gtk3::' ~ $raku-class-name;
+    }
+
+    when Gdk3 {
+      $raku-class-name ~~ s/^ Gdk //;
+      $raku-class-name = 'Gnome::Gdk3::' ~ $raku-class-name;
+    }
+
+    when Gtk4 {
+      $raku-class-name ~~ s/^ Gtk //;
+      $raku-class-name = 'Gnome::Gtk4::' ~ $raku-class-name;
+    }
+
+    when Gdk4 {
+      $raku-class-name ~~ s/^ Gdk //;
+      $raku-class-name = 'Gnome::Gdk4::' ~ $raku-class-name;
+    }
+
+    when Glib {
+      $raku-class-name ~~ s/^ G //;
+      $raku-class-name = 'Gnome::Glib::' ~ $raku-class-name;
+    }
+
+    when Gio {
+      $raku-class-name ~~ s/^ G //;
+      $raku-class-name = 'Gnome::Gio::' ~ $raku-class-name;
+    }
+
+    when GObject {
+      $raku-class-name ~~ s/^ G //;
+      $raku-class-name = 'Gnome::GObject::' ~ $raku-class-name;
+    }
+
+    when Cairo {
+      $raku-class-name ~~ s/^ Cairo //;
+      $raku-class-name = 'Gnome::Cairo::' ~ $raku-class-name;
+    }
+
+    when Pango {
+      $raku-class-name ~~ s/^ Pango //;
+      $raku-class-name = 'Gnome::Pango::' ~ $raku-class-name;
+    }
+
+    default {
+      die 'No SkimSource defined';
+    }
+  }
 }
 
 #-------------------------------------------------------------------------------
