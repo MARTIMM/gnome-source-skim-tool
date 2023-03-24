@@ -1,3 +1,323 @@
+
+use XML;
+use XML::XPath;
+use YAMLish;
+
+use Gnome::SourceSkimTool::ConstEnumType;
+
+
+#-------------------------------------------------------------------------------
+unit class Gnome::SourceSkimTool::SkimGtkDoc:auth<github:MARTIMM>;
+
+has Hash $!map;
+has Hash $!other;
+has XML::XPath $!xp;
+
+#-------------------------------------------------------------------------------
+submethod BUILD ( ) {
+
+  my Str $file = $*work-data<gir>;
+  $!xp .= new(:$file);
+
+  # the sections like :function are arrays of XML::Element's
+  $!other = %(
+    :function([]),
+    :record([]),
+    :union([]),
+    :callback([]),
+    :bitfield([]),
+    :enumeration([]),
+    :interface([]),
+  );
+}
+
+#-------------------------------------------------------------------------------
+method get-classes-from-gir ( ) {
+  #my @r = ($!xp.find( '//class[@name="Label"]/doc', :to-list));
+  #note @r[0].Str;
+
+  # make start of xml by taking the <package> and <namespace> elements.
+  # some gir files mention two packages. we take only one
+  my XML::Element $e = $!xp.find( '/repository/package', :to-list)[0];
+  my Str $xml-namespace = "  $e.Str()\n      <namespace\n";
+
+  # get info from namespace
+  $e = $!xp.find( '/repository/namespace');
+  my $attribs = $e.attribs;
+  my Str $namespace-name = $attribs<name>;
+  my Str $symbol-prefix = $attribs<c:symbol-prefixes>;
+  my Str $id-prefix = $attribs<c:identifier-prefixes>;
+
+  # and add attributes to the xml start
+  for $attribs.kv -> $k, $v {
+    $xml-namespace ~= "            $k=\"$v\"\n";
+  }
+  $xml-namespace ~= "      >\n";
+
+  my @elements = ($!xp.find( '/repository/namespace/*', :to-list));
+  for @elements -> $element {
+    given $element.name {
+
+      # save the class info in separate gir files
+      when 'class' {
+        my $attrs = $element.attribs;
+        my $name = $attrs<name>;
+    #    note "class: $name" if $*verbose;
+        my Str $xml = qq:to/EOXML/;
+          <?xml version="1.0"?>
+          <!--
+            File is automatically generated from original gir files;
+            DO NOT EDIT!
+          -->
+          <repository version="1.2"
+                      xmlns="http://www.gtk.org/introspection/core/1.0"
+                      xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                      xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+              $xml-namespace
+              $element.Str()
+            </namespace>
+          </repository>
+          EOXML
+
+        my $xml-file = "$*work-data<gir-module-path>$name.gir";
+        note "Save class $name in '$xml-file'" if $*verbose;
+        $xml-file.IO.spurt($xml);
+      }
+
+      when 'function' {
+        $!other<function>.push: $element;
+      }
+
+      when 'record' {
+        $!other<record>.push: $element;
+      }
+
+      when 'union' {
+        $!other<union>.push: $element;
+      }
+
+      when 'callback' {
+        $!other<callback>.push: $element;
+      }
+
+      when 'bitfield' {
+        $!other<bitfield>.push: $element;
+      }
+
+      when 'enumeration' {
+        $!other<enumeration>.push: $element;
+      }
+
+      when 'interface' {
+        $!other<enumeration>.push: $element;
+      }
+    }
+
+#note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
+    self!map-element( $element, $namespace-name, $symbol-prefix, $id-prefix);
+  }
+
+  self!save-other($xml-namespace);
+  self!save-map;
+}
+
+#-------------------------------------------------------------------------------
+# Make a map of function, class and structure names to Raku names. Add some
+# extra notes like type and location in hierarchy tree.
+method !map-element (
+  XML::Element $element, Str $namespace-name, Str $symbol-prefix, Str $id-prefix
+) {
+
+  my Hash $attrs = $element.attribs;
+  note "$?LINE: ", $element.name, ', ', $attrs<name> if $*verbose;
+
+  given $element.name {
+    when 'class' {
+      $!map{$attrs<c:type> // $attrs<glib:type-name>} = %(
+        :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
+        :parent($attrs<parent>),
+        :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
+        :gir-type<class>
+      );
+    }
+
+    when 'function' {
+      my Str $rname = $attrs<name>;
+      $rname ~~ s:g/ '_' /-/;
+      $!map{$attrs<c:identifier>} = %(
+        :$rname,
+        :gir-type<function>,
+      )
+    }
+
+    # 'typedef'
+    when 'alias' {
+      my Hash $alias-type-attribs;
+      for $element.nodes -> $n {
+        if $n ~~ XML::Element and $n.name eq 'type' {
+          $alias-type-attribs = $n.attribs;
+          last;
+        }
+      }
+
+      $!map{$attrs<c:type>} = %(
+        :cname($alias-type-attribs<c:type>),
+        :rname($alias-type-attribs<name>),
+        :gir-type<alias>
+      );
+    }
+
+    when 'constant' {
+       my Hash $const-type-attribs;
+      for $element.nodes -> $n {
+        if $n ~~ XML::Element and $n.name eq 'type' {
+          $const-type-attribs = $n.attribs;
+          last;
+        }
+      }
+
+      $!map{$attrs<c:type>} = %(
+        :cname($const-type-attribs<c:type>),
+        :rname($const-type-attribs<name>),
+        :gir-type<constant>,
+      );
+    }
+
+    # 'struct'
+    when 'record' {
+      $!map{$attrs<c:type>} = %(
+        :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
+        :gir-type<record>,
+      );
+    }
+
+    when 'callback' {
+      $!map{$attrs<c:type>} = %(
+        :rname($attrs<name>),
+        :gir-type<callback>,
+      );
+    }
+
+    when 'bitfield' {
+      $!map{$attrs<c:type>} = %(
+        :rname($attrs<name>),
+        :gir-type<bitfield>,
+      );
+    }
+
+    when 'docsection' {
+      $!map{$attrs<name>} = %(
+        :rname($attrs<name>),
+        :gir-type<docsection>,
+      )
+    }
+
+    when 'union' {
+      $!map{$attrs<c:type>} = %(
+        :rname($attrs<name>),
+        :gir-type<union>,
+      );
+    }
+
+    # 'enum'
+    when 'enumeration' {
+      $!map{$attrs<c:type>} = %(
+        :rname($attrs<name>),
+        :gir-type<enumeration>,
+      );
+    }
+
+    # 'role'
+    when 'interface' {
+      $!map{$attrs<c:type>} = %(
+        :rname($attrs<c:type>),
+        :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
+        :gir-type<enumeration>,
+      );
+    }
+
+    # '#define'
+    when 'function-macro' { }
+
+    default {
+      print 'Missed an element type: ', .note;
+    }
+  }
+}
+
+#-------------------------------------------------------------------------------
+method !save-map ( ) {
+
+  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
+  note "Save object map in '$fname'" if $*verbose;
+  $fname.IO.spurt(save-yaml($!map));
+}
+
+#-------------------------------------------------------------------------------
+method !load-map ( --> Hash ) {
+
+  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
+  note "Load object map from '$fname'" if $*verbose;
+  load-yaml($fname.IO.slurp);
+}
+
+#-------------------------------------------------------------------------------
+method !save-other ( Str $xml-namespace ) {
+
+  my Str $xml-begin = qq:to/EOXML/;
+    <?xml version="1.0"?>
+    <!--
+      File is automatically generated from original gir files;
+      DO NOT EDIT!
+    -->
+    <repository version="1.2"
+                xmlns="http://www.gtk.org/introspection/core/1.0"
+                xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+        $xml-namespace
+    EOXML
+
+  my Str $xml-end = qq:to/EOXML/;
+      </namespace>
+    </repository>
+    EOXML
+
+  my Str $content = '';
+  for $!other.keys -> $section {
+    if $!other{$section}.elems {
+      $content = $xml-begin;
+      for @($!other{$section}) -> $element {
+        $content ~= $element.Str ~ "\n";
+      }
+      $content ~= $xml-end;
+
+      my Str $name = 'repo-' ~ $section;
+      my $xml-file = "$*work-data<gir-module-path>$name.gir";
+      note "Save $section in '$xml-file'" if $*verbose;
+      $xml-file.IO.spurt($content);
+    }
+  }
+}
+
+
+
+
+
+
+=finish
+
+#-------------------------------------------------------------------------------
+# Get data from functions, callbacks and methods
+method !routine-data ( XML::Element $element, Hash $attrs ) {
+
+  my Str $rname = $attrs<name>;
+  $rname ~~ s:g/ '_' /-/;
+  $!map{$attrs<c:identifier>} = %(
+    :$rname,
+  )
+}
+
+
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc;
 use Gnome::SourceSkimTool::SkimGtkDoc::ApiIndex;
@@ -20,10 +340,13 @@ has ApiIndex $!api-actions handles <objects>;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
+
+  my Prepare $gfl .= new;
+
   $!mod-actions .= new;
   $!api-actions .= new;
 
-  $!api-actions.load-objects;
+  $!api-actions.load-objects($*work-data<gir-module-path> ~ 'objects.yaml');
 }
 
 #-------------------------------------------------------------------------------
@@ -39,7 +362,7 @@ method process-gtkdocs ( ) {
   my XML::Actions $a .= new(:file($docpath));
   $a.process(:actions($!mod-actions));
 
-  $!mod-actions.save-module($*work-data<skim-module-result>);
+  $!mod-actions.save-module($*work-data<gir-module-path>);
 }
 
 #-------------------------------------------------------------------------------
@@ -56,16 +379,16 @@ method process-apidocs ( ) {
   my Prepare $gfl .= new;
   my Str $gd = $*work-data<gtkdoc-dir>;
 
-  $!api-actions .= new;
-
   my Str $docpath = "$gd/docs/api-index-full.xml";
   note "document path for api: $docpath" if $*verbose;
   my XML::Actions $a .= new(:file($docpath));
+  # no notion of deprecations in the api-index-full file
   $!api-actions.process-deprecations = False;
   $a.process(:actions($!api-actions));
 
   $docpath = "$gd/docs/api-index-deprecated.xml";
   note "document path for api deprecations: $docpath" if $*verbose;
+  # there are only deprecations in the api-index-deprecated file
   $!api-actions.process-deprecations = True;
   $a .= new(:file($docpath));
   $a.process(:actions($!api-actions));
@@ -79,7 +402,7 @@ method process-apidocs ( ) {
   # Add role implementation info
 #  self!add-roles($gfl.get-gtkdoc-file( '.interfaces', :!txt));
 
-  $!api-actions.save-objects;
+  $!api-actions.save-objects($*work-data<gir-module-path> ~ 'objects.yaml');
 }
 
 #-------------------------------------------------------------------------------
@@ -136,7 +459,7 @@ method !add-enum-values ( Str $gtkdoc-text ) {
       $entry ~~ / '=' \s+ $<entry-value> = [.*] $/;
       if ?$<entry-value> {
         $entry-value = $<entry-value>.Str;
-print "$?LINE: $enum-name, $entry-name: $entry-value";
+#print "$?LINE: $enum-name, $entry-name: $entry-value";
 
         # check for ored values
         if $entry-value ~~ m/ '|' / {
@@ -153,7 +476,7 @@ print "$?LINE: $enum-name, $entry-name: $entry-value";
           # If there is a C-lang shift left, convert it to a Raku-lang shift
           $entry-value ~~ s/ '<<' /+</;
         }
-note "--> $entry-value";
+#note "--> $entry-value";
       }
 
       else {
@@ -231,7 +554,7 @@ method !add-hierarchy ( Str $gtkdoc-text ) {
                                      ?? 'widget' !! 'gobject';
       $objects{$class}<parent> = $classes[$indent-1];
 
-      # Assume this class is a leaf. Then make the parent <leaf> False
+      # Assume this class is a leaf. Then make the parent <leaf> False.
       $objects{$class}<leaf> = True;
       $objects{$classes[$indent-1]}<leaf> = False;
     }
