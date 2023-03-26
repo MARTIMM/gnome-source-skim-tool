@@ -10,7 +10,7 @@ Now I've come across a package of Gnome called `GtkDoc`. It is a bit of a beast 
 
 In this GtkDoc package there are programs which read those source files and generate files in all sorts of formats. The modules and programs in this Raku package can read the generated files (of which we only need a few of them) and generate the Raku modules which can then access the gnome libraries. The Raku modules come with documentation and a test template for initialization, method calls, signal handling and property testing. Markdown or HTML can be generated from the documentation using Raku pod rendering programs.
 
-**update**
+### Update
 GtkDoc is not what I hoped for. There are mistakes found in the XML for Glib. So, before it is completely depending on it I choose to find yet another way to get things done. I looked into the `GObject Introspection Repository` which was a littlebit dawnting at the time. Now chosen as a last resort. The API can be used to generate the Raku interface. The documentation of the routines and classes could not be found in this way. There are so called `.gir` files found in the system at `/usr/share/gir-1.0/`. These files are XML files where also the documentation can be found.
 
 The generated Raku modules would have some work afterwards to remove problems which can not be handled by the modules of this Raku package.
