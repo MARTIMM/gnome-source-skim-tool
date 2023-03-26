@@ -10,151 +10,7 @@ has Int $!indent-level;
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
-  with $*gnome-package {
-    when Gtk3 {
-      $*work-data = %(
-        :library<&gtk-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
-        :raku-package<Gnome::Gtk3>,
-        :gir(GIRROOT ~ 'Gtk-3.0.gir'),
-        :sub-prefix<gtk_>,
-      );
-    }
-
-    when Gdk3 {
-      $*work-data = %(
-        :library<&gdk-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Gdk3/'),
-        :raku-package<Gnome::Gdk3>,
-        :gir(GIRROOT ~ 'Gdk-3.0.gir'),
-        :sub-prefix<gdk_>,
-      );
-    }
-
-    when GdkPixbuf {
-      $*work-data = %(
-        :library<&gdk-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'GdkPixbuf/'),
-        :raku-package<Gnome::Gdk3>,
-        :gir(GIRROOT ~ 'GdkPixbuf-2.0.gir'),
-        :sub-prefix<gdk_pixbuf_>,
-      );
-    }
-
-    when Gtk4 {
-      $*work-data = %(
-        :library<&gtk4-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Gtk4/'),
-        :raku-package<Gnome::Gtk4>,
-        :gir(GIRROOT ~ 'Gtk-4.0.gir'),
-        :sub-prefix<gtk_>,
-      );
-    }
-
-    when Gdk4 {
-      $*work-data = %(
-        :library<&gdk4-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Gdk4/'),
-        :raku-package<Gnome::Gdk4>,
-        :gir(GIRROOT ~ 'Gdk-4.0.gir'),
-        :sub-prefix<gdk_>,
-      );
-    }
-
-    when Gsk4 {
-      $*work-data = %(
-        :library<&gsk-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Gsk4/'),
-        :raku-package<Gnome::Gsk4>,
-        :gir(GIRROOT ~ 'Gsk-4.0.gir'),
-        :sub-prefix<gsk_>,
-      );
-    }
-
-    when Glib {
-      $*work-data = %(
-        :library<&glib-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Glib/'),
-        :raku-package<Gnome::Glib>,
-        :gir(GIRROOT ~ 'GLib-2.0.gir'),
-        :sub-prefix<g_>,
-      );
-    }
-
-    when Gio {
-      $*work-data = %(
-        :library<&gio-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Gio/'),
-        :raku-package<Gnome::Gio>,
-        :gir(GIRROOT ~ 'Gio-2.0.gir'),
-        :sub-prefix<g_>,
-      );
-    }
-
-    when GObject {
-      $*work-data = %(
-        :library<&gobject-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'GObject/'),
-        :raku-package<Gnome::GObject>,
-        :gir(GIRROOT ~ 'GObject-2.0.gir'),
-        :sub-prefix<g_>,
-      );
-    }
-
-    when Cairo {
-      $*work-data = %(
-        :library<&cairo-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Cairo/'),
-        :raku-package<Gnome::Cairo>,
-        :gir(GIRROOT ~ 'cairo-1.0.gir'),
-        :sub-prefix<cairo_>,
-      );
-    }
-
-    when Atk {
-      $*work-data = %(
-        :library<&atk-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Atk/'),
-        :raku-package<Gnome::Atk>,
-        :gir(GIRROOT ~ 'Atk-1.0.gir'),
-        :sub-prefix<atk_>,
-      );
-    }
-
-    when Pango {
-      $*work-data = %(
-        :library<&pango-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'Pango/'),
-        :raku-package<Gnome::Pango>,
-        :gir(GIRROOT ~ 'Pango-1.0.gir'),
-        :sub-prefix<pango_>,
-      );
-    }
-
-    when PangoCairo {
-      $*work-data = %(
-        :library<&pango-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'PangoCairo/'),
-        :raku-package<Gnome::PangoCairo>,
-        :gir(GIRROOT ~ 'PangoCairo-1.0.gir'),
-        :sub-prefix<_>,
-      );
-    }
-
-    when GIRepo {
-      $*work-data = %(
-#        :library<&pango-lib>,
-        :gir-module-path(SKIMTOOLDATA ~ 'GIRepository/'),
-        :raku-package<Gnome::GIRepository>,
-        :gir(GIRROOT ~ 'GIRepository-2.0.gir'),
-        :sub-prefix<_>,
-      );
-    }
-
-    default {
-      die 'No SkimSource defined';
-    }
-  }
+  $*work-data = self.prepare-work-data($*gnome-package);
 
   mkdir $*work-data<gir-module-path>, 0o700
     unless $*work-data<gir-module-path>.IO ~~ :e;
@@ -176,6 +32,160 @@ submethod BUILD ( ) {
   }
 
   self.display-hash( $*work-data, :label<work-data>);
+}
+
+#-------------------------------------------------------------------------------
+submethod prepare-work-data ( SkimSource $source --> Hash ) {
+
+  my Hash $work-data;
+  with $source {
+    when Gtk3 {
+      $work-data = %(
+        :library<&gtk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
+        :raku-package<Gnome::Gtk3>,
+        :gir(GIRROOT ~ 'Gtk-3.0.gir'),
+        :sub-prefix<gtk_>,
+      );
+    }
+
+    when Gdk3 {
+      $work-data = %(
+        :library<&gdk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gdk3/'),
+        :raku-package<Gnome::Gdk3>,
+        :gir(GIRROOT ~ 'Gdk-3.0.gir'),
+        :sub-prefix<gdk_>,
+      );
+    }
+
+    when GdkPixbuf {
+      $work-data = %(
+        :library<&gdk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'GdkPixbuf/'),
+        :raku-package<Gnome::Gdk3>,
+        :gir(GIRROOT ~ 'GdkPixbuf-2.0.gir'),
+        :sub-prefix<gdk_pixbuf_>,
+      );
+    }
+
+    when Gtk4 {
+      $work-data = %(
+        :library<&gtk4-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gtk4/'),
+        :raku-package<Gnome::Gtk4>,
+        :gir(GIRROOT ~ 'Gtk-4.0.gir'),
+        :sub-prefix<gtk_>,
+      );
+    }
+
+    when Gdk4 {
+      $work-data = %(
+        :library<&gdk4-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gdk4/'),
+        :raku-package<Gnome::Gdk4>,
+        :gir(GIRROOT ~ 'Gdk-4.0.gir'),
+        :sub-prefix<gdk_>,
+      );
+    }
+
+    when Gsk4 {
+      $work-data = %(
+        :library<&gsk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gsk4/'),
+        :raku-package<Gnome::Gsk4>,
+        :gir(GIRROOT ~ 'Gsk-4.0.gir'),
+        :sub-prefix<gsk_>,
+      );
+    }
+
+    when Glib {
+      $work-data = %(
+        :library<&glib-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Glib/'),
+        :raku-package<Gnome::Glib>,
+        :gir(GIRROOT ~ 'GLib-2.0.gir'),
+        :sub-prefix<g_>,
+      );
+    }
+
+    when Gio {
+      $work-data = %(
+        :library<&gio-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Gio/'),
+        :raku-package<Gnome::Gio>,
+        :gir(GIRROOT ~ 'Gio-2.0.gir'),
+        :sub-prefix<g_>,
+      );
+    }
+
+    when GObject {
+      $work-data = %(
+        :library<&gobject-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'GObject/'),
+        :raku-package<Gnome::GObject>,
+        :gir(GIRROOT ~ 'GObject-2.0.gir'),
+        :sub-prefix<g_>,
+      );
+    }
+
+    when Cairo {
+      $work-data = %(
+        :library<&cairo-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Cairo/'),
+        :raku-package<Gnome::Cairo>,
+        :gir(GIRROOT ~ 'cairo-1.0.gir'),
+        :sub-prefix<cairo_>,
+      );
+    }
+
+    when Atk {
+      $work-data = %(
+        :library<&atk-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Atk/'),
+        :raku-package<Gnome::Atk>,
+        :gir(GIRROOT ~ 'Atk-1.0.gir'),
+        :sub-prefix<atk_>,
+      );
+    }
+
+    when Pango {
+      $work-data = %(
+        :library<&pango-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Pango/'),
+        :raku-package<Gnome::Pango>,
+        :gir(GIRROOT ~ 'Pango-1.0.gir'),
+        :sub-prefix<pango_>,
+      );
+    }
+
+    when PangoCairo {
+      $work-data = %(
+        :library<&pango-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'PangoCairo/'),
+        :raku-package<Gnome::PangoCairo>,
+        :gir(GIRROOT ~ 'PangoCairo-1.0.gir'),
+        :sub-prefix<_>,
+      );
+    }
+
+    when GIRepo {
+      $work-data = %(
+#        :library<&pango-lib>,
+        :gir-module-path(SKIMTOOLDATA ~ 'GIRepository/'),
+        :raku-package<Gnome::GIRepository>,
+        :gir(GIRROOT ~ 'GIRepository-2.0.gir'),
+        :sub-prefix<_>,
+      );
+    }
+
+    default {
+#      $work-data = %();
+      die 'No SkimSource defined';
+    }
+  }
+  
+  $work-data
 }
 
 #-------------------------------------------------------------------------------
