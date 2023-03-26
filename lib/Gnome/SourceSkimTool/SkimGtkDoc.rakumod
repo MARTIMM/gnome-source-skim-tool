@@ -230,9 +230,9 @@ method !map-element (
     # 'role'
     when 'interface' {
       $!map{$attrs<c:type>} = %(
-        :rname($attrs<c:type>),
+        :gir-type<interface>,
+        :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
-        :gir-type<enumeration>,
       );
     }
 
@@ -253,10 +253,21 @@ method !save-map ( ) {
   $fname.IO.spurt(save-yaml($!map));
 }
 
+#`{{
 #-------------------------------------------------------------------------------
-method !load-map ( --> Hash ) {
+multi method load-map ( --> Hash ) {
 
   my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
+  note "Load object map from '$fname'" if $*verbose;
+  load-yaml($fname.IO.slurp);
+}
+}}
+
+#-------------------------------------------------------------------------------
+method load-map ( $object-map-path --> Hash ) {
+
+#  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
+  my $fname = $object-map-path ~ 'repo-object-map.yaml';
   note "Load object map from '$fname'" if $*verbose;
   load-yaml($fname.IO.slurp);
 }
