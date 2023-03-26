@@ -37,21 +37,18 @@ sub MAIN (
   $*verbose = $v;
 
   if $y {
+    note "Generate the intermediate gir and yaml files" if $*verbose;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     my Gnome::SourceSkimTool::SkimGtkDoc $skim-doc .= new;
     $skim-doc.get-classes-from-gir;
   }
 
-  elsif $r and ?$gnome-class {
+  if $r and ?$gnome-class {
     $*gnome-class = $gnome-class;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
+    note "Generate Raku module $*work-data<raku-class-name>" if $*verbose;
     my Gnome::SourceSkimTool::GenRakuModule $raku-module .= new;
     $raku-module.generate-raku-module;
-  }
-
-  # seems there is no combi of options and arguments
-  else {
-    USAGE;
   }
 }
 
