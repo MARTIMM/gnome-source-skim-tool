@@ -17,6 +17,8 @@ has Hash $!other-work-data;
 submethod BUILD ( ) {
 #TODO add rules for gdkPixbuf, etc.
 
+  note "Prepare for module generation" if $*verbose;
+
   # get workdata for other gnome packages
   my Gnome::SourceSkimTool::Prepare $p .= new;
   $!other-work-data = %();
@@ -60,22 +62,30 @@ submethod BUILD ( ) {
 
 #-------------------------------------------------------------------------------
 method generate-raku-module ( ) {
+
   my $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:";
     use v6;
     {HLSEPARATOR}
     RAKUMOD
-  
+
+  note "Get description" if $*verbose;  
   $module-doc ~= self!get-description;
 
 #  self!inheritable;
 #  self!get-constructors;
 #  self!make-build;
 
+  note "Get methods" if $*verbose;  
 #  $module-doc ~= self!get-methods;
+
+  note "Get signals" if $*verbose;  
 #  $module-doc ~= self!get-signals;
+
+  note "Get properties" if $*verbose;  
 #  $module-doc ~= self!get-properties;
 
+  note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-doc);
 }
 
@@ -83,6 +93,7 @@ method generate-raku-module ( ) {
 method generate-raku-module-test ( ) {
   my $module-test-doc = '';
 
+  note "Save module test";
   $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
 }
 
@@ -138,16 +149,34 @@ method !get-methods ( --> Str ) {
 method !modify-text ( Str $text is copy --> Str ) {
 #note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
 note 'description';
-  $text = self!modify-xml($text);
+
+  # Do not modify text whithin example code. C code is to be changed
+  # later anyway and on other places like in XML examples it must be kept as is.
+  my Int $ex-counter = 0;
+  my Hash $examples = %();
+  while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
+    my Str $example = $<example>.Str;
+    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
+    $examples{$ex-key} = $example;
+    $text ~~ s/ $example /$ex-key/;
+  }
 
 #  $text = self!modify-signals($text);
 #  $text = self!modify-properties($text);
 #  $text = self!modify-css($text);
-#  $text = self!modify-functions($text);
-  $text = self!modify-classes($text);
-#  $text = self!modify-examples($text);
-
+  $text = self!modify-functions($text);
+#  $text = self!modify-classes($text);
+#  $text = self!modify-markdown-links($text);
   $text = self!modify-rest($text);
+
+  # Subtitute the examples back into the text before we can finally modify it
+  for $examples.keys -> $ex-key {
+    $text ~~ s/ $ex-key /$examples{$ex-key}/;
+  }
+
+  $text = self!modify-xml($text);
+  $text = self!modify-examples($text);
+
 
   $text;
 }
@@ -207,26 +236,47 @@ method !modify-functions ( Str $text is copy --> Str ) {
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
 
-  $text ~~ s:g/ $sub-prefix new '_' (\w+) '()' /C<.new(:$0)>/;
-  $text ~~ s:g/ $sub-prefix (\w+) '()' /C<.$0\(\)>/;
+  # When a local function has '_new_' in the text, convert it into an init call
+  # E.g. 'gtk_label_new_with_mnemonic()' becomes '.new(:$with-mnemonic)'
+  $text ~~ s:g/ $sub-prefix new '_' (\w+) '()'
+              /C<.new(:\${S:g/'_'/-/ with $0})>/;
+
+  # Other functions local to this module, remove the sub-prefix and place
+  # a '.' at front.
+  $text ~~ s:g/ $sub-prefix (\w+) '()' 
+              /C<.{S:g/'_'/-/ with $0}\(\)>/;
+
+  # Function is not local to this module
+  my Regex $r = / $<function-name> = [
+                    <!after "\x200B">
+                    [ atk || gtk || gdk || gsk ||
+                      pangocairo || pango || cairo || g
+                    ]
+                    '_' \w*? '()'
+                  ]
+                /;
+
+  while $text ~~ $r {
+    my Str $function-name = $<function-name>.Str;
+    my Str $raku-name = self!search-name($function-name);
+
+    if ?$raku-name {
+      $text ~~ s:g/ $function-name /C<\x200B$raku-name\(\)>/;
+    }
+
+    else {
+      $text ~~ s:g/ $function-name /\x200B$function-name\(\)/;
+    }
+  }
+
+  # After all work remove the zero width space marker
+  $text ~~ s:g/ \x200B //;
 
   $text;
 }
 
 #-------------------------------------------------------------------------------
 method !modify-classes ( Str $text is copy --> Str ) {
-note 'classes';
-
-  # Do not modify class names whithin example code. C code is to be changed
-  # later anyway and on other places like in XML examples it must be kept as is.
-  my Int $ex-counter = 0;
-  my Hash $examples = %();
-  while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
-    my Str $example = $<example>.Str;
-    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
-    $examples{$ex-key} = $example;
-    $text ~~ s/ $example /$ex-key/;
-  }
 
   # When classnames are found (or not) a zero width space is inserted just
   # before the word to prevent finding this word (or part of it again when not
@@ -239,12 +289,10 @@ note 'classes';
                      \w+
                   ]
                 /;
-note "regex: $r.gist()";
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-note "find $class-name";
-    my Str $raku-name = self.search-name($class-name);
+    my Str $raku-name = self!search-name($class-name);
 
     if ?$raku-name {
       $text ~~ s:g/ '#'? $class-name /B<\x200B$raku-name>/;
@@ -258,29 +306,7 @@ note "find $class-name";
   # After all work remove the zero width space marker
   $text ~~ s:g/ \x200B //;
 
-  # Subtitute the examples back into the text
-  for $examples.keys -> $ex-key {
-    $text ~~ s/ $ex-key /$examples{$ex-key}/;
-  }
-
   $text;
-}
-
-#-------------------------------------------------------------------------------
-method search-name ( Str $name --> Str ) {
-print "$?LINE: search for $name -> ";
-  my Str ( $rname, $pname);
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-    $rname = $!object-maps{$map-name}{$name}<rname> // '';
-    if ?$rname {
-      $pname = $!other-work-data{$map-name}<raku-package>;
-print " \($map-name)";
-      last;
-    }
-  }
-
-say " {$rname//'-'}";
-  $rname//''
 }
 
 #-------------------------------------------------------------------------------
@@ -327,6 +353,24 @@ method !modify-rest ( Str $text is copy --> Str ) {
   $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
 
   $text;
+}
+
+#-------------------------------------------------------------------------------
+method !search-name ( Str $name --> Str ) {
+print "$?LINE: search for $name -> ";
+  my Str ( $rname, $pname);
+  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+note $map-name;
+    $rname = $!object-maps{$map-name}{$name}<rname> // '';
+    if ?$rname {
+      $pname = $!other-work-data{$map-name}<raku-package>;
+print " \($map-name)";
+      last;
+    }
+  }
+
+say " {$rname//'-'}";
+  $rname//''
 }
 
 
