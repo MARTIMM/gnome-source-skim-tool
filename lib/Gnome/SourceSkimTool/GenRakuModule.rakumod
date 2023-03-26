@@ -1,21 +1,61 @@
 
 use Gnome::SourceSkimTool::Prepare;
+use Gnome::SourceSkimTool::SkimGtkDoc;
 use Gnome::SourceSkimTool::ConstEnumType;
 
 use XML;
 use XML::XPath;
 
 #-------------------------------------------------------------------------------
-constant \Prepare = Gnome::SourceSkimTool::Prepare;
-
-#-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::GenRakuModule:auth<github:MARTIMM>;
 
 has XML::XPath $!xpath;
+has Hash $!object-maps;
+has Hash $!other-work-data;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
-  $!xpath .= new(:file($*work-data<gir-module-path>));
+#TODO add rules for gdkPixbuf, etc.
+
+  # get workdata for other gnome packages
+  my Gnome::SourceSkimTool::Prepare $p .= new;
+  $!other-work-data = %();
+  if $*gnome-package.Str ~~ / '3' $/ {
+    $!other-work-data<Gtk> = $p.prepare-work-data(Gtk3);
+    $!other-work-data<Gdk> = $p.prepare-work-data(Gdk3);
+  }
+
+  else {
+    $!other-work-data<Gtk> = $p.prepare-work-data(Gtk4);
+    $!other-work-data<Gdk> = $p.prepare-work-data(Gdk4);
+    $!other-work-data<Gsk> = $p.prepare-work-data(Gsk4);
+  }
+
+  $!other-work-data<Atk> = $p.prepare-work-data(Atk);
+  $!other-work-data<Glib> = $p.prepare-work-data(Glib);
+  $!other-work-data<Gio> = $p.prepare-work-data(Gio);
+  $!other-work-data<GObject> = $p.prepare-work-data(GObject);
+  $!other-work-data<Pango> = $p.prepare-work-data(Pango);
+  $!other-work-data<Cairo> = $p.prepare-work-data(Cairo);
+
+  # get object maps
+  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+  $!object-maps = %();
+  $!object-maps<Atk> = $s.load-map($!other-work-data<Atk><gir-module-path>);
+  $!object-maps<Gtk> = $s.load-map($!other-work-data<Gtk><gir-module-path>);
+  $!object-maps<Gdk> = $s.load-map($!other-work-data<Gdk><gir-module-path>);
+  $!object-maps<Gsk> = ?$!other-work-data<Gsk> 
+                       ?? $s.load-map($!other-work-data<Gsk><gir-module-path>)
+                       !! %();
+  $!object-maps<Glib> = $s.load-map($!other-work-data<Glib><gir-module-path>);
+  $!object-maps<Gio> = $s.load-map($!other-work-data<Gio><gir-module-path>);
+  $!object-maps<GObject> =
+    $s.load-map($!other-work-data<GObject><gir-module-path>);
+  $!object-maps<Pango> = $s.load-map($!other-work-data<Pango><gir-module-path>);
+  $!object-maps<Cairo> = $s.load-map($!other-work-data<Cairo><gir-module-path>);
+
+  # load data for this module
+  $!xpath .= new(:file($*work-data<gir-module-file>));
 }
 
 #-------------------------------------------------------------------------------
@@ -97,15 +137,15 @@ method !get-methods ( --> Str ) {
 #-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
 #note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
-
+note 'description';
   $text = self!modify-xml($text);
 
-  $text = self!modify-signals($text);
-  $text = self!modify-properties($text);
-  $text = self!modify-css($text);
-  $text = self!modify-functions($text);
-#  $text = self!modify-classes($text);
-  $text = self!modify-examples($text);
+#  $text = self!modify-signals($text);
+#  $text = self!modify-properties($text);
+#  $text = self!modify-css($text);
+#  $text = self!modify-functions($text);
+  $text = self!modify-classes($text);
+#  $text = self!modify-examples($text);
 
   $text = self!modify-rest($text);
 
@@ -113,6 +153,7 @@ method !modify-text ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+# Modify text '::sig-name'
 method !modify-signals ( Str $text is copy --> Str ) {
 
   my Str $section-prefix-name = $*work-data<sub-prefix>;
@@ -174,10 +215,72 @@ method !modify-functions ( Str $text is copy --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !modify-classes ( Str $text is copy --> Str ) {
+note 'classes';
 
-  $text ~~ s:g/ <!after '::'> Gtk (\w+) /B<Gnome::::$0>/;
+  # Do not modify class names whithin example code. C code is to be changed
+  # later anyway and on other places like in XML examples it must be kept as is.
+  my Int $ex-counter = 0;
+  my Hash $examples = %();
+  while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
+    my Str $example = $<example>.Str;
+    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
+    $examples{$ex-key} = $example;
+    $text ~~ s/ $example /$ex-key/;
+  }
+
+  # When classnames are found (or not) a zero width space is inserted just
+  # before the word to prevent finding this word (or part of it again when not
+  # substituted. See also https://invisible-characters.com/.
+  my Regex $r = / '#'? $<class-name> = [
+                     <!after ["\x200B" || '::']>
+                     [ Atk || Gtk || Gdk || Gsk ||
+                       PangoCairo || Pango || Cairo || G
+                     ]
+                     \w+
+                  ]
+                /;
+note "regex: $r.gist()";
+
+  while $text ~~ $r {
+    my Str $class-name = $<class-name>.Str;
+note "find $class-name";
+    my Str $raku-name = self.search-name($class-name);
+
+    if ?$raku-name {
+      $text ~~ s:g/ '#'? $class-name /B<\x200B$raku-name>/;
+    }
+
+    else {
+      $text ~~ s:g/ '#'? $class-name /\x200B$class-name/;
+    }
+  }
+
+  # After all work remove the zero width space marker
+  $text ~~ s:g/ \x200B //;
+
+  # Subtitute the examples back into the text
+  for $examples.keys -> $ex-key {
+    $text ~~ s/ $ex-key /$examples{$ex-key}/;
+  }
 
   $text;
+}
+
+#-------------------------------------------------------------------------------
+method search-name ( Str $name --> Str ) {
+print "$?LINE: search for $name -> ";
+  my Str ( $rname, $pname);
+  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+    $rname = $!object-maps{$map-name}{$name}<rname> // '';
+    if ?$rname {
+      $pname = $!other-work-data{$map-name}<raku-package>;
+print " \($map-name)";
+      last;
+    }
+  }
+
+say " {$rname//'-'}";
+  $rname//''
 }
 
 #-------------------------------------------------------------------------------
