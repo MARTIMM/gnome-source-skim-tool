@@ -1,7 +1,34 @@
 
 use Test;
 
+use Gnome::SourceSkimTool::ConstEnumType;
+use Gnome::SourceSkimTool::Prepare;
+use Gnome::SourceSkimTool::GenRakuModule;
 
+#-------------------------------------------------------------------------------
+my SkimSource $*gnome-package = Gtk3;
+my Str $*gnome-class = 'Label';
+my Bool $*verbose;# = False;
+my Hash $*work-data;
+
+my Gnome::SourceSkimTool::Prepare $prep .= new;
+my Gnome::SourceSkimTool::GenRakuModule $r .= new;
+
+subtest 'search-name', {
+  my Hash $h = $r.search-name('GtkLabel');
+  is $h<rname>, 'Gnome::Gtk3::Label', "search class GtkLabel ≡ '$h<rname>'";
+  is $h<parent>, 'Gnome::Gtk3::Misc',
+     "search parent of GtkLabel ≡ '$h<parent>'";
+  is $h<raku-package>, 'Gnome::Gtk3', "found in '$h<raku-package>'";
+  
+  $h = $r.search-name('GtkX');
+  ok !$h.defined, "search class: GtkX, nothing found";
+
+  $h = $r.search-name('g_markup_escape_text');
+  is $h<rname>, 'markup-escape-text',
+     "search function: g_markup_escape_text ≡ '$h<rname>'";
+  is $h<raku-package>, 'Gnome::Glib', "found in '$h<raku-package>'";
+}
 
 
 
