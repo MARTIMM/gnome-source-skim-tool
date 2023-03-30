@@ -9,6 +9,7 @@ has Int $!indent-level;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
+  $*verbose //= False;
 
   $*work-data = self.prepare-work-data($*gnome-package);
 
