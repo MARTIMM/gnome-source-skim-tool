@@ -117,6 +117,28 @@ method get-classes-from-gir ( ) {
     self!map-element( $element, $namespace-name, $symbol-prefix, $id-prefix);
   }
 
+  # Before we save the map find out which classes are at the bottom (≡ leaf)
+  for $!map.keys -> $entry-name {
+    # Skip all other types
+    next unless $!map{$entry-name}<gir-type> eq 'class';
+
+    # If there is a leaf and is False, then all parents are also set False
+    next if  $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
+
+    # Assume we are at the end, so leaf is True
+    $!map{$entry-name}<leaf> = True;
+
+    sub set-parent-leaf-false ( Str $parent ) {
+      if $!map{$parent}<leaf>:exists and $!map{$parent}<leaf> {
+        $!map{$parent}<leaf> = False;
+        set-parent-leaf-false($!map{$parent}<parent-entry-name>);
+      }
+    }
+
+    set-parent-leaf-false($!map{$entry-name}<parent-entry-name>);
+  }
+
+
   self!save-other($xml-namespace);
   self!save-map;
 }
@@ -133,9 +155,36 @@ method !map-element (
 
   given $element.name {
     when 'class' {
+      my Str $parent-entry-name;
+      given my Str $parent = $attrs<parent> // '' {
+        when /^ GObject \. / {
+          $parent-entry-name = $parent;
+          $parent-entry-name ~~ s/^ GObject \. /G/;
+          $parent ~~ s/^ GObject \. /Gnome::GObject::/;
+        }
+
+        when /^ Gio \. / {
+          $parent-entry-name = $parent;
+          $parent-entry-name ~~ s/^ GObject \. /G/;
+          $parent ~~ s/^ Gio \. /Gnome::Gio::/;
+        }
+
+        when /^ Atk \. / {
+          $parent-entry-name = $parent;
+          $parent-entry-name ~~ s/ \. //;
+          $parent ~~ s/^ Atk \. /Gnome::Atk::/;
+        }
+
+        when ?$parent {
+          $parent-entry-name = $parent;
+          $parent-entry-name = "{ S/ \d $// with $*gnome-package.Str }$parent";
+          $parent = "Gnome::{$*gnome-package.Str}::$parent";
+        }
+      }
+
       $!map{$attrs<c:type> // $attrs<glib:type-name>} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
-        :parent($attrs<parent>),
+        :$parent, :$parent-entry-name,
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
         :gir-type<class>
       );
