@@ -17,44 +17,60 @@ has Hash $!other-work-data;
 submethod BUILD ( ) {
 #TODO add rules for gdkPixbuf, etc.
 
+  # Because of dependencies it is possible to have less to load when
+  # we need to search
+
   note "Prepare for module generation" if $*verbose;
 
   # get workdata for other gnome packages
   my Gnome::SourceSkimTool::Prepare $p .= new;
   $!other-work-data = %();
+
+  # Version 3
   if $*gnome-package.Str ~~ / '3' $/ {
     $!other-work-data<Gtk> = $p.prepare-work-data(Gtk3);
     $!other-work-data<Gdk> = $p.prepare-work-data(Gdk3);
   }
 
-  else {
+  # Version 4
+  elsif $*gnome-package.Str ~~ / '3' $/ {
     $!other-work-data<Gtk> = $p.prepare-work-data(Gtk4);
     $!other-work-data<Gdk> = $p.prepare-work-data(Gdk4);
     $!other-work-data<Gsk> = $p.prepare-work-data(Gsk4);
   }
 
-  $!other-work-data<Atk> = $p.prepare-work-data(Atk);
+  # If it is a high end module, we add these too
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $!other-work-data<Atk> = $p.prepare-work-data(Atk);
+    $!other-work-data<Pango> = $p.prepare-work-data(Pango);
+    $!other-work-data<Cairo> = $p.prepare-work-data(Cairo);
+  }
+
+  # If it is not a high end module, we only need these
   $!other-work-data<Glib> = $p.prepare-work-data(Glib);
   $!other-work-data<Gio> = $p.prepare-work-data(Gio);
   $!other-work-data<GObject> = $p.prepare-work-data(GObject);
-  $!other-work-data<Pango> = $p.prepare-work-data(Pango);
-  $!other-work-data<Cairo> = $p.prepare-work-data(Cairo);
 
   # get object maps
   my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
   $!object-maps = %();
-  $!object-maps<Atk> = $s.load-map($!other-work-data<Atk><gir-module-path>);
-  $!object-maps<Gtk> = $s.load-map($!other-work-data<Gtk><gir-module-path>);
-  $!object-maps<Gdk> = $s.load-map($!other-work-data<Gdk><gir-module-path>);
-  $!object-maps<Gsk> = ?$!other-work-data<Gsk> 
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $!object-maps<Atk> = $s.load-map($!other-work-data<Atk><gir-module-path>);
+    $!object-maps<Gtk> = $s.load-map($!other-work-data<Gtk><gir-module-path>);
+    $!object-maps<Gdk> = $s.load-map($!other-work-data<Gdk><gir-module-path>);
+    $!object-maps<Gsk> = ?$!other-work-data<Gsk> 
                        ?? $s.load-map($!other-work-data<Gsk><gir-module-path>)
                        !! %();
+    $!object-maps<Pango> =
+      $s.load-map($!other-work-data<Pango><gir-module-path>);
+    $!object-maps<Cairo> =
+      $s.load-map($!other-work-data<Cairo><gir-module-path>);
+  }
+
   $!object-maps<Glib> = $s.load-map($!other-work-data<Glib><gir-module-path>);
   $!object-maps<Gio> = $s.load-map($!other-work-data<Gio><gir-module-path>);
   $!object-maps<GObject> =
     $s.load-map($!other-work-data<GObject><gir-module-path>);
-  $!object-maps<Pango> = $s.load-map($!other-work-data<Pango><gir-module-path>);
-  $!object-maps<Cairo> = $s.load-map($!other-work-data<Cairo><gir-module-path>);
 
   # load data for this module
   $!xpath .= new(:file($*work-data<gir-module-file>));
@@ -72,9 +88,11 @@ method generate-raku-module ( ) {
   note "Get description" if $*verbose;  
   $module-doc ~= self!get-description;
 
-#  self!inheritable;
-#  self!get-constructors;
-#  self!make-build;
+  note "Set class unit" if $*verbose;
+  $module-doc ~= self!set-unit;
+
+  note "Set Build" if $*verbose;  
+#  $module-doc ~= self!set-build;
 
   note "Get methods" if $*verbose;  
 #  $module-doc ~= self!get-methods;
@@ -105,7 +123,7 @@ method !get-description ( --> Str ) {
 
   $doc ~= $!xpath.find('//class[@name="' ~ $*gnome-class ~ '"]/doc/text()').Str;
 
-  #$doc ~= self!set-declaration;
+  #??$doc ~= self!set-declaration;
   #$doc ~= self!set-uml;
   #$doc ~= self!set-inherit-example;
   #$doc ~= self!set-example;
@@ -123,8 +141,58 @@ method !get-description ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !make-init ( --> Str ) {
+method !set-unit ( --> Str ) {
+
+  my Str $use-enums;
+
+  if $*gnome-package.Str ~~ / '3' $/ {
+    $use-enums = "#use Gnome::Gtk3::Enums;\n";
+  }
+
+  elsif $*gnome-package.Str ~~ / '4' $/ {
+    $use-enums = "#use Gnome::Gtk4::Enums;\n";
+  }
+
+  my XML::Element $class = $!xpath.find('//class');
+  my Str ( $use-parent, $also-is);
+  my Str $ctype = $class.attribs<c:type> // '';
+  my Str $parent = self.search-name($ctype)<parent> if ?$ctype;
+  if ?$parent {
+    $use-parent = "use $parent;\n";
+    $also-is = "also is $parent;\n";
+  }
+
+  else {
+    $use-parent = $also-is = '';
+  }
+
+  my Str $doc = qq:to/RAKUMOD/;
+
+    {HLSEPARATOR}
+    use NativeCall;
+
+    use Gnome::N::NativeLib;
+    use Gnome::N::N-GObject;
+    use Gnome::N::GlibToRakuTypes;
+
+    $use-enums$use-parent
+
+    {HLSEPARATOR}
+    unit class {$*work-data<raku-class-name>}:auth<github:MARTIMM>;
+    $also-is
+
+    RAKUMOD
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method !set-build ( --> Str ) {
   my Str $doc = '';
+
+#  self!inheritable;
+#  self!get-constructors;
+#  self!make-build;
 
   $doc
 }
@@ -239,33 +307,38 @@ method !modify-functions ( Str $text is copy --> Str ) {
   # When a local function has '_new_' in the text, convert it into an init call
   # E.g. 'gtk_label_new_with_mnemonic()' becomes '.new(:$with-mnemonic)'
   $text ~~ s:g/ $sub-prefix new '_' (\w+) '()'
-              /C<.new(:\${S:g/'_'/-/ with $0})>/;
+              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
 
   # Other functions local to this module, remove the sub-prefix and place
-  # a '.' at front.
+  # a '.' at front. E.g in module Label and package Gtk3 converting
+  # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
   $text ~~ s:g/ $sub-prefix (\w+) '()' 
               /C<.{S:g/'_'/-/ with $0}\(\)>/;
 
-  # Function is not local to this module
+  # Functions not local to this module
   my Regex $r = / $<function-name> = [
                     <!after "\x200B">
                     [ atk || gtk || gdk || gsk ||
                       pangocairo || pango || cairo || g
                     ]
-                    '_' \w*? '()'
-                  ]
+                    '_' \w*?
+                  ] '()'
                 /;
 
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
-    my Str $raku-name = self!search-name($function-name);
-
+    my Hash $h = self.search-name($function-name);
+say "$?LINE mf: $h.gist()";
+    my Str $package-name = $h<raku-package> // '';
+    my Str $raku-name = $h<rname> // '';
+    
     if ?$raku-name {
-      $text ~~ s:g/ $function-name /C<\x200B$raku-name\(\)>/;
+      $text ~~ s:g/ $function-name\(\) 
+                  /C<\x200B$raku-name\(\) function from $package-name>/;
     }
 
     else {
-      $text ~~ s:g/ $function-name /\x200B$function-name\(\)/;
+      $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
     }
   }
 
@@ -292,7 +365,7 @@ method !modify-classes ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-    my Str $raku-name = self!search-name($class-name);
+    my Str $raku-name = self.search-name($class-name)<rname>;
 
     if ?$raku-name {
       $text ~~ s:g/ '#'? $class-name /B<\x200B$raku-name>/;
@@ -356,21 +429,27 @@ method !modify-rest ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !search-name ( Str $name --> Str ) {
+method search-name ( Str $name --> Hash ) {
 print "$?LINE: search for $name -> ";
-  my Str ( $rname, $pname);
+  my Hash $h;
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
 note $map-name;
-    $rname = $!object-maps{$map-name}{$name}<rname> // '';
-    if ?$rname {
-      $pname = $!other-work-data{$map-name}<raku-package>;
-print " \($map-name)";
-      last;
-    }
+    # It is possible that not all hashes are loaded
+    next unless $!object-maps{$map-name}:exists
+            and $!object-maps{$map-name}{$name}:exists;
+
+    # Get the Hash from the object maps
+    $h = $!object-maps{$map-name}{$name};
+
+    # Add package name to this hash
+    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
+print " \($map-name). ";
+    last;
   }
 
-say " {$rname//'-'}";
-  $rname//''
+say "Searched name $name: $h.gist()";
+
+  $h
 }
 
 
