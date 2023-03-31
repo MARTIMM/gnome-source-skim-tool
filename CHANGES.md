@@ -1,10 +1,8 @@
 ## Change log
 
 <!--
-TODO find location of class in dependency tree
-TODO map gnome class to raku class
-TODO map gnome function name to raku class with shortened method name
-TODO Store records, unions, enumerations, bitfields, callbacks and functions
+TODO find highest place of role use and remove lower role entries where it is mentioned
+TODO modify markdown links in text or in Raku links when it shows use of url
 -->
 * 2023-03-29 0.5.1
   * Generate class description
