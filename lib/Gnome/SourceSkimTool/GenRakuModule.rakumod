@@ -79,6 +79,8 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 method generate-raku-module ( ) {
 
+  my XML::Element $class-element = $!xpath.find('//class');
+
   my $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:";
     use v6;
@@ -86,10 +88,10 @@ method generate-raku-module ( ) {
     RAKUMOD
 
   note "Get description" if $*verbose;  
-  $module-doc ~= self!get-description;
+  $module-doc ~= self!get-description($class-element);
 
   note "Set class unit" if $*verbose;
-  $module-doc ~= self!set-unit;
+  $module-doc ~= self!set-unit($class-element);
 
   note "Set Build" if $*verbose;  
 #  $module-doc ~= self!set-build;
@@ -116,19 +118,18 @@ method generate-raku-module-test ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-description ( --> Str ) {
+method !get-description ( XML::Element $class-element --> Str ) {
   my Str $doc = "\n=head1 Description\n";
 
   #$doc ~= self!set-example-image;
 
-  $doc ~= $!xpath.find('//class[@name="' ~ $*gnome-class ~ '"]/doc/text()').Str;
+  $doc ~= $!xpath.find( 'doc/text()', :start($class-element)).Str;
+  $doc = self!modify-text($doc);
 
   #??$doc ~= self!set-declaration;
-  #$doc ~= self!set-uml;
-  #$doc ~= self!set-inherit-example;
-  #$doc ~= self!set-example;
-
-  $doc = self!modify-text($doc);
+  $doc ~= self!set-uml;
+  $doc ~= self!set-inherit-example($class-element);
+  $doc ~= self!set-example;
   #$doc = self!cleanup($doc);
 
   qq:to/RAKUMOD/;
@@ -141,7 +142,7 @@ method !get-description ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !set-unit ( --> Str ) {
+method !set-unit ( XML::Element $class-element --> Str ) {
 
   my Str $use-enums;
 
@@ -153,9 +154,8 @@ method !set-unit ( --> Str ) {
     $use-enums = "#use Gnome::Gtk4::Enums;\n";
   }
 
-  my XML::Element $class = $!xpath.find('//class');
   my Str ( $use-parent, $also-is);
-  my Str $ctype = $class.attribs<c:type> // '';
+  my Str $ctype = $class-element.attribs<c:type> // '';
   my Str $parent = self.search-name($ctype)<parent> if ?$ctype;
   if ?$parent {
     $use-parent = "use $parent;\n";
@@ -211,7 +211,62 @@ method !get-methods ( --> Str ) {
   $doc
 }
 
+#-------------------------------------------------------------------------------
+method !set-inherit-example ( XML::Element $class-element --> Str ) {
 
+  # Code like {'...'} is inserted here and there to prevent interpretation
+  my Str $doc = qq:to/EOINHERIT/;
+
+    =begin comment
+    =head2 Inheriting this class
+
+    Inheriting is done in a special way in that it needs a call from new\() to get the native object created by the class you are inheriting from.
+
+      use $*work-data<raku-class-name>;
+
+      unit class MyGuiClass;
+      also is $*work-data<raku-class-name>;
+
+      submethod new \( \|c ) \{
+        # let the {$*work-data<raku-class-name>} class process the options
+        self\.bless\( :{$class-element.attribs<c:type>}, \|c);
+      \}
+
+      submethod BUILD \( ... ) \{
+        ...
+      \}
+
+    =end comment
+
+    EOINHERIT
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method !set-uml ( --> Str ) {
+  # Using a markdown link not a Raku pod link
+  my Str $doc = q:to/EOEX/;
+
+    =begin comment
+    =head2 Uml Diagram
+    ![](plantuml/Label.svg)
+    =end comment
+    EOEX
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method !set-example ( --> Str ) {
+  my Str $doc = q:to/EOEX/;
+
+    =begin comment
+    =head2 Example
+
+    =end comment
+    EOEX
+  $doc
+}
 
 #-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
@@ -229,12 +284,12 @@ note 'description';
     $text ~~ s/ $example /$ex-key/;
   }
 
-#  $text = self!modify-signals($text);
-#  $text = self!modify-properties($text);
+  $text = self!modify-signals($text);
+  $text = self!modify-properties($text);
 #  $text = self!modify-css($text);
   $text = self!modify-functions($text);
-#  $text = self!modify-classes($text);
-#  $text = self!modify-markdown-links($text);
+  $text = self!modify-classes($text);
+  $text = self!modify-markdown-links($text);
   $text = self!modify-rest($text);
 
   # Subtitute the examples back into the text before we can finally modify it
@@ -253,8 +308,21 @@ note 'description';
 # Modify text '::sig-name'
 method !modify-signals ( Str $text is copy --> Str ) {
 
-  my Str $section-prefix-name = $*work-data<sub-prefix>;
+  my Str $section-prefix-name = $*work-data<gnome-name>;
+  my Regex $r = / '#' $<cname> = [\w+]? '::' $<sname> = [<[-\w]>+] /;
+  while $text ~~ $r {
+    my Str $sname = $<sname>.Str;
+    my Str $cname = ($<cname>//'').Str;
+    if !$cname or $cname eq $section-prefix-name {
+      $text ~~ s:g/ '#' $cname '::' $sname /I<property $sname>/;
+    }
 
+    else {
+      $text ~~ s:g/ '#' $cname'::' $sname /I<property $sname defined in $cname>/;
+    }
+  }
+
+#`{{
   if $text ~~ m/ '#' $section-prefix-name '::' \w+ / {
     $text ~~ s:g/ '#' $section-prefix-name '::' (<[-\w]>+) /I<signal $0>/;
   }
@@ -266,6 +334,7 @@ method !modify-signals ( Str $text is copy --> Str ) {
   elsif $text ~~ m/ '#' '::' \w+ / {
     $text ~~ s:g/ '#' '::' (<[-\w]>+) / I<signal $0>/;
   }
+}}
 
   $text;
 }
@@ -273,19 +342,34 @@ method !modify-signals ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 method !modify-properties ( Str $text is copy --> Str ) {
 
-  my Str $section-prefix-name = $*work-data<sub-prefix>;
+  my Str $section-prefix-name = $*work-data<gnome-name>;
+  my Regex $r = / '#' $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
+  while $text ~~ $r {
+    my Str $pname = $<pname>.Str;
+    my Str $cname = ($<cname>//'').Str;
+    if !$cname or $cname eq $section-prefix-name {
+      $text ~~ s:g/ '#' $cname ':' $pname /I<property $pname>/;
+    }
 
+    else {
+      $text ~~ s:g/ '#' $cname':' $pname /I<property $pname defined in $cname>/;
+    }
+  }
+
+#`{{
   if $text ~~ m/ '#' $section-prefix-name ':' \w+ / {
     $text ~~ s:g/ '#' $section-prefix-name ':' (<[-\w]>+) /I<property $0>/;
   }
 
   elsif $text ~~ m/ '#' \w+ ':' \w+ / {
+    $text ~~ s:g/ '#' (\w+) ':' (<[-\w]>+) /
     $text ~~ s:g/ '#' (\w+) ':' (<[-\w]>+) / I<property $1 defined in $0>/;
   }
 
   elsif $text ~~ m/ '#' ':' \w+ / {
     $text ~~ s:g/ '#' ':' (<[-\w]>+) / I<property $0>/;
   }
+}}
 
   $text;
 }
@@ -365,7 +449,8 @@ method !modify-classes ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-    my Str $raku-name = self.search-name($class-name)<rname>;
+    my Hash $h = self.search-name($class-name);
+    my Str $raku-name = $h<rname> // '';
 
     if ?$raku-name {
       $text ~~ s:g/ '#'? $class-name /B<\x200B$raku-name>/;
@@ -408,7 +493,15 @@ method !modify-xml ( Str $text is copy --> Str ) {
   # xml escapes
   $text ~~ s:g/ '&lt;' /</;
   $text ~~ s:g/ '&gt;' />/;
+  $text ~~ s:g/ '&amp;' /\&/;
   $text ~~ s:g/ [ '&#160;' || '&nbsp;' ] / /;
+
+  $text;
+}
+
+#-------------------------------------------------------------------------------
+method !modify-markdown-links ( Str $text is copy --> Str ) {
+  $text ~~ s:g/ \s '[' ( <-[\]]>+ ) '][' <-[\]]>+ ']' / $0/;
 
   $text;
 }
