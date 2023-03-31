@@ -62,7 +62,6 @@ method get-classes-from-gir ( ) {
       when 'class' {
         my $attrs = $element.attribs;
         my $name = $attrs<name>;
-    #    note "class: $name" if $*verbose;
         my Str $xml = qq:to/EOXML/;
           <?xml version="1.0"?>
           <!--
@@ -155,6 +154,14 @@ method !map-element (
 
   given $element.name {
     when 'class' {
+      my @roles = ();
+      for $!xp.find( 'implements', :start($element), :to-list) -> $ie {
+        @roles.push: $ie.attribs<name>;
+      }
+          
+      my Str ( $parent-entry-name, $parent ) =
+         self!set-names($attrs<parent> // '');
+#`{{
       my Str $parent-entry-name;
       given my Str $parent = $attrs<parent> // '' {
         when /^ GObject \. / {
@@ -181,10 +188,11 @@ method !map-element (
           $parent = "Gnome::{$*gnome-package.Str}::$parent";
         }
       }
+}}
 
       $!map{$attrs<c:type> // $attrs<glib:type-name>} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
-        :$parent, :$parent-entry-name,
+        :$parent, :$parent-entry-name, :@roles,
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
         :gir-type<class>
       );
@@ -292,6 +300,69 @@ method !map-element (
       print 'Missed an element type: ', .note;
     }
   }
+}
+
+#-------------------------------------------------------------------------------
+# This $naked-gnome-name is a name without a package name or one seperated with 
+# a dot. Convert it into two names. E.g.
+#   Widget ==> ( GtkWidget, Gnome::Gtk3::Widget)
+#   Atk.Component ==> ( AtkComponent, Gnome::Atk::Component)
+method !set-names ( Str $naked-gnome-name is copy  --> List ) {
+
+  my $parent-entry-name = $naked-gnome-name;
+  given $naked-gnome-name {
+    when /^ GObject \. / {
+      $parent-entry-name ~~ s/^ GObject \. /G/;
+      $naked-gnome-name ~~ s/^ GObject \. /Gnome::GObject::/;
+    }
+
+    when /^ Gio \. / {
+      $parent-entry-name ~~ s/^ GObject \. /G/;
+      $naked-gnome-name ~~ s/^ Gio \. /Gnome::Gio::/;
+    }
+
+    # ?? probably not used ??
+    when /^ Glib \. / {
+      $parent-entry-name ~~ s/^ Glib \. /G/;
+      $naked-gnome-name ~~ s/^ Glib \. /Gnome::Glib::/;
+    }
+
+    when /^ Atk \. / {
+      $parent-entry-name ~~ s/ \. //;
+      $naked-gnome-name ~~ s/^ Atk \. /Gnome::Atk::/;
+    }
+
+    when /^ Gtk \. / {
+      # Get version. There will only be a mention of versions in packages
+      # of the same version level. Lower level packages will never mention
+      # higher ones.
+      $*gnome-package ~~ m/ $<version> = [\d+] $/;
+      my Str $version = ($<version>//'').Str;
+      $parent-entry-name ~~ s/ \. //;
+      $naked-gnome-name ~~ s/^ Gtk \. /Gnome::Gtk{$version}::/;
+    }
+
+    when /^ Gdk \. / {
+      $*gnome-package ~~ m/ $<version> = [\d+] $/;
+      my Str $version = ($<version>//'').Str;
+      $parent-entry-name ~~ s/ \. //;
+      $naked-gnome-name ~~ s/^ Gdk \. /Gnome::Gdk{$version}::/;
+    }
+
+    when /^ Gsk \. / {
+      $parent-entry-name ~~ s/ \. //;
+      $naked-gnome-name ~~ s/^ Gtk \. /Gnome::Gsk4::/;
+    }
+
+    # When no dot is used it must be from the same package
+    when ?$naked-gnome-name {
+      $parent-entry-name =
+         "{ S/ \d $// with $*gnome-package.Str }$naked-gnome-name";
+      $naked-gnome-name = "Gnome::{$*gnome-package.Str}::$naked-gnome-name";
+    }
+  }
+
+  ( $parent-entry-name, $naked-gnome-name)
 }
 
 #-------------------------------------------------------------------------------
