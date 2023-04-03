@@ -87,23 +87,23 @@ method generate-raku-module ( ) {
     {HLSEPARATOR}
     RAKUMOD
 
-  note "Get description" if $*verbose;  
+  note "Generate module description" if $*verbose;  
   $module-doc ~= self!get-description($class-element);
 
   note "Set class unit" if $*verbose;
   $module-doc ~= self!set-unit($class-element);
 
-  note "Set Build" if $*verbose;  
-#  $module-doc ~= self!set-build;
+  note "Generate BUILD submethod" if $*verbose;  
+  $module-doc ~= self!generate-build($class-element);
 
-  note "Get methods" if $*verbose;  
-#  $module-doc ~= self!get-methods;
+  note "Generate module methods" if $*verbose;  
+#  $module-doc ~= self!generate-methods($class-element);
 
-  note "Get signals" if $*verbose;  
-#  $module-doc ~= self!get-signals;
+  note "Generate module signals" if $*verbose;  
+  $module-doc ~= self!generate-signals($class-element);
 
-  note "Get properties" if $*verbose;  
-#  $module-doc ~= self!get-properties;
+  note "Generate module properties" if $*verbose;  
+#  $module-doc ~= self!generate-propertie($class-element)s;
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-doc);
@@ -142,6 +142,70 @@ method !get-description ( XML::Element $class-element --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+method !set-uml ( --> Str ) {
+  # Using a markdown link not a Raku pod link
+  my Str $doc = q:to/EOEX/;
+
+
+    =begin comment
+    =head2 Uml Diagram
+    ![](plantuml/Label.svg)
+    =end comment
+    EOEX
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method !set-inherit-example ( XML::Element $class-element --> Str ) {
+
+  my Str $doc = '';
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
+  if $h<inheritable> {
+    # Code like {'...'} is inserted here and there to prevent interpretation
+    $doc = qq:to/EOINHERIT/;
+
+      =begin comment
+      =head2 Inheriting this class
+
+      Inheriting is done in a special way in that it needs a call from new\() to get the native object created by the class you are inheriting from.
+
+        use $*work-data<raku-class-name>;
+
+        unit class MyGuiClass;
+        also is $*work-data<raku-class-name>;
+
+        submethod new \( \|c ) \{
+          # let the {$*work-data<raku-class-name>} class process the options
+          self\.bless\( :{$class-element.attribs<c:type>}, \|c);
+        \}
+
+        submethod BUILD \( ... ) \{
+          ...
+        \}
+
+      =end comment
+
+      EOINHERIT
+  }
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method !set-example ( --> Str ) {
+  my Str $doc = q:to/EOEX/;
+
+    =begin comment
+    =head2 Example
+
+    =end comment
+    EOEX
+  $doc
+}
+
+#-------------------------------------------------------------------------------
 method !set-unit ( XML::Element $class-element --> Str ) {
 
   my Str $use-enums;
@@ -155,8 +219,11 @@ method !set-unit ( XML::Element $class-element --> Str ) {
   }
 
   my Str ( $use-parent, $also-is);
-  my Str $ctype = $class-element.attribs<c:type> // '';
-  my Str $parent = self.search-name($ctype)<parent> if ?$ctype;
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
+note "$?LINE $ctype, $h.gist()";
+  my Str $parent = $h<parent> // '';
   if ?$parent {
     $use-parent = "use $parent;\n";
     $also-is = "also is $parent;\n";
@@ -187,10 +254,25 @@ method !set-unit ( XML::Element $class-element --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !set-build ( --> Str ) {
-  my Str $doc = '';
+method !generate-build ( XML::Element $class-element --> Str ) {
 
-#  self!inheritable;
+  my Str $doc = '';
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
+  $doc = qq:to/EOBUILD/;
+
+    {HLSEPARATOR}
+    =begin pod
+    =end pod
+
+    submethod BUILD ( *\%options ) \{
+
+    \}
+      
+    EOBUILD
+
+#  if $h<inheritable> {
 #  self!get-constructors;
 #  self!make-build;
 
@@ -205,68 +287,163 @@ method !get-constructors ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-methods ( --> Str ) {
+method !make-build ( --> Str ) {
   my Str $doc = '';
 
   $doc
 }
 
 #-------------------------------------------------------------------------------
-method !set-inherit-example ( XML::Element $class-element --> Str ) {
-
-  # Code like {'...'} is inserted here and there to prevent interpretation
-  my Str $doc = qq:to/EOINHERIT/;
-
-    =begin comment
-    =head2 Inheriting this class
-
-    Inheriting is done in a special way in that it needs a call from new\() to get the native object created by the class you are inheriting from.
-
-      use $*work-data<raku-class-name>;
-
-      unit class MyGuiClass;
-      also is $*work-data<raku-class-name>;
-
-      submethod new \( \|c ) \{
-        # let the {$*work-data<raku-class-name>} class process the options
-        self\.bless\( :{$class-element.attribs<c:type>}, \|c);
-      \}
-
-      submethod BUILD \( ... ) \{
-        ...
-      \}
-
-    =end comment
-
-    EOINHERIT
+method !generate-methods ( XML::Element $class-element --> Str ) {
+  my Str $doc = '';
 
   $doc
 }
 
 #-------------------------------------------------------------------------------
-method !set-uml ( --> Str ) {
-  # Using a markdown link not a Raku pod link
-  my Str $doc = q:to/EOEX/;
+method !generate-signals ( XML::Element $class-element --> Str ) {
+  my Str $doc = '';
 
-    =begin comment
-    =head2 Uml Diagram
-    ![](plantuml/Label.svg)
-    =end comment
-    EOEX
+  my @signal-info =
+     $!xpath.find( 'glib:signal', :start($class-element), :to-list);
+
+  if @signal-info.elems {
+    my Hash $signals = %();
+    for @signal-info -> $si {
+      my Hash $attribs = $si.attribs;
+      next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
+
+      # signal documentation
+      my Str $sname = $attribs<name>;
+      my Str $sdoc = self!modify-text(
+        ($!xpath.find( 'doc/text()', :start($si)) // '').Str
+      );
+      $signals{$sname} = %(:$sdoc,);
+
+      # return value info
+      my XML::Element $rvalue = $!xpath.find( 'return-value', :start($si));
+      $signals{$sname}<rv-trans-own> = $rvalue.attribs<transfer-ownership>;
+      for $rvalue.nodes -> $n {
+        next if $n ~~ XML::Text;
+
+        if $n.name eq 'doc' {
+          $signals{$sname}<rv-doc> = self!modify-text(
+            ($!xpath.find( 'text()', :start($n)) // '').Str
+          );
+        }
+
+        elsif $n.name eq 'type' {
+          $signals{$sname}<rv-ctype> =
+            self.convert-type($n.attribs<c:type>)//'';
+          $signals{$sname}<rv-type> = $n.attribs<name>;
+        }
+      }
+
+      # parameter info
+      $signals{$sname}<parameters> = [];
+      my @paramtrs =
+         $!xpath.find( 'parameters/parameter', :start($si), :to-list);
+      for @paramtrs -> $prmtr {
+        my Hash $attribs = $prmtr.attribs;
+        my $pname = $attribs<name>;
+        my $p-trans-own = $attribs<transfer-ownership>;
+        my Str ( $pdoc, $ptype, $pctype);
+        for $prmtr.nodes -> $n {
+          next if $n ~~ XML::Text;
+
+          if $n.name eq 'doc' {
+            $pdoc = self!modify-text(
+              ($!xpath.find( 'text()', :start($n)) // '').Str
+            );
+          }
+
+          elsif $n.name eq 'type' {
+            $ptype = $n.attribs<name>;
+            $pctype = self.convert-type($n.attribs<c:type>);
+          }
+        }
+
+        $signals{$sname}<parameters>.push: %(
+          :$pname, :$pdoc, :$ptype, :$pctype, :$p-trans-own
+        );
+      }
+    }
+
+    $doc ~= qq:to/EOSIG/;
+
+      {HLSEPARATOR}
+      =begin pod
+      =head1 Signals
+      EOSIG
+
+    for $signals.keys.sort -> $sname {
+      $doc ~= qq:to/EOSIG/;
+
+        {HLPODSEPARATOR}
+        =comment #TS:0:$sname:
+        =head3 $sname
+
+        $signals{$sname}<sdoc>
+
+        =begin code
+        method handler \(
+        EOSIG
+
+      for @($signals{$sname}<parameters>) -> $prmtr {
+        $doc ~= "  $prmtr<ptype> \$$prmtr<pname>,\n";
+      }
+
+      $doc ~= qq:to/EOSIG/;
+          Int :\$_handle_id,
+          $*work-data<raku-class-name>\(\) :\$_native-object,
+          $*work-data<raku-class-name> :\$_widget,
+          *\%user-options
+        )
+
+        EOSIG
+
+      for @($signals{$sname}<parameters>) -> $prmtr {
+        $doc ~= "=item $prmtr<pname> \(transfer ownership: $prmtr<p-trans-own>); $prmtr<pdoc>.\n";
+      }
+
+      $doc ~= q:to/EOSIG/;
+
+        =item $_handle_id; the registered event handler id.
+
+        =item $_native-object; The native object provided by the caller wrapped in the Raku object.
+
+        =item $_widget; the object which received the signal.
+
+        =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
+
+        EOSIG
+
+      $doc ~= "Return value \(transfer ownership: $signals{$sname}<rv-ctype> \($signals{$sname}<rv-trans-own>); $signals{$sname}<rv-doc>\n"
+           if $signals{$sname}<rv-ctype> ne 'void';
+    }
+
+    $doc ~= "\n=end pod\n\n";
+  }
+
   $doc
 }
 
 #-------------------------------------------------------------------------------
-method !set-example ( --> Str ) {
-  my Str $doc = q:to/EOEX/;
+method !generate-properties ( XML::Element $class-element --> Str ) {
+  my Str $doc = '';
 
-    =begin comment
-    =head2 Example
-
-    =end comment
-    EOEX
   $doc
 }
+
+
+
+
+
+
+
+
+
+
 
 #-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
@@ -286,7 +463,7 @@ note 'description';
 
   $text = self!modify-signals($text);
   $text = self!modify-properties($text);
-#  $text = self!modify-css($text);
+  $text = self!modify-css($text);
   $text = self!modify-functions($text);
   $text = self!modify-classes($text);
   $text = self!modify-markdown-links($text);
@@ -309,16 +486,16 @@ note 'description';
 method !modify-signals ( Str $text is copy --> Str ) {
 
   my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#' $<cname> = [\w+]? '::' $<sname> = [<[-\w]>+] /;
+  my Regex $r = / '#'? $<cname> = [\w+]? '::' $<sname> = [<[-\w]>+] /;
   while $text ~~ $r {
     my Str $sname = $<sname>.Str;
     my Str $cname = ($<cname>//'').Str;
     if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#' $cname '::' $sname /I<property $sname>/;
+      $text ~~ s:g/ '#'? $cname '::' $sname /I<property $sname>/;
     }
 
     else {
-      $text ~~ s:g/ '#' $cname'::' $sname /I<property $sname defined in $cname>/;
+      $text ~~ s:g/ '#'? $cname'::' $sname /I<property $sname defined in $cname>/;
     }
   }
 
@@ -343,16 +520,16 @@ method !modify-signals ( Str $text is copy --> Str ) {
 method !modify-properties ( Str $text is copy --> Str ) {
 
   my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#' $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
+  my Regex $r = / '#'? $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
   while $text ~~ $r {
     my Str $pname = $<pname>.Str;
     my Str $cname = ($<cname>//'').Str;
     if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#' $cname ':' $pname /I<property $pname>/;
+      $text ~~ s:g/ '#'? $cname ':' $pname /I<property $pname>/;
     }
 
     else {
-      $text ~~ s:g/ '#' $cname':' $pname /I<property $pname defined in $cname>/;
+      $text ~~ s:g/ '#'? $cname':' $pname /I<property $pname defined in $cname>/;
     }
   }
 
@@ -524,9 +701,9 @@ method !modify-rest ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 method search-name ( Str $name --> Hash ) {
 print "$?LINE: search for $name -> ";
-  my Hash $h;
+  my Hash $h = %();
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-note $map-name;
+
     # It is possible that not all hashes are loaded
     next unless $!object-maps{$map-name}:exists
             and $!object-maps{$map-name}{$name}:exists;
@@ -543,6 +720,50 @@ print " \($map-name). ";
 say "Searched name $name: $h.gist()";
 
   $h
+}
+
+#-------------------------------------------------------------------------------
+method convert-type ( Str $ctype --> Str ) {
+  my Str $rtype;
+  with $ctype {
+    when any(
+        <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
+        glong gpointer gshort gsize gssize guchar guint guint16
+        guint32 guint64 guint8 gulong gunichar gushort
+        >
+    ) {
+      $rtype = $ctype;
+    }
+
+    when any(
+        <boolean char double float int int16 int32 int64 int8 
+        long pointer short size ssize uchar uint uint16
+        uint32 uint64 uint8 ulong unichar ushort
+        >
+    ) {
+      $rtype = "g$ctype;";
+    }
+
+    default {
+      $rtype = '';
+      my Hash $h = self.search-name($ctype) // %();
+      given $h<gir-type> {
+        when 'class' { $rtype = 'N-GObject'; }
+        when 'enumeration' { $rtype = 'GEnum'; }
+        when /char \s* '*'/ { $rtype = 'Str'; }
+        when /char \s* '*' \s* '*'/ { $rtype = 'CArray[Str]'}
+#        when 'bitfield' { }
+#        when 'record' { }
+#        when 'callback' { }
+#        when 'interface' { }
+#        when '' { }
+
+        default { note "Unknown ctype: $ctype, $h<gir-type>"; }
+      }
+    }
+  }
+
+  $rtype
 }
 
 
