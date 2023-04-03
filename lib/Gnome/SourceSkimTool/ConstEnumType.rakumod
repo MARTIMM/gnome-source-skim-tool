@@ -16,6 +16,7 @@ mkdir RAKUMODS, 0o700 unless RAKUMODS.IO ~~ :e;
 constant GIRROOT is export = '/usr/share/gir-1.0/';
 
 constant HLSEPARATOR = '#' ~ '-' x 79;
+constant HLPODSEPARATOR = '=comment ' ~ '-' x 71;
 
 #-------------------------------------------------------------------------------
 #`{{
