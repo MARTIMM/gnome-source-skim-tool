@@ -122,19 +122,21 @@ method get-classes-from-gir ( ) {
     next unless $!map{$entry-name}<gir-type> eq 'class';
 
     # If there is a leaf and is False, then all parents are also set False
-    next if  $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
+    next if $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
 
     # Assume we are at the end, so leaf is True
     $!map{$entry-name}<leaf> = True;
 
-    sub set-parent-leaf-false ( Str $parent ) {
+    sub set-parent-leaf-false ( Str $parent = '' ) {
+      return unless ?$parent;
+
       if $!map{$parent}<leaf>:exists and $!map{$parent}<leaf> {
         $!map{$parent}<leaf> = False;
-        set-parent-leaf-false($!map{$parent}<parent-entry-name>);
+        set-parent-leaf-false($!map{$parent}<parent-gnome-name>);
       }
     }
 
-    set-parent-leaf-false($!map{$entry-name}<parent-entry-name>);
+    set-parent-leaf-false($!map{$entry-name}<parent-gnome-name>);
   }
 
 
@@ -159,42 +161,19 @@ method !map-element (
         @roles.push: $ie.attribs<name>;
       }
           
-      my Str ( $parent-entry-name, $parent ) =
+      my Str ( $parent-gnome-name, $parent-raku-name ) =
          self!set-names($attrs<parent> // '');
-#`{{
-      my Str $parent-entry-name;
-      given my Str $parent = $attrs<parent> // '' {
-        when /^ GObject \. / {
-          $parent-entry-name = $parent;
-          $parent-entry-name ~~ s/^ GObject \. /G/;
-          $parent ~~ s/^ GObject \. /Gnome::GObject::/;
-        }
-
-        when /^ Gio \. / {
-          $parent-entry-name = $parent;
-          $parent-entry-name ~~ s/^ GObject \. /G/;
-          $parent ~~ s/^ Gio \. /Gnome::Gio::/;
-        }
-
-        when /^ Atk \. / {
-          $parent-entry-name = $parent;
-          $parent-entry-name ~~ s/ \. //;
-          $parent ~~ s/^ Atk \. /Gnome::Atk::/;
-        }
-
-        when ?$parent {
-          $parent-entry-name = $parent;
-          $parent-entry-name = "{ S/ \d $// with $*gnome-package.Str }$parent";
-          $parent = "Gnome::{$*gnome-package.Str}::$parent";
-        }
-      }
-}}
+      
+      my Bool $inheritable = False;
+      $inheritable = True if $attrs<c:type> ne 'GtkWidget'
+                     and $*work-data<raku-package> ~~ m/ '::Gtk' /;
 
       $!map{$attrs<c:type> // $attrs<glib:type-name>} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
-        :$parent, :$parent-entry-name, :@roles,
+        :$parent-raku-name, :$parent-gnome-name, :@roles,
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
-        :gir-type<class>
+        :$inheritable,
+        :gir-type<class>,
       );
     }
 
@@ -309,27 +288,29 @@ method !map-element (
 #   Atk.Component ==> ( AtkComponent, Gnome::Atk::Component)
 method !set-names ( Str $naked-gnome-name is copy  --> List ) {
 
-  my $parent-entry-name = $naked-gnome-name;
+  my Str $raku-name = $naked-gnome-name;
+
+  my $gnome-name = $naked-gnome-name;
   given $naked-gnome-name {
     when /^ GObject \. / {
-      $parent-entry-name ~~ s/^ GObject \. /G/;
-      $naked-gnome-name ~~ s/^ GObject \. /Gnome::GObject::/;
+      $gnome-name ~~ s/^ GObject \. /G/;
+      $raku-name ~~ s/^ GObject \. /Gnome::GObject::/;
     }
 
     when /^ Gio \. / {
-      $parent-entry-name ~~ s/^ GObject \. /G/;
-      $naked-gnome-name ~~ s/^ Gio \. /Gnome::Gio::/;
+      $gnome-name ~~ s/^ GObject \. /G/;
+      $raku-name ~~ s/^ Gio \. /Gnome::Gio::/;
     }
 
     # ?? probably not used ??
     when /^ Glib \. / {
-      $parent-entry-name ~~ s/^ Glib \. /G/;
-      $naked-gnome-name ~~ s/^ Glib \. /Gnome::Glib::/;
+      $gnome-name ~~ s/^ Glib \. /G/;
+      $raku-name ~~ s/^ Glib \. /Gnome::Glib::/;
     }
 
     when /^ Atk \. / {
-      $parent-entry-name ~~ s/ \. //;
-      $naked-gnome-name ~~ s/^ Atk \. /Gnome::Atk::/;
+      $gnome-name ~~ s/ \. //;
+      $raku-name ~~ s/^ Atk \. /Gnome::Atk::/;
     }
 
     when /^ Gtk \. / {
@@ -338,31 +319,31 @@ method !set-names ( Str $naked-gnome-name is copy  --> List ) {
       # higher ones.
       $*gnome-package ~~ m/ $<version> = [\d+] $/;
       my Str $version = ($<version>//'').Str;
-      $parent-entry-name ~~ s/ \. //;
-      $naked-gnome-name ~~ s/^ Gtk \. /Gnome::Gtk{$version}::/;
+      $gnome-name ~~ s/ \. //;
+      $raku-name ~~ s/^ Gtk \. /Gnome::Gtk{$version}::/;
     }
 
     when /^ Gdk \. / {
       $*gnome-package ~~ m/ $<version> = [\d+] $/;
       my Str $version = ($<version>//'').Str;
-      $parent-entry-name ~~ s/ \. //;
-      $naked-gnome-name ~~ s/^ Gdk \. /Gnome::Gdk{$version}::/;
+      $gnome-name ~~ s/ \. //;
+      $raku-name ~~ s/^ Gdk \. /Gnome::Gdk{$version}::/;
     }
 
     when /^ Gsk \. / {
-      $parent-entry-name ~~ s/ \. //;
-      $naked-gnome-name ~~ s/^ Gtk \. /Gnome::Gsk4::/;
+      $gnome-name ~~ s/ \. //;
+      $raku-name ~~ s/^ Gtk \. /Gnome::Gsk4::/;
     }
 
     # When no dot is used it must be from the same package
     when ?$naked-gnome-name {
-      $parent-entry-name =
+      $gnome-name =
          "{ S/ \d $// with $*gnome-package.Str }$naked-gnome-name";
-      $naked-gnome-name = "Gnome::{$*gnome-package.Str}::$naked-gnome-name";
+      $raku-name = "Gnome::{$*gnome-package.Str}::$naked-gnome-name";
     }
   }
 
-  ( $parent-entry-name, $naked-gnome-name)
+  ( $gnome-name, $raku-name)
 }
 
 #-------------------------------------------------------------------------------
