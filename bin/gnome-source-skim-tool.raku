@@ -49,6 +49,7 @@ sub MAIN (
     note "Generate Raku module $*work-data<raku-class-name>" if $*verbose;
     my Gnome::SourceSkimTool::GenRakuModule $raku-module .= new;
     $raku-module.generate-raku-module;
+    $raku-module.generate-raku-module-test;
   }
 }
 
