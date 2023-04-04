@@ -334,7 +334,7 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
 
         elsif $n.name eq 'type' {
           $signals{$sname}<rv-ctype> =
-            self.convert-type($n.attribs<c:type>)//'';
+            self.convert-type($n.attribs<c:type> // '');
           $signals{$sname}<rv-type> = $n.attribs<name>;
         }
       }
@@ -359,7 +359,7 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
 
           elsif $n.name eq 'type' {
             $ptype = $n.attribs<name>;
-            $pctype = self.convert-type($n.attribs<c:type>);
+            $pctype = self.convert-type($n.attribs<c:type> // '');
           }
         }
 
@@ -390,7 +390,7 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
         EOSIG
 
       for @($signals{$sname}<parameters>) -> $prmtr {
-        $doc ~= "  $prmtr<ptype> \$$prmtr<pname>,\n";
+        $doc ~= "  $prmtr<pctype> \$$prmtr<pname>,\n";
       }
 
       $doc ~= qq:to/EOSIG/;
@@ -399,6 +399,7 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
           $*work-data<raku-class-name> :\$_widget,
           *\%user-options
         )
+        =end code
 
         EOSIG
 
@@ -700,7 +701,7 @@ method !modify-rest ( Str $text is copy --> Str ) {
 
 #-------------------------------------------------------------------------------
 method search-name ( Str $name --> Hash ) {
-print "$?LINE: search for $name -> ";
+#print "$?LINE: search for $name -> ";
   my Hash $h = %();
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
 
@@ -713,18 +714,21 @@ print "$?LINE: search for $name -> ";
 
     # Add package name to this hash
     $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
-print " \($map-name). ";
+#print " \($map-name). ";
     last;
   }
 
-say "Searched name $name: $h.gist()";
+#say "Searched name $name: $h.gist()";
 
   $h
 }
 
 #-------------------------------------------------------------------------------
 method convert-type ( Str $ctype --> Str ) {
-  my Str $rtype;
+  return '' unless ?$ctype;
+print "$?LINE: convert $ctype -> ";
+
+  my Str $rtype = '';
   with $ctype {
     when any(
         <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
@@ -744,25 +748,28 @@ method convert-type ( Str $ctype --> Str ) {
       $rtype = "g$ctype;";
     }
 
+    when m/char \s* '*'/ { $rtype = 'Str'; }
+    when m/char \s* '*' \s* '*'/ { $rtype = 'CArray[Str]'; }
+    when 'void' { $rtype = 'void'; }
+
     default {
-      $rtype = '';
-      my Hash $h = self.search-name($ctype) // %();
-      given $h<gir-type> {
+      my Hash $h = self.search-name($ctype);
+
+      given $h<gir-type> // '-' {
         when 'class' { $rtype = 'N-GObject'; }
         when 'enumeration' { $rtype = 'GEnum'; }
-        when /char \s* '*'/ { $rtype = 'Str'; }
-        when /char \s* '*' \s* '*'/ { $rtype = 'CArray[Str]'}
-#        when 'bitfield' { }
+        when 'bitfield' { $rtype = 'GFlag'; }
 #        when 'record' { }
 #        when 'callback' { }
 #        when 'interface' { }
 #        when '' { }
 
-        default { note "Unknown ctype: $ctype, $h<gir-type>"; }
+        default { note "Unknown ctype: '$ctype', $h.gist()"; }
       }
     }
   }
 
+say "converted '$rtype'";
   $rtype
 }
 
