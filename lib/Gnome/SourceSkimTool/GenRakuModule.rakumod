@@ -359,7 +359,7 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
 
           elsif $n.name eq 'type' {
             $ptype = $n.attribs<name>;
-            $pctype = self.convert-type($n.attribs<c:type> // '');
+            $pctype = self.convert-type($n.attribs<c:type> // $ptype // '');
           }
         }
 
@@ -447,9 +447,82 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
 
 
 #-------------------------------------------------------------------------------
+method search-name ( Str $name --> Hash ) {
+
+  my Hash $h = %();
+  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+
+    # It is possible that not all hashes are loaded
+    next unless $!object-maps{$map-name}:exists
+            and ( $!object-maps{$map-name}{$name}:exists 
+                  or $!object-maps{$map-name}{$map-name ~ $name}:exists
+                );
+
+    # Get the Hash from the object maps
+    $h = $!object-maps{$map-name}{$name}
+         // $!object-maps{$map-name}{$map-name ~ $name};
+
+    # Add package name to this hash
+    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
+    last;
+  }
+
+say "$?LINE: search $name -> {$h<rname> // $h.gist}";
+
+  $h
+}
+
+#-------------------------------------------------------------------------------
+method convert-type ( Str $ctype --> Str ) {
+  return '' unless ?$ctype;
+
+  my Str $rtype = '';
+  with $ctype {
+    when any(
+        <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
+        glong gpointer gshort gsize gssize guchar guint guint16
+        guint32 guint64 guint8 gulong gunichar gushort
+        >
+    ) {
+      $rtype = $ctype;
+    }
+
+    when any(
+        <boolean char double float int int16 int32 int64 int8 
+        long pointer short size ssize uchar uint uint16
+        uint32 uint64 uint8 ulong unichar ushort
+        >
+    ) {
+      $rtype = "g$ctype;";
+    }
+
+    when m/char \s* '*'/ { $rtype = 'Str'; }
+    when m/char \s* '*' \s* '*'/ { $rtype = 'CArray[Str]'; }
+    when 'void' { $rtype = 'void'; }
+
+    default {
+      my Hash $h = self.search-name($ctype);
+      given $h<gir-type> // '-' {
+        when 'class' { $rtype = 'N-GObject'; }
+        when 'enumeration' { $rtype = 'GEnum'; }
+        when 'bitfield' { $rtype = 'GFlag'; }
+#        when 'record' { }
+#        when 'callback' { }
+#        when 'interface' { }
+#        when '' { }
+
+        default { note "Unknown ctype: '$ctype', $h.gist()"; }
+      }
+    }
+  }
+
+say "$?LINE: convert $ctype -> '$rtype'";
+
+  $rtype
+}
+
+#-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
-#note "text is empty: $!phase, $!func-phase, ", callframe(3).gist if !$text;
-note 'description';
 
   # Do not modify text whithin example code. C code is to be changed
   # later anyway and on other places like in XML examples it must be kept as is.
@@ -477,7 +550,6 @@ note 'description';
 
   $text = self!modify-xml($text);
   $text = self!modify-examples($text);
-
 
   $text;
 }
@@ -590,7 +662,6 @@ method !modify-functions ( Str $text is copy --> Str ) {
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
     my Hash $h = self.search-name($function-name);
-say "$?LINE mf: $h.gist()";
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
     
@@ -697,80 +768,6 @@ method !modify-rest ( Str $text is copy --> Str ) {
   $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
 
   $text;
-}
-
-#-------------------------------------------------------------------------------
-method search-name ( Str $name --> Hash ) {
-#print "$?LINE: search for $name -> ";
-  my Hash $h = %();
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-
-    # It is possible that not all hashes are loaded
-    next unless $!object-maps{$map-name}:exists
-            and $!object-maps{$map-name}{$name}:exists;
-
-    # Get the Hash from the object maps
-    $h = $!object-maps{$map-name}{$name};
-
-    # Add package name to this hash
-    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
-#print " \($map-name). ";
-    last;
-  }
-
-#say "Searched name $name: $h.gist()";
-
-  $h
-}
-
-#-------------------------------------------------------------------------------
-method convert-type ( Str $ctype --> Str ) {
-  return '' unless ?$ctype;
-print "$?LINE: convert $ctype -> ";
-
-  my Str $rtype = '';
-  with $ctype {
-    when any(
-        <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
-        glong gpointer gshort gsize gssize guchar guint guint16
-        guint32 guint64 guint8 gulong gunichar gushort
-        >
-    ) {
-      $rtype = $ctype;
-    }
-
-    when any(
-        <boolean char double float int int16 int32 int64 int8 
-        long pointer short size ssize uchar uint uint16
-        uint32 uint64 uint8 ulong unichar ushort
-        >
-    ) {
-      $rtype = "g$ctype;";
-    }
-
-    when m/char \s* '*'/ { $rtype = 'Str'; }
-    when m/char \s* '*' \s* '*'/ { $rtype = 'CArray[Str]'; }
-    when 'void' { $rtype = 'void'; }
-
-    default {
-      my Hash $h = self.search-name($ctype);
-
-      given $h<gir-type> // '-' {
-        when 'class' { $rtype = 'N-GObject'; }
-        when 'enumeration' { $rtype = 'GEnum'; }
-        when 'bitfield' { $rtype = 'GFlag'; }
-#        when 'record' { }
-#        when 'callback' { }
-#        when 'interface' { }
-#        when '' { }
-
-        default { note "Unknown ctype: '$ctype', $h.gist()"; }
-      }
-    }
-  }
-
-say "converted '$rtype'";
-  $rtype
 }
 
 
