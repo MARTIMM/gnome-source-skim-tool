@@ -103,7 +103,7 @@ method generate-raku-module ( ) {
   $module-doc ~= self!generate-signals($class-element);
 
   note "Generate module properties" if $*verbose;  
-#  $module-doc ~= self!generate-propertie($class-element)s;
+  $module-doc ~= self!generate-properties($class-element);
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-doc);
@@ -307,124 +307,122 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
   my @signal-info =
      $!xpath.find( 'glib:signal', :start($class-element), :to-list);
 
-  if @signal-info.elems {
-    my Hash $signals = %();
-    for @signal-info -> $si {
-      my Hash $attribs = $si.attribs;
-      next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
+  my Hash $signals = %();
+  for @signal-info -> $si {
+    my Hash $attribs = $si.attribs;
+    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
 
-      # signal documentation
-      my Str $sname = $attribs<name>;
-      my Str $sdoc = self!modify-text(
-        ($!xpath.find( 'doc/text()', :start($si)) // '').Str
-      );
-      $signals{$sname} = %(:$sdoc,);
+    # signal documentation
+    my Str $sname = $attribs<name>;
+    my Str $sdoc = self!modify-text(
+      ($!xpath.find( 'doc/text()', :start($si)) // '').Str
+    );
+    $signals{$sname} = %(:$sdoc,);
 
-      # return value info
-      my XML::Element $rvalue = $!xpath.find( 'return-value', :start($si));
-      $signals{$sname}<rv-trans-own> = $rvalue.attribs<transfer-ownership>;
-      for $rvalue.nodes -> $n {
+    # return value info
+    my XML::Element $rvalue = $!xpath.find( 'return-value', :start($si));
+    $signals{$sname}<rv-trans-own> = $rvalue.attribs<transfer-ownership>;
+    for $rvalue.nodes -> $n {
+      next if $n ~~ XML::Text;
+
+      if $n.name eq 'doc' {
+        $signals{$sname}<rv-doc> = self!modify-text(
+          ($!xpath.find( 'text()', :start($n)) // '').Str
+        );
+      }
+
+      elsif $n.name eq 'type' {
+        $signals{$sname}<rv-ctype> =
+          self.convert-type($n.attribs<c:type> // '');
+        $signals{$sname}<rv-type> = $n.attribs<name>;
+      }
+    }
+
+    # parameter info
+    $signals{$sname}<parameters> = [];
+    my @paramtrs =
+        $!xpath.find( 'parameters/parameter', :start($si), :to-list);
+    for @paramtrs -> $prmtr {
+      my Hash $attribs = $prmtr.attribs;
+      my $pname = $attribs<name>;
+      my $p-trans-own = $attribs<transfer-ownership>;
+      my Str ( $pdoc, $ptype, $pctype);
+      for $prmtr.nodes -> $n {
         next if $n ~~ XML::Text;
 
         if $n.name eq 'doc' {
-          $signals{$sname}<rv-doc> = self!modify-text(
+          $pdoc = self!modify-text(
             ($!xpath.find( 'text()', :start($n)) // '').Str
           );
         }
 
         elsif $n.name eq 'type' {
-          $signals{$sname}<rv-ctype> =
-            self.convert-type($n.attribs<c:type> // '');
-          $signals{$sname}<rv-type> = $n.attribs<name>;
+          $ptype = $n.attribs<name>;
+          $pctype = self.convert-type($n.attribs<c:type> // $ptype // '');
         }
       }
 
-      # parameter info
-      $signals{$sname}<parameters> = [];
-      my @paramtrs =
-         $!xpath.find( 'parameters/parameter', :start($si), :to-list);
-      for @paramtrs -> $prmtr {
-        my Hash $attribs = $prmtr.attribs;
-        my $pname = $attribs<name>;
-        my $p-trans-own = $attribs<transfer-ownership>;
-        my Str ( $pdoc, $ptype, $pctype);
-        for $prmtr.nodes -> $n {
-          next if $n ~~ XML::Text;
+      $signals{$sname}<parameters>.push: %(
+        :$pname, :$pdoc, :$ptype, :$pctype, :$p-trans-own
+      );
+    }
+  }
 
-          if $n.name eq 'doc' {
-            $pdoc = self!modify-text(
-              ($!xpath.find( 'text()', :start($n)) // '').Str
-            );
-          }
+  $doc ~= qq:to/EOSIG/;
 
-          elsif $n.name eq 'type' {
-            $ptype = $n.attribs<name>;
-            $pctype = self.convert-type($n.attribs<c:type> // $ptype // '');
-          }
-        }
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Signals
+    EOSIG
 
-        $signals{$sname}<parameters>.push: %(
-          :$pname, :$pdoc, :$ptype, :$pctype, :$p-trans-own
-        );
-      }
+  for $signals.keys.sort -> $sname {
+    $doc ~= qq:to/EOSIG/;
+
+      {HLPODSEPARATOR}
+      =comment #TS:0:$sname:
+      =head3 $sname
+
+      $signals{$sname}<sdoc>
+
+      =begin code
+      method handler \(
+      EOSIG
+
+    for @($signals{$sname}<parameters>) -> $prmtr {
+      $doc ~= "  $prmtr<pctype> \$$prmtr<pname>,\n";
     }
 
     $doc ~= qq:to/EOSIG/;
+        Int :\$_handle_id,
+        $*work-data<raku-class-name>\(\) :\$_native-object,
+        $*work-data<raku-class-name> :\$_widget,
+        *\%user-options
+      )
+      =end code
 
-      {HLSEPARATOR}
-      =begin pod
-      =head1 Signals
       EOSIG
 
-    for $signals.keys.sort -> $sname {
-      $doc ~= qq:to/EOSIG/;
-
-        {HLPODSEPARATOR}
-        =comment #TS:0:$sname:
-        =head3 $sname
-
-        $signals{$sname}<sdoc>
-
-        =begin code
-        method handler \(
-        EOSIG
-
-      for @($signals{$sname}<parameters>) -> $prmtr {
-        $doc ~= "  $prmtr<pctype> \$$prmtr<pname>,\n";
-      }
-
-      $doc ~= qq:to/EOSIG/;
-          Int :\$_handle_id,
-          $*work-data<raku-class-name>\(\) :\$_native-object,
-          $*work-data<raku-class-name> :\$_widget,
-          *\%user-options
-        )
-        =end code
-
-        EOSIG
-
-      for @($signals{$sname}<parameters>) -> $prmtr {
-        $doc ~= "=item $prmtr<pname> \(transfer ownership: $prmtr<p-trans-own>); $prmtr<pdoc>.\n";
-      }
-
-      $doc ~= q:to/EOSIG/;
-
-        =item $_handle_id; the registered event handler id.
-
-        =item $_native-object; The native object provided by the caller wrapped in the Raku object.
-
-        =item $_widget; the object which received the signal.
-
-        =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
-
-        EOSIG
-
-      $doc ~= "Return value \(transfer ownership: $signals{$sname}<rv-ctype> \($signals{$sname}<rv-trans-own>); $signals{$sname}<rv-doc>\n"
-           if $signals{$sname}<rv-ctype> ne 'void';
+    for @($signals{$sname}<parameters>) -> $prmtr {
+      $doc ~= "=item $prmtr<pname> \(transfer ownership: $prmtr<p-trans-own>); $prmtr<pdoc>.\n";
     }
 
-    $doc ~= "\n=end pod\n\n";
+    $doc ~= q:to/EOSIG/;
+
+      =item $_handle_id; the registered event handler id.
+
+      =item $_native-object; The native object provided by the caller wrapped in the Raku object.
+
+      =item $_widget; the object which received the signal.
+
+      =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
+
+      EOSIG
+
+    $doc ~= "Return value \(transfer ownership: $signals{$sname}<rv-ctype> \($signals{$sname}<rv-trans-own>); $signals{$sname}<rv-doc>\n"
+          if $signals{$sname}<rv-ctype> ne 'void';
   }
+
+  $doc ~= "\n=end pod\n\n";
 
   $doc
 }
@@ -433,9 +431,212 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
 method !generate-properties ( XML::Element $class-element --> Str ) {
   my Str $doc = '';
 
+  my @property-info =
+     $!xpath.find( 'property', :start($class-element), :to-list);
+
+  my Hash $properties = %();
+  for @property-info -> $pi {
+    my Hash $attribs = $pi.attribs;
+    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
+
+    # signal documentation
+    my Str $sname = $attribs<name>;
+    my Bool $pwrite = $attribs<writable>.Bool;
+
+    my Str ( $pgetter, $psetter);
+    if $attribs<getter>:exists {
+      $pgetter = $attribs<getter>;
+      $pgetter ~~ s:g/ '_' /-/;
+      $pgetter = "C<.$pgetter\()>";
+    }
+    if $attribs<setter>:exists {
+      $psetter = $attribs<setter>;
+      $psetter ~~ s:g/ '_' /-/;
+      $psetter = "C<.$psetter\()>";
+    }
+
+    my Str $p-trans-own = $attribs<transfer-ownership>;
+
+    my Str ( $sdoc, $ptype, $pctype, $pvtype);
+    for $pi.nodes -> $n {
+      next if $n ~~ XML::Text;
+
+      if $n.name eq 'doc' {
+        $sdoc = self!cleanup(
+          self!modify-text(
+            ($!xpath.find( 'text()', :start($n)) // '').Str
+          )
+        );
+      }
+
+      elsif $n.name eq 'type' {
+        $pctype = self.convert-type($n.attribs<c:type> // '');
+        $ptype = $n.attribs<name>;
+        $pvtype = self.gobject-value-type($pctype);
+      }
+    }
+
+    $properties{$sname} = %(
+      :$sdoc, :$pwrite, :$ptype, :$pctype, :$pvtype,
+      :$pgetter, :$psetter, :$p-trans-own
+    );
+  }
+
+  $doc ~= qq:to/EOSIG/;
+
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Properties
+    EOSIG
+
+  for $properties.keys.sort -> $sname {
+    $doc ~= qq:to/EOSIG/;
+
+      {HLPODSEPARATOR}
+      =comment #TP:0:$sname:
+      =head3 $sname
+      EOSIG
+
+#note "$?LINE props $sname: $properties{$sname}.gist()";
+
+    if $properties{$sname}<sdoc> ~~ m/^ \s* $/ {
+      $doc ~= "\nThere is no documentation for this property\n\n";
+    }
+
+    else {
+      $doc ~= "\n$properties{$sname}<sdoc>\n\n";
+    }
+
+    $doc ~= "=item B<Gnome::GObject::Value> for this property is $properties{$sname}<pvtype>.\n";
+
+    $doc ~= "=item The field type is $properties{$sname}<pctype>.\n";
+
+    if $properties{$sname}<pwrite> {
+      $doc ~= "=item Property is readable and writable\n";
+    }
+
+    else {
+      $doc ~= "=item Property is readonly\n";
+    }
+
+    $doc ~= "=item Getter method is $properties{$sname}<pgetter>\n"
+      if ?$properties{$sname}<pgetter>;
+
+    $doc ~= "=item Setter method is $properties{$sname}<psetter>\n"
+      if ?$properties{$sname}<psetter>;
+  }
+
+  $doc ~= "\n=end pod\n\n";
+
   $doc
 }
 
+#-------------------------------------------------------------------------------
+method gobject-value-type( Str $ctype --> Str ) {
+
+  my $vtype = '';
+
+  with $ctype {
+    when 'gboolean' {
+      $vtype = 'G_TYPE_BOOLEAN';
+    }
+
+    when 'gchar' {
+      $vtype = 'G_TYPE_CHAR';
+    }
+
+    when 'gdouble' {
+      $vtype = 'G_TYPE_DOUBLE';
+    }
+    
+    when 'gfloat' {
+      $vtype = 'G_TYPE_FLOAT';
+    }
+    
+    when 'gint' {
+      $vtype = 'G_TYPE_INT';
+    }
+    
+#    when 'gint16' {
+#      $vtype = '';
+#    }
+    
+#    when 'gint32' {
+#      $vtype = '';
+#    }
+    
+    when 'gint64' {
+      $vtype = 'G_TYPE_INT64';
+    }
+    
+    when 'gint8' {
+      $vtype = 'G_TYPE_CHAR';
+    }
+    
+    when 'glong' {
+      $vtype = 'G_TYPE_LONG';
+    }
+    
+    when 'gpointer' {
+      $vtype = 'G_TYPE_POINTER';
+    }
+    
+#    when 'gshort' {
+#      $vtype = '';
+#    }
+    
+#    when 'gsize' {
+#      $vtype = '';
+#    }
+    
+#    when 'gssize' {
+#      $vtype = '';
+#    }
+    
+    when 'guchar' {
+      $vtype = 'G_TYPE_UCHAR';
+    }
+    
+    when 'guint' {
+      $vtype = 'G_TYPE_UINT';
+    }
+    
+#    when 'guint16' {
+#      $vtype = '';
+#    }
+    
+#    when 'guint32' {
+#      $vtype = '';
+#    }
+    
+    when 'guint64' {
+      $vtype = 'G_TYPE_UINT64';
+    }
+    
+    when 'guint8' {
+      $vtype = 'G_TYPE_UCHAR';
+    }
+    
+    when 'gulong' {
+      $vtype = 'G_TYPE_ULONG';
+    }
+    
+#    when 'gunichar' {
+#      $vtype = '';
+#    }
+    
+#    when 'gushort' {
+#      $vtype = '';
+#    }
+    
+    default {
+    }
+  }
+
+note "$?LINE vtype of $ctype is $vtype";
+
+  $vtype
+}
 
 
 
@@ -770,15 +971,6 @@ method !modify-rest ( Str $text is copy --> Str ) {
   $text;
 }
 
-
-
-
-
-
-
-
-
-#`{{
 #-------------------------------------------------------------------------------
 method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 #  $text = self!scan-for-unresolved-items($text);
@@ -795,7 +987,14 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
   $text
 }
 
-}}
+
+
+
+
+
+
+
+
 
 
 
