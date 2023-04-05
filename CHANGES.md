@@ -3,10 +3,16 @@
 <!--
 TODO find highest place of role use and remove lower role entries where it is mentioned
 TODO modify markdown links in text or in Raku links when it shows use of url
+  
+  
+  * Generate BUILD submethod.
 -->
 
+* 2023-04-01 0.5.3
+  * Generate property information
+
 * 2023-04-01 0.5.2
-  * Generate BUILD submethod.
+  * Generate signal information
 
 * 2023-03-29 0.5.1
   * Generate class description
