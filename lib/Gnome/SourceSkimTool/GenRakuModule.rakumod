@@ -457,7 +457,7 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
 
     my Str $p-trans-own = $attribs<transfer-ownership>;
 
-    my Str ( $sdoc, $ptype, $pctype, $pvtype);
+    my Str ( $sdoc, $ptype, $pctype, $pvtype) = ( '', '', '', '');
     for $pi.nodes -> $n {
       next if $n ~~ XML::Text;
 
@@ -470,9 +470,11 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
       }
 
       elsif $n.name eq 'type' {
-        $pctype = self.convert-type($n.attribs<c:type> // '');
         $ptype = $n.attribs<name>;
+        $ptype ~~ s:g/ '.' //;
+        $pctype = self.convert-type($n.attribs<c:type> // $ptype);
         $pvtype = self.gobject-value-type($pctype);
+note "prop: convert-type, $pctype, $pvtype";
       }
     }
 
@@ -628,8 +630,28 @@ method gobject-value-type( Str $ctype --> Str ) {
 #    when 'gushort' {
 #      $vtype = '';
 #    }
+       
+#    when 'gushort' {
+#      $vtype = '';
+#    }
     
+#    when 'gushort' {
+#      $vtype = '';
+#    }
+ 
+    when 'GEnum' {
+      $vtype = 'G_TYPE_ENUM';
+    }
+ 
+    when 'GFlag' {
+      $vtype = 'G_TYPE_FLAGS';
+    }
+
     default {
+      my Hash $h = self.search-name($ctype);
+      $vtype = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
+      $vtype = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
+      $vtype = 'G_TYPE_OBJECT' if $h<gir-type> eq 'class';
     }
   }
 
@@ -638,17 +660,8 @@ note "$?LINE vtype of $ctype is $vtype";
   $vtype
 }
 
-
-
-
-
-
-
-
-
-
 #-------------------------------------------------------------------------------
-method search-name ( Str $name --> Hash ) {
+method search-name ( Str $name is copy --> Hash ) {
 
   my Hash $h = %();
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
