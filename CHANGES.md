@@ -4,9 +4,11 @@
 TODO find highest place of role use and remove lower role entries where it is mentioned
 TODO modify markdown links in text or in Raku links when it shows use of url
   
-  
-  * Generate BUILD submethod.
+TODO Add explanations of module documentation layout in the references of the documentation on site. Add info about the glib types used and what it means in Raku. That properties are mostly not needed because of their getters and setters.
+
 -->
+* 2023-04-07 0.5.4
+  * Generate BUILD submethod.
 
 * 2023-04-01 0.5.3
   * Generate property information
