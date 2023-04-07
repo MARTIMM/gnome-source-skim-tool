@@ -222,8 +222,8 @@ method !set-unit ( XML::Element $class-element --> Str ) {
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
 
-note "$?LINE $ctype, $h.gist()";
-  my Str $parent = $h<parent> // '';
+note "$?LINE set-unit: $ctype, $h.gist()";
+  my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
     $use-parent = "use $parent;\n";
     $also-is = "also is $parent;\n";
@@ -247,7 +247,6 @@ note "$?LINE $ctype, $h.gist()";
     {HLSEPARATOR}
     unit class {$*work-data<raku-class-name>}:auth<github:MARTIMM>;
     $also-is
-
     RAKUMOD
 
   $doc
@@ -256,34 +255,153 @@ note "$?LINE $ctype, $h.gist()";
 #-------------------------------------------------------------------------------
 method !generate-build ( XML::Element $class-element --> Str ) {
 
-  my Str $doc = '';
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
 
-  $doc = qq:to/EOBUILD/;
+  my Hash $hcs = self!get-constructors($class-element);
+  my Str $build-doc = "=head2 new\n";
+  for $hcs.keys.sort -> $cname {
+note "\n\nBuild $cname: $hcs{$cname}.gist()";
+
+    my Str $option-name = $hcs{$cname}<oname>;
+
+#    $build-doc ~= "=head3 :$option-name\n";
+#    for @($hcs{$cname}<pa>) -> $pa {
+#      $build-doc ~= " :$hcs{$cname}<oname>";
+#    }
+
+    $build-doc ~= qq:to/EOPOD/;
+      =head3 :$option-name
+      
+      $hcs{$cname}<cdoc>
+      
+        multi method new (
+      EOPOD
+    
+    if $hcs{$cname}<pa>.elems {
+      my Bool $first = True;
+      for @($hcs{$cname}<pa>) -> $pa {
+        if $first {
+          $build-doc ~= "    $pa<rtype> :\$$option-name!,\n";
+          $first = False;
+        }
+
+        else {
+          $build-doc ~= "    $pa<rtype> :\$$hcs{$cname}<oname>,";
+        }
+      }
+
+      $build-doc.chop(1);
+      $build-doc ~= "  )\n\n";
+
+      $first = True;
+      for @($hcs{$cname}<pa>) -> $pa {
+        if $first {
+          $build-doc ~= "=item :\$$option-name!; $pa<pdoc>\n\n";
+          $first = False;
+        }
+
+        else {
+          $build-doc ~= "=item :\$$hcs{$cname}<oname>; $pa<pdoc>\n\n";
+        }
+      }
+    }
+
+    else {
+      $build-doc ~= qq:to/EOPOD/;
+      =head3 default, no options
+      
+      $hcs{$cname}<cdoc>
+      
+        multi method new ( )
+      EOPOD
+    }
+  }
+
+  my Str $doc = qq:to/EOBUILD/;
 
     {HLSEPARATOR}
     =begin pod
+    $build-doc
     =end pod
 
     submethod BUILD ( *\%options ) \{
 
     \}
-      
+
     EOBUILD
 
-#  if $h<inheritable> {
-#  self!get-constructors;
+#  if $h<inheritable>
 #  self!make-build;
 
   $doc
 }
 
 #-------------------------------------------------------------------------------
-method !get-constructors ( --> Str ) {
-  my Str $doc = '';
+method !get-constructors ( XML::Element $class-element --> Hash ) {
+  my Hash $hcs = %();
+  my Str ( $cname, $oname, $cdoc );
 
-  $doc
+  my @constructors =
+    $!xpath.find( 'constructor', :start($class-element), :to-list);
+
+  for @constructors -> $cn {
+    $oname = $cname = $cn.attribs<c:identifier>;
+    my Str $spfx := $*work-data<sub-prefix>;
+    $oname ~~ s/^ $spfx new '_'? //;
+    $oname ~~ s:g/ '_' /-/;
+    $oname = 'default' if $oname ~~ m/^ \s* $/;
+
+    $cdoc = self!modify-text(
+      ($!xpath.find( 'doc/text()', :start($cn)) // '').Str
+    );
+
+    # not needed here, always an object ≡ N-GObject. usable for methods.
+    #my $rv = $!xpath.find( 'return-value', :start($cn), :!to-list);
+
+    my @pa = ();
+    my @parameters =
+      $!xpath.find( 'parameters/parameter', :start($cn), :to-list);
+    for @parameters -> $p {
+      my Str ( $pdoc, $ptype, $rtype) = self.get-doc-type($p);
+      my Hash $attribs = $p.attribs;
+      my Hash $ph = %(
+        :name($attribs<name>), :allow-none($attribs<allow-none>.Bool),
+        :nullable($attribs<nullable>.Bool),
+        :trans-own($attribs<transfer-ownership>),
+        :$pdoc, :$ptype, :$rtype
+      );
+    
+      @pa.push: $ph;
+    }
+
+    $hcs{$cname} = %( :$oname, :$cdoc, :pa(@pa));
+  }
+
+  $hcs
+}
+
+#-------------------------------------------------------------------------------
+method get-doc-type ( XML::Element $e --> List ) {
+
+  my Str ( $doc, $type, $ctype) = ( '', '', '');
+  for $e.nodes -> $n {
+    next if $n ~~ XML::Text;
+    with $n.name {
+      when 'doc' {
+        $doc = self!modify-text(
+          ($!xpath.find( 'text()', :start($n)) // '').Str
+        );
+      }
+
+      when 'type' {
+        $type = $n.attribs<name>;
+        $ctype = self.convert-type($n.attribs<c:type>);
+      }
+    }
+  }
+  
+  ( $doc, $type, $ctype)
 }
 
 #-------------------------------------------------------------------------------
@@ -314,8 +432,8 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
 
     # signal documentation
     my Str $sname = $attribs<name>;
-    my Str $sdoc = self!modify-text(
-      ($!xpath.find( 'doc/text()', :start($si)) // '').Str
+    my Str $sdoc = self!cleanup(
+      self!modify-text(($!xpath.find( 'doc/text()', :start($si)) // '').Str)
     );
     $signals{$sname} = %(:$sdoc,);
 
@@ -326,8 +444,8 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
       next if $n ~~ XML::Text;
 
       if $n.name eq 'doc' {
-        $signals{$sname}<rv-doc> = self!modify-text(
-          ($!xpath.find( 'text()', :start($n)) // '').Str
+        $signals{$sname}<rv-doc> = self!cleanup(
+          self!modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
         );
       }
 
@@ -351,8 +469,8 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
         next if $n ~~ XML::Text;
 
         if $n.name eq 'doc' {
-          $pdoc = self!modify-text(
-            ($!xpath.find( 'text()', :start($n)) // '').Str
+          $pdoc = self!cleanup(
+            self!modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
           );
         }
 
@@ -474,7 +592,7 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
         $ptype ~~ s:g/ '.' //;
         $pctype = self.convert-type($n.attribs<c:type> // $ptype);
         $pvtype = self.gobject-value-type($pctype);
-note "prop: convert-type, $pctype, $pvtype";
+#say "prop: convert-type, $pctype, $pvtype";
       }
     }
 
@@ -499,7 +617,7 @@ note "prop: convert-type, $pctype, $pvtype";
       =head3 $sname
       EOSIG
 
-#note "$?LINE props $sname: $properties{$sname}.gist()";
+#say "$?LINE props $sname: $properties{$sname}.gist()";
 
     if $properties{$sname}<sdoc> ~~ m/^ \s* $/ {
       $doc ~= "\nThere is no documentation for this property\n\n";
@@ -649,13 +767,15 @@ method gobject-value-type( Str $ctype --> Str ) {
 
     default {
       my Hash $h = self.search-name($ctype);
-      $vtype = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
-      $vtype = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
-      $vtype = 'G_TYPE_OBJECT' if $h<gir-type> eq 'class';
+      if ?$h<gir-type> {
+        $vtype = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
+        $vtype = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
+        $vtype = 'G_TYPE_OBJECT' if $h<gir-type> eq 'class';
+      }
     }
   }
 
-note "$?LINE vtype of $ctype is $vtype";
+#note "$?LINE vtype of $ctype is $vtype";
 
   $vtype
 }
@@ -681,7 +801,7 @@ method search-name ( Str $name is copy --> Hash ) {
     last;
   }
 
-say "$?LINE: search $name -> {$h<rname> // $h.gist}";
+#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
 
   $h
 }
@@ -730,7 +850,7 @@ method convert-type ( Str $ctype --> Str ) {
     }
   }
 
-say "$?LINE: convert $ctype -> '$rtype'";
+#say "$?LINE: convert $ctype -> '$rtype'";
 
   $rtype
 }
