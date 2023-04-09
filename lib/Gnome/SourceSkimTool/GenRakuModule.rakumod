@@ -270,34 +270,30 @@ note "\n\nBuild $cname: $hcs{$cname}.gist()";
 #      $build-doc ~= " :$hcs{$cname}<oname>";
 #    }
 
-    $build-doc ~= qq:to/EOPOD/;
-      =head3 :$option-name
-      
-      $hcs{$cname}<cdoc>
-      
-        multi method new (
-      EOPOD
+    $build-doc ~= "=head3 :$option-name\n\n";
+    $build-doc ~= "$hcs{$cname}<cdoc>\n\n";
+    $build-doc ~= "  multi method new (";
     
     if $hcs{$cname}<pa>.elems {
       my Bool $first = True;
       for @($hcs{$cname}<pa>) -> $pa {
         if $first {
-          $build-doc ~= "    $pa<rtype> :\$$option-name!,\n";
+          $build-doc ~= " $pa<rtype> :\$$option-name!,";
           $first = False;
         }
 
         else {
-          $build-doc ~= "    $pa<rtype> :\$$hcs{$cname}<oname>,";
+          $build-doc ~= " $pa<rtype> :\$$hcs{$cname}<oname>,";
         }
       }
 
       $build-doc.chop(1);
-      $build-doc ~= "  )\n\n";
+      $build-doc ~= ")\n\n";
 
       $first = True;
       for @($hcs{$cname}<pa>) -> $pa {
         if $first {
-          $build-doc ~= "=item :\$$option-name!; $pa<pdoc>\n\n";
+          $build-doc ~= "=item :\$$option-name; $pa<pdoc>\n\n";
           $first = False;
         }
 
@@ -371,7 +367,7 @@ method !get-constructors ( XML::Element $class-element --> Hash ) {
         :trans-own($attribs<transfer-ownership>),
         :$pdoc, :$ptype, :$rtype
       );
-    
+
       @pa.push: $ph;
     }
 
@@ -384,24 +380,26 @@ method !get-constructors ( XML::Element $class-element --> Hash ) {
 #-------------------------------------------------------------------------------
 method get-doc-type ( XML::Element $e --> List ) {
 
-  my Str ( $doc, $type, $ctype) = ( '', '', '');
+  my Str ( $doc, $type, $ctype, $vtype) = ( '', '', '', '');
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
     with $n.name {
       when 'doc' {
-        $doc = self!modify-text(
-          ($!xpath.find( 'text()', :start($n)) // '').Str
+        $doc = self!cleanup(
+          self!modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
         );
       }
 
       when 'type' {
         $type = $n.attribs<name>;
-        $ctype = self.convert-type($n.attribs<c:type>);
+        $type ~~ s:g/ '.' //;
+        $ctype = self.convert-type($n.attribs<c:type> // $type);
+        $vtype = self.gobject-value-type($ctype);
       }
     }
   }
-  
-  ( $doc, $type, $ctype)
+
+  ( $doc, $type, $ctype, $vtype)
 }
 
 #-------------------------------------------------------------------------------
@@ -440,21 +438,11 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
     # return value info
     my XML::Element $rvalue = $!xpath.find( 'return-value', :start($si));
     $signals{$sname}<rv-trans-own> = $rvalue.attribs<transfer-ownership>;
-    for $rvalue.nodes -> $n {
-      next if $n ~~ XML::Text;
 
-      if $n.name eq 'doc' {
-        $signals{$sname}<rv-doc> = self!cleanup(
-          self!modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
-        );
-      }
-
-      elsif $n.name eq 'type' {
-        $signals{$sname}<rv-ctype> =
-          self.convert-type($n.attribs<c:type> // '');
-        $signals{$sname}<rv-type> = $n.attribs<name>;
-      }
-    }
+    my Str ( $rv-doc, $rv-type, $rv-ctype) = self.get-doc-type($rvalue);
+    $signals{$sname}<rv-doc> = $rv-doc;
+    $signals{$sname}<rv-type> = $rv-type;
+    $signals{$sname}<rv-ctype> = $rv-ctype;
 
     # parameter info
     $signals{$sname}<parameters> = [];
@@ -464,21 +452,7 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
       my Hash $attribs = $prmtr.attribs;
       my $pname = $attribs<name>;
       my $p-trans-own = $attribs<transfer-ownership>;
-      my Str ( $pdoc, $ptype, $pctype);
-      for $prmtr.nodes -> $n {
-        next if $n ~~ XML::Text;
-
-        if $n.name eq 'doc' {
-          $pdoc = self!cleanup(
-            self!modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
-          );
-        }
-
-        elsif $n.name eq 'type' {
-          $ptype = $n.attribs<name>;
-          $pctype = self.convert-type($n.attribs<c:type> // $ptype // '');
-        }
-      }
+      my Str ( $pdoc, $ptype, $pctype) = self.get-doc-type($prmtr);
 
       $signals{$sname}<parameters>.push: %(
         :$pname, :$pdoc, :$ptype, :$pctype, :$p-trans-own
@@ -575,26 +549,7 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
 
     my Str $p-trans-own = $attribs<transfer-ownership>;
 
-    my Str ( $sdoc, $ptype, $pctype, $pvtype) = ( '', '', '', '');
-    for $pi.nodes -> $n {
-      next if $n ~~ XML::Text;
-
-      if $n.name eq 'doc' {
-        $sdoc = self!cleanup(
-          self!modify-text(
-            ($!xpath.find( 'text()', :start($n)) // '').Str
-          )
-        );
-      }
-
-      elsif $n.name eq 'type' {
-        $ptype = $n.attribs<name>;
-        $ptype ~~ s:g/ '.' //;
-        $pctype = self.convert-type($n.attribs<c:type> // $ptype);
-        $pvtype = self.gobject-value-type($pctype);
-#say "prop: convert-type, $pctype, $pvtype";
-      }
-    }
+    my Str ( $sdoc, $ptype, $pctype, $pvtype) = self.get-doc-type($pi);
 
     $properties{$sname} = %(
       :$sdoc, :$pwrite, :$ptype, :$pctype, :$pvtype,
@@ -906,20 +861,6 @@ method !modify-signals ( Str $text is copy --> Str ) {
     }
   }
 
-#`{{
-  if $text ~~ m/ '#' $section-prefix-name '::' \w+ / {
-    $text ~~ s:g/ '#' $section-prefix-name '::' (<[-\w]>+) /I<signal $0>/;
-  }
-
-  elsif $text ~~ m/ '#' \w+ '::' \w+ / {
-    $text ~~ s:g/ '#' (\w+) '::' (<[-\w]>+) / I<signal $1 defined in $0>/;
-  }
-
-  elsif $text ~~ m/ '#' '::' \w+ / {
-    $text ~~ s:g/ '#' '::' (<[-\w]>+) / I<signal $0>/;
-  }
-}}
-
   $text;
 }
 
@@ -939,21 +880,6 @@ method !modify-properties ( Str $text is copy --> Str ) {
       $text ~~ s:g/ '#'? $cname':' $pname /I<property $pname defined in $cname>/;
     }
   }
-
-#`{{
-  if $text ~~ m/ '#' $section-prefix-name ':' \w+ / {
-    $text ~~ s:g/ '#' $section-prefix-name ':' (<[-\w]>+) /I<property $0>/;
-  }
-
-  elsif $text ~~ m/ '#' \w+ ':' \w+ / {
-    $text ~~ s:g/ '#' (\w+) ':' (<[-\w]>+) /
-    $text ~~ s:g/ '#' (\w+) ':' (<[-\w]>+) / I<property $1 defined in $0>/;
-  }
-
-  elsif $text ~~ m/ '#' ':' \w+ / {
-    $text ~~ s:g/ '#' ':' (<[-\w]>+) / I<property $0>/;
-  }
-}}
 
   $text;
 }
