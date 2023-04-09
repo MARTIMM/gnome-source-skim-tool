@@ -342,39 +342,53 @@ method !get-constructors ( XML::Element $class-element --> Hash ) {
     $!xpath.find( 'constructor', :start($class-element), :to-list);
 
   for @constructors -> $cn {
-    $oname = $cname = $cn.attribs<c:identifier>;
-    my Str $spfx := $*work-data<sub-prefix>;
-    $oname ~~ s/^ $spfx new '_'? //;
-    $oname ~~ s:g/ '_' /-/;
-    $oname = 'default' if $oname ~~ m/^ \s* $/;
-
-    $cdoc = self!modify-text(
-      ($!xpath.find( 'doc/text()', :start($cn)) // '').Str
-    );
-
-    # not needed here, always an object ≡ N-GObject. usable for methods.
-    #my $rv = $!xpath.find( 'return-value', :start($cn), :!to-list);
-
-    my @pa = ();
-    my @parameters =
-      $!xpath.find( 'parameters/parameter', :start($cn), :to-list);
-    for @parameters -> $p {
-      my Str ( $pdoc, $ptype, $rtype) = self.get-doc-type($p);
-      my Hash $attribs = $p.attribs;
-      my Hash $ph = %(
-        :name($attribs<name>), :allow-none($attribs<allow-none>.Bool),
-        :nullable($attribs<nullable>.Bool),
-        :trans-own($attribs<transfer-ownership>),
-        :$pdoc, :$ptype, :$rtype
-      );
-
-      @pa.push: $ph;
-    }
-
-    $hcs{$cname} = %( :$oname, :$cdoc, :pa(@pa));
+    my ( $cname, %h) = self.get-method-data($cn);
+    $hcs{$cname} = %h;
   }
 
   $hcs
+}
+
+#-------------------------------------------------------------------------------
+method get-method-data ( XML::Element $e --> List ) {
+
+  my Str ( $cname, $oname, $cdoc);
+
+  $oname = $cname = $e.attribs<c:identifier>;
+  my Str $spfx := $*work-data<sub-prefix>;
+  $oname ~~ s/^ $spfx new '_'? //;
+  $oname ~~ s:g/ '_' /-/;
+  $oname = 'default' if $oname ~~ m/^ \s* $/;
+
+  $cdoc = self!modify-text(
+    ($!xpath.find( 'doc/text()', :start($e)) // '').Str
+  );
+
+  my XML::Element $rvalue = $!xpath.find( 'return-value', :start($e));
+  my Str $rv-trans-own = $rvalue.attribs<transfer-ownership>;
+  my Str ( $rv-doc, $rv-type, $rv-ctype) = self.get-doc-type($rvalue);
+
+  my @pa = ();
+  my @parameters =
+    $!xpath.find( 'parameters/parameter', :start($e), :to-list);
+  for @parameters -> $p {
+    my Str ( $pdoc, $ptype, $rtype) = self.get-doc-type($p);
+    my Hash $attribs = $p.attribs;
+    my Hash $ph = %(
+      :name($attribs<name>), :allow-none($attribs<allow-none>.Bool),
+      :nullable($attribs<nullable>.Bool),
+      :trans-own($attribs<transfer-ownership>),
+      :$pdoc, :$ptype, :$rtype
+    );
+
+    @pa.push: $ph;
+  }
+
+  ( $cname, %(
+      :$oname, :$cdoc, :pa(@pa),
+      :$rv-doc, :$rv-type, :$rv-ctype, :$rv-trans-own,
+    )
+  );
 }
 
 #-------------------------------------------------------------------------------
