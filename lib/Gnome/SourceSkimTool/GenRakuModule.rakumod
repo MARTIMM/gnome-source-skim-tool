@@ -97,7 +97,7 @@ method generate-raku-module ( ) {
   $module-doc ~= self!generate-build($class-element);
 
   note "Generate module methods" if $*verbose;  
-#  $module-doc ~= self!generate-methods($class-element);
+  $module-doc ~= self!generate-methods($class-element);
 
   note "Generate module signals" if $*verbose;  
   $module-doc ~= self!generate-signals($class-element);
@@ -259,31 +259,40 @@ method !generate-build ( XML::Element $class-element --> Str ) {
   my Hash $h = self.search-name($ctype);
 
   my Hash $hcs = self!get-constructors($class-element);
-  my Str $build-doc = "=head2 new\n";
-  for $hcs.keys.sort -> $cname {
-note "\n\nBuild $cname: $hcs{$cname}.gist()";
+  my Str $doc = self!make-build-doc($hcs);
+  $doc ~= self!make-build-submethod($hcs);
+  $doc ~= self!make-native-constructor-subs($hcs);
 
-    my Str $option-name = $hcs{$cname}<oname>;
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method !make-build-doc ( Hash $hcs --> Str ) {
+  my Str $build-doc = "=head2 new\n";
+  for $hcs.keys.sort -> $function-name {
+note "\n\nBuild $function-name: $hcs{$function-name}.gist()";
+
+    my Str $option-name = $hcs{$function-name}<option-name>;
 
 #    $build-doc ~= "=head3 :$option-name\n";
-#    for @($hcs{$cname}<pa>) -> $pa {
-#      $build-doc ~= " :$hcs{$cname}<oname>";
+#    for @($hcs{$function-name}<parameters>) -> $parameter {
+#      $build-doc ~= " :$hcs{$function-name}<option-name>";
 #    }
 
     $build-doc ~= "=head3 :$option-name\n\n";
-    $build-doc ~= "$hcs{$cname}<cdoc>\n\n";
+    $build-doc ~= "$hcs{$function-name}<function-doc>\n\n";
     $build-doc ~= "  multi method new (";
     
-    if $hcs{$cname}<pa>.elems {
+    if $hcs{$function-name}<parameters>.elems {
       my Bool $first = True;
-      for @($hcs{$cname}<pa>) -> $pa {
+      for @($hcs{$function-name}<parameters>) -> $parameter {
         if $first {
-          $build-doc ~= " $pa<rtype> :\$$option-name!,";
+          $build-doc ~= " $parameter<raku-type> :\$$option-name!,";
           $first = False;
         }
 
         else {
-          $build-doc ~= " $pa<rtype> :\$$hcs{$cname}<oname>,";
+          $build-doc ~= " $parameter<raku-type> :\$$hcs{$function-name}<option-name>,";
         }
       }
 
@@ -291,14 +300,14 @@ note "\n\nBuild $cname: $hcs{$cname}.gist()";
       $build-doc ~= ")\n\n";
 
       $first = True;
-      for @($hcs{$cname}<pa>) -> $pa {
+      for @($hcs{$function-name}<parameters>) -> $parameter {
         if $first {
-          $build-doc ~= "=item :\$$option-name; $pa<pdoc>\n\n";
+          $build-doc ~= "=item :\$$option-name; $parameter<doc>\n\n";
           $first = False;
         }
 
         else {
-          $build-doc ~= "=item :\$$hcs{$cname}<oname>; $pa<pdoc>\n\n";
+          $build-doc ~= "=item :\$$hcs{$function-name}<option-name>; $parameter<doc>\n\n";
         }
       }
     }
@@ -307,7 +316,7 @@ note "\n\nBuild $cname: $hcs{$cname}.gist()";
       $build-doc ~= qq:to/EOPOD/;
       =head3 default, no options
       
-      $hcs{$cname}<cdoc>
+      $hcs{$function-name}<function-doc>
       
         multi method new ( )
       EOPOD
@@ -321,103 +330,32 @@ note "\n\nBuild $cname: $hcs{$cname}.gist()";
     $build-doc
     =end pod
 
+    EOBUILD
+
+#TODO  if $h<inheritable>
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method !make-build-submethod ( Hash $hcs --> Str ) {
+  my Str $doc = qq:to/EOBUILD/;
+    #TM:1:inheriting
+    #TM:1:new(:text):
+    #TM:1:new(:mnemonic):
+    #TM:1:new(:native-object):
+    #TM:1:new(:build-id):
     submethod BUILD ( *\%options ) \{
 
     \}
 
     EOBUILD
 
-#  if $h<inheritable>
-#  self!make-build;
-
   $doc
 }
 
 #-------------------------------------------------------------------------------
-method !get-constructors ( XML::Element $class-element --> Hash ) {
-  my Hash $hcs = %();
-  my Str ( $cname, $oname, $cdoc );
-
-  my @constructors =
-    $!xpath.find( 'constructor', :start($class-element), :to-list);
-
-  for @constructors -> $cn {
-    my ( $cname, %h) = self.get-method-data($cn);
-    $hcs{$cname} = %h;
-  }
-
-  $hcs
-}
-
-#-------------------------------------------------------------------------------
-method get-method-data ( XML::Element $e --> List ) {
-
-  my Str ( $cname, $oname, $cdoc);
-
-  $oname = $cname = $e.attribs<c:identifier>;
-  my Str $spfx := $*work-data<sub-prefix>;
-  $oname ~~ s/^ $spfx new '_'? //;
-  $oname ~~ s:g/ '_' /-/;
-  $oname = 'default' if $oname ~~ m/^ \s* $/;
-
-  $cdoc = self!modify-text(
-    ($!xpath.find( 'doc/text()', :start($e)) // '').Str
-  );
-
-  my XML::Element $rvalue = $!xpath.find( 'return-value', :start($e));
-  my Str $rv-trans-own = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-doc, $rv-type, $rv-ctype) = self.get-doc-type($rvalue);
-
-  my @pa = ();
-  my @parameters =
-    $!xpath.find( 'parameters/parameter', :start($e), :to-list);
-  for @parameters -> $p {
-    my Str ( $pdoc, $ptype, $rtype) = self.get-doc-type($p);
-    my Hash $attribs = $p.attribs;
-    my Hash $ph = %(
-      :name($attribs<name>), :allow-none($attribs<allow-none>.Bool),
-      :nullable($attribs<nullable>.Bool),
-      :trans-own($attribs<transfer-ownership>),
-      :$pdoc, :$ptype, :$rtype
-    );
-
-    @pa.push: $ph;
-  }
-
-  ( $cname, %(
-      :$oname, :$cdoc, :pa(@pa),
-      :$rv-doc, :$rv-type, :$rv-ctype, :$rv-trans-own,
-    )
-  );
-}
-
-#-------------------------------------------------------------------------------
-method get-doc-type ( XML::Element $e --> List ) {
-
-  my Str ( $doc, $type, $ctype, $vtype) = ( '', '', '', '');
-  for $e.nodes -> $n {
-    next if $n ~~ XML::Text;
-    with $n.name {
-      when 'doc' {
-        $doc = self!cleanup(
-          self!modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
-        );
-      }
-
-      when 'type' {
-        $type = $n.attribs<name>;
-        $type ~~ s:g/ '.' //;
-        $ctype = self.convert-type($n.attribs<c:type> // $type);
-        $vtype = self.gobject-value-type($ctype);
-      }
-    }
-  }
-
-  ( $doc, $type, $ctype, $vtype)
-}
-
-#-------------------------------------------------------------------------------
-method !make-build ( --> Str ) {
+method !make-native-constructor-subs ( Hash $hcs --> Str ) {
   my Str $doc = '';
 
   $doc
@@ -425,6 +363,14 @@ method !make-build ( --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !generate-methods ( XML::Element $class-element --> Str ) {
+
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
+  my Hash $hcs = self!get-methods($class-element);
+#  my Str $doc = self!make-build-doc($hcs);
+#  $doc ~= self!make-build($hcs);
+
   my Str $doc = '';
 
   $doc
@@ -443,33 +389,33 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
     next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
 
     # signal documentation
-    my Str $sname = $attribs<name>;
+    my Str $signal-name = $attribs<name>;
     my Str $sdoc = self!cleanup(
       self!modify-text(($!xpath.find( 'doc/text()', :start($si)) // '').Str)
     );
-    $signals{$sname} = %(:$sdoc,);
+    $signals{$signal-name} = %(:$sdoc,);
 
     # return value info
     my XML::Element $rvalue = $!xpath.find( 'return-value', :start($si));
-    $signals{$sname}<rv-trans-own> = $rvalue.attribs<transfer-ownership>;
+    $signals{$signal-name}<rv-trans-own> = $rvalue.attribs<transfer-ownership>;
 
-    my Str ( $rv-doc, $rv-type, $rv-ctype) = self.get-doc-type($rvalue);
-    $signals{$sname}<rv-doc> = $rv-doc;
-    $signals{$sname}<rv-type> = $rv-type;
-    $signals{$sname}<rv-ctype> = $rv-ctype;
+    my Str ( $rv-doc, $rv-type, $return-raku-type) = self.get-doc-type($rvalue);
+    $signals{$signal-name}<rv-doc> = $rv-doc;
+    $signals{$signal-name}<rv-type> = $rv-type;
+    $signals{$signal-name}<return-raku-type> = $return-raku-type;
 
     # parameter info
-    $signals{$sname}<parameters> = [];
-    my @paramtrs =
+    $signals{$signal-name}<parameters> = [];
+    my @prmtrs =
         $!xpath.find( 'parameters/parameter', :start($si), :to-list);
-    for @paramtrs -> $prmtr {
+    for @prmtrs -> $prmtr {
       my Hash $attribs = $prmtr.attribs;
       my $pname = $attribs<name>;
       my $p-trans-own = $attribs<transfer-ownership>;
-      my Str ( $pdoc, $ptype, $pctype) = self.get-doc-type($prmtr);
+      my Str ( $doc, $type, $raku-type) = self.get-doc-type($prmtr);
 
-      $signals{$sname}<parameters>.push: %(
-        :$pname, :$pdoc, :$ptype, :$pctype, :$p-trans-own
+      $signals{$signal-name}<parameters>.push: %(
+        :$pname, :$doc, :$type, :$raku-type, :$p-trans-own
       );
     }
   }
@@ -481,21 +427,21 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
     =head1 Signals
     EOSIG
 
-  for $signals.keys.sort -> $sname {
+  for $signals.keys.sort -> $signal-name {
     $doc ~= qq:to/EOSIG/;
 
       {HLPODSEPARATOR}
-      =comment #TS:0:$sname:
-      =head3 $sname
+      =comment #TS:0:$signal-name:
+      =head3 $signal-name
 
-      $signals{$sname}<sdoc>
+      $signals{$signal-name}<sdoc>
 
       =begin code
       method handler \(
       EOSIG
 
-    for @($signals{$sname}<parameters>) -> $prmtr {
-      $doc ~= "  $prmtr<pctype> \$$prmtr<pname>,\n";
+    for @($signals{$signal-name}<parameters>) -> $prmtr {
+      $doc ~= "  $prmtr<raku-type> \$$prmtr<pname>,\n";
     }
 
     $doc ~= qq:to/EOSIG/;
@@ -508,8 +454,8 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
 
       EOSIG
 
-    for @($signals{$sname}<parameters>) -> $prmtr {
-      $doc ~= "=item $prmtr<pname> \(transfer ownership: $prmtr<p-trans-own>); $prmtr<pdoc>.\n";
+    for @($signals{$signal-name}<parameters>) -> $prmtr {
+      $doc ~= "=item $prmtr<pname> \(transfer ownership: $prmtr<p-trans-own>); $prmtr<doc>.\n";
     }
 
     $doc ~= q:to/EOSIG/;
@@ -524,8 +470,8 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
 
       EOSIG
 
-    $doc ~= "Return value \(transfer ownership: $signals{$sname}<rv-ctype> \($signals{$sname}<rv-trans-own>); $signals{$sname}<rv-doc>\n"
-          if $signals{$sname}<rv-ctype> ne 'void';
+    $doc ~= "Return value \(transfer ownership: $signals{$signal-name}<return-raku-type> \($signals{$signal-name}<rv-trans-own>); $signals{$signal-name}<rv-doc>\n"
+          if $signals{$signal-name}<return-raku-type> ne 'void';
   }
 
   $doc ~= "\n=end pod\n\n";
@@ -546,8 +492,8 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
     next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
 
     # signal documentation
-    my Str $sname = $attribs<name>;
-    my Bool $pwrite = $attribs<writable>.Bool;
+    my Str $property-name = $attribs<name>;
+    my Bool $writable = $attribs<writable>.Bool;
 
     my Str ( $pgetter, $psetter);
     if $attribs<getter>:exists {
@@ -563,10 +509,10 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
 
     my Str $p-trans-own = $attribs<transfer-ownership>;
 
-    my Str ( $sdoc, $ptype, $pctype, $pvtype) = self.get-doc-type($pi);
+    my Str ( $pdoc, $type, $raku-type, $g-type) = self.get-doc-type($pi);
 
-    $properties{$sname} = %(
-      :$sdoc, :$pwrite, :$ptype, :$pctype, :$pvtype,
+    $properties{$property-name} = %(
+      :$pdoc, :$writable, :$type, :$raku-type, :$g-type,
       :$pgetter, :$psetter, :$p-trans-own
     );
   }
@@ -578,29 +524,29 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
     =head1 Properties
     EOSIG
 
-  for $properties.keys.sort -> $sname {
+  for $properties.keys.sort -> $signal-name {
     $doc ~= qq:to/EOSIG/;
 
       {HLPODSEPARATOR}
-      =comment #TP:0:$sname:
-      =head3 $sname
+      =comment #TP:0:$signal-name:
+      =head3 $signal-name
       EOSIG
 
-#say "$?LINE props $sname: $properties{$sname}.gist()";
+#say "$?LINE props $signal-name: $properties{$signal-name}.gist()";
 
-    if $properties{$sname}<sdoc> ~~ m/^ \s* $/ {
+    if $properties{$signal-name}<pdoc> ~~ m/^ \s* $/ {
       $doc ~= "\nThere is no documentation for this property\n\n";
     }
 
     else {
-      $doc ~= "\n$properties{$sname}<sdoc>\n\n";
+      $doc ~= "\n$properties{$signal-name}<pdoc>\n\n";
     }
 
-    $doc ~= "=item B<Gnome::GObject::Value> for this property is $properties{$sname}<pvtype>.\n";
+    $doc ~= "=item B<Gnome::GObject::Value> for this property is $properties{$signal-name}<g-type>.\n";
 
-    $doc ~= "=item The field type is $properties{$sname}<pctype>.\n";
+    $doc ~= "=item The field type is $properties{$signal-name}<raku-type>.\n";
 
-    if $properties{$sname}<pwrite> {
+    if $properties{$signal-name}<writable> {
       $doc ~= "=item Property is readable and writable\n";
     }
 
@@ -608,16 +554,113 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
       $doc ~= "=item Property is readonly\n";
     }
 
-    $doc ~= "=item Getter method is $properties{$sname}<pgetter>\n"
-      if ?$properties{$sname}<pgetter>;
+    $doc ~= "=item Getter method is $properties{$signal-name}<pgetter>\n"
+      if ?$properties{$signal-name}<pgetter>;
 
-    $doc ~= "=item Setter method is $properties{$sname}<psetter>\n"
-      if ?$properties{$sname}<psetter>;
+    $doc ~= "=item Setter method is $properties{$signal-name}<psetter>\n"
+      if ?$properties{$signal-name}<psetter>;
   }
 
   $doc ~= "\n=end pod\n\n";
 
   $doc
+}
+
+#-------------------------------------------------------------------------------
+method !get-constructors ( XML::Element $class-element --> Hash ) {
+  my Hash $hcs = %();
+
+  my @constructors =
+    $!xpath.find( 'constructor', :start($class-element), :to-list);
+
+  for @constructors -> $cn {
+    my ( $function-name, %h) = self.get-method-data($cn);
+    $hcs{$function-name} = %h;
+  }
+
+  $hcs
+}
+
+#-------------------------------------------------------------------------------
+method !get-methods ( XML::Element $class-element --> Hash ) {
+  my Hash $hms = %();
+
+  my @methods =
+    $!xpath.find( 'method', :start($class-element), :to-list);
+
+  for @methods -> $cn {
+    my ( $function-name, %h) = self.get-method-data($cn);
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
+#-------------------------------------------------------------------------------
+method get-method-data ( XML::Element $e --> List ) {
+
+  my Str ( $function-name, $option-name, $function-doc);
+
+  $option-name = $function-name = $e.attribs<c:identifier>;
+  my Str $spfx := $*work-data<sub-prefix>;
+  $option-name ~~ s/^ $spfx new '_'? //;
+  $option-name ~~ s:g/ '_' /-/;
+  $option-name = 'default' if $option-name ~~ m/^ \s* $/;
+
+  $function-doc = self!modify-text(
+    ($!xpath.find( 'doc/text()', :start($e)) // '').Str
+  );
+
+  my XML::Element $rvalue = $!xpath.find( 'return-value', :start($e));
+  my Str $rv-trans-own = $rvalue.attribs<transfer-ownership>;
+  my Str ( $rv-doc, $rv-type, $return-raku-type) = self.get-doc-type($rvalue);
+
+  my @parameters = ();
+  my @prmtrs =
+    $!xpath.find( 'parameters/parameter', :start($e), :to-list);
+  for @prmtrs -> $p {
+    my Str ( $doc, $type, $raku-type) = self.get-doc-type($p);
+    my Hash $attribs = $p.attribs;
+    my Hash $ph = %(
+      :name($attribs<name>), :allow-none($attribs<allow-none>.Bool),
+      :nullable($attribs<nullable>.Bool),
+      :trans-own($attribs<transfer-ownership>),
+      :$doc, :$type, :$raku-type
+    );
+
+    @parameters.push: $ph;
+  }
+
+  ( $function-name, %(
+      :$option-name, :$function-doc, :pa(@parameters),
+      :$rv-doc, :$rv-type, :$return-raku-type, :$rv-trans-own,
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+method get-doc-type ( XML::Element $e --> List ) {
+
+  my Str ( $doc, $type, $raku-type, $vtype) = ( '', '', '', '');
+  for $e.nodes -> $n {
+    next if $n ~~ XML::Text;
+    with $n.name {
+      when 'doc' {
+        $doc = self!cleanup(
+          self!modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
+        );
+      }
+
+      when 'type' {
+        $type = $n.attribs<name>;
+        $type ~~ s:g/ '.' //;
+        $raku-type = self.convert-type($n.attribs<c:type> // $type);
+        $vtype = self.gobject-value-type($raku-type);
+      }
+    }
+  }
+
+  ( $doc, $type, $raku-type, $vtype)
 }
 
 #-------------------------------------------------------------------------------
@@ -653,19 +696,19 @@ method gobject-value-type( Str $ctype --> Str ) {
 #    when 'gint32' {
 #      $vtype = '';
 #    }
-    
+
     when 'gint64' {
       $vtype = 'G_TYPE_INT64';
     }
-    
+
     when 'gint8' {
       $vtype = 'G_TYPE_CHAR';
     }
-    
+
     when 'glong' {
       $vtype = 'G_TYPE_LONG';
     }
-    
+
     when 'gpointer' {
       $vtype = 'G_TYPE_POINTER';
     }
@@ -779,7 +822,7 @@ method search-name ( Str $name is copy --> Hash ) {
 method convert-type ( Str $ctype --> Str ) {
   return '' unless ?$ctype;
 
-  my Str $rtype = '';
+  my Str $raku-type = '';
   with $ctype {
     when any(
         <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
@@ -787,7 +830,7 @@ method convert-type ( Str $ctype --> Str ) {
         guint32 guint64 guint8 gulong gunichar gushort
         >
     ) {
-      $rtype = $ctype;
+      $raku-type = $ctype;
     }
 
     when any(
@@ -796,19 +839,19 @@ method convert-type ( Str $ctype --> Str ) {
         uint32 uint64 uint8 ulong unichar ushort
         >
     ) {
-      $rtype = "g$ctype;";
+      $raku-type = "g$ctype;";
     }
 
-    when m/char \s* '*'/ { $rtype = 'Str'; }
-    when m/char \s* '*' \s* '*'/ { $rtype = 'CArray[Str]'; }
-    when 'void' { $rtype = 'void'; }
+    when m/char \s* '*'/ { $raku-type = 'Str'; }
+    when m/char \s* '*' \s* '*'/ { $raku-type = 'CArray[Str]'; }
+    when 'void' { $raku-type = 'void'; }
 
     default {
       my Hash $h = self.search-name($ctype);
       given $h<gir-type> // '-' {
-        when 'class' { $rtype = 'N-GObject'; }
-        when 'enumeration' { $rtype = 'GEnum'; }
-        when 'bitfield' { $rtype = 'GFlag'; }
+        when 'class' { $raku-type = 'N-GObject'; }
+        when 'enumeration' { $raku-type = 'GEnum'; }
+        when 'bitfield' { $raku-type = 'GFlag'; }
 #        when 'record' { }
 #        when 'callback' { }
 #        when 'interface' { }
@@ -819,9 +862,9 @@ method convert-type ( Str $ctype --> Str ) {
     }
   }
 
-#say "$?LINE: convert $ctype -> '$rtype'";
+#say "$?LINE: convert $ctype -> '$raku-type'";
 
-  $rtype
+  $raku-type
 }
 
 #-------------------------------------------------------------------------------
@@ -862,16 +905,16 @@ method !modify-text ( Str $text is copy --> Str ) {
 method !modify-signals ( Str $text is copy --> Str ) {
 
   my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#'? $<cname> = [\w+]? '::' $<sname> = [<[-\w]>+] /;
+  my Regex $r = / '#'? $<cname> = [\w+]? '::' $<signal-name> = [<[-\w]>+] /;
   while $text ~~ $r {
-    my Str $sname = $<sname>.Str;
+    my Str $signal-name = $<signal-name>.Str;
     my Str $cname = ($<cname>//'').Str;
     if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#'? $cname '::' $sname /I<property $sname>/;
+      $text ~~ s:g/ '#'? $cname '::' $signal-name /I<property $signal-name>/;
     }
 
     else {
-      $text ~~ s:g/ '#'? $cname'::' $sname /I<property $sname defined in $cname>/;
+      $text ~~ s:g/ '#'? $cname'::' $signal-name /I<property $signal-name defined in $cname>/;
     }
   }
 
