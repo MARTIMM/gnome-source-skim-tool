@@ -270,7 +270,7 @@ method !generate-build ( XML::Element $class-element --> Str ) {
 method !make-build-doc ( Hash $hcs --> Str ) {
   my Str $build-doc = "=head2 new\n";
   for $hcs.keys.sort -> $function-name {
-note "\n\nBuild $function-name: $hcs{$function-name}.gist()";
+note "\n\nBuild $function-name";
 
     my Str $option-name = $hcs{$function-name}<option-name>;
     
@@ -580,7 +580,7 @@ method !get-constructors ( XML::Element $class-element --> Hash ) {
     $!xpath.find( 'constructor', :start($class-element), :to-list);
 
   for @constructors -> $cn {
-    my ( $function-name, %h) = self.get-method-data($cn);
+    my ( $function-name, %h) = self.get-method-data( $cn, :build);
     $hcs{$function-name} = %h;
   }
 
@@ -595,7 +595,7 @@ method !get-methods ( XML::Element $class-element --> Hash ) {
     $!xpath.find( 'method', :start($class-element), :to-list);
 
   for @methods -> $cn {
-    my ( $function-name, %h) = self.get-method-data($cn);
+    my ( $function-name, %h) = self.get-method-data( $cn, :!build);
     $hms{$function-name} = %h;
   }
 
@@ -613,12 +613,15 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
   # option names are used in BUILD only
   if $build {
     # constructors have '_new' in the name
-    $option-name ~~ s/^ $sub-prefix new '_'? //;
-    $option-name ~~ s:g/ '_' /-/;
+    my Int $last-u = $option-name.rindex('-');
+    $option-name .= substr($last-u);
+#    $option-name ~~ s/^ $sub-prefix new '_'? //;
+#    $option-name ~~ s:g/ '_' /-/;
     $option-name = '-' if $option-name ~~ m/^ \s* $/;
   }
+note "$?LINE build: $build, $function-name, $option-name";
 
-  $function-doc = cleanup(
+  $function-doc = self!cleanup(
     self!modify-text(($!xpath.find( 'doc/text()', :start($e)) // '').Str)
   );
 
@@ -643,7 +646,7 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
   }
 
   ( $function-name, %(
-      :$option-name, :$function-doc, :pa(@parameters),
+      :$option-name, :$function-doc, :@parameters,
       :$rv-doc, :$rv-type, :$return-raku-type, :$rv-trans-own,
     )
   );
@@ -897,6 +900,7 @@ method !modify-text ( Str $text is copy --> Str ) {
   $text = self!modify-css($text);
   $text = self!modify-functions($text);
   $text = self!modify-classes($text);
+  $text = self!modify-variables($text);
   $text = self!modify-markdown-links($text);
   $text = self!modify-rest($text);
 
@@ -958,6 +962,13 @@ method !modify-css ( Str $text is copy --> Str ) {
   $text ~~ s:g/ \s '.' (<[-\w]>+) / C<.$0>/ if $text ~~ m/ \s '.' \w /;
   $text ~~ s:g/ \s '#' (<[-\w]>+) / C<#$0>/ if $text ~~ m/ \s '#' \w /;
 
+  $text;
+}
+
+#-------------------------------------------------------------------------------
+method !modify-variables ( Str $text is copy --> Str ) {
+
+  $text ~~ s:g/ \s? '@' (\w+) / C<\$$0>/;
   $text;
 }
 
