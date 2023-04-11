@@ -273,13 +273,18 @@ method !make-build-doc ( Hash $hcs --> Str ) {
 note "\n\nBuild $function-name: $hcs{$function-name}.gist()";
 
     my Str $option-name = $hcs{$function-name}<option-name>;
+    
+    # If $option-name is a dash, the new C-function has no special name.
+    # It can have parameters. If so, take that name as an option name instead.
+    # It will help to replace the text in the documentation noted as '@var'.
+    if $option-name eq '-' {
+      if $hcs{$function-name}<parameters>.elems {
+        $option-name = $hcs{$function-name}<parameters>[0]<name>;
+        $hcs{$function-name}<option-name> = $option-name;
+      }
+    }
 
-#    $build-doc ~= "=head3 :$option-name\n";
-#    for @($hcs{$function-name}<parameters>) -> $parameter {
-#      $build-doc ~= " :$hcs{$function-name}<option-name>";
-#    }
-
-    $build-doc ~= "=head3 :$option-name\n\n";
+    $build-doc ~= "\n=head3 :$option-name\n\n";
     $build-doc ~= "$hcs{$function-name}<function-doc>\n\n";
     $build-doc ~= "  multi method new (";
     
@@ -314,6 +319,7 @@ note "\n\nBuild $function-name: $hcs{$function-name}.gist()";
 
     else {
       $build-doc ~= qq:to/EOPOD/;
+
       =head3 default, no options
       
       $hcs{$function-name}<function-doc>
@@ -597,18 +603,23 @@ method !get-methods ( XML::Element $class-element --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method get-method-data ( XML::Element $e --> List ) {
+method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
 
   my Str ( $function-name, $option-name, $function-doc);
 
   $option-name = $function-name = $e.attribs<c:identifier>;
-  my Str $spfx := $*work-data<sub-prefix>;
-  $option-name ~~ s/^ $spfx new '_'? //;
-  $option-name ~~ s:g/ '_' /-/;
-  $option-name = 'default' if $option-name ~~ m/^ \s* $/;
+  my Str $sub-prefix := $*work-data<sub-prefix>;
 
-  $function-doc = self!modify-text(
-    ($!xpath.find( 'doc/text()', :start($e)) // '').Str
+  # option names are used in BUILD only
+  if $build {
+    # constructors have '_new' in the name
+    $option-name ~~ s/^ $sub-prefix new '_'? //;
+    $option-name ~~ s:g/ '_' /-/;
+    $option-name = '-' if $option-name ~~ m/^ \s* $/;
+  }
+
+  $function-doc = cleanup(
+    self!modify-text(($!xpath.find( 'doc/text()', :start($e)) // '').Str)
   );
 
   my XML::Element $rvalue = $!xpath.find( 'return-value', :start($e));
@@ -641,7 +652,7 @@ method get-method-data ( XML::Element $e --> List ) {
 #-------------------------------------------------------------------------------
 method get-doc-type ( XML::Element $e --> List ) {
 
-  my Str ( $doc, $type, $raku-type, $vtype) = ( '', '', '', '');
+  my Str ( $doc, $type, $raku-type, $g-type) = ( '', '', '', '');
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
     with $n.name {
@@ -655,141 +666,141 @@ method get-doc-type ( XML::Element $e --> List ) {
         $type = $n.attribs<name>;
         $type ~~ s:g/ '.' //;
         $raku-type = self.convert-type($n.attribs<c:type> // $type);
-        $vtype = self.gobject-value-type($raku-type);
+        $g-type = self.gobject-value-type($raku-type);
       }
     }
   }
 
-  ( $doc, $type, $raku-type, $vtype)
+  ( $doc, $type, $raku-type, $g-type)
 }
 
 #-------------------------------------------------------------------------------
 method gobject-value-type( Str $ctype --> Str ) {
 
-  my $vtype = '';
+  my $g-type = '';
 
   with $ctype {
     when 'gboolean' {
-      $vtype = 'G_TYPE_BOOLEAN';
+      $g-type = 'G_TYPE_BOOLEAN';
     }
 
     when 'gchar' {
-      $vtype = 'G_TYPE_CHAR';
+      $g-type = 'G_TYPE_CHAR';
     }
 
     when 'gdouble' {
-      $vtype = 'G_TYPE_DOUBLE';
+      $g-type = 'G_TYPE_DOUBLE';
     }
     
     when 'gfloat' {
-      $vtype = 'G_TYPE_FLOAT';
+      $g-type = 'G_TYPE_FLOAT';
     }
     
     when 'gint' {
-      $vtype = 'G_TYPE_INT';
+      $g-type = 'G_TYPE_INT';
     }
     
 #    when 'gint16' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
     
 #    when 'gint32' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
 
     when 'gint64' {
-      $vtype = 'G_TYPE_INT64';
+      $g-type = 'G_TYPE_INT64';
     }
 
     when 'gint8' {
-      $vtype = 'G_TYPE_CHAR';
+      $g-type = 'G_TYPE_CHAR';
     }
 
     when 'glong' {
-      $vtype = 'G_TYPE_LONG';
+      $g-type = 'G_TYPE_LONG';
     }
 
     when 'gpointer' {
-      $vtype = 'G_TYPE_POINTER';
+      $g-type = 'G_TYPE_POINTER';
     }
     
 #    when 'gshort' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
     
 #    when 'gsize' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
     
 #    when 'gssize' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
     
     when 'guchar' {
-      $vtype = 'G_TYPE_UCHAR';
+      $g-type = 'G_TYPE_UCHAR';
     }
     
     when 'guint' {
-      $vtype = 'G_TYPE_UINT';
+      $g-type = 'G_TYPE_UINT';
     }
     
 #    when 'guint16' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
     
 #    when 'guint32' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
     
     when 'guint64' {
-      $vtype = 'G_TYPE_UINT64';
+      $g-type = 'G_TYPE_UINT64';
     }
     
     when 'guint8' {
-      $vtype = 'G_TYPE_UCHAR';
+      $g-type = 'G_TYPE_UCHAR';
     }
     
     when 'gulong' {
-      $vtype = 'G_TYPE_ULONG';
+      $g-type = 'G_TYPE_ULONG';
     }
     
 #    when 'gunichar' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
     
 #    when 'gushort' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
        
 #    when 'gushort' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
     
 #    when 'gushort' {
-#      $vtype = '';
+#      $g-type = '';
 #    }
  
     when 'GEnum' {
-      $vtype = 'G_TYPE_ENUM';
+      $g-type = 'G_TYPE_ENUM';
     }
  
     when 'GFlag' {
-      $vtype = 'G_TYPE_FLAGS';
+      $g-type = 'G_TYPE_FLAGS';
     }
 
     default {
       my Hash $h = self.search-name($ctype);
       if ?$h<gir-type> {
-        $vtype = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
-        $vtype = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
-        $vtype = 'G_TYPE_OBJECT' if $h<gir-type> eq 'class';
+        $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
+        $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
+        $g-type = 'G_TYPE_OBJECT' if $h<gir-type> eq 'class';
       }
     }
   }
 
-#note "$?LINE vtype of $ctype is $vtype";
+#note "$?LINE g-type of $ctype is $g-type";
 
-  $vtype
+  $g-type
 }
 
 #-------------------------------------------------------------------------------
