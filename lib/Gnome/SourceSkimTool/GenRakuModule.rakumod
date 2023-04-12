@@ -268,6 +268,8 @@ method !generate-build ( XML::Element $class-element --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !make-build-doc ( Hash $hcs --> Str ) {
+  my Str $doc = '';
+
   my Str $build-doc = "=head2 new\n";
   for $hcs.keys.sort -> $function-name {
 note "\n\nBuild $function-name";
@@ -285,24 +287,29 @@ note "\n\nBuild $function-name";
     }
 
     $build-doc ~= "\n=head3 :$option-name\n\n";
-    $build-doc ~= "$hcs{$function-name}<function-doc>\n\n";
+    $build-doc ~= "____FUNCTIONDOC___\n\n";
     $build-doc ~= "  multi method new (";
-    
+
+    my Hash $variable-map = %();
     if $hcs{$function-name}<parameters>.elems {
       my Bool $first = True;
       for @($hcs{$function-name}<parameters>) -> $parameter {
         if $first {
-          $build-doc ~= " $parameter<raku-type> :\$$option-name!,";
+          $build-doc ~= " $parameter<raku-type> :\$$option-name!";
+          $variable-map{$hcs{$function-name}<parameters>[0]<name>} = 
+              $option-name;
+note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
           $first = False;
         }
 
         else {
-          $build-doc ~= " $parameter<raku-type> :\$$hcs{$function-name}<option-name>,";
+          $build-doc ~= 
+            ", $parameter<raku-type> :\$$hcs{$function-name}<option-name>";
         }
       }
 
       $build-doc.chop(1);
-      $build-doc ~= ")\n\n";
+      $build-doc ~= " )\n\n";
 
       $first = True;
       for @($hcs{$function-name}<parameters>) -> $parameter {
@@ -312,7 +319,8 @@ note "\n\nBuild $function-name";
         }
 
         else {
-          $build-doc ~= "=item :\$$hcs{$function-name}<option-name>; $parameter<doc>\n\n";
+          $build-doc ~=
+            "=item :\$$hcs{$function-name}<option-name>; $parameter<doc>\n\n";
         }
       }
     }
@@ -327,20 +335,25 @@ note "\n\nBuild $function-name";
         multi method new ( )
       EOPOD
     }
+  
+    my Str $d = self!modify-build-variables(
+      $hcs{$function-name}<function-doc>, $variable-map
+    );
+    $build-doc ~~ s/ '____FUNCTIONDOC___' /$d/;
+    $doc ~= $build-doc;
   }
 
-  my Str $doc = qq:to/EOBUILD/;
+
+  return qq:to/EOBUILD/;
 
     {HLSEPARATOR}
     =begin pod
-    $build-doc
+    $doc
     =end pod
 
     EOBUILD
 
 #TODO  if $h<inheritable>
-
-  $doc
 }
 
 #-------------------------------------------------------------------------------
@@ -613,9 +626,9 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
   # option names are used in BUILD only
   if $build {
     # constructors have '_new' in the name
-    my Int $last-u = $option-name.rindex('-');
-    $option-name .= substr($last-u);
-#    $option-name ~~ s/^ $sub-prefix new '_'? //;
+    $option-name ~~ s/^ $sub-prefix new '_'? //;
+    my Int $last-u = $option-name.rindex('_');
+    $option-name .= substr($last-u + 1) if $last-u.defined;
 #    $option-name ~~ s:g/ '_' /-/;
     $option-name = '-' if $option-name ~~ m/^ \s* $/;
   }
@@ -912,7 +925,7 @@ method !modify-text ( Str $text is copy --> Str ) {
   $text = self!modify-xml($text);
   $text = self!modify-examples($text);
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
@@ -933,7 +946,7 @@ method !modify-signals ( Str $text is copy --> Str ) {
     }
   }
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
@@ -953,7 +966,7 @@ method !modify-properties ( Str $text is copy --> Str ) {
     }
   }
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
@@ -962,14 +975,31 @@ method !modify-css ( Str $text is copy --> Str ) {
   $text ~~ s:g/ \s '.' (<[-\w]>+) / C<.$0>/ if $text ~~ m/ \s '.' \w /;
   $text ~~ s:g/ \s '#' (<[-\w]>+) / C<#$0>/ if $text ~~ m/ \s '#' \w /;
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
 method !modify-variables ( Str $text is copy --> Str ) {
 
   $text ~~ s:g/ \s? '@' (\w+) / C<\$$0>/;
-  $text;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-build-variables (
+  Str $text is copy, Hash $variable-map
+  --> Str
+) {
+  # Only map for names in hash, others are done above. This is meant to
+  # be used for the BUILD options to variable mapping. The substitutions might
+  # already been done via .modify-text() so check on '$' as well.
+  for $variable-map.kv -> $orig, $new {
+    $text ~~ s:g/ \s? ['$'] $orig / \$$new/;
+    $text ~~ s:g/ \s? ['@'] $orig / C<\$$new>/;
+  }
+
+  $text
 }
 
 #-------------------------------------------------------------------------------
@@ -1017,7 +1047,7 @@ method !modify-functions ( Str $text is copy --> Str ) {
   # After all work remove the zero width space marker
   $text ~~ s:g/ \x200B //;
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
@@ -1052,7 +1082,7 @@ method !modify-classes ( Str $text is copy --> Str ) {
   # After all work remove the zero width space marker
   $text ~~ s:g/ \x200B //;
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
@@ -1071,7 +1101,7 @@ method !modify-examples ( Str $text is copy --> Str ) {
 
   $text ~~ s:g/^^ ']|' /=end code\n=end comment\n/;
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
@@ -1084,14 +1114,14 @@ method !modify-xml ( Str $text is copy --> Str ) {
   $text ~~ s:g/ '&amp;' /\&/;
   $text ~~ s:g/ [ '&#160;' || '&nbsp;' ] / /;
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
 method !modify-markdown-links ( Str $text is copy --> Str ) {
   $text ~~ s:g/ \s '[' ( <-[\]]>+ ) '][' <-[\]]>+ ']' / $0/;
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
@@ -1106,7 +1136,7 @@ method !modify-rest ( Str $text is copy --> Str ) {
   # sections
   $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
 
-  $text;
+  $text
 }
 
 #-------------------------------------------------------------------------------
