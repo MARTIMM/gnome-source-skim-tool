@@ -90,17 +90,20 @@ method generate-raku-module ( ) {
   note "Generate module description" if $*verbose;  
   $module-doc ~= self!get-description($class-element);
 
+  note "Generate module signals" if $*verbose;  
+  my Hash $sig-info = self!generate-signals($class-element);
+
   note "Set class unit" if $*verbose;
-  $module-doc ~= self!set-unit($class-element);
+  $module-doc ~= self!set-unit( $class-element, $sig-info);
 
   note "Generate BUILD submethod" if $*verbose;  
-  $module-doc ~= self!generate-build($class-element);
+  $module-doc ~= self!generate-build( $class-element, $sig-info);
 
   note "Generate module methods" if $*verbose;  
   $module-doc ~= self!generate-methods($class-element);
 
-  note "Generate module signals" if $*verbose;  
-  $module-doc ~= self!generate-signals($class-element);
+  # Add the signal doc here
+  $module-doc ~= $sig-info<doc>;
 
   note "Generate module properties" if $*verbose;  
   $module-doc ~= self!generate-properties($class-element);
@@ -161,7 +164,7 @@ method !set-inherit-example ( XML::Element $class-element --> Str ) {
   my Str $doc = '';
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
-
+note "$?LINE $ctype: $h.gist()";
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
     $doc = qq:to/EOINHERIT/;
@@ -206,7 +209,7 @@ method !set-example ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !set-unit ( XML::Element $class-element --> Str ) {
+method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
   my Str $use-enums;
 
@@ -222,7 +225,7 @@ method !set-unit ( XML::Element $class-element --> Str ) {
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
 
-note "$?LINE set-unit: $ctype, $h.gist()";
+#note "$?LINE set-unit: $ctype, $h.gist()";
   my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
     $use-parent = "use $parent;\n";
@@ -249,18 +252,25 @@ note "$?LINE set-unit: $ctype, $h.gist()";
     $also-is
     RAKUMOD
 
+  if ?$sig-info<doc> {
+    $doc ~= qq:to/RAKUMOD/;
+      {HLSEPARATOR}
+      my Bool \$signals-added = False;
+      RAKUMOD
+  }
+
   $doc
 }
 
 #-------------------------------------------------------------------------------
-method !generate-build ( XML::Element $class-element --> Str ) {
+method !generate-build ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
 
   my Hash $hcs = self!get-constructors($class-element);
   my Str $doc = self!make-build-doc($hcs);
-  $doc ~= self!make-build-submethod($hcs);
+  $doc ~= self!make-build-submethod( $hcs, $sig-info);
   $doc ~= self!make-native-constructor-subs($hcs);
 
   $doc
@@ -349,15 +359,27 @@ note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
     {HLSEPARATOR}
     =begin pod
     $doc
-    =end pod
+
+
+    =head3 :native-object
+
+    Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+      multi method new ( N-GObject :\$native-object! )
+
+
+    =head3 :build-id
+
+    Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+      multi method new ( Str :\$build-id! )
+        =end pod
 
     EOBUILD
-
-#TODO  if $h<inheritable>
 }
 
 #-------------------------------------------------------------------------------
-method !make-build-submethod ( Hash $hcs --> Str ) {
+method !make-build-submethod ( Hash $hcs, Hash $sig-info --> Str ) {
   my Str $doc = qq:to/EOBUILD/;
     #TM:1:inheriting
     #TM:1:new(:text):
@@ -365,10 +387,38 @@ method !make-build-submethod ( Hash $hcs --> Str ) {
     #TM:1:new(:native-object):
     #TM:1:new(:build-id):
     submethod BUILD ( *\%options ) \{
-
-    \}
-
     EOBUILD
+
+  if ?$sig-info<doc> {
+#:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
+#:w1<populate-popup activate-link>,
+    my Hash $signal-levels = %();
+    for $sig-info<signals>.keys -> $signal-name {
+      my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
+note "$?LINE $signal-name, $level";
+      $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
+      $signal-levels{$level}.push: $signal-name;
+    }
+
+    my Str $sig-list = '';
+    for ^10 -> Str() $level {
+      if ?$signal-levels{$level} {
+        $sig-list ~=
+           [~] '    :w', $level, '<', $signal-levels{$level}.join(' '), ">,\n";
+      }
+    }
+
+    $doc ~= qq:to/EOBUILD/;
+        \$signals-added = self\.add-signal-types\( \$?CLASS\.^name,
+      $sig-list  ) unless \$signals-added;
+
+      EOBUILD
+  }
+
+  $doc ~= qq:to/EOBUILD/;
+    \}
+    EOBUILD
+
 
   $doc
 }
@@ -396,7 +446,8 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !generate-signals ( XML::Element $class-element --> Str ) {
+method !generate-signals ( XML::Element $class-element --> Hash ) {
+  my Hash $sig-info = %();
   my Str $doc = '';
 
   my @signal-info =
@@ -431,71 +482,77 @@ method !generate-signals ( XML::Element $class-element --> Str ) {
       my Hash $attribs = $prmtr.attribs;
       my $pname = $attribs<name>;
       my $p-trans-own = $attribs<transfer-ownership>;
-      my Str ( $doc, $type, $raku-type) = self.get-doc-type($prmtr);
+      my Str ( $pdoc, $ptype, $raku-type) = self.get-doc-type($prmtr);
 
       $signals{$signal-name}<parameters>.push: %(
-        :$pname, :$doc, :$type, :$raku-type, :$p-trans-own
+        :$pname, :$pdoc, :$ptype, :$raku-type, :$p-trans-own
       );
     }
   }
 
-  $doc ~= qq:to/EOSIG/;
-
-    {HLSEPARATOR}
-    =begin pod
-    =head1 Signals
-    EOSIG
-
-  for $signals.keys.sort -> $signal-name {
+  # If there are signals, make the docs for it
+  if $signals.keys.elems {
     $doc ~= qq:to/EOSIG/;
 
-      {HLPODSEPARATOR}
-      =comment #TS:0:$signal-name:
-      =head3 $signal-name
-
-      $signals{$signal-name}<sdoc>
-
-      =begin code
-      method handler \(
+      {HLSEPARATOR}
+      =begin pod
+      =head1 Signals
       EOSIG
 
-    for @($signals{$signal-name}<parameters>) -> $prmtr {
-      $doc ~= "  $prmtr<raku-type> \$$prmtr<pname>,\n";
+    for $signals.keys.sort -> $signal-name {
+      $doc ~= qq:to/EOSIG/;
+
+        {HLPODSEPARATOR}
+        =comment #TS:0:$signal-name:
+        =head3 $signal-name
+
+        $signals{$signal-name}<sdoc>
+
+        =begin code
+        method handler \(
+        EOSIG
+
+      for @($signals{$signal-name}<parameters>) -> $prmtr {
+        $doc ~= "  $prmtr<raku-type> \$$prmtr<pname>,\n";
+      }
+
+      $doc ~= qq:to/EOSIG/;
+          Int :\$_handle_id,
+          $*work-data<raku-class-name>\(\) :\$_native-object,
+          $*work-data<raku-class-name> :\$_widget,
+          *\%user-options
+        )
+        =end code
+
+        EOSIG
+
+      for @($signals{$signal-name}<parameters>) -> $prmtr {
+        $doc ~= "=item $prmtr<pname> \(transfer ownership: $prmtr<p-trans-own>); $prmtr<doc>.\n";
+      }
+
+      $doc ~= q:to/EOSIG/;
+
+        =item $_handle_id; the registered event handler id.
+
+        =item $_native-object; The native object provided by the caller wrapped in the Raku object.
+
+        =item $_widget; the object which received the signal.
+
+        =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
+
+        EOSIG
+
+      $doc ~= "Return value \(transfer ownership: $signals{$signal-name}<return-raku-type> \($signals{$signal-name}<rv-trans-own>); $signals{$signal-name}<rv-doc>\n"
+            if $signals{$signal-name}<return-raku-type> ne 'void';
     }
 
-    $doc ~= qq:to/EOSIG/;
-        Int :\$_handle_id,
-        $*work-data<raku-class-name>\(\) :\$_native-object,
-        $*work-data<raku-class-name> :\$_widget,
-        *\%user-options
-      )
-      =end code
-
-      EOSIG
-
-    for @($signals{$signal-name}<parameters>) -> $prmtr {
-      $doc ~= "=item $prmtr<pname> \(transfer ownership: $prmtr<p-trans-own>); $prmtr<doc>.\n";
-    }
-
-    $doc ~= q:to/EOSIG/;
-
-      =item $_handle_id; the registered event handler id.
-
-      =item $_native-object; The native object provided by the caller wrapped in the Raku object.
-
-      =item $_widget; the object which received the signal.
-
-      =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
-
-      EOSIG
-
-    $doc ~= "Return value \(transfer ownership: $signals{$signal-name}<return-raku-type> \($signals{$signal-name}<rv-trans-own>); $signals{$signal-name}<rv-doc>\n"
-          if $signals{$signal-name}<return-raku-type> ne 'void';
+    $doc ~= "\n=end pod\n\n";
   }
 
-  $doc ~= "\n=end pod\n\n";
+  $sig-info<doc> = $doc;
+  $sig-info<signals> = $signals;
 
-  $doc
+  $sig-info
 }
 
 #-------------------------------------------------------------------------------
@@ -632,7 +689,7 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
 #    $option-name ~~ s:g/ '_' /-/;
     $option-name = '-' if $option-name ~~ m/^ \s* $/;
   }
-note "$?LINE build: $build, $function-name, $option-name";
+#note "$?LINE build: $build, $function-name, $option-name";
 
   $function-doc = self!cleanup(
     self!modify-text(($!xpath.find( 'doc/text()', :start($e)) // '').Str)
@@ -879,6 +936,9 @@ method convert-type ( Str $ctype --> Str ) {
         when 'class' { $raku-type = 'N-GObject'; }
         when 'enumeration' { $raku-type = 'GEnum'; }
         when 'bitfield' { $raku-type = 'GFlag'; }
+#        when 'GtkWidget' { $raku-type = 'N-GObject'; }
+#        when 'gint*'  { $raku-type = 'CArray[gint]'; }
+
 #        when 'record' { }
 #        when 'callback' { }
 #        when 'interface' { }
