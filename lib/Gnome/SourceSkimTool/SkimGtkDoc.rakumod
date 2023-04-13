@@ -117,9 +117,11 @@ method get-classes-from-gir ( ) {
   }
 
   # Before we save the map find out which classes are at the bottom (≡ leaf)
+  # Also we want to know which classes will be inheritable
   for $!map.keys -> $entry-name {
     # Skip all other types
     next unless $!map{$entry-name}<gir-type> eq 'class';
+    $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
 
     # If there is a leaf and is False, then all parents are also set False
     next if $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
@@ -152,7 +154,7 @@ method !map-element (
 ) {
 
   my Hash $attrs = $element.attribs;
-  note "$?LINE: ", $element.name, ', ', $attrs<name> if $*verbose;
+#  note "$?LINE: ", $element.name, ', ', $attrs<name> if $*verbose;
 
   given $element.name {
     when 'class' {
@@ -163,16 +165,18 @@ method !map-element (
           
       my Str ( $parent-gnome-name, $parent-raku-name ) =
          self!set-names($attrs<parent> // '');
-      
+
+#`{{
       my Bool $inheritable = False;
       $inheritable = True if $attrs<c:type> ne 'GtkWidget'
                      and $*work-data<raku-package> ~~ m/ '::Gtk' /;
+}}
 
       $!map{$attrs<c:type> // $attrs<glib:type-name>} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :$parent-raku-name, :$parent-gnome-name, :@roles,
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
-        :$inheritable,
+#        :inheritable(self!is-inheritable($element)),
         :gir-type<class>,
       );
     }
@@ -279,6 +283,27 @@ method !map-element (
       print 'Missed an element type: ', .note;
     }
   }
+}
+
+#-------------------------------------------------------------------------------
+method !is-inheritable( Str $classname --> Bool ) {
+
+  # Only inherit within the gtk packages
+  return False unless $*work-data<raku-package> ~~ m/^ Gnome '::' Gtk /;
+
+  # Current widget should not be a GtkWidget
+  return False if $classname eq 'GtkWidget';
+
+  self!is-inheritable-r($classname);
+}
+
+#-------------------------------------------------------------------------------
+method !is-inheritable-r ( Str $classname --> Bool ) {
+  my Str $parent = $!map{$classname}<parent-gnome-name> // '-';
+  return True if $parent eq 'Widget';
+  return False if $parent ~~ m/ InitiallyUnowned || Object || '-' /;
+
+  self!is-inheritable-r($parent);
 }
 
 #-------------------------------------------------------------------------------
