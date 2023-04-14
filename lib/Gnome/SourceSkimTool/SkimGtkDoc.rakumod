@@ -288,6 +288,8 @@ method !map-element (
 #-------------------------------------------------------------------------------
 method !is-inheritable( Str $classname --> Bool ) {
 
+note "test inherit $classname";
+
   # Only inherit within the gtk packages
   return False unless $*work-data<raku-package> ~~ m/^ Gnome '::' Gtk /;
 
@@ -299,9 +301,12 @@ method !is-inheritable( Str $classname --> Bool ) {
 
 #-------------------------------------------------------------------------------
 method !is-inheritable-r ( Str $classname --> Bool ) {
+
+
   my Str $parent = $!map{$classname}<parent-gnome-name> // '-';
-  return True if $parent eq 'Widget';
-  return False if $parent ~~ m/ InitiallyUnowned || Object || '-' /;
+note "test inherit $classname -> $parent";
+  return True if $parent eq 'GtkWidget';
+  return False if $parent ~~ m/ GInitiallyUnowned || GObject || '-' /;
 
   self!is-inheritable-r($parent);
 }
