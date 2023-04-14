@@ -269,19 +269,20 @@ method !generate-build ( XML::Element $class-element, Hash $sig-info --> Str ) {
   my Hash $h = self.search-name($ctype);
 
   my Hash $hcs = self!get-constructors($class-element);
-  my Str $doc = self!make-build-doc($hcs);
-  $doc ~= self!make-build-submethod( $hcs, $sig-info);
+  my Str $doc = self!make-build-doc( $class-element, $hcs);
+  $doc ~= self!make-build-submethod( $class-element, $hcs, $sig-info);
   $doc ~= self!make-native-constructor-subs($hcs);
 
   $doc
 }
 
 #-------------------------------------------------------------------------------
-method !make-build-doc ( Hash $hcs --> Str ) {
+method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
   my Str $doc = '';
 
-  my Str $build-doc = "=head2 new\n";
+  my Str $build-doc;
   for $hcs.keys.sort -> $function-name {
+    $build-doc = '';
 note "\n\nBuild $function-name";
 
     my Str $option-name = $hcs{$function-name}<option-name>;
@@ -338,14 +339,18 @@ note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
     else {
       $build-doc ~= qq:to/EOPOD/;
 
-      =head3 default, no options
-      
-      $hcs{$function-name}<function-doc>
-      
-        multi method new ( )
-      EOPOD
+        =head3 default, no options
+        
+        $hcs{$function-name}<function-doc>
+        
+          multi method new ( )
+        EOPOD
     }
-  
+
+    # Add variable map to function data
+    $hcs{$function-name}<variable-map> = $variable-map;
+
+    # Modify variable names in the build doc and replace ____FUNCTIONDOC___
     my Str $d = self!modify-build-variables(
       $hcs{$function-name}<function-doc>, $variable-map
     );
@@ -354,10 +359,13 @@ note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
   }
 
 
-  return qq:to/EOBUILD/;
+  # Finish with standard options
+  $doc ~= qq:to/EOBUILD/;
 
     {HLSEPARATOR}
     =begin pod
+    =head1 Methods
+    =head2 new
     $doc
 
 
@@ -367,19 +375,31 @@ note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
 
       multi method new ( N-GObject :\$native-object! )
 
-
-    =head3 :build-id
-
-    Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-      multi method new ( Str :\$build-id! )
-        =end pod
-
     EOBUILD
+
+  # Build id only used for widgets. We can test for inheritable because
+  # it intices the same set of objects
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+  if $h<inheritable> {
+    $doc ~= qq:to/EOBUILD/;
+      =head3 :build-id
+
+      Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+        multi method new ( Str :\$build-id! )
+          =end pod
+
+      EOBUILD
+  }
+
+  $doc
 }
 
 #-------------------------------------------------------------------------------
-method !make-build-submethod ( Hash $hcs, Hash $sig-info --> Str ) {
+method !make-build-submethod (
+  XML::Element $class-element, Hash $hcs, Hash $sig-info --> Str
+) {
   my Str $doc = qq:to/EOBUILD/;
     #TM:1:inheriting
     #TM:1:new(:text):
@@ -389,6 +409,7 @@ method !make-build-submethod ( Hash $hcs, Hash $sig-info --> Str ) {
     submethod BUILD ( *\%options ) \{
     EOBUILD
 
+  # Check if signal admin is needed
   if ?$sig-info<doc> {
 #:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
 #:w1<populate-popup activate-link>,
@@ -415,10 +436,53 @@ note "$?LINE $signal-name, $level";
       EOBUILD
   }
 
-  $doc ~= qq:to/EOBUILD/;
-    \}
+  # Check if inherit code is to be inserted
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+  if $h<inheritable> {
+    $doc ~= [~] '  # prevent creating wrong widgets', "\n",
+            '  if self.^name eq ', "'$*work-data<raku-class-name>'",
+            ' or %options<', $*work-data<gnome-name>, ' {', "\n";
+#    $doc ~= "  # prevent creating wrong widgets\n  if self\.^name eq '$*work-data<raku-class-name>' or \%options\<$*work-data<gnome-name>\> \{\n";
+  }
+
+  else {
+    $doc ~= [~] '  # prevent creating wrong widgets', "\n",
+            '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
+#    $doc ~= "  # prevent creating wrong widgets\n  if self\.^name eq '$*work-data<raku-class-name>' \{\n";
+  }
+
+  # Add first few tests
+  $doc ~= q:to/EOBUILD/;
+        if self.is-valid { }
+
+        # check if common options are handled by some parent
+        elsif %options<native-object>:exists { }
+        elsif %options<build-id>:exists { }
+
+        else {
+          my N-GObject() $no;
     EOBUILD
 
+  my Str $ifelse = 'if';
+  for $hcs.keys.sort -> $function-name {
+note "$?LINE $function-name, ", $hcs{$function-name}.gist;
+
+    for @($hcs{$function-name}<parameters>) -> $parameter {
+      $doc ~= qq:to/EOBUILD/;
+            #$ifelse \%options\<$hcs{$function-name}<option-name>\>.defined \{
+            #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
+            $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
+              # \$no = \%options\<$hcs{$function-name}<option-name>\>;
+              # \$no = $function-name\( … \);
+
+        EOBUILD
+      $ifelse = "elsif";
+    }
+  }
+
+  # End the BUILD submethod
+  $doc ~= "\}\n";
 
   $doc
 }
@@ -1213,222 +1277,4 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
   }
 
   $text
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
-
-use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc;
-use Gnome::SourceSkimTool::SkimGtkDoc::ApiIndex;
-use Gnome::SourceSkimTool::Prepare;
-
-#-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::GenRakuModule:auth<github:MARTIMM>;
-
-#-------------------------------------------------------------------------------
-constant \Prepare = Gnome::SourceSkimTool::Prepare;
-constant \ModuleDoc = Gnome::SourceSkimTool::SkimGtkDoc::ModuleDoc;
-constant \ApiIndex = Gnome::SourceSkimTool::SkimGtkDoc::ApiIndex;
-
-has Prepare $!preparation .= new;
-has ModuleDoc $!module-docs handles <
-  description functions signals properties types
->;
-has ApiIndex $!api-docs handles <objects>;
-
-# holds all content
-has Str $!raku-test;
-
-# holds build method only and native new functions
-has Str $!build-method;
-has Str $!build-doc;
-
-# holds all methods and native functions
-has Str $!methods;
-
-#-------------------------------------------------------------------------------
-submethod BUILD ( ) {
-  die "A Raku module name is missing" unless ?$*gnome-class;
-  $!preparation .= new;
-
-  $!module-docs .= new;
-  $!module-docs.load-module($*work-data<skim-module-result>);
-
-  $!api-docs .= new;
-  $!api-docs.load-objects;
-  
-  $!raku-test = '';
-}
-
-#-------------------------------------------------------------------------------
-method generate ( ) {
-  self!generate-methods;
-}
-
-#-------------------------------------------------------------------------------
-method !generate-methods ( ) {
-  $!methods = '';
-  $!build-method = '';
-  $!build-doc = q:to/EOBUILD/;
-    #-------------------------------------------------------------------------------
-    =begin pod
-    =head1 Methods
-    =head2 new
-    EOBUILD
-
-  my Hash $functions := $!module-docs.functions;
-  for $functions.keys.sort -> $fname {
-    if $fname ~~ m/ <|w> new <|w> / {
-      self!add-new-function( $fname, $functions{$fname});
-    }
-
-    else {
-      self!add-method( $fname, $functions{$fname});
-    }
-  }
-
-  $!build-doc ~= q:to/EOBUILD/;
-    =end pod
-
-    =head3 :native-object
-
-    Create a RAKU-CLASS-NAME object using a native object from elsewhere. See also B<Gnome::N::TopLevelClassSupport>.
-
-      multi method new ( N-GObject :$native-object! )
-
-
-    =head3 :build-id
-
-    Create a RAKU-CLASS-NAME object using a native object returned from a builder. See also B<Gnome::GObject::Object>.
-
-      multi method new ( Str :$build-id! )
-
-    =end pod
-    EOBUILD
-}
-
-#-------------------------------------------------------------------------------
-method !add-new-function ( Str $fname, Hash $fdata ) {
-  #$!build-method
-
-#  my Str $sub-doc = $fdata<doc><function>;
-  my Str $native-sub-name = '_' ~ $fdata<native-name>;
-  my Str $args = '';
-  my Str $returns = '';
-  my Str $pod-args = '';
-  my Str $pod-returns = '';
-  my Str $pod-doc-items = '';
-
-  # The native subroutine documentation
-  if $fname eq 'new' {
-    $!build-doc ~= qq:to/EOBUILD/;
-
-      =head3 default, no options
-
-      $fdata<doc><function>
-
-        multi method new ( )
-      EOBUILD
-  }
-
-  else {
-    $!build-doc ~= qq:to/EOBUILD/;
-
-      =head3 :$fname
-
-      $fdata<doc><function>
-
-        multi method new ( :$fname! )
-
-      EOBUILD
-  }
-
-  # The native subroutine declaration
-  my Str $sub = qq:to/EOSUB/;
-
-    #-------------------------------------------------------------------------------
-    #TM:1:$native-sub-name:
-
-    sub $native-sub-name ( $args $returns )
-      is native($*work-data<library>)
-      is symbol\('$fdata<native-name>')
-      \{ * \}
-    EOSUB
-
-  $!methods ~= $sub;
-}
-
-#-------------------------------------------------------------------------------
-method !add-method ( Str $fname, Hash $fdata ) {
-}
-
-#-------------------------------------------------------------------------------
-method save ( ) {
-  my Str $parent = $!preparation.raku-class-name(
-    :gnome-name($!api-docs.objects(){$*gnome-class}<parent>),
-    :package($*gnome-package)
-  );
-
-  # only inheriting on widget classes except GtkWidget
-  my Str $inheriting-doc = '';
-  my Str $inheriting-code = '';
-
-  my Str $raku-module = qq:to/EOMODULE/;
-    #TL:1:$*work-data<raku-class-name>:
-
-    use v6;
-
-    =begin pod
-    $!module-docs.description()
-    =end pod
-
-    #-------------------------------------------------------------------------------
-    use NativeCall;
-
-    use Gnome::N::NativeLib;
-    use Gnome::N::N-GObject;
-    use Gnome::N::GlibToRakuTypes;
-
-    # !!!this is not always from the same raku package!!!
-    use $parent;
-    #use Gnome::Gtk3::Enums;
-
-    #-------------------------------------------------------------------------------
-    # See /usr/include/gtk-3.0/gtk/gtkbutton.h
-    # https://developer.gnome.org/gtk3/stable/GtkButton.html
-    unit class $*work-data<raku-class-name>:auth<github:MARTIMM>;
-    also is $parent;
-    #also does …;
-
-    #-------------------------------------------------------------------------------
-    my Bool \$signals-added = False;
-
-
-    $!build-doc
-
-    $!build-method
-
-    $!methods
-    EOMODULE
-
-  note "Save $*work-data<new-raku-modules>$*gnome-class.rakumod" if $*verbose;
-  "$*work-data<new-raku-modules>$*gnome-class.rakumod".IO.spurt($raku-module);
-
-  note "Save $*work-data<new-raku-modules>$*gnome-class.rakutest" if $*verbose;
-  "$*work-data<new-raku-modules>$*gnome-class.rakutest".IO.spurt($!raku-test);
 }
