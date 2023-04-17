@@ -39,7 +39,7 @@ submethod BUILD ( ) {
     $!other-work-data<Gsk> = $p.prepare-work-data(Gsk4);
   }
 
-  # If it is a high end module, we add these too
+  # If it is a high end module, we add these too. They depend on Gtk.
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
     $!other-work-data<Atk> = $p.prepare-work-data(Atk);
     $!other-work-data<Pango> = $p.prepare-work-data(Pango);
@@ -51,6 +51,61 @@ submethod BUILD ( ) {
   $!other-work-data<Gio> = $p.prepare-work-data(Gio);
   $!other-work-data<GObject> = $p.prepare-work-data(GObject);
 
+#`{{
+  #TODO yaml problemen, not thread safe?
+  # get object maps
+  my Hash $promises = %();
+  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+  $!object-maps = %();
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $promises<atk> = Promise.start({
+      $s.load-map($!other-work-data<Atk><gir-module-path>);
+    });
+    $promises<Gtk> = Promise.start({
+      $s.load-map($!other-work-data<Gtk><gir-module-path>);
+    });
+    $promises<Gdk> = Promise.start({
+      $s.load-map($!other-work-data<Gdk><gir-module-path>);
+    });
+    if ?$!other-work-data<Gsk> {
+      $promises<Gsk> = Promise.start({
+        $s.load-map($!other-work-data<Gsk><gir-module-path>)
+      });
+    }
+    $promises<Pango> = Promise.start({
+      $s.load-map($!other-work-data<Pango><gir-module-path>);
+    });
+    $promises<Cairo> = Promise.start({
+      $s.load-map($!other-work-data<Cairo><gir-module-path>);
+    });
+  }
+
+
+  $promises<Glib> = Promise.start({
+    $s.load-map($!other-work-data<Glib><gir-module-path>);
+  });
+  $promises<Gio> = Promise.start({
+    $s.load-map($!other-work-data<Gio><gir-module-path>);
+  });
+  $promises<GObject> = Promise.start({
+    $s.load-map($!other-work-data<GObject><gir-module-path>);
+  });
+
+  await($promises.values);
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $!object-maps<Atk> = $promises<atk>.result;
+    $!object-maps<Gtk> = $promises<Gtk>.result;
+    $!object-maps<Gdk> = $promises<Gdk>.result;
+    $!object-maps<Gsk> = $promises<Gsk>.result if ?$!other-work-data<Gsk>;
+    $!object-maps<Pango> = $promises<Pango>.result;
+    $!object-maps<Cairo> = $promises<Cairo>.result;
+  }
+  $!object-maps<Glib> = $promises<Glib>.result;
+  $!object-maps<Gio> = $promises<Gio>.result;
+  $!object-maps<GObject> = $promises<GObject>.result;
+}}
+
+##`{{
   # get object maps
   my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
   $!object-maps = %();
@@ -71,6 +126,7 @@ submethod BUILD ( ) {
   $!object-maps<Gio> = $s.load-map($!other-work-data<Gio><gir-module-path>);
   $!object-maps<GObject> =
     $s.load-map($!other-work-data<GObject><gir-module-path>);
+#}}
 
   # load data for this module
   $!xpath .= new(:file($*work-data<gir-module-file>));
@@ -84,6 +140,9 @@ method generate-raku-module ( ) {
   my $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:";
     use v6;
+
+    {HLSEPARATOR}
+    {SEPARATOR('Class Description');}
     {HLSEPARATOR}
     RAKUMOD
 
@@ -122,7 +181,7 @@ method generate-raku-module-test ( ) {
 
 #-------------------------------------------------------------------------------
 method !get-description ( XML::Element $class-element --> Str ) {
-  my Str $doc = "\n=head1 Description\n";
+  my Str $doc = "=head1 Description\n";
 
   #$doc ~= self!set-example-image;
 
@@ -164,7 +223,7 @@ method !set-inherit-example ( XML::Element $class-element --> Str ) {
   my Str $doc = '';
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
-note "$?LINE $ctype: $h.gist()";
+#note "$?LINE $ctype: $h.gist()";
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
     $doc = qq:to/EOINHERIT/;
@@ -239,6 +298,8 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
   my Str $doc = qq:to/RAKUMOD/;
 
     {HLSEPARATOR}
+    {SEPARATOR('Module Imports');}
+    {HLSEPARATOR}
     use NativeCall;
 
     use Gnome::N::NativeLib;
@@ -247,6 +308,8 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
     $use-enums$use-parent
 
+    {HLSEPARATOR}
+    {SEPARATOR('Class Declaration');}
     {HLSEPARATOR}
     unit class {$*work-data<raku-class-name>}:auth<github:MARTIMM>;
     $also-is
@@ -278,12 +341,23 @@ method !generate-build ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
-  my Str $doc = '';
+  my Str $doc = qq:to/EOBUILD/;
+
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Methods
+
+    {HLSEPARATOR}
+    {SEPARATOR('Class Description');}
+    {HLSEPARATOR}
+    =head2 new
+    EOBUILD
+
 
   my Str $build-doc;
   for $hcs.keys.sort -> $function-name {
     $build-doc = '';
-note "\n\nBuild $function-name";
+#note "\n\nBuild $function-name";
 
     my Str $option-name = $hcs{$function-name}<option-name>;
     
@@ -309,7 +383,7 @@ note "\n\nBuild $function-name";
           $build-doc ~= " $parameter<raku-type> :\$$option-name!";
           $variable-map{$hcs{$function-name}<parameters>[0]<name>} = 
               $option-name;
-note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
+#note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
           $first = False;
         }
 
@@ -362,13 +436,6 @@ note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
   # Finish with standard options
   $doc ~= qq:to/EOBUILD/;
 
-    {HLSEPARATOR}
-    =begin pod
-    =head1 Methods
-    =head2 new
-    $doc
-
-
     =head3 :native-object
 
     Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
@@ -383,12 +450,14 @@ note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
   my Hash $h = self.search-name($ctype);
   if $h<inheritable> {
     $doc ~= qq:to/EOBUILD/;
+
       =head3 :build-id
 
       Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
 
         multi method new ( Str :\$build-id! )
-          =end pod
+      
+      =end pod
 
       EOBUILD
   }
@@ -400,6 +469,9 @@ note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
 method !make-build-submethod (
   XML::Element $class-element, Hash $hcs, Hash $sig-info --> Str
 ) {
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
   my Str $doc = qq:to/EOBUILD/;
     #TM:1:inheriting
     #TM:1:new(:text):
@@ -437,59 +509,184 @@ note "$?LINE $signal-name, $level";
   }
 
   # Check if inherit code is to be inserted
-  my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+#  my Str $ctype = $class-element.attribs<c:type>;
+#  my Hash $h = self.search-name($ctype);
   if $h<inheritable> {
     $doc ~= [~] '  # prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'",
             ' or %options<', $*work-data<gnome-name>, ' {', "\n";
-#    $doc ~= "  # prevent creating wrong widgets\n  if self\.^name eq '$*work-data<raku-class-name>' or \%options\<$*work-data<gnome-name>\> \{\n";
   }
 
   else {
     $doc ~= [~] '  # prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
-#    $doc ~= "  # prevent creating wrong widgets\n  if self\.^name eq '$*work-data<raku-class-name>' \{\n";
   }
 
   # Add first few tests
-  $doc ~= q:to/EOBUILD/;
-        if self.is-valid { }
+  my Str $b-id-str = ?$h<inheritable>
+                     ?? "\n" ~ '    elsif %options<build-id>:exists { }' !! '';
+  $doc ~= qq:to/EOBUILD/;
+        if self.is-valid \{ \}
 
         # check if common options are handled by some parent
-        elsif %options<native-object>:exists { }
-        elsif %options<build-id>:exists { }
+        elsif \%options\<native-object>:exists \{ \}$b-id-str
 
-        else {
-          my N-GObject() $no;
+        else \{
+          my N-GObject\(\) \$no;
     EOBUILD
 
   my Str $ifelse = 'if';
   for $hcs.keys.sort -> $function-name {
-note "$?LINE $function-name, ", $hcs{$function-name}.gist;
+#note "$?LINE $function-name, ", $hcs{$function-name}.gist;
 
+    my Bool $first = True;
+    my $par-list = '';
+    my $decl-list = '';
     for @($hcs{$function-name}<parameters>) -> $parameter {
-      $doc ~= qq:to/EOBUILD/;
+note "$?LINE $function-name $parameter: $parameter.gist()";
+      if ?$par-list {
+        if $first {
+          $par-list ~= ", \$$hcs{$function-name}<option-name>";
+        }
+        else {
+          $par-list ~= ", \$$parameter<name>";
+        }
+
+        $decl-list ~= [~]  '        my $', $hcs{$function-name}<option-name>,
+          ' = %options<', $parameter<name>, '>;', "\n";
+      }
+
+      else {
+        if $first {
+          $par-list ~= " \$$hcs{$function-name}<option-name>";
+        }
+        else {
+          $par-list ~= " \$$parameter<name>";
+        }
+
+        $decl-list ~= [~]  '        my $', $parameter<name>,
+          ' = %options<', $parameter<name>, '>;', "\n";
+      }
+
+      $first = False;
+    }
+
+    # remove first space when there is only one parameter
+    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
+
+    $doc ~= qq:to/EOBUILD/;
             #$ifelse \%options\<$hcs{$function-name}<option-name>\>.defined \{
             #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
             $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
-              # \$no = \%options\<$hcs{$function-name}<option-name>\>;
-              # \$no = $function-name\( … \);
+      $decl-list
+              \$no = _$function-name\($par-list\);
+            \}
 
-        EOBUILD
-      $ifelse = "elsif";
-    }
+      EOBUILD
+
+    $ifelse = "elsif";
   }
 
+  if !$h<inheritable> {
+    $doc ~= q:to/EOBUILD/;
+          # check if there are unknown options
+          elsif %options.elems {
+            die X::Gnome.new(
+              :message(
+                'Unsupported, undefined, incomplete or wrongly typed options for ' ~
+                self.^name ~ ': ' ~ %options.keys.join(', ')
+              )
+            );
+          }
+
+    EOBUILD
+  }
+
+  $doc ~= q:to/EOBUILD/;
+        #`{{ when there are no defaults use this
+        # check if there are any options
+        elsif %options.elems == 0 {
+          die X::Gnome.new(:message('No options specified ' ~ self.^name));
+        }
+        }}
+
+  EOBUILD
+
+  $doc ~= q:to/EOBUILD/;
+        #`{{ when there are defaults use this instead
+        # create default object
+        else {
+          $no = _$*work-data<sub-prefix>new();
+        }
+        }}
+
+        self._set-native-object($no);
+      }
+
+  EOBUILD
+
   # End the BUILD submethod
-  $doc ~= "\}\n";
+  $doc ~= qq:to/EOBUILD/;
+        # only after creating the native-object, the gtype is known
+        self._set-class-info\('$*work-data<gnome-name>'\);
+      \}
+    \}
+    EOBUILD
 
   $doc
 }
 
 #-------------------------------------------------------------------------------
 method !make-native-constructor-subs ( Hash $hcs --> Str ) {
-  my Str $doc = '';
+  my Str $doc = qq:to/EOSUB/;
+
+      {HLSEPARATOR}
+      {SEPARATOR('Constructors');}
+      EOSUB
+
+  for $hcs.keys.sort -> $function-name {
+    my $par-list = '';
+    my Bool $first = True;
+
+    for @($hcs{$function-name}<parameters>) -> $parameter {
+note "$?LINE $function-name $parameter: $parameter.gist()";
+      if ?$par-list {
+        if $first {
+          $par-list ~= [~] ', ', $parameter<raku-type>, ' $',
+            $hcs{$function-name}<option-name>;
+        }
+        else {
+          $par-list ~= [~] ', ', $parameter<raku-type>, ' $', $parameter<name>;
+        }
+      }
+
+      else {
+        if $first {
+          $par-list ~= [~] ' ', $parameter<raku-type>, ' $',
+            $hcs{$function-name}<option-name>;
+        }
+        else {
+          $par-list ~= [~] ' ', $parameter<raku-type>, ' $', $parameter<name>;
+        }
+      }
+
+      $first = False;
+    }
+
+    # remove first space when there is only one parameter
+  #    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
+
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:1:_$function-name:
+      sub _$function-name \(
+       $par-list
+      \) is native\(\&gtk-lib\)
+        is symbol\('$function-name'\)
+        \{ * \}
+
+      EOSUB
+  }
 
   $doc
 }
@@ -557,7 +754,8 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
   # If there are signals, make the docs for it
   if $signals.keys.elems {
     $doc ~= qq:to/EOSIG/;
-
+      {HLSEPARATOR}
+      {SEPARATOR('Signal Documentation');}
       {HLSEPARATOR}
       =begin pod
       =head1 Signals
@@ -591,7 +789,10 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
         EOSIG
 
       for @($signals{$signal-name}<parameters>) -> $prmtr {
-        $doc ~= "=item $prmtr<pname> \(transfer ownership: $prmtr<p-trans-own>); $prmtr<doc>.\n";
+        my Str $own = (?$prmtr<p-trans-own> and $prmtr<p-trans-own> ne 'none')
+                      ?? "\(transfer ownership: $prmtr<p-trans-own>)"
+                      !! '';
+        $doc ~= "=item $prmtr<pname> $own; $prmtr<pdoc>.\n";
       }
 
       $doc ~= q:to/EOSIG/;
@@ -660,8 +861,14 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
   $doc ~= qq:to/EOSIG/;
 
     {HLSEPARATOR}
+    {SEPARATOR('Property Documentation');}
+    {HLSEPARATOR}
     =begin pod
     =head1 Properties
+
+    Please note that this information is not really necessary to use or know
+    about because there are routines to get or set its value for many of
+    those properties.
     EOSIG
 
   for $properties.keys.sort -> $signal-name {
@@ -990,8 +1197,13 @@ method convert-type ( Str $ctype --> Str ) {
       $raku-type = "g$ctype;";
     }
 
+#TODO int/num/pointers as '$x is rw'
     when m/char \s* '*'/ { $raku-type = 'Str'; }
     when m/char \s* '*' \s* '*'/ { $raku-type = 'CArray[Str]'; }
+    when m/gint \s* '*'/  { $raku-type = 'CArray[gint]'; }
+    when m/GtkWidget \s* '*'/ { $raku-type = 'N-GObject'; }
+    when m/GError \s* '*'/ { $raku-type = 'CArray[N-GError]'; }
+
     when 'void' { $raku-type = 'void'; }
 
     default {
@@ -1000,15 +1212,16 @@ method convert-type ( Str $ctype --> Str ) {
         when 'class' { $raku-type = 'N-GObject'; }
         when 'enumeration' { $raku-type = 'GEnum'; }
         when 'bitfield' { $raku-type = 'GFlag'; }
-#        when 'GtkWidget' { $raku-type = 'N-GObject'; }
-#        when 'gint*'  { $raku-type = 'CArray[gint]'; }
 
 #        when 'record' { }
 #        when 'callback' { }
 #        when 'interface' { }
 #        when '' { }
 
-        default { note "Unknown ctype: '$ctype', $h.gist()"; }
+        default {
+          note 'Unknown gir type ', $h<gir-type> // '-',
+               ' for ctype ', $ctype;
+        }
       }
     }
   }
