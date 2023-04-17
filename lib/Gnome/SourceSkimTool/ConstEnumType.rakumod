@@ -18,6 +18,10 @@ constant GIRROOT is export = '/usr/share/gir-1.0/';
 constant HLSEPARATOR = '#' ~ '-' x 79;
 constant HLPODSEPARATOR = '=comment ' ~ '-' x 71;
 
+sub SEPARATOR( Str $text --> Str ) is export {
+  [~] '#--[', $text, ']', '-' x (79 - $text.chars -4)
+}
+
 #-------------------------------------------------------------------------------
 #`{{
   A note from https://discourse.gnome.org/t/gtk4-and-gdk-pixbuf/1015
