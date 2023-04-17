@@ -7,14 +7,18 @@ TODO modify markdown links in text or in Raku links when it shows use of url
 TODO Add explanations of module documentation layout in the references of the documentation on site. Add info about the glib types used and what it means in Raku. That properties are mostly not needed because of their getters and setters.
 
 -->
+* 2023-04-17 0.5.5
+  * Generate methods.
+
 * 2023-04-07 0.5.4
   * Generate BUILD submethod.
+  * Add constructor native subs.
 
 * 2023-04-01 0.5.3
-  * Generate property information
+  * Generate property information.
 
 * 2023-04-01 0.5.2
-  * Generate signal information
+  * Generate signal information.
 
 * 2023-03-29 0.5.1
   * Generate class description
