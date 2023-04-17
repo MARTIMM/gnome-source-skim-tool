@@ -380,7 +380,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
       my Bool $first = True;
       for @($hcs{$function-name}<parameters>) -> $parameter {
         if $first {
-          $build-doc ~= " $parameter<raku-type> :\$$option-name!";
+          $build-doc ~= " $parameter<raku-rtype> :\$$option-name!";
           $variable-map{$hcs{$function-name}<parameters>[0]<name>} = 
               $option-name;
 #note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
@@ -389,7 +389,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
 
         else {
           $build-doc ~= 
-            ", $parameter<raku-type> :\$$hcs{$function-name}<option-name>";
+            ", $parameter<raku-rtype> :\$$hcs{$function-name}<option-name>";
         }
       }
 
@@ -488,7 +488,7 @@ method !make-build-submethod (
     my Hash $signal-levels = %();
     for $sig-info<signals>.keys -> $signal-name {
       my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
-note "$?LINE $signal-name, $level";
+#note "$?LINE $signal-name, $level";
       $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
       $signal-levels{$level}.push: $signal-name;
     }
@@ -543,7 +543,7 @@ note "$?LINE $signal-name, $level";
     my $par-list = '';
     my $decl-list = '';
     for @($hcs{$function-name}<parameters>) -> $parameter {
-note "$?LINE $function-name $parameter: $parameter.gist()";
+#note "$?LINE $function-name $parameter: $parameter.gist()";
       if ?$par-list {
         if $first {
           $par-list ~= ", \$$hcs{$function-name}<option-name>";
@@ -646,42 +646,23 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
 
   for $hcs.keys.sort -> $function-name {
     my $par-list = '';
-    my Bool $first = True;
 
     for @($hcs{$function-name}<parameters>) -> $parameter {
-note "$?LINE $function-name $parameter: $parameter.gist()";
-      if ?$par-list {
-        if $first {
-          $par-list ~= [~] ', ', $parameter<raku-type>, ' $',
-            $hcs{$function-name}<option-name>;
-        }
-        else {
-          $par-list ~= [~] ', ', $parameter<raku-type>, ' $', $parameter<name>;
-        }
-      }
-
-      else {
-        if $first {
-          $par-list ~= [~] ' ', $parameter<raku-type>, ' $',
-            $hcs{$function-name}<option-name>;
-        }
-        else {
-          $par-list ~= [~] ' ', $parameter<raku-type>, ' $', $parameter<name>;
-        }
-      }
-
-      $first = False;
+#note "$?LINE $function-name $parameter: $parameter.gist()";
+      $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
     }
 
-    # remove first space when there is only one parameter
-  #    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
+    # remove first comma
+    $par-list ~~ s/^ . //;
+#    # remove first space when there is only one parameter
+#    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
 
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
       #TM:1:_$function-name:
       sub _$function-name \(
-       $par-list
-      \) is native\(\&gtk-lib\)
+       $par-list --> $hcs{$function-name}<return-raku-ntype>
+      \) is native\($*work-data<library>\)
         is symbol\('$function-name'\)
         \{ * \}
 
@@ -696,12 +677,96 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
 
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
+  my Bool $is-leaf = $h<leaf>;
+  my Str $symbol-prefix = $h<symbol-prefix>;
+
+  my Str $doc ~= qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Methods');}
+    EOSUB
 
   my Hash $hcs = self!get-methods($class-element);
-#  my Str $doc = self!make-build-doc($hcs);
-#  $doc ~= self!make-build($hcs);
+  for $hcs.keys.sort -> $function-name {
 
-  my Str $doc = '';
+    # get method name
+    my Str $method-name = $function-name;
+    $method-name ~~ s/^ $symbol-prefix //;
+    $method-name ~~ s:g/ '_' /-/;
+
+    # get parameter lists
+    my Str ( $par-list, $raku-list, $call-list, $items-doc) = ( '', '', '', '');
+
+    for @($hcs{$function-name}<parameters>) -> $parameter {
+#note "$?LINE $function-name $parameter: $parameter.gist()";
+      $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
+      $call-list ~= ", \$$parameter<name>" unless $parameter<is-instance>;
+
+      if ! $parameter<is-instance> {
+        my $xtype = $parameter<raku-rtype>;
+        $xtype ~= '()' if $xtype eq 'N-GObject';
+        $raku-list ~= [~] ', ', $xtype, ' $', $parameter<name>;
+        
+        my Str $own = '';
+        $own = "\($parameter<transfer-ownership>\)"
+          if ?$parameter<p-trans-own> and
+             $parameter<transfer-ownership> ne 'none';
+        $items-doc ~= qq:to/EOPDOC/;
+
+          =item $parameter<name>; $own $parameter<doc>
+          EOPDOC
+      }
+    }
+
+    my $xtype = $hcs{$function-name}<$return-raku-ntype>;
+    $par-list ~= " --> $xtype" if ?$xtype and $xtype ne 'void';
+    $xtype = $hcs{$function-name}<return-raku-rtype>;
+    $raku-list ~= " --> $xtype" if ?$xtype and $xtype ne 'void';
+
+    # remove first comma
+    $par-list ~~ s/^ . //;
+    $raku-list ~~ s/^ . //;
+#    $call-list ~~ s/^ . //;
+#    # remove first space when there is only one parameter
+#    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
+
+    my Str $nobject-retrieve;
+    if $is-leaf {
+      $nobject-retrieve = 'self._get-native-object-no-reffing';
+    }
+    else {
+      $nobject-retrieve = "self._f\('$*work-data<gnome-name>'\)";
+    }
+
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:0:$method-name:
+      =begin pod
+      =head2 $method-name
+
+      $hcs{$function-name}<function-doc>
+
+      =begin code
+      method $method-name \(
+        $raku-list
+      \)
+      =end code
+
+      $items-doc
+      =end pod
+
+      method $method-name \(
+       $raku-list
+      \) \{
+        $function-name\( $nobject-retrieve$call-list\)
+      \}
+
+      sub $function-name \(
+       $par-list
+      \) is native\($*work-data<library>\)
+        \{ * \}
+
+      EOSUB
+  }
 
   $doc
 }
@@ -728,12 +793,15 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
 
     # return value info
     my XML::Element $rvalue = $!xpath.find( 'return-value', :start($si));
-    $signals{$signal-name}<rv-trans-own> = $rvalue.attribs<transfer-ownership>;
+    $signals{$signal-name}<transfer-ownership> =
+      $rvalue.attribs<transfer-ownership>;
 
-    my Str ( $rv-doc, $rv-type, $return-raku-type) = self.get-doc-type($rvalue);
+    my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
+      self.get-doc-type($rvalue);
     $signals{$signal-name}<rv-doc> = $rv-doc;
     $signals{$signal-name}<rv-type> = $rv-type;
-    $signals{$signal-name}<return-raku-type> = $return-raku-type;
+    $signals{$signal-name}<return-raku-ntype> = $return-raku-ntype;
+    $signals{$signal-name}<return-raku-rtype> = $return-raku-rtype;
 
     # parameter info
     $signals{$signal-name}<parameters> = [];
@@ -742,11 +810,13 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
     for @prmtrs -> $prmtr {
       my Hash $attribs = $prmtr.attribs;
       my $pname = $attribs<name>;
-      my $p-trans-own = $attribs<transfer-ownership>;
-      my Str ( $pdoc, $ptype, $raku-type) = self.get-doc-type($prmtr);
+      my $transfer-ownership = $attribs<transfer-ownership>;
+      my Str ( $pdoc, $ptype, $raku-ntype, $raku-rtype) = self.get-doc-type($prmtr);
 
       $signals{$signal-name}<parameters>.push: %(
-        :$pname, :$pdoc, :$ptype, :$raku-type, :$p-trans-own
+        :$pname, :$pdoc, :$ptype,
+        :$raku-ntype, :$raku-rtype,
+        :$transfer-ownership
       );
     }
   }
@@ -775,7 +845,7 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
         EOSIG
 
       for @($signals{$signal-name}<parameters>) -> $prmtr {
-        $doc ~= "  $prmtr<raku-type> \$$prmtr<pname>,\n";
+        $doc ~= "  $prmtr<raku-rtype> \$$prmtr<pname>,\n";
       }
 
       $doc ~= qq:to/EOSIG/;
@@ -789,9 +859,10 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
         EOSIG
 
       for @($signals{$signal-name}<parameters>) -> $prmtr {
-        my Str $own = (?$prmtr<p-trans-own> and $prmtr<p-trans-own> ne 'none')
-                      ?? "\(transfer ownership: $prmtr<p-trans-own>)"
-                      !! '';
+        my Str $own = ( ?$prmtr<transfer-ownership> and
+                        $prmtr<transfer-ownership> ne 'none'
+                      ) ?? "\(transfer ownership: $prmtr<transfer-ownership>)"
+                        !! '';
         $doc ~= "=item $prmtr<pname> $own; $prmtr<pdoc>.\n";
       }
 
@@ -807,8 +878,8 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
 
         EOSIG
 
-      $doc ~= "Return value \(transfer ownership: $signals{$signal-name}<return-raku-type> \($signals{$signal-name}<rv-trans-own>); $signals{$signal-name}<rv-doc>\n"
-            if $signals{$signal-name}<return-raku-type> ne 'void';
+      $doc ~= "Return value \(transfer ownership: $signals{$signal-name}<return-raku-ntype> \($signals{$signal-name}<rv-trans-own>); $signals{$signal-name}<rv-doc>\n"
+            if $signals{$signal-name}<return-raku-ntype> ne 'void';
     }
 
     $doc ~= "\n=end pod\n\n";
@@ -848,13 +919,14 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
       $psetter = "C<.$psetter\()>";
     }
 
-    my Str $p-trans-own = $attribs<transfer-ownership>;
+    my Str $transfer-ownership = $attribs<transfer-ownership>;
 
-    my Str ( $pdoc, $type, $raku-type, $g-type) = self.get-doc-type($pi);
+    my Str ( $pdoc, $type, $raku-ntype, $raku-rtype, $g-type) =
+      self.get-doc-type($pi);
 
     $properties{$property-name} = %(
-      :$pdoc, :$writable, :$type, :$raku-type, :$g-type,
-      :$pgetter, :$psetter, :$p-trans-own
+      :$pdoc, :$writable, :$type, :$raku-ntype, :$g-type,
+      :$pgetter, :$psetter, :$transfer-ownership
     );
   }
 
@@ -871,29 +943,29 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
     those properties.
     EOSIG
 
-  for $properties.keys.sort -> $signal-name {
+  for $properties.keys.sort -> $property-name {
     $doc ~= qq:to/EOSIG/;
 
       {HLPODSEPARATOR}
-      =comment #TP:0:$signal-name:
-      =head3 $signal-name
+      =comment #TP:0:$property-name:
+      =head3 $property-name
       EOSIG
 
-#say "$?LINE props $signal-name: $properties{$signal-name}.gist()";
+#say "$?LINE props $property-name: $properties{$property-name}.gist()";
 
-    if $properties{$signal-name}<pdoc> ~~ m/^ \s* $/ {
+    if $properties{$property-name}<pdoc> ~~ m/^ \s* $/ {
       $doc ~= "\nThere is no documentation for this property\n\n";
     }
 
     else {
-      $doc ~= "\n$properties{$signal-name}<pdoc>\n\n";
+      $doc ~= "\n$properties{$property-name}<pdoc>\n\n";
     }
 
-    $doc ~= "=item B<Gnome::GObject::Value> for this property is $properties{$signal-name}<g-type>.\n";
+    $doc ~= "=item B<Gnome::GObject::Value> for this property is $properties{$property-name}<g-type>.\n";
 
-    $doc ~= "=item The field type is $properties{$signal-name}<raku-type>.\n";
+    $doc ~= "=item The native type is $properties{$property-name}<raku-ntype>.\n";
 
-    if $properties{$signal-name}<writable> {
+    if $properties{$property-name}<writable> {
       $doc ~= "=item Property is readable and writable\n";
     }
 
@@ -901,11 +973,11 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
       $doc ~= "=item Property is readonly\n";
     }
 
-    $doc ~= "=item Getter method is $properties{$signal-name}<pgetter>\n"
-      if ?$properties{$signal-name}<pgetter>;
+    $doc ~= "=item Getter method is $properties{$property-name}<pgetter>\n"
+      if ?$properties{$property-name}<pgetter>;
 
-    $doc ~= "=item Setter method is $properties{$signal-name}<psetter>\n"
-      if ?$properties{$signal-name}<psetter>;
+    $doc ~= "=item Setter method is $properties{$property-name}<psetter>\n"
+      if ?$properties{$property-name}<psetter>;
   }
 
   $doc ~= "\n=end pod\n\n";
@@ -968,27 +1040,50 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
 
   my XML::Element $rvalue = $!xpath.find( 'return-value', :start($e));
   my Str $rv-trans-own = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-doc, $rv-type, $return-raku-type) = self.get-doc-type($rvalue);
+  my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
+    self.get-doc-type($rvalue);
 
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
   my @parameters = ();
   my @prmtrs =
-    $!xpath.find( 'parameters/parameter', :start($e), :to-list);
+    $!xpath.find(
+      'parameters/instance-parameter | parameters/parameter',
+      :start($e), :to-list);
   for @prmtrs -> $p {
-    my Str ( $doc, $type, $raku-type) = self.get-doc-type($p);
-    my Hash $attribs = $p.attribs;
-    my Hash $ph = %(
-      :name($attribs<name>), :allow-none($attribs<allow-none>.Bool),
-      :nullable($attribs<nullable>.Bool),
-      :trans-own($attribs<transfer-ownership>),
-      :$doc, :$type, :$raku-type
-    );
+    if $p.name eq 'instance-parameter' {
+      my Str ( $doc, $type, $raku-ntype, $raku-rtype) = self.get-doc-type($p);
+      my Hash $attribs = $p.attribs;
+      my Hash $ph = %(
+        :name($attribs<name>), :!allow-none, :!nullable, :is-instance,
+        :trans-own($attribs<transfer-ownership>),
+        :$doc, :$type, :$raku-ntype, :$raku-rtype
+      );
 
-    @parameters.push: $ph;
+      @parameters.push: $ph;
+    }
+
+#  @prmtrs = $!xpath.find( 'parameters/parameter', :start($e), :to-list);
+#  for @prmtrs -> $p {
+
+    elsif $p.name eq 'parameter' {
+      my Str ( $doc, $type, $raku-ntype, $raku-rtype) = self.get-doc-type($p);
+      my Hash $attribs = $p.attribs;
+      my Hash $ph = %(
+        :name($attribs<name>), :allow-none($attribs<allow-none>.Bool),
+        :nullable($attribs<nullable>.Bool), :!is-instance,
+        :trans-own($attribs<transfer-ownership>),
+        :$doc, :$type, :$raku-ntype, :$raku-rtype
+      );
+
+      @parameters.push: $ph;
+    }
   }
 
   ( $function-name, %(
       :$option-name, :$function-doc, :@parameters,
-      :$rv-doc, :$rv-type, :$return-raku-type, :$rv-trans-own,
+      :$rv-doc, :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
+      :$rv-trans-own,
     )
   );
 }
@@ -996,7 +1091,8 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
 #-------------------------------------------------------------------------------
 method get-doc-type ( XML::Element $e --> List ) {
 
-  my Str ( $doc, $type, $raku-type, $g-type) = ( '', '', '', '');
+  my Str ( $doc, $type, $raku-ntype, $raku-rtype, $g-type) =
+     ( '', '', '', '', '');
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
     with $n.name {
@@ -1009,13 +1105,14 @@ method get-doc-type ( XML::Element $e --> List ) {
       when 'type' {
         $type = $n.attribs<name>;
         $type ~~ s:g/ '.' //;
-        $raku-type = self.convert-type($n.attribs<c:type> // $type);
-        $g-type = self.gobject-value-type($raku-type);
+        $raku-ntype = self.convert-ntype($n.attribs<c:type> // $type);
+        $raku-rtype = self.convert-rtype($n.attribs<c:type> // $type);
+        $g-type = self.gobject-value-type($raku-ntype);
       }
     }
   }
 
-  ( $doc, $type, $raku-type, $g-type)
+  ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
 }
 
 #-------------------------------------------------------------------------------
@@ -1174,7 +1271,7 @@ method search-name ( Str $name is copy --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method convert-type ( Str $ctype --> Str ) {
+method convert-ntype ( Str $ctype --> Str ) {
   return '' unless ?$ctype;
 
   my Str $raku-type = '';
@@ -1197,7 +1294,15 @@ method convert-type ( Str $ctype --> Str ) {
       $raku-type = "g$ctype;";
     }
 
+#TODO check for any other types in gir files
+#grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
+
+    when $*work-data<gnome-type> {
+      $raku-type = 'N-GObject';
+    }
+
 #TODO int/num/pointers as '$x is rw'
+    # ignore const
     when m/char \s* '*'/ { $raku-type = 'Str'; }
     when m/char \s* '*' \s* '*'/ { $raku-type = 'CArray[Str]'; }
     when m/gint \s* '*'/  { $raku-type = 'CArray[gint]'; }
@@ -1219,8 +1324,79 @@ method convert-type ( Str $ctype --> Str ) {
 #        when '' { }
 
         default {
-          note 'Unknown gir type ', $h<gir-type> // '-',
+          note 'Unknown gir type to convert to native raku type ', $h<gir-type> // '-',
                ' for ctype ', $ctype;
+        }
+      }
+    }
+  }
+
+#say "$?LINE: convert $ctype -> '$raku-type'";
+
+  $raku-type
+}
+
+#-------------------------------------------------------------------------------
+method convert-rtype ( Str $ctype --> Str ) {
+  return '' unless ?$ctype;
+
+  my Str $raku-type = '';
+  with $ctype {
+    when / g? boolean / {
+      $raku-type = 'Bool';
+    }
+
+    when any(<gchar gint gint16 gint32 gint64 gint8
+         glong gshort gsize gssize char int int16 int32 int64 int8
+         long short size ssize
+         >
+    ) {
+      $raku-type = 'Int';
+    }
+
+    when any(<guchar guint guint16 guint32 guint64
+         guint8 gulong gunichar gushort uchar uint uint16 uint32 uint64
+         uint8 ulong unichar ushort
+         >) {
+      $raku-type = 'UInt';
+    }
+
+    when /g [float || double]/ {
+      $raku-type = 'Num';
+    }
+
+#TODO check for any other types in gir files
+#grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
+
+    when $*work-data<gnome-type> {
+      $raku-type = 'N-GObject';
+    }
+
+#TODO int/num/pointers as '$x is rw'
+    # ignore const
+    when m/char \s* '*'/ { $raku-type = 'Str'; }
+    when m/char \s* '*' \s* '*'/ { $raku-type = 'CArray[Str]'; }
+    when m/gint \s* '*'/  { $raku-type = 'CArray[gint]'; }
+    when m/GtkWidget \s* '*'/ { $raku-type = 'N-GObject'; }
+    when m/GError \s* '*'/ { $raku-type = 'CArray[N-GError]'; }
+
+    when 'void' { $raku-type = 'void'; }
+
+    default {
+      my Hash $h = self.search-name($ctype);
+      given $h<gir-type> // '-' {
+        when 'class' { $raku-type = 'N-GObject'; }
+        when 'enumeration' { $raku-type = 'Int'; }
+        when 'bitfield' { $raku-type = 'UInt'; }
+
+#        when 'record' { }
+#        when 'callback' { }
+#        when 'interface' { }
+#        when '' { }
+
+        default {
+          note 'Unknown gir type to convert to raku type', $h<gir-type> // '-',
+               ' for ctype ', $ctype, ', ', $*work-data<gnome-type>;
         }
       }
     }
