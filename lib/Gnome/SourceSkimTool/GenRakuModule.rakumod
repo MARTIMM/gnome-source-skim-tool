@@ -544,32 +544,23 @@ method !make-build-submethod (
     my $decl-list = '';
     for @($hcs{$function-name}<parameters>) -> $parameter {
 #note "$?LINE $function-name $parameter: $parameter.gist()";
-      if ?$par-list {
-        if $first {
-          $par-list ~= ", \$$hcs{$function-name}<option-name>";
-        }
-        else {
-          $par-list ~= ", \$$parameter<name>";
-        }
-
+      if $first {
+        $par-list ~= ", \$$hcs{$function-name}<option-name>";
         $decl-list ~= [~]  '        my $', $hcs{$function-name}<option-name>,
           ' = %options<', $parameter<name>, '>;', "\n";
       }
 
       else {
-        if $first {
-          $par-list ~= " \$$hcs{$function-name}<option-name>";
-        }
-        else {
-          $par-list ~= " \$$parameter<name>";
-        }
-
+        $par-list ~= ", \$$parameter<name>";
         $decl-list ~= [~]  '        my $', $parameter<name>,
           ' = %options<', $parameter<name>, '>;', "\n";
       }
 
       $first = False;
     }
+
+    # remove first comma
+    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
 
     # remove first space when there is only one parameter
     $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
@@ -579,7 +570,7 @@ method !make-build-submethod (
             #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
             $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
       $decl-list
-              \$no = _$function-name\($par-list\);
+              \$no = $function-name\($par-list\);
             \}
 
       EOBUILD
@@ -616,7 +607,7 @@ method !make-build-submethod (
         #`{{ when there are defaults use this instead
         # create default object
         else {
-          $no = _$*work-data<sub-prefix>new();
+          $no = $*work-data<sub-prefix>new();
         }
         }}
 
@@ -659,11 +650,10 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
 
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
-      #TM:1:_$function-name:
-      sub _$function-name \(
+      #TM:1:$function-name:
+      sub $function-name \(
        $par-list --> $hcs{$function-name}<return-raku-ntype>
       \) is native\($*work-data<library>\)
-        is symbol\('$function-name'\)
         \{ * \}
 
       EOSUB
@@ -687,6 +677,7 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
 
   my Hash $hcs = self!get-methods($class-element);
   for $hcs.keys.sort -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
 
     # get method name
     my Str $method-name = $function-name;
@@ -696,7 +687,7 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
     # get parameter lists
     my Str ( $par-list, $raku-list, $call-list, $items-doc) = ( '', '', '', '');
 
-    for @($hcs{$function-name}<parameters>) -> $parameter {
+    for @($curr-function<parameters>) -> $parameter {
 #note "$?LINE $function-name $parameter: $parameter.gist()";
       $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
       $call-list ~= ", \$$parameter<name>" unless $parameter<is-instance>;
@@ -712,16 +703,31 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
              $parameter<transfer-ownership> ne 'none';
 
         $items-doc ~= qq:to/EOPDOC/;
-
           =item $parameter<name>; $own$parameter<doc>
           EOPDOC
       }
     }
 
-    my $xtype = $hcs{$function-name}<$return-raku-ntype>;
-    $par-list ~= " --> $xtype" if ?$xtype and $xtype ne 'void';
-    $xtype = $hcs{$function-name}<return-raku-rtype>;
-    $raku-list ~= " --> $xtype" if ?$xtype and $xtype ne 'void';
+note "$?LINE: $function-name, $curr-function.gist()" if $function-name eq 'gtk_label_get_angle';
+
+    my Str $returns-doc = '';
+    my $xtype = $curr-function<return-raku-ntype>;
+    if ?$xtype and $xtype ne 'void' {
+      $par-list ~= " --> $xtype";
+    }
+
+    $xtype = $curr-function<return-raku-rtype>;
+    if ?$xtype and $xtype ne 'void' {
+      $raku-list ~= " --> $xtype";
+      my Str $own = '';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
+
+      $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+    }
+
+
 
     # remove first comma and substitute underscores
     $par-list ~~ s/^ . //;
@@ -729,16 +735,17 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
     $raku-list ~~ s/^ . //;
 #    $raku-list ~~ s:g/ '_' /-/;
 #    $call-list ~~ s:g/ '_' /-/;
-
+#`{{
     my Str $returns-doc = '';
-    if $hcs{$function-name}<return-raku-rtype> ne 'void' {
+    if $curr-function<return-raku-rtype> ne 'void' {
       my Str $own = '';
-      $own = "\(transfer ownership: $hcs{$function-name}<transfer-ownership>\) "
-        if ?$hcs{$function-name}<transfer-ownership> and
-            $hcs{$function-name}<transfer-ownership> ne 'none';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
       
-      $returns-doc = $own ~ $hcs{$function-name}<rv-doc>;
+      $returns-doc = $own ~ $curr-function<rv-doc>;
     }
+  }}
 
     my Str $nobject-retrieve;
     if $is-leaf {
@@ -754,7 +761,7 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
       =begin pod
       =head2 $method-name
 
-      $hcs{$function-name}<function-doc>
+      $curr-function<function-doc>
 
       =begin code
       method $method-name \(
@@ -863,7 +870,7 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
       }
 
       # return value info
-      my Str ( $rv-method, $rv-doc ) = ( '', '');
+      my Str ( $rv-method, $returns-doc ) = ( '', '');
 note $?LINE, ', ', $curr-signal.gist;
 
       if ?$curr-signal<return-raku-ntype> and
@@ -873,7 +880,7 @@ note $?LINE, ', ', $curr-signal.gist;
           if ?$curr-signal<transfer-ownership> and
              $curr-signal<transfer-ownership> ne 'none';
 
-        $rv-doc = "\nReturn value; $own$curr-signal<rv-doc>\n";
+        $returns-doc = "\nReturn value; $own$curr-signal<rv-doc>\n";
         $rv-method = "\n  --> $curr-signal<return-raku-ntype>";
       }
 
@@ -892,7 +899,7 @@ note $?LINE, ', ', $curr-signal.gist;
                         $prmtr<transfer-ownership> ne 'none'
                       ) ?? "\(transfer ownership: $prmtr<transfer-ownership>)"
                         !! '';
-        $doc ~= "=item $prmtr<pname> $own; $prmtr<pdoc>.\n";
+        $doc ~= "=item $prmtr<pname>; $own$prmtr<pdoc>.\n";
       }
 
       $doc ~= q:to/EOSIG/;
@@ -901,7 +908,7 @@ note $?LINE, ', ', $curr-signal.gist;
         =item $_widget; the object which received the signal.
         =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
         EOSIG
-      $doc ~= $rv-doc;
+      $doc ~= $returns-doc;
 
 #`{{
       $doc ~= "Return value \(transfer ownership: $curr-signal<return-raku-ntype> \($curr-signal<transfer-ownership>); $curr-signal<rv-doc>\n"
@@ -1348,7 +1355,6 @@ method convert-ntype ( Str $ctype is copy --> Str ) {
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = self.search-name($ctype);
-note "$?LINE $ctype -> $h.gist()";
       given $h<gir-type> // '-' {
         when 'class' { $raku-type = 'N-GObject'; }
         when 'enumeration' { $raku-type = 'GEnum'; }
@@ -1367,8 +1373,7 @@ note "$?LINE $ctype -> $h.gist()";
     }
   }
 
-say "$?LINE: convert to raku native type: '$ctype' -> '$raku-type'"
-   if $ctype ~~ m/ gchar /;
+#say "$?LINE: convert to raku native type: '$ctype' -> '$raku-type'" if $ctype ~~ m/ gchar /;
 
   $raku-type
 }
@@ -1426,7 +1431,6 @@ method convert-rtype ( Str $ctype is copy --> Str ) {
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = self.search-name($ctype);
-note "$?LINE $ctype -> $h.gist()";
       given $h<gir-type> // '-' {
         when 'class' { $raku-type = 'N-GObject'; }
         when 'enumeration' { $raku-type = 'Int'; }
@@ -1445,8 +1449,7 @@ note "$?LINE $ctype -> $h.gist()";
     }
   }
 
-say "$?LINE: convert raku type; '$ctype' -> '$raku-type'"
-   if $ctype ~~ m/ gchar /;
+#say "$?LINE: convert raku type; '$ctype' -> '$raku-type'" if $ctype ~~ m/ gchar /;
 
   $raku-type
 }
@@ -1495,11 +1498,11 @@ method !modify-signals ( Str $text is copy --> Str ) {
     my Str $signal-name = $<signal-name>.Str;
     my Str $cname = ($<cname>//'').Str;
     if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#'? $cname '::' $signal-name /I<signal $signal-name>/;
+      $text ~~ s:g/ '#'? $cname '::' $signal-name /I<$signal-name>/;
     }
 
     else {
-      $text ~~ s:g/ '#'? $cname'::' $signal-name /I<signal $signal-name defined in $cname>/;
+      $text ~~ s:g/ '#'? $cname'::' $signal-name /I<$signal-name defined in $cname>/;
     }
   }
 
