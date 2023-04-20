@@ -138,7 +138,7 @@ method generate-raku-module ( ) {
   my XML::Element $class-element = $!xpath.find('//class');
 
   my $module-doc = qq:to/RAKUMOD/;
-    #TL:1:$*work-data<raku-class-name>:";
+    #TL:1:$*work-data<raku-class-name>:
     use v6;
 
     {HLSEPARATOR}
@@ -154,6 +154,8 @@ method generate-raku-module ( ) {
 
   note "Set class unit" if $*verbose;
   $module-doc ~= self!set-unit( $class-element, $sig-info);
+
+#TODO generate types and enumerations
 
   note "Generate BUILD submethod" if $*verbose;  
   $module-doc ~= self!generate-build( $class-element, $sig-info);
@@ -173,7 +175,148 @@ method generate-raku-module ( ) {
 
 #-------------------------------------------------------------------------------
 method generate-raku-module-test ( ) {
-  my $module-test-doc = '';
+
+  my XML::Element $class-element = $!xpath.find('//class');
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
+  my Str $test-variable = '$' ~ $*gnome-class.lc;
+  my $module-test-doc = qq:to/EOTEST/;
+    use v6;
+    use NativeCall;
+    use Test;
+
+    use $*work-data<raku-class-name>;
+
+    use Gnome::N::GlibToRakuTypes;
+    use Gnome::N::N-GObject;
+    #use Gnome::N::X;
+    #Gnome::N::debug(:on);
+
+    {HLSEPARATOR}
+    my $*work-data<raku-class-name> $test-variable;
+    
+    {HLSEPARATOR}
+    subtest 'ISA test', \{
+      $test-variable .= new;
+      isa-ok $test-variable, $*work-data<raku-class-name>, '.new\()';
+    \}
+
+    {HLSEPARATOR}
+    # set environment variable 'raku-test-all' if rest must be tested too.
+    unless \%*ENV<raku_test_all>:exists \{
+      done-testing;
+      exit;
+    \}
+
+    EOTEST
+
+    # check if class is inheritable
+    if $h<inheritable> {
+      $module-test-doc ~= qq:to/EOTEST/;
+      {HLSEPARATOR}
+      subtest 'Inherit $*work-data<raku-class-name>', \{
+        class MyClass is $*work-data<raku-class-name> \{
+          method new \( |c ) \{
+            self.bless\( :$*work-data<gnome-name>, |c);
+          }
+
+          submethod BUILD \( *\%options ) \{
+
+          }
+        }
+
+        my MyClass $test-variable .= new;
+        isa-ok $test-variable, $*work-data<raku-class-name>, 'MyClass.new\()';
+      }
+      EOTEST
+    }
+
+    $module-test-doc ~= qq:to/EOTEST/;
+
+    {HLSEPARATOR}
+    done-testing;
+
+    =finish
+
+
+    {HLSEPARATOR}
+    subtest 'Manipulations', \{
+    \}
+
+    {HLSEPARATOR}
+    subtest 'Signals …', \{
+      use Gnome::Gtk3::Main;
+      use Gnome::N::GlibToRakuTypes;
+
+      my Gnome::Gtk3::Main \$main .= new;
+
+      class SignalHandlers \{
+        has Bool \$!signal-processed = False;
+
+        method … \(
+          'any-args',
+          $*work-data<raku-class-name>\(\) :\$_native-object, gulong :\$_handler-id
+          # --> …
+        ) \{
+
+          isa-ok \$_native-object, $*work-data<raku-class-name>;
+          \$!signal-processed = True;
+        }
+
+        method signal-emitter \( $*work-data<raku-class-name> :\$_widget --> Str ) \{
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+
+          \$_widget.emit-by-name\(
+            'signal',
+          #  'any-args',
+          #  :return-type(int32),
+          #  :parameters([int32,])
+          );
+          is \$!signal-processed, True, '\'…\' signal processed';
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+
+          #\$!signal-processed = False;
+          #\$_widget.emit-by-name\(
+          #  'signal',
+          #  'any-args',
+          #  :return-type\(int32),
+          #  :parameters\(\[int32,])
+          #);
+          #is \$!signal-processed, True, '\'…\' signal processed';
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+          sleep(0.4);
+          \$main.gtk-main-quit;
+
+          'done'
+        }
+      }
+
+      my $*work-data<raku-class-name> $test-variable .= new;
+
+      #my Gnome::Gtk3::Window \$w .= new;
+      #\$w.add(\$m);
+
+      my SignalHandlers \$sh .= new;
+      $test-variable.register-signal\( \$sh, 'method', 'signal');
+
+      my Promise \$p = \$i.start-thread\(
+        \$sh, 'signal-emitter',
+        # :!new-context,
+        # :start-time\(now + 1)
+      );
+
+      is \$main.gtk-main-level, 0, "loop level 0";
+      \$main.gtk-main;
+      #is \$main.gtk-main-level, 0, "loop level is 0 again";
+
+      is \$p.result, 'done', 'emitter finished';
+    }
+
+    EOTEST
 
   note "Save module test";
   $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
@@ -185,8 +328,15 @@ method !get-description ( XML::Element $class-element --> Str ) {
 
   #$doc ~= self!set-example-image;
 
-  $doc ~= $!xpath.find( 'doc/text()', :start($class-element)).Str;
-  $doc = self!modify-text($doc);
+  #$doc ~= $!xpath.find( 'doc/text()', :start($class-element)).Str;
+  my Str $widget-picture = '';
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n" if $h<inheritable>;
+
+  $doc ~= self!modify-text(
+    $!xpath.find( 'doc/text()', :start($class-element)).Str
+  );
 
   #??$doc ~= self!set-declaration;
   $doc ~= self!set-uml;
@@ -197,8 +347,7 @@ method !get-description ( XML::Element $class-element --> Str ) {
   qq:to/RAKUMOD/;
     =begin pod
     =head1 $*work-data<raku-class-name>
-
-    $doc
+    $widget-picture$doc
     =end pod
     RAKUMOD
 }
@@ -223,12 +372,11 @@ method !set-inherit-example ( XML::Element $class-element --> Str ) {
   my Str $doc = '';
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
-#note "$?LINE $ctype: $h.gist()";
+
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
     $doc = qq:to/EOINHERIT/;
 
-      =begin comment
       =head2 Inheriting this class
 
       Inheriting is done in a special way in that it needs a call from new\() to get the native object created by the class you are inheriting from.
@@ -247,8 +395,6 @@ method !set-inherit-example ( XML::Element $class-element --> Str ) {
           ...
         \}
 
-      =end comment
-
       EOINHERIT
   }
 
@@ -262,6 +408,8 @@ method !set-example ( --> Str ) {
     =begin comment
     =head2 Example
 
+    =begin code
+    =end code
     =end comment
     EOEX
   $doc
@@ -284,7 +432,6 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
 
-#note "$?LINE set-unit: $ctype, $h.gist()";
   my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
     $use-parent = "use $parent;\n";
@@ -357,7 +504,6 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
   my Str $build-doc;
   for $hcs.keys.sort -> $function-name {
     $build-doc = '';
-#note "\n\nBuild $function-name";
 
     my Str $option-name = $hcs{$function-name}<option-name>;
     
@@ -383,7 +529,6 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
           $build-doc ~= " $parameter<raku-rtype> :\$$option-name!";
           $variable-map{$hcs{$function-name}<parameters>[0]<name>} = 
               $option-name;
-#note "map $hcs{$function-name}<parameters>[0]<name> to $option-name";
           $first = False;
         }
 
@@ -488,7 +633,6 @@ method !make-build-submethod (
     my Hash $signal-levels = %();
     for $sig-info<signals>.keys -> $signal-name {
       my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
-#note "$?LINE $signal-name, $level";
       $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
       $signal-levels{$level}.push: $signal-name;
     }
@@ -537,13 +681,10 @@ method !make-build-submethod (
 
   my Str $ifelse = 'if';
   for $hcs.keys.sort -> $function-name {
-#note "$?LINE $function-name, ", $hcs{$function-name}.gist;
-
     my Bool $first = True;
     my $par-list = '';
     my $decl-list = '';
     for @($hcs{$function-name}<parameters>) -> $parameter {
-#note "$?LINE $function-name $parameter: $parameter.gist()";
       if $first {
         $par-list ~= ", \$$hcs{$function-name}<option-name>";
         $decl-list ~= [~]  '        my $', $hcs{$function-name}<option-name>,
@@ -639,14 +780,11 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
     my $par-list = '';
 
     for @($hcs{$function-name}<parameters>) -> $parameter {
-#note "$?LINE $function-name $parameter: $parameter.gist()";
       $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
     }
 
     # remove first comma
     $par-list ~~ s/^ . //;
-#    # remove first space when there is only one parameter
-#    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
 
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
@@ -688,7 +826,6 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
     my Str ( $par-list, $raku-list, $call-list, $items-doc) = ( '', '', '', '');
 
     for @($curr-function<parameters>) -> $parameter {
-#note "$?LINE $function-name $parameter: $parameter.gist()";
       $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
       $call-list ~= ", \$$parameter<name>" unless $parameter<is-instance>;
 
@@ -707,8 +844,6 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
           EOPDOC
       }
     }
-
-note "$?LINE: $function-name, $curr-function.gist()" if $function-name eq 'gtk_label_get_angle';
 
     my Str $returns-doc = '';
     my $xtype = $curr-function<return-raku-ntype>;
@@ -871,7 +1006,6 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
 
       # return value info
       my Str ( $rv-method, $returns-doc ) = ( '', '');
-note $?LINE, ', ', $curr-signal.gist;
 
       if ?$curr-signal<return-raku-ntype> and
          $curr-signal<return-raku-ntype> ne 'void' {
@@ -1066,7 +1200,6 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
 #    $option-name ~~ s:g/ '_' /-/;
     $option-name = '-' if $option-name ~~ m/^ \s* $/;
   }
-#note "$?LINE build: $build, $function-name, $option-name";
 
   $function-doc = self!cleanup(
     self!modify-text(($!xpath.find( 'doc/text()', :start($e)) // '').Str)
@@ -1275,8 +1408,6 @@ method gobject-value-type( Str $ctype --> Str ) {
     }
   }
 
-#note "$?LINE g-type of $ctype is $g-type";
-
   $g-type
 }
 
@@ -1470,11 +1601,10 @@ method !modify-text ( Str $text is copy --> Str ) {
 
   $text = self!modify-signals($text);
   $text = self!modify-properties($text);
-  $text = self!modify-css($text);
   $text = self!modify-functions($text);
-  $text = self!modify-classes($text);
   $text = self!modify-variables($text);
   $text = self!modify-markdown-links($text);
+  $text = self!modify-classes($text);
   $text = self!modify-rest($text);
 
   # Subtitute the examples back into the text before we can finally modify it
@@ -1525,15 +1655,6 @@ method !modify-properties ( Str $text is copy --> Str ) {
       $text ~~ s:g/ '#'? $cname':' $pname /I<property $pname defined in $cname>/;
     }
   }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !modify-css ( Str $text is copy --> Str ) {
-
-  $text ~~ s:g/ \s '.' (<[-\w]>+) / C<.$0>/ if $text ~~ m/ \s '.' \w /;
-  $text ~~ s:g/ \s '#' (<[-\w]>+) / C<#$0>/ if $text ~~ m/ \s '#' \w /;
 
   $text
 }
