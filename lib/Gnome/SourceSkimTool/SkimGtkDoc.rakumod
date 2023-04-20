@@ -108,7 +108,7 @@ method get-classes-from-gir ( ) {
       }
 
       when 'interface' {
-        $!other<enumeration>.push: $element;
+        $!other<interface>.push: $element;
       }
     }
 
@@ -240,7 +240,8 @@ method !map-element (
 
     when 'bitfield' {
       $!map{$attrs<c:type>} = %(
-        :rname($attrs<name>),
+#        :rname($attrs<name>),
+        :rname($attrs<c:type>),
         :gir-type<bitfield>,
       );
     }
@@ -262,7 +263,8 @@ method !map-element (
     # 'enum'
     when 'enumeration' {
       $!map{$attrs<c:type>} = %(
-        :rname($attrs<name>),
+#        :rname($attrs<name>),
+        :rname($attrs<c:type>),
         :gir-type<enumeration>,
       );
     }
