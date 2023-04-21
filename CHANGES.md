@@ -7,6 +7,9 @@ TODO modify markdown links in text or in Raku links when it shows use of url
 TODO Add explanations of module documentation layout in the references of the documentation on site. Add info about the glib types used and what it means in Raku. That properties are mostly not needed because of their getters and setters.
 
 -->
+* 2023-04-20 0.5.6
+  * Generate enumerations and bitmasks(also enums)
+
 * 2023-04-17 0.5.5
   * Generate methods.
 
