@@ -239,10 +239,14 @@ method !map-element (
     }
 
     when 'bitfield' {
+      my XML::Element $d = $!xp.find( 'doc', :start($element));
+      my $d-filename = '';
+      $d-filename = $d.attribs<filename>.IO.basename if ?$d;
+      $d-filename ~~ s/ \. <-[\.]>+ $//;
       $!map{$attrs<c:type>} = %(
-#        :rname($attrs<name>),
-        :rname($attrs<c:type>),
+        :rname($attrs<c:type>), # keep name as c:type not name!
         :gir-type<bitfield>,
+        :class-file($d-filename),
       );
     }
 
@@ -262,10 +266,14 @@ method !map-element (
 
     # 'enum'
     when 'enumeration' {
+      my XML::Element $d = $!xp.find( 'doc', :start($element));
+      my $d-filename = '';
+      $d-filename = $d.attribs<filename>.IO.basename if ?$d;
+      $d-filename ~~ s/ \. <-[\.]>+ $//;
       $!map{$attrs<c:type>} = %(
-#        :rname($attrs<name>),
-        :rname($attrs<c:type>),
+        :rname($attrs<c:type>), # keep rname as c:type not name!
         :gir-type<enumeration>,
+        :class-file($d-filename),
       );
     }
 
@@ -383,21 +391,13 @@ method !save-map ( ) {
   $fname.IO.spurt(save-yaml($!map));
 }
 
-#`{{
 #-------------------------------------------------------------------------------
-multi method load-map ( --> Hash ) {
-
-  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
-  note "Load object map from '$fname'" if $*verbose;
-  load-yaml($fname.IO.slurp);
-}
-}}
-
-#-------------------------------------------------------------------------------
-method load-map ( $object-map-path --> Hash ) {
+method load-map (
+  $object-map-path, Str :$repo-file = 'repo-object-map.yaml' --> Hash
+) {
 
 #  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
-  my $fname = $object-map-path ~ 'repo-object-map.yaml';
+  my $fname = $object-map-path ~ $repo-file;
   note "Load object map from '$fname'" if $*verbose;
   load-yaml($fname.IO.slurp);
 }
