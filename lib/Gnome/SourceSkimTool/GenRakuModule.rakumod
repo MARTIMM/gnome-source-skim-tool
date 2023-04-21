@@ -128,6 +128,14 @@ submethod BUILD ( ) {
     $s.load-map($!other-work-data<GObject><gir-module-path>);
 #}}
 
+  $!object-maps<Enums> = $s.load-map(
+    $!other-work-data<Gtk><gir-module-path>, :repo-file<repo-enumeration.gir>
+  );
+
+  $!object-maps<Flags> = $s.load-map(
+    $!other-work-data<Gtk><gir-module-path>, :repo-file<repo-bitfield.gir>
+  );
+
   # load data for this module
   $!xpath .= new(:file($*work-data<gir-module-file>));
 }
@@ -840,7 +848,7 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
              $parameter<transfer-ownership> ne 'none';
 
         $items-doc ~= qq:to/EOPDOC/;
-          =item $parameter<name>; $own$parameter<doc>
+          =item \$$parameter<name>; $own$parameter<doc>
           EOPDOC
       }
     }
@@ -1033,7 +1041,7 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
                         $prmtr<transfer-ownership> ne 'none'
                       ) ?? "\(transfer ownership: $prmtr<transfer-ownership>)"
                         !! '';
-        $doc ~= "=item $prmtr<pname>; $own$prmtr<pdoc>.\n";
+        $doc ~= "=item \$$prmtr<pname>; $own$prmtr<pdoc>.\n";
       }
 
       $doc ~= q:to/EOSIG/;
@@ -1238,8 +1246,10 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
     elsif $p.name eq 'parameter' {
       my Str ( $doc, $type, $raku-ntype, $raku-rtype) = self.get-doc-type($p);
       my Hash $attribs = $p.attribs;
+      my Str $parameter-name = $attribs<name>;
+      $parameter-name ~~ s:g/ '_' /-/;
       my Hash $ph = %(
-        :name($attribs<name>), :allow-none($attribs<allow-none>.Bool),
+        :name($parameter-name), :allow-none($attribs<allow-none>.Bool),
         :nullable($attribs<nullable>.Bool), :!is-instance,
         :transfer-ownership($attribs<transfer-ownership>),
         :$doc, :$type, :$raku-ntype, :$raku-rtype
@@ -1276,6 +1286,14 @@ method get-doc-type ( XML::Element $e --> List ) {
         $type ~~ s:g/ '.' //;
         $raku-ntype = self.convert-ntype($n.attribs<c:type> // $type);
         $raku-rtype = self.convert-rtype($n.attribs<c:type> // $type);
+        $g-type = self.gobject-value-type($raku-ntype);
+      }
+
+      when 'array' {
+        # sometime there is no 'c:type', assume an array of strings
+        $type = $n.attribs<c:type> // 'gchar**';
+        $raku-ntype = self.convert-ntype($type);
+        $raku-rtype = self.convert-rtype($type);
         $g-type = self.gobject-value-type($raku-ntype);
       }
     }
@@ -1438,7 +1456,9 @@ method search-name ( Str $name is copy --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method convert-ntype ( Str $ctype is copy --> Str ) {
+method convert-ntype (
+  Str $ctype is copy, Bool :$return-type = False --> Str
+) {
   return '' unless ?$ctype;
 
   # ignore const
@@ -1473,10 +1493,10 @@ method convert-ntype ( Str $ctype is copy --> Str ) {
 
 #TODO int/num/pointers as '$x is rw'
     # ignore const
+    when /g? char \s* '**'/        { $raku-type = 'CArray[Str]'; }
     when /g? char \s* '*'/         { $raku-type = 'Str'; }
-    when /g? char \s* '*' \s* '*'/ { $raku-type = 'CArray[Str]'; }
     when /g? int \s* '*'/          { $raku-type = 'CArray[gint]'; }
-#    when /GtkWidget \s* '*'/       { $raku-type = 'N-GObject'; }
+    when /g? uint \s* '*'/         { $raku-type = 'CArray[guint]'; }
     when /GError \s* '*'/          { $raku-type = 'CArray[N-GError]'; }
 
     when 'void' { $raku-type = 'void'; }
@@ -1487,7 +1507,11 @@ method convert-ntype ( Str $ctype is copy --> Str ) {
 
       my Hash $h = self.search-name($ctype);
       given $h<gir-type> // '-' {
-        when 'class' { $raku-type = 'N-GObject'; }
+        when 'class' {
+          $raku-type = 'N-GObject';
+          $raku-type ~= '()' if $return-type;
+        }
+
         when 'enumeration' { $raku-type = 'GEnum'; }
         when 'bitfield' { $raku-type = 'GFlag'; }
 
@@ -1497,8 +1521,8 @@ method convert-ntype ( Str $ctype is copy --> Str ) {
 #        when '' { }
 
         default {
-          note 'Unknown gir type to convert to native raku type ', $h<gir-type> // '-',
-               ' for ctype ', $ctype;
+          note 'Unknown gir type to convert to native raku type ',
+            $h<gir-type> // '-', ' for ctype ', $ctype;
         }
       }
     }
@@ -1510,16 +1534,19 @@ method convert-ntype ( Str $ctype is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method convert-rtype ( Str $ctype is copy --> Str ) {
+method convert-rtype (
+  Str $ctype is copy, Bool :$return-type = False --> Str
+) {
   return '' unless ?$ctype;
 
   # ignore const
-  $ctype ~~ s:g/\s* const \s*//;
+  $ctype ~~ s:g/ const \s* [const \s* '*']? //;
 
   my Str $raku-type = '';
   with $ctype {
     when / g? boolean / {
       $raku-type = 'Bool';
+      $raku-type ~= '()';     # unless $return-type;
     }
 
     when any(<gchar gint gint16 gint32 gint64 gint8
@@ -1528,6 +1555,7 @@ method convert-rtype ( Str $ctype is copy --> Str ) {
          >
     ) {
       $raku-type = 'Int';
+      $raku-type ~= '()';     # unless $return-type;
     }
 
     when any(<guchar guint guint16 guint32 guint64
@@ -1535,10 +1563,12 @@ method convert-rtype ( Str $ctype is copy --> Str ) {
          uint8 ulong unichar ushort
          >) {
       $raku-type = 'UInt';
+      $raku-type ~= '()';     # unless $return-type;
     }
 
     when /g [float || double]/ {
       $raku-type = 'Num';
+      $raku-type ~= '()'      # unless $return-type;
     }
 
 #TODO check for any other types in gir files
@@ -1549,11 +1579,11 @@ method convert-rtype ( Str $ctype is copy --> Str ) {
 #    }
 
 #TODO int/num/pointers as '$x is rw'
+    when /g? char \s* '**'/        { $raku-type = 'Array[Str]'; }
     when /g? char \s* '*'/         { $raku-type = 'Str'; }
-    when /g? char \s* '*' \s* '*'/ { $raku-type = 'CArray[Str]'; }
-    when /g? int \s* '*'/          { $raku-type = 'CArray[gint]'; }
-#    when /GtkWidget \s* '*'/       { $raku-type = 'N-GObject'; }
-    when /GError \s* '*'/          { $raku-type = 'CArray[N-GError]'; }
+    when /g? int \s* '*'/          { $raku-type = 'Array[Int]'; }
+    when /g? uint \s* '*'/         { $raku-type = 'Array[UInt]'; }
+    when /GError \s* '*'/          { $raku-type = 'Array[N-GError]'; }
 
     when 'void' { $raku-type = 'void'; }
 
@@ -1563,9 +1593,22 @@ method convert-rtype ( Str $ctype is copy --> Str ) {
 
       my Hash $h = self.search-name($ctype);
       given $h<gir-type> // '-' {
-        when 'class' { $raku-type = 'N-GObject'; }
-        when 'enumeration' { $raku-type = 'Int'; }
-        when 'bitfield' { $raku-type = 'UInt'; }
+        when 'class' {
+          $raku-type = 'N-GObject';
+          $raku-type ~= '()' unless $return-type;
+        }
+
+        when 'enumeration' {
+          # All C enumerations are integers and can coerce to the enum type
+          # in input and output. Need to prefix package name because
+          # enumerations are mentioned without it
+          $raku-type = $h<rname> ~ '()';
+        }
+
+        when 'bitfield' {
+          $raku-type = 'UInt';
+          $raku-type ~= '()'      # unless $return-type;
+        }
 
 #        when 'record' { }
 #        when 'callback' { }
@@ -1751,7 +1794,15 @@ method !modify-classes ( Str $text is copy --> Str ) {
     my Hash $h = self.search-name($class-name);
     my Str $raku-name = $h<rname> // '';
 
-    if ?$raku-name {
+    if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
+      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name enumeration>/;
+    }
+    
+    elsif ?$h<gir-type> and $h<gir-type> eq 'bitfield' {
+      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name bitfield>/;
+    }
+    
+    elsif ?$raku-name {
       $text ~~ s:g/ '#'? $class-name /B<\x200B$raku-name>/;
     }
 
