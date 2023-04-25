@@ -108,8 +108,32 @@ method get-classes-from-gir ( ) {
       }
 
       when 'interface' {
-        $!other<interface>.push: $element;
+        my $attrs = $element.attribs;
+        my $name = $attrs<name>;
+        my Str $xml = qq:to/EOXML/;
+          <?xml version="1.0"?>
+          <!--
+            File is automatically generated from original gir files;
+            DO NOT EDIT!
+          -->
+          <repository version="1.2"
+                      xmlns="http://www.gtk.org/introspection/core/1.0"
+                      xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                      xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+              $xml-namespace
+              $element.Str()
+            </namespace>
+          </repository>
+          EOXML
+
+        my $xml-file = "$*work-data<gir-module-path>$name.gir";
+        note "Save class $name in '$xml-file'" if $*verbose;
+        $xml-file.IO.spurt($xml);
       }
+
+#      when 'interface' {
+#        $!other<interface>.push: $element;
+#      }
     }
 
 #note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
