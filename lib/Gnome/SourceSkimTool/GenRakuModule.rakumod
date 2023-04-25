@@ -831,29 +831,88 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
     $method-name ~~ s:g/ '_' /-/;
 
     # get parameter lists
-    my Str ( $par-list, $raku-list, $call-list, $items-doc) = ( '', '', '', '');
+    my Str (
+      $par-list, $raku-list, $call-list, $items-doc, $p-convert,
+      $return-list, $own, $returns-doc, $return-array-convert,
+      $return-carray,
+    ) =  '' xx 10;
+    my @rv-list = ();
 
     for @($curr-function<parameters>) -> $parameter {
-      $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
-      $call-list ~= ", \$$parameter<name>" unless $parameter<is-instance>;
-
+      $own = '';
+      my Int $a-count = 0;
       if ! $parameter<is-instance> {
-        my $xtype = $parameter<raku-rtype>;
-        $xtype ~= '()' if $xtype eq 'N-GObject';
-        $raku-list ~= [~] ', ', $xtype, ' $', $parameter<name>;
-        
-        my Str $own = '';
-        $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-          if ?$parameter<transfer-ownership> and
-             $parameter<transfer-ownership> ne 'none';
+        given my $xtype = $parameter<raku-ntype> {
+          when 'N-GObject' {
+            $raku-list ~= ", $xtype \$$parameter<name>";
+            $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+            $call-list ~= ", \$$parameter<name>";
+            $xtype ~= '()';
 
-        $items-doc ~= qq:to/EOPDOC/;
-          =item \$$parameter<name>; $own$parameter<doc>
-          EOPDOC
+            $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+              if ?$parameter<transfer-ownership> and
+                $parameter<transfer-ownership> ne 'none';
+            $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+          }
+
+          when 'CArray[Str]' {
+            $raku-list ~= ", $xtype \$$parameter<name>";
+            $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+            $call-list ~= ", \$ca$a-count";
+            $p-convert =
+              "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
+            $a-count++;
+
+            $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+              if ?$parameter<transfer-ownership> and
+                $parameter<transfer-ownership> ne 'none';
+            $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+          }
+
+          when 'CArray[gint]' {
+#            $raku-list ~= ", $xtype \$$parameter<name>";
+            my $ntype = 'gint';
+            #$ntype ~~ s:g/ [const || \s+ || '*'] //;
+            $par-list ~= ", $parameter<raku-ntype> \$$parameter<name> is rw";
+            @rv-list.push: "\$$parameter<name>";
+            $call-list ~= ", my $ntype \$$parameter<name>";
+
+            $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+          }
+#`{{
+          when 'CArray[UInt]' {
+            $raku-list ~= ", $xtype \$$parameter<name>";
+            $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+            $call-list ~= ", \$ca$a-count";
+            $p-convert =
+              "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
+            $a-count++;
+          }
+
+          when 'CArray[N-GError]' {
+            $raku-list ~= ", $xtype \$$parameter<name>";
+            $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+            $call-list ~= ", \$ca$a-count";
+            $p-convert =
+              "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
+            $a-count++;
+          }
+}}
+
+          default {
+            $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+            $call-list ~= ", \$$parameter<name>";
+            $raku-list ~= ", $xtype \$$parameter<name>";
+
+            $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+              if ?$parameter<transfer-ownership> and
+                $parameter<transfer-ownership> ne 'none';
+            $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+          }
+        }
       }
     }
 
-    my Str $returns-doc = '';
     my $xtype = $curr-function<return-raku-ntype>;
     if ?$xtype and $xtype ne 'void' {
       $par-list ~= " --> $xtype";
@@ -868,6 +927,29 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
             $curr-function<transfer-ownership> ne 'none';
 
       $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+
+      if $xtype eq 'Array[Str]' {
+        $return-array-convert = q:to/EOCNV/;
+
+          my Int $i = 0;
+          my @a = ();
+          while $ca[$i].defined {
+            @a.push: $ca[$i++];
+          }
+
+          @a
+        EOCNV
+
+        $return-carray = '  my CArray[Str] $ca =';
+      }
+    }
+
+    # Assumed that there are no multiple methods to return values. I.e not
+    # returning an array and pointer arguments to receive values in those vars.
+    elsif ?@rv-list {
+      $returns-doc = "Returns a List holding the values\n$returns-doc";
+      $return-list = [~] '  (', @rv-list.join(', '), ")\n";
+      $raku-list ~= " --> List";
     }
 
 
@@ -919,7 +1001,16 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
       method $method-name \(
        $raku-list
       \) \{
-        $function-name\( $nobject-retrieve$call-list\)
+ 
+      EOSUB
+
+    $doc ~= $p-convert if ?$p-convert;
+    $doc ~= $return-carray if ?$return-carray;
+    $doc ~= "  $function-name\( $nobject-retrieve$call-list\)\n";
+    $doc ~= $return-array-convert if ?$return-array-convert;
+    $doc ~= $return-list if ?$return-list;
+
+    $doc ~= qq:to/EOSUB/;
       \}
 
       sub $function-name \(
@@ -1539,8 +1630,9 @@ method convert-rtype (
 ) {
   return '' unless ?$ctype;
 
-  # ignore const
-  $ctype ~~ s:g/ const \s* [const \s* '*']? //;
+  # ignore const and spaces
+  $ctype ~~ s:g/ const //;
+  $ctype ~~ s:g/ \s+ //;
 
   my Str $raku-type = '';
   with $ctype {
@@ -1579,16 +1671,16 @@ method convert-rtype (
 #    }
 
 #TODO int/num/pointers as '$x is rw'
-    when /g? char \s* '**'/        { $raku-type = 'Array[Str]'; }
-    when /g? char \s* '*'/         { $raku-type = 'Str'; }
-    when /g? int \s* '*'/          { $raku-type = 'Array[Int]'; }
-    when /g? uint \s* '*'/         { $raku-type = 'Array[UInt]'; }
-    when /GError \s* '*'/          { $raku-type = 'Array[N-GError]'; }
+    when /g? char '**'/        { $raku-type = 'Array[Str]'; }
+    when /g? char '*'/         { $raku-type = 'Str'; }
+    when /g? int '*'/          { $raku-type = 'Array[Int]'; }
+    when /g? uint '*'/         { $raku-type = 'Array[UInt]'; }
+    when /GError '*'/          { $raku-type = 'Array[N-GError]'; }
 
     when 'void' { $raku-type = 'void'; }
 
     default {
-      # remove any pointer marks
+      # remove any pointer marks because objects are provided by pointer
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = self.search-name($ctype);
@@ -1623,7 +1715,7 @@ method convert-rtype (
     }
   }
 
-#say "$?LINE: convert raku type; '$ctype' -> '$raku-type'" if $ctype ~~ m/ gchar /;
+#say "$?LINE: convert raku type; '$ctype' -> '$raku-type'" if $ctype ~~ m/ char /;
 
   $raku-type
 }
