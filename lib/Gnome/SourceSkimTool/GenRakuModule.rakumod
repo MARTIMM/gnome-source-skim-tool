@@ -2,6 +2,7 @@
 use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::SkimGtkDoc;
 use Gnome::SourceSkimTool::ConstEnumType;
+use Gnome::SourceSkimTool::SearchAndSubstitute;
 
 use XML;
 use XML::XPath;
@@ -9,18 +10,25 @@ use XML::XPath;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::GenRakuModule:auth<github:MARTIMM>;
 
+has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
+
 has XML::XPath $!xpath;
 has Hash $!object-maps;
 has Hash $!other-work-data;
+has Bool $!make-role;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
+  $!sas .= new;
+
 #TODO add rules for gdkPixbuf, etc.
 
   # Because of dependencies it is possible to have less to load when
   # we need to search
 
   note "Prepare for module generation" if $*verbose;
+
+  $!make-role = False;
 
   # get workdata for other gnome packages
   my Gnome::SourceSkimTool::Prepare $p .= new;
@@ -144,6 +152,10 @@ submethod BUILD ( ) {
 method generate-raku-module ( ) {
 
   my XML::Element $class-element = $!xpath.find('//class');
+  unless ?$class-element {
+    $class-element = $!xpath.find('//interface');
+    $!make-role = True;
+  }
 
   my $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
@@ -165,8 +177,16 @@ method generate-raku-module ( ) {
 
 #TODO generate types and enumerations
 
-  note "Generate BUILD submethod" if $*verbose;  
-  $module-doc ~= self!generate-build( $class-element, $sig-info);
+  # Roles do not have a BUILD
+  if $!make-role {
+    note "Generate role initialization method" if $*verbose;  
+    $module-doc ~= self!generate-role-init( $class-element, $sig-info);
+  }
+
+  else {
+    note "Generate BUILD submethod" if $*verbose;  
+    $module-doc ~= self!generate-build( $class-element, $sig-info);
+  }
 
   note "Generate module methods" if $*verbose;  
   $module-doc ~= self!generate-methods($class-element);
@@ -184,9 +204,12 @@ method generate-raku-module ( ) {
 #-------------------------------------------------------------------------------
 method generate-raku-module-test ( ) {
 
+  # Roles are tested via modules using the Role
+  return if $!make-role;
+
   my XML::Element $class-element = $!xpath.find('//class');
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
 
   my Str $test-variable = '$' ~ $*gnome-class.lc;
   my $module-test-doc = qq:to/EOTEST/;
@@ -339,10 +362,10 @@ method !get-description ( XML::Element $class-element --> Str ) {
   #$doc ~= $!xpath.find( 'doc/text()', :start($class-element)).Str;
   my Str $widget-picture = '';
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n" if $h<inheritable>;
 
-  $doc ~= self!modify-text(
+  $doc ~= $!sas.modify-text(
     $!xpath.find( 'doc/text()', :start($class-element)).Str
   );
 
@@ -379,7 +402,7 @@ method !set-inherit-example ( XML::Element $class-element --> Str ) {
 
   my Str $doc = '';
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
 
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
@@ -427,6 +450,7 @@ method !set-example ( --> Str ) {
 method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
   my Str $use-enums;
+#  my Str $class-type = $!make-role ?? 'role' !! 'class';
 
   if $*gnome-package.Str ~~ / '3' $/ {
     $use-enums = "#use Gnome::Gtk3::Enums;\n";
@@ -438,7 +462,7 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
   my Str ( $use-parent, $also-is);
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
 
   my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
@@ -464,9 +488,9 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
     $use-enums$use-parent
 
     {HLSEPARATOR}
-    {SEPARATOR('Class Declaration');}
+    {SEPARATOR(($!make-role ?? 'Role' !! 'Class') ~ ' Declaration');}
     {HLSEPARATOR}
-    unit class {$*work-data<raku-class-name>}:auth<github:MARTIMM>;
+    unit {$!make-role ?? 'role' !! 'class'} $*work-data<raku-class-name>:auth<github:MARTIMM>;
     $also-is
     RAKUMOD
 
@@ -483,13 +507,24 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 #-------------------------------------------------------------------------------
 method !generate-build ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
-  my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+#  my Str $ctype = $class-element.attribs<c:type>;
+#  my Hash $h = $!sas.search-name($ctype);
 
   my Hash $hcs = self!get-constructors($class-element);
   my Str $doc = self!make-build-doc( $class-element, $hcs);
   $doc ~= self!make-build-submethod( $class-element, $hcs, $sig-info);
   $doc ~= self!make-native-constructor-subs($hcs);
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method !generate-role-init (
+  XML::Element $class-element, Hash $sig-info --> Str
+) {
+#  my Str $ctype = $class-element.attribs<c:type>;
+#  my Hash $h = $!sas.search-name($ctype);
+  my Str $doc ~= self!make-init-method( $class-element, $sig-info);
 
   $doc
 }
@@ -578,7 +613,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
     $hcs{$function-name}<variable-map> = $variable-map;
 
     # Modify variable names in the build doc and replace ____FUNCTIONDOC___
-    my Str $d = self!modify-build-variables(
+    my Str $d = $!sas.modify-build-variables(
       $hcs{$function-name}<function-doc>, $variable-map
     );
     $build-doc ~~ s/ '____FUNCTIONDOC___' /$d/;
@@ -600,7 +635,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
   if $h<inheritable> {
     $doc ~= qq:to/EOBUILD/;
 
@@ -623,7 +658,7 @@ method !make-build-submethod (
   XML::Element $class-element, Hash $hcs, Hash $sig-info --> Str
 ) {
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
 
   my Str $doc = qq:to/EOBUILD/;
     #TM:1:inheriting
@@ -662,7 +697,7 @@ method !make-build-submethod (
 
   # Check if inherit code is to be inserted
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = self.search-name($ctype);
+#  my Hash $h = $!sas.search-name($ctype);
   if $h<inheritable> {
     $doc ~= [~] '  # prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'",
@@ -809,10 +844,61 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+#`{{ NOTE; roles
+role A { method x (--> Int) {10;} }
+role B { method x (--> Int) {10;} }
+class D does A does B { method x (--> Int) {self.A::x + self.B::x} }
+my D $x .= new;
+$x.x.say      # output: 20
+}}
+
+method !make-init-method (
+  XML::Element $class-element, Hash $hcs, Hash $sig-info --> Str
+) {
+#  my Str $ctype = $class-element.attribs<c:type>;
+#  my Hash $h = $!sas.search-name($ctype);
+
+  my Str $doc = qq:to/EOBUILD/;
+    #TM:1:inheriting
+    #TM:1:new(:text):
+    #TM:1:new(:mnemonic):
+    #TM:1:new(:native-object):
+    #TM:1:new(:build-id):
+    method init- ( *\%options ) \{
+    EOBUILD
+
+  # Check if signal admin is needed
+  if ?$sig-info<doc> {
+#:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
+#:w1<populate-popup activate-link>,
+    my Hash $signal-levels = %();
+    for $sig-info<signals>.keys -> $signal-name {
+      my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
+      $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
+      $signal-levels{$level}.push: $signal-name;
+    }
+
+    my Str $sig-list = '';
+    for ^10 -> Str() $level {
+      if ?$signal-levels{$level} {
+        $sig-list ~=
+           [~] '    :w', $level, '<', $signal-levels{$level}.join(' '), ">,\n";
+      }
+    }
+
+    $doc ~= qq:to/EOBUILD/;
+        \$signals-added = self\.add-signal-types\( \$?CLASS\.^name,
+      $sig-list  ) unless \$signals-added;
+
+      EOBUILD
+  }
+}
+
+#-------------------------------------------------------------------------------
 method !generate-methods ( XML::Element $class-element --> Str ) {
 
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
   my Bool $is-leaf = $h<leaf>;
   my Str $symbol-prefix = $h<symbol-prefix>;
 
@@ -1001,7 +1087,7 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
       method $method-name \(
        $raku-list
       \) \{
- 
+
       EOSUB
 
     $doc ~= $p-convert if ?$p-convert;
@@ -1039,8 +1125,8 @@ method !generate-signals ( XML::Element $class-element --> Hash ) {
 
     # signal documentation
     my Str $signal-name = $attribs<name>;
-    my Str $sdoc = self!cleanup(
-      self!modify-text(($!xpath.find( 'doc/text()', :start($si)) // '').Str)
+    my Str $sdoc = $!sas.cleanup(
+      $!sas.modify-text(($!xpath.find( 'doc/text()', :start($si)) // '').Str)
     );
     my Hash $curr-signal := $signals{$signal-name} = %(:$sdoc,);
 #    $curr-signal = %(:$sdoc,);
@@ -1300,8 +1386,8 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
     $option-name = '-' if $option-name ~~ m/^ \s* $/;
   }
 
-  $function-doc = self!cleanup(
-    self!modify-text(($!xpath.find( 'doc/text()', :start($e)) // '').Str)
+  $function-doc = $!sas.cleanup(
+    $!sas.modify-text(($!xpath.find( 'doc/text()', :start($e)) // '').Str)
   );
 
   my XML::Element $rvalue = $!xpath.find( 'return-value', :start($e));
@@ -1367,31 +1453,38 @@ method get-doc-type ( XML::Element $e --> List ) {
     next if $n ~~ XML::Text;
     with $n.name {
       when 'doc' {
-        $doc = self!cleanup(
-          self!modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
+        $doc = $!sas.cleanup(
+          $!sas.modify-text(($!xpath.find( 'text()', :start($n)) // '').Str)
         );
       }
 
       when 'type' {
         $type = $n.attribs<name>;
         $type ~~ s:g/ '.' //;
-        $raku-ntype = self.convert-ntype($n.attribs<c:type> // $type);
-        $raku-rtype = self.convert-rtype($n.attribs<c:type> // $type);
-        $g-type = self.gobject-value-type($raku-ntype);
+        $raku-ntype = $!sas.convert-ntype($n.attribs<c:type> // $type);
+        $raku-rtype = $!sas.convert-rtype($n.attribs<c:type> // $type);
+        $g-type = $!sas.gobject-value-type($raku-ntype);
       }
 
       when 'array' {
         # sometime there is no 'c:type', assume an array of strings
         $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = self.convert-ntype($type);
-        $raku-rtype = self.convert-rtype($type);
-        $g-type = self.gobject-value-type($raku-ntype);
+        $raku-ntype = $!sas.convert-ntype($type);
+        $raku-rtype = $!sas.convert-rtype($type);
+        $g-type = $!sas.gobject-value-type($raku-ntype);
       }
     }
   }
 
   ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
 }
+
+
+
+
+
+
+=finish
 
 #-------------------------------------------------------------------------------
 method gobject-value-type( Str $ctype --> Str ) {
@@ -1508,7 +1601,7 @@ method gobject-value-type( Str $ctype --> Str ) {
     }
 
     default {
-      my Hash $h = self.search-name($ctype);
+      my Hash $h = $!sas.search-name($ctype);
       if ?$h<gir-type> {
         $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
         $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
@@ -1518,32 +1611,6 @@ method gobject-value-type( Str $ctype --> Str ) {
   }
 
   $g-type
-}
-
-#-------------------------------------------------------------------------------
-method search-name ( Str $name is copy --> Hash ) {
-
-  my Hash $h = %();
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-
-    # It is possible that not all hashes are loaded
-    next unless $!object-maps{$map-name}:exists
-            and ( $!object-maps{$map-name}{$name}:exists 
-                  or $!object-maps{$map-name}{$map-name ~ $name}:exists
-                );
-
-    # Get the Hash from the object maps
-    $h = $!object-maps{$map-name}{$name}
-         // $!object-maps{$map-name}{$map-name ~ $name};
-
-    # Add package name to this hash
-    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
-    last;
-  }
-
-#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
-
-  $h
 }
 
 #-------------------------------------------------------------------------------
@@ -1596,11 +1663,11 @@ method convert-ntype (
       # remove any pointer marks
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = self.search-name($ctype);
+      my Hash $h = $!sas.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
-          $raku-type ~= '()' if $return-type;
+          $raku-type ~= '()' unless $return-type;
         }
 
         when 'enumeration' { $raku-type = 'GEnum'; }
@@ -1608,7 +1675,10 @@ method convert-ntype (
 
 #        when 'record' { }
 #        when 'callback' { }
-#        when 'interface' { }
+        when 'interface' {
+          $raku-type = 'N-GObject';
+          $raku-type ~= '()' unless $return-type;          
+        }
 #        when '' { }
 
         default {
@@ -1683,7 +1753,7 @@ method convert-rtype (
       # remove any pointer marks because objects are provided by pointer
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = self.search-name($ctype);
+      my Hash $h = $!sas.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -1704,7 +1774,10 @@ method convert-rtype (
 
 #        when 'record' { }
 #        when 'callback' { }
-#        when 'interface' { }
+        when 'interface' {
+          $raku-type = 'N-GObject';
+          $raku-type ~= '()' unless $return-type;          
+        }
 #        when '' { }
 
         default {
@@ -1718,6 +1791,32 @@ method convert-rtype (
 #say "$?LINE: convert raku type; '$ctype' -> '$raku-type'" if $ctype ~~ m/ char /;
 
   $raku-type
+}
+
+#-------------------------------------------------------------------------------
+method search-name ( Str $name is copy --> Hash ) {
+
+  my Hash $h = %();
+  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+
+    # It is possible that not all hashes are loaded
+    next unless $!object-maps{$map-name}:exists
+            and ( $!object-maps{$map-name}{$name}:exists 
+                  or $!object-maps{$map-name}{$map-name ~ $name}:exists
+                );
+
+    # Get the Hash from the object maps
+    $h = $!object-maps{$map-name}{$name}
+         // $!object-maps{$map-name}{$map-name ~ $name};
+
+    # Add package name to this hash
+    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
+    last;
+  }
+
+#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
+
+  $h
 }
 
 #-------------------------------------------------------------------------------
@@ -1846,7 +1945,7 @@ method !modify-functions ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
-    my Hash $h = self.search-name($function-name);
+    my Hash $h = $!sas.search-name($function-name);
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
     
@@ -1883,7 +1982,7 @@ method !modify-classes ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-    my Hash $h = self.search-name($class-name);
+    my Hash $h = $!sas.search-name($class-name);
     my Str $raku-name = $h<rname> // '';
 
     if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
