@@ -27,7 +27,7 @@ submethod BUILD ( ) {
     :callback([]),
     :bitfield([]),
     :enumeration([]),
-    :interface([]),
+#    :interface([]),
   );
 }
 
@@ -141,11 +141,19 @@ method get-classes-from-gir ( ) {
   }
 
   # Before we save the map find out which classes are at the bottom (≡ leaf)
-  # Also we want to know which classes will be inheritable
+  # Also we want to know which classes will be inheritable. It is now decided to
+  # only have decendents from GtkWidget be able to inherit.
+  # The classes which implement a role ( a C-interface) must be checked if the
+  # parent has also the same role. Only the topmost class can implement this
+  # role in Raku. All decendents will have access to the methods and signals
+  # defined in that role.
   for $!map.keys -> $entry-name {
+
     # Skip all other types
     next unless $!map{$entry-name}<gir-type> eq 'class';
+
     $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
+    self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
 
     # If there is a leaf and is False, then all parents are also set False
     next if $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
@@ -168,6 +176,52 @@ method get-classes-from-gir ( ) {
 
   self!save-other($xml-namespace);
   self!save-map;
+}
+
+#-------------------------------------------------------------------------------
+method !set-real-role-user( Str $entry-name ) {
+
+  # Check all roles for this class
+  for @($!map{$entry-name}<roles>) -> $role-name {
+    self!check-parent-role( $entry-name, $role-name);
+  }
+}
+
+#-------------------------------------------------------------------------------
+method !check-parent-role ( Str $entry-name, Str $role-name ) {
+  my $parent-entry = $!map{$entry-name}<parent-gnome-name>;
+
+  # Stop when parent is GObject or GInitiallyUnowned. They have
+  # no roles implemented
+  if !$parent-entry or ($parent-entry ~~ any(<GObject GInitiallyUnowned>)) {
+    $!map{$entry-name}<implement-roles> = []
+      unless $!map{$entry-name}<implement-roles>:exists;
+
+    # Add role name unless done before
+    unless $!map{$entry-name}<implement-roles>.first($role-name) {
+      $!map{$entry-name}<implement-roles>.push: $role-name;
+      note "Implement $role-name in class $!map{$entry-name}<rname>"
+        if $*verbose;
+    }
+  }
+
+  # Search using parent entry when role name is found in roles array
+  elsif ?$parent-entry and ?$!map{$parent-entry}<roles>.first($role-name) {
+    self!check-parent-role( $parent-entry, $role-name);
+  }
+
+  # If not found in parents role array then this class must implement it
+  else {
+    $!map{$entry-name}<implement-roles> = []
+      unless $!map{$entry-name}<implement-roles>:exists;
+
+    # Add role name unless done before
+    unless $!map{$entry-name}<implement-roles>.first($role-name) {
+      $!map{$entry-name}<implement-roles>.push: $role-name;
+      note "Implement $role-name in class $!map{$entry-name}<rname>"
+        if $*verbose;
+    }
+  }
 }
 
 #-------------------------------------------------------------------------------
@@ -304,7 +358,7 @@ method !map-element (
     # 'role'
     when 'interface' {
       $!map{$attrs<c:type>} = %(
-        :gir-type<interface>,
+        :gir-type<interface>, :!leaf,
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
       );
