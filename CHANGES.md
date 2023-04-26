@@ -1,14 +1,22 @@
 ## Change log
 
 <!--
-TODO find highest place of role use and remove lower role entries where it is mentioned
+TODO Solve references to roles defined in other packages
 TODO modify markdown links in text or in Raku links when it shows use of url
-  
+
 TODO Add explanations of module documentation layout in the references of the documentation on site. Add info about the glib types used and what it means in Raku. That properties are mostly not needed because of their getters and setters.
 
--->
-* 2023-04-20 0.5.6
   * Generate enumerations and bitmasks(also enums)
+  * Generate Roles from C interfaces
+-->
+* 2023-04-26 0.6.0
+  * Move methods from GenRakuModule to a new module SearchAndSubstitute
+
+* 2023-04-20 0.5.6
+  * Generate different types of methods depending on arguments and return types.
+    * Coercion to native types for objects and other Raku types.
+    * Return List for pointer variables who get values returned that way.
+    * Convert Str Array's to and from native CArray's.
 
 * 2023-04-17 0.5.5
   * Generate methods.
