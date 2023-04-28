@@ -1,7 +1,6 @@
 ## Change log
 
 <!--
-TODO Solve references to roles defined in other packages
 TODO modify markdown links in text or in Raku links when it shows use of url
 
 TODO Add explanations of module documentation layout in the references of the documentation on site. Add info about the glib types used and what it means in Raku. That properties are mostly not needed because of their getters and setters.
@@ -21,6 +20,8 @@ TODO
 
 TODO
   method argument handling of CArray/Array
+TODO
+  variable argument lists
 
   * Generate enumerations and bitmasks(also enums)
   * Generate functions
