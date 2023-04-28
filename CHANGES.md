@@ -6,11 +6,29 @@ TODO modify markdown links in text or in Raku links when it shows use of url
 
 TODO Add explanations of module documentation layout in the references of the documentation on site. Add info about the glib types used and what it means in Raku. That properties are mostly not needed because of their getters and setters.
 
+TODO
+  Unknown gir type to convert to native raku type 'record' for ctype 'GtkRecentInfo'
+  Unknown gir type to convert to raku type 'record' for ctype 'GtkRecentInfo', '(Any)'
+  Unknown gir type to convert to native raku type 'record' for ctype 'GList'
+  Unknown gir type to convert to raku type 'record' for ctype 'GList', '(Any)'
+  Unknown gir type to convert to native raku type 'record' for ctype 'GSList'
+  Unknown gir type to convert to raku type 'record' for ctype 'GSList', '(Any)'
+  Unknown gir type to convert to native raku type 'callback' for ctype 'GtkRecentSortFunc'
+  Unknown gir type to convert to raku type 'callback' for ctype 'GtkRecentSortFunc', '(Any)'
+  Unknown gir type to convert to raku type '-' for ctype 'gpointer', '(Any)'
+  Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
+  Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
+
+TODO
+  method argument handling of CArray/Array
+
   * Generate enumerations and bitmasks(also enums)
-  * Generate Roles from C interfaces
+  * Generate functions
 -->
 * 2023-04-26 0.6.0
   * Move methods from GenRakuModule to a new module SearchAndSubstitute
+  * Generating roles
+  * Importing roles
 
 * 2023-04-20 0.5.6
   * Generate different types of methods depending on arguments and return types.
