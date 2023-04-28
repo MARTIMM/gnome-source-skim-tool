@@ -197,6 +197,8 @@ method generate-raku-module ( ) {
     $module-doc ~= self!generate-build( $class-element, $sig-info);
   }
 
+  $module-doc ~= self!add-deprecatable-method;
+
   note "Generate module methods" if $*verbose;  
   $module-doc ~= self!generate-methods($class-element);
 
@@ -1530,6 +1532,136 @@ method generate-raku-module-test ( ) {
   note "Save module test";
   $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
 }
+
+#-------------------------------------------------------------------------------
+method !add-deprecatable-method ( --> Str ) {
+
+  my Str $doc = '';
+
+#  if $!make-role {
+    my Str $pfix = $*work-data<sub-prefix>;
+    my Str $pfix-dash = $*work-data<sub-prefix>;
+    $pfix-dash ~~ s:g/ '_' /-/;
+    $pfix-dash.chop(1);
+    my Str $package = $*gnome-package.Str;
+    my Str $mname = $!make-role ?? "_{$pfix}interface" !! '_fallback';
+
+    $package ~~ s/ \d //;
+
+    $doc ~= qq:to/EODEPR/;
+
+      #`\{\{
+        Older modules might still have it and must remove after
+        deprecation date. New methods must not implement this.
+
+      {HLSEPARATOR}
+      # no pod. user does not have to know about it.
+      # Hook for modules using this interface. Same principle as _fallback but
+      # does not need callsame. Also this method must be usable without
+      # an instated object
+      method _{$pfix}interface \( Str \$native-sub --> Callable ) \{
+
+        my Str \$new-patt = \$native-sub.subst\( '_', '-', :g);
+
+        my Callable \$s;
+        try \{ \$s = \&::\("$pfix\$native-sub"); \};
+        if ?\$s \{
+          Gnome::N::deprecate\(
+            "$pfix\$native-sub", \$new-patt, '0.47.4', '0.50.0'
+          );
+        \}
+
+        else \{
+          try \{ \$s = \&::\("{$package}_\$native-sub"); \} unless ?\$s;
+          if ?\$s \{
+            Gnome::N::deprecate\(
+              "{$package}_\$native-sub", \$new-patt.subst\('{$pfix-dash}'),
+              '0.47.4', '0.50.0'
+            );
+          \}
+
+          else \{
+            try \{ \$s = \&::\(\$native-sub); \} if !\$s and \$native-sub ~~ m/^ '{$package}_' /;
+            if ?\$s \{
+              Gnome::N::deprecate\(
+                "\$native-sub", \$new-patt.subst\('{$pfix-dash}'),
+                '0.47.4', '0.50.0'
+              );
+            \}
+          \}
+        \}
+
+        \$s
+      \}
+      \}\}
+
+      EODEPR
+#`{{
+
+  }
+
+  else {
+    $doc = qq:to/EODEPR/;
+
+      #`\{\{
+        Older modules might still have it and remove after deprecation date.
+        New methods must not implement this.
+
+      {HLSEPARATOR}
+      # no pod. user does not have to know about it.
+      method _fallback ( $native-sub is copy --> Callable ) {
+
+        my Str $new-patt = $native-sub.subst( '_', '-', :g);
+
+        my Callable $s;
+        try { $s = &::("gtk_color_button_$native-sub"); };
+        if ?$s {
+          Gnome::N::deprecate(
+            "gtk_color_button_$native-sub", $new-patt, '0.47.4', '0.50.0'
+          );
+        }
+
+        else {
+          try { $s = &::("gtk_$native-sub"); } unless ?$s;
+          if ?$s {
+            Gnome::N::deprecate(
+              "gtk_$native-sub", $new-patt.subst('color-button-'),
+              '0.47.4', '0.50.0'
+            );
+          }
+
+          else {
+            try { $s = &::($native-sub); } if !$s and $native-sub ~~ m/^ 'gtk_' /;
+            if ?$s {
+              Gnome::N::deprecate(
+                "$native-sub", $new-patt.subst('gtk-color-button-'),
+                '0.47.4', '0.50.0'
+              );
+            }
+
+            else {
+              $s = self._color_chooser_interface($native-sub);
+            }
+          }
+        }
+
+        self._set-class-name-of-sub('GtkColorButton');
+        $s = callsame unless ?$s;
+
+        $s;
+      }
+      EODEPR
+  }
+}}
+
+  $doc
+}
+
+
+
+
+
+
 
 
 
