@@ -19,7 +19,10 @@ has Bool $!make-role;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
-  $!sas .= new;
+  $!other-work-data = %();
+  $!object-maps = %();
+
+  $!sas .= new(:gen-raku-module(self)); #( :$!other-work-data, :$!other-work-data);
 
 #TODO add rules for gdkPixbuf, etc.
 
@@ -32,7 +35,6 @@ submethod BUILD ( ) {
 
   # get workdata for other gnome packages
   my Gnome::SourceSkimTool::Prepare $p .= new;
-  $!other-work-data = %();
 
   # Version 3
   if $*gnome-package.Str ~~ / '3' $/ {
@@ -64,7 +66,6 @@ submethod BUILD ( ) {
   # get object maps
   my Hash $promises = %();
   my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
-  $!object-maps = %();
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
     $promises<atk> = Promise.start({
       $s.load-map($!other-work-data<Atk><gir-module-path>);
@@ -116,7 +117,6 @@ submethod BUILD ( ) {
 ##`{{
   # get object maps
   my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
-  $!object-maps = %();
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
     $!object-maps<Atk> = $s.load-map($!other-work-data<Atk><gir-module-path>);
     $!object-maps<Gtk> = $s.load-map($!other-work-data<Gtk><gir-module-path>);
@@ -157,12 +157,21 @@ method generate-raku-module ( ) {
     $!make-role = True;
   }
 
+  my Str $description-comment;
+  if $!make-role {
+    $description-comment = 'Role Description';
+  }
+  
+  else {
+    $description-comment = 'Class Description';
+  }
+
   my $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
     use v6;
 
     {HLSEPARATOR}
-    {SEPARATOR('Class Description');}
+    {SEPARATOR($description-comment);}
     {HLSEPARATOR}
     RAKUMOD
 
@@ -202,158 +211,6 @@ method generate-raku-module ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module-test ( ) {
-
-  # Roles are tested via modules using the Role
-  return if $!make-role;
-
-  my XML::Element $class-element = $!xpath.find('//class');
-  my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-
-  my Str $test-variable = '$' ~ $*gnome-class.lc;
-  my $module-test-doc = qq:to/EOTEST/;
-    use v6;
-    use NativeCall;
-    use Test;
-
-    use $*work-data<raku-class-name>;
-
-    use Gnome::N::GlibToRakuTypes;
-    use Gnome::N::N-GObject;
-    #use Gnome::N::X;
-    #Gnome::N::debug(:on);
-
-    {HLSEPARATOR}
-    my $*work-data<raku-class-name> $test-variable;
-    
-    {HLSEPARATOR}
-    subtest 'ISA test', \{
-      $test-variable .= new;
-      isa-ok $test-variable, $*work-data<raku-class-name>, '.new\()';
-    \}
-
-    {HLSEPARATOR}
-    # set environment variable 'raku-test-all' if rest must be tested too.
-    unless \%*ENV<raku_test_all>:exists \{
-      done-testing;
-      exit;
-    \}
-
-    EOTEST
-
-    # check if class is inheritable
-    if $h<inheritable> {
-      $module-test-doc ~= qq:to/EOTEST/;
-      {HLSEPARATOR}
-      subtest 'Inherit $*work-data<raku-class-name>', \{
-        class MyClass is $*work-data<raku-class-name> \{
-          method new \( |c ) \{
-            self.bless\( :$*work-data<gnome-name>, |c);
-          }
-
-          submethod BUILD \( *\%options ) \{
-
-          }
-        }
-
-        my MyClass $test-variable .= new;
-        isa-ok $test-variable, $*work-data<raku-class-name>, 'MyClass.new\()';
-      }
-      EOTEST
-    }
-
-    $module-test-doc ~= qq:to/EOTEST/;
-
-    {HLSEPARATOR}
-    done-testing;
-
-    =finish
-
-
-    {HLSEPARATOR}
-    subtest 'Manipulations', \{
-    \}
-
-    {HLSEPARATOR}
-    subtest 'Signals …', \{
-      use Gnome::Gtk3::Main;
-      use Gnome::N::GlibToRakuTypes;
-
-      my Gnome::Gtk3::Main \$main .= new;
-
-      class SignalHandlers \{
-        has Bool \$!signal-processed = False;
-
-        method … \(
-          'any-args',
-          $*work-data<raku-class-name>\(\) :\$_native-object, gulong :\$_handler-id
-          # --> …
-        ) \{
-
-          isa-ok \$_native-object, $*work-data<raku-class-name>;
-          \$!signal-processed = True;
-        }
-
-        method signal-emitter \( $*work-data<raku-class-name> :\$_widget --> Str ) \{
-
-          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
-
-          \$_widget.emit-by-name\(
-            'signal',
-          #  'any-args',
-          #  :return-type(int32),
-          #  :parameters([int32,])
-          );
-          is \$!signal-processed, True, '\'…\' signal processed';
-
-          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
-
-          #\$!signal-processed = False;
-          #\$_widget.emit-by-name\(
-          #  'signal',
-          #  'any-args',
-          #  :return-type\(int32),
-          #  :parameters\(\[int32,])
-          #);
-          #is \$!signal-processed, True, '\'…\' signal processed';
-
-          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
-          sleep(0.4);
-          \$main.gtk-main-quit;
-
-          'done'
-        }
-      }
-
-      my $*work-data<raku-class-name> $test-variable .= new;
-
-      #my Gnome::Gtk3::Window \$w .= new;
-      #\$w.add(\$m);
-
-      my SignalHandlers \$sh .= new;
-      $test-variable.register-signal\( \$sh, 'method', 'signal');
-
-      my Promise \$p = \$i.start-thread\(
-        \$sh, 'signal-emitter',
-        # :!new-context,
-        # :start-time\(now + 1)
-      );
-
-      is \$main.gtk-main-level, 0, "loop level 0";
-      \$main.gtk-main;
-      #is \$main.gtk-main-level, 0, "loop level is 0 again";
-
-      is \$p.result, 'done', 'emitter finished';
-    }
-
-    EOTEST
-
-  note "Save module test";
-  $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
-}
-
-#-------------------------------------------------------------------------------
 method !get-description ( XML::Element $class-element --> Str ) {
   my Str $doc = "=head1 Description\n";
 
@@ -362,7 +219,7 @@ method !get-description ( XML::Element $class-element --> Str ) {
   #$doc ~= $!xpath.find( 'doc/text()', :start($class-element)).Str;
   my Str $widget-picture = '';
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = self.search-name($ctype);
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n" if $h<inheritable>;
 
   $doc ~= $!sas.modify-text(
@@ -378,6 +235,7 @@ method !get-description ( XML::Element $class-element --> Str ) {
   qq:to/RAKUMOD/;
     =begin pod
     =head1 $*work-data<raku-class-name>
+
     $widget-picture$doc
     =end pod
     RAKUMOD
@@ -402,7 +260,7 @@ method !set-inherit-example ( XML::Element $class-element --> Str ) {
 
   my Str $doc = '';
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = self.search-name($ctype);
 
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
@@ -449,30 +307,35 @@ method !set-example ( --> Str ) {
 #-------------------------------------------------------------------------------
 method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
-  my Str $use-enums;
-#  my Str $class-type = $!make-role ?? 'role' !! 'class';
-
+  # Insert a commented import of enums module
+  my Str ( $imports, $also) = '' xx 3;
   if $*gnome-package.Str ~~ / '3' $/ {
-    $use-enums = "#use Gnome::Gtk3::Enums;\n";
+    $imports = "#use Gnome::Gtk3::Enums;\n";
   }
 
   elsif $*gnome-package.Str ~~ / '4' $/ {
-    $use-enums = "#use Gnome::Gtk4::Enums;\n";
+    $imports = "#use Gnome::Gtk4::Enums;\n";
   }
 
-  my Str ( $use-parent, $also-is);
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = self.search-name($ctype);
 
+  # Check for parent class. There are never more than one.
   my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
-    $use-parent = "use $parent;\n";
-    $also-is = "also is $parent;\n";
+    $imports ~= "use $parent;\n";
+    $also ~= "also is $parent;\n";
   }
 
-  else {
-    $use-parent = $also-is = '';
+  # Check for roles to implement
+  my Array $roles = $h<implement-roles>//[];
+  for @$roles -> $role {
+    my Hash $role-h = self.search-name($role);
+note "$?LINE role=$role -> $role-h.gist()";
+    $imports ~= "use $role-h<rname>;\n";
+    $also ~= "also does $role-h<rname>;\n";
   }
+
 
   my Str $doc = qq:to/RAKUMOD/;
 
@@ -485,21 +348,22 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
     use Gnome::N::N-GObject;
     use Gnome::N::GlibToRakuTypes;
 
-    $use-enums$use-parent
-
+    $imports
     {HLSEPARATOR}
     {SEPARATOR(($!make-role ?? 'Role' !! 'Class') ~ ' Declaration');}
     {HLSEPARATOR}
     unit {$!make-role ?? 'role' !! 'class'} $*work-data<raku-class-name>:auth<github:MARTIMM>;
-    $also-is
+    $also
     RAKUMOD
 
-  if ?$sig-info<doc> {
+#`{{
+  if ? $sig-info<doc> and ! $!make-role {
     $doc ~= qq:to/RAKUMOD/;
       {HLSEPARATOR}
       my Bool \$signals-added = False;
       RAKUMOD
   }
+}}
 
   $doc
 }
@@ -508,7 +372,7 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 method !generate-build ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = $!sas.search-name($ctype);
+#  my Hash $h = self.search-name($ctype);
 
   my Hash $hcs = self!get-constructors($class-element);
   my Str $doc = self!make-build-doc( $class-element, $hcs);
@@ -523,7 +387,7 @@ method !generate-role-init (
   XML::Element $class-element, Hash $sig-info --> Str
 ) {
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = $!sas.search-name($ctype);
+#  my Hash $h = self.search-name($ctype);
   my Str $doc ~= self!make-init-method( $class-element, $sig-info);
 
   $doc
@@ -540,9 +404,9 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
     {HLSEPARATOR}
     {SEPARATOR('Class Description');}
     {HLSEPARATOR}
+    #TM:1:new:
     =head2 new
     EOBUILD
-
 
   my Str $build-doc;
   for $hcs.keys.sort -> $function-name {
@@ -635,7 +499,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = self.search-name($ctype);
   if $h<inheritable> {
     $doc ~= qq:to/EOBUILD/;
 
@@ -658,46 +522,64 @@ method !make-build-submethod (
   XML::Element $class-element, Hash $hcs, Hash $sig-info --> Str
 ) {
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = self.search-name($ctype);
 
-  my Str $doc = qq:to/EOBUILD/;
-    #TM:1:inheriting
-    #TM:1:new(:text):
-    #TM:1:new(:mnemonic):
-    #TM:1:new(:native-object):
-    #TM:1:new(:build-id):
-    submethod BUILD ( *\%options ) \{
-    EOBUILD
+  my Str $signal-admin = '';
+  my Str $role-signals = '';
+  my Array $roles = $h<implement-roles> // [];
+  for @$roles -> $role {
+    my Hash $role-h = self.search-name($role);
+#note "$?LINE role=$role -> $role-h.gist()";
+    $role-signals ~=
+      "  self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name);\n";
+  }
 
-  # Check if signal admin is needed
-  if ?$sig-info<doc> {
-#:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
-#:w1<populate-popup activate-link>,
-    my Hash $signal-levels = %();
-    for $sig-info<signals>.keys -> $signal-name {
-      my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
-      $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
-      $signal-levels{$level}.push: $signal-name;
-    }
+  $role-signals = "# Signals from interfaces\n" ~ $role-signals
+    if ?$role-signals;
 
+  # Check if signal administration is needed
+  if ? $role-signals or ? $sig-info<doc> {
     my Str $sig-list = '';
-    for ^10 -> Str() $level {
-      if ?$signal-levels{$level} {
-        $sig-list ~=
-           [~] '    :w', $level, '<', $signal-levels{$level}.join(' '), ">,\n";
+    if ? $sig-info<doc> {
+      my Hash $signal-levels = %();
+      for $sig-info<signals>.keys -> $signal-name {
+        my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
+        $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
+        $signal-levels{$level}.push: $signal-name;
       }
+
+      for ^10 -> Str() $level {
+        if ?$signal-levels{$level} {
+          $sig-list ~=
+            [~] '    :w', $level, '<', $signal-levels{$level}.join(' '), ">,\n";
+        }
+      }
+
+      $sig-list = '  # Add signal administration info.' ~ "\n" ~
+        '  self.add-signal-types( $?CLASS.^name,' ~ "\n" ~
+          $sig-list ~ "\n  );"
+        if ? $sig-list;
     }
 
-    $doc ~= qq:to/EOBUILD/;
-        \$signals-added = self\.add-signal-types\( \$?CLASS\.^name,
-      $sig-list  ) unless \$signals-added;
+    $signal-admin ~= qq:to/EOBUILD/;
+        unless \$signals-added \{
+          $sig-list$role-signals
+          \$signals-added = True;
+        \}
 
       EOBUILD
   }
 
+  my Str $doc = qq:to/EOBUILD/;
+    {?$signal-admin ?? 'my Bool $signals-added = False;' !! ''}
+    submethod BUILD ( *\%options ) \{
+    $signal-admin
+    EOBUILD
+
+ 
   # Check if inherit code is to be inserted
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = $!sas.search-name($ctype);
+#  my Hash $h = self.search-name($ctype);
   if $h<inheritable> {
     $doc ~= [~] '  # prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'",
@@ -844,28 +726,13 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-#`{{ NOTE; roles
-role A { method x (--> Int) {10;} }
-role B { method x (--> Int) {10;} }
-class D does A does B { method x (--> Int) {self.A::x + self.B::x} }
-my D $x .= new;
-$x.x.say      # output: 20
-}}
-
 method !make-init-method (
-  XML::Element $class-element, Hash $hcs, Hash $sig-info --> Str
+  XML::Element $class-element, Hash $sig-info --> Str
 ) {
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = $!sas.search-name($ctype);
+#  my Hash $h = self.search-name($ctype);
 
-  my Str $doc = qq:to/EOBUILD/;
-    #TM:1:inheriting
-    #TM:1:new(:text):
-    #TM:1:new(:mnemonic):
-    #TM:1:new(:native-object):
-    #TM:1:new(:build-id):
-    method init- ( *\%options ) \{
-    EOBUILD
+  my Str $doc = '';
 
   # Check if signal admin is needed
   if ?$sig-info<doc> {
@@ -886,28 +753,37 @@ method !make-init-method (
       }
     }
 
+    my Str $role-ini-method-name =
+      "_add_$*work-data<sub-prefix>signal_types";
     $doc ~= qq:to/EOBUILD/;
-        \$signals-added = self\.add-signal-types\( \$?CLASS\.^name,
-      $sig-list  ) unless \$signals-added;
+      #TM:1:$role-ini-method-name:
+      method $role-ini-method-name ( Str \$class-name ) \{
+        self\.add-signal-types\( \$class-name,
+      $sig-list  );
+      \}
 
       EOBUILD
   }
+
+  $doc
 }
 
 #-------------------------------------------------------------------------------
 method !generate-methods ( XML::Element $class-element --> Str ) {
 
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-  my Bool $is-leaf = $h<leaf>;
+  my Hash $h = self.search-name($ctype);
+note "$?LINE $ctype, cea = $class-element.attribs.gist(), h = $h.gist()";
+  my Bool $is-leaf = $h<leaf> // False;
   my Str $symbol-prefix = $h<symbol-prefix>;
 
+  my Hash $hcs = self!get-methods($class-element);
+  return '' unless $hcs.keys.elems;
   my Str $doc ~= qq:to/EOSUB/;
     {HLSEPARATOR}
     {SEPARATOR('Methods');}
     EOSUB
 
-  my Hash $hcs = self!get-methods($class-element);
   for $hcs.keys.sort -> $function-name {
     my Hash $curr-function := $hcs{$function-name};
 
@@ -1283,6 +1159,8 @@ method !generate-properties ( XML::Element $class-element --> Str ) {
     );
   }
 
+  return '' unless $properties.keys.elems;
+
   $doc ~= qq:to/EOSIG/;
 
     {HLSEPARATOR}
@@ -1479,6 +1357,184 @@ method get-doc-type ( XML::Element $e --> List ) {
   ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
 }
 
+#-------------------------------------------------------------------------------
+method search-name ( Str $name is copy --> Hash ) {
+
+  my Hash $h = %();
+  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+
+    # It is possible that not all hashes are loaded
+    next unless $!object-maps{$map-name}:exists
+            and ( $!object-maps{$map-name}{$name}:exists 
+                  or $!object-maps{$map-name}{$map-name ~ $name}:exists
+                );
+
+    # Get the Hash from the object maps
+    $h = $!object-maps{$map-name}{$name}
+         // $!object-maps{$map-name}{$map-name ~ $name};
+
+    # Add package name to this hash
+    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
+    last;
+  }
+
+#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
+
+  $h
+}
+
+#-------------------------------------------------------------------------------
+method generate-raku-module-test ( ) {
+
+  # Roles are tested via modules using the Role
+  return if $!make-role;
+
+  my XML::Element $class-element = $!xpath.find('//class');
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
+  my Str $test-variable = '$' ~ $*gnome-class.lc;
+  my $module-test-doc = qq:to/EOTEST/;
+    use v6;
+    use NativeCall;
+    use Test;
+
+    use $*work-data<raku-class-name>;
+
+    use Gnome::N::GlibToRakuTypes;
+    use Gnome::N::N-GObject;
+    #use Gnome::N::X;
+    #Gnome::N::debug(:on);
+
+    {HLSEPARATOR}
+    my $*work-data<raku-class-name> $test-variable;
+    
+    {HLSEPARATOR}
+    subtest 'ISA test', \{
+      $test-variable .= new;
+      isa-ok $test-variable, $*work-data<raku-class-name>, '.new\()';
+    \}
+
+    {HLSEPARATOR}
+    # set environment variable 'raku-test-all' if rest must be tested too.
+    unless \%*ENV<raku_test_all>:exists \{
+      done-testing;
+      exit;
+    \}
+
+    EOTEST
+
+    # check if class is inheritable
+    if $h<inheritable> {
+      $module-test-doc ~= qq:to/EOTEST/;
+      {HLSEPARATOR}
+      subtest 'Inherit $*work-data<raku-class-name>', \{
+        class MyClass is $*work-data<raku-class-name> \{
+          method new \( |c ) \{
+            self.bless\( :$*work-data<gnome-name>, |c);
+          }
+
+          submethod BUILD \( *\%options ) \{
+
+          }
+        }
+
+        my MyClass $test-variable .= new;
+        isa-ok $test-variable, $*work-data<raku-class-name>, 'MyClass.new\()';
+      }
+      EOTEST
+    }
+
+    $module-test-doc ~= qq:to/EOTEST/;
+
+    {HLSEPARATOR}
+    done-testing;
+
+    =finish
+
+
+    {HLSEPARATOR}
+    subtest 'Manipulations', \{
+    \}
+
+    {HLSEPARATOR}
+    subtest 'Signals …', \{
+      use Gnome::Gtk3::Main;
+      use Gnome::N::GlibToRakuTypes;
+
+      my Gnome::Gtk3::Main \$main .= new;
+
+      class SignalHandlers \{
+        has Bool \$!signal-processed = False;
+
+        method … \(
+          'any-args',
+          $*work-data<raku-class-name>\(\) :\$_native-object, gulong :\$_handler-id
+          # --> …
+        ) \{
+
+          isa-ok \$_native-object, $*work-data<raku-class-name>;
+          \$!signal-processed = True;
+        }
+
+        method signal-emitter \( $*work-data<raku-class-name> :\$_widget --> Str ) \{
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+
+          \$_widget.emit-by-name\(
+            'signal',
+          #  'any-args',
+          #  :return-type(int32),
+          #  :parameters([int32,])
+          );
+          is \$!signal-processed, True, '\'…\' signal processed';
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+
+          #\$!signal-processed = False;
+          #\$_widget.emit-by-name\(
+          #  'signal',
+          #  'any-args',
+          #  :return-type\(int32),
+          #  :parameters\(\[int32,])
+          #);
+          #is \$!signal-processed, True, '\'…\' signal processed';
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+          sleep(0.4);
+          \$main.gtk-main-quit;
+
+          'done'
+        }
+      }
+
+      my $*work-data<raku-class-name> $test-variable .= new;
+
+      #my Gnome::Gtk3::Window \$w .= new;
+      #\$w.add(\$m);
+
+      my SignalHandlers \$sh .= new;
+      $test-variable.register-signal\( \$sh, 'method', 'signal');
+
+      my Promise \$p = \$i.start-thread\(
+        \$sh, 'signal-emitter',
+        # :!new-context,
+        # :start-time\(now + 1)
+      );
+
+      is \$main.gtk-main-level, 0, "loop level 0";
+      \$main.gtk-main;
+      #is \$main.gtk-main-level, 0, "loop level is 0 again";
+
+      is \$p.result, 'done', 'emitter finished';
+    }
+
+    EOTEST
+
+  note "Save module test";
+  $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
+}
+
 
 
 
@@ -1601,7 +1657,7 @@ method gobject-value-type( Str $ctype --> Str ) {
     }
 
     default {
-      my Hash $h = $!sas.search-name($ctype);
+      my Hash $h = self.search-name($ctype);
       if ?$h<gir-type> {
         $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
         $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
@@ -1663,7 +1719,7 @@ method convert-ntype (
       # remove any pointer marks
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = $!sas.search-name($ctype);
+      my Hash $h = self.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -1753,7 +1809,7 @@ method convert-rtype (
       # remove any pointer marks because objects are provided by pointer
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = $!sas.search-name($ctype);
+      my Hash $h = self.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -1791,32 +1847,6 @@ method convert-rtype (
 #say "$?LINE: convert raku type; '$ctype' -> '$raku-type'" if $ctype ~~ m/ char /;
 
   $raku-type
-}
-
-#-------------------------------------------------------------------------------
-method search-name ( Str $name is copy --> Hash ) {
-
-  my Hash $h = %();
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-
-    # It is possible that not all hashes are loaded
-    next unless $!object-maps{$map-name}:exists
-            and ( $!object-maps{$map-name}{$name}:exists 
-                  or $!object-maps{$map-name}{$map-name ~ $name}:exists
-                );
-
-    # Get the Hash from the object maps
-    $h = $!object-maps{$map-name}{$name}
-         // $!object-maps{$map-name}{$map-name ~ $name};
-
-    # Add package name to this hash
-    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
-    last;
-  }
-
-#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
-
-  $h
 }
 
 #-------------------------------------------------------------------------------
@@ -1945,7 +1975,7 @@ method !modify-functions ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
-    my Hash $h = $!sas.search-name($function-name);
+    my Hash $h = self.search-name($function-name);
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
     
@@ -1982,7 +2012,7 @@ method !modify-classes ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-    my Hash $h = $!sas.search-name($class-name);
+    my Hash $h = self.search-name($class-name);
     my Str $raku-name = $h<rname> // '';
 
     if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
