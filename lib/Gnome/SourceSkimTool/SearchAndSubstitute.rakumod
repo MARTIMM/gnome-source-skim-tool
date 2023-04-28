@@ -6,7 +6,11 @@ use XML::XPath;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SearchAndSubstitute:auth<github:MARTIMM>;
 
-# submethod BUILD ( ) { }
+#-------------------------------------------------------------------------------
+has $!gen-raku-module;
+
+#-------------------------------------------------------------------------------
+submethod BUILD ( :$!gen-raku-module where .^name ~~ /GenRakuModule/ ) { }
 
 #-------------------------------------------------------------------------------
 method gobject-value-type( Str $ctype --> Str ) {
@@ -123,7 +127,7 @@ method gobject-value-type( Str $ctype --> Str ) {
     }
 
     default {
-      my Hash $h = $!sas.search-name($ctype);
+      my Hash $h = $!gen-raku-module.search-name($ctype);
       if ?$h<gir-type> {
         $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
         $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
@@ -140,9 +144,11 @@ method convert-ntype (
   Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
+#note "$?LINE ctype: $ctype";
 
-  # ignore const
-  $ctype ~~ s:g/\s* const \s*//;
+  # ignore const and spaces
+  $ctype ~~ s:g/ const //;
+  $ctype ~~ s:g/ \s+ //;
 
   my Str $raku-type = '';
   with $ctype {
@@ -159,8 +165,7 @@ method convert-ntype (
         <boolean char double float int int16 int32 int64 int8 
         long pointer short size ssize uchar uint uint16
         uint32 uint64 uint8 ulong unichar ushort
-        >
-    ) {
+        >) {
       $raku-type = "g$ctype";
     }
 
@@ -173,11 +178,12 @@ method convert-ntype (
 
 #TODO int/num/pointers as '$x is rw'
     # ignore const
-    when /g? char \s* '**'/        { $raku-type = 'CArray[Str]'; }
-    when /g? char \s* '*'/         { $raku-type = 'Str'; }
-    when /g? int \s* '*'/          { $raku-type = 'CArray[gint]'; }
-    when /g? uint \s* '*'/         { $raku-type = 'CArray[guint]'; }
-    when /GError \s* '*'/          { $raku-type = 'CArray[N-GError]'; }
+    when /g? char '**'/        { $raku-type = 'CArray[Str]'; }
+    when /g? char '*'/         { $raku-type = 'Str'; }
+    when /g? int '*'/          { $raku-type = 'CArray[gint]'; }
+    when /g? uint '*'/         { $raku-type = 'CArray[guint]'; }
+    when /g? size '*'/         { $raku-type = 'CArray[gsize]'; }
+    when /GError '*'/          { $raku-type = 'CArray[N-GError]'; }
 
     when 'void' { $raku-type = 'void'; }
 
@@ -185,7 +191,7 @@ method convert-ntype (
       # remove any pointer marks
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = $!sas.search-name($ctype);
+      my Hash $h = $!gen-raku-module.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -204,8 +210,8 @@ method convert-ntype (
 #        when '' { }
 
         default {
-          note 'Unknown gir type to convert to native raku type ',
-            $h<gir-type> // '-', ' for ctype ', $ctype;
+          note 'Unknown gir type to convert to native raku type \'',
+            $h<gir-type> // '-', '\' for ctype \'', $ctype, '\'';
         }
       }
     }
@@ -236,8 +242,7 @@ method convert-rtype (
     when any(<gchar gint gint16 gint32 gint64 gint8
          glong gshort gsize gssize char int int16 int32 int64 int8
          long short size ssize
-         >
-    ) {
+         >) {
       $raku-type = 'Int';
       $raku-type ~= '()';     # unless $return-type;
     }
@@ -267,6 +272,7 @@ method convert-rtype (
     when /g? char '*'/         { $raku-type = 'Str'; }
     when /g? int '*'/          { $raku-type = 'Array[Int]'; }
     when /g? uint '*'/         { $raku-type = 'Array[UInt]'; }
+    when /g? size '*'/     { $raku-type = 'Array[gsize]'; }
     when /GError '*'/          { $raku-type = 'Array[N-GError]'; }
 
     when 'void' { $raku-type = 'void'; }
@@ -275,7 +281,7 @@ method convert-rtype (
       # remove any pointer marks because objects are provided by pointer
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = $!sas.search-name($ctype);
+      my Hash $h = $!gen-raku-module.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -303,8 +309,9 @@ method convert-rtype (
 #        when '' { }
 
         default {
-          note 'Unknown gir type to convert to raku type', $h<gir-type> // '-',
-               ' for ctype ', $ctype, ', ', $*work-data<gnome-type>;
+          note 'Unknown gir type to convert to raku type \'',
+            $h<gir-type> // '-', '\' for ctype \'', $ctype,
+            '\', \'', $*work-data<gnome-type>, '\'';
         }
       }
     }
@@ -315,6 +322,7 @@ method convert-rtype (
   $raku-type
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method search-name ( Str $name is copy --> Hash ) {
 
@@ -340,6 +348,7 @@ method search-name ( Str $name is copy --> Hash ) {
 
   $h
 }
+}}
 
 #-------------------------------------------------------------------------------
 method modify-text ( Str $text is copy --> Str ) {
@@ -467,7 +476,7 @@ method modify-functions ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
-    my Hash $h = self.search-name($function-name);
+    my Hash $h = $!gen-raku-module.search-name($function-name);
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
     
@@ -504,7 +513,7 @@ method modify-classes ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-    my Hash $h = self.search-name($class-name);
+    my Hash $h = $!gen-raku-module.search-name($class-name);
     my Str $raku-name = $h<rname> // '';
 
     if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
