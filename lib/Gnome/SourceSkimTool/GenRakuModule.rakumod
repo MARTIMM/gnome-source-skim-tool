@@ -434,14 +434,12 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
       for @($hcs{$function-name}<parameters>) -> $parameter {
         if $first {
           $build-doc ~= " $parameter<raku-rtype> :\$$option-name!";
-          $variable-map{$hcs{$function-name}<parameters>[0]<name>} = 
-              $option-name;
+          $variable-map{$parameter<name>} = $option-name;
           $first = False;
         }
 
         else {
-          $build-doc ~= 
-            ", $parameter<raku-rtype> :\$$hcs{$function-name}<option-name>";
+          $build-doc ~=  ", $parameter<raku-rtype> :\$$parameter<name>";
         }
       }
 
@@ -451,13 +449,12 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
       $first = True;
       for @($hcs{$function-name}<parameters>) -> $parameter {
         if $first {
-          $build-doc ~= "=item :\$$option-name; $parameter<doc>\n\n";
+          $build-doc ~= "=item :\$$option-name; $parameter<doc>\n";
           $first = False;
         }
 
         else {
-          $build-doc ~=
-            "=item :\$$hcs{$function-name}<option-name>; $parameter<doc>\n\n";
+          $build-doc ~= "=item :\$$parameter<name>; $parameter<doc>\n";
         }
       }
     }
@@ -473,8 +470,8 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
         EOPOD
     }
 
-    # Add variable map to function data
-    $hcs{$function-name}<variable-map> = $variable-map;
+#    # Add variable map to function data
+#    $hcs{$function-name}<variable-map> = $variable-map;
 
     # Modify variable names in the build doc and replace ____FUNCTIONDOC___
     my Str $d = $!sas.modify-build-variables(
@@ -531,7 +528,7 @@ method !make-build-submethod (
     my Hash $role-h = self.search-name($role);
 #note "$?LINE role=$role -> $role-h.gist()";
     $role-signals ~=
-      "  self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name);\n";
+      "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name);\n";
   }
 
   $role-signals = "# Signals from interfaces\n" ~ $role-signals
@@ -563,8 +560,7 @@ method !make-build-submethod (
 
     $signal-admin ~= qq:to/EOBUILD/;
         unless \$signals-added \{
-          $sig-list$role-signals
-          \$signals-added = True;
+          $sig-list$role-signals    \$signals-added = True;
         \}
 
       EOBUILD
@@ -576,7 +572,7 @@ method !make-build-submethod (
     $signal-admin
     EOBUILD
 
- 
+
   # Check if inherit code is to be inserted
 #  my Str $ctype = $class-element.attribs<c:type>;
 #  my Hash $h = self.search-name($ctype);
