@@ -6,6 +6,7 @@ use Gnome::SourceSkimTool::SearchAndSubstitute;
 
 use XML;
 use XML::XPath;
+use JSON::Fast;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::GenRakuModule:auth<github:MARTIMM>;
@@ -201,7 +202,7 @@ method generate-raku-module ( ) {
   my Str $methods-doc ~= self!generate-methods($class-element);
 
   if ?$methods-doc {
-    $module-doc ~= self!add-deprecatable-method;
+    $module-doc ~= self!add-deprecatable-method($class-element);
     $module-doc ~= $methods-doc;
   }
 
@@ -533,7 +534,8 @@ method !make-build-submethod (
     my Hash $role-h = self.search-name($role);
 #note "$?LINE role=$role -> $role-h.gist()";
     $role-signals ~=
-      "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name);\n";
+      "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
+      "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
   }
 
   $role-signals = "# Signals from interfaces\n" ~ $role-signals
@@ -1537,7 +1539,20 @@ method generate-raku-module-test ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method !add-deprecatable-method ( --> Str ) {
+method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
+
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+  my Array $roles = $h<implement-roles> // [];
+  my $role-fallbacks = '';
+  for @$roles -> $role {
+    my Hash $role-h = self.search-name($role);
+#note "$?LINE role=$role -> $role-h.gist()";
+    $role-fallbacks ~=
+      "  \$s = self._$role-h<symbol-prefix>interface\(\$native-sub)\n" ~
+      "    if !\$s and self.^can\('_$role-h<symbol-prefix>interface');\n";
+  }
+  $role-fallbacks ~= "\n" if ?$role-fallbacks;
 
   my Str $doc = '';
 
@@ -1559,8 +1574,11 @@ method !add-deprecatable-method ( --> Str ) {
   
   else {
     $mname = '_fallback';
-    $set-class-name = [~] '  self._set-class-name-of-sub(\'',
-      $*work-data<gnome-name>, "');\n", '  $s = callsame unless ?$s;';
+    $set-class-name = [~] '  if ?$s {', "\n",
+      '    self._set-class-name-of-sub(\'', $*work-data<gnome-name>, "');\n",
+      "  }\n  else \{\n",
+      '    $s = callsame;', "\n";
+      "  }\n";
   }
 
   $doc ~= q:to/EODEPR/;
@@ -1597,10 +1615,10 @@ method !add-deprecatable-method ( --> Str ) {
 
     EODEPR
 
+  $doc ~= $role-fallbacks;
   $doc ~= $set-class-name;
 
   $doc ~= q:to/EODEPR/;
-
 
       $s
     }
