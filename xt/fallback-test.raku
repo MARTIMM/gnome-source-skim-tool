@@ -4,12 +4,12 @@ class A {
   sub x_y_b_do_test1 ( Int $i ) { $i * 10; }
   method do-test1 ( Int $i ) { x_y_b_do_test1($i); }
 
-  method FALLBACK ( $native-sub is copy, **@params ) {
+  method FALLBACK ( $native-sub, **@params ) {
     my Callable $s = self._fallback($native-sub);
     $s(|@params) if ?$s;
   }
 
-  method _fallback ( $native-sub is copy --> Callable ) {
+  method _fallback ( $native-sub --> Callable ) {
     my Str $pfix = 'x_y_b_';
     my @pfix-parts = $pfix.split('_');
     my Int $cfix = @pfix-parts.elems +2;
