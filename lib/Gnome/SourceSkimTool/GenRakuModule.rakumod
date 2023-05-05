@@ -137,6 +137,7 @@ submethod BUILD ( ) {
     $s.load-map($!other-work-data<GObject><gir-module-path>);
 #}}
 
+#`{{
   $!object-maps<Enums> = $s.load-map(
     $!other-work-data<Gtk><gir-module-path>, :repo-file<repo-enumeration.gir>
   );
@@ -144,6 +145,7 @@ submethod BUILD ( ) {
   $!object-maps<Flags> = $s.load-map(
     $!other-work-data<Gtk><gir-module-path>, :repo-file<repo-bitfield.gir>
   );
+}}
 
   # load data for this module
   $!xpath .= new(:file($*work-data<gir-module-file>));
@@ -185,8 +187,6 @@ method generate-raku-module ( ) {
   note "Set class unit" if $*verbose;
   $module-doc ~= self!set-unit( $class-element, $sig-info);
 
-#TODO generate types and enumerations
-
   # Roles do not have a BUILD
   if $!make-role {
     note "Generate role initialization method" if $*verbose;  
@@ -207,7 +207,8 @@ method generate-raku-module ( ) {
     $module-doc ~= $methods-doc;
   }
 
-
+  note "Generate module functions" if $*verbose;  
+  $module-doc ~= self!generate-functions($class-element);
 
   # Add the signal doc here
   $module-doc ~= $sig-info<doc>;
@@ -779,13 +780,13 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
 
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
-note "$?LINE $ctype, cea = $class-element.attribs.gist(), h = $h.gist()";
+#note "$?LINE $ctype, cea = $class-element.attribs.gist(), h = $h.gist()";
   my Bool $is-leaf = $h<leaf> // False;
   my Str $symbol-prefix = $h<symbol-prefix>;
 
   my Hash $hcs = self!get-methods($class-element);
   return '' unless $hcs.keys.elems;
-  my Str $doc ~= qq:to/EOSUB/;
+  my Str $doc = qq:to/EOSUB/;
     {HLSEPARATOR}
     {SEPARATOR('Methods');}
     EOSUB
@@ -990,6 +991,242 @@ note "$?LINE $ctype, cea = $class-element.attribs.gist(), h = $h.gist()";
   }
 
   $doc
+}
+
+#-------------------------------------------------------------------------------
+method !generate-functions ( XML::Element $class-element --> Str ) {
+
+  # Get all functions for this module
+  my Hash $h = self.search-names(
+    $*work-data<sub-prefix>, 'gir-type', 'function'
+  );
+  return '' unless ?$h;
+
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $doc = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Functions');}
+    EOSUB
+
+  # Open functions file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-function.gir';
+  my XML::XPath $f-xpath .= new(:$file);
+
+  # For each found function, search for info in the XML functions repo
+  for $h.keys.sort -> $function-name {
+#`{{
+    my $xp-search = [~] '//function/*[local-name()="identifier" and ',
+       'namespace-uri()="http://www.gtk.org/introspection/c/1.0" and ',
+       '.="', $function-name, ']';
+note "$?LINE $xp-search";
+    my XML::Element $function-element = $f-xpath.find($xp-search);
+}}
+
+    my Str $name = $function-name;
+    my Str $package = $*gnome-package.Str.lc;
+    $package ~~ s/ \d+ $//;
+    $name ~~ s/^ $package '_' //;
+    my Str $xp-search = '//function[@name="' ~ $name ~ '"]';
+note "$?LINE $function-name, $package, $name";
+note "$?LINE ", '$f-xpath.find(', "'$xp-search'", ');';
+    my XML::Element $function-element = $f-xpath.find($xp-search);
+
+    # Skip deprecated functions
+    next if $function-element.attribs<deprecated>:exists and
+            $function-element.attribs<deprecated> eq '1';
+
+    # Get function info
+    my ( $, %hf) = self.get-method-data( $function-element, :xpath($f-xpath));
+    my Hash $curr-function := %hf;
+
+
+    # Get method name, drop the prefix and substitute '_'
+    my Str $method-name = $function-name;
+    $method-name ~~ s/^ $symbol-prefix //;
+    $method-name ~~ s:g/ '_' /-/;
+
+    # Get parameter lists
+    my Str (
+      $par-list, $raku-list, $call-list, $items-doc, $p-convert,
+      $return-list, $own, $returns-doc, $return-array-convert,
+      $return-carray,
+    ) =  '' xx 10;
+    my @rv-list = ();
+
+    for @($curr-function<parameters>) -> $parameter {
+#      if ! $parameter<is-instance> {
+        ( $raku-list, $par-list, $call-list, $items-doc, $p-convert,
+          @rv-list, $returns-doc
+        ) = self.get-types($parameter);
+#      }
+    }
+
+    my $xtype = $curr-function<return-raku-ntype>;
+    if ?$xtype and $xtype ne 'void' {
+      $par-list ~= " --> $xtype";
+    }
+
+    $xtype = $curr-function<return-raku-rtype>;
+    if ?$xtype and $xtype ne 'void' {
+      $raku-list ~= " --> $xtype";
+      my Str $own = '';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
+
+      $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+
+      if $xtype eq 'Array[Str]' {
+        $return-array-convert = q:to/EOCNV/;
+
+          my Int $i = 0;
+          my @a = ();
+          while $ca[$i].defined {
+            @a.push: $ca[$i++];
+          }
+
+          @a
+        EOCNV
+
+        $return-carray = '  my CArray[Str] $ca =';
+      }
+    }
+
+    # Assumed that there are no multiple methods to return values. I.e not
+    # returning an array and pointer arguments to receive values in those vars.
+    elsif ?@rv-list {
+      $returns-doc = "Returns a List holding the values\n$returns-doc";
+      $return-list = [~] '  (', @rv-list.join(', '), ")\n";
+      $raku-list ~= " --> List";
+    }
+
+    # remove first comma and substitute underscores
+    $par-list ~~ s/^ . //;
+    $raku-list ~~ s/^ . //;
+
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:0:$method-name:
+      =begin pod
+      =head2 $method-name
+
+      $curr-function<function-doc>
+
+      =begin code
+      method $method-name \(
+       $raku-list
+      \)
+      =end code
+
+      $items-doc
+      $returns-doc
+      =end pod
+
+      method $method-name \(
+       $raku-list
+      \) \{
+
+      EOSUB
+
+    $doc ~= $p-convert if ?$p-convert;
+    $doc ~= $return-carray if ?$return-carray;
+    $doc ~= "  $function-name\( $call-list\)\n";
+    $doc ~= $return-array-convert if ?$return-array-convert;
+    $doc ~= $return-list if ?$return-list;
+
+    $doc ~= qq:to/EOSUB/;
+      \}
+
+      sub $function-name \(
+       $par-list
+      \) is native\($*work-data<library>\)
+        \{ * \}
+
+      EOSUB
+  }
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method get-types ( $parameter --> List ) {
+
+  my Str (
+    $raku-list, $par-list, $call-list, $items-doc, $p-convert, $returns-doc
+  ) = '' xx 6;
+  my Str $own = '';
+  my Int $a-count = 0;
+  my @rv-list = ();
+
+  given my $xtype = $parameter<raku-ntype> {
+    when 'N-GObject' {
+      $raku-list ~= ", N-GObject() \$$parameter<name>";
+      $par-list ~= ", N-GObject \$$parameter<name>";
+      $call-list ~= ", \$$parameter<name>";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[Str]' {
+      $raku-list ~= ", CArray[Str] \$$parameter<name>";
+      $par-list ~= ", CArray[Str] \$$parameter<name>";
+      $call-list ~= ", \$ca$a-count";
+      $p-convert =
+        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
+      $a-count++;
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[gint]' {
+#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
+#            my $ntype = 'gint';
+      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
+      $par-list ~= ", CArray[gint] \$$parameter<name> is rw";
+      @rv-list.push: "\$$parameter<name>";
+      $call-list ~= ", my gint \$$parameter<name>";
+
+      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+#`{{
+    when 'CArray[UInt]' {
+      $raku-list ~= ", $xtype \$$parameter<name>";
+      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+      $call-list ~= ", \$ca$a-count";
+      $p-convert =
+        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
+      $a-count++;
+    }
+
+    when 'CArray[N-GError]' {
+      $raku-list ~= ", $xtype \$$parameter<name>";
+      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+      $call-list ~= ", \$ca$a-count";
+      $p-convert =
+        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
+      $a-count++;
+    }
+}}
+
+    default {
+      $par-list ~= ", $xtype \$$parameter<name>";
+      $call-list ~= ", \$$parameter<name>";
+      $raku-list ~= ", $xtype \$$parameter<name>";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+  }
+  
+  ( $raku-list, $par-list, $call-list, $items-doc, @rv-list, $returns-doc)
 }
 
 #-------------------------------------------------------------------------------
@@ -1230,6 +1467,9 @@ method !get-constructors ( XML::Element $class-element --> Hash ) {
     $!xpath.find( 'constructor', :start($class-element), :to-list);
 
   for @constructors -> $cn {
+    # Skip deprecated constructors
+    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+
     my ( $function-name, %h) = self.get-method-data( $cn, :build);
     $hcs{$function-name} = %h;
   }
@@ -1241,10 +1481,12 @@ method !get-constructors ( XML::Element $class-element --> Hash ) {
 method !get-methods ( XML::Element $class-element --> Hash ) {
   my Hash $hms = %();
 
-  my @methods =
-    $!xpath.find( 'method', :start($class-element), :to-list);
+  my @methods = $!xpath.find( 'method', :start($class-element), :to-list);
 
   for @methods -> $cn {
+    # Skip deprecated methods
+    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+
     my ( $function-name, %h) = self.get-method-data( $cn, :!build);
     $hms{$function-name} = %h;
   }
@@ -1253,8 +1495,10 @@ method !get-methods ( XML::Element $class-element --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
-
+method get-method-data (
+  XML::Element $e, Bool :$build = False, XML::XPath :$xpath = $!xpath
+  --> List
+) {
   my Str ( $function-name, $option-name, $function-doc);
 
   $option-name = $function-name = $e.attribs<c:identifier>;
@@ -1271,10 +1515,10 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
   }
 
   $function-doc = $!sas.cleanup(
-    $!sas.modify-text(($!xpath.find( 'doc/text()', :start($e)) // '').Str)
+    $!sas.modify-text(($xpath.find( 'doc/text()', :start($e)) // '').Str)
   );
 
-  my XML::Element $rvalue = $!xpath.find( 'return-value', :start($e));
+  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
   my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
     self.get-doc-type($rvalue);
@@ -1283,7 +1527,7 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
   # but I am not certain.
   my @parameters = ();
   my @prmtrs =
-    $!xpath.find(
+    $xpath.find(
       'parameters/instance-parameter | parameters/parameter',
       :start($e), :to-list);
   for @prmtrs -> $p {
@@ -1301,7 +1545,7 @@ method get-method-data ( XML::Element $e, Bool :$build = False --> List ) {
       @parameters.push: $ph;
     }
 
-#  @prmtrs = $!xpath.find( 'parameters/parameter', :start($e), :to-list);
+#  @prmtrs = $xpath.find( 'parameters/parameter', :start($e), :to-list);
 #  for @prmtrs -> $p {
 
     elsif $p.name eq 'parameter' {
@@ -1382,6 +1626,33 @@ method search-name ( Str $name --> Hash ) {
     # Add package name to this hash
     $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
     last;
+  }
+
+#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
+
+  $h
+}
+
+#-------------------------------------------------------------------------------
+# Search for names of specific type in object maps 
+method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
+
+  my Hash $h = %();
+  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+
+    # It is possible that not all hashes are loaded
+    next unless $!object-maps{$map-name}:exists;
+
+    for $!object-maps{$map-name}.kv -> $name, $value-hash {
+      next unless $value-hash{$entry-name} eq $value;
+      next unless $name ~~ m/^ [ $map-name ]? $prefix-name /;
+      $h{$name} = $value-hash;
+
+      # Add package name to this hash
+      $h{$name}<raku-package> = $!other-work-data{$map-name}<raku-package>;
+    }
+
+    last if ?$h;
   }
 
 #say "$?LINE: search $name -> {$h<rname> // $h.gist}";
