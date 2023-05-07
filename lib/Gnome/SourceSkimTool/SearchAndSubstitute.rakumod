@@ -169,6 +169,10 @@ method convert-ntype (
       $raku-type = "g$ctype";
     }
 
+    when /GQuark/          { $raku-type = 'GQuark'; }
+    when /GList/           { $raku-type = 'N-GList'; }
+    when /GSList/           { $raku-type = 'N-GSList'; }
+
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
@@ -260,6 +264,16 @@ method convert-rtype (
       $raku-type ~= '()'      # unless $return-type;
     }
 
+    when /GQuark/ { $raku-type = 'UInt'; }
+    when /GList/ {
+      $raku-type = 'N-GList';
+      $raku-type ~= '()' unless $return-type;
+    }
+    when /GSList/ {
+      $raku-type = 'N-GSList';
+      $raku-type ~= '()' unless $return-type;
+    }
+
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
@@ -272,9 +286,8 @@ method convert-rtype (
     when /g? char '*'/         { $raku-type = 'Str'; }
     when /g? int '*'/          { $raku-type = 'Array[Int]'; }
     when /g? uint '*'/         { $raku-type = 'Array[UInt]'; }
-    when /g? size '*'/     { $raku-type = 'Array[gsize]'; }
+    when /g? size '*'/         { $raku-type = 'Array[gsize]'; }
     when /GError '*'/          { $raku-type = 'Array[N-GError]'; }
-
     when 'void' { $raku-type = 'void'; }
 
     default {
@@ -292,7 +305,8 @@ method convert-rtype (
           # All C enumerations are integers and can coerce to the enum type
           # in input and output. Need to prefix package name because
           # enumerations are mentioned without it
-          $raku-type = $h<rname> ~ '()';
+          $raku-type = 'Int()';
+          #$raku-type = $h<rname> ~ '()';
         }
 
         when 'bitfield' {
