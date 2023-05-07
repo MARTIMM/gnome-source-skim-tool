@@ -3,16 +3,17 @@
 <!--
 TODO modify markdown links in text or in Raku links when it shows use of url
 
-TODO Add explanations of module documentation layout in the references of the documentation on site. Add info about the glib types used and what it means in Raku. That properties are mostly not needed because of their getters and setters.
+TODO Add explanations of module documentation layout in the references of the documentation on site.
+* Add info about the glib types used and what it means in Raku.
+* That properties are mostly not needed because of their getters and setters.
+* What is a function
+* That enumerations are exported and uppercase
+* C-examples and converting to Raku
 
 TODO
   Unknown gir type to convert to native raku type 'record' for ctype 'GtkRecentInfo'
   Unknown gir type to convert to raku type 'record' for ctype 'GtkRecentInfo', '(Any)'
-  Unknown gir type to convert to native raku type 'record' for ctype 'GList'
-  Unknown gir type to convert to raku type 'record' for ctype 'GList', '(Any)'
-  Unknown gir type to convert to native raku type 'record' for ctype 'GSList'
-  Unknown gir type to convert to raku type 'record' for ctype 'GSList', '(Any)'
-  Unknown gir type to convert to native raku type 'callback' for ctype 'GtkRecentSortFunc'
+   Unknown gir type to convert to native raku type 'callback' for ctype 'GtkRecentSortFunc'
   Unknown gir type to convert to raku type 'callback' for ctype 'GtkRecentSortFunc', '(Any)'
   Unknown gir type to convert to raku type '-' for ctype 'gpointer', '(Any)'
   Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
