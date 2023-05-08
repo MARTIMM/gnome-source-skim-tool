@@ -305,8 +305,7 @@ method convert-rtype (
           # All C enumerations are integers and can coerce to the enum type
           # in input and output. Need to prefix package name because
           # enumerations are mentioned without it
-          $raku-type = 'Int()';
-          #$raku-type = $h<rname> ~ '()';
+          $raku-type = $h<rname> ~ '()';
         }
 
         when 'bitfield' {
