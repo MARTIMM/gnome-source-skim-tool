@@ -23,12 +23,8 @@ submethod BUILD ( ) {
   $!other-work-data = %();
   $!object-maps = %();
 
-  $!sas .= new(:gen-raku-module(self)); #( :$!other-work-data, :$!other-work-data);
-
-#TODO add rules for gdkPixbuf, etc.
-
-  # Because of dependencies it is possible to have less to load when
-  # we need to search
+  $!sas .= new(:gen-raku-module(self));
+  #$!sas .= new( :$!other-work-data, :$!other-work-data);
 
   note "Prepare for module generation" if $*verbose;
 
@@ -37,6 +33,10 @@ submethod BUILD ( ) {
   # get workdata for other gnome packages
   my Gnome::SourceSkimTool::Prepare $p .= new;
 
+
+#TODO add rules for gdkPixbuf, etc.
+  # Because of dependencies it is possible to have less to load when
+  # we need to search
   # Version 3
   if $*gnome-package.Str ~~ / '3' $/ {
     $!other-work-data<Gtk> = $p.prepare-work-data(Gtk3);
@@ -44,7 +44,7 @@ submethod BUILD ( ) {
   }
 
   # Version 4
-  elsif $*gnome-package.Str ~~ / '3' $/ {
+  elsif $*gnome-package.Str ~~ / '4' $/ {
     $!other-work-data<Gtk> = $p.prepare-work-data(Gtk4);
     $!other-work-data<Gdk> = $p.prepare-work-data(Gdk4);
     $!other-work-data<Gsk> = $p.prepare-work-data(Gsk4);
@@ -63,45 +63,70 @@ submethod BUILD ( ) {
   $!other-work-data<GObject> = $p.prepare-work-data(GObject);
 
 #`{{
-  #TODO yaml problemen, not thread safe?
+  #TODO yaml problems, not thread safe?
   # get object maps
-  my Hash $promises = %();
-  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+  my Hash $promises ;
+#  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $promises = %();
     $promises<atk> = Promise.start({
-      $s.load-map($!other-work-data<Atk><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Atk><gir-module-path>);
     });
     $promises<Gtk> = Promise.start({
-      $s.load-map($!other-work-data<Gtk><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Gtk><gir-module-path>);
     });
+
+    await($promises.values);
+    $!object-maps<Atk> = $promises<atk>.result;
+    $!object-maps<Gtk> = $promises<Gtk>.result;
+  }
+}}
+
+#`{{
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $promises = %();
     $promises<Gdk> = Promise.start({
-      $s.load-map($!other-work-data<Gdk><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Gdk><gir-module-path>);
     });
     if ?$!other-work-data<Gsk> {
       $promises<Gsk> = Promise.start({
-        $s.load-map($!other-work-data<Gsk><gir-module-path>)
+        Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Gsk><gir-module-path>)
       });
     }
+
+    await($promises.values);
+    $!object-maps<Gdk> = $promises<Gdk>.result;
+    $!object-maps<Gsk> = $promises<Gsk>.result if ?$!other-work-data<Gsk>;
+  }
+
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $promises = %();
     $promises<Pango> = Promise.start({
-      $s.load-map($!other-work-data<Pango><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Pango><gir-module-path>);
     });
     $promises<Cairo> = Promise.start({
-      $s.load-map($!other-work-data<Cairo><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Cairo><gir-module-path>);
     });
+
+    await($promises.values);
+    $!object-maps<Pango> = $promises<Pango>.result;
+    $!object-maps<Cairo> = $promises<Cairo>.result;
   }
 
 
+  $promises = %();
   $promises<Glib> = Promise.start({
-    $s.load-map($!other-work-data<Glib><gir-module-path>);
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Glib><gir-module-path>);
   });
   $promises<Gio> = Promise.start({
-    $s.load-map($!other-work-data<Gio><gir-module-path>);
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Gio><gir-module-path>);
   });
   $promises<GObject> = Promise.start({
-    $s.load-map($!other-work-data<GObject><gir-module-path>);
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<GObject><gir-module-path>);
   });
 
   await($promises.values);
+#`{{
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
     $!object-maps<Atk> = $promises<atk>.result;
     $!object-maps<Gtk> = $promises<Gtk>.result;
@@ -110,10 +135,16 @@ submethod BUILD ( ) {
     $!object-maps<Pango> = $promises<Pango>.result;
     $!object-maps<Cairo> = $promises<Cairo>.result;
   }
+}}
   $!object-maps<Glib> = $promises<Glib>.result;
   $!object-maps<Gio> = $promises<Gio>.result;
   $!object-maps<GObject> = $promises<GObject>.result;
 }}
+
+
+
+
+
 
 ##`{{
   # get object maps
@@ -148,6 +179,7 @@ submethod BUILD ( ) {
 }}
 
   # load data for this module
+  note "Load module data from $*work-data<gir-module-file>";
   $!xpath .= new(:file($*work-data<gir-module-file>));
 }
 
@@ -169,7 +201,9 @@ method generate-raku-module ( ) {
     $description-comment = 'Class Description';
   }
 
-  my $module-doc = qq:to/RAKUMOD/;
+  my Str ( $doc, $code);
+  my Str $module-code = '';
+  my Str $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
     use v6;
 
@@ -185,30 +219,37 @@ method generate-raku-module ( ) {
   my Hash $sig-info = self!generate-signals($class-element);
 
   note "Set class unit" if $*verbose;
-  $module-doc ~= self!set-unit( $class-element, $sig-info);
+  $module-code ~= self!set-unit( $class-element, $sig-info);
 
   # Roles do not have a BUILD
   if $!make-role {
     note "Generate role initialization method" if $*verbose;  
-    $module-doc ~= self!generate-role-init( $class-element, $sig-info);
+    $module-code ~= self!generate-role-init( $class-element, $sig-info);
   }
 
   else {
     note "Generate BUILD submethod" if $*verbose;  
-    $module-doc ~= self!generate-build( $class-element, $sig-info);
+    ( $doc, $code) = self!generate-build( $class-element, $sig-info);
+    $module-doc ~= $doc;
+    $module-code ~= $code;
   }
 
   note "Generate module methods" if $*verbose;  
-  my Str $methods-doc ~= self!generate-methods($class-element);
+  ( $doc, $code) = self!generate-methods($class-element);
 
   # if there are methods, add the fallback routine and methods
-  if ?$methods-doc {
-    $module-doc ~= self!add-deprecatable-method($class-element);
-    $module-doc ~= $methods-doc;
+  if ?$doc {
+    $module-code ~= self!add-deprecatable-method($class-element);
+    $module-code ~= $code;
+    $module-doc ~= $doc;
   }
 
   note "Generate module functions" if $*verbose;  
-  $module-doc ~= self!generate-functions($class-element);
+  ( $doc, $code) = self!generate-functions($class-element);
+  if ?$code {
+    $module-doc ~= $doc;
+    $module-code ~= $code;
+  }
 
   # Add the signal doc here
   $module-doc ~= $sig-info<doc>;
@@ -217,7 +258,9 @@ method generate-raku-module ( ) {
   $module-doc ~= self!generate-properties($class-element);
 
   note "Save module";
-  $*work-data<raku-module-file>.IO.spurt($module-doc);
+  $*work-data<raku-module-file>.IO.spurt($module-code);
+  note "Save pod doc";
+  $*work-data<raku-module-doc-file>.IO.spurt($module-doc);
 }
 
 #-------------------------------------------------------------------------------
@@ -306,9 +349,8 @@ method !set-example ( --> Str ) {
 
     =begin comment
     =head2 Example
-
-    =begin code
-    =end code
+      … text …
+      … example code …
     =end comment
     EOEX
   $doc
@@ -347,7 +389,7 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
   }
 
 
-  my Str $doc = qq:to/RAKUMOD/;
+  my Str $code = qq:to/RAKUMOD/;
 
     {HLSEPARATOR}
     {SEPARATOR('Module Imports');}
@@ -372,28 +414,31 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
 #`{{
   if ? $sig-info<doc> and ! $!make-role {
-    $doc ~= qq:to/RAKUMOD/;
+    $code ~= qq:to/RAKUMOD/;
       {HLSEPARATOR}
       my Bool \$signals-added = False;
       RAKUMOD
   }
 }}
 
-  $doc
+  $code
 }
 
 #-------------------------------------------------------------------------------
-method !generate-build ( XML::Element $class-element, Hash $sig-info --> Str ) {
+method !generate-build (
+  XML::Element $class-element, Hash $sig-info
+  --> List
+) {
 
 #  my Str $ctype = $class-element.attribs<c:type>;
 #  my Hash $h = self.search-name($ctype);
 
   my Hash $hcs = self!get-constructors($class-element);
   my Str $doc = self!make-build-doc( $class-element, $hcs);
-  $doc ~= self!make-build-submethod( $class-element, $hcs, $sig-info);
-  $doc ~= self!make-native-constructor-subs($hcs);
+  my Str $code = self!make-build-submethod( $class-element, $hcs, $sig-info);
+  $code ~= self!make-native-constructor-subs($hcs);
 
-  $doc
+  ( $doc, $code)
 }
 
 #-------------------------------------------------------------------------------
@@ -402,9 +447,9 @@ method !generate-role-init (
 ) {
 #  my Str $ctype = $class-element.attribs<c:type>;
 #  my Hash $h = self.search-name($ctype);
-  my Str $doc ~= self!make-init-method( $class-element, $sig-info);
+  my Str $code ~= self!make-init-method( $class-element, $sig-info);
 
-  $doc
+  $code
 }
 
 #-------------------------------------------------------------------------------
@@ -416,7 +461,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
     =head1 Methods
 
     {HLSEPARATOR}
-    {SEPARATOR('Class Description');}
+    {SEPARATOR('Class Initialization');}
     {HLSEPARATOR}
     #TM:1:new:
     =head2 new
@@ -503,7 +548,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
 
     Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
-      multi method new ( N-GObject :\$native-object! )
+      multi method new \( N-GObject :\$native-object! )
 
     EOBUILD
 
@@ -518,7 +563,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
 
       Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
 
-        multi method new ( Str :\$build-id! )
+        multi method new \( Str :\$build-id! )
       
       =end pod
 
@@ -563,17 +608,17 @@ method !make-build-submethod (
       for ^10 -> Str() $level {
         if ?$signal-levels{$level} {
           $sig-list ~=
-            [~] '    :w', $level, '<', $signal-levels{$level}.join(' '), ">,\n";
+            [~] '      :w', $level, '<', $signal-levels{$level}.join(' '),
+                ">,\n";
         }
       }
 
-      $sig-list = '  # Add signal administration info.' ~ "\n" ~
-        '  self.add-signal-types( $?CLASS.^name,' ~ "\n" ~
-          $sig-list ~ "\n  );"
-        if ? $sig-list;
+      $sig-list = 'self.add-signal-types( $?CLASS.^name,' ~
+                  "\n" ~ $sig-list ~ "    );\n" if ? $sig-list;
     }
 
     $signal-admin ~= qq:to/EOBUILD/;
+        # Add signal administration info.
         unless \$signals-added \{
           $sig-list$role-signals    \$signals-added = True;
         \}
@@ -581,7 +626,7 @@ method !make-build-submethod (
       EOBUILD
   }
 
-  my Str $doc = qq:to/EOBUILD/;
+  my Str $code = qq:to/EOBUILD/;
     {?$signal-admin ?? 'my Bool $signals-added = False;' !! ''}
     submethod BUILD ( *\%options ) \{
     $signal-admin
@@ -592,20 +637,20 @@ method !make-build-submethod (
 #  my Str $ctype = $class-element.attribs<c:type>;
 #  my Hash $h = self.search-name($ctype);
   if $h<inheritable> {
-    $doc ~= [~] '  # prevent creating wrong widgets', "\n",
+    $code ~= [~] '  # prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'",
-            ' or %options<', $*work-data<gnome-name>, ' {', "\n";
+            ' or %options<', $*work-data<gnome-name>, '> {', "\n";
   }
 
   else {
-    $doc ~= [~] '  # prevent creating wrong widgets', "\n",
+    $code ~= [~] '  # prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
   }
 
   # Add first few tests
   my Str $b-id-str = ?$h<inheritable>
                      ?? "\n" ~ '    elsif %options<build-id>:exists { }' !! '';
-  $doc ~= qq:to/EOBUILD/;
+  $code ~= qq:to/EOBUILD/;
         if self.is-valid \{ \}
 
         # check if common options are handled by some parent
@@ -642,7 +687,7 @@ method !make-build-submethod (
     # remove first space when there is only one parameter
     $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
 
-    $doc ~= qq:to/EOBUILD/;
+    $code ~= qq:to/EOBUILD/;
             #$ifelse \%options\<$hcs{$function-name}<option-name>\>.defined \{
             #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
             $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
@@ -656,7 +701,7 @@ method !make-build-submethod (
   }
 
   if !$h<inheritable> {
-    $doc ~= q:to/EOBUILD/;
+    $code ~= q:to/EOBUILD/;
           # check if there are unknown options
           elsif %options.elems {
             die X::Gnome.new(
@@ -670,7 +715,7 @@ method !make-build-submethod (
     EOBUILD
   }
 
-  $doc ~= q:to/EOBUILD/;
+  $code ~= q:to/EOBUILD/;
         #`{{ when there are no defaults use this
         # check if there are any options
         elsif %options.elems == 0 {
@@ -680,7 +725,7 @@ method !make-build-submethod (
 
   EOBUILD
 
-  $doc ~= q:to/EOBUILD/;
+  $code ~= q:to/EOBUILD/;
         #`{{ when there are defaults use this instead
         # create default object
         else {
@@ -694,19 +739,19 @@ method !make-build-submethod (
   EOBUILD
 
   # End the BUILD submethod
-  $doc ~= qq:to/EOBUILD/;
+  $code ~= qq:to/EOBUILD/;
         # only after creating the native-object, the gtype is known
         self._set-class-info\('$*work-data<gnome-name>'\);
       \}
     \}
     EOBUILD
 
-  $doc
+  $code
 }
 
 #-------------------------------------------------------------------------------
 method !make-native-constructor-subs ( Hash $hcs --> Str ) {
-  my Str $doc = qq:to/EOSUB/;
+  my Str $code = qq:to/EOSUB/;
 
       {HLSEPARATOR}
       {SEPARATOR('Constructors');}
@@ -722,7 +767,7 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
     # remove first comma
     $par-list ~~ s/^ . //;
 
-    $doc ~= qq:to/EOSUB/;
+    $code ~= qq:to/EOSUB/;
       {HLSEPARATOR}
       #TM:1:$function-name:
       sub $function-name \(
@@ -733,7 +778,7 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
       EOSUB
   }
 
-  $doc
+  $code
 }
 
 #-------------------------------------------------------------------------------
@@ -743,7 +788,7 @@ method !make-init-method (
 #  my Str $ctype = $class-element.attribs<c:type>;
 #  my Hash $h = self.search-name($ctype);
 
-  my Str $doc = '';
+  my Str $code = '';
 
   # Check if signal admin is needed
   if ?$sig-info<doc> {
@@ -766,7 +811,7 @@ method !make-init-method (
 
     my Str $role-ini-method-name =
       "_add_$*work-data<sub-prefix>signal_types";
-    $doc ~= qq:to/EOBUILD/;
+    $code ~= qq:to/EOBUILD/;
       #TM:1:$role-ini-method-name:
       method $role-ini-method-name ( Str \$class-name ) \{
         self\.add-signal-types\( \$class-name,
@@ -776,11 +821,11 @@ method !make-init-method (
       EOBUILD
   }
 
-  $doc
+  $code
 }
 
 #-------------------------------------------------------------------------------
-method !generate-methods ( XML::Element $class-element --> Str ) {
+method !generate-methods ( XML::Element $class-element --> List ) {
 
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
@@ -789,7 +834,15 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
   my Str $symbol-prefix = $h<symbol-prefix>;
 
   my Hash $hcs = self!get-methods($class-element);
-  return '' unless $hcs.keys.elems;
+  return ('','') unless $hcs.keys.elems;
+
+  my Str $code = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Methods');}
+    {HLSEPARATOR}
+
+    EOSUB
+
   my Str $doc = qq:to/EOSUB/;
     {HLSEPARATOR}
     {SEPARATOR('Methods');}
@@ -853,8 +906,6 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
           "\nReturn value; No diocumentation about its value and use\n";
       }
 
- #     $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
-
       if $xtype eq 'Array[Str]' {
         $return-array-convert = q:to/EOCNV/;
 
@@ -879,29 +930,21 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
       $raku-list ~= "  --> List";
     }
 
-#    # Check if there is info about the return value
-#    $returns-doc =
-#      "\nReturn value; No documentation about its value and use\n"
-#      unless ?$curr-function<rv-doc> or $raku-list ~~ / '-->' /;
-
-    # remove first comma and substitute underscores
+    # remove first comma
     $par-list ~~ s/^ . //;
-#    $par-list ~~ s:g/ '_' /-/;
     $raku-list ~~ s/^ . //;
-#    $raku-list ~~ s:g/ '_' /-/;
-#    $call-list ~~ s:g/ '_' /-/;
 
     my Str $nobject-retrieve;
     if $is-leaf {
       $nobject-retrieve = 'self._get-native-object-no-reffing';
     }
+
     else {
       $nobject-retrieve = "self._f\('$*work-data<gnome-name>'\)";
     }
 
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
-      #TM:0:$method-name:
       =begin pod
       =head2 $method-name
 
@@ -916,20 +959,23 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
       $items-doc
       $returns-doc
       =end pod
+      EOSUB
 
+    $code ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:0:$method-name:
       method $method-name \(
        $raku-list
       \) \{
-
       EOSUB
 
-    $doc ~= $p-convert if ?$p-convert;
-    $doc ~= $return-carray if ?$return-carray;
-    $doc ~= "  $function-name\( $nobject-retrieve$call-list\)\n";
-    $doc ~= $return-array-convert if ?$return-array-convert;
-    $doc ~= $return-list if ?$return-list;
+    $code ~= $p-convert if ?$p-convert;
+    $code ~= $return-carray if ?$return-carray;
+    $code ~= "  $function-name\( $nobject-retrieve$call-list\)\n";
+    $code ~= $return-array-convert if ?$return-array-convert;
+    $code ~= $return-list if ?$return-list;
 
-    $doc ~= qq:to/EOSUB/;
+    $code ~= qq:to/EOSUB/;
       \}
 
       sub $function-name \(
@@ -940,19 +986,26 @@ method !generate-methods ( XML::Element $class-element --> Str ) {
       EOSUB
   }
 
-  $doc
+  ( $doc, $code)
 }
 
 #-------------------------------------------------------------------------------
-method !generate-functions ( XML::Element $class-element --> Str ) {
+method !generate-functions ( XML::Element $class-element --> List ) {
 
   # Get all functions for this module
   my Hash $h = self.search-names(
     $*work-data<sub-prefix>, 'gir-type', 'function'
   );
-  return '' unless ?$h;
+  return ('','') unless ?$h;
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $code = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Functions');}
+    {HLSEPARATOR}
+
+    EOSUB
+
   my Str $doc = qq:to/EOSUB/;
     {HLSEPARATOR}
     {SEPARATOR('Functions');}
@@ -1068,7 +1121,6 @@ method !generate-functions ( XML::Element $class-element --> Str ) {
 
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
-      #TM:0:$method-name:
       =begin pod
       =head2 $method-name
 
@@ -1084,19 +1136,23 @@ method !generate-functions ( XML::Element $class-element --> Str ) {
       $returns-doc
       =end pod
 
+      EOSUB
+
+    $code ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:0:$method-name:
       method $method-name \(
        $raku-list
       \) \{
-
       EOSUB
 
-    $doc ~= $p-convert if ?$p-convert;
-    $doc ~= $return-carray if ?$return-carray;
-    $doc ~= "  $function-name\( $call-list\)\n";
-    $doc ~= $return-array-convert if ?$return-array-convert;
-    $doc ~= $return-list if ?$return-list;
+    $code ~= $p-convert if ?$p-convert;
+    $code ~= $return-carray if ?$return-carray;
+    $code ~= "  $function-name\( $call-list\)\n";
+    $code ~= $return-array-convert if ?$return-array-convert;
+    $code ~= $return-list if ?$return-list;
 
-    $doc ~= qq:to/EOSUB/;
+    $code ~= qq:to/EOSUB/;
       \}
 
       sub $function-name \(
@@ -1107,7 +1163,7 @@ method !generate-functions ( XML::Element $class-element --> Str ) {
       EOSUB
   }
 
-  $doc
+  ( $doc, $code)
 }
 
 #-------------------------------------------------------------------------------
@@ -1182,9 +1238,9 @@ method get-types (
 }}
 
     default {
+      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
       $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
       $call-list ~= ", \$$parameter<name>";
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
@@ -1571,8 +1627,8 @@ method get-doc-type (
       when 'array' {
         # sometime there is no 'c:type', assume an array of strings
         $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = $!sas.convert-ntype($type);
-        $raku-rtype = $!sas.convert-rtype($type);
+        $raku-ntype = $!sas.convert-ntype( $type, :$return-type);
+        $raku-rtype = $!sas.convert-rtype( $type, :$return-type);
         $g-type = $!sas.gobject-value-type($raku-ntype) if $add-gtype;
       }
     }
@@ -1833,7 +1889,7 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
     $set-class-name = [~] '  if ?$s {', "\n",
       '    self._set-class-name-of-sub(\'', $*work-data<gnome-name>, "');\n",
       "  }\n  else \{\n",
-      '    $s = callsame;', "\n";
+      '    $s = callsame;', "\n",
       "  }\n";
   }
 
