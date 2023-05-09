@@ -171,23 +171,19 @@ method convert-ntype (
 
     when /GQuark/          { $raku-type = 'GQuark'; }
     when /GList/           { $raku-type = 'N-GList'; }
-    when /GSList/           { $raku-type = 'N-GSList'; }
+    when /GSList/          { $raku-type = 'N-GSList'; }
 
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
-#    when $*work-data<gnome-type> {
-#      $raku-type = 'N-GObject';
-#    }
-
 #TODO int/num/pointers as '$x is rw'
     # ignore const
-    when /g? char '**'/        { $raku-type = 'CArray[Str]'; }
-    when /g? char '*'/         { $raku-type = 'Str'; }
-    when /g? int '*'/          { $raku-type = 'CArray[gint]'; }
-    when /g? uint '*'/         { $raku-type = 'CArray[guint]'; }
-    when /g? size '*'/         { $raku-type = 'CArray[gsize]'; }
-    when /GError '*'/          { $raku-type = 'CArray[N-GError]'; }
+    when /g? char '**'/    { $raku-type = 'CArray[Str]'; }
+    when /g? char '*'/     { $raku-type = 'Str'; }
+    when /g? int '*'/      { $raku-type = 'CArray[gint]'; }
+    when /g? uint '*'/     { $raku-type = 'CArray[guint]'; }
+    when /g? size '*'/     { $raku-type = 'CArray[gsize]'; }
+    when /GError '*'/      { $raku-type = 'CArray[N-GError]'; }
 
     when 'void' { $raku-type = 'void'; }
 
@@ -221,7 +217,7 @@ method convert-ntype (
     }
   }
 
-#say "$?LINE: convert to raku native type: '$ctype' -> '$raku-type'" if $ctype ~~ m/ gchar /;
+say "$?LINE: convert to raku native type: '$ctype' -> '$raku-type', return-type = $return-type";
 
   $raku-type
 }
@@ -277,10 +273,6 @@ method convert-rtype (
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
-#    when $*work-data<gnome-type> {
-#      $raku-type = 'N-GObject';
-#    }
-
 #TODO int/num/pointers as '$x is rw'
     when /g? char '**'/        { $raku-type = 'Array[Str]'; }
     when /g? char '*'/         { $raku-type = 'Str'; }
@@ -310,7 +302,7 @@ method convert-rtype (
 
         when 'bitfield' {
           $raku-type = 'UInt';
-          $raku-type ~= '()'      # unless $return-type;
+          $raku-type ~= '()' unless $return-type;
         }
 
 #        when 'record' { }
@@ -330,7 +322,7 @@ method convert-rtype (
     }
   }
 
-#say "$?LINE: convert raku type; '$ctype' -> '$raku-type'" if $ctype ~~ m/ char /;
+say "$?LINE: convert raku type; '$ctype' -> '$raku-type', return-type = $return-type";
 
   $raku-type
 }
@@ -558,15 +550,15 @@ method modify-classes ( Str $text is copy --> Str ) {
 method modify-examples ( Str $text is copy --> Str ) {
 
   $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="xml"' \s* '-->' 
-              /=begin comment\nFollowing text is XML\n=begin code\n/;
+              /=begin comment\nFollowing text is XML\n= begin code\n/;
 
   $text ~~ s:g/^^ '|[<!-- language="plain" -->'
-              /=begin comment\n=begin code/;
+              /=begin comment\n= begin code/;
 
   $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="C"' \s* '-->' 
-              /=begin comment\n=begin code/;
+              /=begin comment\n= begin code/;
 
-  $text ~~ s:g/^^ ']|' /=end code\n=end comment\n/;
+  $text ~~ s:g/^^ ']|' /= end code\n=end comment\n/;
 
   $text
 }
