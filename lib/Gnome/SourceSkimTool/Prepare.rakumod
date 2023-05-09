@@ -29,6 +29,7 @@ submethod BUILD ( ) {
     $*work-data<gir-module-file> =
       "$*work-data<gir-module-path>$*gnome-class.gir";
     $*work-data<raku-module-file> = RAKUMODS ~ "$*gnome-class.rakumod";
+    $*work-data<raku-module-doc-file> = RAKUMODS ~ "$*gnome-class.rakudoc";
     $*work-data<raku-module-test-file> = RAKUMODS ~ "$*gnome-class.rakutest";
   }
 
