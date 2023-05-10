@@ -27,6 +27,9 @@ TODO
   * Generate enumerations and bitmasks(also enums)
   * Generate functions
 -->
+* 2023-05-10 0.6.2
+  * Generate functions
+
 * 2023-05-03 0.6.1
   * Add commented fallback routines which are to be deprecated with proper version messages. They are commented out because newer modules must not use it and older routines must be deprecated.
 
