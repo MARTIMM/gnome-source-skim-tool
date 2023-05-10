@@ -27,6 +27,7 @@ submethod BUILD ( ) {
     :callback([]),
     :bitfield([]),
     :enumeration([]),
+    :constant([]),
 #    :interface([]),
   );
 }
@@ -91,6 +92,10 @@ method get-classes-from-gir ( ) {
         $!other<record>.push: $element;
       }
 
+      when 'constant' {
+        $!other<constant>.push: $element;
+      }
+
       when 'union' {
         $!other<union>.push: $element;
       }
@@ -130,10 +135,6 @@ method get-classes-from-gir ( ) {
         note "Save class $name in '$xml-file'" if $*verbose;
         $xml-file.IO.spurt($xml);
       }
-
-#      when 'interface' {
-#        $!other<interface>.push: $element;
-#      }
     }
 
 #note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
@@ -231,9 +232,21 @@ method !map-element (
   XML::Element $element, Str $namespace-name, Str $symbol-prefix, Str $id-prefix
 ) {
 
+  # Get attribute hash and the map key from some sort of identifier
   my Hash $attrs = $element.attribs;
-#  note "$?LINE: ", $element.name, ', ', $attrs<name> if $*verbose;
+  my Str $ctype = $attrs<c:type> //           # Most cases
+                  $attrs<glib:type-name> //   # Some classes
+                  $attrs<c:identifier> //     # Functions
+                  $attrs<name> // ''          # Doc sections
+                  ;
 
+  # Check for this id. If undefined make some noise and return
+  note "\n$?LINE NO IDENTIFIER FOUND FOR tag $element.name(); ", $attrs.gist
+       unless ?$ctype;
+
+  return unless ?$ctype;
+
+  # Gather data depending on the tag type
   given $element.name {
     when 'class' {
       my @roles = ();
@@ -244,17 +257,10 @@ method !map-element (
       my Str ( $parent-gnome-name, $parent-raku-name ) =
          self!set-names($attrs<parent> // '');
 
-#`{{
-      my Bool $inheritable = False;
-      $inheritable = True if $attrs<c:type> ne 'GtkWidget'
-                     and $*work-data<raku-package> ~~ m/ '::Gtk' /;
-}}
-
-      $!map{$attrs<c:type> // $attrs<glib:type-name>} = %(
+      $!map{$ctype} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :$parent-raku-name, :$parent-gnome-name, :@roles,
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
-#        :inheritable(self!is-inheritable($element)),
         :gir-type<class>,
       );
     }
@@ -262,7 +268,7 @@ method !map-element (
     when 'function' {
       my Str $rname = $attrs<name>;
       $rname ~~ s:g/ '_' /-/;
-      $!map{$attrs<c:identifier>} = %(
+      $!map{$ctype} = %(
         :$rname,
         :gir-type<function>,
       )
@@ -278,7 +284,7 @@ method !map-element (
         }
       }
 
-      $!map{$attrs<c:type>} = %(
+      $!map{$ctype} = %(
         :cname($alias-type-attribs<c:type>),
         :rname($alias-type-attribs<name>),
         :gir-type<alias>
@@ -286,7 +292,7 @@ method !map-element (
     }
 
     when 'constant' {
-       my Hash $const-type-attribs;
+      my Hash $const-type-attribs;
       for $element.nodes -> $n {
         if $n ~~ XML::Element and $n.name eq 'type' {
           $const-type-attribs = $n.attribs;
@@ -294,7 +300,7 @@ method !map-element (
         }
       }
 
-      $!map{$attrs<c:type>} = %(
+      $!map{$ctype} = %(
         :cname($const-type-attribs<c:type>),
         :rname($const-type-attribs<name>),
         :gir-type<constant>,
@@ -303,14 +309,14 @@ method !map-element (
 
     # 'struct'
     when 'record' {
-      $!map{$attrs<c:type>} = %(
-        :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
+      $!map{$ctype} = %(
+        :rname('N-' ~ $attrs<name>),
         :gir-type<record>,
       );
     }
 
     when 'callback' {
-      $!map{$attrs<c:type>} = %(
+      $!map{$ctype} = %(
         :rname($attrs<name>),
         :gir-type<callback>,
       );
@@ -321,8 +327,8 @@ method !map-element (
       my $d-filename = '';
       $d-filename = $d.attribs<filename>.IO.basename if ?$d;
       $d-filename ~~ s/ \. <-[\.]>+ $//;
-      $!map{$attrs<c:type>} = %(
-        :rname($attrs<c:type>), # keep name as c:type not name!
+      $!map{$ctype} = %(
+        :rname($ctype), # keep name as c:type not name!
         :gir-type<bitfield>,
         :class-file($d-filename),
       );
@@ -336,8 +342,8 @@ method !map-element (
     }
 
     when 'union' {
-      $!map{$attrs<c:type>} = %(
-        :rname($attrs<name>),
+      $!map{$ctype} = %(
+        :rname('N-' ~ $attrs<name>),
         :gir-type<union>,
       );
     }
@@ -348,8 +354,8 @@ method !map-element (
       my $d-filename = '';
       $d-filename = $d.attribs<filename>.IO.basename if ?$d;
       $d-filename ~~ s/ \. <-[\.]>+ $//;
-      $!map{$attrs<c:type>} = %(
-        :rname($attrs<c:type>), # keep rname as c:type not name!
+      $!map{$ctype} = %(
+        :rname($ctype), # keep rname as c:type not name!
         :gir-type<enumeration>,
         :class-file($d-filename),
       );
@@ -357,7 +363,7 @@ method !map-element (
 
     # 'role'
     when 'interface' {
-      $!map{$attrs<c:type>} = %(
+      $!map{$ctype} = %(
         :gir-type<interface>, :!leaf,
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
@@ -370,6 +376,19 @@ method !map-element (
     default {
       print 'Missed an element type: ', .note;
     }
+  }
+
+note "$?LINE $ctype, $attrs.gist()" if $ctype = 'record';
+  $!map{$ctype}<deprecated> = True
+    if $attrs<deprecated>:exists and $attrs<deprecated> == 1;
+
+  if $attrs<filename>:exists {
+    my Str $module-name = $attrs<filename>.IO.basename;
+    $module-name ~~ s/ $module-name.IO.extension $//;
+    $module-name ~~ s/^ $*gnome-package.Str //;
+    $module-name .= tc;
+note "$?LINE $element.name(): $module-name";
+    $!map{$ctype}<module-name> = $module-name;
   }
 }
 
