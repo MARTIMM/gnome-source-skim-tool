@@ -195,7 +195,7 @@ method convert-ntype (
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
-          $raku-type ~= '()' unless $return-type;
+#          $raku-type ~= '()' unless $return-type;
         }
 
         when 'enumeration' { $raku-type = 'GEnum'; }
@@ -205,7 +205,7 @@ method convert-ntype (
 #        when 'callback' { }
         when 'interface' {
           $raku-type = 'N-GObject';
-          $raku-type ~= '()' unless $return-type;          
+#          $raku-type ~= '()' unless $return-type;          
         }
 #        when '' { }
 
@@ -217,7 +217,7 @@ method convert-ntype (
     }
   }
 
-say "$?LINE: convert to raku native type: '$ctype' -> '$raku-type', return-type = $return-type";
+#say "$?LINE: convert to raku native type: '$ctype' -> '$raku-type', return-type = $return-type";
 
   $raku-type
 }
@@ -244,7 +244,7 @@ method convert-rtype (
          long short size ssize
          >) {
       $raku-type = 'Int';
-      $raku-type ~= '()';     # unless $return-type;
+      $raku-type ~= '()' unless $return-type;
     }
 
     when any(<guchar guint guint16 guint32 guint64
@@ -252,12 +252,12 @@ method convert-rtype (
          uint8 ulong unichar ushort
          >) {
       $raku-type = 'UInt';
-      $raku-type ~= '()';     # unless $return-type;
+      $raku-type ~= '()' unless $return-type;
     }
 
     when /g [float || double]/ {
       $raku-type = 'Num';
-      $raku-type ~= '()'      # unless $return-type;
+      $raku-type ~= '()' unless $return-type;
     }
 
     when /GQuark/ { $raku-type = 'UInt'; }
@@ -322,7 +322,7 @@ method convert-rtype (
     }
   }
 
-say "$?LINE: convert raku type; '$ctype' -> '$raku-type', return-type = $return-type";
+#say "$?LINE: convert raku type; '$ctype' -> '$raku-type', return-type = $return-type";
 
   $raku-type
 }

@@ -829,7 +829,6 @@ method !generate-methods ( XML::Element $class-element --> List ) {
 
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
-#note "$?LINE $ctype, cea = $class-element.attribs.gist(), h = $h.gist()";
   my Bool $is-leaf = $h<leaf> // False;
   my Str $symbol-prefix = $h<symbol-prefix>;
 
@@ -873,14 +872,14 @@ method !generate-methods ( XML::Element $class-element --> List ) {
     my @rv-list = ();
 
     for @($curr-function<parameters>) -> $parameter {
-      $own = '';
+#      $own = '';
       my Int $a-count = 0;
-      if ! $parameter<is-instance> {
+#      if ! $parameter<is-instance> {
         self.get-types(
           $parameter, $raku-list, $par-list, $call-list, $items-doc, $p-convert,
           @rv-list, $returns-doc
         );
-      }
+#      }
     }
 
     my $xtype = $curr-function<return-raku-ntype>;
@@ -891,7 +890,7 @@ method !generate-methods ( XML::Element $class-element --> List ) {
     $xtype = $curr-function<return-raku-rtype>;
     if ?$xtype and $xtype ne 'void' {
       $raku-list ~= "  --> $xtype";
-      my Str $own = '';
+      $own = '';
       $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
         if ?$curr-function<transfer-ownership> and
             $curr-function<transfer-ownership> ne 'none';
@@ -1183,7 +1182,7 @@ method get-types (
 
   given my $xtype = $parameter<raku-ntype> {
     when 'N-GObject' {
-      $raku-list ~= ", $parameter<raku-rtype>\() \$$parameter<name>";
+      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
       $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
       $call-list ~= ", \$$parameter<name>";
 
@@ -1529,6 +1528,8 @@ method get-method-data (
   $option-name = $function-name = $e.attribs<c:identifier>;
   my Str $sub-prefix := $*work-data<sub-prefix>;
 
+note "\n$?LINE $function-name";
+
   # option names are used in BUILD only
   if $build {
     # constructors have '_new' in the name
@@ -1545,48 +1546,44 @@ method get-method-data (
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+note "$?LINE return value";
   my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
     self.get-doc-type( $rvalue, :return-type);
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
   my @parameters = ();
-  my @prmtrs =
-    $xpath.find(
-      'parameters/instance-parameter | parameters/parameter',
-      :start($e), :to-list);
+  my @prmtrs = $xpath.find(
+    'parameters/instance-parameter | parameters/parameter',
+    :start($e), :to-list
+  );
+
   for @prmtrs -> $p {
+    my Str ( $doc, $type, $raku-ntype, $raku-rtype) = self.get-doc-type($p);
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = $attribs<name>;
+    $parameter-name ~~ s:g/ '_' /-/;
+note "$?LINE parameter $parameter-name, , $raku-ntype, $raku-rtype";
+
+    my Hash $ph = %(
+      :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
+      :$doc, :$type, :$raku-ntype, :$raku-rtype
+    );
+
     if $p.name eq 'instance-parameter' {
-      my Str ( $doc, $type, $raku-ntype, $raku-rtype) = self.get-doc-type($p);
-      my Hash $attribs = $p.attribs;
-      my Str $parameter-name = $attribs<name>;
-      $parameter-name ~~ s:g/ '_' /-/;
-      my Hash $ph = %(
-        :name($parameter-name), :!allow-none, :!nullable, :is-instance,
-        :transfer-ownership($attribs<transfer-ownership>),
-        :$doc, :$type, :$raku-ntype, :$raku-rtype
-      );
+      $ph<allow-none> = False;
+      $ph<nullable> = False;
+      $ph<is-instance> = True;
 
-      @parameters.push: $ph;
     }
-
-#  @prmtrs = $xpath.find( 'parameters/parameter', :start($e), :to-list);
-#  for @prmtrs -> $p {
 
     elsif $p.name eq 'parameter' {
-      my Str ( $doc, $type, $raku-ntype, $raku-rtype) = self.get-doc-type($p);
-      my Hash $attribs = $p.attribs;
-      my Str $parameter-name = $attribs<name>;
-      $parameter-name ~~ s:g/ '_' /-/;
-      my Hash $ph = %(
-        :name($parameter-name), :allow-none($attribs<allow-none>.Bool),
-        :nullable($attribs<nullable>.Bool), :!is-instance,
-        :transfer-ownership($attribs<transfer-ownership>),
-        :$doc, :$type, :$raku-ntype, :$raku-rtype
-      );
-
-      @parameters.push: $ph;
+      $ph<allow-none> = $attribs<allow-none>.Bool;
+      $ph<nullable> = $attribs<nullable>.Bool;
+      $ph<is-instance> = False;
     }
+
+    @parameters.push: $ph;
   }
 
   ( $function-name, %(
@@ -1859,7 +1856,7 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
   my $role-fallbacks = '';
   for @$roles -> $role {
     my Hash $role-h = self.search-name($role);
-#note "$?LINE role=$role -> $role-h.gist()";
+
     $role-fallbacks ~=
       "  \$s = self._$role-h<symbol-prefix>interface\(\$native-sub)\n" ~
       "    if !\$s and self.^can\('_$role-h<symbol-prefix>interface');\n";
