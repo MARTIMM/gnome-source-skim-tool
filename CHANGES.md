@@ -27,6 +27,9 @@ TODO
   * Generate enumerations and bitmasks(also enums)
   * Generate functions
 -->
+* 2023-05-12 0.7.0
+  * Look into the lowest level of libs: Glib
+
 * 2023-05-10 0.6.2
   * Generate functions
 
