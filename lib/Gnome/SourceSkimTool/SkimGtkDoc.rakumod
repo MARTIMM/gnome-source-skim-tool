@@ -263,6 +263,9 @@ method !map-element (
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
         :gir-type<class>,
       );
+
+      my Str $fname = self!get-source-file( $element, 'source-position');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'function' {
@@ -271,7 +274,10 @@ method !map-element (
       $!map{$ctype} = %(
         :$rname,
         :gir-type<function>,
-      )
+      );
+
+      my Str $fname = self!get-source-file( $element, 'source-position');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # 'typedef'
@@ -289,6 +295,9 @@ method !map-element (
         :rname($alias-type-attribs<name>),
         :gir-type<alias>
       );
+
+      my Str $fname = self!get-source-file( $element, 'source-position');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'constant' {
@@ -305,6 +314,9 @@ method !map-element (
         :rname($const-type-attribs<name>),
         :gir-type<constant>,
       );
+
+      my Str $fname = self!get-source-file( $element, 'source-position');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # 'struct'
@@ -313,6 +325,9 @@ method !map-element (
         :rname('N-' ~ $attrs<name>),
         :gir-type<record>,
       );
+
+      my Str $fname = self!get-source-file( $element, 'source-position');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'callback' {
@@ -320,25 +335,36 @@ method !map-element (
         :rname($attrs<name>),
         :gir-type<callback>,
       );
+
+      my Str $fname = self!get-source-file( $element, 'source-position');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'bitfield' {
+#`{{
       my XML::Element $d = $!xp.find( 'doc', :start($element));
       my $d-filename = '';
       $d-filename = $d.attribs<filename>.IO.basename if ?$d;
       $d-filename ~~ s/ \. <-[\.]>+ $//;
+}}
       $!map{$ctype} = %(
         :rname($ctype), # keep name as c:type not name!
         :gir-type<bitfield>,
-        :class-file($d-filename),
+#        :class-file($d-filename),
       );
+
+      my Str $fname = self!get-source-file( $element, 'doc');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'docsection' {
       $!map{$attrs<name>} = %(
         :rname($attrs<name>),
         :gir-type<docsection>,
-      )
+      );
+
+      my Str $fname = self!get-source-file( $element, 'doc');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'union' {
@@ -346,19 +372,27 @@ method !map-element (
         :rname('N-' ~ $attrs<name>),
         :gir-type<union>,
       );
+
+      my Str $fname = self!get-source-file( $element, 'source-position');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # 'enum'
     when 'enumeration' {
+#`{{
       my XML::Element $d = $!xp.find( 'doc', :start($element));
       my $d-filename = '';
       $d-filename = $d.attribs<filename>.IO.basename if ?$d;
       $d-filename ~~ s/ \. <-[\.]>+ $//;
+}}
       $!map{$ctype} = %(
         :rname($ctype), # keep rname as c:type not name!
         :gir-type<enumeration>,
-        :class-file($d-filename),
+#        :class-file($d-filename),
       );
+
+      my Str $fname = self!get-source-file( $element, 'doc');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # 'role'
@@ -368,6 +402,9 @@ method !map-element (
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
       );
+
+      my Str $fname = self!get-source-file( $element, 'source-position');
+      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # '#define'
@@ -378,18 +415,12 @@ method !map-element (
     }
   }
 
+#`{{
 note "$?LINE $ctype, $attrs.gist()" if $ctype = 'record';
   $!map{$ctype}<deprecated> = True
     if $attrs<deprecated>:exists and $attrs<deprecated> == 1;
-
-  if $attrs<filename>:exists {
-    my Str $module-name = $attrs<filename>.IO.basename;
-    $module-name ~~ s/ $module-name.IO.extension $//;
-    $module-name ~~ s/^ $*gnome-package.Str //;
-    $module-name .= tc;
-note "$?LINE $element.name(): $module-name";
-    $!map{$ctype}<module-name> = $module-name;
   }
+}}
 }
 
 #-------------------------------------------------------------------------------
@@ -413,6 +444,21 @@ method !is-inheritable-r ( Str $classname --> Bool ) {
   return False if $parent ~~ m/ GInitiallyUnowned || GObject || '-' /;
 
   self!is-inheritable-r($parent);
+}
+
+#-------------------------------------------------------------------------------
+method !get-source-file( XML::Element:D $element, Str:D $tag-name --> Str ) {
+  my XML::Element $sp = $!xp.find( $tag-name, :start($element));
+  my Str $fname = ?$sp ?? ($sp.attribs<filename> // '') !! '';
+  if ?$fname {
+    $fname = $fname.IO.basename;
+    $fname ~~ s/ \. <-[\.]>+ $//;
+    $fname ~~ s/^ $*gnome-package.Str //;
+#    $fname .= tc;
+note "$?LINE $element.name(): $fname";
+  }
+  
+  $fname
 }
 
 #-------------------------------------------------------------------------------
