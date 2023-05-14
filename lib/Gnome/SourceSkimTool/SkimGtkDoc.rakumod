@@ -321,8 +321,14 @@ method !map-element (
 
     # 'struct'
     when 'record' {
+
+      my Str $rname = $ctype;
+      my Str $np = $*work-data<name-prefix>;
+      $rname ~~ s:i/^ $np //;
+      $rname = $*work-data<raku-package> ~ '::' ~ $rname;
       $!map{$ctype} = %(
-        :rname('N-' ~ $attrs<name>),
+        :sname("N-$ctype"),
+        :$rname,
         :gir-type<record>,
       );
 
@@ -341,16 +347,9 @@ method !map-element (
     }
 
     when 'bitfield' {
-#`{{
-      my XML::Element $d = $!xp.find( 'doc', :start($element));
-      my $d-filename = '';
-      $d-filename = $d.attribs<filename>.IO.basename if ?$d;
-      $d-filename ~~ s/ \. <-[\.]>+ $//;
-}}
       $!map{$ctype} = %(
-        :rname($ctype), # keep name as c:type not name!
+        :rname($ctype),
         :gir-type<bitfield>,
-#        :class-file($d-filename),
       );
 
       my Str $fname = self!get-source-file( $element, 'doc');
@@ -368,8 +367,13 @@ method !map-element (
     }
 
     when 'union' {
+      my Str $rname = $ctype;
+      my Str $np = $*work-data<name-prefix>;
+      $rname ~~ s:i/^ $np //;
+      $rname = $*work-data<raku-package> ~ '::' ~ $rname;
       $!map{$ctype} = %(
-        :rname('N-' ~ $attrs<name>),
+        :sname("N-$ctype"),
+        :$rname,
         :gir-type<union>,
       );
 
@@ -379,20 +383,13 @@ method !map-element (
 
     # 'enum'
     when 'enumeration' {
-#`{{
-      my XML::Element $d = $!xp.find( 'doc', :start($element));
-      my $d-filename = '';
-      $d-filename = $d.attribs<filename>.IO.basename if ?$d;
-      $d-filename ~~ s/ \. <-[\.]>+ $//;
-}}
       $!map{$ctype} = %(
-        :rname($ctype), # keep rname as c:type not name!
+        :rname($ctype),
         :gir-type<enumeration>,
-#        :class-file($d-filename),
       );
 
       my Str $fname = self!get-source-file( $element, 'doc');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
+      $!map{$ctype}<class-file> = $fname;
     }
 
     # 'role'
@@ -451,13 +448,19 @@ method !get-source-file( XML::Element:D $element, Str:D $tag-name --> Str ) {
   my XML::Element $sp = $!xp.find( $tag-name, :start($element));
   my Str $fname = ?$sp ?? ($sp.attribs<filename> // '') !! '';
   if ?$fname {
+    # get name of file, drop extension and remove a few letters from front
     $fname = $fname.IO.basename;
     $fname ~~ s/ \. <-[\.]>+ $//;
-    $fname ~~ s/^ $*gnome-package.Str //;
-#    $fname .= tc;
+    my $name-prefix = $*work-data<name-prefix>;
+    $fname ~~ s/^ $name-prefix //;
+
 note "$?LINE $element.name(): $fname";
   }
-  
+
+  else {
+    $fname = 'undefined-module-name';
+  }
+
   $fname
 }
 
