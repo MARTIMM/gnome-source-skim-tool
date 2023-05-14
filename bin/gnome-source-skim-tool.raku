@@ -3,7 +3,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::SkimGtkDoc;
-use Gnome::SourceSkimTool::GenRakuModule;
+#use Gnome::SourceSkimTool::GenRakuModule;
 
 #-------------------------------------------------------------------------------
 my SkimSource $*gnome-package;
@@ -14,7 +14,8 @@ my Bool $*verbose;
 #-------------------------------------------------------------------------------
 sub MAIN (
   Str:D $gnome-package, Str $gnome-class?,
-  Bool :$v = False, Bool :$y = False, Bool :$r = False, Bool :$h = False,
+  Bool :$v = False, Bool :$y = False, Bool :$c = False, Bool :$r = False,
+  Bool :$h = False, Bool :$l = False, Str :$t = ''
 ) {
 
   $*verbose = $v;
@@ -37,20 +38,35 @@ sub MAIN (
   $*verbose = $v;
 
   if $y {
-    note "Generate the intermediate gir and yaml files" if $*verbose;
+    say "Generate the intermediate gir and yaml files" if $*verbose;
     $*gnome-class = $gnome-class // 'Widget';
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     my Gnome::SourceSkimTool::SkimGtkDoc $skim-doc .= new;
     $skim-doc.get-classes-from-gir;
   }
 
-  if $r and ?$gnome-class {
+  elsif $c and ?$gnome-class {
     $*gnome-class = $gnome-class;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
-    note "Generate Raku module $*work-data<raku-class-name>" if $*verbose;
-    my Gnome::SourceSkimTool::GenRakuModule $raku-module .= new;
+
+    say "Generate Raku module from class $*work-data<raku-class-name>"
+         if $*verbose;
+    require ::('Gnome::SourceSkimTool::GenRakuModule');
+    my $raku-module = ::('Gnome::SourceSkimTool::GenRakuModule').new;
     $raku-module.generate-raku-module;
     $raku-module.generate-raku-module-test;
+  }
+
+  elsif $r and ?$gnome-class {
+    $*gnome-class = $gnome-class;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+    say "Generate Raku module from record $*work-data<raku-class-name>"
+         if $*verbose;
+    require ::('Gnome::SourceSkimTool::GenRakuRecord');
+    my $raku-record = ::('Gnome::SourceSkimTool::GenRakuRecord').new;
+    $raku-record.generate-raku-record;
+    $raku-record.generate-raku-record-test;
   }
 }
 
@@ -61,20 +77,30 @@ sub USAGE ( ) {
   $*verbose = False;
 #  my Prepare $gfl .= new;
 
-  note qq:to/EOHELP/;
+  say qq:to/EOHELP/;
 
   Program to generate Raku modules from the Gnome source code using
   the GtkDoc tool also used by Gnome to generate there documentation.
 
   Usage
     {$*PROGRAM.basename} -h
+
+    {$*PROGRAM.basename} -c [-v] gnome-package gnome-class
+    {$*PROGRAM.basename} -r [-v] gnome-package gnome-record
     {$*PROGRAM.basename} -y [-v] gnome-package
-    {$*PROGRAM.basename} -r [-v] gnome-package gnome-class
+
+    {$*PROGRAM.basename} -l [-t=type] gnome-package
 
     Options:
-      h       Show this info.
-      r       Generate Raku module from argument. Result is put in directory
+      c       Generate Raku module from argument. Result is put in directory
               '{RAKUMODS}' together with a test file.
+              E.g. AboutDialog or Window defined in Gtk3.
+      h       Show this info.
+      l       Show types used in the gnome-package.
+      r       Generate Raku module from argument. The argument is a name
+              of a so called record or stucture. E.g. Error or List in Glib.
+      t       Use the type output from the plain -l option. With this option, a
+              list of names is output defined as that type.
       y       Generate the intermediate gir and yaml files. The files will be
               kept, so they need to be generated only once or when sources are
               updated.
@@ -85,139 +111,8 @@ sub USAGE ( ) {
                       from this list; Atk Cairo DBus DBusGLib Gdk3 Gdk4
                       GdkPixbuf GdkPixdata Gio Glib GObject Gtk3 Gtk4 Gsk4
                       Pango PangoCairo GIRepo.
-      gnome-class     A gnome class name like GtkButton or GApplication. This is
-                      optional when only the GtkDoc results are to be generated.
-
-EOHELP
-}
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
-
-
-
-use Gnome::SourceSkimTool::Prepare;
-use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::SkimGtkDoc;
-use Gnome::SourceSkimTool::GenRakuModule;
-
-#-------------------------------------------------------------------------------
-constant \Prepare = Gnome::SourceSkimTool::Prepare;
-constant \SkimGtkDoc = Gnome::SourceSkimTool::SkimGtkDoc;
-constant \GenRakuModule = Gnome::SourceSkimTool::GenRakuModule;
-
-# $sub-prefix is the name of gnome class. Sometimes another class is defined
-# within the same file. To generate that part, add the $other-prefix.
-
-my SkimSource $*gnome-package;
-my Str $*gnome-class;
-my Hash $*work-data;
-
-my Bool $*verbose;
-my Prepare $prepare;
-my GenRakuModule $raku-module;
-
-#my Str $source
-my @source-dir-list = ();
-
-#-------------------------------------------------------------------------------
-sub MAIN (
-  Str:D $gnome-package, Str $gnome-class?,
-  Bool :$g = False, Bool :$v = False, Bool :$y = False,
-  Bool :$d = False, Bool :$h = False, Bool :$r = False,
-) {
-
-  $*verbose = $v;
-
-  if $h {
-    USAGE;
-    exit(0);
-  }
-
-  $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
-  unless $*gnome-package.defined {
-    USAGE;
-    exit(1);
-  }
-
-  # Generate the document results using gtkdoc
-  if $d {
-    note "\nOption -d; Generate gtkdoc files" if $*verbose;
-    $prepare .= new;
-    $prepare.generate-gtkdoc
-  }
-
-  # Generate the global data results from the gtkdocs generated files
-  my SkimGtkDoc $skim-doc .= new;
-  if $g {
-    note "\nOption -g; Generate global data from gtkdocs generated files"
-      if $*verbose;
-    $skim-doc.process-apidocs;
-  }
-
-  if $y and ?$gnome-class {
-    note "\nGenerate yaml file for module $gnome-class from gtkdocs files"
-      if $*verbose;
-    $*gnome-class = $gnome-class;
-    $prepare .= new;
-    $skim-doc.process-gtkdocs;
-  }
-
-  if $r and ?$gnome-class {
-    note "\nOption -r; Generate $gnome-class Raku module from yaml file"
-      if $*verbose;
-    $*gnome-class = $gnome-class;
-# done in GenRakuModule:      $prepare .= new;
-
-    $raku-module .= new;
-    $raku-module.generate;
-    $raku-module.save;
-  }
-}
-
-#-------------------------------------------------------------------------------
-sub USAGE ( ) {
-
-  # Need to call Prepare init to get a few values in the output
-  $*verbose = False;
-#  my Prepare $gfl .= new;
-
-  note qq:to/EOHELP/;
-
-  Program to generate Raku modules from the Gnome source code using
-  the GtkDoc tool also used by Gnome to generate there documentation.
-
-  Usage
-    {$*PROGRAM.basename} [Options] gnome-package [gnome-class]
-
-    Options:
-      d       Generate the gtk doc environment from the source code using the
-              argument. No Raku module is generated. Default False.
-      g       Generate global data only. No Raku module is generated. Default
-              False.
-      h       Show this info.
-      r       Generate Raku module from argument. Result is put in directory
-              '{$*work-data<new-raku-modules>}' together with a test file.
-      y       Generate the intermediate yaml files. The files will be kept, so
-              they need to be generated only once.
-      v       Show some info while stumping. Default False.
-
-    Arguments
-      gnome-package   The package name used for the gnome class. Select from
-                      {SkimSource.keys.sort}. This argument must always be
-                      provided.
-      gnome-class     A gnome class name like GtkButton or GApplication. This is
-                      optional when only the GtkDoc results are to be generated.
-
+      gnome-class     A class name like Button or Application defined in Gtk3
+                      or Gtk4.
+      gnome-record    A record name like Error or List in Glib
 EOHELP
 }
