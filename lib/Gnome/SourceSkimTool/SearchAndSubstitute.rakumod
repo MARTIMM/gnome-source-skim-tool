@@ -356,6 +356,124 @@ method search-name ( Str $name is copy --> Hash ) {
 }}
 
 #-------------------------------------------------------------------------------
+method get-method-data (
+  XML::Element $e, Bool :$build = False, XML::XPath :$xpath
+  --> List
+) {
+  my Str ( $function-name, $option-name, $function-doc);
+
+  $option-name = $function-name = $e.attribs<c:identifier>;
+  my Str $sub-prefix := $*work-data<sub-prefix>;
+
+note "\n$?LINE $function-name";
+
+  # option names are used in BUILD only
+  if $build {
+    # constructors have '_new' in the name
+    $option-name ~~ s/^ $sub-prefix new '_'? //;
+    my Int $last-u = $option-name.rindex('_');
+    $option-name .= substr($last-u + 1) if $last-u.defined;
+#    $option-name ~~ s:g/ '_' /-/;
+    $option-name = '-' if $option-name ~~ m/^ \s* $/;
+  }
+
+  $function-doc = self.cleanup(
+    self.modify-text(($xpath.find( 'doc/text()', :start($e)) // '').Str)
+  );
+
+  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
+  my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+note "$?LINE return value";
+  my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
+    self.get-doc-type( $rvalue, :return-type, :$xpath);
+
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
+  my @parameters = ();
+  my @prmtrs = $xpath.find(
+    'parameters/instance-parameter | parameters/parameter',
+    :start($e), :to-list
+  );
+
+  for @prmtrs -> $p {
+    my Str ( $doc, $type, $raku-ntype, $raku-rtype) =
+      self.get-doc-type( $p, :$xpath);
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = $attribs<name>;
+    $parameter-name ~~ s:g/ '_' /-/;
+note "$?LINE parameter $parameter-name, , $raku-ntype, $raku-rtype";
+
+    my Hash $ph = %(
+      :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
+      :$doc, :$type, :$raku-ntype, :$raku-rtype
+    );
+
+    if $p.name eq 'instance-parameter' {
+      $ph<allow-none> = False;
+      $ph<nullable> = False;
+      $ph<is-instance> = True;
+
+    }
+
+    elsif $p.name eq 'parameter' {
+      $ph<allow-none> = $attribs<allow-none>.Bool;
+      $ph<nullable> = $attribs<nullable>.Bool;
+      $ph<is-instance> = False;
+    }
+
+    @parameters.push: $ph;
+  }
+
+  ( $function-name, %(
+      :$option-name, :$function-doc, :@parameters,
+      :$rv-doc, :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
+      :$rv-transfer-ownership,
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+method get-doc-type (
+  XML::Element $e, Bool :$return-type = False,
+  Bool :$add-gtype = False, XML::XPath :$xpath
+  --> List
+) {
+
+  my Str ( $doc, $type, $raku-ntype, $raku-rtype, $g-type) =
+     ( '', '', '', '', '');
+  for $e.nodes -> $n {
+    next if $n ~~ XML::Text;
+    with $n.name {
+      when 'doc' {
+        $doc = self.cleanup(
+          self.modify-text(($xpath.find( 'text()', :start($n)) // '').Str)
+        );
+      }
+
+      when 'type' {
+        $type = $n.attribs<name>;
+        $type ~~ s:g/ '.' //;
+        $raku-ntype =
+          self.convert-ntype($n.attribs<c:type> // $type, :$return-type);
+        $raku-rtype =
+          self.convert-rtype($n.attribs<c:type> // $type, :$return-type);
+        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
+      }
+
+      when 'array' {
+        # sometime there is no 'c:type', assume an array of strings
+        $type = $n.attribs<c:type> // 'gchar**';
+        $raku-ntype = self.convert-ntype( $type, :$return-type);
+        $raku-rtype = self.convert-rtype( $type, :$return-type);
+        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
+      }
+    }
+  }
+
+  ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
+}
+
+#-------------------------------------------------------------------------------
 method modify-text ( Str $text is copy --> Str ) {
 
   # Do not modify text whithin example code. C code is to be changed
