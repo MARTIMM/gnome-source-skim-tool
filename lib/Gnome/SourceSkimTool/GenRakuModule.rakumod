@@ -24,7 +24,6 @@ submethod BUILD ( ) {
   $!object-maps = %();
 
   $!sas .= new(:gen-raku-module(self));
-  #$!sas .= new( :$!other-work-data, :$!other-work-data);
 
   note "Prepare for module generation" if $*verbose;
 
