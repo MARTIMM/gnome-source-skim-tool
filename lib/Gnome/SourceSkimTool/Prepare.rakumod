@@ -24,7 +24,7 @@ submethod BUILD ( ) {
     my Str $c = $*gnome-class;
     $c ~~ s/^ (.) /$0.lc()/;
     $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
-    $*work-data<sub-prefix> ~= $c ~ '_';
+    $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
 
     $*work-data<gir-module-file> =
       "$*work-data<gir-module-path>$*gnome-class.gir";
@@ -48,7 +48,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Gtk3>,
         :gnome-name("Gtk$*gnome-class"),
         :gir(GIRROOT ~ 'Gtk-3.0.gir'),
-        :sub-prefix<gtk_>,
+        :name-prefix<gtk>,
       );
     }
 
@@ -59,7 +59,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Gdk3>,
         :gnome-name("Gdk$*gnome-class"),
         :gir(GIRROOT ~ 'Gdk-3.0.gir'),
-        :sub-prefix<gdk_>,
+        :name-prefix<gdk>,
       );
     }
 
@@ -70,7 +70,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Gdk3>,
         :gnome-name("GdkPixbuf$*gnome-class"),
         :gir(GIRROOT ~ 'GdkPixbuf-2.0.gir'),
-        :sub-prefix<gdk_pixbuf_>,
+        :name-prefix<gdk_pixbuf>,
       );
     }
 
@@ -81,7 +81,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Gtk4>,
         :gnome-name("Gtk$*gnome-class"),
         :gir(GIRROOT ~ 'Gtk-4.0.gir'),
-        :sub-prefix<gtk_>,
+        :name-prefix<gtk>,
       );
     }
 
@@ -92,7 +92,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Gdk4>,
         :gnome-name("Gdk$*gnome-class"),
         :gir(GIRROOT ~ 'Gdk-4.0.gir'),
-        :sub-prefix<gdk_>,
+        :name-prefix<gdk>,
       );
     }
 
@@ -103,7 +103,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Gsk4>,
         :gnome-name("Gsk$*gnome-class"),
         :gir(GIRROOT ~ 'Gsk-4.0.gir'),
-        :sub-prefix<gsk_>,
+        :name-prefix<gsk>,
       );
     }
 
@@ -114,7 +114,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Glib>,
         :gnome-name("G$*gnome-class"),
         :gir(GIRROOT ~ 'GLib-2.0.gir'),
-        :sub-prefix<g_>,
+        :name-prefix<g>,
       );
     }
 
@@ -125,7 +125,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Gio>,
         :gnome-name("G$*gnome-class"),
         :gir(GIRROOT ~ 'Gio-2.0.gir'),
-        :sub-prefix<g_>,
+        :name-prefix<g>,
       );
     }
 
@@ -136,7 +136,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::GObject>,
         :gnome-name("G$*gnome-class"),
         :gir(GIRROOT ~ 'GObject-2.0.gir'),
-        :sub-prefix<g_>,
+        :name-prefix<g>,
       );
     }
 
@@ -147,7 +147,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Cairo>,
         :gnome-name("Cairo$*gnome-class"),
         :gir(GIRROOT ~ 'cairo-1.0.gir'),
-        :sub-prefix<cairo_>,
+        :name-prefix<cairo>,
       );
     }
 
@@ -158,7 +158,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Atk>,
         :gnome-name("Atk$*gnome-class"),
         :gir(GIRROOT ~ 'Atk-1.0.gir'),
-        :sub-prefix<atk_>,
+        :name-prefix<atk>,
       );
     }
 
@@ -169,7 +169,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Pango>,
         :gnome-name("Pango$*gnome-class"),
         :gir(GIRROOT ~ 'Pango-1.0.gir'),
-        :sub-prefix<pango_>,
+        :name-prefix<pango>,
       );
     }
 
@@ -180,7 +180,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::PangoCairo>,
         :gnome-name("PangoCairo$*gnome-class"),
         :gir(GIRROOT ~ 'PangoCairo-1.0.gir'),
-        :sub-prefix<_>,
+        :name-prefix(''),
       );
     }
 
@@ -191,7 +191,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::GIRepository>,
         :gnome-name("GI$*gnome-class"),
         :gir(GIRROOT ~ 'GIRepository-2.0.gir'),
-        :sub-prefix<_>,
+        :name-prefix(''),
       );
     }
 
