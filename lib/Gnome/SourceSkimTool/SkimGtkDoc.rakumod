@@ -16,9 +16,6 @@ has XML::XPath $!xp;
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
-  my Str $file = $*work-data<gir>;
-  $!xp .= new(:$file);
-
   # the sections like :function are arrays of XML::Element's
   $!other = %(
     :function([]),
@@ -535,6 +532,12 @@ method !save-map ( ) {
   my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
   note "Save object map in '$fname'" if $*verbose;
   $fname.IO.spurt(save-yaml($!map));
+}
+
+#-------------------------------------------------------------------------------
+method load-gir-file ( ) {
+  my Str $file = $*work-data<gir>;
+  $!xp .= new(:$file);
 }
 
 #-------------------------------------------------------------------------------
