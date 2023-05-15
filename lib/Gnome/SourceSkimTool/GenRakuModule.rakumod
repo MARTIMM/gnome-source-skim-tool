@@ -14,16 +14,14 @@ unit class Gnome::SourceSkimTool::GenRakuModule:auth<github:MARTIMM>;
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 
 has XML::XPath $!xpath;
-has Hash $!object-maps;
-has Hash $!other-work-data;
 has Bool $!make-role;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
-  $!other-work-data = %();
-  $!object-maps = %();
+  $*other-work-data = %();
+  $*object-maps = %();
 
-  $!sas .= new(:gen-raku-module(self));
+  $!sas .= new;
 
   note "Prepare for module generation" if $*verbose;
 
@@ -38,28 +36,28 @@ submethod BUILD ( ) {
   # we need to search
   # Version 3
   if $*gnome-package.Str ~~ / '3' $/ {
-    $!other-work-data<Gtk> = $p.prepare-work-data(Gtk3);
-    $!other-work-data<Gdk> = $p.prepare-work-data(Gdk3);
+    $*other-work-data<Gtk> = $p.prepare-work-data(Gtk3);
+    $*other-work-data<Gdk> = $p.prepare-work-data(Gdk3);
   }
 
   # Version 4
   elsif $*gnome-package.Str ~~ / '4' $/ {
-    $!other-work-data<Gtk> = $p.prepare-work-data(Gtk4);
-    $!other-work-data<Gdk> = $p.prepare-work-data(Gdk4);
-    $!other-work-data<Gsk> = $p.prepare-work-data(Gsk4);
+    $*other-work-data<Gtk> = $p.prepare-work-data(Gtk4);
+    $*other-work-data<Gdk> = $p.prepare-work-data(Gdk4);
+    $*other-work-data<Gsk> = $p.prepare-work-data(Gsk4);
   }
 
   # If it is a high end module, we add these too. They depend on Gtk.
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $!other-work-data<Atk> = $p.prepare-work-data(Atk);
-    $!other-work-data<Pango> = $p.prepare-work-data(Pango);
-    $!other-work-data<Cairo> = $p.prepare-work-data(Cairo);
+    $*other-work-data<Atk> = $p.prepare-work-data(Atk);
+    $*other-work-data<Pango> = $p.prepare-work-data(Pango);
+    $*other-work-data<Cairo> = $p.prepare-work-data(Cairo);
   }
 
   # If it is not a high end module, we only need these
-  $!other-work-data<Glib> = $p.prepare-work-data(Glib);
-  $!other-work-data<Gio> = $p.prepare-work-data(Gio);
-  $!other-work-data<GObject> = $p.prepare-work-data(GObject);
+  $*other-work-data<Glib> = $p.prepare-work-data(Glib);
+  $*other-work-data<Gio> = $p.prepare-work-data(Gio);
+  $*other-work-data<GObject> = $p.prepare-work-data(GObject);
 
 #`{{
   #TODO yaml problems, not thread safe?
@@ -69,15 +67,15 @@ submethod BUILD ( ) {
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
     $promises = %();
     $promises<atk> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Atk><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Atk><gir-module-path>);
     });
     $promises<Gtk> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Gtk><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gtk><gir-module-path>);
     });
 
     await($promises.values);
-    $!object-maps<Atk> = $promises<atk>.result;
-    $!object-maps<Gtk> = $promises<Gtk>.result;
+    $*object-maps<Atk> = $promises<atk>.result;
+    $*object-maps<Gtk> = $promises<Gtk>.result;
   }
 }}
 
@@ -85,59 +83,59 @@ submethod BUILD ( ) {
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
     $promises = %();
     $promises<Gdk> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Gdk><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gdk><gir-module-path>);
     });
-    if ?$!other-work-data<Gsk> {
+    if ?$*other-work-data<Gsk> {
       $promises<Gsk> = Promise.start({
-        Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Gsk><gir-module-path>)
+        Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gsk><gir-module-path>)
       });
     }
 
     await($promises.values);
-    $!object-maps<Gdk> = $promises<Gdk>.result;
-    $!object-maps<Gsk> = $promises<Gsk>.result if ?$!other-work-data<Gsk>;
+    $*object-maps<Gdk> = $promises<Gdk>.result;
+    $*object-maps<Gsk> = $promises<Gsk>.result if ?$*other-work-data<Gsk>;
   }
 
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
     $promises = %();
     $promises<Pango> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Pango><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Pango><gir-module-path>);
     });
     $promises<Cairo> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Cairo><gir-module-path>);
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Cairo><gir-module-path>);
     });
 
     await($promises.values);
-    $!object-maps<Pango> = $promises<Pango>.result;
-    $!object-maps<Cairo> = $promises<Cairo>.result;
+    $*object-maps<Pango> = $promises<Pango>.result;
+    $*object-maps<Cairo> = $promises<Cairo>.result;
   }
 
 
   $promises = %();
   $promises<Glib> = Promise.start({
-    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Glib><gir-module-path>);
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Glib><gir-module-path>);
   });
   $promises<Gio> = Promise.start({
-    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<Gio><gir-module-path>);
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gio><gir-module-path>);
   });
   $promises<GObject> = Promise.start({
-    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($!other-work-data<GObject><gir-module-path>);
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<GObject><gir-module-path>);
   });
 
   await($promises.values);
 #`{{
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $!object-maps<Atk> = $promises<atk>.result;
-    $!object-maps<Gtk> = $promises<Gtk>.result;
-    $!object-maps<Gdk> = $promises<Gdk>.result;
-    $!object-maps<Gsk> = $promises<Gsk>.result if ?$!other-work-data<Gsk>;
-    $!object-maps<Pango> = $promises<Pango>.result;
-    $!object-maps<Cairo> = $promises<Cairo>.result;
+    $*object-maps<Atk> = $promises<atk>.result;
+    $*object-maps<Gtk> = $promises<Gtk>.result;
+    $*object-maps<Gdk> = $promises<Gdk>.result;
+    $*object-maps<Gsk> = $promises<Gsk>.result if ?$*other-work-data<Gsk>;
+    $*object-maps<Pango> = $promises<Pango>.result;
+    $*object-maps<Cairo> = $promises<Cairo>.result;
   }
 }}
-  $!object-maps<Glib> = $promises<Glib>.result;
-  $!object-maps<Gio> = $promises<Gio>.result;
-  $!object-maps<GObject> = $promises<GObject>.result;
+  $*object-maps<Glib> = $promises<Glib>.result;
+  $*object-maps<Gio> = $promises<Gio>.result;
+  $*object-maps<GObject> = $promises<GObject>.result;
 }}
 
 
@@ -149,31 +147,31 @@ submethod BUILD ( ) {
   # get object maps
   my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $!object-maps<Atk> = $s.load-map($!other-work-data<Atk><gir-module-path>);
-    $!object-maps<Gtk> = $s.load-map($!other-work-data<Gtk><gir-module-path>);
-    $!object-maps<Gdk> = $s.load-map($!other-work-data<Gdk><gir-module-path>);
-    $!object-maps<Gsk> = ?$!other-work-data<Gsk> 
-                       ?? $s.load-map($!other-work-data<Gsk><gir-module-path>)
+    $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>);
+    $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>);
+    $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>);
+    $*object-maps<Gsk> = ?$*other-work-data<Gsk> 
+                       ?? $s.load-map($*other-work-data<Gsk><gir-module-path>)
                        !! %();
-    $!object-maps<Pango> =
-      $s.load-map($!other-work-data<Pango><gir-module-path>);
-    $!object-maps<Cairo> =
-      $s.load-map($!other-work-data<Cairo><gir-module-path>);
+    $*object-maps<Pango> =
+      $s.load-map($*other-work-data<Pango><gir-module-path>);
+    $*object-maps<Cairo> =
+      $s.load-map($*other-work-data<Cairo><gir-module-path>);
   }
 
-  $!object-maps<Glib> = $s.load-map($!other-work-data<Glib><gir-module-path>);
-  $!object-maps<Gio> = $s.load-map($!other-work-data<Gio><gir-module-path>);
-  $!object-maps<GObject> =
-    $s.load-map($!other-work-data<GObject><gir-module-path>);
+  $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>);
+  $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>);
+  $*object-maps<GObject> =
+    $s.load-map($*other-work-data<GObject><gir-module-path>);
 #}}
 
 #`{{
-  $!object-maps<Enums> = $s.load-map(
-    $!other-work-data<Gtk><gir-module-path>, :repo-file<repo-enumeration.gir>
+  $*object-maps<Enums> = $s.load-map(
+    $*other-work-data<Gtk><gir-module-path>, :repo-file<repo-enumeration.gir>
   );
 
-  $!object-maps<Flags> = $s.load-map(
-    $!other-work-data<Gtk><gir-module-path>, :repo-file<repo-bitfield.gir>
+  $*object-maps<Flags> = $s.load-map(
+    $*other-work-data<Gtk><gir-module-path>, :repo-file<repo-bitfield.gir>
   );
 }}
 
@@ -271,7 +269,7 @@ method !get-description ( XML::Element $class-element --> Str ) {
   #$doc ~= $!xpath.find( 'doc/text()', :start($class-element)).Str;
   my Str $widget-picture = '';
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n" if $h<inheritable>;
 
   $doc ~= $!sas.modify-text(
@@ -312,7 +310,7 @@ method !set-inherit-example ( XML::Element $class-element --> Str ) {
 
   my Str $doc = '';
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
 
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
@@ -369,7 +367,7 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
   }
 
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
 
   # Check for parent class. There are never more than one.
   my Str $parent = $h<parent-raku-name> // '';
@@ -381,7 +379,7 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
   # Check for roles to implement
   my Array $roles = $h<implement-roles>//[];
   for @$roles -> $role {
-    my Hash $role-h = self.search-name($role);
+    my Hash $role-h = $!sas.search-name($role);
 #note "$?LINE role=$role -> $role-h.gist()";
     $imports ~= "use $role-h<rname>;\n";
     $also ~= "also does $role-h<rname>;\n";
@@ -430,7 +428,7 @@ method !generate-build (
 ) {
 
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = self.search-name($ctype);
+#  my Hash $h = $!sas.search-name($ctype);
 
   my Hash $hcs = self!get-constructors($class-element);
   my Str $doc = self!make-build-doc( $class-element, $hcs);
@@ -445,7 +443,7 @@ method !generate-role-init (
   XML::Element $class-element, Hash $sig-info --> Str
 ) {
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = self.search-name($ctype);
+#  my Hash $h = $!sas.search-name($ctype);
   my Str $code ~= self!make-init-method( $class-element, $sig-info);
 
   $code
@@ -554,7 +552,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
   if $h<inheritable> {
     $doc ~= qq:to/EOBUILD/;
 
@@ -577,13 +575,13 @@ method !make-build-submethod (
   XML::Element $class-element, Hash $hcs, Hash $sig-info --> Str
 ) {
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
 
   my Str $signal-admin = '';
   my Str $role-signals = '';
   my Array $roles = $h<implement-roles> // [];
   for @$roles -> $role {
-    my Hash $role-h = self.search-name($role);
+    my Hash $role-h = $!sas.search-name($role);
 #note "$?LINE role=$role -> $role-h.gist()";
     $role-signals ~=
       "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
@@ -634,7 +632,7 @@ method !make-build-submethod (
 
   # Check if inherit code is to be inserted
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = self.search-name($ctype);
+#  my Hash $h = $!sas.search-name($ctype);
   if $h<inheritable> {
     $code ~= [~] '  # prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'",
@@ -785,7 +783,7 @@ method !make-init-method (
   XML::Element $class-element, Hash $sig-info --> Str
 ) {
 #  my Str $ctype = $class-element.attribs<c:type>;
-#  my Hash $h = self.search-name($ctype);
+#  my Hash $h = $!sas.search-name($ctype);
 
   my Str $code = '';
 
@@ -827,7 +825,7 @@ method !make-init-method (
 method !generate-methods ( XML::Element $class-element --> List ) {
 
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
   my Bool $is-leaf = $h<leaf> // False;
   my Str $symbol-prefix = $h<symbol-prefix>;
 
@@ -874,7 +872,7 @@ method !generate-methods ( XML::Element $class-element --> List ) {
 #      $own = '';
       my Int $a-count = 0;
 #      if ! $parameter<is-instance> {
-        self.get-types(
+        $!sas.get-types(
           $parameter, $raku-list, $par-list, $call-list, $items-doc, $p-convert,
           @rv-list, $returns-doc
         );
@@ -991,7 +989,7 @@ method !generate-methods ( XML::Element $class-element --> List ) {
 method !generate-functions ( XML::Element $class-element --> List ) {
 
   # Get all functions for this module
-  my Hash $h = self.search-names(
+  my Hash $h = $!sas.search-names(
     $*work-data<sub-prefix>, 'gir-type', 'function'
   );
   return ('','') unless ?$h;
@@ -1059,8 +1057,8 @@ method !generate-functions ( XML::Element $class-element --> List ) {
     for @($curr-function<parameters>) -> $parameter {
 #      ( $raku-list, $par-list, $call-list, $items-doc, $p-convert,
 #        @rv-list, $returns-doc
-#      ) = self.get-types($parameter);
-      self.get-types(
+#      ) = $!sas.get-types($parameter);
+      $!sas.get-types(
         $parameter, $raku-list, $par-list, $call-list, $items-doc, $p-convert,
         @rv-list, $returns-doc
       );
@@ -1162,94 +1160,6 @@ method !generate-functions ( XML::Element $class-element --> List ) {
   }
 
   ( $doc, $code)
-}
-
-#-------------------------------------------------------------------------------
-method get-types (
-  $parameter,
-  Str $raku-list is rw, Str $par-list is rw, Str $call-list is rw,
-  Str $items-doc is rw, Str $p-convert is rw, @rv-list,
-  Str $returns-doc is rw
-) {
-
-#  my Str (
-#    $raku-list, $par-list, $call-list, $items-doc, $p-convert, $returns-doc
-#  ) = '' xx 6;
-  my Str $own = '';
-  my Int $a-count = 0;
-#  my @rv-list = ();
-
-  given my $xtype = $parameter<raku-ntype> {
-    when 'N-GObject' {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[Str]' {
-      $raku-list ~= ", Array[Str] \$$parameter<name>";
-      $par-list ~= ", CArray[Str] \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-      $p-convert =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
-      $a-count++;
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
-      $par-list ~= ", CArray[gint] \$$parameter<name> is rw";
-      @rv-list.push: "\$$parameter<name>";
-      $call-list ~= ", my gint \$$parameter<name>";
-
-      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-#`{{
-    when 'CArray[UInt]' {
-      $raku-list ~= ", $xtype \$$parameter<name>";
-      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-      $p-convert =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
-      $a-count++;
-    }
-
-    when 'CArray[N-GError]' {
-      $raku-list ~= ", $xtype \$$parameter<name>";
-      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-      $p-convert =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
-      $a-count++;
-    }
-}}
-
-    default {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-  }
-  
-  ( $raku-list, $par-list, $call-list,
-    $items-doc, $p-convert, @rv-list, $returns-doc
-  )
 }
 
 #-------------------------------------------------------------------------------
@@ -1520,59 +1430,6 @@ method !get-methods ( XML::Element $class-element --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method search-name ( Str $name --> Hash ) {
-
-  my Hash $h = %();
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-
-    # It is possible that not all hashes are loaded
-    next unless $!object-maps{$map-name}:exists
-            and ( $!object-maps{$map-name}{$name}:exists 
-                  or $!object-maps{$map-name}{$map-name ~ $name}:exists
-                );
-
-    # Get the Hash from the object maps
-    $h = $!object-maps{$map-name}{$name}
-         // $!object-maps{$map-name}{$map-name ~ $name};
-
-    # Add package name to this hash
-    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
-    last;
-  }
-
-#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
-
-  $h
-}
-
-#-------------------------------------------------------------------------------
-# Search for names of specific type in object maps 
-method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
-
-  my Hash $h = %();
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-
-    # It is possible that not all hashes are loaded
-    next unless $!object-maps{$map-name}:exists;
-
-    for $!object-maps{$map-name}.kv -> $name, $value-hash {
-      next unless $value-hash{$entry-name} eq $value;
-      next unless $name ~~ m/^ [ $map-name ]? $prefix-name /;
-      $h{$name} = $value-hash;
-
-      # Add package name to this hash
-      $h{$name}<raku-package> = $!other-work-data{$map-name}<raku-package>;
-    }
-
-    last if ?$h;
-  }
-
-#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
-
-  $h
-}
-
-#-------------------------------------------------------------------------------
 method generate-raku-module-test ( ) {
 
   # Roles are tested via modules using the Role
@@ -1580,7 +1437,7 @@ method generate-raku-module-test ( ) {
 
   my XML::Element $class-element = $!xpath.find('//class');
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
 
   my Str $test-variable = '$' ~ $*gnome-class.lc;
   my $module-test-doc = qq:to/EOTEST/;
@@ -1736,11 +1593,11 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
 
 
   my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!sas.search-name($ctype);
   my Array $roles = $h<implement-roles> // [];
   my $role-fallbacks = '';
   for @$roles -> $role {
-    my Hash $role-h = self.search-name($role);
+    my Hash $role-h = $!sas.search-name($role);
 
     $role-fallbacks ~=
       "  \$s = self._$role-h<symbol-prefix>interface\(\$native-sub)\n" ~

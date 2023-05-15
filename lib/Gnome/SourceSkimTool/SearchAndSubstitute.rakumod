@@ -10,7 +10,95 @@ unit class Gnome::SourceSkimTool::SearchAndSubstitute:auth<github:MARTIMM>;
 has $!gen-raku-module;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( :$!gen-raku-module where .^name ~~ /GenRakuModule/ ) { }
+submethod BUILD ( ) { }
+
+#-------------------------------------------------------------------------------
+method get-types (
+  Hash $parameter,
+  Str $raku-list is rw, Str $par-list is rw, Str $call-list is rw,
+  Str $items-doc is rw, Str $p-convert is rw, @rv-list,
+  Str $returns-doc is rw
+) {
+
+#  my Str (
+#    $raku-list, $par-list, $call-list, $items-doc, $p-convert, $returns-doc
+#  ) = '' xx 6;
+  my Str $own = '';
+  my Int $a-count = 0;
+#  my @rv-list = ();
+
+  given my $xtype = $parameter<raku-ntype> {
+    when 'N-GObject' {
+      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+      $call-list ~= ", \$$parameter<name>";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[Str]' {
+      $raku-list ~= ", Array[Str] \$$parameter<name>";
+      $par-list ~= ", CArray[Str] \$$parameter<name>";
+      $call-list ~= ", \$ca$a-count";
+      $p-convert =
+        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
+      $a-count++;
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[gint]' {
+#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
+#            my $ntype = 'gint';
+      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
+      $par-list ~= ", CArray[gint] \$$parameter<name> is rw";
+      @rv-list.push: "\$$parameter<name>";
+      $call-list ~= ", my gint \$$parameter<name>";
+
+      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+#`{{
+    when 'CArray[UInt]' {
+      $raku-list ~= ", $xtype \$$parameter<name>";
+      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+      $call-list ~= ", \$ca$a-count";
+      $p-convert =
+        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
+      $a-count++;
+    }
+
+    when 'CArray[N-GError]' {
+      $raku-list ~= ", $xtype \$$parameter<name>";
+      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+      $call-list ~= ", \$ca$a-count";
+      $p-convert =
+        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
+      $a-count++;
+    }
+}}
+
+    default {
+      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
+      $call-list ~= ", \$$parameter<name>";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+  }
+  
+  ( $raku-list, $par-list, $call-list,
+    $items-doc, $p-convert, @rv-list, $returns-doc
+  )
+}
 
 #-------------------------------------------------------------------------------
 method gobject-value-type( Str $ctype --> Str ) {
@@ -127,7 +215,7 @@ method gobject-value-type( Str $ctype --> Str ) {
     }
 
     default {
-      my Hash $h = $!gen-raku-module.search-name($ctype);
+      my Hash $h = self.search-name($ctype);
       if ?$h<gir-type> {
         $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
         $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
@@ -191,7 +279,7 @@ method convert-ntype (
       # remove any pointer marks
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = $!gen-raku-module.search-name($ctype);
+      my Hash $h = self.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -286,7 +374,7 @@ method convert-rtype (
       # remove any pointer marks because objects are provided by pointer
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = $!gen-raku-module.search-name($ctype);
+      my Hash $h = self.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -327,7 +415,6 @@ method convert-rtype (
   $raku-type
 }
 
-#`{{
 #-------------------------------------------------------------------------------
 method search-name ( Str $name is copy --> Hash ) {
 
@@ -335,17 +422,17 @@ method search-name ( Str $name is copy --> Hash ) {
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
 
     # It is possible that not all hashes are loaded
-    next unless $!object-maps{$map-name}:exists
-            and ( $!object-maps{$map-name}{$name}:exists 
-                  or $!object-maps{$map-name}{$map-name ~ $name}:exists
+    next unless $*object-maps{$map-name}:exists
+            and ( $*object-maps{$map-name}{$name}:exists 
+                  or $*object-maps{$map-name}{$map-name ~ $name}:exists
                 );
 
     # Get the Hash from the object maps
-    $h = $!object-maps{$map-name}{$name}
-         // $!object-maps{$map-name}{$map-name ~ $name};
+    $h = $*object-maps{$map-name}{$name}
+         // $*object-maps{$map-name}{$map-name ~ $name};
 
     # Add package name to this hash
-    $h<raku-package> = $!other-work-data{$map-name}<raku-package>;
+    $h<raku-package> = $*other-work-data{$map-name}<raku-package>;
     last;
   }
 
@@ -353,7 +440,33 @@ method search-name ( Str $name is copy --> Hash ) {
 
   $h
 }
-}}
+
+#-------------------------------------------------------------------------------
+# Search for names of specific type in object maps 
+method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
+
+  my Hash $h = %();
+  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+
+    # It is possible that not all hashes are loaded
+    next unless $*object-maps{$map-name}:exists;
+
+    for $*object-maps{$map-name}.kv -> $name, $value-hash {
+      next unless $value-hash{$entry-name} eq $value;
+      next unless $name ~~ m/^ [ $map-name ]? $prefix-name /;
+      $h{$name} = $value-hash;
+
+      # Add package name to this hash
+      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
+    }
+
+    last if ?$h;
+  }
+
+#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
+
+  $h
+}
 
 #-------------------------------------------------------------------------------
 method get-method-data (
@@ -599,7 +712,7 @@ method modify-functions ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
-    my Hash $h = $!gen-raku-module.search-name($function-name);
+    my Hash $h = self.search-name($function-name);
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
     
@@ -636,7 +749,7 @@ method modify-classes ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-    my Hash $h = $!gen-raku-module.search-name($class-name);
+    my Hash $h = self.search-name($class-name);
     my Str $raku-name = $h<rname> // '';
 
     if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
