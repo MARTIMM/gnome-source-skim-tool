@@ -27,6 +27,9 @@ TODO
   * Generate enumerations and bitmasks(also enums)
   * Generate functions
 -->
+* 2023-05-15 0.7.1
+  * New module ListGirTypes to get a list of the introspect types and which names have a specified type.
+
 * 2023-05-12 0.7.0
   * Look into the lowest level of libs: Glib.
   * Generate modules from records. Records in the gir files are the structures defined in C.
