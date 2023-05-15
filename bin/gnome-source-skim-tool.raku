@@ -11,6 +11,9 @@ my Str $*gnome-class;
 my Hash $*work-data;
 my Bool $*verbose;
 
+my Hash $*object-maps;
+my Hash $*other-work-data;
+
 #-------------------------------------------------------------------------------
 sub MAIN (
   Str:D $gnome-package, Str $gnome-class?,
@@ -42,7 +45,23 @@ sub MAIN (
     $*gnome-class = $gnome-class // 'Widget';
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     my Gnome::SourceSkimTool::SkimGtkDoc $skim-doc .= new;
+    $skim-doc.load-gir-file;
     $skim-doc.get-classes-from-gir;
+  }
+
+  elsif $l {
+    $*verbose = False;
+    $*gnome-class = $gnome-class // 'Widget';
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+    require ::('Gnome::SourceSkimTool::ListGirTypes');
+    my $lt = ::('Gnome::SourceSkimTool::ListGirTypes').new;
+    if ?$t {
+      $lt.list-type-objects($t);
+    }
+
+    else {
+      $lt.list-types
+    }
   }
 
   elsif $c and ?$gnome-class {
