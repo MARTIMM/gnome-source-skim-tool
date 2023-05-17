@@ -3,20 +3,23 @@ use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::SkimGtkDoc;
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SearchAndSubstitute;
+use Gnome::SourceSkimTool::GenerateDoc;
 
 use XML;
 use XML::XPath;
 use JSON::Fast;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::GenRakuRecord:auth<github:MARTIMM>;
+unit class Gnome::SourceSkimTool::RecordModule:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 
 has XML::XPath $!xpath;
+has Gnome::SourceSkimTool::GenerateDoc $!grd;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
+#`{{
   $*object-maps = %();
   $*other-work-data = %();
 
@@ -70,15 +73,49 @@ submethod BUILD ( ) {
   $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>);
   $*object-maps<GObject> =
     $s.load-map($*other-work-data<GObject><gir-module-path>);
+}}
 
   # load data for this module
   note "Load module data from $*work-data<gir-module-path>repo-record.gir";
-  $!xpath .= new(:file($*work-data<gir-module-path> ~ 'repo-record.gir'));
+  $!xpath .= new(:file($*work-data<gir-module-path> ~ $*gnome-class.Str.lc ~ '.gir'));
 }
 
 #-------------------------------------------------------------------------------
 method generate-raku-record ( ) {
 
+  my XML::Element $element = $!xpath.find('//record');
+
+#  my Str $description-comment = 'Record Description';
+
+  my Str ( $doc, $code);
+  my Str $module-code = '';
+  my Str $module-doc = qq:to/RAKUMOD/;
+    #TL:1:$*work-data<raku-class-name>:
+    use v6;
+
+    {$!grd.pod-header('Record Description')}
+    RAKUMOD
+
+  note "Generate module description" if $*verbose;  
+  $module-doc ~= $!grd.get-description( $element, $!xpath);
+
+  note "Set class unit" if $*verbose;
+#  $module-code ~= self!set-unit( $element, $sig-info);
+
+  note "Generate BUILD submethod" if $*verbose;  
+#  ( $doc, $code) = self!generate-build( $element, $sig-info);
+#  $module-doc ~= $doc;
+#  $module-code ~= $code;
+
+
+
+
+
+
+  note "Save module";
+  $*work-data<raku-module-file>.IO.spurt($module-code);
+  note "Save pod doc";
+  $*work-data<raku-module-doc-file>.IO.spurt($module-doc);
 }
 
 #-------------------------------------------------------------------------------

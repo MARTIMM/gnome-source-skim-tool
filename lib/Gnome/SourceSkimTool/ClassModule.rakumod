@@ -1,183 +1,31 @@
 
-use Gnome::SourceSkimTool::Prepare;
-use Gnome::SourceSkimTool::SkimGtkDoc;
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SearchAndSubstitute;
+use Gnome::SourceSkimTool::GenerateDoc;
 
 use XML;
 use XML::XPath;
 use JSON::Fast;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::GenRakuModule:auth<github:MARTIMM>;
+unit class Gnome::SourceSkimTool::ClassModule:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
+has Gnome::SourceSkimTool::GenerateDoc $!grd;
 
 has XML::XPath $!xpath;
 has Bool $!make-role;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
-  $*other-work-data = %();
-  $*object-maps = %();
 
+  $!grd .= new;
   $!sas .= new;
-
-  note "Prepare for module generation" if $*verbose;
-
   $!make-role = False;
 
-  # get workdata for other gnome packages
-  my Gnome::SourceSkimTool::Prepare $p .= new;
-
-
-#TODO add rules for gdkPixbuf, etc.
-  # Because of dependencies it is possible to have less to load when
-  # we need to search
-  # Version 3
-  if $*gnome-package.Str ~~ / '3' $/ {
-    $*other-work-data<Gtk> = $p.prepare-work-data(Gtk3);
-    $*other-work-data<Gdk> = $p.prepare-work-data(Gdk3);
-  }
-
-  # Version 4
-  elsif $*gnome-package.Str ~~ / '4' $/ {
-    $*other-work-data<Gtk> = $p.prepare-work-data(Gtk4);
-    $*other-work-data<Gdk> = $p.prepare-work-data(Gdk4);
-    $*other-work-data<Gsk> = $p.prepare-work-data(Gsk4);
-  }
-
-  # If it is a high end module, we add these too. They depend on Gtk.
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $*other-work-data<Atk> = $p.prepare-work-data(Atk);
-    $*other-work-data<Pango> = $p.prepare-work-data(Pango);
-    $*other-work-data<Cairo> = $p.prepare-work-data(Cairo);
-  }
-
-  # If it is not a high end module, we only need these
-  $*other-work-data<Glib> = $p.prepare-work-data(Glib);
-  $*other-work-data<Gio> = $p.prepare-work-data(Gio);
-  $*other-work-data<GObject> = $p.prepare-work-data(GObject);
-
-#`{{
-  #TODO yaml problems, not thread safe?
-  # get object maps
-  my Hash $promises ;
-#  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $promises = %();
-    $promises<atk> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Atk><gir-module-path>);
-    });
-    $promises<Gtk> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gtk><gir-module-path>);
-    });
-
-    await($promises.values);
-    $*object-maps<Atk> = $promises<atk>.result;
-    $*object-maps<Gtk> = $promises<Gtk>.result;
-  }
-}}
-
-#`{{
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $promises = %();
-    $promises<Gdk> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gdk><gir-module-path>);
-    });
-    if ?$*other-work-data<Gsk> {
-      $promises<Gsk> = Promise.start({
-        Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gsk><gir-module-path>)
-      });
-    }
-
-    await($promises.values);
-    $*object-maps<Gdk> = $promises<Gdk>.result;
-    $*object-maps<Gsk> = $promises<Gsk>.result if ?$*other-work-data<Gsk>;
-  }
-
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $promises = %();
-    $promises<Pango> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Pango><gir-module-path>);
-    });
-    $promises<Cairo> = Promise.start({
-      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Cairo><gir-module-path>);
-    });
-
-    await($promises.values);
-    $*object-maps<Pango> = $promises<Pango>.result;
-    $*object-maps<Cairo> = $promises<Cairo>.result;
-  }
-
-
-  $promises = %();
-  $promises<Glib> = Promise.start({
-    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Glib><gir-module-path>);
-  });
-  $promises<Gio> = Promise.start({
-    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gio><gir-module-path>);
-  });
-  $promises<GObject> = Promise.start({
-    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<GObject><gir-module-path>);
-  });
-
-  await($promises.values);
-#`{{
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $*object-maps<Atk> = $promises<atk>.result;
-    $*object-maps<Gtk> = $promises<Gtk>.result;
-    $*object-maps<Gdk> = $promises<Gdk>.result;
-    $*object-maps<Gsk> = $promises<Gsk>.result if ?$*other-work-data<Gsk>;
-    $*object-maps<Pango> = $promises<Pango>.result;
-    $*object-maps<Cairo> = $promises<Cairo>.result;
-  }
-}}
-  $*object-maps<Glib> = $promises<Glib>.result;
-  $*object-maps<Gio> = $promises<Gio>.result;
-  $*object-maps<GObject> = $promises<GObject>.result;
-}}
-
-
-
-
-
-
-##`{{
-  # get object maps
-  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>);
-    $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>);
-    $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>);
-    $*object-maps<Gsk> = ?$*other-work-data<Gsk> 
-                       ?? $s.load-map($*other-work-data<Gsk><gir-module-path>)
-                       !! %();
-    $*object-maps<Pango> =
-      $s.load-map($*other-work-data<Pango><gir-module-path>);
-    $*object-maps<Cairo> =
-      $s.load-map($*other-work-data<Cairo><gir-module-path>);
-  }
-
-  $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>);
-  $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>);
-  $*object-maps<GObject> =
-    $s.load-map($*other-work-data<GObject><gir-module-path>);
-#}}
-
-#`{{
-  $*object-maps<Enums> = $s.load-map(
-    $*other-work-data<Gtk><gir-module-path>, :repo-file<repo-enumeration.gir>
-  );
-
-  $*object-maps<Flags> = $s.load-map(
-    $*other-work-data<Gtk><gir-module-path>, :repo-file<repo-bitfield.gir>
-  );
-}}
-
   # load data for this module
-  note "Load module data from $*work-data<gir-module-file>";
-  $!xpath .= new(:file($*work-data<gir-module-file>));
+  note "Load module data from $*work-data<gir-class-file>";
+  $!xpath .= new(:file($*work-data<gir-class-file>));
 }
 
 #-------------------------------------------------------------------------------
@@ -210,7 +58,7 @@ method generate-raku-module ( ) {
     RAKUMOD
 
   note "Generate module description" if $*verbose;  
-  $module-doc ~= self!get-description($class-element);
+  $module-doc ~= $!grd.get-description( $class-element, $!xpath);
 
   note "Generate module signals" if $*verbose;  
   my Hash $sig-info = self!generate-signals($class-element);
@@ -261,99 +109,6 @@ method generate-raku-module ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-description ( XML::Element $class-element --> Str ) {
-  my Str $doc = "=head1 Description\n";
-
-  #$doc ~= self!set-example-image;
-
-  #$doc ~= $!xpath.find( 'doc/text()', :start($class-element)).Str;
-  my Str $widget-picture = '';
-  my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n" if $h<inheritable>;
-
-  $doc ~= $!sas.modify-text(
-    $!xpath.find( 'doc/text()', :start($class-element)).Str
-  );
-
-  #??$doc ~= self!set-declaration;
-  $doc ~= self!set-uml;
-  $doc ~= self!set-inherit-example($class-element);
-  $doc ~= self!set-example;
-  #$doc = self!cleanup($doc);
-
-  qq:to/RAKUMOD/;
-    =begin pod
-    =head1 $*work-data<raku-class-name>
-
-    $widget-picture$doc
-    =end pod
-    RAKUMOD
-}
-
-#-------------------------------------------------------------------------------
-method !set-uml ( --> Str ) {
-  # Using a markdown link not a Raku pod link
-  my Str $doc = q:to/EOEX/;
-
-
-    =begin comment
-    =head2 Uml Diagram
-    ![](plantuml/Label.svg)
-    =end comment
-    EOEX
-  $doc
-}
-
-#-------------------------------------------------------------------------------
-method !set-inherit-example ( XML::Element $class-element --> Str ) {
-
-  my Str $doc = '';
-  my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-
-  if $h<inheritable> {
-    # Code like {'...'} is inserted here and there to prevent interpretation
-    $doc = qq:to/EOINHERIT/;
-
-      =head2 Inheriting this class
-
-      Inheriting is done in a special way in that it needs a call from new\() to get the native object created by the class you are inheriting from.
-
-        use $*work-data<raku-class-name>;
-
-        unit class MyGuiClass;
-        also is $*work-data<raku-class-name>;
-
-        submethod new \( \|c ) \{
-          # let the {$*work-data<raku-class-name>} class process the options
-          self\.bless\( :{$class-element.attribs<c:type>}, \|c);
-        \}
-
-        submethod BUILD \( ... ) \{
-          ...
-        \}
-
-      EOINHERIT
-  }
-
-  $doc
-}
-
-#-------------------------------------------------------------------------------
-method !set-example ( --> Str ) {
-  my Str $doc = q:to/EOEX/;
-
-    =begin comment
-    =head2 Example
-      … text …
-      … example code …
-    =end comment
-    EOEX
-  $doc
-}
-
-#-------------------------------------------------------------------------------
 method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
   # Insert a commented import of enums module
@@ -396,6 +151,7 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
     use Gnome::N::NativeLib;
     use Gnome::N::N-GObject;
     use Gnome::N::GlibToRakuTypes;
+    #use Gnome::N::TopLevelClassSupport;
     $imports
     
     #use Gnome::Glib::List;
