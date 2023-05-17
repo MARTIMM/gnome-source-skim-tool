@@ -1,9 +1,8 @@
 #!/usr/bin/env rakudo
 
+use Gnome::SourceSkimTool::SkimGtkDoc;
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Prepare;
-use Gnome::SourceSkimTool::SkimGtkDoc;
-#use Gnome::SourceSkimTool::GenRakuModule;
 
 #-------------------------------------------------------------------------------
 my SkimSource $*gnome-package;
@@ -18,7 +17,7 @@ my Hash $*other-work-data;
 sub MAIN (
   Str:D $gnome-package, Str $gnome-class?,
   Bool :$v = False, Bool :$y = False, Bool :$c = False, Bool :$r = False,
-  Bool :$h = False, Bool :$l = False, Str :$t = ''
+  Bool :$h = False, Bool :$i = False, Bool :$l = False, Str :$t = ''
 ) {
 
   $*verbose = $v;
@@ -70,10 +69,22 @@ sub MAIN (
 
     say "Generate Raku module from class $*work-data<raku-class-name>"
          if $*verbose;
-    require ::('Gnome::SourceSkimTool::GenRakuModule');
-    my $raku-module = ::('Gnome::SourceSkimTool::GenRakuModule').new;
+    require ::('Gnome::SourceSkimTool::ClassModule');
+    my $raku-module = ::('Gnome::SourceSkimTool::ClassModule').new;
     $raku-module.generate-raku-module;
     $raku-module.generate-raku-module-test;
+  }
+
+  elsif $i and ?$gnome-class {
+    $*gnome-class = $gnome-class;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+    say "Generate Raku module from record $*work-data<raku-class-name>"
+         if $*verbose;
+    require ::('Gnome::SourceSkimTool::InterfacedModule');
+    my $raku-interface = ::('Gnome::SourceSkimTool::InterfaceModule').new;
+    $raku-interface.generate-raku-interface;
+    $raku-interface.generate-raku-interface-test;
   }
 
   elsif $r and ?$gnome-class {
@@ -82,8 +93,8 @@ sub MAIN (
 
     say "Generate Raku module from record $*work-data<raku-class-name>"
          if $*verbose;
-    require ::('Gnome::SourceSkimTool::GenRakuRecord');
-    my $raku-record = ::('Gnome::SourceSkimTool::GenRakuRecord').new;
+    require ::('Gnome::SourceSkimTool::RecordModule');
+    my $raku-record = ::('Gnome::SourceSkimTool::RecordModule').new;
     $raku-record.generate-raku-record;
     $raku-record.generate-raku-record-test;
   }
@@ -105,18 +116,23 @@ sub USAGE ( ) {
     {$*PROGRAM.basename} -h
 
     {$*PROGRAM.basename} -c [-v] gnome-package gnome-class
+    {$*PROGRAM.basename} -i [-v] gnome-package gnome-interface
     {$*PROGRAM.basename} -r [-v] gnome-package gnome-record
     {$*PROGRAM.basename} -y [-v] gnome-package
 
-    {$*PROGRAM.basename} -l [-t=type] gnome-package
+    {$*PROGRAM.basename} -l [-t=type] [-f=filter] gnome-package
 
     Options:
-      c       Generate Raku module from argument. Result is put in directory
+      c       Generate a class module. Result is put in directory
               '{RAKUMODS}' together with a test file.
               E.g. AboutDialog or Window defined in Gtk3.
+      f       Filter string used with -l and -t to narrow down list.
       h       Show this info.
+      i       Generate an interface (role) module. Result is put in directory
+              '{RAKUMODS}' together with a test file.
       l       Show types used in the gnome-package.
-      r       Generate Raku module from argument. The argument is a name
+      r       Generate a record (structures) module from argument. The
+              argument is a name.
               of a so called record or stucture. E.g. Error or List in Glib.
       t       Use the type output from the plain -l option. With this option, a
               list of names is output defined as that type.
