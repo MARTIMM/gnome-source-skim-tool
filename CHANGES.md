@@ -29,6 +29,7 @@ TODO
 -->
 * 2023-05-15 0.7.1
   * New module ListGirTypes to get a list of the introspect types and which names have a specified type.
+  * Things get too unwieldy. Looking at the huge inventory of records in GLib I decided to split the generation of modules into several parts; classes, records and interfaces. Also documentation of all parts as in, description,  API parameters of methods, functions, callbacks and handlers.
 
 * 2023-05-12 0.7.0
   * Look into the lowest level of libs: Glib.
