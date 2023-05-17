@@ -1,11 +1,15 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
+use Gnome::SourceSkimTool::SkimGtkDoc;
+use Gnome::SourceSkimTool::SearchAndSubstitute;
 
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
 has Int $!indent-level;
+
+has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
@@ -26,14 +30,174 @@ submethod BUILD ( ) {
     $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
     $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
 
-    $*work-data<gir-module-file> =
-      "$*work-data<gir-module-path>$*gnome-class.gir";
+    $*work-data<gir-class-file> =
+      "$*work-data<gir-module-path>C-$*gnome-class.gir";
+    $*work-data<gir-record-file> =
+      "$*work-data<gir-module-path>R-$*gnome-class.gir";
+    $*work-data<gir-interface-file> =
+      "$*work-data<gir-module-path>I-$*gnome-class.gir";
     $*work-data<raku-module-file> = RAKUMODS ~ "$*gnome-class.rakumod";
     $*work-data<raku-module-doc-file> = RAKUMODS ~ "$*gnome-class.rakudoc";
     $*work-data<raku-module-test-file> = RAKUMODS ~ "$*gnome-class.rakutest";
   }
 
   self.display-hash( $*work-data, :label<work-data>);
+
+  $*other-work-data = %();
+  $*object-maps = %();
+
+  $!sas .= new;
+
+  note "Prepare for module generation" if $*verbose;
+
+  # get workdata for other gnome packages
+#  my Gnome::SourceSkimTool::Prepare $p .= new;
+
+
+#TODO add rules for gdkPixbuf, etc.
+  # Because of dependencies it is possible to have less to load when
+  # we need to search
+  # Version 3
+  if $*gnome-package.Str ~~ / '3' $/ {
+    $*other-work-data<Gtk> = self.prepare-work-data(Gtk3);
+    $*other-work-data<Gdk> = self.prepare-work-data(Gdk3);
+  }
+
+  # Version 4
+  elsif $*gnome-package.Str ~~ / '4' $/ {
+    $*other-work-data<Gtk> = self.prepare-work-data(Gtk4);
+    $*other-work-data<Gdk> = self.prepare-work-data(Gdk4);
+    $*other-work-data<Gsk> = self.prepare-work-data(Gsk4);
+  }
+
+  # If it is a high end module, we add these too. They depend on Gtk.
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $*other-work-data<Atk> = self.prepare-work-data(Atk);
+    $*other-work-data<Pango> = self.prepare-work-data(Pango);
+    $*other-work-data<Cairo> = self.prepare-work-data(Cairo);
+  }
+
+  # If it is not a high end module, we only need these
+  $*other-work-data<Glib> = self.prepare-work-data(Glib);
+  $*other-work-data<Gio> = self.prepare-work-data(Gio);
+  $*other-work-data<GObject> = self.prepare-work-data(GObject);
+
+#`{{
+  #TODO yaml problems, not thread safe?
+  # get object maps
+  my Hash $promises ;
+#  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $promises = %();
+    $promises<atk> = Promise.start({
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Atk><gir-module-path>);
+    });
+    $promises<Gtk> = Promise.start({
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gtk><gir-module-path>);
+    });
+
+    await($promises.values);
+    $*object-maps<Atk> = $promises<atk>.result;
+    $*object-maps<Gtk> = $promises<Gtk>.result;
+  }
+}}
+
+#`{{
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $promises = %();
+    $promises<Gdk> = Promise.start({
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gdk><gir-module-path>);
+    });
+    if ?$*other-work-data<Gsk> {
+      $promises<Gsk> = Promise.start({
+        Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gsk><gir-module-path>)
+      });
+    }
+
+    await($promises.values);
+    $*object-maps<Gdk> = $promises<Gdk>.result;
+    $*object-maps<Gsk> = $promises<Gsk>.result if ?$*other-work-data<Gsk>;
+  }
+
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $promises = %();
+    $promises<Pango> = Promise.start({
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Pango><gir-module-path>);
+    });
+    $promises<Cairo> = Promise.start({
+      Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Cairo><gir-module-path>);
+    });
+
+    await($promises.values);
+    $*object-maps<Pango> = $promises<Pango>.result;
+    $*object-maps<Cairo> = $promises<Cairo>.result;
+  }
+
+
+  $promises = %();
+  $promises<Glib> = Promise.start({
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Glib><gir-module-path>);
+  });
+  $promises<Gio> = Promise.start({
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<Gio><gir-module-path>);
+  });
+  $promises<GObject> = Promise.start({
+    Gnome::SourceSkimTool::SkimGtkDoc.new.load-map($*other-work-data<GObject><gir-module-path>);
+  });
+
+  await($promises.values);
+#`{{
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $*object-maps<Atk> = $promises<atk>.result;
+    $*object-maps<Gtk> = $promises<Gtk>.result;
+    $*object-maps<Gdk> = $promises<Gdk>.result;
+    $*object-maps<Gsk> = $promises<Gsk>.result if ?$*other-work-data<Gsk>;
+    $*object-maps<Pango> = $promises<Pango>.result;
+    $*object-maps<Cairo> = $promises<Cairo>.result;
+  }
+}}
+  $*object-maps<Glib> = $promises<Glib>.result;
+  $*object-maps<Gio> = $promises<Gio>.result;
+  $*object-maps<GObject> = $promises<GObject>.result;
+}}
+
+
+
+
+
+
+##`{{
+  # get object maps
+  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+  if $*gnome-package.Str ~~ / '3' || '4' $/ {
+    $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>);
+    $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>);
+    $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>);
+    $*object-maps<Gsk> = ?$*other-work-data<Gsk> 
+                       ?? $s.load-map($*other-work-data<Gsk><gir-module-path>)
+                       !! %();
+    $*object-maps<Pango> =
+      $s.load-map($*other-work-data<Pango><gir-module-path>);
+    $*object-maps<Cairo> =
+      $s.load-map($*other-work-data<Cairo><gir-module-path>);
+  }
+
+  $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>);
+  $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>);
+  $*object-maps<GObject> =
+    $s.load-map($*other-work-data<GObject><gir-module-path>);
+#}}
+
+#`{{
+  $*object-maps<Enums> = $s.load-map(
+    $*other-work-data<Gtk><gir-module-path>, :repo-file<repo-enumeration.gir>
+  );
+
+  $*object-maps<Flags> = $s.load-map(
+    $*other-work-data<Gtk><gir-module-path>, :repo-file<repo-bitfield.gir>
+  );
+}}
+
 }
 
 #-------------------------------------------------------------------------------
