@@ -19,7 +19,7 @@ submethod BUILD ( ) {
   # the sections like :function are arrays of XML::Element's
   $!other = %(
     :function([]),
-    :record([]),
+#    :record([]),
     :union([]),
     :callback([]),
     :bitfield([]),
@@ -76,17 +76,46 @@ method get-classes-from-gir ( ) {
           </repository>
           EOXML
 
-        my $xml-file = "$*work-data<gir-module-path>$name.gir";
+        my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
         note "Save class $name in '$xml-file'" if $*verbose;
         $xml-file.IO.spurt($xml);
       }
 
+      # Only stand alone functions. Functions within other
+      # elements are not saved here.
       when 'function' {
         $!other<function>.push: $element;
       }
 
+      # Records are structures in C. There are fields for the structure,
+      # constructors, methods and functions.
       when 'record' {
-        $!other<record>.push: $element;
+#        $!other<record>.push: $element;
+        my $attrs = $element.attribs;
+        my $name = $attrs<c:type>;
+
+        my Str $name-prefix = $*work-data<name-prefix>;
+        $name ~~ s:i/^ $name-prefix //;
+
+        my Str $xml = qq:to/EOXML/;
+          <?xml version="1.0"?>
+          <!--
+            File is automatically generated from original gir files;
+            DO NOT EDIT!
+          -->
+          <repository version="1.2"
+                      xmlns="http://www.gtk.org/introspection/core/1.0"
+                      xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                      xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+              $xml-namespace
+              $element.Str()
+            </namespace>
+          </repository>
+          EOXML
+
+        my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
+        note "Save record $name in '$xml-file'" if $*verbose;
+        $xml-file.IO.spurt($xml);
       }
 
       when 'constant' {
@@ -128,7 +157,7 @@ method get-classes-from-gir ( ) {
           </repository>
           EOXML
 
-        my $xml-file = "$*work-data<gir-module-path>$name.gir";
+        my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
         note "Save class $name in '$xml-file'" if $*verbose;
         $xml-file.IO.spurt($xml);
       }
@@ -433,7 +462,7 @@ method !is-inheritable( Str $classname --> Bool ) {
 method !is-inheritable-r ( Str $classname --> Bool ) {
 
   my Str $parent = $!map{$classname}<parent-gnome-name> // '-';
-#note "test inherit $classname -> $parent";
+
   return True if $parent eq 'GtkWidget';
   return False if $parent ~~ m/ GInitiallyUnowned || GObject || '-' /;
 
@@ -450,8 +479,6 @@ method !get-source-file( XML::Element:D $element, Str:D $tag-name --> Str ) {
     $fname ~~ s/ \. <-[\.]>+ $//;
     my $name-prefix = $*work-data<name-prefix>;
     $fname ~~ s/^ $name-prefix //;
-
-note "$?LINE $element.name(): $fname";
   }
 
   else {
