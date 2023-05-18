@@ -478,7 +478,7 @@ method get-method-data (
   $option-name = $function-name = $e.attribs<c:identifier>;
   my Str $sub-prefix := $*work-data<sub-prefix>;
 
-note "\n$?LINE $function-name";
+#note "\n$?LINE $function-name";
 
   # option names are used in BUILD only
   if $build {
@@ -496,7 +496,7 @@ note "\n$?LINE $function-name";
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-note "$?LINE return value";
+#note "$?LINE return value";
   my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
     self.get-doc-type( $rvalue, :return-type, :$xpath);
 
@@ -514,7 +514,7 @@ note "$?LINE return value";
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
     $parameter-name ~~ s:g/ '_' /-/;
-note "$?LINE parameter $parameter-name, , $raku-ntype, $raku-rtype";
+#note "$?LINE parameter $parameter-name, , $raku-ntype, $raku-rtype";
 
     my Hash $ph = %(
       :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
