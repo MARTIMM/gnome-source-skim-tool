@@ -27,9 +27,10 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module ( ) {
+method generate-raku-interface ( ) {
 
   my XML::Element $class-element = $!xpath.find('//interface');
+  die "//interface not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$class-element;
 
   my Str ( $doc, $code);
   my Str $module-code = '';
@@ -135,7 +136,7 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
     #use Gnome::Glib::Error;
 
     {HLSEPARATOR}
-    {SEPARATOR(('Role Declaration');}
+    {SEPARATOR('Role Declaration');}
     {HLSEPARATOR}
     unit role $*work-data<raku-class-name>:auth<github:MARTIMM>;
     $also

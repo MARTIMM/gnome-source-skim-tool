@@ -81,10 +81,11 @@ sub MAIN (
 
     say "Generate Raku module from record $*work-data<raku-class-name>"
          if $*verbose;
-    require ::('Gnome::SourceSkimTool::InterfacedModule');
+    require ::('Gnome::SourceSkimTool::InterfaceModule');
     my $raku-interface = ::('Gnome::SourceSkimTool::InterfaceModule').new;
     $raku-interface.generate-raku-interface;
-    $raku-interface.generate-raku-interface-test;
+
+    # no test file for interfaces
   }
 
   elsif $r and ?$gnome-class {
