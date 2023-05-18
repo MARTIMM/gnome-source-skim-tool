@@ -2,6 +2,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SearchAndSubstitute;
 use Gnome::SourceSkimTool::GenerateDoc;
+use Gnome::SourceSkimTool::Module;
 
 use XML;
 use XML::XPath;
@@ -12,16 +13,16 @@ unit class Gnome::SourceSkimTool::ClassModule:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::GenerateDoc $!grd;
+has Gnome::SourceSkimTool::Module $!mod;
 
 has XML::XPath $!xpath;
-has Bool $!make-role;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
   $!grd .= new;
   $!sas .= new;
-  $!make-role = False;
+  $!mod .= new;
 
   # load data for this module
   note "Load module data from $*work-data<gir-class-file>";
@@ -32,19 +33,7 @@ submethod BUILD ( ) {
 method generate-raku-module ( ) {
 
   my XML::Element $class-element = $!xpath.find('//class');
-  unless ?$class-element {
-    $class-element = $!xpath.find('//interface');
-    $!make-role = True;
-  }
-
-  my Str $description-comment;
-  if $!make-role {
-    $description-comment = 'Role Description';
-  }
-  
-  else {
-    $description-comment = 'Class Description';
-  }
+  die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$class-element;
 
   my Str ( $doc, $code);
   my Str $module-code = '';
@@ -53,7 +42,7 @@ method generate-raku-module ( ) {
     use v6;
 
     {HLSEPARATOR}
-    {SEPARATOR($description-comment);}
+    {SEPARATOR('Class Description');}
     {HLSEPARATOR}
     RAKUMOD
 
@@ -64,20 +53,13 @@ method generate-raku-module ( ) {
   my Hash $sig-info = self!generate-signals($class-element);
 
   note "Set class unit" if $*verbose;
-  $module-code ~= self!set-unit( $class-element, $sig-info);
+  $module-code ~= $!mod.set-unit( $class-element, $sig-info);
 
-  # Roles do not have a BUILD
-  if $!make-role {
-    note "Generate role initialization method" if $*verbose;  
-    $module-code ~= self!generate-role-init( $class-element, $sig-info);
-  }
-
-  else {
-    note "Generate BUILD submethod" if $*verbose;  
-    ( $doc, $code) = self!generate-build( $class-element, $sig-info);
-    $module-doc ~= $doc;
-    $module-code ~= $code;
-  }
+  # Make a BUILD submethod
+  note "Generate BUILD submethod" if $*verbose;  
+  ( $doc, $code) = self!generate-build( $class-element, $sig-info);
+  $module-doc ~= $doc;
+  $module-code ~= $code;
 
   note "Generate module methods" if $*verbose;  
   ( $doc, $code) = self!generate-methods($class-element);
@@ -108,6 +90,7 @@ method generate-raku-module ( ) {
   $*work-data<raku-module-doc-file>.IO.spurt($module-doc);
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
@@ -159,23 +142,15 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
     #use Gnome::Glib::Error;
 
     {HLSEPARATOR}
-    {SEPARATOR(($!make-role ?? 'Role' !! 'Class') ~ ' Declaration');}
+    {SEPARATOR('Class Declaration');}
     {HLSEPARATOR}
-    unit {$!make-role ?? 'role' !! 'class'} $*work-data<raku-class-name>:auth<github:MARTIMM>;
+    unit class $*work-data<raku-class-name>:auth<github:MARTIMM>;
     $also
     RAKUMOD
 
-#`{{
-  if ? $sig-info<doc> and ! $!make-role {
-    $code ~= qq:to/RAKUMOD/;
-      {HLSEPARATOR}
-      my Bool \$signals-added = False;
-      RAKUMOD
-  }
-}}
-
   $code
 }
+}}
 
 #-------------------------------------------------------------------------------
 method !generate-build (
@@ -1188,9 +1163,6 @@ method !get-methods ( XML::Element $class-element --> Hash ) {
 #-------------------------------------------------------------------------------
 method generate-raku-module-test ( ) {
 
-  # Roles are tested via modules using the Role
-  return if $!make-role;
-
   my XML::Element $class-element = $!xpath.find('//class');
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
@@ -1374,19 +1346,12 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
   $package ~~ s/ \d //;
 
   my Str ( $mname, $set-class-name);
-  if $!make-role {
-    $mname = "_{$pfix}interface";
-    $set-class-name = '';
-  }
-  
-  else {
-    $mname = '_fallback';
-    $set-class-name = [~] '  if ?$s {', "\n",
-      '    self._set-class-name-of-sub(\'', $*work-data<gnome-name>, "');\n",
-      "  }\n  else \{\n",
-      '    $s = callsame;', "\n",
-      "  }\n";
-  }
+  $mname = '_fallback';
+  $set-class-name = [~] '  if ?$s {', "\n",
+    '    self._set-class-name-of-sub(\'', $*work-data<gnome-name>, "');\n",
+    "  }\n  else \{\n",
+    '    $s = callsame;', "\n",
+    "  }\n";
 
   $doc ~= q:to/EODEPR/;
 
