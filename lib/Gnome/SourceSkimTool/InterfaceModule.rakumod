@@ -2,6 +2,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SearchAndSubstitute;
 use Gnome::SourceSkimTool::GenerateDoc;
+use Gnome::SourceSkimTool::Module;
 
 use XML;
 use XML::XPath;
@@ -12,6 +13,7 @@ unit class Gnome::SourceSkimTool::InterfaceModule:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::GenerateDoc $!grd;
+has Gnome::SourceSkimTool::Module $!mod;
 
 has XML::XPath $!xpath;
 
@@ -24,6 +26,8 @@ submethod BUILD ( ) {
   # load data for this module
   note "Load module data from $*work-data<gir-interface-file>";
   $!xpath .= new(:file($*work-data<gir-interface-file>));
+
+  $!mod .= new(:$!xpath);
 }
 
 #-------------------------------------------------------------------------------
@@ -47,17 +51,17 @@ method generate-raku-interface ( ) {
   $module-doc ~= $!grd.get-description( $class-element, $!xpath);
 
   note "Generate module signals" if $*verbose;  
-  my Hash $sig-info = self!generate-signals($class-element);
+  my Hash $sig-info = $!mod.generate-signals($class-element);
 
   note "Set class unit" if $*verbose;
-  $module-code ~= self!set-unit( $class-element, $sig-info);
+  $module-code ~= $!mod.set-unit( $class-element, $sig-info);
 
   # Roles do not have a BUILD
   note "Generate role initialization method" if $*verbose;  
   $module-code ~= self!generate-role-init( $class-element, $sig-info);
 
   note "Generate module methods" if $*verbose;  
-  ( $doc, $code) = self!generate-methods($class-element);
+  ( $doc, $code) = $!mod.generate-methods($class-element);
 
   # if there are methods, add the fallback routine and methods
   if ?$doc {
@@ -67,7 +71,7 @@ method generate-raku-interface ( ) {
   }
 
   note "Generate module functions" if $*verbose;  
-  ( $doc, $code) = self!generate-functions($class-element);
+  ( $doc, $code) = $!mod.generate-functions($class-element);
   if ?$code {
     $module-doc ~= $doc;
     $module-code ~= $code;
@@ -77,7 +81,7 @@ method generate-raku-interface ( ) {
   $module-doc ~= $sig-info<doc>;
 
   note "Generate module properties" if $*verbose;  
-  $module-doc ~= self!generate-properties($class-element);
+  $module-doc ~= $!mod.generate-properties($class-element);
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code);
@@ -85,6 +89,7 @@ method generate-raku-interface ( ) {
   $*work-data<raku-module-doc-file>.IO.spurt($module-doc);
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
@@ -144,7 +149,8 @@ method !set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
   $code
 }
-
+}}
+#`{{
 #-------------------------------------------------------------------------------
 method !generate-build (
   XML::Element $class-element, Hash $sig-info
@@ -158,6 +164,7 @@ method !generate-build (
 
   ( $doc, $code)
 }
+}}
 
 #-------------------------------------------------------------------------------
 method !generate-role-init (
