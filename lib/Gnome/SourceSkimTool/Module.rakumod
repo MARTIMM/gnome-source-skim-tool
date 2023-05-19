@@ -23,7 +23,7 @@ submethod BUILD ( XML::XPath :$!xpath ) {
 }
 
 #-------------------------------------------------------------------------------
-method set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
+method set-unit ( XML::Element $class-element --> Str ) {
 
   # Insert a commented import of enums module
   my Str ( $imports, $also) = '' xx 3;
@@ -57,9 +57,7 @@ method set-unit ( XML::Element $class-element, Hash $sig-info --> Str ) {
 
   my Str $code = qq:to/RAKUMOD/;
 
-    {HLSEPARATOR}
-    {SEPARATOR('Module Imports');}
-    {HLSEPARATOR}
+    {$!grd.pod-header('Module Imports')}
     use NativeCall;
 
     use Gnome::N::NativeLib;
@@ -107,9 +105,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
     =begin pod
     =head1 Methods
 
-    {HLSEPARATOR}
-    {SEPARATOR('Class Initialization');}
-    {HLSEPARATOR}
+    {$!grd.pod-header('Class Initialization')}
     #TM:1:new:
     =head2 new
     EOBUILD
@@ -471,7 +467,7 @@ method generate-methods ( XML::Element $class-element --> List ) {
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   my Bool $is-leaf = $h<leaf> // False;
-  my Str $symbol-prefix = $h<symbol-prefix>;
+  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
 
   my Hash $hcs = self!get-methods($class-element);
   return ('','') unless $hcs.keys.elems;
