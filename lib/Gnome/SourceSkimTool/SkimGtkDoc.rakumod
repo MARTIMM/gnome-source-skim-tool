@@ -44,6 +44,10 @@ method get-classes-from-gir ( ) {
   my $attribs = $e.attribs;
   my Str $namespace-name = $attribs<name>;
   my Str $symbol-prefix = $attribs<c:symbol-prefixes>;
+
+  # glib strays of from standard, must correct it. Gio and GObject are correct
+  $symbol-prefix ~~ s/^ g \. .* /g/;
+
   my Str $id-prefix = $attribs<c:identifier-prefixes>;
 
   # and add attributes to the xml start
@@ -356,6 +360,7 @@ method !map-element (
         :sname("N-$ctype"),
         :$rname,
         :gir-type<record>,
+        :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
       );
 
       my Str $fname = self!get-source-file( $element, 'source-position');
@@ -575,7 +580,13 @@ method load-map (
 #  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
   my $fname = $object-map-path ~ $repo-file;
   note "Load object map from '$fname'" if $*verbose;
-  load-yaml($fname.IO.slurp);
+  if $fname.IO.r {
+    load-yaml($fname.IO.slurp)
+  }
+
+  else {
+    %()
+  }
 }
 
 #-------------------------------------------------------------------------------
