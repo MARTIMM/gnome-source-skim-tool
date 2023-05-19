@@ -90,7 +90,7 @@ method generate-raku-module ( ) {
   note "Save pod doc";
   $*work-data<raku-module-doc-file>.IO.spurt($module-doc);
 }
-
+#`{{
 #-------------------------------------------------------------------------------
 method !make-init-method (
   XML::Element $class-element, Hash $sig-info --> Str
@@ -133,6 +133,7 @@ method !make-init-method (
 
   $code
 }
+}}
 
 #-------------------------------------------------------------------------------
 method generate-raku-module-test ( ) {
@@ -381,12 +382,3 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
   $doc
 }
 
-
-
-
-
-
-
-
-
-=finish
