@@ -42,9 +42,7 @@ method generate-raku-module ( ) {
     #TL:1:$*work-data<raku-class-name>:
     use v6;
 
-    {HLSEPARATOR}
-    {SEPARATOR('Class Description');}
-    {HLSEPARATOR}
+    {$!grd.pod-header('Class Description')}
     RAKUMOD
 
   note "Generate module description" if $*verbose;  
@@ -54,7 +52,7 @@ method generate-raku-module ( ) {
   my Hash $sig-info = $!mod.generate-signals($class-element);
 
   note "Set class unit" if $*verbose;
-  $module-code ~= $!mod.set-unit( $class-element, $sig-info);
+  $module-code ~= $!mod.set-unit($class-element);
 
   # Make a BUILD submethod
   note "Generate BUILD submethod" if $*verbose;  
