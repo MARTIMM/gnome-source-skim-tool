@@ -42,9 +42,7 @@ method generate-raku-interface ( ) {
     #TL:1:$*work-data<raku-class-name>:
     use v6;
 
-    {HLSEPARATOR}
-    {SEPARATOR('Role Description');}
-    {HLSEPARATOR}
+    {$!grd.pod-header('Role Description')}
     RAKUMOD
 
   note "Generate module description" if $*verbose;  
@@ -54,7 +52,7 @@ method generate-raku-interface ( ) {
   my Hash $sig-info = $!mod.generate-signals($class-element);
 
   note "Set class unit" if $*verbose;
-  $module-code ~= $!mod.set-unit( $class-element, $sig-info);
+  $module-code ~= $!mod.set-unit($class-element);
 
   # Roles do not have a BUILD
   note "Generate role initialization method" if $*verbose;  
