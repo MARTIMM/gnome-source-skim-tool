@@ -1,9 +1,8 @@
 
-use Gnome::SourceSkimTool::Prepare;
-use Gnome::SourceSkimTool::SkimGtkDoc;
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SearchAndSubstitute;
 use Gnome::SourceSkimTool::GenerateDoc;
+use Gnome::SourceSkimTool::Module;
 
 use XML;
 use XML::XPath;
@@ -13,81 +12,31 @@ use JSON::Fast;
 unit class Gnome::SourceSkimTool::RecordModule:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
+has Gnome::SourceSkimTool::GenerateDoc $!grd;
+has Gnome::SourceSkimTool::Module $!mod;
 
 has XML::XPath $!xpath;
-has Gnome::SourceSkimTool::GenerateDoc $!grd;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
-#`{{
-  $*object-maps = %();
-  $*other-work-data = %();
 
-  $!sas .= new; #(:gen-raku-module(self));
-
-  note "Prepare for module generation from record data" if $*verbose;
-
-  # get workdata for other gnome packages
-  my Gnome::SourceSkimTool::Prepare $p .= new;
-
-  if $*gnome-package.Str ~~ / '3' $/ {
-    $*other-work-data<Gtk> = $p.prepare-work-data(Gtk3);
-    $*other-work-data<Gdk> = $p.prepare-work-data(Gdk3);
-  }
-
-  # Version 4
-  elsif $*gnome-package.Str ~~ / '4' $/ {
-    $*other-work-data<Gtk> = $p.prepare-work-data(Gtk4);
-    $*other-work-data<Gdk> = $p.prepare-work-data(Gdk4);
-    $*other-work-data<Gsk> = $p.prepare-work-data(Gsk4);
-  }
-
-  # If it is a high end module, we add these too. They depend on Gtk.
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $*other-work-data<Atk> = $p.prepare-work-data(Atk);
-    $*other-work-data<Pango> = $p.prepare-work-data(Pango);
-    $*other-work-data<Cairo> = $p.prepare-work-data(Cairo);
-  }
-
-  # If it is not a high end module, we only need these
-  $*other-work-data<Glib> = $p.prepare-work-data(Glib);
-  $*other-work-data<Gio> = $p.prepare-work-data(Gio);
-  $*other-work-data<GObject> = $p.prepare-work-data(GObject);
-
-  # get object maps
-  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>);
-    $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>);
-    $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>);
-    $*object-maps<Gsk> = ?$*other-work-data<Gsk> 
-                       ?? $s.load-map($*other-work-data<Gsk><gir-module-path>)
-                       !! %();
-    $*object-maps<Pango> =
-      $s.load-map($*other-work-data<Pango><gir-module-path>);
-    $*object-maps<Cairo> =
-      $s.load-map($*other-work-data<Cairo><gir-module-path>);
-  }
-
-  $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>);
-  $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>);
-  $*object-maps<GObject> =
-    $s.load-map($*other-work-data<GObject><gir-module-path>);
-}}
+  $!grd .= new;
+  $!sas .= new;
 
   # load data for this module
   note "Load module data from $*work-data<gir-module-path>repo-record.gir";
-  $!xpath .= new(:file($*work-data<gir-module-path> ~ $*gnome-class.Str.lc ~ '.gir'));
+  $!xpath .= new(:file($*work-data<gir-record-file>));
+
+  $!mod .= new(:$!xpath);
 }
 
 #-------------------------------------------------------------------------------
 method generate-raku-record ( ) {
 
   my XML::Element $element = $!xpath.find('//record');
+  die "//record not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
-#  my Str $description-comment = 'Record Description';
-
-  my Str ( $doc, $code);
+  my ( $doc, $code);
   my Str $module-code = '';
   my Str $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
@@ -100,17 +49,30 @@ method generate-raku-record ( ) {
   $module-doc ~= $!grd.get-description( $element, $!xpath);
 
   note "Set class unit" if $*verbose;
-#  $module-code ~= self!set-unit( $element, $sig-info);
+  $module-code ~= $!mod.set-unit($element);
 
+  # Make a BUILD submethod
   note "Generate BUILD submethod" if $*verbose;  
-#  ( $doc, $code) = self!generate-build( $element, $sig-info);
-#  $module-doc ~= $doc;
-#  $module-code ~= $code;
+  ( $doc, $code) = $!mod.generate-build( $element, %());
+  $module-doc ~= $doc;
+  $module-code ~= $code;
 
+  note "Generate module methods" if $*verbose;  
+  ( $doc, $code) = $!mod.generate-methods($element);
 
+  # if there are methods, add the fallback routine and methods
+  if ?$doc {
+    $module-code ~= self!add-deprecatable-method($element);
+    $module-code ~= $code;
+    $module-doc ~= $doc;
+  }
 
-
-
+  note "Generate module functions" if $*verbose;  
+  ( $doc, $code) = $!mod.generate-functions($element);
+  if ?$code {
+    $module-doc ~= $doc;
+    $module-code ~= $code;
+  }
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code);
@@ -121,5 +83,99 @@ method generate-raku-record ( ) {
 #-------------------------------------------------------------------------------
 method generate-raku-record-test ( ) {
 
+}
+
+#-------------------------------------------------------------------------------
+method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
+
+  my Hash $meta-data = from-json('META6.json'.IO.slurp);
+  my Str $version-now = $meta-data<version>;
+  my @v = $version-now.split('.');
+  @v[1] += 2;
+  @v[2] = 0;
+  my Str $version-dep = @v.join('.');
+
+
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = $!sas.search-name($ctype);
+  my Array $roles = $h<implement-roles> // [];
+  my $role-fallbacks = '';
+  for @$roles -> $role {
+    my Hash $role-h = $!sas.search-name($role);
+
+    $role-fallbacks ~=
+      "  \$s = self._$role-h<symbol-prefix>interface\(\$native-sub)\n" ~
+      "    if !\$s and self.^can\('_$role-h<symbol-prefix>interface');\n";
+  }
+  $role-fallbacks ~= "\n" if ?$role-fallbacks;
+
+  my Str $doc = '';
+
+  my Str $pfix = $*work-data<sub-prefix>;
+  my @pfix-parts = $pfix.split('_');
+
+  my Str $pfix-dash = $*work-data<sub-prefix>;
+  $pfix-dash ~~ s:g/ '_' /-/;
+  $pfix-dash.chop(1);
+
+  my Str $package = $*gnome-package.Str.lc;
+  $package ~~ s/ \d //;
+
+  my Str ( $mname, $set-class-name);
+  $mname = "_{$pfix}interface";
+  $set-class-name = '';
+
+  $doc ~= q:to/EODEPR/;
+
+    #`{{
+      Older modules might still have it and must remove the method after
+      deprecation date. New modules must not implement this.
+
+    EODEPR
+
+  $doc ~= "{HLSEPARATOR}\n";
+  $doc ~= "method $mname " ~ '( Str $native-sub --> Callable ) {' ~ "\n";
+  $doc ~= "  my Str \$pfix = '$*work-data<sub-prefix>';\n";
+
+  $doc ~= q:to/EODEPR/;
+      my @pfix-parts = $pfix.split('_');
+      my Int $cfix = @pfix-parts.elems + 2;
+      my Str $new-patt = $native-sub.subst( '-', '_', :g);
+
+      my Callable $s;
+
+      loop ( my Int $dash-count = 2; $dash-count < $cfix; $dash-count++ ) {
+        my Str $tv = @pfix-parts[0 .. * - $dash-count].join('_');
+        my Str $match = ?$tv ?? "{$tv}_$new-patt" !! "$tv$new-patt";
+        try { $s = &::($match); }
+        if ?$s {
+          $match ~~ s/ $pfix //;
+          $match ~~ s:g/ '_' /-/;
+    EODEPR
+
+  $doc ~= [~] '      Gnome::N::deprecate( "$native-sub", $match, ', "'",
+              $version-now, "', '", $version-dep, "');\n";
+
+  $doc ~= q:to/EODEPR/;
+
+          last;
+        }
+      }
+
+    EODEPR
+
+  $doc ~= $role-fallbacks;
+  $doc ~= $set-class-name;
+
+  $doc ~= q:to/EODEPR/;
+
+      $s
+    }
+
+    }}
+
+    EODEPR
+
+  $doc
 }
 
