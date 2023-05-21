@@ -1,0 +1,12 @@
+use NativeCall;
+
+use Gnome::N::N-GObject;
+use Gnome::N::GlibToRakuTypes;
+
+use Gnome::Gtk3::Window:api('gir');
+
+constant \Window = Gnome::Gtk3::Window;
+
+my Window $w .= new;
+
+my N-GObject $nw = $w.gtk_window_new(0);
