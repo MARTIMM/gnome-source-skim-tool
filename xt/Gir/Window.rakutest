@@ -4,9 +4,26 @@ use Gnome::N::N-GObject;
 use Gnome::N::GlibToRakuTypes;
 
 use Gnome::Gtk3::Window:api('gir');
+use Gnome::Gtk3::Main;
 
 constant \Window = Gnome::Gtk3::Window;
 
-my Window $w .= new;
 
-my N-GObject $nw = $w.gtk_window_new(0);
+class CB {
+  method quit ( ) {
+    Gnome::Gtk3::Main.new.quit;
+  }
+}
+
+
+with my Window $w .= new(:window-type(GTK_WINDOW_TOPLEVEL)) {
+  .set-title('test window');
+  .register-signal( CB.new, 'quit', 'destroy');
+  .show-all;
+
+  .set-size-request( 400, 300);
+  .set-keep-above(True);
+#note .gist;
+}
+
+Gnome::Gtk3::Main.new.main;
