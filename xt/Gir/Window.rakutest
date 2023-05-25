@@ -9,6 +9,7 @@ use Gnome::Gtk3::Main;
 constant \Window = Gnome::Gtk3::Window;
 
 
+#-------------------------------------------------------------------------------
 class CB {
   method quit ( ) {
     Gnome::Gtk3::Main.new.quit;
@@ -16,14 +17,25 @@ class CB {
 }
 
 
+#-------------------------------------------------------------------------------
 with my Window $w .= new(:window-type(GTK_WINDOW_TOPLEVEL)) {
-  .set-title('test window');
-  .register-signal( CB.new, 'quit', 'destroy');
-  .show-all;
 
+  .set-title('test window');
+note 'property title: ', .get-properties( 'title', Str).gist;
+note '.get-title(): ', .get-title;
+#exit;
+  .register-signal( CB.new, 'quit', 'destroy');
   .set-size-request( 400, 300);
   .set-keep-above(True);
-#note .gist;
+  my @r = .set-default-icon-from-file('xarrows.png');
+  note "$?LINE, ", @r[0] ?? 'ok' !! @r[1].message;
+  @r = .set-default-icon-from-file('arrows.png');
+  note "$?LINE, ", @r[0] ?? 'ok' !! @r[1].message;
+  .show-all;
+
+  note 'Default size: ', .get-default-size.gist;
+  note 'Position: ', .get-position.gist;
+  note 'Size: ', .get-size.gist;
 }
 
 Gnome::Gtk3::Main.new.main;
