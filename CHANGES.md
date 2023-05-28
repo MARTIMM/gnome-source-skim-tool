@@ -27,6 +27,12 @@ TODO
   * Generate enumerations and bitmasks(also enums)
   * Generate functions
 -->
+
+* 2023-05-28 0.8.0
+  After an interesting discussion on github issue #1 I created a test of a Window module. Suggestions were to use the GIR libraries or the XML files directly so there would not be any native subroutines declared in the module. This will save a lot of time when installing the module.
+  This, however, adds a dependency which the user must install on their machines either the libraries or the XML files. Searching throught the XML files take a lot of time so this is not the right way.
+  I've come up with an other solution which removes the dependency by generating a hash with all data to call a native function. Parsing should be quicker but the runtime slower because there are more calls to make before finally call the native routine.
+
 * 2023-05-15 0.7.1
   * New module ListGirTypes to get a list of the introspect types and which names have a specified type.
   * Things get too unwieldy. Looking at the huge inventory of records in GLib I decided to split the generation of modules into several parts; classes, records and interfaces. Also documentation of all parts as in, description,  API parameters of methods, functions, callbacks and handlers.
