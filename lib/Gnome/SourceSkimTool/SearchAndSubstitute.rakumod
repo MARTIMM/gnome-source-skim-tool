@@ -266,10 +266,10 @@ method convert-ntype (
 
 #TODO int/num/pointers as '$x is rw'
     # ignore const
-    when /g? char '**'/    { $raku-type = 'CArray[Str]'; }
+    when /g? char '**'/    { $raku-type = 'gchar-pptr'; }
     when /g? char '*'/     { $raku-type = 'Str'; }
-    when /g? int '*'/      { $raku-type = 'CArray[gint]'; }
-    when /g? uint '*'/     { $raku-type = 'CArray[guint]'; }
+    when /g? int '*'/      { $raku-type = 'gint-ptr'; }
+    when /g? uint '*'/     { $raku-type = 'guint-ptr'; }
     when /g? size '*'/     { $raku-type = 'CArray[gsize]'; }
     when /GError '*'/      { $raku-type = 'CArray[N-GError]'; }
 
