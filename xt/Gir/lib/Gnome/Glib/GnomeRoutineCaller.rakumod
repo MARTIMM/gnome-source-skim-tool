@@ -1,201 +1,42 @@
 
+
 use NativeCall;
 
 use Gnome::N::N-GObject;
-#use Gnome::N::NativeLib;
+use Gnome::N::NativeLib;
+use Gnome::N::TopLevelClassSupport;
 use Gnome::N::GlibToRakuTypes;
-#use Gnome::N::Gir;
-
-use Gnome::Gtk3::Bin;
 
 use Gnome::Glib::Error;
 
-use Gnome::Glib::GnomeRoutineCaller;
 #-------------------------------------------------------------------------------
-unit class Gnome::Gtk3::Window:api('gir');
-also is Gnome::Gtk3::Bin;
-
-#constant \Error = Gnome::Glib::Error;
-
-my Bool $signals-added = False;
-has Gnome::Glib::GnomeRoutineCaller $!routine-caller;
-#-------------------------------------------------------------------------------
-#TE:1:GtkWindowType:
-enum GtkWindowType is export <
-  GTK_WINDOW_TOPLEVEL GTK_WINDOW_POPUP
->;
-
-#TE:1:GtkWindowPosition:
-enum GtkWindowPosition is export <
-  GTK_WIN_POS_NONE
-  GTK_WIN_POS_CENTER
-  GTK_WIN_POS_MOUSE
-  GTK_WIN_POS_CENTER_ALWAYS
-  GTK_WIN_POS_CENTER_ON_PARENT
->;
+unit class Gnome::Glib::GnomeRoutineCaller;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
-# Names from g_irepository_get_shared_library
-# Install in TopLevelClassSupport in Gnome::N::NativeLib
-
-#constant $library = 'libgtk-3.so.0';
-#constant $sub-prefix = 'gtk_window_';
-
-#has Bool $!pointers-in-args;
-
-#`{{
-enum RoutineType (
+enum RoutineType is export (
   'Constructor',            # Constructors will return an object of this class
   'Method',                 # First argument must be an instance parameter
                             # but is not noted in the parameters list. This
                             # is the default type and maybe left.
   'Function'                # The instance parameter is not inserted.
 );
-}}
 
-# this hash is build using the gir repo
-my Hash $methods = %(
-  new => %(                 # We know to prefix 'gtk_window_' in this module
-    :type(Constructor),     # Type of routine
-    :parameters([GEnum]),   # Parameter types
-    :returns(N-GObject),    # Return type if any,
-  ),
-
-  get_default_size => %(
-    :parameters([ gint-ptr, gint-ptr]),
-  ),
-
-  get_position => %(
-    :parameters([ gint-ptr, gint-ptr]),
-  ),
-
-  set_icon_from_file => %(
-    :parameters([gchar-ptr]),
-    :returns(CArray[N-GError]),
-  ),
-
-  get_size => %(
-    :parameters([ gint-ptr, gint-ptr]),
-  ),
-
-  get_title => %(
-    :returns(gchar-ptr),
-  ),
-
-  set_keep_above => %(
-    :parameters([gboolean]),
-  ),
-
-  set_title => %(
-    :parameters([gchar-ptr]),
-  ),
-
-  set_default_icon_from_file => %(
-    :type(Function),
-    :parameters([ gchar-ptr, CArray[N-GError]]),
-    :returns(gboolean),
-  ),
-);
-
-#-------------------------------------------------------------------------------
-submethod BUILD ( *@arguments, *%options ) {
- 
-  $signals-added = self.add-signal-types( $?CLASS.^name,
-    :w0<activate-default activate-focus keys-changed>,
-    :w1<enable-debugging set-focus>,
-  ) unless $signals-added;
-
-  # prevent creating wrong native-objects
-  if self.^name eq 'Gnome::Gtk3::Window' or %options<GtkWindow> {
-
-    # Initialize helper
-    $!routine-caller .= new(
-      :library<libgtk-3.so.0>, :sub-prefix<gtk_window_>,
-      :widget(self), :widget-name<GtkWindow>, :!is-leaf
-    );
-
-    if self.is-valid { }
-
-    # check if common options are handled by some parent
-    elsif %options<native-object>:exists { }
-    elsif %options<build-id>:exists { }
-
-    # process all other options
-    else {
-      my $no;
-      if ? %options<window-type> {
-        $no = self.FALLBACK( 'new', %options<window-type>);
-      }
-
-      #`{{ use this when the module is not made inheritable
-      # check if there are unknown options
-      elsif %options.elems {
-        die X:Gnome.new(
-          :message(
-            'Unsupported, undefined, incomplete or wrongly typed options for ' ~
-            self.^name ~ ': ' ~ %options.keys.join(', ')
-          )
-        );
-      }
-      }}
-
-      #`{{ when there are no defaults use this
-      # check if there are any options
-      elsif %options.elems == 0 {
-        die X:Gnome.new(:message('No options specified ' ~ self.^name));
-      }
-      }}
-
-      ##`{{ when there are defaults use this instead
-      # create default object
-      else {
-        $no = self.FALLBACK( 'new', GTK_WINDOW_TOPLEVEL);
-      }
-      #}}
-
-      self._set-native-object($no);
-    }
-
-    # only after creating the native-object, the gtype is known
-    self._set-class-info('GtkWindow');
- }
-
-}
-
-#-------------------------------------------------------------------------------
-method FALLBACK ( Str $name, *@arguments ) {
-  $!routine-caller.call-native-sub(
-    $name, @arguments, $methods
-    #, 'libgtk-3.so.0', 'gtk_window_',
-    #self, 'GtkWindow', False
-  );
-}
-
-=finish
-
-#  Str $name is copy, @arguments, Hash $methods, Str $library,
-#  Str $sub-prefix, $widget, Str $widget-name, Bool $is-leaf
-
-
-
-
-
-
-
-
-
-
-
-
-unit class Gnome::Glib::MethodHelper;
-
-use Gnome::Glib::Error;
 has Bool $!pointers-in-args;
+has Str $!library is required;
+has Str $!sub-prefix is required;
+has $!widget is required;
+has Str $!widget-name is required;
+has Bool $!is-leaf;
 
 #-------------------------------------------------------------------------------
-method call-native-sub (
-  Str $name is copy, @arguments, Hash $methods, Str $library, Str $sub-prefix
-) {
+submethod BUILD (
+  Str :$!library, Str :$!sub-prefix,
+  :$!widget, Str :$!widget-name, Bool :$!is-leaf = False
+) { }
+
+#-------------------------------------------------------------------------------
+method call-native-sub ( Str $name is copy, @arguments, Hash $methods ) {
 
   # Dashes to underscores
   $name ~~ s:g/ '-' /_/;
@@ -217,10 +58,12 @@ method call-native-sub (
 
   # Get native parameters converted from @arguments
   my @native-args = self.native-parameters( @arguments, @parameters, $routine);
+
 #note "$?LINE ", @arguments.gist, ', ', @parameters.gist, ', ', $routine,.gist, ', ', @native-args.gist;
+
   # Get routine address
   $routine<function-address> //=
-    self.native-function( $name, @parameters, $routine, $library, $sub-prefix);
+    self.native-function( $name, @parameters, $routine);
 
   # Call routine
   # If there are pointers in the argument list, values are placed
@@ -250,7 +93,13 @@ method native-parameters ( @arguments, @parameters, Hash $routine --> List ) {
     when Function { }
     #when Method { }
     default {
-      @native-args.push: self._f('GtkWindow');
+      if $!is-leaf {
+        @native-args.push: $!widget._get-native-object-no-reffing;
+      }
+
+      else {
+        @native-args.push: $!widget._f($!widget-name);
+      }
     }
   }
 
@@ -265,11 +114,8 @@ method native-parameters ( @arguments, @parameters, Hash $routine --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-method native-function (
-  Str $name, @parameters, Hash $routine, Str $library, Str $sub-prefix
-  --> Callable
-) {
-  my Str $routine-name = $sub-prefix ~ $name;
+method native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
+  my Str $routine-name = $!sub-prefix ~ $name;
 
   # Create parameter list and start with inserting fixed arguments
   my @parameterList = ();
@@ -294,7 +140,7 @@ method native-function (
   # Get a pointer to the sub, then cast it to a sub with the proper
   # signature. after that, the sub can be called, returning a value.
   my Callable $f = nativecast(
-    $signature, cglobal( $library, $routine-name, Pointer)
+    $signature, cglobal( $!library, $routine-name, Pointer)
   );
 
   $f
@@ -401,63 +247,6 @@ method convert-return ( $v, $p ) {
 
   $c
 }
-}
 
 
 
-
-=finish
-
-
-  $!version = '3.0';
-  $!module = 'Window';
-  $!prefix = 'gtk_label_';
-
-  # Get the repository. This is a global object for now.
-  $!repository = g_irepository_get_default;
-
-
-  my $e = CArray[N-GError].new(N-GError);
-  my N-GObject $typelib = g_irepository_require(
-    $!repository, $!name-space, $!version, 0, $e
-  );
-
-  unless $typelib {
-    my Error() $error = $e[0];
-    die $error.message;
-  }
-
-  $!library = g_irepository_get_shared_library( $!repository, $!name-space);
-
-  $!object-info = g_irepository_find_by_name(
-    $!repository, $!name-space, $!module
-  );
-  die "Module $!module not found" unless ?$!object-info;
-
-
-
-
-
-note $?LINE;
-  my N-GObject $function-info = g_object_info_find_method(
-    $!object-info, $name
-  );
-
-  die "Method $name not found" unless ?$function-info;
-
-  my UInt $flags = g_function_info_get_flags($function-info);
-
-note "function: ",
-       g_function_info_get_symbol($function-info),
-       ", type $flags.fmt('0b%08b')";
-
-  g_base_info_unref($function-info);
-
-
-
-#-------------------------------------------------------------------------------
-sub _gtk_window_new ( GEnum $type --> N-GObject )
-  is native(&gtk-lib)
-  is symbol('gtk_window_new')
-  { * }
-}
