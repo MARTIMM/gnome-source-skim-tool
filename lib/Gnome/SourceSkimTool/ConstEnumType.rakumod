@@ -18,8 +18,8 @@ constant GIRROOT is export = '/usr/share/gir-1.0/';
 constant HLSEPARATOR = '#' ~ '-' x 79;
 constant HLPODSEPARATOR = '=comment ' ~ '-' x 71;
 
-sub SEPARATOR( Str $text --> Str ) is export {
-  [~] '#--[', $text, ']', '-' x (79 - $text.chars -4)
+sub SEPARATOR( Str $text, Int $indent = 0 --> Str ) is export {
+  [~] (' ' x $indent), '#--[', $text, ']', '-' x (79 - $text.chars -4 - $indent)
 }
 
 #-------------------------------------------------------------------------------

@@ -64,8 +64,9 @@ method generate-raku-module ( ) {
   ( $doc, $code) = $!mod.generate-methods($class-element);
 
   # if there are methods, add the fallback routine and methods
+  my Str $deprecatable-method = '';
   if ?$doc {
-    $module-code ~= self!add-deprecatable-method($class-element);
+    $deprecatable-method ~= self!add-deprecatable-method($class-element);
     $module-code ~= $code;
     $module-doc ~= $doc;
   }
@@ -76,6 +77,11 @@ method generate-raku-module ( ) {
     $module-doc ~= $doc;
     $module-code ~= $code;
   }
+
+  # Finish 'my Hash $methods' started in $!mod.generate-build()
+  $module-code ~= "\);\n";
+
+  $module-code ~= $deprecatable-method;
 
   # Add the signal doc here
   $module-doc ~= $sig-info<doc>;
