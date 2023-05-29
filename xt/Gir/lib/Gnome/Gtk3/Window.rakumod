@@ -10,7 +10,8 @@ use Gnome::Gtk3::Bin;
 
 use Gnome::Glib::Error;
 
-use Gnome::Glib::GnomeRoutineCaller;
+use Gnome::Glib::GnomeRoutineCaller:api('gir');
+
 #-------------------------------------------------------------------------------
 unit class Gnome::Gtk3::Window:api('gir');
 also is Gnome::Gtk3::Bin;

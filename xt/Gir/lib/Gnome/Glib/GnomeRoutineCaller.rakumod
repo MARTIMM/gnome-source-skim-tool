@@ -10,7 +10,7 @@ use Gnome::N::GlibToRakuTypes;
 use Gnome::Glib::Error;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::Glib::GnomeRoutineCaller;
+unit class Gnome::Glib::GnomeRoutineCaller:api('gir');
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
