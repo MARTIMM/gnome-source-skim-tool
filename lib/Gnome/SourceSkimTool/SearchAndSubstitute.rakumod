@@ -289,7 +289,10 @@ method convert-ntype (
         when 'enumeration' { $raku-type = 'GEnum'; }
         when 'bitfield' { $raku-type = 'GFlag'; }
 
-#        when 'record' { }
+        when 'record' {
+          $raku-type = $h<sname>;
+        }
+
 #        when 'callback' { }
         when 'interface' {
           $raku-type = 'N-GObject';
