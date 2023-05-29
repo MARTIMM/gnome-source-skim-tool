@@ -174,19 +174,20 @@ method get-classes-from-gir ( ) {
   # Before we save the map find out which classes are at the bottom (≡ leaf)
   # Also we want to know which classes will be inheritable. It is now decided to
   # only have decendents from GtkWidget be able to inherit.
-  # The classes which implement a role ( a C-interface) must be checked if the
-  # parent has also the same role. Only the topmost class can implement this
+  # The classes which implement a role (a C-interface) must be checked if the
+  # parent has also the same role. Only the top most class can implement this
   # role in Raku. All decendents will have access to the methods and signals
   # defined in that role.
   for $!map.keys -> $entry-name {
 
     # Skip all other types
-    next unless $!map{$entry-name}<gir-type> eq 'class';
+    next unless $!map{$entry-name}<gir-type>:exists
+         and $!map{$entry-name}<gir-type> eq 'class';
 
     $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
     self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
 
-    # If there is a leaf and is False, then all parents are also set False
+    # If there is a leaf and is False, then all parents are already set False
     next if $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
 
     # Assume we are at the end, so leaf is True
@@ -196,8 +197,14 @@ method get-classes-from-gir ( ) {
       return unless ?$parent;
 
       if $!map{$parent}<leaf>:exists and $!map{$parent}<leaf> {
+#note "$parent leaf set False";
         $!map{$parent}<leaf> = False;
         set-parent-leaf-false($!map{$parent}<parent-gnome-name>);
+      }
+
+      elsif $!map{$parent}<leaf>:!exists {
+#note "$parent leaf set False (<leaf> created";
+        $!map{$parent}<leaf> = False;
       }
     }
 

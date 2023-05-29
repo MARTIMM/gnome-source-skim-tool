@@ -45,33 +45,33 @@ method generate-raku-module ( ) {
     {$!grd.pod-header('Class Description')}
     RAKUMOD
 
-  note "Generate module description" if $*verbose;  
+  note "Generate module description" if $*verbose;
   $module-doc ~= $!grd.get-description( $class-element, $!xpath);
 
-  note "Generate module signals" if $*verbose;  
+  note "Get signal info" if $*verbose;
   my Hash $sig-info = $!mod.generate-signals($class-element);
 
   note "Set class unit" if $*verbose;
   $module-code ~= $!mod.set-unit($class-element);
 
   # Make a BUILD submethod
-  note "Generate BUILD submethod" if $*verbose;  
+  note "Generate BUILD submethod" if $*verbose;
   ( $doc, $code) = $!mod.generate-build( $class-element, $sig-info);
   $module-doc ~= $doc;
   $module-code ~= $code;
 
-  note "Generate module methods" if $*verbose;  
+  note "Generate module methods" if $*verbose;
   ( $doc, $code) = $!mod.generate-methods($class-element);
 
   # if there are methods, add the fallback routine and methods
-  my Str $deprecatable-method = '';
+#  my Str $deprecatable-method = '';
   if ?$doc {
-    $deprecatable-method ~= self!add-deprecatable-method($class-element);
+#    $deprecatable-method ~= self!add-deprecatable-method($class-element);
     $module-code ~= $code;
     $module-doc ~= $doc;
   }
 
-  note "Generate module functions" if $*verbose;  
+  note "Generate module functions" if $*verbose;
   ( $doc, $code) = $!mod.generate-functions($class-element);
   if ?$code {
     $module-doc ~= $doc;
@@ -79,14 +79,24 @@ method generate-raku-module ( ) {
   }
 
   # Finish 'my Hash $methods' started in $!mod.generate-build()
-  $module-code ~= "\);\n";
+  # and add necessary FALLBACK() method
+  $module-code ~= q:to/RAKUMOD/;
+    );
 
-  $module-code ~= $deprecatable-method;
+    #-------------------------------------------------------------------------------
+    method FALLBACK ( Str $name, *@arguments ) {
+      $!routine-caller.call-native-sub( $name, @arguments, $methods);
+    }
+
+    RAKUMOD
+
+#  $module-code ~= $deprecatable-method;
 
   # Add the signal doc here
+  note "Generate module signal doc" if $*verbose;
   $module-doc ~= $sig-info<doc>;
 
-  note "Generate module properties" if $*verbose;  
+  note "Generate module properties doc" if $*verbose;  
   $module-doc ~= $!mod.generate-properties($class-element);
 
   note "Save module";
@@ -94,6 +104,7 @@ method generate-raku-module ( ) {
   note "Save pod doc";
   $*work-data<raku-module-doc-file>.IO.spurt($module-doc);
 }
+
 #`{{
 #-------------------------------------------------------------------------------
 method !make-init-method (
@@ -152,7 +163,7 @@ method generate-raku-module-test ( ) {
     use NativeCall;
     use Test;
 
-    use $*work-data<raku-class-name>;
+    use $*work-data<raku-class-name>:api('gir');
 
     use Gnome::N::GlibToRakuTypes;
     use Gnome::N::N-GObject;
@@ -288,6 +299,7 @@ method generate-raku-module-test ( ) {
   $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
 
@@ -386,3 +398,4 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
   $doc
 }
 
+}}
