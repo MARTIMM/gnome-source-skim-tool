@@ -207,6 +207,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
   with $source {
     when Gtk3 {
       $work-data = %(
+#TODO take library from TGnome::N::NativeLib
         :library<&gtk-lib>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
         :raku-package<Gnome::Gtk3>,
