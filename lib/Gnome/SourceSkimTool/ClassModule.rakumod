@@ -55,12 +55,12 @@ method generate-raku-module ( ) {
   $module-code ~= $!mod.set-unit($class-element);
 
   # Make a BUILD submethod
-  note "Generate BUILD submethod" if $*verbose;
+  note "Generate BUILD" if $*verbose;
   ( $doc, $code) = $!mod.generate-build( $class-element, $sig-info);
   $module-doc ~= $doc;
   $module-code ~= $code;
 
-  note "Generate module methods" if $*verbose;
+  note "Generate methods" if $*verbose;
   ( $doc, $code) = $!mod.generate-methods($class-element);
 
   # if there are methods, add the fallback routine and methods
@@ -71,7 +71,7 @@ method generate-raku-module ( ) {
     $module-doc ~= $doc;
   }
 
-  note "Generate module functions" if $*verbose;
+  note "Generate functions" if $*verbose;
   ( $doc, $code) = $!mod.generate-functions($class-element);
   if ?$code {
     $module-doc ~= $doc;
