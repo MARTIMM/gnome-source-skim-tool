@@ -450,7 +450,8 @@ method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
 
   my Hash $h = %();
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-
+    note "Search for $prefix-name in map $map-name; $entry-name ≡? $value"
+      if $*verbose;
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists;
 
