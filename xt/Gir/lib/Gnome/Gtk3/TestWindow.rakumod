@@ -2,7 +2,7 @@
 use NativeCall;
 
 use Gnome::N::N-GObject;
-#use Gnome::N::NativeLib;
+use Gnome::N::NativeLib;
 use Gnome::N::GlibToRakuTypes;
 #use Gnome::N::Gir;
 
@@ -13,7 +13,7 @@ use Gnome::Glib::Error;
 use Gnome::Glib::GnomeRoutineCaller:api('gir');
 
 #-------------------------------------------------------------------------------
-unit class Gnome::Gtk3::Window:api('gir');
+unit class Gnome::Gtk3::TestWindow:api('gir');
 also is Gnome::Gtk3::Bin;
 
 #constant \Error = Gnome::Glib::Error;
@@ -107,11 +107,11 @@ submethod BUILD ( *@arguments, *%options ) {
   ) unless $signals-added;
 
   # prevent creating wrong native-objects
-  if self.^name eq 'Gnome::Gtk3::Window' or %options<GtkWindow> {
+  if self.^name eq 'Gnome::Gtk3::TestWindow' or %options<GtkWindow> {
 
     # Initialize helper
     $!routine-caller .= new(
-      :library<libgtk-3.so.0>, :sub-prefix<gtk_window_>,
+      :library(&gtk-lib), :sub-prefix<gtk_window_>,
       :widget(self), :widget-name<GtkWindow>, :!is-leaf
     );
 
@@ -159,8 +159,7 @@ submethod BUILD ( *@arguments, *%options ) {
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GtkWindow');
- }
-
+  }
 }
 
 #-------------------------------------------------------------------------------
