@@ -1197,6 +1197,55 @@ method !get-functions ( XML::Element $class-element --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
+method !generate-enumerations ( Str $class-file --> List ) {
+  my Hash $hcs = self!get-enumerations($class-file);
+
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $code = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Enumerations');}
+    {HLSEPARATOR}
+
+    EOSUB
+
+  my Str $doc = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Enumerations');}
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Enumerations
+    =end pod
+
+    EOSUB
+
+  # Open enumerations file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-eneumeration.gir';
+  my XML::XPath $e-xpath .= new(:$file);
+
+  for $hcs.keys.sort -> $enum-name {
+  }
+}
+
+#-------------------------------------------------------------------------------
+method !get-enumerations ( Str $class-file --> Hash ) {
+
+  # Get all enumerations
+  my $name = $*work-data<gnome-name>.lc;
+  my $name-prefix = $*work-data<name-prefix>;
+  $name ~~ s/^ $name-prefix //;
+  my Hash $h = $!sas.search-names( $name, 'gir-type', 'enumeration');
+
+  return %() unless ?$h;
+
+  # Remove those which do not belong to the module
+  for $h.kv -> $k, $v {
+    $h{$k}:delete unless $v<class-file> eq $name;
+  }
+
+  $h
+}
+
+#-------------------------------------------------------------------------------
 method generate-signals ( XML::Element $class-element --> Hash ) {
   my Hash $sig-info = %();
   my Str $doc = '';
