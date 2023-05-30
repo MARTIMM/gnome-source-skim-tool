@@ -329,7 +329,7 @@ method !make-build-submethod (
 
         # Initialize helper
         \$\!routine-caller .= new\(
-          :library\<$*work-data<library>\>, :sub-prefix\<$*work-data<sub-prefix>\>,
+          :library\($*work-data<library>\)(), :sub-prefix\<$*work-data<sub-prefix>\>,
           :widget\(self\), :widget-name\<$*work-data<gnome-name>\>,
           :is-leaf\($h<leaf>\)
         );
@@ -527,24 +527,6 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
   $code
 }
 
-#-------------------------------------------------------------------------------
-method !get-methods ( XML::Element $class-element --> Hash ) {
-  my Hash $hms = %();
-
-  my @methods = $!xpath.find( 'method', :start($class-element), :to-list);
-
-  for @methods -> $cn {
-    # Skip deprecated methods
-    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
-
-    my ( $function-name, %h) =
-      $!sas.get-method-data( $cn, :!build, :xpath($!xpath));
-    $hms{$function-name} = %h;
-  }
-
-  $hms
-}
-
 #`{{
 #-------------------------------------------------------------------------------
 method generate-methods ( XML::Element $class-element --> List ) {
@@ -717,11 +699,12 @@ method generate-methods ( XML::Element $class-element --> List ) {
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   my Bool $is-leaf = $h<leaf> // False;
-  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
+#  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
 
-  # Get all methods for this module
+  # Get all methods in this class
   my Hash $hcs = self!get-methods($class-element);
-  return ('','') unless $hcs.keys.elems;
+  return ('','') unless ?$hcs;
 
   my Str $code = qq:to/EOSUB/;
     {SEPARATOR( 'Methods', 2);}
@@ -740,14 +723,15 @@ method generate-methods ( XML::Element $class-element --> List ) {
   for $hcs.keys.sort -> $function-name {
     my Hash $curr-function := $hcs{$function-name};
 
-    # get method name
+    # get method name, drop the prefix and substitute '_'
     my Str $method-name = $function-name;
     $method-name ~~ s/^ $symbol-prefix //;
+    # keep this version for later
     my Str $hash-fname = $method-name;
     $method-name ~~ s:g/ '_' /-/;
 
     my Str $method-doc = $curr-function<function-doc>;
-    $method-doc = "No documentation of method." unless ?$method-doc;
+    $method-doc = "No documentation of method.\n" unless ?$method-doc;
 
     # get parameter lists
     my Str (
@@ -760,16 +744,22 @@ method generate-methods ( XML::Element $class-element --> List ) {
     ) =  '' xx 6;
     my @rv-list = ();
 
+    my Bool $first-param = True;
     for @($curr-function<parameters>) -> $parameter {
-#      my Int $a-count = 0;
       $!sas.get-types(
         $parameter, $raku-list, my $x1='', #$par-list, 
         $call-list, $items-doc, my $x2='', #$p-convert,
         @rv-list, $returns-doc
       );
 
-      # Get a list of types for the arguments
-      $par-list ~= ", $parameter<raku-ntype>";
+      # Get a list of types for the arguments but skip the first
+      if $first-param {
+        $first-param = False;
+      }
+
+      else {
+        $par-list ~= ", $parameter<raku-ntype>";
+      }
     }
 
     # Remove first comma and space when there is only one parameter
@@ -808,7 +798,7 @@ method generate-methods ( XML::Element $class-element --> List ) {
 
     # remove first comma
     $raku-list ~~ s/^ . //;
-
+#`{{
     my Str $nobject-retrieve;
     if $is-leaf {
       $nobject-retrieve = 'self._get-native-object-no-reffing';
@@ -817,7 +807,7 @@ method generate-methods ( XML::Element $class-element --> List ) {
     else {
       $nobject-retrieve = "self._f\('$*work-data<gnome-name>'\)";
     }
-
+}}
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
       =begin pod
@@ -856,7 +846,26 @@ method generate-methods ( XML::Element $class-element --> List ) {
   ( $doc, $code)
 }
 
+#-------------------------------------------------------------------------------
+method !get-methods ( XML::Element $class-element --> Hash ) {
+  my Hash $hms = %();
+
+  my @methods = $!xpath.find( 'method', :start($class-element), :to-list);
+
+  for @methods -> $cn {
+    # Skip deprecated methods
+    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) =
+      $!sas.get-method-data( $cn, :!build, :xpath($!xpath));
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
 #`{{
+#TODO use this method to get functions from level packages like Glib
 #-------------------------------------------------------------------------------
 method generate-functions ( XML::Element $class-element --> List ) {
 
@@ -1038,14 +1047,12 @@ method generate-functions ( XML::Element $class-element --> List ) {
 #-------------------------------------------------------------------------------
 method generate-functions ( XML::Element $class-element --> List ) {
 
-  # Get all functions for this module
-  my Hash $h = $!sas.search-names(
-    $*work-data<sub-prefix>, 'gir-type', 'function'
-  );
-note "$?LINE $h.gist()";
-  return ('','') unless ?$h;
-
   my Str $symbol-prefix = $*work-data<sub-prefix>;
+
+  # Get all functions in this class
+  my Hash $hcs = self!get-functions($class-element);
+  return ('','') unless ?$hcs;
+
   my Str $code = qq:to/EOSUB/;
     {SEPARATOR( 'Functions', 2);}
     EOSUB
@@ -1060,35 +1067,13 @@ note "$?LINE $h.gist()";
 
     EOSUB
 
-  # Open functions file for xpath
-  my Str $file = $*work-data<gir-module-path> ~ 'repo-function.gir';
-  my XML::XPath $f-xpath .= new(:$file);
+  for $hcs.keys.sort -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
 
-  # For each found function, search for info in the XML functions repo
-  for $h.keys.sort -> $function-name {
-    my Str $name = $function-name;
-    my Str $package = $*gnome-package.Str.lc;
-    $package ~~ s/ \d+ $//;
-    $name ~~ s/^ $package '_' //;
-    my Str $xp-search = '//function[@name="' ~ $name ~ '"]';
-    my XML::Element $function-element = $f-xpath.find($xp-search);
-
-    # Skip deprecated functions
-    next if $function-element.attribs<deprecated>:exists and
-            $function-element.attribs<deprecated> eq '1';
-
-    # Skip moved functions
-#    next if $function-element.attribs<moved-to>:exists and
-#            $function-element.attribs<moved-to> eq '1';
-
-    # Get function info
-    my Hash $curr-function;
-    ( $, $curr-function) =
-      $!sas.get-method-data( $function-element, :xpath($f-xpath));
-
-    # Get method name, drop the prefix and substitute '_'
+     # Get method name, drop the prefix and substitute '_'
     my Str $method-name = $function-name;
     $method-name ~~ s/^ $symbol-prefix //;
+    # keep this version for later
     my Str $hash-fname = $method-name;
     $method-name ~~ s:g/ '_' /-/;
 
@@ -1151,8 +1136,7 @@ note "$?LINE $h.gist()";
       $raku-list ~= "  --> List";
     }
 
-    # remove first comma and substitute underscores
-    $par-list ~~ s/^ . //;
+    # remove first comma
     $raku-list ~~ s/^ . //;
 
     $doc ~= qq:to/EOSUB/;
@@ -1174,32 +1158,6 @@ note "$?LINE $h.gist()";
 
       EOSUB
 
-#`{{
-    $code ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      #TM:0:$method-name:
-      method $method-name \(
-       $raku-list
-      \) \{
-      EOSUB
-
-    $code ~= $p-convert if ?$p-convert;
-    $code ~= $return-carray if ?$return-carray;
-    $code ~= "  $function-name\( $call-list\)\n";
-    $code ~= $return-array-convert if ?$return-array-convert;
-    $code ~= $return-list if ?$return-list;
-
-    $code ~= qq:to/EOSUB/;
-      \}
-
-      sub $function-name \(
-       $par-list
-      \) is native\($*work-data<library>\)
-        \{ * \}
-
-      EOSUB
-}}
-
     # Return type
     $xtype = $curr-function<return-raku-ntype>;
     my Str $returns = (?$xtype and $xtype ne 'void' ) 
@@ -1210,13 +1168,32 @@ note "$?LINE $h.gist()";
 
     $code ~= qq:to/EOSUB/;
       #TM:0:$hash-fname
-      $hash-fname =\> \%\($returns$par-list
+      $hash-fname =\> \%\(
+        :type(Function),$returns$par-list
       ),
 
     EOSUB
   }
 
   ( $doc, $code)
+}
+
+#-------------------------------------------------------------------------------
+method !get-functions ( XML::Element $class-element --> Hash ) {
+  my Hash $hms = %();
+
+  my @methods = $!xpath.find( 'function', :start($class-element), :to-list);
+
+  for @methods -> $cn {
+    # Skip deprecated methods
+    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) =
+      $!sas.get-method-data( $cn, :!build, :xpath($!xpath));
+    $hms{$function-name} = %h;
+  }
+
+  $hms
 }
 
 #-------------------------------------------------------------------------------
