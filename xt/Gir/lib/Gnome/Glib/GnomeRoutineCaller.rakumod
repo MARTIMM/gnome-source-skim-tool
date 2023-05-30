@@ -38,6 +38,8 @@ submethod BUILD (
 #-------------------------------------------------------------------------------
 method call-native-sub ( Str $name is copy, @arguments, Hash $methods ) {
 
+#self.display-hash($methods);
+
   # Dashes to underscores
   $name ~~ s:g/ '-' /_/;
   die "Method $name not found" unless $methods{$name}:exists;
@@ -250,3 +252,36 @@ method convert-return ( $v, $p ) {
 
 
 
+
+#-------------------------------------------------------------------------------
+has Int $!indent-level;
+
+method display-hash ( Hash $info ) {
+  $!indent-level = 0;
+  self!dhash($info);
+}
+
+#-------------------------------------------------------------------------------
+method !dhash ( Hash $info ) {
+
+  for $info.keys.sort -> $k {
+#note $k;
+#dd $info{$k};
+#exit;
+    if $info{$k} ~~ Hash {
+      say '  ' x $!indent-level, $k, ':';
+      $!indent-level++;
+      self!dhash($info{$k});
+      $!indent-level--;
+#exit;
+    }
+
+#    elsif $info{$k} ~~ Array {
+#      self!dhash(%($info.kv));
+#    }
+
+    else {
+      say '  ' x $!indent-level, $k, ': ', $info{$k}.gist;
+    }
+  }
+}
