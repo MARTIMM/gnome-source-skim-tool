@@ -12,7 +12,7 @@ has Int $!indent-level;
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( ) {
+submethod BUILD ( Bool :$load-maps = True ) {
   $*verbose //= False;
 
   $*work-data = self.prepare-work-data($*gnome-package);
@@ -48,7 +48,7 @@ submethod BUILD ( ) {
 
   $!sas .= new;
 
-  note "Prepare for module generation" if $*verbose;
+  note "Prepare for work" if $*verbose;
 
   # get workdata for other gnome packages
 #  my Gnome::SourceSkimTool::Prepare $p .= new;
@@ -168,24 +168,26 @@ submethod BUILD ( ) {
 
 ##`{{
   # get object maps
-  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
-  if $*gnome-package.Str ~~ / '3' || '4' $/ {
-    $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>);
-    $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>);
-    $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>);
-    $*object-maps<Gsk> = ?$*other-work-data<Gsk> 
-                       ?? $s.load-map($*other-work-data<Gsk><gir-module-path>)
-                       !! %();
-    $*object-maps<Pango> =
-      $s.load-map($*other-work-data<Pango><gir-module-path>);
-    $*object-maps<Cairo> =
-      $s.load-map($*other-work-data<Cairo><gir-module-path>);
-  }
+  if $load-maps {
+    my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+    if $*gnome-package.Str ~~ / '3' || '4' $/ {
+      $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>);
+      $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>);
+      $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>);
+      $*object-maps<Gsk> = ?$*other-work-data<Gsk> 
+                        ?? $s.load-map($*other-work-data<Gsk><gir-module-path>)
+                        !! %();
+      $*object-maps<Pango> =
+        $s.load-map($*other-work-data<Pango><gir-module-path>);
+      $*object-maps<Cairo> =
+        $s.load-map($*other-work-data<Cairo><gir-module-path>);
+    }
 
-  $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>);
-  $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>);
-  $*object-maps<GObject> =
-    $s.load-map($*other-work-data<GObject><gir-module-path>);
+    $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>);
+    $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>);
+    $*object-maps<GObject> =
+      $s.load-map($*other-work-data<GObject><gir-module-path>);
+  }
 #}}
 
 #`{{
