@@ -71,7 +71,7 @@ method call-native-sub ( Str $name is copy, @arguments, Hash $methods ) {
   # If there are pointers in the argument list, values are placed
   # there. Mostly returned like this when there is more than one value,
   # otherwise it could have been returned the normal way using $x.
-note "$?LINE pointers-in-args $!pointers-in-args";
+#note "$?LINE pointers-in-args $!pointers-in-args";
   if $!pointers-in-args {
     my $x = $routine<function-address>(|@native-args);
     return self.make-list-from-result( @native-args, @parameters, $routine, $x)
@@ -119,6 +119,7 @@ method native-parameters ( @arguments, @parameters, Hash $routine --> List ) {
   loop (my $i = 0; $i < @parameters.elems; $i++ ) {
     my $p = @parameters[$i];
     my $a = self.convert-args( @arguments[$i], $p);
+#note "$?LINE $i, @arguments[$i].gist(), {$p.^name}, convert-args $a.gist()";
     @native-args.push: $a;
     $!pointers-in-args = True if $p.^name ~~ m/ CArray /;
   }
@@ -186,7 +187,7 @@ method make-list-from-result (
     next unless $p.^name ~~ m/ CArray /;
     @return-list.push: self.convert-return( $v, $p);
   }
-note "$?LINE result list: ", @return-list.gist;
+#note "$?LINE result list: ", @return-list.gist;
 
   @return-list
 }
@@ -201,7 +202,7 @@ method convert-args ( $v, $p ) {
     }
 
     when gint-ptr {
-      $c = CArray[gint].new;
+      $c = CArray[gint].new(0);
     }
 
     when CArray[N-GError] {
