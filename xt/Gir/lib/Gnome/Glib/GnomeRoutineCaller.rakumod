@@ -71,16 +71,27 @@ method call-native-sub ( Str $name is copy, @arguments, Hash $methods ) {
   # If there are pointers in the argument list, values are placed
   # there. Mostly returned like this when there is more than one value,
   # otherwise it could have been returned the normal way using $x.
-#note "$?LINE $!pointers-in-args";
+note "$?LINE pointers-in-args $!pointers-in-args";
   if $!pointers-in-args {
     my $x = $routine<function-address>(|@native-args);
     return self.make-list-from-result( @native-args, @parameters, $routine, $x)
   }
 
   else {
-    my $x = self.convert-return(
-      $routine<function-address>(|@native-args), $routine<returns>
-    );
+    my $x;
+
+    if $routine<type-name>:exists {
+      $x = self.convert-return(
+        $routine<function-address>(|@native-args),
+        $routine<returns>, :type($routine<type-name>)
+      );
+    }
+
+    else {
+      $x = self.convert-return(
+        $routine<function-address>(|@native-args), $routine<returns>
+      );
+    }
 
     return $x
   }
@@ -123,6 +134,7 @@ method native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   my @parameterList = ();
 
   given $routine<type> {
+    # Constructors and functions do not have an instance parameter
     when Constructor { }
     when Function { }
     #when Method { }
@@ -136,7 +148,7 @@ method native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   }
 
   # Create signature
-  my $returns = $routine<returns>:exists ?? $routine<returns> !! void-ptr;
+  my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer;
   my Signature $signature .= new( :params(|@parameterList), :$returns);
 
   # Get a pointer to the sub, then cast it to a sub with the proper
@@ -174,7 +186,7 @@ method make-list-from-result (
     next unless $p.^name ~~ m/ CArray /;
     @return-list.push: self.convert-return( $v, $p);
   }
-#note "$?LINE result list: ", @return-list.gist;
+note "$?LINE result list: ", @return-list.gist;
 
   @return-list
 }
@@ -196,10 +208,6 @@ method convert-args ( $v, $p ) {
       $c = CArray[N-GError].new(N-GError);
     }
 
-    when GEnum {
-      $c = $v.value;
-    }
-
     when N-GObject {
       my N-GObject() $no = $v;
       $c = $no;
@@ -215,7 +223,7 @@ method convert-args ( $v, $p ) {
 }
 
 #-------------------------------------------------------------------------------
-method convert-return ( $v, $p ) {
+method convert-return ( $v, $p, :$type = Any ) {
   my $c;
 
 #note "$?LINE return: ", $p.^name, ', ', $v.^name, ', ', $v.gist;
@@ -241,6 +249,10 @@ method convert-return ( $v, $p ) {
 #note "$?LINE converted: ", $c.gist;
     }
 
+    when GEnum {
+      $c = $type($v);
+    }
+
     # Most values do not need conversion
     default {
       $c = $v;
@@ -249,9 +261,6 @@ method convert-return ( $v, $p ) {
 
   $c
 }
-
-
-
 
 #-------------------------------------------------------------------------------
 has Int $!indent-level;
@@ -285,3 +294,38 @@ method !dhash ( Hash $info ) {
     }
   }
 }
+
+
+=finish
+
+  # Call routine
+  # If there are pointers in the argument list, values are placed
+  # there. Mostly returned like this when there is more than one value,
+  # otherwise it could have been returned the normal way using $x.
+#note "$?LINE $!pointers-in-args";
+  if $!pointers-in-args {
+    my $x = $routine<function-address>(|@native-args);
+    return self.make-list-from-result( @native-args, @parameters, $routine, $x)
+  }
+
+  else {
+    my $x;
+      $x = self.convert-return(
+        $routine<function-address>(@native-args), $routine<returns>
+      );
+#`{{
+    if $routine<return-type>:exists {
+      $x = self.convert-return(
+        $routine<function-address>(@native-args),
+        $routine<returns>, :type($routine<return-type>)
+      );
+    }
+
+    else {
+      $x = self.convert-return(
+        $routine<function-address>(@native-args), $routine<returns>
+      );
+    }
+  }}
+    return $x
+  }

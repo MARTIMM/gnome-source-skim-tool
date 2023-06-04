@@ -15,90 +15,162 @@ submethod BUILD ( ) { }
 #-------------------------------------------------------------------------------
 method get-types (
   Hash $parameter,
-  Str $raku-list is rw, Str $par-list is rw, Str $call-list is rw,
-  Str $items-doc is rw, Str $p-convert is rw, @rv-list,
+  Str $raku-list is rw, Str $call-list is rw,
+  Str $items-doc is rw, @rv-list,
   Str $returns-doc is rw
+  --> Hash
 ) {
 
-#  my Str (
-#    $raku-list, $par-list, $call-list, $items-doc, $p-convert, $returns-doc
-#  ) = '' xx 6;
   my Str $own = '';
   my Int $a-count = 0;
-#  my @rv-list = ();
+  my Hash $result = %();
 
   given my $xtype = $parameter<raku-ntype> {
     when 'N-GObject' {
       $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
       $call-list ~= ", \$$parameter<name>";
+
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
     when 'CArray[Str]' {
       $raku-list ~= ", Array[Str] \$$parameter<name>";
-      $par-list ~= ", CArray[Str] \$$parameter<name>";
       $call-list ~= ", \$ca$a-count";
-      $p-convert =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
+
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+
       $a-count++;
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
       $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
     when 'CArray[gint]' {
 #            $raku-list ~= ", CArray[gint] \$$parameter<name>";
 #            my $ntype = 'gint';
       #$ntype ~~ s:g/ [const || \s+ || '*'] //;
-      $par-list ~= ", CArray[gint] \$$parameter<name> is rw";
       @rv-list.push: "\$$parameter<name>";
       $call-list ~= ", my gint \$$parameter<name>";
 
-      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-#`{{
-    when 'CArray[UInt]' {
-      $raku-list ~= ", $xtype \$$parameter<name>";
-      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-      $p-convert =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
-      $a-count++;
-    }
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+      $result<rv-list> = "\$$parameter<name>";
 
-    when 'CArray[N-GError]' {
-      $raku-list ~= ", $xtype \$$parameter<name>";
-      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-      $p-convert =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n  ";
-      $a-count++;
+      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
-}}
 
     default {
       $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $par-list ~= ", $parameter<raku-ntype> \$$parameter<name>";
       $call-list ~= ", \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
       $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
   }
-  
-  ( $raku-list, $par-list, $call-list,
-    $items-doc, $p-convert, @rv-list, $returns-doc
-  )
+
+  $result  
 }
+
+#`{{
+#-------------------------------------------------------------------------------
+method get-type-doc (
+  Hash $parameter,
+  Str $raku-list is rw, Str $call-list is rw,
+  Str $items-doc is rw, @rv-list,
+  Str $returns-doc is rw
+  --> Hash
+) {
+
+  my Str $own = '';
+  my Int $a-count = 0;
+  my Hash $result = %();
+
+  given my $xtype = $parameter<raku-ntype> {
+    when 'N-GObject' {
+      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+      $call-list ~= ", \$$parameter<name>";
+
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[Str]' {
+      $raku-list ~= ", Array[Str] \$$parameter<name>";
+      $call-list ~= ", \$ca$a-count";
+      $p-convert =
+        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
+
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+      $result<p-convert> =
+        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
+
+      $a-count++;
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[gint]' {
+#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
+#            my $ntype = 'gint';
+      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
+      @rv-list.push: "\$$parameter<name>";
+      $call-list ~= ", my gint \$$parameter<name>";
+
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+      $result<rv-list> = "\$$parameter<name>";
+
+      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    default {
+      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+      $call-list ~= ", \$$parameter<name>";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+  }
+
+  $result  
+}
+}}
 
 #-------------------------------------------------------------------------------
 method gobject-value-type( Str $ctype --> Str ) {
@@ -286,8 +358,8 @@ method convert-ntype (
 #          $raku-type ~= '()' unless $return-type;
         }
 
-        when 'enumeration' { $raku-type = 'GEnum'; }
-        when 'bitfield' { $raku-type = 'GFlag'; }
+        when 'enumeration' { $raku-type = "GEnum:$ctype"; }
+        when 'bitfield' { $raku-type = "GFlag:$ctype"; }
 
         when 'record' {
           $raku-type = $h<sname>;
@@ -420,6 +492,10 @@ method convert-rtype (
 
 #-------------------------------------------------------------------------------
 method search-name ( Str $name is copy --> Hash ) {
+
+#note "$?LINE; $name, $*work-data<gnome-name>, $*work-data<name-prefix>";
+
+#  my Str $c-fname = $*work-data<gnome-name>.lc;
 
   my Hash $h = %();
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {

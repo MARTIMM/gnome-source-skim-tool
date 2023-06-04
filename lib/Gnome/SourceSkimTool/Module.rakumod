@@ -79,7 +79,7 @@ method set-unit ( XML::Element $class-element --> Str ) {
     {$!grd.pod-header('Module Imports')}
     use NativeCall;
 
-    #use Gnome::N::NativeLib;
+    use Gnome::N::NativeLib;
     use Gnome::N::N-GObject;
     use Gnome::N::GlibToRakuTypes;
     #use Gnome::N::TopLevelClassSupport;
@@ -329,7 +329,7 @@ method !make-build-submethod (
 
         # Initialize helper
         \$\!routine-caller .= new\(
-          :library\($*work-data<library>\)(), :sub-prefix\<$*work-data<sub-prefix>\>,
+          :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>,
           :widget\(self\), :widget-name\<$*work-data<gnome-name>\>,
           :is-leaf\($h<leaf>\)
         );
@@ -380,7 +380,7 @@ method !make-build-submethod (
             #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
             $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
       $decl-list
-              \$no = $function-name\($par-list\);
+              \$no = self\.FALLBACK\( 'new', ... \);
             \}
 
       EOBUILD
@@ -413,16 +413,16 @@ method !make-build-submethod (
 
   EOBUILD
 
-  $code ~= q:to/EOBUILD/;
-        #`{{ when there are defaults use this instead
+  $code ~= qq:to/EOBUILD/;
+        #`\{\{ when there are defaults use this instead
         # create default object
-        else {
-          $no = $*work-data<sub-prefix>new();
-        }
-        }}
+        else \{
+          \$no = self\.FALLBACK\( 'new', ... \);
+        \}
+        \}\}
 
-        self._set-native-object($no);
-      }
+        self\._set-native-object\(\$no);
+      \}
 
   EOBUILD
 
@@ -500,12 +500,14 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
     EOSUB
 
   for $hcs.keys.sort -> $function-name {
-
     # Get a list of types for the arguments
     my $par-list = '';
     for @($hcs{$function-name}<parameters>) -> $parameter {
-      $par-list ~= ", $parameter<raku-ntype>";
+      # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+      my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
+      $par-list ~= ", $rnt0";
     }
+
     # Remove first comma
     $par-list ~~ s/^ . //;
 
@@ -513,15 +515,32 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
     my Str $hash-fname = $function-name;
     $hash-fname ~~ s/^ $sub-prefix //;
 
-    $code ~= qq:to/EOSUB/;
-      #TM:1:$hash-fname
-      $hash-fname =\> \%\(
-        :type\(Constructor\),
-        :returns\($hcs{$function-name}<return-raku-ntype>\),
-        :parameters\(\[$par-list\]\),
-      ),
+    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+    my ( $rnt0, $rnt1) = $hcs{$function-name}<return-raku-ntype>.split(':');
+    if ?$rnt1 {
+      $code ~= qq:to/EOSUB/;
+        #TM:1:$hash-fname
+        $hash-fname =\> \%\(
+          :type\(Constructor\),
+          :returns\($rnt0\),
+          :type-name\($rnt1\),
+          :parameters\(\[$par-list\]\),
+        ),
 
-    EOSUB
+      EOSUB
+    }
+
+    else {
+      $code ~= qq:to/EOSUB/;
+        #TM:1:$hash-fname
+        $hash-fname =\> \%\(
+          :type\(Constructor\),
+          :returns\($rnt0\),
+          :parameters\(\[$par-list\]\),
+        ),
+
+      EOSUB
+    }
   }
 
   $code
@@ -580,7 +599,7 @@ method generate-methods ( XML::Element $class-element --> List ) {
       my Int $a-count = 0;
 #      if ! $parameter<is-instance> {
         $!sas.get-types(
-          $parameter, $raku-list, $par-list, $call-list, $items-doc, $p-convert,
+          $parameter, $raku-list, $call-list, $items-doc,
           @rv-list, $returns-doc
         );
 #      }
@@ -736,23 +755,184 @@ method generate-methods ( XML::Element $class-element --> List ) {
     # get parameter lists
     my Str (
       $par-list, $raku-list, $call-list, $items-doc, 
-      #$p-convert,
-      #$return-list, 
       $own, $returns-doc, 
-      #$return-array-convert,
-      #$return-carray,
     ) =  '' xx 6;
     my @rv-list = ();
 
     my Bool $first-param = True;
     for @($curr-function<parameters>) -> $parameter {
       $!sas.get-types(
-        $parameter, $raku-list, my $x1='', #$par-list, 
-        $call-list, $items-doc, my $x2='', #$p-convert,
+        $parameter, $raku-list,
+        $call-list, $items-doc,
         @rv-list, $returns-doc
       );
 
-      # Get a list of types for the arguments but skip the first
+      # Get a list of types for the arguments but skip the first native type
+      if $first-param {
+        $first-param = False;
+      }
+
+      else {
+        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+        my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
+        $par-list ~= ", $rnt0";
+      }
+    }
+
+    # Remove first comma and space when there is only one parameter
+    $par-list ~~ s/^ . //;
+    $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
+    $par-list = ?$par-list
+              ?? [~] "\n", '    :parameters([', $par-list, ']),'
+              !! '';
+
+    my $xtype = $curr-function<return-raku-rtype>;
+    if ?$xtype and $xtype ne 'void' {
+      $raku-list ~= "  --> $xtype";
+      $own = '';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
+
+      # Check if there is info about the return value
+      if ?$curr-function<rv-doc> {
+        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+      }
+
+      elsif $raku-list ~~ / '-->' / {
+        $returns-doc =
+          "\nReturn value; No documentation about its value and use\n";
+      }
+    }
+
+    # Assumed that there are no multiple methods to return values. I.e not
+    # returning an array and pointer arguments to receive values in those vars.
+    elsif ?@rv-list {
+      $returns-doc = "Returns a List holding the values\n$returns-doc";
+      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
+      $raku-list ~= "  --> List";
+    }
+
+    # remove first comma
+    $raku-list ~~ s/^ . //;
+#`{{
+    my Str $nobject-retrieve;
+    if $is-leaf {
+      $nobject-retrieve = 'self._get-native-object-no-reffing';
+    }
+
+    else {
+      $nobject-retrieve = "self._f\('$*work-data<gnome-name>'\)";
+    }
+}}
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      =begin pod
+      =head2 $method-name
+
+      $method-doc
+
+      =begin code
+      method $method-name \(
+       $raku-list
+      \)
+      =end code
+
+      $items-doc
+      $returns-doc
+      =end pod
+      EOSUB
+
+
+    # Return type
+    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+    my Str $returns;
+    my ( $rnt0, $rnt1) = $hcs{$function-name}<return-raku-ntype>.split(':');
+    if ?$rnt1 {
+      $returns = "\n    :returns\($rnt0\),\n    :type-name\($rnt1\),";
+    }
+
+    elsif ?$rnt0 and $xtype ne 'void' {
+      $returns = "\n    :returns\($rnt0\),";
+    }
+
+#`{{
+    $xtype = $curr-function<return-raku-ntype>;
+    my Str $returns = (?$xtype and $xtype ne 'void' ) 
+                    ?? [~] "\n", '    :returns(',
+                           $hcs{$function-name}<return-raku-ntype>,
+                           '),'
+                    !! '';
+}}
+
+    $code ~= qq:to/EOSUB/;
+      #TM:0:$hash-fname
+      $hash-fname =\> \%\($returns$par-list
+      ),
+
+    EOSUB
+  }
+
+  ( $doc, $code)
+}
+
+#`{{
+#-------------------------------------------------------------------------------
+method generate-method-doc ( XML::Element $class-element --> List ) {
+
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = $!sas.search-name($ctype);
+  my Bool $is-leaf = $h<leaf> // False;
+#  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+
+  # Get all methods in this class
+  my Hash $hcs = self!get-methods($class-element);
+  return ('','') unless ?$hcs;
+
+  my Str $code = qq:to/EOSUB/;
+    {SEPARATOR( 'Methods', 2);}
+    EOSUB
+
+  my Str $doc = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Methods');}
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Methods
+    =end pod
+
+    EOSUB
+
+  for $hcs.keys.sort -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
+
+    # get method name, drop the prefix and substitute '_'
+    my Str $method-name = $function-name;
+    $method-name ~~ s/^ $symbol-prefix //;
+    # keep this version for later
+    my Str $hash-fname = $method-name;
+    $method-name ~~ s:g/ '_' /-/;
+
+    my Str $method-doc = $curr-function<function-doc>;
+    $method-doc = "No documentation of method.\n" unless ?$method-doc;
+
+    # get parameter lists
+    my Str (
+      $par-list, $raku-list, $call-list, $items-doc, 
+      $own, $returns-doc, 
+    ) =  '' xx 6;
+    my @rv-list = ();
+
+    my Bool $first-param = True;
+    for @($curr-function<parameters>) -> $parameter {
+      $!sas.get-types(
+        $parameter, $raku-list,
+        $call-list, $items-doc,
+        @rv-list, $returns-doc
+      );
+
+      # Get a list of types for the arguments but skip the first native type
       if $first-param {
         $first-param = False;
       }
@@ -845,6 +1025,7 @@ method generate-methods ( XML::Element $class-element --> List ) {
 
   ( $doc, $code)
 }
+}}
 
 #-------------------------------------------------------------------------------
 method !get-methods ( XML::Element $class-element --> Hash ) {
@@ -936,11 +1117,8 @@ method generate-functions ( XML::Element $class-element --> List ) {
     my @rv-list = ();
 
     for @($curr-function<parameters>) -> $parameter {
-#      ( $raku-list, $par-list, $call-list, $items-doc, $p-convert,
-#        @rv-list, $returns-doc
-#      ) = $!sas.get-types($parameter);
       $!sas.get-types(
-        $parameter, $raku-list, $par-list, $call-list, $items-doc, $p-convert,
+        $parameter, $raku-list, $call-list, $items-doc,
         @rv-list, $returns-doc
       );
     }
@@ -1083,18 +1261,14 @@ method generate-functions ( XML::Element $class-element --> List ) {
     # Get parameter lists
     my Str (
       $par-list, $raku-list, $call-list, $items-doc,
-      #$p-convert,
-      #$return-list, 
       $own, $returns-doc, 
-      #$return-array-convert,
-      #$return-carray,
     ) =  '' xx 10;
     my @rv-list = ();
 
     for @($curr-function<parameters>) -> $parameter {
       $!sas.get-types(
-        $parameter, $raku-list, my $x1='', #$par-list, 
-        $call-list, $items-doc, my $x2='', #$p-convert,
+        $parameter, $raku-list, 
+        $call-list, $items-doc,
         @rv-list, $returns-doc
       );
 
@@ -1196,9 +1370,15 @@ method !get-functions ( XML::Element $class-element --> Hash ) {
   $hms
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method !generate-enumerations ( Str $class-file --> List ) {
-  my Hash $hcs = self!get-enumerations($class-file);
+
+  # Open enumerations file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-eneumeration.gir';
+  my XML::XPath $e-xpath .= new(:$file);
+
+  my Hash $hcs = self!get-enumerations( $e-xpath, $class-file);
 
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOSUB/;
@@ -1218,32 +1398,49 @@ method !generate-enumerations ( Str $class-file --> List ) {
 
     EOSUB
 
-  # Open enumerations file for xpath
-  my Str $file = $*work-data<gir-module-path> ~ 'repo-eneumeration.gir';
-  my XML::XPath $e-xpath .= new(:$file);
-
+  # For each of the found names
   for $hcs.keys.sort -> $enum-name {
-  }
-}
+    # Get the XML element of the enum data
+    my XML::Element $e = $e-xpath.find( '//enumeration', :!to-list);
+    my Str $edoc =
+      ($e-xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+    my Str $s = self.modify-text($edoc);
+    $doc = self.cleanup($s);
 
+    my @members = $e-xpath.find( 'member', :start($e), :to-list)
+  }
+
+  ( $doc, $code)
+}
+}}
+#`{{
 #-------------------------------------------------------------------------------
-method !get-enumerations ( Str $class-file --> Hash ) {
+method !get-enumerations ( XML::XPath $e-xpath, Str $class-file --> Hash ) {
 
   # Get all enumerations
-  my $name = $*work-data<gnome-name>.lc;
+  my $name = $*work-data<gnome-name>;
   my $name-prefix = $*work-data<name-prefix>;
-  $name ~~ s/^ $name-prefix //;
-  my Hash $h = $!sas.search-names( $name, 'gir-type', 'enumeration');
+  $name ~~ s:i/^ $name-prefix //;
+  my Hash $h = $!sas.search-names( $name.lc, 'gir-type', 'enumeration');
 
   return %() unless ?$h;
 
   # Remove those which do not belong to the module
   for $h.kv -> $k, $v {
-    $h{$k}:delete unless $v<class-file> eq $name;
+    if $v<class-file> eq $name {
+      my XML::Element $e = $e-xpath.find(
+        '//enumeration[@name="' ~ $name, :!to-list
+      );
+    }
+
+    else {
+      $h{$k}:delete;
+    }
   }
 
   $h
 }
+}}
 
 #-------------------------------------------------------------------------------
 method generate-signals ( XML::Element $class-element --> Hash ) {
