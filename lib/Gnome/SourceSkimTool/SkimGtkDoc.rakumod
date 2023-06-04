@@ -421,13 +421,13 @@ method !map-element (
 
     # 'enum'
     when 'enumeration' {
+      my Str $fname = self!get-source-file( $element, 'doc');
+      $!map{$ctype}<class-file> = $fname;
+
       $!map{$ctype} = %(
         :rname($ctype),
         :gir-type<enumeration>,
       );
-
-      my Str $fname = self!get-source-file( $element, 'doc');
-      $!map{$ctype}<class-file> = $fname;
     }
 
     # 'role'
@@ -482,15 +482,21 @@ method !is-inheritable-r ( Str $classname --> Bool ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-source-file( XML::Element:D $element, Str:D $tag-name --> Str ) {
+method !get-source-file(
+  XML::Element:D $element, Str:D $tag-name, Bool :$keep-prefix = False
+  --> Str
+) {
   my XML::Element $sp = $!xp.find( $tag-name, :start($element));
   my Str $fname = ?$sp ?? ($sp.attribs<filename> // '') !! '';
   if ?$fname {
     # get name of file, drop extension and remove a few letters from front
     $fname = $fname.IO.basename;
     $fname ~~ s/ \. <-[\.]>+ $//;
-    my $name-prefix = $*work-data<name-prefix>;
-    $fname ~~ s/^ $name-prefix //;
+
+    unless $keep-prefix {
+      my $name-prefix = $*work-data<name-prefix>;
+      $fname ~~ s/^ $name-prefix //;
+    }
   }
 
   else {
