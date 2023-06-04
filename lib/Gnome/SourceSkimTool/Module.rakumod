@@ -456,39 +456,6 @@ method !get-constructors ( XML::Element $class-element --> Hash ) {
   $hcs
 }
 
-#`{{
-#-------------------------------------------------------------------------------
-method !make-native-constructor-subs ( Hash $hcs --> Str ) {
-  my Str $code = qq:to/EOSUB/;
-
-      {HLSEPARATOR}
-      {SEPARATOR('Constructors');}
-      EOSUB
-
-  for $hcs.keys.sort -> $function-name {
-    my $par-list = '';
-
-    for @($hcs{$function-name}<parameters>) -> $parameter {
-      $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
-    }
-
-    # remove first comma
-    $par-list ~~ s/^ . //;
-
-    $code ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      #TM:1:$function-name:
-      sub $function-name \(
-       $par-list --> $hcs{$function-name}<return-raku-ntype>
-      \) is native\($*work-data<library>\)
-        \{ * \}
-
-      EOSUB
-  }
-
-  $code
-}
-}}
 
 #-------------------------------------------------------------------------------
 method !make-native-constructor-subs ( Hash $hcs --> Str ) {
@@ -545,172 +512,6 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
 
   $code
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method generate-methods ( XML::Element $class-element --> List ) {
-
-  my Str $ctype = $class-element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-  my Bool $is-leaf = $h<leaf> // False;
-  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
-
-  my Hash $hcs = self!get-methods($class-element);
-  return ('','') unless $hcs.keys.elems;
-
-  my Str $code = qq:to/EOSUB/;
-    {HLSEPARATOR}
-    {SEPARATOR('Methods');}
-    {HLSEPARATOR}
-
-    EOSUB
-
-  my Str $doc = qq:to/EOSUB/;
-    {HLSEPARATOR}
-    {SEPARATOR('Methods');}
-    {HLSEPARATOR}
-    =begin pod
-    =head1 Methods
-    =end pod
-
-    EOSUB
-
-  for $hcs.keys.sort -> $function-name {
-    my Hash $curr-function := $hcs{$function-name};
-
-    # get method name
-    my Str $method-name = $function-name;
-    $method-name ~~ s/^ $symbol-prefix //;
-    $method-name ~~ s:g/ '_' /-/;
-
-    my Str $method-doc = $curr-function<function-doc>;
-    $method-doc = "No documentation of method." unless ?$method-doc;
-
-    # get parameter lists
-    my Str (
-      $par-list, $raku-list, $call-list, $items-doc, $p-convert,
-      $return-list, $own, $returns-doc, $return-array-convert,
-      $return-carray,
-    ) =  '' xx 10;
-    my @rv-list = ();
-
-    for @($curr-function<parameters>) -> $parameter {
-#      $own = '';
-      my Int $a-count = 0;
-#      if ! $parameter<is-instance> {
-        $!sas.get-types(
-          $parameter, $raku-list, $call-list, $items-doc,
-          @rv-list, $returns-doc
-        );
-#      }
-    }
-
-    my $xtype = $curr-function<return-raku-ntype>;
-    if ?$xtype and $xtype ne 'void' {
-      $par-list ~= "  --> $xtype";
-    }
-
-    $xtype = $curr-function<return-raku-rtype>;
-    if ?$xtype and $xtype ne 'void' {
-      $raku-list ~= "  --> $xtype";
-      $own = '';
-      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
-        if ?$curr-function<transfer-ownership> and
-            $curr-function<transfer-ownership> ne 'none';
-
-      # Check if there is info about the return value
-      if ?$curr-function<rv-doc> {
-        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
-      }
-
-      elsif $raku-list ~~ / '-->' / {
-        $returns-doc =
-          "\nReturn value; No documentation about its value and use\n";
-      }
-
-      if $xtype eq 'Array[Str]' {
-        $return-array-convert = q:to/EOCNV/;
-
-          my Int $i = 0;
-          my @a = ();
-          while $ca[$i].defined {
-            @a.push: $ca[$i++];
-          }
-
-          @a
-        EOCNV
-
-        $return-carray = '  my CArray[Str] $ca =';
-      }
-    }
-
-    # Assumed that there are no multiple methods to return values. I.e not
-    # returning an array and pointer arguments to receive values in those vars.
-    elsif ?@rv-list {
-      $returns-doc = "Returns a List holding the values\n$returns-doc";
-      $return-list = [~] '  (', @rv-list.join(', '), ")\n";
-      $raku-list ~= "  --> List";
-    }
-
-    # remove first comma
-    $par-list ~~ s/^ . //;
-    $raku-list ~~ s/^ . //;
-
-    my Str $nobject-retrieve;
-    if $is-leaf {
-      $nobject-retrieve = 'self._get-native-object-no-reffing';
-    }
-
-    else {
-      $nobject-retrieve = "self._f\('$*work-data<gnome-name>'\)";
-    }
-
-    $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      =begin pod
-      =head2 $method-name
-
-      $method-doc
-
-      =begin code
-      method $method-name \(
-       $raku-list
-      \)
-      =end code
-
-      $items-doc
-      $returns-doc
-      =end pod
-      EOSUB
-
-    $code ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      #TM:0:$method-name:
-      method $method-name \(
-       $raku-list
-      \) \{
-      EOSUB
-
-    $code ~= $p-convert if ?$p-convert;
-    $code ~= $return-carray if ?$return-carray;
-    $code ~= "  $function-name\( $nobject-retrieve$call-list\)\n";
-    $code ~= $return-array-convert if ?$return-array-convert;
-    $code ~= $return-list if ?$return-list;
-
-    $code ~= qq:to/EOSUB/;
-      \}
-
-      sub $function-name \(
-       $par-list
-      \) is native\($*work-data<library>\)
-        \{ * \}
-
-      EOSUB
-  }
-
-  ( $doc, $code)
-}
-}}
 
 #-------------------------------------------------------------------------------
 method generate-methods ( XML::Element $class-element --> List ) {
@@ -1044,183 +845,6 @@ method !get-methods ( XML::Element $class-element --> Hash ) {
 
   $hms
 }
-
-#`{{
-#TODO use this method to get functions from level packages like Glib
-#-------------------------------------------------------------------------------
-method generate-functions ( XML::Element $class-element --> List ) {
-
-  # Get all functions for this module
-  my Hash $h = $!sas.search-names(
-    $*work-data<sub-prefix>, 'gir-type', 'function'
-  );
-  return ('','') unless ?$h;
-
-  my Str $symbol-prefix = $*work-data<sub-prefix>;
-  my Str $code = qq:to/EOSUB/;
-    {HLSEPARATOR}
-    {SEPARATOR('Functions');}
-    {HLSEPARATOR}
-
-    EOSUB
-
-  my Str $doc = qq:to/EOSUB/;
-    {HLSEPARATOR}
-    {SEPARATOR('Functions');}
-    {HLSEPARATOR}
-    =begin pod
-    =head1 Functions
-    =end pod
-
-    EOSUB
-
-  # Open functions file for xpath
-  my Str $file = $*work-data<gir-module-path> ~ 'repo-function.gir';
-  my XML::XPath $f-xpath .= new(:$file);
-
-  # For each found function, search for info in the XML functions repo
-  for $h.keys.sort -> $function-name {
-    my Str $name = $function-name;
-    my Str $package = $*gnome-package.Str.lc;
-    $package ~~ s/ \d+ $//;
-    $name ~~ s/^ $package '_' //;
-    my Str $xp-search = '//function[@name="' ~ $name ~ '"]';
-    my XML::Element $function-element = $f-xpath.find($xp-search);
-
-    # Skip deprecated functions
-    next if $function-element.attribs<deprecated>:exists and
-            $function-element.attribs<deprecated> eq '1';
-
-    # Skip moved functions
-#    next if $function-element.attribs<moved-to>:exists and
-#            $function-element.attribs<moved-to> eq '1';
-
-    # Get function info
-    my Hash $curr-function;
-    ( $, $curr-function) =
-      $!sas.get-method-data( $function-element, :xpath($f-xpath));
-
-    # Get method name, drop the prefix and substitute '_'
-    my Str $method-name = $function-name;
-    $method-name ~~ s/^ $symbol-prefix //;
-    $method-name ~~ s:g/ '_' /-/;
-
-    my Str $function-doc = $curr-function<function-doc>;
-    $function-doc = "No documentation of function." unless ?$function-doc;
-
-    # Get parameter lists
-    my Str (
-      $par-list, $raku-list, $call-list, $items-doc, $p-convert,
-      $return-list, $own, $returns-doc, $return-array-convert,
-      $return-carray,
-    ) =  '' xx 10;
-    my @rv-list = ();
-
-    for @($curr-function<parameters>) -> $parameter {
-      $!sas.get-types(
-        $parameter, $raku-list, $call-list, $items-doc,
-        @rv-list, $returns-doc
-      );
-    }
-
-    my $xtype = $curr-function<return-raku-ntype>;
-    if ?$xtype and $xtype ne 'void' {
-      $par-list ~= "  --> $xtype";
-    }
-
-    $xtype = $curr-function<return-raku-rtype>;
-    if ?$xtype and $xtype ne 'void' {
-      $raku-list ~= "  --> $xtype";
-      my Str $own = '';
-      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
-        if ?$curr-function<transfer-ownership> and
-            $curr-function<transfer-ownership> ne 'none';
-
-      # Check if there is info about the return value
-      if ?$curr-function<rv-doc> {
-        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
-      }
-
-      elsif $raku-list ~~ / '-->' / {
-        $returns-doc =
-          "\nReturn value; No documentation about its value and use\n";
-      }
-
-      if $xtype eq 'Array[Str]' {
-        $return-array-convert = q:to/EOCNV/;
-
-          my Int $i = 0;
-          my @a = ();
-          while $ca[$i].defined {
-            @a.push: $ca[$i++];
-          }
-
-          @a
-        EOCNV
-
-        $return-carray = '  my CArray[Str] $ca =';
-      }
-    }
-
-    # Assumed that there are no multiple methods to return values. I.e not
-    # returning an array and pointer arguments to receive values in those vars.
-    elsif ?@rv-list {
-      $returns-doc = "Returns a List holding the values\n$returns-doc";
-      $return-list = [~] '  (', @rv-list.join(', '), ")\n";
-      $raku-list ~= "  --> List";
-    }
-
-    # remove first comma and substitute underscores
-    $par-list ~~ s/^ . //;
-    $raku-list ~~ s/^ . //;
-
-    $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      =begin pod
-      =head2 $method-name
-
-      $function-doc
-
-      =begin code
-      method $method-name \(
-       $raku-list
-      \)
-      =end code
-
-      $items-doc
-      $returns-doc
-      =end pod
-
-      EOSUB
-
-    $code ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      #TM:0:$method-name:
-      method $method-name \(
-       $raku-list
-      \) \{
-      EOSUB
-
-    $code ~= $p-convert if ?$p-convert;
-    $code ~= $return-carray if ?$return-carray;
-    $code ~= "  $function-name\( $call-list\)\n";
-    $code ~= $return-array-convert if ?$return-array-convert;
-    $code ~= $return-list if ?$return-list;
-
-    $code ~= qq:to/EOSUB/;
-      \}
-
-      sub $function-name \(
-       $par-list
-      \) is native\($*work-data<library>\)
-        \{ * \}
-
-      EOSUB
-  }
-
-  ( $doc, $code)
-}
-}}
 
 #-------------------------------------------------------------------------------
 method generate-functions ( XML::Element $class-element --> List ) {
@@ -1671,3 +1295,405 @@ method generate-properties ( XML::Element $class-element --> Str ) {
 
   $doc
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# Old methods
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+
+#`{{
+#-------------------------------------------------------------------------------
+method !make-native-constructor-subs ( Hash $hcs --> Str ) {
+  my Str $code = qq:to/EOSUB/;
+
+      {HLSEPARATOR}
+      {SEPARATOR('Constructors');}
+      EOSUB
+
+  for $hcs.keys.sort -> $function-name {
+    my $par-list = '';
+
+    for @($hcs{$function-name}<parameters>) -> $parameter {
+      $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
+    }
+
+    # remove first comma
+    $par-list ~~ s/^ . //;
+
+    $code ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:1:$function-name:
+      sub $function-name \(
+       $par-list --> $hcs{$function-name}<return-raku-ntype>
+      \) is native\($*work-data<library>\)
+        \{ * \}
+
+      EOSUB
+  }
+
+  $code
+}
+}}
+
+#`{{
+#TODO use this method to get functions from level packages like Glib
+#-------------------------------------------------------------------------------
+method generate-functions ( XML::Element $class-element --> List ) {
+
+  # Get all functions for this module
+  my Hash $h = $!sas.search-names(
+    $*work-data<sub-prefix>, 'gir-type', 'function'
+  );
+  return ('','') unless ?$h;
+
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $code = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Functions');}
+    {HLSEPARATOR}
+
+    EOSUB
+
+  my Str $doc = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Functions');}
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Functions
+    =end pod
+
+    EOSUB
+
+  # Open functions file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-function.gir';
+  my XML::XPath $f-xpath .= new(:$file);
+
+  # For each found function, search for info in the XML functions repo
+  for $h.keys.sort -> $function-name {
+    my Str $name = $function-name;
+    my Str $package = $*gnome-package.Str.lc;
+    $package ~~ s/ \d+ $//;
+    $name ~~ s/^ $package '_' //;
+    my Str $xp-search = '//function[@name="' ~ $name ~ '"]';
+    my XML::Element $function-element = $f-xpath.find($xp-search);
+
+    # Skip deprecated functions
+    next if $function-element.attribs<deprecated>:exists and
+            $function-element.attribs<deprecated> eq '1';
+
+    # Skip moved functions
+#    next if $function-element.attribs<moved-to>:exists and
+#            $function-element.attribs<moved-to> eq '1';
+
+    # Get function info
+    my Hash $curr-function;
+    ( $, $curr-function) =
+      $!sas.get-method-data( $function-element, :xpath($f-xpath));
+
+    # Get method name, drop the prefix and substitute '_'
+    my Str $method-name = $function-name;
+    $method-name ~~ s/^ $symbol-prefix //;
+    $method-name ~~ s:g/ '_' /-/;
+
+    my Str $function-doc = $curr-function<function-doc>;
+    $function-doc = "No documentation of function." unless ?$function-doc;
+
+    # Get parameter lists
+    my Str (
+      $par-list, $raku-list, $call-list, $items-doc, $p-convert,
+      $return-list, $own, $returns-doc, $return-array-convert,
+      $return-carray,
+    ) =  '' xx 10;
+    my @rv-list = ();
+
+    for @($curr-function<parameters>) -> $parameter {
+      $!sas.get-types(
+        $parameter, $raku-list, $call-list, $items-doc,
+        @rv-list, $returns-doc
+      );
+    }
+
+    my $xtype = $curr-function<return-raku-ntype>;
+    if ?$xtype and $xtype ne 'void' {
+      $par-list ~= "  --> $xtype";
+    }
+
+    $xtype = $curr-function<return-raku-rtype>;
+    if ?$xtype and $xtype ne 'void' {
+      $raku-list ~= "  --> $xtype";
+      my Str $own = '';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
+
+      # Check if there is info about the return value
+      if ?$curr-function<rv-doc> {
+        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+      }
+
+      elsif $raku-list ~~ / '-->' / {
+        $returns-doc =
+          "\nReturn value; No documentation about its value and use\n";
+      }
+
+      if $xtype eq 'Array[Str]' {
+        $return-array-convert = q:to/EOCNV/;
+
+          my Int $i = 0;
+          my @a = ();
+          while $ca[$i].defined {
+            @a.push: $ca[$i++];
+          }
+
+          @a
+        EOCNV
+
+        $return-carray = '  my CArray[Str] $ca =';
+      }
+    }
+
+    # Assumed that there are no multiple methods to return values. I.e not
+    # returning an array and pointer arguments to receive values in those vars.
+    elsif ?@rv-list {
+      $returns-doc = "Returns a List holding the values\n$returns-doc";
+      $return-list = [~] '  (', @rv-list.join(', '), ")\n";
+      $raku-list ~= "  --> List";
+    }
+
+    # remove first comma and substitute underscores
+    $par-list ~~ s/^ . //;
+    $raku-list ~~ s/^ . //;
+
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      =begin pod
+      =head2 $method-name
+
+      $function-doc
+
+      =begin code
+      method $method-name \(
+       $raku-list
+      \)
+      =end code
+
+      $items-doc
+      $returns-doc
+      =end pod
+
+      EOSUB
+
+    $code ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:0:$method-name:
+      method $method-name \(
+       $raku-list
+      \) \{
+      EOSUB
+
+    $code ~= $p-convert if ?$p-convert;
+    $code ~= $return-carray if ?$return-carray;
+    $code ~= "  $function-name\( $call-list\)\n";
+    $code ~= $return-array-convert if ?$return-array-convert;
+    $code ~= $return-list if ?$return-list;
+
+    $code ~= qq:to/EOSUB/;
+      \}
+
+      sub $function-name \(
+       $par-list
+      \) is native\($*work-data<library>\)
+        \{ * \}
+
+      EOSUB
+  }
+
+  ( $doc, $code)
+}
+}}
+
+
+#`{{
+#-------------------------------------------------------------------------------
+method generate-methods ( XML::Element $class-element --> List ) {
+
+  my Str $ctype = $class-element.attribs<c:type>;
+  my Hash $h = $!sas.search-name($ctype);
+  my Bool $is-leaf = $h<leaf> // False;
+  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
+
+  my Hash $hcs = self!get-methods($class-element);
+  return ('','') unless $hcs.keys.elems;
+
+  my Str $code = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Methods');}
+    {HLSEPARATOR}
+
+    EOSUB
+
+  my Str $doc = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Methods');}
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Methods
+    =end pod
+
+    EOSUB
+
+  for $hcs.keys.sort -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
+
+    # get method name
+    my Str $method-name = $function-name;
+    $method-name ~~ s/^ $symbol-prefix //;
+    $method-name ~~ s:g/ '_' /-/;
+
+    my Str $method-doc = $curr-function<function-doc>;
+    $method-doc = "No documentation of method." unless ?$method-doc;
+
+    # get parameter lists
+    my Str (
+      $par-list, $raku-list, $call-list, $items-doc, $p-convert,
+      $return-list, $own, $returns-doc, $return-array-convert,
+      $return-carray,
+    ) =  '' xx 10;
+    my @rv-list = ();
+
+    for @($curr-function<parameters>) -> $parameter {
+#      $own = '';
+      my Int $a-count = 0;
+#      if ! $parameter<is-instance> {
+        $!sas.get-types(
+          $parameter, $raku-list, $call-list, $items-doc,
+          @rv-list, $returns-doc
+        );
+#      }
+    }
+
+    my $xtype = $curr-function<return-raku-ntype>;
+    if ?$xtype and $xtype ne 'void' {
+      $par-list ~= "  --> $xtype";
+    }
+
+    $xtype = $curr-function<return-raku-rtype>;
+    if ?$xtype and $xtype ne 'void' {
+      $raku-list ~= "  --> $xtype";
+      $own = '';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
+
+      # Check if there is info about the return value
+      if ?$curr-function<rv-doc> {
+        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+      }
+
+      elsif $raku-list ~~ / '-->' / {
+        $returns-doc =
+          "\nReturn value; No documentation about its value and use\n";
+      }
+
+      if $xtype eq 'Array[Str]' {
+        $return-array-convert = q:to/EOCNV/;
+
+          my Int $i = 0;
+          my @a = ();
+          while $ca[$i].defined {
+            @a.push: $ca[$i++];
+          }
+
+          @a
+        EOCNV
+
+        $return-carray = '  my CArray[Str] $ca =';
+      }
+    }
+
+    # Assumed that there are no multiple methods to return values. I.e not
+    # returning an array and pointer arguments to receive values in those vars.
+    elsif ?@rv-list {
+      $returns-doc = "Returns a List holding the values\n$returns-doc";
+      $return-list = [~] '  (', @rv-list.join(', '), ")\n";
+      $raku-list ~= "  --> List";
+    }
+
+    # remove first comma
+    $par-list ~~ s/^ . //;
+    $raku-list ~~ s/^ . //;
+
+    my Str $nobject-retrieve;
+    if $is-leaf {
+      $nobject-retrieve = 'self._get-native-object-no-reffing';
+    }
+
+    else {
+      $nobject-retrieve = "self._f\('$*work-data<gnome-name>'\)";
+    }
+
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      =begin pod
+      =head2 $method-name
+
+      $method-doc
+
+      =begin code
+      method $method-name \(
+       $raku-list
+      \)
+      =end code
+
+      $items-doc
+      $returns-doc
+      =end pod
+      EOSUB
+
+    $code ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:0:$method-name:
+      method $method-name \(
+       $raku-list
+      \) \{
+      EOSUB
+
+    $code ~= $p-convert if ?$p-convert;
+    $code ~= $return-carray if ?$return-carray;
+    $code ~= "  $function-name\( $nobject-retrieve$call-list\)\n";
+    $code ~= $return-array-convert if ?$return-array-convert;
+    $code ~= $return-list if ?$return-list;
+
+    $code ~= qq:to/EOSUB/;
+      \}
+
+      sub $function-name \(
+       $par-list
+      \) is native\($*work-data<library>\)
+        \{ * \}
+
+      EOSUB
+  }
+
+  ( $doc, $code)
+}
+}}
