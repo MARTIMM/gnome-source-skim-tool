@@ -43,7 +43,7 @@ sub MAIN (
   if $y {
     say "Generate the intermediate gir and yaml files" if $*verbose;
     $*gnome-class = $gnome-class // 'Widget';
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new(:!load-maps);
     my Gnome::SourceSkimTool::SkimGtkDoc $skim-doc .= new;
     $skim-doc.load-gir-file;
     $skim-doc.get-classes-from-gir;
