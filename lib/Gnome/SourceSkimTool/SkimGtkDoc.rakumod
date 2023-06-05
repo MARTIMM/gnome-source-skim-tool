@@ -98,6 +98,8 @@ method get-classes-from-gir ( ) {
         my $attrs = $element.attribs;
         my $name = $attrs<c:type>;
 
+        next if $name ~~ m/ [ Private || Class ] $/;
+
         my Str $name-prefix = $*work-data<name-prefix>;
         $name ~~ s:i/^ $name-prefix //;
 
