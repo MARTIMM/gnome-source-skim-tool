@@ -296,27 +296,25 @@ method !map-element (
       my Str ( $parent-gnome-name, $parent-raku-name ) =
          self!set-names($attrs<parent> // '');
 
+      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
       $!map{$ctype} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :$parent-raku-name, :$parent-gnome-name, :@roles,
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
         :gir-type<class>,
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'source-position');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'function' {
+      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
       my Str $rname = $attrs<name>;
       $rname ~~ s:g/ '_' /-/;
       $!map{$ctype} = %(
         :$rname,
         :gir-type<function>,
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'source-position');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # 'typedef'
@@ -329,14 +327,13 @@ method !map-element (
         }
       }
 
+      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
       $!map{$ctype} = %(
         :cname($alias-type-attribs<c:type>),
         :rname($alias-type-attribs<name>),
         :gir-type<alias>
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'source-position');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'constant' {
@@ -348,18 +345,18 @@ method !map-element (
         }
       }
 
+      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
       $!map{$ctype} = %(
         :cname($const-type-attribs<c:type>),
         :rname($const-type-attribs<name>),
         :gir-type<constant>,
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'source-position');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # 'struct'
     when 'record' {
+      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
 
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
@@ -370,43 +367,39 @@ method !map-element (
         :$rname,
         :gir-type<record>,
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'source-position');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'callback' {
+      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
       $!map{$ctype} = %(
         :rname($attrs<name>),
         :gir-type<callback>,
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'source-position');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'bitfield' {
+      my Str $fname = self!get-source-file( $element, 'doc') // '-';
       $!map{$ctype} = %(
         :rname($ctype),
         :gir-type<bitfield>,
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'doc');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'docsection' {
+      my Str $fname = self!get-source-file( $element, 'doc') // '-';
       $!map{$attrs<name>} = %(
         :rname($attrs<name>),
         :gir-type<docsection>,
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'doc');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     when 'union' {
+      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
       $rname ~~ s:i/^ $np //;
@@ -415,33 +408,29 @@ method !map-element (
         :sname("N-$ctype"),
         :$rname,
         :gir-type<union>,
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'source-position');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # 'enum'
     when 'enumeration' {
-      my Str $fname = self!get-source-file( $element, 'doc');
-      $!map{$ctype}<class-file> = $fname;
-
+      my Str $fname = self!get-source-file( $element, 'doc') // '-';
       $!map{$ctype} = %(
         :rname($ctype),
         :gir-type<enumeration>,
+        :class-file($fname),
       );
     }
 
     # 'role'
     when 'interface' {
+      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
       $!map{$ctype} = %(
         :gir-type<interface>, :!leaf,
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
+        :class-file($fname),
       );
-
-      my Str $fname = self!get-source-file( $element, 'source-position');
-      $!map{$ctype}<class-file> = $fname if ?$fname;
     }
 
     # '#define'
