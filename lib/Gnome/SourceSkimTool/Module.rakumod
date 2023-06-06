@@ -8,6 +8,7 @@ use XML::XPath;
 use JSON::Fast;
 
 #-------------------------------------------------------------------------------
+#TODO Rename to ModuleCode
 unit class Gnome::SourceSkimTool::Module:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
@@ -299,12 +300,18 @@ method !make-build-submethod (
   }
 
   my Str $code = qq:to/EOBUILD/;
+    {HLSEPARATOR}
+    {SEPARATOR('BUILD variables');}
+    {HLSEPARATOR}
     # Define helper
     has Gnome::Glib::GnomeRoutineCaller \$\!routine-caller;
     
     {?$signal-admin ?? '# Add signal registration helper' !! ''}
     {?$signal-admin ?? 'my Bool $signals-added = False;' !! ''}
 
+    {HLSEPARATOR}
+    {SEPARATOR('BUILD submethod');}
+    {HLSEPARATOR}
     # Module initialize
     submethod BUILD ( *\%options ) \{
     $signal-admin
@@ -994,25 +1001,25 @@ method !get-functions ( XML::Element $class-element --> Hash ) {
   $hms
 }
 
-#`{{
 #-------------------------------------------------------------------------------
-method !generate-enumerations ( Str $class-file --> List ) {
+method generate-enumerations-code ( --> Str ) {
+
+  my Array $enum-names = self!get-enumeration-names;
+  return '' unless ?$enum-names;
+#note "$?LINE e names: $enum-names.gist()";
 
   # Open enumerations file for xpath
-  my Str $file = $*work-data<gir-module-path> ~ 'repo-eneumeration.gir';
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-enumeration.gir';
   my XML::XPath $e-xpath .= new(:$file);
 
-  my Hash $hcs = self!get-enumerations( $e-xpath, $class-file);
-
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
-  my Str $code = qq:to/EOSUB/;
+  my Str $code = qq:to/EOENUM/;
     {HLSEPARATOR}
     {SEPARATOR('Enumerations');}
-    {HLSEPARATOR}
+    EOENUM
 
-    EOSUB
-
-  my Str $doc = qq:to/EOSUB/;
+#`{{
+  my Str $doc = qq:to/EOENUM/;
     {HLSEPARATOR}
     {SEPARATOR('Enumerations');}
     {HLSEPARATOR}
@@ -1020,51 +1027,72 @@ method !generate-enumerations ( Str $class-file --> List ) {
     =head1 Enumerations
     =end pod
 
-    EOSUB
+    EOENUM
+}}
 
   # For each of the found names
-  for $hcs.keys.sort -> $enum-name {
+  for $enum-names.sort -> $enum-name {
+    my Str $name = $enum-name;
+    my Str $package = $*gnome-package.Str;
+    $package ~~ s/ \d+ $//;
+    $name ~~ s/^ $package //;
+
     # Get the XML element of the enum data
-    my XML::Element $e = $e-xpath.find( '//enumeration', :!to-list);
-    my Str $edoc =
-      ($e-xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
-    my Str $s = self.modify-text($edoc);
-    $doc = self.cleanup($s);
+    my XML::Element $e = $e-xpath.find(
+      '//enumeration[@name="' ~ $name ~ '"]', :!to-list
+    );
 
-    my @members = $e-xpath.find( 'member', :start($e), :to-list)
+    $code ~= qq:to/EOENUM/;
+      {HLSEPARATOR}
+      #TE:0:$enum-name
+      enum $enum-name is export \<
+      EOENUM
+
+#    my Str $edoc =
+#      ($e-xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+#    my Str $s = self.modify-text($edoc);
+#    $doc = self.cleanup($s);
+
+    my Str $member-name-list = '';
+    my @members = $e-xpath.find( 'member', :start($e), :to-list);
+    for @members -> $m {
+      $member-name-list ~= ' ' ~ $m.attribs<c:identifier>;
+    }
+
+    $code ~= qq:to/EOENUM/;
+        $member-name-list
+      \>;
+
+      EOENUM
   }
-
-  ( $doc, $code)
+#note "$?LINE $code";
+#exit;
+  $code
 }
-}}
-#`{{
+
 #-------------------------------------------------------------------------------
-method !get-enumerations ( XML::XPath $e-xpath, Str $class-file --> Hash ) {
+method !get-enumeration-names ( --> Array ) {
 
-  # Get all enumerations
+  # Get all enumerations for this class
   my $name = $*work-data<gnome-name>;
-  my $name-prefix = $*work-data<name-prefix>;
-  $name ~~ s:i/^ $name-prefix //;
-  my Hash $h = $!sas.search-names( $name.lc, 'gir-type', 'enumeration');
 
-  return %() unless ?$h;
+  # First get the name of the file of this class
+  my Hash $h0 = $!sas.search-name($name);
+  my Str $class-file = $h0<class-file>;
+#note "$?LINE classfile of $name = $class-file";
 
-  # Remove those which do not belong to the module
-  for $h.kv -> $k, $v {
-    if $v<class-file> eq $name {
-      my XML::Element $e = $e-xpath.find(
-        '//enumeration[@name="' ~ $name, :!to-list
-      );
-    }
+  # Now get all other types defined in this class file
+  my Hash $h1 = $!sas.search-entries( 'class-file', $class-file);
 
-    else {
-      $h{$k}:delete;
-    }
+  # Keep all enumeration names
+  my Array $enum-names = [];
+  for $h1.kv -> $k, $v {
+#note $?LINE $k, $v<gir-type>";
+    $enum-names.push: $k if $v<gir-type> eq 'enumeration';
   }
 
-  $h
+  $enum-names
 }
-}}
 
 #-------------------------------------------------------------------------------
 method generate-signals ( XML::Element $class-element --> Hash ) {
