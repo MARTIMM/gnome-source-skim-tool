@@ -493,10 +493,6 @@ method convert-rtype (
 #-------------------------------------------------------------------------------
 method search-name ( Str $name is copy --> Hash ) {
 
-#note "$?LINE; $name, $*work-data<gnome-name>, $*work-data<name-prefix>";
-
-#  my Str $c-fname = $*work-data<gnome-name>.lc;
-
   my Hash $h = %();
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
 
@@ -515,7 +511,7 @@ method search-name ( Str $name is copy --> Hash ) {
     last;
   }
 
-#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
+say "$?LINE: search $name -> $h.gist()";
 
   $h
 }
@@ -526,12 +522,14 @@ method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
 
   my Hash $h = %();
   for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
-    note "Search for $prefix-name in map $map-name; $entry-name ≡? $value"
-      if $*verbose;
+    note "Search for $prefix-name in map $map-name where field $entry-name ≡? $value" if $*verbose;
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists;
 
     for $*object-maps{$map-name}.kv -> $name, $value-hash {
+#note "$?LINE snames $map-name, $prefix-name, $entry-name, $value, $name, $value-hash.gist()";
+      next unless $value-hash{$entry-name}:exists;
+
       next unless $value-hash{$entry-name} eq $value;
       next unless $name ~~ m/^ [ $map-name ]? $prefix-name /;
       $h{$name} = $value-hash;
@@ -543,7 +541,36 @@ method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
     last if ?$h;
   }
 
-#say "$?LINE: search $name -> {$h<rname> // $h.gist}";
+#say "$?LINE: search names for $entry-name -> $h.gist()";
+
+  $h
+}
+
+#-------------------------------------------------------------------------------
+# Search for names of specific type in object maps 
+method search-entries ( Str $entry-name, Str $value --> Hash ) {
+
+  my Hash $h = %();
+  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+    note "Search for entries in map $map-name where field $entry-name ≡? $value"
+      if $*verbose;
+    # It is possible that not all hashes are loaded
+    next unless $*object-maps{$map-name}:exists;
+
+    for $*object-maps{$map-name}.kv -> $name, $value-hash {
+      next unless $value-hash{$entry-name}:exists;
+
+      next unless $value-hash{$entry-name} eq $value;
+      $h{$name} = $value-hash;
+
+      # Add package name to this hash
+      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
+    }
+
+    last if ?$h;
+  }
+
+#say "$?LINE: search entries for $entry-name -> $h.gist()";
 
   $h
 }
