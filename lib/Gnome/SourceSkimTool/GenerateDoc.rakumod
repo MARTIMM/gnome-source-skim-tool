@@ -7,6 +7,7 @@ use XML;
 use XML::XPath;
 
 #-------------------------------------------------------------------------------
+#TODO Rename to ModuleDoc
 unit class  Gnome::SourceSkimTool::GenerateDoc:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
