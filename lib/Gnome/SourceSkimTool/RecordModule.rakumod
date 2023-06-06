@@ -51,6 +51,10 @@ method generate-raku-record ( ) {
   note "Set class unit" if $*verbose;
   $module-code ~= $!mod.set-unit($element);
 
+  #note "Generate enumerations and bitmasks";
+  #$module-code ~= $!mod.generate-enumerations-code if $*generate-code;
+  #$module-doc ~= $!mod.generate-enumerations-doc if $*generate-doc;
+
   # Make a BUILD submethod
   note "Generate BUILD submethod" if $*verbose;  
   ( $doc, $code) = $!mod.generate-build( $element, %());

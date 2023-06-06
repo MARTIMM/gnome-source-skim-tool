@@ -54,6 +54,10 @@ method generate-raku-interface ( ) {
   note "Set class unit" if $*verbose;
   $module-code ~= $!mod.set-unit($class-element);
 
+  note "Generate enumerations and bitmasks";
+  $module-code ~= $!mod.generate-enumerations-code if $*generate-code;
+  #$module-doc ~= $!mod.generate-enumerations-doc if $*generate-doc;
+
   # Roles do not have a BUILD
   note "Generate role initialization method" if $*verbose;  
   $module-code ~= self!generate-role-init( $class-element, $sig-info);
