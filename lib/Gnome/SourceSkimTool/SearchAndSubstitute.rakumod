@@ -329,9 +329,22 @@ method convert-ntype (
       $raku-type = "g$ctype";
     }
 
-    when /GQuark/          { $raku-type = 'GQuark'; }
-    when /GList/           { $raku-type = 'N-GList'; }
-    when /GSList/          { $raku-type = 'N-GSList'; }
+#TODO can be found in repo-object-map of glib
+    when /GQuark/ {
+      $raku-type = 'GQuark';
+      $*external-modules.push: 'Gnome::Glib::Quark'
+        unless $*external-modules.first('Gnome::Glib::Quark');
+    }
+    when /GList/ {
+      $raku-type = 'N-GList';
+      $*external-modules.push: 'Gnome::Glib::List'
+        unless $*external-modules.first('Gnome::Glib::List');
+    }
+    when /GSList/ {
+      $raku-type = 'N-GSList';
+       $*external-modules.push: 'Gnome::Glib::SList'
+        unless $*external-modules.first('Gnome::Glib::SList');
+    }
 
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
@@ -343,7 +356,11 @@ method convert-ntype (
     when /g? int '*'/      { $raku-type = 'gint-ptr'; }
     when /g? uint '*'/     { $raku-type = 'guint-ptr'; }
     when /g? size '*'/     { $raku-type = 'CArray[gsize]'; }
-    when /GError '*'/      { $raku-type = 'CArray[N-GError]'; }
+    when /GError '*'/ {
+      $raku-type = 'CArray[N-GError]';
+      $*external-modules.push: 'Gnome::Glib::Error'
+        unless $*external-modules.first('Gnome::Glib::Error');
+    }
 
     when 'void' { $raku-type = 'void'; }
 
@@ -355,6 +372,8 @@ method convert-ntype (
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
+#>>>>          if $ctype ne 
+#>>>>          search-name
 #          $raku-type ~= '()' unless $return-type;
         }
 
@@ -628,7 +647,6 @@ method get-method-data (
       $ph<allow-none> = False;
       $ph<nullable> = False;
       $ph<is-instance> = True;
-
     }
 
     elsif $p.name eq 'parameter' {

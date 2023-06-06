@@ -26,6 +26,7 @@ submethod BUILD ( XML::XPath :$!xpath ) {
 #-------------------------------------------------------------------------------
 method set-unit ( XML::Element $class-element --> Str ) {
 
+#`{{
   # Insert a commented import of enums and events module
   my Str ( $imports, $also) = '' xx 3;
   if $*gnome-package.Str ~~ / Gtk3 $/ {
@@ -51,14 +52,17 @@ method set-unit ( XML::Element $class-element --> Str ) {
   else {
     $imports = '';
   }
+}}
 
+  my Str $also = '';
   my Str $ctype = $class-element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
 
   # Check for parent class. There are never more than one.
   my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
-    $imports ~= "use $parent;\n";
+#    $imports ~= "use $parent;\n";
+    $*external-modules.push: $parent;
     $also ~= "also is $parent;\n";
   }
 
@@ -70,14 +74,13 @@ method set-unit ( XML::Element $class-element --> Str ) {
     for @$roles -> $role {
       my Hash $role-h = $!sas.search-name($role);
   #note "$?LINE role=$role -> $role-h.gist()";
-      $imports ~= "use $role-h<rname>;\n";
+#      $imports ~= "use $role-h<rname>;\n";
+      $*external-modules.push: $role-h<rname>;
       $also ~= "also does $role-h<rname>;\n";
     }
   }
 
-  my Str $code = qq:to/RAKUMOD/;
-
-    {$!grd.pod-header('Module Imports')}
+#`{{
     use NativeCall;
 
     use Gnome::N::NativeLib;
@@ -88,7 +91,12 @@ method set-unit ( XML::Element $class-element --> Str ) {
     #use Gnome::Glib::List;
     #use Gnome::Glib::SList;
     #use Gnome::Glib::Error;
+}}
 
+  my Str $code = qq:to/RAKUMOD/;
+
+    {$!grd.pod-header('Module Imports')}
+    __MODULE__IMPORTS__
     use Gnome::Glib::GnomeRoutineCaller:api('gir');
 
     {HLSEPARATOR}

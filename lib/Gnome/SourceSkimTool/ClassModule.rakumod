@@ -103,6 +103,15 @@ method generate-raku-module ( ) {
   note "Generate module properties doc" if $*verbose;  
   $module-doc ~= $!mod.generate-properties($class-element);
 
+  note "Set modules to import";
+  my $import = '';
+  for @$*external-modules -> $m {
+    $import ~= "use $m;\n";
+  }
+  
+  $module-code ~~ s/__MODULE__IMPORTS__/$import/;
+
+
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code);
   note "Save pod doc";

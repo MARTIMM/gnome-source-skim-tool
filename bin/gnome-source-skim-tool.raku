@@ -17,6 +17,8 @@ my Bool $*generate-code;
 my Bool $*generate-doc;
 my Bool $*generate-test;
 
+my Array $*external-modules;
+
 #-------------------------------------------------------------------------------
 sub MAIN (
   Str:D $gnome-package, Str $gnome-class?,
@@ -48,6 +50,9 @@ sub MAIN (
   $*generate-code = $m;
   $*generate-doc = $d;
   $*generate-test = $t;
+  $*external-modules = [<
+    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
+  >];
 
   if $gir {
     say "Generate the intermediate gir and yaml files" if $*verbose;
