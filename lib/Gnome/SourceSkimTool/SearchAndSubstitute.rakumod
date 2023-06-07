@@ -329,23 +329,6 @@ method convert-ntype (
       $raku-type = "g$ctype";
     }
 
-#TODO can be found in repo-object-map of glib
-    when /GQuark/ {
-      $raku-type = 'GQuark';
-      $*external-modules.push: 'Gnome::Glib::Quark'
-        unless $*external-modules.first('Gnome::Glib::Quark');
-    }
-    when /GList/ {
-      $raku-type = 'N-GList';
-      $*external-modules.push: 'Gnome::Glib::List'
-        unless $*external-modules.first('Gnome::Glib::List');
-    }
-    when /GSList/ {
-      $raku-type = 'N-GSList';
-       $*external-modules.push: 'Gnome::Glib::SList'
-        unless $*external-modules.first('Gnome::Glib::SList');
-    }
-
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
@@ -356,11 +339,13 @@ method convert-ntype (
     when /g? int '*'/      { $raku-type = 'gint-ptr'; }
     when /g? uint '*'/     { $raku-type = 'guint-ptr'; }
     when /g? size '*'/     { $raku-type = 'CArray[gsize]'; }
+#`{{
     when /GError '*'/ {
       $raku-type = 'CArray[N-GError]';
       $*external-modules.push: 'Gnome::Glib::Error'
         unless $*external-modules.first('Gnome::Glib::Error');
     }
+}}
 
     when 'void' { $raku-type = 'void'; }
 
@@ -372,16 +357,18 @@ method convert-ntype (
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
-#>>>>          if $ctype ne 
-#>>>>          search-name
+#          self.add-import($h<rname>);
 #          $raku-type ~= '()' unless $return-type;
         }
 
         when 'enumeration' { $raku-type = "GEnum:$ctype"; }
         when 'bitfield' { $raku-type = "GFlag:$ctype"; }
 
+        when 'alias' { $raku-type = $h<rname>; }
+
         when 'record' {
           $raku-type = $h<sname>;
+          self.add-import($h<rname>);
         }
 
 #        when 'callback' { }
@@ -402,6 +389,15 @@ method convert-ntype (
 #say "$?LINE: convert to raku native type: '$ctype' -> '$raku-type', return-type = $return-type";
 
   $raku-type
+}
+
+#-------------------------------------------------------------------------------
+method add-import ( Str $import ) {
+  unless $*external-modules.first($import)
+         or $import eq $*work-data<raku-class-name> {
+
+    $*external-modules.push: $import;
+  }
 }
 
 #-------------------------------------------------------------------------------
@@ -530,7 +526,7 @@ method search-name ( Str $name is copy --> Hash ) {
     last;
   }
 
-say "$?LINE: search $name -> $h.gist()";
+#say "$?LINE: search $name -> $h.gist()";
 
   $h
 }
