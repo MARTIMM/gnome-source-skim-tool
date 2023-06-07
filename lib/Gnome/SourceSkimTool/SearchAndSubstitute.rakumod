@@ -669,8 +669,7 @@ method get-doc-type (
   --> List
 ) {
 
-  my Str ( $doc, $type, $raku-ntype, $raku-rtype, $g-type) =
-     ( '', '', '', '', '');
+  my Str ( $doc, $type, $raku-ntype, $raku-rtype, $g-type) = '' xx 5;
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
     with $n.name {
