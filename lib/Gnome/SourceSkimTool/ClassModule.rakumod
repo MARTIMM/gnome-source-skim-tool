@@ -106,7 +106,13 @@ method generate-raku-module ( ) {
   note "Set modules to import";
   my $import = '';
   for @$*external-modules -> $m {
-    $import ~= "use $m;\n";
+    if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
+       $import ~= "use $m;\n";
+    }
+
+    else {
+      $import ~= "use $m\:api\('gir'\);\n";
+    }
   }
   
   $module-code ~~ s/__MODULE__IMPORTS__/$import/;
