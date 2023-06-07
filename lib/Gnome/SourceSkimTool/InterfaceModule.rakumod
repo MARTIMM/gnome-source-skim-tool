@@ -73,11 +73,12 @@ method generate-raku-interface ( ) {
   }
 
   note "Generate module functions" if $*verbose;  
-  ( $doc, $code) = $!mod.generate-functions($class-element);
-  if ?$code {
-    $module-doc ~= $doc;
-    $module-code ~= $code;
-  }
+  $module-code ~= $!mod.generate-functions-code($class-element)
+    if $*generate-code;
+#  if ?$code {
+#    $module-doc ~= $doc;
+#    $module-code ~= $code;
+#  }
 
   # Add the signal doc here
   $module-doc ~= $sig-info<doc>;

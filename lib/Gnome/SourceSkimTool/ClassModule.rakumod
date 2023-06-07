@@ -76,11 +76,12 @@ method generate-raku-module ( ) {
   }
 
   note "Generate functions" if $*verbose;
-  ( $doc, $code) = $!mod.generate-functions($class-element);
-  if ?$code {
-    $module-doc ~= $doc;
-    $module-code ~= $code;
-  }
+  $module-code ~= $!mod.generate-functions-code($class-element)
+    if $*generate-code;
+#  if ?$code {
+#    $module-doc ~= $doc;
+#    $module-code ~= $code;
+#  }
 
   # Finish 'my Hash $methods' started in $!mod.generate-build()
   # and add necessary FALLBACK() method
