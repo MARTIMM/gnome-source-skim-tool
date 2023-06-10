@@ -395,7 +395,7 @@ method !make-build-submethod (
             #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
             $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
       $decl-list
-              \$no = self\.FALLBACK\( 'new', ... \);
+              \$no = self\._fallback-v2\( 'new', ... \);
             \}
 
       EOBUILD
@@ -432,7 +432,7 @@ method !make-build-submethod (
         #`\{\{ when there are defaults use this instead
         # create default object
         else \{
-          \$no = self\.FALLBACK\( 'new', ... \);
+          \$no = self\._fallback-v2\( 'new', ... \);
         \}
         \}\}
 

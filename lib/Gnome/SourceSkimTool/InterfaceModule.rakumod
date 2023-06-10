@@ -67,7 +67,7 @@ method generate-raku-interface ( ) {
 
   # if there are methods, add the fallback routine and methods
   if ?$doc {
-    $module-code ~= self!add-deprecatable-method($class-element);
+#    $module-code ~= self!add-deprecatable-method($class-element);
     $module-code ~= $code;
     $module-doc ~= $doc;
   }
@@ -80,11 +80,38 @@ method generate-raku-interface ( ) {
 #    $module-code ~= $code;
 #  }
 
+  # Finish 'my Hash $methods' started in $!mod.generate-build()
+  # and add necessary FALLBACK() method
+  $module-code ~= q:to/RAKUMOD/;
+    );
+
+    #-------------------------------------------------------------------------------
+    method FALLBACK ( Str $name, *@arguments ) {
+      $!routine-caller.call-native-sub( $name, @arguments, $methods);
+    }
+
+    RAKUMOD
+
   # Add the signal doc here
   $module-doc ~= $sig-info<doc>;
 
   note "Generate module properties" if $*verbose;  
   $module-doc ~= $!mod.generate-properties($class-element);
+
+  note "Set modules to import";
+  my $import = '';
+  for @$*external-modules -> $m {
+    if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
+       $import ~= "use $m;\n";
+    }
+
+    else {
+      $import ~= "use $m\:api\('gir'\);\n";
+    }
+  }
+  
+  $module-code ~~ s/__MODULE__IMPORTS__/$import/;
+
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code);
@@ -140,10 +167,36 @@ method !make-init-method (
 
       EOBUILD
   }
+  
+  $code ~= qq:to/RAKUMOD/;
+
+    {HLSEPARATOR}
+    {SEPARATOR('Native Routine Definitions');}
+    {HLSEPARATOR}
+    my Hash \$role-methods = \%\(
+    RAKUMOD
 
   $code
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
 #-------------------------------------------------------------------------------
 method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
 

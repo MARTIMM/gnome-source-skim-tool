@@ -84,12 +84,13 @@ method generate-raku-module ( ) {
 #  }
 
   # Finish 'my Hash $methods' started in $!mod.generate-build()
-  # and add necessary FALLBACK() method
+  # and add necessary _fallback-v2() method. It is recognized in
+  # class Gnome::N::TopLevelClassSupport.
   $module-code ~= q:to/RAKUMOD/;
     );
 
     #-------------------------------------------------------------------------------
-    method FALLBACK ( Str $name, *@arguments ) {
+    method _fallback-v2 ( Str $name, *@arguments ) {
       $!routine-caller.call-native-sub( $name, @arguments, $methods);
     }
 
@@ -112,10 +113,12 @@ method generate-raku-module ( ) {
     }
 
     else {
-      $import ~= "use $m\:api\('gir'\);\n";
+#NOTE temporary use existing modules
+#      $import ~= "use $m\:api\('gir'\);\n";
+      $import ~= "use $m;\n";
     }
   }
-  
+
   $module-code ~~ s/__MODULE__IMPORTS__/$import/;
 
 
@@ -319,7 +322,27 @@ method generate-raku-module-test ( ) {
   $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
 }
 
-#`{{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
 #-------------------------------------------------------------------------------
 method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
 
@@ -417,5 +440,3 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
 
   $doc
 }
-
-}}
