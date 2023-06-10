@@ -2,6 +2,10 @@
 
 use NativeCall;
 
+use lib './lib',
+        '/home/marcel/Languages/Raku/Projects/gnome-gtk3/lib',
+;#        '/home/marcel/Languages/Raku/Projects/gnome-native/lib';
+
 use Gnome::N::N-GObject;
 use Gnome::N::GlibToRakuTypes;
 
@@ -21,7 +25,8 @@ class CB {
 
 #-------------------------------------------------------------------------------
 with my Window $w .= new(:window-type(GTK_WINDOW_TOPLEVEL)) {
-
+#  .set-size-request( 400, 300);
+##`{{
   .set-title('test window');
 note 'property title: ', .get-properties( 'title', Str).gist;
 note '.get-title(): ', .get-title;
@@ -38,6 +43,7 @@ note '.get-title(): ', .get-title;
   note 'Default size: ', .get-default-size.gist;
   note 'Position: ', .get-position.gist;
   note 'Size: ', .get-size.gist;
+#}}
 }
 
 Gnome::Gtk3::Main.new.main;

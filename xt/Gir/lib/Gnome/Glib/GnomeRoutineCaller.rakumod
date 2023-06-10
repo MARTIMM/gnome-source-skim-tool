@@ -4,14 +4,14 @@ use NativeCall;
 
 use Gnome::N::N-GObject;
 use Gnome::N::NativeLib;
-use Gnome::N::TopLevelClassSupport;
+#use Gnome::N::TopLevelClassSupport;
 use Gnome::N::GlibToRakuTypes;
 
 use Gnome::Glib::Error;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::Glib::GnomeRoutineCaller:api('gir');
-also is Gnome::N::TopLevelClassSupport;
+#also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 enum RoutineType is export (
@@ -25,80 +25,89 @@ enum RoutineType is export (
 has Bool $!pointers-in-args;
 has Str $!library is required;
 has Str $!sub-prefix is required;
-has $!widget is required;
-has Str $!widget-name is required;
+#has $!widget is required;
+#has Str $!widget-name is required;
 has Bool $!is-leaf;
 
 #-------------------------------------------------------------------------------
 submethod BUILD (
-  Str :$!library, Str :$!sub-prefix,
-  :$!widget, Str :$!widget-name, Bool :$!is-leaf = False
+  Str :$!library, Str :$!sub-prefix, Bool :$!is-leaf = False
 ) { }
 
 #-------------------------------------------------------------------------------
-method call-native-sub ( Str $name is copy, @arguments, Hash $methods ) {
-
-#self.display-hash($methods);
+method call-native-sub (
+  Str $name, @arguments, Hash $methods, :$native-object
+) {
+#say Backtrace.new.nice;
+#note "$?LINE $name, ", ($native-object // '-').gist;
 
   # Dashes to underscores
-  $name ~~ s:g/ '-' /_/;
-  die "Method $name not found" unless $methods{$name}:exists;
+#  if $methods{$name}:exists {
 
-  # Set False, is set in native-parameters() as a side effect
-  $!pointers-in-args = False;
+    # Set False, is set in native-parameters() as a side effect
+    $!pointers-in-args = False;
 
-  my Hash $routine := $methods{$name};
-#note "\n", $?LINE, ', ', $name, ', ', $routine.gist;
+    my Hash $routine := $methods{$name};
+#note $?LINE, ', ', $routine.gist;
 
-# this check fails when pointers to variables are used.
-#  die "Number of arguments not sufficient"
-#    unless @arguments.elems >= abs($routine<parameters>.elems);
+  # this check fails when pointers to variables are used.
+  #  die "Number of arguments not sufficient"
+  #    unless @arguments.elems >= abs($routine<parameters>.elems);
 
-  my @parameters = $routine<parameters>:exists
-                 ?? @($routine<parameters>)
-                 !! ();
+    my @parameters = $routine<parameters>:exists
+                  ?? @($routine<parameters>)
+                  !! ();
 
-  # Get native parameters converted from @arguments
-  my @native-args = self.native-parameters( @arguments, @parameters, $routine);
+    # Get native parameters converted from @arguments
+    my @native-args = self.native-parameters(
+      @arguments, @parameters, $routine, :$native-object
+    );
 
-#note "$?LINE ", @arguments.gist, ', ', @parameters.gist, ', ', $routine,.gist, ', ', @native-args.gist;
+#note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
 
-  # Get routine address
-  $routine<function-address> //=
-    self.native-function( $name, @parameters, $routine);
+    # Get routine address
+    $routine<function-address> //=
+      self.native-function( $name, @parameters, $routine);
 
-  # Call routine
-  # If there are pointers in the argument list, values are placed
-  # there. Mostly returned like this when there is more than one value,
-  # otherwise it could have been returned the normal way using $x.
+    # Call routine
+
+    # If there are pointers in the argument list, values are placed
+    # there. Mostly returned like this when there is more than one value,
+    # otherwise it could have been returned the normal way using $x.
 #note "$?LINE pointers-in-args $!pointers-in-args";
-  if $!pointers-in-args {
-    my $x = $routine<function-address>(|@native-args);
-    return self.make-list-from-result( @native-args, @parameters, $routine, $x)
-  }
-
-  else {
-    my $x;
-
-    if $routine<type-name>:exists {
-      $x = self.convert-return(
-        $routine<function-address>(|@native-args),
-        $routine<returns>, :type($routine<type-name>)
-      );
+    if $!pointers-in-args {
+      my $x = $routine<function-address>(|@native-args);
+      return self.make-list-from-result(
+        @native-args, @parameters, $routine, $x
+      )
     }
 
     else {
-      $x = self.convert-return(
-        $routine<function-address>(|@native-args), $routine<returns>
-      );
-    }
+      my $x;
 
-    return $x
-  }
+      if $routine<type-name>:exists {
+        $x = self.convert-return(
+          $routine<function-address>(|@native-args),
+          $routine<returns>, :type($routine<type-name>)
+        );
+      }
+
+      else {
+        $x = self.convert-return(
+          $routine<function-address>(|@native-args), $routine<returns>
+        );
+      }
+
+      return $x
+    }
+#  }
 }
 
 #-------------------------------------------------------------------------------
-method native-parameters ( @arguments, @parameters, Hash $routine --> List ) {
+method native-parameters (
+  @arguments, @parameters, Hash $routine, :$native-object
+  --> List
+) {
   my @native-args = ();
 
   given $routine<type> {
@@ -106,6 +115,8 @@ method native-parameters ( @arguments, @parameters, Hash $routine --> List ) {
     when Function { }
     #when Method { }
     default {
+      @native-args.push: $native-object;
+#`{{
       if $!is-leaf {
         @native-args.push: $!widget._get-native-object-no-reffing;
       }
@@ -113,6 +124,7 @@ method native-parameters ( @arguments, @parameters, Hash $routine --> List ) {
       else {
         @native-args.push: $!widget._f($!widget-name);
       }
+}}
     }
   }
 
@@ -263,6 +275,14 @@ method convert-return ( $v, $p, :$type = Any ) {
   $c
 }
 
+
+
+
+
+
+
+
+=finish
 #-------------------------------------------------------------------------------
 has Int $!indent-level;
 

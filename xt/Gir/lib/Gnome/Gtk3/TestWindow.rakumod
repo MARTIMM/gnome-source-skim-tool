@@ -111,8 +111,7 @@ submethod BUILD ( *@arguments, *%options ) {
 
     # Initialize helper
     $!routine-caller .= new(
-      :library(&gtk-lib), :sub-prefix<gtk_window_>,
-      :widget(self), :widget-name<GtkWindow>, :!is-leaf
+      :library(gtk-lib()), :sub-prefix<gtk_window_>, :!is-leaf
     );
 
     if self.is-valid { }
@@ -125,7 +124,7 @@ submethod BUILD ( *@arguments, *%options ) {
     else {
       my $no;
       if ? %options<window-type> {
-        $no = self.FALLBACK( 'new', %options<window-type>);
+        $no = self._fallback-v2( 'new', my Bool $x, %options<window-type>);
       }
 
       #`{{ use this when the module is not made inheritable
@@ -150,10 +149,11 @@ submethod BUILD ( *@arguments, *%options ) {
       ##`{{ when there are defaults use this instead
       # create default object
       else {
-        $no = self.FALLBACK( 'new', GTK_WINDOW_TOPLEVEL);
+        $no = self._fallback-v2( 'new', my Bool $x, GTK_WINDOW_TOPLEVEL);
       }
       #}}
 
+#note "$?LINE $no,gist()";
       self._set-native-object($no);
     }
 
@@ -163,12 +163,26 @@ submethod BUILD ( *@arguments, *%options ) {
 }
 
 #-------------------------------------------------------------------------------
-method FALLBACK ( Str $name, *@arguments ) {
-  $!routine-caller.call-native-sub(
-    $name, @arguments, $methods
-    #, 'libgtk-3.so.0', 'gtk_window_',
-    #self, 'GtkWindow', False
-  );
+method _fallback-v2 (
+  Str $name is copy, Bool $_fallback-v2-ok is rw, *@arguments
+) {
+  $name ~~ s:g/ '-' /_/;
+#note "\n$?LINE func $name {$methods{$name}:exists}";
+  if $methods{$name}:exists {
+    my $native-object = self.get-native-object-no-reffing;
+ #self._f('GtkWindow');
+
+#note "$?LINE no = {$native-object // '-'}";
+    $_fallback-v2-ok = True;
+    $!routine-caller.call-native-sub(
+      $name, @arguments, $methods, :$native-object
+    );
+  }
+
+  else {
+#note "callsame";
+   callsame;
+  }
 }
 
 =finish
