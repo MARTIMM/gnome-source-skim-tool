@@ -27,12 +27,10 @@ has Str $!library is required;
 has Str $!sub-prefix is required;
 #has $!widget is required;
 #has Str $!widget-name is required;
-has Bool $!is-leaf;
+#has Bool $!is-leaf;
 
 #-------------------------------------------------------------------------------
-submethod BUILD (
-  Str :$!library, Str :$!sub-prefix, Bool :$!is-leaf = False
-) { }
+submethod BUILD ( Str :$!library, Str :$!sub-prefix ) { }
 
 #-------------------------------------------------------------------------------
 method call-native-sub (

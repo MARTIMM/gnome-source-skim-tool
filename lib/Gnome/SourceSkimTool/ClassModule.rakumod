@@ -90,8 +90,21 @@ method generate-raku-module ( ) {
     );
 
     #-------------------------------------------------------------------------------
-    method _fallback-v2 ( Str $name, *@arguments ) {
-      $!routine-caller.call-native-sub( $name, @arguments, $methods);
+    method _fallback-v2 (
+      Str $n, Bool $_fallback-v2-ok is rw, *@arguments
+    ) {
+      my Str $name = S:g/ '-' /_/ with $n;
+      if $methods{$name}:exists {
+        my $native-object = self.get-native-object-no-reffing;
+        $_fallback-v2-ok = True;
+        return $!routine-caller.call-native-sub(
+          $name, @arguments, $methods, :$native-object
+        );
+      }
+
+      else {
+        callsame;
+      }
     }
 
     RAKUMOD
@@ -123,9 +136,9 @@ method generate-raku-module ( ) {
 
 
   note "Save module";
-  $*work-data<raku-module-file>.IO.spurt($module-code);
+  $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;
   note "Save pod doc";
-  $*work-data<raku-module-doc-file>.IO.spurt($module-doc);
+  $*work-data<raku-module-doc-file>.IO.spurt($module-doc) if $*generate-doc;
 }
 
 #`{{

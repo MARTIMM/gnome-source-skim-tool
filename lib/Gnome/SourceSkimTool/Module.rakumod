@@ -272,7 +272,7 @@ method !make-build-submethod (
       "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
   }
 
-  $role-signals = "# Signals from interfaces\n" ~ $role-signals
+  $role-signals = "\n    # Signals from interfaces\n" ~ $role-signals
     if ?$role-signals;
 
   # Check if signal administration is needed
@@ -326,37 +326,36 @@ method !make-build-submethod (
     EOBUILD
 
 
+  $code ~= qq:to/EOBUILD/;
+
+      # Initialize helper
+      \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
+
+    EOBUILD
+
   # Check if inherit code is to be inserted
 #  my Str $ctype = $class-element.attribs<c:type>;
 #  my Hash $h = $!sas.search-name($ctype);
   if $h<inheritable> {
-    $code ~= [~] '  # prevent creating wrong widgets', "\n",
+    $code ~= [~] '  # Prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'",
             ' or %options<', $*work-data<gnome-name>, '> {', "\n";
   }
 
   else {
-    $code ~= [~] '  # prevent creating wrong widgets', "\n",
+    $code ~= [~] '  # Prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
   }
-
-  $code ~= qq:to/EOBUILD/;
-
-        # Initialize helper
-        \$\!routine-caller .= new\(
-          :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>,
-          :widget\(self\), :widget-name\<$*work-data<gnome-name>\>,
-          :is-leaf\($h<leaf>\)
-        );
-    EOBUILD
 
   # Add first few tests
   my Str $b-id-str = ?$h<inheritable>
                      ?? "\n" ~ '    elsif %options<build-id>:exists { }' !! '';
   $code ~= qq:to/EOBUILD/;
+
+        # If already initialized in some parent, the object is valid
         if self.is-valid \{ \}
 
-        # check if common options are handled by some parent
+        # Check if common options are handled by some parent
         elsif \%options\<native-object>:exists \{ \}$b-id-str
 
         else \{
@@ -395,7 +394,7 @@ method !make-build-submethod (
             #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
             $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
       $decl-list
-              \$no = self\._fallback-v2\( 'new', ... \);
+              \$no = self\._fallback-v2\( 'new', my Bool \$x, ... \);
             \}
 
       EOBUILD
@@ -432,7 +431,7 @@ method !make-build-submethod (
         #`\{\{ when there are defaults use this instead
         # create default object
         else \{
-          \$no = self\._fallback-v2\( 'new', ... \);
+          \$no = self\._fallback-v2\( 'new', my Bool \$x, ... \);
         \}
         \}\}
 
@@ -965,12 +964,17 @@ method generate-functions-code ( XML::Element $class-element --> Str ) {
 }}
 
     # Return type
+    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+    my Str $returns;
     my $xtype = $curr-function<return-raku-ntype>;
-    my Str $returns = (?$xtype and $xtype ne 'void' ) 
-                    ?? [~] "\n", '    :returns(',
-                           $curr-function<return-raku-ntype>,
-                           '),'
-                    !! '';
+    my ( $rnt0, $rnt1) = $hcs{$function-name}<return-raku-ntype>.split(':');
+    if ?$rnt1 {
+      $returns = "\n    :returns\($rnt0\),\n    :type-name\($rnt1\),";
+    }
+
+    elsif ?$rnt0 and $xtype ne 'void' {
+      $returns = "\n    :returns\($rnt0\),";
+    }
 
     $code ~= qq:to/EOSUB/;
       #TM:0:$hash-fname
