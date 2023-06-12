@@ -24,74 +24,32 @@ submethod BUILD ( XML::XPath :$!xpath ) {
 }
 
 #-------------------------------------------------------------------------------
-method set-unit ( XML::Element $class-element --> Str ) {
-
-#`{{
-  # Insert a commented import of enums and events module
-  my Str ( $imports, $also) = '' xx 3;
-  if $*gnome-package.Str ~~ / Gtk3 $/ {
-    $imports = "\n#use Gnome::Gdk3::Events;\n#use Gnome::Gtk3::Enums;\n";
-  }
-
-#TODO check if true, event system is different
-  elsif $*gnome-package.Str ~~ / Gtk4 $/ {
-    $imports = "\n#use Gnome::Gdk4::Events;\n#use Gnome::Gtk4::Enums;\n";
-  }
-
-  # When Gdk, no need for Gtk enums
-  elsif $*gnome-package.Str ~~ / Gdk3 $/ {
-    $imports = "\n#use Gnome::Gdk3::Events;\n\n";
-  }
-
-#TODO check if true, event system is different
-  elsif $*gnome-package.Str ~~ / Gdk4 $/ {
-    $imports = "\n#use Gnome::Gdk4::Events;\n\n";
-  }
-
-  # When not either of Gtk or Gdk, then a lower level module
-  else {
-    $imports = '';
-  }
-}}
+method set-unit-code ( XML::Element $element --> Str ) {
 
   my Str $also = '';
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
 
   # Check for parent class. There are never more than one.
   my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
-#    $imports ~= "use $parent;\n";
     $*external-modules.push: $parent;
     $also ~= "also is $parent;\n";
   }
 
-  my Bool $is-role = $h<interface> // False;
-  if !$is-role {
-
+  my Bool $is-role = (($h<gir-type> // '' ) eq 'interface') // False;
+  my Bool $is-class = (($h<gir-type> // '' ) eq 'class') // False;
+  # If the object is a class
+  if $is-class {
     # Check for roles to implement
     my Array $roles = $h<implement-roles>//[];
     for @$roles -> $role {
       my Hash $role-h = $!sas.search-name($role);
-  #note "$?LINE role=$role -> $role-h.gist()";
-#      $imports ~= "use $role-h<rname>;\n";
+#note "$?LINE role=$role -> $role-h.gist()";
       $*external-modules.push: $role-h<rname>;
-      $also ~= "also does $role-h<rname>;\n";
+      $also ~= "also does $role-h<rname>;\n" if ?$role-h<rname>;
     }
   }
-
-#`{{
-    use NativeCall;
-
-    use Gnome::N::NativeLib;
-    use Gnome::N::N-GObject;
-    use Gnome::N::GlibToRakuTypes;
-    #use Gnome::N::TopLevelClassSupport;
-    $imports
-    #use Gnome::Glib::List;
-    #use Gnome::Glib::SList;
-    #use Gnome::Glib::Error;
-}}
 
   my Str $code = qq:to/RAKUMOD/;
 
@@ -111,16 +69,16 @@ method set-unit ( XML::Element $class-element --> Str ) {
 
 #-------------------------------------------------------------------------------
 method generate-build (
-  XML::Element $class-element, Hash $sig-info
+  XML::Element $element, Hash $sig-info
   --> List
 ) {
 
-#  my Str $ctype = $class-element.attribs<c:type>;
+#  my Str $ctype = $element.attribs<c:type>;
 #  my Hash $h = $!sas.search-name($ctype);
 
-  my Hash $hcs = self!get-constructors($class-element);
-  my Str $doc = self!make-build-doc( $class-element, $hcs);
-  my Str $code = self!make-build-submethod( $class-element, $hcs, $sig-info);
+  my Hash $hcs = self!get-constructors($element);
+  my Str $doc = self!make-build-doc( $element, $hcs);
+  my Str $code = self!make-build-submethod( $element, $hcs, $sig-info);
   
   $code ~= qq:to/RAKUMOD/;
 
@@ -136,7 +94,7 @@ method generate-build (
 }
 
 #-------------------------------------------------------------------------------
-method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
+method !make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
   my Str $doc = qq:to/EOBUILD/;
 
     {HLSEPARATOR}
@@ -235,7 +193,7 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
 
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   if $h<inheritable> {
     $doc ~= qq:to/EOBUILD/;
@@ -256,9 +214,9 @@ method !make-build-doc ( XML::Element $class-element, Hash $hcs --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !make-build-submethod (
-  XML::Element $class-element, Hash $hcs, Hash $sig-info --> Str
+  XML::Element $element, Hash $hcs, Hash $sig-info --> Str
 ) {
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
 
   my Str $signal-admin = '';
@@ -334,7 +292,7 @@ method !make-build-submethod (
     EOBUILD
 
   # Check if inherit code is to be inserted
-#  my Str $ctype = $class-element.attribs<c:type>;
+#  my Str $ctype = $element.attribs<c:type>;
 #  my Hash $h = $!sas.search-name($ctype);
   if $h<inheritable> {
     $code ~= [~] '  # Prevent creating wrong widgets', "\n",
@@ -452,11 +410,11 @@ method !make-build-submethod (
 }
 
 #-------------------------------------------------------------------------------
-method !get-constructors ( XML::Element $class-element --> Hash ) {
+method !get-constructors ( XML::Element $element --> Hash ) {
   my Hash $hcs = %();
 
   my @constructors =
-    $!xpath.find( 'constructor', :start($class-element), :to-list);
+    $!xpath.find( 'constructor', :start($element), :to-list);
 
   for @constructors -> $cn {
     # Skip deprecated constructors
@@ -528,16 +486,16 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-methods ( XML::Element $class-element --> List ) {
+method generate-methods ( XML::Element $element --> List ) {
 
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   my Bool $is-leaf = $h<leaf> // False;
 #  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all methods in this class
-  my Hash $hcs = self!get-methods($class-element);
+  my Hash $hcs = self!get-methods($element);
   return ('','') unless ?$hcs;
 
   my Str $code = qq:to/EOSUB/;
@@ -693,16 +651,16 @@ method generate-methods ( XML::Element $class-element --> List ) {
 
 #`{{
 #-------------------------------------------------------------------------------
-method generate-method-doc ( XML::Element $class-element --> List ) {
+method generate-method-doc ( XML::Element $element --> List ) {
 
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   my Bool $is-leaf = $h<leaf> // False;
 #  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all methods in this class
-  my Hash $hcs = self!get-methods($class-element);
+  my Hash $hcs = self!get-methods($element);
   return ('','') unless ?$hcs;
 
   my Str $code = qq:to/EOSUB/;
@@ -843,10 +801,10 @@ method generate-method-doc ( XML::Element $class-element --> List ) {
 }}
 
 #-------------------------------------------------------------------------------
-method !get-methods ( XML::Element $class-element --> Hash ) {
+method !get-methods ( XML::Element $element --> Hash ) {
   my Hash $hms = %();
 
-  my @methods = $!xpath.find( 'method', :start($class-element), :to-list);
+  my @methods = $!xpath.find( 'method', :start($element), :to-list);
 
   for @methods -> $cn {
     # Skip deprecated methods
@@ -861,12 +819,12 @@ method !get-methods ( XML::Element $class-element --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-functions-code ( XML::Element $class-element --> Str ) {
+method generate-functions-code ( XML::Element $element --> Str ) {
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all functions in this class
-  my Hash $hcs = self!get-functions($class-element);
+  my Hash $hcs = self!get-functions($element);
   return '' unless ?$hcs;
 
   my Str $code = qq:to/EOSUB/;
@@ -989,10 +947,10 @@ method generate-functions-code ( XML::Element $class-element --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-functions ( XML::Element $class-element --> Hash ) {
+method !get-functions ( XML::Element $element --> Hash ) {
   my Hash $hms = %();
 
-  my @methods = $!xpath.find( 'function', :start($class-element), :to-list);
+  my @methods = $!xpath.find( 'function', :start($element), :to-list);
 
   for @methods -> $cn {
     # Skip deprecated methods
@@ -1100,12 +1058,12 @@ method !get-enumeration-names ( --> Array ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-signals ( XML::Element $class-element --> Hash ) {
+method generate-signals ( XML::Element $element --> Hash ) {
   my Hash $sig-info = %();
   my Str $doc = '';
 
   my @signal-info =
-     $!xpath.find( 'glib:signal', :start($class-element), :to-list);
+     $!xpath.find( 'glib:signal', :start($element), :to-list);
 
   my Hash $signals = %();
   for @signal-info -> $si {
@@ -1234,11 +1192,11 @@ method generate-signals ( XML::Element $class-element --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-properties ( XML::Element $class-element --> Str ) {
+method generate-properties ( XML::Element $element --> Str ) {
   my Str $doc = '';
 
   my @property-info =
-     $!xpath.find( 'property', :start($class-element), :to-list);
+     $!xpath.find( 'property', :start($element), :to-list);
 
   my Hash $properties = %();
   for @property-info -> $pi {
@@ -1386,7 +1344,7 @@ method !make-native-constructor-subs ( Hash $hcs --> Str ) {
 
 #TODO use this method to get functions from level packages like Glib
 #-------------------------------------------------------------------------------
-method generate-functions ( XML::Element $class-element --> List ) {
+method generate-functions ( XML::Element $element --> List ) {
 
   # Get all functions for this module
   my Hash $h = $!sas.search-names(
@@ -1560,14 +1518,14 @@ method generate-functions ( XML::Element $class-element --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-methods ( XML::Element $class-element --> List ) {
+method generate-methods ( XML::Element $element --> List ) {
 
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   my Bool $is-leaf = $h<leaf> // False;
   my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
 
-  my Hash $hcs = self!get-methods($class-element);
+  my Hash $hcs = self!get-methods($element);
   return ('','') unless $hcs.keys.elems;
 
   my Str $code = qq:to/EOSUB/;
@@ -1724,12 +1682,12 @@ method generate-methods ( XML::Element $class-element --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-functions ( XML::Element $class-element --> List ) {
+method generate-functions ( XML::Element $element --> List ) {
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all functions in this class
-  my Hash $hcs = self!get-functions($class-element);
+  my Hash $hcs = self!get-functions($element);
   return ('','') unless ?$hcs;
 
   my Str $code = qq:to/EOSUB/;

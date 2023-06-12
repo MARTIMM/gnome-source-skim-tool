@@ -33,8 +33,8 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 method generate-raku-module ( ) {
 
-  my XML::Element $class-element = $!xpath.find('//class');
-  die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$class-element;
+  my XML::Element $element = $!xpath.find('//class');
+  die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
   my Str ( $doc, $code);
   my Str $module-code = '';
@@ -46,13 +46,13 @@ method generate-raku-module ( ) {
     RAKUMOD
 
   note "Generate module description" if $*verbose;
-  $module-doc ~= $!grd.get-description( $class-element, $!xpath);
+  $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
 
   note "Get signal info" if $*verbose;
-  my Hash $sig-info = $!mod.generate-signals($class-element);
+  my Hash $sig-info = $!mod.generate-signals($element);
 
   note "Set class unit" if $*verbose;
-  $module-code ~= $!mod.set-unit($class-element);
+  $module-code ~= $!mod.set-unit-code($element) if $*generate-code;
 
   note "Generate enumerations and bitmasks";
   $module-code ~= $!mod.generate-enumerations-code if $*generate-code;
@@ -60,23 +60,23 @@ method generate-raku-module ( ) {
 
   # Make a BUILD submethod
   note "Generate BUILD" if $*verbose;
-  ( $doc, $code) = $!mod.generate-build( $class-element, $sig-info);
+  ( $doc, $code) = $!mod.generate-build( $element, $sig-info);
   $module-doc ~= $doc;
   $module-code ~= $code;
 
   note "Generate methods" if $*verbose;
-  ( $doc, $code) = $!mod.generate-methods($class-element);
+  ( $doc, $code) = $!mod.generate-methods($element);
 
   # if there are methods, add the fallback routine and methods
 #  my Str $deprecatable-method = '';
   if ?$doc {
-#    $deprecatable-method ~= self!add-deprecatable-method($class-element);
+#    $deprecatable-method ~= self!add-deprecatable-method($element);
     $module-code ~= $code;
     $module-doc ~= $doc;
   }
 
   note "Generate functions" if $*verbose;
-  $module-code ~= $!mod.generate-functions-code($class-element)
+  $module-code ~= $!mod.generate-functions-code($element)
     if $*generate-code;
 #  if ?$code {
 #    $module-doc ~= $doc;
@@ -103,11 +103,34 @@ method generate-raku-module ( ) {
       }
 
       else {
+    RAKUMOD
+
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!sas.search-name($ctype);
+  my Array $roles = $h<implement-roles>//[];
+  for @$roles -> $role {
+    my Hash $role-h = $!sas.search-name($role);
+note "$?LINE role=$role -> $role-h.gist()";
+
+    $module-code ~= qq:to/RAKUMOD/;
+
+          my \$r = self.{$role}::_fallback-v2-ok\(
+            \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
+          \);
+          return \$r if \$_fallback-v2-ok;
+
+      RAKUMOD
+
+  }
+
+  $module-code ~= q:to/RAKUMOD/;
         callsame;
       }
     }
-
     RAKUMOD
+
+
+
 
 #  $module-code ~= $deprecatable-method;
 
@@ -116,7 +139,7 @@ method generate-raku-module ( ) {
   $module-doc ~= $sig-info<doc>;
 
   note "Generate module properties doc" if $*verbose;  
-  $module-doc ~= $!mod.generate-properties($class-element);
+  $module-doc ~= $!mod.generate-properties($element);
 
   note "Set modules to import";
   my $import = '';
@@ -144,9 +167,9 @@ method generate-raku-module ( ) {
 #`{{
 #-------------------------------------------------------------------------------
 method !make-init-method (
-  XML::Element $class-element, Hash $sig-info --> Str
+  XML::Element $element, Hash $sig-info --> Str
 ) {
-#  my Str $ctype = $class-element.attribs<c:type>;
+#  my Str $ctype = $element.attribs<c:type>;
 #  my Hash $h = $!sas.search-name($ctype);
 
   my Str $code = '';
@@ -189,8 +212,8 @@ method !make-init-method (
 #-------------------------------------------------------------------------------
 method generate-raku-module-test ( ) {
 
-  my XML::Element $class-element = $!xpath.find('//class');
-  my Str $ctype = $class-element.attribs<c:type>;
+  my XML::Element $element = $!xpath.find('//class');
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
 
   my Str $test-variable = '$' ~ $*gnome-class.lc;
@@ -357,7 +380,7 @@ method generate-raku-module-test ( ) {
 
 =finish
 #-------------------------------------------------------------------------------
-method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
+method !add-deprecatable-method ( XML::Element $element --> Str ) {
 
   my Hash $meta-data = from-json('META6.json'.IO.slurp);
   my Str $version-now = $meta-data<version>;
@@ -367,7 +390,7 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
   my Str $version-dep = @v.join('.');
 
 
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   my Array $roles = $h<implement-roles> // [];
   my $role-fallbacks = '';
