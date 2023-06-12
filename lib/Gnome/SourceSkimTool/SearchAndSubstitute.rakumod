@@ -334,11 +334,14 @@ method convert-ntype (
 
 #TODO int/num/pointers as '$x is rw'
     # ignore const
-    when /g? char '**'/    { $raku-type = 'gchar-pptr'; }
-    when /g? char '*'/     { $raku-type = 'Str'; }
-    when /g? int '*'/      { $raku-type = 'gint-ptr'; }
-    when /g? uint '*'/     { $raku-type = 'guint-ptr'; }
-    when /g? size '*'/     { $raku-type = 'CArray[gsize]'; }
+    when /g? char '**'/     { $raku-type = 'gchar-pptr'; }
+    when /g? char '*'/      { $raku-type = 'Str'; }
+    when /g? int '*'/       { $raku-type = 'gint-ptr'; }
+    when /g? uint '*'/      { $raku-type = 'guint-ptr'; }
+    when /g? size '*'/      { $raku-type = 'CArray[gsize]'; }
+    
+    when /:i g? object '*'/ { $raku-type = 'N-GObject'; }
+
 #`{{
     when /GError '*'/ {
       $raku-type = 'CArray[N-GError]';
@@ -374,6 +377,7 @@ method convert-ntype (
 #        when 'callback' { }
         when 'interface' {
           $raku-type = 'N-GObject';
+          self.add-import($h<rname>);
 #          $raku-type ~= '()' unless $return-type;          
         }
 #        when '' { }
