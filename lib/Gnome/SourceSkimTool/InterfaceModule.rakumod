@@ -33,8 +33,8 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 method generate-raku-interface ( ) {
 
-  my XML::Element $class-element = $!xpath.find('//interface');
-  die "//interface not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$class-element;
+  my XML::Element $element = $!xpath.find('//interface');
+  die "//interface not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
   my Str ( $doc, $code);
   my Str $module-code = '';
@@ -46,13 +46,13 @@ method generate-raku-interface ( ) {
     RAKUMOD
 
   note "Generate module description" if $*verbose;  
-  $module-doc ~= $!grd.get-description( $class-element, $!xpath);
+  $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
 
   note "Generate module signals" if $*verbose;  
-  my Hash $sig-info = $!mod.generate-signals($class-element);
+  my Hash $sig-info = $!mod.generate-signals($element);
 
   note "Set class unit" if $*verbose;
-  $module-code ~= $!mod.set-unit($class-element);
+  $module-code ~= $!mod.set-unit-code($element) if $*generate-code;
 
   note "Generate enumerations and bitmasks";
   $module-code ~= $!mod.generate-enumerations-code if $*generate-code;
@@ -60,20 +60,20 @@ method generate-raku-interface ( ) {
 
   # Roles do not have a BUILD
   note "Generate role initialization method" if $*verbose;  
-  $module-code ~= self!generate-role-init( $class-element, $sig-info);
+  $module-code ~= self!generate-role-init( $element, $sig-info);
 
   note "Generate module methods" if $*verbose;  
-  ( $doc, $code) = $!mod.generate-methods($class-element);
+  ( $doc, $code) = $!mod.generate-methods($element);
 
   # if there are methods, add the fallback routine and methods
   if ?$doc {
-#    $module-code ~= self!add-deprecatable-method($class-element);
+#    $module-code ~= self!add-deprecatable-method($element);
     $module-code ~= $code;
     $module-doc ~= $doc;
   }
 
   note "Generate module functions" if $*verbose;  
-  $module-code ~= $!mod.generate-functions-code($class-element)
+  $module-code ~= $!mod.generate-functions-code($element)
     if $*generate-code;
 #  if ?$code {
 #    $module-doc ~= $doc;
@@ -87,20 +87,18 @@ method generate-raku-interface ( ) {
     );
 
     #-------------------------------------------------------------------------------
+    # This method is called from user class and can provide the $routine-caller
+    # variable. Class calls this routine as self.XYZRole::_fallback-v2()
     method _fallback-v2 (
-      Str $n, Bool $_fallback-v2-ok is rw, *@arguments
+      Str $n, Bool $_fallback-v2-ok is rw, Callable $routine-caller, @arguments
     ) {
       my Str $name = S:g/ '-' /_/ with $n;
       if $methods{$name}:exists {
         my $native-object = self.get-native-object-no-reffing;
         $_fallback-v2-ok = True;
-        return $!routine-caller.call-native-sub(
+        return $routine-caller.call-native-sub(
           $name, @arguments, $methods, :$native-object
         );
-      }
-
-      else {
-        callsame;
       }
     }
 
@@ -110,7 +108,7 @@ method generate-raku-interface ( ) {
   $module-doc ~= $sig-info<doc>;
 
   note "Generate module properties" if $*verbose;  
-  $module-doc ~= $!mod.generate-properties($class-element);
+  $module-doc ~= $!mod.generate-properties($element);
 
   note "Set modules to import";
   my $import = '';
@@ -135,18 +133,18 @@ method generate-raku-interface ( ) {
 
 #-------------------------------------------------------------------------------
 method !generate-role-init (
-  XML::Element $class-element, Hash $sig-info --> Str
+  XML::Element $element, Hash $sig-info --> Str
 ) {
-  my Str $code ~= self!make-init-method( $class-element, $sig-info);
+  my Str $code ~= self!make-init-method( $element, $sig-info);
 
   $code
 }
 
 #-------------------------------------------------------------------------------
 method !make-init-method (
-  XML::Element $class-element, Hash $sig-info --> Str
+  XML::Element $element, Hash $sig-info --> Str
 ) {
-#  my Str $ctype = $class-element.attribs<c:type>;
+#  my Str $ctype = $element.attribs<c:type>;
 #  my Hash $h = $!sas.search-name($ctype);
 
   my Str $code = '';
@@ -187,7 +185,7 @@ method !make-init-method (
     {HLSEPARATOR}
     {SEPARATOR('Native Routine Definitions');}
     {HLSEPARATOR}
-    my Hash \$role-methods = \%\(
+    my Hash \$methods = \%\(
     RAKUMOD
 
   $code
@@ -212,7 +210,7 @@ method !make-init-method (
 
 =finish
 #-------------------------------------------------------------------------------
-method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
+method !add-deprecatable-method ( XML::Element $element --> Str ) {
 
   my Hash $meta-data = from-json('META6.json'.IO.slurp);
   my Str $version-now = $meta-data<version>;
@@ -222,7 +220,7 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
   my Str $version-dep = @v.join('.');
 
 
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   my Array $roles = $h<implement-roles> // [];
   my $role-fallbacks = '';
