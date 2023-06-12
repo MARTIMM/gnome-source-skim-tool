@@ -46,10 +46,10 @@ method generate-raku-record ( ) {
     RAKUMOD
 
   note "Generate module description" if $*verbose;  
-  $module-doc ~= $!grd.get-description( $element, $!xpath);
+  $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
 
   note "Set class unit" if $*verbose;
-  $module-code ~= $!mod.set-unit($element);
+  $module-code ~= $!mod.set-unit-code($element) if $*generate-code;
 
   #note "Generate enumerations and bitmasks";
   #$module-code ~= $!mod.generate-enumerations-code if $*generate-code;
@@ -72,7 +72,7 @@ method generate-raku-record ( ) {
   }
 
   note "Generate module functions" if $*verbose;  
-  $module-code ~= $!mod.generate-functions-code($class-element)
+  $module-code ~= $!mod.generate-functions-code($element)
     if $*generate-code;
 #  if ?$code {
 #    $module-doc ~= $doc;
@@ -130,7 +130,7 @@ method generate-raku-record-test ( ) {
 
 =finish
 #-------------------------------------------------------------------------------
-method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
+method !add-deprecatable-method ( XML::Element $element --> Str ) {
 
   my Hash $meta-data = from-json('META6.json'.IO.slurp);
   my Str $version-now = $meta-data<version>;
@@ -140,7 +140,7 @@ method !add-deprecatable-method ( XML::Element $class-element --> Str ) {
   my Str $version-dep = @v.join('.');
 
 
-  my Str $ctype = $class-element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
   my Array $roles = $h<implement-roles> // [];
   my $role-fallbacks = '';
