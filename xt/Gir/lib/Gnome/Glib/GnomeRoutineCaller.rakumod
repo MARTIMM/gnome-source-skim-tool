@@ -39,70 +39,62 @@ method call-native-sub (
 #say Backtrace.new.nice;
 #note "$?LINE $name, ", ($native-object // '-').gist;
 
-  # Dashes to underscores
-#  if $methods{$name}:exists {
+  # Set False, is set in native-parameters() as a side effect
+  $!pointers-in-args = False;
 
-    # Set False, is set in native-parameters() as a side effect
-    $!pointers-in-args = False;
+  my Hash $routine := $methods{$name};
 
-    my Hash $routine := $methods{$name};
-#note $?LINE, ', ', $routine.gist;
+  my @parameters = $routine<parameters>:exists
+                ?? @($routine<parameters>)
+                !! ();
 
-  # this check fails when pointers to variables are used.
-  #  die "Number of arguments not sufficient"
-  #    unless @arguments.elems >= abs($routine<parameters>.elems);
-
-    my @parameters = $routine<parameters>:exists
-                  ?? @($routine<parameters>)
-                  !! ();
-
-    # Get native parameters converted from @arguments
-    my @native-args = self.native-parameters(
-      @arguments, @parameters, $routine, :$native-object
-    );
+  # Get native parameters converted from @arguments
+  my @native-args = self!native-parameters(
+    @arguments, @parameters, $routine, :$native-object
+  );
 
 #note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
 
-    # Get routine address
-    $routine<function-address> //=
-      self.native-function( $name, @parameters, $routine);
+  # Get routine address
+  $routine<function-address> //=
+    self!native-function( $name, @parameters, $routine);
 
-    # Call routine
+  # Call routine
 
-    # If there are pointers in the argument list, values are placed
-    # there. Mostly returned like this when there is more than one value,
-    # otherwise it could have been returned the normal way using $x.
+  # If there are pointers in the argument list, values are placed
+  # there. Mostly returned like this when there is more than one value,
+  # otherwise it could have been returned the normal way using the
+  # return value of functions $x.
 #note "$?LINE pointers-in-args $!pointers-in-args";
-    if $!pointers-in-args {
-      my $x = $routine<function-address>(|@native-args);
-      return self.make-list-from-result(
-        @native-args, @parameters, $routine, $x
-      )
+  if $!pointers-in-args {
+    my $x = $routine<function-address>(|@native-args);
+    return self!make-list-from-result(
+      @native-args, @parameters, $routine, $x
+    )
+  }
+
+  else {
+    my $x;
+
+    if $routine<type-name>:exists {
+      $x = self!convert-return(
+        $routine<function-address>(|@native-args),
+        $routine<returns>, :type($routine<type-name>)
+      );
     }
 
     else {
-      my $x;
-
-      if $routine<type-name>:exists {
-        $x = self.convert-return(
-          $routine<function-address>(|@native-args),
-          $routine<returns>, :type($routine<type-name>)
-        );
-      }
-
-      else {
-        $x = self.convert-return(
-          $routine<function-address>(|@native-args), $routine<returns>
-        );
-      }
-
-      return $x
+      $x = self!convert-return(
+        $routine<function-address>(|@native-args), $routine<returns>
+      );
     }
-#  }
+
+    return $x
+  }
 }
 
 #-------------------------------------------------------------------------------
-method native-parameters (
+method !native-parameters (
   @arguments, @parameters, Hash $routine, :$native-object
   --> List
 ) {
@@ -114,21 +106,12 @@ method native-parameters (
     #when Method { }
     default {
       @native-args.push: $native-object;
-#`{{
-      if $!is-leaf {
-        @native-args.push: $!widget._get-native-object-no-reffing;
-      }
-
-      else {
-        @native-args.push: $!widget._f($!widget-name);
-      }
-}}
     }
   }
 
   loop (my $i = 0; $i < @parameters.elems; $i++ ) {
     my $p = @parameters[$i];
-    my $a = self.convert-args( @arguments[$i], $p);
+    my $a = self!convert-args( @arguments[$i], $p);
 #note "$?LINE $i, @arguments[$i].gist(), {$p.^name}, convert-args $a.gist()";
     @native-args.push: $a;
     $!pointers-in-args = True if $p.^name ~~ m/ CArray /;
@@ -138,7 +121,7 @@ method native-parameters (
 }
 
 #-------------------------------------------------------------------------------
-method native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
+method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   my Str $routine-name = $!sub-prefix ~ $name;
 
   # Create parameter list and start with inserting fixed arguments
@@ -172,7 +155,7 @@ method native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
 }
 
 #-------------------------------------------------------------------------------
-method make-list-from-result (
+method !make-list-from-result (
   @native-args, @parameters, Hash $routine, $x
   --> List
 ) {
@@ -195,7 +178,7 @@ method make-list-from-result (
     my $p = @parameters[$i];
     my $v = @native-args[$i + $start];
     next unless $p.^name ~~ m/ CArray /;
-    @return-list.push: self.convert-return( $v, $p);
+    @return-list.push: self!convert-return( $v, $p);
   }
 #note "$?LINE result list: ", @return-list.gist;
 
@@ -203,7 +186,7 @@ method make-list-from-result (
 }
 
 #-------------------------------------------------------------------------------
-method convert-args ( $v, $p ) {
+method !convert-args ( $v, $p ) {
   my $c;
 
   given $p {
@@ -234,7 +217,7 @@ method convert-args ( $v, $p ) {
 }
 
 #-------------------------------------------------------------------------------
-method convert-return ( $v, $p, :$type = Any ) {
+method !convert-return ( $v, $p, :$type = Any ) {
   my $c;
 
 #note "$?LINE return: ", $p.^name, ', ', $v.^name, ', ', $v.gist;
@@ -272,79 +255,3 @@ method convert-return ( $v, $p, :$type = Any ) {
 
   $c
 }
-
-
-
-
-
-
-
-
-=finish
-#-------------------------------------------------------------------------------
-has Int $!indent-level;
-
-method display-hash ( Hash $info ) {
-  $!indent-level = 0;
-  self!dhash($info);
-}
-
-#-------------------------------------------------------------------------------
-method !dhash ( Hash $info ) {
-
-  for $info.keys.sort -> $k {
-#note $k;
-#dd $info{$k};
-#exit;
-    if $info{$k} ~~ Hash {
-      say '  ' x $!indent-level, $k, ':';
-      $!indent-level++;
-      self!dhash($info{$k});
-      $!indent-level--;
-#exit;
-    }
-
-#    elsif $info{$k} ~~ Array {
-#      self!dhash(%($info.kv));
-#    }
-
-    else {
-      say '  ' x $!indent-level, $k, ': ', $info{$k}.gist;
-    }
-  }
-}
-
-
-=finish
-
-  # Call routine
-  # If there are pointers in the argument list, values are placed
-  # there. Mostly returned like this when there is more than one value,
-  # otherwise it could have been returned the normal way using $x.
-#note "$?LINE $!pointers-in-args";
-  if $!pointers-in-args {
-    my $x = $routine<function-address>(|@native-args);
-    return self.make-list-from-result( @native-args, @parameters, $routine, $x)
-  }
-
-  else {
-    my $x;
-      $x = self.convert-return(
-        $routine<function-address>(@native-args), $routine<returns>
-      );
-#`{{
-    if $routine<return-type>:exists {
-      $x = self.convert-return(
-        $routine<function-address>(@native-args),
-        $routine<returns>, :type($routine<return-type>)
-      );
-    }
-
-    else {
-      $x = self.convert-return(
-        $routine<function-address>(@native-args), $routine<returns>
-      );
-    }
-  }}
-    return $x
-  }
