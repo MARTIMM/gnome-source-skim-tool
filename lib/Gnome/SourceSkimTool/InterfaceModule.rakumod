@@ -62,6 +62,8 @@ method generate-raku-interface ( ) {
   note "Generate role initialization method" if $*verbose;  
   $module-code ~= self!generate-role-init( $element, $sig-info);
 
+  $module-code ~= $!mod.generate-callables-code($element) if $*generate-code;
+#`{{
   note "Generate module methods" if $*verbose;  
   ( $doc, $code) = $!mod.generate-methods($element);
 
@@ -103,12 +105,13 @@ method generate-raku-interface ( ) {
     }
 
     RAKUMOD
+}}
 
   # Add the signal doc here
-  $module-doc ~= $sig-info<doc>;
+  $module-doc ~= $sig-info<doc> if $*generate-doc;
 
   note "Generate module properties" if $*verbose;  
-  $module-doc ~= $!mod.generate-properties($element);
+  $module-doc ~= $!mod.generate-properties($element) if $*generate-doc;
 
   note "Set modules to import";
   my $import = '';

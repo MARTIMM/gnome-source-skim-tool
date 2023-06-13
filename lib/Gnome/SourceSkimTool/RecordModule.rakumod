@@ -31,6 +31,7 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
+# In a <record> there might be constructors, methods, functions or fields
 method generate-raku-record ( ) {
 
   my XML::Element $element = $!xpath.find('//record');
@@ -61,6 +62,8 @@ method generate-raku-record ( ) {
   $module-doc ~= $doc;
   $module-code ~= $code;
 
+  $module-code ~= $!mod.generate-callables-code($element) if $*generate-code;
+#`{{
   note "Generate module methods" if $*verbose;  
   ( $doc, $code) = $!mod.generate-methods($element);
 
@@ -105,6 +108,23 @@ method generate-raku-record ( ) {
     }
 
     RAKUMOD
+}}
+
+  note "Set modules to import";
+  my $import = '';
+  for @$*external-modules -> $m {
+    if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
+       $import ~= "use $m;\n";
+    }
+
+    else {
+#NOTE temporary use existing modules
+#      $import ~= "use $m\:api\('gir'\);\n";
+      $import ~= "use $m;\n";
+    }
+  }
+
+  $module-code ~~ s/__MODULE__IMPORTS__/$import/;
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;

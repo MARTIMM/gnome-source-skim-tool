@@ -64,6 +64,9 @@ method generate-raku-module ( ) {
   $module-doc ~= $doc;
   $module-code ~= $code;
 
+
+  $module-code ~= $!mod.generate-callables-code($element) if $*generate-code;
+#`{{
   note "Generate methods" if $*verbose;
   ( $doc, $code) = $!mod.generate-methods($element);
 
@@ -128,7 +131,7 @@ note "$?LINE role=$role -> $role-h.gist()";
       }
     }
     RAKUMOD
-
+}}
 
 
 
