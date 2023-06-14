@@ -37,11 +37,11 @@ kaal /usr/bin
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
 * 2023-06-14 0.8.2
-  * Renamed a few modules
+  * Renamed a few modules and classes.
   * Add records. Starting with Gdk events. All the records are in separate modules like EventButton, EventConfigure etc.
 
 * 2023-06-12 0.8.1
-  * Setup with Hash done on one class starting with **Gnome::Gtk3::Window**. Focus is on generating code the api on a module is set to `:api('gir')` to prevent looking for the wrong (older) modules. Next implemented modules are in the parent chain of Window, i.e. **Gnome::Gtk3::Bin**, **Gnome::Gtk3::Container** and **Gnome::Gtk3::Widget**. Further up is still on the old libraries. Looks promising.
+  * Setup with Hash done on one class starting with **Gnome::Gtk3::Window**. The choice to use a hash is because there is no dependency on the gir libs or gir XML files. Focus is on generating code the api on a module is set to `:api('gir')` to prevent looking for the wrong (older) modules. Next implemented modules are in the parent chain of Window, i.e. **Gnome::Gtk3::Bin**, **Gnome::Gtk3::Container** and **Gnome::Gtk3::Widget**. Further up is still on the old libraries. Looks promising.
   * Also roles can be implemented starting with **Gnome::Gtk3::Buildable**. Some trouble are fixed in using FALLBACK in roles. Fallback routine in **Gnome::N::TopLevelSupportClass** needed some changes to behave differently when in a newer class. Old software is tested and is ok.
   * Add enumerations.
 
