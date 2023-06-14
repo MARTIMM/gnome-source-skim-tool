@@ -1044,6 +1044,86 @@ method !get-enumeration-names ( --> Array ) {
 }
 
 #-------------------------------------------------------------------------------
+# A structure consists of fields. Only then there is a structure
+method generate-structure ( XML::Element $element --> Str ) {
+  my @fields = $!xpath.find( 'field', :start($element), :to-list);
+  return '' unless ?@fields;
+
+  my Str $name = $*work-data<gnome-name>;
+  my Hash $h0 = $!sas.search-name($name);
+  my Str $struct-name = $h0<sname>;
+  my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
+
+  my Str $code = qq:to/EOREC/;
+    {HLSEPARATOR}
+    {SEPARATOR('Record Structure');}
+    {HLSEPARATOR}
+    #TT:1:$struct-name:
+    class $struct-name is export is repr\('CStruct') \{
+    EOREC
+
+  for @fields -> $field {
+    my $field-name = $field.attribs<name>;
+    my Str ( $type, $raku-ntype, $raku-rtype) = $!sas.get-doc-type-code($field);
+
+    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+    my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
+    if ?$rnt1 {
+      $code ~= "  has $rnt0 \$.$field-name;           # $rnt1\n";
+    }
+
+    else {
+      $code ~= "  has $rnt0 \$.$field-name;\n";
+    }
+
+    if $raku-ntype eq 'N-GObject' {
+      $tweak-pars ~= "$raku-rtype :\$$field-name, ";
+      $tweak-ass ~= "    \$!$field-name := \$$field-name if ?\$$field-name;\n";
+    }
+
+    else {
+      if $rnt0 eq 'GEnum' {
+        $build-pars ~= "$raku-rtype :\$$field-name, ";
+        $build-ass ~= "    \$!$field-name = \$$field-name.value if ?\$$field-name;\n";
+      }
+
+      else {
+        $build-pars ~= "$raku-rtype :\$\!$field-name, ";
+      }
+    }
+  }
+
+  if ?$build-pars {
+    $code ~= qq:to/EOREC/;
+
+        submethod BUILD \(
+          $build-pars
+        \) \{
+      $build-ass  \}
+      EOREC
+  }
+
+  if ?$tweak-pars {
+    $code ~= qq:to/EOREC/;
+
+        submethod TWEAK \(
+          $tweak-pars
+        \) \{
+      $tweak-ass  \}
+
+        method COERCE \( \$no --> $struct-name \) \{
+          note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+          nativecast\( $struct-name, \$no\)
+        \}
+      EOREC
+  }
+
+  $code ~= "\}\n\n";
+
+  $code
+}
+
+#-------------------------------------------------------------------------------
 method generate-signals ( XML::Element $element --> Hash ) {
   my Hash $sig-info = %();
   my Str $doc = '';

@@ -301,7 +301,8 @@ method gobject-value-type( Str $ctype --> Str ) {
 
 #-------------------------------------------------------------------------------
 method convert-ntype (
-  Str $ctype is copy, Bool :$return-type = False --> Str
+  Str $ctype is copy --> Str
+#  Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
 #note "$?LINE ctype: $ctype";
@@ -339,7 +340,7 @@ method convert-ntype (
     when /g? int '*'/       { $raku-type = 'gint-ptr'; }
     when /g? uint '*'/      { $raku-type = 'guint-ptr'; }
     when /g? size '*'/      { $raku-type = 'CArray[gsize]'; }
-    
+    when /g? double '*'/    { $raku-type = 'CArray[gdouble]'; }
     when /:i g? object '*'/ { $raku-type = 'N-GObject'; }
 
 #`{{
@@ -360,8 +361,6 @@ method convert-ntype (
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
-#          self.add-import($h<rname>);
-#          $raku-type ~= '()' unless $return-type;
         }
 
         when 'enumeration' { $raku-type = "GEnum:$ctype"; }
@@ -378,7 +377,6 @@ method convert-ntype (
         when 'interface' {
           $raku-type = 'N-GObject';
           self.add-import($h<rname>);
-#          $raku-type ~= '()' unless $return-type;          
         }
 #        when '' { }
 
@@ -704,6 +702,36 @@ method get-doc-type (
   }
 
   ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
+}
+
+#-------------------------------------------------------------------------------
+method get-doc-type-code ( XML::Element $e --> List ) {
+
+  my Str ( $type, $raku-ntype, $raku-rtype) = '' xx 3;
+  for $e.nodes -> $n {
+    next if $n ~~ XML::Text;
+    with $n.name {
+      when 'type' {
+        $type = $n.attribs<name>;
+print "$?LINE: $type, na = ", $n.attribs.gist;
+        $type ~~ s:g/ '.' //;
+        $raku-ntype =
+          self.convert-ntype($n.attribs<c:type> // $type);
+        $raku-rtype =
+          self.convert-rtype($n.attribs<c:type> // $type);
+      }
+
+      when 'array' {
+        # sometimes there is no 'c:type', assume an array of strings
+        $type = $n.attribs<c:type> // 'gchar**';
+        $raku-ntype = self.convert-ntype( $type);
+        $raku-rtype = self.convert-rtype( $type);
+      }
+    }
+  }
+
+note " -> $raku-ntype, $raku-rtype\n";
+  ( $type, $raku-ntype, $raku-rtype)
 }
 
 #-------------------------------------------------------------------------------
