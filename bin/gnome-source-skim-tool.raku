@@ -85,8 +85,8 @@ sub MAIN (
 
     say "Generate Raku module from class data in $*work-data<raku-class-name>"
          if $*verbose;
-    require ::('Gnome::SourceSkimTool::ClassModule');
-    my $raku-module = ::('Gnome::SourceSkimTool::ClassModule').new;
+    require ::('Gnome::SourceSkimTool::Module');
+    my $raku-module = ::('Gnome::SourceSkimTool::Module').new;
     $raku-module.generate-raku-module if $*generate-code;
     $raku-module.generate-raku-module-test if $*generate-test;
     #$raku-module.generate-raku-module-doc if $*generate-doc;
@@ -98,8 +98,8 @@ sub MAIN (
 
     say "Generate Raku module from interface data in $*work-data<raku-class-name>"
          if $*verbose;
-    require ::('Gnome::SourceSkimTool::InterfaceModule');
-    my $raku-interface = ::('Gnome::SourceSkimTool::InterfaceModule').new;
+    require ::('Gnome::SourceSkimTool::Interface');
+    my $raku-interface = ::('Gnome::SourceSkimTool::Interface').new;
     $raku-interface.generate-raku-interface if $*generate-code;
     #$raku-module.generate-raku-interface-test if $*generate-test;
     #$raku-module.generate-raku-interface-doc if $*generate-doc;
@@ -111,8 +111,8 @@ sub MAIN (
 
     say "Generate Raku module from record data in $*work-data<raku-class-name>"
          if $*verbose;
-    require ::('Gnome::SourceSkimTool::RecordModule');
-    my $raku-record = ::('Gnome::SourceSkimTool::RecordModule').new;
+    require ::('Gnome::SourceSkimTool::Record');
+    my $raku-record = ::('Gnome::SourceSkimTool::Record').new;
     $raku-record.generate-raku-record if $*generate-code;
     $raku-record.generate-raku-record-test if $*generate-test;
     #$raku-module.generate-raku-record-doc if $*generate-doc;

@@ -1,7 +1,7 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SearchAndSubstitute;
-use Gnome::SourceSkimTool::GenerateDoc;
+use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Module;
 
 use XML;
@@ -9,10 +9,10 @@ use XML::XPath;
 use JSON::Fast;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::RecordModule:auth<github:MARTIMM>;
+unit class Gnome::SourceSkimTool::Interface:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
-has Gnome::SourceSkimTool::GenerateDoc $!grd;
+has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Module $!mod;
 
 has XML::XPath $!xpath;
@@ -24,43 +24,43 @@ submethod BUILD ( ) {
   $!sas .= new;
 
   # load data for this module
-  note "Load module data from $*work-data<gir-module-path>repo-record.gir";
-  $!xpath .= new(:file($*work-data<gir-record-file>));
+  note "Load module data from $*work-data<gir-interface-file>";
+  $!xpath .= new(:file($*work-data<gir-interface-file>));
 
   $!mod .= new(:$!xpath);
 }
 
 #-------------------------------------------------------------------------------
-# In a <record> there might be constructors, methods, functions or fields
-method generate-raku-record ( ) {
+method generate-raku-interface ( ) {
 
-  my XML::Element $element = $!xpath.find('//record');
-  die "//record not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
+  my XML::Element $element = $!xpath.find('//interface');
+  die "//interface not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
-  my ( $doc, $code);
+  my Str ( $doc, $code);
   my Str $module-code = '';
   my Str $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
     use v6;
 
-    {$!grd.pod-header('Record Description')}
+    {$!grd.pod-header('Role Description')}
     RAKUMOD
 
   note "Generate module description" if $*verbose;  
   $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
 
+  note "Generate module signals" if $*verbose;  
+  my Hash $sig-info = $!mod.generate-signals($element);
+
   note "Set class unit" if $*verbose;
   $module-code ~= $!mod.set-unit-code($element) if $*generate-code;
 
-  #note "Generate enumerations and bitmasks";
-  #$module-code ~= $!mod.generate-enumerations-code if $*generate-code;
+  note "Generate enumerations and bitmasks";
+  $module-code ~= $!mod.generate-enumerations-code if $*generate-code;
   #$module-doc ~= $!mod.generate-enumerations-doc if $*generate-doc;
 
-  # Make a BUILD submethod
-  note "Generate BUILD submethod" if $*verbose;  
-  ( $doc, $code) = $!mod.generate-build( $element, %());
-  $module-doc ~= $doc;
-  $module-code ~= $code;
+  # Roles do not have a BUILD
+  note "Generate role initialization method" if $*verbose;  
+  $module-code ~= self!generate-role-init( $element, $sig-info);
 
   $module-code ~= $!mod.generate-callables-code($element) if $*generate-code;
 #`{{
@@ -82,7 +82,6 @@ method generate-raku-record ( ) {
 #    $module-code ~= $code;
 #  }
 
-
   # Finish 'my Hash $methods' started in $!mod.generate-build()
   # and add necessary _fallback-v2() method. It is recognized in
   # class Gnome::N::TopLevelClassSupport.
@@ -90,25 +89,29 @@ method generate-raku-record ( ) {
     );
 
     #-------------------------------------------------------------------------------
+    # This method is called from user class and can provide the $routine-caller
+    # variable. Class calls this routine as self.XYZRole::_fallback-v2()
     method _fallback-v2 (
-      Str $n, Bool $_fallback-v2-ok is rw, *@arguments
+      Str $n, Bool $_fallback-v2-ok is rw, Callable $routine-caller, @arguments
     ) {
       my Str $name = S:g/ '-' /_/ with $n;
       if $methods{$name}:exists {
         my $native-object = self.get-native-object-no-reffing;
         $_fallback-v2-ok = True;
-        return $!routine-caller.call-native-sub(
+        return $routine-caller.call-native-sub(
           $name, @arguments, $methods, :$native-object
         );
-      }
-
-      else {
-        callsame;
       }
     }
 
     RAKUMOD
 }}
+
+  # Add the signal doc here
+  $module-doc ~= $sig-info<doc> if $*generate-doc;
+
+  note "Generate module properties" if $*verbose;  
+  $module-doc ~= $!mod.generate-properties($element) if $*generate-doc;
 
   note "Set modules to import";
   my $import = '';
@@ -118,13 +121,12 @@ method generate-raku-record ( ) {
     }
 
     else {
-#NOTE temporary use existing modules
-#      $import ~= "use $m\:api\('gir'\);\n";
-      $import ~= "use $m;\n";
+      $import ~= "use $m\:api\('gir'\);\n";
     }
   }
-
+  
   $module-code ~~ s/__MODULE__IMPORTS__/$import/;
+
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;
@@ -133,9 +135,70 @@ method generate-raku-record ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-record-test ( ) {
+method !generate-role-init (
+  XML::Element $element, Hash $sig-info --> Str
+) {
+  my Str $code ~= self!make-init-method( $element, $sig-info);
 
+  $code
 }
+
+#-------------------------------------------------------------------------------
+method !make-init-method (
+  XML::Element $element, Hash $sig-info --> Str
+) {
+#  my Str $ctype = $element.attribs<c:type>;
+#  my Hash $h = $!sas.search-name($ctype);
+
+  my Str $code = '';
+
+  # Check if signal admin is needed
+  if ?$sig-info<doc> {
+#:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
+#:w1<populate-popup activate-link>,
+    my Hash $signal-levels = %();
+    for $sig-info<signals>.keys -> $signal-name {
+      my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
+      $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
+      $signal-levels{$level}.push: $signal-name;
+    }
+
+    my Str $sig-list = '';
+    for ^10 -> Str() $level {
+      if ?$signal-levels{$level} {
+        $sig-list ~=
+           [~] '    :w', $level, '<', $signal-levels{$level}.join(' '), ">,\n";
+      }
+    }
+
+    my Str $role-ini-method-name =
+      "_add_$*work-data<sub-prefix>signal_types";
+    $code ~= qq:to/EOBUILD/;
+      #TM:1:$role-ini-method-name:
+      method $role-ini-method-name ( Str \$class-name ) \{
+        self\.add-signal-types\( \$class-name,
+      $sig-list  );
+      \}
+
+      EOBUILD
+  }
+  
+  $code ~= qq:to/RAKUMOD/;
+
+    {HLSEPARATOR}
+    {SEPARATOR('Native Routine Definitions');}
+    {HLSEPARATOR}
+    my Hash \$methods = \%\(
+    RAKUMOD
+
+  $code
+}
+
+
+
+
+
+
 
 
 
@@ -242,4 +305,3 @@ method !add-deprecatable-method ( XML::Element $element --> Str ) {
 
   $doc
 }
-
