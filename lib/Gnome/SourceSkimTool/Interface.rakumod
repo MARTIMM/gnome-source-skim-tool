@@ -2,7 +2,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SearchAndSubstitute;
 use Gnome::SourceSkimTool::Doc;
-use Gnome::SourceSkimTool::Module;
+use Gnome::SourceSkimTool::Code;
 
 use XML;
 use XML::XPath;
@@ -13,7 +13,7 @@ unit class Gnome::SourceSkimTool::Interface:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Doc $!grd;
-has Gnome::SourceSkimTool::Module $!mod;
+has Gnome::SourceSkimTool::Code $!mod;
 
 has XML::XPath $!xpath;
 

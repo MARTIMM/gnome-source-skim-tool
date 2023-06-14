@@ -8,8 +8,7 @@ use XML::XPath;
 use JSON::Fast;
 
 #-------------------------------------------------------------------------------
-#TODO Rename to ModuleCode
-unit class Gnome::SourceSkimTool::Module:auth<github:MARTIMM>;
+unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Doc $!grd;
