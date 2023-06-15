@@ -19,13 +19,17 @@ TODO
   Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
   Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
 
-TODO
-  method argument handling of CArray/Array
-TODO
-  variable argument lists
+TODO method argument handling of CArray/Array
+TODO variable argument lists
 
-  * Generate enumerations and bitmasks(also enums)
-  * Generate functions
+TODO skip anything with attribute
+  disguised="1"
+  deprecated="1"
+
+TODO Add bitmasks
+TODO Split doc from code and test
+TODO Look for file names from field `class-file` in the repo-object-map's then generate anything what belongs together. This is important for Enums and Events where there are no classes and the records are grouped.
+
 -->
 <!-- Testing command with timing -o for dump to file
 /usr/bin/time -f "Program: %C\nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" raku Window.rakutest
