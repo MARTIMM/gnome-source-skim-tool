@@ -335,13 +335,15 @@ method convert-ntype (
 
 #TODO int/num/pointers as '$x is rw'
     # ignore const
-    when /g? char '**'/     { $raku-type = 'gchar-pptr'; }
-    when /g? char '*'/      { $raku-type = 'Str'; }
-    when /g? int '*'/       { $raku-type = 'gint-ptr'; }
-    when /g? uint '*'/      { $raku-type = 'guint-ptr'; }
-    when /g? size '*'/      { $raku-type = 'CArray[gsize]'; }
-    when /g? double '*'/    { $raku-type = 'CArray[gdouble]'; }
-    when /:i g? object '*'/ { $raku-type = 'N-GObject'; }
+    when /g? char '**'/       { $raku-type = 'gchar-pptr'; }
+    when /g? char '*'/        { $raku-type = 'Str'; }
+    when /g? int '*'/         { $raku-type = 'gint-ptr'; }
+    when /g? uint '*'/        { $raku-type = 'guint-ptr'; }
+    when /g? size '*'/        { $raku-type = 'CArray[gsize]'; }
+    when /g? double '*'/      { $raku-type = 'CArray[gdouble]'; }
+    when /:i g? object '*'/   { $raku-type = 'N-GObject'; }
+    when /:i g? pixbuf '*'/   { $raku-type = 'N-GObject'; }
+    when /:i g? error '*'/    { $raku-type = 'N-GObject'; }
 
 #`{{
     when /GError '*'/ {
@@ -454,12 +456,15 @@ method convert-rtype (
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
 #TODO int/num/pointers as '$x is rw'
-    when /g? char '**'/        { $raku-type = 'Array[Str]'; }
-    when /g? char '*'/         { $raku-type = 'Str'; }
-    when /g? int '*'/          { $raku-type = 'Array[Int]'; }
-    when /g? uint '*'/         { $raku-type = 'Array[UInt]'; }
-    when /g? size '*'/         { $raku-type = 'Array[gsize]'; }
-    when /GError '*'/          { $raku-type = 'Array[N-GError]'; }
+    when /g? char '**'/         { $raku-type = 'Array[Str]'; }
+    when /g? char '*'/          { $raku-type = 'Str'; }
+    when /g? int '*'/           { $raku-type = 'Array[Int]'; }
+    when /g? uint '*'/          { $raku-type = 'Array[UInt]'; }
+    when /g? size '*'/          { $raku-type = 'Array[gsize]'; }
+    when /:i g? error '*'/      { $raku-type = 'Array[N-GError]'; }
+    #when /:i g? pixbuf '*'/    { $raku-type = 'N-GObject'; }
+    #when /:i g? error '*'/     { $raku-type = 'N-GObject'; }
+
     when 'void' { $raku-type = 'void'; }
 
     default {
