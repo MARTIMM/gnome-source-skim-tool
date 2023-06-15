@@ -85,8 +85,8 @@ sub MAIN (
 
     say "Generate Raku module from class data in $*work-data<raku-class-name>"
          if $*verbose;
-    require ::('Gnome::SourceSkimTool::Code');
-    my $raku-module = ::('Gnome::SourceSkimTool::Code').new;
+    require ::('Gnome::SourceSkimTool::Class');
+    my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
     $raku-module.generate-raku-module if $*generate-code;
     $raku-module.generate-raku-module-test if $*generate-test;
     #$raku-module.generate-raku-module-doc if $*generate-doc;
