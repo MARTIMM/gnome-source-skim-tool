@@ -50,7 +50,7 @@ method generate-raku-record ( ) {
   $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
 
   note "Set class unit" if $*verbose;
-  $module-code ~= $!mod.set-unit-code($element) if $*generate-code;
+  $module-code ~= $!mod.set-unit($element) if $*generate-code;
 
   #note "Generate enumerations and bitmasks";
   #$module-code ~= $!mod.generate-enumerations-code if $*generate-code;
@@ -65,7 +65,7 @@ method generate-raku-record ( ) {
   $module-doc ~= $doc;
   $module-code ~= $code;
 
-  $module-code ~= $!mod.generate-callables-code($element) if $*generate-code;
+  $module-code ~= $!mod.generate-callables($element) if $*generate-code;
 #`{{
   note "Generate module methods" if $*verbose;  
   ( $doc, $code) = $!mod.generate-methods($element);

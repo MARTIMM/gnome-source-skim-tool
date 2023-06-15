@@ -36,9 +36,8 @@ method generate-raku-module ( ) {
   my XML::Element $element = $!xpath.find('//class');
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
-  my Str ( $doc, $code);
-  my Str $module-code = '';
-  my Str $module-doc = qq:to/RAKUMOD/;
+  my Str ( $doc, $code) = ( '', '');
+  my Str $doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
     use v6;
 
@@ -46,26 +45,30 @@ method generate-raku-module ( ) {
     RAKUMOD
 
   note "Generate module description" if $*verbose;
-  $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
-
-  note "Get signal info" if $*verbose;
-  my Hash $sig-info = $!mod.generate-signals($element);
+  $doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
 
   note "Set class unit" if $*verbose;
-  $module-code ~= $!mod.set-unit-code($element) if $*generate-code;
+  $code ~= $!mod.set-unit($element) if $*generate-code;
 
   note "Generate enumerations and bitmasks";
-  $module-code ~= $!mod.generate-enumerations-code if $*generate-code;
-  #$module-doc ~= $!mod.generate-enumerations-doc if $*generate-doc;
+  $code ~= $!mod.generate-enumerations-code if $*generate-code;
+  #$doc ~= $!mod.generate-enumerations-doc if $*generate-doc;
+
+  note "Get signal info" if $*verbose;
+  my Hash $sig-info = $!grd.generate-signals( $element, $!xpath);
 
   # Make a BUILD submethod
   note "Generate BUILD" if $*verbose;
-  ( $doc, $code) = $!mod.generate-build( $element, $sig-info);
-  $module-doc ~= $doc;
-  $module-code ~= $code;
+  my Hash $hcs = $!mod.get-constructors($element);
+  $doc = $!grd.make-build-doc( $element, $hcs) if $*generate-doc;
+  $code = $!mod.make-build-submethod( $element, $hcs, $sig-info)
+    if $*generate-code;
 
+#  ( $doc, $code) = $!mod.generate-build( $element, $sig-info);
+#  $doc ~= $doc;
+#  $code ~= $code;
 
-  $module-code ~= $!mod.generate-callables-code($element) if $*generate-code;
+  $code ~= $!mod.generate-callables( $element) if $*generate-code;
 #`{{
   note "Generate methods" if $*verbose;
   ( $doc, $code) = $!mod.generate-methods($element);
@@ -74,22 +77,22 @@ method generate-raku-module ( ) {
 #  my Str $deprecatable-method = '';
   if ?$doc {
 #    $deprecatable-method ~= self!add-deprecatable-method($element);
-    $module-code ~= $code;
-    $module-doc ~= $doc;
+    $code ~= $code;
+    $doc ~= $doc;
   }
 
   note "Generate functions" if $*verbose;
-  $module-code ~= $!mod.generate-functions-code($element)
+  $code ~= $!mod.generate-functions-code($element)
     if $*generate-code;
 #  if ?$code {
-#    $module-doc ~= $doc;
-#    $module-code ~= $code;
+#    $doc ~= $doc;
+#    $code ~= $code;
 #  }
 
   # Finish 'my Hash $methods' started in $!mod.generate-build()
   # and add necessary _fallback-v2() method. It is recognized in
   # class Gnome::N::TopLevelClassSupport.
-  $module-code ~= q:to/RAKUMOD/;
+  $code ~= q:to/RAKUMOD/;
     );
 
     #-------------------------------------------------------------------------------
@@ -115,7 +118,7 @@ method generate-raku-module ( ) {
     my Hash $role-h = $!sas.search-name($role);
 note "$?LINE role=$role -> $role-h.gist()";
 
-    $module-code ~= qq:to/RAKUMOD/;
+    $code ~= qq:to/RAKUMOD/;
 
           my \$r = self.{$role}::_fallback-v2-ok\(
             \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
@@ -126,7 +129,7 @@ note "$?LINE role=$role -> $role-h.gist()";
 
   }
 
-  $module-code ~= q:to/RAKUMOD/;
+  $code ~= q:to/RAKUMOD/;
         callsame;
       }
     }
@@ -135,14 +138,14 @@ note "$?LINE role=$role -> $role-h.gist()";
 
 
 
-#  $module-code ~= $deprecatable-method;
+#  $code ~= $deprecatable-method;
 
   # Add the signal doc here
   note "Generate module signal doc" if $*verbose;
-  $module-doc ~= $sig-info<doc>;
+  $doc ~= $sig-info<doc> if $*generate-doc;
 
   note "Generate module properties doc" if $*verbose;  
-  $module-doc ~= $!mod.generate-properties($element);
+  $doc ~= $!grd.generate-properties( $element, $!xpath) if $*generate-doc;
 
   note "Set modules to import";
   my $import = '';
@@ -158,13 +161,13 @@ note "$?LINE role=$role -> $role-h.gist()";
     }
   }
 
-  $module-code ~~ s/__MODULE__IMPORTS__/$import/;
+  $code ~~ s/__MODULE__IMPORTS__/$import/;
 
 
   note "Save module";
-  $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;
+  $*work-data<raku-module-file>.IO.spurt($code) if $*generate-code;
   note "Save pod doc";
-  $*work-data<raku-module-doc-file>.IO.spurt($module-doc) if $*generate-doc;
+  $*work-data<raku-module-doc-file>.IO.spurt($doc) if $*generate-doc;
 }
 
 #`{{
