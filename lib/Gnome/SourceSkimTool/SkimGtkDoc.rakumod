@@ -583,7 +583,7 @@ method load-map (
 
 #  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
   my $fname = $object-map-path ~ $repo-file;
-  note "Load object map from '$fname'" if $*verbose;
+#  note "Load object map from '$fname'" if $*verbose;
   if $fname.IO.r {
     load-yaml($fname.IO.slurp)
   }
