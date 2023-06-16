@@ -516,7 +516,7 @@ method convert-rtype (
 method search-name ( Str $name is copy --> Hash ) {
 
   my Hash $h = %();
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+  for <Gtk Gdk GdkPixbuf Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
 
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists
@@ -533,7 +533,8 @@ method search-name ( Str $name is copy --> Hash ) {
     last;
   }
 
-#say "$?LINE: search $name -> $h.gist()";
+say Backtrace.new.nice if $name eq 'GdkPixbufPixbuf';
+say "$?LINE: search $name -> $h.gist()" if $name eq 'GdkPixbufPixbuf';
 
   $h
 }
@@ -543,7 +544,7 @@ method search-name ( Str $name is copy --> Hash ) {
 method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
 
   my Hash $h = %();
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+  for <Gtk Gdk GdkPixbuf Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
     note "Search for $prefix-name in map $map-name where field $entry-name ≡? $value" if $*verbose;
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists;
@@ -573,7 +574,7 @@ method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
 method search-entries ( Str $entry-name, Str $value --> Hash ) {
 
   my Hash $h = %();
-  for <Gtk Gdk Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+  for <Gtk Gdk GdkPixbuf Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
     note "Search for entries in map $map-name where field $entry-name ≡? $value"
       if $*verbose;
     # It is possible that not all hashes are loaded
