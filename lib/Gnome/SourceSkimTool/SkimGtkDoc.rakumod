@@ -189,28 +189,29 @@ method get-classes-from-gir ( ) {
     $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
     self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
 
-    # If there is a leaf and is False, then all parents are already set False
-    next if $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
-
-    # Assume we are at the end, so leaf is True
-    $!map{$entry-name}<leaf> = True;
-
-    sub set-parent-leaf-false ( Str $parent = '' ) {
-      return unless ?$parent;
-
-      if $!map{$parent}<leaf>:exists and $!map{$parent}<leaf> {
-#note "$parent leaf set False";
-        $!map{$parent}<leaf> = False;
-        set-parent-leaf-false($!map{$parent}<parent-gnome-name>);
-      }
-
-      elsif $!map{$parent}<leaf>:!exists {
-#note "$parent leaf set False (<leaf> created";
-        $!map{$parent}<leaf> = False;
-      }
-    }
-
-    set-parent-leaf-false($!map{$entry-name}<parent-gnome-name>);
+# No leaf testing. casting is not needed
+#    # If there is a leaf and is False, then all parents are already set False
+#    next if $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
+#
+#    # Assume we are at the end, so leaf is True
+#    $!map{$entry-name}<leaf> = True;
+#
+#    sub set-parent-leaf-false ( Str $parent = '' ) {
+#      return unless ?$parent;
+#
+#      if $!map{$parent}<leaf>:exists and $!map{$parent}<leaf> {
+##note "$parent leaf set False";
+#        $!map{$parent}<leaf> = False;
+#        set-parent-leaf-false($!map{$parent}<parent-gnome-name>);
+#      }
+#
+#      elsif $!map{$parent}<leaf>:!exists {
+##note "$parent leaf set False (<leaf> created";
+#        $!map{$parent}<leaf> = False;
+#      }
+#    }
+#
+#    set-parent-leaf-false($!map{$entry-name}<parent-gnome-name>);
   }
 
 
@@ -296,7 +297,9 @@ method !map-element (
       my Str ( $parent-gnome-name, $parent-raku-name ) =
          self!set-names($attrs<parent> // '');
 
-      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
+      my Str $fname = self!get-source-file($element);
+note "\n$?LINE {$element.attribs()<name>}, $fname";
+
       $!map{$ctype} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :$parent-raku-name, :$parent-gnome-name, :@roles,
@@ -307,7 +310,7 @@ method !map-element (
     }
 
     when 'function' {
-      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
+      my Str $fname = self!get-source-file($element);
       my Str $rname = $attrs<name>;
       $rname ~~ s:g/ '_' /-/;
       $!map{$ctype} = %(
@@ -327,7 +330,7 @@ method !map-element (
         }
       }
 
-      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
+      my Str $fname = self!get-source-file($element);
       $!map{$ctype} = %(
         :cname($alias-type-attribs<c:type>),
         :rname($alias-type-attribs<name>),
@@ -345,7 +348,7 @@ method !map-element (
         }
       }
 
-      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
+      my Str $fname = self!get-source-file($element);
       $!map{$ctype} = %(
         :cname($const-type-attribs<c:type>),
         :rname($const-type-attribs<name>),
@@ -356,7 +359,7 @@ method !map-element (
 
     # 'struct'
     when 'record' {
-      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
+      my Str $fname = self!get-source-file($element);
 
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
@@ -366,13 +369,13 @@ method !map-element (
         :sname("N-$ctype"),
         :$rname,
         :gir-type<record>,
-        :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
+        :symbol-prefix($symbol-prefix ~ '_' ~ ($attrs<c:symbol-prefix> // '') ~ '_'),
         :class-file($fname),
       );
     }
 
     when 'callback' {
-      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
+      my Str $fname = self!get-source-file($element);
       $!map{$ctype} = %(
         :rname($attrs<name>),
         :gir-type<callback>,
@@ -381,7 +384,7 @@ method !map-element (
     }
 
     when 'bitfield' {
-      my Str $fname = self!get-source-file( $element, 'doc') // '-';
+      my Str $fname = self!get-source-file($element);
       $!map{$ctype} = %(
         :rname($ctype),
         :gir-type<bitfield>,
@@ -390,7 +393,7 @@ method !map-element (
     }
 
     when 'docsection' {
-      my Str $fname = self!get-source-file( $element, 'doc') // '-';
+      my Str $fname = self!get-source-file($element);
       $!map{$attrs<name>} = %(
         :rname($attrs<name>),
         :gir-type<docsection>,
@@ -399,7 +402,7 @@ method !map-element (
     }
 
     when 'union' {
-      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
+      my Str $fname = self!get-source-file($element);
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
       $rname ~~ s:i/^ $np //;
@@ -414,7 +417,7 @@ method !map-element (
 
     # 'enum'
     when 'enumeration' {
-      my Str $fname = self!get-source-file( $element, 'doc') // '-';
+      my Str $fname = self!get-source-file($element);
       $!map{$ctype} = %(
         :rname($ctype),
         :gir-type<enumeration>,
@@ -424,7 +427,7 @@ method !map-element (
 
     # 'role'
     when 'interface' {
-      my Str $fname = self!get-source-file( $element, 'source-position') // '-';
+      my Str $fname = self!get-source-file($element);
       $!map{$ctype} = %(
         :gir-type<interface>, :!leaf,
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
@@ -473,25 +476,19 @@ method !is-inheritable-r ( Str $classname --> Bool ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-source-file(
-  XML::Element:D $element, Str:D $tag-name, Bool :$keep-prefix = False
-  --> Str
-) {
-  my XML::Element $sp = $!xp.find( $tag-name, :start($element));
-  my Str $fname = ?$sp ?? ($sp.attribs<filename> // '') !! '';
-  if ?$fname {
-    # get name of file, drop extension and remove a few letters from front
-    $fname = $fname.IO.basename;
-    $fname ~~ s/ \. <-[\.]>+ $//;
+method !get-source-file( XML::Element:D $element --> Str ) {
+  my Str $fname = 'undefined-module-name';
 
-    unless $keep-prefix {
-      my $name-prefix = $*work-data<name-prefix>;
-      $fname ~~ s/^ $name-prefix //;
+  for <source-position doc> -> $tag-name {
+    my XML::Element $sp = $!xp.find( $tag-name, :start($element), :!to-list);
+    #my Str $fname = ?$sp ?? ($sp.attribs<filename> // '') !! '';
+    if ?$sp {
+      # get name of file, drop extension and remove a few letters from front
+      $fname = $sp.attribs<filename>.IO.basename;
+      $fname ~~ s/ \. <-[\.]>+ $//;
+
+      last;
     }
-  }
-
-  else {
-    $fname = 'undefined-module-name';
   }
 
   $fname
@@ -540,6 +537,13 @@ method !set-names ( Str $naked-gnome-name is copy  --> List ) {
     }
 
     when /^ Gdk \. / {
+      $*gnome-package ~~ m/ $<version> = [\d+] $/;
+      my Str $version = ($<version>//'').Str;
+      $gnome-name ~~ s/ \. //;
+      $raku-name ~~ s/^ Gdk \. /Gnome::Gdk{$version}::/;
+    }
+
+    when /^ GdkPixbuf \. / {
       $*gnome-package ~~ m/ $<version> = [\d+] $/;
       my Str $version = ($<version>//'').Str;
       $gnome-name ~~ s/ \. //;
