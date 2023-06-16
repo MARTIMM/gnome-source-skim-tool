@@ -87,9 +87,9 @@ sub MAIN (
          if $*verbose;
     require ::('Gnome::SourceSkimTool::Class');
     my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
-    $raku-module.generate-raku-module if $*generate-code;
+    $raku-module.generate-raku-module-code if $*generate-code;
     $raku-module.generate-raku-module-test if $*generate-test;
-    #$raku-module.generate-raku-module-doc if $*generate-doc;
+    $raku-module.generate-raku-module-doc if $*generate-doc;
   }
 
   elsif $i and ?$gnome-class {
@@ -100,7 +100,7 @@ sub MAIN (
          if $*verbose;
     require ::('Gnome::SourceSkimTool::Interface');
     my $raku-interface = ::('Gnome::SourceSkimTool::Interface').new;
-    $raku-interface.generate-raku-interface if $*generate-code;
+    $raku-interface.generate-raku-interface-code if $*generate-code;
     #$raku-module.generate-raku-interface-test if $*generate-test;
     #$raku-module.generate-raku-interface-doc if $*generate-doc;
   }
@@ -113,7 +113,7 @@ sub MAIN (
          if $*verbose;
     require ::('Gnome::SourceSkimTool::Record');
     my $raku-record = ::('Gnome::SourceSkimTool::Record').new;
-    $raku-record.generate-raku-record if $*generate-code;
+    $raku-record.generate-raku-record-code if $*generate-code;
     $raku-record.generate-raku-record-test if $*generate-test;
     #$raku-module.generate-raku-record-doc if $*generate-doc;
   }

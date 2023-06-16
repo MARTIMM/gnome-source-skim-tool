@@ -31,7 +31,7 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-interface ( ) {
+method generate-raku-interface-code ( ) {
 
   my XML::Element $element = $!xpath.find('//interface');
   die "//interface not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
