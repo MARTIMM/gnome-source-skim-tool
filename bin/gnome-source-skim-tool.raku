@@ -25,7 +25,7 @@ sub MAIN (
   Bool :$v = False,
   Bool :$gir = False,
   Bool :$c = False, Bool :$r = False, Bool :$i = False,
-  Bool :$m = True, Bool :$t = False, Bool :$d = False,
+  Bool :$m = False, Bool :$t = False, Bool :$d = False,
   Bool :$help = False,
   Bool :$list = False, Str :$type = '', Str :$filter
 ) {
@@ -146,17 +146,18 @@ sub USAGE ( ) {
       c       Select a class module.
       d       Generate a Raku pod documentation file for a class (-c),
               interface (-i) or record (-r). Result is put in directory
-              '{RAKUMODS}'. E.g. 'AboutDialog.rakudoc' or 'Window.rakudoc'
+              '{RAKUMODS}', e.g. 'AboutDialog.rakudoc' or 'Window.rakudoc'
               defined in Gtk3 or Gtk4.
       f       Filter string used with -list and -type to narrow down list.
       help    Show this info. (or any other non existant option ;-)
       i       Select an interface (role) module.
       list    Show types used in the gnome-package.
       m       Generate a Raku code file for a class (-c), interface (-i) or
-              record (-r). By default enabled. To disable use '-/m'. E.g.
+              record (-r). Result is put in directory '{RAKUMODS}', e.g.
               'File.rakumod' or 'Application.rakumod' defined in Gio.
       r       Select a record (structures) module from argument. The
-              argument is a name. E.g. Error or List defined in Glib.
+              argument is a name. Result is put in directory
+              '{RAKUMODS}', e.g. Error or List defined in Glib.
       t       Generate a test file for a class (-c), interface (-i) or
               record (-r). E.g. 'List.rakutest' or 'Variant.rakutest' 
               defined in Glib.
