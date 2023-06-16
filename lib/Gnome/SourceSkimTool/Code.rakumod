@@ -337,7 +337,7 @@ method make-build-submethod (
 }
 
 #-------------------------------------------------------------------------------
-method get-constructors ( XML::Element $element --> Hash ) {
+method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my Hash $hcs = %();
 
   my @constructors =
@@ -347,8 +347,7 @@ method get-constructors ( XML::Element $element --> Hash ) {
     # Skip deprecated constructors
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) =
-      $!sas.get-method-data( $cn, :build, :xpath($!xpath));
+    my ( $function-name, %h) = $!sas.get-method-data( $cn, :build, :$xpath);
     $hcs{$function-name} = %h;
   }
 
@@ -489,172 +488,6 @@ method !generate-methods ( XML::Element $element --> Str ) {
 
   $code
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method generate-methods ( XML::Element $element --> List ) {
-
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-  my Bool $is-leaf = $h<leaf> // False;
-#  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
-  my Str $symbol-prefix = $*work-data<sub-prefix>;
-
-  # Get all methods in this class
-  my Hash $hcs = self!get-methods($element);
-  return ('','') unless ?$hcs;
-
-  my Str $code = qq:to/EOSUB/;
-    {SEPARATOR( 'Methods', 2);}
-    EOSUB
-
-  my Str $doc = qq:to/EOSUB/;
-    {HLSEPARATOR}
-    {SEPARATOR('Methods');}
-    {HLSEPARATOR}
-    =begin pod
-    =head1 Methods
-    =end pod
-
-    EOSUB
-
-  for $hcs.keys.sort -> $function-name {
-    my Hash $curr-function := $hcs{$function-name};
-
-    # get method name, drop the prefix and substitute '_'
-    my Str $method-name = $function-name;
-    $method-name ~~ s/^ $symbol-prefix //;
-    # keep this version for later
-    my Str $hash-fname = $method-name;
-    $method-name ~~ s:g/ '_' /-/;
-
-    my Str $method-doc = $curr-function<function-doc>;
-    $method-doc = "No documentation of method.\n" unless ?$method-doc;
-
-    # get parameter lists
-    my Str (
-      $par-list, $raku-list, $call-list, $items-doc, 
-      $own, $returns-doc, 
-    ) =  '' xx 6;
-    my @rv-list = ();
-
-    my Bool $first-param = True;
-    for @($curr-function<parameters>) -> $parameter {
-      $!sas.get-types(
-        $parameter, $raku-list,
-        $call-list, $items-doc,
-        @rv-list, $returns-doc
-      );
-
-      # Get a list of types for the arguments but skip the first native type
-      if $first-param {
-        $first-param = False;
-      }
-
-      else {
-        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-        my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
-        $par-list ~= ", $rnt0";
-      }
-    }
-
-    # Remove first comma and space when there is only one parameter
-    $par-list ~~ s/^ . //;
-    $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
-    $par-list = ?$par-list
-              ?? [~] "\n", '    :parameters([', $par-list, ']),'
-              !! '';
-
-    my $xtype = $curr-function<return-raku-rtype>;
-    if ?$xtype and $xtype ne 'void' {
-      $raku-list ~= "  --> $xtype";
-      $own = '';
-      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
-        if ?$curr-function<transfer-ownership> and
-            $curr-function<transfer-ownership> ne 'none';
-
-      # Check if there is info about the return value
-      if ?$curr-function<rv-doc> {
-        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
-      }
-
-      elsif $raku-list ~~ / '-->' / {
-        $returns-doc =
-          "\nReturn value; No documentation about its value and use\n";
-      }
-    }
-
-    # Assumed that there are no multiple methods to return values. I.e not
-    # returning an array and pointer arguments to receive values in those vars.
-    elsif ?@rv-list {
-      $returns-doc = "Returns a List holding the values\n$returns-doc";
-      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
-      $raku-list ~= "  --> List";
-    }
-
-    # remove first comma
-    $raku-list ~~ s/^ . //;
-#`{{
-    my Str $nobject-retrieve;
-    if $is-leaf {
-      $nobject-retrieve = 'self._get-native-object-no-reffing';
-    }
-
-    else {
-      $nobject-retrieve = "self._f\('$*work-data<gnome-name>'\)";
-    }
-}}
-    $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      =begin pod
-      =head2 $method-name
-
-      $method-doc
-
-      =begin code
-      method $method-name \(
-       $raku-list
-      \)
-      =end code
-
-      $items-doc
-      $returns-doc
-      =end pod
-      EOSUB
-
-
-    # Return type
-    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my Str $returns;
-    my ( $rnt0, $rnt1) = $hcs{$function-name}<return-raku-ntype>.split(':');
-    if ?$rnt1 {
-      $returns = "\n    :returns\($rnt0\),\n    :type-name\($rnt1\),";
-    }
-
-    elsif ?$rnt0 and $xtype ne 'void' {
-      $returns = "\n    :returns\($rnt0\),";
-    }
-
-#`{{
-    $xtype = $curr-function<return-raku-ntype>;
-    my Str $returns = (?$xtype and $xtype ne 'void' ) 
-                    ?? [~] "\n", '    :returns(',
-                           $hcs{$function-name}<return-raku-ntype>,
-                           '),'
-                    !! '';
-}}
-
-    $code ~= qq:to/EOSUB/;
-      #TM:0:$hash-fname
-      $hash-fname =\> \%\($returns$par-list
-      ),
-
-    EOSUB
-  }
-
-  ( $doc, $code)
-}
-}}
 
 #-------------------------------------------------------------------------------
 method !get-methods ( XML::Element $element --> Hash ) {
@@ -1015,40 +848,9 @@ method generate-structure ( XML::Element $element --> Str ) {
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-#-------------------------------------------------------------------------------
-method !generate-constructor-code ( Hash $hcs --> Str ) {
-  my Str $code = qq:to/EOSUB/;
-
-      {HLSEPARATOR}
-      {SEPARATOR('Constructors');}
-      EOSUB
-
-  for $hcs.keys.sort -> $function-name {
-    my $par-list = '';
-
-    for @($hcs{$function-name}<parameters>) -> $parameter {
-      $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
-    }
-
-    # remove first comma
-    $par-list ~~ s/^ . //;
-
-    $code ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      #TM:1:$function-name:
-      sub $function-name \(
-       $par-list --> $hcs{$function-name}<return-raku-ntype>
-      \) is native\($*work-data<library>\)
-        \{ * \}
-
-      EOSUB
-  }
-
-  $code
-}
 
 #-------------------------------------------------------------------------------
-method generate-method-doc ( XML::Element $element --> List ) {
+method generate-methods ( XML::Element $element --> List ) {
 
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
@@ -1108,7 +910,9 @@ method generate-method-doc ( XML::Element $element --> List ) {
       }
 
       else {
-        $par-list ~= ", $parameter<raku-ntype>";
+        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+        my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
+        $par-list ~= ", $rnt0";
       }
     }
 
@@ -1178,12 +982,25 @@ method generate-method-doc ( XML::Element $element --> List ) {
 
 
     # Return type
+    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+    my Str $returns;
+    my ( $rnt0, $rnt1) = $hcs{$function-name}<return-raku-ntype>.split(':');
+    if ?$rnt1 {
+      $returns = "\n    :returns\($rnt0\),\n    :type-name\($rnt1\),";
+    }
+
+    elsif ?$rnt0 and $xtype ne 'void' {
+      $returns = "\n    :returns\($rnt0\),";
+    }
+
+#`{{
     $xtype = $curr-function<return-raku-ntype>;
     my Str $returns = (?$xtype and $xtype ne 'void' ) 
                     ?? [~] "\n", '    :returns(',
                            $hcs{$function-name}<return-raku-ntype>,
                            '),'
                     !! '';
+}}
 
     $code ~= qq:to/EOSUB/;
       #TM:0:$hash-fname
@@ -1194,6 +1011,38 @@ method generate-method-doc ( XML::Element $element --> List ) {
   }
 
   ( $doc, $code)
+}
+
+#-------------------------------------------------------------------------------
+method !generate-constructor-code ( Hash $hcs --> Str ) {
+  my Str $code = qq:to/EOSUB/;
+
+      {HLSEPARATOR}
+      {SEPARATOR('Constructors');}
+      EOSUB
+
+  for $hcs.keys.sort -> $function-name {
+    my $par-list = '';
+
+    for @($hcs{$function-name}<parameters>) -> $parameter {
+      $par-list ~= [~] ', ', $parameter<raku-ntype>, ' $', $parameter<name>;
+    }
+
+    # remove first comma
+    $par-list ~~ s/^ . //;
+
+    $code ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      #TM:1:$function-name:
+      sub $function-name \(
+       $par-list --> $hcs{$function-name}<return-raku-ntype>
+      \) is native\($*work-data<library>\)
+        \{ * \}
+
+      EOSUB
+  }
+
+  $code
 }
 
 #TODO use this method to get functions from level packages like Glib

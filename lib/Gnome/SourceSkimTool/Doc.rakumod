@@ -44,15 +44,14 @@ method pod-header (
 #-------------------------------------------------------------------------------
 # Get the description at the start of a class, record or union.
 method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
-  my Str $doc = "=head1 Description\n";
-
-  #$doc ~= self!set-example-image;
+  my Str $doc = "=head1 Description\n\n";
 
   #$doc ~= $xpath.find( 'doc/text()', :start($element)).Str;
   my Str $widget-picture = '';
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
-  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n" if $h<inheritable>;
+  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
+    if $h<inheritable>;
 
   $doc ~= $!sas.modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
 
@@ -250,8 +249,125 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
   $doc
 }
 
+
 #-------------------------------------------------------------------------------
-method generate-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
+method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
+
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!sas.search-name($ctype);
+  my Bool $is-leaf = $h<leaf> // False;
+#  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+
+  # Get all methods in this class
+  my Hash $hcs = self.get-methods( $element, $xpath);
+  return '' unless ?$hcs;
+
+  my Str $doc = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR('Methods');}
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Methods
+    =end pod
+
+    EOSUB
+
+  for $hcs.keys.sort -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
+
+    # get method name, drop the prefix and substitute '_'
+    my Str $method-name = $function-name;
+    $method-name ~~ s/^ $symbol-prefix //;
+    # keep this version for later
+    $method-name ~~ s:g/ '_' /-/;
+
+    my Str $method-doc = $curr-function<function-doc>;
+    $method-doc = "No documentation of method.\n" unless ?$method-doc;
+
+    # get parameter lists
+    my Str ( $raku-list, $call-list, $items-doc, $own, $returns-doc) =  '' xx 5;
+    my @rv-list = ();
+
+    my Bool $first-param = True;
+    for @($curr-function<parameters>) -> $parameter {
+      $!sas.get-types(
+        $parameter, $raku-list,
+        $call-list, $items-doc,
+        @rv-list, $returns-doc
+      );
+    }
+
+    my $xtype = $curr-function<return-raku-rtype>;
+    if ?$xtype and $xtype ne 'void' {
+      $raku-list ~= "  --> $xtype";
+      $own = '';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
+
+      # Check if there is info about the return value
+      if ?$curr-function<rv-doc> {
+        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+      }
+
+      elsif $raku-list ~~ / '-->' / {
+        $returns-doc =
+          "\nReturn value; No documentation about its value and use\n";
+      }
+    }
+
+    # Assumed that there are no multiple methods to return values. I.e not
+    # returning an array and pointer arguments to receive values in those vars.
+    elsif ?@rv-list {
+      $returns-doc = "Returns a List holding the values\n$returns-doc";
+      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
+      $raku-list ~= "  --> List";
+    }
+
+    # remove first comma
+    $raku-list ~~ s/^ . //;
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      =begin pod
+      =head2 $method-name
+
+      $method-doc
+
+      =begin code
+      method $method-name \(
+       $raku-list
+      \)
+      =end code
+
+      $items-doc
+      $returns-doc
+      =end pod
+      EOSUB
+  }
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
+  my Hash $hms = %();
+
+  my @methods = $xpath.find( 'method', :start($element), :to-list);
+
+  for @methods -> $cn {
+    # Skip deprecated methods
+    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) = $!sas.get-method-data( $cn, :!build, :$xpath);
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
+#-------------------------------------------------------------------------------
+method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my Hash $sig-info = %();
   my Str $doc = '';
 
@@ -383,7 +499,7 @@ method generate-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-properties ( XML::Element $element, XML::XPath $xpath --> Str ) {
+method document-properties ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Str $doc = '';
 
   my @property-info = $xpath.find( 'property', :start($element), :to-list);

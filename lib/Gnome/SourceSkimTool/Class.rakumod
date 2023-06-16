@@ -31,28 +31,25 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module ( ) {
+method generate-raku-module-code ( ) {
 
   my XML::Element $element = $!xpath.find('//class');
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
-  my Str ( $doc, $code) = ( '', '');
-  my Str $doc = qq:to/RAKUMOD/;
+  my Str $code = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
     use v6;
-
-    {$!grd.pod-header('Class Description')}
     RAKUMOD
 
-  note "Generate module description" if $*verbose;
-  $doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
+#  note "Generate module description" if $*verbose;
+#  $doc ~= $!grd.get-description( $element, $!xpath);
 
   note "Set class unit" if $*verbose;
-  $code ~= $!mod.set-unit($element) if $*generate-code;
+  $code ~= $!mod.set-unit($element);
 
   note "Generate enumerations and bitmasks";
-  $code ~= $!mod.generate-enumerations-code if $*generate-code;
-  #$doc ~= $!mod.generate-enumerations-doc if $*generate-doc;
+  $code ~= $!mod.generate-enumerations-code;
+#$doc ~= $!mod.generate-enumerations-doc;
 
   note "Get signal info" if $*verbose;
   my Hash $sig-info = $!grd.generate-signals( $element, $!xpath);
@@ -60,15 +57,10 @@ method generate-raku-module ( ) {
   # Make a BUILD submethod
   note "Generate BUILD" if $*verbose;
   my Hash $hcs = $!mod.get-constructors($element);
-  $doc = $!grd.make-build-doc( $element, $hcs) if $*generate-doc;
-  $code = $!mod.make-build-submethod( $element, $hcs, $sig-info)
-    if $*generate-code;
+#  $doc = $!grd.make-build-doc( $element, $hcs);
+  $code ~= $!mod.make-build-submethod( $element, $hcs, $sig-info);
 
-#  ( $doc, $code) = $!mod.generate-build( $element, $sig-info);
-#  $doc ~= $doc;
-#  $code ~= $code;
-
-  $code ~= $!mod.generate-callables( $element) if $*generate-code;
+  $code ~= $!mod.generate-callables( $element);
 #`{{
   note "Generate methods" if $*verbose;
   ( $doc, $code) = $!mod.generate-methods($element);
@@ -141,11 +133,11 @@ note "$?LINE role=$role -> $role-h.gist()";
 #  $code ~= $deprecatable-method;
 
   # Add the signal doc here
-  note "Generate module signal doc" if $*verbose;
-  $doc ~= $sig-info<doc> if $*generate-doc;
+  #note "Generate module signal doc" if $*verbose;
+  #$doc ~= $sig-info<doc>;
 
-  note "Generate module properties doc" if $*verbose;  
-  $doc ~= $!grd.generate-properties( $element, $!xpath) if $*generate-doc;
+  #note "Generate module properties doc" if $*verbose;  
+  #$doc ~= $!grd.generate-properties( $element, $!xpath);
 
   note "Set modules to import";
   my $import = '';
@@ -165,9 +157,9 @@ note "$?LINE role=$role -> $role-h.gist()";
 
 
   note "Save module";
-  $*work-data<raku-module-file>.IO.spurt($code) if $*generate-code;
-  note "Save pod doc";
-  $*work-data<raku-module-doc-file>.IO.spurt($doc) if $*generate-doc;
+  $*work-data<raku-module-file>.IO.spurt($code);
+  #note "Save pod doc";
+  #$*work-data<raku-module-doc-file>.IO.spurt($doc);
 }
 
 #`{{
@@ -214,6 +206,45 @@ method !make-init-method (
   $code
 }
 }}
+
+#-------------------------------------------------------------------------------
+method generate-raku-module-doc ( ) {
+
+  my XML::Element $element = $!xpath.find('//class');
+  die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
+
+  my Str $doc = qq:to/RAKUMOD/;
+    #TL:1:pod doc of $*work-data<raku-class-name>:
+    use v6;
+
+    {$!grd.pod-header('Class Description')}
+    RAKUMOD
+
+  note "Document module" if $*verbose;
+  $doc ~= $!grd.get-description( $element, $!xpath);
+
+  note "Document enumerations and bitmasks";
+  #$doc ~= $!mod.generate-enumerations-doc;
+
+  note "Document BUILD submethod" if $*verbose;
+  my Hash $hcs = $!mod.get-constructors( $element, $!xpath);
+  $doc ~= $!grd.make-build-doc( $element, $hcs);
+
+  note "Document methods" if $*verbose;
+  $doc ~= $!grd.document-methods( $element, $!xpath);
+
+  note "Document signals" if $*verbose;
+  my Hash $sig-info = $!grd.document-signals( $element, $!xpath);
+  $doc ~= $sig-info<doc>;
+
+  note "Generate module properties doc" if $*verbose;  
+  $doc ~= $!grd.document-properties( $element, $!xpath);
+
+  note "Save pod doc";
+  $*work-data<raku-module-doc-file>.IO.spurt($doc);
+}
+
+
 
 #-------------------------------------------------------------------------------
 method generate-raku-module-test ( ) {
@@ -363,7 +394,6 @@ method generate-raku-module-test ( ) {
   note "Save module test";
   $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
 }
-
 
 
 
