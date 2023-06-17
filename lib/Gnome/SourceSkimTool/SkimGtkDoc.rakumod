@@ -298,7 +298,7 @@ method !map-element (
          self!set-names($attrs<parent> // '');
 
       my Str $fname = self!get-source-file($element);
-note "\n$?LINE {$element.attribs()<name>}, $fname";
+#rnote "\n$?LINE {$element.attribs()<name>}, $fname";
 
       $!map{$ctype} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
@@ -558,10 +558,13 @@ method !set-names ( Str $naked-gnome-name is copy  --> List ) {
     # When no dot is used it must be from the same package
     when ?$naked-gnome-name {
       $gnome-name =
-         "{ S/ \d $// with $*gnome-package.Str }$naked-gnome-name";
+         "{ S/ \d $// with $*gnome-package.Str }$naked-gnome-name"
+         unless $naked-gnome-name ~~ m/ Pixbuf /;
       $raku-name = "Gnome::{$*gnome-package.Str}::$naked-gnome-name";
     }
   }
+
+#note "$?LINE $naked-gnome-name, $gnome-name, $raku-name";
 
   ( $gnome-name, $raku-name)
 }
