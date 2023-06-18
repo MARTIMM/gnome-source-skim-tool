@@ -368,14 +368,16 @@ method convert-ntype (
         when 'enumeration' { $raku-type = "GEnum:$ctype"; }
         when 'bitfield' { $raku-type = "GFlag:$ctype"; }
 
-        when 'alias' { $raku-type = $h<rname>; }
+#        when 'alias' { $raku-type = $h<rname>; }
+        when 'alias' { }
 
         when 'record' {
           $raku-type = $h<sname>;
           self.add-import($h<rname>);
         }
 
-#        when 'callback' { }
+        when 'callback' { }
+
         when 'interface' {
           $raku-type = 'N-GObject';
           self.add-import($h<rname>);
@@ -409,6 +411,7 @@ method convert-rtype (
   Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
+#note "$?LINE $ctype" if $ctype ~~ /Pixbuf/;
 
   # ignore const and spaces
   $ctype ~~ s:g/ const //;
@@ -490,8 +493,11 @@ method convert-rtype (
           $raku-type ~= '()' unless $return-type;
         }
 
-#        when 'record' { }
-#        when 'callback' { }
+        when 'alias' { }
+        when 'record' { }
+        when 'union' { }
+        when 'callback' { }
+
         when 'interface' {
           $raku-type = 'N-GObject';
           $raku-type ~= '()' unless $return-type;          
@@ -513,7 +519,7 @@ method convert-rtype (
 }
 
 #-------------------------------------------------------------------------------
-method search-name ( Str $name is copy --> Hash ) {
+method search-name ( Str $name --> Hash ) {
 
   my Hash $h = %();
   for <Gtk Gdk GdkPixbuf Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
@@ -533,8 +539,8 @@ method search-name ( Str $name is copy --> Hash ) {
     last;
   }
 
-say Backtrace.new.nice if $name eq 'GdkPixbufPixbuf';
-say "$?LINE: search $name -> $h.gist()" if $name eq 'GdkPixbufPixbuf';
+#say Backtrace.new.nice if $name eq 'GdkPixbufPixbuf';
+#say "$?LINE: search $name -> $h.gist()" if $name eq 'GdkPixbufPixbuf';
 
   $h
 }
@@ -688,12 +694,14 @@ method get-doc-type (
       }
 
       when 'type' {
-        $type = $n.attribs<name>;
-        $type ~~ s:g/ '.' //;
+        my Hash $attribs = $n.attribs;
+        $type = $attribs<name>;
+#note "$?LINE $attribs.gist()" if $type ~~ m/Pixbuf/;
+#        $type ~~ s:g/ '.' //;
         $raku-ntype =
-          self.convert-ntype($n.attribs<c:type> // $type, :$return-type);
+          self.convert-ntype($attribs<c:type> // $type, :$return-type);
         $raku-rtype =
-          self.convert-rtype($n.attribs<c:type> // $type, :$return-type);
+          self.convert-rtype($attribs<c:type> // $type, :$return-type);
         $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
       }
 
@@ -719,8 +727,8 @@ method get-doc-type-code ( XML::Element $e --> List ) {
     with $n.name {
       when 'type' {
         $type = $n.attribs<name>;
-print "$?LINE: $type, na = ", $n.attribs.gist;
-        $type ~~ s:g/ '.' //;
+#print "$?LINE: $type, na = ", $n.attribs.gist;
+#        $type ~~ s:g/ '.' //;
         $raku-ntype =
           self.convert-ntype($n.attribs<c:type> // $type);
         $raku-rtype =
@@ -736,7 +744,7 @@ print "$?LINE: $type, na = ", $n.attribs.gist;
     }
   }
 
-note " -> $raku-ntype, $raku-rtype\n";
+#note " -> $raku-ntype, $raku-rtype\n";
   ( $type, $raku-ntype, $raku-rtype)
 }
 

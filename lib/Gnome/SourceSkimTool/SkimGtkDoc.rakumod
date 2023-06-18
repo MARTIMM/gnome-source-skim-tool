@@ -298,7 +298,7 @@ method !map-element (
          self!set-names($attrs<parent> // '');
 
       my Str $fname = self!get-source-file($element);
-#rnote "\n$?LINE {$element.attribs()<name>}, $fname";
+#note "\n$?LINE {$element.attribs()<name>}, $fname";
 
       $!map{$ctype} = %(
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
@@ -543,23 +543,18 @@ method !set-names ( Str $naked-gnome-name is copy  --> List ) {
       $raku-name ~~ s/^ Gdk \. /Gnome::Gdk{$version}::/;
     }
 
-    when /^ GdkPixbuf \. / {
-      $*gnome-package ~~ m/ $<version> = [\d+] $/;
-      my Str $version = ($<version>//'').Str;
-      $gnome-name ~~ s/ \. //;
-      $raku-name ~~ s/^ Gdk \. /Gnome::Gdk{$version}::/;
-    }
-
     when /^ Gsk \. / {
       $gnome-name ~~ s/ \. //;
       $raku-name ~~ s/^ Gtk \. /Gnome::Gsk4::/;
     }
 
     # When no dot is used it must be from the same package
+    when / Pixbuf / {
+      $gnome-name = "Gdk$naked-gnome-name";
+    }
+
     when ?$naked-gnome-name {
-      $gnome-name =
-         "{ S/ \d $// with $*gnome-package.Str }$naked-gnome-name"
-         unless $naked-gnome-name ~~ m/ Pixbuf /;
+      $gnome-name = "{ S/ \d $// with $*gnome-package.Str }$naked-gnome-name";
       $raku-name = "Gnome::{$*gnome-package.Str}::$naked-gnome-name";
     }
   }

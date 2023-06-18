@@ -499,7 +499,9 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method document-properties ( XML::Element $element, XML::XPath $xpath --> Str ) {
+method document-properties (
+  XML::Element $element, XML::XPath $xpath --> Str
+) {
   my Str $doc = '';
 
   my @property-info = $xpath.find( 'property', :start($element), :to-list);
@@ -519,6 +521,7 @@ method document-properties ( XML::Element $element, XML::XPath $xpath --> Str ) 
       $pgetter ~~ s:g/ '_' /-/;
       $pgetter = "C<.$pgetter\()>";
     }
+
     if $attribs<setter>:exists {
       $psetter = $attribs<setter>;
       $psetter ~~ s:g/ '_' /-/;
