@@ -41,6 +41,9 @@ kaal /usr/bin
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
+* 2023-06-19 0.8.3
+  * Add module **Gnome::SourceSkimTool::File** to scan through data using a filename defined in field `class-file` in the `repo-object-map.yaml`. This may remove options -c, -i and -r.
+
 * 2023-06-14 0.8.2
   * Renamed a few modules and classes.
   * Add records. Starting with Gdk events. All the records are in separate modules like EventButton, EventConfigure etc.
