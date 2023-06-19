@@ -55,7 +55,6 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
   my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
 
-#TODO add rules for gdkPixbuf, etc.
   # Because of dependencies it is possible to have less to load when
   # we need to search
   # Version 3
@@ -117,7 +116,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<gtk-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
         :raku-package<Gnome::Gtk3>,
-        :gnome-name("Gtk$*gnome-class"),
+        :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gtk-3.0.gir'),
         :name-prefix<gtk>,
       );
@@ -128,7 +127,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<gdk-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gdk3/'),
         :raku-package<Gnome::Gdk3>,
-        :gnome-name("Gdk$*gnome-class"),
+        :gnome-name($*gnome-class ?? "Gdk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gdk-3.0.gir'),
         :name-prefix<gdk>,
       );
@@ -136,12 +135,23 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when GdkPixbuf {
       $work-data = %(
-        :library<gdk-lib()>,
+        :library<gdk-pixbuf-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'GdkPixbuf/'),
         :raku-package<Gnome::Gdk3>,
-        :gnome-name("GdkPixbuf$*gnome-class"),
+        :gnome-name($*gnome-class ?? "GdkPixbuf$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GdkPixbuf-2.0.gir'),
         :name-prefix<gdk_pixbuf>,
+      );
+    }
+
+    when GdkPixdata {
+      $work-data = %(
+        :library<gdk-pixbuf-lib()>,
+        :gir-module-path(SKIMTOOLDATA ~ 'GdkPixdata/'),
+        :raku-package<Gnome::Gdk3>,
+        :gnome-name($*gnome-class ?? "GdkPixdata$*gnome-class" !! ''),
+        :gir(GIRROOT ~ 'GdkPixdata-2.0.gir'),
+        :name-prefix<gdk_pix>,
       );
     }
 
@@ -150,7 +160,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<gtk4-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gtk4/'),
         :raku-package<Gnome::Gtk4>,
-        :gnome-name("Gtk$*gnome-class"),
+        :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gtk-4.0.gir'),
         :name-prefix<gtk>,
       );
@@ -161,7 +171,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<gtk4-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gdk4/'),
         :raku-package<Gnome::Gdk4>,
-        :gnome-name("Gdk$*gnome-class"),
+        :gnome-name($*gnome-class ?? "Gdk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gdk-4.0.gir'),
         :name-prefix<gdk>,
       );
@@ -172,7 +182,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<gtk4-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gsk4/'),
         :raku-package<Gnome::Gsk4>,
-        :gnome-name("Gsk$*gnome-class"),
+        :gnome-name($*gnome-class ?? "Gsk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gsk-4.0.gir'),
         :name-prefix<gsk>,
       );
@@ -183,7 +193,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<glib-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Glib/'),
         :raku-package<Gnome::Glib>,
-        :gnome-name("G$*gnome-class"),
+        :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GLib-2.0.gir'),
         :name-prefix<g>,
       );
@@ -194,7 +204,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<gio-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gio/'),
         :raku-package<Gnome::Gio>,
-        :gnome-name("G$*gnome-class"),
+        :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gio-2.0.gir'),
         :name-prefix<g>,
       );
@@ -205,7 +215,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<gobject-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'GObject/'),
         :raku-package<Gnome::GObject>,
-        :gnome-name("G$*gnome-class"),
+        :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GObject-2.0.gir'),
         :name-prefix<g>,
       );
@@ -216,7 +226,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<cairo-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Cairo/'),
         :raku-package<Gnome::Cairo>,
-        :gnome-name("Cairo$*gnome-class"),
+        :gnome-name($*gnome-class ?? "Cairo$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'cairo-1.0.gir'),
         :name-prefix<cairo>,
       );
@@ -227,7 +237,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<atk-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Atk/'),
         :raku-package<Gnome::Atk>,
-        :gnome-name("Atk$*gnome-class"),
+        :gnome-name($*gnome-class ?? "Atk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Atk-1.0.gir'),
         :name-prefix<atk>,
       );
@@ -238,7 +248,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<pango-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Pango/'),
         :raku-package<Gnome::Pango>,
-        :gnome-name("Pango$*gnome-class"),
+        :gnome-name($*gnome-class ?? "Pango$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Pango-1.0.gir'),
         :name-prefix<pango>,
       );
@@ -249,7 +259,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<pango-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'PangoCairo/'),
         :raku-package<Gnome::PangoCairo>,
-        :gnome-name("PangoCairo$*gnome-class"),
+        :gnome-name($*gnome-class ?? "PangoCairo$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'PangoCairo-1.0.gir'),
         :name-prefix(''),
       );
@@ -260,7 +270,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :library<'libgirepository-1.0.so'>,
         :gir-module-path(SKIMTOOLDATA ~ 'GIRepository/'),
         :raku-package<Gnome::GIRepository>,
-        :gnome-name("GI$*gnome-class"),
+        :gnome-name($*gnome-class ?? "GI$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GIRepository-2.0.gir'),
         :name-prefix(''),
       );
