@@ -7,6 +7,7 @@ use Gnome::SourceSkimTool::Prepare;
 #-------------------------------------------------------------------------------
 my SkimSource $*gnome-package;
 my Str $*gnome-class;
+my Str $*gnome-file;
 my Hash $*work-data;
 my Bool $*verbose;
 
@@ -24,7 +25,7 @@ sub MAIN (
   Str:D $gnome-package, Str $gnome-class?,
   Bool :$v = False,
   Bool :$gir = False,
-  Bool :$c = False, Bool :$r = False, Bool :$i = False,
+  Bool :$c = False, Bool :$r = False, Bool :$i = False, Bool :$f = False,
   Bool :$m = False, Bool :$t = False, Bool :$d = False,
   Bool :$help = False,
   Bool :$list = False, Str :$type = '', Str :$filter
@@ -50,13 +51,16 @@ sub MAIN (
   $*generate-code = $m;
   $*generate-doc = $d;
   $*generate-test = $t;
+
+#note "$?LINE $f, $*generate-code, $*generate-doc, $*generate-test, $gnome-class";
+
   $*external-modules = [<
     NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
   >];
 
   if $gir {
     say "Generate the intermediate gir and yaml files" if $*verbose;
-    $*gnome-class = $gnome-class // 'Widget';
+#    $*gnome-class = $gnome-class // 'Widget';
     my Gnome::SourceSkimTool::Prepare $prepare .= new(:!load-maps);
     my Gnome::SourceSkimTool::SkimGtkDoc $skim-doc .= new;
     $skim-doc.load-gir-file;
@@ -65,7 +69,7 @@ sub MAIN (
 
   elsif $list {
     $*verbose = False;
-    $*gnome-class = $gnome-class // 'Widget';
+#    $*gnome-class = $gnome-class // 'Widget';
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     require ::('Gnome::SourceSkimTool::ListGirTypes');
     my $lt = ::('Gnome::SourceSkimTool::ListGirTypes').new;
@@ -77,6 +81,17 @@ sub MAIN (
     else {
       $lt.list-types
     }
+  }
+
+  elsif $f and ?$gnome-class {
+    $*gnome-file = $gnome-class;
+    $*gnome-class = '';
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+    require ::('Gnome::SourceSkimTool::File');
+    my $raku-module = ::('Gnome::SourceSkimTool::File').new;
+    $raku-module.generate-raku-module-code if $*generate-code;
+    $raku-module.generate-raku-module-test if $*generate-test;
+    $raku-module.generate-raku-module-doc if $*generate-doc;
   }
 
   elsif $c and ?$gnome-class {
@@ -134,13 +149,14 @@ sub USAGE ( ) {
   Usage
     {$*PROGRAM.basename} -h
 
-    {$*PROGRAM.basename} -c  [-m][-t][-d][-v] gnome-package gnome-class
-    {$*PROGRAM.basename} -i  [-m][-t][-d][-v] gnome-package gnome-interface
-    {$*PROGRAM.basename} -r  [-m][-t][-d][-v] gnome-package gnome-record
+    {$*PROGRAM.basename} -c  [-m][-t][-d][-v] package class
+    {$*PROGRAM.basename} -i  [-m][-t][-d][-v] package interface
+    {$*PROGRAM.basename} -r  [-m][-t][-d][-v] package record
+    {$*PROGRAM.basename} -f  [-m][-t][-d][-v] package filename
 
-    {$*PROGRAM.basename} -gir [-v] gnome-package
+    {$*PROGRAM.basename} -gir [-v] package
 
-    {$*PROGRAM.basename} -l [-t=type] [-f=filter] gnome-package
+    {$*PROGRAM.basename} -l [-type=Str] [-filter=Str] package
 
     Options:
       c       Select a class module.
@@ -148,10 +164,13 @@ sub USAGE ( ) {
               interface (-i) or record (-r). Result is put in directory
               '{RAKUMODS}', e.g. 'AboutDialog.rakudoc' or 'Window.rakudoc'
               defined in Gtk3 or Gtk4.
-      f       Filter string used with -list and -type to narrow down list.
+      f       Use a filename instead of one of -c, -i or -r. This is needed in
+              cases that there are enumerations or bitmaps gathered into one
+              file whithout having a class, record or interface.
+      filter  Filter string used with -list and -type to narrow down list.
       help    Show this info. (or any other non existant option ;-)
       i       Select an interface (role) module.
-      list    Show types used in the gnome-package.
+      list    Show types used in the packages of Gnome.
       m       Generate a Raku code file for a class (-c), interface (-i) or
               record (-r). Result is put in directory '{RAKUMODS}', e.g.
               'File.rakumod' or 'Application.rakumod' defined in Gio.
@@ -170,12 +189,13 @@ sub USAGE ( ) {
       v       Show some info while stumping. Default False.
 
     Arguments
-      gnome-package   The package name used for the gnome class. Select one
-                      from this list; Atk Cairo DBus DBusGLib Gdk3 Gdk4
-                      GdkPixbuf GdkPixdata Gio Glib GObject Gtk3 Gtk4 Gsk4
-                      Pango PangoCairo GIRepo.
-      gnome-class     A class name like Button or Application defined in Gtk3
-                      or Gtk4.
-      gnome-record    A record name like Error or List in Glib
+      package   The Gnome package name used for the class. Select one
+                from this list; Atk Cairo DBus DBusGLib Gdk3 Gdk4
+                GdkPixbuf GdkPixdata Gio Glib GObject Gtk3 Gtk4 Gsk4
+                Pango PangoCairo GIRepo.
+      class     A class name like Button or Application defined in a package
+                like Gtk3, Gtk4 or Gio.
+      record    A record name like Error or List in Glib
+      filename  A filename wherein everything is defined originally.
   EOHELP
 }
