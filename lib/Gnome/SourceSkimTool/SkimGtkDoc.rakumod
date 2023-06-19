@@ -20,7 +20,7 @@ submethod BUILD ( ) {
   $!other = %(
     :function([]),
 #    :record([]),
-    :union([]),
+#    :union([]),
     :callback([]),
     :bitfield([]),
     :enumeration([]),
@@ -129,7 +129,34 @@ method get-classes-from-gir ( ) {
       }
 
       when 'union' {
-        $!other<union>.push: $element;
+#        $!other<union>.push: $element;
+        my $attrs = $element.attribs;
+        my $name = $attrs<c:type>;
+
+#        next if $name ~~ m/ [ Private || Class ] $/;
+
+        my Str $name-prefix = $*work-data<name-prefix>;
+        $name ~~ s:i/^ $name-prefix //;
+
+        my Str $xml = qq:to/EOXML/;
+          <?xml version="1.0"?>
+          <!--
+            File is automatically generated from original gir files;
+            DO NOT EDIT!
+          -->
+          <repository version="1.2"
+                      xmlns="http://www.gtk.org/introspection/core/1.0"
+                      xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                      xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+              $xml-namespace
+              $element.Str()
+            </namespace>
+          </repository>
+          EOXML
+
+        my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
+        note "Save record $name in '$xml-file'" if $*verbose;
+        $xml-file.IO.spurt($xml);
       }
 
       when 'callback' {
