@@ -52,15 +52,15 @@ method generate-raku-module-code ( ) {
 #$doc ~= $!mod.generate-enumerations-doc;
 
   note "Get signal info" if $*verbose;
-  my Hash $sig-info = $!grd.generate-signals( $element, $!xpath);
+  my Hash $sig-info = $!grd.document-signals( $element, $!xpath);
 
   # Make a BUILD submethod
   note "Generate BUILD" if $*verbose;
-  my Hash $hcs = $!mod.get-constructors($element);
+  my Hash $hcs = $!mod.get-constructors( $element, $!xpath);
 #  $doc = $!grd.make-build-doc( $element, $hcs);
   $code ~= $!mod.make-build-submethod( $element, $hcs, $sig-info);
 
-  $code ~= $!mod.generate-callables( $element);
+  $code ~= $!mod.generate-callables( $element, $!xpath);
 #`{{
   note "Generate methods" if $*verbose;
   ( $doc, $code) = $!mod.generate-methods($element);

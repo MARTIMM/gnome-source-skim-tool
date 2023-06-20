@@ -82,12 +82,12 @@ method generate-build (
 }}
 
 #-------------------------------------------------------------------------------
-method generate-callables ( XML::Element $element --> Str ) {
+method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
   
   my Str $code = '';
 
   note "Generate constructors" if $*verbose;  
-  my Hash $hcs = self.get-constructors($element);
+  my Hash $hcs = self.get-constructors( $element, $xpath);
   $code ~= self!generate-constructor($hcs) if ?$hcs;
 note "$?LINE constr code? ", ?$code;
 
