@@ -49,7 +49,7 @@ method generate-raku-interface-code ( ) {
   $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
 
   note "Generate module signals" if $*verbose;  
-  my Hash $sig-info = $!grd.generate-signals( $element, $!xpath);
+  my Hash $sig-info = $!grd.document-signals( $element, $!xpath);
 
   note "Set class unit" if $*verbose;
   $module-code ~= $!mod.set-unit($element) if $*generate-code;
