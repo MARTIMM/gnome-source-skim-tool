@@ -514,6 +514,13 @@ method !get-source-file( XML::Element:D $element --> Str ) {
       $fname = $sp.attribs<filename>.IO.basename;
       $fname ~~ s/ \. <-[\.]>+ $//;
 
+      # In Gtk and Gdk for version 3, the filenames are having the prefix
+      # gtk or gdk before it
+      if $*gnome-package.Str ~~ any(<Gtk3 Gdk3>) {
+        my $name-prefix = $*work-data<name-prefix>;
+        $fname ~~ s/^ $name-prefix //;
+      }
+
       last;
     }
   }
