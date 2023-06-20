@@ -7,7 +7,6 @@ use Gnome::SourceSkimTool::Prepare;
 #-------------------------------------------------------------------------------
 my SkimSource $*gnome-package;
 my Str $*gnome-class;
-my Str $*gnome-file;
 my Hash $*work-data;
 my Bool $*verbose;
 
@@ -84,11 +83,10 @@ sub MAIN (
   }
 
   elsif $f and ?$gnome-class {
-    $*gnome-file = $gnome-class;
-    $*gnome-class = '';
+    my Str $filename = $gnome-class.lc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     require ::('Gnome::SourceSkimTool::File');
-    my $raku-module = ::('Gnome::SourceSkimTool::File').new;
+    my $raku-module = ::('Gnome::SourceSkimTool::File').new(:$filename);
     $raku-module.generate-raku-module-code if $*generate-code;
     $raku-module.generate-raku-module-test if $*generate-test;
     $raku-module.generate-raku-module-doc if $*generate-doc;
