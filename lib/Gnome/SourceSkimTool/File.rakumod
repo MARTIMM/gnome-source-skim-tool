@@ -28,7 +28,7 @@ submethod BUILD ( Str :$!filename ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module-code ( ) {
+method generate-code ( ) {
 
 for $!filedata.kv -> $t, $h {
   note "$?LINE: $t, $h.keys()";
@@ -83,9 +83,9 @@ for $!filedata.kv -> $t, $h {
 
         require ::('Gnome::SourceSkimTool::Class');
         my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
-        $raku-module.generate-raku-module-code if $*generate-code;
-        $raku-module.generate-raku-module-test if $*generate-test;
-        $raku-module.generate-raku-module-doc if $*generate-doc;
+        $raku-module.generate-code if $*generate-code;
+        $raku-module.generate-test if $*generate-test;
+        $raku-module.generate-doc if $*generate-doc;
 
         # last because there will be no interfaces, records or unions
         # outside this file belonging to the class
@@ -180,11 +180,11 @@ for $!filedata.kv -> $t, $h {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module-doc ( ) {
+method generate-doc ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module-test ( ) {
+method generate-test ( ) {
 }
 
 #-------------------------------------------------------------------------------

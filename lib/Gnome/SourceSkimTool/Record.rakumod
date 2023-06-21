@@ -32,7 +32,7 @@ submethod BUILD ( ) {
 
 #-------------------------------------------------------------------------------
 # In a <record> there might be constructors, methods, functions or fields
-method generate-raku-record-code ( ) {
+method generate-code ( ) {
 
   my XML::Element $element = $!xpath.find('//record');
   die "//record not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
@@ -136,7 +136,12 @@ method generate-raku-record-code ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-record-test ( ) {
+method generate-doc ( ) {
+
+}
+
+#-------------------------------------------------------------------------------
+method generate-test ( ) {
 
 }
 

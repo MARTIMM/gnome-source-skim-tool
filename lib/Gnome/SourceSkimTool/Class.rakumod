@@ -31,7 +31,7 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module-code ( ) {
+method generate-code ( ) {
 
   my XML::Element $element = $!xpath.find('//class');
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
@@ -78,7 +78,7 @@ method generate-raku-module-code ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module-doc ( ) {
+method generate-doc ( ) {
 
   my XML::Element $element = $!xpath.find('//class');
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
@@ -115,7 +115,7 @@ method generate-raku-module-doc ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-raku-module-test ( ) {
+method generate-test ( ) {
 
   my XML::Element $element = $!xpath.find('//class');
   my Str $ctype = $element.attribs<c:type>;

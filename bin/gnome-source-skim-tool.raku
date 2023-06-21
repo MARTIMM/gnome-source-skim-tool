@@ -82,16 +82,18 @@ sub MAIN (
     }
   }
 
+  # Get data using filename
   elsif $f and ?$gnome-class {
     my Str $filename = $gnome-class.lc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     require ::('Gnome::SourceSkimTool::File');
     my $raku-module = ::('Gnome::SourceSkimTool::File').new(:$filename);
-    $raku-module.generate-raku-module-code if $*generate-code;
-    $raku-module.generate-raku-module-test if $*generate-test;
-    $raku-module.generate-raku-module-doc if $*generate-doc;
+    $raku-module.generate-code if $*generate-code;
+    $raku-module.generate-test if $*generate-test;
+    $raku-module.generate-doc if $*generate-doc;
   }
 
+  # Get data using class name
   elsif $c and ?$gnome-class {
     $*gnome-class = $gnome-class;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
@@ -100,11 +102,12 @@ sub MAIN (
          if $*verbose;
     require ::('Gnome::SourceSkimTool::Class');
     my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
-    $raku-module.generate-raku-module-code if $*generate-code;
-    $raku-module.generate-raku-module-test if $*generate-test;
-    $raku-module.generate-raku-module-doc if $*generate-doc;
+    $raku-module.generate-code if $*generate-code;
+    $raku-module.generate-test if $*generate-test;
+    $raku-module.generate-doc if $*generate-doc;
   }
 
+  # Get data using interface name
   elsif $i and ?$gnome-class {
     $*gnome-class = $gnome-class;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
@@ -113,11 +116,12 @@ sub MAIN (
          if $*verbose;
     require ::('Gnome::SourceSkimTool::Interface');
     my $raku-interface = ::('Gnome::SourceSkimTool::Interface').new;
-    $raku-interface.generate-raku-interface-code if $*generate-code;
-    #$raku-module.generate-raku-interface-test if $*generate-test;
-    #$raku-module.generate-raku-interface-doc if $*generate-doc;
+    $raku-interface.generate-code if $*generate-code;
+    #$raku-module.generate-doc if $*generate-doc;
+    #$raku-module.generate-test if $*generate-test;
   }
 
+  # Get data using record name
   elsif $r and ?$gnome-class {
     $*gnome-class = $gnome-class;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
@@ -126,9 +130,9 @@ sub MAIN (
          if $*verbose;
     require ::('Gnome::SourceSkimTool::Record');
     my $raku-record = ::('Gnome::SourceSkimTool::Record').new;
-    $raku-record.generate-raku-record-code if $*generate-code;
-    $raku-record.generate-raku-record-test if $*generate-test;
-    #$raku-module.generate-raku-record-doc if $*generate-doc;
+    $raku-record.generate-code if $*generate-code;
+    $raku-record.generate-test if $*generate-test;
+    #$raku-module.generate-doc if $*generate-doc;
   }
 }
 
