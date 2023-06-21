@@ -66,21 +66,6 @@ method set-unit ( XML::Element $element --> Str ) {
   $code
 }
 
-#`{{
-#-------------------------------------------------------------------------------
-method generate-build (
-  XML::Element $element, Hash $sig-info
-  --> List
-) {
-
-  my Hash $hcs = self!get-constructors($element);
-  my Str $doc = self!make-build-doc( $element, $hcs);
-  my Str $code = self!make-build-submethod( $element, $hcs, $sig-info);
-
-  ( $doc, $code)
-}
-}}
-
 #-------------------------------------------------------------------------------
 method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
   
@@ -88,7 +73,7 @@ method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
   note "Generate constructors" if $*verbose;  
   my Hash $hcs = self.get-constructors( $element, $xpath);
-  $code ~= self!generate-constructor($hcs) if ?$hcs;
+  $code ~= self!generate-constructors($hcs) if ?$hcs;
 note "$?LINE constr code? ", ?$code;
 
   note "Generate methods" if $*verbose;  
@@ -141,7 +126,7 @@ note "$?LINE func code? ", ?$code;
 
 #-------------------------------------------------------------------------------
 method make-build-submethod (
-  XML::Element $element, Hash $hcs, Hash $sig-info --> Str
+  XML::Element $element, XML::XPath $xpath --> Str
 ) {
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!sas.search-name($ctype);
@@ -161,12 +146,13 @@ method make-build-submethod (
     if ?$role-signals;
 
   # Check if signal administration is needed
-  if ? $role-signals or ? $sig-info<doc> {
+  my Hash $sig-info = self.signals( $element, $xpath);
+  if ? $role-signals or ? $sig-info {
     my Str $sig-list = '';
-    if ? $sig-info<doc> {
+    if ? $sig-info {
       my Hash $signal-levels = %();
-      for $sig-info<signals>.keys -> $signal-name {
-        my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
+      for $sig-info.keys -> $signal-name {
+        my Str $level = $sig-info{$signal-name}<level>.Str;
         $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
         $signal-levels{$level}.push: $signal-name;
       }
@@ -248,6 +234,7 @@ method make-build-submethod (
     EOBUILD
 
   my Str $ifelse = 'if';
+  my Hash $hcs = self.get-constructors( $element, $!xpath);
   for $hcs.keys.sort -> $function-name {
     my Bool $first = True;
     my $par-list = '';
@@ -355,7 +342,7 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method !generate-constructor ( Hash $hcs --> Str ) {
+method !generate-constructors ( Hash $hcs --> Str ) {
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOSUB/;
@@ -824,6 +811,28 @@ method generate-structure ( XML::Element $element --> Str ) {
   $code ~= "\}\n\n";
 
   $code
+}
+
+#-------------------------------------------------------------------------------
+method signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
+
+  my Hash $signals = %();
+
+  my @signal-info = $xpath.find( 'glib:signal', :start($element), :to-list);
+  for @signal-info -> $si {
+    my Hash $attribs = $si.attribs;
+    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
+
+    # Get signal name and number of parameters (this becomes its level).
+    my Str $signal-name = $attribs<name>;
+    my Hash $curr-signal := $signals{$signal-name} = %();
+
+    my @prmtrs = $xpath.find( 'parameters/parameter', :start($si), :to-list);
+    $curr-signal<level> = @prmtrs.elems.Str;
+  }
+
+  note "Get signal info" if $*verbose and ?$signals;
+  $signals
 }
 
 
