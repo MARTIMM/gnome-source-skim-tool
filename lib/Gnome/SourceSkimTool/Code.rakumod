@@ -70,24 +70,27 @@ method set-unit ( XML::Element $element --> Str ) {
 method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
   
   my Str $code = '';
+  my Str $c;
 
-  note "Generate constructors" if $*verbose;  
+#  note "Generate constructors" if $*verbose;  
   my Hash $hcs = self.get-constructors( $element, $xpath);
   $code ~= self!generate-constructors($hcs) if ?$hcs;
-note "$?LINE constr code? ", ?$code;
+  note "Generate constructors" if $*verbose and ?$code;
 
-  note "Generate methods" if $*verbose;  
-  $code ~= self!generate-methods($element);
-note "$?LINE meth code? ", ?$code;
+#  note "Generate methods" if $*verbose;  
+  my Str $c = self!generate-methods($element);
+  $code ~= $c if ?$c;
+  note "Generate methods" if $*verbose and ?$c;
 
-  note "Generate functions" if $*verbose;  
-  $code ~= self!generate-functions($element);
-note "$?LINE func code? ", ?$code;
+#  note "Generate functions" if $*verbose;  
+  $c = self!generate-functions($element);
+  $code ~= $c if ?$c;
+  note "Generate functions" if $*verbose and ?$c;
 
   # if there are constructors, methods or functions, add the structure and
   # the fallback routine
   if ?$code {
-    $code = qq:to/RAKUMOD/;
+    $c = qq:to/RAKUMOD/;
 
       {HLSEPARATOR}
       {SEPARATOR('Native Routine Definitions');}
@@ -98,8 +101,8 @@ note "$?LINE func code? ", ?$code;
 
       {HLSEPARATOR}
       RAKUMOD
-  
-    $code ~= q:to/RAKUMOD/;
+
+    $c ~= q:to/RAKUMOD/;
       # This method is recognized in class Gnome::N::TopLevelClassSupport.
       method _fallback-v2 (
         Str $n, Bool $_fallback-v2-ok is rw, *@arguments
@@ -119,6 +122,8 @@ note "$?LINE func code? ", ?$code;
       }
 
       RAKUMOD
+    
+    $code = $c;
   }
 
   $code
@@ -361,7 +366,8 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
     # Remove first comma
     $par-list ~~ s/^ . //;
-    my Str $parameters = "\n    :parameters\(\[$par-list\]\)," if ?$par-list;
+    my Str $parameters = ?$par-list ?? "\n    :parameters\(\[$par-list\]\),"
+                                    !! '';
 
     # Remove prefix from routine
     my Str $hash-fname = $function-name;
@@ -925,6 +931,56 @@ method signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   $signals
 }
 
+
+#-------------------------------------------------------------------------------
+method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
+#  my Str $ctype = $element.attribs<c:type>;
+#  my Hash $h = $!sas.search-name($ctype);
+
+  my Str $code = '';
+
+  # Check if signal admin is needed
+  my Hash $sig-info = self.signals( $element, $xpath);
+  if ?$sig-info<doc> {
+#:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
+#:w1<populate-popup activate-link>,
+    my Hash $signal-levels = %();
+    for $sig-info<signals>.keys -> $signal-name {
+      my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
+      $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
+      $signal-levels{$level}.push: $signal-name;
+    }
+
+    my Str $sig-list = '';
+    for ^10 -> Str() $level {
+      if ?$signal-levels{$level} {
+        $sig-list ~=
+           [~] '    :w', $level, '<', $signal-levels{$level}.join(' '), ">,\n";
+      }
+    }
+
+    my Str $role-ini-method-name =
+      "_add_$*work-data<sub-prefix>signal_types";
+    $code ~= qq:to/EOBUILD/;
+      #TM:1:$role-ini-method-name:
+      method $role-ini-method-name ( Str \$class-name ) \{
+        self\.add-signal-types\( \$class-name,
+      $sig-list  );
+      \}
+
+      EOBUILD
+  }
+  
+  $code ~= qq:to/RAKUMOD/;
+
+    {HLSEPARATOR}
+    {SEPARATOR('Native Routine Definitions');}
+    {HLSEPARATOR}
+    my Hash \$methods = \%\(
+    RAKUMOD
+
+  $code
+}
 
 
 
