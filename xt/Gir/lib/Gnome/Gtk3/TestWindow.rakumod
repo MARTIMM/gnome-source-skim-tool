@@ -110,9 +110,7 @@ submethod BUILD ( *@arguments, *%options ) {
   if self.^name eq 'Gnome::Gtk3::TestWindow' or %options<GtkWindow> {
 
     # Initialize helper
-    $!routine-caller .= new(
-      :library(gtk-lib()), :sub-prefix<gtk_window_>, :!is-leaf
-    );
+    $!routine-caller .= new( :library(gtk-lib()), :sub-prefix<gtk_window_>);
 
     if self.is-valid { }
 
