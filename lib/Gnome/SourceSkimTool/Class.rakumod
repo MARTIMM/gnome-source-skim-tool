@@ -41,103 +41,18 @@ method generate-raku-module-code ( ) {
     use v6;
     RAKUMOD
 
-#  note "Generate module description" if $*verbose;
-#  $doc ~= $!grd.get-description( $element, $!xpath);
-
   note "Set class unit" if $*verbose;
   $code ~= $!mod.set-unit($element);
 
   note "Generate enumerations and bitmasks";
   $code ~= $!mod.generate-enumerations-code;
-#$doc ~= $!mod.generate-enumerations-doc;
-
-  note "Get signal info" if $*verbose;
-  my Hash $sig-info = $!grd.document-signals( $element, $!xpath);
 
   # Make a BUILD submethod
   note "Generate BUILD" if $*verbose;
-  my Hash $hcs = $!mod.get-constructors( $element, $!xpath);
-#  $doc = $!grd.make-build-doc( $element, $hcs);
-  $code ~= $!mod.make-build-submethod( $element, $hcs, $sig-info);
+  $code ~= $!mod.make-build-submethod( $element, $!xpath);
 
   $code ~= $!mod.generate-callables( $element, $!xpath);
-#`{{
-  note "Generate methods" if $*verbose;
-  ( $doc, $code) = $!mod.generate-methods($element);
 
-  # if there are methods, add the fallback routine and methods
-#  my Str $deprecatable-method = '';
-  if ?$doc {
-#    $deprecatable-method ~= self!add-deprecatable-method($element);
-    $code ~= $code;
-    $doc ~= $doc;
-  }
-
-  note "Generate functions" if $*verbose;
-  $code ~= $!mod.generate-functions-code($element)
-    if $*generate-code;
-#  if ?$code {
-#    $doc ~= $doc;
-#    $code ~= $code;
-#  }
-
-  # Finish 'my Hash $methods' started in $!mod.generate-build()
-  # and add necessary _fallback-v2() method. It is recognized in
-  # class Gnome::N::TopLevelClassSupport.
-  $code ~= q:to/RAKUMOD/;
-    );
-
-    #-------------------------------------------------------------------------------
-    method _fallback-v2 (
-      Str $n, Bool $_fallback-v2-ok is rw, *@arguments
-    ) {
-      my Str $name = S:g/ '-' /_/ with $n;
-      if $methods{$name}:exists {
-        my $native-object = self.get-native-object-no-reffing;
-        $_fallback-v2-ok = True;
-        return $!routine-caller.call-native-sub(
-          $name, @arguments, $methods, :$native-object
-        );
-      }
-
-      else {
-    RAKUMOD
-
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-  my Array $roles = $h<implement-roles>//[];
-  for @$roles -> $role {
-    my Hash $role-h = $!sas.search-name($role);
-note "$?LINE role=$role -> $role-h.gist()";
-
-    $code ~= qq:to/RAKUMOD/;
-
-          my \$r = self.{$role}::_fallback-v2-ok\(
-            \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
-          \);
-          return \$r if \$_fallback-v2-ok;
-
-      RAKUMOD
-
-  }
-
-  $code ~= q:to/RAKUMOD/;
-        callsame;
-      }
-    }
-    RAKUMOD
-}}
-
-
-
-#  $code ~= $deprecatable-method;
-
-  # Add the signal doc here
-  #note "Generate module signal doc" if $*verbose;
-  #$doc ~= $sig-info<doc>;
-
-  #note "Generate module properties doc" if $*verbose;  
-  #$doc ~= $!grd.generate-properties( $element, $!xpath);
 
   note "Set modules to import";
   my $import = '';
@@ -147,6 +62,7 @@ note "$?LINE role=$role -> $role-h.gist()";
     }
 
     else {
+
 #NOTE temporary use existing modules
 #      $import ~= "use $m\:api\('gir'\);\n";
       $import ~= "use $m;\n";
@@ -158,54 +74,7 @@ note "$?LINE role=$role -> $role-h.gist()";
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($code);
-  #note "Save pod doc";
-  #$*work-data<raku-module-doc-file>.IO.spurt($doc);
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method !make-init-method (
-  XML::Element $element, Hash $sig-info --> Str
-) {
-#  my Str $ctype = $element.attribs<c:type>;
-#  my Hash $h = $!sas.search-name($ctype);
-
-  my Str $code = '';
-
-  # Check if signal admin is needed
-  if ?$sig-info<doc> {
-#:w3<move-cursor>, :w0<copy-clipboard activate-current-link>,
-#:w1<populate-popup activate-link>,
-    my Hash $signal-levels = %();
-    for $sig-info<signals>.keys -> $signal-name {
-      my Str $level = $sig-info<signals>{$signal-name}<parameters>.elems.Str;
-      $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
-      $signal-levels{$level}.push: $signal-name;
-    }
-
-    my Str $sig-list = '';
-    for ^10 -> Str() $level {
-      if ?$signal-levels{$level} {
-        $sig-list ~=
-           [~] '    :w', $level, '<', $signal-levels{$level}.join(' '), ">,\n";
-      }
-    }
-
-    my Str $role-ini-method-name =
-      "_add_$*work-data<sub-prefix>signal_types";
-    $code ~= qq:to/EOBUILD/;
-      #TM:1:$role-ini-method-name:
-      method $role-ini-method-name ( Str \$class-name ) \{
-        self\.add-signal-types\( \$class-name,
-      $sig-list  );
-      \}
-
-      EOBUILD
-  }
-
-  $code
-}
-}}
 
 #-------------------------------------------------------------------------------
 method generate-raku-module-doc ( ) {
@@ -243,8 +112,6 @@ method generate-raku-module-doc ( ) {
   note "Save pod doc";
   $*work-data<raku-module-doc-file>.IO.spurt($doc);
 }
-
-
 
 #-------------------------------------------------------------------------------
 method generate-raku-module-test ( ) {
@@ -393,122 +260,4 @@ method generate-raku-module-test ( ) {
 
   note "Save module test";
   $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
-#-------------------------------------------------------------------------------
-method !add-deprecatable-method ( XML::Element $element --> Str ) {
-
-  my Hash $meta-data = from-json('META6.json'.IO.slurp);
-  my Str $version-now = $meta-data<version>;
-  my @v = $version-now.split('.');
-  @v[1] += 2;
-  @v[2] = 0;
-  my Str $version-dep = @v.join('.');
-
-
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-  my Array $roles = $h<implement-roles> // [];
-  my $role-fallbacks = '';
-  for @$roles -> $role {
-    my Hash $role-h = $!sas.search-name($role);
-
-    $role-fallbacks ~=
-      "  \$s = self._$role-h<symbol-prefix>interface\(\$native-sub)\n" ~
-      "    if !\$s and self.^can\('_$role-h<symbol-prefix>interface');\n";
-  }
-  $role-fallbacks ~= "\n" if ?$role-fallbacks;
-
-  my Str $doc = '';
-
-  my Str $pfix = $*work-data<sub-prefix>;
-  my @pfix-parts = $pfix.split('_');
-
-  my Str $pfix-dash = $*work-data<sub-prefix>;
-  $pfix-dash ~~ s:g/ '_' /-/;
-  $pfix-dash.chop(1);
-
-  my Str $package = $*gnome-package.Str.lc;
-  $package ~~ s/ \d //;
-
-  my Str ( $mname, $set-class-name);
-  $mname = '_fallback';
-  $set-class-name = [~] '  if ?$s {', "\n",
-    '    self._set-class-name-of-sub(\'', $*work-data<gnome-name>, "');\n",
-    "  }\n  else \{\n",
-    '    $s = callsame;', "\n",
-    "  }\n";
-
-  $doc ~= q:to/EODEPR/;
-
-    #`{{
-      Older modules might still have it and must remove the method after
-      deprecation date. New modules must not implement this.
-
-    EODEPR
-
-  $doc ~= "{HLSEPARATOR}\n";
-  $doc ~= "method $mname " ~ '( Str $native-sub --> Callable ) {' ~ "\n";
-  $doc ~= "  my Str \$pfix = '$*work-data<sub-prefix>';\n";
-
-  $doc ~= q:to/EODEPR/;
-      my @pfix-parts = $pfix.split('_');
-      my Int $cfix = @pfix-parts.elems + 2;
-      my Str $new-patt = $native-sub.subst( '-', '_', :g);
-
-      my Callable $s;
-
-      loop ( my Int $dash-count = 2; $dash-count < $cfix; $dash-count++ ) {
-        my Str $tv = @pfix-parts[0 .. * - $dash-count].join('_');
-        my Str $match = ?$tv ?? "{$tv}_$new-patt" !! "$tv$new-patt";
-        try { $s = &::($match); }
-        if ?$s {
-          $match ~~ s/ $pfix //;
-          $match ~~ s:g/ '_' /-/;
-    EODEPR
-
-  $doc ~= [~] '      Gnome::N::deprecate( "$native-sub", $match, ', "'",
-              $version-now, "', '", $version-dep, "');\n";
-
-  $doc ~= q:to/EODEPR/;
-
-          last;
-        }
-      }
-
-    EODEPR
-
-  $doc ~= $role-fallbacks;
-  $doc ~= $set-class-name;
-
-  $doc ~= q:to/EODEPR/;
-
-      $s
-    }
-
-    }}
-
-    EODEPR
-
-  $doc
 }
