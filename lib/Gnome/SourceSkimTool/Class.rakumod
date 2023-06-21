@@ -46,6 +46,7 @@ method generate-raku-module-code ( ) {
 
   note "Generate enumerations and bitmasks";
   $code ~= $!mod.generate-enumerations-code;
+  $code ~= $!mod.generate-bitfield-code;
 
   # Make a BUILD submethod
   note "Generate BUILD" if $*verbose;

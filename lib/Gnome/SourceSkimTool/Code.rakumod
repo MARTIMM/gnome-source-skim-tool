@@ -361,7 +361,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
     # Remove first comma
     $par-list ~~ s/^ . //;
-    my Str $parameters = "\n  :parameters\(\[$par-list\]\)," if ?$par-list;
+    my Str $parameters = "\n    :parameters\(\[$par-list\]\)," if ?$par-list;
 
     # Remove prefix from routine
     my Str $hash-fname = $function-name;
@@ -731,6 +731,96 @@ method !get-enumeration-names ( --> Array ) {
   }
 
   $enum-names
+}
+
+#-------------------------------------------------------------------------------
+method generate-bitfield-code ( --> Str ) {
+
+  my Array $bitfield-names = self!get-bitfield-names;
+  return '' unless ?$bitfield-names;
+#note "$?LINE e names: $bitfield-names.gist()";
+
+  # Open bitfields file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-bitfield.gir';
+  my XML::XPath $e-xpath .= new(:$file);
+
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $code = qq:to/EOENUM/;
+    {HLSEPARATOR}
+    {SEPARATOR('Bitfields');}
+    EOENUM
+
+#`{{
+  my Str $doc = qq:to/EOENUM/;
+    {HLSEPARATOR}
+    {SEPARATOR('Bitfields');}
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Bitfields
+    =end pod
+
+    EOENUM
+}}
+
+  # For each of the found names
+  for $bitfield-names.sort -> $bitfield-name {
+    my Str $name = $bitfield-name;
+    my Str $package = $*gnome-package.Str;
+    $package ~~ s/ \d+ $//;
+    $name ~~ s/^ $package //;
+
+    # Get the XML element of the bitfield data
+    my XML::Element $e = $e-xpath.find(
+      '//bitfield[@name="' ~ $name ~ '"]', :!to-list
+    );
+
+    $code ~= qq:to/EOENUM/;
+      {HLSEPARATOR}
+      #TE:0:$bitfield-name
+      enum $bitfield-name is export \(
+      EOENUM
+
+#    my Str $edoc =
+#      ($e-xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+#    my Str $s = self.modify-text($edoc);
+#    $doc = self.cleanup($s);
+
+    my Str $member-name-list = '';
+    my @members = $e-xpath.find( 'member', :start($e), :to-list);
+    my @l = ();
+    for @members -> $m {
+      @l.push: [~] ':', $m.attribs<c:identifier>, '(', $m.attribs<value>, ')';
+    }
+
+    $code ~= @l.join(', ') ~ "\n\);\n";
+  }
+#note "$?LINE $code";
+#exit;
+  $code
+}
+
+#-------------------------------------------------------------------------------
+method !get-bitfield-names ( --> Array ) {
+
+  # Get all bitfields for this class
+  my $name = $*work-data<gnome-name>;
+
+  # First get the name of the file of this class
+  my Hash $h0 = $!sas.search-name($name);
+  my Str $class-file = $h0<class-file>;
+#note "$?LINE classfile of $name = $class-file";
+
+  # Now get all other types defined in this class file
+  my Hash $h1 = $!sas.search-entries( 'class-file', $class-file);
+
+  # Keep all bitfield names
+  my Array $bitfield-names = [];
+  for $h1.kv -> $k, $v {
+#note $?LINE $k, $v<gir-type>";
+    $bitfield-names.push: $k if $v<gir-type> eq 'bitfield';
+  }
+
+  $bitfield-names
 }
 
 #-------------------------------------------------------------------------------
