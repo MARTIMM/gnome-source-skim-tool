@@ -26,7 +26,6 @@ TODO skip anything with attribute
   disguised="1"
   deprecated="1"
 
-TODO Add bitmasks
 TODO Split doc from code and test
 TODO Look for file names from field `class-file` in the repo-object-map's then generate anything what belongs together. This is important for Enums and Events where there are no classes and the records are grouped. E.g. 'window' comes from the C files `window.h` and `window.c`. It holds `GtkWindow`, `GtkWindowAccessible`, `GtkWindowGeometryInfo`, `GtkWindowPosition` and `GtkWindowType`.
 
@@ -43,6 +42,7 @@ kaal /usr/bin
 -->
 * 2023-06-19 0.8.3
   * Add module **Gnome::SourceSkimTool::File** to scan through data using a filename defined in field `class-file` in the `repo-object-map.yaml`. This may remove options -c, -i and -r.
+  * Add bitfields. Generated as enumerations but are mostly used for masks. The type GFlag is used for those indicating an unsigned integer type.
 
 * 2023-06-14 0.8.2
   * Renamed a few modules and classes.
