@@ -4,17 +4,20 @@ use XML::XPath;
 use YAMLish;
 
 use Gnome::SourceSkimTool::ConstEnumType;
+use Gnome::SourceSkimTool::SearchAndSubstitute;
 
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGtkDoc:auth<github:MARTIMM>;
 
+has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Hash $!map;
 has Hash $!other;
 has XML::XPath $!xp;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
+  $!sas .= new;
 
   # the sections like :function are arrays of XML::Element's
   $!other = %(
@@ -58,6 +61,14 @@ method get-classes-from-gir ( ) {
 
   my @elements = ($!xp.find( '/repository/namespace/*', :to-list));
   for @elements -> $element {
+
+#note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
+    # Map an element into the repo-object-map. Returns True if
+    # element is deprecated
+    next if self!map-element(
+      $element, $namespace-name, $symbol-prefix, $id-prefix
+    );
+
     given $element.name {
 
       # save the class info in separate gir files
@@ -195,9 +206,6 @@ method get-classes-from-gir ( ) {
         $xml-file.IO.spurt($xml);
       }
     }
-
-#note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
-    self!map-element( $element, $namespace-name, $symbol-prefix, $id-prefix);
   }
 
   # Before we save the map find out which classes are at the bottom (≡ leaf)
@@ -251,7 +259,11 @@ method !set-real-role-user( Str $entry-name ) {
 
   # Check all roles for this class
   for @($!map{$entry-name}<roles>) -> $role-name {
-    self!check-parent-role( $entry-name, $role-name);
+    my Hash $role-h = $!sas.search-name($role-name);
+
+    # Never implement deprecated roles
+    self!check-parent-role( $entry-name, $role-name)
+      unless ?$role-h<deprecated>;
   }
 }
 
@@ -297,7 +309,9 @@ method !check-parent-role ( Str $entry-name, Str $role-name ) {
 # extra notes like type and location in hierarchy tree.
 method !map-element (
   XML::Element $element, Str $namespace-name, Str $symbol-prefix, Str $id-prefix
+  --> Bool
 ) {
+  my Bool $deprecated = False;
 
   # Get attribute hash and the map key from some sort of identifier
   my Hash $attrs = $element.attribs;
@@ -325,6 +339,7 @@ method !map-element (
          self!set-names($attrs<parent> // '');
 
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
 #note "\n$?LINE {$element.attribs()<name>}, $fname";
 
       $!map{$ctype} = %(
@@ -333,17 +348,20 @@ method !map-element (
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
         :gir-type<class>,
         :class-file($fname),
+        :$deprecated,
       );
     }
 
     when 'function' {
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       my Str $rname = $attrs<name>;
       $rname ~~ s:g/ '_' /-/;
       $!map{$ctype} = %(
         :$rname,
         :gir-type<function>,
         :class-file($fname),
+        :$deprecated,
       );
     }
 
@@ -358,11 +376,13 @@ method !map-element (
       }
 
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       $!map{$ctype} = %(
         :cname($alias-type-attribs<c:type>),
         :rname($alias-type-attribs<name>),
         :gir-type<alias>
         :class-file($fname),
+        :$deprecated,
       );
     }
 
@@ -376,18 +396,20 @@ method !map-element (
       }
 
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       $!map{$ctype} = %(
         :cname($const-type-attribs<c:type>),
         :rname($const-type-attribs<name>),
         :gir-type<constant>,
         :class-file($fname),
+        :$deprecated,
       );
     }
 
     # 'struct'
     when 'record' {
       my Str $fname = self!get-source-file($element);
-
+      $deprecated = ($fname eq 'deprecated');
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
       $rname ~~ s:i/^ $np //;
@@ -396,40 +418,50 @@ method !map-element (
         :sname("N-$ctype"),
         :$rname,
         :gir-type<record>,
-        :symbol-prefix($symbol-prefix ~ '_' ~ ($attrs<c:symbol-prefix> // '') ~ '_'),
+        :symbol-prefix(
+           $symbol-prefix ~ '_' ~ ($attrs<c:symbol-prefix> // '') ~ '_'
+        ),
         :class-file($fname),
+        :$deprecated,
       );
     }
 
     when 'callback' {
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       $!map{$ctype} = %(
         :rname($attrs<name>),
         :gir-type<callback>,
         :class-file($fname),
+        :$deprecated,
       );
     }
 
     when 'bitfield' {
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       $!map{$ctype} = %(
         :rname($ctype),
         :gir-type<bitfield>,
         :class-file($fname),
+        :$deprecated,
       );
     }
 
     when 'docsection' {
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       $!map{$attrs<name>} = %(
         :rname($attrs<name>),
         :gir-type<docsection>,
         :class-file($fname),
+        :$deprecated,
       );
     }
 
     when 'union' {
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
       $rname ~~ s:i/^ $np //;
@@ -439,27 +471,32 @@ method !map-element (
         :$rname,
         :gir-type<union>,
         :class-file($fname),
+        :$deprecated,
       );
     }
 
     # 'enum'
     when 'enumeration' {
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       $!map{$ctype} = %(
         :rname($ctype),
         :gir-type<enumeration>,
         :class-file($fname),
+        :$deprecated,
       );
     }
 
     # 'role'
     when 'interface' {
       my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
       $!map{$ctype} = %(
         :gir-type<interface>, :!leaf,
         :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
         :class-file($fname),
+        :$deprecated,
       );
     }
 
@@ -477,6 +514,8 @@ note "$?LINE $ctype, $attrs.gist()" if $ctype = 'record';
     if $attrs<deprecated>:exists and $attrs<deprecated> == 1;
   }
 }}
+
+  $deprecated
 }
 
 #-------------------------------------------------------------------------------
@@ -508,17 +547,24 @@ method !get-source-file( XML::Element:D $element --> Str ) {
 
   for <source-position doc> -> $tag-name {
     my XML::Element $sp = $!xp.find( $tag-name, :start($element), :!to-list);
-    #my Str $fname = ?$sp ?? ($sp.attribs<filename> // '') !! '';
+
     if ?$sp {
       # get name of file, drop extension and remove a few letters from front
-      $fname = $sp.attribs<filename>.IO.basename;
-      $fname ~~ s/ \. <-[\.]>+ $//;
+      $fname = $sp.attribs<filename>;
+      if $fname ~~ m/ deprecated / {
+        $fname = 'deprecated';
+      }
 
-      # In Gtk and Gdk for version 3, the filenames are having the prefix
-      # gtk or gdk before it
-      if $*gnome-package.Str ~~ any(<Gtk3 Gdk3>) {
-        my $name-prefix = $*work-data<name-prefix>;
-        $fname ~~ s/^ $name-prefix //;
+      else {
+        $fname = $fname.IO.basename;
+        $fname ~~ s/ \. <-[\.]>+ $//;
+
+        # In Gtk and Gdk for version 3, the filenames are having the prefix
+        # gtk or gdk before it
+        if $*gnome-package.Str ~~ any(<Gtk3 Gdk3>) {
+          my $name-prefix = $*work-data<name-prefix>;
+          $fname ~~ s/^ $name-prefix //;
+        }
       }
 
       last;
