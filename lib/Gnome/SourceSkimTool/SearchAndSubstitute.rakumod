@@ -522,7 +522,8 @@ method convert-rtype (
 method search-name ( Str $name --> Hash ) {
 
   my Hash $h = %();
-  for <Gtk Gdk GdkPixbuf Gsk Glib Gio GObject Pango Cairo PangoCairo> -> $map-name {
+  for <Gtk Gdk GdkPixbuf Gsk Glib Gio GObject Pango Cairo PangoCairo>
+      -> $map-name {
 
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists
