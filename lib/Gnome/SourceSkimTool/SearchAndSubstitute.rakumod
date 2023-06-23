@@ -341,6 +341,7 @@ method convert-ntype (
     when /g? uint '*'/        { $raku-type = 'guint-ptr'; }
     when /g? size '*'/        { $raku-type = 'CArray[gsize]'; }
     when /g? double '*'/      { $raku-type = 'CArray[gdouble]'; }
+    when /g? pointer '*'/     { $raku-type = 'CArray[gpointer]'; }
     when /:i g? object '*'/   { $raku-type = 'N-GObject'; }
     when /:i g? pixbuf '*'/   { $raku-type = 'N-GObject'; }
     when /:i g? error '*'/    { $raku-type = 'N-GObject'; }
@@ -467,6 +468,7 @@ method convert-rtype (
     when /:i g? error '*'/      { $raku-type = 'Array[N-GError]'; }
     #when /:i g? pixbuf '*'/    { $raku-type = 'N-GObject'; }
     #when /:i g? error '*'/     { $raku-type = 'N-GObject'; }
+    when /g? pointer '*'/       { $raku-type = 'Array'; }
 
     when 'void' { $raku-type = 'void'; }
 
