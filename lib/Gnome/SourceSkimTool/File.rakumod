@@ -30,9 +30,12 @@ submethod BUILD ( Str :$!filename ) {
 #-------------------------------------------------------------------------------
 method generate-code ( ) {
 
-for $!filedata.kv -> $t, $h {
-  note "$?LINE: $t, $h.keys()";
-}
+  if $*verbose {
+    note "\nTypes found in file $!filename";
+    for $!filedata.kv -> $t, $h {
+      note "  $t: $h.keys()";
+    }
+  }
 
   # Classes, interfaces, records and unions may have any of the following and
   # must be generated in below order. Indented parts are to be found within
@@ -76,8 +79,7 @@ for $!filedata.kv -> $t, $h {
     $*gnome-class = $!filename.tc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-    say "Generate Raku module from class data in ",
-        $*work-data<raku-class-name> if $*verbose;
+    say "Generate Raku class from ", $*work-data<raku-class-name> if $*verbose;
 
     require ::('Gnome::SourceSkimTool::Class');
     my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
@@ -106,6 +108,17 @@ for $!filedata.kv -> $t, $h {
 
     # fallback
     # substitute use mark
+
+    $*gnome-class = $!filename.tc;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+    say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
+
+    require ::('Gnome::SourceSkimTool::Interface');
+    my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
+    $raku-module.generate-code if $*generate-code;
+    $raku-module.generate-test if $*generate-test;
+    $raku-module.generate-doc if $*generate-doc;
   }
 
   elsif $!filedata<record>:exists {
