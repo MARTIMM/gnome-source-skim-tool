@@ -64,9 +64,7 @@ method generate-code ( ) {
 
     else {
 
-#NOTE temporary use existing modules
-#      $import ~= "use $m\:api\('gir'\);\n";
-      $import ~= "use $m;\n";
+      $import ~= "use $m\:api\('gir'\);\n";
     }
   }
 
