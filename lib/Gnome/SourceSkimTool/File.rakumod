@@ -52,124 +52,104 @@ for $!filedata.kv -> $t, $h {
   #   callbacks
 
   my Bool $found-ciru = False; # ciru ≡ class, interface, record, union
-  for $!filedata.kv -> $t, $h {
-    given $t {
-      when 'class' {
-        $found-ciru = True;
+  if $!filedata<class>:exists {
+    $found-ciru = True;
 
-        # set use mark
-        # class unit
-        
-        # constants
-        # enums
-        # bitmasks
-        # records
-        # unions
+    # set use mark
+    # class unit
 
-        # build
+    # constants
+    # enums
+    # bitmasks
+    # records
+    # unions
 
-        # constructors
-        # methods
-        # functions
+    # build
 
-        # fallback
-        # substitute use mark
+    # constructors
+    # methods
+    # functions
 
-        $*gnome-class = $!filename.tc;
-        my Gnome::SourceSkimTool::Prepare $prepare .= new;
+    # fallback
+    # substitute use mark
 
-        say "Generate Raku module from class data in ",
-            $*work-data<raku-class-name> if $*verbose;
+    $*gnome-class = $!filename.tc;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        require ::('Gnome::SourceSkimTool::Class');
-        my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
-        $raku-module.generate-code if $*generate-code;
-        $raku-module.generate-test if $*generate-test;
-        $raku-module.generate-doc if $*generate-doc;
+    say "Generate Raku module from class data in ",
+        $*work-data<raku-class-name> if $*verbose;
 
-        # last because there will be no interfaces, records or unions
-        # outside this file belonging to the class
-        last
-      }
+    require ::('Gnome::SourceSkimTool::Class');
+    my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
+    $raku-module.generate-code if $*generate-code;
+    $raku-module.generate-test if $*generate-test;
+    $raku-module.generate-doc if $*generate-doc;
+  }
 
-      when 'interface' {
-        $found-ciru = True;
+  elsif $!filedata<interface>:exists {
+    $found-ciru = True;
 
-        # set use mark
-        # class unit
-        
-        # constants
-        # enums
-        # bitmasks
-        # records
-        # unions
+    # set use mark
+    # class unit
 
-        # build
+    # constants
+    # enums
+    # bitmasks
+    # records
+    # unions
 
-        # constructors
-        # methods
-        # functions
+    # build
 
-        # fallback
-        # substitute use mark
+    # constructors
+    # methods
+    # functions
 
-        # last because there will be no classes, records or unions
-        # outside this file belonging to the interface
-        last
-      }
+    # fallback
+    # substitute use mark
+  }
 
-      when 'record' {
-        $found-ciru = True;
+  elsif $!filedata<record>:exists {
+    $found-ciru = True;
 
-        # set use mark
-        # class unit
-        
-        # constants
-        # enums
-        # bitmasks
-        # records
-        # unions
+    # set use mark
+    # class unit
 
-        # build
+    # constants
+    # enums
+    # bitmasks
+    # records
+    # unions
 
-        # constructors
-        # methods
-        # functions
+    # build
 
-        # fallback
-        # substitute use mark
+    # constructors
+    # methods
+    # functions
 
-        # last because there will be no interfaces, classes or unions
-        # outside this file belonging to the record
-        last
-      }
+    # fallback
+    # substitute use mark
+  }
 
-      when 'union' {
-        $found-ciru = True;
+  elsif $!filedata<union> {
+    $found-ciru = True;
 
-        # set use mark
-        # class unit
-        
-        # constants
-        # enums
-        # bitmasks
-        # records
-        # unions
+    # set use mark
+    # class unit
 
-        # build
+    # constants
+    # enums
+    # bitmasks
+    # records
+    # unions
 
-        # constructors
-        # methods
-        # functions
+    # build
 
-        # fallback
-        # substitute use mark
+    # constructors
+    # methods
+    # functions
 
-        # last because there will be no interfaces, records or classes
-        # outside this file belonging to the union
-        last
-      }
-    }
+    # fallback
+    # substitute use mark
   }
 
   # No class, interface, record or union found. This module becomes the
