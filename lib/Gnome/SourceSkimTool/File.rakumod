@@ -169,6 +169,32 @@ method generate-code ( ) {
   # mixture of all other types.
   unless $found-ciru {
 
+    $*gnome-class = $!filename.tc;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+    my Str $code = '';
+    for $!filedata.keys {
+      when 'constant' {
+      }
+
+      when 'enumeration' {
+      }
+
+      when 'bitfield' {
+      }
+
+      when 'callback' {
+      }
+
+      when 'docsection' {
+      }
+
+      when 'function' {
+      }
+    }
+
+    note "Save module";
+    $*work-data<raku-module-file>.IO.spurt($code) if $*generate-code;
   }
 }
 
