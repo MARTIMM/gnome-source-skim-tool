@@ -28,6 +28,7 @@ submethod BUILD ( ) {
     :bitfield([]),
     :enumeration([]),
     :constant([]),
+    :docsection([]),
 #    :interface([]),
   );
 }
@@ -64,7 +65,7 @@ method get-classes-from-gir ( ) {
 
 #note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
     # Map an element into the repo-object-map. Returns True if
-    # element is deprecated
+    # element is deprecated or is a class, iface or private type.
     next if self!map-element(
       $element, $namespace-name, $symbol-prefix, $id-prefix
     );
@@ -75,6 +76,7 @@ method get-classes-from-gir ( ) {
       when 'class' {
         my $attrs = $element.attribs;
         my $name = $attrs<name>;
+
         my Str $xml = qq:to/EOXML/;
           <?xml version="1.0"?>
           <!--
@@ -109,8 +111,6 @@ method get-classes-from-gir ( ) {
         my $attrs = $element.attribs;
         my $name = $attrs<c:type>;
 
-        next if $name ~~ m/ [ Private || Class ] $/;
-
         my Str $name-prefix = $*work-data<name-prefix>;
         $name ~~ s:i/^ $name-prefix //;
 
@@ -139,12 +139,14 @@ method get-classes-from-gir ( ) {
         $!other<constant>.push: $element;
       }
 
+      when 'docsection' {
+        $!other<docsection>.push: $element;
+      }
+
       when 'union' {
 #        $!other<union>.push: $element;
         my $attrs = $element.attribs;
         my $name = $attrs<c:type>;
-
-#        next if $name ~~ m/ [ Private || Class ] $/;
 
         my Str $name-prefix = $*work-data<name-prefix>;
         $name ~~ s:i/^ $name-prefix //;
@@ -185,6 +187,7 @@ method get-classes-from-gir ( ) {
       when 'interface' {
         my $attrs = $element.attribs;
         my $name = $attrs<name>;
+
         my Str $xml = qq:to/EOXML/;
           <?xml version="1.0"?>
           <!--
@@ -306,7 +309,8 @@ method !check-parent-role ( Str $entry-name, Str $role-name ) {
 
 #-------------------------------------------------------------------------------
 # Make a map of function, class and structure names to Raku names. Add some
-# extra notes like type and location in hierarchy tree.
+# extra notes like type and location in hierarchy tree. Return True when element
+# is deprecated or is a class, iface or private type
 method !map-element (
   XML::Element $element, Str $namespace-name, Str $symbol-prefix, Str $id-prefix
   --> Bool
@@ -321,11 +325,13 @@ method !map-element (
                   $attrs<name> // ''          # Doc sections
                   ;
 
+  return True if $ctype ~~ m/ [ Private || Class || Iface ] $/;
+
   # Check for this id. If undefined make some noise and return
   note "\n$?LINE NO IDENTIFIER FOUND FOR tag $element.name(); ", $attrs.gist
        unless ?$ctype;
 
-  return unless ?$ctype;
+  return True unless ?$ctype;
 
   # Gather data depending on the tag type
   given $element.name {
