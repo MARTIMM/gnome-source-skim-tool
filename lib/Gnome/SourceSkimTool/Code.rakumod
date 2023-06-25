@@ -665,9 +665,12 @@ method !get-functions ( XML::Element $element --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-enumerations-code ( --> Str ) {
+method generate-enumerations-code ( Array :$enum-names is copy = [] --> Str ) {
 
-  my Array $enum-names = self!get-enumeration-names;
+  # Don't look enum names up if array is provided
+  $enum-names = self!get-enumeration-names unless ?$enum-names;
+
+  # Return empty string if no enums found.
   return '' unless ?$enum-names;
 #note "$?LINE e names: $enum-names.gist()";
 
@@ -734,6 +737,10 @@ method generate-enumerations-code ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+# When in a class the enumerations are found in separate files. To find the
+# correct file, look them up using the filename of the current class. Then use
+# that name to find the enumeration names having the same filename. The filename
+# is set in the field 'class-file'.
 method !get-enumeration-names ( --> Array ) {
 
   # Get all enumerations for this class
@@ -1001,6 +1008,8 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+# Fill in the __MODULE__IMPORTS__ string inserted at the start of the code
+# generation. It is the place where the 'use' statements must come.
 method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
 
   note "Set modules to import" if $*verbose;
