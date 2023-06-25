@@ -39,45 +39,16 @@ method generate-code ( ) {
     }
   }
 
-  # Classes, interfaces, records and unions may have any of the following and
-  # must be generated in below order. Indented parts are to be found within
-  # classes, interfaces, records or unions. Also, these types are generated in
-  # their separate modules. When there are no classes, interfaces, records or
-  # unions, the resulting module is a mixture of what is found in the file.
-  #
-  # docsections
-  #   description, class/role unit build
-  # aliases
-  # constants
-  # enums
-  # bitfields
-  #   constructors
-  #   methods
-  #   functions
-  #   callbacks
-
-  my Bool $found-ciru = False; # ciru ≡ class, interface, record, union
+  # Classes or interfaces may have any other type. The other types are found
+  # by looking up the filename set in the 'class-file' field. When there is
+  # no class or interface defined, the types are gathered into one module.
+  # The difference is mainly the complexity of the generated module. For
+  # instance, classes and interfaces may have properties and signals.
+  # Records and unions, however, can also have constructors, methods and
+  # functions. There can be more unions and records defined in one file which
+  # must be defined in separate raku modules. Only then it is possible to have
+  # BUILD routines defined for each of them.
   if $!filedata<class>:exists {
-    $found-ciru = True;
-
-    # set use mark
-    # class unit
-
-    # constants
-    # enums
-    # bitmasks
-    # records
-    # unions
-
-    # build
-
-    # constructors
-    # methods
-    # functions
-
-    # fallback
-    # substitute use mark
-
     $*gnome-class = $!filename.tc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
@@ -91,26 +62,6 @@ method generate-code ( ) {
   }
 
   elsif $!filedata<interface>:exists {
-    $found-ciru = True;
-
-    # set use mark
-    # class unit
-
-    # constants
-    # enums
-    # bitmasks
-    # records
-    # unions
-
-    # build
-
-    # constructors
-    # methods
-    # functions
-
-    # fallback
-    # substitute use mark
-
     $*gnome-class = $!filename.tc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
@@ -123,53 +74,28 @@ method generate-code ( ) {
     $raku-module.generate-doc if $*generate-doc;
   }
 
-  elsif $!filedata<record>:exists {
-    $found-ciru = True;
+  # If there is one record, generate a single raku module. The record
+  # may have constructors and methods too
+  elsif $!filedata<record>:exists and $!filedata<record>.keys.elems == 1 {
+    $*gnome-class = $!filename.tc;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-    # set use mark
-    # class unit
+    say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
 
-    # constants
-    # enums
-    # bitmasks
-    # records
-    # unions
-
-    # build
-
-    # constructors
-    # methods
-    # functions
-
-    # fallback
-    # substitute use mark
+    require ::('Gnome::SourceSkimTool::Record');
+    my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
+    $raku-module.generate-code if $*generate-code;
+    $raku-module.generate-test if $*generate-test;
+    $raku-module.generate-doc if $*generate-doc;
   }
 
-  elsif $!filedata<union>:exists {
-    $found-ciru = True;
-
-    # set use mark
-    # class unit
-
-    # constants
-    # enums
-    # bitmasks
-    # records
-    # unions
-
-    # build
-
-    # constructors
-    # methods
-    # functions
-
-    # fallback
-    # substitute use mark
+  # If there is one union, generate a single raku module. The union
+  # may have constructors and methods too
+  elsif $!filedata<union>:exists and $!filedata<union>.keys.elems == 1 {
   }
 
-  # No class, interface, record or union found. This module becomes the
-  # mixture of all other types.
-  unless $found-ciru {
+  else {
+    # No class or interface. This module becomes the mixture of all other types.
     my Bool $need-routine-caller = False;
 
     $*gnome-class = $!filename.tc;
@@ -182,7 +108,9 @@ method generate-code ( ) {
 
     $code ~= $!mod.set-unit-for-file;
 
-    # Process types one by one so that it becomes a neet order in the result
+    if $!filedata<docsection>:exists {
+    }
+
     if $!filedata<constant>:exists {
     }
 
@@ -198,10 +126,15 @@ method generate-code ( ) {
       $code ~= $!mod.generate-bitfield-code(:$bitfield-names);
     }
 
-    if $!filedata<callback>:exists {
+    # There are more than one records, gather them all in this module
+    if $!filedata<record>:exists {
     }
 
-    if $!filedata<docsection>:exists {
+    # There are more than one unions, gather them all in this module
+    if $!filedata<union>:exists {
+    }
+
+    if $!filedata<callback>:exists {
     }
 
     if $!filedata<function>:exists {
