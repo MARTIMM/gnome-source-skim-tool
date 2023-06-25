@@ -859,8 +859,8 @@ method !get-bitfield-names ( --> Array ) {
 
 #-------------------------------------------------------------------------------
 # A structure consists of fields. Only then there is a structure
-method generate-structure ( XML::Element $element --> Str ) {
-  my @fields = $!xpath.find( 'field', :start($element), :to-list);
+method generate-structure ( XML::Element $element, XML::XPath $xpath --> Str ) {
+  my @fields = $xpath.find( 'field', :start($element), :to-list);
   return '' unless ?@fields;
 
   my Str $name = $*work-data<gnome-name>;
