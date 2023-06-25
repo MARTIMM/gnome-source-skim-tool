@@ -109,19 +109,7 @@ method generate-code ( ) {
 #  note "Generate module properties" if $*verbose;  
 #  $doc ~= $!grd.generate-properties( $element, $!xpath) if $*generate-doc;
 
-  note "Set modules to import";
-  my $import = '';
-  for @$*external-modules -> $m {
-    if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
-       $import ~= "use $m;\n";
-    }
-
-    else {
-      $import ~= "use $m\:api\('gir'\);\n";
-    }
-  }
-  
-  $code ~~ s/__MODULE__IMPORTS__/$import/;
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($code) if $*generate-code;

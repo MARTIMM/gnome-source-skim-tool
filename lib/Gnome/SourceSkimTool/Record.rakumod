@@ -113,21 +113,7 @@ method generate-code ( ) {
     RAKUMOD
 }}
 
-  note "Set modules to import";
-  my $import = '';
-  for @$*external-modules -> $m {
-    if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
-       $import ~= "use $m;\n";
-    }
-
-    else {
-#NOTE temporary use existing modules
-#      $import ~= "use $m\:api\('gir'\);\n";
-      $import ~= "use $m;\n";
-    }
-  }
-
-  $module-code ~~ s/__MODULE__IMPORTS__/$import/;
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;

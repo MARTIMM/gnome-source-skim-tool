@@ -54,22 +54,7 @@ method generate-code ( ) {
 
   $code ~= $!mod.generate-callables( $element, $!xpath);
 
-
-  note "Set modules to import";
-  my $import = '';
-  for @$*external-modules -> $m {
-    if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
-       $import ~= "use $m;\n";
-    }
-
-    else {
-
-      $import ~= "use $m\:api\('gir'\);\n";
-    }
-  }
-
-  $code ~~ s/__MODULE__IMPORTS__/$import/;
-
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($code);
