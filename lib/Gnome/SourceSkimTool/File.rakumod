@@ -2,6 +2,7 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
 #use Gnome::SourceSkimTool::SearchAndSubstitute;
+use Gnome::SourceSkimTool::Code;
 #use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Prepare;
 
@@ -13,17 +14,18 @@ use JSON::Fast;
 unit class Gnome::SourceSkimTool::File:auth<github:MARTIMM>;
 
 #has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
+has Gnome::SourceSkimTool::Code $!mod;
 #has Gnome::SourceSkimTool::Doc $!grd;
-
 
 has XML::XPath $!xpath;
 
 has Str $!filename;
-has Str $!unit-name;
 has Hash $!filedata;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( Str :$!filename ) {
+  $!mod .= new;
+
   self!get-data-from-filename;
 }
 
@@ -143,7 +145,7 @@ method generate-code ( ) {
     # substitute use mark
   }
 
-  elsif $!filedata<union> {
+  elsif $!filedata<union>:exists {
     $found-ciru = True;
 
     # set use mark
@@ -168,30 +170,42 @@ method generate-code ( ) {
   # No class, interface, record or union found. This module becomes the
   # mixture of all other types.
   unless $found-ciru {
+    my Bool $need-routine-caller = False;
 
     $*gnome-class = $!filename.tc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-    my Str $code = '';
-    for $!filedata.keys {
-      when 'constant' {
-      }
+    my Str $code = qq:to/RAKUMOD/;
+      #TL:1:$*work-data<raku-class-name>:
+      use v6;
+      RAKUMOD
 
-      when 'enumeration' {
-      }
+    $code ~= $!mod.set-unit-for-file;
 
-      when 'bitfield' {
-      }
-
-      when 'callback' {
-      }
-
-      when 'docsection' {
-      }
-
-      when 'function' {
-      }
+    # Process types one by one so that it becomes a neet order in the result
+    if $!filedata<constant>:exists {
     }
+
+    if $!filedata<enumeration>:exists {
+      my Array $enum-names = [];
+      $enum-names = [$!filedata<enumeration>.keys];
+      $code ~= $!mod.generate-enumerations-code(:$enum-names);
+    }
+
+    if $!filedata<bitfield>:exists {
+    }
+
+    if $!filedata<callback>:exists {
+    }
+
+    if $!filedata<docsection>:exists {
+    }
+
+    if $!filedata<function>:exists {
+      $need-routine-caller = True;
+    }
+
+    $code = $!mod.substitute-MODULE-IMPORTS( $code, :$need-routine-caller);
 
     note "Save module";
     $*work-data<raku-module-file>.IO.spurt($code) if $*generate-code;
