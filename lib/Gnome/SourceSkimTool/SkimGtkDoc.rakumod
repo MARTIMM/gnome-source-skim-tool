@@ -566,8 +566,8 @@ method !get-source-file( XML::Element:D $element --> Str ) {
         $fname ~~ s/ \. <-[\.]>+ $//;
 
         # In Gtk and Gdk for version 3, the filenames are having the prefix
-        # gtk or gdk before it
-        if $*gnome-package.Str ~~ any(<Gtk3 Gdk3>) {
+        # 'gtk' or 'gdk' before it. Glib has a 'g' prefixed.
+        if $*gnome-package.Str ~~ any(<Gtk3 Gdk3 Glib>) {
           my $name-prefix = $*work-data<name-prefix>;
           $fname ~~ s/^ $name-prefix //;
         }
