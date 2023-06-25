@@ -354,6 +354,8 @@ method convert-ntype (
     }
 }}
 
+    when 'GQuark'             { $raku-type = 'GQuark'; }
+
     when 'void' { $raku-type = 'void'; }
 
     default {
