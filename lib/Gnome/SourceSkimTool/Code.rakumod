@@ -765,9 +765,12 @@ method !get-enumeration-names ( --> Array ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-bitfield-code ( --> Str ) {
+method generate-bitfield-code ( Array :$bitfield-names is copy = [] --> Str ) {
 
-  my Array $bitfield-names = self!get-bitfield-names;
+  # Don't look enum names up if array is provided
+  $bitfield-names = self!get-bitfield-names unless ?$bitfield-names;
+
+  # Return empty string if no enums found.
   return '' unless ?$bitfield-names;
 #note "$?LINE e names: $bitfield-names.gist()";
 
