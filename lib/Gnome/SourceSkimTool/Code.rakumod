@@ -67,6 +67,24 @@ method set-unit ( XML::Element $element --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+# This setup is for more simple structures like records, functions,
+# enumerations, etc. There is no need for inheritence, BUILD, signals or
+# properties.
+method set-unit-for-file ( --> Str ) {
+  qq:to/RAKUMOD/;
+
+    {$!grd.pod-header('Module Imports')}
+    __MODULE__IMPORTS__
+    use Gnome::Glib::GnomeRoutineCaller:api('gir');
+
+    {HLSEPARATOR}
+    {SEPARATOR('Class Declaration');}
+    {HLSEPARATOR}
+    unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api('gir');
+    RAKUMOD
+}
+
+#-------------------------------------------------------------------------------
 method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
   
   my Str $code = '';
@@ -78,7 +96,7 @@ method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
   note "Generate constructors" if $*verbose and ?$code;
 
 #  note "Generate methods" if $*verbose;  
-  my Str $c = self!generate-methods($element);
+  $c = self!generate-methods($element);
   $code ~= $c if ?$c;
   note "Generate methods" if $*verbose and ?$c;
 
@@ -982,7 +1000,25 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
   $code
 }
 
+#-------------------------------------------------------------------------------
+method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
 
+  note "Set modules to import" if $*verbose;
+  my $import = '';
+  for @$*external-modules -> $m {
+    if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
+      $import ~= "use $m;\n";
+    }
+
+    else {
+      $import ~= "use $m\:api\('gir'\);\n";
+    }
+  }
+
+  $code ~~ s/__MODULE__IMPORTS__/$import/;
+
+  $code
+}
 
 
 
