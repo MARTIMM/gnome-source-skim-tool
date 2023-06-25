@@ -193,6 +193,9 @@ method generate-code ( ) {
     }
 
     if $!filedata<bitfield>:exists {
+      my Array $bitfield-names = [];
+      $bitfield-names = [$!filedata<bitfield>.keys];
+      $code ~= $!mod.generate-bitfield-code(:$bitfield-names);
     }
 
     if $!filedata<callback>:exists {
