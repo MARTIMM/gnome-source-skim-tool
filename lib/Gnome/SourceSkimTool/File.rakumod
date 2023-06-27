@@ -128,6 +128,8 @@ method generate-code ( ) {
 
     # There are more than one records, gather them all in this module
     if $!filedata<record>:exists {
+      for $!filedata<record>.keys -> $record-name {
+      }
     }
 
     # There are more than one unions, gather them all in this module
