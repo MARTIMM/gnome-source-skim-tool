@@ -24,7 +24,7 @@ submethod BUILD ( ) {
   $!sas .= new;
 
   # load data for this module
-  note "Load module data from $*work-data<gir-interface-file>";
+  note "Load module data from $*work-data<gir-interface-file>" if $*verbose;
   $!xpath .= new(:file($*work-data<gir-interface-file>));
 
   $!mod .= new(:$!xpath);
@@ -34,9 +34,13 @@ submethod BUILD ( ) {
 method generate-code ( ) {
 
   my XML::Element $element = $!xpath.find('//interface');
-  die "//interface not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
+  die "//interface not found in $*work-data<gir-interface-file> for $*work-data<raku-class-name>" unless ?$element;
 
-  my Str $code = '';
+  my Str $code = qq:to/RAKUMOD/;
+    #TL:1:$*work-data<raku-class-name>:
+    use v6;
+    RAKUMOD
+
 #  my Str $doc = qq:to/RAKUMOD/;
 #    #TL:1:$*work-data<raku-class-name>:
 #    use v6;

@@ -24,7 +24,7 @@ submethod BUILD ( ) {
   $!sas .= new;
 
   # load data for this module
-  note "Load module data from $*work-data<gir-module-path>repo-record.gir";
+  note "Load module data from $*work-data<gir-record-file>" if $*verbose;
   $!xpath .= new(:file($*work-data<gir-record-file>));
 
   $!mod .= new(:$!xpath);
@@ -35,14 +35,12 @@ submethod BUILD ( ) {
 method generate-code ( ) {
 
   my XML::Element $element = $!xpath.find('//record');
-  die "//record not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
+  die "//record not found in $*work-data<gir-record-file> for $*work-data<raku-class-name>" unless ?$element;
 
 #  my ( $doc, $code);
   my Str $code = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
     use v6;
-
-    {$!grd.pod-header('Record Description')}
     RAKUMOD
 
 #  my Str $module-doc = qq:to/RAKUMOD/;
@@ -62,7 +60,7 @@ method generate-code ( ) {
   $code ~= $!mod.generate-enumerations-code;
   $code ~= $!mod.generate-bitfield-code;
 
-  # Generate structure if there is one
+  # Generate record structure
   $code ~= $!mod.generate-structure( $element, $!xpath);
 
   # Make a BUILD submethod
