@@ -9,7 +9,7 @@ use lib './lib',
 use Gnome::N::N-GObject;
 use Gnome::N::GlibToRakuTypes;
 
-use Gnome::Gtk3::TestWindow:api('gir');
+use Gnome::Gtk3::TestWindow:api('2');
 use Gnome::Gtk3::Main;
 
 constant \Window = Gnome::Gtk3::TestWindow;
@@ -25,6 +25,7 @@ class CB {
 
 #-------------------------------------------------------------------------------
 with my Window $w .= new(:window-type(GTK_WINDOW_TOPLEVEL)) {
+  note "Window api is ", .^api();
 #  .set-size-request( 400, 300);
 ##`{{
   .set-title('test window');
@@ -46,4 +47,6 @@ note '.get-title(): ', .get-title;
 #}}
 }
 
-Gnome::Gtk3::Main.new.main;
+my Gnome::Gtk3::Main $main .= new;
+note "Main api is ", $main.^api();
+$main.main;

@@ -110,7 +110,7 @@ method generate-test ( ) {
     use NativeCall;
     use Test;
 
-    use $*work-data<raku-class-name>:api('gir');
+    use $*work-data<raku-class-name>:api<2>;
 
     use Gnome::N::GlibToRakuTypes;
     use Gnome::N::N-GObject;

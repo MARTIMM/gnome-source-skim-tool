@@ -10,10 +10,10 @@ use Gnome::Gtk3::Bin;
 
 use Gnome::Glib::Error;
 
-use Gnome::Glib::GnomeRoutineCaller:api('gir');
+use Gnome::Glib::GnomeRoutineCaller:api<2>;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::Gtk3::TestWindow:api('gir');
+unit class Gnome::Gtk3::TestWindow:api<2>;
 also is Gnome::Gtk3::Bin;
 
 #constant \Error = Gnome::Glib::Error;

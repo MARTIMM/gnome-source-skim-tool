@@ -54,12 +54,10 @@ method set-unit ( XML::Element $element --> Str ) {
 
     {$!grd.pod-header('Module Imports')}
     __MODULE__IMPORTS__
-    use Gnome::Glib::GnomeRoutineCaller:api('gir');
+    use Gnome::Glib::GnomeRoutineCaller:api<2>;
 
-    {HLSEPARATOR}
-    {SEPARATOR(($is-role ?? 'Role' !! 'Class') ~ ' Declaration');}
-    {HLSEPARATOR}
-    unit {$is-role ?? 'role' !! 'class'} $*work-data<raku-class-name>:auth<github:MARTIMM>:api('gir');
+    {$!grd.pod-header(($is-role ?? 'Role' !! 'Class') ~ ' Declaration');}
+    unit {$is-role ?? 'role' !! 'class'} $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
     $also
     RAKUMOD
 
@@ -75,12 +73,10 @@ method set-unit-for-file ( --> Str ) {
 
     {$!grd.pod-header('Module Imports')}
     __MODULE__IMPORTS__
-    use Gnome::Glib::GnomeRoutineCaller:api('gir');
+    use Gnome::Glib::GnomeRoutineCaller:api<2>;
 
-    {HLSEPARATOR}
-    {SEPARATOR('Class Declaration');}
-    {HLSEPARATOR}
-    unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api('gir');
+    {$!grd.pod-header('Class Declaration');}
+    unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
     RAKUMOD
 }
 
