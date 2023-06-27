@@ -81,22 +81,25 @@ method set-unit-for-file ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
+method generate-callables (
+  XML::Element $element, XML::XPath $xpath, Bool :$is-interface
+  --> Str
+) {
   
   my Str $code = '';
   my Str $c;
 
-#  note "Generate constructors" if $*verbose;  
+  # Generate constructors
   my Hash $hcs = self.get-constructors( $element, $xpath);
   $code ~= self!generate-constructors($hcs) if ?$hcs;
   note "Generate constructors" if $*verbose and ?$code;
 
-#  note "Generate methods" if $*verbose;  
+  # Generate methods
   $c = self!generate-methods($element);
   $code ~= $c if ?$c;
   note "Generate methods" if $*verbose and ?$c;
 
-#  note "Generate functions" if $*verbose;  
+  # Generate functions
   $c = self!generate-functions($element);
   $code ~= $c if ?$c;
   note "Generate functions" if $*verbose and ?$c;
@@ -106,16 +109,17 @@ method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
   if ?$code {
     $c = qq:to/RAKUMOD/;
 
-      {HLSEPARATOR}
-      {SEPARATOR('Native Routine Definitions');}
-      {HLSEPARATOR}
+      {$!grd.pod-header('Native Routine Definitions');}
       my Hash \$methods = \%\(
       $code
       );
 
       {HLSEPARATOR}
       RAKUMOD
+  }
 
+  #
+  if $is-interface {
     $c ~= q:to/RAKUMOD/;
       # This method is recognized in class Gnome::N::TopLevelClassSupport.
       method _fallback-v2 (
@@ -131,14 +135,56 @@ method generate-callables ( XML::Element $element, XML::XPath $xpath --> Str ) {
         }
 
         else {
+      RAKUMOD
+
+  }
+
+  else {
+    $c ~= q:to/RAKUMOD/;
+      # This method is recognized in class Gnome::N::TopLevelClassSupport.
+      method _fallback-v2 (
+        Str $n, Bool $_fallback-v2-ok is rw,
+        Gnome::Glib::GnomeRoutineCaller $routine-caller, *@arguments
+      ) {
+        my Str $name = S:g/ '-' /_/ with $n;
+        if $methods{$name}:exists {
+          my $native-object = self.get-native-object-no-reffing;
+          $_fallback-v2-ok = True;
+          return $routine-caller.call-native-sub(
+            $name, @arguments, $methods, :$native-object
+          );
+        }
+
+        else {
           callsame;
         }
       }
-
       RAKUMOD
-    
-    $code = $c;
+
+    my Str $ctype = $element.attribs<c:type>;
+    my Hash $h = $!sas.search-name($ctype);
+    my Array $roles = $h<implement-roles>//[];
+    for @$roles -> $role {
+      my Hash $role-h = $!sas.search-name($role);
+#note "$?LINE role=$role -> $role-h.gist()";
+
+      $c ~= qq:to/RAKUMOD/;
+            my \$r = self.{$role}::_fallback-v2-ok\(
+              \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
+            \);
+            return \$r if \$_fallback-v2-ok;
+
+        RAKUMOD
+    }
+
+    $c ~= q:to/RAKUMOD/;
+          callsame;
+        }
+      }
+      RAKUMOD
   }
+
+  $code = $c;
 
   $code
 }
@@ -994,14 +1040,12 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
       EOBUILD
   }
-  
-  $code ~= qq:to/RAKUMOD/;
 
-    {HLSEPARATOR}
-    {SEPARATOR('Native Routine Definitions');}
-    {HLSEPARATOR}
-    my Hash \$methods = \%\(
-    RAKUMOD
+#  $code ~= qq:to/RAKUMOD/;
+#
+#    {$!grd.pod-header('Native Routine Definitions');}
+#    my Hash \$methods = \%\(
+#    RAKUMOD
 
   $code
 }
