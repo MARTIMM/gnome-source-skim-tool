@@ -92,6 +92,16 @@ method generate-code ( ) {
   # If there is one union, generate a single raku module. The union
   # may have constructors and methods too
   elsif $!filedata<union>:exists and $!filedata<union>.keys.elems == 1 {
+    $*gnome-class = $!filename.tc;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+    say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
+
+    require ::('Gnome::SourceSkimTool::Union');
+    my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
+    $raku-module.generate-code if $*generate-code;
+    $raku-module.generate-test if $*generate-test;
+    $raku-module.generate-doc if $*generate-doc;
   }
 
   else {
@@ -128,8 +138,8 @@ method generate-code ( ) {
 
     # There are more than one records, gather them all in this module
     if $!filedata<record>:exists {
-      for $!filedata<record>.keys -> $record-name {
-      }
+#      for $!filedata<record>.keys -> $record-name {
+#      }
     }
 
     # There are more than one unions, gather them all in this module
