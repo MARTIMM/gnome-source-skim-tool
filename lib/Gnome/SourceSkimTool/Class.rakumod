@@ -119,7 +119,7 @@ method generate-test ( ) {
 
     {HLSEPARATOR}
     my $*work-data<raku-class-name> $test-variable;
-    
+
     {HLSEPARATOR}
     subtest 'ISA test', \{
       $test-variable .= new;
