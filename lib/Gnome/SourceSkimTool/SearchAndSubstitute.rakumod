@@ -345,6 +345,8 @@ method convert-ntype (
     when /:i g? object '*'/   { $raku-type = 'N-GObject'; }
     when /:i g? pixbuf '*'/   { $raku-type = 'N-GObject'; }
     when /:i g? error '*'/    { $raku-type = 'N-GObject'; }
+    when /:i g? quark /       { $raku-type = 'GQuark'; }
+    when 'void'               { $raku-type = 'void'; }
 
 #`{{
     when /GError '*'/ {
@@ -354,9 +356,6 @@ method convert-ntype (
     }
 }}
 
-    when 'GQuark'             { $raku-type = 'GQuark'; }
-
-    when 'void' { $raku-type = 'void'; }
 
     default {
       # remove any pointer marks
