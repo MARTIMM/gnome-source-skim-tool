@@ -34,6 +34,8 @@ submethod BUILD ( Bool :$load-maps = True ) {
       "$*work-data<gir-module-path>C-$*gnome-class.gir";
     $*work-data<gir-record-file> =
       "$*work-data<gir-module-path>R-$*gnome-class.gir";
+    $*work-data<gir-union-file> =
+      "$*work-data<gir-module-path>U-$*gnome-class.gir";
     $*work-data<gir-interface-file> =
       "$*work-data<gir-module-path>I-$*gnome-class.gir";
     $*work-data<raku-module-file> = RAKUMODS ~ "$*gnome-class.rakumod";
