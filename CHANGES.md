@@ -44,14 +44,18 @@ kaal /usr/bin
   * Add module **Gnome::SourceSkimTool::Union** to process union structures.
   * Tests with a few generated modules looks promising. The new modules used in the test are: Window, Bin, Comtainer, Widget and Buildable. The modules upon which it still depends are from the older Gtk libraries. Running the same test file `Window.rakutest` (only once) it shows the following;
 
-    | Elapsed time | User time| Kernel time | Note
-    |---------|----------|-------------|---------------------------------------
-    |  2.33   |  1.73    | 0.16        | Old library
-    | 34.73   | 43.19    | 2.03        | Old library with removed .precomp
-    |  2.90   |  2.44    | 0.21        | New modules
-    |  3.13   |  2.60    | 0.24        | New modules with removed .precomp
+    | Elapsed time | User time| Kernel time | Cpu % |  Note
+    |---------|----------|-------------|--------------|------------------------
+    | 0:02.33 |  1.73 | 0.16  |  81 | Old library
+    | 0:34.73 | 43.19 | 2.03  | 130 | Old library with removed .precomp
+    | 0:37.57 | 46.45 | 2.15  | 129 |
+    | 0:33.00 | 41.69 | 1.97  | 132 |
+    | 0:02.90 |  2.44 | 0.21  |  91 | New modules
+    | 0:03.13 |  2.60 | 0.24  |  90 | New modules with removed .precomp
+    | 0:03.37 |  3.18 | 0.25  | 101 |
 
-    The tests show that normal runtimes are not differing much. But when everyhing needs to be recompiled, the newer modules compile much faster. I must make a note here. Removing the .precompile directories in the old Gtk library, maybe involves more compiling for other modules needed as a side effect instead of only the Window, Bin, Container, Widget and Buildable modules.
+    The tests show that normal runtimes are not differing much. But when everyhing needs to be recompiled, the newer modules compile much faster. I must make a note here. Removing the .precompile directories in the old Gtk library, involves more compiling for other modules needed as a side effect instead of only the Window, Bin, Container, Widget and Buildable modules. Its size after running is 16.2 Mb over 66 files and 29 sub folders. The newer .precomp files are 16.3 Kb over 5 files and 3 sub folders, quite a difference. If I take the difference in files into account, about 66/5, and the increase in time, less than a sec., it would become 10 sec. at most.
+    When the project evolves, these tests are repeated to see if this is really true.
 
 * 2023-06-19 0.8.3
   * Add module **Gnome::SourceSkimTool::File** to scan through data using a filename defined in field `class-file` in the `repo-object-map.yaml`. This may remove options -c, -i and -r.
