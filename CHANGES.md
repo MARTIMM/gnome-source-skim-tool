@@ -40,6 +40,19 @@ kaal /usr/bin
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
+* 2023-06-28 0.9.0
+  * Add module **Gnome::SourceSkimTool::Union** to process union structures.
+  * Tests with a few generated modules looks promising. The new modules used in the test are: Window, Bin, Comtainer, Widget and Buildable. The modules upon which it still depends are from the older Gtk libraries. Running the same test file `Window.rakutest` (only once) it shows the following;
+
+    | Elapsed time | User time| Kernel time | Note
+    |---------|----------|-------------|---------------------------------------
+    |  2.33   |  1.73    | 0.16        | Old library
+    | 34.73   | 43.19    | 2.03        | Old library with removed .precomp
+    |  2.90   |  2.44    | 0.21        | New modules
+    |  3.13   |  2.60    | 0.24        | New modules with removed .precomp
+
+    The tests show that normal runtimes are not differing much. But when everyhing needs to be recompiled, the newer modules compile much faster. I must make a note here. Removing the .precompile directories in the old Gtk library, maybe involves more compiling for other modules needed as a side effect instead of only the Window, Bin, Container, Widget and Buildable modules.
+
 * 2023-06-19 0.8.3
   * Add module **Gnome::SourceSkimTool::File** to scan through data using a filename defined in field `class-file` in the `repo-object-map.yaml`. This may remove options -c, -i and -r.
   * Add bitfields. Generated as enumerations but are mostly used for masks. The type GFlag is used for those indicating an unsigned integer type.
@@ -49,7 +62,7 @@ kaal /usr/bin
   * Add records. Starting with Gdk events. All the records are in separate modules like EventButton, EventConfigure etc.
 
 * 2023-06-12 0.8.1
-  * Setup with Hash done on one class starting with **Gnome::Gtk3::Window**. The choice to use a hash is because there is no dependency on the gir libs or gir XML files. Focus is on generating code the api on a module is set to `:api('gir')` to prevent looking for the wrong (older) modules. Next implemented modules are in the parent chain of Window, i.e. **Gnome::Gtk3::Bin**, **Gnome::Gtk3::Container** and **Gnome::Gtk3::Widget**. Further up is still on the old libraries. Looks promising.
+  * Setup with Hash done on one class starting with **Gnome::Gtk3::Window**. The choice to use a hash is because there is no dependency on the gir libs or gir XML files. Focus is on generating code. The api-tag on a module is set to `:api<2>` to prevent looking for the wrong (older) modules. Next implemented modules are in the parent chain of Window, i.e. **Gnome::Gtk3::Bin**, **Gnome::Gtk3::Container** and **Gnome::Gtk3::Widget**. Further up is still on the old libraries. Looks promising.
   * Also roles can be implemented starting with **Gnome::Gtk3::Buildable**. Some trouble are fixed in using FALLBACK in roles. Fallback routine in **Gnome::N::TopLevelSupportClass** needed some changes to behave differently when in a newer class. Old software is tested and is ok.
   * Add enumerations.
 
