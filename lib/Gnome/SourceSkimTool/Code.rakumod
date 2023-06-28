@@ -82,7 +82,7 @@ method set-unit-for-file ( --> Str ) {
 
 #-------------------------------------------------------------------------------
 method generate-callables (
-  XML::Element $element, XML::XPath $xpath, Bool :$is-interface
+  XML::Element $element, XML::XPath $xpath, Bool :$is-interface = False
   --> Str
 ) {
   
@@ -111,8 +111,7 @@ method generate-callables (
 
       {$!grd.pod-header('Native Routine Definitions');}
       my Hash \$methods = \%\(
-      $code
-      );
+      $code);
 
       {HLSEPARATOR}
       RAKUMOD
@@ -120,26 +119,6 @@ method generate-callables (
 
   #
   if $is-interface {
-    $c ~= q:to/RAKUMOD/;
-      # This method is recognized in class Gnome::N::TopLevelClassSupport.
-      method _fallback-v2 (
-        Str $n, Bool $_fallback-v2-ok is rw, *@arguments
-      ) {
-        my Str $name = S:g/ '-' /_/ with $n;
-        if $methods{$name}:exists {
-          my $native-object = self.get-native-object-no-reffing;
-          $_fallback-v2-ok = True;
-          return $!routine-caller.call-native-sub(
-            $name, @arguments, $methods, :$native-object
-          );
-        }
-
-        else {
-      RAKUMOD
-
-  }
-
-  else {
     $c ~= q:to/RAKUMOD/;
       # This method is recognized in class Gnome::N::TopLevelClassSupport.
       method _fallback-v2 (
@@ -154,11 +133,25 @@ method generate-callables (
             $name, @arguments, $methods, :$native-object
           );
         }
+      }
+      RAKUMOD
+
+  }
+
+  else {
+    $c ~= q:to/RAKUMOD/;
+      # This method is recognized in class Gnome::N::TopLevelClassSupport.
+      method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
+        my Str $name = S:g/ '-' /_/ with $n;
+        if $methods{$name}:exists {
+          my $native-object = self.get-native-object-no-reffing;
+          $_fallback-v2-ok = True;
+          return $!routine-caller.call-native-sub(
+            $name, @arguments, $methods, :$native-object
+          );
+        }
 
         else {
-          callsame;
-        }
-      }
       RAKUMOD
 
     my Str $ctype = $element.attribs<c:type>;
@@ -1063,7 +1056,7 @@ method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
     }
 
     else {
-      $import ~= "use $m\:api\('gir'\);\n";
+      $import ~= "use $m\:api\<2\>;\n";
     }
   }
 

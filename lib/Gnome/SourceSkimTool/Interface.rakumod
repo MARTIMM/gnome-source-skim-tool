@@ -62,7 +62,7 @@ method generate-code ( ) {
   note "Generate role initialization method" if $*verbose;  
   $code ~= $!mod.generate-role-init( $element, $!xpath);
 
-  $code ~= $!mod.generate-callables( $element, $!xpath);
+  $code ~= $!mod.generate-callables( $element, $!xpath, :is-interface);
 #`{{
   note "Generate module methods" if $*verbose;  
   ( $doc, $code) = $!mod.generate-methods($element);
