@@ -60,8 +60,8 @@ method generate-code ( ) {
   $code ~= $!mod.generate-enumerations-code;
   $code ~= $!mod.generate-bitfield-code;
 
-  # Generate record structure
-  $code ~= $!mod.generate-structure( $element, $!xpath);
+  # Generate record structure. Structures are stored in separate files.
+  $!mod.generate-structure( $element, $!xpath);
 
   # Make a BUILD submethod
   note "Generate BUILD submethod" if $*verbose;  
