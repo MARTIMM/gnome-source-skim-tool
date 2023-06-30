@@ -14,7 +14,6 @@ has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 #-------------------------------------------------------------------------------
 submethod BUILD ( Bool :$load-maps = True ) {
   $*verbose //= False;
-
   $*work-data = self.prepare-work-data($*gnome-package);
 
   mkdir $*work-data<gir-module-path>, 0o700
@@ -109,6 +108,21 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
 #-------------------------------------------------------------------------------
 submethod prepare-work-data ( SkimSource $source --> Hash ) {
+
+  # A list of keys to search for in the map depending in the package name
+  @*map-search-list = ();
+  @*map-search-list = <Gtk Gdk Atk Gio> if $*gnome-package.Str ~~ m/^ Gtk /;
+  @*map-search-list.push: 'Gsk' if $*gnome-package.Str eq 'Gtk4';
+
+  @*map-search-list = <Gdk GdkPixbuf> if $*gnome-package.Str eq 'Gdk3';
+
+  @*map-search-list = <Pango Cairo PangoCairo>
+     if $*gnome-package.Str ~~ m/ Pango || Cairo /;
+
+  @*map-search-list = 'Gio' if $*gnome-package.Str eq 'Gio';
+  @*map-search-list.push: 'Glib', 'GObject';
+
+#note "$?LINE $*gnome-package.Str(), @*map-search-list.gist()";
 
   my Hash $work-data;
   with $source {
