@@ -18,13 +18,15 @@ my Bool $*generate-doc;
 my Bool $*generate-test;
 
 my Array $*external-modules;
+my @*map-search-list;
 
 #-------------------------------------------------------------------------------
 sub MAIN (
   Str:D $gnome-package, Str $gnome-class?,
   Bool :$v = False,
   Bool :$gir = False,
-  Bool :$c = False, Bool :$r = False, Bool :$i = False, Bool :$f = False,
+  Bool :$c = False, Bool :$r = False, Bool :$i = False, Bool :$u = False,
+  Bool :$f = False,
   Bool :$m = False, Bool :$t = False, Bool :$d = False,
   Bool :$help = False,
   Bool :$list = False, Str :$type = '', Str :$filter
@@ -130,6 +132,20 @@ sub MAIN (
          if $*verbose;
     require ::('Gnome::SourceSkimTool::Record');
     my $raku-record = ::('Gnome::SourceSkimTool::Record').new;
+    $raku-record.generate-code if $*generate-code;
+    $raku-record.generate-test if $*generate-test;
+    #$raku-module.generate-doc if $*generate-doc;
+  }
+
+  # Get data using union name
+  elsif $u and ?$gnome-class {
+    $*gnome-class = $gnome-class;
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+    say "Generate Raku module from union data in $*work-data<raku-class-name>"
+         if $*verbose;
+    require ::('Gnome::SourceSkimTool::Union');
+    my $raku-record = ::('Gnome::SourceSkimTool::Union').new;
     $raku-record.generate-code if $*generate-code;
     $raku-record.generate-test if $*generate-test;
     #$raku-module.generate-doc if $*generate-doc;
