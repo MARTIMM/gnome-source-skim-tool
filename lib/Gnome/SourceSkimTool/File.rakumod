@@ -74,6 +74,7 @@ method generate-code ( ) {
     $raku-module.generate-doc if $*generate-doc;
   }
 
+#`{{
   # If there is one record, generate a single raku module. The record
   # may have constructors and methods too
   elsif $!filedata<record>:exists and $!filedata<record>.keys.elems == 1 {
@@ -92,7 +93,10 @@ method generate-code ( ) {
   # If there is one union, generate a single raku module. The union
   # may have constructors and methods too
   elsif $!filedata<union>:exists and $!filedata<union>.keys.elems == 1 {
-    $*gnome-class = $!filename.tc;
+    my Str $name = $!filedata<union>.keys[0];
+    my Str $name-prefix = $*work-data<name-prefix>;
+    $name ~~ s:i/^ $name-prefix //;
+    $*gnome-class = $name;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
     say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
@@ -103,6 +107,7 @@ method generate-code ( ) {
     $raku-module.generate-test if $*generate-test;
     $raku-module.generate-doc if $*generate-doc;
   }
+}}
 
   else {
     # No class or interface. This module becomes the mixture of all other types.

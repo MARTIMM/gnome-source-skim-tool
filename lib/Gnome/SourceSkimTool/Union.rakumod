@@ -49,13 +49,19 @@ method generate-code ( ) {
   $code ~= $!mod.generate-enumerations-code;
   $code ~= $!mod.generate-bitfield-code;
 
-  # Generate srecord tructures if there are any
+#  # Generate record structures if there are any. Structures are stored
+#  # in separate files.
+#  my @records = $!xpath.find( 'record', :start($element), :to-list);
+#note "$?LINE @records.elems()";
+#  for @records -> $record {
+#    $!mod.generate-structure( $record, $!xpath);
+#  }
  
-  # Generate union structure
-  $code ~= $!mod.generate-union( $element, $!xpath);
+  # Generate union structure. Unions are stored in separate files.
+  $!mod.generate-union( $element, $!xpath);
 
   # Make a BUILD submethod
-  note "Generate BUILD submethod" if $*verbose;  
+  note "Generate BUILD submethod" if $*verbose;
 #  ( $doc, $code) = $!mod.generate-build( $element, %());
 #  $module-doc ~= $doc;
 #  $module-code ~= $code;

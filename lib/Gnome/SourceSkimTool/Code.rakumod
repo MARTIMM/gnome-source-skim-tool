@@ -294,6 +294,11 @@ method make-build-submethod (
   my Str $ifelse = 'if';
   my Hash $hcs = self.get-constructors( $element, $!xpath);
   for $hcs.keys.sort -> $function-name {
+
+    my Str $fallback-fst-arg = $function-name;
+    my $sub-prefix = $*work-data<sub-prefix>;
+    $fallback-fst-arg ~~ s/^ $sub-prefix //;
+
     my Bool $first = True;
     my $par-list = '';
     my $decl-list = '';
@@ -324,7 +329,8 @@ method make-build-submethod (
             #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
             $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
       $decl-list
-              \$no = self\._fallback-v2\( 'new', my Bool \$x, ... \);
+              # 'my Bool \$x' is needed but value ignored
+              \$no = self\._fallback-v2\( '$fallback-fst-arg', my Bool \$x, ... \);
             \}
 
       EOBUILD
@@ -783,8 +789,9 @@ method !get-enumeration-names ( --> Array ) {
 
   # First get the name of the file of this class
   my Hash $h0 = $!sas.search-name($name);
+  return [] unless ?$h0;
+
   my Str $class-file = $h0<class-file>;
-#note "$?LINE classfile of $name = $class-file";
 
   # Now get all other types defined in this class file
   my Hash $h1 = $!sas.search-entries( 'class-file', $class-file);
@@ -876,8 +883,9 @@ method !get-bitfield-names ( --> Array ) {
 
   # First get the name of the file of this class
   my Hash $h0 = $!sas.search-name($name);
+  return [] unless ?$h0;
+
   my Str $class-file = $h0<class-file>;
-#note "$?LINE classfile of $name = $class-file";
 
   # Now get all other types defined in this class file
   my Hash $h1 = $!sas.search-entries( 'class-file', $class-file);
@@ -893,8 +901,141 @@ method !get-bitfield-names ( --> Array ) {
 }
 
 #-------------------------------------------------------------------------------
+method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
+
+  my Str $name = $*work-data<gnome-name>;
+  my Hash $h0 = $!sas.search-name($name);
+  my Str $struct-name = $h0<sname>;
+
+  my Str $code = qq:to/RAKUMOD/;
+    #TL:1:$struct-name:
+    use v6;
+
+    {$!grd.pod-header('Module Imports')}
+    __MODULE__IMPORTS__
+    RAKUMOD
+
+  my @fields = $xpath.find( 'field', :start($element), :to-list);
+  if ?@fields {
+    my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
+
+    $code ~= qq:to/EOREC/;
+      {$!grd.pod-header('Record Structure')}
+      #TT:1:$struct-name:
+      unit class $struct-name is export is repr\('CStruct');
+
+      EOREC
+
+    for @fields -> $field {
+      my $field-name = $field.attribs<name>;
+      my Str ( $type, $raku-ntype, $raku-rtype) = $!sas.get-doc-type-code($field);
+
+      # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+      my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
+      if ?$rnt1 {
+        $code ~= "has $rnt0 \$.$field-name;           # $rnt1\n";
+      }
+
+      else {
+        $code ~= "has $rnt0 \$.$field-name;\n";
+      }
+
+      if $raku-ntype eq 'N-GObject' {
+        $tweak-pars ~= "$raku-rtype :\$$field-name, ";
+        $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
+      }
+
+      else {
+        if $rnt0 eq 'GEnum' {
+          $build-pars ~= "$raku-rtype :\$$field-name, ";
+          $build-ass ~= "  \$!$field-name = \$$field-name.value
+            if ?\$$field-name;\n";
+        }
+
+        else {
+          $build-pars ~= "$raku-rtype :\$\!$field-name, ";
+        }
+      }
+    }
+
+    if ?$build-pars {
+      $code ~= qq:to/EOREC/;
+
+        submethod BUILD \(
+          $build-pars
+        \) \{
+        $build-ass\}
+        EOREC
+    }
+
+    if ?$tweak-pars {
+      $code ~= qq:to/EOREC/;
+
+        submethod TWEAK \(
+          $tweak-pars
+        \) \{
+        $tweak-ass\}
+
+          method COERCE \( \$no --> $struct-name \) \{
+            note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+            nativecast\( $struct-name, \$no\)
+          \}
+        EOREC
+    }
+
+#    $code ~= "\n\n";
+    $code = self.substitute-MODULE-IMPORTS($code);
+  }
+
+  else {
+    $code ~= qq:to/EOREC/;
+      {$!grd.pod-header('Record Structure')}
+      # This is an opaque type of which fields are not available.
+      unit class $struct-name is export is repr\('CStruct');
+
+      EOREC
+  }
+
+  note "Save record structure in $struct-name";
+  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
+  "$path/$struct-name.rakumod".IO.spurt($code);
+  
+  $*external-modules.push: $struct-name;
+}
+
+#-------------------------------------------------------------------------------
 # A structure consists of fields. Only then there is a structure
-method generate-structure ( XML::Element $element, XML::XPath $xpath --> Str ) {
+method generate-union ( XML::Element $element, XML::XPath $xpath ) {
+  my @fields = $xpath.find( 'field', :start($element), :to-list);
+  return '' unless ?@fields;
+
+  my Str $name = $*work-data<gnome-name>;
+  my Hash $h0 = $!sas.search-name($name);
+
+  my Str $struct-name = $h0<sname>;
+
+  my Str $code = qq:to/EOREC/;
+    {$!grd.pod-header('Record Structure')}
+    #TT:1:$struct-name:
+    class $struct-name is export is repr\('CUnion') \{
+    EOREC
+
+  for @fields -> $field {
+    my $field-name = $field.attribs<name>;
+    my Str ( $type, $raku-ntype, $raku-rtype) = $!sas.get-doc-type-code($field);
+
+    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+    my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
+    if ?$rnt1 {
+      $code ~= "  HAS $rnt0 \$.$field-name;           # $rnt1\n";
+    }
+
+    else {
+      $code ~= "  HAS $rnt0 \$.$field-name;\n";
+    }
+ }
+
+#`{{
   my @fields = $xpath.find( 'field', :start($element), :to-list);
   return '' unless ?@fields;
 
@@ -904,9 +1045,7 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
 
   my Str $code = qq:to/EOREC/;
-    {HLSEPARATOR}
-    {SEPARATOR('Record Structure');}
-    {HLSEPARATOR}
+    {$!grd.pod-header('Union Structure')}
     #TT:1:$struct-name:
     class $struct-name is export is repr\('CStruct') \{
     EOREC
@@ -966,10 +1105,15 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath --> Str ) {
         \}
       EOREC
   }
+}}
 
   $code ~= "\}\n\n";
 
-  $code
+  note "Save union structure in $struct-name";
+  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
+  "$path/$struct-name.rakumod".IO.spurt($code);
+  
+  $*external-modules.push: $struct-name;
 }
 
 #-------------------------------------------------------------------------------
@@ -1053,6 +1197,10 @@ method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
   for @$*external-modules -> $m {
     if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
       $import ~= "use $m;\n";
+    }
+
+    elsif $m ~~ m/^ N '-' / {
+      $import ~= "use $*work-data<raku-package>::$m\:api\<2\>;\n";
     }
 
     else {
