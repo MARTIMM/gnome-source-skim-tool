@@ -921,7 +921,6 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
 
     $code ~= qq:to/EOREC/;
       {$!grd.pod-header('Record Structure')}
-      #TT:1:$struct-name:
       unit class $struct-name is export is repr\('CStruct');
 
       EOREC
@@ -941,19 +940,15 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
       }
 
       if $raku-ntype eq 'N-GObject' {
-        $tweak-pars ~= "$raku-rtype :\$$field-name, ";
+        $tweak-pars ~= "$raku-ntype :\$$field-name, ";
         $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
       }
 
       else {
+        $build-pars ~= "$rnt0 :\$$field-name, ";
         if $rnt0 eq 'GEnum' {
-          $build-pars ~= "$raku-rtype :\$$field-name, ";
-          $build-ass ~= "  \$!$field-name = \$$field-name.value
-            if ?\$$field-name;\n";
-        }
-
-        else {
-          $build-pars ~= "$raku-rtype :\$\!$field-name, ";
+          $build-ass ~=
+            "  \$!$field-name = \$$field-name.value if ?\$$field-name;\n";
         }
       }
     }
@@ -976,10 +971,10 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
         \) \{
         $tweak-ass\}
 
-          method COERCE \( \$no --> $struct-name \) \{
-            note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-            nativecast\( $struct-name, \$no\)
-          \}
+        method COERCE \( \$no --> $struct-name \) \{
+          note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+          nativecast\( $struct-name, \$no\)
+        \}
         EOREC
     }
 
