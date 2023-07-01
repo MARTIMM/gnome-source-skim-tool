@@ -921,7 +921,8 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
 
     $code ~= qq:to/EOREC/;
       {$!grd.pod-header('Record Structure')}
-      unit class $struct-name is export is repr\('CStruct');
+      #TT:1:$struct-name:
+      unit class $struct-name is export is repr\('CStruct'):api<2>;
 
       EOREC
 
@@ -979,6 +980,7 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
     }
 
 #    $code ~= "\n\n";
+    $*external-modules.push: 'Gnome::N::X';
     $code = self.substitute-MODULE-IMPORTS($code);
   }
 
@@ -1006,44 +1008,20 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!sas.search-name($name);
-
   my Str $struct-name = $h0<sname>;
 
-  my Str $code = qq:to/EOREC/;
-    {$!grd.pod-header('Record Structure')}
-    #TT:1:$struct-name:
-    class $struct-name is export is repr\('CUnion') \{
-    EOREC
+  my Str $code = qq:to/RAKUMOD/;
+    #TL:1:$struct-name:
+    use v6;
 
-  for @fields -> $field {
-    my $field-name = $field.attribs<name>;
-    my Str ( $type, $raku-ntype, $raku-rtype) = $!sas.get-doc-type-code($field);
+    {$!grd.pod-header('Module Imports')}
+    __MODULE__IMPORTS__
 
-    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
-    if ?$rnt1 {
-      $code ~= "  HAS $rnt0 \$.$field-name;           # $rnt1\n";
-    }
-
-    else {
-      $code ~= "  HAS $rnt0 \$.$field-name;\n";
-    }
- }
-
-#`{{
-  my @fields = $xpath.find( 'field', :start($element), :to-list);
-  return '' unless ?@fields;
-
-  my Str $name = $*work-data<gnome-name>;
-  my Hash $h0 = $!sas.search-name($name);
-  my Str $struct-name = $h0<sname>;
-  my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
-
-  my Str $code = qq:to/EOREC/;
     {$!grd.pod-header('Union Structure')}
     #TT:1:$struct-name:
-    class $struct-name is export is repr\('CStruct') \{
-    EOREC
+    unit class $struct-name is export is repr\('CUnion'):api<2>;
+
+    RAKUMOD
 
   for @fields -> $field {
     my $field-name = $field.attribs<name>;
@@ -1052,57 +1030,25 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
     if ?$rnt1 {
-      $code ~= "  has $rnt0 \$.$field-name;           # $rnt1\n";
+      $code ~= "HAS $rnt0 \$.$field-name;           # $rnt1\n";
     }
 
     else {
-      $code ~= "  has $rnt0 \$.$field-name;\n";
-    }
-
-    if $raku-ntype eq 'N-GObject' {
-      $tweak-pars ~= "$raku-rtype :\$$field-name, ";
-      $tweak-ass ~= "    \$!$field-name := \$$field-name if ?\$$field-name;\n";
-    }
-
-    else {
-      if $rnt0 eq 'GEnum' {
-        $build-pars ~= "$raku-rtype :\$$field-name, ";
-        $build-ass ~= "    \$!$field-name = \$$field-name.value if ?\$$field-name;\n";
-      }
-
-      else {
-        $build-pars ~= "$raku-rtype :\$\!$field-name, ";
-      }
+      $code ~= "HAS $rnt0 \$.$field-name;\n";
     }
   }
 
-  if ?$build-pars {
-    $code ~= qq:to/EOREC/;
+  $code ~= qq:to/RAKUMOD/;
 
-        submethod BUILD \(
-          $build-pars
-        \) \{
-      $build-ass  \}
-      EOREC
-  }
+    method COERCE \( \$no --> $struct-name \) \{
+      note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+      nativecast\( $struct-name, \$no\)
+    \}
+    
+    RAKUMOD
 
-  if ?$tweak-pars {
-    $code ~= qq:to/EOREC/;
-
-        submethod TWEAK \(
-          $tweak-pars
-        \) \{
-      $tweak-ass  \}
-
-        method COERCE \( \$no --> $struct-name \) \{
-          note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-          nativecast\( $struct-name, \$no\)
-        \}
-      EOREC
-  }
-}}
-
-  $code ~= "\}\n\n";
+  $*external-modules.push: 'Gnome::N::X';
+  $code = self.substitute-MODULE-IMPORTS($code);
 
   note "Save union structure in $struct-name";
   my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
