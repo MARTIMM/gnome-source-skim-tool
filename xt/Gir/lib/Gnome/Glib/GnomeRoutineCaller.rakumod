@@ -7,7 +7,7 @@ use Gnome::N::NativeLib;
 #use Gnome::N::TopLevelClassSupport;
 use Gnome::N::GlibToRakuTypes;
 
-use Gnome::Glib::Error;
+use Gnome::Glib::N-GError;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::Glib::GnomeRoutineCaller:api<2>;
@@ -189,6 +189,7 @@ method !make-list-from-result (
 method !convert-args ( $v, $p ) {
   my $c;
 
+note "$?LINE convert-args, ", $p.^name;
   given $p {
     when gchar-pptr {
       $c = CArray[Str].new(|$v);
@@ -220,7 +221,7 @@ method !convert-args ( $v, $p ) {
 method !convert-return ( $v, $p, :$type = Any ) {
   my $c;
 
-#note "$?LINE return: ", $p.^name, ', ', $v.^name, ', ', $v.gist;
+note "$?LINE return: ", $p.^name; #, ', ', $v.^name, ', ', $v.gist;
 
   # Use 'given' because $p is a type and is always undefined
   given $p {
@@ -238,8 +239,8 @@ method !convert-return ( $v, $p, :$type = Any ) {
 
     when CArray[N-GError] {
       $c = ?$v
-         ?? Gnome::Glib::Error.new(:native-object($v[0]))
-         !! Gnome::Glib::Error.new(:native-object(N-GError));
+         ?? $v[0]
+         !! N-GError;
 #note "$?LINE converted: ", $c.gist;
     }
 

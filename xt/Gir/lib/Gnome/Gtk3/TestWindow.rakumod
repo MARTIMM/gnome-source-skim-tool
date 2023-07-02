@@ -8,7 +8,7 @@ use Gnome::N::GlibToRakuTypes;
 
 use Gnome::Gtk3::Bin;
 
-use Gnome::Glib::Error;
+use Gnome::Glib::N-GError;
 
 use Gnome::Glib::GnomeRoutineCaller:api<2>;
 
