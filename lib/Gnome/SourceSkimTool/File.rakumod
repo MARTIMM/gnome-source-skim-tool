@@ -141,15 +141,31 @@ method generate-code ( ) {
       $code ~= $!mod.generate-bitfield-code(:$bitfield-names);
     }
 
+#`{{
     # There are more than one records, gather them all in this module
     if $!filedata<record>:exists {
-#      for $!filedata<record>.keys -> $record-name {
-#      }
+      for $!filedata<record>.keys -> $record-name {
+        $*gnome-class = $record-name;
+        my Str $gnome-package = $*gnome-package.Str;
+        $gnome-package ~~ s/ \d+ $//;
+        $*gnome-class ~~ s/^ $gnome-package //;
+
+        my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+        say "Generate Raku record from $*gnome-class" if $*verbose;
+
+        require ::('Gnome::SourceSkimTool::Record');
+        my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
+        $raku-module.generate-code if $*generate-code;
+        $raku-module.generate-test if $*generate-test;
+        $raku-module.generate-doc if $*generate-doc;
+      }
     }
 
     # There are more than one unions, gather them all in this module
     if $!filedata<union>:exists {
     }
+}}
 
     if $!filedata<callback>:exists {
     }
