@@ -910,9 +910,6 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
   my Str $code = qq:to/RAKUMOD/;
     #TL:1:$struct-name:
     use v6;
-
-    {$!grd.pod-header('Module Imports')}
-    __MODULE__IMPORTS__
     RAKUMOD
 
   my @fields = $xpath.find( 'field', :start($element), :to-list);
@@ -920,6 +917,10 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
     my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
 
     $code ~= qq:to/EOREC/;
+
+      {$!grd.pod-header('Module Imports')}
+      __MODULE__IMPORTS__
+
       {$!grd.pod-header('Record Structure')}
       #TT:1:$struct-name:
       unit class $struct-name is export is repr\('CStruct'):api<2>;
@@ -988,7 +989,7 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
     $code ~= qq:to/EOREC/;
       {$!grd.pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
-      unit class $struct-name is export is repr\('CStruct');
+      unit class $struct-name is export is repr\('CPointer');
 
       EOREC
   }
