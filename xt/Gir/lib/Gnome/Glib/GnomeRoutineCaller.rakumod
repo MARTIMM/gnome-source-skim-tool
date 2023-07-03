@@ -65,12 +65,11 @@ method call-native-sub (
   # there. Mostly returned like this when there is more than one value,
   # otherwise it could have been returned the normal way using the
   # return value of functions $x.
-#note "$?LINE pointers-in-args $!pointers-in-args";
   if $!pointers-in-args {
     my $x = $routine<function-address>(|@native-args);
     return self!make-list-from-result(
       @native-args, @parameters, $routine, $x
-    )
+    ).List
   }
 
   else {
@@ -112,7 +111,6 @@ method !native-parameters (
   loop (my $i = 0; $i < @parameters.elems; $i++ ) {
     my $p = @parameters[$i];
     my $a = self!convert-args( @arguments[$i], $p);
-#note "$?LINE $i, @arguments[$i].gist(), {$p.^name}, convert-args $a.gist()";
     @native-args.push: $a;
     $!pointers-in-args = True if $p.^name ~~ m/ CArray /;
   }
@@ -159,8 +157,6 @@ method !make-list-from-result (
   @native-args, @parameters, Hash $routine, $x
   --> List
 ) {
-#note "$?LINE make-list-from-result: ", $routine.gist;
-#note "$?LINE, ", @native-args.gist;
   my @return-list = ();
   @return-list.push: $x if $routine<returns>:exists;
 
@@ -180,7 +176,6 @@ method !make-list-from-result (
     next unless $p.^name ~~ m/ CArray /;
     @return-list.push: self!convert-return( $v, $p);
   }
-#note "$?LINE result list: ", @return-list.gist;
 
   @return-list
 }
@@ -189,7 +184,6 @@ method !make-list-from-result (
 method !convert-args ( $v, $p ) {
   my $c;
 
-note "$?LINE convert-args, ", $p.^name;
   given $p {
     when gchar-pptr {
       $c = CArray[Str].new(|$v);
@@ -221,8 +215,6 @@ note "$?LINE convert-args, ", $p.^name;
 method !convert-return ( $v, $p, :$type = Any ) {
   my $c;
 
-note "$?LINE return: ", $p.^name; #, ', ', $v.^name, ', ', $v.gist;
-
   # Use 'given' because $p is a type and is always undefined
   given $p {
     when gchar-pptr {
@@ -238,10 +230,7 @@ note "$?LINE return: ", $p.^name; #, ', ', $v.^name, ', ', $v.gist;
     }
 
     when CArray[N-GError] {
-      $c = ?$v
-         ?? $v[0]
-         !! N-GError;
-#note "$?LINE converted: ", $c.gist;
+      $c = ?$v[0] ?? $v[0] !! N-GError;
     }
 
     when GEnum {

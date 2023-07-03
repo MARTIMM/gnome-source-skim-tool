@@ -26,25 +26,22 @@ class CB {
 #-------------------------------------------------------------------------------
 with my Window $w .= new(:window-type(GTK_WINDOW_TOPLEVEL)) {
   note "Window api is ", .^api();
-#  .set-size-request( 400, 300);
-##`{{
   .set-title('test window');
 note 'property title: ', .get-properties( 'title', Str).gist;
 note '.get-title(): ', .get-title;
-#exit;
   .register-signal( CB.new, 'quit', 'destroy');
   .set-size-request( 400, 300);
   .set-keep-above(True);
-  my @r = .set-default-icon-from-file('xarrows.png');
-  note "$?LINE, ", @r[0] ?? 'ok' !! @r[1].message;
-  @r = .set-default-icon-from-file('arrows.png');
-  note "$?LINE, ", @r[0] ?? 'ok' !! @r[1].message;
+  my $r = .set-default-icon-from-file('xarrows.png');
+  note "$?LINE, ", $r.gist;
+  note "$?LINE, ", $r[0] ?? 'ok' !! $r[1].message;
+  $r = .set-default-icon-from-file('arrows.png');
+  note "$?LINE, ", $r[0] ?? 'ok' !! $r[1].message;
   .show-all;
 
   note 'Default size: ', .get-default-size.gist;
   note 'Position: ', .get-position.gist;
   note 'Size: ', .get-size.gist;
-#}}
 }
 
 my Gnome::Gtk3::Main $main .= new;
