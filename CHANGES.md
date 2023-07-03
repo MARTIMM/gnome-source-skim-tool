@@ -30,6 +30,8 @@ TODO Split doc from code and test
 TODO Look for file names from field `class-file` in the repo-object-map's then generate anything what belongs together. This is important for Enums and Events where there are no classes and the records are grouped. E.g. 'window' comes from the C files `window.h` and `window.c`. It holds `GtkWindow`, `GtkWindowAccessible`, `GtkWindowGeometryInfo`, `GtkWindowPosition` and `GtkWindowType`.
 
 TODO Process Union and alias
+TODO Misc vervangen met Widget. Misc is deprecated
+
 -->
 <!-- Testing command with timing -o for dump to file
 /usr/bin/time -f "Program: %C\nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" raku Window.rakutest
