@@ -65,7 +65,7 @@ method get-classes-from-gir ( ) {
 
 #note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
     # Map an element into the repo-object-map. Returns True if
-    # element is deprecated or is a class, iface or private type.
+    # element is deprecated or is a *class, *iface or *private type.
     next if self!map-element(
       $element, $namespace-name, $symbol-prefix, $id-prefix
     );
@@ -317,21 +317,26 @@ method !map-element (
 ) {
   my Bool $deprecated = False;
 
-  # Get attribute hash and the map key from some sort of identifier
+  # Get attribute hash
   my Hash $attrs = $element.attribs;
+
+  # Return if element is marked as disguised. We don't need those.
+  return True if $attrs<disguised>:exists and $attrs<disguised> == 1;
+
+  # Map key from some sort of identifier
   my Str $ctype = $attrs<c:type> //           # Most cases
                   $attrs<glib:type-name> //   # Some classes
                   $attrs<c:identifier> //     # Functions
                   $attrs<name> // ''          # Doc sections
                   ;
-
+  # Return when an element ends in specific words.
   return True if $ctype ~~ m/ [ Private || Class || Iface ] $/;
 
   # Check for this id. If undefined make some noise and return
-  note "\n$?LINE NO IDENTIFIER FOUND FOR tag $element.name(); ", $attrs.gist
-       unless ?$ctype;
-
-  return True unless ?$ctype;
+  unless ?$ctype {
+    note "\nNO IDENTIFIER FOUND FOR tag $element.name(); ", $attrs.gist;
+    return True;
+  }
 
   # Gather data depending on the tag type
   given $element.name {
