@@ -32,6 +32,8 @@ method set-unit ( XML::Element $element --> Str ) {
   # Check for parent class. There are never more than one.
   my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
+    # Misc is deprecated so shortcut to Widget
+    $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
     $*external-modules.push: $parent;
     $also ~= "also is $parent;\n";
   }
