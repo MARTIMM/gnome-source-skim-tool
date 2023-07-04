@@ -74,7 +74,7 @@ sub MAIN (
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     require ::('Gnome::SourceSkimTool::ListGirTypes');
     my $lt = ::('Gnome::SourceSkimTool::ListGirTypes').new;
-#TODO add filter from -f
+#TODO add filter from -filter
     if ?$type {
       $lt.list-type-objects($type);
     }
