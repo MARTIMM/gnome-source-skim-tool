@@ -1,4 +1,22 @@
 
+=begin pod
+
+=head1 Find data using a filename
+
+Generate code, documentation or test files contained in a file. The data is found in a C<repo-object-map.yaml>. It tests for every key where a sub-key matches the given filename. Then the found data is stored in a Hash C<$!filedata> with the top key its type of each found key.
+
+When processing this Hash, the types class, interface, record and union are stored in separate files and the rest is gathered in a single file.
+
+=item classes; The key of tha sub hash is used to create the class module. E.g a filename of C<aboutdialog> shows several types. The class type carries this key; C<GtkAboutDialog>. The package used might be Gtk3 or Gtk4 and so the class name becomes C<AboutDialog>.
+
+=item interfaces; These are the roles for Raku. The name is set the same way as for classes.
+
+=item records; Records are the C-structures which are the native Raku CStruct types. The name for that will be record name with 'N-' attached to it.
+
+=item union; Unions are also C-structures which are the Raku native CUnion types. The name for that will also be union name with 'N-' attached to it.
+
+=item The other types come in a separate file. The types can be enumerations, bitfields, constants, functions, etc. The name of the file will become the filename,
+=end pod
 
 use Gnome::SourceSkimTool::ConstEnumType;
 #use Gnome::SourceSkimTool::SearchAndSubstitute;
@@ -199,11 +217,10 @@ method !get-data-from-filename ( ) {
   my Hash $h := $*object-maps{$package};
   $!filedata = %();
 
-
   for $h.kv -> $k, $v {
     next unless $v<class-file>:exists and $v<class-file> eq $!filename;
 
-    # reorder on type
+    # Reorder on type
     $!filedata{$v<gir-type>}{$k} = $v;
   }
 }
