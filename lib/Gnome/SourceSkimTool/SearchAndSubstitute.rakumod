@@ -542,7 +542,7 @@ method search-name ( Str $name --> Hash ) {
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
-    note "Search for $name in map $map-name" if $*verbose;
+#    note "Search for $name in map $map-name" if $*verbose;
 
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists
@@ -571,7 +571,7 @@ method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
-    note "Search for $prefix-name in map $map-name where field $entry-name ≡? $value" if $*verbose;
+#    note "Search for $prefix-name in map $map-name where field $entry-name ≡? $value" if $*verbose;
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists;
 
