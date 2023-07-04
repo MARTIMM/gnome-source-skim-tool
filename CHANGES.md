@@ -27,10 +27,10 @@ TODO skip anything with attribute
   deprecated="1"
 
 TODO Split doc from code and test
-TODO Look for file names from field `class-file` in the repo-object-map's then generate anything what belongs together. This is important for Enums and Events where there are no classes and the records are grouped. E.g. 'window' comes from the C files `window.h` and `window.c`. It holds `GtkWindow`, `GtkWindowAccessible`, `GtkWindowGeometryInfo`, `GtkWindowPosition` and `GtkWindowType`.
+TODO Look for file names from field `class-file` in the repo-object-map's then generate anything what belongs together. This is important for Enums and Events where there are no classes and the records are grouped.
 
-TODO Process Union and alias
-TODO Misc vervangen met Widget. Misc is deprecated
+TODO Process constants and alias
+TODO Generate doc. Review for class new for interface, record and union
 
 -->
 <!-- Testing command with timing -o for dump to file
@@ -59,7 +59,7 @@ kaal /usr/bin
     The tests show that normal runtimes are not differing much. But when everyhing needs to be recompiled, the newer modules compile much faster.
     I must make a note here. Removing the `.precompile` directories in the old Gtk library, involves more compiling for other modules needed as a side effect instead of only the Window, Bin, Container, Widget and Buildable modules. Its size after running is 16.2 Mb over 66 files and 29 sub folders(~ 245Kb/file). The newer .precomp files are 16.3 Kb over 5 files and 3 sub folders(~3kb/file). That's quite a difference. If I take this difference in files into account, about 66/5, and the increase in time, less than a sec., it would become 10 sec. at most.
     When the project evolves, these tests are repeated to see if this is really true.
-  * Record and Union structures are generated in separate files. This means that there are more modules than in the original project. E,g. the original **Gnome::Gdk3::Events** have all event structures gathered in one file. When there are any methods or functions, a separate file is generated which will import the necessary structures to work on. The naming of the files will be something like `N-Record-name.rakumod` for each `N-Record-name` type. The same goes for unions. In a way this is the same for the `N-GObject` stored in `N-GObject.rakumod` in the **Gnome::N** package.
+  * Record and Union structures are generated in separate files. This means that there are more modules than in the original project. E,g. the original **Gnome::Gdk3::Events** have all event structures gathered in one file. The filenames will be something like `N-Record-name.rakumod` for each `N-Record-name` type. The same goes for unions. In a way this is the same for the `N-GObject` stored in `N-GObject.rakumod` in the **Gnome::N** package.
 
 * 2023-06-19 0.8.3
   * Add module **Gnome::SourceSkimTool::File** to scan through data using a filename defined in field `class-file` in the `repo-object-map.yaml`. This may remove options -c, -i and -r.
