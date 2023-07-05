@@ -400,7 +400,7 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Skip deprecated constructors
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = $!sas.get-method-data( $cn, :build, :$xpath);
+    my ( $function-name, %h) = self!get-method-data( $cn, :build, :$xpath);
     $hcs{$function-name} = %h;
   }
 
@@ -554,7 +554,7 @@ method !get-methods ( XML::Element $element --> Hash ) {
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) =
-      $!sas.get-method-data( $cn, :!build, :xpath($!xpath));
+      self!get-method-data( $cn, :!build, :xpath($!xpath));
     $hms{$function-name} = %h;
   }
 
@@ -700,7 +700,7 @@ method !get-functions ( XML::Element $element --> Hash ) {
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) =
-      $!sas.get-method-data( $cn, :!build, :xpath($!xpath));
+      self!get-method-data( $cn, :!build, :xpath($!xpath));
     $hms{$function-name} = %h;
   }
 
@@ -931,7 +931,7 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
 
     for @fields -> $field {
       my $field-name = $field.attribs<name>;
-      my Str ( $type, $raku-ntype, $raku-rtype) = $!sas.get-doc-type-code($field);
+      my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($field);
 
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
       my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
@@ -1028,7 +1028,7 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
 
   for @fields -> $field {
     my $field-name = $field.attribs<name>;
-    my Str ( $type, $raku-ntype, $raku-rtype) = $!sas.get-doc-type-code($field);
+    my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($field);
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
@@ -1155,6 +1155,102 @@ method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
   $code ~~ s/__MODULE__IMPORTS__/$import/;
 
   $code
+}
+
+#-------------------------------------------------------------------------------
+method !get-method-data (
+  XML::Element $e, Bool :$build = False, XML::XPath :$xpath
+  --> List
+) {
+  my Str ( $function-name, $option-name);
+
+  $option-name = $function-name = $e.attribs<c:identifier>;
+  my Str $sub-prefix = $*work-data<sub-prefix>;
+
+  # Option names are used in BUILD only
+  if $build {
+    # Constructors have '_new' in the name. To get a name for the build options
+    # remove the subroutine prefix and the 'new_' string from the subroutine
+    # name.
+    $option-name ~~ s/^ $sub-prefix new '_'? //;
+
+    # Remove any other prefix ending in '_'.
+    my Int $last-u = $option-name.rindex('_');
+    $option-name .= substr($last-u + 1) if $last-u.defined;
+
+    # When nothing is left, mark the option as a default.
+    $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
+  }
+
+  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
+  my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+  my Str ( $rv-type, $return-raku-ntype, $return-raku-rtype) =
+      self!get-type($rvalue);
+
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
+  my @parameters = ();
+  my @prmtrs = $xpath.find(
+    'parameters/instance-parameter | parameters/parameter',
+    :start($e), :to-list
+  );
+
+  for @prmtrs -> $p {
+    my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($p);
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = $attribs<name>;
+    $parameter-name ~~ s:g/ '_' /-/;
+
+    my Hash $ph = %(
+      :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
+      :$type, :$raku-ntype, :$raku-rtype
+    );
+
+    if $p.name eq 'instance-parameter' {
+      $ph<allow-none> = False;
+      $ph<nullable> = False;
+      $ph<is-instance> = True;
+    }
+
+    elsif $p.name eq 'parameter' {
+      $ph<allow-none> = $attribs<allow-none>.Bool;
+      $ph<nullable> = $attribs<nullable>.Bool;
+      $ph<is-instance> = False;
+    }
+
+    @parameters.push: $ph;
+  }
+
+  ( $function-name, %(
+      :$option-name, :@parameters,
+      :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
+      :$rv-transfer-ownership,
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+method !get-type ( XML::Element $e --> List ) {
+  my Str ( $type, $raku-ntype, $raku-rtype) = '' xx 3;
+  for $e.nodes -> $n {
+    next if $n ~~ XML::Text;
+    with $n.name {
+      when 'type' {
+        $type = $n.attribs<c:type> // $n.attribs<name>;
+        $raku-ntype = $!sas.convert-ntype($type);
+        $raku-rtype = $!sas.convert-rtype($type);
+      }
+
+      when 'array' {
+        # Sometimes there is no 'c:type', assume an array of strings
+        $type = $n.attribs<c:type> // 'gchar**';
+        $raku-ntype = $!sas.convert-ntype($type);
+        $raku-rtype = $!sas.convert-rtype($type);
+      }
+    }
+  }
+
+  ( $type, $raku-ntype, $raku-rtype)
 }
 
 
@@ -1373,7 +1469,7 @@ method !generate-constructor-code ( Hash $hcs --> Str ) {
   $code
 }
 
-#TODO use this method to get functions from level packages like Glib
+#TODO use this method to get functions from low level packages like Glib
 #-------------------------------------------------------------------------------
 method generate-functions ( XML::Element $element --> List ) {
 
@@ -1425,7 +1521,7 @@ method generate-functions ( XML::Element $element --> List ) {
     # Get function info
     my Hash $curr-function;
     ( $, $curr-function) =
-      $!sas.get-method-data( $function-element, :xpath($f-xpath));
+      self!get-method-data( $function-element, :xpath($f-xpath));
 
     # Get method name, drop the prefix and substitute '_'
     my Str $method-name = $function-name;

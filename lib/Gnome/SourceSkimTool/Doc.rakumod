@@ -53,7 +53,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
     if $h<inheritable>;
 
-  $doc ~= $!sas.modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
+  $doc ~= self!modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
 
   #??$doc ~= self!set-declaration;
   $doc ~= self!set-uml;
@@ -249,7 +249,6 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
   $doc
 }
 
-
 #-------------------------------------------------------------------------------
 method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
@@ -359,11 +358,132 @@ method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Skip deprecated methods
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = $!sas.get-method-data( $cn, :!build, :$xpath);
+    my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
     $hms{$function-name} = %h;
   }
 
   $hms
+}
+
+#-------------------------------------------------------------------------------
+#TODO copied. Make this method search for documentation only
+method !get-method-data (
+  XML::Element $e, Bool :$build = False, XML::XPath :$xpath
+  --> List
+) {
+  my Str ( $function-name, $option-name, $function-doc);
+
+  $option-name = $function-name = $e.attribs<c:identifier>;
+  my Str $sub-prefix := $*work-data<sub-prefix>;
+
+  # Option names are used in BUILD only
+  if $build {
+    # Constructors have '_new' in the name. To get a name for the build options
+    # remove the subroutine prefix and the 'new_' string from the subroutine
+    # name.
+    $option-name ~~ s/^ $sub-prefix new '_'? //;
+
+    # Remove any other prefix ending in '_'.
+    my Int $last-u = $option-name.rindex('_');
+    $option-name .= substr($last-u + 1) if $last-u.defined;
+
+    # When nothing is left, mark the option as a default.
+    $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
+  }
+
+  my Str $edoc = ($xpath.find( 'doc/text()', :start($e)) // '').Str;
+  my Str $s = self!modify-text($edoc);
+  $function-doc = self!cleanup($s);
+
+  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
+  my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+  my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
+    self.get-doc-type( $rvalue, :return-type, :$xpath);
+
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
+  my @parameters = ();
+  my @prmtrs = $xpath.find(
+    'parameters/instance-parameter | parameters/parameter',
+    :start($e), :to-list
+  );
+
+  for @prmtrs -> $p {
+    my Str ( $doc, $type, $raku-ntype, $raku-rtype) =
+      self.get-doc-type( $p, :$xpath);
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = $attribs<name>;
+    $parameter-name ~~ s:g/ '_' /-/;
+
+    my Hash $ph = %(
+      :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
+      :$doc, :$type, :$raku-ntype, :$raku-rtype
+    );
+
+    if $p.name eq 'instance-parameter' {
+      $ph<allow-none> = False;
+      $ph<nullable> = False;
+      $ph<is-instance> = True;
+    }
+
+    elsif $p.name eq 'parameter' {
+      $ph<allow-none> = $attribs<allow-none>.Bool;
+      $ph<nullable> = $attribs<nullable>.Bool;
+      $ph<is-instance> = False;
+    }
+
+    @parameters.push: $ph;
+  }
+
+  ( $function-name, %(
+      :$option-name, :$function-doc, :@parameters,
+      :$rv-doc, :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
+      :$rv-transfer-ownership,
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+#TODO copied. Make this method search for documentation only
+method get-doc-type (
+  XML::Element $e, Bool :$return-type = False,
+  Bool :$add-gtype = False, XML::XPath :$xpath
+  --> List
+) {
+
+  my Str ( $doc, $type, $raku-ntype, $raku-rtype, $g-type) = '' xx 5;
+  for $e.nodes -> $n {
+    next if $n ~~ XML::Text;
+    with $n.name {
+      when 'doc' {
+        $doc = self!cleanup(
+          self!modify-text(($xpath.find( 'text()', :start($n)) // '').Str)
+        );
+      }
+
+      when 'type' {
+        my Hash $attribs = $n.attribs;
+        $type = $attribs<name>;
+#note "$?LINE $attribs.gist()" if $type ~~ m/Pixbuf/;
+#        $type ~~ s:g/ '.' //;
+        $raku-ntype =
+          self.convert-ntype($attribs<c:type> // $type, :$return-type);
+        $raku-rtype =
+          self.convert-rtype($attribs<c:type> // $type, :$return-type);
+        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
+      }
+
+      when 'array' {
+        # sometime there is no 'c:type', assume an array of strings
+        $type = $n.attribs<c:type> // 'gchar**';
+        $raku-ntype = self.convert-ntype( $type, :$return-type);
+        $raku-rtype = self.convert-rtype( $type, :$return-type);
+        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
+      }
+    }
+  }
+
+  ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
 }
 
 #-------------------------------------------------------------------------------
@@ -380,8 +500,8 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
     # signal documentation
     my Str $signal-name = $attribs<name>;
-    my Str $sdoc = $!sas.cleanup(
-      $!sas.modify-text(($xpath.find( 'doc/text()', :start($si)) // '').Str)
+    my Str $sdoc = self!cleanup(
+      self!modify-text(($xpath.find( 'doc/text()', :start($si)) // '').Str)
     );
     my Hash $curr-signal := $signals{$signal-name} = %(:$sdoc,);
 #    $curr-signal = %(:$sdoc,);
@@ -594,5 +714,263 @@ method document-properties (
   $doc ~= "\n=end pod\n\n";
 
   $doc
+}
+
+#-------------------------------------------------------------------------------
+method !modify-text ( Str $text is copy --> Str ) {
+
+  # Do not modify text whithin example code. C code is to be changed
+  # later anyway and on other places like in XML examples it must be kept as is.
+  my Int $ex-counter = 0;
+  my Hash $examples = %();
+  while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
+    my Str $example = $<example>.Str;
+    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
+    $examples{$ex-key} = $example;
+    $text ~~ s/ $example /$ex-key/;
+  }
+
+  $text = self!modify-signals($text);
+  $text = self!modify-properties($text);
+  $text = self!modify-functions($text);
+  $text = self!modify-variables($text);
+  $text = self!modify-markdown-links($text);
+  $text = self!modify-classes($text);
+  $text = self!modify-rest($text);
+
+  # Subtitute the examples back into the text before we can finally modify it
+  for $examples.keys -> $ex-key {
+    $text ~~ s/ $ex-key /$examples{$ex-key}/;
+  }
+
+  $text = self!modify-xml($text);
+  $text = self!modify-examples($text);
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# Modify text '::sig-name'
+method !modify-signals ( Str $text is copy --> Str ) {
+
+  my Str $section-prefix-name = $*work-data<gnome-name>;
+  my Regex $r = / '#'? $<cname> = [\w+]? '::' $<signal-name> = [<[-\w]>+] /;
+  while $text ~~ $r {
+    my Str $signal-name = $<signal-name>.Str;
+    my Str $cname = ($<cname>//'').Str;
+    if !$cname or $cname eq $section-prefix-name {
+      $text ~~ s:g/ '#'? $cname '::' $signal-name /I<$signal-name>/;
+    }
+
+    else {
+      $text ~~ s:g/ '#'? $cname'::' $signal-name /I<$signal-name defined in $cname>/;
+    }
+  }
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-properties ( Str $text is copy --> Str ) {
+
+  my Str $section-prefix-name = $*work-data<gnome-name>;
+  my Regex $r = / '#'? $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
+  while $text ~~ $r {
+    my Str $pname = $<pname>.Str;
+    my Str $cname = ($<cname>//'').Str;
+    if !$cname or $cname eq $section-prefix-name {
+      $text ~~ s:g/ '#'? $cname ':' $pname /I<property $pname>/;
+    }
+
+    else {
+      $text ~~ s:g/ '#'? $cname':' $pname /I<property $pname defined in $cname>/;
+    }
+  }
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-variables ( Str $text is copy --> Str ) {
+
+  $text ~~ s:g/ \s? '@' (\w+) / C<\$$0>/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-build-variables (
+  Str $text is copy, Hash $variable-map
+  --> Str
+) {
+  # Only map for names in hash, others are done above. This is meant to
+  # be used for the BUILD options to variable mapping. The substitutions might
+  # already been done via .modify-text() so check on '$' as well.
+  for $variable-map.kv -> $orig, $new {
+    $text ~~ s:g/ \s? ['$'] $orig / \$$new/;
+    $text ~~ s:g/ \s? ['@'] $orig / C<\$$new>/;
+  }
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-functions ( Str $text is copy --> Str ) {
+
+  my Str $sub-prefix = $*work-data<sub-prefix>;
+
+  # When a local function has '_new_' in the text, convert it into an init call
+  # E.g. 'gtk_label_new_with_mnemonic()' becomes '.new(:$with-mnemonic)'
+  $text ~~ s:g/ $sub-prefix new '_' (\w+) '()'
+              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
+
+  # Other functions local to this module, remove the sub-prefix and place
+  # a '.' at front. E.g in module Label and package Gtk3 converting
+  # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
+  $text ~~ s:g/ $sub-prefix (\w+) '()' 
+              /C<.{S:g/'_'/-/ with $0}\(\)>/;
+
+  # Functions not local to this module
+  my Regex $r = / $<function-name> = [
+                    <!after "\x200B">
+                    [ atk || gtk || gdk || gsk ||
+                      pangocairo || pango || cairo || g
+                    ]
+                    '_' \w*?
+                  ] '()'
+                /;
+
+  while $text ~~ $r {
+    my Str $function-name = $<function-name>.Str;
+    my Hash $h = self.search-name($function-name);
+    my Str $package-name = $h<raku-package> // '';
+    my Str $raku-name = $h<rname> // '';
+    
+    if ?$raku-name {
+      $text ~~ s:g/ $function-name\(\) 
+                  /C<\x200B$raku-name\(\) function from $package-name>/;
+    }
+
+    else {
+      $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
+    }
+  }
+
+  # After all work remove the zero width space marker
+  $text ~~ s:g/ \x200B //;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-classes ( Str $text is copy --> Str ) {
+
+  # When classnames are found (or not) a zero width space is inserted just
+  # before the word to prevent finding this word (or part of it again when not
+  # substituted. See also https://invisible-characters.com/.
+  my Regex $r = / '#'? $<class-name> = [
+                     <!after ["\x200B" || '::']>
+                     [ Atk || Gtk || Gdk || Gsk ||
+                       PangoCairo || Pango || Cairo || G
+                     ]
+                     \w+
+                  ]
+                /;
+
+  while $text ~~ $r {
+    my Str $class-name = $<class-name>.Str;
+    my Hash $h = self.search-name($class-name);
+    my Str $raku-name = $h<rname> // '';
+
+    if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
+      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name enumeration>/;
+    }
+    
+    elsif ?$h<gir-type> and $h<gir-type> eq 'bitfield' {
+      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name bitfield>/;
+    }
+    
+    elsif ?$raku-name {
+      $text ~~ s:g/ '#'? $class-name /B<\x200B$raku-name>/;
+    }
+
+    else {
+      $text ~~ s:g/ '#'? $class-name /\x200B$class-name/;
+    }
+  }
+
+  # After all work remove the zero width space marker
+  $text ~~ s:g/ \x200B //;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# convert |[ … ]| marks. Must be processed at the end because other
+# modifications may depend on those marks
+method !modify-examples ( Str $text is copy --> Str ) {
+
+  $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="xml"' \s* '-->' 
+              /=begin comment\nFollowing text is XML\n= begin code\n/;
+
+  $text ~~ s:g/^^ '|[<!-- language="plain" -->'
+              /=begin comment\n= begin code/;
+
+  $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="C"' \s* '-->' 
+              /=begin comment\n= begin code/;
+
+  $text ~~ s:g/^^ ']|' /= end code\n=end comment\n/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# Modify xml remnants
+method !modify-xml ( Str $text is copy --> Str ) {
+  
+  # xml escapes
+  $text ~~ s:g/ '&lt;' /</;
+  $text ~~ s:g/ '&gt;' />/;
+  $text ~~ s:g/ '&amp;' /\&/;
+  $text ~~ s:g/ [ '&#160;' || '&nbsp;' ] / /;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-markdown-links ( Str $text is copy --> Str ) {
+  $text ~~ s:g/ \s '[' ( <-[\]]>+ ) '][' <-[\]]>+ ']' / $0/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# Modify rest
+method !modify-rest ( Str $text is copy --> Str ) {
+
+  # variable changes
+  $text ~~ s:g/ '%' TRUE /C<True>/;
+  $text ~~ s:g/ '%' FALSE /C<False>/;
+  $text ~~ s:g/ '%' NULL /C<Nil>/;
+
+  # sections
+  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
+#  $text = self.scan-for-unresolved-items($text);
+  $text ~~ s:g/ ' '+ / /;
+  $text ~~ s:g/ <|w> \n <|w> / /;
+  $text ~~ s:g/ \n ** 3..* /\n\n/;
+
+  if $trim {
+    $text ~~ s/^ \s+ //;
+    $text ~~ s/ \s+ $//;
+  }
+
+  $text
 }
 

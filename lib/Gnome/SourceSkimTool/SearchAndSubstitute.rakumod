@@ -532,8 +532,6 @@ method convert-rtype (
     }
   }
 
-#say "$?LINE: convert raku type; '$ctype' -> '$raku-type', return-type = $return-type";
-
   $raku-type
 }
 
@@ -624,6 +622,7 @@ method search-entries ( Str $entry-name, Str $value --> Hash ) {
   $h
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method get-method-data (
   XML::Element $e, Bool :$build = False, XML::XPath :$xpath
@@ -634,14 +633,19 @@ method get-method-data (
   $option-name = $function-name = $e.attribs<c:identifier>;
   my Str $sub-prefix := $*work-data<sub-prefix>;
 
-  # option names are used in BUILD only
+  # Option names are used in BUILD only
   if $build {
-    # constructors have '_new' in the name
+    # Constructors have '_new' in the name. To get a name for the build options
+    # remove the subroutine prefix and the 'new_' string from the subroutine
+    # name.
     $option-name ~~ s/^ $sub-prefix new '_'? //;
+
+    # Remove any other prefix ending in '_'.
     my Int $last-u = $option-name.rindex('_');
     $option-name .= substr($last-u + 1) if $last-u.defined;
-#    $option-name ~~ s:g/ '_' /-/;
-    $option-name = '-' if $option-name ~~ m/^ \s* $/;
+
+    # When nothing is left, mark the option as a default.
+    $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
   }
 
   my Str $edoc = ($xpath.find( 'doc/text()', :start($e)) // '').Str;
@@ -695,7 +699,8 @@ method get-method-data (
     )
   );
 }
-
+}}
+#`{{
 #-------------------------------------------------------------------------------
 method get-doc-type (
   XML::Element $e, Bool :$return-type = False,
@@ -737,7 +742,8 @@ method get-doc-type (
 
   ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
 }
-
+}}
+#`{{
 #-------------------------------------------------------------------------------
 method get-doc-type-code ( XML::Element $e --> List ) {
 
@@ -767,7 +773,8 @@ method get-doc-type-code ( XML::Element $e --> List ) {
 #note " -> $raku-ntype, $raku-rtype\n";
   ( $type, $raku-ntype, $raku-rtype)
 }
-
+}}
+#`{{
 #-------------------------------------------------------------------------------
 method modify-text ( Str $text is copy --> Str ) {
 
@@ -1025,3 +1032,4 @@ method cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 
   $text
 }
+}}
