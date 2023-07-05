@@ -6,11 +6,12 @@ TODO modify markdown links in text or in Raku links when it shows use of url
 TODO Add explanations of module documentation layout in the references of the documentation on site.
 * Add info about the glib types used and what it means in Raku.
 * That properties are mostly not needed because of their getters and setters.
-* What is a function
-* That enumerations are exported and uppercase
+* What does a function, constructor and method mean for gnome and how is translated.
+* Referencing, dereferncing and floating references.
+* Naming the classes, structures, unions, enumerations and the modules where they are defined.
 * C-examples and converting to Raku
 
-TODO
+TODO type changes
   Unknown gir type to convert to native raku type 'record' for ctype 'GtkRecentInfo'
   Unknown gir type to convert to raku type 'record' for ctype 'GtkRecentInfo', '(Any)'
    Unknown gir type to convert to native raku type 'callback' for ctype 'GtkRecentSortFunc'
@@ -19,16 +20,8 @@ TODO
   Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
   Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
 
-TODO method argument handling of CArray/Array
 TODO variable argument lists
-
-TODO skip anything with attribute
-  disguised="1"
-  deprecated="1"
-
-TODO Split doc from code and test
-TODO Look for file names from field `class-file` in the repo-object-map's then generate anything what belongs together. This is important for Enums and Events where there are no classes and the records are grouped.
-
+TODO better BUILD generation
 TODO Process constants and alias
 TODO Generate doc. Review for class new for interface, record and union
 
@@ -38,7 +31,7 @@ TODO Generate doc. Review for class new for interface, record and union
 
 /usr/bin/time -f "P:%C TT:%E UM:%U KM:%S C:%P MJP:%F MNP:%R MR:%M" -a -o Window.log raku Window.rakutest
 
-kaal /usr/bin
+kaal '/usr/bin/time raku Window.rakutest'
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->

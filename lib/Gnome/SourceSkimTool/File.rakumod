@@ -5,17 +5,23 @@
 
 Generate code, documentation or test files contained in a file. The data is found in a C<repo-object-map.yaml>. It tests for every key where a sub-key matches the given filename. Then the found data is stored in a Hash C<$!filedata> with the top key its type of each found key.
 
-When processing this Hash, the types class, interface, record and union are stored in separate files and the rest is gathered in a single file.
+When processing this Hash, the types class, interface, record and union are stored in separate files and the rest is gathered in a single file. This breaks compatibility with older packages but it is now possible to select the proper files more specificly.
 
-=item classes; The key of tha sub hash is used to create the class module. E.g a filename of C<aboutdialog> shows several types. The class type carries this key; C<GtkAboutDialog>. The package used might be Gtk3 or Gtk4 and so the class name becomes C<AboutDialog>.
+=item classes; The key of the sub-hash is used to create the class module. E.g a filename of C<aboutdialog> shows several types. The class type carries this key; C<GtkAboutDialog>. The class may be from Gtk3 and so the class name becomes B<Gnome::Gtk3::AboutDialog> and the files C<AboutDialog.*> (code, doc and tests are in separate files).
 
-=item interfaces; These are the roles for Raku. The name is set the same way as for classes.
+=item interfaces; These are the roles for Raku. The name is set the same way as for classes. The result modules have no use to the developer directly. They are used as a role by the classes. So it will be usefull to mark the role by prefixing them with I<R->. The name will then standout better. E.g. the file C<buildable> has an interface C<GtkBuildable> and delivers the module B<Gnome::Gtk3::R-Buildable> in files C<R-Buildable.*>. This is different from the older packages but would not be noticable.
 
-=item records; Records are the C-structures which are the native Raku CStruct types. The name for that will be record name with 'N-' attached to it.
+=item records; Records are the C-structures which are the native Raku CStruct types. The name for that will be record name with I<N-> attached to it. E.g. The file C<events> has several records specified like C<GdkEventButton>. The results of that record becomes a class B<Gnome::Gdk3::N-EventButton> in files C<N-EventButton.*>.
 
-=item union; Unions are also C-structures which are the Raku native CUnion types. The name for that will also be union name with 'N-' attached to it.
+=item union; Unions are also C-structures which are the Raku native CUnion types. The name for that will also be union name with I<N-> attached to it. E.g. The file C<events> has also a union specified like C<GdkEvent>. The results of that union becomes a class B<Gnome::Gdk3::N-Event> in files C<N-Event.*>.
 
-=item The other types come in a separate file. The types can be enumerations, bitfields, constants, functions, etc. The name of the file will become the filename,
+=begin item
+The other types are stored together in a separate file. The types can be enumerations, bitfields, constants, functions, etc. The name of the file will become the filename with its first letter uppercased and prefixed with I<T->.
+E.g. the filename C<enums> has a lot of enumerations. The class name to store this data is B<Gnome::Gtk3::T-Enums> in file C<T-Enums.*>.
+The file C<events> has also some enumerations and bitfields. Those are stored in files C<T-Events.*> with class B<Gnome::Gdk3::T-Events>.
+This breaks also the compatebility with older packages in two ways because of its name and secondly, when a definition is needed the file must be imported explicitly where they were together in a class. However, the import (C<use>) is the only thing to change because 1) the class name is never used directly and 2) all declarations in the file are unchanged.
+=end item
+
 =end pod
 
 use Gnome::SourceSkimTool::ConstEnumType;
@@ -50,6 +56,7 @@ submethod BUILD ( Str :$!filename ) {
 #-------------------------------------------------------------------------------
 method generate-code ( ) {
 
+  # Info of types found
   if $*verbose {
     note "\nTypes found in file $!filename";
     for $!filedata.kv -> $t, $h {
@@ -57,15 +64,24 @@ method generate-code ( ) {
     }
   }
 
-  # Classes or interfaces may have any other type. The other types are found
-  # by looking up the filename set in the 'class-file' field. When there is
-  # no class or interface defined, the types are gathered into one module.
-  # The difference is mainly the complexity of the generated module. For
-  # instance, classes and interfaces may have properties and signals.
-  # Records and unions, however, can also have constructors, methods and
-  # functions. There can be more unions and records defined in one file which
-  # must be defined in separate raku modules. Only then it is possible to have
-  # BUILD routines defined for each of them.
+  for $!filedata.keys {
+    # -> $type-name
+    when 'class' {
+      # There will always be one class in a file
+      $*gnome-class = $!filedata<class>.values[0]<mname>;
+      my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+      say "Generate Raku class from ", $*work-data<raku-class-name>
+        if $*verbose;
+
+      require ::('Gnome::SourceSkimTool::Class');
+      my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
+      $raku-module.generate-code if $*generate-code;
+      $raku-module.generate-test if $*generate-test;
+      $raku-module.generate-doc if $*generate-doc;
+    }
+
+#`{{
   if $!filedata<class>:exists {
     $*gnome-class = $!filename.tc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
@@ -78,7 +94,13 @@ method generate-code ( ) {
     $raku-module.generate-test if $*generate-test;
     $raku-module.generate-doc if $*generate-doc;
   }
+}}
 
+    when 'interface' {
+      
+    }
+
+#`{{
   elsif $!filedata<interface>:exists {
     $*gnome-class = $!filename.tc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
@@ -91,6 +113,10 @@ method generate-code ( ) {
     $raku-module.generate-test if $*generate-test;
     $raku-module.generate-doc if $*generate-doc;
   }
+}}
+    when 'record' {
+      
+    }
 
 #`{{
   # If there is one record, generate a single raku module. The record
@@ -107,6 +133,9 @@ method generate-code ( ) {
     $raku-module.generate-test if $*generate-test;
     $raku-module.generate-doc if $*generate-doc;
   }
+    when 'union' {
+      
+    }
 
   # If there is one union, generate a single raku module. The union
   # may have constructors and methods too
@@ -127,6 +156,36 @@ method generate-code ( ) {
   }
 }}
 
+    when 'docsection' {
+      
+    }
+
+    when 'constant' {
+      
+    }
+
+    when 'enumeration' {
+      
+    }
+
+    when 'bitfield' {
+      
+    }
+
+    when 'callback' {
+      
+    }
+
+    when 'function' {
+      
+    }
+
+    when 'alias' {
+      
+    }
+  }
+
+#`{{
   else {
     # No class or interface. This module becomes the mixture of all other types.
     my Bool $need-routine-caller = False;
@@ -197,6 +256,7 @@ method generate-code ( ) {
     note "Save module";
     $*work-data<raku-module-file>.IO.spurt($code) if $*generate-code;
   }
+}}
 }
 
 #-------------------------------------------------------------------------------
