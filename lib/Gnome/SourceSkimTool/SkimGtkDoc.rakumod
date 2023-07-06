@@ -374,7 +374,7 @@ method !map-element (
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
       $rname ~~ s:i/^ $np //;
-      my Str $mname = '::R-' ~ $rname;
+      my Str $mname = 'R-' ~ $rname;
       $rname = $*work-data<raku-package> ~ '::R-' ~ $rname;
 
       $!map{$ctype} = %(
@@ -395,7 +395,7 @@ method !map-element (
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
       $rname ~~ s:i/^ $np //;
-      my Str $mname = '::N-' ~ $rname;
+      my Str $mname = 'N-' ~ $rname;
       $rname = $*work-data<raku-package> ~ '::N-' ~ $rname;
       $!map{$ctype} = %(
         :sname("N-$ctype"),
@@ -417,7 +417,7 @@ method !map-element (
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
       $rname ~~ s:i/^ $np //;
-      my Str $mname = '::N-' ~ $rname;
+      my Str $mname = 'N-' ~ $rname;
       $rname = $*work-data<raku-package> ~ '::N-' ~ $rname;
       $!map{$ctype} = %(
         :sname("N-$ctype"),
