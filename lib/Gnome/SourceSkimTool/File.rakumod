@@ -71,8 +71,7 @@ method generate-code ( ) {
       $*gnome-class = $!filedata<class>.values[0]<mname>;
       my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-      say "Generate Raku class from ", $*work-data<raku-class-name>
-        if $*verbose;
+      say "\nGenerate Raku class ", $*work-data<raku-class-name> if $*verbose;
 
       require ::('Gnome::SourceSkimTool::Class');
       my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
@@ -81,23 +80,18 @@ method generate-code ( ) {
       $raku-module.generate-doc if $*generate-doc;
     }
 
-#`{{
-  if $!filedata<class>:exists {
-    $*gnome-class = $!filename.tc;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-    say "Generate Raku class from ", $*work-data<raku-class-name> if $*verbose;
-
-    require ::('Gnome::SourceSkimTool::Class');
-    my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
-    $raku-module.generate-code if $*generate-code;
-    $raku-module.generate-test if $*generate-test;
-    $raku-module.generate-doc if $*generate-doc;
-  }
-}}
-
     when 'interface' {
-      
+      # There will always be one class in a file
+      $*gnome-class = S/^ 'R-' // with $!filedata<interface>.values[0]<mname>;
+      my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+      say "\nGenerate Raku role ", $*work-data<raku-class-name> if $*verbose;
+
+      require ::('Gnome::SourceSkimTool::Interface');
+      my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
+      $raku-module.generate-code if $*generate-code;
+      $raku-module.generate-test if $*generate-test;
+      $raku-module.generate-doc if $*generate-doc;  
     }
 
 #`{{
