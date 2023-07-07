@@ -64,6 +64,16 @@ method generate-code ( ) {
     }
   }
 
+  $*gnome-class = $!filename.tc;
+  my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+  my Str $code = qq:to/RAKUMOD/;
+    #TL:1:$*work-data<raku-class-name>:
+    use v6;
+    RAKUMOD
+
+  $code ~= $!mod.set-unit-for-file;
+
   for $!filedata.keys {
     # -> $type-name
     when 'class' {
@@ -145,11 +155,11 @@ method generate-code ( ) {
     }
 
     when 'enumeration' {
-      
+      $code ~= $!mod.generate-enumerations-code;
     }
 
     when 'bitfield' {
-      
+      $code ~= $!mod.generate-bitfield-code;  
     }
 
     when 'callback' {
