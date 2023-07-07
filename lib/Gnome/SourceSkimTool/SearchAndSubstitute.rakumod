@@ -12,6 +12,7 @@ has $!gen-raku-module;
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) { }
 
+#`{{
 #-------------------------------------------------------------------------------
 method get-types (
   Hash $parameter,
@@ -88,6 +89,7 @@ method get-types (
 
   $result  
 }
+}}
 
 #`{{
 #-------------------------------------------------------------------------------
@@ -368,9 +370,21 @@ method convert-ntype (
         when 'class' {
           $raku-type = 'N-GObject';
         }
+        
+        when 'constant' {
+          $raku-type = "$ctype";
+          self.add-import($h<rname>);
+        }
 
-        when 'enumeration' { $raku-type = "GEnum:$ctype"; }
-        when 'bitfield' { $raku-type = "GFlag:$ctype"; }
+        when 'enumeration' {
+          $raku-type = "GEnum:$ctype";
+          self.add-import($h<rname>);
+        }
+        
+        when 'bitfield' {
+          $raku-type = "GFlag:$ctype";
+          self.add-import($h<rname>);
+        }
 
 #        when 'alias' { $raku-type = $h<rname>; }
         when 'alias' { }
@@ -408,6 +422,7 @@ method convert-ntype (
 
 #-------------------------------------------------------------------------------
 method add-import ( Str $import ) {
+  # Add only when $import is not in the array or when $import is not this class
   unless $*external-modules.first($import)
          or $import eq $*work-data<raku-class-name> {
 
