@@ -86,10 +86,12 @@ sub MAIN (
 
   # Get data using filename
   elsif $f and ?$gnome-class {
+    $*verbose = False;
     my Str $filename = $gnome-class.lc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     require ::('Gnome::SourceSkimTool::File');
     my $raku-module = ::('Gnome::SourceSkimTool::File').new(:$filename);
+    $*verbose = True;
     $raku-module.generate-code if $*generate-code;
     $raku-module.generate-test if $*generate-test;
     $raku-module.generate-doc if $*generate-doc;
