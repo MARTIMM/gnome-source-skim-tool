@@ -290,7 +290,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
     my Bool $first-param = True;
     for @($curr-function<parameters>) -> $parameter {
-      $!sas.get-types(
+      self!get-types(
         $parameter, $raku-list,
         $call-list, $items-doc,
         @rv-list, $returns-doc
@@ -974,3 +974,79 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
   $text
 }
 
+#-------------------------------------------------------------------------------
+method !get-types (
+  Hash $parameter,
+  Str $raku-list is rw, Str $call-list is rw,
+  Str $items-doc is rw, @rv-list,
+  Str $returns-doc is rw
+  --> Hash
+) {
+
+  my Str $own = '';
+  my Int $a-count = 0;
+  my Hash $result = %();
+
+  given my $xtype = $parameter<raku-ntype> {
+    when 'N-GObject' {
+      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+      $call-list ~= ", \$$parameter<name>";
+
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[Str]' {
+      $raku-list ~= ", Array[Str] \$$parameter<name>";
+      $call-list ~= ", \$ca$a-count";
+
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+
+      $a-count++;
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[gint]' {
+#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
+#            my $ntype = 'gint';
+      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
+      @rv-list.push: "\$$parameter<name>";
+      $call-list ~= ", my gint \$$parameter<name>";
+
+      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+      $result<rv-list> = "\$$parameter<name>";
+
+      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    default {
+      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+      $call-list ~= ", \$$parameter<name>";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+  }
+
+  $result  
+}
