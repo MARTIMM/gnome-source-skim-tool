@@ -64,11 +64,12 @@ method generate-code ( ) {
     }
   }
 
-  $*gnome-class = $!filename.tc;
-  my Gnome::SourceSkimTool::Prepare $prepare .= new;
+  my Str $fname;
+#  $*gnome-class = $!filename.tc;
+#  my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
+#TL:1:$*work-data<raku-class-name>:
   my Str $code = qq:to/RAKUMOD/;
-    #TL:1:$*work-data<raku-class-name>:
     use v6;
     RAKUMOD
 
@@ -155,11 +156,28 @@ method generate-code ( ) {
     }
 
     when 'enumeration' {
-      $code ~= $!mod.generate-enumerations-code;
+      my Array $enum-names = [];
+      for $!filedata<enumeration>.kv -> $k, $v {
+#note "\n$?LINE $k, $v.gist()";
+        $enum-names.push: $k;
+        $fname = $v<mname> unless ?$fname;
+      }
+
+      $code ~= $!mod.generate-enumerations-code(:$enum-names)
+        if $*generate-code;
     }
 
     when 'bitfield' {
-      $code ~= $!mod.generate-bitfield-code;  
+      my Array $bitfield-names = [];
+      for $!filedata<enumeration>.kv -> $k, $v {
+#note "\n$?LINE $k, $v.gist()";
+        $bitfield-names.push: $k;
+        $fname = $v<mname> unless ?$fname;
+      }
+
+      $code ~= $!mod.generate-bitfield-code(:$bitfield-names)
+        if $*generate-code;
+#      $code ~= $!mod.generate-bitfield-code;  
     }
 
     when 'callback' {
@@ -240,13 +258,14 @@ method generate-code ( ) {
     if $!filedata<function>:exists {
       $need-routine-caller = True;
     }
-
-    $code = $!mod.substitute-MODULE-IMPORTS( $code, :$need-routine-caller);
-
-    note "Save module";
-    $*work-data<raku-module-file>.IO.spurt($code) if $*generate-code;
-  }
 }}
+
+#    $code = $!mod.substitute-MODULE-IMPORTS( $code, :$need-routine-caller);
+
+    if ?$fname and ?$code {
+      note "Save module ";
+      $*work-data<raku-module-types>.IO.spurt($code) if $*generate-code;
+  }
 }
 
 #-------------------------------------------------------------------------------
