@@ -94,20 +94,6 @@ method generate-code ( ) {
       $raku-module.generate-doc if $*generate-doc;  
     }
 
-#`{{
-  elsif $!filedata<interface>:exists {
-    $*gnome-class = $!filename.tc;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-    say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
-
-    require ::('Gnome::SourceSkimTool::Interface');
-    my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
-    $raku-module.generate-code if $*generate-code;
-    $raku-module.generate-test if $*generate-test;
-    $raku-module.generate-doc if $*generate-doc;
-  }
-}}
     when 'record' {
       
     }
