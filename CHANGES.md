@@ -20,11 +20,11 @@ TODO type changes
   Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
   Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
 
-TODO variable argument lists
+TODO variable argument lists. note that those functions must be saved with extra info to prevent calling functions with different number of arguments.
 TODO better BUILD generation
 TODO Process constants and alias
 TODO Generate doc. Review for class new for interface, record and union
-
+TODO Test marks in code like '#TM:0:has_toplevel_focus' should go to the test file because 1) after changes it saves compilation and 2) the mark is for testing
 -->
 <!-- Testing command with timing -o for dump to file
 /usr/bin/time -f "Program: %C\nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" raku Window.rakutest
