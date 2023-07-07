@@ -442,6 +442,102 @@ method !map-element (
       );
     }
 
+    when 'constant' {
+      my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
+      return $deprecated if $deprecated;
+
+      # Search for type elements in constant
+      my Hash $const-type-attribs;
+      for $element.nodes -> $n {
+        if $n ~~ XML::Element and $n.name eq 'type' {
+          # Get the type and c:type attributes
+          $const-type-attribs = $n.attribs;
+          last;
+        }
+      }
+
+      my Str $rname = $fname.tc;
+#      my Str $np = $*work-data<name-prefix>;
+#      $rname ~~ s:i/^ $np //;
+      my Str $mname = 'T-' ~ $rname;
+      $rname = $*work-data<raku-package> ~ '::T-' ~ $rname;
+
+      $!map{$ctype} = %(
+        :sname($const-type-attribs<c:type>),
+#        :rname($const-type-attribs<name>),
+        :$rname,
+        :$mname,
+        :gir-type<constant>,
+        :class-file($fname),
+      );
+    }
+
+    # 'enum'
+    when 'enumeration' {
+      my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
+      return $deprecated if $deprecated;
+
+      my Str $rname = $fname;
+#      my Str $np = $*work-data<name-prefix>;
+#      $rname ~~ s:i/^ $np //;
+      my Str $mname = 'T-' ~ $rname.tc;
+      $rname = $*work-data<raku-package> ~ '::T-' ~ $rname.tc;
+ 
+      $!map{$ctype} = %(
+        :sname($ctype),
+        :$mname,
+        :$rname,
+        :gir-type<enumeration>,
+        :class-file($fname),
+      );
+    }
+
+    when 'bitfield' {
+      my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
+      return $deprecated if $deprecated;
+
+      my Str $rname = $fname;
+#      my Str $np = $*work-data<name-prefix>;
+#      $rname ~~ s:i/^ $np //;
+      my Str $mname = 'T-' ~ $rname.tc;
+      $rname = $*work-data<raku-package> ~ '::T-' ~ $rname.tc;
+
+      $!map{$ctype} = %(
+        :sname($ctype),
+        :$mname,
+        :$rname,
+        :gir-type<bitfield>,
+        :class-file($fname),
+      );
+    }
+
+    when 'docsection' {
+      my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
+      return $deprecated if $deprecated;
+
+      $!map{$attrs<name>} = %(
+        :rname($attrs<name>),
+        :gir-type<docsection>,
+        :class-file($fname),
+      );
+    }
+
+    when 'callback' {
+      my Str $fname = self!get-source-file($element);
+      $deprecated = ($fname eq 'deprecated');
+      return $deprecated if $deprecated;
+
+      $!map{$ctype} = %(
+        :rname($attrs<name>),
+        :gir-type<callback>,
+        :class-file($fname),
+      );
+    }
+
     # 'typedef'
     when 'alias' {
       my Str $fname = self!get-source-file($element);
@@ -460,76 +556,6 @@ method !map-element (
         :cname($alias-type-attribs<c:type>),
         :rname($alias-type-attribs<name>),
         :gir-type<alias>
-        :class-file($fname),
-      );
-    }
-
-    when 'constant' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
-      return $deprecated if $deprecated;
-
-      my Hash $const-type-attribs;
-      for $element.nodes -> $n {
-        if $n ~~ XML::Element and $n.name eq 'type' {
-          $const-type-attribs = $n.attribs;
-          last;
-        }
-      }
-
-      $!map{$ctype} = %(
-        :cname($const-type-attribs<c:type>),
-        :rname($const-type-attribs<name>),
-        :gir-type<constant>,
-        :class-file($fname),
-      );
-    }
-
-    when 'callback' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
-      return $deprecated if $deprecated;
-
-      $!map{$ctype} = %(
-        :rname($attrs<name>),
-        :gir-type<callback>,
-        :class-file($fname),
-      );
-    }
-
-    when 'bitfield' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
-      return $deprecated if $deprecated;
-
-      $!map{$ctype} = %(
-        :rname($ctype),
-        :gir-type<bitfield>,
-        :class-file($fname),
-      );
-    }
-
-    when 'docsection' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
-      return $deprecated if $deprecated;
-
-      $!map{$attrs<name>} = %(
-        :rname($attrs<name>),
-        :gir-type<docsection>,
-        :class-file($fname),
-      );
-    }
-
-    # 'enum'
-    when 'enumeration' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
-      return $deprecated if $deprecated;
-
-      $!map{$ctype} = %(
-        :rname($ctype),
-        :gir-type<enumeration>,
         :class-file($fname),
       );
     }
