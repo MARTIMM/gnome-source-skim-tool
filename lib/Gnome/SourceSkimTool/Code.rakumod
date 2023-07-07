@@ -739,6 +739,7 @@ method generate-enumerations-code ( Array :$enum-names is copy = [] --> Str ) {
   my Str $code = qq:to/EOENUM/;
     {HLSEPARATOR}
     {SEPARATOR('Enumerations');}
+    {HLSEPARATOR}
     EOENUM
 
 #`{{
@@ -765,9 +766,9 @@ method generate-enumerations-code ( Array :$enum-names is copy = [] --> Str ) {
       '//enumeration[@name="' ~ $name ~ '"]', :!to-list
     );
 
+#TE:0:$enum-name
+#      {HLSEPARATOR}
     $code ~= qq:to/EOENUM/;
-      {HLSEPARATOR}
-      #TE:0:$enum-name
       enum $enum-name is export \<
       EOENUM
 
@@ -840,6 +841,7 @@ method generate-bitfield-code ( Array :$bitfield-names is copy = [] --> Str ) {
   my Str $code = qq:to/EOENUM/;
     {HLSEPARATOR}
     {SEPARATOR('Bitfields');}
+    {HLSEPARATOR}
     EOENUM
 
 #`{{
@@ -866,9 +868,9 @@ method generate-bitfield-code ( Array :$bitfield-names is copy = [] --> Str ) {
       '//bitfield[@name="' ~ $name ~ '"]', :!to-list
     );
 
+#TE:0:$bitfield-name
+#      {HLSEPARATOR}
     $code ~= qq:to/EOENUM/;
-      {HLSEPARATOR}
-      #TE:0:$bitfield-name
       enum $bitfield-name is export \(
       EOENUM
 
