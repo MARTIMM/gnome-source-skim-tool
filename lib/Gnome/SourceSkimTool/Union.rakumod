@@ -118,7 +118,8 @@ method generate-code ( ) {
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   note "Save module";
-  $*work-data<raku-module-file>.IO.spurt($code);
+  "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
+#  $*work-data<raku-module-file>.IO.spurt($code);
 #  note "Save pod doc";
 #  $*work-data<raku-module-doc-file>.IO.spurt($module-doc) if $*generate-doc;
 }
