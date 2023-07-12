@@ -60,23 +60,16 @@ method generate-code ( ) {
   if $*verbose {
     note "\nTypes found in file $!filename";
     for $!filedata.kv -> $t, $h {
-      note "  $t: $h.keys()";
+      note "\n  $t: $h.keys()";
     }
   }
 
-  my Str $fname;
+  my Str ( $fname, $rname, $c);
 #  $*gnome-class = $!filename.tc;
 #  my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-#TL:1:$*work-data<raku-class-name>:
-  my Str $code = qq:to/RAKUMOD/;
-    use v6;
-    RAKUMOD
-
-  $code ~= $!mod.set-unit-for-file;
-
   for $!filedata.keys {
     # -> $type-name
+
     when 'class' {
       # There will always be one class in a file
       $*gnome-class = $!filedata<class>.values[0]<mname>;
@@ -152,32 +145,52 @@ method generate-code ( ) {
     }
 
     when 'constant' {
-      
+#      $*gnome-class = $!filedata<constant>.values[0]<mname>;
+#      my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+      my @constants = ();
+      for $!filedata<constant>.kv -> $k, $v {
+        # The name to search for later must be without package prefix
+        my Str $name = $k;
+        my Str $pname = S/ \d+ $// with $*gnome-package.Str;
+        $name ~~ s:i/^ $pname '_'//;
+#note "\n$?LINE E $k, $name, $pname, $v.gist()";
+        @constants.push: ( $name, $v<sname>);
+        $fname = "$*work-data<result-path>$v<mname>.rakumod" unless ?$fname;
+        $rname = $v<rname> unless ?$rname;
+      }
+
+      $c ~= $!mod.generate-constants(@constants);
     }
 
     when 'enumeration' {
+#      $*gnome-class = $!filedata<enumeration>.values[0]<mname>;
+#      my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
       my Array $enum-names = [];
       for $!filedata<enumeration>.kv -> $k, $v {
-#note "\n$?LINE $k, $v.gist()";
+#note "\n$?LINE E $k, $v.gist()";
         $enum-names.push: $k;
-        $fname = $v<mname> unless ?$fname;
+        $fname = "$*work-data<result-path>$v<mname>.rakumod" unless ?$fname;
+        $rname = $v<rname> unless ?$rname;
       }
 
-      $code ~= $!mod.generate-enumerations-code(:$enum-names)
-        if $*generate-code;
+      $c ~= $!mod.generate-enumerations-code(:$enum-names);
     }
 
     when 'bitfield' {
+#      $*gnome-class = $!filedata<bitfield>.values[0]<mname>;
+#      my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
       my Array $bitfield-names = [];
-      for $!filedata<enumeration>.kv -> $k, $v {
-#note "\n$?LINE $k, $v.gist()";
+      for $!filedata<bitfield>.kv -> $k, $v {
+#note "\n$?LINE B $k, $v.gist()";
         $bitfield-names.push: $k;
-        $fname = $v<mname> unless ?$fname;
+        $fname = "$*work-data<result-path>$v<mname>.rakumod" unless ?$fname;
+        $rname = $v<rname> unless ?$rname;
       }
 
-      $code ~= $!mod.generate-bitfield-code(:$bitfield-names)
-        if $*generate-code;
-#      $code ~= $!mod.generate-bitfield-code;  
+      $c ~= $!mod.generate-bitfield-code(:$bitfield-names);
     }
 
     when 'callback' {
@@ -260,11 +273,19 @@ method generate-code ( ) {
     }
 }}
 
-#    $code = $!mod.substitute-MODULE-IMPORTS( $code, :$need-routine-caller);
 
-    if ?$fname and ?$code {
-      note "Save module ";
-      $*work-data<raku-module-types>.IO.spurt($code) if $*generate-code;
+#TL:1:$*work-data<raku-class-name>:
+  my Str $code = qq:to/RAKUMOD/;
+    use v6;
+    RAKUMOD
+#note "$?LINE $rname";
+
+  $code ~= $!mod.set-unit-for-file($rname) ~ $c ~ "\n";
+
+  if ?$fname and ?$code {
+    note "Save module for types";
+#    "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
+    $fname.IO.spurt($code);
   }
 }
 

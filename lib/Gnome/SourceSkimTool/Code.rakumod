@@ -70,15 +70,18 @@ method set-unit ( XML::Element $element --> Str ) {
 # This setup is for more simple structures like records, functions,
 # enumerations, etc. There is no need for inheritence, BUILD, signals or
 # properties.
-method set-unit-for-file ( --> Str ) {
+method set-unit-for-file ( $class-name --> Str ) {
+
+#    {$!grd.pod-header('Module Imports')}
+#    __MODULE__IMPORTS__
+
+#    use Gnome::Glib::GnomeRoutineCaller:api<2>;
+
   qq:to/RAKUMOD/;
 
-    {$!grd.pod-header('Module Imports')}
-    __MODULE__IMPORTS__
-    use Gnome::Glib::GnomeRoutineCaller:api<2>;
-
     {$!grd.pod-header('Class Declaration');}
-    unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
+    unit class $class-name\:auth<github:MARTIMM>:api<2>;
+
     RAKUMOD
 }
 
@@ -733,7 +736,7 @@ method generate-enumerations-code ( Array :$enum-names is copy = [] --> Str ) {
 
   # Open enumerations file for xpath
   my Str $file = $*work-data<gir-module-path> ~ 'repo-enumeration.gir';
-  my XML::XPath $e-xpath .= new(:$file);
+  my XML::XPath $xpath .= new(:$file);
 
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOENUM/;
@@ -762,7 +765,7 @@ method generate-enumerations-code ( Array :$enum-names is copy = [] --> Str ) {
     $name ~~ s/^ $package //;
 
     # Get the XML element of the enum data
-    my XML::Element $e = $e-xpath.find(
+    my XML::Element $e = $xpath.find(
       '//enumeration[@name="' ~ $name ~ '"]', :!to-list
     );
 
@@ -773,21 +776,17 @@ method generate-enumerations-code ( Array :$enum-names is copy = [] --> Str ) {
       EOENUM
 
 #    my Str $edoc =
-#      ($e-xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+#      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
 #    my Str $s = self.modify-text($edoc);
 #    $doc = self.cleanup($s);
 
     my Str $member-name-list = '';
-    my @members = $e-xpath.find( 'member', :start($e), :to-list);
+    my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $member-name-list ~= ' ' ~ $m.attribs<c:identifier>;
     }
 
-    $code ~= qq:to/EOENUM/;
-        $member-name-list
-      \>;
-
-      EOENUM
+    $code ~= "  $member-name-list\n\>;\n\n";
   }
 #note "$?LINE $code";
 #exit;
@@ -826,16 +825,16 @@ method !get-enumeration-names ( --> Array ) {
 #-------------------------------------------------------------------------------
 method generate-bitfield-code ( Array :$bitfield-names is copy = [] --> Str ) {
 
-  # Don't look enum names up if array is provided
+  # Don't look bitfield names up if array is provided
   $bitfield-names = self!get-bitfield-names unless ?$bitfield-names;
 
-  # Return empty string if no enums found.
+  # Return empty string if no bitfields found.
   return '' unless ?$bitfield-names;
 #note "$?LINE e names: $bitfield-names.gist()";
 
   # Open bitfields file for xpath
   my Str $file = $*work-data<gir-module-path> ~ 'repo-bitfield.gir';
-  my XML::XPath $e-xpath .= new(:$file);
+  my XML::XPath $xpath .= new(:$file);
 
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOENUM/;
@@ -862,31 +861,30 @@ method generate-bitfield-code ( Array :$bitfield-names is copy = [] --> Str ) {
     my Str $package = $*gnome-package.Str;
     $package ~~ s/ \d+ $//;
     $name ~~ s/^ $package //;
-
+#note "$?LINE $bitfield-name, $package, $name";
     # Get the XML element of the bitfield data
-    my XML::Element $e = $e-xpath.find(
+    my XML::Element $e = $xpath.find(
       '//bitfield[@name="' ~ $name ~ '"]', :!to-list
     );
 
 #TE:0:$bitfield-name
 #      {HLSEPARATOR}
-    $code ~= qq:to/EOENUM/;
-      enum $bitfield-name is export \(
-      EOENUM
+    $code ~= "enum $bitfield-name is export \(\n  ";
 
 #    my Str $edoc =
-#      ($e-xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+#      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
 #    my Str $s = self.modify-text($edoc);
 #    $doc = self.cleanup($s);
 
     my Str $member-name-list = '';
-    my @members = $e-xpath.find( 'member', :start($e), :to-list);
+    my @members = $xpath.find( 'member', :start($e), :to-list);
     my @l = ();
     for @members -> $m {
+#note "$?LINE $m.attribs()<c:identifier>, $m.attribs()<value>";
       @l.push: [~] ':', $m.attribs<c:identifier>, '(', $m.attribs<value>, ')';
     }
 
-    $code ~= @l.join(', ') ~ "\n\);\n";
+    $code ~= @l.join(', ') ~ "\n\);\n\n";
   }
 #note "$?LINE $code";
 #exit;
@@ -916,6 +914,79 @@ method !get-bitfield-names ( --> Array ) {
   }
 
   $bitfield-names
+}
+
+#-------------------------------------------------------------------------------
+method generate-constants ( @constants --> Str ) {
+  
+  # Don't look enum names up if array is provided
+#  @constants = self!get-constant-names unless ?@constants;
+
+  # Return empty string if no enums found.
+  return '' unless ?@constants;
+
+  # Open constants file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-constant.gir';
+  my XML::XPath $xpath .= new(:$file);
+
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $code = qq:to/EOENUM/;
+    {HLSEPARATOR}
+    {SEPARATOR('Constants');}
+    {HLSEPARATOR}
+    EOENUM
+
+#`{{
+  my Str $doc = qq:to/EOENUM/;
+    {HLSEPARATOR}
+    {SEPARATOR('Bitfields');}
+    {HLSEPARATOR}
+    =begin pod
+    =head1 Bitfields
+    =end pod
+
+    EOENUM
+}}
+
+  # For each of the found names
+  for @constants -> $constant {
+#note "$?LINE $constant.gist()";
+#    my Str $name = $constant-name;
+#    my Str $package = $*gnome-package.Str;
+#    $package ~~ s/ \d+ $//;
+#    $name ~~ s/^ $package //;
+
+    # Get the XML element of the constant data
+#note "$?LINE '//constant\[\@name=\"$constant[0]\"\]";
+    my XML::Element $e = $xpath.find(
+      '//constant[@name="' ~ $constant[0] ~ '"]', :!to-list
+    );
+
+    my Str $value = $e.attribs<value>;
+    $value = "'$value'" if $constant[1] ~~ / char /;
+
+#TE:0:$constant[0]
+#      {HLSEPARATOR}
+
+    $code ~= "constant $constant[0] is export = $value;\n";
+
+#    my Str $edoc =
+#      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+#    my Str $s = self.modify-text($edoc);
+#    $doc = self.cleanup($s);
+
+#    my Str $member-name-list = '';
+#    my @members = $xpath.find( 'member', :start($e), :to-list);
+#    my @l = ();
+#    for @members -> $m {
+#      @l.push: [~] ':', $m.attribs<c:identifier>, '(', $m.attribs<value>, ')';
+#    }
+
+#    $code ~= @l.join(', ') ~ "\n\);\n";
+  }
+#note "$?LINE $code";
+#exit;
+  $code ~ "\n"
 }
 
 #-------------------------------------------------------------------------------
@@ -1012,9 +1083,11 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
       EOREC
   }
 
-  note "Save record structure in $struct-name";
-  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
-  "$path/$struct-name.rakumod".IO.spurt($code);
+  my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+  $fname.IO.spurt($code);
+  note "Save record structure in $fname" if $*verbose;
+#  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
+#  "$path/$struct-name.rakumod".IO.spurt($code);
   
   $*external-modules.push: $struct-name;
 }
@@ -1069,10 +1142,12 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
   $*external-modules.push: 'Gnome::N::X';
   $code = self.substitute-MODULE-IMPORTS($code);
 
-  note "Save union structure in $struct-name";
-  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
-  "$path/$struct-name.rakumod".IO.spurt($code);
-  
+  my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+  $fname.IO.spurt($code);
+  note "Save union structure in $fname" if $*verbose;
+#  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
+#  "$path/$struct-name.rakumod".IO.spurt($code);
+
   $*external-modules.push: $struct-name;
 }
 
