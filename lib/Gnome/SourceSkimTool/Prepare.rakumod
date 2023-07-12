@@ -21,6 +21,8 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
   # Add/modify some more global work data
   if ?$*gnome-class {
+    self.prepare-work-data($*gnome-package);
+
     $*work-data<raku-class-name> =
       $*work-data<raku-package> ~ "::$*gnome-class";
 
@@ -37,10 +39,10 @@ submethod BUILD ( Bool :$load-maps = True ) {
       "$*work-data<gir-module-path>U-$*gnome-class.gir";
     $*work-data<gir-interface-file> =
       "$*work-data<gir-module-path>I-$*gnome-class.gir";
-    $*work-data<raku-module-types> = RAKUMODS ~ "T-$*gnome-class.rakumod";
-    $*work-data<raku-module-file> = RAKUMODS ~ "$*gnome-class.rakumod";
-    $*work-data<raku-module-doc-file> = RAKUMODS ~ "$*gnome-class.rakudoc";
-    $*work-data<raku-module-test-file> = RAKUMODS ~ "$*gnome-class.rakutest";
+#    $*work-data<raku-module-types> = RAKUMODS ~ "T-$*gnome-class.rakumod";
+#    $*work-data<raku-module-file> = RAKUMODS ~ "$*gnome-class.rakumod";
+#    $*work-data<raku-module-doc-file> = RAKUMODS ~ "$*gnome-class.rakudoc";
+#    $*work-data<raku-module-test-file> = RAKUMODS ~ "$*gnome-class.rakutest";
   }
 
   self.display-hash( $*work-data, :label<work-data>);
@@ -136,6 +138,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gtk-3.0.gir'),
         :name-prefix<gtk>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Gtk3/'),
       );
     }
 
@@ -147,6 +150,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gdk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gdk-3.0.gir'),
         :name-prefix<gdk>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Gdk3/'),
       );
     }
 
@@ -158,6 +162,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "GdkPixbuf$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GdkPixbuf-2.0.gir'),
         :name-prefix<gdk_pixbuf>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Gdk3/'),
       );
     }
 
@@ -169,6 +174,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "GdkPixdata$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GdkPixdata-2.0.gir'),
         :name-prefix<gdk_pix>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Gdk3/'),
       );
     }
 
@@ -180,6 +186,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gtk-4.0.gir'),
         :name-prefix<gtk>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Gtk4/'),
       );
     }
 
@@ -191,6 +198,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gdk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gdk-4.0.gir'),
         :name-prefix<gdk>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Gdk4/'),
       );
     }
 
@@ -202,6 +210,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gsk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gsk-4.0.gir'),
         :name-prefix<gsk>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Gsk4/'),
       );
     }
 
@@ -213,6 +222,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GLib-2.0.gir'),
         :name-prefix<g>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Glib/'),
       );
     }
 
@@ -224,6 +234,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gio-2.0.gir'),
         :name-prefix<g>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Gio/'),
       );
     }
 
@@ -235,6 +246,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GObject-2.0.gir'),
         :name-prefix<g>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/GObject/'),
       );
     }
 
@@ -246,6 +258,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Cairo$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'cairo-1.0.gir'),
         :name-prefix<cairo>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Cairo/'),
       );
     }
 
@@ -257,6 +270,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Atk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Atk-1.0.gir'),
         :name-prefix<atk>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Atk/'),
       );
     }
 
@@ -268,9 +282,10 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Pango$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Pango-1.0.gir'),
         :name-prefix<pango>,
+        :result-path(RAKUMODS ~ 'lib/Gnome/Pango/'),
       );
     }
-
+#`{{
     when PangoCairo {
       $work-data = %(
         :library<pango-lib()>,
@@ -292,13 +307,16 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :name-prefix(''),
       );
     }
+}}
 
     default {
 #      $work-data = %();
-      die 'No SkimSource defined';
+      die 'No SkimSource defined for ' ~ $_ // '-';
     }
   }
-  
+
+  mkdir $work-data<result-path>, 0o700 unless $work-data<result-path>.IO ~~ :e;
+
   $work-data
 }
 
