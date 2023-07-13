@@ -90,7 +90,7 @@ method generate-callables (
   XML::Element $element, XML::XPath $xpath, Bool :$is-interface = False
   --> Str
 ) {
-  
+
   my Str $code = '';
   my Str $c;
 
@@ -120,66 +120,65 @@ method generate-callables (
 
       {HLSEPARATOR}
       RAKUMOD
-  }
 
-  #
-  if $is-interface {
-    $c ~= q:to/RAKUMOD/;
-      # This method is recognized in class Gnome::N::TopLevelClassSupport.
-      method _fallback-v2 (
-        Str $n, Bool $_fallback-v2-ok is rw,
-        Gnome::Glib::GnomeRoutineCaller $routine-caller, *@arguments
-      ) {
-        my Str $name = S:g/ '-' /_/ with $n;
-        if $methods{$name}:exists {
-          my $native-object = self.get-native-object-no-reffing;
-          $_fallback-v2-ok = True;
-          return $routine-caller.call-native-sub(
-            $name, @arguments, $methods, :$native-object
-          );
+    # For interfaces/roles, there is another fallback api called from class
+    if $is-interface {
+      $c ~= q:to/RAKUMOD/;
+        # This method is recognized in class Gnome::N::TopLevelClassSupport.
+        method _fallback-v2 (
+          Str $n, Bool $_fallback-v2-ok is rw,
+          Gnome::Glib::GnomeRoutineCaller $routine-caller, *@arguments
+        ) {
+          my Str $name = S:g/ '-' /_/ with $n;
+          if $methods{$name}:exists {
+            my $native-object = self.get-native-object-no-reffing;
+            $_fallback-v2-ok = True;
+            return $routine-caller.call-native-sub(
+              $name, @arguments, $methods, :$native-object
+            );
+          }
         }
-      }
-      RAKUMOD
-
-  }
-
-  else {
-    $c ~= q:to/RAKUMOD/;
-      # This method is recognized in class Gnome::N::TopLevelClassSupport.
-      method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
-        my Str $name = S:g/ '-' /_/ with $n;
-        if $methods{$name}:exists {
-          my $native-object = self.get-native-object-no-reffing;
-          $_fallback-v2-ok = True;
-          return $!routine-caller.call-native-sub(
-            $name, @arguments, $methods, :$native-object
-          );
-        }
-
-        else {
-      RAKUMOD
-
-    my Str $ctype = $element.attribs<c:type>;
-    my Hash $h = $!sas.search-name($ctype);
-    my Array $roles = $h<implement-roles>//[];
-    for @$roles -> $role {
-      my Hash $role-h = $!sas.search-name($role);
-#note "$?LINE role=$role -> $role-h.gist()";
-
-      $c ~= qq:to/RAKUMOD/;
-            my \$r = self.{$role}::_fallback-v2-ok\(
-              \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
-            \);
-            return \$r if \$_fallback-v2-ok;
-
         RAKUMOD
     }
 
-    $c ~= q:to/RAKUMOD/;
-          callsame;
-        }
+    else {
+      $c ~= q:to/RAKUMOD/;
+        # This method is recognized in class Gnome::N::TopLevelClassSupport.
+        method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
+          my Str $name = S:g/ '-' /_/ with $n;
+          if $methods{$name}:exists {
+            my $native-object = self.get-native-object-no-reffing;
+            $_fallback-v2-ok = True;
+            return $!routine-caller.call-native-sub(
+              $name, @arguments, $methods, :$native-object
+            );
+          }
+
+          else {
+        RAKUMOD
+
+      my Str $ctype = $element.attribs<c:type>;
+      my Hash $h = $!sas.search-name($ctype);
+      my Array $roles = $h<implement-roles>//[];
+      for @$roles -> $role {
+        my Hash $role-h = $!sas.search-name($role);
+  #note "$?LINE role=$role -> $role-h.gist()";
+
+        $c ~= qq:to/RAKUMOD/;
+              my \$r = self.{$role}::_fallback-v2-ok\(
+                \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
+              \);
+              return \$r if \$_fallback-v2-ok;
+
+          RAKUMOD
       }
-      RAKUMOD
+
+      $c ~= q:to/RAKUMOD/;
+            callsame;
+          }
+        }
+        RAKUMOD
+    }
   }
 
   $code = $c;
