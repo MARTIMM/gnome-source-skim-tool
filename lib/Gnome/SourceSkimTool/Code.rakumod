@@ -1085,7 +1085,7 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
 
   my Str $fname = "$*work-data<result-path>N-$*gnome-class.rakumod";
   $fname.IO.spurt($code);
-  note "Save record structure in N-$fname" if $*verbose;
+  note "Save record structure in $fname" if $*verbose;
 #  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
 #  "$path/$struct-name.rakumod".IO.spurt($code);
   
@@ -1352,7 +1352,30 @@ method !get-type ( XML::Element $e --> List ) {
   ( $type, $raku-ntype, $raku-rtype)
 }
 
-#`{{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
 #-------------------------------------------------------------------------------
 method !get-types (
   Hash $parameter,
@@ -1434,4 +1457,3 @@ method !get-types (
 
   $result  
 }
-}}
