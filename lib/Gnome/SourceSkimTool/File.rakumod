@@ -100,11 +100,14 @@ method generate-code ( ) {
 
     when 'record' {
       for $!filedata<record>.keys -> $record-name {
-        $*gnome-class = $!filename.tc;
-        my Gnome::SourceSkimTool::Prepare $prepare .= new;
+#`{{
+        $*gnome-class = $record-name;
         my Str $gnome-package = $*gnome-package.Str;
         $gnome-package ~~ s/ \d+ $//;
         $*gnome-class ~~ s/^ $gnome-package //;
+}}
+        $*gnome-class = self!chop-packagename($record-name);
+        my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
         say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
 
@@ -134,11 +137,11 @@ method generate-code ( ) {
 }}
 
   when 'union' {
-    for $!filedata<union>.keys -> $record-name {
-      my Str $name = $!filedata<union>.keys[0];
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $name ~~ s:i/^ $name-prefix //;
-      $*gnome-class = $name;
+    for $!filedata<union>.keys -> $union-name {
+      $*gnome-class = $union-name;
+      my Str $gnome-package = $*gnome-package.Str;
+      $gnome-package ~~ s/ \d+ $//;
+      $*gnome-class ~~ s/^ $gnome-package //;
       my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
       say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
@@ -344,4 +347,15 @@ method !get-data-from-filename ( ) {
     # Reorder on type
     $!filedata{$v<gir-type>}{$k} = $v;
   }
+}
+
+#-------------------------------------------------------------------------------
+method !chop-packagename ( Str:D $name is copy --> Str ) {
+  my Str $gnome-package = $*gnome-package.Str;
+
+  # in case package has a version 3 or 4 attached
+  $gnome-package ~~ s/ \d+ $//;
+  $name ~~ s/^ $gnome-package //;
+
+  $name
 }
