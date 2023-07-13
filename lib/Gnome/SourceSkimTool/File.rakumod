@@ -99,7 +99,21 @@ method generate-code ( ) {
     }
 
     when 'record' {
-      
+      for $!filedata<record>.keys -> $record-name {
+        $*gnome-class = $!filename.tc;
+        my Gnome::SourceSkimTool::Prepare $prepare .= new;
+        my Str $gnome-package = $*gnome-package.Str;
+        $gnome-package ~~ s/ \d+ $//;
+        $*gnome-class ~~ s/^ $gnome-package //;
+
+        say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
+
+        require ::('Gnome::SourceSkimTool::Record');
+        my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
+        $raku-module.generate-code if $*generate-code;
+        $raku-module.generate-test if $*generate-test;
+        $raku-module.generate-doc if $*generate-doc;
+      }
     }
 
 #`{{
@@ -117,10 +131,27 @@ method generate-code ( ) {
     $raku-module.generate-test if $*generate-test;
     $raku-module.generate-doc if $*generate-doc;
   }
-    when 'union' {
-      
-    }
+}}
 
+  when 'union' {
+    for $!filedata<union>.keys -> $record-name {
+      my Str $name = $!filedata<union>.keys[0];
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $name ~~ s:i/^ $name-prefix //;
+      $*gnome-class = $name;
+      my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+      say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
+
+      require ::('Gnome::SourceSkimTool::Union');
+      my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
+      $raku-module.generate-code if $*generate-code;
+      $raku-module.generate-test if $*generate-test;
+      $raku-module.generate-doc if $*generate-doc;
+    }
+  }
+
+#`{{
   # If there is one union, generate a single raku module. The union
   # may have constructors and methods too
   elsif $!filedata<union>:exists and $!filedata<union>.keys.elems == 1 {

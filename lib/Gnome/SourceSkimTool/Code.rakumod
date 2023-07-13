@@ -1012,7 +1012,7 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
       __MODULE__IMPORTS__
 
       {$!grd.pod-header('Record Structure')}
-      unit class $struct-name is export is repr\('CStruct'):api<2>;
+      unit class $struct-name\:api<2> is export is repr\('CStruct');
 
       EOREC
 
@@ -1083,9 +1083,9 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
       EOREC
   }
 
-  my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+  my Str $fname = "$*work-data<result-path>N-$*gnome-class.rakumod";
   $fname.IO.spurt($code);
-  note "Save record structure in $fname" if $*verbose;
+  note "Save record structure in N-$fname" if $*verbose;
 #  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
 #  "$path/$struct-name.rakumod".IO.spurt($code);
   
@@ -1111,7 +1111,7 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
     __MODULE__IMPORTS__
 
     {$!grd.pod-header('Union Structure')}
-    unit class $struct-name is export is repr\('CUnion'):api<2>;
+    unit class $struct-name\:api<2> is export is repr\('CUnion');
 
     RAKUMOD
 
@@ -1142,7 +1142,7 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
   $*external-modules.push: 'Gnome::N::X';
   $code = self.substitute-MODULE-IMPORTS($code);
 
-  my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+  my Str $fname = "$*work-data<result-path>N-$*gnome-class.rakumod";
   $fname.IO.spurt($code);
   note "Save union structure in $fname" if $*verbose;
 #  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;

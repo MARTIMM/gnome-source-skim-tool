@@ -56,9 +56,9 @@ method generate-code ( ) {
   note "Set class unit" if $*verbose;
   $code ~= $!mod.set-unit($element);
 
-  note "Generate enumerations and bitmasks";
-  $code ~= $!mod.generate-enumerations-code;
-  $code ~= $!mod.generate-bitfield-code;
+#  note "Generate enumerations and bitmasks";
+#  $code ~= $!mod.generate-enumerations-code;
+#  $code ~= $!mod.generate-bitfield-code;
 
   # Generate record structure. Structures are stored in separate files.
   $!mod.generate-structure( $element, $!xpath);
@@ -120,8 +120,9 @@ method generate-code ( ) {
 
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-  note "Save module";
-  "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
+  my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+  note "Save module in $fname";
+  $fname.IO.spurt($code);
 #  $*work-data<raku-module-file>.IO.spurt($code);
 #  note "Save pod doc";
 #  $*work-data<raku-module-doc-file>.IO.spurt($module-doc) if $*generate-doc;
