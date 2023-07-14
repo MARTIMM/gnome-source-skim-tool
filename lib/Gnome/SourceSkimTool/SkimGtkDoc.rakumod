@@ -316,6 +316,10 @@ method !map-element (
   --> Bool
 ) {
   my Bool $deprecated = False;
+  my Str (
+    $source-filename, $module-filename, $structure-filename,
+    $class-name, $gnome-name, $structure-name,
+  );
 
   # Get attribute hash
   my Hash $attrs = $element.attribs;
@@ -341,9 +345,13 @@ method !map-element (
   # Gather data depending on the tag type
   given $element.name {
     when 'class' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
+
+      $class-name = $*work-data<raku-package> ~ '::' ~ $attrs<name>;
+      $gnome-name = $ctype;
+      $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
 
       my @roles = ();
       for $!xp.find( 'implements', :start($element), :to-list) -> $ie {
@@ -353,22 +361,29 @@ method !map-element (
       my Str ( $parent-gnome-name, $parent-raku-name ) =
          self!set-names($attrs<parent> // '');
 
-#note "\n$?LINE {$element.attribs()<name>}, $fname";
+#note "\n$?LINE {$element.attribs()<name>}, $module-filename";
 
       $!map{$ctype} = %(
-        :rname($*work-data<raku-package> ~ '::' ~ $attrs<name>),
-        :mname($attrs<name>),
+        :gir-type<class>,
+
+        :$source-filename,
+        :$module-filename,
+        :$class-name,
+        :$gnome-name,
+
         :$parent-raku-name, :$parent-gnome-name, :@roles,
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
-        :gir-type<class>,
-        :class-file($fname),
+
+        :rname($class-name),
+        :mname($attrs<name>),
+        :class-file($source-filename),
       );
     }
 
     # 'role'
     when 'interface' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       my Str $rname = $ctype;
@@ -377,74 +392,131 @@ method !map-element (
       my Str $mname = 'R-' ~ $rname;
       $rname = $*work-data<raku-package> ~ '::R-' ~ $rname;
 
+      $class-name = $*work-data<raku-package> ~ '::R-' ~ $attrs<name>;
+      $gnome-name = $ctype;
+      $module-filename = "$*work-data<result-path>R-$attrs<name>.rakumod";
+
       $!map{$ctype} = %(
-        :gir-type<interface>, :!leaf,
+        :gir-type<interface>,
+
+        :$source-filename,
+        :$module-filename,
+        :$class-name,
+        :$gnome-name,
+
+        :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
+
+#        :!leaf,
         :$rname,
         :$mname,
-        :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
-        :class-file($fname),
+        :class-file($source-filename),
       );
     }
 
     # 'struct'
     when 'record' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
+      
+      my Str $rname = $ctype;
       $rname ~~ s:i/^ $np //;
       my Str $mname = 'N-' ~ $rname;
-      $rname = $*work-data<raku-package> ~ '::N-' ~ $rname;
+      $rname = $*work-data<raku-package> ~ '::' ~ $rname;
+
+      $class-name = $ctype;
+      $class-name ~~ s:i/^ $np //;
+      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
+
+      $gnome-name = $ctype;
+      $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
+      $structure-name = "$*work-data<raku-package>::N-$ctype";
+      $structure-filename = "$*work-data<result-path>N-$ctype.rakumod";
+
       $!map{$ctype} = %(
-        :sname("N-$ctype"),
-        :$rname,
-        :$mname,
         :gir-type<record>,
+
+        :$source-filename,
+        :$module-filename,
+        :$class-name,
+        :$gnome-name,
+        :$structure-name,
+        :$structure-filename,
+
         :symbol-prefix(
            $symbol-prefix ~ '_' ~ ($attrs<c:symbol-prefix> // '') ~ '_'
         ),
-        :class-file($fname),
+
+        :sname("N-$ctype"),
+        :$rname,
+        :$mname,
+        :class-file($source-filename),
       );
     }
 
     when 'union' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $module-filename = self!get-source-file($element);
+      $deprecated = ($module-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
+
+      my Str $rname = $ctype;
       $rname ~~ s:i/^ $np //;
       my Str $mname = 'N-' ~ $rname;
-      $rname = $*work-data<raku-package> ~ '::N-' ~ $rname;
+      $rname = $*work-data<raku-package> ~ '::' ~ $rname;
+
+      $class-name = $ctype;
+      $class-name ~~ s:i/^ $np //;
+      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
+
+      $gnome-name = $ctype;
+      $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
+      $structure-name = "$*work-data<raku-package>::N-$ctype";
+      $structure-filename = "$*work-data<result-path>N-$ctype.rakumod";
+
       $!map{$ctype} = %(
+        :gir-type<union>,
+
+        :$source-filename,
+        :$module-filename,
+        :$class-name,
+        :$gnome-name,
+        :$structure-name,
+        :$structure-filename,
+
+        :symbol-prefix(
+           $symbol-prefix ~ '_' ~ ($attrs<c:symbol-prefix> // '') ~ '_'
+        ),
+
         :sname("N-$ctype"),
         :$rname,
         :$mname,
-        :gir-type<union>,
-        :class-file($fname),
+        :class-file($module-filename),
       );
     }
 
     when 'function' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $module-filename = self!get-source-file($element);
+      $deprecated = ($module-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       my Str $rname = $attrs<name>;
       $rname ~~ s:g/ '_' /-/;
       $!map{$ctype} = %(
-        :$rname,
         :gir-type<function>,
-        :class-file($fname),
+
+
+        :$rname,
+        :class-file($module-filename),
       );
     }
 
     when 'constant' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $module-filename = self!get-source-file($element);
+      $deprecated = ($module-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       # Search for type elements in constant
@@ -457,7 +529,7 @@ method !map-element (
         }
       }
 
-      my Str $rname = $fname.tc;
+      my Str $rname = $module-filename.tc;
 #      my Str $np = $*work-data<name-prefix>;
 #      $rname ~~ s:i/^ $np //;
       my Str $mname = 'T-' ~ $rname;
@@ -469,17 +541,17 @@ method !map-element (
         :$rname,
         :$mname,
         :gir-type<constant>,
-        :class-file($fname),
+        :class-file($module-filename),
       );
     }
 
     # 'enum'
     when 'enumeration' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $module-filename = self!get-source-file($element);
+      $deprecated = ($module-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $rname = $fname;
+      my Str $rname = $module-filename;
 #      my Str $np = $*work-data<name-prefix>;
 #      $rname ~~ s:i/^ $np //;
       my Str $mname = 'T-' ~ $rname.tc;
@@ -490,16 +562,16 @@ method !map-element (
         :$mname,
         :$rname,
         :gir-type<enumeration>,
-        :class-file($fname),
+        :class-file($module-filename),
       );
     }
 
     when 'bitfield' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $module-filename = self!get-source-file($element);
+      $deprecated = ($module-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $rname = $fname;
+      my Str $rname = $module-filename;
 #      my Str $np = $*work-data<name-prefix>;
 #      $rname ~~ s:i/^ $np //;
       my Str $mname = 'T-' ~ $rname.tc;
@@ -510,38 +582,38 @@ method !map-element (
         :$mname,
         :$rname,
         :gir-type<bitfield>,
-        :class-file($fname),
+        :class-file($module-filename),
       );
     }
 
     when 'docsection' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $module-filename = self!get-source-file($element);
+      $deprecated = ($module-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       $!map{$attrs<name>} = %(
         :rname($attrs<name>),
         :gir-type<docsection>,
-        :class-file($fname),
+        :class-file($module-filename),
       );
     }
 
     when 'callback' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $module-filename = self!get-source-file($element);
+      $deprecated = ($module-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       $!map{$ctype} = %(
         :rname($attrs<name>),
         :gir-type<callback>,
-        :class-file($fname),
+        :class-file($module-filename),
       );
     }
 
     # 'typedef'
     when 'alias' {
-      my Str $fname = self!get-source-file($element);
-      $deprecated = ($fname eq 'deprecated');
+      $module-filename = self!get-source-file($element);
+      $deprecated = ($module-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       my Hash $alias-type-attribs;
@@ -556,7 +628,7 @@ method !map-element (
         :cname($alias-type-attribs<c:type>),
         :rname($alias-type-attribs<name>),
         :gir-type<alias>
-        :class-file($fname),
+        :class-file($module-filename),
       );
     }
 
@@ -603,27 +675,27 @@ method !is-inheritable-r ( Str $classname --> Bool ) {
 
 #-------------------------------------------------------------------------------
 method !get-source-file( XML::Element:D $element --> Str ) {
-  my Str $fname = 'undefined-module-name';
+  my Str $module-filename = 'undefined-module-name';
 
   for <source-position doc> -> $tag-name {
     my XML::Element $sp = $!xp.find( $tag-name, :start($element), :!to-list);
 
     if ?$sp {
       # get name of file, drop extension and remove a few letters from front
-      $fname = $sp.attribs<filename>;
-      if $fname ~~ m/ deprecated / {
-        $fname = 'deprecated';
+      $module-filename = $sp.attribs<filename>;
+      if $module-filename ~~ m/ deprecated / {
+        $module-filename = 'deprecated';
       }
 
       else {
-        $fname = $fname.IO.basename;
-        $fname ~~ s/ \. <-[\.]>+ $//;
+        $module-filename = $module-filename.IO.basename;
+        $module-filename ~~ s/ \. <-[\.]>+ $//;
 
         # In Gtk and Gdk for version 3, the filenames are having the prefix
         # 'gtk' or 'gdk' before it. Glib, GObject and Gio has a 'g' prefixed.
         if $*gnome-package.Str ~~ any(<Gtk3 Gdk3 Glib GObject Gio Atk Pango>) {
           my $name-prefix = $*work-data<name-prefix>;
-          $fname ~~ s/^ $name-prefix <[_-]>? //;
+          $module-filename ~~ s/^ $name-prefix <[_-]>? //;
         }
       }
 
@@ -631,7 +703,7 @@ method !get-source-file( XML::Element:D $element --> Str ) {
     }
   }
 
-  $fname
+  $module-filename
 }
 
 #-------------------------------------------------------------------------------
