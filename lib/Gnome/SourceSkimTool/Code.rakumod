@@ -13,10 +13,11 @@ unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Doc $!grd;
 
-has XML::XPath $!xpath;
+#has XML::XPath $!xpath;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( XML::XPath :$!xpath ) {
+#submethod BUILD ( XML::XPath :$!xpath ) {
+submethod BUILD ( ) {
 
   $!grd .= new;
   $!sas .= new;
@@ -100,12 +101,12 @@ method generate-callables (
   note "Generate constructors" if $*verbose and ?$code;
 
   # Generate methods
-  $c = self!generate-methods($element);
+  $c = self!generate-methods( $element, $xpath);
   $code ~= $c if ?$c;
   note "Generate methods" if $*verbose and ?$c;
 
   # Generate functions
-  $c = self!generate-functions($element);
+  $c = self!generate-functions( $element, $xpath);
   $code ~= $c if ?$c;
   note "Generate functions" if $*verbose and ?$c;
 
@@ -296,7 +297,7 @@ method make-build-submethod (
     EOBUILD
 
   my Str $ifelse = 'if';
-  my Hash $hcs = self.get-constructors( $element, $!xpath);
+  my Hash $hcs = self.get-constructors( $element, $xpath);
   for $hcs.keys.sort -> $function-name {
 
     my Str $fallback-fst-arg = $function-name;
@@ -396,7 +397,7 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my Hash $hcs = %();
 
   my @constructors =
-    $!xpath.find( 'constructor', :start($element), :to-list);
+    $xpath.find( 'constructor', :start($element), :to-list);
 
   for @constructors -> $cn {
     # Skip deprecated constructors
@@ -476,7 +477,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !generate-methods ( XML::Element $element --> Str ) {
+method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
 #  my Str $ctype = $element.attribs<c:type>;
 #  my Hash $h = $!sas.search-name($ctype);
@@ -484,7 +485,7 @@ method !generate-methods ( XML::Element $element --> Str ) {
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all methods in this class
-  my Hash $hcs = self!get-methods($element);
+  my Hash $hcs = self!get-methods( $element, $xpath);
   return '' unless ?$hcs;
 
   my Str $code = qq:to/EOSUB/;
@@ -558,17 +559,16 @@ method !generate-methods ( XML::Element $element --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-methods ( XML::Element $element --> Hash ) {
+method !get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my Hash $hms = %();
 
-  my @methods = $!xpath.find( 'method', :start($element), :to-list);
+  my @methods = $xpath.find( 'method', :start($element), :to-list);
 
   for @methods -> $cn {
     # Skip deprecated methods
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) =
-      self!get-method-data( $cn, :!build, :xpath($!xpath));
+    my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
     $hms{$function-name} = %h;
   }
 
@@ -576,12 +576,12 @@ method !get-methods ( XML::Element $element --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method !generate-functions ( XML::Element $element --> Str ) {
+method !generate-functions ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all functions in this class
-  my Hash $hcs = self!get-functions($element);
+  my Hash $hcs = self!get-functions( $element, $xpath);
   return '' unless ?$hcs;
 
   my Str $code = qq:to/EOSUB/;
@@ -706,17 +706,16 @@ method !generate-functions ( XML::Element $element --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-functions ( XML::Element $element --> Hash ) {
+method !get-functions ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my Hash $hms = %();
 
-  my @methods = $!xpath.find( 'function', :start($element), :to-list);
+  my @methods = $xpath.find( 'function', :start($element), :to-list);
 
   for @methods -> $cn {
     # Skip deprecated methods
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) =
-      self!get-method-data( $cn, :!build, :xpath($!xpath));
+    my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
     $hms{$function-name} = %h;
   }
 
@@ -989,7 +988,9 @@ method generate-constants ( @constants --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
+method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
+
+  my $temp-external-modules = $*external-modules;
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!sas.search-name($name);
@@ -1011,7 +1012,7 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
       __MODULE__IMPORTS__
 
       {$!grd.pod-header('Record Structure')}
-      unit class $struct-name\:api<2> is export is repr\('CStruct');
+      unit class $*work-data<raku-package>\:\:$h0<sname>\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct');
 
       EOREC
 
@@ -1071,6 +1072,10 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
 #    $code ~= "\n\n";
     $*external-modules.push: 'Gnome::N::X';
     $code = self.substitute-MODULE-IMPORTS($code);
+
+    # Reset to original and add this structure
+    $*external-modules = $temp-external-modules;
+    $*external-modules.push: $h0<sname>;
   }
 
   else {
@@ -1080,20 +1085,24 @@ method generate-structure ( XML::Element $element, XML::XPath $xpath ) {
       unit class $struct-name is export is repr\('CPointer');
 
       EOREC
+
+    # Reset to original and add this structure
+    $*external-modules = $temp-external-modules;
+    $*external-modules.push: $*work-data<raku-package> ~ '::' ~ $h0<sname>;
   }
 
-  my Str $fname = "$*work-data<result-path>N-$*gnome-class.rakumod";
+  my Str $fname = "$*work-data<result-path>$struct-name.rakumod";
   $fname.IO.spurt($code);
-  note "Save record structure in $fname" if $*verbose;
+  note "Save record structure in ", $fname.IO.basename;
 #  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
 #  "$path/$struct-name.rakumod".IO.spurt($code);
-  
-  $*external-modules.push: $struct-name;
 }
 
 #-------------------------------------------------------------------------------
 # A structure consists of fields. Only then there is a structure
 method generate-union ( XML::Element $element, XML::XPath $xpath ) {
+  my $temp-external-modules = $*external-modules;
+
   my @fields = $xpath.find( 'field', :start($element), :to-list);
   return '' unless ?@fields;
 
@@ -1110,9 +1119,11 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
     __MODULE__IMPORTS__
 
     {$!grd.pod-header('Union Structure')}
-    unit class $struct-name\:api<2> is export is repr\('CUnion');
+    unit class $*work-data<raku-package>\:\:$h0<sname>\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
 
     RAKUMOD
+
+#  $*external-modules.push: $h0<sname>;
 
   for @fields -> $field {
     my $field-name = $field.attribs<name>;
@@ -1141,13 +1152,15 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
   $*external-modules.push: 'Gnome::N::X';
   $code = self.substitute-MODULE-IMPORTS($code);
 
-  my Str $fname = "$*work-data<result-path>N-$*gnome-class.rakumod";
+  # Reset to original and add this structure
+  $*external-modules = $temp-external-modules;
+  $*external-modules.push: $*work-data<raku-package> ~ '::' ~ $h0<sname>;
+
+  my Str $fname = "$*work-data<result-path>$struct-name.rakumod";
   $fname.IO.spurt($code);
-  note "Save union structure in $fname" if $*verbose;
+  note "Save union structure in ", $fname.IO.basename;
 #  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
 #  "$path/$struct-name.rakumod".IO.spurt($code);
-
-  $*external-modules.push: $struct-name;
 }
 
 #-------------------------------------------------------------------------------
@@ -1253,6 +1266,15 @@ method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
   $code ~~ s/__MODULE__IMPORTS__/$import/;
 
   $code
+}
+
+#-------------------------------------------------------------------------------
+method init-xpath ( Str $element-name --> List ) {
+  my XML::XPath $xpath .= new(:file($*work-data<gir-record-file>));
+  my XML::Element $element = $xpath.find("//$element-name");
+  die "//$element-name elements not found in $*work-data<gir-record-file> for $*work-data<raku-class-name>" unless ?$element;
+
+  ( $xpath, $element )
 }
 
 #-------------------------------------------------------------------------------

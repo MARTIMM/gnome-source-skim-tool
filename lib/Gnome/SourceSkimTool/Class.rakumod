@@ -27,7 +27,7 @@ submethod BUILD ( ) {
   note "Load module data from $*work-data<gir-class-file>" if $*verbose;
   $!xpath .= new(:file($*work-data<gir-class-file>));
 
-  $!mod .= new(:$!xpath);
+  $!mod .= new; #(:$!xpath);
 }
 
 #-------------------------------------------------------------------------------
@@ -56,8 +56,9 @@ method generate-code ( ) {
 
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-  note "Save module";
-  "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
+  my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+  note "Save class module in ", $fname.IO.basename;
+  $fname.IO.spurt($code);
   #$*work-data<raku-module-file>.IO.spurt($code);
 }
 

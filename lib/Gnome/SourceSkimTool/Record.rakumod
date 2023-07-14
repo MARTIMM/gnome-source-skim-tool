@@ -27,7 +27,7 @@ submethod BUILD ( ) {
   note "Load module data from $*work-data<gir-record-file>" if $*verbose;
   $!xpath .= new(:file($*work-data<gir-record-file>));
 
-  $!mod .= new(:$!xpath);
+  $!mod .= new;   #(:$!xpath);
 }
 
 #-------------------------------------------------------------------------------
@@ -35,94 +35,103 @@ submethod BUILD ( ) {
 method generate-code ( ) {
 
   my XML::Element $element = $!xpath.find('//record');
-  die "//record not found in $*work-data<gir-record-file> for $*work-data<raku-class-name>" unless ?$element;
+  die "//record elements not found in $*work-data<gir-record-file> for $*work-data<raku-class-name>" unless ?$element;
 
-#  my ( $doc, $code);
-  my Str $code = qq:to/RAKUMOD/;
-    #TL:1:$*work-data<raku-class-name>:
-    use v6;
-    RAKUMOD
+  my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
+  if ?$callable-code {
 
-#  my Str $module-doc = qq:to/RAKUMOD/;
-#    #TL:1:$*work-data<raku-class-name>:
-#    use v6;
-#
-#    {$!grd.pod-header('Record Description')}
-#    RAKUMOD
+  #  my ( $doc, $code);
+    my Str $code = qq:to/RAKUMOD/;
+      #TL:1:$*work-data<raku-class-name>:
+      use v6;
+      RAKUMOD
 
-#  note "Generate module description" if $*verbose;  
-#  $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
+  #  my Str $module-doc = qq:to/RAKUMOD/;
+  #    #TL:1:$*work-data<raku-class-name>:
+  #    use v6;
+  #
+  #    {$!grd.pod-header('Record Description')}
+  #    RAKUMOD
 
-  note "Set class unit" if $*verbose;
-  $code ~= $!mod.set-unit($element);
+  #  note "Generate module description" if $*verbose;  
+  #  $module-doc ~= $!grd.get-description( $element, $!xpath) if $*generate-doc;
 
-#  note "Generate enumerations and bitmasks";
-#  $code ~= $!mod.generate-enumerations-code;
-#  $code ~= $!mod.generate-bitfield-code;
+    note "Set class unit" if $*verbose;
+    $code ~= $!mod.set-unit($element);
 
-  # Generate record structure. Structures are stored in separate files.
-  $!mod.generate-structure( $element, $!xpath);
+  #  note "Generate enumerations and bitmasks";
+  #  $code ~= $!mod.generate-enumerations-code;
+  #  $code ~= $!mod.generate-bitfield-code;
 
-  # Make a BUILD submethod
-  note "Generate BUILD submethod" if $*verbose;  
-#  ( $doc, $code) = $!mod.generate-build( $element, %());
-#  $module-doc ~= $doc;
-#  $module-code ~= $code;
-  $code ~= $!mod.make-build-submethod( $element, $!xpath);
-  $code ~= $!mod.generate-callables( $element, $!xpath);
+    # Generate record structure. Structures are stored in separate files.
+#    $!mod.generate-structure( $element, $!xpath);
 
-#`{{
-  note "Generate module methods" if $*verbose;  
-  ( $doc, $code) = $!mod.generate-methods($element);
+    # Make a BUILD submethod
+    note "Generate BUILD submethod" if $*verbose;  
+  #  ( $doc, $code) = $!mod.generate-build( $element, %());
+  #  $module-doc ~= $doc;
+  #  $module-code ~= $code;
+    $code ~= $!mod.make-build-submethod( $element, $!xpath);
 
-  # if there are methods, add the fallback routine and methods
-  if ?$doc {
-#    $module-code ~= self!add-deprecatable-method($element);
-    $module-code ~= $code;
-    $module-doc ~= $doc;
-  }
+  #`{{
+    note "Generate module methods" if $*verbose;  
+    ( $doc, $code) = $!mod.generate-methods($element);
 
-  note "Generate module functions" if $*verbose;  
-  $module-code ~= $!mod.generate-functions-code($element)
-    if $*generate-code;
-#  if ?$code {
-#    $module-doc ~= $doc;
-#    $module-code ~= $code;
-#  }
-
-
-  # Finish 'my Hash $methods' started in $!mod.generate-build()
-  # and add necessary _fallback-v2() method. It is recognized in
-  # class Gnome::N::TopLevelClassSupport.
-  $module-code ~= q:to/RAKUMOD/;
-    );
-
-    #-------------------------------------------------------------------------------
-    method _fallback-v2 (
-      Str $n, Bool $_fallback-v2-ok is rw, *@arguments
-    ) {
-      my Str $name = S:g/ '-' /_/ with $n;
-      if $methods{$name}:exists {
-        my $native-object = self.get-native-object-no-reffing;
-        $_fallback-v2-ok = True;
-        return $!routine-caller.call-native-sub(
-          $name, @arguments, $methods, :$native-object
-        );
-      }
-
-      else {
-        callsame;
-      }
+    # if there are methods, add the fallback routine and methods
+    if ?$doc {
+  #    $module-code ~= self!add-deprecatable-method($element);
+      $module-code ~= $code;
+      $module-doc ~= $doc;
     }
 
-    RAKUMOD
-}}
+    note "Generate module functions" if $*verbose;  
+    $module-code ~= $!mod.generate-functions-code($element)
+      if $*generate-code;
+  #  if ?$code {
+  #    $module-doc ~= $doc;
+  #    $module-code ~= $code;
+  #  }
 
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-  my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
-  note "Save module in $fname";
-  $fname.IO.spurt($code);
+    # Finish 'my Hash $methods' started in $!mod.generate-build()
+    # and add necessary _fallback-v2() method. It is recognized in
+    # class Gnome::N::TopLevelClassSupport.
+    $module-code ~= q:to/RAKUMOD/;
+      );
+
+      #-------------------------------------------------------------------------------
+      method _fallback-v2 (
+        Str $n, Bool $_fallback-v2-ok is rw, *@arguments
+      ) {
+        my Str $name = S:g/ '-' /_/ with $n;
+        if $methods{$name}:exists {
+          my $native-object = self.get-native-object-no-reffing;
+          $_fallback-v2-ok = True;
+          return $!routine-caller.call-native-sub(
+            $name, @arguments, $methods, :$native-object
+          );
+        }
+
+        else {
+          callsame;
+        }
+      }
+
+      RAKUMOD
+  }}
+
+    $code = $!mod.substitute-MODULE-IMPORTS($code);
+
+    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+    note "Save record module in ", $fname.IO.basename;
+    $fname.IO.spurt($code);
+  }
+
+  else {
+    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+    note "Record module {$fname.IO.basename} is not saved due to lack of routines";
+  }
+
 #  $*work-data<raku-module-file>.IO.spurt($code);
 #  note "Save pod doc";
 #  $*work-data<raku-module-doc-file>.IO.spurt($module-doc) if $*generate-doc;

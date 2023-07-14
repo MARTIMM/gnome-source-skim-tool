@@ -57,11 +57,10 @@ submethod BUILD ( Str :$!filename ) {
 method generate-code ( ) {
 
   # Info of types found
-  if $*verbose {
-    note "\nTypes found in file $!filename";
-    for $!filedata.kv -> $t, $h {
-      note "\n  $t: $h.keys()";
-    }
+  note "\nTypes found in file $!filename";
+  for $!filedata.kv -> $t, $h {
+    note "  $t: $h.keys()";
+    print "\n";
   }
 
   my Str ( $fname, $rname, $c);
@@ -108,6 +107,16 @@ method generate-code ( ) {
 }}
         $*gnome-class = self!chop-packagename($record-name);
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
+        #my XML::XPath $xpath .= new(:file($*work-data<gir-record-file>));
+        #my XML::Element $element = $!xpath.find('//record');
+        #die "//record elements not found in $*work-data<gir-record-file> for $*work-data<raku-class-name>" unless ?$element;
+        
+#        my XML::XPath $xpath;
+#        my XML::Element $element;
+#        ( $xpath, $element) = $!mod.init-xpath('record');
+#        self.generate-structure( $element, $xpath);
+        $!mod.generate-structure(|$!mod.init-xpath('record'));
 
         say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
 
@@ -317,7 +326,7 @@ method generate-code ( ) {
   $code ~= $!mod.set-unit-for-file($rname) ~ $c ~ "\n";
 
   if ?$fname and ?$code {
-    note "Save module for types";
+    note "Save types module in ", $fname.IO.basename;
 #    "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
     $fname.IO.spurt($code);
   }
