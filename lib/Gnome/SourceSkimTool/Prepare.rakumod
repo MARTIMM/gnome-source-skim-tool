@@ -13,6 +13,10 @@ has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( Bool :$load-maps = True ) {
+  $*external-modules = [<
+    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
+  >];
+
   $*verbose //= False;
   $*work-data = self.prepare-work-data($*gnome-package);
 
@@ -69,7 +73,7 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
     # Load map of pixbuf here because it is not in Gtk4
     $*object-maps<GdkPixbuf> =
-      $s.load-map($*other-work-data<GdkPixbuf><gir-module-path>);
+      $s.load-map($*other-work-data<GdkPixbuf><gir-module-path>) if $load-maps;
   }
 
   # Version 4
@@ -79,7 +83,8 @@ submethod BUILD ( Bool :$load-maps = True ) {
     $*other-work-data<Gsk> = self.prepare-work-data(Gsk4);
 
     # Load map of gsk here because it is not in Gtk3
-    $*object-maps<Gsk> = $s.load-map($*other-work-data<Gsk><gir-module-path>);
+    $*object-maps<Gsk> = $s.load-map($*other-work-data<Gsk><gir-module-path>)
+      if $load-maps;
   }
 
   # If it is a high end module, we add these too. They depend on Gtk.
@@ -88,14 +93,17 @@ submethod BUILD ( Bool :$load-maps = True ) {
     $*other-work-data<Pango> = self.prepare-work-data(Pango);
     $*other-work-data<Cairo> = self.prepare-work-data(Cairo);
     
-    $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>);
-    $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>);
+    $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>)
+      if $load-maps;
+    $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>)
+      if $load-maps;
 
-    $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>);
+    $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>)
+      if $load-maps;
     $*object-maps<Pango> =
-      $s.load-map($*other-work-data<Pango><gir-module-path>);
+      $s.load-map($*other-work-data<Pango><gir-module-path>) if $load-maps;
     $*object-maps<Cairo> =
-      $s.load-map($*other-work-data<Cairo><gir-module-path>);
+      $s.load-map($*other-work-data<Cairo><gir-module-path>) if $load-maps;
   }
 
   # If it is not a high end module, we only need these
@@ -103,10 +111,12 @@ submethod BUILD ( Bool :$load-maps = True ) {
   $*other-work-data<Gio> = self.prepare-work-data(Gio);
   $*other-work-data<GObject> = self.prepare-work-data(GObject);
 
-  $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>);
-  $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>);
+  $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>)
+    if $load-maps;
+  $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>)
+    if $load-maps;
   $*object-maps<GObject> =
-    $s.load-map($*other-work-data<GObject><gir-module-path>);
+    $s.load-map($*other-work-data<GObject><gir-module-path>) if $load-maps;
 }
 
 #-------------------------------------------------------------------------------

@@ -55,9 +55,9 @@ sub MAIN (
 
 #note "$?LINE $f, $*generate-code, $*generate-doc, $*generate-test, $gnome-class";
 
-  $*external-modules = [<
-    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
-  >];
+#  $*external-modules = [<
+#    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
+#  >];
 
   if $gir {
     say "Generate the intermediate gir and yaml files" if $*verbose;
@@ -86,12 +86,12 @@ sub MAIN (
 
   # Get data using filename
   elsif $f and ?$gnome-class {
-    $*verbose = False;
+#    $*verbose = False;
     my Str $filename = $gnome-class.lc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     require ::('Gnome::SourceSkimTool::File');
     my $raku-module = ::('Gnome::SourceSkimTool::File').new(:$filename);
-    $*verbose = True;
+#    $*verbose = True;
     $raku-module.generate-code if $*generate-code;
     $raku-module.generate-test if $*generate-test;
     $raku-module.generate-doc if $*generate-doc;
