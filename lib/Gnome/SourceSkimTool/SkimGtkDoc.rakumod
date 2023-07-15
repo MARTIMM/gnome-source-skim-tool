@@ -342,6 +342,8 @@ method !map-element (
     return True;
   }
 
+  $gnome-name = $ctype;
+
   # Gather data depending on the tag type
   given $element.name {
     when 'class' {
@@ -350,7 +352,6 @@ method !map-element (
       return $deprecated if $deprecated;
 
       $class-name = $*work-data<raku-package> ~ '::' ~ $attrs<name>;
-      $gnome-name = $ctype;
       $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
 
       my @roles = ();
@@ -375,7 +376,6 @@ method !map-element (
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
 
         :rname($class-name),
-        :mname($attrs<name>),
         :class-file($source-filename),
       );
     }
@@ -393,7 +393,6 @@ method !map-element (
       $rname = $*work-data<raku-package> ~ '::R-' ~ $rname;
 
       $class-name = $*work-data<raku-package> ~ '::R-' ~ $attrs<name>;
-      $gnome-name = $ctype;
       $module-filename = "$*work-data<result-path>R-$attrs<name>.rakumod";
 
       $!map{$ctype} = %(
@@ -406,9 +405,7 @@ method !map-element (
 
         :symbol-prefix($symbol-prefix ~ '_' ~ $attrs<c:symbol-prefix> ~ '_'),
 
-#        :!leaf,
         :$rname,
-        :$mname,
         :class-file($source-filename),
       );
     }
@@ -423,14 +420,12 @@ method !map-element (
       
       my Str $rname = $ctype;
       $rname ~~ s:i/^ $np //;
-      my Str $mname = 'N-' ~ $rname;
       $rname = $*work-data<raku-package> ~ '::' ~ $rname;
 
       $class-name = $ctype;
       $class-name ~~ s:i/^ $np //;
       $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
 
-      $gnome-name = $ctype;
       $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
       $structure-name = "$*work-data<raku-package>::N-$ctype";
       $structure-filename = "$*work-data<result-path>N-$ctype.rakumod";
@@ -451,28 +446,25 @@ method !map-element (
 
         :sname("N-$ctype"),
         :$rname,
-        :$mname,
         :class-file($source-filename),
       );
     }
 
     when 'union' {
-      $module-filename = self!get-source-file($element);
-      $deprecated = ($module-filename eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       my Str $np = $*work-data<name-prefix>;
 
       my Str $rname = $ctype;
       $rname ~~ s:i/^ $np //;
-      my Str $mname = 'N-' ~ $rname;
       $rname = $*work-data<raku-package> ~ '::' ~ $rname;
 
       $class-name = $ctype;
       $class-name ~~ s:i/^ $np //;
       $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
 
-      $gnome-name = $ctype;
       $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
       $structure-name = "$*work-data<raku-package>::N-$ctype";
       $structure-filename = "$*work-data<result-path>N-$ctype.rakumod";
@@ -493,30 +485,46 @@ method !map-element (
 
         :sname("N-$ctype"),
         :$rname,
-        :$mname,
-        :class-file($module-filename),
+        :class-file($source-filename),
       );
     }
 
+    # Functions are callables defined outside classes. These are taken
+    # care of when the source filename is the same of a class, interface,
+    # record or union. There is a module-filename field in case the function
+    # will is not within a higher level structure.
     when 'function' {
-      $module-filename = self!get-source-file($element);
-      $deprecated = ($module-filename eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       my Str $rname = $attrs<name>;
       $rname ~~ s:g/ '_' /-/;
+
+      $class-name = $source-filename.tc;
+      $class-name = $*work-data<raku-package> ~ '::F-' ~ $class-name;
+
+      my Str $function-name = $attrs<name>;
+      $function-name ~~ s:g/ '_' /-/;
+      $module-filename = "$*work-data<result-path>F-$attrs<name>.rakumod";
+
       $!map{$ctype} = %(
         :gir-type<function>,
 
+        :$source-filename,
+        :$module-filename,
+        :$class-name,
+        :$gnome-name,
+        :$function-name,
 
         :$rname,
-        :class-file($module-filename),
+        :class-file($source-filename),
       );
     }
 
     when 'constant' {
-      $module-filename = self!get-source-file($element);
-      $deprecated = ($module-filename eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
       # Search for type elements in constant
@@ -529,72 +537,100 @@ method !map-element (
         }
       }
 
-      my Str $rname = $module-filename.tc;
-#      my Str $np = $*work-data<name-prefix>;
-#      $rname ~~ s:i/^ $np //;
-      my Str $mname = 'T-' ~ $rname;
+      my Str $rname = $source-filename;
       $rname = $*work-data<raku-package> ~ '::T-' ~ $rname;
 
+      $class-name = 'T-' ~ $source-filename.tc;
+      $module-filename = "$*work-data<result-path>$class-name.rakumod";
+      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
+
       $!map{$ctype} = %(
-        :sname($const-type-attribs<c:type>),
-#        :rname($const-type-attribs<name>),
-        :$rname,
-        :$mname,
         :gir-type<constant>,
-        :class-file($module-filename),
+
+        :$source-filename,
+        :$module-filename,
+        :$class-name,
+        :$gnome-name,
+
+        :sname($const-type-attribs<c:type>),
+        :$rname,
+        :class-file($source-filename),
       );
     }
 
     # 'enum'
     when 'enumeration' {
-      $module-filename = self!get-source-file($element);
-      $deprecated = ($module-filename eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $rname = $module-filename;
-#      my Str $np = $*work-data<name-prefix>;
-#      $rname ~~ s:i/^ $np //;
-      my Str $mname = 'T-' ~ $rname.tc;
+      my Str $rname = $source-filename;
       $rname = $*work-data<raku-package> ~ '::T-' ~ $rname.tc;
- 
+
+      $class-name = 'T-' ~ $source-filename.tc;
+      $module-filename = "$*work-data<result-path>$class-name.rakumod";
+      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
+
       $!map{$ctype} = %(
-        :sname($ctype),
-        :$mname,
-        :$rname,
         :gir-type<enumeration>,
-        :class-file($module-filename),
+
+        :$source-filename,
+        :$module-filename,
+        :$class-name,
+        :$gnome-name,
+
+        :sname($ctype),
+        :$rname,
+        :class-file($source-filename),
       );
     }
 
     when 'bitfield' {
-      $module-filename = self!get-source-file($element);
-      $deprecated = ($module-filename eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $rname = $module-filename;
-#      my Str $np = $*work-data<name-prefix>;
-#      $rname ~~ s:i/^ $np //;
-      my Str $mname = 'T-' ~ $rname.tc;
+      my Str $rname = $source-filename;
       $rname = $*work-data<raku-package> ~ '::T-' ~ $rname.tc;
 
+      $class-name = 'T-' ~ $source-filename.tc;
+      $module-filename = "$*work-data<result-path>$class-name.rakumod";
+      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
+
       $!map{$ctype} = %(
-        :sname($ctype),
-        :$mname,
-        :$rname,
         :gir-type<bitfield>,
-        :class-file($module-filename),
+
+        :$source-filename,
+        :$module-filename,
+        :$class-name,
+        :$gnome-name,
+
+        :sname($ctype),
+        :$rname,
+        :class-file($source-filename),
       );
     }
 
     when 'docsection' {
-      $module-filename = self!get-source-file($element);
-      $deprecated = ($module-filename eq 'deprecated');
+      $source-filename = self!get-source-file($element);
+      $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
+#      $class-name = $source-filename.tc;
+#      $class-name = $*work-data<raku-package> ~ '::T-' ~ $class-name;
+
+      $module-filename = "$*work-data<result-path>D-$attrs<name>.rakumod";
+
       $!map{$attrs<name>} = %(
-        :rname($attrs<name>),
         :gir-type<docsection>,
-        :class-file($module-filename),
+
+        :$source-filename,
+        :$module-filename,
+#        :$class-name,
+        :$gnome-name,
+
+        :rname($attrs<name>),
+        :class-file($source-filename),
       );
     }
 
@@ -604,8 +640,9 @@ method !map-element (
       return $deprecated if $deprecated;
 
       $!map{$ctype} = %(
-        :rname($attrs<name>),
         :gir-type<callback>,
+
+        :rname($attrs<name>),
         :class-file($module-filename),
       );
     }
@@ -625,9 +662,10 @@ method !map-element (
       }
 
       $!map{$ctype} = %(
+        :gir-type<alias>
+
         :cname($alias-type-attribs<c:type>),
         :rname($alias-type-attribs<name>),
-        :gir-type<alias>
         :class-file($module-filename),
       );
     }
