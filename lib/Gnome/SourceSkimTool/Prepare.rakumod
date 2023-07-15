@@ -27,6 +27,7 @@ submethod BUILD ( Bool :$load-maps = True ) {
   if ?$*gnome-class {
     self.prepare-work-data($*gnome-package);
 
+#TODO needed??
     $*work-data<raku-class-name> =
       $*work-data<raku-package> ~ "::$*gnome-class";
 
@@ -35,6 +36,8 @@ submethod BUILD ( Bool :$load-maps = True ) {
     $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
     $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
 
+#TODO direct from $*gnome-class? Gir filenames must be changed!
+# type prefix: none for class, R- for interfaces, N- for records and unions
     $*work-data<gir-class-file> =
       "$*work-data<gir-module-path>C-$*gnome-class.gir";
     $*work-data<gir-record-file> =
