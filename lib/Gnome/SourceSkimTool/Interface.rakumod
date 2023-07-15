@@ -36,8 +36,8 @@ method generate-code ( ) {
   my XML::Element $element = $!xpath.find('//interface');
   die "//interface not found in $*work-data<gir-interface-file> for $*work-data<raku-class-name>" unless ?$element;
 
+#TL:1:$*work-data<raku-class-name>:
   my Str $code = qq:to/RAKUMOD/;
-    #TL:1:$*work-data<raku-class-name>:
     use v6;
     RAKUMOD
 
@@ -131,116 +131,4 @@ method generate-doc ( ) {
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
-#-------------------------------------------------------------------------------
-method !add-deprecatable-method ( XML::Element $element --> Str ) {
-
-  my Hash $meta-data = from-json('META6.json'.IO.slurp);
-  my Str $version-now = $meta-data<version>;
-  my @v = $version-now.split('.');
-  @v[1] += 2;
-  @v[2] = 0;
-  my Str $version-dep = @v.join('.');
-
-
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
-  my Array $roles = $h<implement-roles> // [];
-  my $role-fallbacks = '';
-  for @$roles -> $role {
-    my Hash $role-h = $!sas.search-name($role);
-
-    $role-fallbacks ~=
-      "  \$s = self._$role-h<symbol-prefix>interface\(\$native-sub)\n" ~
-      "    if !\$s and self.^can\('_$role-h<symbol-prefix>interface');\n";
-  }
-  $role-fallbacks ~= "\n" if ?$role-fallbacks;
-
-  my Str $doc = '';
-
-  my Str $pfix = $*work-data<sub-prefix>;
-  my @pfix-parts = $pfix.split('_');
-
-  my Str $pfix-dash = $*work-data<sub-prefix>;
-  $pfix-dash ~~ s:g/ '_' /-/;
-  $pfix-dash.chop(1);
-
-  my Str $package = $*gnome-package.Str.lc;
-  $package ~~ s/ \d //;
-
-  my Str ( $mname, $set-class-name);
-  $mname = "_{$pfix}interface";
-  $set-class-name = '';
-
-  $doc ~= q:to/EODEPR/;
-
-    #`{{
-      Older modules might still have it and must remove the method after
-      deprecation date. New modules must not implement this.
-
-    EODEPR
-
-  $doc ~= "{HLSEPARATOR}\n";
-  $doc ~= "method $mname " ~ '( Str $native-sub --> Callable ) {' ~ "\n";
-  $doc ~= "  my Str \$pfix = '$*work-data<sub-prefix>';\n";
-
-  $doc ~= q:to/EODEPR/;
-      my @pfix-parts = $pfix.split('_');
-      my Int $cfix = @pfix-parts.elems + 2;
-      my Str $new-patt = $native-sub.subst( '-', '_', :g);
-
-      my Callable $s;
-
-      loop ( my Int $dash-count = 2; $dash-count < $cfix; $dash-count++ ) {
-        my Str $tv = @pfix-parts[0 .. * - $dash-count].join('_');
-        my Str $match = ?$tv ?? "{$tv}_$new-patt" !! "$tv$new-patt";
-        try { $s = &::($match); }
-        if ?$s {
-          $match ~~ s/ $pfix //;
-          $match ~~ s:g/ '_' /-/;
-    EODEPR
-
-  $doc ~= [~] '      Gnome::N::deprecate( "$native-sub", $match, ', "'",
-              $version-now, "', '", $version-dep, "');\n";
-
-  $doc ~= q:to/EODEPR/;
-
-          last;
-        }
-      }
-
-    EODEPR
-
-  $doc ~= $role-fallbacks;
-  $doc ~= $set-class-name;
-
-  $doc ~= q:to/EODEPR/;
-
-      $s
-    }
-
-    }}
-
-    EODEPR
-
-  $doc
 }

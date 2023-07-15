@@ -36,8 +36,8 @@ method generate-code ( ) {
   my XML::Element $element = $!xpath.find('//class');
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
+#TL:1:$*work-data<raku-class-name>:
   my Str $code = qq:to/RAKUMOD/;
-    #TL:1:$*work-data<raku-class-name>:
     use v6;
     RAKUMOD
 
