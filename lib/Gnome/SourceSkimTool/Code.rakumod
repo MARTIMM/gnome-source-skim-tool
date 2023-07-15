@@ -1075,7 +1075,7 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 
     # Reset to original and add this structure
     $*external-modules = $temp-external-modules;
-    $*external-modules.push: $h0<sname>;
+    $*external-modules.push: $h0<structure-name>;
   }
 
   else {
