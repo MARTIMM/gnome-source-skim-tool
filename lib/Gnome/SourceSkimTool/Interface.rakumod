@@ -54,9 +54,9 @@ method generate-code ( ) {
   note "Set role unit" if $*verbose;
   $code ~= $!mod.set-unit($element);
 
-  note "Generate enumerations and bitmasks";
-  $code ~= $!mod.generate-enumerations-code;
-  $code ~= $!mod.generate-bitfield-code;
+#  note "Generate enumerations and bitmasks";
+#  $code ~= $!mod.generate-enumerations-code;
+#  $code ~= $!mod.generate-bitfield-code;
 
   # Roles do not have a BUILD
   note "Generate role initialization method" if $*verbose;  
