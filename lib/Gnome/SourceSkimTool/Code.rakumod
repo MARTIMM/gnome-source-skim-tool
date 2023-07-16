@@ -723,10 +723,10 @@ method !get-functions ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-enumerations-code ( Array :$enum-names is copy = [] --> Str ) {
+method generate-enumerations-code ( Array:D $enum-names --> Str ) {
 
   # Don't look enum names up if array is provided
-  $enum-names = self!get-enumeration-names unless ?$enum-names;
+#  $enum-names = self!get-enumeration-names unless ?$enum-names;
 
   # Return empty string if no enums found.
   return '' unless ?$enum-names;
@@ -791,6 +791,7 @@ method generate-enumerations-code ( Array :$enum-names is copy = [] --> Str ) {
   $code
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 # When in a class the enumerations are found in separate files. To find the
 # correct file, look them up using the filename of the current class. Then use
@@ -819,12 +820,13 @@ method !get-enumeration-names ( --> Array ) {
 
   $enum-names
 }
+}}
 
 #-------------------------------------------------------------------------------
-method generate-bitfield-code ( Array :$bitfield-names is copy = [] --> Str ) {
+method generate-bitfield-code ( Array:D $bitfield-names --> Str ) {
 
   # Don't look bitfield names up if array is provided
-  $bitfield-names = self!get-bitfield-names unless ?$bitfield-names;
+#  $bitfield-names = self!get-bitfield-names unless ?$bitfield-names;
 
   # Return empty string if no bitfields found.
   return '' unless ?$bitfield-names;
@@ -889,6 +891,7 @@ method generate-bitfield-code ( Array :$bitfield-names is copy = [] --> Str ) {
   $code
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method !get-bitfield-names ( --> Array ) {
 
@@ -913,6 +916,7 @@ method !get-bitfield-names ( --> Array ) {
 
   $bitfield-names
 }
+}}
 
 #-------------------------------------------------------------------------------
 method generate-constants ( @constants --> Str ) {
@@ -994,10 +998,10 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!sas.search-name($name);
-  my Str $struct-name = $h0<sname>;
+  my Str $structure-name = $h0<structure-name>;
 
-#TL:1:$struct-name:
-#TT:1:$struct-name:
+#TL:1:$structure-name:
+#TT:1:$structure-name:
   my Str $code = qq:to/RAKUMOD/;
     use v6;
     RAKUMOD
@@ -1012,7 +1016,7 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
       __MODULE__IMPORTS__
 
       {$!grd.pod-header('Record Structure')}
-      unit class $*work-data<raku-package>\:\:$h0<sname>\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct');
+      unit class $structure-name\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct');
 
       EOREC
 
@@ -1036,10 +1040,14 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
       }
 
       else {
-        $build-pars ~= "$rnt0 :\$$field-name, ";
         if $rnt0 eq 'GEnum' {
+          $build-pars ~= "$rnt0 :\$$field-name, ";
           $build-ass ~=
             "  \$!$field-name = \$$field-name.value if ?\$$field-name;\n";
+        }
+
+        else {
+          $build-pars ~= "$rnt0 :\$\!$field-name, ";
         }
       }
     }
@@ -1061,13 +1069,16 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
           $tweak-pars
         \) \{
         $tweak-ass\}
-
-        method COERCE \( \$no --> $struct-name \) \{
-          note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-          nativecast\( $struct-name, \$no\)
-        \}
         EOREC
     }
+
+    $code ~= qq:to/EOREC/;
+
+      method COERCE \( \$no --> $structure-name \) \{
+        note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+        nativecast\( $structure-name, \$no\)
+      \}
+      EOREC
 
 #    $code ~= "\n\n";
     $*external-modules.push: 'Gnome::N::X';
@@ -1075,27 +1086,27 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 
     # Reset to original and add this structure
     $*external-modules = $temp-external-modules;
-    $*external-modules.push: $h0<structure-name>;
+    $*external-modules.push: $structure-name;
   }
 
   else {
     $code ~= qq:to/EOREC/;
       {$!grd.pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
-      unit class $struct-name is export is repr\('CPointer');
+      unit class $structure-name is export is repr\('CPointer');
 
       EOREC
 
     # Reset to original and add this structure
     $*external-modules = $temp-external-modules;
-    $*external-modules.push: $*work-data<raku-package> ~ '::' ~ $h0<sname>;
+    $*external-modules.push: $structure-name;
   }
 
-  my Str $fname = "$*work-data<result-path>$struct-name.rakumod";
+  my Str $fname = $h0<structure-filename>;
   $fname.IO.spurt($code);
   note "Save record structure in ", $fname.IO.basename;
 #  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
-#  "$path/$struct-name.rakumod".IO.spurt($code);
+#  "$path/$structure-name.rakumod".IO.spurt($code);
 }
 
 #-------------------------------------------------------------------------------
@@ -1108,10 +1119,10 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!sas.search-name($name);
-  my Str $struct-name = $h0<sname>;
+  my Str $structure-name = $h0<structure-name>;
 
-#TL:1:$struct-name:
-#TT:1:$struct-name:
+#TL:1:$structure-name:
+#TT:1:$structure-name:
   my Str $code = qq:to/RAKUMOD/;
     use v6;
 
@@ -1119,11 +1130,9 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
     __MODULE__IMPORTS__
 
     {$!grd.pod-header('Union Structure')}
-    unit class $*work-data<raku-package>\:\:$h0<sname>\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
+    unit class $structure-name\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
 
     RAKUMOD
-
-#  $*external-modules.push: $h0<sname>;
 
   for @fields -> $field {
     my $field-name = $field.attribs<name>;
@@ -1142,9 +1151,9 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
 
   $code ~= qq:to/RAKUMOD/;
 
-    method COERCE \( \$no --> $struct-name \) \{
+    method COERCE \( \$no --> $structure-name \) \{
       note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-      nativecast\( $struct-name, \$no\)
+      nativecast\( $structure-name, \$no\)
     \}
     
     RAKUMOD
@@ -1154,13 +1163,13 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
 
   # Reset to original and add this structure
   $*external-modules = $temp-external-modules;
-  $*external-modules.push: $*work-data<raku-package> ~ '::' ~ $h0<sname>;
+  $*external-modules.push: $structure-name;
 
-  my Str $fname = "$*work-data<result-path>$struct-name.rakumod";
+  my Str $fname = $h0<structure-filename>;
   $fname.IO.spurt($code);
   note "Save union structure in ", $fname.IO.basename;
 #  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
-#  "$path/$struct-name.rakumod".IO.spurt($code);
+#  "$path/$structure-name.rakumod".IO.spurt($code);
 }
 
 #-------------------------------------------------------------------------------
