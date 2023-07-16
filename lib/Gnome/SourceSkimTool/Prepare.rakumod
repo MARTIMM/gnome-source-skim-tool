@@ -18,6 +18,10 @@ submethod BUILD ( Bool :$load-maps = True ) {
   >];
 
   $*verbose //= False;
+
+  # Remove package prefix if there is any attached to the gnome class
+  my Str $package-name = S/ \d+ $// with $*gnome-package.Str;
+  $*gnome-class ~~ s:i/^ $package-name // if ?$*gnome-class;
   $*work-data = self.prepare-work-data($*gnome-package);
 
   mkdir $*work-data<gir-module-path>, 0o700
@@ -25,7 +29,6 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
   # Add/modify some more global work data
   if ?$*gnome-class {
-    self.prepare-work-data($*gnome-package);
 
 #TODO needed??
     $*work-data<raku-class-name> =
@@ -144,10 +147,11 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
   with $source {
     when Gtk3 {
       $work-data = %(
-#TODO take gtk3-lib
+#TODO take gtk3-lib, first update Gnome::N
         :library<gtk-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
         :raku-package<Gnome::Gtk3>,
+#TODO needed?
         :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gtk-3.0.gir'),
         :name-prefix<gtk>,
