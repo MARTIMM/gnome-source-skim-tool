@@ -474,6 +474,7 @@ method !map-element (
       $class-name ~~ s:i/^ $np '_' //;
       $class-name = $source-filename.tc;
       $class-name = $*work-data<raku-package> ~ '::F-' ~ $class-name;
+#TODOF- must change like enum, bitf, const
 
       my Str $function-name = $attrs<name>;
       $function-name ~~ s:g/ '_' /-/;
