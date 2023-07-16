@@ -63,7 +63,8 @@ method generate-code ( ) {
     print "\n";
   }
 
-  my Str ( $fname, $rname, $c, $filename, $class-name);
+  my Str ( $c, $filename, $class-name, $function-code, $function-hash);
+  my Bool $has-functions = False;
 #  $*gnome-class = $!filename.tc;
 #  my Gnome::SourceSkimTool::Prepare $prepare .= new;
   for $!filedata.keys {
@@ -234,6 +235,8 @@ method generate-code ( ) {
     }
 
     when 'function' {
+      $has-functions = True;
+      $function-code = '';
       
     }
 
@@ -315,9 +318,28 @@ method generate-code ( ) {
     my Str $code = qq:to/RAKUMOD/;
       use v6;
       RAKUMOD
-#note "$?LINE $class-name";
 
-    $code ~= $!mod.set-unit-for-file($class-name) ~ $c ~ "\n";
+    $code ~= $!mod.set-unit-for-file( $class-name, $has-functions);
+    $code ~= $c ~ "\n";
+
+    if $has-functions {
+      $code ~= qq:to/RAKUMOD/;
+
+      {$!grd.pod-header('BUILD variables')}
+      # Define helper
+      has Gnome::Glib::GnomeRoutineCaller \$!routine-caller;
+
+      {$!grd.pod-header('BUILD submethod')}
+      submethod BUILD ( ) \{
+        # Initialize helper
+        \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
+......
+
+      RAKUMOD
+    }
+
+
+    $code = self.substitute-MODULE-IMPORTS($code);
 
     note "Save types module in ", $filename.IO.basename;
 #    "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
@@ -335,8 +357,8 @@ method generate-test ( ) {
 
 #-------------------------------------------------------------------------------
 # Fill the Hash $!filedata with data from a repo-object-map.yaml where the
-# 'class-file' field of every object must match $filename. The data is reordered
-# to have its type as its toplevel key.
+# 'source-filename' field of every object must match $filename. The data is
+# reordered to have its type as its toplevel key.
 method !get-data-from-filename ( ) {
 
   my Str $package = S/ \d+ $// with $*gnome-package.Str;
@@ -344,7 +366,8 @@ method !get-data-from-filename ( ) {
   $!filedata = %();
 
   for $h.kv -> $k, $v {
-    next unless $v<class-file>:exists and $v<class-file> eq $!filename;
+    next unless $v<source-filename>:exists
+                and $v<source-filename> eq $!filename;
 
     # Reorder on type
     $!filedata{$v<gir-type>}{$k} = $v;
