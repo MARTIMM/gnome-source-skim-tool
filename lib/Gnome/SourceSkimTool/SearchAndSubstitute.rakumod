@@ -316,6 +316,22 @@ method convert-ntype (
 
   my Str $raku-type = '';
   with $ctype {
+
+#TODO int/num/pointers as '$x is rw'
+    # ignore const
+    when /g? char '**'/       { $raku-type = 'gchar-pptr'; }
+    when /g? char '*'/        { $raku-type = 'Str'; }
+    when /g? int '*'/         { $raku-type = 'gint-ptr'; }
+    when /g? uint '*'/        { $raku-type = 'guint-ptr'; }
+    when /g? uint16 '*'/      { $raku-type = 'CArray[uint16]'; }
+    when /g? size '*'/        { $raku-type = 'CArray[gsize]'; }
+    when /g? double '*'/      { $raku-type = 'CArray[gdouble]'; }
+    when /g? pointer '*'/     { $raku-type = 'CArray[gpointer]'; }
+    when /:i g? object '*'/   { $raku-type = 'N-GObject'; }
+    when /:i g? pixbuf '*'/   { $raku-type = 'N-GObject'; }
+    when /:i g? error '*'/    { $raku-type = 'N-GObject'; }
+    when /:i g? quark /       { $raku-type = 'GQuark'; }
+
     when any(
         <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
         glong gpointer gshort gsize gssize guchar guint guint16
@@ -336,20 +352,6 @@ method convert-ntype (
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
-#TODO int/num/pointers as '$x is rw'
-    # ignore const
-    when /g? char '**'/       { $raku-type = 'gchar-pptr'; }
-    when /g? char '*'/        { $raku-type = 'Str'; }
-    when /g? int '*'/         { $raku-type = 'gint-ptr'; }
-    when /g? uint '*'/        { $raku-type = 'guint-ptr'; }
-    when /g? uint16 '*'/      { $raku-type = 'CArray[uint16]'; }
-    when /g? size '*'/        { $raku-type = 'CArray[gsize]'; }
-    when /g? double '*'/      { $raku-type = 'CArray[gdouble]'; }
-    when /g? pointer '*'/     { $raku-type = 'CArray[gpointer]'; }
-    when /:i g? object '*'/   { $raku-type = 'N-GObject'; }
-    when /:i g? pixbuf '*'/   { $raku-type = 'N-GObject'; }
-    when /:i g? error '*'/    { $raku-type = 'N-GObject'; }
-    when /:i g? quark /       { $raku-type = 'GQuark'; }
     when 'void'               { $raku-type = 'void'; }
 
 #`{{
@@ -390,12 +392,12 @@ method convert-ntype (
         when 'alias' { }
 
         when 'record' {
-          $raku-type = $h<sname>;
+          $raku-type = "N-$h<gnome-name>";
           self.add-import($h<rname>);
         }
 
         when 'union' {
-          $raku-type = $h<sname>;
+          $raku-type = "N-$h<gnome-name>";
           self.add-import($h<rname>);
         }
 
@@ -444,6 +446,18 @@ method convert-rtype (
 
   my Str $raku-type = '';
   with $ctype {
+
+#TODO int/num/pointers as '$x is rw'
+    when /g? char '**'/         { $raku-type = 'Array[Str]'; }
+    when /g? char '*'/          { $raku-type = 'Str'; }
+    when /g? int \d* '*'/       { $raku-type = 'Array[Int]'; }
+    when /g? uint \d* '*'/      { $raku-type = 'Array[UInt]'; }
+    when /g? size '*'/          { $raku-type = 'Array[gsize]'; }
+    when /:i g? error '*'/      { $raku-type = 'Array[N-GError]'; }
+    #when /:i g? pixbuf '*'/    { $raku-type = 'N-GObject'; }
+    #when /:i g? error '*'/     { $raku-type = 'N-GObject'; }
+    when /g? pointer '*'/       { $raku-type = 'Array'; }
+
     when / g? boolean / {
       $raku-type = 'Bool';
       $raku-type ~= '()';     # unless $return-type;
@@ -483,18 +497,8 @@ method convert-rtype (
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
-#TODO int/num/pointers as '$x is rw'
-    when /g? char '**'/         { $raku-type = 'Array[Str]'; }
-    when /g? char '*'/          { $raku-type = 'Str'; }
-    when /g? int \d* '*'/       { $raku-type = 'Array[Int]'; }
-    when /g? uint \d* '*'/      { $raku-type = 'Array[UInt]'; }
-    when /g? size '*'/          { $raku-type = 'Array[gsize]'; }
-    when /:i g? error '*'/      { $raku-type = 'Array[N-GError]'; }
-    #when /:i g? pixbuf '*'/    { $raku-type = 'N-GObject'; }
-    #when /:i g? error '*'/     { $raku-type = 'N-GObject'; }
-    when /g? pointer '*'/       { $raku-type = 'Array'; }
-
     when 'void' { $raku-type = 'void'; }
+    when 'gpointer' { $raku-type = 'gpointer'; }
 
     default {
       # remove any pointer marks because objects are provided by pointer
@@ -521,12 +525,12 @@ method convert-rtype (
 
         when 'alias' { }
         when 'record' {
-          $raku-type = $h<sname>;
+          $raku-type = "N-$h<gnome-name>";
           self.add-import($h<rname>);
         }
 
         when 'union' {
-          $raku-type = $h<sname>;
+          $raku-type = "N-$h<gnome-name>";
           self.add-import($h<rname>);
         }
 
