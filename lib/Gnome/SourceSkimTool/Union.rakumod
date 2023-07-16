@@ -70,6 +70,8 @@ method generate-code ( ) {
   #  $module-code ~= $code;
     $code ~= $!mod.make-build-submethod( $element, $!xpath);
 
+    $code ~= $callable-code;
+
   #`{{
     note "Generate module methods" if $*verbose;  
     ( $doc, $code) = $!mod.generate-methods($element);
