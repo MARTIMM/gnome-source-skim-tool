@@ -375,37 +375,37 @@ method convert-ntype (
         
         when 'constant' {
           $raku-type = "$ctype";
-          self.add-import($h<rname>);
+          self.add-import($h<class-name>);
         }
 
         when 'enumeration' {
           $raku-type = "GEnum:$ctype";
-          self.add-import($h<rname>);
+          self.add-import($h<class-name>);
         }
         
         when 'bitfield' {
           $raku-type = "GFlag:$ctype";
-          self.add-import($h<rname>);
+          self.add-import($h<class-name>);
         }
 
-#        when 'alias' { $raku-type = $h<rname>; }
+#        when 'alias' { $raku-type = $h<class-name>; }
         when 'alias' { }
 
         when 'record' {
           $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<rname>);
+          self.add-import($h<class-name>);
         }
 
         when 'union' {
           $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<rname>);
+          self.add-import($h<class-name>);
         }
 
         when 'callback' { }
 
         when 'interface' {
           $raku-type = 'N-GObject';
-          self.add-import($h<rname>);
+          self.add-import($h<class-name>);
         }
 #        when '' { }
 
@@ -515,7 +515,7 @@ method convert-rtype (
           # All C enumerations are integers and can coerce to the enum type
           # in input and output. Need to prefix package name because
           # enumerations are mentioned without it
-          $raku-type = $h<rname> ~ '()';
+          $raku-type = $h<class-name> ~ '()';
         }
 
         when 'bitfield' {
@@ -526,12 +526,12 @@ method convert-rtype (
         when 'alias' { }
         when 'record' {
           $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<rname>);
+          self.add-import($h<class-name>);
         }
 
         when 'union' {
           $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<rname>);
+          self.add-import($h<class-name>);
         }
 
         when 'callback' { }

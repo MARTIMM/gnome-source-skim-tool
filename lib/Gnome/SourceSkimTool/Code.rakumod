@@ -48,8 +48,8 @@ method set-unit ( XML::Element $element --> Str ) {
     for @$roles -> $role {
       my Hash $role-h = $!sas.search-name($role);
 #note "$?LINE role=$role -> $role-h.gist()";
-      $*external-modules.push: $role-h<rname>;
-      $also ~= "also does $role-h<rname>;\n" if ?$role-h<rname>;
+      $*external-modules.push: $role-h<class-name>;
+      $also ~= "also does $role-h<class-name>;\n" if ?$role-h<class-name>;
     }
   }
 
@@ -71,19 +71,27 @@ method set-unit ( XML::Element $element --> Str ) {
 # This setup is for more simple structures like records, functions,
 # enumerations, etc. There is no need for inheritence, BUILD, signals or
 # properties.
-method set-unit-for-file ( $class-name --> Str ) {
+method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
 
-#    {$!grd.pod-header('Module Imports')}
-#    __MODULE__IMPORTS__
+  my Str $code = '';
 
-#    use Gnome::Glib::GnomeRoutineCaller:api<2>;
+  if $has-functions {
+    $code ~= qq:to/RAKUMOD/;
+    {$!grd.pod-header('Module Imports')}
+    __MODULE__IMPORTS__
 
-  qq:to/RAKUMOD/;
+    use Gnome::Glib::GnomeRoutineCaller:api<2>;
+    RAKUMOD
+  }
+
+  $code ~= qq:to/RAKUMOD/;
 
     {$!grd.pod-header('Class Declaration');}
     unit class $class-name\:auth<github:MARTIMM>:api<2>;
 
     RAKUMOD
+
+  $code
 }
 
 #-------------------------------------------------------------------------------
@@ -781,7 +789,7 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
     my Str $member-name-list = '';
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
-      $member-name-list ~= ' ' ~ $m.attribs<c:identifier>;
+      $member-name-list ~= $m.attribs<c:identifier> ~ ' ';
     }
 
     $code ~= "  $member-name-list\n\>;\n\n";
@@ -796,7 +804,7 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
 # When in a class the enumerations are found in separate files. To find the
 # correct file, look them up using the filename of the current class. Then use
 # that name to find the enumeration names having the same filename. The filename
-# is set in the field 'class-file'.
+# is set in the field 'source-filename'.
 method !get-enumeration-names ( --> Array ) {
 
   # Get all enumerations for this class
@@ -806,10 +814,10 @@ method !get-enumeration-names ( --> Array ) {
   my Hash $h0 = $!sas.search-name($name);
   return [] unless ?$h0;
 
-  my Str $class-file = $h0<class-file>;
+  my Str $source-filename = $h0<source-filename>;
 
   # Now get all other types defined in this class file
-  my Hash $h1 = $!sas.search-entries( 'class-file', $class-file);
+  my Hash $h1 = $!sas.search-entries( 'source-filename', $source-filename);
 
   # Keep all enumeration names
   my Array $enum-names = [];
@@ -902,7 +910,7 @@ method !get-bitfield-names ( --> Array ) {
   my Hash $h0 = $!sas.search-name($name);
   return [] unless ?$h0;
 
-  my Str $class-file = $h0<class-file>;
+  my Str $class-file = $h0<source-filename>;
 
   # Now get all other types defined in this class file
   my Hash $h1 = $!sas.search-entries( 'class-file', $class-file);
@@ -1105,8 +1113,6 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
   my Str $fname = $h0<structure-filename>;
   $fname.IO.spurt($code);
   note "Save record structure in ", $fname.IO.basename;
-#  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
-#  "$path/$structure-name.rakumod".IO.spurt($code);
 }
 
 #-------------------------------------------------------------------------------
@@ -1168,8 +1174,6 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
   my Str $fname = $h0<structure-filename>;
   $fname.IO.spurt($code);
   note "Save union structure in ", $fname.IO.basename;
-#  my Str $path = $*work-data<raku-module-file>.IO.dirname.Str;
-#  "$path/$structure-name.rakumod".IO.spurt($code);
 }
 
 #-------------------------------------------------------------------------------
