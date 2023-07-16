@@ -389,7 +389,6 @@ method !map-element (
       my Str $rname = $ctype;
       my Str $np = $*work-data<name-prefix>;
       $rname ~~ s:i/^ $np //;
-      my Str $mname = 'R-' ~ $rname;
       $rname = $*work-data<raku-package> ~ '::R-' ~ $rname;
 
       $class-name = $*work-data<raku-package> ~ '::R-' ~ $attrs<name>;
@@ -444,7 +443,6 @@ method !map-element (
            $symbol-prefix ~ '_' ~ ($attrs<c:symbol-prefix> // '') ~ '_'
         ),
 
-        :sname("N-$ctype"),
         :$rname,
         :class-file($source-filename),
       );
@@ -483,16 +481,13 @@ method !map-element (
            $symbol-prefix ~ '_' ~ ($attrs<c:symbol-prefix> // '') ~ '_'
         ),
 
-        :sname("N-$ctype"),
         :$rname,
         :class-file($source-filename),
       );
     }
 
-    # Functions are callables defined outside classes. These are taken
-    # care of when the source filename is the same of a class, interface,
-    # record or union. There is a module-filename field in case the function
-    # will is not within a higher level structure.
+    # The functions popping up here are callables defined outside class,
+    # interface, record or union. The functions must be added to 
     when 'function' {
       $source-filename = self!get-source-file($element);
       $deprecated = ($source-filename eq 'deprecated');
@@ -551,8 +546,9 @@ method !map-element (
         :$module-filename,
         :$class-name,
         :$gnome-name,
+        :constant-type($const-type-attribs<c:type>),
+        :constant-value($attrs<value>),
 
-        :sname($const-type-attribs<c:type>),
         :$rname,
         :class-file($source-filename),
       );
@@ -579,7 +575,6 @@ method !map-element (
         :$class-name,
         :$gnome-name,
 
-        :sname($ctype),
         :$rname,
         :class-file($source-filename),
       );
@@ -605,7 +600,6 @@ method !map-element (
         :$class-name,
         :$gnome-name,
 
-        :sname($ctype),
         :$rname,
         :class-file($source-filename),
       );
