@@ -11,6 +11,8 @@ TODO Add explanations of module documentation layout in the references of the do
 * Naming the classes, structures, unions, enumerations and the modules where they are defined.
 * C-examples and converting to Raku
 
+TODO add command to generate code/doc/test at the top of the generated files
+
 TODO type changes
   Unknown gir type to convert to native raku type 'record' for ctype 'GtkRecentInfo'
   Unknown gir type to convert to raku type 'record' for ctype 'GtkRecentInfo', '(Any)'
@@ -26,6 +28,7 @@ TODO Process constants and alias
 TODO Generate doc. Review for class new for interface, record and union
 TODO Test marks in code like '#TM:0:has_toplevel_focus' should go to the test file because 1) after changes it saves compilation and 2) the mark is for testing
 -->
+
 <!-- Testing command with timing -o for dump to file
 /usr/bin/time -f "Program: %C\nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" raku Window.rakutest
 
