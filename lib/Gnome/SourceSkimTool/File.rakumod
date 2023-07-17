@@ -27,7 +27,7 @@ This breaks also the compatebility with older packages in two ways because of it
 use Gnome::SourceSkimTool::ConstEnumType;
 #use Gnome::SourceSkimTool::SearchAndSubstitute;
 use Gnome::SourceSkimTool::Code;
-#use Gnome::SourceSkimTool::Doc;
+use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Prepare;
 
 use XML;
@@ -39,7 +39,7 @@ unit class Gnome::SourceSkimTool::File:auth<github:MARTIMM>;
 
 #has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Code $!mod;
-#has Gnome::SourceSkimTool::Doc $!grd;
+has Gnome::SourceSkimTool::Doc $!grd;
 
 has XML::XPath $!xpath;
 
@@ -63,7 +63,7 @@ method generate-code ( ) {
     print "\n";
   }
 
-  my Str ( $c, $filename, $class-name, $function-code, $function-hash);
+  my Str ( $c, $filename, $class-name, $function-hash);
   my Bool $has-functions = False;
 #  $*gnome-class = $!filename.tc;
 #  my Gnome::SourceSkimTool::Prepare $prepare .= new;
@@ -148,23 +148,32 @@ method generate-code ( ) {
   }
 }}
 
-  when 'union' {
-    for $!filedata<union>.keys -> $union-name {
-      $*gnome-class = $union-name;
-#      my Str $gnome-package = $*gnome-package.Str;
-#      $gnome-package ~~ s/ \d+ $//;
-#      $*gnome-class ~~ s/^ $gnome-package //;
-      my Gnome::SourceSkimTool::Prepare $prepare .= new;
+    when 'union' {
+      for $!filedata<union>.keys -> $union-name {
+        $*gnome-class = $union-name;
+  #      my Str $gnome-package = $*gnome-package.Str;
+  #      $gnome-package ~~ s/ \d+ $//;
+  #      $*gnome-class ~~ s/^ $gnome-package //;
+        my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-      say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
+        say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
 
-      require ::('Gnome::SourceSkimTool::Union');
-      my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
-      $raku-module.generate-code if $*generate-code;
-      $raku-module.generate-test if $*generate-test;
-      $raku-module.generate-doc if $*generate-doc;
+        require ::('Gnome::SourceSkimTool::Union');
+        my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
+        $raku-module.generate-code if $*generate-code;
+        $raku-module.generate-test if $*generate-test;
+        $raku-module.generate-doc if $*generate-doc;
+      }
     }
   }
+
+  # int before continuing
+  $*external-modules = [<
+    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
+  >];
+
+  for $!filedata.keys {
+    # -> $type-name
 
 #`{{
   # If there is one union, generate a single raku module. The union
@@ -199,8 +208,8 @@ method generate-code ( ) {
         $name ~~ s:i/^ $pname '_'//;
 #note "\n$?LINE E $k, $name, $pname, $v.gist()";
         @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
-        $filename = $v<module-filename>;
-        $class-name = $v<class-name>;
+        $filename = $v<module-filename> unless ?$filename;
+        $class-name = $v<class-name> unless ?$class-name;
       }
 
       $c ~= $!mod.generate-constants(@constants);
@@ -211,8 +220,8 @@ method generate-code ( ) {
       for $!filedata<enumeration>.kv -> $k, $v {
 #note "\n$?LINE E $k, $v.gist()";
         $enum-names.push: $k;
-        $filename = $v<module-filename>;
-        $class-name = $v<class-name>;
+        $filename = $v<module-filename> unless ?$filename;
+        $class-name = $v<class-name> unless ?$class-name;
       }
 
       $c ~= $!mod.generate-enumerations-code($enum-names);
@@ -223,8 +232,8 @@ method generate-code ( ) {
       for $!filedata<bitfield>.kv -> $k, $v {
 #note "\n$?LINE B $k, $v.gist()";
         $bitfield-names.push: $k;
-        $filename = $v<module-filename>;
-        $class-name = $v<class-name>;
+        $filename = $v<module-filename> unless ?$filename;
+        $class-name = $v<class-name> unless ?$class-name;
       }
 
       $c ~= $!mod.generate-bitfield-code($bitfield-names);
@@ -236,8 +245,20 @@ method generate-code ( ) {
 
     when 'function' {
       $has-functions = True;
-      $function-code = '';
-      
+      my Array $function-names = [];
+      for $!filedata<function>.kv -> $k, $v {
+#note "\n$?LINE B $k, $v.gist()";
+#        $function-names.push: S:g/ '-' /_/ with $v<function-name>;
+        $function-names.push: $v<function-name>;
+        $filename = $v<module-filename> unless ?$filename;
+        $class-name = $v<class-name> unless ?$class-name;
+      }
+
+      my Str $package-name = S/ \d+ $// with $*gnome-package.Str;
+      $*work-data<sub-prefix> = $package-name.lc ~ '_';
+
+      my Hash $hms = $!mod.get-standalone-functions($function-names);
+      $function-hash = $!mod.generate-functions($hms);
     }
 
     when 'alias' {
@@ -333,13 +354,35 @@ method generate-code ( ) {
       submethod BUILD ( ) \{
         # Initialize helper
         \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
-......
+      }
+
+      my Hash \$methods = \%\(
+        $function-hash
+      );
 
       RAKUMOD
+
+      $code ~= q:to/RAKUMOD/;
+        # This method is recognized in class Gnome::N::TopLevelClassSupport.
+        method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
+          my Str $name = S:g/ '-' /_/ with $n;
+          if $methods{$name}:exists {
+            my $native-object = self.get-native-object-no-reffing;
+            $_fallback-v2-ok = True;
+            return $!routine-caller.call-native-sub(
+              $name, @arguments, $methods, :$native-object
+            );
+          }
+
+          else {
+            callsame;
+          }
+        }
+        RAKUMOD
     }
 
 
-    $code = self.substitute-MODULE-IMPORTS($code);
+    $code = $!mod.substitute-MODULE-IMPORTS($code);
 
     note "Save types module in ", $filename.IO.basename;
 #    "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);

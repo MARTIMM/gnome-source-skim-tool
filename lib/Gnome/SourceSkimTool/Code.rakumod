@@ -79,6 +79,7 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
     $code ~= qq:to/RAKUMOD/;
     {$!grd.pod-header('Module Imports')}
     __MODULE__IMPORTS__
+    use Gnome::N::TopLevelClassSupport;
 
     use Gnome::Glib::GnomeRoutineCaller:api<2>;
     RAKUMOD
@@ -88,8 +89,10 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
 
     {$!grd.pod-header('Class Declaration');}
     unit class $class-name\:auth<github:MARTIMM>:api<2>;
-
     RAKUMOD
+
+  $code ~= "also is Gnome::N::TopLevelClassSupport;\n" if $has-functions;
+  $code ~= "\n";
 
   $code
 }
@@ -114,8 +117,11 @@ method generate-callables (
   note "Generate methods" if $*verbose and ?$c;
 
   # Generate functions
-  $c = self!generate-functions( $element, $xpath);
-  $code ~= $c if ?$c;
+
+  # Get all functions in this class
+  my Hash $hfs = self!get-functions( $element, $xpath);
+  $code ~= self.generate-functions($hfs);
+
   note "Generate functions" if $*verbose and ?$c;
 
   # if there are constructors, methods or functions, add the structure and
@@ -451,7 +457,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     $code ~= [~] '  ', $hash-fname, ' => %( :type(Constructor),',
                  ':returns(', $rnt0, '), ',
                  ':type-name(', $rnt1, '), ',
-                 $parameters, ")\n";
+                 $parameters, "),\n";
 #`{{
       $code ~= qq:to/EOSUB/;
         $hash-fname =\> \%\(
@@ -468,7 +474,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 #TM:1:$hash-fname
     $code ~= [~] '  ', $hash-fname, ' => %( :type(Constructor),',
                  ':returns(', $rnt0, '), ',
-                 $parameters, ")\n";
+                 $parameters, "),\n";
 #`{{
       $code ~= qq:to/EOSUB/;
         $hash-fname =\> \%\(
@@ -552,7 +558,7 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #note "$?LINE $returns";
 #note "$?LINE $par-list";
 
-    $code ~= [~] '  ', $hash-fname, ' => %(', $returns, $par-list, ")\n";
+    $code ~= [~] '  ', $hash-fname, ' => %(', $returns, $par-list, "),\n";
 #`{{
 #TM:0:$hash-fname
     $code ~= qq:to/EOSUB/;
@@ -584,14 +590,13 @@ method !get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method !generate-functions ( XML::Element $element, XML::XPath $xpath --> Str ) {
+method generate-functions ( Hash $hcs --> Str ) {
+
+  return '' unless ?$hcs;
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
-  # Get all functions in this class
-  my Hash $hcs = self!get-functions( $element, $xpath);
-  return '' unless ?$hcs;
-
+  # Get all functions from the Hash
   my Str $code = qq:to/EOSUB/;
 
     {SEPARATOR( 'Functions', 2);}
@@ -706,8 +711,8 @@ method !generate-functions ( XML::Element $element, XML::XPath $xpath --> Str ) 
 
 #note "$?LINE $hash-fname, {$returns//'-'}, {$par-list//'-'}";
 #TM:0:$hash-fname
-    $code ~=
-      [~] '  ', $hash-fname, ' => %( :type(Function),', $returns, $par-list, ")\n";
+    $code ~= [~] '  ', $hash-fname, ' => %( :type(Function),',
+                 $returns, $par-list, "),\n";
   }
 
   $code
@@ -723,6 +728,35 @@ method !get-functions ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Skip deprecated methods
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
+    my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
+#-------------------------------------------------------------------------------
+method get-standalone-functions ( Array $function-names --> Hash ) {
+  my Hash $hms = %();
+
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-function.gir';
+  my XML::XPath $xpath .= new(:$file);
+
+  my @methods = ();
+  for @$function-names -> $name {
+    my XML::Element $element =
+      $xpath.find( '//function[@name="' ~ $name ~ '"]', :!to-list);
+#note "$?LINE ", '//function[@name="' ~ $name ~ '"] ', ($element//'-').Str;
+
+    # Skip empty elements deprecated functions
+    next unless ?$element;
+    next if $element.attribs<deprecated>:exists and
+            $element.attribs<deprecated> eq '1';
+
+    @methods.push: $element
+  }
+
+  for @methods -> $cn {
     my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
     $hms{$function-name} = %h;
   }
