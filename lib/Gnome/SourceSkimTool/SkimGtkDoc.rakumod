@@ -474,7 +474,7 @@ method !map-element (
       $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
 
       my Str $function-name = $attrs<name>;
-      $function-name ~~ s:g/ '_' /-/;
+#      $function-name ~~ s:g/ '_' /-/;
 
       $!map{$ctype} = %(
         :gir-type<function>,
