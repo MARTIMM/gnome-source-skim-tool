@@ -469,16 +469,12 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $np = $*work-data<name-prefix>;
-      $class-name = $ctype;
-      $class-name ~~ s:i/^ $np '_' //;
-      $class-name = $source-filename.tc;
-      $class-name = $*work-data<raku-package> ~ '::F-' ~ $class-name;
-#TODOF- must change like enum, bitf, const
+      $class-name = 'T-' ~ $source-filename.tc;
+      $module-filename = "$*work-data<result-path>$class-name.rakumod";
+      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
 
       my Str $function-name = $attrs<name>;
       $function-name ~~ s:g/ '_' /-/;
-      $module-filename = "$*work-data<result-path>F-$attrs<name>.rakumod";
 
       $!map{$ctype} = %(
         :gir-type<function>,
