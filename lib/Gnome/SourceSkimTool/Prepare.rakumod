@@ -20,9 +20,10 @@ submethod BUILD ( Bool :$load-maps = True ) {
   $*verbose //= False;
 
   # Remove package prefix if there is any attached to the gnome class
-  my Str $package-name = S/ \d+ $// with $*gnome-package.Str;
-  $*gnome-class ~~ s:i/^ $package-name // if ?$*gnome-class;
+  $*gnome-class = self.drop-prefix($*gnome-class);
   $*work-data = self.prepare-work-data($*gnome-package);
+
+#note "$?LINE $*gnome-package $*gnome-class";
 
   mkdir $*work-data<gir-module-path>, 0o700
     unless $*work-data<gir-module-path>.IO ~~ :e;
@@ -335,6 +336,37 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
   mkdir $work-data<result-path>, 0o700 unless $work-data<result-path>.IO ~~ :e;
 
   $work-data
+}
+
+#-------------------------------------------------------------------------------
+method drop-prefix (
+  Str $prefixed-name is copy = '', Bool :$function = False,
+  Bool :$constant = False
+  --> Str
+) {
+
+  # Remove package prefix if there is any attached to the gnome class
+  my Str $package-prefix;
+  if $*gnome-package.Str ~~ any(<GObject Glib Gio>) {
+    $package-prefix = 'G';
+  }
+
+  elsif $*gnome-package.Str ~~ any(<Gtk3 Gtk4 Gdk3 Gdk4 Gsk4>) {
+    $package-prefix= S/ \d+ $// with $*gnome-package.Str;
+  }
+
+  if $function {
+    $package-prefix .= lc;
+    $package-prefix ~= '_';
+  }
+
+  elsif $constant {
+    $package-prefix ~= '_';
+  }
+
+  $prefixed-name ~~ s/^ $package-prefix //;
+
+  $prefixed-name
 }
 
 #-------------------------------------------------------------------------------
