@@ -1,11 +1,22 @@
 
 =begin pod
 
-=head1 Find data using a filename
+=head1 Generate Raku files using a filename.
 
-Generate code, documentation or test files contained in a file. The data is found in a C<repo-object-map.yaml>. It tests for every key where a sub-key matches the given filename. Then the found data is stored in a Hash C<$!filedata> with the top key its type of each found key.
+=head2 Find the data
 
-When processing this Hash, the types class, interface, record and union are stored in separate files and the rest is gathered in a single file. This breaks compatibility with older packages but it is now possible to select the proper files more specificly.
+Code and documentation is retrieved indirectly from C source files (originally in *.h and *.c). The data found is stored in a C<repo-object-map.yaml>. It tests for every key where a sub-key matches the given filename. Then the found data is stored in a Hash C<$!filedata> with the top key its type of each found key.
+
+Gnome has a notion of several types of which the larger ones are C<classes>, C<interfaces>, C<records> and C<unions>. Written in the C-language, a class or interface does not exist. It is by clever programming that the Gnome team have introduced those by defining structures in a consistent way and added a set of subroutines to initialize and use the structures. They are called constructors and methods. A constructor returns an initialized structure and the methods use that structure.
+There may also be subroutines, which are called functions, defined in a class or interface. They do not use the initialized structure but are added as a convenience routine.
+The record is a C-stucture and the union is, well …, a union.
+
+
+=head2 Generating code, doc or testfiles
+
+When processing the C<$!filedata> Hash, the types C<class> and C<interface>, are stored in separate files and the rest is gathered in a single file. This breaks compatibility with older packages. This is an improvement because the data is better categorized into files and for the developer it is possible to select the proper files more specificly.
+The C<class> code becomes a Raku class and an C<interface> code becomes a Raku role.
+The C<record> and C<union> code is stored in one or two files depending if there are subroutines defined to manipulate the structures. The C<record> becomes a Raku C<repr('CStruct')> and the C<union> a Raku C<>
 
 =item classes; The key of the sub-hash is used to create the class module. E.g a filename of C<aboutdialog> shows several types. The class type carries this key; C<GtkAboutDialog>. The class may be from Gtk3 and so the class name becomes B<Gnome::Gtk3::AboutDialog> and the files C<AboutDialog.*> (code, doc and tests are in separate files).
 
@@ -337,6 +348,7 @@ method generate-code ( ) {
 #TL:1:$*work-data<raku-class-name>:
   if ?$c and ?$class-name and ?$filename {
     my Str $code = qq:to/RAKUMOD/;
+      # Command to generate: $*command-line
       use v6;
       RAKUMOD
 
@@ -417,6 +429,8 @@ method !get-data-from-filename ( ) {
   }
 }
 
+
+=finish
 #-------------------------------------------------------------------------------
 method !chop-packagename ( Str:D $name is copy --> Str ) {
   my Str $gnome-package = $*gnome-package.Str;
