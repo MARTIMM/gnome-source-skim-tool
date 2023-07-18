@@ -352,6 +352,8 @@ method convert-ntype (
 #TODO check for any other types in gir files
 #grep 'name="' Gtk-3.0.gir | grep '<type' | sed 's/^[[:space:]]*//' | sort -u
 
+    when 'GType'              { $raku-type = 'GType'; }
+
     when 'void'               { $raku-type = 'void'; }
 
 #`{{
@@ -372,7 +374,22 @@ method convert-ntype (
         when 'class' {
           $raku-type = 'N-GObject';
         }
-        
+
+        when 'interface' {
+          $raku-type = 'N-GObject';
+          self.add-import($h<class-name>);
+        }
+
+        when 'record' {
+          $raku-type = "N-$h<gnome-name>";
+          self.add-import($h<structure-name>);
+        }
+
+        when 'union' {
+          $raku-type = "N-$h<gnome-name>";
+          self.add-import($h<structure-name>);
+        }
+
         when 'constant' {
           $raku-type = "$ctype";
           self.add-import($h<class-name>);
@@ -391,22 +408,7 @@ method convert-ntype (
 #        when 'alias' { $raku-type = $h<class-name>; }
         when 'alias' { }
 
-        when 'record' {
-          $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<class-name>);
-        }
-
-        when 'union' {
-          $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<class-name>);
-        }
-
         when 'callback' { }
-
-        when 'interface' {
-          $raku-type = 'N-GObject';
-          self.add-import($h<class-name>);
-        }
 #        when '' { }
 
         default {
@@ -484,6 +486,8 @@ method convert-rtype (
       $raku-type ~= '()' unless $return-type;
     }
 
+    when 'GType' { $raku-type = 'GType'; }
+
     when /GQuark/ { $raku-type = 'UInt'; }
     when /GList/ {
       $raku-type = 'N-GList';
@@ -511,6 +515,21 @@ method convert-rtype (
           $raku-type ~= '()' unless $return-type;
         }
 
+        when 'interface' {
+          $raku-type = 'N-GObject';
+          $raku-type ~= '()' unless $return-type;          
+        }
+
+        when 'record' {
+          $raku-type = "N-$h<gnome-name>";
+          self.add-import($h<structure-name>);
+        }
+
+        when 'union' {
+          $raku-type = "N-$h<gnome-name>";
+          self.add-import($h<structure-name>);
+        }
+
         when 'enumeration' {
           # All C enumerations are integers and can coerce to the enum type
           # in input and output. Need to prefix package name because
@@ -524,22 +543,8 @@ method convert-rtype (
         }
 
         when 'alias' { }
-        when 'record' {
-          $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<class-name>);
-        }
-
-        when 'union' {
-          $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<class-name>);
-        }
 
         when 'callback' { }
-
-        when 'interface' {
-          $raku-type = 'N-GObject';
-          $raku-type ~= '()' unless $return-type;          
-        }
 #        when '' { }
 
         default {
