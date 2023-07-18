@@ -49,7 +49,7 @@ method generate-code ( ) {
     note "Set class unit" if $*verbose;
     $code ~= $!mod.set-unit($element);
 
-    note "Generate enumerations and bitmasks";
+  #  note "Generate enumerations and bitmasks";
   #  $code ~= $!mod.generate-enumerations-code;
   #  $code ~= $!mod.generate-bitfield-code;
 
@@ -127,10 +127,10 @@ method generate-code ( ) {
     "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
   }
 
-  else {
-    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
-    note "Union module {$fname.IO.basename} is not saved due to lack of routines";
-  }
+#  else {
+#    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+#    note "Union module {$fname.IO.basename} is not saved due to lack of routines";
+#  }
 
 #  $*work-data<raku-module-file>.IO.spurt($code);
 #  note "Save pod doc";

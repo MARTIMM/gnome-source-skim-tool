@@ -130,10 +130,10 @@ method generate-code ( ) {
     $fname.IO.spurt($code);
   }
 
-  else {
-    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
-    note "Record module {$fname.IO.basename} is not saved due to lack of routines";
-  }
+#  else {
+#    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+#    note "Record module {$fname.IO.basename} is not saved due to lack of routines";
+#  }
 
 #  $*work-data<raku-module-file>.IO.spurt($code);
 #  note "Save pod doc";
