@@ -132,7 +132,7 @@ method generate-code ( ) {
 #        self.generate-structure( $element, $xpath);
         $!mod.generate-structure(|$!mod.init-xpath('record'));
 
-        say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
+        say "Generate Raku record from ", $*work-data<raku-class-name> if $*verbose;
 
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
@@ -167,7 +167,8 @@ method generate-code ( ) {
   #      $*gnome-class ~~ s/^ $gnome-package //;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
+        say "Generate Raku union from ",
+            $*work-data<raku-class-name> if $*verbose;
 
         require ::('Gnome::SourceSkimTool::Union');
         my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
