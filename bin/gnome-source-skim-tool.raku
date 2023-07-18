@@ -20,6 +20,8 @@ my Bool $*generate-test;
 my Array $*external-modules;
 my @*map-search-list;
 
+my $*command-line = $*PROGRAM-NAME.IO.basename ~ ' ' ~ @*ARGS.join(' ');
+
 #-------------------------------------------------------------------------------
 sub MAIN (
   Str:D $gnome-package, Str $gnome-class?,

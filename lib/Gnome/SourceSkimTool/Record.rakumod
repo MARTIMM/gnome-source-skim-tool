@@ -40,9 +40,10 @@ method generate-code ( ) {
   my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
   if ?$callable-code {
 
-  #  my ( $doc, $code);
+#  my ( $doc, $code);
+#TL:1:$*work-data<raku-class-name>:
     my Str $code = qq:to/RAKUMOD/;
-      #TL:1:$*work-data<raku-class-name>:
+      # Command to generate: $*command-line
       use v6;
       RAKUMOD
 
