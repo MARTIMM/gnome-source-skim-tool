@@ -344,6 +344,7 @@ method drop-prefix (
   Bool :$constant = False
   --> Str
 ) {
+  return '' unless ?$prefixed-name;
 
   # Remove package prefix if there is any attached to the gnome class
   my Str $package-prefix;
