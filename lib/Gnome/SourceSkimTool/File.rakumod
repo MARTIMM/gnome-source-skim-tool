@@ -16,7 +16,7 @@ The record is a C-stucture and the union is, well …, a union.
 
 When processing the C<$!filedata> Hash, the types C<class> and C<interface>, are stored in separate files and the rest is gathered in a single file. This breaks compatibility with older packages. This is an improvement because the data is better categorized into files and for the developer it is possible to select the proper files more specificly.
 The C<class> code becomes a Raku class and an C<interface> code becomes a Raku role.
-The C<record> and C<union> code is stored in one or two files depending if there are subroutines defined to manipulate the structures. The C<record> becomes a Raku C<repr('CStruct')> and the C<union> a Raku C<>
+The C<record> and C<union> code is stored in one or two files depending if there are subroutines defined to manipulate the structures. The C<record> becomes a Raku C<repr('CStruct')> and the C<union> a Raku C<repr('CUnion')>.
 
 =item classes; The key of the sub-hash is used to create the class module. E.g a filename of C<aboutdialog> shows several types. The class type carries this key; C<GtkAboutDialog>. The class may be from Gtk3 and so the class name becomes B<Gnome::Gtk3::AboutDialog> and the files C<AboutDialog.*> (code, doc and tests are in separate files).
 
@@ -76,10 +76,11 @@ method generate-code ( ) {
 
   my Str ( $c, $filename, $class-name, $function-hash);
   my Bool $has-functions = False;
-#  $*gnome-class = $!filename.tc;
-#  my Gnome::SourceSkimTool::Prepare $prepare .= new;
+
   for $!filedata.keys {
     # -> $type-name
+
+    next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
     when 'class' {
       # There will always be one class in a file
@@ -114,25 +115,14 @@ method generate-code ( ) {
     when 'record' {
       for $!filedata<record>.keys -> $record-name {
         $*gnome-class = $record-name;
-#`{{
-        my Str $gnome-package = $*gnome-package.Str;
-        $gnome-package ~~ s/ \d+ $//;
-        $*gnome-class ~~ s/^ $gnome-package //;
-}}
-#        $*gnome-class = self!chop-packagename($record-name);
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        #my XML::XPath $xpath .= new(:file($*work-data<gir-record-file>));
-        #my XML::Element $element = $!xpath.find('//record');
-        #die "//record elements not found in $*work-data<gir-record-file> for $*work-data<raku-class-name>" unless ?$element;
-        
-#        my XML::XPath $xpath;
-#        my XML::Element $element;
-#        ( $xpath, $element) = $!mod.init-xpath('record');
-#        self.generate-structure( $element, $xpath);
-        $!mod.generate-structure(|$!mod.init-xpath('record'));
+        $!mod.generate-structure(
+          |$!mod.init-xpath( 'record', 'gir-record-file')
+        );
 
-        say "Generate Raku record from ", $*work-data<raku-class-name> if $*verbose;
+        say "\nGenerate Raku record from ",
+            $*work-data<raku-class-name> if $*verbose;
 
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
@@ -142,32 +132,16 @@ method generate-code ( ) {
       }
     }
 
-#`{{
-  # If there is one record, generate a single raku module. The record
-  # may have constructors and methods too
-  elsif $!filedata<record>:exists and $!filedata<record>.keys.elems == 1 {
-    $*gnome-class = $!filename.tc;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-    say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
-
-    require ::('Gnome::SourceSkimTool::Record');
-    my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
-    $raku-module.generate-code if $*generate-code;
-    $raku-module.generate-test if $*generate-test;
-    $raku-module.generate-doc if $*generate-doc;
-  }
-}}
-
     when 'union' {
       for $!filedata<union>.keys -> $union-name {
         $*gnome-class = $union-name;
-  #      my Str $gnome-package = $*gnome-package.Str;
-  #      $gnome-package ~~ s/ \d+ $//;
-  #      $*gnome-class ~~ s/^ $gnome-package //;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        say "Generate Raku union from ",
+        $!mod.generate-union(
+          |$!mod.init-xpath( 'union', 'gir-union-file')
+        );
+
+        say "\nGenerate Raku union from ",
             $*work-data<raku-class-name> if $*verbose;
 
         require ::('Gnome::SourceSkimTool::Union');
@@ -184,8 +158,12 @@ method generate-code ( ) {
     NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
   >];
 
+
+  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
   for $!filedata.keys {
     # -> $type-name
+
+    next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
 #`{{
   # If there is one union, generate a single raku module. The union
@@ -207,18 +185,16 @@ method generate-code ( ) {
   }
 }}
 
-    when 'docsection' {
-      
-    }
+    # Only for documentation
+    when 'docsection' { }
 
     when 'constant' {
       my @constants = ();
       for $!filedata<constant>.kv -> $k, $v {
         # The name to search for later must be without package prefix
-        my Str $name = $k;
-        my Str $pname = S/ \d+ $// with $*gnome-package.Str;
-        $name ~~ s:i/^ $pname '_'//;
+        my Str $name = $t-prep.drop-prefix( $k, :constant);
 #note "\n$?LINE E $k, $name, $pname, $v.gist()";
+
         @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
         $filename = $v<module-filename> unless ?$filename;
         $class-name = $v<class-name> unless ?$class-name;
