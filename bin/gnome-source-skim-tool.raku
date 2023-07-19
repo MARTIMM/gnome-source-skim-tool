@@ -17,6 +17,11 @@ my Bool $*generate-code;
 my Bool $*generate-doc;
 my Bool $*generate-test;
 
+my Str $*class-code = '';     # used for classes and interfaces
+my Str $*callable-code = '';
+my Str $*types-code = '';
+my Str $*record-code = '';
+
 my Array $*external-modules;
 my @*map-search-list;
 
@@ -28,11 +33,11 @@ sub MAIN (
   Str:D $gnome-package, Str $gnome-class?, *@types,
   Bool :$v = False,
   Bool :$gir = False,
-  Bool :$c = False, Bool :$r = False, Bool :$i = False, Bool :$u = False,
-  Bool :$f = False,
+#  Bool :$c = False, Bool :$r = False, Bool :$i = False, Bool :$u = False,
+#  Bool :$f = False,
   Bool :$m = False, Bool :$t = False, Bool :$d = False,
   Bool :$help = False,
-  Bool :$list = False, Str :$type = '', Str :$filter
+#  Bool :$list = False, Str :$type = '', Str :$filter
 ) {
 
   if $help {
@@ -73,6 +78,7 @@ sub MAIN (
     $skim-doc.get-classes-from-gir;
   }
 
+#`{{
   elsif $list {
     $*verbose = False;
 #    $*gnome-class = $gnome-class // 'Widget';
@@ -88,20 +94,23 @@ sub MAIN (
       $lt.list-types
     }
   }
+}}
 
   # Get data using filename
-  elsif $f and ?$gnome-class {
-#    $*verbose = False;
+  #elsif $f and ?$gnome-class {
+  else {
     my Str $filename = $gnome-class.lc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
-    require ::('Gnome::SourceSkimTool::File');
-    my $raku-module = ::('Gnome::SourceSkimTool::File').new(:$filename);
-#    $*verbose = True;
-    $raku-module.generate-code if $*generate-code;
-    $raku-module.generate-test if $*generate-test;
-    $raku-module.generate-doc if $*generate-doc;
+    if $*generate-code {
+      require ::('Gnome::SourceSkimTool::FileCode');
+      my $raku-module = ::('Gnome::SourceSkimTool::FileCode').new(:$filename);
+      $raku-module.generate-code;
+    }
+#    $raku-module.generate-test if $*generate-test;
+#    $raku-module.generate-doc if $*generate-doc;
   }
 
+#`{{
   # Get data using class name
   elsif $c and ?$gnome-class {
     $*gnome-class = $gnome-class;
@@ -157,8 +166,69 @@ sub MAIN (
     $raku-record.generate-test if $*generate-test;
     #$raku-module.generate-doc if $*generate-doc;
   }
+}}
 }
 
+#-------------------------------------------------------------------------------
+sub USAGE ( ) {
+
+  # Need to call Prepare init to get a few values in the output
+#  $*verbose = False;
+#  my Prepare $gfl .= new;
+
+  say qq:to/EOHELP/;
+
+  Program to generate Raku modules from the Gnome source code using
+  the GtkDoc tool also used by Gnome to generate there documentation.
+
+  Usage
+    {$*PROGRAM.basename} -h
+
+    {$*PROGRAM.basename} [-m][-t][-d][-v] package filename [gir-types]
+
+    {$*PROGRAM.basename} -gir [-v] package
+
+    Options:
+      d       Generate a Raku pod documentation file for a class (-c),
+              interface (-i) or record (-r). Result is put in directory
+              '{RAKUMODS}', e.g. 'AboutDialog.rakudoc' or 'Window.rakudoc'
+              defined in Gtk3 or Gtk4.
+      help    Show this info. (or any other non existant option ;-)
+      m       Generate a Raku code file for a class (-c), interface (-i) or
+              record (-r). Result is put in directory '{RAKUMODS}', e.g.
+              'File.rakumod' or 'Application.rakumod' defined in Gio.
+      t       Generate a test file for a class (-c), interface (-i) or
+              record (-r). E.g. 'List.rakutest' or 'Variant.rakutest' 
+              defined in Glib.
+      gir     Generate the intermediate gir and yaml files. The files will be
+              kept, so they need to be generated only once or when sources are
+              updated.
+      v       Show some info while stumping. Default False.
+
+    Arguments
+      package   The Gnome package name used for the class. Select one
+                from this list; Atk Cairo DBus DBusGLib Gdk3 Gdk4
+                GdkPixbuf GdkPixdata Gio Glib GObject Gtk3 Gtk4 Gsk4
+                Pango PangoCairo GIRepo.
+      filename  A source filename wherein everything is defined originally
+                (from *.c/*.h files). Several types like classes, record etc,
+                may be defined in the file. An example is the name from Gtk3,
+                'aboutdialog' where an independent function 
+                'gtk_show_about_dialog', an enumeration 'GtkLicense' and a
+                class 'GtkAboutDialog' is found. The results are stored in a
+                single file 'lib/Gnome/Gtk3/AboutDialog.rakumod'.
+                Other names may result in more files.
+                separately.
+      gir-types Types to process.
+  EOHELP
+}
+
+
+
+
+
+
+=finish
 #-------------------------------------------------------------------------------
 sub USAGE ( ) {
 
