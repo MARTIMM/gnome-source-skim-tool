@@ -1001,7 +1001,6 @@ method generate-constants ( @constants --> Str ) {
 #    $name ~~ s/^ $package //;
 
     # Get the XML element of the constant data
-#note "$?LINE '//constant\[\@name=\"$constant[0]\"\]";
     my XML::Element $e = $xpath.find(
       '//constant[@name="' ~ $constant[0] ~ '"]', :!to-list
     );
@@ -1037,6 +1036,9 @@ method generate-constants ( @constants --> Str ) {
 method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 
   my $temp-external-modules = $*external-modules;
+  $*external-modules = [<
+    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
+  >];
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!sas.search-name($name);
@@ -1045,6 +1047,7 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 #TL:1:$structure-name:
 #TT:1:$structure-name:
   my Str $code = qq:to/RAKUMOD/;
+    # Command to generate: $*command-line
     use v6;
     RAKUMOD
 
@@ -1151,8 +1154,12 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 
 #-------------------------------------------------------------------------------
 # A structure consists of fields. Only then there is a structure
-method generate-union ( XML::Element $element, XML::XPath $xpath ) {
+method generate-union ( XML::XPath $xpath, XML::Element $element ) {
+
   my $temp-external-modules = $*external-modules;
+  $*external-modules = [<
+    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
+  >];
 
   my @fields = $xpath.find( 'field', :start($element), :to-list);
   return '' unless ?@fields;
@@ -1164,6 +1171,7 @@ method generate-union ( XML::Element $element, XML::XPath $xpath ) {
 #TL:1:$structure-name:
 #TT:1:$structure-name:
   my Str $code = qq:to/RAKUMOD/;
+    # Command to generate: $*command-line
     use v6;
 
     {$!grd.pod-header('Module Imports')}
@@ -1316,10 +1324,10 @@ method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method init-xpath ( Str $element-name --> List ) {
-  my XML::XPath $xpath .= new(:file($*work-data<gir-record-file>));
+method init-xpath ( Str $element-name, Str $gir-filename --> List ) {
+  my XML::XPath $xpath .= new(:file($*work-data{$gir-filename}));
   my XML::Element $element = $xpath.find("//$element-name");
-  die "//$element-name elements not found in $*work-data<gir-record-file> for $*work-data<raku-class-name>" unless ?$element;
+  die "//$element-name elements not found in $*work-data{$gir-filename} for $*work-data<raku-class-name>" unless ?$element;
 
   ( $xpath, $element )
 }
