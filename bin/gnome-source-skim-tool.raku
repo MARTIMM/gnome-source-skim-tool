@@ -21,10 +21,11 @@ my Array $*external-modules;
 my @*map-search-list;
 
 my $*command-line = $*PROGRAM-NAME.IO.basename ~ ' ' ~ @*ARGS.join(' ');
+my @*gir-type-select;
 
 #-------------------------------------------------------------------------------
 sub MAIN (
-  Str:D $gnome-package, Str $gnome-class?,
+  Str:D $gnome-package, Str $gnome-class?, *@types,
   Bool :$v = False,
   Bool :$gir = False,
   Bool :$c = False, Bool :$r = False, Bool :$i = False, Bool :$u = False,
@@ -54,6 +55,8 @@ sub MAIN (
   $*generate-code = $m;
   $*generate-doc = $d;
   $*generate-test = $t;
+
+  @*gir-type-select = @types // ();
 
 #note "$?LINE $f, $*generate-code, $*generate-doc, $*generate-test, $gnome-class";
 
