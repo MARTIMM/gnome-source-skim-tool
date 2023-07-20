@@ -163,7 +163,7 @@ method generate-code ( ) {
       for $!filedata<constant>.kv -> $k, $v {
         # The name to search for later must be without package prefix
         my Str $name = $t-prep.drop-prefix( $k, :constant);
-#note "\n$?LINE E $k, $name, $pname, $v.gist()";
+#note "\n$?LINE E $k, $name, $v.gist()";
 
         @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
         $filename = $v<module-filename> unless ?$filename;
