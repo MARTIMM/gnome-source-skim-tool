@@ -131,8 +131,10 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
   # A list of keys to search for in the map depending in the package name
   @*map-search-list = ();
-  @*map-search-list = <Gtk Gdk Atk Gio> if $*gnome-package.Str ~~ m/^ Gtk /;
+  @*map-search-list = <Gtk Gdk Atk Gio Cairo PangoCairo Pango>
+    if $*gnome-package.Str ~~ m/^ Gtk /;
   @*map-search-list.push: 'Gsk' if $*gnome-package.Str eq 'Gtk4';
+  @*map-search-list.push: 'GdkPixbuf' if $*gnome-package.Str eq 'Gtk3';
 
   @*map-search-list = <Gdk GdkPixbuf> if $*gnome-package.Str eq 'Gdk3';
 
