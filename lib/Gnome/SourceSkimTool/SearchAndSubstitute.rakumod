@@ -392,17 +392,16 @@ method convert-ntype (
 
         when 'constant' {
           $raku-type = "$ctype";
-          self.add-import($h<class-name>);
         }
 
         when 'enumeration' {
           $raku-type = "GEnum:$ctype";
-          self.add-import($h<class-name>);
+#          self.add-import($h<class-name>);
         }
-        
+
         when 'bitfield' {
           $raku-type = "GFlag:$ctype";
-          self.add-import($h<class-name>);
+#          self.add-import($h<class-name>);
         }
 
 #        when 'alias' { $raku-type = $h<class-name>; }
