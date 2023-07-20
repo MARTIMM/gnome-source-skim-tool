@@ -970,8 +970,8 @@ method generate-constants ( @constants --> Str ) {
   return '' unless ?@constants;
 
   # Open constants file for xpath
-  my Str $file = $*work-data<gir-module-path> ~ 'repo-constant.gir';
-  my XML::XPath $xpath .= new(:$file);
+#  my Str $file = $*work-data<gir-module-path> ~ 'repo-constant.gir';
+#  my XML::XPath $xpath .= new(:$file);
 
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOENUM/;
@@ -994,18 +994,18 @@ method generate-constants ( @constants --> Str ) {
 
   # For each of the found names
   for @constants -> $constant {
-#note "$?LINE $constant.gist()";
+#note "$?LINE ", $constant.gist;
 #    my Str $name = $constant-name;
 #    my Str $package = $*gnome-package.Str;
 #    $package ~~ s/ \d+ $//;
 #    $name ~~ s/^ $package //;
 
     # Get the XML element of the constant data
-    my XML::Element $e = $xpath.find(
-      '//constant[@name="' ~ $constant[0] ~ '"]', :!to-list
-    );
+#    my XML::Element $e = $xpath.find(
+#      '//constant[@name="' ~ $constant[0] ~ '"]', :!to-list
+#    );
 
-    my Str $value = $e.attribs<value>;
+    my Str $value = $constant[2];
     $value = "'$value'" if $constant[1] ~~ / char /;
 
 #TE:0:$constant[0]
