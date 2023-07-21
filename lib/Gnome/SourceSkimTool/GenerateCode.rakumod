@@ -10,17 +10,11 @@ use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Prepare;
 
-use XML;
-use XML::XPath;
-use JSON::Fast;
-
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::GenerateCode:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Code $!mod;
 has Gnome::SourceSkimTool::Doc $!grd;
-
-has XML::XPath $!xpath;
 
 has Str $!filename;
 has Hash $!filedata;
@@ -59,9 +53,7 @@ method generate-code ( ) {
 
         require ::('Gnome::SourceSkimTool::Class');
         my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
-        $raku-module.generate-code if $*generate-code;
-        $raku-module.generate-test if $*generate-test;
-        $raku-module.generate-doc if $*generate-doc;
+        $raku-module.generate-code;
       }
     }
 
@@ -74,9 +66,7 @@ method generate-code ( ) {
 
         require ::('Gnome::SourceSkimTool::Interface');
         my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
-        $raku-module.generate-code if $*generate-code;
-        $raku-module.generate-test if $*generate-test;
-        $raku-module.generate-doc if $*generate-doc;  
+        $raku-module.generate-code;
       }
     }
 
@@ -93,9 +83,7 @@ method generate-code ( ) {
 
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
-        $raku-module.generate-code if $*generate-code;
-        $raku-module.generate-test if $*generate-test;
-        $raku-module.generate-doc if $*generate-doc;
+        $raku-module.generate-code;
       }
     }
 
@@ -112,9 +100,7 @@ method generate-code ( ) {
 
         require ::('Gnome::SourceSkimTool::Union');
         my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
-        $raku-module.generate-code if $*generate-code;
-        $raku-module.generate-test if $*generate-test;
-        $raku-module.generate-doc if $*generate-doc;
+        $raku-module.generate-code;
       }
     }
   }
@@ -195,6 +181,8 @@ method generate-code ( ) {
 
 #TL:1:$*work-data<raku-class-name>:
   if ?$c and ?$class-name and ?$filename {
+    mkdir $filename.IO.dirname, 0o750 unless $filename.IO.dirname.IO ~~ :e;
+
     my Str $code = qq:to/RAKUMOD/;
       # Command to generate: $*command-line
       use v6;
@@ -247,6 +235,7 @@ method generate-code ( ) {
     $filename.IO.spurt($code);
   }
 }
+
 #-------------------------------------------------------------------------------
 # Fill the Hash $!filedata with data from a repo-object-map.yaml where the
 # 'source-filename' field of every object must match $filename. The data is
