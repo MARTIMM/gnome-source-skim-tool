@@ -38,6 +38,9 @@ kaal '/usr/bin/time raku Window.rakutest'
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
+* 2023-07-21 0.9.1
+  * Options -f, -c, -r, -i, -u are removed to have the default effect of -f. Option -m is renamed to -c
+
 * 2023-06-28 0.9.0
   * Add module **Gnome::SourceSkimTool::Union** to process union structures.
   * Tests with a few generated modules looks promising. The new modules used in the test are: Window, Bin, Comtainer, Widget and Buildable. The modules upon which it still depends are from the older Gtk libraries. Running the same test file `Window.rakutest` (only once) it shows the following;
