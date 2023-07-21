@@ -102,9 +102,16 @@ sub MAIN (
     my Str $filename = $gnome-class.lc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
     if $*generate-code {
-      require ::('Gnome::SourceSkimTool::FileCode');
-      my $raku-module = ::('Gnome::SourceSkimTool::FileCode').new(:$filename);
+      require ::('Gnome::SourceSkimTool::GenerateCode');
+      my $raku-module =
+         ::('Gnome::SourceSkimTool::GenerateCode').new(:$filename);
       $raku-module.generate-code;
+    }
+
+    if $*generate-doc {
+    }
+
+    if $*generate-test {
     }
 #    $raku-module.generate-test if $*generate-test;
 #    $raku-module.generate-doc if $*generate-doc;

@@ -6,7 +6,6 @@
 =end pod
 
 use Gnome::SourceSkimTool::ConstEnumType;
-#use Gnome::SourceSkimTool::SearchAndSubstitute;
 use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Prepare;
@@ -16,9 +15,8 @@ use XML::XPath;
 use JSON::Fast;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::FileCode:auth<github:MARTIMM>;
+unit class Gnome::SourceSkimTool::GenerateCode:auth<github:MARTIMM>;
 
-#has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Code $!mod;
 has Gnome::SourceSkimTool::Doc $!grd;
 
@@ -57,7 +55,7 @@ method generate-code ( ) {
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        say "\nGenerate Raku class ", $*work-data<raku-class-name>;# if $*verbose;
+        say "\nGenerate Raku class ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Class');
         my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
@@ -72,7 +70,7 @@ method generate-code ( ) {
         $*gnome-class = $!filedata<interface>{$interface-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        say "\nGenerate Raku role ", $*work-data<raku-class-name>; # if $*verbose;
+        say "\nGenerate Raku role ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Interface');
         my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
@@ -91,8 +89,7 @@ method generate-code ( ) {
           |$!mod.init-xpath( 'record', 'gir-record-file')
         );
 
-        say "\nGenerate Raku record from ",
-            $*work-data<raku-class-name>;# if $*verbose;
+        say "\nGenerate Raku record from ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
@@ -111,8 +108,7 @@ method generate-code ( ) {
           |$!mod.init-xpath( 'union', 'gir-union-file')
         );
 
-        say "\nGenerate Raku union from ",
-            $*work-data<raku-class-name>;# if $*verbose;
+        say "\nGenerate Raku union from ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Union');
         my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
@@ -135,36 +131,13 @@ method generate-code ( ) {
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
-#`{{
-  # If there is one union, generate a single raku module. The union
-  # may have constructors and methods too
-  elsif $!filedata<union>:exists and $!filedata<union>.keys.elems == 1 {
-    my Str $name = $!filedata<union>.keys[0];
-    my Str $name-prefix = $*work-data<name-prefix>;
-    $name ~~ s:i/^ $name-prefix //;
-    $*gnome-class = $name;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-    say "Generate Raku role from ", $*work-data<raku-class-name> if $*verbose;
-
-    require ::('Gnome::SourceSkimTool::Union');
-    my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
-    $raku-module.generate-code if $*generate-code;
-    $raku-module.generate-test if $*generate-test;
-    $raku-module.generate-doc if $*generate-doc;
-  }
-}}
-
     # Only for documentation
     when 'docsection' { }
 
     when 'constant' {
       my @constants = ();
       for $!filedata<constant>.kv -> $k, $v {
-        # The name to search for later must be without package prefix
         my Str $name = $t-prep.drop-prefix( $k, :constant);
-#note "\n$?LINE E $k, $name, $v.gist()";
-
         @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
         $filename = $v<module-filename> unless ?$filename;
         $class-name = $v<class-name> unless ?$class-name;
@@ -176,7 +149,6 @@ method generate-code ( ) {
     when 'enumeration' {
       my Array $enum-names = [];
       for $!filedata<enumeration>.kv -> $k, $v {
-#note "\n$?LINE E $k, $v.gist()";
         $enum-names.push: $k;
         $filename = $v<module-filename> unless ?$filename;
         $class-name = $v<class-name> unless ?$class-name;
@@ -188,7 +160,6 @@ method generate-code ( ) {
     when 'bitfield' {
       my Array $bitfield-names = [];
       for $!filedata<bitfield>.kv -> $k, $v {
-#note "\n$?LINE B $k, $v.gist()";
         $bitfield-names.push: $k;
         $filename = $v<module-filename> unless ?$filename;
         $class-name = $v<class-name> unless ?$class-name;
@@ -205,8 +176,6 @@ method generate-code ( ) {
       $has-functions = True;
       my Array $function-names = [];
       for $!filedata<function>.kv -> $k, $v {
-#note "\n$?LINE B $k, $v.gist()";
-#        $function-names.push: S:g/ '-' /_/ with $v<function-name>;
         $function-names.push: $v<function-name>;
         $filename = $v<module-filename> unless ?$filename;
         $class-name = $v<class-name> unless ?$class-name;
@@ -223,74 +192,6 @@ method generate-code ( ) {
       
     }
   }
-
-#`{{
-  else {
-    # No class or interface. This module becomes the mixture of all other types.
-    my Bool $need-routine-caller = False;
-
-    $*gnome-class = $!filename.tc;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-    my Str $code = qq:to/RAKUMOD/;
-      #TL:1:$*work-data<raku-class-name>:
-      use v6;
-      RAKUMOD
-
-    $code ~= $!mod.set-unit-for-file;
-
-    if $!filedata<docsection>:exists {
-    }
-
-    if $!filedata<constant>:exists {
-    }
-
-    if $!filedata<enumeration>:exists {
-      my Array $enum-names = [];
-      $enum-names = [$!filedata<enumeration>.keys];
-      $code ~= $!mod.generate-enumerations-code($enum-names);
-    }
-
-    if $!filedata<bitfield>:exists {
-      my Array $bitfield-names = [];
-      $bitfield-names = [$!filedata<bitfield>.keys];
-      $code ~= $!mod.generate-bitfield-code($bitfield-names);
-    }
-
-#`{{
-    # There are more than one records, gather them all in this module
-    if $!filedata<record>:exists {
-      for $!filedata<record>.keys -> $record-name {
-        $*gnome-class = $record-name;
-        my Str $gnome-package = $*gnome-package.Str;
-        $gnome-package ~~ s/ \d+ $//;
-        $*gnome-class ~~ s/^ $gnome-package //;
-
-        my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-        say "Generate Raku record from $*gnome-class" if $*verbose;
-
-        require ::('Gnome::SourceSkimTool::Record');
-        my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
-        $raku-module.generate-code if $*generate-code;
-        $raku-module.generate-test if $*generate-test;
-        $raku-module.generate-doc if $*generate-doc;
-      }
-    }
-
-    # There are more than one unions, gather them all in this module
-    if $!filedata<union>:exists {
-    }
-}}
-
-    if $!filedata<callback>:exists {
-    }
-
-    if $!filedata<function>:exists {
-      $need-routine-caller = True;
-    }
-}}
-
 
 #TL:1:$*work-data<raku-class-name>:
   if ?$c and ?$class-name and ?$filename {
@@ -340,11 +241,9 @@ method generate-code ( ) {
         RAKUMOD
     }
 
-
     $code = $!mod.substitute-MODULE-IMPORTS($code);
 
     note "Save types module in ", $filename.IO.basename;
-#    "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
     $filename.IO.spurt($code);
   }
 }
