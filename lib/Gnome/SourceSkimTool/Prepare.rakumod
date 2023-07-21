@@ -56,7 +56,7 @@ submethod BUILD ( Bool :$load-maps = True ) {
 #    $*work-data<raku-module-test-file> = RAKUMODS ~ "$*gnome-class.rakutest";
   }
 
-  self.display-hash( $*work-data, :label<work-data>);
+  self.display-hash( $*work-data, :label<work-data>) if $*verbose;
 
   $*other-work-data = %();
   $*object-maps = %();
@@ -80,7 +80,8 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
     # Load map of pixbuf here because it is not in Gtk4
     $*object-maps<GdkPixbuf> =
-      $s.load-map($*other-work-data<GdkPixbuf><gir-module-path>) if $load-maps;
+      $s.load-map($*other-work-data<GdkPixbuf><gir-module-path>)
+      if $load-maps and !$*object-maps<GdkPixbuf>;
   }
 
   # Version 4
@@ -91,7 +92,7 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
     # Load map of gsk here because it is not in Gtk3
     $*object-maps<Gsk> = $s.load-map($*other-work-data<Gsk><gir-module-path>)
-      if $load-maps;
+      if $load-maps and !$*object-maps<Gsk>;
   }
 
   # If it is a high end module, we add these too. They depend on Gtk.
@@ -101,16 +102,18 @@ submethod BUILD ( Bool :$load-maps = True ) {
     $*other-work-data<Cairo> = self.prepare-work-data(Cairo);
     
     $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>)
-      if $load-maps;
+      if $load-maps and !$*object-maps<Gtk>;
     $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>)
-      if $load-maps;
+      if $load-maps and !$*object-maps<Gdk>;
 
     $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>)
-      if $load-maps;
+      if $load-maps and !$*object-maps<Atk>;
     $*object-maps<Pango> =
-      $s.load-map($*other-work-data<Pango><gir-module-path>) if $load-maps;
+      $s.load-map($*other-work-data<Pango><gir-module-path>)
+      if $load-maps and !$*object-maps<Pango>;
     $*object-maps<Cairo> =
-      $s.load-map($*other-work-data<Cairo><gir-module-path>) if $load-maps;
+      $s.load-map($*other-work-data<Cairo><gir-module-path>)
+      if $load-maps and !$*object-maps<Cairo>;
   }
 
   # If it is not a high end module, we only need these
@@ -119,11 +122,12 @@ submethod BUILD ( Bool :$load-maps = True ) {
   $*other-work-data<GObject> = self.prepare-work-data(GObject);
 
   $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>)
-    if $load-maps;
+    if $load-maps and !$*object-maps<Glib>;
   $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>)
-    if $load-maps;
+    if $load-maps and !$*object-maps<Gio>;
   $*object-maps<GObject> =
-    $s.load-map($*other-work-data<GObject><gir-module-path>) if $load-maps;
+    $s.load-map($*other-work-data<GObject><gir-module-path>)
+    if $load-maps and !$*object-maps<GObject>;
 }
 
 #-------------------------------------------------------------------------------
@@ -373,8 +377,7 @@ method drop-prefix (
 }
 
 #-------------------------------------------------------------------------------
-method display-hash ( $info, Str :$label ) {
-  return unless $*verbose;
+multi method display-hash ( $info, Str :$label ) {
 
   $!indent-level = 0;
   say '';
@@ -393,8 +396,13 @@ method display-hash ( $info, Str :$label ) {
 }
 
 #-------------------------------------------------------------------------------
+multi method display-hash ( $info, List :label($label-list) ) {
+  my Str $label = $label-list.join(' ');
+  self.display-hash( $info, :$label);
+}
+
+#-------------------------------------------------------------------------------
 method !dhash ( Hash $info ) {
-  return unless $*verbose;
 
   for $info.keys.sort -> $k {
 #    say '' if $!indent-level == 0;
