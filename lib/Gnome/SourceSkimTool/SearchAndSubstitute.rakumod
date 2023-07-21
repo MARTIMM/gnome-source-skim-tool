@@ -424,6 +424,7 @@ method convert-ntype (
 }
 
 #-------------------------------------------------------------------------------
+#NOTE not from Prepare: circular deps!
 method add-import ( Str $import ) {
   # Add only when $import is not in the array or when $import is not this class
   unless $*external-modules.first($import)
