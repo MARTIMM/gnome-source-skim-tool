@@ -13,10 +13,7 @@ unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
 has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Doc $!grd;
 
-#has XML::XPath $!xpath;
-
 #-------------------------------------------------------------------------------
-#submethod BUILD ( XML::XPath :$!xpath ) {
 submethod BUILD ( ) {
 
   $!grd .= new;
