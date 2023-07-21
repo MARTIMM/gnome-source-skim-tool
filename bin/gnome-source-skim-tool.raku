@@ -35,7 +35,7 @@ sub MAIN (
   Bool :$gir = False,
 #  Bool :$c = False, Bool :$r = False, Bool :$i = False, Bool :$u = False,
 #  Bool :$f = False,
-  Bool :$m = False, Bool :$t = False, Bool :$d = False,
+  Bool :$c = False, Bool :$d = False, Bool :$t = False,
   Bool :$help = False,
 #  Bool :$list = False, Str :$type = '', Str :$filter
 ) {
@@ -57,7 +57,7 @@ sub MAIN (
 
   $*verbose = $v;
 
-  $*generate-code = $m;
+  $*generate-code = $c;
   $*generate-doc = $d;
   $*generate-test = $t;
 
@@ -191,26 +191,30 @@ sub USAGE ( ) {
   Usage
     {$*PROGRAM.basename} -h
 
-    {$*PROGRAM.basename} [-m][-t][-d][-v] package filename [gir-types]
+    {$*PROGRAM.basename} [-c][-d][-t][-v] package filename [gir-types]
 
     {$*PROGRAM.basename} -gir [-v] package
 
     Options:
-      d       Generate a Raku pod documentation file for a class (-c),
-              interface (-i) or record (-r). Result is put in directory
-              '{RAKUMODS}', e.g. 'AboutDialog.rakudoc' or 'Window.rakudoc'
-              defined in Gtk3 or Gtk4.
+      c       Generate a Raku code file for all gir-types found in the
+              file. Result is put in directory '{RAKUMODS}'. Using the file
+              'types' in package 'Gdk3' generates files 'N-GdkPoint.rakumod',
+              'N-GdkRectangle.rakumod', 'Rectangle.rakumod' and
+              'T-Types.rakumod'.
+      d       Generate a Raku pod documentation file for  all gir-types found
+              in the file. Result is put in directory '{RAKUMODS}'. The file
+              'value' with package 'GObject' generates 'N-GValue.rakudoc' and
+              'Value.rakudoc' to document the modules 'T-Value.rakumod' and
+              'Value.rakumod' respectively.
       help    Show this info. (or any other non existant option ;-)
-      m       Generate a Raku code file for a class (-c), interface (-i) or
-              record (-r). Result is put in directory '{RAKUMODS}', e.g.
-              'File.rakumod' or 'Application.rakumod' defined in Gio.
-      t       Generate a test file for a class (-c), interface (-i) or
-              record (-r). E.g. 'List.rakutest' or 'Variant.rakutest' 
-              defined in Glib.
+      t       Generate a test file for all gir-types found in the
+              file. The file 'aboutdialog' in 'Gtk3' generates files
+              'AboutDialog.rakutest' and 'T-AboutDialog.rakutest' to test for
+              the modules 'AboutDialog.rakumod' and 'T-Aboutdialog.rakumod'.
       gir     Generate the intermediate gir and yaml files. The files will be
               kept, so they need to be generated only once or when sources are
               updated.
-      v       Show some info while stumping. Default False.
+      v       Show some extra info while stumping. Default False.
 
     Arguments
       package   The Gnome package name used for the class. Select one
@@ -226,7 +230,11 @@ sub USAGE ( ) {
                 single file 'lib/Gnome/Gtk3/AboutDialog.rakumod'.
                 Other names may result in more files.
                 separately.
-      gir-types Types to process.
+      gir-types Types to process. The main types are 'class', 'interface',
+                'record', 'union', 'enumeration', 'bitfield' and 'constant'.
+                There are a few more but not yet processed. Name those you want
+                to process. This is only needed for testing because in some
+                cases you may miss out info in certain cases.
   EOHELP
 }
 
