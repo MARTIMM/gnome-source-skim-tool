@@ -38,7 +38,11 @@ kaal '/usr/bin/time raku Window.rakutest'
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
-* 2023-07-21 0.9.1
+* 2023-07-21 0.10.0
+  * New modules and old one renamed.
+  * Test enumerations completed
+
+* 2023-07-20 0.9.1
   * Options -f, -c, -r, -i, -u are removed to have the default effect of -f. Option -m is renamed to -c
 
 * 2023-06-28 0.9.0
