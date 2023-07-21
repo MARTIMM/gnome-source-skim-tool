@@ -112,6 +112,10 @@ sub MAIN (
     }
 
     if $*generate-test {
+      require ::('Gnome::SourceSkimTool::GenerateTest');
+      my $raku-module =
+         ::('Gnome::SourceSkimTool::GenerateTest').new(:$filename);
+      $raku-module.generate-test;
     }
 #    $raku-module.generate-test if $*generate-test;
 #    $raku-module.generate-doc if $*generate-doc;
