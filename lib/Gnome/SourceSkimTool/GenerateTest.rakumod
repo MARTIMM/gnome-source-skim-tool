@@ -8,6 +8,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Test;
 use Gnome::SourceSkimTool::Prepare;
+use Gnome::SourceSkimTool::Code;
 
 #use XML;
 #use XML::XPath;
@@ -17,6 +18,7 @@ use Gnome::SourceSkimTool::Prepare;
 unit class Gnome::SourceSkimTool::GenerateTest:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Test $!tst;
+has Gnome::SourceSkimTool::Code $!mod;
 
 #has XML::XPath $!xpath;
 
@@ -25,7 +27,7 @@ has Hash $!filedata;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( Str :$!filename ) {
-#  $!mod .= new;
+  $!mod .= new;
   $!tst .= new;
 
   self!get-data-from-filename;
@@ -140,6 +142,8 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         }
       }
 
+      say "\nGenerate Tests for constants ", $k;
+
       $c ~= $!tst.generate-constant-tests(@constants);
     }
 
@@ -150,17 +154,11 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         $filename = $v<module-filename> unless ?$filename;
         unless ?$class-name {
           $class-name = $v<class-name>;
-#          $*gnome-class = $class-name;
-#          $t-prep .= new;
-#$t-prep.display-hash( $*work-data, :label<types work data>);
- 
-#          $!tst.add-import($*work-data<raku-class-name>);
           $!tst.add-import($class-name);
         }
-
-        say "\nGenerate Tests for enumeration ", $k;
       }
 
+      say "\nGenerate Tests for enumerations";
       $c ~= $!tst.generate-enumeration-tests($enum-names);
     }
 
@@ -173,13 +171,34 @@ $prepare.display-hash( $*work-data, :label<union work data>);
           $class-name = $v<class-name>;
           $!tst.add-import($class-name);
         }
-
-        say "\nGenerate Tests for enumeration ", $k;
       }
 
+      say "\nGenerate Tests for bitfields";
       $c ~= $!tst.generate-bitfield-tests($bitfield-names);
     }
-  }
+ 
+    when 'function' {
+      $has-functions = True;
+      my Array $function-names = [];
+      for $!filedata<function>.kv -> $k, $v {
+#        my Str $name = $t-prep.drop-prefix( $k, :function);
+        $function-names.push: $v<function-name>;
+        $filename = $v<module-filename> unless ?$filename;
+        unless ?$class-name {
+          $class-name = $v<class-name>;
+          $!tst.add-import($class-name);
+        }
+      }
+
+      say "\nGenerate Tests for functions";
+ 
+      my Str $package-name = S/ \d+ $// with $*gnome-package.Str;
+      $*work-data<sub-prefix> = $package-name.lc ~ '_';
+
+      my Hash $hms = $!mod.get-standalone-functions($function-names);
+      $function-hash = $!mod.generate-function-tests($hms);
+    }
+ }
 
   if ?$c and ?$class-name and ?$filename {
     $filename ~~ s@ '/lib/' @/t/@;
@@ -240,7 +259,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
 
     $code = $!tst.substitute-MODULE-IMPORTS($code);
 
-    note "Save types module in ", $filename.IO.basename;
+    note "Save types tests in ", $filename.IO.basename;
     $filename.IO.spurt($code);
 
 #note "\n$?LINE\n$code";
