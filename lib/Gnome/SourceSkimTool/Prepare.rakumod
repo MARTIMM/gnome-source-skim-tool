@@ -309,6 +309,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-path(RAKUMODS ~ 'lib/Gnome/Pango/'),
       );
     }
+
 #`{{
     when PangoCairo {
       $work-data = %(
