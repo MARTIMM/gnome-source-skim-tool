@@ -140,6 +140,71 @@ method generate-enumerations-test ( Array:D $enum-names --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+method generate-bitfield-test ( Array:D $bitfield-names --> Str ) {
+
+  # Return empty string if no bitfields found.
+  return '' unless ?$bitfield-names;
+#note "$?LINE e names: $bitfield-names.gist()";
+
+  # Open bitfields file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-bitfield.gir';
+  my XML::XPath $xpath .= new(:$file);
+
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $code = qq:to/EOBFIELD/;
+    {HLSEPARATOR}
+    {SEPARATOR('Bitfields');}
+    EOBFIELD
+
+  # For each of the found names
+  for $bitfield-names.sort -> $bitfield-name {
+    my Str $name = $bitfield-name;
+#    my Str $package = $*gnome-package.Str;
+#    $package ~~ s/ \d+ $//;
+#    $name ~~ s/^ $package //;
+note "$?LINE $bitfield-name, $name";
+    # Get the XML element of the bitfield data
+    my XML::Element $e = $xpath.find(
+      '//bitfield[@name="' ~ $name ~ '"]', :!to-list
+    );
+
+
+    $code ~= qq:to/EOBFIELD/;
+      {HLSEPARATOR}
+      #TE:1:$bitfield-name
+      subtest '$bitfield-name', \{
+      EOBFIELD
+
+#   $code ~= "enum $bitfield-name is export \(\n  ";
+
+#    my Str $member-name-list = '';
+    my @members = $xpath.find( 'member', :start($e), :to-list);
+#    my @l = ();
+    for @members -> $m {
+#note "$?LINE $m.attribs()<c:identifier>, $m.attribs()<value>";
+#      @l.push: [~] ':', $m.attribs<c:identifier>, '(', $m.attribs<value>, ')';
+      my Str $bitfield-item = $m.attribs<c:identifier>;
+      my Str $bitfield-value = $m.attribs<value>;
+      $code ~= qq:to/EOBFIELD/;
+          #TE:1:$bitfield-item
+          is $bitfield-item.value, $bitfield-value, 'bitfield $bitfield-item = $bitfield-value';
+
+        EOBFIELD
+    }
+
+#      # Only test a few entries
+#      last if $member-count > 3;
+
+#    $code ~= @l.join(', ') ~ "\n\);\n\n";
+
+    $code ~= "};\n\n";
+  }
+#note "$?LINE $code";
+#exit;
+  $code
+}
+
+#-------------------------------------------------------------------------------
 # Fill in the __MODULE__IMPORTS__ string inserted at the start of the code
 # generation. It is the place where the 'use' statements must come.
 method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {

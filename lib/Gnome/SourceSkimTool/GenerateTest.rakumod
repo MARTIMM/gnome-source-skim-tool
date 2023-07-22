@@ -141,12 +141,28 @@ $prepare.display-hash( $*work-data, :label<union work data>);
  
 #          $!tst.add-import($*work-data<raku-class-name>);
           $!tst.add-import($class-name);
-       }
+        }
 
         say "\nGenerate Tests for enumeration ", $k;
       }
 
       $c ~= $!tst.generate-enumerations-test($enum-names);
+    }
+
+    when 'bitfield' {
+      my Array $bitfield-names = [];
+      for $!filedata<bitfield>.kv -> $k, $v {
+        $bitfield-names.push: $t-prep.drop-prefix($k);
+        $filename = $v<module-filename> unless ?$filename;
+        unless ?$class-name {
+          $class-name = $v<class-name>;
+          $!tst.add-import($class-name);
+        }
+
+        say "\nGenerate Tests for enumeration ", $k;
+      }
+
+      $c ~= $!tst.generate-bitfield-test($bitfield-names);
     }
   }
 
