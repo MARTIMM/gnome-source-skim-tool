@@ -1304,14 +1304,14 @@ method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
   for @$*external-modules.sort -> $m {
     unless $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
       # For the moment only Gtk gets changed for :api<2>
-      if $m ~~ m/ '::' [ Gtk || Gdk ] / {
+#      if $m ~~ m/ '::' [ Gtk || Gdk ] / {
         $import ~= "use $m\:api\<2\>;\n";
-      }
+#      }
 
-      else {
-        # Other modules may need name changes
-        $import ~= "use $m;\n";
-      }
+#      else {
+#        # Other modules may need name changes
+#        $import ~= "use $m;\n";
+#      }
     }
   }
 
