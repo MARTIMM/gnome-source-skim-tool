@@ -128,6 +128,21 @@ $prepare.display-hash( $*work-data, :label<union work data>);
     # Only for documentation
     when 'docsection' { }
 
+    when 'constant' {
+      my @constants = ();
+      for $!filedata<constant>.kv -> $k, $v {
+        my Str $name = $t-prep.drop-prefix( $k, :constant);
+        @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
+        $filename = $v<module-filename> unless ?$filename;
+        unless ?$class-name {
+          $class-name = $v<class-name>;
+          $!tst.add-import($class-name);
+        }
+      }
+
+      $c ~= $!tst.generate-constant-tests(@constants);
+    }
+
     when 'enumeration' {
       my Array $enum-names = [];
       for $!filedata<enumeration>.kv -> $k, $v {
@@ -146,7 +161,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         say "\nGenerate Tests for enumeration ", $k;
       }
 
-      $c ~= $!tst.generate-enumerations-test($enum-names);
+      $c ~= $!tst.generate-enumeration-tests($enum-names);
     }
 
     when 'bitfield' {
@@ -162,7 +177,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         say "\nGenerate Tests for enumeration ", $k;
       }
 
-      $c ~= $!tst.generate-bitfield-test($bitfield-names);
+      $c ~= $!tst.generate-bitfield-tests($bitfield-names);
     }
   }
 

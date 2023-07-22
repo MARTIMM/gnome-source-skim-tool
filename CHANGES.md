@@ -40,7 +40,7 @@ kaal '/usr/bin/time raku Window.rakutest'
 -->
 * 2023-07-21 0.10.0
   * New modules and old one renamed.
-  * Test enumerations and bitfields completed.
+  * Test enumerations, constants and bitfields completed.
 
 * 2023-07-20 0.9.1
   * Options -f, -c, -r, -i, -u are removed to have the default effect of -f. Option -m is renamed to -c

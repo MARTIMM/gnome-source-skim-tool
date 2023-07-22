@@ -74,9 +74,6 @@ method set-unit-for-file ( Str $class-name --> Str ) {
     #TL:1:$class-name:
     {$!grd.pod-header('Module Imports');}
     __MODULE__IMPORTS__
-
-    {$!grd.pod-header('Type Tests');}
-
     RAKUMOD
 
   self.add-import('Test');
@@ -85,7 +82,7 @@ method set-unit-for-file ( Str $class-name --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-enumerations-test ( Array:D $enum-names --> Str ) {
+method generate-enumeration-tests ( Array:D $enum-names --> Str ) {
 
   # Return empty string if no enums found.
   return '' unless ?$enum-names;
@@ -140,7 +137,7 @@ method generate-enumerations-test ( Array:D $enum-names --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-bitfield-test ( Array:D $bitfield-names --> Str ) {
+method generate-bitfield-tests ( Array:D $bitfield-names --> Str ) {
 
   # Return empty string if no bitfields found.
   return '' unless ?$bitfield-names;
@@ -167,7 +164,6 @@ note "$?LINE $bitfield-name, $name";
     my XML::Element $e = $xpath.find(
       '//bitfield[@name="' ~ $name ~ '"]', :!to-list
     );
-
 
     $code ~= qq:to/EOBFIELD/;
       {HLSEPARATOR}
@@ -202,6 +198,70 @@ note "$?LINE $bitfield-name, $name";
 #note "$?LINE $code";
 #exit;
   $code
+}
+
+#-------------------------------------------------------------------------------
+method generate-constant-tests ( @constants --> Str ) {
+  
+  # Return empty string if no enums found.
+  return '' unless ?@constants;
+
+  # Open constants file for xpath
+#  my Str $file = $*work-data<gir-module-path> ~ 'repo-constant.gir';
+#  my XML::XPath $xpath .= new(:$file);
+
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $code = qq:to/EOCONST/;
+    {$!grd.pod-header('Constants');}
+    subtest 'constants', \{
+    EOCONST
+
+  # For each of the found names
+  for @constants -> $constant {
+#note "$?LINE ", $constant.gist;
+#    my Str $name = $constant-name;
+#    my Str $package = $*gnome-package.Str;
+#    $package ~~ s/ \d+ $//;
+#    $name ~~ s/^ $package //;
+
+    # Get the XML element of the constant data
+#    my XML::Element $e = $xpath.find(
+#      '//constant[@name="' ~ $constant[0] ~ '"]', :!to-list
+#    );
+
+    my Str $value = $constant[2];
+    $value = "'$value'" if $constant[1] ~~ / char /;
+
+#TE:0:$constant[0]
+#      {HLSEPARATOR}
+
+#    $code ~= "constant $constant[0] is export = $value;\n";
+
+    $code ~= qq:to/EOCONST/;
+      #TE:1:$constant[0]
+      is $constant[0], $value, "constant $constant[0] = $value";
+
+      EOCONST
+
+#    my Str $edoc =
+#      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+#    my Str $s = self.modify-text($edoc);
+#    $doc = self.cleanup($s);
+
+#    my Str $member-name-list = '';
+#    my @members = $xpath.find( 'member', :start($e), :to-list);
+#    my @l = ();
+#    for @members -> $m {
+#      @l.push: [~] ':', $m.attribs<c:identifier>, '(', $m.attribs<value>, ')';
+#    }
+
+#    $code ~= @l.join(', ') ~ "\n\);\n";
+
+  }
+#note "$?LINE $code";
+#exit;
+  $code ~= "};\n\n";
+  #$code ~ "\n"
 }
 
 #-------------------------------------------------------------------------------
