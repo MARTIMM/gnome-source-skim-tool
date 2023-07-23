@@ -19,7 +19,14 @@ constant HLSEPARATOR is export = '#' ~ '-' x 79;
 constant HLPODSEPARATOR is export = '=comment ' ~ '-' x 71;
 
 sub SEPARATOR( Str $text, Int $indent = 0 --> Str ) is export {
-  [~] (' ' x $indent), '#--[', $text, ']', '-' x (79 - $text.chars -4 - $indent)
+  if ?$text {
+    [~] (' ' x $indent), '#--[', $text, ']',
+         '-' x (79 - $text.chars - 4 - $indent);
+  }
+
+  else {
+    [~] (' ' x $indent), '#', '-' x (79 - $indent);
+  }
 }
 
 #-------------------------------------------------------------------------------

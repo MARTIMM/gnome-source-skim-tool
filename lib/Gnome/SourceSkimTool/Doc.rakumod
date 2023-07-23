@@ -34,9 +34,9 @@ method pod-header (
 
   else {
     qq:to/RAKUMOD/;
-      {HLSEPARATOR}
+      {SEPARATOR( '', $indent);}
       {SEPARATOR( $text, $indent);}
-      {HLSEPARATOR}
+      {SEPARATOR( '', $indent);}
       RAKUMOD
   }
 }
