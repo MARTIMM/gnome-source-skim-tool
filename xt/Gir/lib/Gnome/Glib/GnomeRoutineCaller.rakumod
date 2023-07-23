@@ -43,6 +43,7 @@ method call-native-sub (
   $!pointers-in-args = False;
 
   my Hash $routine := $methods{$name};
+  my Bool $variable-list = $routine<variable-list>;
 
   my @parameters = $routine<parameters>:exists
                 ?? @($routine<parameters>)
