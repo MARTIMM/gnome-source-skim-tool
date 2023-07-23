@@ -706,10 +706,12 @@ method generate-functions ( Hash $hcs --> Str ) {
       $returns = '';
     }
 
+    my Str $variable-list = $curr-function<variable-list>
+                             ?? ':variable-list' !! ':!variable-list';
 #note "$?LINE $hash-fname, {$returns//'-'}, {$par-list//'-'}";
 #TM:0:$hash-fname
     $code ~= [~] '  ', $hash-fname, ' => %( :type(Function),',
-                 $returns, $par-list, "),\n";
+                 "$variable-list, ", $returns, $par-list, "),\n";
   }
 
   $code
@@ -1355,7 +1357,7 @@ method !get-method-data (
   }
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+  #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
   my Str ( $rv-type, $return-raku-ntype, $return-raku-rtype) =
       self!get-type($rvalue);
 
@@ -1367,14 +1369,23 @@ method !get-method-data (
     :start($e), :to-list
   );
 
+  my Bool $variable-list = False;
   for @prmtrs -> $p {
+
     my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($p);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
     $parameter-name ~~ s:g/ '_' /-/;
 
+    # When '...', there will be no type for that parameter. It means that
+    # a variable argument list is used ending in a Nil.
+    if $parameter-name eq '...' {
+      $type = $raku-ntype = $raku-rtype = '…';
+      $variable-list = True;
+    }
+
     my Hash $ph = %(
-      :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
+      :name($parameter-name), #:transfer-ownership($attribs<transfer-ownership>),
       :$type, :$raku-ntype, :$raku-rtype
     );
 
@@ -1394,9 +1405,9 @@ method !get-method-data (
   }
 
   ( $function-name, %(
-      :$option-name, :@parameters,
+      :$option-name, :@parameters, :$variable-list,
       :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
-      :$rv-transfer-ownership,
+#      :$rv-transfer-ownership,
     )
   );
 }

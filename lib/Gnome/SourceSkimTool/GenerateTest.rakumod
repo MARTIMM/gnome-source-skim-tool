@@ -121,7 +121,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
     NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
   >];
 
-  my Gnome::SourceSkimTool::Prepare $t-prep;# .= new;
+  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
   for $!filedata.keys {
      # -> $type-name
 
@@ -142,7 +142,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         }
       }
 
-      say "\nGenerate Tests for constants ", $k;
+      say "\nGenerate Tests for constants";
 
       $c ~= $!tst.generate-constant-tests(@constants);
     }
@@ -196,9 +196,9 @@ $prepare.display-hash( $*work-data, :label<union work data>);
       $*work-data<sub-prefix> = $package-name.lc ~ '_';
 
       my Hash $hms = $!mod.get-standalone-functions($function-names);
-      $function-hash = $!mod.generate-function-tests($hms);
+      $c ~= $!tst.generate-function-tests( $class-name, $hms);
     }
- }
+  }
 
   if ?$c and ?$class-name and ?$filename {
     $filename ~~ s@ '/lib/' @/t/@;

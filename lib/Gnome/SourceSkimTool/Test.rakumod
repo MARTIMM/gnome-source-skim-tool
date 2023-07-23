@@ -82,7 +82,7 @@ method set-unit-for-file ( Str $class-name --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-function-tests ( Hash $hcs --> Str ) {
+method generate-function-tests ( Str $class-name, Hash $hcs --> Str ) {
 
   return '' unless ?$hcs;
 
@@ -90,8 +90,11 @@ method generate-function-tests ( Hash $hcs --> Str ) {
 
   # Get all functions from the Hash
   my Str $code = qq:to/EOSUB/;
+    {HLSEPARATOR}
+    {SEPARATOR( 'Standalone Functions', 2);}
+    subtest 'functions', \{
+      my $class-name \$cname .= new;
 
-    {SEPARATOR( 'Functions', 2);}
     EOSUB
 
   for $hcs.keys.sort -> $function-name {
@@ -100,12 +103,7 @@ method generate-function-tests ( Hash $hcs --> Str ) {
      # Get method name, drop the prefix and substitute '_'
     my Str $hash-fname = $function-name;
     $hash-fname ~~ s/^ $symbol-prefix //;
-#    # keep this version for later
-#    my Str $hash-fname = $method-name;
-#    $method-name ~~ s:g/ '_' /-/;
-
-#    my Str $function-doc = $curr-function<function-doc>;
-#    $function-doc = "No documentation of function." unless ?$function-doc;
+    $hash-fname ~~ s:g/ '_' /-/;
 
     # Get parameter lists
     my Str (
@@ -114,6 +112,7 @@ method generate-function-tests ( Hash $hcs --> Str ) {
     my @rv-list = ();
 
     for @($curr-function<parameters>) -> $parameter {
+
 #      self!get-types(
 #        $parameter, #$raku-list, 
 #        $call-list, #$items-doc,
@@ -131,58 +130,6 @@ method generate-function-tests ( Hash $hcs --> Str ) {
               ?? [~] ' :parameters([', $par-list, ']),'
               !! '';
 
-#`{{
-    my $xtype = $curr-function<return-raku-rtype>;
-    if ?$xtype and $xtype ne 'void' {
-      $raku-list ~= "  --> $xtype";
-      $own = '';
-      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
-        if ?$curr-function<transfer-ownership> and
-            $curr-function<transfer-ownership> ne 'none';
-}}
-#`{{
-      # Check if there is info about the return value
-      if ?$curr-function<rv-doc> {
-        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
-      }
-
-      elsif $raku-list ~~ / '-->' / {
-        $returns-doc =
-          "\nReturn value; No documentation about its value and use\n";
-      }
-    }
-}}
-#`{{
-    # Assumed that there are no multiple methods to return values. I.e not
-    # returning an array and pointer arguments to receive values in those vars.
-    elsif ?@rv-list {
-      $returns-doc = "Returns a List holding the values\n$returns-doc";
-      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
-      $raku-list ~= "  --> List";
-    }
-}}
-    # remove first comma
-#    $raku-list ~~ s/^ . //;
-#`{{
-    $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      =begin pod
-      =head2 $method-name
-
-      $function-doc
-
-      =begin code
-      method $method-name \(
-       $raku-list
-      \)
-      =end code
-
-      $items-doc
-      $returns-doc
-      =end pod
-
-      EOSUB
-}}
 
     # Return type
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
@@ -201,12 +148,33 @@ method generate-function-tests ( Hash $hcs --> Str ) {
       $returns = '';
     }
 
+    if ?$returns {
+      $code ~= Q:qq:to/EOSUB/;
+          #TF:0:$hash-fname
+          #my \$return-value = \$cname.$hash-fname\($par-list\);
+          #is \$return-value, …, 'function .$hash-fname\(\)-> \$return-value';
+
+        EOSUB
+    }
+
+    else {
+      $code ~= Q:qq:to/EOSUB/;
+          #TF:0:$hash-fname
+          lives-ok \{
+            #\$cname.$hash-fname\($par-list\);
+          \}, 'function .$hash-fname\(\)';
+
+        EOSUB
+    }
+
 #note "$?LINE $hash-fname, {$returns//'-'}, {$par-list//'-'}";
 #TM:0:$hash-fname
-    $code ~= [~] '  ', $hash-fname, ' => %( :type(Function),',
-                 $returns, $par-list, "),\n";
+#    $code ~= [~] '  ', $hash-fname, ' => %( :type(Function),',
+#                 $returns, $par-list, "),\n";
+
   }
 
+  $code ~= "};\n\n";
   $code
 }
 
@@ -390,7 +358,6 @@ method generate-constant-tests ( @constants --> Str ) {
 #note "$?LINE $code";
 #exit;
   $code ~= "};\n\n";
-  #$code ~ "\n"
 }
 
 #-------------------------------------------------------------------------------
