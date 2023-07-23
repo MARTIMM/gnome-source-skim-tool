@@ -27,7 +27,7 @@ submethod BUILD ( ) {
   note "Load module data from $*work-data<gir-class-file>" if $*verbose;
   $!xpath .= new(:file($*work-data<gir-class-file>));
 
-  $!mod .= new; #(:$!xpath);
+  $!mod .= new;
 }
 
 #-------------------------------------------------------------------------------
