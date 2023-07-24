@@ -425,18 +425,49 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 method !generate-constructors ( Hash $hcs --> Str ) {
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
+  my Str $pattern = '';
+
   my Str $code = qq:to/EOSUB/;
 
     {SEPARATOR( 'Constructors', 2);}
     EOSUB
 
   for $hcs.keys.sort -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
+
+    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
+
     # Get a list of types for the arguments
     my $par-list = '';
-    for @($hcs{$function-name}<parameters>) -> $parameter {
+    my Str $pattern-starter = '';
+    for @($curr-function<parameters>) -> $parameter {
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
       my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
-      $par-list ~= ", $rnt0";
+#      $par-list ~= ", $rnt0";
+
+      if $curr-function<variable-list> {
+        # When variable list, the last type is '…', Finish the pattern.
+        if $parameter<raku-ntype> eq '…' {
+          # A pattern consists of a character key and some value of an unknown
+          # type. This repeats until user data is exhausted. Then end with a 0.
+          # The first argument in the pattern is a string (mostly) then a value
+          # followed by the type of that value. Take glib types!
+
+          #TODO investigate if this is always true in gnome variable lists.
+          $pattern ~= "$pattern-starter, Nil]), ";
+          last;
+        }
+
+        else {
+          # The $par-list will have the non-repetative arguments
+          $par-list ~= ", $pattern-starter" if ?$pattern-starter;
+          $pattern-starter = $rnt0;
+        }
+      }
+
+      else {
+        $par-list ~= ", $rnt0";
+      }
     }
 
     # Remove first comma
@@ -448,7 +479,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     $hash-fname ~~ s/^ $sub-prefix //;
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my ( $rnt0, $rnt1) = $hcs{$function-name}<return-raku-ntype>.split(':');
+    my ( $rnt0, $rnt1) = $curr-function<return-raku-ntype>.split(':');
     if ?$rnt1 {
 #TM:1:$hash-fname
     $code ~= [~] '  ', $hash-fname, ' => %( :type(Constructor),',
@@ -471,7 +502,10 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 #TM:1:$hash-fname
     $code ~= [~] '  ', $hash-fname, ' => %( :type(Constructor),',
                  ':returns(', $rnt0, '), ',
-                 $parameters, "),\n";
+                 $pattern, $parameters, "),\n";
+
+    # drop last comma from arg list
+    $code ~~ s/ '),)' /))/;
 #`{{
       $code ~= qq:to/EOSUB/;
         $hash-fname =\> \%\(
@@ -494,6 +528,7 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #  my Hash $h = $!sas.search-name($ctype);
 #  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
   my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $pattern = '';
 
   # Get all methods in this class
   my Hash $hcs = self!get-methods( $element, $xpath);
@@ -505,7 +540,10 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
     EOSUB
 
   for $hcs.keys.sort -> $function-name {
+#note "\n$?LINE  $function-name";
     my Hash $curr-function := $hcs{$function-name};
+
+    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
 
     # get method name, drop the prefix
     my Str $hash-fname = $function-name;
@@ -515,7 +553,9 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
     my Str $par-list = '';
     my Bool $first-param = True;
 
+    my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
+#note "  $?LINE $parameter<name> $parameter<raku-ntype>";
 
       # Get a list of types for the arguments but skip the first native type
       # This is the instance variable which is inserted automatically in the
@@ -528,7 +568,33 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
         # Here we only need the type.
         my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
-        $par-list ~= ", $rnt0";
+#        $par-list ~= ", $rnt0";
+
+        if $curr-function<variable-list> {
+          # When variable list, the last type is '…', Finish the pattern.
+          if $parameter<raku-ntype> eq '…' {
+            # A pattern consists of a character key and some value of an unknown
+            # type. This repeats until user data is exhausted.
+            # Then end with a 0. The first argument in the pattern is a string
+            # (mostly) then a value followed by the type of that value. Take
+            # glib types!
+
+            #TODO investigate if this is always true in gnome variable lists.
+            $pattern ~= "$pattern-starter, Nil]), ";
+            last;
+          }
+
+          else {
+            # The $par-list will have the non-repetative arguments
+            $par-list ~= ", $pattern-starter" if ?$pattern-starter;
+            $pattern-starter = $rnt0;
+          }
+        }
+
+
+        else {
+          $par-list ~= ", $rnt0";
+        }
       }
     }
 
@@ -555,7 +621,11 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #note "$?LINE $returns";
 #note "$?LINE $par-list";
 
-    $code ~= [~] '  ', $hash-fname, ' => %(', $returns, $par-list, "),\n";
+    $code ~= [~] '  ', $hash-fname, ' => %(',
+             $pattern, $returns, $par-list, "),\n";
+
+    # drop last comma from arg list
+    $code ~~ s/ '),)' /))/;
 #`{{
 #TM:0:$hash-fname
     $code ~= qq:to/EOSUB/;
@@ -592,6 +662,8 @@ method generate-functions ( Hash $hcs --> Str ) {
   return '' unless ?$hcs;
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $pattern = '';
+#  my Str $variable-list = '';
 
   # Get all functions from the Hash
   my Str $code = qq:to/EOSUB/;
@@ -618,6 +690,9 @@ method generate-functions ( Hash $hcs --> Str ) {
     ) =  '';
     my @rv-list = ();
 
+    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
+
+    my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
 #      self!get-types(
 #        $parameter, #$raku-list, 
@@ -625,8 +700,32 @@ method generate-functions ( Hash $hcs --> Str ) {
 #        @rv-list #, $returns-doc
 #      );
 
-      # Get a list of types for the arguments
-      $par-list ~= ", $parameter<raku-ntype>";
+      # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+      my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
+
+      if $curr-function<variable-list> {
+        # When variable list, the last type is '…', Finish the pattern.
+        if $parameter<raku-ntype> eq '…' {
+          # A pattern consists of a character key and some value of an unknown
+          # type. This repeats until user data is exhausted. Then end with a 0.
+          # The first argument in the pattern is a string (mostly) then a value
+          # followed by the type of that value. Take glib types!
+
+          #TODO investigate if this is always true in gnome variable lists.
+          $pattern ~= "$pattern-starter, Nil]), ";
+          last;
+        }
+
+        else {
+          # The $par-list will have the non-repetative arguments
+          $par-list ~= ", $pattern-starter" if ?$pattern-starter;
+          $pattern-starter = $rnt0;
+        }
+      }
+
+      else {
+        $par-list ~= ", $rnt0";
+      }
     }
 
     # Remove first comma and space when there is only one parameter
@@ -706,12 +805,13 @@ method generate-functions ( Hash $hcs --> Str ) {
       $returns = '';
     }
 
-    my Str $variable-list = $curr-function<variable-list>
-                             ?? ':variable-list' !! ':!variable-list';
 #note "$?LINE $hash-fname, {$returns//'-'}, {$par-list//'-'}";
 #TM:0:$hash-fname
-    $code ~= [~] '  ', $hash-fname, ' => %( :type(Function),',
-                 "$variable-list, ", $returns, $par-list, "),\n";
+    $code ~= [~] '  ', $hash-fname, ' => %( :type(Function), ',
+                 $pattern, $returns, $par-list, "),\n";
+
+    # drop last comma from arg list
+    $code ~~ s/ '),)' /))/;
   }
 
   $code
