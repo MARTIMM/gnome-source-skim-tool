@@ -42,16 +42,24 @@ method call-native-sub (
   # Set False, is set in native-parameters() as a side effect
   $!pointers-in-args = False;
 
-  my Hash $routine := $methods{$name};
-  my Bool $variable-list = $routine<variable-list>;
-
   my @parameters = $routine<parameters>:exists
                 ?? @($routine<parameters>)
                 !! ();
 
+  my Hash $routine := $methods{$name};
+
+  my Bool $variable-list = False;
+  my Array $pattern = [];
+  if $routine<pattern>:exists {
+    $variable-list = True;
+    $pattern = $routine<pattern>;
+    $routine<function-addresses> = [];
+    self!adjust-data( @arguments, @parameters, $pattern);
+  }
+
   # Get native parameters converted from @arguments
   my @native-args = self!native-parameters(
-    @arguments, @parameters, $routine, :$native-object
+    @arguments, @parameters, $routine, :$native-object,
   );
 
 #note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
@@ -245,4 +253,12 @@ method !convert-return ( $v, $p, :$type = Any ) {
   }
 
   $c
+}
+
+#-------------------------------------------------------------------------------
+method !adjust-data ( @arguments, @parameters, Array $pattern ) {
+  my Int $pattern-start = @parameters.elems;
+  for @arguments -> $a {
+
+  }
 }
