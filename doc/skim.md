@@ -31,6 +31,8 @@
 
 The program takes a name which is originally the C-source filename (\*.h and \*.c). Together with the package name it searches through the `repo-object-map.yaml` file to search for all gir types defined originally in that source.
 
+It will then set out to create code (and/or doc and/or tests depending on options) files for the class, interface, record or union found, each in a separate file. Interfaces are prefixed with a `R-` and records and unions with a `N-`. After that, it looks for the simpler types; constant, enumeration,  bitfield and function. These are gathered in a single file having a `T-` prefix.
+
 
 <!--
 =head2 Find the data
