@@ -42,11 +42,11 @@ method call-native-sub (
   # Set False, is set in native-parameters() as a side effect
   $!pointers-in-args = False;
 
+  my Hash $routine := $methods{$name};
+
   my @parameters = $routine<parameters>:exists
                 ?? @($routine<parameters>)
                 !! ();
-
-  my Hash $routine := $methods{$name};
 
   my Bool $variable-list = False;
   my Array $pattern = [];
@@ -256,9 +256,14 @@ method !convert-return ( $v, $p, :$type = Any ) {
 }
 
 #-------------------------------------------------------------------------------
-method !adjust-data ( @arguments, @parameters, Array $pattern ) {
-  my Int $pattern-start = @parameters.elems;
-  for @arguments -> $a {
+method !adjust-data ( @arguments, @parameters, Array $pattern --> List ) {
+  my @new-parameters = |@parameters;
+  my @new-arguments = ();
 
+  my Int $pattern-start = @parameters.elems;
+  loop ( my Int $i = 0; $i < $pattern-start; $i++ ) {
+    @new-arguments.push: 
   }
+  
+  ( @new-parameters, @new-arguments)
 }
