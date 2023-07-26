@@ -72,6 +72,7 @@ method generate-code ( ) {
 
     when 'record' {
       for $!filedata<record>.keys -> $record-name {
+#next unless $record-name eq 'GClosureNotifyData';
         $*gnome-class = $record-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
