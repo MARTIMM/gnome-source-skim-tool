@@ -1,0 +1,71 @@
+
+
+
+use NativeCall;
+
+use lib
+  '/home/marcel/Languages/Raku/Projects/gnome-gtk3/lib',
+  './lib',
+  '../NewRakuModules/lib'
+  ;
+#        '/home/marcel/Languages/Raku/Projects/gnome-native/lib';
+
+use Gnome::N::N-GObject;
+use Gnome::N::GlibToRakuTypes;
+
+use Gnome::Gtk3::T-Window:api<2>;
+use Gnome::Gtk3::TestWindow:api<2>;
+use Gnome::Gtk3::T-AboutDialog:api<2>;
+use Gnome::Gtk3::Grid;
+use Gnome::Gtk3::Button;
+use Gnome::Gtk3::Main;
+
+constant \Window = Gnome::Gtk3::TestWindow;
+constant \Button = Gnome::Gtk3::Button;
+constant \Grid = Gnome::Gtk3::Grid;
+constant \Main = Gnome::Gtk3::Main;
+constant \T-AboutDialog = Gnome::Gtk3::T-AboutDialog;
+
+#-------------------------------------------------------------------------------
+class CB {
+  method quit ( ) {
+    Main.new.quit;
+  }
+
+  method show-dialog-1 { :$window ) {
+    T-AboutDialog.new.show_about_dialog(
+      $window,
+      "program-name", "TestVariableFunction"
+    );
+  }
+}
+
+my CB $cb .= new;
+
+#-------------------------------------------------------------------------------
+my Window $w;
+
+with my Button $button .= new(:label<about-1>) {
+  .register-signal( $cb, 'clicked', 'show-dialog-1', :window($w))
+}
+
+with my Grid $grid .= new {
+  .attach( $button, 0, 0, 1, 1);
+}
+
+with $w .= new(:window-type(GTK_WINDOW_TOPLEVEL)) {
+  .set-title('test of variable function');
+  .add($grid);
+  .register-signal( $cb, 'quit', 'destroy');
+#  .set-size-request( 400, 300);
+  .set-keep-above(True);
+  .show-all;
+
+  note 'Default size: ', .get-default-size.gist;
+  note 'Position: ', .get-position.gist;
+  note 'Size: ', .get-size.gist;
+}
+
+my Main $main .= new;
+note "Main api is ", $main.^api();
+$main.main;

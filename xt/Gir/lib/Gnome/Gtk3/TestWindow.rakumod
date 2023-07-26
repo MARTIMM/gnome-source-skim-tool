@@ -20,6 +20,8 @@ also is Gnome::Gtk3::Bin;
 
 my Bool $signals-added = False;
 has Gnome::Glib::GnomeRoutineCaller $!routine-caller;
+
+#`{{
 #-------------------------------------------------------------------------------
 #TE:1:GtkWindowType:
 enum GtkWindowType is export <
@@ -52,6 +54,7 @@ enum RoutineType (
                             # is the default type and maybe left.
   'Function'                # The instance parameter is not inserted.
 );
+}}
 }}
 
 # this hash is build using the gir repo
