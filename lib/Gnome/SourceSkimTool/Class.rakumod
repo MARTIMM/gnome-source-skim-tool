@@ -1,6 +1,5 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::SearchAndSubstitute;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
 
@@ -11,7 +10,6 @@ use JSON::Fast;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Class:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
 
@@ -21,7 +19,6 @@ has XML::XPath $!xpath;
 submethod BUILD ( ) {
 
   $!grd .= new;
-  $!sas .= new;
 
   # load data for this module
   note "Load module data from $*work-data<gir-class-file>" if $*verbose;
@@ -105,7 +102,7 @@ method generate-test ( ) {
 
   my XML::Element $element = $!xpath.find('//class');
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = $!mod.search-name($ctype);
 
   my Str $test-variable = '$' ~ $*gnome-class.lc;
   my $module-test-doc = qq:to/EOTEST/;

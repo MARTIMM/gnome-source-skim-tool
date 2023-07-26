@@ -1,15 +1,12 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::SkimGtkDoc;
-use Gnome::SourceSkimTool::SearchAndSubstitute;
 
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
 has Int $!indent-level;
-
-has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( Bool :$load-maps = True ) {
@@ -60,8 +57,6 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
   $*other-work-data = %();
   $*object-maps = %();
-
-  $!sas .= new;
 
   note "Prepare for work" if $*verbose;
 

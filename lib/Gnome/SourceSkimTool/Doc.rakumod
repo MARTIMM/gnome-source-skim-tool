@@ -1,7 +1,7 @@
 
 
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::SearchAndSubstitute;
+#use Gnome::SourceSkimTool::SearchAndSubstitute;
 
 use XML;
 use XML::XPath;
@@ -10,12 +10,12 @@ use XML::XPath;
 #TODO Rename to ModuleDoc
 unit class  Gnome::SourceSkimTool::Doc:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
+#has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
  
-  $!sas .= new;
+#  $!sas .= new;
 }
 
 #-------------------------------------------------------------------------------
@@ -40,6 +40,11 @@ method pod-header (
       RAKUMOD
   }
 }
+
+
+
+
+=finish
 
 #-------------------------------------------------------------------------------
 # Get the description at the start of a class, record or union.

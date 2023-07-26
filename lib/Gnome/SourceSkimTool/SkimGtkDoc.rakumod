@@ -4,20 +4,17 @@ use XML::XPath;
 use YAMLish;
 
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::SearchAndSubstitute;
 
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGtkDoc:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Hash $!map;
 has Hash $!other;
 has XML::XPath $!xp;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
-  $!sas .= new;
 
   # the sections like :function are arrays of XML::Element's
   $!other = %(
@@ -262,7 +259,7 @@ method !set-real-role-user( Str $entry-name ) {
 
   # Check all roles for this class
   for @($!map{$entry-name}<roles>) -> $role-name {
-    my Hash $role-h = $!sas.search-name($role-name);
+    my Hash $role-h = $!mod.search-name($role-name);
 
     # Never implement deprecated roles
     self!check-parent-role( $entry-name, $role-name)

@@ -38,6 +38,9 @@ kaal '/usr/bin/time raku Window.rakutest'
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
+* 2023-07-26 0.10.1
+  * Moved code from `SearchAndSubstitute()` back to Code module.
+
 * 2023-07-21 0.10.0
   * New modules and old one renamed.
   * Test enumerations, constants and bitfields completed.

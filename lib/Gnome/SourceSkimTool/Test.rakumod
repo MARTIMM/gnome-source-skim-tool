@@ -8,7 +8,6 @@ use XML::XPath;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Test:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Doc $!grd;
 
 has Str $!filename;
@@ -19,7 +18,6 @@ has XML::XPath $!xpath;
 submethod BUILD ( Str :$!filename ) {
 
   $!grd .= new;
-  $!sas .= new;
 }
 
 #`{{

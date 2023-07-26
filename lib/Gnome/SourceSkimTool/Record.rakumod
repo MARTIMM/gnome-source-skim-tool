@@ -1,6 +1,5 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::SearchAndSubstitute;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
 
@@ -11,7 +10,6 @@ use JSON::Fast;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Record:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
 
@@ -21,7 +19,6 @@ has XML::XPath $!xpath;
 submethod BUILD ( ) {
 
   $!grd .= new;
-  $!sas .= new;
 
   # load data for this module
   note "Load module data from $*work-data<gir-record-file>" if $*verbose;
