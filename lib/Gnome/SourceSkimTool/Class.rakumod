@@ -33,7 +33,6 @@ method generate-code ( ) {
   my XML::Element $element = $!xpath.find('//class');
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
-#TL:1:$*work-data<raku-class-name>:
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
     use v6;
@@ -42,22 +41,19 @@ method generate-code ( ) {
   note "Set class unit" if $*verbose;
   $code ~= $!mod.set-unit($element);
 
-#  note "Generate enumerations and bitmasks";
-#  $code ~= $!mod.generate-enumerations-code;
-#  $code ~= $!mod.generate-bitfield-code;
+  my $callables = $!mod.generate-callables( $element, $!xpath);
+  if ?$callables {
+    # Make a BUILD submethod
+    note "Generate BUILD" if $*verbose;
+    $code ~= $!mod.make-build-submethod( $element, $!xpath);
+    $code ~= $callables;
 
-  # Make a BUILD submethod
-  note "Generate BUILD" if $*verbose;
-  $code ~= $!mod.make-build-submethod( $element, $!xpath);
-
-  $code ~= $!mod.generate-callables( $element, $!xpath);
-
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
+    $code = $!mod.substitute-MODULE-IMPORTS($code);
+  }
 
   my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
   note "Save class module in ", $fname.IO.basename;
   $fname.IO.spurt($code);
-  #$*work-data<raku-module-file>.IO.spurt($code);
 }
 
 #-------------------------------------------------------------------------------
