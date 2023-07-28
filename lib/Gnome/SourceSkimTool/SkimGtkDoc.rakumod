@@ -4,10 +4,13 @@ use XML::XPath;
 use YAMLish;
 
 use Gnome::SourceSkimTool::ConstEnumType;
+use Gnome::SourceSkimTool::Code;
 
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGtkDoc:auth<github:MARTIMM>;
+
+has Gnome::SourceSkimTool::Code $!mod;
 
 has Hash $!map;
 has Hash $!other;
@@ -28,6 +31,8 @@ submethod BUILD ( ) {
     :docsection([]),
 #    :interface([]),
   );
+
+  $!mod .= new; #(:$!xpath);
 }
 
 #-------------------------------------------------------------------------------
@@ -579,10 +584,13 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
+      my Str $callback-name = $attrs<name>;
       $!map{$ctype} = %(
         :gir-type<callback>,
 
         :$source-filename,
+        :$gnome-name,
+        :$callback-name,
       );
     }
 
