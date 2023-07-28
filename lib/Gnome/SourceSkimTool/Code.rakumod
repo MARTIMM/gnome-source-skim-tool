@@ -171,7 +171,7 @@ method generate-callables (
       my Array $roles = $h<implement-roles>//[];
       for @$roles -> $role {
         my Hash $role-h = self.search-name($role);
-  #note "$?LINE role=$role -> $role-h.gist()";
+#note "$?LINE role=$role -> $role-h.gist()";
 
         $c ~= qq:to/RAKUMOD/;
               my \$r = self.{$role}::_fallback-v2-ok\(
@@ -411,7 +411,7 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Skip deprecated constructors
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = self!get-method-data( $cn, :build, :$xpath);
+    my ( $function-name, %h) = self!get-constructor-data( $cn, :$xpath);
     $hcs{$function-name} = %h;
   }
 
@@ -423,6 +423,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
   my Str $pattern = '';
+  my Str $temp-inhibit = '';
 
   my Str $code = qq:to/EOSUB/;
 
@@ -431,6 +432,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
   for $hcs.keys.sort -> $function-name {
     my Hash $curr-function := $hcs{$function-name};
+    $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
     $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
 
@@ -497,7 +499,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
     else {
 #TM:1:$hash-fname
-    $code ~= [~] '  ', $hash-fname, ' => %( :type(Constructor),',
+    $code ~= [~] '  ', $temp-inhibit, $hash-fname, ' => %( :type(Constructor),',
                  ':returns(', $rnt0, '), ',
                  $pattern, $parameters, "),\n";
 
@@ -526,6 +528,7 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
   my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $pattern = '';
+  my Str $temp-inhibit = '';
 
   # Get all methods in this class
   my Hash $hcs = self!get-methods( $element, $xpath);
@@ -553,6 +556,7 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
     my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
 #note "  $?LINE $parameter<name> $parameter<raku-ntype>";
+      $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
       # Get a list of types for the arguments but skip the first native type
       # This is the instance variable which is inserted automatically in the
@@ -601,11 +605,11 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
     $par-list = ?$par-list ?? [~] ' :parameters([', $par-list, ']),' !! '';
 
     # Return type
-    my $xtype = $curr-function<return-raku-rtype>;
+    my $xtype = $curr-function<return-raku-ntype>;
     my Str $returns = '';
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my ( $rnt0, $rnt1) = $hcs{$function-name}<return-raku-ntype>.split(':');
+    my ( $rnt0, $rnt1) = $xtype.split(':');
     if ?$rnt1 {
       $returns = " :returns\($rnt0\), :type-name\($rnt1\),";
     }
@@ -618,7 +622,7 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #note "$?LINE $returns";
 #note "$?LINE $par-list";
 
-    $code ~= [~] '  ', $hash-fname, ' => %(',
+    $code ~= [~] '  ', $temp-inhibit, $hash-fname, ' => %(',
              $pattern, $returns, $par-list, "),\n";
 
     # drop last comma from arg list
@@ -646,7 +650,7 @@ method !get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Skip deprecated methods
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
+    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
     $hms{$function-name} = %h;
   }
 
@@ -661,6 +665,7 @@ method generate-functions ( Hash $hcs --> Str ) {
   my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $pattern = '';
 #  my Str $variable-list = '';
+  my Str $temp-inhibit = '';
 
   # Get all functions from the Hash
   my Str $code = qq:to/EOSUB/;
@@ -804,7 +809,7 @@ method generate-functions ( Hash $hcs --> Str ) {
 
 #note "$?LINE $hash-fname, {$returns//'-'}, {$par-list//'-'}";
 #TM:0:$hash-fname
-    $code ~= [~] '  ', $hash-fname, ' => %( :type(Function), ',
+    $code ~= [~] '  ', $temp-inhibit, $hash-fname, ' => %( :type(Function), ',
                  $pattern, $returns, $par-list, "),\n";
 
     # drop last comma from arg list
@@ -824,7 +829,7 @@ method !get-functions ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Skip deprecated methods
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
+    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
     $hms{$function-name} = %h;
   }
 
@@ -853,7 +858,7 @@ method get-standalone-functions ( Array $function-names --> Hash ) {
   }
 
   for @methods -> $cn {
-    my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
+    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
     $hms{$function-name} = %h;
   }
 
@@ -863,41 +868,29 @@ method get-standalone-functions ( Array $function-names --> Hash ) {
 #-------------------------------------------------------------------------------
 # Get a callback function pattern. This is used as a type in function arguments
 # and other places
-method get-callback-function ( Str $function-name --> Str ) {
-  my Hash $hms = %();
-
+method get-callback-function ( Str $function-name --> Hash ) {
   my Str $file = $*work-data<gir-module-path> ~ 'repo-callback.gir';
   my XML::XPath $xpath .= new(:$file);
 
-  my @methods = ();
-#  for @$function-names -> $function-name {
-    my XML::Element $element =
-      $xpath.find( '//callback[@name="' ~ $function-name ~ '"]', :!to-list);
-#note "$?LINE ", '//callback[@name="' ~ $function-name ~ '"] ', ($element//'-').Str;
+  my XML::Element $element =
+    $xpath.find( '//callback[@name="' ~ $function-name ~ '"]', :!to-list);
 
-    # Skip empty elements deprecated functions
-    next unless ?$element;
-    next if $element.attribs<deprecated>:exists and
-            $element.attribs<deprecated> eq '1';
+  # Skip empty elements deprecated functions
+  return %() unless ?$element;
+  return %() if $element.attribs<deprecated>:exists and
+                $element.attribs<deprecated> eq '1';
 
-    @methods.push: $element
-#  }
-
-#  for @methods -> $element {
-    my ( $, %h) = self!get-method-data( $element, :!build, :$xpath);
-#    $hms{$function-name} = %h;
-#  }
-
-#  $hms
-  self.generate-callback(
-    |self!get-method-data( $element, :!build, :$xpath)
-  )
+  self!get-callback-data( $element, :$xpath)
 }
 
 #-------------------------------------------------------------------------------
-method generate-callback ( Str $function-name, Hash $cb-data --> Str ) {
+method generate-callback (
+  Str $function-name, Hash $cb-data, Bool :$named-parameter = False --> Str
+) {
 
-  my Str $par-list;
+  return '' unless ?$cb-data;
+
+  my Str $par-list = '';
   for @($cb-data<parameters>) -> $parameter {
     my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
     $par-list ~= ", $rnt0";
@@ -905,10 +898,10 @@ method generate-callback ( Str $function-name, Hash $cb-data --> Str ) {
 
   # Remove first comma and space when there is only one parameter
   $par-list ~~ s/^ . //;
-  $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
+#  $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
 
   my Str $returns;
-  my $xtype = $curr-function<return-raku-ntype>;
+  my $xtype = $cb-data<return-raku-ntype>;
   my ( $rnt0, $rnt1) = $xtype.split(':');
   if ?$rnt1 {
     $returns = " :returns\($rnt0\), :type-name\($rnt1\),";
@@ -922,9 +915,11 @@ method generate-callback ( Str $function-name, Hash $cb-data --> Str ) {
     $returns = '';
   }
 
-  my $code = "Callable $function-name \($par-list";
-  $code ~= " --> $returns" if ?$returns;
-  $code ~= ')';
+  my $code = [~] 'Callable ', ($named-parameter ?? ':$' !! '$'),
+                  $function-name, ' (', $par-list,
+                  (?$returns ?? " --> $returns )" !! ' )');
+#  $code ~= " --> $returns" if ?$returns;
+#  $code ~= ')';
 
   $code
 }
@@ -1232,34 +1227,62 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 
     for @fields -> $field {
       my $field-name = $field.attribs<name>;
-note "$?LINE $field-name";
+#note "$?LINE $field-name";
       my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($field);
 
-      # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-      my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
+      $field-name ~~ s:g/ '_' /-/;
+      if ?$type {
+        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+        my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
 #note "\n$?LINE $raku-ntype, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $structure-name eq 'N-GClosureNotifyData';
-      if ?$rnt1 {
-        $code ~= "has $rnt0 \$.$field-name;           # $rnt1\n";
-      }
+        if ?$rnt1 {
+          $code ~= "has $rnt0 \$.$field-name;           # $rnt1\n";
+        }
 
-      else {
-        $code ~= "has $rnt0 \$.$field-name;\n";
-      }
-
-      if $raku-ntype eq 'N-GObject' {
-        $tweak-pars ~= "$raku-ntype :\$$field-name, ";
-        $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
-      }
-
-      else {
-        if $rnt0 eq 'GEnum' {
-          $build-pars ~= "$rnt0 :\$$field-name, ";
-          $build-ass ~=
-            "  \$!$field-name = \$$field-name.value if ?\$$field-name;\n";
+        #NOTE raku cannot handle this in native structures.
+        # Must become a pointer
+        elsif $rnt0 ~~ m/ Callable / {
+          $code ~= "has gpointer \$.$field-name;\n";
         }
 
         else {
-          $build-pars ~= "$rnt0 :\$\!$field-name, ";
+          $code ~= "has $rnt0 \$.$field-name;\n";
+        }
+
+        if $raku-ntype eq 'N-GObject' {
+          $tweak-pars ~= "$raku-ntype :\$$field-name, ";
+          $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
+        }
+
+        else {
+          if $rnt0 eq 'GEnum' {
+            $build-pars ~= "$rnt0 :\$$field-name, ";
+            $build-ass ~= "  \$!$field-name = \$$field-name.value if ?\$$field-name;\n";
+          }
+
+          elsif $rnt0 ~~ m/ Callable / {
+            $build-pars ~= "gpointer :\$.$field-name;\n";
+          }
+
+          else {
+            $build-pars ~= "$rnt0 :\$\!$field-name, ";
+          }
+        }
+      }
+
+      # no type found, is it a callback spec?
+      else {
+        my XML::Element $cb-element =
+          $xpath.find( 'callback', :start($field), :!to-list);
+        if ?$cb-element {
+#NOTE raku cannot handle this in native structures. Must become a pointer
+#          my Str $function-name = $cb-element.attribs<name>;
+#          my %h = self!get-callback-data( $cb-element, :$xpath);
+#          my Str $c = self.generate-callback( $function-name, %h);
+#          $code ~= "has $c \$.$field-name;\n";
+
+          $code ~= "has gpointer \$.$field-name;\n";
+          $build-pars ~= "gpointer :\$\!$field-name, ";
         }
       }
     }
@@ -1352,6 +1375,8 @@ method generate-union ( XML::XPath $xpath, XML::Element $element ) {
   for @fields -> $field {
     my $field-name = $field.attribs<name>;
     my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($field);
+
+    $field-name ~~ s:g/ '_' /-/;
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
@@ -1500,34 +1525,31 @@ method init-xpath ( Str $element-name, Str $gir-filename --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-method-data (
-  XML::Element $e, Bool :$build = False, XML::XPath :$xpath
-  --> List
-) {
+method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Str ( $function-name, $option-name);
+  my Bool $missing-type = False;
 
   $option-name = $function-name = $e.attribs<c:identifier>;
   my Str $sub-prefix = $*work-data<sub-prefix>;
 
-  # Option names are used in BUILD only
-  if $build {
-    # Constructors have '_new' in the name. To get a name for the build options
-    # remove the subroutine prefix and the 'new_' string from the subroutine
-    # name.
-    $option-name ~~ s/^ $sub-prefix new '_'? //;
+  # Find suitable option names for the BUILD submethod.
+  # Constructors have '_new' in the name. To get a name for the build options
+  # remove the subroutine prefix and the 'new_' string from the subroutine
+  # name.
+  $option-name ~~ s/^ $sub-prefix new '_'? //;
 
-    # Remove any other prefix ending in '_'.
-    my Int $last-u = $option-name.rindex('_');
-    $option-name .= substr($last-u + 1) if $last-u.defined;
+  # Remove any other prefix ending in '_'.
+  my Int $last-u = $option-name.rindex('_');
+  $option-name .= substr($last-u + 1) if $last-u.defined;
 
-    # When nothing is left, mark the option as a default.
-    $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
-  }
+  # When nothing is left, mark the option as a default.
+  $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
 
+  # Find return value; constructors should return a native N-GObject while
+  # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-type, $return-raku-ntype, $return-raku-rtype) =
-      self!get-type($rvalue);
+  my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
+  $missing-type = True unless ?$return-raku-ntype;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -1539,8 +1561,9 @@ method !get-method-data (
 
   my Bool $variable-list = False;
   for @prmtrs -> $p {
+    my Str ( $type, $raku-ntype) = self!get-type($p);
+    $missing-type = True unless ?$raku-ntype;
 
-    my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($p);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
     $parameter-name ~~ s:g/ '_' /-/;
@@ -1548,13 +1571,68 @@ method !get-method-data (
     # When '...', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
     if $parameter-name eq '...' {
-      $type = $raku-ntype = $raku-rtype = '…';
+      $type = $raku-ntype = '…';
       $variable-list = True;
     }
 
+    my Hash $ph = %( :name($parameter-name), :$type, :$raku-ntype);
+
+    $ph<allow-none> = $attribs<allow-none>.Bool;
+    $ph<nullable> = $attribs<nullable>.Bool;
+    $ph<is-instance> = False;
+
+    @parameters.push: $ph;
+  }
+
+  ( $function-name, %(
+      :$option-name, :@parameters, :$variable-list,
+      :$rv-type, :$return-raku-ntype, :$missing-type
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
+  my Str $function-name = $e.attribs<c:identifier>;
+  my Str $sub-prefix = $*work-data<sub-prefix>;
+  my Bool $missing-type = False;
+
+  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
+  #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+#  my Str ( $rv-type, $return-raku-ntype, $return-raku-rtype) =
+  my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
+  $missing-type = True unless ?$return-raku-ntype;
+
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
+  my @parameters = ();
+  my @prmtrs = $xpath.find(
+    'parameters/instance-parameter | parameters/parameter',
+    :start($e), :to-list
+  );
+
+  my Bool $variable-list = False;
+  for @prmtrs -> $p {
+#    my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($p);
+    my Str ( $type, $raku-ntype) = self!get-type($p);
+    $missing-type = True unless ?$raku-ntype;
+
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = $attribs<name>;
+    $parameter-name ~~ s:g/ '_' /-/;
+
+    # When '...', there will be no type for that parameter. It means that
+    # a variable argument list is used ending in a Nil.
+    if $parameter-name eq '...' {
+#      $type = $raku-ntype = $raku-rtype = '…';
+       $type = $raku-ntype = '…';
+     $variable-list = True;
+    }
+
     my Hash $ph = %(
-      :name($parameter-name), #:transfer-ownership($attribs<transfer-ownership>),
-      :$type, :$raku-ntype, :$raku-rtype
+      :name($parameter-name), :$type, :$raku-ntype,
+#      :transfer-ownership($attribs<transfer-ownership>),
+#      :$raku-rtype
     );
 
     if $p.name eq 'instance-parameter' {
@@ -1573,270 +1651,97 @@ method !get-method-data (
   }
 
   ( $function-name, %(
-      :$option-name, :@parameters, :$variable-list,
-      :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
+      :@parameters, :$variable-list, :$rv-type, :$return-raku-ntype,
+      :$missing-type
+#      :$return-raku-rtype,
 #      :$rv-transfer-ownership,
     )
   );
 }
 
 #-------------------------------------------------------------------------------
+# A simplified method
+method !get-callback-data (
+  XML::Element $e, XML::XPath :$xpath --> Hash
+) {
+  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
+  #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+  my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
+
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
+  my @parameters = ();
+  my @prmtrs = $xpath.find(
+    'parameters/instance-parameter | parameters/parameter',
+    :start($e), :to-list
+  );
+
+  my Bool $variable-list = False;
+  for @prmtrs -> $p {
+
+    my Str ( $type, $raku-ntype) = self!get-type($p);
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = $attribs<name>;
+    $parameter-name ~~ s:g/ '_' /-/;
+
+    # When '...', there will be no type for that parameter. It means that
+    # a variable argument list is used ending in a Nil.
+    if $parameter-name eq '...' {
+      $type = $raku-ntype = '…';
+      $variable-list = True;
+    }
+
+    my Hash $ph = %( :name($parameter-name), :$type, :$raku-ntype);
+
+    $ph<allow-none> = $attribs<allow-none>.Bool;
+    $ph<nullable> = $attribs<nullable>.Bool;
+    $ph<is-instance> = False;
+
+    @parameters.push: $ph;
+  }
+
+  %(
+    :@parameters, :$variable-list, :$rv-type, :$return-raku-ntype,
+  )
+}
+
+#-------------------------------------------------------------------------------
 method !get-type ( XML::Element $e --> List ) {
-  my Str ( $type, $raku-ntype, $raku-rtype) = '' xx 3;
+#  my Str ( $type, $raku-ntype, $raku-rtype) = '' xx 3;
+  my Str ( $type, $raku-ntype) = '' xx 2;
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
-note "$?LINE $n.name()\n$n.attribs().gist()";
+#note "$?LINE $n.name()\n$n.attribs().gist()";
     with $n.name {
       when 'type' {
         $type = $n.attribs<c:type> // $n.attribs<name>;
         $raku-ntype = self.convert-ntype($type);
-        $raku-rtype = self.convert-rtype($type);
+#        $raku-rtype = self.convert-rtype($type);
       }
 
       when 'array' {
         # Sometimes there is no 'c:type', assume an array of strings
         $type = $n.attribs<c:type> // 'gchar**';
         $raku-ntype = self.convert-ntype($type);
-        $raku-rtype = self.convert-rtype($type);
+#        $raku-rtype = self.convert-rtype($type);
       }
     }
   }
 
-note "$?LINE $type, $raku-ntype, $raku-rtype";
-  ( $type, $raku-ntype, $raku-rtype)
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
-#-------------------------------------------------------------------------------
-method !get-types (
-  Hash $parameter,
-#  Str $raku-list,
-   Str $call-list,
-#  Str $items-doc is rw,
-   @rv-list,
-#  Str $returns-doc is rw
-  --> Hash
-) {
-
-#  my Str $own = '';
-  my Int $a-count = 0;
-  my Hash $result = %();
-
-  given my $xtype = $parameter<raku-ntype> {
-    when 'N-GObject' {
-#      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-#      $call-list ~= ", \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[Str]' {
-#      $raku-list ~= ", Array[Str] \$$parameter<name>";
-#      $call-list ~= ", \$ca$a-count";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $a-count++;
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-#      $ntype ~~ s:g/ [const || \s+ || '*'] //;
-      @rv-list.push: "\$$parameter<name>";
-#      $call-list ~= ", my gint \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<rv-list> = "\$$parameter<name>";
-
-#      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    default {
-#      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-#      $call-list ~= ", \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-  }
-
-  $result  
+#note "$?LINE $type, $raku-ntype, $raku-rtype";
+ # ( $type, $raku-ntype, $raku-rtype)
+  ( $type, $raku-ntype)
 }
 
 #-------------------------------------------------------------------------------
-method gobject-value-type( Str $ctype --> Str ) {
+#NOTE not from Prepare: circular deps!
+method add-import ( Str $import ) {
+  # Add only when $import is not in the array or when $import is not this class
+  unless $*external-modules.first($import)
+         or $import eq $*work-data<raku-class-name> {
 
-  my $g-type = '';
-
-  with $ctype {
-    when 'gboolean' {
-      $g-type = 'G_TYPE_BOOLEAN';
-    }
-
-    when 'gchar' {
-      $g-type = 'G_TYPE_CHAR';
-    }
-
-    when 'gdouble' {
-      $g-type = 'G_TYPE_DOUBLE';
-    }
-    
-    when 'gfloat' {
-      $g-type = 'G_TYPE_FLOAT';
-    }
-    
-    when 'gint' {
-      $g-type = 'G_TYPE_INT';
-    }
-    
-#    when 'gint16' {
-#      $g-type = '';
-#    }
-    
-#    when 'gint32' {
-#      $g-type = '';
-#    }
-
-    when 'gint64' {
-      $g-type = 'G_TYPE_INT64';
-    }
-
-    when 'gint8' {
-      $g-type = 'G_TYPE_CHAR';
-    }
-
-    when 'glong' {
-      $g-type = 'G_TYPE_LONG';
-    }
-
-    when 'gpointer' {
-      $g-type = 'G_TYPE_POINTER';
-    }
-    
-#    when 'gshort' {
-#      $g-type = '';
-#    }
-    
-#    when 'gsize' {
-#      $g-type = '';
-#    }
-    
-#    when 'gssize' {
-#      $g-type = '';
-#    }
-    
-    when 'guchar' {
-      $g-type = 'G_TYPE_UCHAR';
-    }
-    
-    when 'guint' {
-      $g-type = 'G_TYPE_UINT';
-    }
-    
-#    when 'guint16' {
-#      $g-type = '';
-#    }
-    
-#    when 'guint32' {
-#      $g-type = '';
-#    }
-    
-    when 'guint64' {
-      $g-type = 'G_TYPE_UINT64';
-    }
-    
-    when 'guint8' {
-      $g-type = 'G_TYPE_UCHAR';
-    }
-    
-    when 'gulong' {
-      $g-type = 'G_TYPE_ULONG';
-    }
-    
-#    when 'gunichar' {
-#      $g-type = '';
-#    }
-    
-#    when 'gushort' {
-#      $g-type = '';
-#    }
-       
-#    when 'gushort' {
-#      $g-type = '';
-#    }
-    
-#    when 'gushort' {
-#      $g-type = '';
-#    }
- 
-    when 'GEnum' {
-      $g-type = 'G_TYPE_ENUM';
-    }
- 
-    when 'GFlag' {
-      $g-type = 'G_TYPE_FLAGS';
-    }
-
-    default {
-      my Hash $h = self.search-name($ctype);
-      if ?$h<gir-type> {
-        $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
-        $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
-        $g-type = 'G_TYPE_OBJECT' if $h<gir-type> eq 'class';
-      }
-    }
+    $*external-modules.push: $import;
   }
-
-  $g-type
 }
 
 #-------------------------------------------------------------------------------
@@ -1908,7 +1813,7 @@ method convert-ntype (
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = self.search-name($ctype);
-note "$?LINE $h.gist()";
+#note "  $?LINE $h<gir-type>";
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -1920,14 +1825,16 @@ note "$?LINE $h.gist()";
         }
 
         when 'record' {
-note "$?LINE N-$h<gnome-name>, $h<structure-name>";
-          $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<structure-name>);
+#note "$?LINE N-$h<gnome-name>, $h<structure-name>";
+#          $raku-type = "N-$h<gnome-name>";
+#          self.add-import($h<structure-name>);
+          $raku-type = 'N-GObject';
         }
 
         when 'union' {
-          $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<structure-name>);
+#          $raku-type = "N-$h<gnome-name>";
+#          self.add-import($h<structure-name>);
+          $raku-type = 'N-GObject';
         }
 
         when 'constant' {
@@ -1947,8 +1854,13 @@ note "$?LINE N-$h<gnome-name>, $h<structure-name>";
 #        when 'alias' { $raku-type = $h<class-name>; }
         when 'alias' { }
 
-        when 'callback' { }
-#        when '' { }
+        when 'callback' {
+#note "  $?LINE callback";
+          my %h = self.get-callback-function($h<callback-name>);
+#note "  $?LINE %h.gist()";
+          $raku-type = self.generate-callback( $h<callback-name>, %h);
+#note "  $?LINE $ctype, $raku-type";
+        }
 
         default {
           note 'Unknown gir type to convert to native raku type \'',
@@ -1963,17 +1875,7 @@ note "$?LINE N-$h<gnome-name>, $h<structure-name>";
   $raku-type
 }
 
-#-------------------------------------------------------------------------------
-#NOTE not from Prepare: circular deps!
-method add-import ( Str $import ) {
-  # Add only when $import is not in the array or when $import is not this class
-  unless $*external-modules.first($import)
-         or $import eq $*work-data<raku-class-name> {
-
-    $*external-modules.push: $import;
-  }
-}
-
+#`{{
 #-------------------------------------------------------------------------------
 method convert-rtype (
   Str $ctype is copy, Bool :$return-type = False --> Str
@@ -2062,13 +1964,15 @@ method convert-rtype (
         }
 
         when 'record' {
-          $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<structure-name>);
+#          $raku-type = "N-$h<gnome-name>";
+#          self.add-import($h<structure-name>);
+          $raku-type = 'N-GObject';
         }
 
         when 'union' {
-          $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<structure-name>);
+#          $raku-type = "N-$h<gnome-name>";
+#          self.add-import($h<structure-name>);
+          $raku-type = 'N-GObject';
         }
 
         when 'enumeration' {
@@ -2085,8 +1989,10 @@ method convert-rtype (
 
         when 'alias' { }
 
-        when 'callback' { }
-#        when '' { }
+        when 'callback' {
+#          my Hash %h = self.get-callback-function();
+#          $raku-type = self.generate-callback( $ctype, %h);
+        }
 
         default {
           note 'Unknown gir type to convert to raku type \'',
@@ -2099,6 +2005,7 @@ method convert-rtype (
 
   $raku-type
 }
+}}
 
 #-------------------------------------------------------------------------------
 method search-name ( Str $name --> Hash ) {
@@ -2185,595 +2092,4 @@ method search-entries ( Str $entry-name, Str $value --> Hash ) {
 #say "$?LINE: search entries for $entry-name -> $h.gist()";
 
   $h
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
-
-
-#-------------------------------------------------------------------------------
-method get-types (
-  Hash $parameter,
-  Str $raku-list is rw, Str $call-list is rw,
-  Str $items-doc is rw, @rv-list,
-  Str $returns-doc is rw
-  --> Hash
-) {
-
-  my Str $own = '';
-  my Int $a-count = 0;
-  my Hash $result = %();
-
-  given my $xtype = $parameter<raku-ntype> {
-    when 'N-GObject' {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[Str]' {
-      $raku-list ~= ", Array[Str] \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $a-count++;
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
-      @rv-list.push: "\$$parameter<name>";
-      $call-list ~= ", my gint \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<rv-list> = "\$$parameter<name>";
-
-      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    default {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-  }
-
-  $result  
-}
-
-#-------------------------------------------------------------------------------
-method get-type-doc (
-  Hash $parameter,
-  Str $raku-list is rw, Str $call-list is rw,
-  Str $items-doc is rw, @rv-list,
-  Str $returns-doc is rw
-  --> Hash
-) {
-
-  my Str $own = '';
-  my Int $a-count = 0;
-  my Hash $result = %();
-
-  given my $xtype = $parameter<raku-ntype> {
-    when 'N-GObject' {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[Str]' {
-      $raku-list ~= ", Array[Str] \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-      $p-convert =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<p-convert> =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
-
-      $a-count++;
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
-      @rv-list.push: "\$$parameter<name>";
-      $call-list ~= ", my gint \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<rv-list> = "\$$parameter<name>";
-
-      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    default {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-  }
-
-  $result  
-}
-
-#-------------------------------------------------------------------------------
-method get-method-data (
-  XML::Element $e, Bool :$build = False, XML::XPath :$xpath
-  --> List
-) {
-  my Str ( $function-name, $option-name, $function-doc);
-
-  $option-name = $function-name = $e.attribs<c:identifier>;
-  my Str $sub-prefix := $*work-data<sub-prefix>;
-
-  # Option names are used in BUILD only
-  if $build {
-    # Constructors have '_new' in the name. To get a name for the build options
-    # remove the subroutine prefix and the 'new_' string from the subroutine
-    # name.
-    $option-name ~~ s/^ $sub-prefix new '_'? //;
-
-    # Remove any other prefix ending in '_'.
-    my Int $last-u = $option-name.rindex('_');
-    $option-name .= substr($last-u + 1) if $last-u.defined;
-
-    # When nothing is left, mark the option as a default.
-    $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
-  }
-
-  my Str $edoc = ($xpath.find( 'doc/text()', :start($e)) // '').Str;
-  my Str $s = self.modify-text($edoc);
-  $function-doc = self.cleanup($s);
-
-  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
-    self.get-doc-type( $rvalue, :return-type, :$xpath);
-
-  # Get all parameters. Mostly the instance parameters come first
-  # but I am not certain.
-  my @parameters = ();
-  my @prmtrs = $xpath.find(
-    'parameters/instance-parameter | parameters/parameter',
-    :start($e), :to-list
-  );
-
-  for @prmtrs -> $p {
-    my Str ( $doc, $type, $raku-ntype, $raku-rtype) =
-      self.get-doc-type( $p, :$xpath);
-    my Hash $attribs = $p.attribs;
-    my Str $parameter-name = $attribs<name>;
-    $parameter-name ~~ s:g/ '_' /-/;
-
-    my Hash $ph = %(
-      :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
-      :$doc, :$type, :$raku-ntype, :$raku-rtype
-    );
-
-    if $p.name eq 'instance-parameter' {
-      $ph<allow-none> = False;
-      $ph<nullable> = False;
-      $ph<is-instance> = True;
-    }
-
-    elsif $p.name eq 'parameter' {
-      $ph<allow-none> = $attribs<allow-none>.Bool;
-      $ph<nullable> = $attribs<nullable>.Bool;
-      $ph<is-instance> = False;
-    }
-
-    @parameters.push: $ph;
-  }
-
-  ( $function-name, %(
-      :$option-name, :$function-doc, :@parameters,
-      :$rv-doc, :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
-      :$rv-transfer-ownership,
-    )
-  );
-}
-
-#-------------------------------------------------------------------------------
-method get-doc-type (
-  XML::Element $e, Bool :$return-type = False,
-  Bool :$add-gtype = False, XML::XPath :$xpath
-  --> List
-) {
-
-  my Str ( $doc, $type, $raku-ntype, $raku-rtype, $g-type) = '' xx 5;
-  for $e.nodes -> $n {
-    next if $n ~~ XML::Text;
-    with $n.name {
-      when 'doc' {
-        $doc = self.cleanup(
-          self.modify-text(($xpath.find( 'text()', :start($n)) // '').Str)
-        );
-      }
-
-      when 'type' {
-        my Hash $attribs = $n.attribs;
-        $type = $attribs<name>;
-#note "$?LINE $attribs.gist()" if $type ~~ m/Pixbuf/;
-#        $type ~~ s:g/ '.' //;
-        $raku-ntype =
-          self.convert-ntype($attribs<c:type> // $type, :$return-type);
-        $raku-rtype =
-          self.convert-rtype($attribs<c:type> // $type, :$return-type);
-        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
-      }
-
-      when 'array' {
-        # sometime there is no 'c:type', assume an array of strings
-        $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = self.convert-ntype( $type, :$return-type);
-        $raku-rtype = self.convert-rtype( $type, :$return-type);
-        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
-      }
-    }
-  }
-
-  ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
-}
-
-#-------------------------------------------------------------------------------
-method get-doc-type-code ( XML::Element $e --> List ) {
-
-  my Str ( $type, $raku-ntype, $raku-rtype) = '' xx 3;
-  for $e.nodes -> $n {
-    next if $n ~~ XML::Text;
-    with $n.name {
-      when 'type' {
-        $type = $n.attribs<name>;
-#print "$?LINE: $type, na = ", $n.attribs.gist;
-#        $type ~~ s:g/ '.' //;
-        $raku-ntype =
-          self.convert-ntype($n.attribs<c:type> // $type);
-        $raku-rtype =
-          self.convert-rtype($n.attribs<c:type> // $type);
-      }
-
-      when 'array' {
-        # sometimes there is no 'c:type', assume an array of strings
-        $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = self.convert-ntype( $type);
-        $raku-rtype = self.convert-rtype( $type);
-      }
-    }
-  }
-
-#note " -> $raku-ntype, $raku-rtype\n";
-  ( $type, $raku-ntype, $raku-rtype)
-}
-
-#-------------------------------------------------------------------------------
-method modify-text ( Str $text is copy --> Str ) {
-
-  # Do not modify text whithin example code. C code is to be changed
-  # later anyway and on other places like in XML examples it must be kept as is.
-  my Int $ex-counter = 0;
-  my Hash $examples = %();
-  while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
-    my Str $example = $<example>.Str;
-    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
-    $examples{$ex-key} = $example;
-    $text ~~ s/ $example /$ex-key/;
-  }
-
-  $text = self.modify-signals($text);
-  $text = self.modify-properties($text);
-  $text = self.modify-functions($text);
-  $text = self.modify-variables($text);
-  $text = self.modify-markdown-links($text);
-  $text = self.modify-classes($text);
-  $text = self.modify-rest($text);
-
-  # Subtitute the examples back into the text before we can finally modify it
-  for $examples.keys -> $ex-key {
-    $text ~~ s/ $ex-key /$examples{$ex-key}/;
-  }
-
-  $text = self.modify-xml($text);
-  $text = self.modify-examples($text);
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify text '::sig-name'
-method modify-signals ( Str $text is copy --> Str ) {
-
-  my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#'? $<cname> = [\w+]? '::' $<signal-name> = [<[-\w]>+] /;
-  while $text ~~ $r {
-    my Str $signal-name = $<signal-name>.Str;
-    my Str $cname = ($<cname>//'').Str;
-    if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#'? $cname '::' $signal-name /I<$signal-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $cname'::' $signal-name /I<$signal-name defined in $cname>/;
-    }
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-properties ( Str $text is copy --> Str ) {
-
-  my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#'? $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
-  while $text ~~ $r {
-    my Str $pname = $<pname>.Str;
-    my Str $cname = ($<cname>//'').Str;
-    if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#'? $cname ':' $pname /I<property $pname>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $cname':' $pname /I<property $pname defined in $cname>/;
-    }
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-variables ( Str $text is copy --> Str ) {
-
-  $text ~~ s:g/ \s? '@' (\w+) / C<\$$0>/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-build-variables (
-  Str $text is copy, Hash $variable-map
-  --> Str
-) {
-  # Only map for names in hash, others are done above. This is meant to
-  # be used for the BUILD options to variable mapping. The substitutions might
-  # already been done via .modify-text() so check on '$' as well.
-  for $variable-map.kv -> $orig, $new {
-    $text ~~ s:g/ \s? ['$'] $orig / \$$new/;
-    $text ~~ s:g/ \s? ['@'] $orig / C<\$$new>/;
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-functions ( Str $text is copy --> Str ) {
-
-  my Str $sub-prefix = $*work-data<sub-prefix>;
-
-  # When a local function has '_new_' in the text, convert it into an init call
-  # E.g. 'gtk_label_new_with_mnemonic()' becomes '.new(:$with-mnemonic)'
-  $text ~~ s:g/ $sub-prefix new '_' (\w+) '()'
-              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
-
-  # Other functions local to this module, remove the sub-prefix and place
-  # a '.' at front. E.g in module Label and package Gtk3 converting
-  # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
-  $text ~~ s:g/ $sub-prefix (\w+) '()' 
-              /C<.{S:g/'_'/-/ with $0}\(\)>/;
-
-  # Functions not local to this module
-  my Regex $r = / $<function-name> = [
-                    <!after "\x200B">
-                    [ atk || gtk || gdk || gsk ||
-                      pangocairo || pango || cairo || g
-                    ]
-                    '_' \w*?
-                  ] '()'
-                /;
-
-  while $text ~~ $r {
-    my Str $function-name = $<function-name>.Str;
-    my Hash $h = self.search-name($function-name);
-    my Str $package-name = $h<raku-package> // '';
-    my Str $raku-name = $h<rname> // '';
-    
-    if ?$raku-name {
-      $text ~~ s:g/ $function-name\(\) 
-                  /C<\x200B$raku-name\(\) function from $package-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
-    }
-  }
-
-  # After all work remove the zero width space marker
-  $text ~~ s:g/ \x200B //;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-classes ( Str $text is copy --> Str ) {
-
-  # When classnames are found (or not) a zero width space is inserted just
-  # before the word to prevent finding this word (or part of it again when not
-  # substituted. See also https://invisible-characters.com/.
-  my Regex $r = / '#'? $<class-name> = [
-                     <!after ["\x200B" || '::']>
-                     [ Atk || Gtk || Gdk || Gsk ||
-                       PangoCairo || Pango || Cairo || G
-                     ]
-                     \w+
-                  ]
-                /;
-
-  while $text ~~ $r {
-    my Str $class-name = $<class-name>.Str;
-    my Hash $h = self.search-name($class-name);
-    my Str $raku-name = $h<rname> // '';
-
-    if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
-      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name enumeration>/;
-    }
-    
-    elsif ?$h<gir-type> and $h<gir-type> eq 'bitfield' {
-      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name bitfield>/;
-    }
-    
-    elsif ?$raku-name {
-      $text ~~ s:g/ '#'? $class-name /B<\x200B$raku-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $class-name /\x200B$class-name/;
-    }
-  }
-
-  # After all work remove the zero width space marker
-  $text ~~ s:g/ \x200B //;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# convert |[ … ]| marks. Must be processed at the end because other
-# modifications may depend on those marks
-method modify-examples ( Str $text is copy --> Str ) {
-
-  $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="xml"' \s* '-->' 
-              /=begin comment\nFollowing text is XML\n= begin code\n/;
-
-  $text ~~ s:g/^^ '|[<!-- language="plain" -->'
-              /=begin comment\n= begin code/;
-
-  $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="C"' \s* '-->' 
-              /=begin comment\n= begin code/;
-
-  $text ~~ s:g/^^ ']|' /= end code\n=end comment\n/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify xml remnants
-method modify-xml ( Str $text is copy --> Str ) {
-  
-  # xml escapes
-  $text ~~ s:g/ '&lt;' /</;
-  $text ~~ s:g/ '&gt;' />/;
-  $text ~~ s:g/ '&amp;' /\&/;
-  $text ~~ s:g/ [ '&#160;' || '&nbsp;' ] / /;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-markdown-links ( Str $text is copy --> Str ) {
-  $text ~~ s:g/ \s '[' ( <-[\]]>+ ) '][' <-[\]]>+ ']' / $0/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify rest
-method modify-rest ( Str $text is copy --> Str ) {
-
-  # variable changes
-  $text ~~ s:g/ '%' TRUE /C<True>/;
-  $text ~~ s:g/ '%' FALSE /C<False>/;
-  $text ~~ s:g/ '%' NULL /C<Nil>/;
-
-  # sections
-  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
-#  $text = self.scan-for-unresolved-items($text);
-  $text ~~ s:g/ ' '+ / /;
-  $text ~~ s:g/ <|w> \n <|w> / /;
-  $text ~~ s:g/ \n ** 3..* /\n\n/;
-
-  if $trim {
-    $text ~~ s/^ \s+ //;
-    $text ~~ s/ \s+ $//;
-  }
-
-  $text
 }
