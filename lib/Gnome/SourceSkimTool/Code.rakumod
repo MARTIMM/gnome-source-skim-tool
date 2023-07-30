@@ -887,7 +887,6 @@ method get-callback-function ( Str $function-name --> Hash ) {
 method generate-callback (
   Str $function-name, Hash $cb-data, Bool :$named-parameter = False --> Str
 ) {
-
   return '' unless ?$cb-data;
 
   my Str $par-list = '';
@@ -898,17 +897,16 @@ method generate-callback (
 
   # Remove first comma and space when there is only one parameter
   $par-list ~~ s/^ . //;
-#  $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
 
   my Str $returns;
   my $xtype = $cb-data<return-raku-ntype>;
   my ( $rnt0, $rnt1) = $xtype.split(':');
-  if ?$rnt1 {
-    $returns = " :returns\($rnt0\), :type-name\($rnt1\),";
+  if ?$rnt0 and $rnt0 eq 'void' {
+    $returns = '';
   }
 
-  elsif ?$rnt0 and $xtype ne 'void' {
-    $returns = " :returns\($rnt0\),";
+  elsif ?$rnt0 {
+    $returns = $rnt0;
   }
 
   else {
@@ -917,9 +915,7 @@ method generate-callback (
 
   my $code = [~] 'Callable ', ($named-parameter ?? ':$' !! '$'),
                   $function-name, ' (', $par-list,
-                  (?$returns ?? " --> $returns )" !! ' )');
-#  $code ~= " --> $returns" if ?$returns;
-#  $code ~= ')';
+                  (?$returns ?? " --> $returns \)" !! ' )');
 
   $code
 }
