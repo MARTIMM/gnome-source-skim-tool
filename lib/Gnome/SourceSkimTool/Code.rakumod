@@ -203,11 +203,12 @@ method make-build-submethod (
   my Hash $h = self.search-name($ctype);
 
   my Str $signal-admin = '';
+
+  # See which roles to implement
   my Str $role-signals = '';
   my Array $roles = $h<implement-roles> // [];
   for @$roles -> $role {
     my Hash $role-h = self.search-name($role);
-#note "$?LINE role=$role -> $role-h.gist()";
     $role-signals ~=
       "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
       "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
@@ -249,27 +250,21 @@ method make-build-submethod (
       EOBUILD
   }
 
+  my Str $c = '';
+  if ?$signal-admin {
+    $c ~= [~] "\n", '# Add signal registration helper', "\n",
+              '  my Bool $signals-added = False;', "\n";
+  }
+
   my Str $code = qq:to/EOBUILD/;
-    {HLSEPARATOR}
-    {SEPARATOR('BUILD variables');}
-    {HLSEPARATOR}
+    {$!grd.pod-header('BUILD variables');}
     # Define helper
     has Gnome::Glib::GnomeRoutineCaller \$\!routine-caller;
-    
-    {?$signal-admin ?? '# Add signal registration helper' !! ''}
-    {?$signal-admin ?? 'my Bool $signals-added = False;' !! ''}
-
-    {HLSEPARATOR}
-    {SEPARATOR('BUILD submethod');}
-    {HLSEPARATOR}
+    $c
+    {$!grd.pod-header('BUILD submethod');}
     # Module initialize
     submethod BUILD ( *\%options ) \{
-    $signal-admin
-    EOBUILD
-
-
-  $code ~= qq:to/EOBUILD/;
-
+      $signal-admin
       # Initialize helper
       \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
 
@@ -308,42 +303,44 @@ method make-build-submethod (
   my Hash $hcs = self.get-constructors( $element, $xpath);
   for $hcs.keys.sort -> $function-name {
 
-    my Str $fallback-fst-arg = $function-name;
+#    my Str $fallback-fst-arg = $function-name;
     my $sub-prefix = $*work-data<sub-prefix>;
-    $fallback-fst-arg ~~ s/^ $sub-prefix //;
+#    $fallback-fst-arg ~~ s/^ $sub-prefix //;
+    my Hash $curr-function := $hcs{$function-name};
 
     my Bool $first = True;
-    my $par-list = '';
-    my $decl-list = '';
-    for @($hcs{$function-name}<parameters>) -> $parameter {
+    my Str $par-list = '';
+    my Str $decl-list = '';
+    my Str $inhibit =
+      ( $curr-function<missing-type> ||
+        $curr-function<variable-list> ) ?? '#' !! '';
+
+    for @($curr-function<parameters>) -> $parameter {
       if $first {
-        $par-list ~= ", \$$hcs{$function-name}<option-name>";
-        $decl-list ~= [~]  '        my $', $hcs{$function-name}<option-name>,
+        $par-list ~= ", \$$curr-function<option-name>";
+        $decl-list ~= [~]  '        ', $inhibit, 'my $',
+          $curr-function<option-name>,
           ' = %options<', $parameter<name>, '>;', "\n";
+
+        $first = False;
       }
 
       else {
         $par-list ~= ", \$$parameter<name>";
-        $decl-list ~= [~]  '        my $', $parameter<name>,
+        $decl-list ~= [~]  '        ', $inhibit, 'my $', $parameter<name>,
           ' = %options<', $parameter<name>, '>;', "\n";
       }
-
-      $first = False;
     }
 
-    # remove first comma
-    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
-
-    # remove first space when there is only one parameter
-    $par-list ~~ s/^ . // if @($hcs{$function-name}<parameters>).elems == 1;
-
+    # Remove first comma and first space
+    $par-list ~~ s/^ .. //;
     $code ~= qq:to/EOBUILD/;
-            #$ifelse \%options\<$hcs{$function-name}<option-name>\>.defined \{
-            #$ifelse \? \%options\<$hcs{$function-name}<option-name>\> \{
-            $ifelse \%options\<$hcs{$function-name}<option-name>\>:exists \{
+            #$ifelse \%options\<$curr-function<option-name>\>.defined \{
+            #$ifelse \? \%options\<$curr-function<option-name>\> \{
+            $ifelse \%options\<$curr-function<option-name>\>:exists \{
       $decl-list
               # 'my Bool \$x' is needed but value ignored
-              \$no = self\._fallback-v2\( '$fallback-fst-arg', my Bool \$x, ... \);
+              $inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
             \}
 
       EOBUILD
@@ -419,6 +416,73 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
+method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
+  my Bool $missing-type = False;
+  my Str $function-name = $e.attribs<c:identifier>;
+
+  my Str $sub-prefix = $*work-data<sub-prefix>;
+
+  # Find suitable option names for the BUILD submethod.
+  # Constructors have '_new' in the name. To get a name for the build options
+  # remove the subroutine prefix and the 'new_' string from the subroutine
+  # name.
+  my Str $option-name = $function-name;
+  $option-name ~~ s/^ $sub-prefix new '_'? //;
+
+  # Remove any other prefix ending in '_'.
+  my Int $last-u = $option-name.rindex('_');
+  $option-name .= substr($last-u + 1) if $last-u.defined;
+
+  # When nothing is left, mark the option as a default.
+  $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
+
+  # Find return value; constructors should return a native N-GObject while
+  # the gnome might say e.g. gtkwidget 
+  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
+  my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
+  $missing-type = True unless ?$return-raku-ntype;
+
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
+  my @parameters = ();
+  my @prmtrs = $xpath.find(
+    'parameters/instance-parameter | parameters/parameter',
+    :start($e), :to-list
+  );
+
+  my Bool $variable-list = False;
+  for @prmtrs -> $p {
+    my Str ( $type, $raku-ntype) = self!get-type($p);
+    $missing-type = True unless ?$raku-ntype;
+
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = $attribs<name>;
+    $parameter-name ~~ s:g/ '_' /-/;
+
+    # When '...', there will be no type for that parameter. It means that
+    # a variable argument list is used ending in a Nil.
+    if $parameter-name eq '...' {
+      $type = $raku-ntype = '…';
+      $variable-list = True;
+    }
+
+    my Hash $ph = %( :name($parameter-name), :$type, :$raku-ntype);
+
+    $ph<allow-none> = $attribs<allow-none>.Bool;
+    $ph<nullable> = $attribs<nullable>.Bool;
+    $ph<is-instance> = False;
+
+    @parameters.push: $ph;
+  }
+
+  ( $function-name, %(
+      :$option-name, :@parameters, :$variable-list,
+      :$rv-type, :$return-raku-ntype, :$missing-type
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
 method !generate-constructors ( Hash $hcs --> Str ) {
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
@@ -475,7 +539,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
     # Remove prefix from routine
     my Str $hash-fname = $function-name;
-    $hash-fname ~~ s/^ $sub-prefix //;
+#    $hash-fname ~~ s/^ $sub-prefix //;
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my ( $rnt0, $rnt1) = $curr-function<return-raku-ntype>.split(':');
@@ -1518,73 +1582,6 @@ method init-xpath ( Str $element-name, Str $gir-filename --> List ) {
   die "//$element-name elements not found in $*work-data{$gir-filename} for $*work-data<raku-class-name>" unless ?$element;
 
   ( $xpath, $element )
-}
-
-#-------------------------------------------------------------------------------
-method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
-  my Str ( $function-name, $option-name);
-  my Bool $missing-type = False;
-
-  $option-name = $function-name = $e.attribs<c:identifier>;
-  my Str $sub-prefix = $*work-data<sub-prefix>;
-
-  # Find suitable option names for the BUILD submethod.
-  # Constructors have '_new' in the name. To get a name for the build options
-  # remove the subroutine prefix and the 'new_' string from the subroutine
-  # name.
-  $option-name ~~ s/^ $sub-prefix new '_'? //;
-
-  # Remove any other prefix ending in '_'.
-  my Int $last-u = $option-name.rindex('_');
-  $option-name .= substr($last-u + 1) if $last-u.defined;
-
-  # When nothing is left, mark the option as a default.
-  $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
-
-  # Find return value; constructors should return a native N-GObject while
-  # the gnome might say e.g. gtkwidget 
-  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
-  $missing-type = True unless ?$return-raku-ntype;
-
-  # Get all parameters. Mostly the instance parameters come first
-  # but I am not certain.
-  my @parameters = ();
-  my @prmtrs = $xpath.find(
-    'parameters/instance-parameter | parameters/parameter',
-    :start($e), :to-list
-  );
-
-  my Bool $variable-list = False;
-  for @prmtrs -> $p {
-    my Str ( $type, $raku-ntype) = self!get-type($p);
-    $missing-type = True unless ?$raku-ntype;
-
-    my Hash $attribs = $p.attribs;
-    my Str $parameter-name = $attribs<name>;
-    $parameter-name ~~ s:g/ '_' /-/;
-
-    # When '...', there will be no type for that parameter. It means that
-    # a variable argument list is used ending in a Nil.
-    if $parameter-name eq '...' {
-      $type = $raku-ntype = '…';
-      $variable-list = True;
-    }
-
-    my Hash $ph = %( :name($parameter-name), :$type, :$raku-ntype);
-
-    $ph<allow-none> = $attribs<allow-none>.Bool;
-    $ph<nullable> = $attribs<nullable>.Bool;
-    $ph<is-instance> = False;
-
-    @parameters.push: $ph;
-  }
-
-  ( $function-name, %(
-      :$option-name, :@parameters, :$variable-list,
-      :$rv-type, :$return-raku-ntype, :$missing-type
-    )
-  );
 }
 
 #-------------------------------------------------------------------------------
