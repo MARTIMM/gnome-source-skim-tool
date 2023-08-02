@@ -38,18 +38,18 @@ method generate-code ( ) {
     use v6;
     RAKUMOD
 
-  note "Set class unit" if $*verbose;
-  $code ~= $!mod.set-unit($element);
-
   my $callables = $!mod.generate-callables( $element, $!xpath);
+  note "Set class unit" if $*verbose;
+  $code ~= $!mod.set-unit( $element, :callables(?$callables));
+
   if ?$callables {
     # Make a BUILD submethod
     note "Generate BUILD" if $*verbose;
     $code ~= $!mod.make-build-submethod( $element, $!xpath);
     $code ~= $callables;
-
-    $code = $!mod.substitute-MODULE-IMPORTS($code);
   }
+
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
   note "Save class module in ", $fname.IO.basename;

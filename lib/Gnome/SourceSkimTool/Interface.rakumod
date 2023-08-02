@@ -38,10 +38,11 @@ method generate-code ( ) {
     use v6;
     RAKUMOD
 
-  note "Set role unit" if $*verbose;
-  $code ~= $!mod.set-unit($element);
-
   my $callables = $!mod.generate-callables( $element, $!xpath);
+
+  note "Set role unit" if $*verbose;
+  $code ~= $!mod.set-unit( $element, :callables(?$callables));
+
   if ?$callables {
     # Roles do not have a BUILD
     note "Generate role initialization method" if $*verbose;  
