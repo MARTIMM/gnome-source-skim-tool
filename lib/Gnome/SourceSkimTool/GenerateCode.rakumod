@@ -105,12 +105,6 @@ method generate-code ( ) {
     }
   }
 
-  # int before continuing
-  $*external-modules = [<
-    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
-  >];
-
-
   my Gnome::SourceSkimTool::Prepare $t-prep .= new;
   for $!filedata.keys {
     # -> $type-name

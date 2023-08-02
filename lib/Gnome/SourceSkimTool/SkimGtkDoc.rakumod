@@ -3,7 +3,7 @@ use XML;
 use XML::XPath;
 use YAMLish;
 
-use Gnome::SourceSkimTool::ConstEnumType;
+#use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
 
 
