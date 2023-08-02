@@ -1,8 +1,8 @@
 #!/usr/bin/env rakudo
 
-use Gnome::SourceSkimTool::SkimGtkDoc;
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Prepare;
+use YAMLish;
 
 #-------------------------------------------------------------------------------
 my SkimSource $*gnome-package;
@@ -22,11 +22,13 @@ my Str $*callable-code = '';
 my Str $*types-code = '';
 my Str $*record-code = '';
 
-my Array $*external-modules;
+my Hash $*external-modules = %();
 my @*map-search-list;
 
 my $*command-line = $*PROGRAM-NAME.IO.basename ~ ' ' ~ @*ARGS.join(' ');
 my @*gir-type-select;
+
+my Hash $*lib-content-list-file = load-yaml(lib-content-list-file.IO.slurp);
 
 #-------------------------------------------------------------------------------
 sub MAIN (
@@ -63,17 +65,12 @@ sub MAIN (
 
   @*gir-type-select = @types // ();
 
-#note "$?LINE $f, $*generate-code, $*generate-doc, $*generate-test, $gnome-class";
-
-#  $*external-modules = [<
-#    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
-#  >];
-
   if $gir {
     say "Generate the intermediate gir and yaml files" if $*verbose;
 #    $*gnome-class = $gnome-class // 'Widget';
     my Gnome::SourceSkimTool::Prepare $prepare .= new(:!load-maps);
-    my Gnome::SourceSkimTool::SkimGtkDoc $skim-doc .= new;
+    require ::('Gnome::SourceSkimTool::SkimGtkDoc');
+    my $skim-doc = ::('Gnome::SourceSkimTool::SkimGtkDoc').new;
     $skim-doc.load-gir-file;
     $skim-doc.get-classes-from-gir;
   }

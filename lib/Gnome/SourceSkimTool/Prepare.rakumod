@@ -10,9 +10,11 @@ has Int $!indent-level;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( Bool :$load-maps = True ) {
-  $*external-modules = [<
-    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
-  >];
+  $*external-modules = %(
+    :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
+    'Gnome::N::N-GObject' => EMTNotInApi2,
+    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2
+  );
 
   $*verbose //= False;
 

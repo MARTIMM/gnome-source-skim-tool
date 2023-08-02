@@ -40,6 +40,8 @@ kaal '/usr/bin/time raku Window.rakutest'
 -->
 * 2023-07-26 0.10.1
   * Moved code from `SearchAndSubstitute()` back to Code module.
+  * Add a program to make lists of gnome modules in old and in new packages. This is to be able to set the proper `:api<>` or inhibit `use` statements. For this to work `$*external-modules` needed to change as well as some methods.
+
 
 * 2023-07-21 0.10.0
   * New modules and old one renamed.

@@ -116,11 +116,6 @@ $prepare.display-hash( $*work-data, :label<union work data>);
     }
   }
 
-  # int before continuing
-  $*external-modules = [<
-    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
-  >];
-
   my Gnome::SourceSkimTool::Prepare $t-prep .= new;
   for $!filedata.keys {
      # -> $type-name
@@ -138,7 +133,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         $filename = $v<module-filename> unless ?$filename;
         unless ?$class-name {
           $class-name = $v<class-name>;
-          $!tst.add-import($class-name);
+          $!mod.add-import($class-name);
         }
       }
 
@@ -154,7 +149,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         $filename = $v<module-filename> unless ?$filename;
         unless ?$class-name {
           $class-name = $v<class-name>;
-          $!tst.add-import($class-name);
+          $!mod.add-import($class-name);
         }
       }
 
@@ -169,7 +164,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         $filename = $v<module-filename> unless ?$filename;
         unless ?$class-name {
           $class-name = $v<class-name>;
-          $!tst.add-import($class-name);
+          $!mod.add-import($class-name);
         }
       }
 
@@ -186,7 +181,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
         $filename = $v<module-filename> unless ?$filename;
         unless ?$class-name {
           $class-name = $v<class-name>;
-          $!tst.add-import($class-name);
+          $!mod.add-import($class-name);
         }
       }
 
@@ -257,7 +252,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
     }
 }}
 
-    $code = $!tst.substitute-MODULE-IMPORTS($code);
+    $code = $!mod.substitute-MODULE-IMPORTS($code);
 
     note "Save types tests in ", $filename.IO.basename;
     $filename.IO.spurt($code);
@@ -503,11 +498,6 @@ method generate-code ( ) {
       }
     }
   }
-
-  # int before continuing
-  $*external-modules = [<
-    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
-  >];
 
 
   my Gnome::SourceSkimTool::Prepare $t-prep .= new;

@@ -15,6 +15,7 @@ mkdir RAKUMODS, 0o700 unless RAKUMODS.IO ~~ :e;
 
 constant GIRROOT is export = '/usr/share/gir-1.0/';
 
+#-------------------------------------------------------------------------------
 constant HLSEPARATOR is export = '#' ~ '-' x 79;
 constant HLPODSEPARATOR is export = '=comment ' ~ '-' x 71;
 
@@ -28,6 +29,10 @@ sub SEPARATOR( Str $text, Int $indent = 0 --> Str ) is export {
     [~] (' ' x $indent), '#', '-' x (79 - $indent);
   }
 }
+
+#-------------------------------------------------------------------------------
+constant lib-content-list-file is export =
+  SKIMTOOLROOT ~ 'lib-content-list.yaml';
 
 #-------------------------------------------------------------------------------
 #`{{
@@ -52,7 +57,9 @@ enum SkimSource is export <
   GIRepo
 >;
 
-
+enum ExternalModuleType is export <
+  EMTRakudo EMTNotImplemented EMTNotInApi2 EMTInApi2
+>;
 
 
 

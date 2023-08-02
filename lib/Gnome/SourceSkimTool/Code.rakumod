@@ -18,7 +18,7 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method set-unit ( XML::Element $element --> Str ) {
+method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
   my Str $also = '';
   my Str $ctype = $element.attribs<c:type>;
@@ -29,7 +29,7 @@ method set-unit ( XML::Element $element --> Str ) {
   if ?$parent {
     # Misc is deprecated so shortcut to Widget
     $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
-    $*external-modules.push: $parent;
+    self.add-import($parent);
     $also ~= "also is $parent;\n";
   }
 
@@ -42,7 +42,7 @@ method set-unit ( XML::Element $element --> Str ) {
     for @$roles -> $role {
       my Hash $role-h = self.search-name($role);
 #note "$?LINE role=$role -> $role-h.gist()";
-      $*external-modules.push: $role-h<class-name>;
+      self.add-import($role-h<class-name>);
       $also ~= "also does $role-h<class-name>;\n" if ?$role-h<class-name>;
     }
   }
@@ -51,7 +51,7 @@ method set-unit ( XML::Element $element --> Str ) {
 
     {$!grd.pod-header('Module Imports')}
     __MODULE__IMPORTS__
-    use Gnome::Glib::GnomeRoutineCaller:api<2>;
+    {$callables ?? 'use Gnome::Glib::GnomeRoutineCaller:api<2>;' !! ''}
 
     {$!grd.pod-header(($is-role ?? 'Role' !! 'Class') ~ ' Declaration');}
     unit {$is-role ?? 'role' !! 'class'} $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
@@ -100,23 +100,27 @@ method generate-callables (
   my Str $code = '';
   my Str $c;
 
-  # Generate constructors
   my Hash $hcs = self.get-constructors( $element, $xpath);
+  # Generate constructors
   $code ~= self!generate-constructors($hcs) if ?$hcs;
   note "Generate constructors" if $*verbose and ?$code;
 
-  # Generate methods
-  $c = self!generate-methods( $element, $xpath);
-  $code ~= $c if ?$c;
-  note "Generate methods" if $*verbose and ?$c;
-
-  # Generate functions
+  # Get all methods in this class
+  $hcs = self!get-methods( $element, $xpath);
+  if ?$hcs {
+    # Generate methods
+    $c = self!generate-methods($hcs);
+    $code ~= $c if ?$c;
+    note "Generate methods" if $*verbose and ?$c;
+  }
 
   # Get all functions in this class
-  my Hash $hfs = self!get-functions( $element, $xpath);
-  $code ~= self.generate-functions($hfs);
-
-  note "Generate functions" if $*verbose and ?$c;
+  $hcs = self!get-functions( $element, $xpath);
+  if ?$hcs {
+    # Generate functions
+    $code ~= self.generate-functions($hcs);
+    note "Generate functions" if $*verbose and ?$c;
+  }
 
   # if there are constructors, methods or functions, add the structure and
   # the fallback routine
@@ -301,66 +305,72 @@ method make-build-submethod (
 
   my Str $ifelse = 'if';
   my Hash $hcs = self.get-constructors( $element, $xpath);
-  for $hcs.keys.sort -> $function-name {
+  if ?$hcs {
+    for $hcs.keys.sort -> $function-name {
 
-#    my Str $fallback-fst-arg = $function-name;
-    my $sub-prefix = $*work-data<sub-prefix>;
-#    $fallback-fst-arg ~~ s/^ $sub-prefix //;
-    my Hash $curr-function := $hcs{$function-name};
+  #    my Str $fallback-fst-arg = $function-name;
+      my $sub-prefix = $*work-data<sub-prefix>;
+  #    $fallback-fst-arg ~~ s/^ $sub-prefix //;
+      my Hash $curr-function := $hcs{$function-name};
 
-    my Bool $first = True;
-    my Str $par-list = '';
-    my Str $decl-list = '';
-    my Str $inhibit =
-      ( $curr-function<missing-type> ||
-        $curr-function<variable-list> ) ?? '#' !! '';
+      my Bool $first = True;
+      my Str $par-list = '';
+      my Str $decl-list = '';
+      my Str $inhibit =
+        ( $curr-function<missing-type> ||
+          $curr-function<variable-list> ) ?? '#' !! '';
 
-    for @($curr-function<parameters>) -> $parameter {
-      if $first {
-        $par-list ~= ", \$$curr-function<option-name>";
-        $decl-list ~= [~]  '        ', $inhibit, 'my $',
-          $curr-function<option-name>,
-          ' = %options<', $parameter<name>, '>;', "\n";
+      for @($curr-function<parameters>) -> $parameter {
+  #`{{
+          if $first {
+          $par-list ~= ", \$$curr-function<option-name>";
+          $decl-list ~= [~]  '        ', $inhibit, 'my $',
+            $curr-function<option-name>,
+            ' = %options<', $parameter<name>, '>;', "\n";
 
-        $first = False;
+          $first = False;
+        }
+
+        else {
+  }}
+          $par-list ~= ", \$$parameter<name>";
+          $decl-list ~= [~]  '        ', $inhibit, 'my $', $parameter<name>,
+            ' = %options<', $parameter<name>, '>;', "\n";
+  #      }
       }
 
-      else {
-        $par-list ~= ", \$$parameter<name>";
-        $decl-list ~= [~]  '        ', $inhibit, 'my $', $parameter<name>,
-          ' = %options<', $parameter<name>, '>;', "\n";
-      }
+      # Remove first comma and first space
+      $par-list ~~ s/^ .. //;
+      $code ~= qq:to/EOBUILD/;
+              #$ifelse \%options\<$curr-function<option-name>\>.defined \{
+              #$ifelse \? \%options\<$curr-function<option-name>\> \{
+              $ifelse \%options\<$curr-function<option-name>\>:exists \{
+        $decl-list
+                # 'my Bool \$x' is needed but value ignored
+                $inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
+              \}
+
+        EOBUILD
+
+      $ifelse = "elsif";
     }
-
-    # Remove first comma and first space
-    $par-list ~~ s/^ .. //;
-    $code ~= qq:to/EOBUILD/;
-            #$ifelse \%options\<$curr-function<option-name>\>.defined \{
-            #$ifelse \? \%options\<$curr-function<option-name>\> \{
-            $ifelse \%options\<$curr-function<option-name>\>:exists \{
-      $decl-list
-              # 'my Bool \$x' is needed but value ignored
-              $inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
-            \}
-
-      EOBUILD
-
-    $ifelse = "elsif";
   }
 
   if !$h<inheritable> {
-    $code ~= q:to/EOBUILD/;
+    $code ~= qq:to/EOBUILD/;
           # check if there are unknown options
-          elsif %options.elems {
-            die X::Gnome.new(
-              :message(
+          $ifelse %options.elems \{
+            die X::Gnome.new\(
+              :message\(
                 'Unsupported, undefined, incomplete or wrongly typed options for ' ~
-                self.^name ~ ': ' ~ %options.keys.join(', ')
-              )
-            );
-          }
+                self\.\^name ~ ': ' ~ \%options.keys.join\(', '\)
+              \)
+            \);
+          \}
 
     EOBUILD
+
+    $ifelse = "elsif";
   }
 
   $code ~= q:to/EOBUILD/;
@@ -545,10 +555,9 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     my ( $rnt0, $rnt1) = $curr-function<return-raku-ntype>.split(':');
     if ?$rnt1 {
 #TM:1:$hash-fname
-    $code ~= [~] '  ', $hash-fname, ' => %( :type(Constructor),',
-                 ':returns(', $rnt0, '), ',
-                 ':type-name(', $rnt1, '), ',
-                 $parameters, "),\n";
+    $code ~= [~] '  ', $temp-inhibit, $hash-fname,
+                 ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
+                 ':type-name(', $rnt1, '), ',  $parameters, "),\n";
 #`{{
       $code ~= qq:to/EOSUB/;
         $hash-fname =\> \%\(
@@ -585,7 +594,29 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
+method !get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
+  my Hash $hms = %();
+
+  my @methods = $xpath.find( 'method', :start($element), :to-list);
+
+  for @methods -> $function {
+    # Skip deprecated methods
+    next if $function.attribs<deprecated>:exists and
+            $function.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) = self!get-method-data( $function, :$xpath);
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
+#-------------------------------------------------------------------------------
+method !generate-methods ( Hash $hcs --> Str ) {
+
+  # Get all methods in this class
+  #my Hash $hcs = self!get-methods( $element, $xpath);
+  #return '' unless ?$hcs;
 
 #  my Str $ctype = $element.attribs<c:type>;
 #  my Hash $h = self.search-name($ctype);
@@ -594,18 +625,16 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Str $pattern = '';
   my Str $temp-inhibit = '';
 
-  # Get all methods in this class
-  my Hash $hcs = self!get-methods( $element, $xpath);
-  return '' unless ?$hcs;
-
   my Str $code = qq:to/EOSUB/;
 
     {SEPARATOR( 'Methods', 2);}
     EOSUB
 
   for $hcs.keys.sort -> $function-name {
-#note "\n$?LINE  $function-name";
     my Hash $curr-function := $hcs{$function-name};
+    $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
+
+#note "$?LINE  $function-name, inhibit: ?$temp-inhibit, $curr-function<missing-type>";
 
     $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
 
@@ -620,7 +649,6 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
     my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
 #note "  $?LINE $parameter<name> $parameter<raku-ntype>";
-      $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
       # Get a list of types for the arguments but skip the first native type
       # This is the instance variable which is inserted automatically in the
@@ -630,35 +658,42 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
       }
 
       else {
-        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-        # Here we only need the type.
-        my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
+        my Str $xtype = $parameter<raku-ntype>;
+        # Signatures have a colon at the first char followed by '('
+        if $xtype ~~ m/^ ':(' / {
+          $par-list ~= ", $xtype";
+        }
+
+        else {
+          # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+          # Here we only need the type.
+          my ( $rnt0, $rnt1) = $xtype.split(':');
 #        $par-list ~= ", $rnt0";
 
-        if $curr-function<variable-list> {
-          # When variable list, the last type is '…', Finish the pattern.
-          if $parameter<raku-ntype> eq '…' {
-            # A pattern consists of a character key and some value of an unknown
-            # type. This repeats until user data is exhausted.
-            # Then end with a 0. The first argument in the pattern is a string
-            # (mostly) then a value followed by the type of that value. Take
-            # glib types!
+          if $curr-function<variable-list> {
+            # When variable list, the last type is '…', Finish the pattern.
+            if $parameter<raku-ntype> eq '…' {
+              # A pattern consists of a character key and some value of an 
+              # unknown type. This repeats until user data is exhausted.
+              # Then end with a 0. The first argument in the pattern is a string
+              # (mostly) then a value followed by the type of that value. Take
+              # glib types!
 
-            #TODO investigate if this is always true in gnome variable lists.
-            $pattern ~= "$pattern-starter, Nil]), ";
-            last;
+              #TODO investigate if this is always true in gnome variable lists.
+              $pattern ~= "$pattern-starter, Nil]), ";
+              last;
+            }
+
+            else {
+              # The $par-list will have the non-repetative arguments
+              $par-list ~= ", $pattern-starter" if ?$pattern-starter;
+              $pattern-starter = $rnt0;
+            }
           }
 
           else {
-            # The $par-list will have the non-repetative arguments
-            $par-list ~= ", $pattern-starter" if ?$pattern-starter;
-            $pattern-starter = $rnt0;
+            $par-list ~= ", $rnt0";
           }
-        }
-
-
-        else {
-          $par-list ~= ", $rnt0";
         }
       }
     }
@@ -705,23 +740,6 @@ method !generate-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
-  my Hash $hms = %();
-
-  my @methods = $xpath.find( 'method', :start($element), :to-list);
-
-  for @methods -> $cn {
-    # Skip deprecated methods
-    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
-
-    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
-    $hms{$function-name} = %h;
-  }
-
-  $hms
-}
-
-#-------------------------------------------------------------------------------
 method generate-functions ( Hash $hcs --> Str ) {
 
   return '' unless ?$hcs;
@@ -739,6 +757,7 @@ method generate-functions ( Hash $hcs --> Str ) {
 
   for $hcs.keys.sort -> $function-name {
     my Hash $curr-function := $hcs{$function-name};
+    $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
      # Get method name, drop the prefix and substitute '_'
     my Str $hash-fname = $function-name;
@@ -889,11 +908,12 @@ method !get-functions ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
   my @methods = $xpath.find( 'function', :start($element), :to-list);
 
-  for @methods -> $cn {
+  for @methods -> $function {
     # Skip deprecated methods
-    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+    next if $function.attribs<deprecated>:exists and
+            $function.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
+    my ( $function-name, %h) = self!get-method-data( $function, :$xpath);
     $hms{$function-name} = %h;
   }
 
@@ -949,7 +969,8 @@ method get-callback-function ( Str $function-name --> Hash ) {
 
 #-------------------------------------------------------------------------------
 method generate-callback (
-  Str $function-name, Hash $cb-data, Bool :$named-parameter = False --> Str
+#  Str $function-name, Hash $cb-data, Bool :$named-parameter = False --> Str
+  Str $function-name, Hash $cb-data --> Str
 ) {
   return '' unless ?$cb-data;
 
@@ -977,9 +998,12 @@ method generate-callback (
     $returns = '';
   }
 
-  my $code = [~] 'Callable ', ($named-parameter ?? ':$' !! '$'),
-                  $function-name, ' (', $par-list,
-                  (?$returns ?? " --> $returns \)" !! ' )');
+#Must do it differently, no argument spec but type => signature
+#  my $code = [~] 'Callable ', ($named-parameter ?? ':$' !! '$'),
+#                  $function-name, ' (', $par-list,
+#                  (?$returns ?? " --> $returns \)" !! ' )');
+
+  my $code = [~] ':(', $par-list, ?$returns ?? " --> $returns \)" !! ' )';
 
   $code
 }
@@ -1256,9 +1280,11 @@ method generate-constants ( @constants --> Str ) {
 method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 
   my $temp-external-modules = $*external-modules;
-  $*external-modules = [<
-    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
-  >];
+  $*external-modules = %(
+    'NativeCall' => (EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
+    'Gnome::N::N-GObject' => EMTNotInApi2,
+    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2
+  );
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = self.search-name($name);
@@ -1376,12 +1402,8 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
       EOREC
 
 #    $code ~= "\n\n";
-    $*external-modules.push: 'Gnome::N::X';
+    self.add-import('Gnome::N::X');
     $code = self.substitute-MODULE-IMPORTS($code);
-
-    # Reset to original and add this structure
-    $*external-modules = $temp-external-modules;
-    $*external-modules.push: $structure-name;
   }
 
   else {
@@ -1391,11 +1413,11 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
       unit class $structure-name is export is repr\('CPointer');
 
       EOREC
-
-    # Reset to original and add this structure
-    $*external-modules = $temp-external-modules;
-    $*external-modules.push: $structure-name;
   }
+
+  # Reset to original and add this structure
+  $*external-modules = $temp-external-modules;
+  self.add-import($structure-name);
 
   my Str $fname = $h0<structure-filename>;
   $fname.IO.spurt($code);
@@ -1407,9 +1429,11 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 method generate-union ( XML::XPath $xpath, XML::Element $element ) {
 
   my $temp-external-modules = $*external-modules;
-  $*external-modules = [<
-    NativeCall Gnome::N::NativeLib Gnome::N::N-GObject Gnome::N::GlibToRakuTypes
-  >];
+  $*external-modules = %(
+    :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
+    'Gnome::N::N-GObject' => EMTNotInApi2,
+    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2
+  );
 
   my @fields = $xpath.find( 'field', :start($element), :to-list);
   return '' unless ?@fields;
@@ -1458,12 +1482,12 @@ method generate-union ( XML::XPath $xpath, XML::Element $element ) {
     
     RAKUMOD
 
-  $*external-modules.push: 'Gnome::N::X';
+  self.add-import('Gnome::N::X');
   $code = self.substitute-MODULE-IMPORTS($code);
 
   # Reset to original and add this structure
   $*external-modules = $temp-external-modules;
-  $*external-modules.push: $structure-name;
+  self.add-import($structure-name);
 
   my Str $fname = $h0<structure-filename>;
   $fname.IO.spurt($code);
@@ -1542,31 +1566,54 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+#NOTE not from Prepare: circular deps!
+method add-import ( Str $import --> Bool ) {
+  my Bool $available = False;
+#  my ExternalModuleType $mtype = self.get-module-type($parent);
+
+  # Add only when $import is not in the array or when $import is not this class
+  unless $*external-modules{$import}:exists {
+    if $*lib-content-list-file{$import}:exists {
+      $*external-modules{$import} = ExternalModuleType(
+        ExternalModuleType.enums{$*lib-content-list-file{$import}}
+      );
+    }
+
+    else {
+      $*external-modules{$import} = EMTNotImplemented;
+    }
+note "$?LINE Add mpdule $import: $*lib-content-list-file{$import}, ", $*lib-content-list-file{$import}.WHAT;
+  }
+
+  $available
+}
+
+#-------------------------------------------------------------------------------
 # Fill in the __MODULE__IMPORTS__ string inserted at the start of the code
 # generation. It is the place where the 'use' statements must come.
 method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
 
   note "Set modules to import" if $*verbose;
   my $import = '';
-  for @$*external-modules -> $m {
-    if $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
-      $import ~= "use $m;\n";
-    }
+  for $*external-modules.kv -> $m, $s {
+    $import ~= "use $m;\n" if $s ~~ EMTRakudo;
   }
 
   $import ~= "\n";
 
-  for @$*external-modules.sort -> $m {
-    unless $m ~~ m/ [ NativeCall || 'Gnome::N::' ] / {
-      # For the moment only Gtk gets changed for :api<2>
-#      if $m ~~ m/ '::' [ Gtk || Gdk ] / {
-        $import ~= "use $m\:api\<2\>;\n";
-#      }
+  for $*external-modules.kv -> $m, $s {
+    $import ~= "use $m;\n" if $s ~~ EMTNotInApi2;
+  }
 
-#      else {
-#        # Other modules may need name changes
-#        $import ~= "use $m;\n";
-#      }
+  $import ~= "\n";
+
+  for $*external-modules.keys.sort -> $m {
+    if $*external-modules{$m} ~~ EMTNotImplemented {
+      $import ~= "#use $m\:api\<2\>;\n";
+    }
+
+    elsif $*external-modules{$m} ~~ EMTInApi2 {
+      $import ~= "use $m\:api\<2\>;\n";
     }
   }
 
@@ -1618,8 +1665,8 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
     # a variable argument list is used ending in a Nil.
     if $parameter-name eq '...' {
 #      $type = $raku-ntype = $raku-rtype = '…';
-       $type = $raku-ntype = '…';
-     $variable-list = True;
+      $type = $raku-ntype = '…';
+      $variable-list = True;
     }
 
     my Hash $ph = %(
@@ -1627,7 +1674,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 #      :transfer-ownership($attribs<transfer-ownership>),
 #      :$raku-rtype
     );
-
+#`{{
     if $p.name eq 'instance-parameter' {
       $ph<allow-none> = False;
       $ph<nullable> = False;
@@ -1639,9 +1686,10 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
       $ph<nullable> = $attribs<nullable>.Bool;
       $ph<is-instance> = False;
     }
-
+}}
     @parameters.push: $ph;
   }
+#note "  $?LINE $function-name, miss types: $missing-type";
 
   ( $function-name, %(
       :@parameters, :$variable-list, :$rv-type, :$return-raku-ntype,
@@ -1727,17 +1775,6 @@ method !get-type ( XML::Element $e --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-#NOTE not from Prepare: circular deps!
-method add-import ( Str $import ) {
-  # Add only when $import is not in the array or when $import is not this class
-  unless $*external-modules.first($import)
-         or $import eq $*work-data<raku-class-name> {
-
-    $*external-modules.push: $import;
-  }
-}
-
-#-------------------------------------------------------------------------------
 method convert-ntype (
   Str $ctype is copy --> Str
 #  Str $ctype is copy, Bool :$return-type = False --> Str
@@ -1791,14 +1828,6 @@ method convert-ntype (
     when 'GType'              { $raku-type = 'GType'; }
 
     when 'void'               { $raku-type = 'void'; }
-
-#`{{
-    when /GError '*'/ {
-      $raku-type = 'CArray[N-GError]';
-      $*external-modules.push: 'Gnome::Glib::Error'
-        unless $*external-modules.first('Gnome::Glib::Error');
-    }
-}}
 
 
     default {
