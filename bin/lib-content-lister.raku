@@ -26,13 +26,9 @@ lib-content-list-file.IO.spurt(save-yaml($list));
 #-------------------------------------------------------------------------------
 sub list-dir ( Str $cdir ) {
   return if $cdir ~~ m/ '.precomp' /;
-#note " $cdir, $mod-type";
-
-#note "$cdir, {.Str}" for dir($cdir);
 
   for dir($cdir) -> $f {
     if $f ~~ :d {
-#note $f.Str;
       list-dir($f.Str);
     }
 
@@ -41,11 +37,9 @@ sub list-dir ( Str $cdir ) {
       next if $m ~~ m/ [ '.directory' || 'code-workspace' ] /;
 
       $m ~~ s/^ .*? '/lib/' //;
-#      $m ~~ s/^ 'xt/NewRakuModules/lib/' //;
       $m ~~ s/ \. rakumod $//;
       $m ~~ s:g/ '/' /::/;
 
-#note "    $mod-type, $m";
       $list{$m} = $mod-type;
     }
   }
