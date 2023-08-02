@@ -131,7 +131,7 @@ method !native-parameters (
 method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   my Str $routine-name = $!sub-prefix ~ $name;
 
-  # Create parameter list and start with inserting fixed arguments
+  # Create list of parameter types and start with inserting fixed arguments
   my @parameterList = ();
 
   given $routine<type> {
@@ -148,8 +148,10 @@ method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
     @parameterList.push: Parameter.new(type => $p);
   }
 
-  # Create signature
+  # Create return type
   my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer;
+
+  # Create signature
   my Signature $signature .= new( :params(|@parameterList), :$returns);
 
   # Get a pointer to the sub, then cast it to a sub with the proper
