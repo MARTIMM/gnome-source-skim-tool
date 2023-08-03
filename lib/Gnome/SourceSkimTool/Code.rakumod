@@ -268,7 +268,7 @@ method make-build-submethod (
     {$!grd.pod-header('BUILD submethod');}
     # Module initialize
     submethod BUILD ( *\%options ) \{
-      $signal-admin
+    $signal-admin
       # Initialize helper
       \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
 
@@ -313,7 +313,7 @@ method make-build-submethod (
   #    $fallback-fst-arg ~~ s/^ $sub-prefix //;
       my Hash $curr-function := $hcs{$function-name};
 
-      my Bool $first = True;
+#      my Bool $first = True;
       my Str $par-list = '';
       my Str $decl-list = '';
       my Str $inhibit =
@@ -321,18 +321,18 @@ method make-build-submethod (
           $curr-function<variable-list> ) ?? '#' !! '';
 
       for @($curr-function<parameters>) -> $parameter {
-  #`{{
-          if $first {
-          $par-list ~= ", \$$curr-function<option-name>";
-          $decl-list ~= [~]  '        ', $inhibit, 'my $',
-            $curr-function<option-name>,
-            ' = %options<', $parameter<name>, '>;', "\n";
+#`{{
+        if $first {
+        $par-list ~= ", \$$curr-function<option-name>";
+        $decl-list ~= [~]  '        ', $inhibit, 'my $',
+          $curr-function<option-name>,
+          ' = %options<', $parameter<name>, '>;', "\n";
 
-          $first = False;
-        }
+        $first = False;
+      }
 
-        else {
-  }}
+      else {
+}}
           $par-list ~= ", \$$parameter<name>";
           $decl-list ~= [~]  '        ', $inhibit, 'my $', $parameter<name>,
             ' = %options<', $parameter<name>, '>;', "\n";
@@ -373,25 +373,36 @@ method make-build-submethod (
     $ifelse = "elsif";
   }
 
-  $code ~= q:to/EOBUILD/;
-        #`{{ when there are no defaults use this
-        # check if there are any options
-        elsif %options.elems == 0 {
-          die X::Gnome.new(:message('No options specified ' ~ self.^name));
-        }
-        }}
-
-  EOBUILD
-
+#`{{
   $code ~= qq:to/EOBUILD/;
-        #`\{\{ when there are defaults use this instead
-        # create default object
-        else \{
-          \$no = self\._fallback-v2\( 'new', my Bool \$x, ... \);
+        #`\{\{ when there are no defaults use this
+        # Check if there are any options
+        $ifelse \%options.elems == 0 \{
+          die X::Gnome.new\(:message\('No options specified ' ~ self.^name\)\);
         \}
         \}\}
 
-        self\._set-native-object\(\$no);
+  EOBUILD
+  $ifelse = "elsif";
+}}
+
+  self.add-import('Gnome::N::X');
+  $code ~= qq:to/EOBUILD/;
+        #`\{\{ when there are defaults \(a new\(\) without arguments\),
+            then use this instead.
+        # Create default object
+        $ifelse \{
+          \$no = self\._fallback-v2\( 'new', my Bool \$x \);
+        \}
+        \}\}
+
+        if ?\$no \{
+          self\._set-native-object\(\$no);
+        }
+
+        else \{
+          die X::Gnome.new\(:message\('Native object for class $*work-data<raku-class-name> not created'\)\);
+        \}
       \}
 
   EOBUILD
@@ -450,7 +461,11 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
-  $missing-type = True unless ?$return-raku-ntype;
+  $missing-type = True
+    unless ?$return-raku-ntype and $return-raku-ntype !~~ m/^ '#'/;
+
+  # Remove comment if it was inserted
+#  $return-raku-ntype ~~ s/^ '#'//;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -463,7 +478,11 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Bool $variable-list = False;
   for @prmtrs -> $p {
     my Str ( $type, $raku-ntype) = self!get-type($p);
-    $missing-type = True unless ?$raku-ntype;
+    $missing-type = True
+      unless ?$raku-ntype and $raku-ntype !~~ m/^ '#'/;
+
+    # Remove comment if it was inserted
+#    $raku-ntype ~~ s/^ '#'//;
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
@@ -634,7 +653,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
-#note "$?LINE  $function-name, inhibit: ?$temp-inhibit, $curr-function<missing-type>";
+#note "$?LINE  $function-name, inhibit: $temp-inhibit, $curr-function<missing-type>";
 
     $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
 
@@ -698,9 +717,9 @@ method !generate-methods ( Hash $hcs --> Str ) {
       }
     }
 
-    # Remove first comma and space when there is only one parameter
-    $par-list ~~ s/^ . //;
-    $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
+    # Remove first comma and space
+    $par-list ~~ s/^ .. //;
+#    $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
     $par-list = ?$par-list ?? [~] ' :parameters([', $par-list, ']),' !! '';
 
     # Return type
@@ -1566,13 +1585,12 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-#NOTE not from Prepare: circular deps!
 method add-import ( Str $import --> Bool ) {
-  my Bool $available = False;
-#  my ExternalModuleType $mtype = self.get-module-type($parent);
+  my Bool $available;
 
-  # Add only when $import is not in the array or when $import is not this class
+  # Add only when $import is not in the hash.
   unless $*external-modules{$import}:exists {
+    $available = True;
     if $*lib-content-list-file{$import}:exists {
       $*external-modules{$import} = ExternalModuleType(
         ExternalModuleType.enums{$*lib-content-list-file{$import}}
@@ -1581,8 +1599,8 @@ method add-import ( Str $import --> Bool ) {
 
     else {
       $*external-modules{$import} = EMTNotImplemented;
+      $available = False;
     }
-note "$?LINE Add mpdule $import: $*lib-content-list-file{$import}, ", $*lib-content-list-file{$import}.WHAT;
   }
 
   $available
@@ -1637,6 +1655,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Str $sub-prefix = $*work-data<sub-prefix>;
   my Bool $missing-type = False;
 
+note "\n$?LINE $function-name";
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
 #  my Str ( $rv-type, $return-raku-ntype, $return-raku-rtype) =
@@ -1749,6 +1768,11 @@ method !get-callback-data (
 #-------------------------------------------------------------------------------
 method !get-type ( XML::Element $e --> List ) {
 #  my Str ( $type, $raku-ntype, $raku-rtype) = '' xx 3;
+
+  # With variable argument lists, the name is '...'. It would not have a type
+  # so return something to prevent it marked as a missing type
+  return ('...', '...') if $e.attribs<name> eq '...';
+
   my Str ( $type, $raku-ntype) = '' xx 2;
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
@@ -1769,7 +1793,7 @@ method !get-type ( XML::Element $e --> List ) {
     }
   }
 
-#note "$?LINE $type, $raku-ntype, $raku-rtype";
+note "  $?LINE $type, $raku-ntype";
  # ( $type, $raku-ntype, $raku-rtype)
   ( $type, $raku-ntype)
 }
@@ -1838,22 +1862,24 @@ method convert-ntype (
 #note "  $?LINE $h<gir-type>";
       given $h<gir-type> // '-' {
         when 'class' {
-          $raku-type = 'N-GObject';
+#          $raku-type = '#' unless self.add-import($h<class-name>);
+          $raku-type ~= 'N-GObject';
         }
 
         when 'interface' {
-          $raku-type = 'N-GObject';
-          self.add-import($h<class-name>);
+#          $raku-type = '#' unless self.add-import($h<class-name>);
+          $raku-type ~= 'N-GObject';
         }
 
         when 'record' {
-#note "$?LINE N-$h<gnome-name>, $h<structure-name>";
+#NOTE add-import creates cyclic dependency -> make it an Object;
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
           $raku-type = 'N-GObject';
         }
 
         when 'union' {
+#NOTE add-import creates cyclic dependency -> make it an Object;
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
           $raku-type = 'N-GObject';
@@ -1864,12 +1890,14 @@ method convert-ntype (
         }
 
         when 'enumeration' {
-          $raku-type = "GEnum:$ctype";
+          $raku-type = '#' unless self.add-import($h<class-name>);
+          $raku-type ~= "GEnum:$ctype";
 #          self.add-import($h<class-name>);
         }
 
         when 'bitfield' {
-          $raku-type = "GFlag:$ctype";
+          $raku-type = '#' unless self.add-import($h<class-name>);
+          $raku-type ~= "GFlag:$ctype";
 #          self.add-import($h<class-name>);
         }
 
@@ -1877,23 +1905,18 @@ method convert-ntype (
         when 'alias' { }
 
         when 'callback' {
-#note "  $?LINE callback";
           my %h = self.get-callback-function($h<callback-name>);
-#note "  $?LINE %h.gist()";
           $raku-type = self.generate-callback( $h<callback-name>, %h);
-#note "  $?LINE $ctype, $raku-type";
         }
 
         default {
-          note 'Unknown gir type to convert to native raku type \'',
-            $h<gir-type> // '-', '\' for ctype \'', $orig-ctype, '\'';
+          note "Unknown ctype to convert: $orig-ctype";
         }
       }
     }
   }
 
-#say "$?LINE: convert to raku native type: '$ctype' -> '$raku-type', return-type = $return-type";
-
+#note "  $?LINE $ctype, $raku-type";
   $raku-type
 }
 
