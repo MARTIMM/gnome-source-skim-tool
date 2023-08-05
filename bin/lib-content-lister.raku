@@ -6,6 +6,7 @@ use YAMLish;
 #-------------------------------------------------------------------------------
 my Hash $list = %();
 
+# Old packages
 my ExternalModuleType $mod-type = EMTNotInApi2;
 list-dir('/home/marcel/Languages/Raku/Projects/gnome-gtk3/lib');
 list-dir('/home/marcel/Languages/Raku/Projects/gnome-gdk3/lib');
@@ -17,8 +18,11 @@ list-dir('/home/marcel/Languages/Raku/Projects/gnome-cairo/lib');
 list-dir('/home/marcel/Languages/Raku/Projects/gnome-pango/lib');
 #list-dir('/home/marcel/Languages/Raku/Projects/gnome-/lib');
 
+# New packages
 $mod-type = EMTInApi2;
 list-dir('xt/NewRakuModules/lib/Gnome');
+list-dir('xt/Gir/lib/Gnome');
+
 
 lib-content-list-file.IO.spurt(save-yaml($list));
 
