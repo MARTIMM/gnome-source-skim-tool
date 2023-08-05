@@ -18,7 +18,7 @@ class T {
 }
 
 #-------------------------------------------------------------------------------
-role RA {
+role OO::RA {
   my Hash $methods = %(
     func2a => %(
       :type<Role>,
@@ -26,7 +26,7 @@ role RA {
   );
 
   method _fallback ( $name, Bool $_fallback-v2-ok is rw, |c ) {
-    say "test RA";
+    say "test OO::RA";
     if $methods{$name} {
       $_fallback-v2-ok = True;
       return self.caller( $name, $methods, |c);
@@ -52,7 +52,7 @@ role RB {
 }
 
 #-------------------------------------------------------------------------------
-class A is X is T does RA does RB {
+class A is X is T does OO::RA does RB {
   my Hash $methods = %(
     func1 => %(
       :type<Constructor>,
@@ -73,7 +73,7 @@ class A is X is T does RA does RB {
 #        note '  fb: ', $f.signature;
 #      }
 
-      my $r = self.RA::_fallback( $name, $_fallback-v2-ok, |c);
+      my $r = self.OO::RA::_fallback( $name, $_fallback-v2-ok, |c);
       return $r if $_fallback-v2-ok;
 
       $r = self.RB::_fallback( $name, $_fallback-v2-ok, |c);
