@@ -1,4 +1,5 @@
 
+use v6;
 
 use NativeCall;
 
@@ -10,7 +11,7 @@ use Gnome::N::GlibToRakuTypes;
 use Gnome::Glib::N-GError;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::Glib::GnomeRoutineCaller:api<2>;
+unit class Gnome::N::GnomeRoutineCaller:auth<github:MARTIMM>:api<2>;
 #also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------

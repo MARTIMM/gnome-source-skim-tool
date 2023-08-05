@@ -10,7 +10,7 @@ use Gnome::Gtk3::Bin;
 
 use Gnome::Glib::N-GError;
 
-use Gnome::Glib::GnomeRoutineCaller:api<2>;
+use Gnome::N::GnomeRoutineCaller:api<2>;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::Gtk3::TestWindow:api<2>;
@@ -19,7 +19,7 @@ also is Gnome::Gtk3::Bin;
 #constant \Error = Gnome::Glib::Error;
 
 my Bool $signals-added = False;
-has Gnome::Glib::GnomeRoutineCaller $!routine-caller;
+has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 #`{{
 #-------------------------------------------------------------------------------

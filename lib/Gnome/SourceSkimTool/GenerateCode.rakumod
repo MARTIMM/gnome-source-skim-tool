@@ -190,7 +190,7 @@ method generate-code ( ) {
 
       {$!grd.pod-header('BUILD variables')}
       # Define helper
-      has Gnome::Glib::GnomeRoutineCaller \$!routine-caller;
+      has Gnome::N::GnomeRoutineCaller \$!routine-caller;
 
       {$!grd.pod-header('BUILD submethod')}
       submethod BUILD ( ) \{
