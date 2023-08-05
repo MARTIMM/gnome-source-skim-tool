@@ -238,6 +238,10 @@ method generate-test ( ) {
 
     EOTEST
 
-  note "Save module test";
-  $*work-data<raku-module-test-file>.IO.spurt($module-test-doc);
+  my Str $fname = $*work-data<result-path>;
+  $fname ~~ s@ '/lib/' @/t/@;
+  mkdir $fname, 0o750 unless $fname.IO ~~ :e;
+  $fname ~= $*gnome-class ~ '.rakutest';
+  note "Save tests in ", $fname.IO.basename;
+  $fname.IO.spurt($module-test-doc);
 }
