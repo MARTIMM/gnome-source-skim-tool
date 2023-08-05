@@ -27,6 +27,11 @@ TODO better BUILD generation
 TODO Process constants and alias
 TODO Generate doc. Review for class new for interface, record and union
 TODO Test marks in code like '#TM:0:has_toplevel_focus' should go to the test file because 1) after changes it saves compilation and 2) the mark is for testing
+
+TODO Find out if :api<2> is a good enough separation from the old packages
+* See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
+* https://docs.raku.org/language/compilation#$*REPO
+
 -->
 
 <!-- Testing command with timing -o for dump to file
@@ -38,10 +43,13 @@ kaal '/usr/bin/time raku Window.rakutest'
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
+* 2023-08-05 0.10.2
+  * Moved the GnomeRoutineCaller module from `Gnome::Glib` to `Gnome::N`. This is a better location as a supporting module.
+  * Another support module is made, called **Gnome::N::GObjectSupport**. This will hold methods like `.register-signal()` which were originally stored in **Gnome::GObject::Object**. It is automatically added to that module as a role. This is convenient now that everything is generated.
+
 * 2023-07-26 0.10.1
   * Moved code from `SearchAndSubstitute()` back to Code module.
   * Add a program to make lists of gnome modules in old and in new packages. This is to be able to set the proper `:api<>` or inhibit `use` statements. For this to work `$*external-modules` needed to change as well as some methods.
-
 
 * 2023-07-21 0.10.0
   * New modules and old one renamed.
