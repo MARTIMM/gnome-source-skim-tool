@@ -38,7 +38,7 @@ method generate-code ( ) {
     use v6;
     RAKUMOD
 
-  my $callables = $!mod.generate-callables( $element, $!xpath);
+  my $callables = $!mod.generate-callables( $element, $!xpath, :is-interface);
 
   note "Set role unit" if $*verbose;
   $code ~= $!mod.set-unit( $element, :callables(?$callables));
@@ -52,7 +52,7 @@ method generate-code ( ) {
 
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-  my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+  my Str $fname = "$*work-data<result-path>R-$*gnome-class.rakumod";
   note "Save interface module in ", $fname.IO.basename;
   $fname.IO.spurt($code);
 }
