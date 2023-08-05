@@ -59,9 +59,9 @@ $prepare.display-hash( $*work-data, :label<class work data>);
 
         say "\nGenerate Tests for Raku class ", $*work-data<raku-class-name>;
 
-#        require ::('Gnome::SourceSkimTool::Class');
-#        my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
-#        $raku-module.generate-test;
+        require ::('Gnome::SourceSkimTool::Class');
+        my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
+        $raku-module.generate-test;
       }
     }
 
@@ -218,7 +218,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
 
       {$!grd.pod-header('BUILD variables')}
       # Define helper
-      has Gnome::Glib::GnomeRoutineCaller \$!routine-caller;
+      has Gnome::N::GnomeRoutineCaller \$!routine-caller;
 
       {$!grd.pod-header('BUILD submethod')}
       submethod BUILD ( ) \{
@@ -345,7 +345,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
 
       {$!grd.pod-header('BUILD variables')}
       # Define helper
-      has Gnome::Glib::GnomeRoutineCaller \$!routine-caller;
+      has Gnome::N::GnomeRoutineCaller \$!routine-caller;
 
       {$!grd.pod-header('BUILD submethod')}
       submethod BUILD ( ) \{
@@ -583,7 +583,7 @@ method generate-code ( ) {
 
       {$!grd.pod-header('BUILD variables')}
       # Define helper
-      has Gnome::Glib::GnomeRoutineCaller \$!routine-caller;
+      has Gnome::N::GnomeRoutineCaller \$!routine-caller;
 
       {$!grd.pod-header('BUILD submethod')}
       submethod BUILD ( ) \{
