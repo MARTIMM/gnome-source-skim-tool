@@ -27,7 +27,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   # Check for parent class. There are never more than one.
   my Str $parent = $h<parent-raku-name> // '';
   if ?$parent {
-    # Misc is deprecated so shortcut to Widget
+    # Misc is deprecated so shortcut to Widget. This is only for Gtk3!
     $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
     self.add-import($parent);
     $also ~= "also is $parent;\n";
@@ -41,22 +41,46 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     my Array $roles = $h<implement-roles>//[];
     for @$roles -> $role {
       my Hash $role-h = self.search-name($role);
-#note "$?LINE role=$role -> $role-h.gist()";
-      self.add-import($role-h<class-name>);
-      $also ~= "also does $role-h<class-name>;\n" if ?$role-h<class-name>;
+      if ?$role-h<class-name> {
+        self.add-import($role-h<class-name>);
+        $also ~= "also does $role-h<class-name>;\n";
+      }
+    }
+
+    # The Object module needs some extra classes and roles
+    if $*work-data<raku-class-name> eq 'Gnome::GObject::Object' {
+      self.add-import('Gnome::N::TopLevelClassSupport');
+      $also ~= 'also is Gnome::N::TopLevelClassSupport;' ~ "\n";
+      self.add-import('Gnome::N::GObjectSupport');
+      $also ~= 'also does Gnome::N::GObjectSupport;' ~ "\n";
     }
   }
 
+  self.add-import('Gnome::N::GnomeRoutineCaller') if ?$callables;
   my Str $code = qq:to/RAKUMOD/;
 
     {$!grd.pod-header('Module Imports')}
     __MODULE__IMPORTS__
-    {$callables ?? 'use Gnome::Glib::GnomeRoutineCaller:api<2>;' !! ''}
 
-    {$!grd.pod-header(($is-role ?? 'Role' !! 'Class') ~ ' Declaration');}
-    unit {$is-role ?? 'role' !! 'class'} $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
-    $also
     RAKUMOD
+
+  if $is-role {
+    $code ~= qq:to/RAKUMOD/;
+      {$!grd.pod-header('Role Declaration');}
+      unit role $h<class-name>:auth<github:MARTIMM>:api<2>;
+      $also
+      RAKUMOD
+  }
+
+  # Classes, records and unions
+  else {
+    $code ~= qq:to/RAKUMOD/;
+      {$!grd.pod-header('Class Declaration');}
+      unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
+      RAKUMOD
+  }
+
+  $code ~= "$also\n";
 
   $code
 }
@@ -75,7 +99,7 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
     __MODULE__IMPORTS__
     use Gnome::N::TopLevelClassSupport;
 
-    use Gnome::Glib::GnomeRoutineCaller:api<2>;
+    use Gnome::N::GnomeRoutineCaller:api<2>;
     RAKUMOD
   }
 
@@ -140,7 +164,7 @@ method generate-callables (
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
         method _fallback-v2 (
           Str $n, Bool $_fallback-v2-ok is rw,
-          Gnome::Glib::GnomeRoutineCaller $routine-caller, *@arguments
+          Gnome::N::GnomeRoutineCaller $routine-caller, *@arguments
         ) {
           my Str $name = S:g/ '-' /_/ with $n;
           if $methods{$name}:exists {
@@ -173,12 +197,13 @@ method generate-callables (
       my Str $ctype = $element.attribs<c:type>;
       my Hash $h = self.search-name($ctype);
       my Array $roles = $h<implement-roles>//[];
+      $c ~= '    my $r;' ~ "\n";
       for @$roles -> $role {
         my Hash $role-h = self.search-name($role);
 #note "$?LINE role=$role -> $role-h.gist()";
 
         $c ~= qq:to/RAKUMOD/;
-              my \$r = self.{$role}::_fallback-v2-ok\(
+              \$r = self.{$role-h<class-name>}::_fallback-v2\(
                 \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
               \);
               return \$r if \$_fallback-v2-ok;
@@ -213,9 +238,12 @@ method make-build-submethod (
   my Array $roles = $h<implement-roles> // [];
   for @$roles -> $role {
     my Hash $role-h = self.search-name($role);
-    $role-signals ~=
-      "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
-      "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
+    if ?$role-h {
+#note "$?LINE role $role, ", $role-h.gist;
+      $role-signals ~=
+        "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
+        "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
+    }
   }
 
   $role-signals = "\n    # Signals from interfaces\n" ~ $role-signals
@@ -263,7 +291,7 @@ method make-build-submethod (
   my Str $code = qq:to/EOBUILD/;
     {$!grd.pod-header('BUILD variables');}
     # Define helper
-    has Gnome::Glib::GnomeRoutineCaller \$\!routine-caller;
+    has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
     $c
     {$!grd.pod-header('BUILD submethod');}
     # Module initialize
@@ -339,11 +367,11 @@ method make-build-submethod (
   #      }
       }
 
+              #$ifelse \%options\<$curr-function<option-name>\>.defined \{
+              #$ifelse \? \%options\<$curr-function<option-name>\> \{
       # Remove first comma and first space
       $par-list ~~ s/^ .. //;
       $code ~= qq:to/EOBUILD/;
-              #$ifelse \%options\<$curr-function<option-name>\>.defined \{
-              #$ifelse \? \%options\<$curr-function<option-name>\> \{
               $ifelse \%options\<$curr-function<option-name>\>:exists \{
         $decl-list
                 # 'my Bool \$x' is needed but value ignored
@@ -383,16 +411,15 @@ method make-build-submethod (
         \}\}
 
   EOBUILD
-  $ifelse = "elsif";
+#  $ifelse = "elsif";
 }}
 
   self.add-import('Gnome::N::X');
   $code ~= qq:to/EOBUILD/;
-        #`\{\{ when there are defaults \(a new\(\) without arguments\),
-            then use this instead.
+        #`\{\{ when there are defaults \(a new\(\) without arguments\), then use this instead.
         # Create default object
-        $ifelse \{
-          \$no = self\._fallback-v2\( 'new', my Bool \$x \);
+        else \{
+          \$no = self\._fallback-v2\( 'new', my Bool \$x\);
         \}
         \}\}
 
@@ -1302,7 +1329,7 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
   $*external-modules = %(
     'NativeCall' => (EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
     'Gnome::N::N-GObject' => EMTNotInApi2,
-    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2
+    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
   );
 
   my Str $name = $*work-data<gnome-name>;
@@ -1451,7 +1478,7 @@ method generate-union ( XML::XPath $xpath, XML::Element $element ) {
   $*external-modules = %(
     :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
     'Gnome::N::N-GObject' => EMTNotInApi2,
-    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2
+    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
   );
 
   my @fields = $xpath.find( 'field', :start($element), :to-list);
@@ -1655,7 +1682,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Str $sub-prefix = $*work-data<sub-prefix>;
   my Bool $missing-type = False;
 
-note "\n$?LINE $function-name";
+#note "\n$?LINE $function-name";
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
 #  my Str ( $rv-type, $return-raku-ntype, $return-raku-rtype) =
@@ -1771,7 +1798,8 @@ method !get-type ( XML::Element $e --> List ) {
 
   # With variable argument lists, the name is '...'. It would not have a type
   # so return something to prevent it marked as a missing type
-  return ('...', '...') if $e.attribs<name> eq '...';
+  return ('...', '...')
+    if $e.attribs<name>:exists and $e.attribs<name> eq '...';
 
   my Str ( $type, $raku-ntype) = '' xx 2;
   for $e.nodes -> $n {
@@ -1793,7 +1821,7 @@ method !get-type ( XML::Element $e --> List ) {
     }
   }
 
-note "  $?LINE $type, $raku-ntype";
+#note "  $?LINE $type, $raku-ntype";
  # ( $type, $raku-ntype, $raku-rtype)
   ( $type, $raku-ntype)
 }
@@ -1863,12 +1891,12 @@ method convert-ntype (
       given $h<gir-type> // '-' {
         when 'class' {
 #          $raku-type = '#' unless self.add-import($h<class-name>);
-          $raku-type ~= 'N-GObject';
+          $raku-type = 'N-GObject';
         }
 
         when 'interface' {
 #          $raku-type = '#' unless self.add-import($h<class-name>);
-          $raku-type ~= 'N-GObject';
+          $raku-type = 'N-GObject';
         }
 
         when 'record' {
@@ -1890,14 +1918,14 @@ method convert-ntype (
         }
 
         when 'enumeration' {
-          $raku-type = '#' unless self.add-import($h<class-name>);
-          $raku-type ~= "GEnum:$ctype";
+          self.add-import($h<class-name>);
+          $raku-type = "GEnum:$ctype";
 #          self.add-import($h<class-name>);
         }
 
         when 'bitfield' {
-          $raku-type = '#' unless self.add-import($h<class-name>);
-          $raku-type ~= "GFlag:$ctype";
+          self.add-import($h<class-name>);
+          $raku-type = "GFlag:$ctype";
 #          self.add-import($h<class-name>);
         }
 
