@@ -38,7 +38,7 @@ method call-native-sub (
   Str $name, @arguments, Hash $methods, :$native-object
 ) {
 #say Backtrace.new.nice;
-#note "$?LINE $name, ", ($native-object // '-').gist;
+#note "$?LINE $name, ", $native-object.gist;
 
   # Set False, is set in native-parameters() as a side effect
   $!pointers-in-args = False;
@@ -63,7 +63,7 @@ method call-native-sub (
     @arguments, @parameters, $routine, :$native-object,
   );
 
-#note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
+note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
 
   # Get routine address
   $routine<function-address> //=
@@ -76,6 +76,7 @@ method call-native-sub (
   # otherwise it could have been returned the normal way using the
   # return value of functions $x.
   if $!pointers-in-args {
+#note "$?LINE ";
     my $x = $routine<function-address>(|@native-args);
     return self!make-list-from-result(
       @native-args, @parameters, $routine, $x
@@ -93,9 +94,11 @@ method call-native-sub (
     }
 
     else {
-      $x = self!convert-return(
-        $routine<function-address>(|@native-args), $routine<returns>
-      );
+#note "$?LINE ", @native-args.gist, ', f: ', $routine<function-address>.gist;
+      $x = $routine<function-address>(|@native-args);
+#note "$?LINE ", $x.gist;
+      $x = self!convert-return( $x, $routine<returns>);
+#note "$?LINE ", $x.gist;
     }
 
     return $x
@@ -154,12 +157,14 @@ method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
 
   # Create signature
   my Signature $signature .= new( :params(|@parameterList), :$returns);
+note "$?LINE $signature.gist()";
 
   # Get a pointer to the sub, then cast it to a sub with the proper
   # signature. after that, the sub can be called, returning a value.
   my Callable $f = nativecast(
     $signature, cglobal( $!library, $routine-name, Pointer)
   );
+note "$?LINE $f.gist()";
 
   $f
 }
@@ -260,6 +265,7 @@ method !convert-return ( $v, $p, :$type = Any ) {
 
 #-------------------------------------------------------------------------------
 method !adjust-data ( @arguments, @parameters, Array $pattern --> List ) {
+note "$?LINE adjust-data";
   my @new-parameters = |@parameters;
   my @new-arguments = ();
 

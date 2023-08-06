@@ -197,9 +197,10 @@ method generate-callables (
       my Str $ctype = $element.attribs<c:type>;
       my Hash $h = self.search-name($ctype);
       my Array $roles = $h<implement-roles>//[];
-      $c ~= '    my $r;' ~ "\n";
+      $c ~= '    my $r;' ~ "\n" if ?$roles;
       for @$roles -> $role {
         my Hash $role-h = self.search-name($role);
+        next unless ?$role-h;
 
         $c ~= qq:to/RAKUMOD/;
               \$r = self.{$role-h<class-name>}::_fallback-v2\(
