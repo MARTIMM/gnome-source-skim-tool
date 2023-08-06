@@ -330,13 +330,14 @@ method make-build-submethod (
           my N-GObject\(\) \$no;
     EOBUILD
 
+  my Bool $func-without-args-found = False;
   my Str $ifelse = 'if';
   my Hash $hcs = self.get-constructors( $element, $xpath);
   if ?$hcs {
     for $hcs.keys.sort -> $function-name {
 
   #    my Str $fallback-fst-arg = $function-name;
-      my $sub-prefix = $*work-data<sub-prefix>;
+  #    my $sub-prefix = $*work-data<sub-prefix>;
   #    $fallback-fst-arg ~~ s/^ $sub-prefix //;
       my Hash $curr-function := $hcs{$function-name};
 
@@ -347,39 +348,30 @@ method make-build-submethod (
         ( $curr-function<missing-type> ||
           $curr-function<variable-list> ) ?? '#' !! '';
 
-      for @($curr-function<parameters>) -> $parameter {
-#`{{
-        if $first {
-        $par-list ~= ", \$$curr-function<option-name>";
-        $decl-list ~= [~]  '        ', $inhibit, 'my $',
-          $curr-function<option-name>,
-          ' = %options<', $parameter<name>, '>;', "\n";
-
-        $first = False;
+      if $curr-function<option-name> eq '__DEFAULT__' {
+        $func-without-args-found = True;
       }
 
       else {
-}}
+        for @($curr-function<parameters>) -> $parameter {
           $par-list ~= ", \$$parameter<name>";
           $decl-list ~= [~]  '        ', $inhibit, 'my $', $parameter<name>,
             ' = %options<', $parameter<name>, '>;', "\n";
-  #      }
+        }
+
+        # Remove first comma and first space
+        $par-list ~~ s/^ .. //;
+        $code ~= qq:to/EOBUILD/;
+                $ifelse \%options\<$curr-function<option-name>\>:exists \{
+          $decl-list
+                  # 'my Bool \$x' is needed but value ignored
+                  $inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
+                \}
+
+          EOBUILD
+
+        $ifelse = "elsif";
       }
-
-              #$ifelse \%options\<$curr-function<option-name>\>.defined \{
-              #$ifelse \? \%options\<$curr-function<option-name>\> \{
-      # Remove first comma and first space
-      $par-list ~~ s/^ .. //;
-      $code ~= qq:to/EOBUILD/;
-              $ifelse \%options\<$curr-function<option-name>\>:exists \{
-        $decl-list
-                # 'my Bool \$x' is needed but value ignored
-                $inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
-              \}
-
-        EOBUILD
-
-      $ifelse = "elsif";
     }
   }
 
@@ -413,33 +405,46 @@ method make-build-submethod (
 #  $ifelse = "elsif";
 }}
 
+  # A simple call for a new() without arguments
+  if $func-without-args-found {
+    if $ifelse eq 'if' {
+      $code ~= qq:to/EOBUILD/;
+
+            # Create default object
+            \$no = self\._fallback-v2\( 'new', my Bool \$x\);
+            self\._set-native-object\(\$no);
+      EOBUILD
+    }
+
+    else {
+      # When there are defaults, a new() without arguments
+      $code ~= qq:to/EOBUILD/;
+
+            # Create default object
+            else \{
+              \$no = self\._fallback-v2\( 'new', my Bool \$x\);
+            \}
+
+            if ?\$no \{
+              self\._set-native-object\(\$no);
+            }
+
+            else \{
+              die X::Gnome.new\(:message\('Native object for class $*work-data<raku-class-name> not created'\)\);
+            \}
+      EOBUILD
+    }
+  }
+
   self.add-import('Gnome::N::X');
   $code ~= qq:to/EOBUILD/;
-        #`\{\{ when there are defaults \(a new\(\) without arguments\), then use this instead.
-        # Create default object
-        else \{
-          \$no = self\._fallback-v2\( 'new', my Bool \$x\);
-        \}
-        \}\}
-
-        if ?\$no \{
-          self\._set-native-object\(\$no);
-        }
-
-        else \{
-          die X::Gnome.new\(:message\('Native object for class $*work-data<raku-class-name> not created'\)\);
-        \}
       \}
 
-  EOBUILD
-
-  # End the BUILD submethod
-  $code ~= qq:to/EOBUILD/;
-        # only after creating the native-object, the gtype is known
-        self._set-class-info\('$*work-data<gnome-name>'\);
-      \}
+      # only after creating the native-object, the gtype is known
+      self._set-class-info\('$*work-data<gnome-name>'\);
     \}
-    EOBUILD
+  \}
+  EOBUILD
 
   $code
 }
@@ -475,6 +480,7 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   # name.
   my Str $option-name = $function-name;
   $option-name ~~ s/^ $sub-prefix new '_'? //;
+  $function-name ~~ s/^ $sub-prefix //;
 
   # Remove any other prefix ending in '_'.
   my Int $last-u = $option-name.rindex('_');
@@ -487,11 +493,7 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
-  $missing-type = True
-    unless ?$return-raku-ntype and $return-raku-ntype !~~ m/^ '#'/;
-
-  # Remove comment if it was inserted
-#  $return-raku-ntype ~~ s/^ '#'//;
+  $missing-type = True unless ?$return-raku-ntype;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -504,11 +506,7 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Bool $variable-list = False;
   for @prmtrs -> $p {
     my Str ( $type, $raku-ntype) = self!get-type($p);
-    $missing-type = True
-      unless ?$raku-ntype and $raku-ntype !~~ m/^ '#'/;
-
-    # Remove comment if it was inserted
-#    $raku-ntype ~~ s/^ '#'//;
+    $missing-type = True unless ?$raku-ntype;
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
@@ -594,7 +592,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
     # Remove prefix from routine
     my Str $hash-fname = $function-name;
-#    $hash-fname ~~ s/^ $sub-prefix //;
+    $hash-fname ~~ s/^ $sub-prefix //;
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my ( $rnt0, $rnt1) = $curr-function<return-raku-ntype>.split(':');
@@ -1889,12 +1887,10 @@ method convert-ntype (
 #note "  $?LINE $h<gir-type>";
       given $h<gir-type> // '-' {
         when 'class' {
-#          $raku-type = '#' unless self.add-import($h<class-name>);
           $raku-type = 'N-GObject';
         }
 
         when 'interface' {
-#          $raku-type = '#' unless self.add-import($h<class-name>);
           $raku-type = 'N-GObject';
         }
 
