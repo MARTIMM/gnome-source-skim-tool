@@ -200,7 +200,6 @@ method generate-callables (
       $c ~= '    my $r;' ~ "\n";
       for @$roles -> $role {
         my Hash $role-h = self.search-name($role);
-#note "$?LINE role=$role -> $role-h.gist()";
 
         $c ~= qq:to/RAKUMOD/;
               \$r = self.{$role-h<class-name>}::_fallback-v2\(
