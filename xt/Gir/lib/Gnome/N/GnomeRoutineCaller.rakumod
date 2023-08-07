@@ -63,7 +63,7 @@ method call-native-sub (
     @arguments, @parameters, $routine, :$native-object,
   );
 
-note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
+#note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
 
   # Get routine address
   $routine<function-address> //=
@@ -94,11 +94,8 @@ note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
     }
 
     else {
-#note "$?LINE ", @native-args.gist, ', f: ', $routine<function-address>.gist;
-      $x = $routine<function-address>(|@native-args);
-#note "$?LINE ", $x.gist;
+      $x = $routine<function-address>();
       $x = self!convert-return( $x, $routine<returns>);
-#note "$?LINE ", $x.gist;
     }
 
     return $x
@@ -134,6 +131,7 @@ method !native-parameters (
 #-------------------------------------------------------------------------------
 method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   my Str $routine-name = $!sub-prefix ~ $name;
+#note "$?LINE native-function: $routine-name, $!library\n    $routine.gist()";
 
   # Create list of parameter types and start with inserting fixed arguments
   my @parameterList = ();
@@ -151,20 +149,20 @@ method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   for @parameters -> $p {
     @parameterList.push: Parameter.new(type => $p);
   }
+#note "$?LINE p: @parameterList.gist()";
 
   # Create return type
   my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer;
 
   # Create signature
   my Signature $signature .= new( :params(|@parameterList), :$returns);
-note "$?LINE $signature.gist()";
 
   # Get a pointer to the sub, then cast it to a sub with the proper
   # signature. after that, the sub can be called, returning a value.
   my Callable $f = nativecast(
     $signature, cglobal( $!library, $routine-name, Pointer)
   );
-note "$?LINE $f.gist()";
+#note "$?LINE $signature.gist(), $f.gist()";
 
   $f
 }
