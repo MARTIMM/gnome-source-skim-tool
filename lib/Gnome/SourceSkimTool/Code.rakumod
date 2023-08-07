@@ -285,7 +285,7 @@ method make-build-submethod (
   my Str $c = '';
   if ?$signal-admin {
     $c ~= [~] "\n", '# Add signal registration helper', "\n",
-              '  my Bool $signals-added = False;', "\n";
+              'my Bool $signals-added = False;', "\n";
   }
 
   my Str $code = qq:to/EOBUILD/;
