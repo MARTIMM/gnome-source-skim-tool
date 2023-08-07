@@ -14,6 +14,63 @@ unit role Gnome::N::GObjectSupport:auth<github:MARTIMM>:api<2>;
 
 my Hash $signal-types = {};
 
+# check on native library initialization. must be global to all of the
+# TopLevelClassSupport classes. the
+my Bool $gui-initialized = False;
+my Bool $may-not-initialize-gui = False;
+
+#-------------------------------------------------------------------------------
+method gtk-initialize ( List $mro ) {
+#note "$?LINE $mro[0..*-3].gist()";
+
+  # check GTK+ init except when GtkApplication / GApplication is used
+  $may-not-initialize-gui = [or]
+    $may-not-initialize-gui,
+    $gui-initialized,
+    # check for Application from Gio. that one inherits from Object.
+    # Application from Gtk3 inherits from Gio, so this test is always ok.
+    $mro[0..*-3].gist ~~ m/'(Application) (Object)'/;
+
+  unless $may-not-initialize-gui {
+    if not $gui-initialized #`{{and !%options<skip-init>}} {
+      # must setup gtk otherwise Raku will crash
+      my $argc = int-ptr.new;
+      $argc[0] = 1 + @*ARGS.elems;
+
+      my $arg_arr = char-pptr.new;
+      my Int $arg-count = 0;
+      $arg_arr[$arg-count++] = $*PROGRAM.Str;
+      for @*ARGS -> $arg {
+        $arg_arr[$arg-count++] = $arg;
+      }
+
+      my $argv = char-ppptr.new;
+      $argv[0] = $arg_arr;
+
+      # call gtk_init_check
+      _object_init_check( $argc, $argv);
+      $gui-initialized = True;
+
+      # now refill the ARGS list with left over commandline arguments
+      @*ARGS = ();
+      for ^$argc[0] -> $i {
+        # skip first argument == programname
+        next unless $i;
+        @*ARGS.push: $argv[0][$i];
+      }
+    }
+  }
+}
+
+#-------------------------------------------------------------------------------
+# This sub belongs to GtkMain but is needed here.
+sub _object_init_check (
+  gint-ptr $argc, char-ppptr $argv
+  --> gboolean
+) is native(&gtk-lib)
+  is symbol('gtk_init_check')
+  { * }
+
 #-------------------------------------------------------------------------------
 # no pod. user does not have to know about it.
 method add-signal-types ( Str $module-name, *%signal-descriptions --> Bool ) {
