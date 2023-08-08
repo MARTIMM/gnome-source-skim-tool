@@ -38,7 +38,6 @@ method call-native-sub (
   Str $name, @arguments, Hash $methods, :$native-object
 ) {
 #say Backtrace.new.nice;
-#note "$?LINE $name, ", $native-object.gist;
 
   # Set False, is set in native-parameters() as a side effect
   $!pointers-in-args = False;
@@ -63,8 +62,6 @@ method call-native-sub (
     @arguments, @parameters, $routine, :$native-object,
   );
 
-#note "$?LINE ", @arguments.gist, ', ',  @native-args.gist;
-
   # Get routine address
   $routine<function-address> //=
     self!native-function( $name, @parameters, $routine);
@@ -76,7 +73,6 @@ method call-native-sub (
   # otherwise it could have been returned the normal way using the
   # return value of functions $x.
   if $!pointers-in-args {
-#note "$?LINE ";
     my $x = $routine<function-address>(|@native-args);
     return self!make-list-from-result(
       @native-args, @parameters, $routine, $x
@@ -94,7 +90,7 @@ method call-native-sub (
     }
 
     else {
-      $x = $routine<function-address>();
+      $x = $routine<function-address>(|@native-args);
       $x = self!convert-return( $x, $routine<returns>);
     }
 
@@ -131,7 +127,6 @@ method !native-parameters (
 #-------------------------------------------------------------------------------
 method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   my Str $routine-name = $!sub-prefix ~ $name;
-#note "$?LINE native-function: $routine-name, $!library\n    $routine.gist()";
 
   # Create list of parameter types and start with inserting fixed arguments
   my @parameterList = ();
@@ -149,7 +144,6 @@ method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   for @parameters -> $p {
     @parameterList.push: Parameter.new(type => $p);
   }
-#note "$?LINE p: @parameterList.gist()";
 
   # Create return type
   my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer;
@@ -162,7 +156,6 @@ method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
   my Callable $f = nativecast(
     $signature, cglobal( $!library, $routine-name, Pointer)
   );
-#note "$?LINE $signature.gist(), $f.gist()";
 
   $f
 }
@@ -184,7 +177,6 @@ method !make-list-from-result (
     default { $start = 1; }
   }
 
-#  @native-args.shift unless ?$routine<type> ~~ Function;
   loop ( my Int $i = 0; $i < @parameters.elems; $i++ ) {
     my $p = @parameters[$i];
     my $v = @native-args[$i + $start];
