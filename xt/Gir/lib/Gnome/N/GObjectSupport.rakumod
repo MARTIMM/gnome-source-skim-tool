@@ -14,15 +14,13 @@ unit role Gnome::N::GObjectSupport:auth<github:MARTIMM>:api<2>;
 
 my Hash $signal-types = {};
 
-# check on native library initialization. must be global to all of the
-# TopLevelClassSupport classes. the
+# Check on native library initialization.
 my Bool $gui-initialized = False;
 my Bool $may-not-initialize-gui = False;
 
 #-------------------------------------------------------------------------------
-method gtk-initialize ( List $mro ) {
-#note "$?LINE $mro[0..*-3].gist()";
-
+method gtk-initialize ( ) {
+#`{{
   # check GTK+ init except when GtkApplication / GApplication is used
   $may-not-initialize-gui = [or]
     $may-not-initialize-gui,
@@ -33,6 +31,9 @@ method gtk-initialize ( List $mro ) {
 
   unless $may-not-initialize-gui {
     if not $gui-initialized #`{{and !%options<skip-init>}} {
+}}
+note "$?LINE @*ARGS.gist()";
+
       # must setup gtk otherwise Raku will crash
       my $argc = int-ptr.new;
       $argc[0] = 1 + @*ARGS.elems;
@@ -58,8 +59,8 @@ method gtk-initialize ( List $mro ) {
         next unless $i;
         @*ARGS.push: $argv[0][$i];
       }
-    }
-  }
+#    }
+#  }
 }
 
 #-------------------------------------------------------------------------------
