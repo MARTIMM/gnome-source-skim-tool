@@ -43,6 +43,10 @@ kaal '/usr/bin/time raku Window.rakutest'
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
+* 2023-08-09 0.10.3
+  * Many bugs fixed. Seems possible to generate working code without modifying much.
+  * Started to generate Pango code.
+
 * 2023-08-05 0.10.2
   * Moved the GnomeRoutineCaller module from `Gnome::Glib` to `Gnome::N`. This is a better location as a supporting module.
   * Another support module is made, called **Gnome::N::GObjectSupport**. This will hold methods like `.register-signal()` which were originally stored in **Gnome::GObject::Object**. It is automatically added to that module as a role. This is convenient now that everything is generated.
