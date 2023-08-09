@@ -446,21 +446,23 @@ method make-build-submethod (
             else \{
               \$no = self\._fallback-v2\( 'new', my Bool \$x\);
             \}
-
-            if ?\$no \{
-              self\._set-native-object\(\$no);
-            }
-
-            else \{
-              die X::Gnome.new\(:message\('Native object for class $*work-data<raku-class-name> not created'\)\);
-            \}
       EOBUILD
     }
   }
 
+  $code ~= qq:to/EOBUILD/;
+        if ?\$no \{
+          self\._set-native-object\(\$no);
+        }
+
+        else \{
+          die X::Gnome.new\(:message\('Native object for class $*work-data<raku-class-name> not created'\)\);
+        \}
+      \}
+  EOBUILD
+
   self.add-import('Gnome::N::X');
   $code ~= qq:to/EOBUILD/;
-      \}
 
       # only after creating the native-object, the gtype is known
       self._set-class-info\('$*work-data<gnome-name>'\);
