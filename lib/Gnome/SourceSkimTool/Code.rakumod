@@ -323,7 +323,7 @@ method make-build-submethod (
     has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
     $c
     {$!grd.pod-header('BUILD submethod');}
-    submethod BUILD ( *\%options ) \{
+    submethod BUILD \( *\%options \) \{
     $init-gtk$signal-admin
       # Initialize helper
       \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
@@ -359,37 +359,29 @@ method make-build-submethod (
           my N-GObject\(\) \$no;
     EOBUILD
 
-  my Bool $func-without-args-found = False;
+  my Bool $simple-func-new = False;
   my Str $ifelse = 'if';
   my Hash $hcs = self.get-constructors( $element, $xpath);
   if ?$hcs {
     for $hcs.keys.sort -> $function-name {
-
-  #    my Str $fallback-fst-arg = $function-name;
-  #    my $sub-prefix = $*work-data<sub-prefix>;
-  #    $fallback-fst-arg ~~ s/^ $sub-prefix //;
       my Hash $curr-function := $hcs{$function-name};
-
-#      my Bool $first = True;
       my Str $par-list = '';
       my Str $decl-list = '';
       my Str $inhibit =
         ( $curr-function<missing-type> ||
           $curr-function<variable-list> ) ?? '#' !! '';
 
-      if $curr-function<option-name> eq '__DEFAULT__' {
-        $func-without-args-found = True;
-      }
-
-      else {
+      $simple-func-new = True unless ?$curr-function<parameters>;
+      unless $simple-func-new {
         for @($curr-function<parameters>) -> $parameter {
           $par-list ~= ", \$$parameter<name>";
           $decl-list ~= [~]  '        ', $inhibit, 'my $', $parameter<name>,
-            ' = %options<', $parameter<name>, '>;', "\n";
+            ' = %options<', $curr-function<option-name>, '>;', "\n";
         }
 
         # Remove first comma and first space
         $par-list ~~ s/^ .. //;
+
         $code ~= qq:to/EOBUILD/;
                 $ifelse \%options\<$curr-function<option-name>\>:exists \{
           $decl-list
@@ -434,8 +426,9 @@ method make-build-submethod (
 #  $ifelse = "elsif";
 }}
 
+
   # A simple call for a new() without arguments
-  if $func-without-args-found {
+  if $simple-func-new {
     if $ifelse eq 'if' {
       $code ~= qq:to/EOBUILD/;
 
@@ -493,6 +486,9 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     $hcs{$function-name} = %h;
   }
 
+#note "$?LINE, $hcs.gist()";
+#exit;
+
   $hcs
 }
 
@@ -515,8 +511,8 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Int $last-u = $option-name.rindex('_');
   $option-name .= substr($last-u + 1) if $last-u.defined;
 
-  # When nothing is left, mark the option as a default.
-  $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
+  # When nothing is left, make it empty.
+  $option-name = '' if $option-name ~~ m/^ \s* $/;
 
   # Find return value; constructors should return a native N-GObject while
   # the gnome might say e.g. gtkwidget 
@@ -533,9 +529,45 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   );
 
   my Bool $variable-list = False;
+  my Bool $first = True;
   for @prmtrs -> $p {
     my Str ( $type, $raku-ntype) = self!get-type($p);
     $missing-type = True unless ?$raku-ntype;
+    
+    # Process first argument type to attach to option name
+    if $first {
+      with $raku-ntype {
+        when 'Str' {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'text';
+        }
+
+        when m/^ guint / {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'uint';
+        }
+
+        when m/^ gint / {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'int';
+        }
+
+        when any(<gdouble gfloat>) {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'num';
+        }
+
+        when 'N-GObject' {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'object';
+        }
+
+        when 'GEnum' {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'enum';
+        }
+
+        when 'GFlag' {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'mask';
+        }
+      }
+
+      $first = False;
+    }
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
