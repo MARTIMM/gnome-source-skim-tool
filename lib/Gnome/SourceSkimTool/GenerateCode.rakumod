@@ -41,6 +41,7 @@ method generate-code ( ) {
 
   for $!filedata.keys {
     # -> $type-name
+note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
@@ -105,9 +106,16 @@ method generate-code ( ) {
     }
   }
 
-  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
+#  my Bool $first = True;
+  my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys {
     # -> $type-name
+    next if $_ ~~ any(<class interface record union>);
+#    if $first {
+      once $t-prep .= new;
+#      $first = False;
+#    }
+note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
