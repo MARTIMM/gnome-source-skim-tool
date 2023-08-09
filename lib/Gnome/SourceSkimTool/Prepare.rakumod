@@ -113,6 +113,19 @@ submethod BUILD ( Bool :$load-maps = True ) {
       if $load-maps and !$*object-maps<Cairo>;
   }
 
+  if $*gnome-package.Str ~~ / Pango || Cairo / {
+    $*other-work-data<Pango> = self.prepare-work-data(Pango);
+#    $*other-work-data<PangoCairo> = self.prepare-work-data(PangoCairo);
+    $*other-work-data<Cairo> = self.prepare-work-data(Cairo);
+
+    $*object-maps<Pango> =
+      $s.load-map($*other-work-data<Pango><gir-module-path>);
+#    $*object-maps<PangoCairo> =
+#      $s.load-map($*other-work-data<PangoCairo><gir-module-path>);
+    $*object-maps<Cairo> =
+      $s.load-map($*other-work-data<Cairo><gir-module-path>);
+  }
+
   # If it is not a high end module, we only need these
   $*other-work-data<Glib> = self.prepare-work-data(Glib);
   $*other-work-data<Gio> = self.prepare-work-data(Gio);
@@ -357,7 +370,15 @@ method drop-prefix (
   }
 
   elsif $*gnome-package.Str ~~ any(<Gtk3 Gtk4 Gdk3 Gdk4 Gsk4>) {
-    $package-prefix= S/ \d+ $// with $*gnome-package.Str;
+    $package-prefix = S/ \d+ $// with $*gnome-package.Str;
+  }
+
+  elsif $*gnome-package.Str eq 'Pango' {
+    $package-prefix = $*gnome-package.Str;
+  }
+
+  elsif $*gnome-package.Str ~~ 'Cairo' {
+    $package-prefix = 'Cairo';
   }
 
   if $function {
