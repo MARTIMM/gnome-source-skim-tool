@@ -474,7 +474,9 @@ method make-build-submethod (
 }
 
 #-------------------------------------------------------------------------------
-method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
+method get-constructors (
+  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
+) {
   my Hash $hcs = %();
 
   my @constructors =
@@ -484,7 +486,8 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Skip deprecated constructors
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = self!get-constructor-data( $cn, :$xpath);
+    my ( $function-name, %h) =
+      self!get-constructor-data( $cn, :$xpath, :$user-side);
     $hcs{$function-name} = %h;
   }
 
@@ -495,7 +498,8 @@ method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
+method !get-constructor-data (
+  XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List ) {
   my Bool $missing-type = False;
   my Str $function-name = $e.attribs<c:identifier>;
 
@@ -519,7 +523,7 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   # Find return value; constructors should return a native N-GObject while
   # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
+  my Str ( $rv-type, $return-raku-ntype) = self!get-type( $rvalue, :$user-side);
   $missing-type = True unless ?$return-raku-ntype;
 
   # Get all parameters. Mostly the instance parameters come first
@@ -533,7 +537,7 @@ method !get-constructor-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Bool $variable-list = False;
   my Bool $first = True;
   for @prmtrs -> $p {
-    my Str ( $type, $raku-ntype) = self!get-type($p);
+    my Str ( $type, $raku-ntype) = self!get-type( $p, :$user-side);
     $missing-type = True unless ?$raku-ntype;
     
     # Process first argument type to attach to option name
@@ -1383,7 +1387,9 @@ method generate-constants ( @constants --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
+method generate-structure (
+  XML::XPath $xpath, XML::Element $element, Bool :$user-side = False
+) {
 
   my $temp-external-modules = $*external-modules;
   $*external-modules = %(
@@ -1420,7 +1426,8 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
     for @fields -> $field {
       my $field-name = $field.attribs<name>;
 #note "$?LINE $field-name";
-      my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($field);
+      my Str ( $type, $raku-ntype, $raku-rtype) =
+        self!get-type( $field, :$user-side);
 
       $field-name ~~ s:g/ '_' /-/;
       if ?$type {
@@ -1532,7 +1539,9 @@ method generate-structure ( XML::XPath $xpath, XML::Element $element ) {
 
 #-------------------------------------------------------------------------------
 # A structure consists of fields. Only then there is a structure
-method generate-union ( XML::XPath $xpath, XML::Element $element ) {
+method generate-union (
+  XML::XPath $xpath, XML::Element $element, Bool :$user-side = False
+) {
 
   my $temp-external-modules = $*external-modules;
   $*external-modules = %(
@@ -1564,7 +1573,8 @@ method generate-union ( XML::XPath $xpath, XML::Element $element ) {
 
   for @fields -> $field {
     my $field-name = $field.attribs<name>;
-    my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($field);
+    my Str ( $type, $raku-ntype, $raku-rtype) =
+      self!get-type( $field, :$user-side);
 
     $field-name ~~ s:g/ '_' /-/;
 
@@ -1737,7 +1747,9 @@ method init-xpath ( Str $element-name, Str $gir-filename --> List ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
+method !get-method-data (
+  XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List
+) {
   my Str $function-name = $e.attribs<c:identifier>;
   my Str $sub-prefix = $*work-data<sub-prefix>;
   my Bool $missing-type = False;
@@ -1746,7 +1758,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
 #  my Str ( $rv-type, $return-raku-ntype, $return-raku-rtype) =
-  my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
+  my Str ( $rv-type, $return-raku-ntype) = self!get-type( $rvalue, :$user-side);
   $missing-type = True unless ?$return-raku-ntype;
 
   # Get all parameters. Mostly the instance parameters come first
@@ -1759,8 +1771,8 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 
   my Bool $variable-list = False;
   for @prmtrs -> $p {
-#    my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type($p);
-    my Str ( $type, $raku-ntype) = self!get-type($p);
+#    my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type( $p, :$user-side);
+    my Str ( $type, $raku-ntype) = self!get-type( $p, :$user-side);
     $missing-type = True unless ?$raku-ntype;
 
     my Hash $attribs = $p.attribs;
@@ -1809,11 +1821,11 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 #-------------------------------------------------------------------------------
 # A simplified method
 method !get-callback-data (
-  XML::Element $e, XML::XPath :$xpath --> Hash
+  XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> Hash
 ) {
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-type, $return-raku-ntype) = self!get-type($rvalue);
+  my Str ( $rv-type, $return-raku-ntype) = self!get-type( $rvalue, :$user-side);
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -1826,7 +1838,7 @@ method !get-callback-data (
   my Bool $variable-list = False;
   for @prmtrs -> $p {
 
-    my Str ( $type, $raku-ntype) = self!get-type($p);
+    my Str ( $type, $raku-ntype) = self!get-type( $p, :$user-side);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
     $parameter-name ~~ s:g/ '_' /-/;
@@ -1853,37 +1865,39 @@ method !get-callback-data (
 }
 
 #-------------------------------------------------------------------------------
-method !get-type ( XML::Element $e --> List ) {
-#  my Str ( $type, $raku-ntype, $raku-rtype) = '' xx 3;
+method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
 
   # With variable argument lists, the name is '...'. It would not have a type
   # so return something to prevent it marked as a missing type
   return ('...', '...')
     if $e.attribs<name>:exists and $e.attribs<name> eq '...';
 
-  my Str ( $type, $raku-ntype) = '' xx 2;
+  my Str ( $type, $raku-type) = '' xx 2;
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
-#note "$?LINE $n.name()\n$n.attribs().gist()";
+
     with $n.name {
       when 'type' {
         $type = $n.attribs<c:type> // $n.attribs<name>;
-        $raku-ntype = self.convert-ntype($type);
-#        $raku-rtype = self.convert-rtype($type);
+        $raku-type = $user-side
+                   ?? self.convert-rtype($type)
+                   !! self.convert-ntype($type)
+                   ;
       }
 
       when 'array' {
         # Sometimes there is no 'c:type', assume an array of strings
         $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = self.convert-ntype($type);
-#        $raku-rtype = self.convert-rtype($type);
+        $raku-type = $user-side
+                   ?? self.convert-rtype($type)
+                   !! self.convert-ntype($type)
+                   ;
       }
     }
   }
 
-#note "  $?LINE $type, $raku-ntype";
- # ( $type, $raku-ntype, $raku-rtype)
-  ( $type, $raku-ntype)
+note "$?LINE $e.attribs<name>, $user-side, $type, $raku-type";
+  ( $type, $raku-type)
 }
 
 #-------------------------------------------------------------------------------
@@ -2006,7 +2020,6 @@ method convert-ntype (
   $raku-type
 }
 
-#`{{
 #-------------------------------------------------------------------------------
 method convert-rtype (
   Str $ctype is copy, Bool :$return-type = False --> Str
@@ -2136,7 +2149,6 @@ method convert-rtype (
 
   $raku-type
 }
-}}
 
 #-------------------------------------------------------------------------------
 method search-name ( Str $name --> Hash ) {
