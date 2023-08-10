@@ -100,28 +100,35 @@ method generate-test ( ) {
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
 
+  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+note "$?LINE $hcs.gist()";
+
+
   my Str $test-variable = '$' ~ $*gnome-class.lc;
-  my $module-test-doc = qq:to/EOTEST/;
+
+#NOTE needed? use NativeCall;
+  $!mod.add-import($*work-data<raku-class-name>);
+  my $code = qq:to/EOTEST/;
     use v6;
-    use NativeCall;
-    use Test;
 
-    use $*work-data<raku-class-name>:api<2>;
+    {$!grd.pod-header('Module Imports')}
+    #TL:1:$*work-data<raku-class-name>
+    __MODULE__IMPORTS__
 
-    use Gnome::N::GlibToRakuTypes;
-    use Gnome::N::N-GObject;
-    #use Gnome::N::X;
+    {$!grd.pod-header('Test init')}
     #Gnome::N::debug(:on);
-
-    {HLSEPARATOR}
     my $*work-data<raku-class-name> $test-variable;
 
-    {HLSEPARATOR}
+    {$!grd.pod-header('Class init tests')}
     subtest 'ISA test', \{
-      $test-variable .= new;
-      isa-ok $test-variable, $*work-data<raku-class-name>, '.new\()';
+      with $test-variable .= new \{
+        #TB:1:new
+        ok .is-valid, '.new\(\)';
+      \}
     \}
 
+    {HLSEPARATOR}
+    {HLSEPARATOR}
     {HLSEPARATOR}
     # set environment variable 'raku-test-all' if rest must be tested too.
     unless \%*ENV<raku_test_all>:exists \{
@@ -133,8 +140,9 @@ method generate-test ( ) {
 
     # check if class is inheritable
     if $h<inheritable> {
-      $module-test-doc ~= qq:to/EOTEST/;
-      {HLSEPARATOR}
+      $code ~= qq:to/EOTEST/;
+      {$!grd.pod-header('Inheritance test')}
+      #TB:1:Inheriting
       subtest 'Inherit $*work-data<raku-class-name>', \{
         class MyClass is $*work-data<raku-class-name> \{
           method new \( |c ) \{
@@ -152,7 +160,7 @@ method generate-test ( ) {
       EOTEST
     }
 
-    $module-test-doc ~= qq:to/EOTEST/;
+    $code ~= qq:to/EOTEST/;
 
     {HLSEPARATOR}
     done-testing;
@@ -238,10 +246,12 @@ method generate-test ( ) {
 
     EOTEST
 
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
+
   my Str $fname = $*work-data<result-path>;
   $fname ~~ s@ '/lib/' @/t/@;
   mkdir $fname, 0o750 unless $fname.IO ~~ :e;
   $fname ~= $*gnome-class ~ '.rakutest';
   note "Save tests in ", $fname.IO.basename;
-  $fname.IO.spurt($module-test-doc);
+  $fname.IO.spurt($code);
 }
