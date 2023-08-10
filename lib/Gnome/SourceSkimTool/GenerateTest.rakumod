@@ -55,7 +55,7 @@ method generate-test ( ) {
       for $!filedata<class>.keys -> $class-name {
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-$prepare.display-hash( $*work-data, :label<class work data>);
+$prepare.display-hash( $*work-data, :label('class work data'));
 
         say "\nGenerate Tests for Raku class ", $*work-data<raku-class-name>;
 
