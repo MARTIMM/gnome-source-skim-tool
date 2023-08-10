@@ -351,7 +351,7 @@ method !map-element (
     when 'class' {
       $source-filename = self!get-source-file($element);
       $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+      return $deprecated if ( $deprecated and $attrs<name> ne 'Misc' );
 
       $class-name = $*work-data<raku-package> ~ '::' ~ $attrs<name>;
       $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
