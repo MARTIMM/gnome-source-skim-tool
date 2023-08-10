@@ -10,11 +10,27 @@ has Int $!indent-level;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( Bool :$load-maps = True ) {
-  $*external-modules = %(
-    :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
-    'Gnome::N::N-GObject' => EMTNotInApi2,
-    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
-  );
+  if $*generate-code {
+    $*external-modules = %(
+      :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
+      'Gnome::N::N-GObject' => EMTNotInApi2,
+      'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
+    );
+  }
+
+  elsif $*generate-test {
+    $*external-modules = %(
+      :Test(EMTRakudo),
+      'Gnome::N::NativeLib' => EMTNotInApi2,
+      'Gnome::N::N-GObject' => EMTNotInApi2,
+      'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
+      'Gnome::N::X' => EMTNotInApi2,
+    );
+  }
+
+  else {
+    $*external-modules = %();
+  }
 
   $*verbose //= False;
 
