@@ -41,7 +41,7 @@ method generate-code ( ) {
 
   for $!filedata.keys {
     # -> $type-name
-note "$?LINE $_";
+#note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
@@ -115,7 +115,7 @@ note "$?LINE $_";
       once $t-prep .= new;
 #      $first = False;
 #    }
-note "$?LINE $_";
+#note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
