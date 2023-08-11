@@ -1892,8 +1892,7 @@ method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
   # so return something to prevent it marked as a missing type
   return ('...', '...')
     if $e.attribs<name>:exists and $e.attribs<name> eq '...';
-
-note "$?LINE $e";
+#note "$?LINE $e";
 
   my Str ( $type, $raku-type) = '' xx 2;
   for $e.nodes -> $n {
