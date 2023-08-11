@@ -103,7 +103,6 @@ method generate-test ( ) {
   my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
 note "$?LINE $hcs.gist()";
 
-
   my Str $test-variable = '$' ~ $*gnome-class.lc;
 
 #NOTE needed? use NativeCall;
@@ -118,15 +117,63 @@ note "$?LINE $hcs.gist()";
     {$!grd.pod-header('Test init')}
     #Gnome::N::debug(:on);
     my $*work-data<raku-class-name> $test-variable;
+    EOTEST
 
-    {$!grd.pod-header('Class init tests')}
-    subtest 'ISA test', \{
-      with $test-variable .= new \{
-        #TB:1:new
-        ok .is-valid, '.new\(\)';
-      \}
-    \}
+  for $hcs.keys.sort -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
 
+    $code ~= qq:to/EOTEST/;
+      {$!grd.pod-header('Class init tests')}
+      subtest 'ISA test', \{
+      EOTEST
+
+    my Bool $simple-func-new = !$curr-function<parameters>;
+    my $option-name = $hcs{$function-name}<option-name>;
+    unless $simple-func-new {
+#`{{
+      # Use the option name if it is the first arg.
+      my Bool $first = True;
+      for @($curr-function<parameters>) -> $parameter {
+        $par-list ~= ", \$$parameter<name>";
+        $decl-list ~= [~]
+          '        ', $inhibit, 'my $', $parameter<name>, ' = %options<',
+          ($first ?? $curr-function<option-name> !! $parameter<name>), '>;',
+          "\n";
+
+          $first = False;
+      }
+
+      # Remove first comma and first space
+      $par-list ~~ s/^ .. //;
+
+      $code ~= qq:to/EOBUILD/;
+              $ifelse \%options\<$curr-function<option-name>\>:exists \{
+        $decl-list
+                # 'my Bool \$x' is needed but value ignored
+                $inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
+              \}
+
+        EOBUILD
+
+      $ifelse = "elsif";
+}}
+    }
+
+    else {
+      $code ~= qq:to/EOTEST/;
+        {$!grd.pod-header('Class init tests')}
+        subtest 'ISA test', \{
+          #TB:1:new
+          $test-variable .= new;
+          ok .is-valid, '.new\(\)';
+        \}
+        EOTEST
+    }
+  }
+
+  $code ~= "};\n";
+
+  $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
     {HLSEPARATOR}
     {HLSEPARATOR}
