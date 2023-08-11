@@ -364,6 +364,7 @@ method make-build-submethod (
   my Hash $hcs = self.get-constructors( $element, $xpath);
   if ?$hcs {
     for $hcs.keys.sort -> $function-name {
+
       my Hash $curr-function := $hcs{$function-name};
       my Str $par-list = '';
       my Str $decl-list = '';
@@ -371,12 +372,21 @@ method make-build-submethod (
         ( $curr-function<missing-type> ||
           $curr-function<variable-list> ) ?? '#' !! '';
 
+      # Insert a method without args if there are no parameters.
       $simple-func-new = True unless ?$curr-function<parameters>;
+
+      # Process arguments if there are any.
       unless $simple-func-new {
+        # Use the option name if it is the first arg.
+        my Bool $first = True;
         for @($curr-function<parameters>) -> $parameter {
           $par-list ~= ", \$$parameter<name>";
-          $decl-list ~= [~]  '        ', $inhibit, 'my $', $parameter<name>,
-            ' = %options<', $curr-function<option-name>, '>;', "\n";
+          $decl-list ~= [~]
+            '        ', $inhibit, 'my $', $parameter<name>, ' = %options<',
+            ($first ?? $curr-function<option-name> !! $parameter<name>), '>;',
+            "\n";
+
+            $first = False;
         }
 
         # Remove first comma and first space
@@ -502,6 +512,7 @@ method !get-constructor-data (
   XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List ) {
   my Bool $missing-type = False;
   my Str $function-name = $e.attribs<c:identifier>;
+note "\n$?LINE $function-name";
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
 
@@ -523,8 +534,8 @@ method !get-constructor-data (
   # Find return value; constructors should return a native N-GObject while
   # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str ( $rv-type, $return-raku-ntype) = self!get-type( $rvalue, :$user-side);
-  $missing-type = True unless ?$return-raku-ntype;
+  my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
+  $missing-type = True unless ?$return-raku-type;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -534,15 +545,16 @@ method !get-constructor-data (
     :start($e), :to-list
   );
 
+  my Str ( $type, $raku-type);
   my Bool $variable-list = False;
   my Bool $first = True;
   for @prmtrs -> $p {
-    my Str ( $type, $raku-ntype) = self!get-type( $p, :$user-side);
-    $missing-type = True unless ?$raku-ntype;
-    
+
     # Process first argument type to attach to option name
     if $first {
-      with $raku-ntype {
+      # We need the native type to keep the $option-name the same in all cases
+      ( $type, $raku-type) = self!get-type( $p, :!user-side);
+      with $raku-type {
         when 'Str' {
           $option-name ~= (?$option-name ?? '-' !! '') ~ 'text';
         }
@@ -556,7 +568,7 @@ method !get-constructor-data (
         }
 
         when any(<gdouble gfloat>) {
-          $option-name ~= (?$option-name ?? '-' !! '') ~ 'num';
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'number';
         }
 
         when 'N-GObject' {
@@ -572,8 +584,15 @@ method !get-constructor-data (
         }
       }
 
+#note "$?LINE get-constructor-data $user-side, $raku-type -> $option-name";
       $first = False;
     }
+
+    else {
+      ( $type, $raku-type) = self!get-type( $p, :$user-side);
+    }
+
+    $missing-type = True unless ?$raku-type;
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
@@ -582,11 +601,11 @@ method !get-constructor-data (
     # When '...', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
     if $parameter-name eq '...' {
-      $type = $raku-ntype = '…';
+      $type = $raku-type = '…';
       $variable-list = True;
     }
 
-    my Hash $ph = %( :name($parameter-name), :$type, :$raku-ntype);
+    my Hash $ph = %( :name($parameter-name), :$type, :$raku-type);
 
     $ph<allow-none> = $attribs<allow-none>.Bool;
     $ph<nullable> = $attribs<nullable>.Bool;
@@ -597,13 +616,14 @@ method !get-constructor-data (
 
   ( $function-name, %(
       :$option-name, :@parameters, :$variable-list,
-      :$rv-type, :$return-raku-ntype, :$missing-type
+      :$rv-type, :$return-raku-type, :$missing-type
     )
   );
 }
 
 #-------------------------------------------------------------------------------
 method !generate-constructors ( Hash $hcs --> Str ) {
+note "$?LINE $hcs.gist()";
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
   my Str $pattern = '';
@@ -625,12 +645,13 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-      my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
+      my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
+note "$?LINE $function-name, $parameter<raku-type>, $rnt0";
 #      $par-list ~= ", $rnt0";
 
       if $curr-function<variable-list> {
         # When variable list, the last type is '…', Finish the pattern.
-        if $parameter<raku-ntype> eq '…' {
+        if $parameter<raku-type> eq '…' {
           # A pattern consists of a character key and some value of an unknown
           # type. This repeats until user data is exhausted. Then end with a 0.
           # The first argument in the pattern is a string (mostly) then a value
@@ -662,7 +683,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     $hash-fname ~~ s/^ $sub-prefix //;
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my ( $rnt0, $rnt1) = $curr-function<return-raku-ntype>.split(':');
+    my ( $rnt0, $rnt1) = $curr-function<return-raku-type>.split(':');
     if ?$rnt1 {
 #TM:1:$hash-fname
     $code ~= [~] '  ', $temp-inhibit, $hash-fname,
@@ -758,7 +779,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
     my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
-#note "  $?LINE $parameter<name> $parameter<raku-ntype>";
+#note "  $?LINE $parameter<name> $parameter<raku-type>";
 
       # Get a list of types for the arguments but skip the first native type
       # This is the instance variable which is inserted automatically in the
@@ -768,7 +789,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
       }
 
       else {
-        my Str $xtype = $parameter<raku-ntype>;
+        my Str $xtype = $parameter<raku-type>;
         # Signatures have a colon at the first char followed by '('
         if $xtype ~~ m/^ ':(' / {
           $par-list ~= ", $xtype";
@@ -782,7 +803,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
           if $curr-function<variable-list> {
             # When variable list, the last type is '…', Finish the pattern.
-            if $parameter<raku-ntype> eq '…' {
+            if $parameter<raku-type> eq '…' {
               # A pattern consists of a character key and some value of an 
               # unknown type. This repeats until user data is exhausted.
               # Then end with a 0. The first argument in the pattern is a string
@@ -814,7 +835,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     $par-list = ?$par-list ?? [~] ' :parameters([', $par-list, ']),' !! '';
 
     # Return type
-    my $xtype = $curr-function<return-raku-ntype>;
+    my $xtype = $curr-function<return-raku-type>;
     my Str $returns = '';
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
@@ -896,11 +917,11 @@ method generate-functions ( Hash $hcs --> Str ) {
 #      );
 
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-      my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
+      my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
 
       if $curr-function<variable-list> {
         # When variable list, the last type is '…', Finish the pattern.
-        if $parameter<raku-ntype> eq '…' {
+        if $parameter<raku-type> eq '…' {
           # A pattern consists of a character key and some value of an unknown
           # type. This repeats until user data is exhausted. Then end with a 0.
           # The first argument in the pattern is a string (mostly) then a value
@@ -986,7 +1007,7 @@ method generate-functions ( Hash $hcs --> Str ) {
     # Return type
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my Str $returns;
-    my $xtype = $curr-function<return-raku-ntype>;
+    my $xtype = $curr-function<return-raku-type>;
     my ( $rnt0, $rnt1) = $xtype.split(':');
     if ?$rnt1 {
       $returns = " :returns\($rnt0\), :type-name\($rnt1\),";
@@ -1086,7 +1107,7 @@ method generate-callback (
 
   my Str $par-list = '';
   for @($cb-data<parameters>) -> $parameter {
-    my ( $rnt0, $rnt1) = $parameter<raku-ntype>.split(':');
+    my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
     $par-list ~= ", $rnt0";
   }
 
@@ -1094,7 +1115,7 @@ method generate-callback (
   $par-list ~~ s/^ . //;
 
   my Str $returns;
-  my $xtype = $cb-data<return-raku-ntype>;
+  my $xtype = $cb-data<return-raku-type>;
   my ( $rnt0, $rnt1) = $xtype.split(':');
   if ?$rnt0 and $rnt0 eq 'void' {
     $returns = '';
@@ -1426,14 +1447,14 @@ method generate-structure (
     for @fields -> $field {
       my $field-name = $field.attribs<name>;
 #note "$?LINE $field-name";
-      my Str ( $type, $raku-ntype, $raku-rtype) =
+      my Str ( $type, $raku-type, $raku-rtype) =
         self!get-type( $field, :$user-side);
 
       $field-name ~~ s:g/ '_' /-/;
       if ?$type {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-        my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
-#note "\n$?LINE $raku-ntype, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $structure-name eq 'N-GClosureNotifyData';
+        my Str ( $rnt0, $rnt1) = $raku-type.split(':');
+#note "\n$?LINE $raku-type, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $structure-name eq 'N-GClosureNotifyData';
         if ?$rnt1 {
           $code ~= "has $rnt0 \$.$field-name;           # $rnt1\n";
         }
@@ -1448,8 +1469,8 @@ method generate-structure (
           $code ~= "has $rnt0 \$.$field-name;\n";
         }
 
-        if $raku-ntype eq 'N-GObject' {
-          $tweak-pars ~= "$raku-ntype :\$$field-name, ";
+        if $raku-type eq 'N-GObject' {
+          $tweak-pars ~= "$raku-type :\$$field-name, ";
           $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
         }
 
@@ -1573,13 +1594,13 @@ method generate-union (
 
   for @fields -> $field {
     my $field-name = $field.attribs<name>;
-    my Str ( $type, $raku-ntype, $raku-rtype) =
+    my Str ( $type, $raku-type, $raku-rtype) =
       self!get-type( $field, :$user-side);
 
     $field-name ~~ s:g/ '_' /-/;
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my Str ( $rnt0, $rnt1) = $raku-ntype.split(':');
+    my Str ( $rnt0, $rnt1) = $raku-type.split(':');
     if ?$rnt1 {
       $code ~= "HAS $rnt0 \$.$field-name;           # $rnt1\n";
     }
@@ -1757,9 +1778,9 @@ method !get-method-data (
 #note "\n$?LINE $function-name";
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-#  my Str ( $rv-type, $return-raku-ntype, $return-raku-rtype) =
-  my Str ( $rv-type, $return-raku-ntype) = self!get-type( $rvalue, :$user-side);
-  $missing-type = True unless ?$return-raku-ntype;
+#  my Str ( $rv-type, $return-raku-type, $return-raku-rtype) =
+  my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
+  $missing-type = True unless ?$return-raku-type;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -1771,9 +1792,9 @@ method !get-method-data (
 
   my Bool $variable-list = False;
   for @prmtrs -> $p {
-#    my Str ( $type, $raku-ntype, $raku-rtype) = self!get-type( $p, :$user-side);
-    my Str ( $type, $raku-ntype) = self!get-type( $p, :$user-side);
-    $missing-type = True unless ?$raku-ntype;
+#    my Str ( $type, $raku-type, $raku-rtype) = self!get-type( $p, :$user-side);
+    my Str ( $type, $raku-type) = self!get-type( $p, :$user-side);
+    $missing-type = True unless ?$raku-type;
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
@@ -1782,13 +1803,13 @@ method !get-method-data (
     # When '...', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
     if $parameter-name eq '...' {
-#      $type = $raku-ntype = $raku-rtype = '…';
-      $type = $raku-ntype = '…';
+#      $type = $raku-type = $raku-rtype = '…';
+      $type = $raku-type = '…';
       $variable-list = True;
     }
 
     my Hash $ph = %(
-      :name($parameter-name), :$type, :$raku-ntype,
+      :name($parameter-name), :$type, :$raku-type,
 #      :transfer-ownership($attribs<transfer-ownership>),
 #      :$raku-rtype
     );
@@ -1810,7 +1831,7 @@ method !get-method-data (
 #note "  $?LINE $function-name, miss types: $missing-type";
 
   ( $function-name, %(
-      :@parameters, :$variable-list, :$rv-type, :$return-raku-ntype,
+      :@parameters, :$variable-list, :$rv-type, :$return-raku-type,
       :$missing-type
 #      :$return-raku-rtype,
 #      :$rv-transfer-ownership,
@@ -1825,7 +1846,7 @@ method !get-callback-data (
 ) {
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-type, $return-raku-ntype) = self!get-type( $rvalue, :$user-side);
+  my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -1838,7 +1859,7 @@ method !get-callback-data (
   my Bool $variable-list = False;
   for @prmtrs -> $p {
 
-    my Str ( $type, $raku-ntype) = self!get-type( $p, :$user-side);
+    my Str ( $type, $raku-type) = self!get-type( $p, :$user-side);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
     $parameter-name ~~ s:g/ '_' /-/;
@@ -1846,11 +1867,11 @@ method !get-callback-data (
     # When '...', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
     if $parameter-name eq '...' {
-      $type = $raku-ntype = '…';
+      $type = $raku-type = '…';
       $variable-list = True;
     }
 
-    my Hash $ph = %( :name($parameter-name), :$type, :$raku-ntype);
+    my Hash $ph = %( :name($parameter-name), :$type, :$raku-type);
 
     $ph<allow-none> = $attribs<allow-none>.Bool;
     $ph<nullable> = $attribs<nullable>.Bool;
@@ -1860,7 +1881,7 @@ method !get-callback-data (
   }
 
   %(
-    :@parameters, :$variable-list, :$rv-type, :$return-raku-ntype,
+    :@parameters, :$variable-list, :$rv-type, :$return-raku-type,
   )
 }
 
@@ -1871,6 +1892,8 @@ method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
   # so return something to prevent it marked as a missing type
   return ('...', '...')
     if $e.attribs<name>:exists and $e.attribs<name> eq '...';
+
+note "$?LINE $e";
 
   my Str ( $type, $raku-type) = '' xx 2;
   for $e.nodes -> $n {
@@ -1896,7 +1919,7 @@ method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
     }
   }
 
-note "$?LINE $e.attribs<name>, $user-side, $type, $raku-type";
+note "$?LINE $user-side, $type, $raku-type";
   ( $type, $raku-type)
 }
 
@@ -1906,7 +1929,7 @@ method convert-ntype (
 #  Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
-#note "$?LINE ctype: $ctype";
+#note "$?LINE convert-ntype ctype: $ctype";
 
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
@@ -2025,7 +2048,7 @@ method convert-rtype (
   Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
-#note "$?LINE $ctype" if $ctype ~~ /Pixbuf/;
+#note "$?LINE convert-rtype $ctype";
 
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
