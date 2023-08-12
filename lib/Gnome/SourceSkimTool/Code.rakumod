@@ -130,7 +130,7 @@ method generate-callables (
   note "Generate constructors" if $*verbose and ?$code;
 
   # Get all methods in this class
-  $hcs = self!get-methods( $element, $xpath);
+  $hcs = self.get-methods( $element, $xpath);
   if ?$hcs {
     # Generate methods
     $c = self!generate-methods($hcs);
@@ -725,7 +725,9 @@ note "$?LINE $function-name, $parameter<raku-type>, $rnt0";
 }
 
 #-------------------------------------------------------------------------------
-method !get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
+method get-methods (
+  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
+) {
   my Hash $hms = %();
 
   my @methods = $xpath.find( 'method', :start($element), :to-list);
@@ -735,7 +737,8 @@ method !get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     next if $function.attribs<deprecated>:exists and
             $function.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = self!get-method-data( $function, :$xpath);
+    my ( $function-name, %h) =
+      self!get-method-data( $function, :$xpath, :$user-side);
     $hms{$function-name} = %h;
   }
 
@@ -746,7 +749,7 @@ method !get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 method !generate-methods ( Hash $hcs --> Str ) {
 
   # Get all methods in this class
-  #my Hash $hcs = self!get-methods( $element, $xpath);
+  #my Hash $hcs = self.get-methods( $element, $xpath);
   #return '' unless ?$hcs;
 
 #  my Str $ctype = $element.attribs<c:type>;
@@ -1034,7 +1037,9 @@ method generate-functions ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-functions ( XML::Element $element, XML::XPath $xpath --> Hash ) {
+method !get-functions (
+  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
+) {
   my Hash $hms = %();
 
   my @methods = $xpath.find( 'function', :start($element), :to-list);
@@ -1044,7 +1049,8 @@ method !get-functions ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     next if $function.attribs<deprecated>:exists and
             $function.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = self!get-method-data( $function, :$xpath);
+    my ( $function-name, %h) =
+      self!get-method-data( $function, :$xpath, :$user-side);
     $hms{$function-name} = %h;
   }
 
@@ -1052,7 +1058,9 @@ method !get-functions ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method get-standalone-functions ( Array $function-names --> Hash ) {
+method get-standalone-functions (
+  Array $function-names, Bool :$user-side = False --> Hash
+) {
   my Hash $hms = %();
 
   my Str $file = $*work-data<gir-module-path> ~ 'repo-function.gir';
@@ -1073,7 +1081,7 @@ method get-standalone-functions ( Array $function-names --> Hash ) {
   }
 
   for @methods -> $cn {
-    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
+    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath, :$user-side);
     $hms{$function-name} = %h;
   }
 

@@ -100,9 +100,6 @@ method generate-test ( ) {
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
 
-  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
-note "$?LINE $hcs.gist()";
-
   my Str $test-variable = '$' ~ $*gnome-class.lc;
 
 #NOTE needed? use NativeCall;
@@ -119,59 +116,56 @@ note "$?LINE $hcs.gist()";
     my $*work-data<raku-class-name> $test-variable;
     EOTEST
 
+  $code ~= qq:to/EOTEST/;
+    {$!grd.pod-header('Class init tests')}
+    subtest 'ISA test', \{
+    EOTEST
+
+  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+note "$?LINE $hcs.gist()";
+#  # Use of .reverse() to get the set*() functions before the get*() functions
+#  for $hcs.keys.sort.reverse -> $function-name {
   for $hcs.keys.sort -> $function-name {
     my Hash $curr-function := $hcs{$function-name};
 
-    $code ~= qq:to/EOTEST/;
-      {$!grd.pod-header('Class init tests')}
-      subtest 'ISA test', \{
-      EOTEST
-
     my Bool $simple-func-new = !$curr-function<parameters>;
     my $option-name = $hcs{$function-name}<option-name>;
-    unless $simple-func-new {
-#`{{
-      # Use the option name if it is the first arg.
+    if !$simple-func-new {
+      my Str $par-list = '';
       my Bool $first = True;
       for @($curr-function<parameters>) -> $parameter {
-        $par-list ~= ", \$$parameter<name>";
-        $decl-list ~= [~]
-          '        ', $inhibit, 'my $', $parameter<name>, ' = %options<',
-          ($first ?? $curr-function<option-name> !! $parameter<name>), '>;',
-          "\n";
-
+        if $first {
+          $par-list ~= ", :$curr-function<option-name>\(…\)";
           $first = False;
+        }
+
+        else {
+          $par-list ~= ", :$parameter<name>\(…\)";
+        }
       }
-
+    
       # Remove first comma and first space
-      $par-list ~~ s/^ .. //;
+      $par-list ~~ s/^ . //;
 
-      $code ~= qq:to/EOBUILD/;
-              $ifelse \%options\<$curr-function<option-name>\>:exists \{
-        $decl-list
-                # 'my Bool \$x' is needed but value ignored
-                $inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
-              \}
+      $code ~= qq:to/EOTEST/;
+          #TB:1:new\($par-list\)
+          #$test-variable .= new\($par-list\);
+          #ok .is-valid, '.new\($par-list\)';
 
-        EOBUILD
-
-      $ifelse = "elsif";
-}}
+        EOTEST
     }
 
     else {
       $code ~= qq:to/EOTEST/;
-        {$!grd.pod-header('Class init tests')}
-        subtest 'ISA test', \{
-          #TB:1:new
+          #TB:1:new\(\)
           $test-variable .= new;
           ok .is-valid, '.new\(\)';
-        \}
+
         EOTEST
     }
   }
 
-  $code ~= "};\n";
+  $code ~= "};\n\n";
 
   $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
@@ -185,40 +179,99 @@ note "$?LINE $hcs.gist()";
 
     EOTEST
 
-    # check if class is inheritable
-    if $h<inheritable> {
-      $code ~= qq:to/EOTEST/;
-      {$!grd.pod-header('Inheritance test')}
-      #TB:1:Inheriting
-      subtest 'Inherit $*work-data<raku-class-name>', \{
-        class MyClass is $*work-data<raku-class-name> \{
-          method new \( |c ) \{
-            self.bless\( :$*work-data<gnome-name>, |c);
-          }
-
-          submethod BUILD \( *\%options ) \{
-
-          }
+  # check if class is inheritable
+  if $h<inheritable> {
+    $code ~= qq:to/EOTEST/;
+    {$!grd.pod-header('Inheritance test')}
+    #TB:1:Inheriting
+    subtest 'Inherit $*work-data<raku-class-name>', \{
+      class MyClass is $*work-data<raku-class-name> \{
+        method new \( |c ) \{
+          self.bless\( :$*work-data<gnome-name>, |c);
         }
 
-        my MyClass $test-variable .= new;
-        isa-ok $test-variable, $*work-data<raku-class-name>, 'MyClass.new\()';
-      }
-      EOTEST
-    }
+        submethod BUILD \( *\%options ) \{
 
-    $code ~= qq:to/EOTEST/;
+        }
+      }
+
+      my MyClass $test-variable .= new;
+      isa-ok $test-variable, $*work-data<raku-class-name>, 'MyClass.new\()';
+    }
+    EOTEST
+  }
+
+  $code ~= qq:to/EOTEST/;
 
     {HLSEPARATOR}
     done-testing;
 
     =finish
+    EOTEST
 
 
+  # Set up tests for the methods
+  $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
-    subtest 'Manipulations', \{
-    \}
+    subtest 'Method tests', \{
+      with $test-variable .= new \{
+    EOTEST
 
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
+note "$?LINE $hcs.gist()";
+  # Use of .reverse() to get the set*() functions before the get*() functions
+  for $hcs.keys.sort.reverse -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
+
+    # get method name, drop the prefix
+    my Str $hash-fname = $function-name;
+    $hash-fname ~~ s/^ $symbol-prefix //;
+
+    my Bool $first-param = True;
+    my Str $par-list = '';
+    for @($curr-function<parameters>) -> $parameter {
+      # Skip first argument, is solved by class
+      if $first-param {
+        $first-param = False;
+        next;
+      }
+      $par-list ~= ", :$parameter<name>\(…\)";
+    }
+
+    # Remove first comma and first space
+    $par-list ~~ s/^ . //;
+
+    if $hash-fname ~~ m/^ set / {
+      $code ~= qq:to/EOTEST/;
+          #TB:0:$hash-fname\(\)
+          #lives-ok \{
+          #  .$hash-fname\($par-list\);
+          #\}, '.$hash-fname\(\)';
+
+      EOTEST
+    }
+
+    elsif $hash-fname ~~ m/^ get / {
+      $code ~= qq:to/EOTEST/;
+          #TB:0:$hash-fname\(\)
+          #is .$hash-fname\($par-list\), …, '.$hash-fname\(\)';
+
+      EOTEST
+    }
+
+    else {
+      $code ~= qq:to/EOTEST/;
+          #TB:0:$hash-fname\(\)
+          #ok .$hash-fname\($par-list\), …, '.$hash-fname\(\)';
+
+      EOTEST
+    }
+  }
+
+  $code ~= "  \}\n\};\n\n";
+
+  $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
     subtest 'Signals …', \{
       use Gnome::Gtk3::Main;
