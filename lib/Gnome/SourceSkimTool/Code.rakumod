@@ -2153,12 +2153,16 @@ method convert-rtype (
           # All C enumerations are integers and can coerce to the enum type
           # in input and output. Need to prefix package name because
           # enumerations are mentioned without it
-          $raku-type = $h<class-name> ~ '()';
+#          $raku-type = $h<class-name> ~ '()';
+          self.add-import($h<class-name>);
+          $raku-type = "GEnum:$ctype";
         }
 
         when 'bitfield' {
-          $raku-type = 'UInt';
-          $raku-type ~= '()' unless $return-type;
+#          $raku-type = 'UInt';
+#          $raku-type ~= '()' unless $return-type;
+          self.add-import($h<class-name>);
+          $raku-type = "UInt:$ctype";
         }
 
         when 'alias' { }

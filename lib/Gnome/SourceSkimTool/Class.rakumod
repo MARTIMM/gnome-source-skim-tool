@@ -150,7 +150,7 @@ note "$?LINE $hcs.gist()";
       $code ~= qq:to/EOTEST/;
           #TB:1:new\($par-list\)
           #$test-variable .= new\($par-list\);
-          #ok .is-valid, '.new\($par-list\)';
+          #ok $test-variable.is-valid, '.new\($par-list\)';
 
         EOTEST
     }
@@ -159,7 +159,7 @@ note "$?LINE $hcs.gist()";
       $code ~= qq:to/EOTEST/;
           #TB:1:new\(\)
           $test-variable .= new;
-          ok .is-valid, '.new\(\)';
+          ok $test-variable.is-valid, '.new\(\)';
 
         EOTEST
     }
@@ -214,8 +214,12 @@ note "$?LINE $hcs.gist()";
   $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
     subtest 'Method tests', \{
-      with $test-variable .= new \{
+      with $test-variable \{
+    __DECL_VARS__
     EOTEST
+
+  #| variables used in tests
+  my Hash $decl-vars = %();
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
   $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
@@ -227,49 +231,113 @@ note "$?LINE $hcs.gist()";
     # get method name, drop the prefix
     my Str $hash-fname = $function-name;
     $hash-fname ~~ s/^ $symbol-prefix //;
+    $hash-fname ~~ s:g/ '_' /-/;
 
     my Bool $first-param = True;
+
+    #| parameters used in call
     my Str $par-list = '';
+
+    #| assignments before call
+    my Str $assign-list = '';
+
     for @($curr-function<parameters>) -> $parameter {
       # Skip first argument, is solved by class
       if $first-param {
         $first-param = False;
         next;
       }
-      $par-list ~= ", :$parameter<name>\(…\)";
+
+      $decl-vars{$parameter<name>} = $parameter<raku-type>;
+      $assign-list ~= "  \$$parameter<name> = ";
+      my Str $rtype = $parameter<raku-type>;
+      $rtype ~~ s/'()'//;
+      with $rtype {
+        when 'Int' { $assign-list ~= "-42;\n"; }
+        when 'UInt' { $assign-list ~= "42;\n"; }
+        when 'Str' { $assign-list ~= "'text';\n"; }
+        when 'Num' { $assign-list ~= "42.42;\n"; }
+        when 'Bool' { $assign-list ~= "True;\n"; }
+        when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
+        when /^ GEnum / { $assign-list ~= "…;  # a $rtype enum\n"; }
+        when /^ GEnum / { $assign-list ~= "…;  # a $rtype mask\n"; }
+#        when '' { $assign-list ~= ;\n"; }
+        default {
+          note "Test variable \$$parameter<name> has type $rtype";
+          $assign-list ~= "'…';\n";
+        }
+      }
+      $par-list ~= ", \$$parameter<name>";
     }
 
     # Remove first comma and first space
     $par-list ~~ s/^ . //;
 
+    # Remove last return
+    #$assign-list.chop;
+
     if $hash-fname ~~ m/^ set / {
       $code ~= qq:to/EOTEST/;
           #TB:0:$hash-fname\(\)
-          #lives-ok \{
-          #  .$hash-fname\($par-list\);
-          #\}, '.$hash-fname\(\)';
-
+        $assign-list.chop()
+          lives-ok \{
+            .$hash-fname\($par-list\);
+          \}, '.$hash-fname\(\)';
       EOTEST
+      
+      # Also test set-*() when there is one
+      my Str $fn = $function-name;
+      $fn ~~ s/^ set /get/;
+      if $hcs{$fn}:exists {
+        $hash-fname ~~ s/^ set /get/;
+        $code ~= qq:to/EOTEST/;
+            #TB:0:$hash-fname\(\)
+            is .$hash-fname\(\), '…', '.$hash-fname\(\)';
+
+        EOTEST
+      }
     }
 
     elsif $hash-fname ~~ m/^ get / {
-      $code ~= qq:to/EOTEST/;
-          #TB:0:$hash-fname\(\)
-          #is .$hash-fname\($par-list\), …, '.$hash-fname\(\)';
+      # Only test get-*() when they are not tested above
+      my Str $fn = $function-name;
+      $fn ~~ s/^ get /set/;
+      if $hcs{$fn}:!exists {
+        $code ~= qq:to/EOTEST/;
+            #TB:0:$hash-fname\(\)
+            is .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
 
-      EOTEST
+        EOTEST
+      }
     }
 
     else {
       $code ~= qq:to/EOTEST/;
           #TB:0:$hash-fname\(\)
-          #ok .$hash-fname\($par-list\), …, '.$hash-fname\(\)';
+          ok .$hash-fname\($par-list\), …, '.$hash-fname\(\)';
 
       EOTEST
     }
   }
 
   $code ~= "  \}\n\};\n\n";
+
+  # Write out the gathered variables and make declarations
+  my Str $dstr = '';
+  for $decl-vars.kv -> $name, $type is copy {
+    if $type ~~ /^ GEnum / {
+      $type ~~ s/^ <-[:]>+ ':' //;
+    }
+
+    elsif $type ~~ /^ GFlag/ {
+      $type = 'UInt';
+    }
+
+    $type ~~ s/ '()' // unless $type ~~ m/ 'N-GObject' /;
+    $dstr ~= "    my $type \$$name;\n";
+  }
+
+  $code ~~ s/'__DECL_VARS__'/$dstr/;
 
   $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
