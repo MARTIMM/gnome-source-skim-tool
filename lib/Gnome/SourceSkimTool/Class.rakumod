@@ -201,21 +201,14 @@ note "$?LINE $hcs.gist()";
     EOTEST
   }
 
-  $code ~= qq:to/EOTEST/;
-
-    {HLSEPARATOR}
-    done-testing;
-
-    =finish
-    EOTEST
-
-
   # Set up tests for the methods
   $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
     subtest 'Method tests', \{
       with $test-variable \{
     __DECL_VARS__
+
+    #`\{\{
     EOTEST
 
   #| variables used in tests
@@ -223,7 +216,8 @@ note "$?LINE $hcs.gist()";
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
   $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
-note "$?LINE $hcs.gist()";
+#note "$?LINE $hcs.gist()";
+
   # Use of .reverse() to get the set*() functions before the get*() functions
   for $hcs.keys.sort.reverse -> $function-name {
     my Hash $curr-function := $hcs{$function-name};
@@ -240,6 +234,7 @@ note "$?LINE $hcs.gist()";
 
     #| assignments before call
     my Str $assign-list = '';
+    my Str $test-type;
 
     for @($curr-function<parameters>) -> $parameter {
       # Skip first argument, is solved by class
@@ -248,6 +243,7 @@ note "$?LINE $hcs.gist()";
         next;
       }
 
+      $test-type = 'is';
       $decl-vars{$parameter<name>} = $parameter<raku-type>;
       $assign-list ~= "  \$$parameter<name> = ";
       my Str $rtype = $parameter<raku-type>;
@@ -256,7 +252,7 @@ note "$?LINE $hcs.gist()";
         when 'Int' { $assign-list ~= "-42;\n"; }
         when 'UInt' { $assign-list ~= "42;\n"; }
         when 'Str' { $assign-list ~= "'text';\n"; }
-        when 'Num' { $assign-list ~= "42.42;\n"; }
+        when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
         when 'Bool' { $assign-list ~= "True;\n"; }
         when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
         when /^ GEnum / { $assign-list ~= "…;  # a $rtype enum\n"; }
@@ -280,11 +276,9 @@ note "$?LINE $hcs.gist()";
       $code ~= qq:to/EOTEST/;
           #TB:0:$hash-fname\(\)
         $assign-list.chop()
-          lives-ok \{
-            .$hash-fname\($par-list\);
-          \}, '.$hash-fname\(\)';
+          lives-ok \{ .$hash-fname\($par-list\); \}, '.$hash-fname\(\)';
       EOTEST
-      
+
       # Also test set-*() when there is one
       my Str $fn = $function-name;
       $fn ~~ s/^ set /get/;
@@ -292,7 +286,7 @@ note "$?LINE $hcs.gist()";
         $hash-fname ~~ s/^ set /get/;
         $code ~= qq:to/EOTEST/;
             #TB:0:$hash-fname\(\)
-            is .$hash-fname\(\), '…', '.$hash-fname\(\)';
+            $test-type .$hash-fname\(\), '…', '.$hash-fname\(\)';
 
         EOTEST
       }
@@ -302,10 +296,11 @@ note "$?LINE $hcs.gist()";
       # Only test get-*() when they are not tested above
       my Str $fn = $function-name;
       $fn ~~ s/^ get /set/;
+
       if $hcs{$fn}:!exists {
         $code ~= qq:to/EOTEST/;
             #TB:0:$hash-fname\(\)
-            is .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
+            $test-type .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
 
         EOTEST
       }
@@ -320,7 +315,7 @@ note "$?LINE $hcs.gist()";
     }
   }
 
-  $code ~= "  \}\n\};\n\n";
+  $code ~= "\}\}\n  \}\n\};\n\n";
 
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
@@ -333,11 +328,19 @@ note "$?LINE $hcs.gist()";
       $type = 'UInt';
     }
 
-    $type ~~ s/ '()' // unless $type ~~ m/ 'N-GObject' /;
+#    $type ~~ s/ '()' // unless $type ~~ m/ 'N-GObject' /;
     $dstr ~= "    my $type \$$name;\n";
   }
 
   $code ~~ s/'__DECL_VARS__'/$dstr/;
+
+  $code ~= qq:to/EOTEST/;
+    {HLSEPARATOR}
+    done-testing;
+
+    =finish
+
+    EOTEST
 
   $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
