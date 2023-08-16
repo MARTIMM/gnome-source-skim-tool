@@ -27,7 +27,7 @@ submethod BUILD ( Str :$!filename ) {
 # This setup is for more simple structures like records, functions,
 # enumerations, etc. There is no need for inheritence, BUILD, signals or
 # properties.
-method set-unit-for-file ( Str $class-name --> Str ) {
+method set-unit ( Str $class-name --> Str ) {
 
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
@@ -39,6 +39,64 @@ method set-unit-for-file ( Str $class-name --> Str ) {
 
   $!mod.add-import('Test');
 
+  $code
+}
+
+#-------------------------------------------------------------------------------
+method generate-init-tests (
+  Str $test-variable, Str $init-test-type, Hash $hcs --> Str
+) {
+
+  my Str $code = qq:to/EOTEST/;
+    {$!grd.pod-header('Test init')}
+    #Gnome::N::debug(:on);
+    my $*work-data<raku-class-name> $test-variable;
+
+    {$!grd.pod-header($init-test-type)}
+    subtest 'ISA test', \{
+    EOTEST
+  
+  for $hcs.keys.sort -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
+
+    my Bool $simple-func-new = !$curr-function<parameters>;
+    my $option-name = $curr-function<option-name>;
+    if !$simple-func-new {
+      my Str $par-list = '';
+      my Bool $first = True;
+      for @($curr-function<parameters>) -> $parameter {
+        if $first {
+          $par-list ~= ", :$curr-function<option-name>\(…\)";
+          $first = False;
+        }
+
+        else {
+          $par-list ~= ", :$parameter<name>\(…\)";
+        }
+      }
+    
+      # Remove first comma and first space
+      $par-list ~~ s/^ . //;
+
+      $code ~= qq:to/EOTEST/;
+          #TB:1:new\($par-list\)
+          #$test-variable .= new\($par-list\);
+          #ok $test-variable.is-valid, '.new\($par-list\)';
+
+        EOTEST
+    }
+
+    else {
+      $code ~= qq:to/EOTEST/;
+          #TB:1:new\(\)
+          $test-variable .= new;
+          ok $test-variable.is-valid, '.new\(\)';
+
+        EOTEST
+    }
+  }
+
+  $code ~= "};\n\n";
   $code
 }
 
@@ -81,7 +139,7 @@ method generate-function-tests ( Str $class-name, Hash $hcs --> Str ) {
 #      );
 
       # Get a list of types for the arguments
-      $par-list ~= ", $parameter<raku-ntype>";
+      $par-list ~= ", $parameter<raku-type>";
     }
 
     # Remove first comma and space when there is only one parameter
@@ -95,7 +153,7 @@ method generate-function-tests ( Str $class-name, Hash $hcs --> Str ) {
     # Return type
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my Str $returns;
-    my $xtype = $curr-function<return-raku-ntype>;
+    my $xtype = $curr-function<return-raku-type>;
     my ( $rnt0, $rnt1) = $xtype.split(':');
     if ?$rnt1 {
       $returns = " :returns\($rnt0\), :type-name\($rnt1\),";

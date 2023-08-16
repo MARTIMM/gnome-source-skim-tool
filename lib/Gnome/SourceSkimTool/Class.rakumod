@@ -2,6 +2,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
+use Gnome::SourceSkimTool::Test;
 
 use XML;
 use XML::XPath;
@@ -12,13 +13,12 @@ unit class Gnome::SourceSkimTool::Class:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
+has Gnome::SourceSkimTool::Test $!tst;
 
 has XML::XPath $!xpath;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
-
-  $!grd .= new;
 
   # load data for this module
   note "Load module data from $*work-data<gir-class-file>" if $*verbose;
@@ -58,6 +58,8 @@ method generate-code ( ) {
 
 #-------------------------------------------------------------------------------
 method generate-doc ( ) {
+#`{{
+  $!grd .= new;
 
   my XML::Element $element = $!xpath.find('//class');
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
@@ -91,10 +93,13 @@ method generate-doc ( ) {
 
   note "Save pod doc";
   $*work-data<raku-module-doc-file>.IO.spurt($doc);
+}}
 }
 
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
+
+  $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//class');
   my Str $ctype = $element.attribs<c:type>;
@@ -104,13 +109,21 @@ method generate-test ( ) {
 
 #NOTE needed? use NativeCall;
   $!mod.add-import($*work-data<raku-class-name>);
+  my Str $code = $!tst.set-unit($*work-data<raku-class-name>);
+#`{{
   my $code = qq:to/EOTEST/;
     use v6;
 
     {$!grd.pod-header('Module Imports')}
     #TL:1:$*work-data<raku-class-name>
     __MODULE__IMPORTS__
+}}
 
+  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+note "$?LINE $hcs.gist()";
+  $code ~= $!tst.generate-init-tests( $test-variable, 'Class init tests', $hcs);
+#`{{
+  $code ~= qq:to/EOTEST/;
     {$!grd.pod-header('Test init')}
     #Gnome::N::debug(:on);
     my $*work-data<raku-class-name> $test-variable;
@@ -121,8 +134,6 @@ method generate-test ( ) {
     subtest 'ISA test', \{
     EOTEST
 
-  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
-note "$?LINE $hcs.gist()";
 #  # Use of .reverse() to get the set*() functions before the get*() functions
 #  for $hcs.keys.sort.reverse -> $function-name {
   for $hcs.keys.sort -> $function-name {
@@ -166,6 +177,7 @@ note "$?LINE $hcs.gist()";
   }
 
   $code ~= "};\n\n";
+}}
 
   $code ~= qq:to/EOTEST/;
     {HLSEPARATOR}
