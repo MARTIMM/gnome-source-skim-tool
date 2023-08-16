@@ -49,8 +49,11 @@ method generate-test ( ) {
   for $!filedata.keys {
     # -> $type-name
 
+    # Skip a key if not mentioned on the commandline or
+    # just do it when there is no preverence
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
+    # Firs check for classes, inrefaces, records or unions
     when 'class' {
       for $!filedata<class>.keys -> $class-name {
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
@@ -116,10 +119,13 @@ $prepare.display-hash( $*work-data, :label<union work data>);
     }
   }
 
+  # Other types than handled above are gathered into one test file
   my Gnome::SourceSkimTool::Prepare $t-prep .= new;
   for $!filedata.keys {
      # -> $type-name
 
+    # Skip a key if not mentioned on the commandline or
+    # just do it when there is no preverence
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
     # Only for documentation
@@ -202,7 +208,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
 
     mkdir( $filename.IO.dirname, 0o750) unless $filename.IO.dirname.IO ~~ :e;
     my Str $code = qq:to/RAKUMOD/;
-      { $!tst.set-unit-for-file($class-name); }
+      { $!tst.set-unit($class-name); }
 
       $c
 
