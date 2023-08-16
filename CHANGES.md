@@ -46,6 +46,7 @@ kaal '/usr/bin/time raku Window.rakutest'
 * 2023-08-09 0.10.3
   * Many bugs fixed. Seems possible to generate working code without modifying much.
   * Started to generate Pango code.
+  * First test files for classes generated.
 
 * 2023-08-05 0.10.2
   * Moved the GnomeRoutineCaller module from `Gnome::Glib` to `Gnome::N`. This is a better location as a supporting module.
