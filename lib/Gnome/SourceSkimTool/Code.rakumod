@@ -1926,7 +1926,7 @@ method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
     }
   }
 
-note "$?LINE $user-side, $type, $raku-type";
+#note "$?LINE $user-side, $type, $raku-type";
   ( $type, $raku-type)
 }
 
