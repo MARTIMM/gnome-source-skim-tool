@@ -8,7 +8,7 @@ use Gnome::N::NativeLib;
 #use Gnome::N::TopLevelClassSupport;
 use Gnome::N::GlibToRakuTypes;
 
-use Gnome::Glib::N-GError;
+use Gnome::Glib::N-GError:api<2>;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::N::GnomeRoutineCaller:auth<github:MARTIMM>:api<2>;
@@ -263,6 +263,6 @@ note "$?LINE adjust-data";
   loop ( my Int $i = 0; $i < $pattern-start; $i++ ) {
     @new-arguments.push: 
   }
-  
+
   ( @new-parameters, @new-arguments)
 }
