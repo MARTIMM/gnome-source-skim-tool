@@ -2,6 +2,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
+use Gnome::SourceSkimTool::Test;
 
 use XML;
 use XML::XPath;
@@ -12,6 +13,7 @@ unit class Gnome::SourceSkimTool::Interface:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
+has Gnome::SourceSkimTool::Test $!tst;
 
 has XML::XPath $!xpath;
 
@@ -65,4 +67,32 @@ method generate-doc ( ) {
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
 
+  $!tst .= new;
+
+  my XML::Element $element = $!xpath.find('//interface');
+  my Str $test-variable = '$' ~ $*gnome-class.lc;
+  $!mod.add-import($*work-data<raku-class-name>);
+
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+  my Str $code = $!tst.set-unit($h<class-name>);
+
+#  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+#  $code ~= $!tst.generate-init-tests( $test-variable, 'Class init tests', $hcs);
+
+  $code ~= $!tst.generate-test-separator;
+  $code ~= $!tst.generate-inheritance-tests( $element, $test-variable);
+
+  my Hash $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
+  $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
+  $code ~= $!tst.generate-test-end;
+  $code ~= $!tst.generate-signal-tests($test-variable);
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
+
+  my Str $fname = $*work-data<result-path>;
+  $fname ~~ s@ '/lib/' @/t/@;
+  mkdir $fname, 0o750 unless $fname.IO ~~ :e;
+  $fname ~= 'R-' ~ $*gnome-class ~ '.rakutest';
+  note "Save tests in ", $fname.IO.basename;
+  $fname.IO.spurt($code);
 }
