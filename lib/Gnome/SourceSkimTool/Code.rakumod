@@ -2189,7 +2189,8 @@ method search-name ( Str $name --> Hash ) {
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
-#    note "Search for $name in map $map-name" if $*verbose;
+#note "Search for $name in map $map-name" if $*verbose;
+#say "$?LINE: search $name, $map-name" if $name ~~ m:i/ orientable /;
 
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists
@@ -2207,7 +2208,6 @@ method search-name ( Str $name --> Hash ) {
   }
 
 #say Backtrace.new.nice if $name eq 'GdkPixbufPixbuf';
-#say "$?LINE: search $name -> $h.gist()" if $name eq 'GdkPixbufPixbuf';
 
   $h
 }
