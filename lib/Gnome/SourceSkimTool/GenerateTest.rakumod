@@ -76,9 +76,9 @@ $prepare.display-hash( $*work-data, :label<interface work data>);
 
         say "\nGenerate Tests for Raku role ", $*work-data<raku-class-name>;
 
-#        require ::('Gnome::SourceSkimTool::Interface');
-#        my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
-#        $raku-module.generate-test;
+        require ::('Gnome::SourceSkimTool::Interface');
+        my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
+        $raku-module.generate-test;
       }
     }
 
