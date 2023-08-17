@@ -13,9 +13,9 @@ my Bool $*verbose;
 my Hash $*object-maps;
 my Hash $*other-work-data;
 
-my Bool $*generate-code;
-my Bool $*generate-doc;
-my Bool $*generate-test;
+my Bool $*generate-code = False;
+my Bool $*generate-doc = False;
+my Bool $*generate-test = False;
 
 my Str $*class-code = '';     # used for classes and interfaces
 my Str $*callable-code = '';
@@ -56,9 +56,9 @@ sub MAIN (
 
   $*verbose = $v;
 
-  $*generate-code = $c;
-  $*generate-doc = $d;
-  $*generate-test = $t;
+#  $*generate-code = $c;
+#  $*generate-doc = $d;
+#  $*generate-test = $t;
 
   @*gir-type-select = @types // ();
 
@@ -76,21 +76,33 @@ sub MAIN (
     $filename .= lc;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-    if $*generate-code {
+    # Generate library code
+    if $c {
+      $*generate-code = True;
       require ::('Gnome::SourceSkimTool::GenerateCode');
       my $raku-module =
          ::('Gnome::SourceSkimTool::GenerateCode').new(:$filename);
       $raku-module.generate-code;
+      $*generate-code = False;
     }
 
-    if $*generate-doc {
+    # Generate documentation
+    if $d {
+      $*generate-doc = True;
+
+      $*generate-doc = False;
     }
 
-    if $*generate-test {
+    # Generate test code
+    if $t {
+      $*generate-test = True;
+
       require ::('Gnome::SourceSkimTool::GenerateTest');
       my $raku-module =
          ::('Gnome::SourceSkimTool::GenerateTest').new(:$filename);
       $raku-module.generate-test;
+
+      $*generate-test = False;
     }
   }
 }
