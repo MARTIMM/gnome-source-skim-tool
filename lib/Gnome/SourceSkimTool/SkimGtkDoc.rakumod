@@ -297,6 +297,7 @@ method !check-parent-role ( Str $entry-name, Str $role-name ) {
 
   # If not found in parents role array then this class must implement it
   else {
+    # Add role to be implemented by this class
     $!map{$entry-name}<implement-roles> = []
       unless $!map{$entry-name}<implement-roles>:exists;
 
@@ -305,6 +306,19 @@ method !check-parent-role ( Str $entry-name, Str $role-name ) {
       $!map{$entry-name}<implement-roles>.push: $role-name;
       note "Implement $role-name in class $!map{$entry-name}<class-name>"
         if $*verbose;
+    }
+
+    # Add implementor to the role
+....my Hash $role-h = $!mod.search-name($role-name);
+    if ?$role-h {
+      my Str $gnome-name = $role-h<gnome-name>;
+
+      $!map{$gnome-name}<implementors> = []
+        unless $!map{$gnome-name}<implementors>:exists;
+
+      unless $!map{$gnome-name}<implementors>.first($entry-name) {
+        $!map{$gnome-name}<implementors>.push: $entry-name;
+      }
     }
   }
 }
