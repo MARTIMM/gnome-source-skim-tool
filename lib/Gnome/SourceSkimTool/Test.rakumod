@@ -101,6 +101,177 @@ method generate-init-tests (
 }
 
 #-------------------------------------------------------------------------------
+method generate-inheritance-tests (
+  XML::Element $element, Str $test-variable --> Str
+) {
+
+  my $code = '';
+
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!mod.search-name($ctype);
+  # check if class is inheritable
+  if $h<inheritable> {
+    $code ~= qq:to/EOTEST/;
+    {$!grd.pod-header('Inheritance test')}
+    #TB:1:Inheriting
+    subtest 'Inherit $*work-data<raku-class-name>', \{
+      class MyClass is $*work-data<raku-class-name> \{
+        method new \( |c ) \{
+          self.bless\( :$*work-data<gnome-name>, |c);
+        }
+
+        submethod BUILD \( *\%options ) \{
+
+        }
+      }
+
+      my MyClass $test-variable .= new;
+      isa-ok $test-variable, $*work-data<raku-class-name>, 'MyClass.new\()';
+    }
+
+    EOTEST
+  }
+
+  $code
+}
+
+#-------------------------------------------------------------------------------
+method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
+
+  # Set up tests for the methods
+  my Str $code = qq:to/EOTEST/;
+    {HLSEPARATOR}
+    subtest 'Method tests', \{
+      with $test-variable \{
+    __DECL_VARS__
+
+    #`\{\{
+    EOTEST
+
+  #| variables used in tests
+  my Hash $decl-vars = %();
+
+#  my Hash $hcs = $!mod.get-methods( $element, $xpath, :user-side);
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+#note "$?LINE $hcs.gist()";
+
+  # Use of .reverse() to get the set*() functions before the get*() functions
+  for $hcs.keys.sort.reverse -> $function-name {
+    my Hash $curr-function := $hcs{$function-name};
+
+    # get method name, drop the prefix
+    my Str $hash-fname = $function-name;
+    $hash-fname ~~ s/^ $symbol-prefix //;
+    $hash-fname ~~ s:g/ '_' /-/;
+
+    my Bool $first-param = True;
+
+    #| parameters used in call
+    my Str $par-list = '';
+
+    #| assignments before call
+    my Str $assign-list = '';
+    my Str $test-type;
+
+    for @($curr-function<parameters>) -> $parameter {
+      # Skip first argument, is solved by class
+      if $first-param {
+        $first-param = False;
+        next;
+      }
+
+      $test-type = 'is';
+      $decl-vars{$parameter<name>} = $parameter<raku-type>;
+      $assign-list ~= "    \$$parameter<name> = ";
+      my Str $rtype = $parameter<raku-type>;
+      $rtype ~~ s/'()'//;
+      with $rtype {
+        when 'Int' { $assign-list ~= "-42;\n"; }
+        when 'UInt' { $assign-list ~= "42;\n"; }
+        when 'Str' { $assign-list ~= "'text';\n"; }
+        when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
+        when 'Bool' { $assign-list ~= "True;\n"; }
+        when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
+        when /^ GEnum / { $assign-list ~= "…;  # a $rtype enum\n"; }
+        when /^ GEnum / { $assign-list ~= "…;  # a $rtype mask\n"; }
+#        when '' { $assign-list ~= ;\n"; }
+        default {
+          note "Test variable \$$parameter<name> has type $rtype";
+          $assign-list ~= "'…';\n";
+        }
+      }
+      $par-list ~= ", \$$parameter<name>";
+    }
+
+    # Remove first comma and first space
+    $par-list ~~ s/^ . //;
+
+    if $hash-fname ~~ m/^ set / {
+      $code ~= qq:to/EOTEST/;
+          #TB:0:$hash-fname\(\)
+      $assign-list.chop()
+          lives-ok \{ .$hash-fname\($par-list\); \}, '.$hash-fname\(\)';
+      EOTEST
+
+      # Also test set-*() when there is one
+      my Str $fn = $function-name;
+      $fn ~~ s/^ set /get/;
+      if $hcs{$fn}:exists {
+        $hash-fname ~~ s/^ set /get/;
+        $code ~= qq:to/EOTEST/;
+            #TB:0:$hash-fname\(\)
+            $test-type .$hash-fname\(\), '…', '.$hash-fname\(\)';
+
+        EOTEST
+      }
+    }
+
+    elsif $hash-fname ~~ m/^ get / {
+      # Only test get-*() when they are not tested above
+      my Str $fn = $function-name;
+      $fn ~~ s/^ get /set/;
+
+      if $hcs{$fn}:!exists {
+        $code ~= qq:to/EOTEST/;
+            #TB:0:$hash-fname\(\)
+            $test-type .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
+
+        EOTEST
+      }
+    }
+
+    else {
+      $code ~= qq:to/EOTEST/;
+          #TB:0:$hash-fname\(\)
+          ok .$hash-fname\($par-list\), …, '.$hash-fname\(\)';
+
+      EOTEST
+    }
+  }
+
+  $code ~= "\}\}\n  \}\n\};\n\n";
+
+  # Write out the gathered variables and make declarations
+  my Str $dstr = '';
+  for $decl-vars.kv -> $name, $type is copy {
+    if $type ~~ /^ GEnum / {
+      $type ~~ s/^ <-[:]>+ ':' //;
+    }
+
+    elsif $type ~~ /^ GFlag/ {
+      $type = 'UInt';
+    }
+
+#    $type ~~ s/ '()' // unless $type ~~ m/ 'N-GObject' /;
+    $dstr ~= "    my $type \$$name;\n";
+  }
+
+  $code ~~ s/'__DECL_VARS__'/$dstr/;
+
+  $code
+}
+
+#-------------------------------------------------------------------------------
 method generate-function-tests ( Str $class-name, Hash $hcs --> Str ) {
 
   return '' unless ?$hcs;
@@ -194,6 +365,86 @@ method generate-function-tests ( Str $class-name, Hash $hcs --> Str ) {
   }
 
   $code ~= "};\n\n";
+  $code
+}
+
+#-------------------------------------------------------------------------------
+method generate-signal-tests ( Str $test-variable --> Str ) {
+
+  my Str $code = qq:to/EOTEST/;
+    {HLSEPARATOR}
+    subtest 'Signals …', \{
+      use Gnome::Gtk3::Main;
+
+      my Gnome::Gtk3::Main \$main .= new;
+
+      class SignalHandlers \{
+        has Bool \$!signal-processed = False;
+
+        method … \(
+          'any-args',
+          $*work-data<raku-class-name>\(\) :\$_native-object, gulong :\$_handler-id
+          # --> …
+        ) \{
+
+          isa-ok \$_native-object, $*work-data<raku-class-name>;
+          \$!signal-processed = True;
+        }
+
+        method signal-emitter \( $*work-data<raku-class-name> :\$_widget --> Str ) \{
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+
+          \$_widget.emit-by-name\(
+            'signal',
+          #  'any-args',
+          #  :return-type(int32),
+          #  :parameters([int32,])
+          );
+          is \$!signal-processed, True, '\'…\' signal processed';
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+
+          #\$!signal-processed = False;
+          #\$_widget.emit-by-name\(
+          #  'signal',
+          #  'any-args',
+          #  :return-type\(int32),
+          #  :parameters\(\[int32,])
+          #);
+          #is \$!signal-processed, True, '\'…\' signal processed';
+
+          while \$main.gtk-events-pending\() \{ \$main.iteration-do\(False); }
+          sleep(0.4);
+          \$main.gtk-main-quit;
+
+          'done'
+        }
+      }
+
+      my $*work-data<raku-class-name> $test-variable .= new;
+
+      #my Gnome::Gtk3::Window \$w .= new;
+      #\$w.add(\$m);
+
+      my SignalHandlers \$sh .= new;
+      $test-variable.register-signal\( \$sh, 'method', 'signal');
+
+      my Promise \$p = \$i.start-thread\(
+        \$sh, 'signal-emitter',
+        # :!new-context,
+        # :start-time\(now + 1)
+      );
+
+      is \$main.gtk-main-level, 0, "loop level 0";
+      \$main.gtk-main;
+      #is \$main.gtk-main-level, 0, "loop level is 0 again";
+
+      is \$p.result, 'done', 'emitter finished';
+    }
+
+    EOTEST
+
   $code
 }
 
@@ -379,3 +630,30 @@ method generate-constant-tests ( @constants --> Str ) {
   $code ~= "};\n\n";
 }
 
+#-------------------------------------------------------------------------------
+method generate-test-separator ( --> Str ) {
+
+  qq:to/EOTEST/;
+    {HLSEPARATOR}
+    {HLSEPARATOR}
+    {HLSEPARATOR}
+    # set environment variable 'raku-test-all' if rest must be tested too.
+    unless \%*ENV<raku_test_all>:exists \{
+      done-testing;
+      exit;
+    \}
+
+    EOTEST
+}
+
+#-------------------------------------------------------------------------------
+method generate-test-end ( --> Str ) {
+
+  qq:to/EOTEST/;
+    {HLSEPARATOR}
+    done-testing;
+
+    =finish
+
+    EOTEST
+}
