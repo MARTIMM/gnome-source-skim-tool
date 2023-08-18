@@ -74,7 +74,7 @@ method generate-init-tests (
           $par-list ~= ", :$parameter<name>\(…\)";
         }
       }
-    
+
       # Remove first comma and first space
       $par-list ~~ s/^ . //;
 
