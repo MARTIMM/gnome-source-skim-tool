@@ -245,6 +245,8 @@ method generate-code ( ) {
 method !get-data-from-filename ( ) {
 
   my Str $package = S/ \d+ $// with $*gnome-package.Str;
+  $!mod.check-search-list;
+  $!mod.check-map($package);
   my Hash $h := $*object-maps{$package};
   $!filedata = %();
 

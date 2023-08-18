@@ -9,8 +9,7 @@ unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 has Int $!indent-level;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( Bool $gir = False ) {
-  my Bool $load-maps = True;
+submethod BUILD ( ) {
 
   if $*generate-code {
     $*external-modules = %(
@@ -79,14 +78,13 @@ submethod BUILD ( Bool $gir = False ) {
 
   self.display-hash( $*work-data, :label<work-data>) if $*verbose;
 
-  $*other-work-data = %();
-  $*object-maps = %();
+#  $*other-work-data = %();
+#  $*object-maps = %();
 
   note "Prepare for work" if $*verbose;
 
+#`{{
   # get workdata for other gnome packages
-#  my Gnome::SourceSkimTool::Prepare $p .= new;
-
   my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
 
   # Because of the dependency chain it is possible to have less to load when
@@ -160,6 +158,7 @@ submethod BUILD ( Bool $gir = False ) {
   $*object-maps<GObject> =
     $s.load-map($*other-work-data<GObject><gir-module-path>)
     unless $gir and !$*object-maps<GObject>;
+}}
 }
 
 #-------------------------------------------------------------------------------

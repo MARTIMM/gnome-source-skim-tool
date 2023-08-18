@@ -1,10 +1,12 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
+#use Gnome::SourceSkimTool::SkimGtkDoc;
 use Gnome::SourceSkimTool::Doc;
 
 use XML;
 use XML::XPath;
 use JSON::Fast;
+use YAMLish;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
@@ -501,9 +503,6 @@ method get-constructors (
     $hcs{$function-name} = %h;
   }
 
-#note "$?LINE, $hcs.gist()";
-#exit;
-
   $hcs
 }
 
@@ -512,7 +511,6 @@ method !get-constructor-data (
   XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List ) {
   my Bool $missing-type = False;
   my Str $function-name = $e.attribs<c:identifier>;
-note "\n$?LINE $function-name";
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
 
@@ -623,7 +621,6 @@ note "\n$?LINE $function-name";
 
 #-------------------------------------------------------------------------------
 method !generate-constructors ( Hash $hcs --> Str ) {
-note "$?LINE $hcs.gist()";
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
   my Str $pattern = '';
@@ -646,7 +643,6 @@ note "$?LINE $hcs.gist()";
     for @($curr-function<parameters>) -> $parameter {
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
       my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
-note "$?LINE $function-name, $parameter<raku-type>, $rnt0";
 #      $par-list ~= ", $rnt0";
 
       if $curr-function<variable-list> {
@@ -2191,6 +2187,8 @@ method search-name ( Str $name --> Hash ) {
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
+    self.check-map($map-name);
+
 #note "Search for $name in map $map-name" if $*verbose;
 #say "$?LINE: search $name, $map-name" if $name ~~ m:i/ orientable /;
 
@@ -2222,6 +2220,8 @@ method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
+    self.check-map($map-name);
+
 #    note "Search for $prefix-name in map $map-name where field $entry-name ≡? $value" if $*verbose;
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists;
@@ -2254,6 +2254,8 @@ method search-entries ( Str $entry-name, Str $value --> Hash ) {
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
+    self.check-map($map-name);
+
     note "Search for entries in map $map-name where field $entry-name ≡? $value"
       if $*verbose;
     # It is possible that not all hashes are loaded
@@ -2308,3 +2310,45 @@ method check-search-list ( ) {
     @*map-search-list.push: 'Glib', 'GObject';
   }  
 }
+
+#-------------------------------------------------------------------------------
+method check-map ( Str $map ) {
+  unless $*object-maps{$map}:exists {
+    my Str $package = $*gnome-package.Str;
+    my Str $module-path;
+
+    if $package ~~ m/ '3' $/ and $map ~~ any(<Gtk Gdk>) {
+      $module-path = SKIMTOOLDATA ~ $map ~ '3/';
+    }
+
+    elsif $package ~~ m/ '4' $/ and $map ~~ any(<Gtk Gdk Gsk>) {
+      $module-path = SKIMTOOLDATA ~ $map ~ '4/';
+    }
+
+    else {
+      $module-path = SKIMTOOLDATA ~ $map ~ '/';
+    }
+
+    $*object-maps{$map} = self.load-map( $map, $module-path);
+  }
+}
+
+#-------------------------------------------------------------------------------
+method load-map ( Str $map, Str $object-map-path --> Hash ) {
+
+  my $fname = $object-map-path ~ 'repo-object-map.yaml';
+  if $fname.IO.r {
+    note "Load object map for $map" if $*verbose;
+    load-yaml($fname.IO.slurp)
+  }
+
+  else {
+    note "File object map '$fname' not found";
+    %()
+  }
+}
+
+
+
+
+

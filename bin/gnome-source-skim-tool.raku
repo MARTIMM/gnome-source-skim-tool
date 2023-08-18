@@ -10,8 +10,8 @@ my Str $*gnome-class;
 my Hash $*work-data;
 my Bool $*verbose;
 
-my Hash $*object-maps;
-my Hash $*other-work-data;
+my Hash $*object-maps = %();
+#my Hash $*other-work-data;
 
 my Bool $*generate-code = False;
 my Bool $*generate-doc = False;
@@ -64,7 +64,7 @@ sub MAIN (
 
   if $gir {
     say "Generate the intermediate gir and yaml files" if $*verbose;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new(:$gir);
+    my Gnome::SourceSkimTool::Prepare $prepare .= new;
     require ::('Gnome::SourceSkimTool::SkimGtkDoc');
     my $skim-doc = ::('Gnome::SourceSkimTool::SkimGtkDoc').new;
     $skim-doc.load-gir-file;
