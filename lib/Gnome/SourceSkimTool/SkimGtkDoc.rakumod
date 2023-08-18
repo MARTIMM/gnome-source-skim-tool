@@ -96,7 +96,7 @@ method get-classes-from-gir ( ) {
           EOXML
 
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
-        note "Save class $name in '$xml-file'" if $*verbose;
+        note "Save class $name" if $*verbose;
         $xml-file.IO.spurt($xml);
       }
 
@@ -133,7 +133,7 @@ method get-classes-from-gir ( ) {
           EOXML
 
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
-        note "Save record $name in '$xml-file'" if $*verbose;
+        note "Save record $name" if $*verbose;
         $xml-file.IO.spurt($xml);
       }
 
@@ -170,7 +170,7 @@ method get-classes-from-gir ( ) {
           EOXML
 
         my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
-        note "Save record $name in '$xml-file'" if $*verbose;
+        note "Save union $name" if $*verbose;
         $xml-file.IO.spurt($xml);
       }
 
@@ -207,7 +207,7 @@ method get-classes-from-gir ( ) {
           EOXML
 
         my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
-        note "Save class $name in '$xml-file'" if $*verbose;
+        note "Save interface $name" if $*verbose;
         $xml-file.IO.spurt($xml);
       }
     }
@@ -254,7 +254,6 @@ method get-classes-from-gir ( ) {
 #    set-parent-leaf-false($!map{$entry-name}<parent-gnome-name>);
   }
 
-
   self!save-other($xml-namespace);
   self!save-map;
 }
@@ -262,18 +261,24 @@ method get-classes-from-gir ( ) {
 #-------------------------------------------------------------------------------
 method !set-real-role-user( Str $entry-name ) {
 
+  # Set the map entry in $*object-maps with up to date data so it
+  # does not get loaded when searching for names
+  my Str $map-name = S/ \d+ $// with $*gnome-package.Str;
+  $*object-maps{$map-name} := $!map;
+
   # Check all roles for this class
-  for @($!map{$entry-name}<roles>) -> $role-name {
+  for @($!map{$entry-name}<roles>) -> $class-name {
+    my Str $role-name = S:g/ '::' \w+ // with $class-name;
     my Hash $role-h = $!mod.search-name($role-name);
 
     # Never implement deprecated roles
-    self!check-parent-role( $entry-name, $role-name)
+    self!check-parent-role( $entry-name, $role-name, $class-name)
       unless ?$role-h<deprecated>;
   }
 }
 
 #-------------------------------------------------------------------------------
-method !check-parent-role ( Str $entry-name, Str $role-name ) {
+method !check-parent-role ( Str $entry-name, Str $role-name, Str $class-name ) {
   my $parent-entry = $!map{$entry-name}<parent-gnome-name>;
 
   # Stop when parent is GObject or GInitiallyUnowned. They have
@@ -283,16 +288,16 @@ method !check-parent-role ( Str $entry-name, Str $role-name ) {
       unless $!map{$entry-name}<implement-roles>:exists;
 
     # Add role name unless done before
-    unless $!map{$entry-name}<implement-roles>.first($role-name) {
-      $!map{$entry-name}<implement-roles>.push: $role-name;
-      note "Implement $role-name in class $!map{$entry-name}<class-name>"
-        if $*verbose;
+    unless $!map{$entry-name}<implement-roles>.first($class-name) {
+      $!map{$entry-name}<implement-roles>.push: $class-name;
+#      note "Implement $class-name in class $!map{$entry-name}<class-name>"
+#        if $*verbose;
     }
   }
 
   # Search using parent entry when role name is found in roles array
-  elsif ?$parent-entry and ?$!map{$parent-entry}<roles>.first($role-name) {
-    self!check-parent-role( $parent-entry, $role-name);
+  elsif ?$parent-entry and ?$!map{$parent-entry}<roles>.first($class-name) {
+    self!check-parent-role( $parent-entry, $role-name, $class-name);
   }
 
   # If not found in parents role array then this class must implement it
@@ -302,22 +307,24 @@ method !check-parent-role ( Str $entry-name, Str $role-name ) {
       unless $!map{$entry-name}<implement-roles>:exists;
 
     # Add role name unless done before
-    unless $!map{$entry-name}<implement-roles>.first($role-name) {
-      $!map{$entry-name}<implement-roles>.push: $role-name;
-      note "Implement $role-name in class $!map{$entry-name}<class-name>"
-        if $*verbose;
+    unless $!map{$entry-name}<implement-roles>.first($class-name) {
+      $!map{$entry-name}<implement-roles>.push: $class-name;
+#      note "Implement $class-name in class $!map{$entry-name}<class-name>"
+#        if $*verbose;
     }
 
     # Add implementor to the role
-....my Hash $role-h = $!mod.search-name($role-name);
+    my Hash $role-h = $!mod.search-name($role-name);
     if ?$role-h {
       my Str $gnome-name = $role-h<gnome-name>;
 
       $!map{$gnome-name}<implementors> = []
         unless $!map{$gnome-name}<implementors>:exists;
 
-      unless $!map{$gnome-name}<implementors>.first($entry-name) {
-        $!map{$gnome-name}<implementors>.push: $entry-name;
+      unless
+        $!map{$gnome-name}<implementors>.first($!map{$entry-name}<class-name>)
+      {
+        $!map{$gnome-name}<implementors>.push: $!map{$entry-name}<class-name>;
       }
     }
   }
@@ -331,6 +338,7 @@ method !map-element (
   XML::Element $element, Str $namespace-name, Str $symbol-prefix, Str $id-prefix
   --> Bool
 ) {
+#  my Str $map-name = S/ \d+ $// with $*gnome-package.Str;
   my Bool $deprecated = False;
   my Str (
     $source-filename, $module-filename, $structure-filename,
@@ -372,7 +380,13 @@ method !map-element (
 
       my @roles = ();
       for $!xp.find( 'implements', :start($element), :to-list) -> $ie {
-        @roles.push: $ie.attribs<name>;
+        # Roles with a dot in the name come from other packages
+        # snd must be implemented there.
+        my Str $role-name = $ie.attribs<name>;
+#note "$?LINE $map-name, $role-name";
+        unless $role-name ~~ m/ '.' / {
+          @roles.push: $*work-data<raku-package> ~ '::' ~ $role-name; #"$map-name$role-name";
+        }
       }
 
       my Str ( $parent-gnome-name, $parent-raku-name ) =
@@ -779,7 +793,7 @@ method !set-names ( Str $naked-gnome-name is copy  --> List ) {
 method !save-map ( ) {
 
   my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
-  note "Save object map in '$fname'" if $*verbose;
+  note "Save object map" if $*verbose;
   $fname.IO.spurt(save-yaml($!map));
 }
 
@@ -838,7 +852,7 @@ method !save-other ( Str $xml-namespace ) {
 
       my Str $name = 'repo-' ~ $section;
       my $xml-file = "$*work-data<gir-module-path>$name.gir";
-      note "Save $section in '$xml-file'" if $*verbose;
+      note "Save $section" if $*verbose;
       $xml-file.IO.spurt($content);
     }
   }
