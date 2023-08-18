@@ -2203,7 +2203,7 @@ method search-name ( Str $name --> Hash ) {
          // $*object-maps{$map-name}{$map-name ~ $name};
 
     # Add package name to this hash
-    $h<raku-package> = $*other-work-data{$map-name}<raku-package>;
+#    $h<raku-package> = $*other-work-data{$map-name}<raku-package>;
     last;
   }
 
@@ -2235,7 +2235,7 @@ method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
       $h{$name} = $value-hash;
 
       # Add package name to this hash
-      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
+#      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
     }
 
     last if ?$h;
@@ -2256,8 +2256,8 @@ method search-entries ( Str $entry-name, Str $value --> Hash ) {
   for @*map-search-list -> $map-name {
     self.check-map($map-name);
 
-    note "Search for entries in map $map-name where field $entry-name ≡? $value"
-      if $*verbose;
+#    note "Search for entries in map $map-name where field $entry-name ≡? $value"
+#      if $*verbose;
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists;
 
@@ -2268,7 +2268,7 @@ method search-entries ( Str $entry-name, Str $value --> Hash ) {
       $h{$name} = $value-hash;
 
       # Add package name to this hash
-      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
+#      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
     }
 
     last if ?$h;
