@@ -9,7 +9,9 @@ unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 has Int $!indent-level;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( Bool :$load-maps = True ) {
+submethod BUILD ( Bool $gir = False ) {
+  my Bool $load-maps = True;
+
   if $*generate-code {
     $*external-modules = %(
       :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
@@ -83,8 +85,8 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
   my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
 
-  # Because of dependencies it is possible to have less to load when
-  # we need to search
+  # Because of the dependency chain it is possible to have less to load when
+  # the classes are outside that chain
   # Version 3
   if $*gnome-package.Str ~~ / '3' $/ {
     $*other-work-data<Gtk> = self.prepare-work-data(Gtk3);
@@ -94,7 +96,7 @@ submethod BUILD ( Bool :$load-maps = True ) {
     # Load map of pixbuf here because it is not in Gtk4
     $*object-maps<GdkPixbuf> =
       $s.load-map($*other-work-data<GdkPixbuf><gir-module-path>)
-      if $load-maps and !$*object-maps<GdkPixbuf>;
+      unless $gir and !$*object-maps<GdkPixbuf>;
   }
 
   # Version 4
@@ -105,7 +107,7 @@ submethod BUILD ( Bool :$load-maps = True ) {
 
     # Load map of gsk here because it is not in Gtk3
     $*object-maps<Gsk> = $s.load-map($*other-work-data<Gsk><gir-module-path>)
-      if $load-maps and !$*object-maps<Gsk>;
+      unless $gir and !$*object-maps<Gsk>;
   }
 
   # If it is a high end module, we add these too. They depend on Gtk.
@@ -115,18 +117,18 @@ submethod BUILD ( Bool :$load-maps = True ) {
     $*other-work-data<Cairo> = self.prepare-work-data(Cairo);
     
     $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>)
-      if $load-maps and !$*object-maps<Gtk>;
+      unless $gir and !$*object-maps<Gtk>;
     $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>)
-      if $load-maps and !$*object-maps<Gdk>;
+      unless $gir and !$*object-maps<Gdk>;
 
     $*object-maps<Atk> = $s.load-map($*other-work-data<Atk><gir-module-path>)
-      if $load-maps and !$*object-maps<Atk>;
+      unless $gir and !$*object-maps<Atk>;
     $*object-maps<Pango> =
       $s.load-map($*other-work-data<Pango><gir-module-path>)
-      if $load-maps and !$*object-maps<Pango>;
+      unless $gir and !$*object-maps<Pango>;
     $*object-maps<Cairo> =
       $s.load-map($*other-work-data<Cairo><gir-module-path>)
-      if $load-maps and !$*object-maps<Cairo>;
+      unless $gir and !$*object-maps<Cairo>;
   }
 
   if $*gnome-package.Str ~~ / Pango || Cairo / {
@@ -148,12 +150,12 @@ submethod BUILD ( Bool :$load-maps = True ) {
   $*other-work-data<GObject> = self.prepare-work-data(GObject);
 
   $*object-maps<Glib> = $s.load-map($*other-work-data<Glib><gir-module-path>)
-    if $load-maps and !$*object-maps<Glib>;
+    unless $gir and !$*object-maps<Glib>;
   $*object-maps<Gio> = $s.load-map($*other-work-data<Gio><gir-module-path>)
-    if $load-maps and !$*object-maps<Gio>;
+    unless $gir and !$*object-maps<Gio>;
   $*object-maps<GObject> =
     $s.load-map($*other-work-data<GObject><gir-module-path>)
-    if $load-maps and !$*object-maps<GObject>;
+    unless $gir and !$*object-maps<GObject>;
 }
 
 #-------------------------------------------------------------------------------
