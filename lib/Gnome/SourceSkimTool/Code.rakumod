@@ -2187,6 +2187,8 @@ method convert-rtype (
 #-------------------------------------------------------------------------------
 method search-name ( Str $name --> Hash ) {
 
+  self.check-search-list;
+
   my Hash $h = %();
   for @*map-search-list -> $map-name {
 #note "Search for $name in map $map-name" if $*verbose;
@@ -2215,6 +2217,8 @@ method search-name ( Str $name --> Hash ) {
 #-------------------------------------------------------------------------------
 # Search for names of specific type in object maps 
 method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
+
+  self.check-search-list;
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
@@ -2246,6 +2250,8 @@ method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
 # Search for names of specific type in object maps 
 method search-entries ( Str $entry-name, Str $value --> Hash ) {
 
+  self.check-search-list;
+
   my Hash $h = %();
   for @*map-search-list -> $map-name {
     note "Search for entries in map $map-name where field $entry-name ≡? $value"
@@ -2269,4 +2275,36 @@ method search-entries ( Str $entry-name, Str $value --> Hash ) {
 #say "$?LINE: search entries for $entry-name -> $h.gist()";
 
   $h
+}
+
+#-------------------------------------------------------------------------------
+method check-search-list ( ) {
+  unless ?@*map-search-list {
+    my Str $package = $*gnome-package.Str;
+
+    # Gtk version 3 and 4 depend on these at least
+    @*map-search-list = <Gtk Gdk Atk Gio Cairo PangoCairo Pango>
+      if $package ~~ m/^ Gtk /;
+
+    # Add Gsk when processing Gtk version 4
+    @*map-search-list.push: 'Gsk' if $package eq 'Gtk4';
+
+    # Add Pixbuf when processing Gtk version 3
+    @*map-search-list.push: 'GdkPixbuf' if $package eq 'Gtk3';
+
+    # Only process these when gdk version 3
+    @*map-search-list = <Gdk GdkPixbuf Cairo> if $package eq 'Gdk3';
+
+    # Only process this when gdk version 4
+    @*map-search-list = <Gdk Cairo> if $package eq 'Gdk4';
+
+    # Some lesser packages
+    @*map-search-list = <Pango Cairo PangoCairo>
+      if $package ~~ m/ Pango || Cairo /;
+
+    @*map-search-list = 'Gio' if $package eq 'Gio';
+
+    # And always add the following
+    @*map-search-list.push: 'Glib', 'GObject';
+  }  
 }

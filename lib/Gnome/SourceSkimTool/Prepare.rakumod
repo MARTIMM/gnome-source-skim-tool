@@ -36,6 +36,10 @@ submethod BUILD ( Bool $gir = False ) {
 
   $*verbose //= False;
 
+  # A list of keys to search for in the map depending in the package name
+  # Initialisation delayed until needed
+  @*map-search-list = ();
+
   # Remove package prefix if there is any attached to the gnome class
   $*gnome-class = self.drop-prefix($*gnome-class);
   $*work-data = self.prepare-work-data($*gnome-package);
@@ -110,12 +114,12 @@ submethod BUILD ( Bool $gir = False ) {
       unless $gir and !$*object-maps<Gsk>;
   }
 
-  # If it is a high end module, we add these too. They depend on Gtk.
+  # If it is a high end module, we add these lower packages too.
   if $*gnome-package.Str ~~ / '3' || '4' $/ {
     $*other-work-data<Atk> = self.prepare-work-data(Atk);
     $*other-work-data<Pango> = self.prepare-work-data(Pango);
     $*other-work-data<Cairo> = self.prepare-work-data(Cairo);
-    
+
     $*object-maps<Gtk> = $s.load-map($*other-work-data<Gtk><gir-module-path>)
       unless $gir and !$*object-maps<Gtk>;
     $*object-maps<Gdk> = $s.load-map($*other-work-data<Gdk><gir-module-path>)
@@ -160,21 +164,6 @@ submethod BUILD ( Bool $gir = False ) {
 
 #-------------------------------------------------------------------------------
 submethod prepare-work-data ( SkimSource $source --> Hash ) {
-
-  # A list of keys to search for in the map depending in the package name
-  @*map-search-list = ();
-  @*map-search-list = <Gtk Gdk Atk Gio Cairo PangoCairo Pango>
-    if $*gnome-package.Str ~~ m/^ Gtk /;
-  @*map-search-list.push: 'Gsk' if $*gnome-package.Str eq 'Gtk4';
-  @*map-search-list.push: 'GdkPixbuf' if $*gnome-package.Str eq 'Gtk3';
-
-  @*map-search-list = <Gdk GdkPixbuf> if $*gnome-package.Str eq 'Gdk3';
-
-  @*map-search-list = <Pango Cairo PangoCairo>
-     if $*gnome-package.Str ~~ m/ Pango || Cairo /;
-
-  @*map-search-list = 'Gio' if $*gnome-package.Str eq 'Gio';
-  @*map-search-list.push: 'Glib', 'GObject';
 
 #note "$?LINE $*gnome-package.Str(), @*map-search-list.gist()";
 
