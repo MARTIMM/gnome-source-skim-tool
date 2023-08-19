@@ -267,18 +267,18 @@ method !set-real-role-user( Str $entry-name ) {
   $*object-maps{$map-name} := $!map;
 
   # Check all roles for this class
-  for @($!map{$entry-name}<roles>) -> $class-name {
-    my Str $role-name = S:g/ '::' \w+ // with $class-name;
-    my Hash $role-h = $!mod.search-name($role-name);
+  for @($!map{$entry-name}<roles>) -> $role-class-name {
+#    my Str $role-name = S:g/ '::' \w+ // with $role-class-name;
+#    my Hash $role-h = $!mod.search-name($role-name);
 
     # Never implement deprecated roles
-    self!check-parent-role( $entry-name, $role-name, $class-name)
-      unless ?$role-h<deprecated>;
+    self!check-parent-role( $entry-name, $role-class-name);
+#      unless ?$role-h<deprecated>;
   }
 }
 
 #-------------------------------------------------------------------------------
-method !check-parent-role ( Str $entry-name, Str $role-name, Str $class-name ) {
+method !check-parent-role ( Str $entry-name, Str $role-class-name ) {
   my $parent-entry = $!map{$entry-name}<parent-gnome-name>;
 
   # Stop when parent is GObject or GInitiallyUnowned. They have
@@ -288,16 +288,17 @@ method !check-parent-role ( Str $entry-name, Str $role-name, Str $class-name ) {
       unless $!map{$entry-name}<implement-roles>:exists;
 
     # Add role name unless done before
-    unless $!map{$entry-name}<implement-roles>.first($class-name) {
-      $!map{$entry-name}<implement-roles>.push: $class-name;
-#      note "Implement $class-name in class $!map{$entry-name}<class-name>"
+    unless $!map{$entry-name}<implement-roles>.first($role-class-name) {
+      $!map{$entry-name}<implement-roles>.push: $role-class-name;
+      self.set-implentors( $entry-name, $role-class-name);
+#      note "Implement $role-class-name in class $!map{$entry-name}<class-name>"
 #        if $*verbose;
     }
   }
 
   # Search using parent entry when role name is found in roles array
-  elsif ?$parent-entry and ?$!map{$parent-entry}<roles>.first($class-name) {
-    self!check-parent-role( $parent-entry, $role-name, $class-name);
+  elsif ?$parent-entry and ?$!map{$parent-entry}<roles>.first($role-class-name) {
+    self!check-parent-role( $parent-entry, $role-class-name);
   }
 
   # If not found in parents role array then this class must implement it
@@ -307,25 +308,31 @@ method !check-parent-role ( Str $entry-name, Str $role-name, Str $class-name ) {
       unless $!map{$entry-name}<implement-roles>:exists;
 
     # Add role name unless done before
-    unless $!map{$entry-name}<implement-roles>.first($class-name) {
-      $!map{$entry-name}<implement-roles>.push: $class-name;
-#      note "Implement $class-name in class $!map{$entry-name}<class-name>"
+    unless $!map{$entry-name}<implement-roles>.first($role-class-name) {
+      $!map{$entry-name}<implement-roles>.push: $role-class-name;
+      self.set-implentors( $entry-name, $role-class-name);
+#      note "Implement $role-class-name in class $!map{$entry-name}<class-name>"
 #        if $*verbose;
     }
+  }
+}
 
-    # Add implementor to the role
-    my Hash $role-h = $!mod.search-name($role-name);
-    if ?$role-h {
-      my Str $gnome-name = $role-h<gnome-name>;
+#-------------------------------------------------------------------------------
+# Add implementor to the role
+method set-implentors ( Str $entry-name, Str $role-class-name is copy ) {
+  my Str $raku-package = $*work-data<raku-package>;
+  $role-class-name ~~ s/^ $raku-package '::' //;
+  my Hash $role-h = $!mod.search-name($role-class-name);
+  if ?$role-h {
+    my Str $gnome-name = $role-h<gnome-name>;
 
-      $!map{$gnome-name}<implementors> = []
-        unless $!map{$gnome-name}<implementors>:exists;
+    $!map{$gnome-name}<implementors> = []
+      unless $!map{$gnome-name}<implementors>:exists;
 
-      unless
-        $!map{$gnome-name}<implementors>.first($!map{$entry-name}<class-name>)
-      {
-        $!map{$gnome-name}<implementors>.push: $!map{$entry-name}<class-name>;
-      }
+    unless
+      $!map{$gnome-name}<implementors>.first($!map{$entry-name}<class-name>)
+    {
+      $!map{$gnome-name}<implementors>.push: $!map{$entry-name}<class-name>;
     }
   }
 }
