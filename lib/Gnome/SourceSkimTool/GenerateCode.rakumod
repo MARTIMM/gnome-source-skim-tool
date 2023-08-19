@@ -115,7 +115,7 @@ method generate-code ( ) {
       once $t-prep .= new;
 #      $first = False;
 #    }
-#note "$?LINE $_";
+note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
@@ -195,7 +195,7 @@ method generate-code ( ) {
 
     if $has-functions {
       $code ~= qq:to/RAKUMOD/;
-
+#....
       {$!grd.pod-header('BUILD variables')}
       # Define helper
       has Gnome::N::GnomeRoutineCaller \$!routine-caller;
