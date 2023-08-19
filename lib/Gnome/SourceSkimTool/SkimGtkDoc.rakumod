@@ -284,36 +284,33 @@ method !check-parent-role ( Str $entry-name, Str $role-class-name ) {
   # Stop when parent is GObject or GInitiallyUnowned. They have
   # no roles implemented
   if !$parent-entry or ($parent-entry ~~ any(<GObject GInitiallyUnowned>)) {
-    $!map{$entry-name}<implement-roles> = []
-      unless $!map{$entry-name}<implement-roles>:exists;
-
-    # Add role name unless done before
-    unless $!map{$entry-name}<implement-roles>.first($role-class-name) {
-      $!map{$entry-name}<implement-roles>.push: $role-class-name;
-      self.set-implentors( $entry-name, $role-class-name);
-#      note "Implement $role-class-name in class $!map{$entry-name}<class-name>"
-#        if $*verbose;
-    }
+    self.implement-role( $entry-name, $role-class-name);
   }
 
   # Search using parent entry when role name is found in roles array
-  elsif ?$parent-entry and ?$!map{$parent-entry}<roles>.first($role-class-name) {
+  elsif ?$parent-entry and
+        ?$!map{$parent-entry}<roles>.first($role-class-name)
+  {
     self!check-parent-role( $parent-entry, $role-class-name);
   }
 
   # If not found in parents role array then this class must implement it
   else {
-    # Add role to be implemented by this class
-    $!map{$entry-name}<implement-roles> = []
-      unless $!map{$entry-name}<implement-roles>:exists;
+    self.implement-role( $entry-name, $role-class-name);
+  }
+}
 
-    # Add role name unless done before
-    unless $!map{$entry-name}<implement-roles>.first($role-class-name) {
-      $!map{$entry-name}<implement-roles>.push: $role-class-name;
-      self.set-implentors( $entry-name, $role-class-name);
-#      note "Implement $role-class-name in class $!map{$entry-name}<class-name>"
-#        if $*verbose;
-    }
+#-------------------------------------------------------------------------------
+# Add role to be implemented by this class
+method implement-role ( Str $entry-name, Str $role-class-name) {
+  # Add array unless it exists
+  $!map{$entry-name}<implement-roles> = []
+    unless $!map{$entry-name}<implement-roles>:exists;
+
+  # Add role name unless done before
+  unless $!map{$entry-name}<implement-roles>.first($role-class-name) {
+    $!map{$entry-name}<implement-roles>.push: $role-class-name;
+    self.set-implentors( $entry-name, $role-class-name);
   }
 }
 
@@ -321,14 +318,15 @@ method !check-parent-role ( Str $entry-name, Str $role-class-name ) {
 # Add implementor to the role
 method set-implentors ( Str $entry-name, Str $role-class-name is copy ) {
   my Str $raku-package = $*work-data<raku-package>;
-  $role-class-name ~~ s/^ $raku-package '::' //;
   my Hash $role-h = $!mod.search-name($role-class-name);
   if ?$role-h {
     my Str $gnome-name = $role-h<gnome-name>;
 
+    # Add array unless it exists
     $!map{$gnome-name}<implementors> = []
       unless $!map{$gnome-name}<implementors>:exists;
 
+    # Add implementor name unless done before
     unless
       $!map{$gnome-name}<implementors>.first($!map{$entry-name}<class-name>)
     {
@@ -392,7 +390,7 @@ method !map-element (
         my Str $role-name = $ie.attribs<name>;
 #note "$?LINE $map-name, $role-name";
         unless $role-name ~~ m/ '.' / {
-          @roles.push: $*work-data<raku-package> ~ '::' ~ $role-name; #"$map-name$role-name";
+          @roles.push: $*work-data<raku-package> ~ '::R-' ~ $role-name; #"$map-name$role-name";
         }
       }
 
