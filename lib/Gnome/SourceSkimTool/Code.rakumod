@@ -42,11 +42,15 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     # Check for roles to implement
     my Array $roles = $h<implement-roles>//[];
     for @$roles -> $role {
+      self.add-import($role);
+      $also ~= "also does $role;\n";
+#`{{ Simplified
       my Hash $role-h = self.search-name($role);
       if ?$role-h<class-name> {
         self.add-import($role-h<class-name>);
         $also ~= "also does $role-h<class-name>;\n";
       }
+}}
     }
 
     # The Object module needs some extra classes and roles
@@ -201,11 +205,20 @@ method generate-callables (
       my Array $roles = $h<implement-roles>//[];
       $c ~= '    my $r;' ~ "\n" if ?$roles;
       for @$roles -> $role {
+#`{{ simplified
         my Hash $role-h = self.search-name($role);
         next unless ?$role-h;
 
         $c ~= qq:to/RAKUMOD/;
               \$r = self.{$role-h<class-name>}::_fallback-v2\(
+                \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
+              \);
+              return \$r if \$_fallback-v2-ok;
+
+          RAKUMOD
+}}
+        $c ~= qq:to/RAKUMOD/;
+              \$r = self.{$role}::_fallback-v2\(
                 \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
               \);
               return \$r if \$_fallback-v2-ok;
@@ -2181,9 +2194,15 @@ method convert-rtype (
 }
 
 #-------------------------------------------------------------------------------
-method search-name ( Str $name --> Hash ) {
+method search-name ( Str $name is copy --> Hash ) {
 
   self.check-search-list;
+
+  if $name ~~ m/ '::' / {
+    my Str $raku-package = $*work-data<raku-package>;
+    $name ~~ s/^ $raku-package '::' //;
+    $name ~~ s/^ [<[NTR]> '-']? //;
+  }
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
