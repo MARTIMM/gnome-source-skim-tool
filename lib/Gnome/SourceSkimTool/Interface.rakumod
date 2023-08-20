@@ -75,7 +75,7 @@ method generate-test ( ) {
 
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
-  my Str $code = $!tst.set-unit($h<class-name>);
+  my Str $code = $!tst.prepare-test($h<class-name>);
 
 #  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
 #  $code ~= $!tst.generate-init-tests( $test-variable, 'Class init tests', $hcs);

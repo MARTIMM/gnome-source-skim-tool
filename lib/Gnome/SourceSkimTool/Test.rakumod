@@ -27,7 +27,7 @@ submethod BUILD ( Str :$!filename ) {
 # This setup is for more simple structures like records, functions,
 # enumerations, etc. There is no need for inheritence, BUILD, signals or
 # properties.
-method set-unit ( Str $class-name --> Str ) {
+method prepare-test ( Str $class-name --> Str ) {
 
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line

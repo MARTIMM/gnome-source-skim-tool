@@ -105,7 +105,7 @@ method generate-test ( ) {
   my Str $test-variable = '$' ~ $*gnome-class.lc;
   $!mod.add-import($*work-data<raku-class-name>);
 
-  my Str $code = $!tst.set-unit($*work-data<raku-class-name>);
+  my Str $code = $!tst.prepare-test($*work-data<raku-class-name>);
 
   my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
   $code ~= $!tst.generate-init-tests( $test-variable, 'Class init tests', $hcs);

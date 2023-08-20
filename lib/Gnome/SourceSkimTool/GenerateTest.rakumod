@@ -212,7 +212,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
 
     mkdir( $filename.IO.dirname, 0o750) unless $filename.IO.dirname.IO ~~ :e;
     my Str $code = qq:to/RAKUMOD/;
-      { $!tst.set-unit($class-name); }
+      { $!tst.prepare-test($class-name); }
 
       $c
 
