@@ -180,12 +180,14 @@ $prepare.display-hash( $*work-data, :label<union work data>);
  
     when 'function' {
       $has-functions = True;
+      my Str $test-variable;
       my Array $function-names = [];
       for $!filedata<function>.kv -> $k, $v {
 #        my Str $name = $t-prep.drop-prefix( $k, :function);
         $function-names.push: $v<function-name>;
-        $filename = $v<module-filename> unless ?$filename;
         unless ?$class-name {
+          $filename = $v<module-filename> unless ?$filename;
+          $test-variable = '$' ~ $v<source-filename>;
           $class-name = $v<class-name>;
           $!mod.add-import($class-name);
         }
@@ -197,7 +199,9 @@ $prepare.display-hash( $*work-data, :label<union work data>);
       $*work-data<sub-prefix> = $package-name.lc ~ '_';
 
       my Hash $hms = $!mod.get-standalone-functions($function-names);
-      $c ~= $!tst.generate-function-tests( $class-name, $hms);
+      $c ~= "\nmy $class-name $test-variable .= new;\n";
+      $c ~= $!tst.generate-method-tests( $hms, $test-variable);
+#      $c ~= $!tst.generate-function-tests( $class-name, $hms);
     }
   }
 

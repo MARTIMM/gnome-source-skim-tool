@@ -182,7 +182,7 @@ note "$?LINE $_";
   }
 
 #TL:1:$*work-data<raku-class-name>:
-  if ?$c and ?$class-name and ?$filename {
+  if ?$class-name and ?$filename {
     mkdir $filename.IO.dirname, 0o750 unless $filename.IO.dirname.IO ~~ :e;
 
     my Str $code = qq:to/RAKUMOD/;
@@ -191,11 +191,11 @@ note "$?LINE $_";
       RAKUMOD
 
     $code ~= $!mod.set-unit-for-file( $class-name, $has-functions);
-    $code ~= $c ~ "\n";
+    $code ~= $c ~ "\n" if ?$c;
 
     if $has-functions {
       $code ~= qq:to/RAKUMOD/;
-#....
+
       {$!grd.pod-header('BUILD variables')}
       # Define helper
       has Gnome::N::GnomeRoutineCaller \$!routine-caller;
