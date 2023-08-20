@@ -88,15 +88,11 @@ $prepare.display-hash( $*work-data, :label<interface work data>);
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 $prepare.display-hash( $*work-data, :label<record work data>);
 
-#        $!mod.generate-structure(
-#          |$!mod.init-xpath( 'record', 'gir-record-file')
-#        );
-
         say "\nGenerate Tests for Raku record from ", $*work-data<raku-class-name>;
 
-#        require ::('Gnome::SourceSkimTool::Record');
-#        my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
-#        $raku-module.generate-test;
+        require ::('Gnome::SourceSkimTool::Record');
+        my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
+        $raku-module.generate-test;
       }
     }
 
@@ -105,10 +101,6 @@ $prepare.display-hash( $*work-data, :label<record work data>);
         $*gnome-class = $union-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 $prepare.display-hash( $*work-data, :label<union work data>);
-
-#        $!mod.generate-union(
-#          |$!mod.init-xpath( 'union', 'gir-union-file')
-#        );
 
         say "\nGenerate Raku union from ", $*work-data<raku-class-name>;
 
