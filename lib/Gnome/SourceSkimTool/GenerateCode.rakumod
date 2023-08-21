@@ -77,10 +77,14 @@ method generate-code ( ) {
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
         $!mod.generate-structure(
-          |$!mod.init-xpath( 'record', 'gir-record-file')
+          |$!mod.init-xpath(
+            'record',
+            "$*work-data<gir-module-path>R-$*gnome-class.gir"
+#            'gir-record-file'
+          )
         );
 
-        say "\nGenerate Raku record from ", $*work-data<raku-class-name>;
+        say "\nGenerate Raku record ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
@@ -94,10 +98,14 @@ method generate-code ( ) {
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
         $!mod.generate-union(
-          |$!mod.init-xpath( 'union', 'gir-union-file')
+          |$!mod.init-xpath(
+            'union',
+            "$*work-data<gir-module-path>U-$*gnome-class.gir";
+#            'gir-union-file'
+          )
         );
 
-        say "\nGenerate Raku union from ", $*work-data<raku-class-name>;
+        say "\nGenerate Raku union ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Union');
         my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
@@ -169,8 +177,10 @@ note "$?LINE $_";
         $class-name = $v<class-name> unless ?$class-name;
       }
 
-      my Str $package-name = S/ \d+ $// with $*gnome-package.Str;
-      $*work-data<sub-prefix> = $package-name.lc ~ '_';
+      my Str $package-name = (S/ \d+ $// with $*gnome-package.Str).lc;
+      $*work-data<sub-prefix> = $package-name ~~ any(<glib gio>)
+                                ?? 'g_' !! $package-name ~ '_';
+#note "$?LINE f $package-name $*work-data<sub-prefix>";
 
       my Hash $hms = $!mod.get-standalone-functions($function-names);
       $function-hash = $!mod.generate-functions($hms);

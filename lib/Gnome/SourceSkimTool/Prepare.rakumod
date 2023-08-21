@@ -62,14 +62,14 @@ submethod BUILD ( ) {
 
 #TODO direct from $*gnome-class? Gir filenames must be changed!
 # type prefix: none for class, R- for interfaces, N- for records and unions
-    $*work-data<gir-class-file> =
-      "$*work-data<gir-module-path>C-$*gnome-class.gir";
-    $*work-data<gir-record-file> =
-      "$*work-data<gir-module-path>R-$*gnome-class.gir";
-    $*work-data<gir-union-file> =
-      "$*work-data<gir-module-path>U-$*gnome-class.gir";
-    $*work-data<gir-interface-file> =
-      "$*work-data<gir-module-path>I-$*gnome-class.gir";
+#    $*work-data<gir-class-file> =
+#      "$*work-data<gir-module-path>C-$*gnome-class.gir";
+#    $*work-data<gir-record-file> =
+#      "$*work-data<gir-module-path>R-$*gnome-class.gir";
+#    $*work-data<gir-union-file> =
+#      "$*work-data<gir-module-path>U-$*gnome-class.gir";
+#    $*work-data<gir-interface-file> =
+#      "$*work-data<gir-module-path>I-$*gnome-class.gir";
 #    $*work-data<raku-module-types> = RAKUMODS ~ "T-$*gnome-class.rakumod";
 #    $*work-data<raku-module-file> = RAKUMODS ~ "$*gnome-class.rakumod";
 #    $*work-data<raku-module-doc-file> = RAKUMODS ~ "$*gnome-class.rakudoc";
@@ -213,7 +213,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Gdk3>,
         :gnome-name($*gnome-class ?? "GdkPixdata$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GdkPixdata-2.0.gir'),
-        :name-prefix<gdk_pix>,
+        :name-prefix<gdk_pixdata>,
         :result-path(RAKUMODS ~ 'lib/Gnome/Gdk3/'),
       );
     }

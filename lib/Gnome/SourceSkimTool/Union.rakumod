@@ -19,12 +19,12 @@ has XML::XPath $!xpath;
 submethod BUILD ( ) {
 
   $!grd .= new;
+  $!mod .= new;
 
   # load data for this module
-  note "Load module data from $*work-data<gir-union-file>" if $*verbose;
-  $!xpath .= new(:file($*work-data<gir-union-file>));
-
-  $!mod .= new; #(:$!xpath);
+  my Str $file = "$*work-data<gir-module-path>U-$*gnome-class.gir";
+  note "Load module data from $file" if $*verbose;
+  $!xpath .= new(:$file);
 }
 
 #-------------------------------------------------------------------------------

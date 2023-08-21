@@ -20,20 +20,19 @@ has XML::XPath $!xpath;
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
-  $!grd .= new;
+  $!mod .= new;
 
   # load data for this module
-  note "Load module data from $*work-data<gir-interface-file>" if $*verbose;
-  $!xpath .= new(:file($*work-data<gir-interface-file>));
-
-  $!mod .= new; #(:$!xpath);
+  my Str $file = "$*work-data<gir-module-path>I-$*gnome-class.gir";
+  note "Load module data from $file" if $*verbose;
+  $!xpath .= new(:$file);
 }
 
 #-------------------------------------------------------------------------------
 method generate-code ( ) {
 
   my XML::Element $element = $!xpath.find('//interface');
-  die "//interface not found in $*work-data<gir-interface-file> for $*work-data<raku-class-name>" unless ?$element;
+  die "//interface not found in gir-interface-file for $*work-data<raku-class-name>" unless ?$element;
 
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
@@ -62,6 +61,7 @@ method generate-code ( ) {
 #-------------------------------------------------------------------------------
 method generate-doc ( ) {
 
+#  $!grd .= new;
 }
 
 #-------------------------------------------------------------------------------

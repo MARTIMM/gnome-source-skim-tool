@@ -21,12 +21,12 @@ has XML::XPath $!xpath;
 submethod BUILD ( ) {
 
   $!grd .= new;
+  $!mod .= new;
 
   # load data for this module
-  note "Load module data from $*work-data<gir-record-file>" if $*verbose;
-  $!xpath .= new(:file($*work-data<gir-record-file>));
-
-  $!mod .= new;   #(:$!xpath);
+  my Str $file = "$*work-data<gir-module-path>R-$*gnome-class.gir";
+  note "Load module data from $file" if $*verbose;
+  $!xpath .= new(:$file);
 }
 
 #-------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ submethod BUILD ( ) {
 method generate-code ( ) {
 
   my XML::Element $element = $!xpath.find('//record');
-  die "//record elements not found in $*work-data<gir-record-file> for $*work-data<raku-class-name>" unless ?$element;
+  die "//record elements not found in gir-record-file for $*work-data<raku-class-name>" unless ?$element;
 
   my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
   if ?$callable-code {

@@ -688,19 +688,19 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     my Str $parameters = ?$par-list ?? ":parameters\(\[$par-list\]\)," !! '';
 
     # Remove prefix from routine
-    my Str $hash-fname = $function-name;
-    $hash-fname ~~ s/^ $sub-prefix //;
+#    my Str $hash-fname = $function-name;
+#    $hash-fname ~~ s/^ $sub-prefix //;
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my ( $rnt0, $rnt1) = $curr-function<return-raku-type>.split(':');
     if ?$rnt1 {
-#TM:1:$hash-fname
-    $code ~= [~] '  ', $temp-inhibit, $hash-fname,
+#TM:1:$function-name
+    $code ~= [~] '  ', $temp-inhibit, $function-name,
                  ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
                  ':type-name(', $rnt1, '), ',  $parameters, "),\n";
 #`{{
       $code ~= qq:to/EOSUB/;
-        $hash-fname =\> \%\(
+        $function-name =\> \%\(
           :type\(Constructor\),
           :returns\($rnt0\),
           :type-name\($rnt1\),$parameters
@@ -711,8 +711,8 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     }
 
     else {
-#TM:1:$hash-fname
-    $code ~= [~] '  ', $temp-inhibit, $hash-fname, ' => %( :type(Constructor),',
+#TM:1:$function-name
+    $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %( :type(Constructor),',
                  ':returns(', $rnt0, '), ',
                  $pattern, $parameters, "),\n";
 
@@ -720,7 +720,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     $code ~~ s/ '),)' /))/;
 #`{{
       $code ~= qq:to/EOSUB/;
-        $hash-fname =\> \%\(
+        $function-name =\> \%\(
           :type\(Constructor\),
           :returns\($rnt0\),$parameters
         ),
@@ -782,8 +782,8 @@ method !generate-methods ( Hash $hcs --> Str ) {
     $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
 
     # get method name, drop the prefix
-    my Str $hash-fname = $function-name;
-    $hash-fname ~~ s/^ $symbol-prefix //;
+#    my Str $hash-fname = $function-name;
+#    $hash-fname ~~ s/^ $symbol-prefix //;
 
     # get parameter lists
     my Str $par-list = '';
@@ -860,19 +860,19 @@ method !generate-methods ( Hash $hcs --> Str ) {
       $returns = " :returns\($rnt0\),";
     }
 
-#note "$?LINE $hash-fname";
+#note "$?LINE $function-name";
 #note "$?LINE $returns";
 #note "$?LINE $par-list";
 
-    $code ~= [~] '  ', $temp-inhibit, $hash-fname, ' => %(',
+    $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %(',
              $pattern, $returns, $par-list, "),\n";
 
     # drop last comma from arg list
     $code ~~ s/ '),)' /))/;
 #`{{
-#TM:0:$hash-fname
+#TM:0:$function-name
     $code ~= qq:to/EOSUB/;
-      $hash-fname =\> \%\($returns$par-list
+      $function-name =\> \%\($returns$par-list
       ),
 
     EOSUB
@@ -903,8 +903,8 @@ method generate-functions ( Hash $hcs --> Str ) {
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
      # Get method name, drop the prefix and substitute '_'
-    my Str $hash-fname = $function-name;
-    $hash-fname ~~ s/^ $symbol-prefix //;
+#    my Str $hash-fname = $function-name;
+#    $hash-fname ~~ s/^ $symbol-prefix //;
 #    # keep this version for later
 #    my Str $hash-fname = $method-name;
 #    $method-name ~~ s:g/ '_' /-/;
@@ -1033,9 +1033,9 @@ method generate-functions ( Hash $hcs --> Str ) {
       $returns = '';
     }
 
-#note "$?LINE $hash-fname, {$returns//'-'}, {$par-list//'-'}";
-#TM:0:$hash-fname
-    $code ~= [~] '  ', $temp-inhibit, $hash-fname, ' => %( :type(Function), ',
+#note "$?LINE $function-name, {$returns//'-'}, {$par-list//'-'}";
+#TM:0:$function-name
+    $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %( :type(Function), ',
                  $pattern, $returns, $par-list, "),\n";
 
     # drop last comma from arg list
@@ -1777,9 +1777,10 @@ method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
 
 #-------------------------------------------------------------------------------
 method init-xpath ( Str $element-name, Str $gir-filename --> List ) {
-  my XML::XPath $xpath .= new(:file($*work-data{$gir-filename}));
+#  my XML::XPath $xpath .= new(:file($*work-data{$gir-filename}));
+  my XML::XPath $xpath .= new(:file($gir-filename));
   my XML::Element $element = $xpath.find("//$element-name");
-  die "//$element-name elements not found in $*work-data{$gir-filename} for $*work-data<raku-class-name>" unless ?$element;
+  die "//$element-name elements not found in $gir-filename for $*work-data<raku-class-name>" unless ?$element;
 
   ( $xpath, $element )
 }
@@ -1788,7 +1789,7 @@ method init-xpath ( Str $element-name, Str $gir-filename --> List ) {
 method !get-method-data (
   XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List
 ) {
-  my Str $function-name = $e.attribs<c:identifier>;
+  my Str $function-name = $e.attribs<name>;   #$e.attribs<c:identifier>;
   my Str $sub-prefix = $*work-data<sub-prefix>;
   my Bool $missing-type = False;
 
