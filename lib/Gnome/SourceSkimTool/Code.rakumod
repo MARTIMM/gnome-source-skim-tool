@@ -636,8 +636,9 @@ method !get-constructor-data (
 method !generate-constructors ( Hash $hcs --> Str ) {
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
-  my Str $pattern = '';
+#  my Str $pattern = '';
   my Str $temp-inhibit = '';
+  my Str $variable-list = '';
 
   my Str $code = qq:to/EOSUB/;
 
@@ -648,16 +649,18 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
-    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
+#    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
+    $variable-list = $curr-function<variable-list> ?? ':variable-list, ' !! '';
 
     # Get a list of types for the arguments
     my $par-list = '';
-    my Str $pattern-starter = '';
+#    my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
+      last if $parameter<raku-type> eq '…';
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
       my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
 #      $par-list ~= ", $rnt0";
-
+#`{{
       if $curr-function<variable-list> {
         # When variable list, the last type is '…', Finish the pattern.
         if $parameter<raku-type> eq '…' {
@@ -679,8 +682,9 @@ method !generate-constructors ( Hash $hcs --> Str ) {
       }
 
       else {
+}}
         $par-list ~= ", $rnt0";
-      }
+#      }
     }
 
     # Remove first comma
@@ -712,9 +716,9 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
     else {
 #TM:1:$function-name
-    $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %( :type(Constructor),',
-                 ':returns(', $rnt0, '), ',
-                 $pattern, $parameters, "),\n";
+    $code ~= [~] '  ', $temp-inhibit, $function-name,
+                 ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
+                 $variable-list, $parameters, "),\n";
 
     # drop last comma from arg list
     $code ~~ s/ '),)' /))/;
@@ -765,8 +769,9 @@ method !generate-methods ( Hash $hcs --> Str ) {
 #  my Hash $h = self.search-name($ctype);
 #  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
   my Str $symbol-prefix = $*work-data<sub-prefix>;
-  my Str $pattern = '';
+#  my Str $pattern = '';
   my Str $temp-inhibit = '';
+  my Str $variable-list = '';
 
   my Str $code = qq:to/EOSUB/;
 
@@ -779,7 +784,8 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
 #note "$?LINE  $function-name, inhibit: $temp-inhibit, $curr-function<missing-type>";
 
-    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
+    #$pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
+    $variable-list = $curr-function<variable-list> ?? ':variable-list, ' !! '';
 
     # get method name, drop the prefix
 #    my Str $hash-fname = $function-name;
@@ -789,9 +795,10 @@ method !generate-methods ( Hash $hcs --> Str ) {
     my Str $par-list = '';
     my Bool $first-param = True;
 
-    my Str $pattern-starter = '';
+#    my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
 #note "  $?LINE $parameter<name> $parameter<raku-type>";
+      last if $parameter<raku-type> eq '…';
 
       # Get a list of types for the arguments but skip the first native type
       # This is the instance variable which is inserted automatically in the
@@ -813,6 +820,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
           my ( $rnt0, $rnt1) = $xtype.split(':');
 #        $par-list ~= ", $rnt0";
 
+#`{{
           if $curr-function<variable-list> {
             # When variable list, the last type is '…', Finish the pattern.
             if $parameter<raku-type> eq '…' {
@@ -835,8 +843,9 @@ method !generate-methods ( Hash $hcs --> Str ) {
           }
 
           else {
+}}
             $par-list ~= ", $rnt0";
-          }
+#          }
         }
       }
     }
@@ -865,7 +874,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
 #note "$?LINE $par-list";
 
     $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %(',
-             $pattern, $returns, $par-list, "),\n";
+             $variable-list, $returns, $par-list, "),\n";
 
     # drop last comma from arg list
     $code ~~ s/ '),)' /))/;
@@ -888,9 +897,10 @@ method generate-functions ( Hash $hcs --> Str ) {
   return '' unless ?$hcs;
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
-  my Str $pattern = '';
+#  my Str $pattern = '';
 #  my Str $variable-list = '';
   my Str $temp-inhibit = '';
+  my Str $variable-list = '';
 
   # Get all functions from the Hash
   my Str $code = qq:to/EOSUB/;
@@ -918,19 +928,22 @@ method generate-functions ( Hash $hcs --> Str ) {
     ) =  '';
     my @rv-list = ();
 
-    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
+#    $pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
+    $variable-list = $curr-function<variable-list> ?? ':variable-list, ' !! '';
 
-    my Str $pattern-starter = '';
+#    my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
 #      self!get-types(
 #        $parameter, #$raku-list, 
 #        $call-list, #$items-doc,
 #        @rv-list #, $returns-doc
 #      );
+      last if $parameter<raku-type> eq '…';
 
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
       my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
 
+#`{{
       if $curr-function<variable-list> {
         # When variable list, the last type is '…', Finish the pattern.
         if $parameter<raku-type> eq '…' {
@@ -952,8 +965,9 @@ method generate-functions ( Hash $hcs --> Str ) {
       }
 
       else {
+}}
         $par-list ~= ", $rnt0";
-      }
+#      }
     }
 
     # Remove first comma and space when there is only one parameter
@@ -1036,7 +1050,7 @@ method generate-functions ( Hash $hcs --> Str ) {
 #note "$?LINE $function-name, {$returns//'-'}, {$par-list//'-'}";
 #TM:0:$function-name
     $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %( :type(Function), ',
-                 $pattern, $returns, $par-list, "),\n";
+                 $variable-list, $returns, $par-list, "),\n";
 
     # drop last comma from arg list
     $code ~~ s/ '),)' /))/;
@@ -1946,7 +1960,7 @@ method convert-ntype (
 #  Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
-#note "$?LINE convert-ntype ctype: $ctype";
+#note "\n$?LINE convert-ntype ctype: $ctype";
 
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
@@ -1967,8 +1981,8 @@ method convert-ntype (
     when /g? double '*'/      { $raku-type = 'CArray[gdouble]'; }
     when /g? pointer '*'/     { $raku-type = 'CArray[gpointer]'; }
     when /:i g? object '*'/   { $raku-type = 'N-GObject'; }
-    when /:i g? pixbuf '*'/   { $raku-type = 'N-GObject'; }
-    when /:i g? error '*'/    { $raku-type = 'N-GObject'; }
+#    when /:i g? pixbuf '*'/   { $raku-type = 'N-GObject'; }
+#    when /:i g? error '*'/    { $raku-type = 'N-GObject'; }
     when /:i g? quark /       { $raku-type = 'GQuark'; }
 
     when any(
@@ -1996,37 +2010,46 @@ method convert-ntype (
     when 'void'               { $raku-type = 'void'; }
 
 
+    # Default handles complex types. Single pointer ('*') is handled by
+    # Raku automatically, Double pointers ('**') must become CArray[object].
     default {
       # remove any pointer marks
+      my Bool $is-pointer = $ctype ~~ m/ '*' .*? '*' / ?? True !! False;
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = self.search-name($ctype);
-#note "  $?LINE $h<gir-type>";
+#note "  $?LINE $is-pointer, $ctype, $h<gir-type>";
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
+          $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
         when 'interface' {
           $raku-type = 'N-GObject';
+          $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
         when 'record' {
 #NOTE add-import creates cyclic dependency -> make it an Object;
-#          $raku-type = "N-$h<gnome-name>";
-#          self.add-import($h<structure-name>);
-          $raku-type = 'N-GObject';
+          $raku-type = "N-$h<gnome-name>";
+          self.add-import($h<structure-name>);
+          $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
         when 'union' {
 #NOTE add-import creates cyclic dependency -> make it an Object;
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
-          $raku-type = 'N-GObject';
+#          $raku-type = 'N-GObject';
+          $raku-type = "N-$h<gnome-name>";
+          self.add-import($h<structure-name>);
+          $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
         when 'constant' {
           $raku-type = "$ctype";
+          $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
         when 'enumeration' {
@@ -2081,9 +2104,9 @@ method convert-rtype (
     when /g? int \d* '*'/       { $raku-type = 'Array[Int]'; }
     when /g? uint \d* '*'/      { $raku-type = 'Array[UInt]'; }
     when /g? size '*'/          { $raku-type = 'Array[gsize]'; }
-    when /:i g? error '*'/      { $raku-type = 'Array[N-GError]'; }
-    #when /:i g? pixbuf '*'/    { $raku-type = 'N-GObject'; }
-    #when /:i g? error '*'/     { $raku-type = 'N-GObject'; }
+#    when /:i g? error '*'/      { $raku-type = 'Array[N-GError]'; }
+#    when /:i g? pixbuf '*'/     { $raku-type = 'N-GObject'; }
+#    when /:i g? error '*'/      { $raku-type = 'N-GObject'; }
     when /g? pointer '*'/       { $raku-type = 'Array'; }
 
     when / g? boolean / {
@@ -2133,6 +2156,7 @@ method convert-rtype (
 
     default {
       # remove any pointer marks because objects are provided by pointer
+#      my Bool $is-pointer = $ctype ~~ m/ '*' / ?? True !! False;
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = self.search-name($ctype);
@@ -2148,6 +2172,7 @@ method convert-rtype (
         }
 
         when 'record' {
+note "$?LINE record $orig-ctype $h.gist()";
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
           $raku-type = 'N-GObject';

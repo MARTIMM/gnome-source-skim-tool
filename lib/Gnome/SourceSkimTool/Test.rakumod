@@ -44,13 +44,13 @@ method prepare-test ( Str $class-name --> Str ) {
 
 #-------------------------------------------------------------------------------
 method generate-init-tests (
-  Str $test-variable, Str $init-test-type, Hash $hcs --> Str
+  Str $test-variable, Str $init-test-type, Hash $hcs, Str :$test-class --> Str
 ) {
 
   my Str $code = qq:to/EOTEST/;
     {$!grd.pod-header('Test init')}
     #Gnome::N::debug(:on);
-    my $*work-data<raku-class-name> $test-variable;
+    my { ?$test-class ?? $test-class !! $*work-data<raku-class-name> } $test-variable;
 
     {$!grd.pod-header($init-test-type)}
     subtest 'ISA test', \{
@@ -243,7 +243,7 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
     else {
       $code ~= qq:to/EOTEST/;
           #TB:0:$hash-fname\(\)
-          ok .$hash-fname\($par-list\), …, '.$hash-fname\(\)';
+          ok .$hash-fname\($par-list\), '.$hash-fname\(\)';
 
       EOTEST
     }

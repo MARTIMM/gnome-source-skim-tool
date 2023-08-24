@@ -236,13 +236,18 @@ method generate-test ( ) {
   $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//record');
-  my Str $test-variable = '$' ~ $*gnome-class.lc;
-  $!mod.add-import('N-' ~ $*work-data<raku-class-name>);
-
-  my Str $code = $!tst.prepare-test('N-' ~ $*work-data<raku-class-name>);
+  
+  my Str $class = 'N-' ~ $element.attribs<c:type>;
+  my Str $test-variable = '$' ~ $class.lc;
+  my Str $raku-class = $*work-data<raku-package> ~ '::' ~ $class;
+  $!mod.add-import($raku-class);
+  my Str $code = $!tst.prepare-test($raku-class);
 
   my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
-  $code ~= $!tst.generate-init-tests( $test-variable, 'Class init tests', $hcs);
+#note "$?LINE $hcs.gist()";
+  $code ~= $!tst.generate-init-tests(
+    $test-variable, 'Class init tests', $hcs, :test-class($raku-class)
+  );
 
   $code ~= $!tst.generate-test-separator;
 #  $code ~= $!tst.generate-inheritance-tests( $element, $test-variable);
@@ -256,7 +261,7 @@ method generate-test ( ) {
   my Str $fname = $*work-data<result-path>;
   $fname ~~ s@ '/lib/' @/t/@;
   mkdir $fname, 0o750 unless $fname.IO ~~ :e;
-  $fname ~= 'N-' ~ $*gnome-class ~ '.rakutest';
+  $fname ~= $class ~ '.rakutest';
   note "Save tests in ", $fname.IO.basename;
   $fname.IO.spurt($code);
 }
