@@ -224,7 +224,7 @@ note "$?LINE $_";
 
       $code ~= q:to/RAKUMOD/;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
-        method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
+        method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           if $methods{$name}:exists {
             my $native-object = self.get-native-object-no-reffing;
             $_fallback-v2-ok = True;
