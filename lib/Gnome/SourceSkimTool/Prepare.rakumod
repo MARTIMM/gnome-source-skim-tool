@@ -13,19 +13,19 @@ submethod BUILD ( ) {
 
   if $*generate-code {
     $*external-modules = %(
-      :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
-      'Gnome::N::N-GObject' => EMTNotInApi2,
-      'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
+      :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
+      'Gnome::N::N-GObject' => EMTInApi2,
+      'Gnome::N::GlibToRakuTypes' => EMTInApi2,
     );
   }
 
   elsif $*generate-test {
     $*external-modules = %(
       :Test(EMTRakudo),
-      'Gnome::N::NativeLib' => EMTNotInApi2,
-      'Gnome::N::N-GObject' => EMTNotInApi2,
-      'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
-      'Gnome::N::X' => EMTNotInApi2,
+      'Gnome::N::NativeLib' => EMTInApi2,
+      'Gnome::N::N-GObject' => EMTInApi2,
+      'Gnome::N::GlibToRakuTypes' => EMTInApi2,
+      'Gnome::N::X' => EMTInApi2,
     );
   }
 
