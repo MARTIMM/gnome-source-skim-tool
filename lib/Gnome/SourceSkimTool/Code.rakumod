@@ -103,7 +103,7 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
     $code ~= qq:to/RAKUMOD/;
     {$!grd.pod-header('Module Imports')}
     __MODULE__IMPORTS__
-    use Gnome::N::TopLevelClassSupport;
+    use Gnome::N::TopLevelClassSupport:api<2>;
 
     use Gnome::N::GnomeRoutineCaller:api<2>;
     RAKUMOD
@@ -172,7 +172,6 @@ method generate-callables (
           Str $n, Bool $_fallback-v2-ok is rw,
           Gnome::N::GnomeRoutineCaller $routine-caller, *@arguments
         ) {
-          my Str $name = S:g/ '-' /_/ with $n;
           if $methods{$name}:exists {
             my $native-object = self.get-native-object-no-reffing;
             $_fallback-v2-ok = True;
@@ -188,7 +187,6 @@ method generate-callables (
       $c ~= q:to/RAKUMOD/;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
         method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
-          my Str $name = S:g/ '-' /_/ with $n;
           if $methods{$name}:exists {
             my $native-object = self.get-native-object-no-reffing;
             $_fallback-v2-ok = True;
@@ -645,7 +643,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     {SEPARATOR( 'Constructors', 2);}
     EOSUB
 
-  for $hcs.keys.sort -> $function-name {
+  for $hcs.keys.sort -> $function-name is copy {
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
@@ -695,13 +693,18 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 #    my Str $hash-fname = $function-name;
 #    $hash-fname ~~ s/^ $sub-prefix //;
 
+    # Save as a user recognizable name. This makes it possible
+    # to pospone the translation as late as possible at run time
+    # and only once per function.
+    $function-name ~~ s:g/ '_' /-/;
+
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my ( $rnt0, $rnt1) = $curr-function<return-raku-type>.split(':');
     if ?$rnt1 {
 #TM:1:$function-name
-    $code ~= [~] '  ', $temp-inhibit, $function-name,
-                 ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
-                 ':type-name(', $rnt1, '), ',  $parameters, "),\n";
+      $code ~= [~] '  ', $temp-inhibit, $function-name,
+                  ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
+                  ':type-name(', $rnt1, '), ',  $parameters, "),\n";
 #`{{
       $code ~= qq:to/EOSUB/;
         $function-name =\> \%\(
@@ -716,12 +719,12 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
     else {
 #TM:1:$function-name
-    $code ~= [~] '  ', $temp-inhibit, $function-name,
-                 ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
-                 $variable-list, $parameters, "),\n";
+      $code ~= [~] '  ', $temp-inhibit, $function-name,
+                  ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
+                  $variable-list, $parameters, "),\n";
 
-    # drop last comma from arg list
-    $code ~~ s/ '),)' /))/;
+      # drop last comma from arg list
+      $code ~~ s/ '),)' /))/;
 #`{{
       $code ~= qq:to/EOSUB/;
         $function-name =\> \%\(
@@ -778,7 +781,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     {SEPARATOR( 'Methods', 2);}
     EOSUB
 
-  for $hcs.keys.sort -> $function-name {
+  for $hcs.keys.sort -> $function-name is copy {
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
@@ -790,6 +793,11 @@ method !generate-methods ( Hash $hcs --> Str ) {
     # get method name, drop the prefix
 #    my Str $hash-fname = $function-name;
 #    $hash-fname ~~ s/^ $symbol-prefix //;
+
+    # Save as a user recognizable name. This makes it possible
+    # to pospone the translation as late as possible at run time
+    # and only once per function.
+    $function-name ~~ s:g/ '_' /-/;
 
     # get parameter lists
     my Str $par-list = '';
@@ -908,7 +916,7 @@ method generate-functions ( Hash $hcs --> Str ) {
     {SEPARATOR( 'Functions', 2);}
     EOSUB
 
-  for $hcs.keys.sort -> $function-name {
+  for $hcs.keys.sort -> $function-name is copy {
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
@@ -918,6 +926,11 @@ method generate-functions ( Hash $hcs --> Str ) {
 #    # keep this version for later
 #    my Str $hash-fname = $method-name;
 #    $method-name ~~ s:g/ '_' /-/;
+
+    # Save as a user recognizable name. This makes it possible
+    # to pospone the translation as late as possible at run time
+    # and only once per function.
+    $function-name ~~ s:g/ '_' /-/;
 
 #    my Str $function-doc = $curr-function<function-doc>;
 #    $function-doc = "No documentation of function." unless ?$function-doc;
