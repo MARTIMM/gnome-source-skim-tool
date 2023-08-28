@@ -18,6 +18,15 @@ list-dir('/home/marcel/Languages/Raku/Projects/gnome-cairo/lib');
 list-dir('/home/marcel/Languages/Raku/Projects/gnome-pango/lib');
 #list-dir('/home/marcel/Languages/Raku/Projects/gnome-/lib');
 
+#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-gtk3/lib');
+#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-gdk3/lib');
+list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-glib/lib');
+#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-gobject/lib');
+#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-gio/lib');
+list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-native/lib');
+#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-cairo/lib');
+#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-pango/lib');
+
 # New packages
 $mod-type = EMTInApi2;
 list-dir('xt/NewRakuModules/lib/Gnome');
