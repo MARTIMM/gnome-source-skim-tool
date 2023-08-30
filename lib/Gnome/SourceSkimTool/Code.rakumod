@@ -376,7 +376,7 @@ method make-build-submethod (
   my Str $ifelse = 'if';
   my Hash $hcs = self.get-constructors( $element, $xpath);
   if ?$hcs {
-    for $hcs.keys.sort -> $function-name {
+    for $hcs.keys.sort -> $function-name is copy {
 
       my Hash $curr-function := $hcs{$function-name};
       my Str $par-list = '';
@@ -384,6 +384,11 @@ method make-build-submethod (
       my Str $inhibit =
         ( $curr-function<missing-type> ||
           $curr-function<variable-list> ) ?? '#' !! '';
+
+      # Save as a user recognizable name. This makes it possible
+      # to postpone the translation as late as possible at run time
+      # and only once per function.
+      $function-name ~~ s:g/ '_' /-/;
 
       # Insert a method without args if there are no parameters.
       $simple-func-new = True unless ?$curr-function<parameters>;
