@@ -23,7 +23,7 @@ submethod BUILD ( ) {
   $!mod .= new;
 
   # load data for this module
-  $file = "$*work-data<gir-module-path>C-$*gnome-class.gir";
+  my Str $file = "$*work-data<gir-module-path>C-$*gnome-class.gir";
   note "Load module data from $file" if $*verbose;
   $!xpath .= new(:$file);
 }
