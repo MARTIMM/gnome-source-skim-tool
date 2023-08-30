@@ -694,7 +694,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 #    $hash-fname ~~ s/^ $sub-prefix //;
 
     # Save as a user recognizable name. This makes it possible
-    # to pospone the translation as late as possible at run time
+    # to postpone the translation as late as possible at run time
     # and only once per function.
     $function-name ~~ s:g/ '_' /-/;
 
@@ -795,7 +795,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
 #    $hash-fname ~~ s/^ $symbol-prefix //;
 
     # Save as a user recognizable name. This makes it possible
-    # to pospone the translation as late as possible at run time
+    # to postpone the translation as late as possible at run time
     # and only once per function.
     $function-name ~~ s:g/ '_' /-/;
 
@@ -928,7 +928,7 @@ method generate-functions ( Hash $hcs --> Str ) {
 #    $method-name ~~ s:g/ '_' /-/;
 
     # Save as a user recognizable name. This makes it possible
-    # to pospone the translation as late as possible at run time
+    # to postpone the translation as late as possible at run time
     # and only once per function.
     $function-name ~~ s:g/ '_' /-/;
 
