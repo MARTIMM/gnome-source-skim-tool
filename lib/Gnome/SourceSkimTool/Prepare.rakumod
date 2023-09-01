@@ -178,7 +178,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gtk-3.0.gir'),
         :name-prefix<gtk>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Gtk3/'),
+        :result-mods(API2MODS ~ 'gnome-gtk3/lib/Gnome/Gtk3/'),
+        :result-tests(API2MODS ~ 'gnome-gtk3/t/'),
+        :result-docs(API2MODS ~ 'gnome-gtk3/doc/'),
       );
     }
 
@@ -190,7 +192,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gdk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gdk-3.0.gir'),
         :name-prefix<gdk>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Gdk3/'),
+        :result-mods(API2MODS ~ 'gnome-gdk3/lib/Gnome/Gdk3/'),
+        :result-tests(API2MODS ~ 'gnome-gdk3/t/'),
+        :result-docs(API2MODS ~ 'gnome-gdk3/doc/'),
       );
     }
 
@@ -202,7 +206,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "GdkPixbuf$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GdkPixbuf-2.0.gir'),
         :name-prefix<gdk_pixbuf>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Gdk3/'),
+        :result-mods(API2MODS ~ 'gnome-gdk3/lib/Gnome/Gdk3/'),
+        :result-tests(API2MODS ~ 'gnome-gdk3/t/'),
+        :result-docs(API2MODS ~ 'gnome-gdk3/doc/'),
       );
     }
 
@@ -214,7 +220,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "GdkPixdata$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GdkPixdata-2.0.gir'),
         :name-prefix<gdk_pixdata>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Gdk3/'),
+        :result-mods(API2MODS ~ 'gnome-gdk3/lib/Gnome/Gdk3/'),
+        :result-tests(API2MODS ~ 'gnome-gdk3/t/'),
+        :result-docs(API2MODS ~ 'gnome-gdk3/doc/'),
       );
     }
 
@@ -226,7 +234,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gtk-4.0.gir'),
         :name-prefix<gtk>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Gtk4/'),
+        :result-mods(API2MODS ~ 'gnome-gtk4/lib/Gnome/Gtk4/'),
+        :result-tests(API2MODS ~ 'gnome-gtk4/t/'),
+        :result-docs(API2MODS ~ 'gnome-gtk4/doc/'),
       );
     }
 
@@ -238,7 +248,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gdk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gdk-4.0.gir'),
         :name-prefix<gdk>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Gdk4/'),
+        :result-mods(API2MODS ~ 'gnome-gdk4/lib/Gnome/Gdk4/'),
+        :result-tests(API2MODS ~ 'gnome-gdk4/t/'),
+        :result-docs(API2MODS ~ 'gnome-gdk4/doc/'),
       );
     }
 
@@ -250,7 +262,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Gsk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gsk-4.0.gir'),
         :name-prefix<gsk>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Gsk4/'),
+        :result-mods(API2MODS ~ 'gnome-gsk4/lib/Gnome/Gsk4/'),
+        :result-tests(API2MODS ~ 'gnome-gsk4/t/'),
+        :result-docs(API2MODS ~ 'gnome-gsk4/doc/'),
       );
     }
 
@@ -262,7 +276,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GLib-2.0.gir'),
         :name-prefix<g>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Glib/'),
+        :result-mods(API2MODS ~ 'gnome-glib/lib/Gnome/Glib/'),
+        :result-tests(API2MODS ~ 'gnome-glib/t/'),
+        :result-docs(API2MODS ~ 'gnome-glib/doc/'),
       );
     }
 
@@ -274,7 +290,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gio-2.0.gir'),
         :name-prefix<g>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Gio/'),
+        :result-mods(API2MODS ~ 'gnome-gio/lib/Gnome/Gio/'),
+        :result-tests(API2MODS ~ 'gnome-gio/t/'),
+        :result-docs(API2MODS ~ 'gnome-gio/doc/'),
       );
     }
 
@@ -286,7 +304,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GObject-2.0.gir'),
         :name-prefix<g>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/GObject/'),
+        :result-mods(API2MODS ~ 'gnome-gobject/lib/Gnome/GObject/'),
+        :result-tests(API2MODS ~ 'gnome-gobject/t/'),
+        :result-docs(API2MODS ~ 'gnome-gobject/doc/'),
       );
     }
 
@@ -298,7 +318,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Cairo$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'cairo-1.0.gir'),
         :name-prefix<cairo>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Cairo/'),
+        :result-mods(API2MODS ~ 'gnome-cairo/lib/Gnome/Cairo/'),
+        :result-tests(API2MODS ~ 'gnome-cairo/t/'),
+        :result-docs(API2MODS ~ 'gnome-cairo/doc/'),
       );
     }
 
@@ -310,7 +332,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Atk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Atk-1.0.gir'),
         :name-prefix<atk>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Atk/'),
+        :result-mods(API2MODS ~ 'gnome-atk/lib/Gnome/Atk/'),
+        :result-tests(API2MODS ~ 'gnome-atk/t/'),
+        :result-docs(API2MODS ~ 'gnome-atk/doc/'),
       );
     }
 
@@ -322,7 +346,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "Pango$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Pango-1.0.gir'),
         :name-prefix<pango>,
-        :result-path(RAKUMODS ~ 'lib/Gnome/Pango/'),
+        :result-mods(API2MODS ~ 'gnome-pango/lib/Gnome/Pango/'),
+        :result-tests(API2MODS ~ 'gnome-pango/t/'),
+        :result-docs(API2MODS ~ 'gnome-pango/doc/'),
       );
     }
 
@@ -335,6 +361,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "PangoCairo$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'PangoCairo-1.0.gir'),
         :name-prefix(''),
+        :result-mods(API2MODS ~ 'gnome-gtk3/lib/Gnome/Gtk3/'),
+        :result-tests(API2MODS ~ 'gnome-gtk3/t/'),
+        :result-docs(API2MODS ~ 'gnome-gtk3/doc/'),
       );
     }
 
@@ -346,6 +375,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :gnome-name($*gnome-class ?? "GI$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'GIRepository-2.0.gir'),
         :name-prefix(''),
+        :result-mods(API2MODS ~ 'gnome-gtk3/lib/Gnome/Gtk3/'),
+        :result-tests(API2MODS ~ 'gnome-gtk3/t/'),
+        :result-docs(API2MODS ~ 'gnome-gtk3/doc/'),
       );
     }
 }}
@@ -356,7 +388,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
     }
   }
 
-  mkdir $work-data<result-path>, 0o700 unless $work-data<result-path>.IO ~~ :e;
+  mkdir $work-data<result-mods>, 0o700 unless $work-data<result-mods>.IO.e;
+  mkdir $work-data<result-tests>, 0o700 unless $work-data<result-tests>.IO.e;
+  mkdir $work-data<result-docs>, 0o700 unless $work-data<result-docs>.IO.e;
 
   $work-data
 }

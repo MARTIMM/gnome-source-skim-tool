@@ -441,24 +441,29 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $np = $*work-data<name-prefix>;
-      
-      $class-name = $ctype;
-      $class-name ~~ s:i/^ $np //;
-      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
+#      my Str $np = $*work-data<name-prefix>;
+#      my Str $record-prefix = 'N-';
+#      $class-name ~~ s:i/^ $np //;
+      my Str $container-class = $source-filename.tc;
+      my Str $record-class = "N-$ctype";
+      $class-name = [~] $*work-data<raku-package>, '::', $container-class,
+                        '::', $record-class;
 
-      $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
-      $structure-name = "$*work-data<raku-package>::N-$ctype";
-      $structure-filename = "$*work-data<result-path>N-$ctype.rakumod";
+#      $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
+#      $structure-name = "$*work-data<raku-package>::N-$ctype";
+#      $structure-name = [~] $*work-data<raku-package>, '::', $container-class,
+#                        '::', $record-prefix, ;
+      $structure-filename = [~] $*work-data<result-path>, '/', $container-class,
+                                '/', $record-class, '.rakumod';
 
       $!map{$ctype} = %(
         :gir-type<record>,
 
         :$source-filename,
-        :$module-filename,
+#        :$module-filename,
         :$class-name,
         :$gnome-name,
-        :$structure-name,
+#        :$structure-name,
         :$structure-filename,
 
         :symbol-prefix(
@@ -472,23 +477,29 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $np = $*work-data<name-prefix>;
-      $class-name = $ctype;
-      $class-name ~~ s:i/^ $np //;
-      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
+#      my Str $np = $*work-data<name-prefix>;
+#      $class-name = $ctype;
+#      $class-name ~~ s:i/^ $np //;
+#      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
+      my Str $container-class = $source-filename.tc;
+      my Str $union-class = "N-$ctype";
+      $class-name = [~] $*work-data<raku-package>, '::', $container-class,
+                        '::', $union-class;
 
-      $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
-      $structure-name = "$*work-data<raku-package>::N-$ctype";
-      $structure-filename = "$*work-data<result-path>N-$ctype.rakumod";
+#      $module-filename = "$*work-data<result-path>$attrs<name>.rakumod";
+#      $structure-name = "$*work-data<raku-package>::N-$ctype";
+#      $structure-filename = "$*work-data<result-path>N-$ctype.rakumod";
+      $structure-filename = [~] $*work-data<result-path>, '/', $container-class,
+                                '/', $union-class, '.rakumod';
 
       $!map{$ctype} = %(
         :gir-type<union>,
 
         :$source-filename,
-        :$module-filename,
+#        :$module-filename,
         :$class-name,
         :$gnome-name,
-        :$structure-name,
+#        :$structure-name,
         :$structure-filename,
 
         :symbol-prefix(
