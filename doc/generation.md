@@ -36,15 +36,25 @@ Types and files for a role like the <ins>Orientable</ins> class in Gtk version 3
 * Doc filename `doc/R-Orientable.rakudoc`.
 
 ## Record
-Types and files for a record like used in <ins>List</ins> structure in Glib. The class is exported and therefor usable as `N-GList`.
+Types and files for a record like used in <ins>List</ins> structure in Glib. The class is exported and therefore usable as `N-GList`.
 * Class name **Gnome::Glib::List::N-GList**.
 * Class Filename `lib/Gnome/Glib/List/N-GList.rakumod`.
 * Test Filename `t/N-GList.rakutest`.
 * Doc filename `doc/N-GList.rakudoc`.
+
 ## Union
+Types and files for a union like used in <ins>Event</ins> structure in Gdk version 3. The class is exported and therefore usable as `N-GdkEvent`.
+* Class name **Gnome::Gdk3::Event::N-GdkEvent**.
+* Class Filename `lib/Gnome/Gdk3/Event/N-GdkEvent.rakumod`.
+* Test Filename `t/N-GdkEvent.rakutest`.
+* Doc filename `doc/N-GdkEvent.rakudoc`.
 
 ## Other types
-
+Other types like enumerations, constants and standalone functions are gathered in one file named after the C source file it is defined in. For example the <ins>Window</ins> class in Gtk version 3 has a few enumerations.
+* Class name **Gnome::Gtk3::T-Window**.
+* Class Filename `lib/Gnome/Gtk3/T-Window.rakumod`.
+* Test Filename `t/T-Window.rakutest`.
+* Doc filename `doc/T-Window.rakudoc`.
 
 # Call interface
 
