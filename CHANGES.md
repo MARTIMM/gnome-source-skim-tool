@@ -45,6 +45,9 @@ kaal '/usr/bin/time raku Window.rakutest'
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 -->
+* 2023-09-04 0.11.0
+  * Modules, documents and test files are generated in new environment `./gnome-api2` in the package. They will be uploaded separately into the fez ecosystem. Later on, the META6 for each of the packages will be generated too.
+
 * 2023-08-09 0.10.3
   * Many bugs fixed. Seems possible to generate working code without modifying much.
   * Started to generate Pango code.
