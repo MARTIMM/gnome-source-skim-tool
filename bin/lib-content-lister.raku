@@ -6,49 +6,57 @@ use YAMLish;
 #-------------------------------------------------------------------------------
 my Hash $list = %();
 
+my Str $api1 = $*HOME ~ '/Languages/Raku/Projects';
+my Str $api2 = [~] $api1, '/gnome-source-skim-tool/gnome-api2/';
+
 # Old packages
 my ExternalModuleType $mod-type = EMTNotInApi2;
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-gtk3/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-gdk3/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-glib/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-gobject/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-gio/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-native/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-cairo/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-pango/lib');
-#list-dir('/home/marcel/Languages/Raku/Projects/gnome-/lib');
+list-dir("$api1/gnome-gtk3/lib");
+list-dir("$api1/gnome-gdk3/lib");
+list-dir("$api1/gnome-glib/lib");
+list-dir("$api1/gnome-gobject/lib");
+list-dir("$api1/gnome-gio/lib");
+list-dir("$api1/gnome-native/lib");
+list-dir("$api1/gnome-cairo/lib");
+list-dir("$api1/gnome-pango/lib");
+#list-dir("$api1/gnome-/lib");
 
-#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-gtk3/lib');
-#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-gdk3/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-glib/lib');
-#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-gobject/lib');
-#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-gio/lib');
-list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-native/lib');
-#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-cairo/lib');
-#list-dir('/home/marcel/Languages/Raku/Projects/gnome-api2/gnome-pango/lib');
 
 # New packages
 $mod-type = EMTInApi2;
-list-dir('xt/NewRakuModules/lib/Gnome');
-list-dir('xt/Gir/lib/Gnome');
+#list-dir("$api2/gnome-gtk3/lib");
+#list-dir("$api2/gnome-gdk3/lib");
+list-dir("$api2/gnome-glib/lib");
+#list-dir("$api2/gnome-gobject/lib");
+#list-dir("$api2/gnome-gio/lib");
+list-dir("$api2/gnome-native/lib");
+#list-dir("$api2/gnome-cairo/lib");
+#list-dir("$api2/gnome-pango/lib");
 
+#list-dir('xt/NewRakuModules/lib/Gnome");
+#list-dir('xt/Gir/lib/Gnome");
 
 lib-content-list-file.IO.spurt(save-yaml($list));
 
 
 #-------------------------------------------------------------------------------
 sub list-dir ( Str $cdir ) {
-  return if $cdir ~~ m/ '.precomp' /;
+  # Skip all hidden directories like .precomp
+  return if $cdir ~~ m/^ '.' /;
 
   for dir($cdir) -> $f {
+    # Recurse into directory
     if $f ~~ :d {
       list-dir($f.Str);
     }
 
     else {
       my Str $m = $f.Str;
-      next if $m ~~ m/ [ '.directory' || 'code-workspace' ] /;
 
+      # Skip all but module files
+      next unless $m ~~ m/ \. rakumod $/;
+
+      # Remove large part of path, then drop the extension, then make it a class
       $m ~~ s/^ .*? '/lib/' //;
       $m ~~ s/ \. rakumod $//;
       $m ~~ s:g/ '/' /::/;
