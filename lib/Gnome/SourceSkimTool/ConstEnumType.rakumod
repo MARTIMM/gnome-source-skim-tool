@@ -10,8 +10,8 @@ mkdir SKIMTOOLROOT, 0o700 unless SKIMTOOLROOT.IO ~~ :e;
 constant SKIMTOOLDATA is export = SKIMTOOLROOT ~ 'SkimToolData/';
 mkdir SKIMTOOLDATA, 0o700 unless SKIMTOOLDATA.IO ~~ :e;
 
-constant RAKUMODS is export = 'xt/NewRakuModules/';
-mkdir RAKUMODS, 0o700 unless RAKUMODS.IO ~~ :e;
+#constant RAKUMODS is export = 'xt/NewRakuModules/';
+#mkdir RAKUMODS, 0o700 unless RAKUMODS.IO ~~ :e;
 
 constant API2MODS is export = 'gnome-api2/';
 #mkdir API2MODS, 0o700 unless API2MODS.IO ~~ :e;
