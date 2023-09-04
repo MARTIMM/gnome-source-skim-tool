@@ -119,8 +119,8 @@ my Hash $methods = %(
   matches => %( :returns(gboolean), :parameters([GQuark, gint])),
 
   #--[Functions]----------------------------------------------------------------
-  domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
-  domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
+#  domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
+#  domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
 );
 
 #-------------------------------------------------------------------------------

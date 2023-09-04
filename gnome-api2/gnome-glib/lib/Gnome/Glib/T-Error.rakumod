@@ -8,6 +8,7 @@ use NativeCall;
 
 
 use Gnome::Glib::Error:api<2>;
+use Gnome::Glib::Error::N-GError:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;

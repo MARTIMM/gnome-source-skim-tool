@@ -18,7 +18,7 @@ use Gnome::N::X:api<2>;
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-class Gnome::Glib::Error {
+#class Gnome::Glib::Error {
   class N-GError:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
     has GQuark $.domain;
@@ -35,4 +35,4 @@ class Gnome::Glib::Error {
       nativecast( N-GError, $no)
     }
   }
-}
+#}
