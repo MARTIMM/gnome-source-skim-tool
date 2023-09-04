@@ -40,13 +40,8 @@ The `.gir` files are **XML** files holding all information one needs to understa
 ## Result Directories
 ```plantuml
 @startwbs
-* Project dir/xt/NewRakuMods
+* Project dir/gnome-api2/gnome-*/
 ** lib/Gnome
-*** Gtk3
-*** Gtk4
-*** Glib/
-*** GObject
-*** …
 ** t
 ** doc
 @endwbs
