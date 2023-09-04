@@ -128,20 +128,22 @@ sub USAGE ( ) {
 
     Options:
       c       Generate a Raku code file for all gir-types found in the
-              file. Result is put in directory '{RAKUMODS}'. Using the file
-              'types' in package 'Gdk3' generates files 'N-GdkPoint.rakumod',
-              'N-GdkRectangle.rakumod', 'Rectangle.rakumod' and
-              'T-Types.rakumod'.
-      d       Generate a Raku pod documentation file for  all gir-types found
-              in the file. Result is put in directory '{RAKUMODS}'. The file
-              'value' with package 'GObject' generates 'N-GValue.rakudoc' and
-              'Value.rakudoc' to document the modules 'T-Value.rakumod' and
+              file. Result is put in directory below '{API2MODS}'. Using the
+              file 'types' in package 'Gdk3' it generates files 'N-GdkPoint.
+              rakumod', 'N-GdkRectangle.rakumod', 'Rectangle.rakumod' and
+              'T-Types.rakumod' in the 'gnome-gdk3/lib/Gnome/Gdk3' tree.
+      d       Generate a Raku pod documentation file for all gir-types found
+              in the file. Result is put in directory below '{API2MODS}'.
+              The file 'value' with package 'GObject' generates
+              'N-GValue.rakudoc' and 'Value.rakudoc' in the 'gnome-gobject/doc'
+              tree to document the modules 'T-Value.rakumod' and
               'Value.rakumod' respectively.
       help    Show this info. (or any other non existant option ;-)
       t       Generate a test file for all gir-types found in the
               file. The file 'aboutdialog' in 'Gtk3' generates files
-              'AboutDialog.rakutest' and 'T-AboutDialog.rakutest' to test for
-              the modules 'AboutDialog.rakumod' and 'T-Aboutdialog.rakumod'.
+              'AboutDialog.rakutest' and 'T-AboutDialog.rakutest' in the
+              'gnome-gtk3/t' tree to test the modules 'AboutDialog.rakumod'
+              and 'T-Aboutdialog.rakumod'.
       gir     Generate the intermediate gir and yaml files. The files will be
               kept, so they need to be generated only once or when sources are
               updated.
