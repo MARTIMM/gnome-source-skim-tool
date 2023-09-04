@@ -1463,17 +1463,19 @@ method generate-structure (
 
   my $temp-external-modules = $*external-modules;
   $*external-modules = %(
-    'NativeCall' => (EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
-    'Gnome::N::N-GObject' => EMTNotInApi2,
-    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
+    :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
+    'Gnome::N::N-GObject' => EMTInApi2,
+    'Gnome::N::GlibToRakuTypes' => EMTInApi2,
   );
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = self.search-name($name);
-  my Str $structure-name = $h0<structure-name>;
+  my Str $class-name = $h0<class-name>;
+#  my Str $parent-class-name = $*work-data<raku-package> ~ '::' ~
+#                              $h0<container-class>;
+  my Str $record-class = $h0<record-class>;
 
-#TL:1:$structure-name:
-#TT:1:$structure-name:
+#TT:1:$class-name:
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
     use v6;
@@ -1489,7 +1491,8 @@ method generate-structure (
       __MODULE__IMPORTS__
 
       {$!grd.pod-header('Record Structure')}
-      unit class $structure-name\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct');
+      class $class-name \{
+        class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct') \{
 
       EOREC
 
@@ -1503,19 +1506,19 @@ method generate-structure (
       if ?$type {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
         my Str ( $rnt0, $rnt1) = $raku-type.split(':');
-#note "\n$?LINE $raku-type, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $structure-name eq 'N-GClosureNotifyData';
+#note "\n$?LINE $raku-type, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $class-name eq 'N-GClosureNotifyData';
         if ?$rnt1 {
-          $code ~= "has $rnt0 \$.$field-name;           # $rnt1\n";
+          $code ~= "    has $rnt0 \$.$field-name;           # $rnt1\n";
         }
 
         #NOTE raku cannot handle this in native structures.
         # Must become a pointer
         elsif $rnt0 ~~ m/ Callable / {
-          $code ~= "has gpointer \$.$field-name;\n";
+          $code ~= "    has gpointer \$.$field-name;\n";
         }
 
         else {
-          $code ~= "has $rnt0 \$.$field-name;\n";
+          $code ~= "    has $rnt0 \$.$field-name;\n";
         }
 
         if $raku-type eq 'N-GObject' {
@@ -1550,7 +1553,7 @@ method generate-structure (
 #          my Str $c = self.generate-callback( $function-name, %h);
 #          $code ~= "has $c \$.$field-name;\n";
 
-          $code ~= "has gpointer \$.$field-name;\n";
+          $code ~= "  has gpointer \$.$field-name;\n";
           $build-pars ~= "gpointer :\$\!$field-name, ";
         }
       }
@@ -1559,123 +1562,206 @@ method generate-structure (
     if ?$build-pars {
       $code ~= qq:to/EOREC/;
 
-        submethod BUILD \(
-          $build-pars
-        \) \{
-        $build-ass\}
-        EOREC
+          submethod BUILD \(
+            $build-pars
+          \) \{
+          $build-ass\}
+      EOREC
     }
 
     if ?$tweak-pars {
       $code ~= qq:to/EOREC/;
 
-        submethod TWEAK \(
-          $tweak-pars
-        \) \{
-        $tweak-ass\}
-        EOREC
+          submethod TWEAK \(
+            $tweak-pars
+          \) \{
+          $tweak-ass\}
+      EOREC
     }
 
     $code ~= qq:to/EOREC/;
 
-      method COERCE \( \$no --> $structure-name \) \{
-        note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-        nativecast\( $structure-name, \$no\)
+        method COERCE \( \$no --> $record-class \) \{
+          note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+          nativecast\( $record-class, \$no\)
+        \}
       \}
-      EOREC
+    \}
+    EOREC
 
 #    $code ~= "\n\n";
     self.add-import('Gnome::N::X');
-    $code = self.substitute-MODULE-IMPORTS($code);
+    $code = self.substitute-MODULE-IMPORTS(
+      $code, $class-name, $class-name ~ '::' ~ $record-class
+    );
   }
 
   else {
+    # Generate structure as a pointer when no fields are documented
     $code ~= qq:to/EOREC/;
       {$!grd.pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
-      unit class $structure-name is export is repr\('CPointer');
+      class $class-name \{
+        class $record-class is export is repr\('CPointer');
+      \}
 
       EOREC
   }
 
   # Reset to original and add this structure
   $*external-modules = $temp-external-modules;
-  self.add-import($structure-name);
+  self.add-import($class-name ~ '::' ~ $record-class);
 
-  my Str $fname = $h0<structure-filename>;
+  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
+  mkdir $cdir, 0o700 unless $cdir.IO.e;
+#  my Str $fname = $h0<structure-filename>;
+  my Str $fname = [~] $cdir, '/', $h0<record-class>, '.rakumod';
+note "$?LINE $fname";
   $fname.IO.spurt($code);
   note "Save record structure in ", $fname.IO.basename;
 }
 
 #-------------------------------------------------------------------------------
-# A structure consists of fields. Only then there is a structure
 method generate-union (
   XML::XPath $xpath, XML::Element $element, Bool :$user-side = False
 ) {
 
   my $temp-external-modules = $*external-modules;
   $*external-modules = %(
-    :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTNotInApi2,
-    'Gnome::N::N-GObject' => EMTNotInApi2,
-    'Gnome::N::GlibToRakuTypes' => EMTNotInApi2,
+    :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
+    'Gnome::N::N-GObject' => EMTInApi2,
+    'Gnome::N::GlibToRakuTypes' => EMTInApi2,
   );
-
-  my @fields = $xpath.find( 'field', :start($element), :to-list);
-  return '' unless ?@fields;
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = self.search-name($name);
-  my Str $structure-name = $h0<structure-name>;
+  my Str $class-name = $h0<class-name>;
+  my Str $union-class = $h0<union-class>;
 
-#TL:1:$structure-name:
-#TT:1:$structure-name:
+#TT:1:$class-name:
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
     use v6;
+    RAKUMOD
 
+#`{{
     {$!grd.pod-header('Module Imports')}
     __MODULE__IMPORTS__
 
     {$!grd.pod-header('Union Structure')}
-    unit class $structure-name\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
+    unit class $class-name\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
+}}
 
-    RAKUMOD
+  my @fields = $xpath.find( 'field', :start($element), :to-list);
+#  return '' unless ?@fields;
+  if ?@fields {
+    my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
 
-  for @fields -> $field {
-    my $field-name = $field.attribs<name>;
-    my Str ( $type, $raku-type, $raku-rtype) =
-      self!get-type( $field, :$user-side);
+    $code ~= qq:to/EOREC/;
 
-    $field-name ~~ s:g/ '_' /-/;
+      {$!grd.pod-header('Module Imports')}
+      __MODULE__IMPORTS__
 
-    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my Str ( $rnt0, $rnt1) = $raku-type.split(':');
-    if ?$rnt1 {
-      $code ~= "HAS $rnt0 \$.$field-name;           # $rnt1\n";
+      {$!grd.pod-header('Union Structure')}
+      class $class-name \{
+        class $union-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion') \{
+
+      EOREC
+
+    for @fields -> $field {
+      my $field-name = $field.attribs<name>;
+      my Str ( $type, $raku-type, $raku-rtype) =
+        self!get-type( $field, :$user-side);
+
+      $field-name ~~ s:g/ '_' /-/;
+      if ?$type {
+        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+        my Str ( $rnt0, $rnt1) = $raku-type.split(':');
+        if ?$rnt1 {
+          $code ~= "    HAS $rnt0 \$.$field-name;           # $rnt1\n";
+        }
+
+        else {
+          $code ~= "    HAS $rnt0 \$.$field-name;\n";
+        }
+
+        if $raku-type eq 'N-GObject' {
+          $tweak-pars ~= "$raku-type :\$$field-name, ";
+          $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
+        }
+
+        else {
+          if $rnt0 eq 'GEnum' {
+            $build-pars ~= "$rnt0 :\$$field-name, ";
+            $build-ass ~= "  \$!$field-name = \$$field-name.value if ?\$$field-name;\n";
+          }
+
+          else {
+            $build-pars ~= "$rnt0 :\$\!$field-name, ";
+          }
+        }
+      }
     }
 
-    else {
-      $code ~= "HAS $rnt0 \$.$field-name;\n";
+    if ?$build-pars {
+      $code ~= qq:to/EOREC/;
+
+          submethod BUILD \(
+            $build-pars
+          \) \{
+          $build-ass\}
+      EOREC
     }
+
+    if ?$tweak-pars {
+      $code ~= qq:to/EOREC/;
+
+          submethod TWEAK \(
+            $tweak-pars
+          \) \{
+          $tweak-ass\}
+      EOREC
+    }
+
+    $code ~= qq:to/EOREC/;
+
+          method COERCE \( \$no --> $union-class \) \{
+            note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+            nativecast\( $union-class, \$no\)
+          \}
+        \}
+      \}
+      
+      EOREC
   }
 
-  $code ~= qq:to/RAKUMOD/;
+  else {
+    # Generate union as a pointer when no fields are documented
+    $code ~= qq:to/EOREC/;
+      {$!grd.pod-header('Union Structure')}
+      # This is an opaque type of which fields are not available.
+      class $class-name \{
+        class $union-class is export is repr\('CPointer');
+      \}
 
-    method COERCE \( \$no --> $structure-name \) \{
-      note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-      nativecast\( $structure-name, \$no\)
-    \}
-    
-    RAKUMOD
+      EOREC
+  }
 
   self.add-import('Gnome::N::X');
-  $code = self.substitute-MODULE-IMPORTS($code);
+  $code = self.substitute-MODULE-IMPORTS(
+    $code, $class-name ~ '::' ~ $union-class
+  );
 
   # Reset to original and add this structure
   $*external-modules = $temp-external-modules;
-  self.add-import($structure-name);
+  self.add-import($class-name ~ '::' ~ $union-class);
 
-  my Str $fname = $h0<structure-filename>;
+
+  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
+  mkdir $cdir, 0o700 unless $cdir.IO.e;
+#  my Str $fname = $h0<structure-filename>;
+  my Str $fname = [~] $cdir, '/', $h0<union-class>, '.rakumod';
+note "$?LINE $fname";
   $fname.IO.spurt($code);
   note "Save union structure in ", $fname.IO.basename;
 }
@@ -1770,15 +1856,19 @@ method add-import ( Str $import --> Bool ) {
     }
   }
 
+#note "$?LINE $import, $*external-modules{$import}";
   $available
 }
 
 #-------------------------------------------------------------------------------
 # Fill in the __MODULE__IMPORTS__ string inserted at the start of the code
 # generation. It is the place where the 'use' statements must come.
-method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
-
+method substitute-MODULE-IMPORTS ( Str $code is copy, *@exclasses --> Str ) {
   note "Set modules to import" if $*verbose;
+
+  # any does not support slurpy args
+  my @exceptclasses := @exclasses;
+
   my $import = '';
   for $*external-modules.kv -> $m, $s {
     $import ~= "use $m;\n" if $s ~~ EMTRakudo;
@@ -1798,7 +1888,7 @@ method substitute-MODULE-IMPORTS ( Str $code is copy --> Str ) {
     }
 
     elsif $*external-modules{$m} ~~ EMTInApi2 {
-      $import ~= "use $m\:api\<2\>;\n";
+      $import ~= "use $m\:api\<2\>;\n" unless $m ~~ any(@exceptclasses);
     }
   }
 
@@ -2051,17 +2141,17 @@ method convert-ntype (
         when 'record' {
 #NOTE add-import creates cyclic dependency -> make it an Object;
           $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<structure-name>);
+          self.add-import($h<class-name>);
           $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
         when 'union' {
 #NOTE add-import creates cyclic dependency -> make it an Object;
 #          $raku-type = "N-$h<gnome-name>";
-#          self.add-import($h<structure-name>);
+#          self.add-import($h<class-name>);
 #          $raku-type = 'N-GObject';
           $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<structure-name>);
+          self.add-import($h<class-name>);
           $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
@@ -2190,7 +2280,7 @@ method convert-rtype (
         }
 
         when 'record' {
-note "$?LINE record $orig-ctype $h.gist()";
+#note "$?LINE record $orig-ctype $h.gist()";
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
           $raku-type = 'N-GObject';

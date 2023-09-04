@@ -76,6 +76,7 @@ method generate-code ( ) {
         $*gnome-class = $record-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
+        # Generate a structure into a 'package-path/N-*.rakumod' file
         $!mod.generate-structure(
           |$!mod.init-xpath(
             'record',
@@ -86,6 +87,7 @@ method generate-code ( ) {
 
         say "\nGenerate Raku record ", $*work-data<raku-class-name>;
 
+        # Generate class methods etc into a 'raku-package/*.rakumod' file
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
         $raku-module.generate-code;
@@ -100,7 +102,7 @@ method generate-code ( ) {
         $!mod.generate-union(
           |$!mod.init-xpath(
             'union',
-            "$*work-data<gir-module-path>U-$*gnome-class.gir";
+            "$*work-data<gir-module-path>U-$*gnome-class.gir"
 #            'gir-union-file'
           )
         );
@@ -119,13 +121,17 @@ method generate-code ( ) {
   for $!filedata.keys {
     # -> $type-name
     next if $_ ~~ any(<class interface record union>);
-#    if $first {
-      once $t-prep .= new;
-#      $first = False;
-#    }
-note "$?LINE $_";
 
+    # Test if gir-type is selected Skip a key if not mentioned on the
+    # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
+
+note "$?LINE $_, ", $!filedata{$_}.values[0];
+    once $t-prep .= new;
+    once $filename = $!filedata{$_}.values[0]<source-filename>.tc;
+    once $class-name = $!filedata{$_}.values()[0]<class-name>;
+    once $!mod.add-import($class-name);
+#exit;
 
     # Only for documentation
     when 'docsection' { }
@@ -135,8 +141,8 @@ note "$?LINE $_";
       for $!filedata<constant>.kv -> $k, $v {
         my Str $name = $t-prep.drop-prefix( $k, :constant);
         @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
-        $filename = $v<module-filename> unless ?$filename;
-        $class-name = $v<class-name> unless ?$class-name;
+#        $filename = $v<type-name> unless ?$filename;
+#        $class-name = $v<class-name> unless ?$class-name;
       }
 
       $c ~= $!mod.generate-constants(@constants);
@@ -146,8 +152,8 @@ note "$?LINE $_";
       my Array $enum-names = [];
       for $!filedata<enumeration>.kv -> $k, $v {
         $enum-names.push: $k;
-        $filename = $v<module-filename> unless ?$filename;
-        $class-name = $v<class-name> unless ?$class-name;
+#        $filename = $v<type-name> unless ?$filename;
+#        $class-name = $v<class-name> unless ?$class-name;
       }
 
       $c ~= $!mod.generate-enumerations-code($enum-names);
@@ -157,8 +163,8 @@ note "$?LINE $_";
       my Array $bitfield-names = [];
       for $!filedata<bitfield>.kv -> $k, $v {
         $bitfield-names.push: $k;
-        $filename = $v<module-filename> unless ?$filename;
-        $class-name = $v<class-name> unless ?$class-name;
+#        $filename = $v<type-name> unless ?$filename;
+#        $class-name = $v<class-name> unless ?$class-name;
       }
 
       $c ~= $!mod.generate-bitfield-code($bitfield-names);
@@ -173,8 +179,8 @@ note "$?LINE $_";
       my Array $function-names = [];
       for $!filedata<function>.kv -> $k, $v {
         $function-names.push: $v<function-name>;
-        $filename = $v<module-filename> unless ?$filename;
-        $class-name = $v<class-name> unless ?$class-name;
+#        $filename = $v<type-name> unless ?$filename;
+#        $class-name = $v<class-name> unless ?$class-name;
       }
 
       my Str $package-name = (S/ \d+ $// with $*gnome-package.Str).lc;
@@ -206,21 +212,21 @@ note "$?LINE $_";
     if $has-functions {
       $code ~= qq:to/RAKUMOD/;
 
-      {$!grd.pod-header('BUILD variables')}
-      # Define helper
-      has Gnome::N::GnomeRoutineCaller \$!routine-caller;
+        {$!grd.pod-header('BUILD variables')}
+        # Define helper
+        has Gnome::N::GnomeRoutineCaller \$!routine-caller;
 
-      {$!grd.pod-header('BUILD submethod')}
-      submethod BUILD ( ) \{
-        # Initialize helper
-        \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
-      }
+        {$!grd.pod-header('BUILD submethod')}
+        submethod BUILD ( ) \{
+          # Initialize helper
+          \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
+        }
 
-      my Hash \$methods = \%\(
-        $function-hash
-      );
+        my Hash \$methods = \%\(
+          $function-hash
+        );
 
-      RAKUMOD
+        RAKUMOD
 
       $code ~= q:to/RAKUMOD/;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
@@ -240,8 +246,9 @@ note "$?LINE $_";
         RAKUMOD
     }
 
-    $code = $!mod.substitute-MODULE-IMPORTS($code);
+    $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
+    $filename = $*work-data<result-mods> ~ $filename ~ '.rakumod';
     note "Save types module in ", $filename.IO.basename;
     $filename.IO.spurt($code);
   }

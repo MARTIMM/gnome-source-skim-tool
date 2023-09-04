@@ -50,7 +50,7 @@ method generate-code ( ) {
     $code ~= $callables;
   }
 
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
+  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
   my Str $fname = "$*work-data<result-mods>$*gnome-class.rakumod";
   note "Save class module in ", $fname.IO.basename;
@@ -118,7 +118,7 @@ method generate-test ( ) {
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
   $code ~= $!tst.generate-test-end;
   $code ~= $!tst.generate-signal-tests($test-variable);
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
+  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
   my Str $fname = $*work-data<result-tests>;
 #  $fname ~~ s@ '/lib/' @/t/@;

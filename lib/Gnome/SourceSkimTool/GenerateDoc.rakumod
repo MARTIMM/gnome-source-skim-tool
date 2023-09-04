@@ -260,7 +260,7 @@ method generate-code ( ) {
         RAKUMOD
     }
 
-#    $code = $!mod.substitute-MODULE-IMPORTS($code);
+#    $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
     note "Save types module in ", $filename.IO.basename;
     $filename.IO.spurt($code);

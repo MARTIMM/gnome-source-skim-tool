@@ -117,15 +117,19 @@ method generate-code ( ) {
       RAKUMOD
   }}
 
-    $code = $!mod.substitute-MODULE-IMPORTS($code);
+    $code = $!mod.substitute-MODULE-IMPORTS(
+      $code, $*work-data<raku-class-name>
+    );
 
-    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+    my Str $ctype = $element.attribs<c:type>;
+    my Hash $h = $!mod.search-name($ctype);
+    my Str $fname = "$*work-data<result-mods>/$h<container-class>.rakumod";
     note "Save union module in ", $fname.IO.basename;
-    "$*work-data<result-path>$*gnome-class.rakumod".IO.spurt($code);
+    $fname.IO.spurt($code);
   }
 
 #  else {
-#    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+#    my Str $fname = "$*work-data<result-mods>$*gnome-class.rakumod";
 #    note "Union module {$fname.IO.basename} is not saved due to lack of routines";
 #  }
 
@@ -216,7 +220,7 @@ method generate-doc ( ) {
     RAKUMOD
 }}
 
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
+  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;

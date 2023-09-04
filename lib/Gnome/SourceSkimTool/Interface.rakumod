@@ -51,9 +51,9 @@ method generate-code ( ) {
     $code ~= $callables;
   }
 
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
+  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
-  my Str $fname = "$*work-data<result-path>R-$*gnome-class.rakumod";
+  my Str $fname = "$*work-data<result-mods>R-$*gnome-class.rakumod";
   note "Save interface module in ", $fname.IO.basename;
   $fname.IO.spurt($code);
 }
@@ -87,11 +87,11 @@ method generate-test ( ) {
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
   $code ~= $!tst.generate-test-end;
   $code ~= $!tst.generate-signal-tests($test-variable);
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
+  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
-  my Str $fname = $*work-data<result-path>;
-  $fname ~~ s@ '/lib/' @/t/@;
-  mkdir $fname, 0o750 unless $fname.IO ~~ :e;
+  my Str $fname = $*work-data<result-tests>;
+#  $fname ~~ s@ '/lib/' @/t/@;
+#  mkdir $fname, 0o750 unless $fname.IO ~~ :e;
   $fname ~= 'R-' ~ $*gnome-class ~ '.rakutest';
   note "Save tests in ", $fname.IO.basename;
   $fname.IO.spurt($code);

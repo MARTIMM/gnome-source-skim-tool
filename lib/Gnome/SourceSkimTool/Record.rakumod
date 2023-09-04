@@ -122,15 +122,19 @@ method generate-code ( ) {
       RAKUMOD
   }}
 
-    $code = $!mod.substitute-MODULE-IMPORTS($code);
+    $code = $!mod.substitute-MODULE-IMPORTS(
+      $code, $*work-data<raku-class-name>
+    );
 
-    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+    my Str $ctype = $element.attribs<c:type>;
+    my Hash $h = $!mod.search-name($ctype);
+    my Str $fname = "$*work-data<result-mods>/$h<container-class>.rakumod";
     note "Save record module in ", $fname.IO.basename;
     $fname.IO.spurt($code);
   }
 
 #  else {
-#    my Str $fname = "$*work-data<result-path>$*gnome-class.rakumod";
+#    my Str $fname = "$*work-data<result-mods>$*gnome-class.rakumod";
 #    note "Record module {$fname.IO.basename} is not saved due to lack of routines";
 #  }
 
@@ -221,7 +225,7 @@ method generate-doc ( ) {
     RAKUMOD
 }}
 
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
+  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
   note "Save module";
   $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;
@@ -236,10 +240,13 @@ method generate-test ( ) {
   $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//record');
-  
-  my Str $class = 'N-' ~ $element.attribs<c:type>;
+
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!mod.search-name($ctype);
+
+  my Str $class = 'N-' ~ $h<gnome-name>;
   my Str $test-variable = '$' ~ $class.lc;
-  my Str $raku-class = $*work-data<raku-package> ~ '::' ~ $class;
+  my Str $raku-class = $h<class-name>;
   $!mod.add-import($raku-class);
   my Str $code = $!tst.prepare-test($raku-class);
 
@@ -256,12 +263,13 @@ method generate-test ( ) {
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
   $code ~= $!tst.generate-test-end;
 #  $code ~= $!tst.generate-signal-tests($test-variable);
-  $code = $!mod.substitute-MODULE-IMPORTS($code);
+  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
-  my Str $fname = $*work-data<result-path>;
-  $fname ~~ s@ '/lib/' @/t/@;
-  mkdir $fname, 0o750 unless $fname.IO ~~ :e;
-  $fname ~= $class ~ '.rakutest';
+  my Str $fname = $*work-data<result-tests> ~ $h<container-class> ~ '.rakutest';
+note "$?LINE $fname";
+#  $fname ~~ s@ '/lib/' @/t/@;
+#  mkdir $fname, 0o750 unless $fname.IO ~~ :e;
+#  $fname ~= $class ~ '.rakutest';
   note "Save tests in ", $fname.IO.basename;
   $fname.IO.spurt($code);
 }
