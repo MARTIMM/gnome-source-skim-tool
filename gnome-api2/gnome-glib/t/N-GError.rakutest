@@ -1,0 +1,77 @@
+# Command to generate: gnome-source-skim-tool.raku -c -t Glib error
+
+#TL:1:Gnome::Glib::Error::N-GError:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+
+
+#use Gnome::Glib::Error::N-GError:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test init]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Glib::Error::N-GError $n-gerror;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  #TB:1:new( :(…), :code(…), :format(…), :...(…))
+  #$n-gerror .= new( :(…), :code(…), :format(…), :...(…));
+  #ok $n-gerror.is-valid, '.new( :(…), :code(…), :format(…), :...(…))';
+
+  #TB:1:new( :literal(…), :code(…), :message(…))
+  #$n-gerror .= new( :literal(…), :code(…), :message(…));
+  #ok $n-gerror.is-valid, '.new( :literal(…), :code(…), :message(…))';
+
+  #TB:1:new( :valist(…), :code(…), :format(…), :args(…))
+  #$n-gerror .= new( :valist(…), :code(…), :format(…), :args(…));
+  #ok $n-gerror.is-valid, '.new( :valist(…), :code(…), :format(…), :args(…))';
+
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-gerror {
+    my Int() $code;
+    my UInt $domain;
+
+
+#`{{
+    #TB:0:matches()
+    ok .matches( $domain, $code), '.matches()';
+
+    #TB:0:free()
+    ok .free(), '.free()';
+
+    #TB:0:copy()
+    ok .copy(), '.copy()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
