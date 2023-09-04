@@ -22,7 +22,6 @@ TODO type changes
   Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
   Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
 
-TODO variable argument lists. note that those functions must be saved with extra info to prevent calling functions with different number of arguments.
 TODO better BUILD generation
 TODO Process constants and alias
 TODO Generate doc. Review for class new for interface, record and union
@@ -32,6 +31,9 @@ TODO Find out if :api<2> is a good enough separation from the old packages
 * See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
 * https://docs.raku.org/language/compilation#$*REPO
 
+TODO Prevent overwriting of test files. They may be changed a lot after generation
+
+TODO investigate using constructors directly instead of using BUILD with options
 -->
 
 <!-- Testing command with timing -o for dump to file
