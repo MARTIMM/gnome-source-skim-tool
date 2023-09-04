@@ -1614,7 +1614,6 @@ method generate-structure (
 
   my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
   mkdir $cdir, 0o700 unless $cdir.IO.e;
-#  my Str $fname = $h0<structure-filename>;
   my Str $fname = [~] $cdir, '/', $h0<record-class>, '.rakumod';
 note "$?LINE $fname";
   $fname.IO.spurt($code);
@@ -1759,7 +1758,6 @@ method generate-union (
 
   my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
   mkdir $cdir, 0o700 unless $cdir.IO.e;
-#  my Str $fname = $h0<structure-filename>;
   my Str $fname = [~] $cdir, '/', $h0<union-class>, '.rakumod';
 note "$?LINE $fname";
   $fname.IO.spurt($code);
@@ -2501,7 +2499,30 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
   }
 }
 
+#-------------------------------------------------------------------------------
+method save-file ( Str $filename, Str $content ) {
 
+  if $*generate-code or $*generate-doc {
+    my Str $a;
+    if $filename.IO.e {
+      $a = prompt "Do you want to overwrite {$filename.IO.basename}? [N, y] > ";
+      $filename.IO.spurt($content) if $a.lc eq'y';
+      note "Save record structure in ",$filename .IO.basename;
+    }
 
+    else {
+      $filename.IO.spurt($content);
+      note "Save record structure in ",$filename .IO.basename;
+    }
+  }
 
+  if $*generate-test and $filename.IO.e {
+    note "Test files are never overwritten because of work after generation";
+  }
+
+  else {
+    $filename.IO.spurt($content);
+    note "Save record structure in ",$filename .IO.basename;
+  }
+}
 
