@@ -9,8 +9,11 @@ my Hash $list = %();
 my Str $api1 = $*HOME ~ '/Languages/Raku/Projects';
 my Str $api2 = [~] $api1, '/gnome-source-skim-tool/gnome-api2/';
 
+my ExternalModuleType $mod-type;
+
+#`{{
 # Old packages
-my ExternalModuleType $mod-type = EMTNotInApi2;
+$mod-type = EMTNotInApi2;
 list-dir("$api1/gnome-gtk3/lib");
 list-dir("$api1/gnome-gdk3/lib");
 list-dir("$api1/gnome-glib/lib");
@@ -20,7 +23,7 @@ list-dir("$api1/gnome-native/lib");
 list-dir("$api1/gnome-cairo/lib");
 list-dir("$api1/gnome-pango/lib");
 #list-dir("$api1/gnome-/lib");
-
+}}
 
 # New packages
 $mod-type = EMTInApi2;
