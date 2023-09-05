@@ -375,7 +375,7 @@ method !map-element (
   $gnome-name = $ctype;
   $symbol-prefix = [~] $symbol-prefix, '_', $attrs<c:symbol-prefix> // '', '_';
   $symbol-prefix ~~ s/^ 'g,glib' /g/;
-note "$?LINE $symbol-prefix";
+#note "$?LINE $symbol-prefix";
 
   # Gather data depending on the tag type
   given $element.name {
