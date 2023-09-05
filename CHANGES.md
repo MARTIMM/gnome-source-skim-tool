@@ -34,6 +34,7 @@ TODO Find out if :api<2> is a good enough separation from the old packages
 TODO Prevent overwriting of test files. They may be changed a lot after generation
 
 TODO investigate using constructors directly instead of using BUILD with options
+TODO Generate META6 files of api2 projects
 -->
 
 <!-- Testing command with timing -o for dump to file
