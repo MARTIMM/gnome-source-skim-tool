@@ -249,8 +249,7 @@ note "$?LINE $_, ", $!filedata{$_}.values[0];
     $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
     $filename = $*work-data<result-mods> ~ $filename ~ '.rakumod';
-    note "Save types module in ", $filename.IO.basename;
-    $filename.IO.spurt($code);
+    $!mod.save-file( $filename, $code, "types module");
   }
 }
 

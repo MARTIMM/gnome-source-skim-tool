@@ -121,6 +121,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
+note "$?LINE $_, $!filedata{$_}";
     once $t-prep .= new;
     once $filename = $!filedata{$_}<source-filename>.tc;
     once $class-name = $!filedata{$_}<class-name>;
@@ -261,10 +262,7 @@ note "$?LINE $filename";
 
     $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
-    note "Save types tests in ", $filename.IO.basename;
-    $filename.IO.spurt($code);
-
-#note "\n$?LINE\n$code";
+    $!mod.save-file( $filename, $code, "types tests");
   }
 }
 

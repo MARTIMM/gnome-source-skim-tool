@@ -129,8 +129,7 @@ method generate-code ( ) {
     my Str $ctype = $element.attribs<c:type>;
     my Hash $h = $!mod.search-name($ctype);
     my Str $fname = "$*work-data<result-mods>/$h<container-class>.rakumod";
-    note "Save record module in ", $fname.IO.basename;
-    $fname.IO.spurt($code);
+    $!mod.save-file( $fname, $code, "record module");
   }
 
 #  else {
@@ -266,10 +265,5 @@ method generate-test ( ) {
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
   my Str $fname = $*work-data<result-tests> ~ $h<container-class> ~ '.rakutest';
-note "$?LINE $fname";
-#  $fname ~~ s@ '/lib/' @/t/@;
-#  mkdir $fname, 0o750 unless $fname.IO ~~ :e;
-#  $fname ~= $class ~ '.rakutest';
-  note "Save tests in ", $fname.IO.basename;
-  $fname.IO.spurt($code);
+  $!mod.save-file( $fname, $code, "record tests");
 }

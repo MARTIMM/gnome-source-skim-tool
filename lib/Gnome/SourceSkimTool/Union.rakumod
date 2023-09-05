@@ -124,8 +124,7 @@ method generate-code ( ) {
     my Str $ctype = $element.attribs<c:type>;
     my Hash $h = $!mod.search-name($ctype);
     my Str $fname = "$*work-data<result-mods>/$h<container-class>.rakumod";
-    note "Save union module in ", $fname.IO.basename;
-    $fname.IO.spurt($code);
+    $!mod.save-file( $fname, $code, "union module");
   }
 
 #  else {
