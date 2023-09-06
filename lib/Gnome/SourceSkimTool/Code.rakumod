@@ -1612,9 +1612,11 @@ method generate-structure (
   $*external-modules = $temp-external-modules;
   self.add-import($class-name ~ '::' ~ $record-class);
 
-  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
-  mkdir $cdir, 0o700 unless $cdir.IO.e;
-  my Str $fname = [~] $cdir, '/', $h0<record-class>, '.rakumod';
+#  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
+#  mkdir $cdir, 0o700 unless $cdir.IO.e;
+#  my Str $fname = [~] $cdir, '/', $h0<record-class>, '.rakumod';
+  my Str $fname =
+     [~] $*work-data<result-mods>, '/', $h0<record-class>, '.rakumod';
   self.save-file( $fname, $code, "record structure");
 }
 
@@ -1754,9 +1756,11 @@ method generate-union (
   self.add-import($class-name ~ '::' ~ $union-class);
 
 
-  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
-  mkdir $cdir, 0o700 unless $cdir.IO.e;
-  my Str $fname = [~] $cdir, '/', $h0<union-class>, '.rakumod';
+#  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
+#  mkdir $cdir, 0o700 unless $cdir.IO.e;
+#  my Str $fname = [~] $cdir, '/', $h0<union-class>, '.rakumod';
+  my Str $fname =
+     [~] $*work-data<result-mods>, '/', $h0<union-class>, '.rakumod';
   self.save-file( $fname, $code, "union structure");
 }
 

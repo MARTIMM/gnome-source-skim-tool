@@ -58,7 +58,7 @@ method generate-test ( ) {
       for $!filedata<class>.keys -> $class-name {
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-#$prepare.display-hash( $*work-data, :label('class work data'));
+$prepare.display-hash( $*work-data, :label('class work data'));
 
         say "\nGenerate Tests for Raku class ", $*work-data<raku-class-name>;
 
@@ -72,7 +72,7 @@ method generate-test ( ) {
      for $!filedata<interface>.keys -> $interface-name {
         $*gnome-class = $!filedata<interface>{$interface-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-#$prepare.display-hash( $*work-data, :label<interface work data>);
+$prepare.display-hash( $*work-data, :label<interface work data>);
 
         say "\nGenerate Tests for Raku role ", $*work-data<raku-class-name>;
 
@@ -112,7 +112,7 @@ $prepare.display-hash( $*work-data, :label<union work data>);
   }
 
   # Other types than handled above are gathered into one test file
-  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
+#  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
   for $!filedata.keys {
     # -> $type-name
     next if $_ ~~ any(<class interface record union>);
@@ -121,11 +121,14 @@ $prepare.display-hash( $*work-data, :label<union work data>);
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
-note "$?LINE $_, $!filedata{$_}";
-    once $t-prep .= new;
-    once $filename = $!filedata{$_}<source-filename>.tc;
-    once $class-name = $!filedata{$_}<class-name>;
+note "$?LINE $_, $!filedata{$_}.gist()";
+#    once $t-prep .= new;
+    once $filename = [~] $*work-data<result-tests>,
+                     $!filedata{$_}.values[0]<type-name>, '.rakutest';
+    once $class-name = $!filedata{$_}.values[0]<class-name>;
     once $!mod.add-import($class-name);
+note "$?LINE $_, $filename, $class-name";
+
 
     # Only for documentation
     when 'docsection' { }
@@ -133,7 +136,7 @@ note "$?LINE $_, $!filedata{$_}";
     when 'constant' {
       my @constants = ();
       for $!filedata<constant>.kv -> $k, $v {
-        my Str $name = $t-prep.drop-prefix( $k, :constant);
+        my Str $name = $k; #$t-prep.drop-prefix( $k, :constant);
         @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
 #        $filename = $v<type-name> unless ?$filename;
 #        unless ?$class-name {
@@ -164,7 +167,7 @@ note "$?LINE $_, $!filedata{$_}";
     when 'bitfield' {
       my Array $bitfield-names = [];
       for $!filedata<bitfield>.kv -> $k, $v {
-        $bitfield-names.push: $t-prep.drop-prefix($k);
+        $bitfield-names.push: $k; #$t-prep.drop-prefix($k);
 #        $filename = $v<type-name> unless ?$filename;
 #        unless ?$class-name {
 #          $class-name = $v<class-name>;
@@ -197,6 +200,7 @@ note "$?LINE $_, $!filedata{$_}";
       $*work-data<sub-prefix> = $package-name.lc ~ '_';
 
       my Hash $hms = $!mod.get-standalone-functions($function-names);
+note "$?LINE $class-name $test-variable";
       $c ~= "\nmy $class-name $test-variable .= new;\n";
       $c ~= $!tst.generate-method-tests( $hms, $test-variable);
 #      $c ~= $!tst.generate-function-tests( $class-name, $hms);
@@ -205,7 +209,7 @@ note "$?LINE $_, $!filedata{$_}";
 
   if ?$c and ?$class-name and ?$filename {
 #    $filename ~~ s@ '/lib/' @/t/@;
-    $filename = $*work-data<result-tests> ~ $filename ~ '.rakutest';
+#    $filename = $*work-data<result-tests> ~ $filename ~ '.rakutest';
 note "$?LINE $filename";
 
 #    mkdir( $filename.IO.dirname, 0o750) unless $filename.IO.dirname.IO ~~ :e;

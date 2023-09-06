@@ -126,12 +126,12 @@ method generate-code ( ) {
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
-note "$?LINE $_, ", $!filedata{$_}.values[0];
+#note "$?LINE $_, ", $!filedata{$_}.values[0];
     once $t-prep .= new;
-    once $filename = $!filedata{$_}.values[0]<source-filename>.tc;
+    once $filename = [~] $*work-data<result-mods>,
+                     $!filedata{$_}.values[0]<type-name>, '.rakumod';
     once $class-name = $!filedata{$_}.values[0]<class-name>;
     once $!mod.add-import($class-name);
-#exit;
 
     # Only for documentation
     when 'docsection' { }
@@ -198,8 +198,10 @@ note "$?LINE $_, ", $!filedata{$_}.values[0];
   }
 
 #TL:1:$*work-data<raku-class-name>:
+#note "$?LINE $class-name, $filename";
+
   if ?$class-name and ?$filename {
-    mkdir $filename.IO.dirname, 0o750 unless $filename.IO.dirname.IO ~~ :e;
+#    mkdir $filename.IO.dirname, 0o750 unless $filename.IO.dirname.IO ~~ :e;
 
     my Str $code = qq:to/RAKUMOD/;
       # Command to generate: $*command-line
@@ -248,7 +250,7 @@ note "$?LINE $_, ", $!filedata{$_}.values[0];
 
     $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
-    $filename = $*work-data<result-mods> ~ $filename ~ '.rakumod';
+#    $filename = $*work-data<result-mods> ~ $filename ~ '.rakumod';
     $!mod.save-file( $filename, $code, "types module");
   }
 }
