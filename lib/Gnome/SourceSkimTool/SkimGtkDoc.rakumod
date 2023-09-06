@@ -16,6 +16,8 @@ has Hash $!map;
 has Hash $!other;
 has XML::XPath $!xp;
 
+has Hash $!fname-class;
+
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
@@ -31,6 +33,8 @@ submethod BUILD ( ) {
     :docsection([]),
 #    :interface([]),
   );
+
+  $!fname-class = %();
 
   $!mod .= new; #(:$!xpath);
 }
@@ -386,6 +390,7 @@ method !map-element (
 
       $class-name = $*work-data<raku-package> ~ '::' ~ $attrs<name>;
       $module-filename = "$*work-data<result-mods>$attrs<name>.rakumod";
+      self!map-class-to-fname( $source-filename, $attrs<name>);
 
       my @roles = ();
       for $!xp.find( 'implements', :start($element), :to-list) -> $ie {
@@ -426,6 +431,7 @@ method !map-element (
 
       $class-name = $*work-data<raku-package> ~ '::R-' ~ $attrs<name>;
       $module-filename = "$*work-data<result-mods>R-$attrs<name>.rakumod";
+      self!map-class-to-fname( $source-filename, $attrs<name>);
 
       $!map{$ctype} = %(
         :gir-type<interface>,
@@ -517,7 +523,10 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
+      my Str $type-name = $*work-data<gnome-name>;
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $type-name ~~ s:i/^ $name-prefix //;
+      $type-name = 'T-' ~ $type-name;
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -551,7 +560,10 @@ method !map-element (
         }
       }
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
+      my Str $type-name = $*work-data<gnome-name>;
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $type-name ~~ s:i/^ $name-prefix //;
+      $type-name = 'T-' ~ $type-name;
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -574,7 +586,10 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
+      my Str $type-name = $*work-data<gnome-name>;
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $type-name ~~ s:i/^ $name-prefix //;
+      $type-name = 'T-' ~ $type-name;
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -594,7 +609,10 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
+      my Str $type-name = $*work-data<gnome-name>;
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $type-name ~~ s:i/^ $name-prefix //;
+      $type-name = 'T-' ~ $type-name;
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -839,6 +857,13 @@ method load-map (
 
   else {
     %()
+  }
+}
+
+#-------------------------------------------------------------------------------
+method !map-class-to-fname ( $filename, $class-name ) {
+  unless $!fname-class{$filename}:exists {
+    $!fname-class{$filename} = $class-name;
   }
 }
 
