@@ -1,4 +1,4 @@
-# Command to generate: gnome-source-skim-tool.raku -c -t -v Gtk3 aboutdialog
+# Command to generate: gnome-source-skim-tool.raku -c -v Gtk3 aboutdialog
 use v6;
 
 #-------------------------------------------------------------------------------
