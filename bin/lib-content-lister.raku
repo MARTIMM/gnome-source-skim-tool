@@ -27,14 +27,14 @@ list-dir("$api1/gnome-pango/lib");
 
 # New packages
 $mod-type = EMTInApi2;
-#list-dir("$api2/gnome-gtk3/lib");
-#list-dir("$api2/gnome-gdk3/lib");
+list-dir("$api2/gnome-gtk3/lib");
+list-dir("$api2/gnome-gdk3/lib");
 list-dir("$api2/gnome-glib/lib");
-#list-dir("$api2/gnome-gobject/lib");
-#list-dir("$api2/gnome-gio/lib");
+list-dir("$api2/gnome-gobject/lib");
+list-dir("$api2/gnome-gio/lib");
 list-dir("$api2/gnome-native/lib");
-#list-dir("$api2/gnome-cairo/lib");
-#list-dir("$api2/gnome-pango/lib");
+list-dir("$api2/gnome-cairo/lib");
+list-dir("$api2/gnome-pango/lib");
 
 #list-dir('xt/NewRakuModules/lib/Gnome");
 #list-dir('xt/Gir/lib/Gnome");
@@ -46,6 +46,7 @@ lib-content-list-file.IO.spurt(save-yaml($list));
 sub list-dir ( Str $cdir ) {
   # Skip all hidden directories like .precomp
   return if $cdir ~~ m/^ '.' /;
+  return unless $cdir.IO.d;
 
   for dir($cdir) -> $f {
     # Recurse into directory
