@@ -129,7 +129,7 @@ method generate-code ( ) {
 note "$?LINE $_, ", $!filedata{$_}.values[0];
     once $t-prep .= new;
     once $filename = $!filedata{$_}.values[0]<source-filename>.tc;
-    once $class-name = $!filedata{$_}.values()[0]<class-name>;
+    once $class-name = $!filedata{$_}.values[0]<class-name>;
     once $!mod.add-import($class-name);
 #exit;
 
