@@ -1,0 +1,69 @@
+# Command to generate: gnome-source-skim-tool.raku -c -t Glib error
+
+#TL:1:Gnome::Glib::T-Error:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+
+use Gnome::N::N-GObject;
+use Gnome::N::GlibToRakuTypes;
+use Gnome::N::NativeLib;
+use Gnome::N::X;
+
+use Gnome::Glib::T-Error:api<2>;
+
+
+
+
+my Gnome::Glib::T-Error $error .= new;
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $error {
+    my Str $message;
+    my Str $format;
+    my N-GObject $src;
+    my Str $prefix;
+    my … $...;
+    my GQuark $domain;
+    my gint $code;
+
+
+#`{{
+    #TB:0:set-error-literal()
+    $domain = '…';
+    $code = '…';
+    $message = 'text';
+    lives-ok { .set-error-literal( $domain, $code, $message); }, '.set-error-literal()';
+    #TB:0:set-error()
+    $domain = '…';
+    $code = '…';
+    $format = 'text';
+    $... = '…';
+    lives-ok { .set-error( $domain, $code, $format, $...); }, '.set-error()';
+    #TB:0:propagate-prefixed-error()
+    ok .propagate-prefixed-error( $src, $format, $...), '.propagate-prefixed-error()';
+
+    #TB:0:propagate-error()
+    ok .propagate-error( $src), '.propagate-error()';
+
+    #TB:0:prefix-error-literal()
+    ok .prefix-error-literal( $prefix), '.prefix-error-literal()';
+
+    #TB:0:prefix-error()
+    ok .prefix-error( $format, $...), '.prefix-error()';
+
+    #TB:0:clear-error()
+    ok .clear-error(), '.clear-error()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
