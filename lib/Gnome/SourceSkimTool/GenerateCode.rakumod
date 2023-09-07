@@ -128,13 +128,16 @@ method generate-code ( ) {
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my $data = $!filedata{$gir-type}.values[0];
-note "$?LINE $gir-type, ", $data.gist;
+#note "$?LINE $gir-type, ", $data.gist;
 
     once $t-prep .= new;
-    $filename = [~] $*work-data<result-mods>, $data<type-name>, '.rakumod';
+    my Str $type-name = $data<type-name>;
+    my Str $prefix = $*work-data<name-prefix>;
+    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
+    $filename = [~] $*work-data<result-mods>, $type-name, '.rakumod';
     $class-name = $data<class-name>;
     $!mod.add-import($class-name);
-note "$?LINE $gir-type, $data<type-name>, $data<class-name>, $filename, $class-name";
+#note "$?LINE $gir-type, $filename, $class-name";
 
     given $gir-type {
       when 'constant' {

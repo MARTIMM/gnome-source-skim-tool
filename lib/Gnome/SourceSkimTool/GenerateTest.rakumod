@@ -58,7 +58,7 @@ method generate-test ( ) {
       for $!filedata<class>.keys -> $class-name {
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-$prepare.display-hash( $*work-data, :label('class work data'));
+#$prepare.display-hash( $*work-data, :label('class work data'));
 
         say "\nGenerate Tests for Raku class ", $*work-data<raku-class-name>;
 
@@ -72,7 +72,7 @@ $prepare.display-hash( $*work-data, :label('class work data'));
      for $!filedata<interface>.keys -> $interface-name {
         $*gnome-class = $!filedata<interface>{$interface-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-$prepare.display-hash( $*work-data, :label<interface work data>);
+#$prepare.display-hash( $*work-data, :label<interface work data>);
 
         say "\nGenerate Tests for Raku role ", $*work-data<raku-class-name>;
 
@@ -86,7 +86,7 @@ $prepare.display-hash( $*work-data, :label<interface work data>);
       for $!filedata<record>.keys -> $record-name {
         $*gnome-class = $record-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-$prepare.display-hash( $*work-data, :label<record work data>);
+#$prepare.display-hash( $*work-data, :label<record work data>);
 #`{{TODO
         # Generate a structure tests for 'package-path/N-*.rakumod' file
         $!tst.generate-structure-tests(
@@ -108,7 +108,7 @@ $prepare.display-hash( $*work-data, :label<record work data>);
       for $!filedata<union>.keys -> $union-name {
         $*gnome-class = $union-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-$prepare.display-hash( $*work-data, :label<union work data>);
+#$prepare.display-hash( $*work-data, :label<union work data>);
 
 #`{{TODO
         # Generate a union into a 'package-path/N-*.rakumod' file
@@ -122,9 +122,9 @@ $prepare.display-hash( $*work-data, :label<union work data>);
 }}
         say "\nGenerate Raku union tests ", $*work-data<raku-class-name>;
 
-#        require ::('Gnome::SourceSkimTool::Union');
-#        my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
-#        $raku-module.generate-test;
+        require ::('Gnome::SourceSkimTool::Union');
+        my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
+        $raku-module.generate-test;
       }
     }
   }
@@ -142,12 +142,22 @@ $prepare.display-hash( $*work-data, :label<union work data>);
     # Skip for the moment
 
     my $data = $!filedata{$gir-type}.values[0];
-note "$?LINE $gir-type, ", $data.gist;
+#note "$?LINE $gir-type, ", $data.gist;
     once $t-prep .= new;
-    $filename = [~] $*work-data<result-tests>, $data<type-name>, '.rakutest';
+    my Str $type-name = $data<type-name>;
+    my Str $prefix = $*work-data<name-prefix>;
+    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
+    $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
     $class-name = $data<class-name>;
     $!mod.add-import($class-name);
-note "$?LINE $gir-type, $data<type-name>, $data<class-name>, $filename, $class-name";
+#note "$?LINE $gir-type, $filename, $class-name";
+
+    if $filename.IO.e {
+      say HLSEPARATOR;
+      say "Test files are never overwritten because of work after generation";
+      say HLSEPARATOR;
+      next;
+    }
 
     given $gir-type {
       when 'callback' {
@@ -224,7 +234,7 @@ note "$?LINE $gir-type, $data<type-name>, $data<class-name>, $filename, $class-n
         $*work-data<sub-prefix> = $package-name.lc ~ '_';
 
         my Hash $hms = $!mod.get-standalone-functions($function-names);
-  note "$?LINE $class-name $test-variable";
+#note "$?LINE $class-name $test-variable";
         $c ~= "\nmy $class-name $test-variable .= new;\n";
         $c ~= $!tst.generate-method-tests( $hms, $test-variable);
   #      $c ~= $!tst.generate-function-tests( $class-name, $hms);
@@ -239,7 +249,7 @@ note "$?LINE $gir-type, $data<type-name>, $data<class-name>, $filename, $class-n
   if ?$c and ?$class-name and ?$filename {
 #    $filename ~~ s@ '/lib/' @/t/@;
 #    $filename = $*work-data<result-tests> ~ $filename ~ '.rakutest';
-note "$?LINE $filename";
+#note "$?LINE $filename";
 
 #    mkdir( $filename.IO.dirname, 0o750) unless $filename.IO.dirname.IO ~~ :e;
     my Str $code = qq:to/RAKUMOD/;

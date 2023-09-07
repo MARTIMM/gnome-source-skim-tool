@@ -2502,7 +2502,7 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 #-------------------------------------------------------------------------------
 #TODO add file locking list? or overwrite option?
 method save-file ( Str $filename, Str $content, Str $comment ) {
-note "$?LINE $filename";
+#note "$?LINE $filename";
   say HLSEPARATOR;
 
   my Bool $save-it = False;
