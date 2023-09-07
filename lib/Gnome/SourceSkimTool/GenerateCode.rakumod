@@ -99,6 +99,7 @@ method generate-code ( ) {
         $*gnome-class = $union-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
+        # Generate a union into a 'package-path/N-*.rakumod' file
         $!mod.generate-union(
           |$!mod.init-xpath(
             'union',
