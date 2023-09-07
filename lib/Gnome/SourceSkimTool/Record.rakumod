@@ -239,11 +239,22 @@ method generate-doc ( ) {
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
 
+  my Str $ctype = $*work-data<gnome-name>;
+  my Str $prefix = $*work-data<name-prefix>;
+  $ctype ~~ s:i/^ $prefix //;
+  my Str $fname = "$*work-data<result-tests>/$ctype.rakutest";
+  if $fname.IO.e {
+    say HLSEPARATOR;
+    say "Test files are never overwritten because of work after generation";
+    say HLSEPARATOR;
+    return;
+  }
+
   $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//record');
 
-  my Str $ctype = $element.attribs<c:type>;
+  $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
 
   my Str $class = 'N-' ~ $h<gnome-name>;
@@ -267,10 +278,5 @@ method generate-test ( ) {
 #  $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
-
-  my Str $ctype = $*work-data<gnome-name>;
-  my Str $prefix = $*work-data<name-prefix>;
-  $ctype ~~ s:i/^ $prefix //;
-  my Str $fname = "$*work-data<result-tests>/$ctype.rakutest";
   $!mod.save-file( $fname, $code, "record tests");
 }
