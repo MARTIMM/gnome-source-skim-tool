@@ -2,6 +2,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
+use Gnome::SourceSkimTool::Test;
 
 use XML;
 use XML::XPath;
@@ -12,6 +13,7 @@ unit class Gnome::SourceSkimTool::Union:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
+has Gnome::SourceSkimTool::Test $!tst;
 
 has XML::XPath $!xpath;
 
@@ -121,9 +123,13 @@ method generate-code ( ) {
       $code, $*work-data<raku-class-name>
     );
 
-    my Str $ctype = $element.attribs<c:type>;
-    my Hash $h = $!mod.search-name($ctype);
-    my Str $fname = "$*work-data<result-mods>/$h<container-class>.rakumod";
+#    my Str $ctype = $element.attribs<c:type>;
+#    my Hash $h = $!mod.search-name($ctype);
+
+    my Str $ctype = $*work-data<gnome-name>;
+    my Str $prefix = $*work-data<name-prefix>;
+    $ctype ~~ s:i/^ $prefix //;
+    my Str $fname = "$*work-data<result-mods>/$ctype.rakumod";
     $!mod.save-file( $fname, $code, "union module");
   }
 
@@ -231,4 +237,44 @@ method generate-doc ( ) {
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
 
+  my Str $ctype = $*work-data<gnome-name>;
+  my Str $prefix = $*work-data<name-prefix>;
+  $ctype ~~ s:i/^ $prefix //;
+  my Str $fname = "$*work-data<result-tests>/$ctype.rakutest";
+  if $fname.IO.e {
+    say HLSEPARATOR;
+    say "Test files are never overwritten because of work after generation";
+    say HLSEPARATOR;
+    return;
+  }
+
+  $!tst .= new;
+
+  my XML::Element $element = $!xpath.find('//union');
+
+  $ctype = $element.attribs<c:type>;
+  my Hash $h = $!mod.search-name($ctype);
+
+  my Str $class = 'N-' ~ $h<gnome-name>;
+  my Str $test-variable = '$' ~ $class.lc;
+  my Str $raku-class = $h<class-name>;
+  $!mod.add-import($raku-class);
+  my Str $code = $!tst.prepare-test($raku-class);
+
+  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+#note "$?LINE $hcs.gist()";
+  $code ~= $!tst.generate-init-tests(
+    $test-variable, 'Class init tests', $hcs, :test-class($raku-class)
+  );
+
+  $code ~= $!tst.generate-test-separator;
+#  $code ~= $!tst.generate-inheritance-tests( $element, $test-variable);
+
+  $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
+  $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
+  $code ~= $!tst.generate-test-end;
+#  $code ~= $!tst.generate-signal-tests($test-variable);
+  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
+
+  $!mod.save-file( $fname, $code, "record tests");
 }
