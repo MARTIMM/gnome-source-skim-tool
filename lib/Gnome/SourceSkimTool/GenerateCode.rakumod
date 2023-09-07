@@ -118,82 +118,86 @@ method generate-code ( ) {
 
 #  my Bool $first = True;
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
-  for $!filedata.keys {
-    # -> $type-name
-    next if $_ ~~ any(<class interface record union>);
+  for $!filedata.keys -> $gir-type {
+    next if $gir-type ~~ any(<class interface record union>);
+    next if $gir-type ~~ any(<callback alias function-macro>);
 
     # Test if gir-type is selected Skip a key if not mentioned on the
     # commandline or just do it when there is no preference
-    next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
+    next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
-#note "$?LINE $_, ", $!filedata{$_}.values[0];
+    my $data = $!filedata{$gir-type}.values[0];
+note "$?LINE $gir-type, ", $data.gist;
+
     once $t-prep .= new;
-    once $filename = [~] $*work-data<result-mods>,
-                     $!filedata{$_}.values[0]<type-name>, '.rakumod';
-    once $class-name = $!filedata{$_}.values[0]<class-name>;
-    once $!mod.add-import($class-name);
+    $filename = [~] $*work-data<result-mods>, $data<type-name>, '.rakumod';
+    $class-name = $data<class-name>;
+    $!mod.add-import($class-name);
+note "$?LINE $gir-type, $data<type-name>, $data<class-name>, $filename, $class-name";
 
-    # Only for documentation
-    when 'docsection' { }
+    given $gir-type {
+      when 'constant' {
+        my @constants = ();
+        for $!filedata<constant>.kv -> $k, $v {
+          my Str $name = $t-prep.drop-prefix( $k, :constant);
+          @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
+  #        $filename = $v<type-name> unless ?$filename;
+  #        $class-name = $v<class-name> unless ?$class-name;
+        }
 
-    when 'constant' {
-      my @constants = ();
-      for $!filedata<constant>.kv -> $k, $v {
-        my Str $name = $t-prep.drop-prefix( $k, :constant);
-        @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
-#        $filename = $v<type-name> unless ?$filename;
-#        $class-name = $v<class-name> unless ?$class-name;
+        $c ~= $!mod.generate-constants(@constants);
       }
 
-      $c ~= $!mod.generate-constants(@constants);
-    }
+      # Only for documentation
+      when 'docsection' { }
 
-    when 'enumeration' {
-      my Array $enum-names = [];
-      for $!filedata<enumeration>.kv -> $k, $v {
-        $enum-names.push: $k;
-#        $filename = $v<type-name> unless ?$filename;
-#        $class-name = $v<class-name> unless ?$class-name;
+      when 'enumeration' {
+        my Array $enum-names = [];
+        for $!filedata<enumeration>.kv -> $k, $v {
+          $enum-names.push: $k;
+  #        $filename = $v<type-name> unless ?$filename;
+  #        $class-name = $v<class-name> unless ?$class-name;
+        }
+
+        $c ~= $!mod.generate-enumerations-code($enum-names);
       }
 
-      $c ~= $!mod.generate-enumerations-code($enum-names);
-    }
+      when 'bitfield' {
+        my Array $bitfield-names = [];
+        for $!filedata<bitfield>.kv -> $k, $v {
+          $bitfield-names.push: $k;
+  #        $filename = $v<type-name> unless ?$filename;
+  #        $class-name = $v<class-name> unless ?$class-name;
+        }
 
-    when 'bitfield' {
-      my Array $bitfield-names = [];
-      for $!filedata<bitfield>.kv -> $k, $v {
-        $bitfield-names.push: $k;
-#        $filename = $v<type-name> unless ?$filename;
-#        $class-name = $v<class-name> unless ?$class-name;
+        $c ~= $!mod.generate-bitfield-code($bitfield-names);
       }
 
-      $c ~= $!mod.generate-bitfield-code($bitfield-names);
-    }
-
-    when 'callback' {
-      
-    }
-
-    when 'function' {
-      $has-functions = True;
-      my Array $function-names = [];
-      for $!filedata<function>.kv -> $k, $v {
-        $function-names.push: $v<function-name>;
-#        $filename = $v<type-name> unless ?$filename;
-#        $class-name = $v<class-name> unless ?$class-name;
+      when 'callback' {
+        
       }
 
-      my Str $package-name = (S/ \d+ $// with $*gnome-package.Str).lc;
-      $*work-data<sub-prefix> = $package-name ~~ any(<glib gio>)
-                                ?? 'g_' !! $package-name ~ '_';
-#note "$?LINE f $package-name $*work-data<sub-prefix>";
+      when 'function' {
+        $has-functions = True;
+        my Array $function-names = [];
+        for $!filedata<function>.kv -> $k, $v {
+          $function-names.push: $v<function-name>;
+  #        $filename = $v<type-name> unless ?$filename;
+  #        $class-name = $v<class-name> unless ?$class-name;
+        }
 
-      my Hash $hms = $!mod.get-standalone-functions($function-names);
-      $function-hash = $!mod.generate-functions($hms);
-    }
+        my Str $package-name = (S/ \d+ $// with $*gnome-package.Str).lc;
+        $*work-data<sub-prefix> = $package-name ~~ any(<glib gio>)
+                                  ?? 'g_' !! $package-name ~ '_';
+  #note "$?LINE f $package-name $*work-data<sub-prefix>";
 
-    when 'alias' {
-      
+        my Hash $hms = $!mod.get-standalone-functions($function-names);
+        $function-hash = $!mod.generate-functions($hms);
+      }
+
+      when 'alias' {
+        
+      }
     }
   }
 

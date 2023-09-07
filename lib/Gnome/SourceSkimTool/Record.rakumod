@@ -126,9 +126,12 @@ method generate-code ( ) {
       $code, $*work-data<raku-class-name>
     );
 
-    my Str $ctype = $element.attribs<c:type>;
-    my Hash $h = $!mod.search-name($ctype);
-    my Str $fname = "$*work-data<result-mods>/$h<container-class>.rakumod";
+    my Str $ctype = $*work-data<gnome-name>;
+    my Str $prefix = $*work-data<name-prefix>;
+    $ctype ~~ s:i/^ $prefix //;
+#    my Hash $h = $!mod.search-name($ctype);
+#note "$?LINE $h.gist()";
+    my Str $fname = "$*work-data<result-mods>/$ctype.rakumod";
     $!mod.save-file( $fname, $code, "record module");
   }
 
@@ -264,6 +267,10 @@ method generate-test ( ) {
 #  $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
-  my Str $fname = $*work-data<result-tests> ~ $h<container-class> ~ '.rakutest';
+
+  my Str $ctype = $*work-data<gnome-name>;
+  my Str $prefix = $*work-data<name-prefix>;
+  $ctype ~~ s:i/^ $prefix //;
+  my Str $fname = "$*work-data<result-tests>/$ctype.rakutest";
   $!mod.save-file( $fname, $code, "record tests");
 }

@@ -88,7 +88,7 @@ $prepare.display-hash( $*work-data, :label<interface work data>);
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 $prepare.display-hash( $*work-data, :label<record work data>);
 
-        say "\nGenerate Tests for Raku record from ", $*work-data<raku-class-name>;
+        say "\nGenerate Raku record tests ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
@@ -102,7 +102,7 @@ $prepare.display-hash( $*work-data, :label<record work data>);
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 $prepare.display-hash( $*work-data, :label<union work data>);
 
-        say "\nGenerate Raku union from ", $*work-data<raku-class-name>;
+        say "\nGenerate Raku union tests ", $*work-data<raku-class-name>;
 
 #        require ::('Gnome::SourceSkimTool::Union');
 #        my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
@@ -112,98 +112,109 @@ $prepare.display-hash( $*work-data, :label<union work data>);
   }
 
   # Other types than handled above are gathered into one test file
-#  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
-  for $!filedata.keys {
-    # -> $type-name
-    next if $_ ~~ any(<class interface record union>);
+  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
+  for $!filedata.keys -> $gir-type {
+
+    next if $gir-type ~~ any(<class interface record union>);
+    next if $gir-type ~~ any(<callback alias function-macro>);
 
     # Test if gir-type is selected Skip a key if not mentioned on the
     # commandline or just do it when there is no preference
-    next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
+    next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
+    # Skip for the moment
 
-note "$?LINE $_, $!filedata{$_}.gist()";
-#    once $t-prep .= new;
-    once $filename = [~] $*work-data<result-tests>,
-                     $!filedata{$_}.values[0]<type-name>, '.rakutest';
-    once $class-name = $!filedata{$_}.values[0]<class-name>;
-    once $!mod.add-import($class-name);
-note "$?LINE $_, $filename, $class-name";
+    my $data = $!filedata{$gir-type}.values[0];
+note "$?LINE $gir-type, ", $data.gist;
+    once $t-prep .= new;
+    $filename = [~] $*work-data<result-tests>, $data<type-name>, '.rakutest';
+    $class-name = $data<class-name>;
+    $!mod.add-import($class-name);
+note "$?LINE $gir-type, $data<type-name>, $data<class-name>, $filename, $class-name";
 
+    given $gir-type {
+      when 'callback' {
 
-    # Only for documentation
-    when 'docsection' { }
-
-    when 'constant' {
-      my @constants = ();
-      for $!filedata<constant>.kv -> $k, $v {
-        my Str $name = $k; #$t-prep.drop-prefix( $k, :constant);
-        @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
-#        $filename = $v<type-name> unless ?$filename;
-#        unless ?$class-name {
-#          $class-name = $v<class-name>;
-#        }
       }
 
-      say "\nGenerate Tests for constants";
+      when 'constant' {
+        my @constants = ();
+        for $!filedata<constant>.kv -> $k, $v {
+          my Str $name = $k; #$t-prep.drop-prefix( $k, :constant);
+          @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
+  #        $filename = $v<type-name> unless ?$filename;
+  #        unless ?$class-name {
+  #          $class-name = $v<class-name>;
+  #        }
+        }
 
-      $c ~= $!tst.generate-constant-tests(@constants);
-    }
+        say "\nGenerate Tests for constants";
 
-    when 'enumeration' {
-      my Array $enum-names = [];
-      for $!filedata<enumeration>.kv -> $k, $v {
-        $enum-names.push: $k;
-#        $filename = $v<type-name> unless ?$filename;
-#        unless ?$class-name {
-#          $class-name = $v<class-name>;
-#          $!mod.add-import($class-name);
-#        }
+        $c ~= $!tst.generate-constant-tests(@constants);
       }
 
-      say "\nGenerate Tests for enumerations";
-      $c ~= $!tst.generate-enumeration-tests($enum-names);
-    }
+      # Only for documentation
+      when 'docsection' { }
 
-    when 'bitfield' {
-      my Array $bitfield-names = [];
-      for $!filedata<bitfield>.kv -> $k, $v {
-        $bitfield-names.push: $k; #$t-prep.drop-prefix($k);
-#        $filename = $v<type-name> unless ?$filename;
-#        unless ?$class-name {
-#          $class-name = $v<class-name>;
-#          $!mod.add-import($class-name);
-#        }
+      when 'enumeration' {
+        my Array $enum-names = [];
+        for $!filedata<enumeration>.kv -> $k, $v {
+          $enum-names.push: $k;
+  #        $filename = $v<type-name> unless ?$filename;
+  #        unless ?$class-name {
+  #          $class-name = $v<class-name>;
+  #          $!mod.add-import($class-name);
+  #        }
+        }
+
+        say "\nGenerate Tests for enumerations";
+        $c ~= $!tst.generate-enumeration-tests($enum-names);
       }
 
-      say "\nGenerate Tests for bitfields";
-      $c ~= $!tst.generate-bitfield-tests($bitfield-names);
-    }
- 
-    when 'function' {
-      $has-functions = True;
-      my Str $test-variable;
-      my Array $function-names = [];
-      for $!filedata<function>.kv -> $k, $v {
-#        my Str $name = $t-prep.drop-prefix( $k, :function);
-        $function-names.push: $v<function-name>;
-#        unless ?$class-name {
-#          $filename = $v<type-name> unless ?$filename;
-          $test-variable = '$' ~ $v<source-filename>;
-#          $class-name = $v<class-name>;
-#          $!mod.add-import($class-name);
-#        }
+      when 'bitfield' {
+        my Array $bitfield-names = [];
+        for $!filedata<bitfield>.kv -> $k, $v {
+          $bitfield-names.push: $k; #$t-prep.drop-prefix($k);
+  #        $filename = $v<type-name> unless ?$filename;
+  #        unless ?$class-name {
+  #          $class-name = $v<class-name>;
+  #          $!mod.add-import($class-name);
+  #        }
+        }
+
+        say "\nGenerate Tests for bitfields";
+        $c ~= $!tst.generate-bitfield-tests($bitfield-names);
+      }
+  
+      when 'function' {
+        $has-functions = True;
+        my Str $test-variable;
+        my Array $function-names = [];
+        for $!filedata<function>.kv -> $k, $v {
+  #        my Str $name = $t-prep.drop-prefix( $k, :function);
+          $function-names.push: $v<function-name>;
+  #        unless ?$class-name {
+  #          $filename = $v<type-name> unless ?$filename;
+            $test-variable = '$' ~ $v<source-filename>;
+  #          $class-name = $v<class-name>;
+  #          $!mod.add-import($class-name);
+  #        }
+        }
+
+        say "\nGenerate Tests for functions";
+  
+        my Str $package-name = S/ \d+ $// with $*gnome-package.Str;
+        $*work-data<sub-prefix> = $package-name.lc ~ '_';
+
+        my Hash $hms = $!mod.get-standalone-functions($function-names);
+  note "$?LINE $class-name $test-variable";
+        $c ~= "\nmy $class-name $test-variable .= new;\n";
+        $c ~= $!tst.generate-method-tests( $hms, $test-variable);
+  #      $c ~= $!tst.generate-function-tests( $class-name, $hms);
       }
 
-      say "\nGenerate Tests for functions";
- 
-      my Str $package-name = S/ \d+ $// with $*gnome-package.Str;
-      $*work-data<sub-prefix> = $package-name.lc ~ '_';
+      when 'alias' {
 
-      my Hash $hms = $!mod.get-standalone-functions($function-names);
-note "$?LINE $class-name $test-variable";
-      $c ~= "\nmy $class-name $test-variable .= new;\n";
-      $c ~= $!tst.generate-method-tests( $hms, $test-variable);
-#      $c ~= $!tst.generate-function-tests( $class-name, $hms);
+      }
     }
   }
 

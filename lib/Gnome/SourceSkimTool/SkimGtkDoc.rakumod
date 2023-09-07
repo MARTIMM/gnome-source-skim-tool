@@ -431,7 +431,7 @@ method !map-element (
 
       $class-name = $*work-data<raku-package> ~ '::R-' ~ $attrs<name>;
       $module-filename = "$*work-data<result-mods>R-$attrs<name>.rakumod";
-      self!map-class-to-fname( $source-filename, $attrs<name>);
+      self!map-class-to-fname( $source-filename, '::R-' ~ $attrs<name>);
 
       $!map{$ctype} = %(
         :gir-type<interface>,
@@ -457,7 +457,7 @@ method !map-element (
 #      my Str $container-class = $attrs<name>;
       my Str $record-class = "N-$ctype";
       $class-name = [~] $*work-data<raku-package>, '::', $record-class;
-      self!map-class-to-fname( $source-filename, $class-name);
+      self!map-class-to-fname( $source-filename, $ctype);
 
 #      $module-filename = "$*work-data<result-mods>$attrs<name>.rakumod";
 #      $structure-name = "$*work-data<raku-package>::N-$ctype";
@@ -496,7 +496,7 @@ method !map-element (
 #      $class-name = [~] $*work-data<raku-package>, '::', $container-class;
       my Str $union-class = "N-$ctype";
       $class-name = [~] $*work-data<raku-package>, '::', $union-class;
-      self!map-class-to-fname( $source-filename, $class-name);
+      self!map-class-to-fname( $source-filename, $ctype);
 
 #      $module-filename = "$*work-data<result-mods>$attrs<name>.rakumod";
 #      $structure-name = "$*work-data<raku-package>::N-$ctype";
@@ -527,10 +527,12 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = $gnome-name;
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $type-name ~~ s:i/^ $name-prefix //;
-      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+#      my Str $type-name = $gnome-name;
+#      my Str $name-prefix = $*work-data<name-prefix>;
+#      $type-name ~~ s:i/^ $name-prefix //;
+#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+      my Str $type-name =
+         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -564,10 +566,12 @@ method !map-element (
         }
       }
 
-      my Str $type-name = $gnome-name;
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $type-name ~~ s:i/^ $name-prefix //;
-      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+#      my Str $type-name = $gnome-name;
+#      my Str $name-prefix = $*work-data<name-prefix>;
+#      $type-name ~~ s:i/^ $name-prefix //;
+#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+      my Str $type-name =
+         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -590,10 +594,12 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = $gnome-name;
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $type-name ~~ s:i/^ $name-prefix //;
-      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+#      my Str $type-name = $gnome-name;
+#      my Str $name-prefix = $*work-data<name-prefix>;
+#      $type-name ~~ s:i/^ $name-prefix //;
+#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+      my Str $type-name =
+         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -613,10 +619,11 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = $gnome-name;
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $type-name ~~ s:i/^ $name-prefix //;
-      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+#      my Str $type-name = $gnome-name;
+#      my Str $name-prefix = $*work-data<name-prefix>;
+#      $type-name ~~ s:i/^ $name-prefix //;
+      my Str $type-name =
+         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
