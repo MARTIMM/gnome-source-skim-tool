@@ -136,6 +136,7 @@ method generate-code ( ) {
     $type-name ~~ s:i/^ 'T-' $prefix /T-/;
     $filename = [~] $*work-data<result-mods>, $type-name, '.rakumod';
     $class-name = $data<class-name>;
+    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
 

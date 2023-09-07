@@ -8,13 +8,9 @@ use NativeCall;
 
 
 use Gnome::Glib::N-GError:api<2>;
-#use Gnome::Glib::N-GError::N-GError:api<2>;
-#use Gnome::Glib::T-GError:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::X:api<2>;
 
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -24,7 +20,7 @@ use Gnome::N::GnomeRoutineCaller:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Glib::T-GError:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Glib::T-Error:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 
