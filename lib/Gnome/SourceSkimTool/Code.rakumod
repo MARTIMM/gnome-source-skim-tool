@@ -2522,7 +2522,7 @@ note "$?LINE $filename";
   }
 
   # Prohibit overwriting of test files
-  if $*generate-test and $filename.IO.e {
+  elsif $*generate-test and $filename.IO.e {
     say "Test files are never overwritten because of work after generation";
   }
 
