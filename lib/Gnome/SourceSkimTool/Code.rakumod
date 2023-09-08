@@ -1491,8 +1491,7 @@ method generate-structure (
       __MODULE__IMPORTS__
 
       {$!grd.pod-header('Record Structure')}
-      class $class-name \{
-        class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct') \{
+      unit class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct');
 
       EOREC
 
@@ -1508,17 +1507,17 @@ method generate-structure (
         my Str ( $rnt0, $rnt1) = $raku-type.split(':');
 #note "\n$?LINE $raku-type, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $class-name eq 'N-GClosureNotifyData';
         if ?$rnt1 {
-          $code ~= "    has $rnt0 \$.$field-name;           # $rnt1\n";
+          $code ~= "has $rnt0 \$.$field-name;           # $rnt1\n";
         }
 
         #NOTE raku cannot handle this in native structures.
         # Must become a pointer
         elsif $rnt0 ~~ m/ Callable / {
-          $code ~= "    has gpointer \$.$field-name;\n";
+          $code ~= "has gpointer \$.$field-name;\n";
         }
 
         else {
-          $code ~= "    has $rnt0 \$.$field-name;\n";
+          $code ~= "has $rnt0 \$.$field-name;\n";
         }
 
         if $raku-type eq 'N-GObject' {
@@ -1562,30 +1561,28 @@ method generate-structure (
     if ?$build-pars {
       $code ~= qq:to/EOREC/;
 
-          submethod BUILD \(
-            $build-pars
-          \) \{
-          $build-ass\}
+      submethod BUILD \(
+        $build-pars
+      \) \{
+      $build-ass\}
       EOREC
     }
 
     if ?$tweak-pars {
       $code ~= qq:to/EOREC/;
 
-          submethod TWEAK \(
-            $tweak-pars
-          \) \{
-          $tweak-ass\}
+      submethod TWEAK \(
+        $tweak-pars
+      \) \{
+      $tweak-ass\}
       EOREC
     }
 
     $code ~= qq:to/EOREC/;
 
-        method COERCE \( \$no --> $record-class \) \{
-          note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-          nativecast\( $record-class, \$no\)
-        \}
-      \}
+    method COERCE \( \$no --> $record-class \) \{
+      note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+      nativecast\( $record-class, \$no\)
     \}
     EOREC
 
@@ -1601,9 +1598,7 @@ method generate-structure (
     $code ~= qq:to/EOREC/;
       {$!grd.pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
-      class $class-name \{
-        class $record-class is export is repr\('CPointer');
-      \}
+      class $record-class is export is repr\('CPointer');
 
       EOREC
   }
@@ -1662,8 +1657,7 @@ method generate-union (
       __MODULE__IMPORTS__
 
       {$!grd.pod-header('Union Structure')}
-      class $class-name \{
-        class $union-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion') \{
+      unit class $union-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
 
       EOREC
 
@@ -1677,11 +1671,11 @@ method generate-union (
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
         my Str ( $rnt0, $rnt1) = $raku-type.split(':');
         if ?$rnt1 {
-          $code ~= "    HAS $rnt0 \$.$field-name;           # $rnt1\n";
+          $code ~= "HAS $rnt0 \$.$field-name;           # $rnt1\n";
         }
 
         else {
-          $code ~= "    HAS $rnt0 \$.$field-name;\n";
+          $code ~= "HAS $rnt0 \$.$field-name;\n";
         }
 
         if $raku-type eq 'N-GObject' {
@@ -1705,30 +1699,28 @@ method generate-union (
     if ?$build-pars {
       $code ~= qq:to/EOREC/;
 
-          submethod BUILD \(
-            $build-pars
-          \) \{
-          $build-ass\}
+      submethod BUILD \(
+        $build-pars
+      \) \{
+      $build-ass\}
       EOREC
     }
 
     if ?$tweak-pars {
       $code ~= qq:to/EOREC/;
 
-          submethod TWEAK \(
-            $tweak-pars
-          \) \{
-          $tweak-ass\}
+      submethod TWEAK \(
+        $tweak-pars
+      \) \{
+      $tweak-ass\}
       EOREC
     }
 
     $code ~= qq:to/EOREC/;
 
-          method COERCE \( \$no --> $union-class \) \{
-            note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-            nativecast\( $union-class, \$no\)
-          \}
-        \}
+      method COERCE \( \$no --> $union-class \) \{
+        note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+        nativecast\( $union-class, \$no\)
       \}
       
       EOREC
