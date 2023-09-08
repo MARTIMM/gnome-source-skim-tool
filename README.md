@@ -11,10 +11,17 @@ Now I've come across a package of Gnome called `GtkDoc`. It is a bit of a beast 
 In this GtkDoc package there are programs which read those source files and generate files in all sorts of formats. The modules and programs in this Raku package can read the generated files (of which we only need a few of them) and generate the Raku modules which can then access the gnome libraries. The Raku modules come with documentation and a test template for initialization, method calls, signal handling and property testing. Markdown or HTML can be generated from the documentation using Raku pod rendering programs.
 
 ### Update
-GtkDoc is not what I hoped for. There are mistakes found in the XML for Glib. So, before it is completely depending on it I choose to find yet another way to get things done. I looked into the `GObject Introspection Repository` which was a littlebit dawnting at the time. Now chosen as a last resort. The API can be used to generate the Raku interface. The documentation of the routines and classes could not be found in this way. There are so called `.gir` files found in the system at `/usr/share/gir-1.0/`. These files are XML files where also the documentation can be found.
+GtkDoc is not what I hoped for. There are mistakes found in the XML for Glib. So, before it is completely depending on it I choose to find yet another way to get things done. I looked into the `GObject Introspection Repository` which was a little bit dawnting at the time. Now chosen as a last resort. The API can be used to generate the Raku interface. The documentation of the routines and classes could not be found in this way. There are so called `.gir` files found in the system at `/usr/share/gir-1.0/`. These files are XML files where also the documentation can be found.
 
-The generated Raku modules would have some work afterwards to remove problems which can not be handled by the modules of this Raku package.
+The generated Raku modules would have some work afterwards to remove problems which can not be handled at generation time.
 
+Issue #1 is a discussion on how to proceed. There was a proposal to generate everything on the fly by using the gir libraries. This means that there is an impact on run time to check mehods, functions, structures, arguments, etc. before calling a native routine. A drawback also is that the users of the modules must have the gir libraries installed. So I decided to do something in between. That is, generating modules for classes, records, interfaces, etc. but having less code in it. All info to call functions and methods are stored in a Hash. When the user needs to call a method, the native function is found and stored in the same Hash (at run time!) so that a second call can be a bit faster. Types like structures, unions, enumerations, etc. are still completely generated.
+
+The generated modules will be the same but with `:api<2>` tagged on it. The structures and types are now stored in separate files.
+* `Gnome::<package>::<class>` for classes. This is like before except that some types are moved into the `Gnome::<package>::T-<class>` modules.
+* `Gnome::<package>::R-<class>` for interfaces, i.e. roles. This is changed but does not have any impact because these can not be used standalone.
+* `Gnome::<package>::N-<class>` for records (structures) and unions. Records and unions are exported so the types can be used as `N-<class>`.
+* `Gnome::<package>::T-<class>` for other types and constants. Every type and constant is exported so every type name can be used on its own.
 
 ## Description
 
@@ -165,7 +172,7 @@ digraph gtkdoc {
 
 # The Raku modules
 
-The module **Gnome::SourceSkimTool::Prepare** takes care of the GtkDoc generation steps but not of the Glib preparations. **Gnome::SourceSkimTool::SkimGtkDoc** takes care of reading the GtkDoc files to get the information.
+The module **Gnome::SourceSkimTool::Prepare** takes care of the GtkDoc generation steps but not of the Glib preparations. **Gnome::SourceSkimTool::SkimGirSource** takes care of reading the Gir sources installed at `/usr/share/gir-1.0` files to get the information.
 
 ## A diagram
 
