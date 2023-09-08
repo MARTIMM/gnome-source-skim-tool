@@ -1,5 +1,5 @@
 
-use Gnome::SourceSkimTool::SkimGtkDoc;
+use Gnome::SourceSkimTool::SkimGirSource;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::ListGirTypes:auth<github:MARTIMM>;
@@ -11,7 +11,7 @@ submethod BUILD ( ) { }
 method list-types ( ) {
   my Hash $gir-types = %();
 
-  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+  my Gnome::SourceSkimTool::SkimGirSource $s .= new;
   my Hash $object-map =
     $s.load-map($*work-data<gir-module-path>);
   
@@ -30,7 +30,7 @@ method list-types ( ) {
 method list-type-objects ( Str $type ) {
   my Hash $gir-objects = %();
 
-  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+  my Gnome::SourceSkimTool::SkimGirSource $s .= new;
   my Hash $object-map =
     $s.load-map($*work-data<gir-module-path>);
   

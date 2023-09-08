@@ -2,11 +2,11 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Prepare;
-use Gnome::SourceSkimTool::SkimGtkDoc::ApiIndex;
+use Gnome::SourceSkimTool::SkimGirSource::ApiIndex;
 
 #-------------------------------------------------------------------------------
 constant \Prepare = Gnome::SourceSkimTool::Prepare;
-constant \ApiIndex = Gnome::SourceSkimTool::SkimGtkDoc::ApiIndex;
+constant \ApiIndex = Gnome::SourceSkimTool::SkimGirSource::ApiIndex;
 
 #-------------------------------------------------------------------------------
 my SkimSource $*gnome-package = Gtk3;

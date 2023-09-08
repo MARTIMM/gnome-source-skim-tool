@@ -65,8 +65,8 @@ sub MAIN (
   if $gir {
     say "Generate the intermediate gir and yaml files" if $*verbose;
     my Gnome::SourceSkimTool::Prepare $prepare .= new;
-    require ::('Gnome::SourceSkimTool::SkimGtkDoc');
-    my $skim-doc = ::('Gnome::SourceSkimTool::SkimGtkDoc').new;
+    require ::('Gnome::SourceSkimTool::SkimGirSource');
+    my $skim-doc = ::('Gnome::SourceSkimTool::SkimGirSource').new;
     $skim-doc.load-gir-file;
     $skim-doc.get-classes-from-gir;
   }

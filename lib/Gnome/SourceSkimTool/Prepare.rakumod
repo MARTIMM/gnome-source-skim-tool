@@ -1,6 +1,6 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::SkimGtkDoc;
+#use Gnome::SourceSkimTool::SkimGirSource;
 
 
 #-------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ submethod BUILD ( ) {
 
 #`{{
   # get workdata for other gnome packages
-  my Gnome::SourceSkimTool::SkimGtkDoc $s .= new;
+  my Gnome::SourceSkimTool::SkimGirSource $s .= new;
 
   # Because of the dependency chain it is possible to have less to load when
   # the classes are outside that chain

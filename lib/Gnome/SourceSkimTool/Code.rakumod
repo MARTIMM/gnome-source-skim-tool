@@ -1,6 +1,6 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
-#use Gnome::SourceSkimTool::SkimGtkDoc;
+#use Gnome::SourceSkimTool::SkimGirSource;
 use Gnome::SourceSkimTool::Doc;
 
 use XML;

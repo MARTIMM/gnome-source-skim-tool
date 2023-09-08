@@ -48,6 +48,7 @@ kaal '/usr/bin/time raku Window.rakutest'
 -->
 * 2023-09-04 0.11.0
   * Modules, documents and test files are generated in new environment `./gnome-api2` in the package. They will be uploaded separately into the fez ecosystem. Later on, the META6 for each of the packages will be generated too.
+  * Renamed module SkimGtkDoc into SkimGirSource
 
 * 2023-08-09 0.10.3
   * Many bugs fixed. Seems possible to generate working code without modifying much.

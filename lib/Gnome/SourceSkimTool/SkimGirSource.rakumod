@@ -8,7 +8,7 @@ use Gnome::SourceSkimTool::Code;
 
 
 #-------------------------------------------------------------------------------
-unit class Gnome::SourceSkimTool::SkimGtkDoc:auth<github:MARTIMM>;
+unit class Gnome::SourceSkimTool::SkimGirSource:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Code $!mod;
 
