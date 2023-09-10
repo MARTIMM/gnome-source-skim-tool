@@ -172,6 +172,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
         :library(glib-lib()), :sub-prefix<g_error_>
       );
+
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
