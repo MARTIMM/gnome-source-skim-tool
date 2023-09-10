@@ -9,12 +9,12 @@ use NativeCall;
 
 
 use Gnome::Glib::N-GError:api<2>;
-#use Gnome::Glib::N-GError::N-GError:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -22,6 +22,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Glib::Error:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -34,6 +35,43 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #--[BUILD submethod]------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
+#>> test to use new sec <<
+method new( GQuark $domain, gint $code, Str $message, *@arguments ) {
+  note "$?LINE, @arguments.gist()";
+  my $native-object = self._fallback-v2(
+    'new', my Bool $x, $domain, $code, $message, @arguments
+  );
+  self.bless(:$native-object);
+}
+
+submethod BUILD ( *%options ) {
+
+  # Initialize helper
+  $!routine-caller .= new( :library(glib-lib()), :sub-prefix<g_error_>);
+
+  # Prevent creating wrong widgets
+  if self.^name eq 'Gnome::Glib::Error' {
+
+    # If already initialized in some parent, the object is valid
+    if self.is-valid { }
+
+    # Check if common options are handled by some parent
+    elsif %options<native-object>:exists { }
+
+    # only after creating the native-object, the gtype is known
+    self._set-class-info('GError');
+  }
+}
+
+method native-object-ref ( $n-native-object ) { $n-native-object }
+
+method native-object-unref ( $n-native-object ) {
+  self._fallback-v2( 'free', my Bool $x);
+}
+
+
+
+#`{{
 submethod BUILD ( *%options ) {
 
   # Initialize helper
@@ -102,6 +140,7 @@ submethod BUILD ( *%options ) {
     self._set-class-info('GError');
   }
 }
+}}
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
@@ -120,19 +159,33 @@ my Hash $methods = %(
   matches => %( :returns(gboolean), :parameters([GQuark, gint])),
 
   #--[Functions]----------------------------------------------------------------
-  domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
-  domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
+#  domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
+#  domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   if $methods{$name}:exists {
-    my $native-object = self.get-native-object-no-reffing;
     $_fallback-v2-ok = True;
-    return $!routine-caller.call-native-sub(
-      $name, @arguments, $methods, :$native-object
-    );
+    if $methods{$name}<type> eq 'Constructor' {
+      my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
+        :library(glib-lib()), :sub-prefix<g_error_>
+      );
+      return self.bless(
+        :native-object(
+          $routine-caller.call-native-sub( $name, @arguments, $methods)
+        )
+      );
+    }
+
+    else {
+
+      my $native-object = self.get-native-object-no-reffing;
+      return $!routine-caller.call-native-sub(
+        $name, @arguments, $methods, :$native-object
+      );
+    }
   }
 
   else {
