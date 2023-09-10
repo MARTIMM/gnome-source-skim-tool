@@ -1,19 +1,17 @@
-## Change log
+# TODO list
 
-<!--
-TODO modify markdown links in text or in Raku links when it shows use of url
+<!-- -->
+* TODO modify markdown links in text or in Raku links when it shows use of url
 
-TODO Add explanations of module documentation layout in the references of the documentation on site.
-* Add info about the glib types used and what it means in Raku.
-* That properties are mostly not needed because of their getters and setters.
-* What does a function, constructor and method mean for gnome and how is translated.
-* Referencing, dereferncing and floating references.
-* Naming the classes, structures, unions, enumerations and the modules where they are defined.
-* C-examples and converting to Raku
+* TODO Add explanations of module documentation layout in the references of the documentation on site.
+  * Add info about the glib types used and what it means in Raku.
+  * That properties are mostly not needed because of their getters and setters.
+  * What does a function, constructor and method mean for gnome and how is translated.
+  * Referencing, dereferncing and floating references.
+  * Naming the classes, structures, unions, enumerations and the modules where they are defined.
+  * C-examples and converting to Raku
 
-TODO add command to generate code/doc/test at the top of the generated files
-
-TODO type changes
+* TODO Some types nedd implemented
   Unknown gir type to convert to native raku type 'record' for ctype 'GtkRecentInfo'
   Unknown gir type to convert to raku type 'record' for ctype 'GtkRecentInfo', '(Any)'
    Unknown gir type to convert to native raku type 'callback' for ctype 'GtkRecentSortFunc'
@@ -22,30 +20,57 @@ TODO type changes
   Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
   Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
 
-TODO better BUILD generation
-TODO Process constants and alias
-TODO Generate doc. Review for class new for interface, record and union
-TODO Test marks in code like '#TM:0:has_toplevel_focus' should go to the test file because 1) after changes it saves compilation and 2) the mark is for testing
+* TODO better BUILD generation. Find a way to use new* native subs directly.
+* TODO Generate doc
 
-TODO Find out if :api<2> is a good enough separation from the old packages
-* See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
-* https://docs.raku.org/language/compilation#$*REPO
+* TODO Find out if :api<2> is a good enough separation from the old packages
+  * See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
+  * https://docs.raku.org/language/compilation#$*REPO
 
-TODO Prevent overwriting of test files. They may be changed a lot after generation
+* TODO investigate using constructors directly instead of using BUILD with options
+* TODO Generate META6 files of api2 projects
+<!-- -->
 
-TODO investigate using constructors directly instead of using BUILD with options
-TODO Generate META6 files of api2 projects
--->
+<!---->
+### Testing command with timing -o for dump to file
+* With some options
+```
+> /usr/bin/time -f "Program: %C\nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" raku Window.rakutest
 
-<!-- Testing command with timing -o for dump to file
-/usr/bin/time -f "Program: %C\nTotal time: %E\nUser Mode (s) %U\nKernel Mode (s) %S\nCPU: %P" raku Window.rakutest
+> /usr/bin/time -f "P:%C TT:%E UM:%U KM:%S C:%P MJP:%F MNP:%R MR:%M" -a -o Window.log raku Window.rakutest
+```
 
-/usr/bin/time -f "P:%C TT:%E UM:%U KM:%S C:%P MJP:%F MNP:%R MR:%M" -a -o Window.log raku Window.rakutest
-
-kaal '/usr/bin/time raku Window.rakutest'
+* Without any options
+```
+> /usr/bin/time raku Window.rakutest
 2.18user 0.17system 0:02.52elapsed 93%CPU (0avgtext+0avgdata 388208maxresident)k
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
--->
+```
+
+# Release notes
+* 2023-09-10 0.11.1
+  * Start finding a new way to process native constructor functions. BUILD used options which do not map well to the arguments of those functions. Therefore after generating the module, some extra work needed to be done to get the named arguments right. To have less work afterwards, it is easier to have the user call the native routines directly. A special case must be made for the plain `new()` method.
+    Also inheriting is done previously using a new call and I need to think a bit about it to get that right. Previously e.g to inherit a `Label`;
+    ```
+    use Gnome::Gtk3::Label;
+
+    unit class MyGuiClass;
+    also is Gnome::Gtk3::Label;
+
+    submethod new ( |c ) {
+      # let the Gnome::Gtk3::Label class process the options
+      self.bless( :GtkLabel, |c);
+    }
+
+    submethod BUILD ( … ) {
+      …
+    }
+    ```
+    <!--Maybe inheriting should not be done-->
+
+    This means that the new methods will break compatibility of previous packages because all calls to some `.new*()` method will have positional arguments instead of named arguments. Compare for example (old vs new);
+    `$label .= new(:text('...'));` with `$label .= new('...');`
+
 * 2023-09-04 0.11.0
   * Modules, documents and test files are generated in new environment `./gnome-api2` in the package. They will be uploaded separately into the fez ecosystem. Later on, the META6 for each of the packages will be generated too.
   * Renamed module SkimGtkDoc into SkimGirSource
