@@ -172,6 +172,7 @@ method generate-callables (
           Str $name, Bool $_fallback-v2-ok is rw,
           Gnome::N::GnomeRoutineCaller $routine-caller, *@arguments
         ) {
+          # Check the function name. 
           if $methods{$name}:exists {
             my $native-object = self.get-native-object-no-reffing;
             $_fallback-v2-ok = True;
@@ -188,16 +189,31 @@ method generate-callables (
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
         method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           if $methods{$name}:exists {
-            my $native-object = self.get-native-object-no-reffing;
             $_fallback-v2-ok = True;
-            return $!routine-caller.call-native-sub(
-              $name, @arguments, $methods, :$native-object
-            );
+            if $methods{$name}<type> eq 'Constructor' {
+              my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
+                :library(glib-lib()), :sub-prefix<g_error_>
+              );
+
+              return self.bless(
+                :native-object(
+                  $routine-caller.call-native-sub( $name, @arguments, $methods)
+                )
+              );
+            }
+
+            else {
+              my $native-object = self.get-native-object-no-reffing;
+              return $!routine-caller.call-native-sub(
+                $name, @arguments, $methods, :$native-object
+              );
+            }
           }
 
           else {
         RAKUMOD
 
+      # When there are roles implemented, generate calls to the role's fallback
       my Str $ctype = $element.attribs<c:type>;
       my Hash $h = self.search-name($ctype);
       my Array $roles = $h<implement-roles>//[];
