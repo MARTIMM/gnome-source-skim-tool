@@ -34,7 +34,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
 #-------------------------------------------------------------------------------
-
+#`{{
 #>> test to use new sec <<
 method new( GQuark $domain, gint $code, Str $message, *@arguments ) {
   note "$?LINE, @arguments.gist()";
@@ -43,6 +43,7 @@ method new( GQuark $domain, gint $code, Str $message, *@arguments ) {
   );
   self.bless(:$native-object);
 }
+}}
 
 submethod BUILD ( *%options ) {
 
@@ -149,7 +150,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new => %( :type(Constructor),:returns(N-GError), :variable-list, :parameters([ GQuark, gint, Str])),
+  new-error => %( :type(Constructor), :isnew, :returns(N-GError), :variable-list, :parameters([ GQuark, gint, Str])),
   new-literal => %( :type(Constructor),:returns(N-GError), :parameters([ GQuark, gint, Str])),
   #new-valist => %( :type(Constructor),:returns(N-GError), :parameters([ GQuark, gint, Str, ])),
 
