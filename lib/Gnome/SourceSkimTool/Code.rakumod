@@ -172,7 +172,6 @@ method generate-callables (
           Str $name, Bool $_fallback-v2-ok is rw,
           Gnome::N::GnomeRoutineCaller $routine-caller, *@arguments
         ) {
-          # Check the function name. 
           if $methods{$name}:exists {
             my $native-object = self.get-native-object-no-reffing;
             $_fallback-v2-ok = True;
@@ -191,10 +190,17 @@ method generate-callables (
           if $methods{$name}:exists {
             $_fallback-v2-ok = True;
             if $methods{$name}<type> eq 'Constructor' {
-              my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-                :library(glib-lib()), :sub-prefix<g_error_>
-              );
+        RAKUMOD
 
+      $c ~= qq:to/RAKUMOD/;
+              my Gnome::N::GnomeRoutineCaller \$routine-caller .= new\(
+                :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>
+              \);
+
+        RAKUMOD
+
+      $c ~= q:to/RAKUMOD/;
+          # Check the function name. 
               return self.bless(
                 :native-object(
                   $routine-caller.call-native-sub( $name, @arguments, $methods)
@@ -260,8 +266,168 @@ method make-build-submethod (
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
 
+  # Signal administration
+  my Str $role-signals = self.get-role-signals($h);
+  my Str $signal-admin = self.get-signal-admin(
+    $element, $xpath, $role-signals
+  );
+
+  my Str $c = '';
+  if ?$signal-admin {
+    $c ~= q:to/EOBUILD/;
+
+      # Add signal registration helper
+      my Bool $signals-added = False;
+      EOBUILD
+  }
+
+  my List $gtk-init-code = self.get-gtk-init;
+
+  # Generate code for signal admin and init of callable helper
+  my Str $code = qq:to/EOBUILD/;
+    {$!grd.pod-header('BUILD variables');}
+    # Define callable helper
+    has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
+    $c$gtk-init-code[0]
+    {$!grd.pod-header('BUILD submethod');}
+    submethod BUILD \( *\%options \) \{
+    $gtk-init-code[1]$signal-admin
+      # Initialize helper
+      \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
+
+    EOBUILD
+
+  # >> In older versions, here was the test for inheritance <<
+  $code ~= [~] '  # Prevent creating wrong widgets', "\n",
+          '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
+
+  self.add-import('Gnome::N::X');
+  $code ~= q:to/EOBUILD/;
+        # If already initialized using ':$native-object', ':$build-id', or
+        # any '.new*()' constructor, the object is valid.
+        die X::Gnome.new(:message("Native object not defined"))
+          unless self.is-valid;
+    EOBUILD
+
+  $code ~= qq:to/EOBUILD/;
+
+      # only after creating the native-object, the gtype is known
+      self._set-class-info\('$*work-data<gnome-name>'\);
+    \}
+  \}
+  EOBUILD
+
+  $code
+}
+
+#-------------------------------------------------------------------------------
+method get-role-signals ( Hash $h --> Str ) {
+
+  # See which roles to implement
+  my Str $role-signals = '';
+  my Array $roles = $h<implement-roles> // [];
+  for @$roles -> $role {
+    once $role-signals = "\n    # Signals from interfaces\n";
+
+    my Hash $role-h = self.search-name($role);
+    if ?$role-h {
+#note "$?LINE role $role, ", $role-h.gist;
+      $role-signals ~=
+        "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
+        "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
+    }
+  }
+
+  $role-signals;
+}
+
+#-------------------------------------------------------------------------------
+method get-signal-admin (
+  XML::Element $element, XML::XPath $xpath, Str $role-signals --> Str
+) {
+
   my Str $signal-admin = '';
 
+  # Check if signal administration is needed
+  my Hash $sig-info = self.signals( $element, $xpath);
+  if ? $role-signals or ? $sig-info {
+    my Str $sig-list = '';
+    if ? $sig-info {
+      my Hash $signal-levels = %();
+      for $sig-info.keys -> $signal-name {
+        my Str $level = $sig-info{$signal-name}<level>.Str;
+        $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
+        $signal-levels{$level}.push: $signal-name;
+      }
+
+      for ^10 -> Str() $level {
+        if ?$signal-levels{$level} {
+          $sig-list ~=
+            [~] '      :w', $level, '<', $signal-levels{$level}.join(' '),
+                ">,\n";
+        }
+      }
+
+      $sig-list = 'self.add-signal-types( $?CLASS.^name,' ~
+                  "\n" ~ $sig-list ~ "    );\n" if ? $sig-list;
+    }
+
+    $signal-admin ~= qq:to/EOBUILD/;
+        # Add signal administration info.
+        unless \$signals-added \{
+          $sig-list$role-signals    \$signals-added = True;
+        \}
+      EOBUILD
+  }
+
+  $signal-admin;
+}
+
+#-------------------------------------------------------------------------------
+method get-gtk-init ( --> List ) {
+  my Str $code = '';
+  my Str $init-gtk = '';
+
+  if $*work-data<raku-class-name> eq 'Gnome::GObject::Object' {
+    $code ~= q:to/EOBUILD/;
+
+      # Check on native library initialization.
+      my Bool $gui-initialized = False;
+      my Bool $may-not-initialize-gui = False;
+      EOBUILD
+
+    # Check for initialization of Gtk libraries, but check for
+    # certain conditions.
+    $init-gtk ~= q:to/EOBUILD/;
+
+        # check GTK+ init except when GtkApplication / GApplication is used
+        $may-not-initialize-gui = [or]
+          $may-not-initialize-gui,
+          $gui-initialized,
+          # Check for Application from Gio. That one inherits from Object.
+          # Application from Gtk3 inherits from Gio, so this test is always ok.
+          ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
+
+        self.gtk-initialize unless $may-not-initialize-gui or $gui-initialized;
+
+        # What ever happens, init is done in (G/Gtk)Application or just here
+        $gui-initialized = True;
+      EOBUILD
+  }
+
+  ( $code, $init-gtk)
+}
+
+#`{{
+#-------------------------------------------------------------------------------
+method make-build-submethod (
+  XML::Element $element, XML::XPath $xpath --> Str
+) {
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
+  my Str $signal-admin = '';
+#---
   # See which roles to implement
   my Str $role-signals = '';
   my Array $roles = $h<implement-roles> // [];
@@ -277,7 +443,7 @@ method make-build-submethod (
 
   $role-signals = "\n    # Signals from interfaces\n" ~ $role-signals
     if ?$role-signals;
-
+#---
   # Check if signal administration is needed
   my Hash $sig-info = self.signals( $element, $xpath);
   if ? $role-signals or ? $sig-info {
@@ -319,7 +485,7 @@ method make-build-submethod (
       my Bool $signals-added = False;
       EOBUILD
   }
-
+#---
   my Str $init-gtk = '';
   if $*work-data<raku-class-name> eq 'Gnome::GObject::Object' {
     $c ~= q:to/EOBUILD/;
@@ -345,7 +511,7 @@ method make-build-submethod (
         $gui-initialized = True;
       EOBUILD
   }
-
+#---
   my Str $code = qq:to/EOBUILD/;
     {$!grd.pod-header('BUILD variables');}
     # Define callable helper
@@ -358,6 +524,7 @@ method make-build-submethod (
       \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
 
     EOBUILD
+#---
 
   # Check if inherit code is to be inserted
 #  my Str $ctype = $element.attribs<c:type>;
@@ -372,6 +539,7 @@ method make-build-submethod (
     $code ~= [~] '  # Prevent creating wrong widgets', "\n",
             '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
   }
+#---
 
   # Add first few tests
   my Str $b-id-str = ?$h<inheritable>
@@ -516,6 +684,7 @@ method make-build-submethod (
 
   $code
 }
+}}
 
 #-------------------------------------------------------------------------------
 method get-constructors (
@@ -718,13 +887,24 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     # to postpone the translation as late as possible at run time
     # and only once per function.
     $function-name ~~ s:g/ '_' /-/;
+    
+    my Str $isnew = '';
+    if $function-name eq 'new' {
+      my Str $gname = $*work-data<gnome-name>;
+      my Str $prefix = $*work-data<name-prefix>;
+      $gname ~~ s:i/^ $prefix //;
+      $function-name ~= '-' ~ $gname.lc;
+
+      $isnew = ':isnew, ';
+    }
 
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my ( $rnt0, $rnt1) = $curr-function<return-raku-type>.split(':');
     if ?$rnt1 {
 #TM:1:$function-name
       $code ~= [~] '  ', $temp-inhibit, $function-name,
-                  ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
+                  ' => %( :type(Constructor), ', $isnew,
+                  ':returns(', $rnt0, '), ',
                   ':type-name(', $rnt1, '), ',  $parameters, "),\n";
 #`{{
       $code ~= qq:to/EOSUB/;
@@ -741,7 +921,8 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     else {
 #TM:1:$function-name
       $code ~= [~] '  ', $temp-inhibit, $function-name,
-                  ' => %( :type(Constructor),', ':returns(', $rnt0, '), ',
+                  ' => %( :type(Constructor), ', $isnew,
+                  ':returns(', $rnt0, '), ',
                   $variable-list, $parameters, "),\n";
 
       # drop last comma from arg list
