@@ -64,25 +64,10 @@
 # Release notes
 * 2023-09-10 0.11.1
   * Start finding a new way to process native constructor functions. BUILD used options which do not map well to the arguments of those functions. Therefore after generating the module, some extra work needed to be done to get the named arguments right. To have less work afterwards, it is easier to have the user call the native routines directly. A special case must be made for the plain `new()` method.
-    Also inheriting is done previously using a new call and I need to think a bit about it to get that right. Previously e.g to inherit a `Label`;
-    ```
-    use Gnome::Gtk3::Label;
-
-    unit class MyGuiClass;
-    also is Gnome::Gtk3::Label;
-
-    submethod new ( |c ) {
-      # let the Gnome::Gtk3::Label class process the options
-      self.bless( :GtkLabel, |c);
-    }
-
-    submethod BUILD ( … ) {
-      …
-    }
-    ```
-
-    This means that the new methods will break compatibility of previous packages because all calls to some `.new*()` method will have positional arguments instead of named arguments. Compare for example (old vs new);
-    `$label .= new(:text('...'));` with `$label .= new('...');`
+    Found a way to handle that. any plain `.new()` constructor is renamed into something like `.new-`_classname_`()`. 
+    This means that the new methods will break compatibility. Compare for example of an init of the label class;
+    Previously `$label .= new(:text('...'));`
+    Now `$label .= new-label('...');`
 
 * 2023-09-04 0.11.0
   * Modules, documents and test files are generated in new environment `./gnome-api2` in the package. They will be uploaded separately into the fez ecosystem. Later on, the META6 for each of the packages will be generated too.
