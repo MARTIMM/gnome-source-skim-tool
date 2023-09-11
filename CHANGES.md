@@ -1,4 +1,4 @@
-# TODO list
+### TODO list
 
 <!-- -->
 * TODO modify markdown links in text or in Raku links when it shows use of url
@@ -47,6 +47,20 @@
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 ```
 
+### List of backward compatibility breaks 😭 😭
+* Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages.
+* Instanciating a class or record is done using positional arguments instead of named arguments. The names of these methods will not be `new()` anymore but something like `new-*()`.
+* The `new()` call is only used for specific work.
+  * Providing a native object from elsewhere with `:$native-object`.
+  * Using an id with `:$build-id` to get a native object from an XML description.
+* Need to rethink the inheriting mechanism, so for the time being it is off limits.
+* Code is split into more separate files.
+  * **Gnome::\<package>::\<class>**. Class names are as before.
+  * **Gnome::\<package>::R-\<roles>**. Name of roles are changed but is not a problem because they cannot be used as a class.
+  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structures are exported so that the last part can be used; E.g. **N-GError**.
+  * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
+
+
 # Release notes
 * 2023-09-10 0.11.1
   * Start finding a new way to process native constructor functions. BUILD used options which do not map well to the arguments of those functions. Therefore after generating the module, some extra work needed to be done to get the named arguments right. To have less work afterwards, it is easier to have the user call the native routines directly. A special case must be made for the plain `new()` method.
@@ -66,7 +80,6 @@
       …
     }
     ```
-    <!--Maybe inheriting should not be done-->
 
     This means that the new methods will break compatibility of previous packages because all calls to some `.new*()` method will have positional arguments instead of named arguments. Compare for example (old vs new);
     `$label .= new(:text('...'));` with `$label .= new('...');`
