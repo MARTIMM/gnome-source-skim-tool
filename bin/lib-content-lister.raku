@@ -27,6 +27,9 @@ list-dir("$api1/gnome-pango/lib");
 
 # New packages
 $mod-type = EMTInApi2;
+list-dir("$api2/gnome-gtk4/lib");
+list-dir("$api2/gnome-gsk4/lib");
+list-dir("$api2/gnome-gdk4/lib");
 list-dir("$api2/gnome-gtk3/lib");
 list-dir("$api2/gnome-gdk3/lib");
 list-dir("$api2/gnome-glib/lib");
