@@ -734,7 +734,8 @@ method !get-constructor-data (
   # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
-  $missing-type = True unless ?$return-raku-type;
+  $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
+  $return-raku-type ~~ s/ _UA_ $//;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -791,7 +792,8 @@ method !get-constructor-data (
       ( $type, $raku-type) = self!get-type( $p, :$user-side);
     }
 
-    $missing-type = True unless ?$raku-type;
+    $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
+    $raku-type ~~ s/ _UA_ $//;
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
@@ -1351,9 +1353,14 @@ method generate-callback (
 ) {
   return '' unless ?$cb-data;
 
+  my Bool $available = True;
   my Str $par-list = '';
   for @($cb-data<parameters>) -> $parameter {
     my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
+    if $rnt0 ~~ / _UA_ $/ {
+      $available = False;
+      $rnt0 ~~ s/ _UA_ $//;
+    }
     $par-list ~= ", $rnt0";
   }
 
@@ -1368,6 +1375,10 @@ method generate-callback (
   }
 
   elsif ?$rnt0 {
+    if $rnt0 ~~ / _UA_ $/ {
+      $available = False;
+      $rnt0 ~~ s/ _UA_ $//;
+    }
     $returns = $rnt0;
   }
 
@@ -1381,6 +1392,7 @@ method generate-callback (
 #                  (?$returns ?? " --> $returns \)" !! ' )');
 
   my $code = [~] ':(', $par-list, ?$returns ?? " --> $returns \)" !! ' )';
+  $code ~= ' _UA_' unless $available;
 
   $code
 }
@@ -2107,7 +2119,8 @@ method !get-method-data (
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
 #  my Str ( $rv-type, $return-raku-type, $return-raku-rtype) =
   my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
-  $missing-type = True unless ?$return-raku-type;
+  $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
+  $return-raku-type ~~ s/ _UA_ $//;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -2121,7 +2134,8 @@ method !get-method-data (
   for @prmtrs -> $p {
 #    my Str ( $type, $raku-type, $raku-rtype) = self!get-type( $p, :$user-side);
     my Str ( $type, $raku-type) = self!get-type( $p, :$user-side);
-    $missing-type = True unless ?$raku-type;
+    $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
+    $raku-type ~~ s/ _UA_ $//;
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
@@ -2221,32 +2235,32 @@ method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
     if $e.attribs<name>:exists and $e.attribs<name> eq '...';
 #note "$?LINE $e";
 
-  my Str ( $type, $raku-type) = '' xx 2;
+  my Str ( $ctype, $raku-type) = '' xx 2;
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
 
     with $n.name {
       when 'type' {
-        $type = $n.attribs<c:type> // $n.attribs<name>;
+        $ctype = $n.attribs<c:type> // $n.attribs<name>;
         $raku-type = $user-side
-                   ?? self.convert-rtype($type)
-                   !! self.convert-ntype($type)
+                   ?? self.convert-rtype($ctype)
+                   !! self.convert-ntype($ctype)
                    ;
       }
 
       when 'array' {
         # Sometimes there is no 'c:type', assume an array of strings
-        $type = $n.attribs<c:type> // 'gchar**';
+        $ctype = $n.attribs<c:type> // 'gchar**';
         $raku-type = $user-side
-                   ?? self.convert-rtype($type)
-                   !! self.convert-ntype($type)
+                   ?? self.convert-rtype($ctype)
+                   !! self.convert-ntype($ctype)
                    ;
       }
     }
   }
 
-#note "$?LINE $user-side, $type, $raku-type";
-  ( $type, $raku-type)
+#note "$?LINE $user-side, $ctype, $raku-type";
+  ( $ctype, $raku-type)
 }
 
 #-------------------------------------------------------------------------------
@@ -2326,20 +2340,20 @@ method convert-ntype (
         }
 
         when 'record' {
-#NOTE add-import creates cyclic dependency -> make it an Object;
+#NOTE changed somewhere? add-import creates cyclic dependency -> make it an Object;
           $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<class-name>);
           $raku-type = "CArray[$raku-type]" if $is-pointer;
+          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
 
         when 'union' {
-#NOTE add-import creates cyclic dependency -> make it an Object;
+#NOTE changed somewhere? add-import creates cyclic dependency -> make it an Object;
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<class-name>);
 #          $raku-type = 'N-GObject';
           $raku-type = "N-$h<gnome-name>";
-          self.add-import($h<class-name>);
           $raku-type = "CArray[$raku-type]" if $is-pointer;
+          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
 
         when 'constant' {
@@ -2348,15 +2362,13 @@ method convert-ntype (
         }
 
         when 'enumeration' {
-          self.add-import($h<class-name>);
           $raku-type = "GEnum:$ctype";
-#          self.add-import($h<class-name>);
+          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
 
         when 'bitfield' {
-          self.add-import($h<class-name>);
           $raku-type = "GFlag:$ctype";
-#          self.add-import($h<class-name>);
+          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
 
 #        when 'alias' { $raku-type = $h<class-name>; }
@@ -2484,15 +2496,15 @@ method convert-rtype (
           # in input and output. Need to prefix package name because
           # enumerations are mentioned without it
 #          $raku-type = $h<class-name> ~ '()';
-          self.add-import($h<class-name>);
           $raku-type = "GEnum:$ctype";
+          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
 
         when 'bitfield' {
 #          $raku-type = 'UInt';
 #          $raku-type ~= '()' unless $return-type;
-          self.add-import($h<class-name>);
           $raku-type = "UInt:$ctype";
+          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
 
         when 'alias' { }
