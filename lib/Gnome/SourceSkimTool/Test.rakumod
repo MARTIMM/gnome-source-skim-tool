@@ -48,14 +48,31 @@ method generate-init-tests (
 ) {
 
   my Str $code = qq:to/EOTEST/;
-    {$!grd.pod-header('Test init')}
+    {$!grd.pod-header('Test preparation')}
     #Gnome::N::debug(:on);
     my { ?$test-class ?? $test-class !! $*work-data<raku-class-name> } $test-variable;
 
     {$!grd.pod-header($init-test-type)}
     subtest 'ISA test', \{
+    __DECL_VARS__
+
+    #`\{\{
     EOTEST
-  
+
+  #| variables used in tests
+  my Hash $decl-vars = %();
+
+#  my Hash $hcs = $!mod.get-methods( $element, $xpath, :user-side);
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+#note "$?LINE $hcs.gist()";
+
+  # Use of .reverse() to get the set*() functions before the get*() functions
+  for $hcs.keys.sort -> $function-name {
+    $code ~= self.make-function-test(
+      $hcs, $function-name, $test-variable, $decl-vars, :!ismethod
+    );
+
+#`{{
   for $hcs.keys.sort -> $function-name {
     my Hash $curr-function := $hcs{$function-name};
 
@@ -95,8 +112,147 @@ method generate-init-tests (
         EOTEST
     }
   }
-
   $code ~= "};\n\n";
+}}
+
+  }
+
+  $code ~= "\}\}\n\};\n\n";
+
+  # Write out the gathered variables and make declarations
+  my Str $dstr = '';
+  for $decl-vars.kv -> $name, $type is copy {
+    if $type ~~ /^ GEnum / {
+      $type ~~ s/^ <-[:]>+ ':' //;
+    }
+
+    elsif $type ~~ /^ GFlag/ {
+      $type = 'UInt';
+    }
+
+    $dstr ~= "    my $type \$$name;\n";
+  }
+
+  $code ~~ s/'__DECL_VARS__'/$dstr/;
+
+  $code
+}
+
+#-------------------------------------------------------------------------------
+# Create a test for each function. $decl-vars is changed as a side effect.
+method make-function-test (
+  Hash $hcs, Str $function-name, Str $test-variable, Hash $decl-vars, 
+  Bool :$ismethod = True
+  --> Str
+) {
+  my @parameters = @($hcs{$function-name}<parameters>);
+
+  # Get method name and drop the prefix
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+  my Str $hash-fname = $function-name;
+  $hash-fname ~~ s/^ $symbol-prefix //;
+  $hash-fname ~~ s:g/ '_' /-/;
+  my Bool $isnew = $hash-fname ~~ m/^ new /;
+
+  my Bool $first-param = True;
+  my Str $test-type;
+  my Str $code = '';
+
+  # Parameters used in call
+  my Str $par-list = '';
+
+  # Assignments before call
+  my Str $assign-list = '';
+
+  for @parameters -> $parameter {
+    # If this is a method, the first parameters is the instance which
+    # is provided by this object
+    if $ismethod and $first-param {
+      $first-param = False;
+      next;
+    }
+
+    # Assume a compare test
+    $test-type = 'is';
+    $decl-vars{$parameter<name>} = $parameter<raku-type>;
+    $assign-list ~= "  " unless $isnew; # no extra indent for new tests
+    $assign-list ~= "  \$$parameter<name> = ";
+
+    # Get parameter type
+    my Str $rtype = $parameter<raku-type>;
+    $rtype ~~ s/'()'//;
+    with $rtype {
+      when 'Int' { $assign-list ~= "-42;\n"; }
+      when 'UInt' { $assign-list ~= "42;\n"; }
+      when 'Str' { $assign-list ~= "'text';\n"; }
+      when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
+      when 'Bool' { $assign-list ~= "True;\n"; }
+      when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
+      when /^ GEnum / { $assign-list ~= "…;  # a $rtype enum\n"; }
+      when /^ GEnum / { $assign-list ~= "…;  # a $rtype mask\n"; }
+      default {
+        note "Test variable \$$parameter<name> has type $rtype";
+        $assign-list ~= "'…';\n";
+      }
+    }
+    $par-list ~= ", \$$parameter<name>";
+
+    # Remove first comma and first space
+    $par-list ~~ s/^ . //;
+
+    if $isnew {
+      $code ~= qq:to/EOTEST/;
+        #TB:0:$hash-fname\(\)
+      $assign-list.chop()
+        $test-variable .= $hash-fname\($par-list\);
+        ok .is-valid, '.$hash-fname\($par-list\)';
+
+      EOTEST
+    }
+
+    elsif $hash-fname ~~ m/^ set / {
+      $code ~= qq:to/EOTEST/;
+          #TB:0:$hash-fname\(\)
+      $assign-list.chop()
+          lives-ok \{ .$hash-fname\($par-list\); \}, '.$hash-fname\(\)';
+      EOTEST
+
+      # Also test set-*() when there is one
+      my Str $fn = $function-name;
+      $fn ~~ s/^ set /get/;
+      if $hcs{$fn}:exists {
+        $hash-fname ~~ s/^ set /get/;
+        $code ~= qq:to/EOTEST/;
+            #TB:0:$hash-fname\(\)
+            $test-type .$hash-fname\(\), '…', '.$hash-fname\(\)';
+
+        EOTEST
+      }
+    }
+
+    elsif $hash-fname ~~ m/^ get / {
+      # Only test get-*() when they are not tested above
+      my Str $fn = $function-name;
+      $fn ~~ s/^ get /set/;
+
+      if $hcs{$fn}:!exists {
+        $code ~= qq:to/EOTEST/;
+            #TB:0:$hash-fname\(\)
+            $test-type .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
+
+        EOTEST
+      }
+    }
+
+    else {
+      $code ~= qq:to/EOTEST/;
+          #TB:0:$hash-fname\(\)
+          ok .$hash-fname\($par-list\), '.$hash-fname\(\)';
+
+      EOTEST
+    }
+  }
+
   $code
 }
 
@@ -106,6 +262,9 @@ method generate-inheritance-tests (
 ) {
 
   my $code = '';
+#TODO rethink inheritance --> other tests
+return $code;
+
 
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
@@ -157,6 +316,10 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
 
   # Use of .reverse() to get the set*() functions before the get*() functions
   for $hcs.keys.sort.reverse -> $function-name {
+    $code ~= self.make-function-test(
+      $hcs, $function-name, $test-variable, $decl-vars
+    );
+#`{{
     my Hash $curr-function := $hcs{$function-name};
 
     # get method name, drop the prefix
@@ -194,7 +357,6 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
         when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
         when /^ GEnum / { $assign-list ~= "…;  # a $rtype enum\n"; }
         when /^ GEnum / { $assign-list ~= "…;  # a $rtype mask\n"; }
-#        when '' { $assign-list ~= ;\n"; }
         default {
           note "Test variable \$$parameter<name> has type $rtype";
           $assign-list ~= "'…';\n";
@@ -247,6 +409,8 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
 
       EOTEST
     }
+}}
+
   }
 
   $code ~= "\}\}\n  \}\n\};\n\n";
@@ -262,7 +426,6 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
       $type = 'UInt';
     }
 
-#    $type ~~ s/ '()' // unless $type ~~ m/ 'N-GObject' /;
     $dstr ~= "    my $type \$$name;\n";
   }
 
