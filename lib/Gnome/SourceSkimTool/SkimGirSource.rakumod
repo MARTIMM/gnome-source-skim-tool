@@ -755,6 +755,10 @@ method !get-source-file( XML::Element:D $element --> Str ) {
         $module-filename = $module-filename.IO.basename;
         $module-filename ~~ s/ \. <-[\.]>+ $//;
 
+        # Gtk 4 prefixes filenames with 'gtk', must remove it
+        my Str $prefix = $*work-data<name-prefix>;
+        $module-filename ~~ s/^ $prefix //;
+
         # In Gtk and Gdk for version 3, the filenames are having the prefix
         # 'gtk' or 'gdk' before it. Glib, GObject and Gio has a 'g' prefixed.
         if $*gnome-package.Str ~~ any(<Gtk3 Gdk3 Glib GObject Gio Atk Pango>) {
