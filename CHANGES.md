@@ -63,11 +63,12 @@
 
 # Release notes
 * 2023-09-10 0.11.1
-  * Start finding a new way to process native constructor functions. BUILD used options which do not map well to the arguments of those functions. Therefore after generating the module, some extra work needed to be done to get the named arguments right. To have less work afterwards, it is easier to have the user call the native routines directly. A special case must be made for the plain `new()` method.
-    Found a way to handle that. any plain `.new()` constructor is renamed into something like `.new-`_classname_`()`. 
-    This means that the new methods will break compatibility. Compare for example of an init of the label class;
-    Previously `$label .= new(:text('...'));`
-    Now `$label .= new-label('...');`
+  * Start finding a new way to process native constructor functions. BUILD used options which do not map well to the arguments of those functions. Therefore after generating the module, some extra work needed to be done to get the named arguments right. To have less work afterwards, it is easier to have the user call the native routines directly. An example from the label class;
+    Previously; `$label .= new(:mnemonic('…'));`
+    Now: `$label .= new-with-mnemonic('…');`
+    A special case must be made for the plain `new()` method. Found a way to handle that. Any plain `.new()` constructor is renamed into something like `.new-`_classname_`()`. This means that the new methods will break compatibility. Again an example from the label class;
+    Previously; `$label .= new(:text('…'));`
+    Now `$label .= new-label('…');`
 
 * 2023-09-04 0.11.0
   * Modules, documents and test files are generated in new environment `./gnome-api2` in the package. They will be uploaded separately into the fez ecosystem. Later on, the META6 for each of the packages will be generated too.
