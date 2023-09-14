@@ -1807,7 +1807,7 @@ method generate-structure (
     $code ~= qq:to/EOREC/;
       {$!grd.pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
-      class $record-class is export is repr\('CPointer');
+      unit class $record-class is export is repr\('CPointer');
 
       EOREC
   }
@@ -1940,9 +1940,7 @@ method generate-union (
     $code ~= qq:to/EOREC/;
       {$!grd.pod-header('Union Structure')}
       # This is an opaque type of which fields are not available.
-      class $class-name \{
-        class $union-class is export is repr\('CPointer');
-      \}
+      unit class $union-class is export is repr\('CPointer');
 
       EOREC
   }
