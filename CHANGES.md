@@ -59,7 +59,8 @@
   * **Gnome::\<package>::R-\<roles>**. Name of roles are changed but is not a problem because they cannot be used as a class.
   * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structures are exported so that the last part can be used; E.g. **N-GError**.
   * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
-
+* In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. There is no pixbuf package for version 4. There it is solved differently.
+* New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 
 # Release notes
 * 2023-09-10 0.11.1
