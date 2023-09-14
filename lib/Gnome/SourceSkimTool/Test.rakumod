@@ -152,7 +152,7 @@ method make-function-test (
   my Str $hash-fname = $function-name;
   $hash-fname ~~ s/^ $symbol-prefix //;
   $hash-fname ~~ s:g/ '_' /-/;
-  my Bool $isnew = $hash-fname ~~ m/^ new /;
+  my Bool $isnew = ($hash-fname ~~ m/^ new /).Bool;
 
   my Bool $first-param = True;
   my Str $test-type;
@@ -649,8 +649,8 @@ method generate-enumeration-tests ( Array:D $enum-names --> Str ) {
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       my Str $enum-item = $m.attribs<c:identifier>;
+#TE:1:$enum-item
       $code ~= qq:to/EOENUM/;
-          #TE:1:$enum-item
           is $enum-item.value, $member-count, 'enum $enum-item = $member-count';
 
         EOENUM
@@ -686,10 +686,12 @@ method generate-bitfield-tests ( Array:D $bitfield-names --> Str ) {
   # For each of the found names
   for $bitfield-names.sort -> $bitfield-name {
     my Str $name = $bitfield-name;
+    my Str $prefix = $*work-data<name-prefix>;
+    $name ~~ s:i/^ $prefix //;
 #    my Str $package = $*gnome-package.Str;
 #    $package ~~ s/ \d+ $//;
 #    $name ~~ s/^ $package //;
-note "$?LINE $bitfield-name, $name";
+#note "$?LINE $bitfield-name, $name";
     # Get the XML element of the bitfield data
     my XML::Element $e = $xpath.find(
       '//bitfield[@name="' ~ $name ~ '"]', :!to-list
@@ -711,8 +713,8 @@ note "$?LINE $bitfield-name, $name";
 #      @l.push: [~] ':', $m.attribs<c:identifier>, '(', $m.attribs<value>, ')';
       my Str $bitfield-item = $m.attribs<c:identifier>;
       my Str $bitfield-value = $m.attribs<value>;
+#TE:1:$bitfield-item
       $code ~= qq:to/EOBFIELD/;
-          #TE:1:$bitfield-item
           is $bitfield-item.value, $bitfield-value, 'bitfield $bitfield-item = $bitfield-value';
 
         EOBFIELD
@@ -725,8 +727,7 @@ note "$?LINE $bitfield-name, $name";
 
     $code ~= "};\n\n";
   }
-#note "$?LINE $code";
-#exit;
+
   $code
 }
 
@@ -747,12 +748,15 @@ method generate-constant-tests ( @constants --> Str ) {
     EOCONST
 
   # For each of the found names
-  for @constants -> $constant {
+  for @constants -> $constant is copy {
 #note "$?LINE ", $constant.gist;
 #    my Str $name = $constant-name;
 #    my Str $package = $*gnome-package.Str;
 #    $package ~~ s/ \d+ $//;
 #    $name ~~ s/^ $package //;
+    my Str $name = $constant[0];
+    my Str $prefix = $*work-data<name-prefix>;
+    $name ~~ s:i/^ $prefix <[-_]>? //;
 
     # Get the XML element of the constant data
 #    my XML::Element $e = $xpath.find(
@@ -768,8 +772,8 @@ method generate-constant-tests ( @constants --> Str ) {
 #    $code ~= "constant $constant[0] is export = $value;\n";
 
     $code ~= qq:to/EOCONST/;
-      #TE:1:$constant[0]
-      is $constant[0], $value, "constant $constant[0] = $value";
+      #TE:1:$name
+      is $name, $value, "constant $name = $value";
 
       EOCONST
 
