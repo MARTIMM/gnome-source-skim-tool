@@ -150,7 +150,7 @@ method generate-test ( ) {
     $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
     $class-name = $data<class-name>;
     $!mod.add-import($class-name);
-#note "$?LINE $gir-type, $filename, $class-name";
+note "$?LINE $gir-type, $filename, $class-name";
 
     if $filename.IO.e {
       say HLSEPARATOR;
@@ -303,7 +303,7 @@ method generate-test ( ) {
     }
 }}
 
-    $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
+    $code = $!mod.substitute-MODULE-IMPORTS($code);
 
     $!mod.save-file( $filename, $code, "types tests");
   }
