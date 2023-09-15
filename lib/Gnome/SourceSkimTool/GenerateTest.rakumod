@@ -150,14 +150,16 @@ method generate-test ( ) {
     $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
     $class-name = $data<class-name>;
     $!mod.add-import($class-name);
-note "$?LINE $gir-type, $filename, $class-name";
+#note "$?LINE $gir-type, $filename, $class-name";
 
+#`{{
     if $filename.IO.e {
       say HLSEPARATOR;
       say "Test files are never overwritten because of work after generation";
       say HLSEPARATOR;
       next;
     }
+}}
 
     given $gir-type {
       when 'callback' {
@@ -236,7 +238,7 @@ note "$?LINE $gir-type, $filename, $class-name";
         my Hash $hms = $!mod.get-standalone-functions($function-names);
 #note "$?LINE $class-name $test-variable";
         $c ~= "\nmy $class-name $test-variable .= new;\n";
-        $c ~= $!tst.generate-method-tests( $hms, $test-variable);
+        $c ~= $!tst.generate-method-tests( $hms, $test-variable, :!ismethod);
   #      $c ~= $!tst.generate-function-tests( $class-name, $hms);
       }
 

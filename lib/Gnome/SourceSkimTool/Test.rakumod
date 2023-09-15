@@ -146,6 +146,7 @@ method make-function-test (
   --> Str
 ) {
   my @parameters = @($hcs{$function-name}<parameters>);
+note "$?LINE $function-name, $test-variable, $ismethod";
 
   # Get method name and drop the prefix
   my Str $symbol-prefix = $*work-data<sub-prefix>;
@@ -196,61 +197,61 @@ method make-function-test (
       }
     }
     $par-list ~= ", \$$parameter<name>";
+  }
 
-    # Remove first comma and first space
-    $par-list ~~ s/^ . //;
+  # Remove first comma
+  $par-list ~~ s/^ . //;
 
-    if $isnew {
-      $code ~= qq:to/EOTEST/;
+  if $isnew {
+    $code ~= qq:to/EOTEST/;
+      #TB:0:$hash-fname\(\)
+    $assign-list.chop()
+      $test-variable .= $hash-fname\($par-list\);
+      ok .is-valid, '.$hash-fname\($par-list\)';
+
+    EOTEST
+  }
+
+  elsif $hash-fname ~~ m/^ set / {
+    $code ~= qq:to/EOTEST/;
         #TB:0:$hash-fname\(\)
-      $assign-list.chop()
-        $test-variable .= $hash-fname\($par-list\);
-        ok .is-valid, '.$hash-fname\($par-list\)';
+    $assign-list.chop()
+        lives-ok \{ .$hash-fname\($par-list\); \}, '.$hash-fname\(\)';
+    EOTEST
 
-      EOTEST
-    }
-
-    elsif $hash-fname ~~ m/^ set / {
+    # Also test set-*() when there is one
+    my Str $fn = $function-name;
+    $fn ~~ s/^ set /get/;
+    if $hcs{$fn}:exists {
+      $hash-fname ~~ s/^ set /get/;
       $code ~= qq:to/EOTEST/;
           #TB:0:$hash-fname\(\)
-      $assign-list.chop()
-          lives-ok \{ .$hash-fname\($par-list\); \}, '.$hash-fname\(\)';
+          $test-type .$hash-fname\(\), '…', '.$hash-fname\(\)';
+
       EOTEST
-
-      # Also test set-*() when there is one
-      my Str $fn = $function-name;
-      $fn ~~ s/^ set /get/;
-      if $hcs{$fn}:exists {
-        $hash-fname ~~ s/^ set /get/;
-        $code ~= qq:to/EOTEST/;
-            #TB:0:$hash-fname\(\)
-            $test-type .$hash-fname\(\), '…', '.$hash-fname\(\)';
-
-        EOTEST
-      }
     }
+  }
 
-    elsif $hash-fname ~~ m/^ get / {
-      # Only test get-*() when they are not tested above
-      my Str $fn = $function-name;
-      $fn ~~ s/^ get /set/;
+  elsif $hash-fname ~~ m/^ get / {
+    # Only test get-*() when they are not tested above
+    my Str $fn = $function-name;
+    $fn ~~ s/^ get /set/;
 
-      if $hcs{$fn}:!exists {
-        $code ~= qq:to/EOTEST/;
-            #TB:0:$hash-fname\(\)
-            $test-type .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
-
-        EOTEST
-      }
-    }
-
-    else {
+    if $hcs{$fn}:!exists {
       $code ~= qq:to/EOTEST/;
           #TB:0:$hash-fname\(\)
-          ok .$hash-fname\($par-list\), '.$hash-fname\(\)';
+          $test-type .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
 
       EOTEST
     }
+  }
+
+  else {
+    $code ~= qq:to/EOTEST/;
+        #TB:0:$hash-fname\(\)
+        ok .$hash-fname\($par-list\), '.$hash-fname\(\)';
+
+    EOTEST
   }
 
   $code
@@ -295,7 +296,9 @@ return $code;
 }
 
 #-------------------------------------------------------------------------------
-method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
+method generate-method-tests (
+  Hash $hcs, Str $test-variable, Bool :$ismethod = True --> Str
+) {
 
   # Set up tests for the methods
   my Str $code = qq:to/EOTEST/;
@@ -317,7 +320,7 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
   # Use of .reverse() to get the set*() functions before the get*() functions
   for $hcs.keys.sort.reverse -> $function-name {
     $code ~= self.make-function-test(
-      $hcs, $function-name, $test-variable, $decl-vars
+      $hcs, $function-name, $test-variable, $decl-vars, :$ismethod
     );
 #`{{
     my Hash $curr-function := $hcs{$function-name};
@@ -417,6 +420,7 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
 
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
+  my Str $temp-inhibit = '';
   for $decl-vars.kv -> $name, $type is copy {
     if $type ~~ /^ GEnum / {
       $type ~~ s/^ <-[:]>+ ':' //;
@@ -426,7 +430,13 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
       $type = 'UInt';
     }
 
-    $dstr ~= "    my $type \$$name;\n";
+    #TODOinhibit callback signatures
+    elsif $type ~~ /^ ':('/ {
+      $temp-inhibit = '#';
+    }
+
+    $dstr ~= "$temp-inhibit    my $type \$$name;\n";
+    $temp-inhibit = '';
   }
 
   $code ~~ s/'__DECL_VARS__'/$dstr/;
@@ -434,6 +444,7 @@ method generate-method-tests ( Hash $hcs, Str $test-variable --> Str ) {
   $code
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method generate-function-tests ( Str $class-name, Hash $hcs --> Str ) {
 
@@ -530,6 +541,7 @@ method generate-function-tests ( Str $class-name, Hash $hcs --> Str ) {
   $code ~= "};\n\n";
   $code
 }
+}}
 
 #-------------------------------------------------------------------------------
 method generate-signal-tests ( Str $test-variable --> Str ) {
