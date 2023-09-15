@@ -2700,19 +2700,19 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 
 #-------------------------------------------------------------------------------
 #TODO add file locking list? or overwrite option?
-method save-file ( Str $filename, Str $content, Str $comment ) {
+method save-file ( Str $filename is copy, Str $content, Str $comment ) {
 #note "$?LINE $filename";
-  say HLSEPARATOR;
+#  say HLSEPARATOR;
 
   my Bool $save-it = False;
 
   # Less danger in overwriting too much
   if $*generate-code or $*generate-doc {
-    my Str $a;
     if $filename.IO.e {
-      $a = prompt "Do you want to overwrite {$filename.IO.basename}? [N, y] > ";
+      my Str $a =
+        prompt "\n  Do you want to overwrite {$filename.IO.basename}? [N, y] > ";
       $save-it = ($a.lc eq 'y');
-      say "{$filename.IO.basename} not overwritten" unless $save-it;
+ #     say "{$filename.IO.basename} not overwritten" unless $save-it;
     }
 
     else {
@@ -2722,18 +2722,42 @@ method save-file ( Str $filename, Str $content, Str $comment ) {
 
   # Prohibit overwriting of test files
   elsif $*generate-test and $filename.IO.e {
-    say "Test files are never overwritten because of work after generation";
-  }
-
-  else {
+#    say "Test files are never overwritten because of work after generation";
+    $filename ~= ';new-version';
+#    say "File saved in $filename";
     $save-it = True;
   }
 
+#  else {
+#    $save-it = True;
+#  }
+
   if $save-it {
+    $*saved-file-summary.push: $filename.IO.basename;
     $filename.IO.spurt($content);
-    say 'Save ', $comment, ' in ', $filename .IO.basename;
+#    say 'Save ', $comment, ' in ', $filename.IO.basename;
+#    say HLSEPARATOR;
   }
 
+}
+
+
+=finish
+#-------------------------------------------------------------------------------
+#TODO add file locking list? or overwrite option?
+method save-file ( Str $filename is copy, Str $content, Str $comment ) {
+#note "$?LINE $filename";
+  say HLSEPARATOR;
+
+  if $filename.IO.e {
+    say "Original files are never overwritten because of work after generation";
+    $filename ~= ';new-version';
+  }
+
+  $filename.IO.spurt($content);
+  say 'Save ', $comment, ' in ', $filename.IO.basename;
+
+  $*saved-file-summary.push: $filename.IO.basename;
   say HLSEPARATOR;
 }
 
