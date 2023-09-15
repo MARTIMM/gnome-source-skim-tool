@@ -30,6 +30,8 @@ my @*gir-type-select;
 
 my Hash $*lib-content-list-file = load-yaml(lib-content-list-file.IO.slurp);
 
+my Array $*saved-file-summary;
+
 #-------------------------------------------------------------------------------
 sub MAIN (
   Str:D $gnome-package, Str $filename? is copy, *@types,
@@ -104,6 +106,8 @@ sub MAIN (
 
       $*generate-test = False;
     }
+
+    say "Summary of saved files\n  ", $*saved-file-summary.join("\n  ");
   }
 }
 
