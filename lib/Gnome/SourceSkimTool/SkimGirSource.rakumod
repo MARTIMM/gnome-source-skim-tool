@@ -69,6 +69,10 @@ method get-classes-from-gir ( ) {
   my @elements = ($!xp.find( '/repository/namespace/*', :to-list));
   for @elements -> $element {
 
+    # Ignore the entry when the item is moved to some other module
+    next if $element.attribs<moved-to>:exists;
+#note "\n$?LINE: $element.attribs()";
+
 #note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
     # Map an element into the repo-object-map. Returns True if
     # element is deprecated or is a *class, *iface or *private type.
@@ -154,28 +158,30 @@ method get-classes-from-gir ( ) {
         my $attrs = $element.attribs;
         my $name = $attrs<c:type>;
 
-        my Str $name-prefix = $*work-data<name-prefix>;
-        $name ~~ s:i/^ $name-prefix //;
+        if ?$name {
+          my Str $name-prefix = $*work-data<name-prefix>;
+          $name ~~ s:i/^ $name-prefix //;
 
-        my Str $xml = qq:to/EOXML/;
-          <?xml version="1.0"?>
-          <!--
-            File is automatically generated from original gir files;
-            DO NOT EDIT!
-          -->
-          <repository version="1.2"
-                      xmlns="http://www.gtk.org/introspection/core/1.0"
-                      xmlns:c="http://www.gtk.org/introspection/c/1.0"
-                      xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
-              $xml-namespace
-              $element.Str()
-            </namespace>
-          </repository>
-          EOXML
+          my Str $xml = qq:to/EOXML/;
+            <?xml version="1.0"?>
+            <!--
+              File is automatically generated from original gir files;
+              DO NOT EDIT!
+            -->
+            <repository version="1.2"
+                        xmlns="http://www.gtk.org/introspection/core/1.0"
+                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+                $xml-namespace
+                $element.Str()
+              </namespace>
+            </repository>
+            EOXML
 
-        my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
-        note "Save union $name" if $*verbose;
-        $xml-file.IO.spurt($xml);
+          my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
+          note "Save union $name" if $*verbose;
+          $xml-file.IO.spurt($xml);
+        }
       }
 
       when 'callback' {
