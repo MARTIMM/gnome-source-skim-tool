@@ -2053,7 +2053,6 @@ method add-import ( Str $import --> Bool ) {
     }
   }
 
-#note "$?LINE $import, $*external-modules{$import}";
   $available
 }
 
