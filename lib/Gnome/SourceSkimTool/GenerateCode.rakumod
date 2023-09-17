@@ -139,6 +139,7 @@ method generate-code ( ) {
     $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
+#note "$?LINE $*work-data<sub-prefix>";
 
     given $gir-type {
       when 'constant' {
@@ -191,10 +192,10 @@ method generate-code ( ) {
   #        $class-name = $v<class-name> unless ?$class-name;
         }
 
-        my Str $package-name = (S/ \d+ $// with $*gnome-package.Str).lc;
-        $*work-data<sub-prefix> = $package-name ~~ any(<glib gio>)
-                                  ?? 'g_' !! $package-name ~ '_';
-  #note "$?LINE f $package-name $*work-data<sub-prefix>";
+#        my Str $package-name = (S/ \d+ $// with $*gnome-package.Str).lc;
+#        $*work-data<sub-prefix> = $package-name ~~ any(<glib gio>)
+#                                  ?? 'g_' !! $package-name ~ '_';
+#note "$?LINE f $package-name $*work-data<sub-prefix>";
 
         my Hash $hms = $!mod.get-standalone-functions($function-names);
         $function-hash = $!mod.generate-functions($hms);
