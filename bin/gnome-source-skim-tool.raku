@@ -30,7 +30,7 @@ my @*gir-type-select;
 
 my Hash $*lib-content-list-file = load-yaml(lib-content-list-file.IO.slurp);
 
-my Array $*saved-file-summary;
+my Array $*saved-file-summary = [];
 
 #-------------------------------------------------------------------------------
 sub MAIN (
