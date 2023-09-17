@@ -241,12 +241,12 @@ method generate-test ( ) {
   my Str $prefix = $*work-data<name-prefix>;
   $ctype ~~ s:i/^ $prefix //;
   my Str $fname = "$*work-data<result-tests>/$ctype.rakutest";
-  if $fname.IO.e {
-    say HLSEPARATOR;
-    say "Test files are never overwritten because of work after generation";
-    say HLSEPARATOR;
-    return;
-  }
+#  if $fname.IO.e {
+#    say HLSEPARATOR;
+#    say "Test files are never overwritten because of work after generation";
+#    say HLSEPARATOR;
+#    return;
+#  }
 
   $!tst .= new;
 
@@ -255,9 +255,16 @@ method generate-test ( ) {
   $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
 
-  my Str $class = 'N-' ~ $h<gnome-name>;
-  my Str $test-variable = '$' ~ $class.lc;
-  my Str $raku-class = $h<class-name>;
+#  my Str $class = 'N-' ~ $h<gnome-name>;
+#  my Str $test-variable = '$' ~ $class.lc;
+  my Str $test-variable = $h<gnome-name>.lc;
+  $test-variable ~~ s:i/^ $prefix //;
+  $test-variable = '$' ~ $test-variable;
+
+  my Str $raku-class-struct = $h<class-name>;
+  $!mod.add-import($raku-class-struct);
+  my Str $raku-class = $raku-class-struct;
+  $raku-class ~~ s:i/ '::N-' $prefix /::/;
   $!mod.add-import($raku-class);
   my Str $code = $!tst.prepare-test($raku-class);
 
@@ -274,7 +281,7 @@ method generate-test ( ) {
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
   $code ~= $!tst.generate-test-end;
 #  $code ~= $!tst.generate-signal-tests($test-variable);
-  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   $!mod.save-file( $fname, $code, "record tests");
 }
