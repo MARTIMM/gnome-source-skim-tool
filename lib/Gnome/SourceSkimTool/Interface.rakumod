@@ -66,12 +66,12 @@ method generate-doc ( ) {
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
   my Str $fname = "$*work-data<result-tests>R-$*gnome-class.rakutest";
-  if $fname.IO.e {
-    say HLSEPARATOR;
-    say "Test files are never overwritten because of work after generation";
-    say HLSEPARATOR;
-    return;
-  }
+#  if $fname.IO.e {
+#    say HLSEPARATOR;
+#    say "Test files are never overwritten because of work after generation";
+#    say HLSEPARATOR;
+#    return;
+#  }
 
   $!tst .= new;
 
@@ -93,7 +93,7 @@ method generate-test ( ) {
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
   $code ~= $!tst.generate-test-end;
   $code ~= $!tst.generate-signal-tests($test-variable);
-  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   $!mod.save-file( $fname, $code, "interface tests");
 }

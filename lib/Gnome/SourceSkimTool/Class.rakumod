@@ -124,7 +124,7 @@ method generate-test ( ) {
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
   $code ~= $!tst.generate-test-end;
   $code ~= $!tst.generate-signal-tests($test-variable);
-  $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
+  $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   $!mod.save-file( $fname, $code, "class tests");
 }
