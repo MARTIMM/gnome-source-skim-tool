@@ -146,7 +146,7 @@ method make-function-test (
   --> Str
 ) {
   my @parameters = @($hcs{$function-name}<parameters>);
-note "$?LINE $function-name, $test-variable, $ismethod";
+#note "$?LINE $function-name, $test-variable, $ismethod";
 
   # Get method name and drop the prefix
   my Str $symbol-prefix = $*work-data<sub-prefix>;
