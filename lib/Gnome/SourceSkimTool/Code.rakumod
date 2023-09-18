@@ -26,14 +26,14 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = self.search-name($ctype);
 
-  # Check for parent class. There are never more than one.
-  my Str $parent = $h<parent-raku-name> // '';
-  if ?$parent {
-    # Misc is deprecated so shortcut to Widget. This is only for Gtk3!
-    $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
-    self.add-import($parent);
-    $also ~= "also is $parent;\n";
-  }
+  # Check for parent class. There are never more than one. When there is
+  # none, pick TopLevelClassSupport
+  my Str $parent = $h<parent-raku-name> // 'Gnome::N::TopLevelClassSupport';
+
+  # Misc is deprecated so shortcut to Widget. This is only for Gtk3!
+  $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
+  self.add-import($parent);
+  $also ~= "also is $parent;\n";
 
   my Bool $is-role = (($h<gir-type> // '' ) eq 'interface') // False;
   my Bool $is-class = (($h<gir-type> // '' ) eq 'class') // False;
@@ -200,7 +200,7 @@ method generate-callables (
         RAKUMOD
 
       $c ~= q:to/RAKUMOD/;
-          # Check the function name. 
+              # Check the function name. 
               return self.bless(
                 :native-object(
                   $routine-caller.call-native-sub( $name, @arguments, $methods)
@@ -316,6 +316,22 @@ method make-build-submethod (
     \}
   \}
   EOBUILD
+
+  # Check for parent class. When there is none, TopLevelClassSupport is set
+  # and we need additional code
+  unless ?$h<parent-raku-name> {
+    $code ~= q:to/EOBUILD/;
+
+      # Next two methods need checks for proper referencing or cleanup 
+      method native-object-ref ( $n-native-object ) {
+      #  $n-native-object
+      }
+
+      method native-object-unref ( $n-native-object ) {
+      #  self._fallback-v2( 'free', my Bool $x);
+      }
+      EOBUILD
+  }
 
   $code
 }
