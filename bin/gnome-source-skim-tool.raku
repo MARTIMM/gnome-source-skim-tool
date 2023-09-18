@@ -107,7 +107,7 @@ sub MAIN (
       $*generate-test = False;
     }
 
-    say "Summary of saved files\n  ", $*saved-file-summary.join("\n  ");
+    say "\n\nSummary of saved files\n  ", $*saved-file-summary.join("\n  ");
   }
 }
 
