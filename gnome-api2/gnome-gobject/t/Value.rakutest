@@ -1,0 +1,256 @@
+# Command to generate: gnome-source-skim-tool.raku -t -v GObject value
+
+#TL:1:Gnome::GObject::Value:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+use Gnome::GObject::N-GValue:api<2>;
+use Gnome::GObject::Value:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::GObject::Value $value;
+
+constant G_TYPE_FUNDAMENTAL_SHIFT = 2;
+constant G_TYPE_CHAR is export = 3 +< G_TYPE_FUNDAMENTAL_SHIFT;
+constant G_TYPE_UCHAR is export = 4 +< G_TYPE_FUNDAMENTAL_SHIFT;
+constant G_TYPE_INT is export = 6 +< G_TYPE_FUNDAMENTAL_SHIFT;
+constant G_TYPE_UINT is export = 7 +< G_TYPE_FUNDAMENTAL_SHIFT;
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  my N-GValue $native-object .= new;
+  $value .= new(:$native-object);
+
+    my UInt() $v-flags;
+    my gpointer $v-object;
+    my N-GObject $variant;
+    my UInt() $v-uint;
+    my UInt() $v-uchar;
+    my Bool() $v-boolean;
+    my Int() $v-long;
+    my UInt() $v-uint64;
+    my Str $v-string;
+    my gpointer $instance;
+    my GType $g-type;
+    my UInt() $v-ulong;
+    my Int() $v-enum;
+    my Int() $v-int;
+    my N-GObject() $param;
+    my N-GObject $dest-value;
+    my gpointer $v-boxed;
+    my GType $v-gtype;
+    my gpointer $v-pointer;
+    my Int() $v-char;
+    my Int() $v-int64;
+    my Num() $v-float;
+    my Num() $v-double;
+
+    my GType $src-type;
+    my GType $dest-type;
+
+    with $value {
+      #TB:1:type-transformable()
+      $src-type = G_TYPE_UCHAR;
+      $dest-type = G_TYPE_CHAR;
+      ok .type-transformable( $src-type, $dest-type), '.type-transformable()';
+
+      #TB:1:type-compatible()
+      $src-type = G_TYPE_UINT;
+      $dest-type = G_TYPE_INT;
+      nok .type-compatible( $src-type, $dest-type), '.type-compatible()';
+    }
+#`{{
+    #TB:0:transform()
+    ok .transform( $dest-value), '.transform()';
+
+    #TB:0:take-variant()
+    ok .take-variant( $variant), '.take-variant()';
+
+    #TB:0:take-string()
+    ok .take-string( $v-string), '.take-string()';
+
+    #TB:0:take-param()
+    ok .take-param( $param), '.take-param()';
+
+    #TB:0:take-object()
+    ok .take-object( $v-object), '.take-object()';
+
+    #TB:0:take-boxed()
+    ok .take-boxed( $v-boxed), '.take-boxed()';
+
+    #TB:0:set-variant()
+    $variant = …;  # a native object
+    lives-ok { .set-variant( $variant); }, '.set-variant()';
+    #TB:0:get-variant()
+    is .get-variant(), '…', '.get-variant()';
+
+    #TB:0:set-ulong()
+    $v-ulong = 42;
+    lives-ok { .set-ulong( $v-ulong); }, '.set-ulong()';
+    #TB:0:get-ulong()
+    is .get-ulong(), '…', '.get-ulong()';
+
+    #TB:0:set-uint64()
+    $v-uint64 = 42;
+    lives-ok { .set-uint64( $v-uint64); }, '.set-uint64()';
+    #TB:0:get-uint64()
+    is .get-uint64(), '…', '.get-uint64()';
+
+    #TB:0:set-uint()
+    $v-uint = 42;
+    lives-ok { .set-uint( $v-uint); }, '.set-uint()';
+    #TB:0:get-uint()
+    is .get-uint(), '…', '.get-uint()';
+
+    #TB:0:set-uchar()
+    $v-uchar = 42;
+    lives-ok { .set-uchar( $v-uchar); }, '.set-uchar()';
+    #TB:0:get-uchar()
+    is .get-uchar(), '…', '.get-uchar()';
+
+    #TB:0:set-string()
+    $v-string = 'text';
+    lives-ok { .set-string( $v-string); }, '.set-string()';
+    #TB:0:get-string()
+    is .get-string(), '…', '.get-string()';
+
+    #TB:0:set-static-string()
+    $v-string = 'text';
+    lives-ok { .set-static-string( $v-string); }, '.set-static-string()';
+    #TB:0:set-static-boxed()
+    $v-boxed = '…';
+    lives-ok { .set-static-boxed( $v-boxed); }, '.set-static-boxed()';
+    #TB:0:set-schar()
+    $v-char = -42;
+    lives-ok { .set-schar( $v-char); }, '.set-schar()';
+    #TB:0:get-schar()
+    is .get-schar(), '…', '.get-schar()';
+
+    #TB:0:set-pointer()
+    $v-pointer = '…';
+    lives-ok { .set-pointer( $v-pointer); }, '.set-pointer()';
+    #TB:0:get-pointer()
+    is .get-pointer(), '…', '.get-pointer()';
+
+    #TB:0:set-param()
+    $param = …;  # a native object
+    lives-ok { .set-param( $param); }, '.set-param()';
+    #TB:0:get-param()
+    is .get-param(), '…', '.get-param()';
+
+    #TB:0:set-object()
+    $v-object = '…';
+    lives-ok { .set-object( $v-object); }, '.set-object()';
+    #TB:0:get-object()
+    is .get-object(), '…', '.get-object()';
+
+    #TB:0:set-long()
+    $v-long = -42;
+    lives-ok { .set-long( $v-long); }, '.set-long()';
+    #TB:0:get-long()
+    is .get-long(), '…', '.get-long()';
+
+    #TB:0:set-interned-string()
+    $v-string = 'text';
+    lives-ok { .set-interned-string( $v-string); }, '.set-interned-string()';
+    #TB:0:set-int64()
+    $v-int64 = -42;
+    lives-ok { .set-int64( $v-int64); }, '.set-int64()';
+    #TB:0:get-int64()
+    is .get-int64(), '…', '.get-int64()';
+}}
+
+  $value .= new(:native-object($value.init(G_TYPE_INT)));
+#note "$?LINE ", $value.get-native-object.gist;
+  with $value {
+    #TB:0:set-int()
+    $v-int = -42;
+    .set-int( $v-int);
+    #TB:0:get-int()
+    is .get-int(), $v-int, '.set-int() / .get-int()';
+  }
+
+#`{{
+    #TB:0:set-instance()
+    $instance = '…';
+    lives-ok { .set-instance( $instance); }, '.set-instance()';
+    #TB:0:set-gtype()
+    $v-gtype = '…';
+    lives-ok { .set-gtype( $v-gtype); }, '.set-gtype()';
+    #TB:0:get-gtype()
+    is .get-gtype(), '…', '.get-gtype()';
+
+    #TB:0:set-float()
+    $v-float = 42.42;
+    lives-ok { .set-float( $v-float); }, '.set-float()';
+    #TB:0:get-float()
+    is-approx .get-float(), '…', '.get-float()';
+
+    #TB:0:set-flags()
+    $v-flags = 42;
+    lives-ok { .set-flags( $v-flags); }, '.set-flags()';
+    #TB:0:get-flags()
+    is .get-flags(), '…', '.get-flags()';
+
+    #TB:0:set-enum()
+    $v-enum = -42;
+    lives-ok { .set-enum( $v-enum); }, '.set-enum()';
+    #TB:0:get-enum()
+    is .get-enum(), '…', '.get-enum()';
+
+    #TB:0:set-double()
+    $v-double = 42.42;
+    lives-ok { .set-double( $v-double); }, '.set-double()';
+    #TB:0:get-double()
+    is-approx .get-double(), '…', '.get-double()';
+
+    #TB:0:set-boxed()
+    $v-boxed = '…';
+    lives-ok { .set-boxed( $v-boxed); }, '.set-boxed()';
+    #TB:0:get-boxed()
+    is .get-boxed(), '…', '.get-boxed()';
+
+    #TB:0:set-boolean()
+    $v-boolean = True;
+    lives-ok { .set-boolean( $v-boolean); }, '.set-boolean()';
+    #TB:0:get-boolean()
+    is .get-boolean(), '…', '.get-boolean()';
+
+    #TB:0:init-from-instance()
+    ok .init-from-instance( $instance), '.init-from-instance()';
+
+    #TB:0:init()
+    ok .init( $g-type), '.init()';
+
+    #TB:0:copy()
+    ok .copy( $dest-value), '.copy()';
+
+}}
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
