@@ -14,12 +14,14 @@ my Hash $test-location = %(
   :Pango<gnome-pango>,
 );
 
-sub MAIN ( Str $l, Str $t, Bool :$v3 = True ) {
+#-------------------------------------------------------------------------------
+sub MAIN ( Str $l, Str $t ) {
+
   if $test-location{$l}:exists and
      "$API2MODS/$test-location{$l}/t/$t.rakutest".IO.r
   {
     # Paths to find by Raku
-    my Str $gtk-v = $v3 ?? '3' !! '4';
+    my Str $gtk-v = ($l ~~ / '3' /) ?? '3' !! '4';
     my @pth = (
       "$API2MODS/gnome-native/lib",
       "$API2MODS/gnome-gtk$gtk-v/lib",
@@ -31,7 +33,7 @@ sub MAIN ( Str $l, Str $t, Bool :$v3 = True ) {
       "$API2MODS/gnome-cairo/lib",
       "$API2MODS/gnome-atk/lib",
     );
-    @pth.push: "$API2MODS/gnome-gsk4/lib" unless $v3;
+    @pth.push: "$API2MODS/gnome-gsk4/lib" if $gtk-v eq '4';
     %*ENV<RAKULIB> = @pth.join(',');
 
     shell "rakudo '$API2MODS/$test-location{$l}/t/$t.rakutest'";
