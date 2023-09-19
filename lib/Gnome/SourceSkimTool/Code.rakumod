@@ -434,274 +434,6 @@ method get-gtk-init ( --> List ) {
   ( $code, $init-gtk)
 }
 
-#`{{
-#-------------------------------------------------------------------------------
-method make-build-submethod (
-  XML::Element $element, XML::XPath $xpath --> Str
-) {
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
-
-  my Str $signal-admin = '';
-#---
-  # See which roles to implement
-  my Str $role-signals = '';
-  my Array $roles = $h<implement-roles> // [];
-  for @$roles -> $role {
-    my Hash $role-h = self.search-name($role);
-    if ?$role-h {
-#note "$?LINE role $role, ", $role-h.gist;
-      $role-signals ~=
-        "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
-        "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
-    }
-  }
-
-  $role-signals = "\n    # Signals from interfaces\n" ~ $role-signals
-    if ?$role-signals;
-#---
-  # Check if signal administration is needed
-  my Hash $sig-info = self.signals( $element, $xpath);
-  if ? $role-signals or ? $sig-info {
-    my Str $sig-list = '';
-    if ? $sig-info {
-      my Hash $signal-levels = %();
-      for $sig-info.keys -> $signal-name {
-        my Str $level = $sig-info{$signal-name}<level>.Str;
-        $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
-        $signal-levels{$level}.push: $signal-name;
-      }
-
-      for ^10 -> Str() $level {
-        if ?$signal-levels{$level} {
-          $sig-list ~=
-            [~] '      :w', $level, '<', $signal-levels{$level}.join(' '),
-                ">,\n";
-        }
-      }
-
-      $sig-list = 'self.add-signal-types( $?CLASS.^name,' ~
-                  "\n" ~ $sig-list ~ "    );\n" if ? $sig-list;
-    }
-
-    $signal-admin ~= qq:to/EOBUILD/;
-        # Add signal administration info.
-        unless \$signals-added \{
-          $sig-list$role-signals    \$signals-added = True;
-        \}
-      EOBUILD
-
-  }
-
-  my Str $c = '';
-  if ?$signal-admin {
-    $c ~= q:to/EOBUILD/;
-
-      # Add signal registration helper
-      my Bool $signals-added = False;
-      EOBUILD
-  }
-#---
-  my Str $init-gtk = '';
-  if $*work-data<raku-class-name> eq 'Gnome::GObject::Object' {
-    $c ~= q:to/EOBUILD/;
-
-      # Check on native library initialization.
-      my Bool $gui-initialized = False;
-      my Bool $may-not-initialize-gui = False;
-      EOBUILD
-
-    $init-gtk ~= q:to/EOBUILD/;
-
-        # check GTK+ init except when GtkApplication / GApplication is used
-        $may-not-initialize-gui = [or]
-          $may-not-initialize-gui,
-          $gui-initialized,
-          # Check for Application from Gio. That one inherits from Object.
-          # Application from Gtk3 inherits from Gio, so this test is always ok.
-          ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
-
-        self.gtk-initialize unless $may-not-initialize-gui or $gui-initialized;
-
-        # What ever happens, init is done in (G/Gtk)Application or just here
-        $gui-initialized = True;
-      EOBUILD
-  }
-#---
-  my Str $code = qq:to/EOBUILD/;
-    {$!grd.pod-header('BUILD variables');}
-    # Define callable helper
-    has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
-    $c
-    {$!grd.pod-header('BUILD submethod');}
-    submethod BUILD \( *\%options \) \{
-    $init-gtk$signal-admin
-      # Initialize helper
-      \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
-
-    EOBUILD
-#---
-
-  # Check if inherit code is to be inserted
-#  my Str $ctype = $element.attribs<c:type>;
-#  my Hash $h = self.search-name($ctype);
-  if $h<inheritable> {
-    $code ~= [~] '  # Prevent creating wrong widgets', "\n",
-            '  if self.^name eq ', "'$*work-data<raku-class-name>'",
-            ' or %options<', $*work-data<gnome-name>, '> {', "\n";
-  }
-
-  else {
-    $code ~= [~] '  # Prevent creating wrong widgets', "\n",
-            '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
-  }
-#---
-
-  # Add first few tests
-  my Str $b-id-str = ?$h<inheritable>
-                     ?? "\n" ~ '    elsif %options<build-id>:exists { }' !! '';
-  $code ~= qq:to/EOBUILD/;
-
-        # If already initialized in some parent, the object is valid
-        if self.is-valid \{ \}
-
-        # Check if common options are handled by some parent
-        elsif \%options\<native-object>:exists \{ \}$b-id-str
-
-        else \{
-          my N-GObject\(\) \$no;
-    EOBUILD
-
-  my Bool $simple-func-new = False;
-  my Str $ifelse = 'if';
-  my Hash $hcs = self.get-constructors( $element, $xpath);
-  if ?$hcs {
-    for $hcs.keys.sort -> $function-name is copy {
-
-      my Hash $curr-function := $hcs{$function-name};
-      my Str $par-list = '';
-      my Str $decl-list = '';
-      my Str $inhibit =
-        ( $curr-function<missing-type> ||
-          $curr-function<variable-list> ) ?? '#' !! '';
-
-      # Save as a user recognizable name. This makes it possible
-      # to postpone the translation as late as possible at run time
-      # and only once per function.
-      $function-name ~~ s:g/ '_' /-/;
-
-      # Insert a method without args if there are no parameters.
-      $simple-func-new = True unless ?$curr-function<parameters>;
-
-      # Process arguments if there are any.
-      unless $simple-func-new {
-        # Use the option name if it is the first arg.
-        my Bool $first = True;
-        for @($curr-function<parameters>) -> $parameter {
-          $par-list ~= ", \$$parameter<name>";
-          $decl-list ~= [~]
-            '        ', $inhibit, 'my $', $parameter<name>, ' = %options<',
-            ($first ?? $curr-function<option-name> !! $parameter<name>), '>;',
-            "\n";
-
-            $first = False;
-        }
-
-        # Remove first comma and first space
-        $par-list ~~ s/^ .. //;
-
-        $code ~= qq:to/EOBUILD/;
-                $ifelse \%options\<$curr-function<option-name>\>:exists \{
-          $decl-list
-                  # 'my Bool \$x' is needed but value ignored
-                  $inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
-                \}
-
-          EOBUILD
-
-        $ifelse = "elsif";
-      }
-    }
-  }
-
-  if !$h<inheritable> {
-    $code ~= qq:to/EOBUILD/;
-          # check if there are unknown options
-          $ifelse %options.elems \{
-            die X::Gnome.new\(
-              :message\(
-                'Unsupported, undefined, incomplete or wrongly typed options for ' ~
-                self\.\^name ~ ': ' ~ \%options.keys.join\(', '\)
-              \)
-            \);
-          \}
-
-    EOBUILD
-
-    $ifelse = "elsif";
-  }
-
-#`{{
-  $code ~= qq:to/EOBUILD/;
-        #`\{\{ when there are no defaults use this
-        # Check if there are any options
-        $ifelse \%options.elems == 0 \{
-          die X::Gnome.new\(:message\('No options specified ' ~ self.^name\)\);
-        \}
-        \}\}
-
-  EOBUILD
-#  $ifelse = "elsif";
-}}
-
-
-  # A simple call for a new() without arguments
-  if $simple-func-new {
-    if $ifelse eq 'if' {
-      $code ~= qq:to/EOBUILD/;
-
-            # Create default object
-            \$no = self\._fallback-v2\( 'new', my Bool \$x\);
-            self\._set-native-object\(\$no);
-      EOBUILD
-    }
-
-    else {
-      # When there are defaults, a new() without arguments
-      $code ~= qq:to/EOBUILD/;
-
-            # Create default object
-            else \{
-              \$no = self\._fallback-v2\( 'new', my Bool \$x\);
-            \}
-      EOBUILD
-    }
-  }
-
-  $code ~= qq:to/EOBUILD/;
-        if ?\$no \{
-          self\._set-native-object\(\$no);
-        }
-
-        else \{
-          die X::Gnome.new\(:message\('Native object for class $*work-data<raku-class-name> not created'\)\);
-        \}
-      \}
-  EOBUILD
-
-  self.add-import('Gnome::N::X');
-  $code ~= qq:to/EOBUILD/;
-
-      # only after creating the native-object, the gtype is known
-      self._set-class-info\('$*work-data<gnome-name>'\);
-    \}
-  \}
-  EOBUILD
-
-  $code
-}
-}}
-
 #-------------------------------------------------------------------------------
 method get-constructors (
   XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
@@ -1126,7 +858,6 @@ method generate-functions ( Hash $hcs --> Str ) {
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 #  my Str $pattern = '';
-#  my Str $variable-list = '';
   my Str $temp-inhibit = '';
   my Str $variable-list = '';
 
@@ -1282,8 +1013,9 @@ method generate-functions ( Hash $hcs --> Str ) {
 
 #note "$?LINE $function-name, {$returns//'-'}, {$par-list//'-'}";
 #TM:0:$function-name
-    $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %( :type(Function), ',
-                 $variable-list, $returns, $par-list, "),\n";
+    $code ~= [~] '  ', $temp-inhibit, $function-name,
+             ' => %( :type(Function), ', $variable-list, $returns,
+             $par-list, "),\n";
 
     # drop last comma from arg list
     $code ~~ s/ '),)' /))/;
@@ -1813,9 +1545,7 @@ method generate-structure (
 
 #    $code ~= "\n\n";
     self.add-import('Gnome::N::X');
-    $code = self.substitute-MODULE-IMPORTS(
-      $code, $class-name, $class-name ~ '::' ~ $record-class
-    );
+    $code = self.substitute-MODULE-IMPORTS( $code, $class-name, $class-name);
   }
 
   else {
@@ -1830,7 +1560,7 @@ method generate-structure (
 
   # Reset to original and add this structure
   $*external-modules = $temp-external-modules;
-  self.add-import($class-name ~ '::' ~ $record-class);
+  self.add-import($class-name);
 
 #  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
 #  mkdir $cdir, 0o700 unless $cdir.IO.e;
@@ -2052,10 +1782,19 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
 #-------------------------------------------------------------------------------
 method add-import ( Str $import --> Bool ) {
-  my Bool $available;
+  my Bool $available = False;
+
+#if $import eq 'Gnome::GObject::N-GValue::N-GValue' {
+#  say Backtrace.new.nice;
+#  exit;
+#}
 
   # Add only when $import is not in the hash.
-  unless $*external-modules{$import}:exists {
+  if $*external-modules{$import}:exists {
+    $available = True unless $*external-modules{$import} == EMTNotImplemented;
+  }
+
+  else {
     $available = True;
     if $*lib-content-list-file{$import}:exists {
       $*external-modules{$import} = ExternalModuleType(
@@ -2272,7 +2011,7 @@ method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
     }
   }
 
-#note "$?LINE $user-side, $ctype, $raku-type";
+note "$?LINE $user-side, $ctype, $raku-type" if $ctype ~~ m:i/ variant /;
   ( $ctype, $raku-type)
 }
 
@@ -2340,7 +2079,7 @@ method convert-ntype (
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = self.search-name($ctype);
-#note "  $?LINE $is-pointer, $ctype, $h<gir-type>";
+#note "  $?LINE $is-pointer, $ctype, $h.gist";
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-GObject';
@@ -2757,6 +2496,17 @@ method save-file ( Str $filename is copy, Str $content, Str $comment ) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
 =finish
 #-------------------------------------------------------------------------------
 #TODO add file locking list? or overwrite option?
@@ -2776,3 +2526,270 @@ method save-file ( Str $filename is copy, Str $content, Str $comment ) {
   say HLSEPARATOR;
 }
 
+
+
+#-------------------------------------------------------------------------------
+method make-build-submethod (
+  XML::Element $element, XML::XPath $xpath --> Str
+) {
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = self.search-name($ctype);
+
+  my Str $signal-admin = '';
+#---
+  # See which roles to implement
+  my Str $role-signals = '';
+  my Array $roles = $h<implement-roles> // [];
+  for @$roles -> $role {
+    my Hash $role-h = self.search-name($role);
+    if ?$role-h {
+#note "$?LINE role $role, ", $role-h.gist;
+      $role-signals ~=
+        "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
+        "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
+    }
+  }
+
+  $role-signals = "\n    # Signals from interfaces\n" ~ $role-signals
+    if ?$role-signals;
+#---
+  # Check if signal administration is needed
+  my Hash $sig-info = self.signals( $element, $xpath);
+  if ? $role-signals or ? $sig-info {
+    my Str $sig-list = '';
+    if ? $sig-info {
+      my Hash $signal-levels = %();
+      for $sig-info.keys -> $signal-name {
+        my Str $level = $sig-info{$signal-name}<level>.Str;
+        $signal-levels{$level} = [] unless $signal-levels{$level}:exists;
+        $signal-levels{$level}.push: $signal-name;
+      }
+
+      for ^10 -> Str() $level {
+        if ?$signal-levels{$level} {
+          $sig-list ~=
+            [~] '      :w', $level, '<', $signal-levels{$level}.join(' '),
+                ">,\n";
+        }
+      }
+
+      $sig-list = 'self.add-signal-types( $?CLASS.^name,' ~
+                  "\n" ~ $sig-list ~ "    );\n" if ? $sig-list;
+    }
+
+    $signal-admin ~= qq:to/EOBUILD/;
+        # Add signal administration info.
+        unless \$signals-added \{
+          $sig-list$role-signals    \$signals-added = True;
+        \}
+      EOBUILD
+
+  }
+
+  my Str $c = '';
+  if ?$signal-admin {
+    $c ~= q:to/EOBUILD/;
+
+      # Add signal registration helper
+      my Bool $signals-added = False;
+      EOBUILD
+  }
+#---
+  my Str $init-gtk = '';
+  if $*work-data<raku-class-name> eq 'Gnome::GObject::Object' {
+    $c ~= q:to/EOBUILD/;
+
+      # Check on native library initialization.
+      my Bool $gui-initialized = False;
+      my Bool $may-not-initialize-gui = False;
+      EOBUILD
+
+    $init-gtk ~= q:to/EOBUILD/;
+
+        # check GTK+ init except when GtkApplication / GApplication is used
+        $may-not-initialize-gui = [or]
+          $may-not-initialize-gui,
+          $gui-initialized,
+          # Check for Application from Gio. That one inherits from Object.
+          # Application from Gtk3 inherits from Gio, so this test is always ok.
+          ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
+
+        self.gtk-initialize unless $may-not-initialize-gui or $gui-initialized;
+
+        # What ever happens, init is done in (G/Gtk)Application or just here
+        $gui-initialized = True;
+      EOBUILD
+  }
+#---
+  my Str $code = qq:to/EOBUILD/;
+    {$!grd.pod-header('BUILD variables');}
+    # Define callable helper
+    has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
+    $c
+    {$!grd.pod-header('BUILD submethod');}
+    submethod BUILD \( *\%options \) \{
+    $init-gtk$signal-admin
+      # Initialize helper
+      \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
+
+    EOBUILD
+#---
+
+  # Check if inherit code is to be inserted
+#  my Str $ctype = $element.attribs<c:type>;
+#  my Hash $h = self.search-name($ctype);
+  if $h<inheritable> {
+    $code ~= [~] '  # Prevent creating wrong widgets', "\n",
+            '  if self.^name eq ', "'$*work-data<raku-class-name>'",
+            ' or %options<', $*work-data<gnome-name>, '> {', "\n";
+  }
+
+  else {
+    $code ~= [~] '  # Prevent creating wrong widgets', "\n",
+            '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
+  }
+#---
+
+  # Add first few tests
+  my Str $b-id-str = ?$h<inheritable>
+                     ?? "\n" ~ '    elsif %options<build-id>:exists { }' !! '';
+  $code ~= qq:to/EOBUILD/;
+
+        # If already initialized in some parent, the object is valid
+        if self.is-valid \{ \}
+
+        # Check if common options are handled by some parent
+        elsif \%options\<native-object>:exists \{ \}$b-id-str
+
+        else \{
+          my N-GObject\(\) \$no;
+    EOBUILD
+
+  my Bool $simple-func-new = False;
+  my Str $ifelse = 'if';
+  my Hash $hcs = self.get-constructors( $element, $xpath);
+  if ?$hcs {
+    for $hcs.keys.sort -> $function-name is copy {
+
+      my Hash $curr-function := $hcs{$function-name};
+      my Str $par-list = '';
+      my Str $decl-list = '';
+      my Str $temp-inhibit =
+        ( $curr-function<missing-type> || $curr-function<variable-list> )
+        ?? '#' !! '';
+
+      # Save as a user recognizable name. This makes it possible
+      # to postpone the translation as late as possible at run time
+      # and only once per function.
+      $function-name ~~ s:g/ '_' /-/;
+
+      # Insert a method without args if there are no parameters.
+      $simple-func-new = True unless ?$curr-function<parameters>;
+
+      # Process arguments if there are any.
+      unless $simple-func-new {
+        # Use the option name if it is the first arg.
+        my Bool $first = True;
+        for @($curr-function<parameters>) -> $parameter {
+          $par-list ~= ", \$$parameter<name>";
+          $decl-list ~= [~]
+            '        ', $temp-inhibit, 'my $', $parameter<name>, ' = %options<',
+            ($first ?? $curr-function<option-name> !! $parameter<name>), '>;',
+            "\n";
+
+            $first = False;
+        }
+
+        # Remove first comma and first space
+        $par-list ~~ s/^ .. //;
+
+        $code ~= qq:to/EOBUILD/;
+                $ifelse \%options\<$curr-function<option-name>\>:exists \{
+          $decl-list
+                  # 'my Bool \$x' is needed but value ignored
+                  $temp-inhibit\$no = self\._fallback-v2\( '$function-name', my Bool \$x, $par-list\);
+                \}
+
+          EOBUILD
+
+        $ifelse = "elsif";
+      }
+    }
+  }
+
+  if !$h<inheritable> {
+    $code ~= qq:to/EOBUILD/;
+          # check if there are unknown options
+          $ifelse %options.elems \{
+            die X::Gnome.new\(
+              :message\(
+                'Unsupported, undefined, incomplete or wrongly typed options for ' ~
+                self\.\^name ~ ': ' ~ \%options.keys.join\(', '\)
+              \)
+            \);
+          \}
+
+    EOBUILD
+
+    $ifelse = "elsif";
+  }
+
+#`{{
+  $code ~= qq:to/EOBUILD/;
+        #`\{\{ when there are no defaults use this
+        # Check if there are any options
+        $ifelse \%options.elems == 0 \{
+          die X::Gnome.new\(:message\('No options specified ' ~ self.^name\)\);
+        \}
+        \}\}
+
+  EOBUILD
+#  $ifelse = "elsif";
+}}
+
+
+  # A simple call for a new() without arguments
+  if $simple-func-new {
+    if $ifelse eq 'if' {
+      $code ~= qq:to/EOBUILD/;
+
+            # Create default object
+            \$no = self\._fallback-v2\( 'new', my Bool \$x\);
+            self\._set-native-object\(\$no);
+      EOBUILD
+    }
+
+    else {
+      # When there are defaults, a new() without arguments
+      $code ~= qq:to/EOBUILD/;
+
+            # Create default object
+            else \{
+              \$no = self\._fallback-v2\( 'new', my Bool \$x\);
+            \}
+      EOBUILD
+    }
+  }
+
+  $code ~= qq:to/EOBUILD/;
+        if ?\$no \{
+          self\._set-native-object\(\$no);
+        }
+
+        else \{
+          die X::Gnome.new\(:message\('Native object for class $*work-data<raku-class-name> not created'\)\);
+        \}
+      \}
+  EOBUILD
+
+  self.add-import('Gnome::N::X');
+  $code ~= qq:to/EOBUILD/;
+
+      # only after creating the native-object, the gtype is known
+      self._set-class-info\('$*work-data<gnome-name>'\);
+    \}
+  \}
+  EOBUILD
+
+  $code
+}
