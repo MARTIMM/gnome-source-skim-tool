@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+  <link type="text/css" rel="stylesheet" href="file:///home/Data/root-opt/Raku/rakudo/install/share/perl6/site/resources/19DBC61DEC0413B04DFF8030751C3F835BB60FA1.css">
+
+    
+</head>
+
+ <body class="pod" onload="prettyPrint()">
+    <div id="___top"></div>
+    <nav class="indexgroup">
+<table id="TOC">
+<caption><h2 id="TOC_Title">Table of Contents</h2></caption>
+<tr class="toc-level-1"><td class="toc-number">1</td><td class="toc-text"><a href="#Methods">Methods</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">1.1</td><td class="toc-text"><a href="#new">new</a></td></tr>
+<tr class="toc-level-3"><td class="toc-number">1.1.1</td><td class="toc-text"><a href="#multi_method_new_(_:$native-object!_)">multi method new ( :$native-object! )</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">1.2</td><td class="toc-text"><a href="#get-class-gtype">get-class-gtype</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">1.3</td><td class="toc-text"><a href="#get-class-name">get-class-name</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">1.4</td><td class="toc-text"><a href="#is-valid">is-valid</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">1.5</td><td class="toc-text"><a href="#clear-object">clear-object</a></td></tr>
+<tr class="toc-level-1"><td class="toc-number">2</td><td class="toc-text"><a href="#Internally_used_methods">Internally used methods</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">2.1</td><td class="toc-text"><a href="#_set-builder">_set-builder</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">2.2</td><td class="toc-text"><a href="#_get-builders">_get-builders</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">2.3</td><td class="toc-text"><a href="#_set-test-mode">_set-test-mode</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">2.4</td><td class="toc-text"><a href="#_get-test-mode">_get-test-mode</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">2.5</td><td class="toc-text"><a href="#_wrap-native-type">_wrap-native-type</a></td></tr>
+<tr class="toc-level-2"><td class="toc-number">2.6</td><td class="toc-text"><a href="#_wrap-native-type-from-no">_wrap-native-type-from-no</a></td></tr>
+
+</table>
+</nav>
+
+
+    <div class="pod-body">
+    <h1 id="Methods"><a class="u" href="#___top" title="go to top of document">Methods</a></h1>
+<h2 id="new"><a class="u" href="#___top" title="go to top of document">new</a></h2>
+<p>Please note that this class is mostly not instantiated directly but is used indirectly when child classes are instantiated.</p>
+<h3 id="multi_method_new_(_:$native-object!_)"><a class="u" href="#___top" title="go to top of document">multi method new ( :$native-object! )</a></h3>
+<p>Create a Raku object using a native object from elsewhere. $native-object can be a N-GObject or a Raku object like <code>Gnome::Gtk3::Button</code>.</p>
+<pre class="pod-block-code"># Some set of radio buttons grouped together
+my Gnome::Gtk3::RadioButton $rb1 .= new(:label(&#39;Download everything&#39;));
+my Gnome::Gtk3::RadioButton $rb2 .= new(
+  :group-from($rb1), :label(&#39;Download core only&#39;)
+);
+
+# Get all radio buttons in the group of button $rb2
+my Gnome::GObject::SList $rb-list .= new(:native-object($rb2.get-group));
+loop ( Int $i = 0; $i &lt; $rb-list.g_slist_length; $i++ ) {
+  # Get button from the list
+  my Gnome::Gtk3::RadioButton $rb .= new(
+    :native-object($rb-list.nth-data-gobject($i))
+  );
+
+  # If radio button is selected (=active) ...
+  if $rb.get-active == 1 {
+    ...
+
+    last;
+  }
+}</pre>
+<h2 id="get-class-gtype"><a class="u" href="#___top" title="go to top of document">get-class-gtype</a></h2>
+<p>Return class&#39;s type code after registration. this is like calling Gnome::GObject::Type.new().g_type_from_name(GTK+ class type name).</p>
+<pre class="pod-block-code">method get-class-gtype ( --&gt; GType )</pre>
+<h2 id="get-class-name"><a class="u" href="#___top" title="go to top of document">get-class-name</a></h2>
+<p>Return native class name.</p>
+<pre class="pod-block-code">method get-class-name ( --&gt; Str )</pre>
+<h2 id="is-valid"><a class="u" href="#___top" title="go to top of document">is-valid</a></h2>
+<p>Returns True if native object is valid. When <code>False</code>, the native object is undefined and errors will occur when this instance is used.</p>
+<pre class="pod-block-code">method is-valid ( --&gt; Bool )</pre>
+<h2 id="clear-object"><a class="u" href="#___top" title="go to top of document">clear-object</a></h2>
+<p>Clear the error and return data to memory pool. The error object is not valid after this call and <code>is-valid()</code> will return <code>False</code>.</p>
+<pre class="pod-block-code">method clear-object ()</pre>
+<h1 id="Internally_used_methods"><a class="u" href="#___top" title="go to top of document">Internally used methods</a></h1>
+<h2 id="_set-builder"><a class="u" href="#___top" title="go to top of document">_set-builder</a></h2>
+<p>Used by <strong>Gnome::Gtk3::Builder</strong> to register itself. Its purpose is twofold</p>
+<ul><li><p>Used by <strong>Gnome::GObject::Object</strong> to process option <code>.new(:build-id)</code>.</p>
+</li>
+<li><p>Used to insert objects into a builder when test mode is turned on.</p>
+</li>
+</ul>
+<pre class="pod-block-code">method _set-builder ( Gnome::Gtk3::Builder$builder )</pre>
+<h2 id="_get-builders"><a class="u" href="#___top" title="go to top of document">_get-builders</a></h2>
+<p>Used by <strong>Gnome::GObject::Object</strong> to search for an object id.</p>
+<pre class="pod-block-code">method _get-builders ( --&gt; Array )</pre>
+<h2 id="_set-test-mode"><a class="u" href="#___top" title="go to top of document">_set-test-mode</a></h2>
+<p>Used to turn test mode on or off. This is done by <strong>Gnome::T</strong>. When turned on, an event loop can not be started by calling <code>Gnome::Gtk3::Main.new.main()</code> and can only be started by <strong>Gnome::T</strong>.</p>
+<pre class="pod-block-code">method _set-test-mode ( Bool $mode )</pre>
+<h2 id="_get-test-mode"><a class="u" href="#___top" title="go to top of document">_get-test-mode</a></h2>
+<p>Get current state.</p>
+<pre class="pod-block-code">method _get-test-mode ( --&gt; Bool )</pre>
+<h2 id="_wrap-native-type"><a class="u" href="#___top" title="go to top of document">_wrap-native-type</a></h2>
+<p>Used by many classes to create a Raku instance with the native object wrapped in</p>
+<pre class="pod-block-code">method _wrap-native-type (
+  Str:D $type where ?$type, N-GObject:D $no
+  --&gt; Any
+)</pre>
+<h2 id="_wrap-native-type-from-no"><a class="u" href="#___top" title="go to top of document">_wrap-native-type-from-no</a></h2>
+<p>As with <code>_wrap-native-type()</code> this method is used by many classes to create a Raku instance with the native object wrapped in.</p>
+<pre class="pod-block-code">method _wrap-native-type-from-no (
+  N-GObject $no, Str:D $match = &#39;&#39;, Str:D $replace = &#39;&#39;, :child-type?
+  --&gt; Any
+) {</pre>
+
+    </div>
+
+    
+<div class=footer>Generated using Pod::Render, Pod::To::HTML, Camelia™ (butterfly) is © 2009 by Larry Wall</div></body>
+</html>
+
