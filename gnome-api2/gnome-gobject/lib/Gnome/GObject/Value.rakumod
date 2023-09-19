@@ -1,4 +1,4 @@
-# Command to generate: gnome-source-skim-tool.raku -v -c GObject value
+# Command to generate: gnome-source-skim-tool.raku -v -c GObject value record
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -9,7 +9,6 @@ use NativeCall;
 
 
 use Gnome::GObject::N-GValue:api<2>;
-#use Gnome::GObject::N-GValue::N-GValue:api<2>;
 #use Gnome::Glib::N-GVariant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -70,71 +69,71 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  #copy => %( :parameters([N-GValue ])),
-  #dup-boxed => %( :returns(gpointer)),
-  #dup-object => %( :returns(gpointer)),
-  #dup-param => %( :returns(N-GObject)),
-  #dup-string => %( :returns(Str)),
+  copy => %( :parameters([N-GValue])),
+  dup-boxed => %( :returns(gpointer)),
+  dup-object => %( :returns(gpointer)),
+  dup-param => %( :returns(N-GObject)),
+  dup-string => %( :returns(Str)),
   #dup-variant => %( :returns(N-GVariant )),
-  #fits-pointer => %( :returns(gboolean)),
-  #get-boolean => %( :returns(gboolean)),
-  #get-boxed => %( :returns(gpointer)),
-  #get-double => %( :returns(gdouble)),
-  #get-enum => %( :returns(gint)),
-  #get-flags => %( :returns(guint)),
-  #get-float => %( :returns(gfloat)),
-  #get-gtype => %( :returns(GType)),
+  fits-pointer => %( :returns(gboolean)),
+  get-boolean => %( :returns(gboolean)),
+  get-boxed => %( :returns(gpointer)),
+  get-double => %( :returns(gdouble)),
+  get-enum => %( :returns(gint)),
+  get-flags => %( :returns(guint)),
+  get-float => %( :returns(gfloat)),
+  get-gtype => %( :returns(GType)),
   get-int => %( :returns(gint)),
-  #get-int64 => %( :returns(gint64)),
-  #get-long => %( :returns(glong)),
-  #get-object => %( :returns(gpointer)),
-  #get-param => %( :returns(N-GObject)),
-  #get-pointer => %( :returns(gpointer)),
-  #get-schar => %( :returns(gint8)),
-  #get-string => %( :returns(Str)),
-  #get-uchar => %( :returns(guchar)),
-  #get-uint => %( :returns(guint)),
-  #get-uint64 => %( :returns(guint64)),
-  #get-ulong => %( :returns(gulong)),
+  get-int64 => %( :returns(gint64)),
+  get-long => %( :returns(glong)),
+  get-object => %( :returns(gpointer)),
+  get-param => %( :returns(N-GObject)),
+  get-pointer => %( :returns(gpointer)),
+  get-schar => %( :returns(gint8)),
+  get-string => %( :returns(Str)),
+  get-uchar => %( :returns(guchar)),
+  get-uint => %( :returns(guint)),
+  get-uint64 => %( :returns(guint64)),
+  get-ulong => %( :returns(gulong)),
   #get-variant => %( :returns(N-GVariant )),
-  init => %( :returns(N-GValue ), :parameters([GType])),
-  #init-from-instance => %( :parameters([gpointer])),
-  #peek-pointer => %( :returns(gpointer)),
-  reset => %(:returns(N-GValue )),
-  #set-boolean => %( :parameters([gboolean])),
-  #set-boxed => %( :parameters([gpointer])),
-  #set-double => %( :parameters([gdouble])),
-  #set-enum => %( :parameters([gint])),
-  #set-flags => %( :parameters([guint])),
-  #set-float => %( :parameters([gfloat])),
+  init => %( :returns(N-GValue), :parameters([GType])),
+  init-from-instance => %( :parameters([gpointer])),
+  peek-pointer => %( :returns(gpointer)),
+  reset => %( :returns(N-GValue)),
+  set-boolean => %( :parameters([gboolean])),
+  set-boxed => %( :parameters([gpointer])),
+  set-double => %( :parameters([gdouble])),
+  set-enum => %( :parameters([gint])),
+  set-flags => %( :parameters([guint])),
+  set-float => %( :parameters([gfloat])),
   set-gtype => %( :parameters([GType])),
-  #set-instance => %( :parameters([gpointer])),
+  set-instance => %( :parameters([gpointer])),
   set-int => %( :parameters([gint])),
-  #set-int64 => %( :parameters([gint64])),
-  #set-interned-string => %( :parameters([Str])),
-  #set-long => %( :parameters([glong])),
-  #set-object => %( :parameters([gpointer])),
-  #set-param => %( :parameters([N-GObject])),
-  #set-pointer => %( :parameters([gpointer])),
-  #set-schar => %( :parameters([gint8])),
-  #set-static-boxed => %( :parameters([gpointer])),
-  #set-static-string => %( :parameters([Str])),
-  #set-string => %( :parameters([Str])),
-  #set-uchar => %( :parameters([guchar])),
-  #set-uint => %( :parameters([guint])),
-  #set-uint64 => %( :parameters([guint64])),
-  #set-ulong => %( :parameters([gulong])),
+  set-int64 => %( :parameters([gint64])),
+  set-interned-string => %( :parameters([Str])),
+  set-long => %( :parameters([glong])),
+  set-object => %( :parameters([gpointer])),
+  set-param => %( :parameters([N-GObject])),
+  set-pointer => %( :parameters([gpointer])),
+  set-schar => %( :parameters([gint8])),
+  set-static-boxed => %( :parameters([gpointer])),
+  set-static-string => %( :parameters([Str])),
+  set-string => %( :parameters([Str])),
+  set-uchar => %( :parameters([guchar])),
+  set-uint => %( :parameters([guint])),
+  set-uint64 => %( :parameters([guint64])),
+  set-ulong => %( :parameters([gulong])),
   #set-variant => %( :parameters([N-GVariant ])),
-  #take-boxed => %( :parameters([gpointer])),
-  #take-object => %( :parameters([gpointer])),
-  #take-param => %( :parameters([N-GObject])),
-  #take-string => %( :parameters([Str])),
+  take-boxed => %( :parameters([gpointer])),
+  take-object => %( :parameters([gpointer])),
+  take-param => %( :parameters([N-GObject])),
+  take-string => %( :parameters([Str])),
   #take-variant => %( :parameters([N-GVariant ])),
-  #transform => %( :returns(gboolean), :parameters([N-GValue ])),
-  #unset => %(),
+  transform => %( :returns(gboolean), :parameters([N-GValue])),
+  unset => %(),
 
   #--[Functions]----------------------------------------------------------------
-  #register-transform-func => %( :type(Function),  :parameters([ GType, GType, ])),
+  register-transform-func => %( :type(Function),  :parameters([ GType, GType, ])),
   type-compatible => %( :type(Function),  :returns(gboolean), :parameters([ GType, GType])),
   type-transformable => %( :type(Function),  :returns(gboolean), :parameters([ GType, GType])),
 );
@@ -144,8 +143,6 @@ my Hash $methods = %(
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
-#say "$?LINE $name, ", $methods{$name}.gist;
-
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
         :library(gobject-lib()), :sub-prefix<g_value_>
