@@ -189,7 +189,7 @@ method generate-callables (
         method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           if $methods{$name}:exists {
             $_fallback-v2-ok = True;
-            if $methods{$name}<type> eq 'Constructor' {
+            if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
         RAKUMOD
 
       $c ~= qq:to/RAKUMOD/;
