@@ -324,7 +324,7 @@ method make-build-submethod (
 
       # Next two methods need checks for proper referencing or cleanup 
       method native-object-ref ( $n-native-object ) {
-      #  $n-native-object
+        $n-native-object
       }
 
       method native-object-unref ( $n-native-object ) {
