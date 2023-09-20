@@ -2453,6 +2453,31 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
+method save-file ( Str $filename is copy, Str $content, Str $comment ) {
+#note "$?LINE $filename";
+
+  # Prohibit overwriting files
+  $filename ~= ';new-version' if $filename.IO.e;
+
+  $*saved-file-summary.push: $filename.IO.basename;
+  $filename.IO.spurt($content);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
+
+#-------------------------------------------------------------------------------
 #TODO add file locking list? or overwrite option?
 method save-file ( Str $filename is copy, Str $content, Str $comment ) {
 #note "$?LINE $filename";
@@ -2495,19 +2520,6 @@ method save-file ( Str $filename is copy, Str $content, Str $comment ) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
 #-------------------------------------------------------------------------------
 #TODO add file locking list? or overwrite option?
 method save-file ( Str $filename is copy, Str $content, Str $comment ) {
