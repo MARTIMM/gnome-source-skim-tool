@@ -63,6 +63,33 @@
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 
 # Release notes
+* 2023-09-20 0.11.2
+  * Module **N-GValue**, **Value**, **T-Value** and **T-Type** added to `Gnome::GObject` and tested. **T-Type** is coded by hand and not generated because of missing constants in the gir system. An issue will be set at GitLab.
+  * The attribute `$!g-type` is made read/write to make coding more simple. Previously one needed to do
+    ```
+    my N-GValue $native-object .= new;
+    my Gnome::GObject::Value $value .= new(:$native-object);
+    $value .= new(:native-object($value.init(G_TYPE_INT)));
+    ```
+    It was not possible to overwrite it with the `.init()` call to set another type, because it sees that a previous type was already set. Also `.reset()` only resets the value and not the type. Now that the **N-GValue** attribute is made read/write one can more easily change the type. Take care, however, that the value must be cleared in case of objects or other structures with the afore mentioned `.reset()`.
+
+    ```
+    # Init the Value first
+    my N-GValue $native-object .= new;
+    my Gnome::GObject::Value $value .= new(:$native-object);
+
+    # Then use it
+    $native-object.g-type = G_TYPE_ULONG;
+    $value.set-ulong(… some unsigned integer …);
+    … use $value …
+
+    # Later …
+    $value.reset;
+    $native-object.g-type = G_TYPE_STRING;
+    $value.set-string(… some string …);
+    … use $value …
+    ```
+
 * 2023-09-10 0.11.1
   * Start finding a new way to process native constructor functions. BUILD used options which do not map well to the arguments of those functions. Therefore after generating the module, some extra work needed to be done to get the named arguments right. To have less work afterwards, it is easier to have the user call the native routines directly. An example from the label class;
     Previously; `$label .= new(:mnemonic('…'));`
