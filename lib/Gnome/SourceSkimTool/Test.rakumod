@@ -216,17 +216,25 @@ method make-function-test (
     $code ~= qq:to/EOTEST/;
         #TB:0:$hash-fname\(\)
     $assign-list.chop()
-        lives-ok \{ .$hash-fname\($par-list\); \}, '.$hash-fname\(\)';
+        .$hash-fname\($par-list\);
     EOTEST
 
-    # Also test set-*() when there is one
+    # Also test set-*() when there is one. Need to keep an eye on the parameter
+    # list. It could be more than one. If so the '$test-type' test will fail
     my Str $fn = $function-name;
     $fn ~~ s/^ set /get/;
     if $hcs{$fn}:exists {
-      $hash-fname ~~ s/^ set /get/;
+      my Str $get-hash-fname = $hash-fname;
+      $get-hash-fname ~~ s/^ set /get/;
       $code ~= qq:to/EOTEST/;
-          #TB:0:$hash-fname\(\)
-          $test-type .$hash-fname\(\), '…', '.$hash-fname\(\)';
+          #TB:0:$get-hash-fname\(\)
+          $test-type .$get-hash-fname\(\), $par-list, '.$hash-fname\(\) / .$get-hash-fname\(\)';
+
+      EOTEST
+    }
+    else {
+      $code ~= qq:to/EOTEST/;
+          ok True, '.$hash-fname\(\)';
 
       EOTEST
     }
