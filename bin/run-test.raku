@@ -24,14 +24,14 @@ sub MAIN ( Str $l, Str $t ) {
     my Str $gtk-v = ($l ~~ / '3' /) ?? '3' !! '4';
     my @pth = (
       "$API2MODS/gnome-native/lib",
-      "$API2MODS/gnome-gtk$gtk-v/lib",
       "$API2MODS/gnome-glib/lib",
       "$API2MODS/gnome-gobject/lib",
       "$API2MODS/gnome-gio/lib",
-      "$API2MODS/gnome-gdk$gtk-v/lib",
       "$API2MODS/gnome-pango/lib",
       "$API2MODS/gnome-cairo/lib",
       "$API2MODS/gnome-atk/lib",
+      "$API2MODS/gnome-gtk$gtk-v/lib",
+      "$API2MODS/gnome-gdk$gtk-v/lib",
     );
     @pth.push: "$API2MODS/gnome-gsk4/lib" if $gtk-v eq '4';
     %*ENV<RAKULIB> = @pth.join(',');
