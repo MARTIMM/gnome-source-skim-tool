@@ -89,6 +89,7 @@
     $value.set-string(… some string …);
     … use $value …
     ```
+  * Split program `gnome-source-skim-tool.raku` in two other programs namely; `skim-gir.raku` to skim the gir repo and `generate.raku` to create code, doc and test files.
 
 * 2023-09-10 0.11.1
   * Start finding a new way to process native constructor functions. BUILD used options which do not map well to the arguments of those functions. Therefore after generating the module, some extra work needed to be done to get the named arguments right. To have less work afterwards, it is easier to have the user call the native routines directly. An example from the label class;
