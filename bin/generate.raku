@@ -36,7 +36,6 @@ my Array $*saved-file-summary = [];
 sub MAIN (
   Str:D $gnome-package, Str $filename? is copy, *@types,
   Bool :$v = False,
-  Bool :$gir = False,
   Bool :$c = False, Bool :$d = False, Bool :$t = False,
   Bool :$help = False,
 ) {
@@ -64,51 +63,41 @@ sub MAIN (
 
   @*gir-type-select = @types // ();
 
-  if $gir {
-    say "Generate the intermediate gir and yaml files" if $*verbose;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
-    require ::('Gnome::SourceSkimTool::SkimGirSource');
-    my $skim-doc = ::('Gnome::SourceSkimTool::SkimGirSource').new;
-    $skim-doc.load-gir-file;
-    $skim-doc.get-classes-from-gir;
-  }
 
   # Get data using filename
-  else {
-    $filename .= lc;
-    my Gnome::SourceSkimTool::Prepare $prepare .= new;
+  $filename .= lc;
+  my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-    # Generate library code
-    if $c {
-      $*generate-code = True;
-      require ::('Gnome::SourceSkimTool::GenerateCode');
-      my $raku-module =
-         ::('Gnome::SourceSkimTool::GenerateCode').new(:$filename);
-      $raku-module.generate-code;
-      $*generate-code = False;
-    }
-
-    # Generate documentation
-    if $d {
-      $*generate-doc = True;
-
-      $*generate-doc = False;
-    }
-
-    # Generate test code
-    if $t {
-      $*generate-test = True;
-
-      require ::('Gnome::SourceSkimTool::GenerateTest');
-      my $raku-module =
-         ::('Gnome::SourceSkimTool::GenerateTest').new(:$filename);
-      $raku-module.generate-test;
-
-      $*generate-test = False;
-    }
-
-    say "\n\nSummary of saved files\n  ", $*saved-file-summary.join("\n  ");
+  # Generate library code
+  if $c {
+    $*generate-code = True;
+    require ::('Gnome::SourceSkimTool::GenerateCode');
+    my $raku-module =
+        ::('Gnome::SourceSkimTool::GenerateCode').new(:$filename);
+    $raku-module.generate-code;
+    $*generate-code = False;
   }
+
+  # Generate documentation
+  if $d {
+    $*generate-doc = True;
+
+    $*generate-doc = False;
+  }
+
+  # Generate test code
+  if $t {
+    $*generate-test = True;
+
+    require ::('Gnome::SourceSkimTool::GenerateTest');
+    my $raku-module =
+        ::('Gnome::SourceSkimTool::GenerateTest').new(:$filename);
+    $raku-module.generate-test;
+
+    $*generate-test = False;
+  }
+
+  say "\n\nSummary of saved files\n  ", $*saved-file-summary.join("\n  ");
 }
 
 #-------------------------------------------------------------------------------
@@ -128,8 +117,6 @@ sub USAGE ( ) {
 
     {$*PROGRAM.basename} [-c][-d][-t][-v] package filename [gir-types]
 
-    {$*PROGRAM.basename} -gir [-v] package
-
     Options:
       c       Generate a Raku code file for all gir-types found in the
               file. Result is put in directory below '{API2MODS}'. Using the
@@ -148,9 +135,6 @@ sub USAGE ( ) {
               'AboutDialog.rakutest' and 'T-AboutDialog.rakutest' in the
               'gnome-gtk3/t' tree to test the modules 'AboutDialog.rakumod'
               and 'T-Aboutdialog.rakumod'.
-      gir     Generate the intermediate gir and yaml files. The files will be
-              kept, so they need to be generated only once or when sources are
-              updated.
       v       Show some extra info while stumping. Default False.
 
     Arguments
