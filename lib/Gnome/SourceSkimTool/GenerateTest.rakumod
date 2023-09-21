@@ -149,6 +149,7 @@ method generate-test ( ) {
     $type-name ~~ s:i/^ 'T-' $prefix /T-/;
     $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
     $class-name = $data<class-name>;
+    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
 
