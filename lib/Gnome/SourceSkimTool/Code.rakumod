@@ -856,7 +856,7 @@ method generate-functions ( Hash $hcs --> Str ) {
 
   return '' unless ?$hcs;
 
-  my Str $symbol-prefix = $*work-data<sub-prefix>;
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
 #  my Str $pattern = '';
   my Str $temp-inhibit = '';
   my Str $variable-list = '';
@@ -1863,7 +1863,7 @@ method !get-method-data (
   XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List
 ) {
   my Str $function-name = $e.attribs<name>;   #$e.attribs<c:identifier>;
-  my Str $sub-prefix = $*work-data<sub-prefix>;
+#  my Str $sub-prefix = $*work-data<sub-prefix>;
   my Bool $missing-type = False;
 
 #note "\n$?LINE $function-name";
