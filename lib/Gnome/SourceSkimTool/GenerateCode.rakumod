@@ -231,7 +231,7 @@ method generate-code ( ) {
         {$!grd.pod-header('BUILD submethod')}
         submethod BUILD ( ) \{
           # Initialize helper
-          \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
+          \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\("$*work-data<name-prefix>_"\)\);
         }
 
         my Hash \$methods = \%\(
