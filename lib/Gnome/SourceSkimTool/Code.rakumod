@@ -2456,11 +2456,38 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 method save-file ( Str $filename is copy, Str $content, Str $comment ) {
 #note "$?LINE $filename";
 
-  # Prohibit overwriting files
-  $filename ~= ';new-version' if $filename.IO.e;
+  my Bool $save-it = False;
 
-  $*saved-file-summary.push: $filename.IO.basename;
-  $filename.IO.spurt($content);
+  # Ask to overwrite or save aside files
+  if $filename.IO.e {
+    say "\nFile $filename.IO.basename() found,",
+     " Overwrite(o), new version(v), skip(s)";
+    my Str $a = prompt "[o,v,s] s is default> ";
+    given $a.lc {
+      when 'o' {
+        $save-it = True;
+      }
+
+      when 'v' {
+        my $f = $filename;
+        my Int $v = 1;
+        $filename ~= ";$v";
+        while $filename.IO.e {
+          $v++;
+          $filename = "$f;$v";
+        }
+        $save-it = True;
+      }
+
+      # when 's'
+      #default { }
+    }
+  }
+
+  if $save-it {
+    $filename.IO.spurt($content);
+    $*saved-file-summary.push: $filename.IO.basename;
+  }
 }
 
 
@@ -2476,69 +2503,6 @@ method save-file ( Str $filename is copy, Str $content, Str $comment ) {
 
 
 =finish
-
-#-------------------------------------------------------------------------------
-#TODO add file locking list? or overwrite option?
-method save-file ( Str $filename is copy, Str $content, Str $comment ) {
-#note "$?LINE $filename";
-#  say HLSEPARATOR;
-
-  my Bool $save-it = False;
-
-  # Less danger in overwriting too much
-  if $*generate-code or $*generate-doc {
-    if $filename.IO.e {
-      my Str $a =
-        prompt "\n  Do you want to overwrite {$filename.IO.basename}? [N, y] > ";
-      $save-it = ($a.lc eq 'y');
- #     say "{$filename.IO.basename} not overwritten" unless $save-it;
-    }
-
-    else {
-      $save-it = True;
-    }
-  }
-
-  # Prohibit overwriting of test files
-  elsif $*generate-test and $filename.IO.e {
-#    say "Test files are never overwritten because of work after generation";
-    $filename ~= ';new-version';
-#    say "File saved in $filename";
-    $save-it = True;
-  }
-
-#  else {
-#    $save-it = True;
-#  }
-
-  if $save-it {
-    $*saved-file-summary.push: $filename.IO.basename;
-    $filename.IO.spurt($content);
-#    say 'Save ', $comment, ' in ', $filename.IO.basename;
-#    say HLSEPARATOR;
-  }
-
-}
-
-#-------------------------------------------------------------------------------
-#TODO add file locking list? or overwrite option?
-method save-file ( Str $filename is copy, Str $content, Str $comment ) {
-#note "$?LINE $filename";
-  say HLSEPARATOR;
-
-  if $filename.IO.e {
-    say "Original files are never overwritten because of work after generation";
-    $filename ~= ';new-version';
-  }
-
-  $filename.IO.spurt($content);
-  say 'Save ', $comment, ' in ', $filename.IO.basename;
-
-  $*saved-file-summary.push: $filename.IO.basename;
-  say HLSEPARATOR;
-}
-
-
 
 #-------------------------------------------------------------------------------
 method make-build-submethod (
