@@ -156,7 +156,7 @@ method make-function-test (
   my Bool $isnew = ($hash-fname ~~ m/^ new /).Bool;
 
   my Bool $first-param = True;
-  my Str $test-type;
+  my Str $test-type = '';
   my Str $code = '';
 
   # Parameters used in call
@@ -175,7 +175,7 @@ method make-function-test (
 
     # Assume a compare test
     $test-type = 'is';
-    $decl-vars{$parameter<name>} = $parameter<raku-type>;
+    $decl-vars{$parameter<name>} = $parameter<raku-type>; # side effect
     $assign-list ~= "  " unless $isnew; # no extra indent for new tests
     $assign-list ~= "  \$$parameter<name> = ";
 
@@ -244,7 +244,6 @@ method make-function-test (
     # Only test get-*() when they are not tested above
     my Str $fn = $function-name;
     $fn ~~ s/^ get /set/;
-
     if $hcs{$fn}:!exists {
       $code ~= qq:to/EOTEST/;
           #TB:0:$hash-fname\(\)
