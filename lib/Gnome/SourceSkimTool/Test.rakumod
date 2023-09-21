@@ -37,6 +37,7 @@ method prepare-test ( Str $class-name --> Str ) {
     __MODULE__IMPORTS__
     RAKUMOD
 
+  $!mod.add-import('NativeCall');
   $!mod.add-import('Test');
 
   $code

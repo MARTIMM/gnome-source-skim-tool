@@ -21,7 +21,7 @@ submethod BUILD ( ) {
 
   elsif $*generate-test {
     $*external-modules = %(
-      :Test(EMTRakudo),
+      :Test(EMTRakudo), :NativeCall(EMTRakudo),
       'Gnome::N::NativeLib' => EMTInApi2,
       'Gnome::N::N-GObject' => EMTInApi2,
       'Gnome::N::GlibToRakuTypes' => EMTInApi2,
