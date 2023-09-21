@@ -66,12 +66,6 @@ method generate-doc ( ) {
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
   my Str $fname = "$*work-data<result-tests>R-$*gnome-class.rakutest";
-#  if $fname.IO.e {
-#    say HLSEPARATOR;
-#    say "Test files are never overwritten because of work after generation";
-#    say HLSEPARATOR;
-#    return;
-#  }
 
   $!tst .= new;
 
