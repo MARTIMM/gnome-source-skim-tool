@@ -103,10 +103,10 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
     $code ~= qq:to/RAKUMOD/;
     {$!grd.pod-header('Module Imports')}
     __MODULE__IMPORTS__
-    use Gnome::N::TopLevelClassSupport:api<2>;
-
-    use Gnome::N::GnomeRoutineCaller:api<2>;
     RAKUMOD
+
+    self.add-import('Gnome::N::TopLevelClassSupport');
+    self.add-import('Gnome::N::GnomeRoutineCaller');
   }
 
   $code ~= qq:to/RAKUMOD/;
