@@ -234,11 +234,23 @@ method generate-code ( ) {
           \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\("$*work-data<name-prefix>_"\)\);
         }
 
+        # Next two methods need checks for proper referencing or cleanup 
+        method native-object-ref \( \$n-native-object ) \{
+          \$n-native-object
+        \}
+
+        method native-object-unref \( \$n-native-object ) \{
+        #  self._fallback-v2\( 'free', my Bool \$x);
+        \}
+
         my Hash \$methods = \%\(
           $function-hash
         );
 
         RAKUMOD
+
+      $!mod.add-import('NativeCall');
+      $!mod.add-import('Gnome::N::NativeLib');
 
       $code ~= q:to/RAKUMOD/;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
