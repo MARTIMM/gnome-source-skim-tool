@@ -39,45 +39,45 @@ subtest 'Method tests', {
   $native-object.g-type = G_TYPE_ULONG;
   $value .= new(:$native-object);
 
-    my UInt() $v-flags;
-    my gpointer $v-object;
-    my N-GObject $variant;
-    my UInt() $v-uint;
-    my UInt() $v-uchar;
-    my Bool() $v-boolean;
-    my Int() $v-long;
-    my UInt() $v-uint64;
-    my Str $v-string;
-    my gpointer $instance;
-    my GType $g-type;
-    my UInt() $v-ulong;
-    my Int() $v-enum;
-    my Int() $v-int;
-    my N-GObject() $param;
-    my N-GObject $dest-value;
-    my gpointer $v-boxed;
-    my GType $v-gtype;
-    my gpointer $v-pointer;
-    my Int() $v-char;
-    my Int() $v-int64;
-    my Num() $v-float;
-    my Num() $v-double;
+  my UInt() $v-flags;
+  my gpointer $v-object;
+  my N-GObject $variant;
+  my UInt() $v-uint;
+  my UInt() $v-uchar;
+  my Bool() $v-boolean;
+  my Int() $v-long;
+  my UInt() $v-uint64;
+  my Str $v-string;
+  my gpointer $instance;
+  my GType $g-type;
+  my UInt() $v-ulong;
+  my Int() $v-enum;
+  my Int() $v-int;
+  my N-GObject() $param;
+  my N-GObject $dest-value;
+  my gpointer $v-boxed;
+  my GType $v-gtype;
+  my gpointer $v-pointer;
+  my Int() $v-char;
+  my Int() $v-int64;
+  my Num() $v-float;
+  my Num() $v-double;
 
-    my GType $src-type;
-    my GType $dest-type;
+  my GType $src-type;
+  my GType $dest-type;
 
-    # Functions
-    with $value {
-      #TB:1:type-transformable()
-      $src-type = G_TYPE_UCHAR;
-      $dest-type = G_TYPE_CHAR;
-      ok .type-transformable( $src-type, $dest-type), '.type-transformable()';
+  # Functions
+  with $value {
+    #TB:1:type-transformable()
+    $src-type = G_TYPE_UCHAR;
+    $dest-type = G_TYPE_CHAR;
+    ok .type-transformable( $src-type, $dest-type), '.type-transformable()';
 
-      #TB:1:type-compatible()
-      $src-type = G_TYPE_UINT;
-      $dest-type = G_TYPE_INT;
-      nok .type-compatible( $src-type, $dest-type), '.type-compatible()';
-    }
+    #TB:1:type-compatible()
+    $src-type = G_TYPE_UINT;
+    $dest-type = G_TYPE_INT;
+    nok .type-compatible( $src-type, $dest-type), '.type-compatible()';
+  }
 
 #`{{
     # Methods
