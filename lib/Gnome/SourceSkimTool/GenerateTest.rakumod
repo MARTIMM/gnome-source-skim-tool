@@ -53,7 +53,7 @@ method generate-test ( ) {
     # just do it when there is no preverence
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
-    # Firs check for classes, inrefaces, records or unions
+    # First check for classes, interfaces, records or unions
     when 'class' {
       for $!filedata<class>.keys -> $class-name {
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
@@ -130,7 +130,7 @@ method generate-test ( ) {
   }
 
   # Other types than handled above are gathered into one test file
-  my Gnome::SourceSkimTool::Prepare $t-prep .= new;
+  my Gnome::SourceSkimTool::Prepare $t-prep;  # .= new;
   for $!filedata.keys -> $gir-type {
 
     next if $gir-type ~~ any(<class interface record union>);
@@ -139,11 +139,11 @@ method generate-test ( ) {
     # Test if gir-type is selected Skip a key if not mentioned on the
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
-    # Skip for the moment
+
+    once $t-prep .= new;
 
     my $data = $!filedata{$gir-type}.values[0];
 #note "$?LINE $gir-type, ", $data.gist;
-    once $t-prep .= new;
     my Str $type-name = $data<type-name>;
     my Str $prefix = $*work-data<name-prefix>;
     $type-name ~~ s:i/^ 'T-' $prefix /T-/;
@@ -152,15 +152,6 @@ method generate-test ( ) {
     $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
-
-#`{{
-    if $filename.IO.e {
-      say HLSEPARATOR;
-      say "Test files are never overwritten because of work after generation";
-      say HLSEPARATOR;
-      next;
-    }
-}}
 
     given $gir-type {
       when 'callback' {
@@ -249,6 +240,7 @@ method generate-test ( ) {
     }
   }
 
+#note "$?LINE $c, $class-name, $filename";
   if ?$c and ?$class-name and ?$filename {
 #    $filename ~~ s@ '/lib/' @/t/@;
 #    $filename = $*work-data<result-tests> ~ $filename ~ '.rakutest';
