@@ -45,7 +45,9 @@ method prepare-test ( Str $class-name --> Str ) {
 
 #-------------------------------------------------------------------------------
 method generate-init-tests (
-  Str $test-variable, Str $init-test-type, Hash $hcs, Str :$test-class --> Str
+  Str $test-variable, Str $init-test-type, Hash $hcs,
+  Str :$test-class, Str :$struct-class
+  --> Str
 ) {
 
   my Str $code = qq:to/EOTEST/;
@@ -67,7 +69,6 @@ method generate-init-tests (
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 #note "$?LINE $hcs.gist()";
 
-  # Use of .reverse() to get the set*() functions before the get*() functions
   for $hcs.keys.sort -> $function-name {
     $code ~= self.make-function-test(
       $hcs, $function-name, $test-variable, $decl-vars, :!ismethod
@@ -123,6 +124,7 @@ method generate-init-tests (
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
   for $decl-vars.kv -> $name, $type is copy {
+#`{{
     if $type ~~ /^ GEnum / {
       $type ~~ s/^ <-[:]>+ ':' //;
     }
@@ -130,6 +132,7 @@ method generate-init-tests (
     elsif $type ~~ /^ GFlag/ {
       $type = 'UInt';
     }
+}}
 
     $dstr ~= "    my $type \$$name;\n";
   }
@@ -176,7 +179,17 @@ method make-function-test (
 
     # Assume a compare test
     $test-type = 'is';
-    $decl-vars{$parameter<name>} = $parameter<raku-type>; # side effect
+
+    # Store type and name for declarations
+    if $parameter<raku-type> ~~ / <!before '('> ':' / {
+      my ( $type, $enum ) = $parameter<raku-type>.split(':');
+      $decl-vars{$parameter<name>} = $enum; # side effect
+    }
+
+    else {
+      $decl-vars{$parameter<name>} = $parameter<raku-type>; # side effect
+    }
+
     $assign-list ~= "  " unless $isnew; # no extra indent for new tests
     $assign-list ~= "  \$$parameter<name> = ";
 
@@ -190,8 +203,12 @@ method make-function-test (
       when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
       when 'Bool' { $assign-list ~= "True;\n"; }
       when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
-      when /^ GEnum / { $assign-list ~= "…;  # a $rtype enum\n"; }
-      when /^ GEnum / { $assign-list ~= "…;  # a $rtype mask\n"; }
+      when / ':(' / { } # TODO a signature
+      when / ':' / {
+        my ( $type, $enum ) = .split(':');
+        $assign-list ~= "…;  # an enum or flag" if ?$enum;
+      }
+
       default {
         note "Test variable \$$parameter<name> has type $rtype";
         $assign-list ~= "'…';\n";
@@ -430,6 +447,7 @@ method generate-method-tests (
   my Str $dstr = '';
   my Str $temp-inhibit = '';
   for $decl-vars.kv -> $name, $type is copy {
+#`{{
     if $type ~~ /^ GEnum / {
       $type ~~ s/^ <-[:]>+ ':' //;
     }
@@ -437,9 +455,9 @@ method generate-method-tests (
     elsif $type ~~ /^ GFlag/ {
       $type = 'UInt';
     }
-
+}}
     #TODOinhibit callback signatures
-    elsif $type ~~ /^ ':('/ {
+    if $type ~~ /^ ':('/ {
       $temp-inhibit = '#';
     }
 
