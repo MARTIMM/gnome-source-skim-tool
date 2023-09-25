@@ -269,10 +269,16 @@ method generate-test ( ) {
   );
 
   $code ~= $!tst.generate-test-separator;
-#  $code ~= $!tst.generate-inheritance-tests( $element, $test-variable);
 
   $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
+
+  $code ~= $!tst.generate-test-separator;
+
+  $hcs = $!mod.get-functions( $element, $!xpath, :user-side);
+#note "$?LINE $hcs.keys()";
+  $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
+
   $code ~= $!tst.generate-test-end;
 #  $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS($code);
