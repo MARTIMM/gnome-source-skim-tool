@@ -145,7 +145,7 @@ method generate-callables (
   }
 
   # Get all functions in this class
-  $hcs = self!get-functions( $element, $xpath);
+  $hcs = self.get-functions( $element, $xpath);
   if ?$hcs {
     # Generate functions
     $code ~= self.generate-functions($hcs);
@@ -904,6 +904,7 @@ method generate-functions ( Hash $hcs --> Str ) {
 #      );
       last if $parameter<raku-type> eq '…';
 
+#TODO emptied when signature found: starts with ':('
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
       my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
 
@@ -1025,7 +1026,7 @@ method generate-functions ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-functions (
+method get-functions (
   XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
 ) {
   my Hash $hms = %();
@@ -1828,7 +1829,7 @@ method substitute-MODULE-IMPORTS ( Str $code is copy, *@exclasses --> Str ) {
   $import ~= "\n";
 
   for $*external-modules.kv -> $m, $s {
-    $import ~= "use $m;\n" if $s ~~ EMTNotInApi2;
+    $import ~= "use $m;\n" if $s ~~ EMTInApi1;
   }
 
   $import ~= "\n";
@@ -1886,9 +1887,10 @@ method !get-method-data (
   for @prmtrs -> $p {
 #    my Str ( $type, $raku-type, $raku-rtype) = self!get-type( $p, :$user-side);
     my Str ( $type, $raku-type) = self!get-type( $p, :$user-side);
-    $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
+    $missing-type = True
+      if !$raku-type or $raku-type ~~ /_UA_ $/ or $raku-type ~~ / ':(' /;
     $raku-type ~~ s/ _UA_ $//;
-
+#note "$?LINE $raku-type, $missing-type";
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
     $parameter-name ~~ s:g/ '_' /-/;
@@ -2011,7 +2013,9 @@ method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
     }
   }
 
-note "$?LINE $user-side, $ctype, $raku-type" if $ctype ~~ m:i/ variant /;
+#my $name = $e.attribs()<name> // '-';
+#note "$?LINE $name, $user-side, $ctype, $raku-type";
+
   ( $ctype, $raku-type)
 }
 
