@@ -77,11 +77,9 @@ method generate-test ( ) {
   my Hash $h = self.search-name($ctype);
   my Str $code = $!tst.prepare-test($h<class-name>);
 
-#  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
-#  $code ~= $!tst.generate-init-tests( $test-variable, 'Class init tests', $hcs);
+#TODO generate a variable in a class using this interface
 
   $code ~= $!tst.generate-test-separator;
-  $code ~= $!tst.generate-inheritance-tests( $element, $test-variable);
 
   my Hash $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
