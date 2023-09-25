@@ -61,7 +61,7 @@ enum SkimSource is export <
 >;
 
 enum ExternalModuleType is export <
-  EMTRakudo EMTNotImplemented EMTNotInApi2 EMTInApi2
+  EMTRakudo EMTNotImplemented EMTInApi1 EMTInApi2
 >;
 
 
