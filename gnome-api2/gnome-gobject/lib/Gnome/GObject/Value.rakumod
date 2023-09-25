@@ -9,7 +9,7 @@ use NativeCall;
 
 
 use Gnome::GObject::N-GValue:api<2>;
-#use Gnome::Glib::N-GVariant:api<2>;
+#use Gnome::Glib::Variant;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
