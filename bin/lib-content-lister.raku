@@ -11,19 +11,24 @@ my Str $api2 = [~] $api1, '/gnome-source-skim-tool/gnome-api2/';
 
 my ExternalModuleType $mod-type;
 
-#`{{
 # Old packages
-$mod-type = EMTNotInApi2;
+$mod-type = EMTInApi1;
+list-dir("$api1/gnome-glib/lib");
+list-dir("$api1/gnome-gio/lib");
+
+#`{{
+list-dir("$api1/gnome-native/lib"); # is modified for new api
+list-dir("$api1/gnome-pango/lib");  # was never implemented
+
+list-dir("$api1/gnome-gobject/lib");
+
 list-dir("$api1/gnome-gtk3/lib");
 list-dir("$api1/gnome-gdk3/lib");
-list-dir("$api1/gnome-glib/lib");
-list-dir("$api1/gnome-gobject/lib");
-list-dir("$api1/gnome-gio/lib");
-list-dir("$api1/gnome-native/lib");
 list-dir("$api1/gnome-cairo/lib");
-list-dir("$api1/gnome-pango/lib");
 #list-dir("$api1/gnome-/lib");
 }}
+
+
 
 # New packages
 $mod-type = EMTInApi2;
@@ -32,12 +37,15 @@ list-dir("$api2/gnome-gsk4/lib");
 list-dir("$api2/gnome-gdk4/lib");
 list-dir("$api2/gnome-gtk3/lib");
 list-dir("$api2/gnome-gdk3/lib");
-list-dir("$api2/gnome-glib/lib");
 list-dir("$api2/gnome-gobject/lib");
-list-dir("$api2/gnome-gio/lib");
 list-dir("$api2/gnome-native/lib");
 list-dir("$api2/gnome-cairo/lib");
 list-dir("$api2/gnome-pango/lib");
+
+#`{{
+list-dir("$api2/gnome-glib/lib");
+list-dir("$api2/gnome-gio/lib");
+}}
 
 #list-dir('xt/NewRakuModules/lib/Gnome");
 #list-dir('xt/Gir/lib/Gnome");
