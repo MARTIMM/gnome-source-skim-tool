@@ -63,6 +63,9 @@
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 
 # Release notes
+* 2023-09-27 0.11.3
+  * Reducing complexity by taking the glib, gobject and gio from :api<1>
+
 * 2023-09-20 0.11.2
   * Module **N-GValue**, **Value**, **T-Value** and **T-Type** added to `Gnome::GObject` and tested. **T-Type** is coded by hand and not generated because of missing constants in the gir system. An issue will be set at GitLab.
   * The attribute `$!g-type` is made read/write to make coding more simple. Previously one needed to do
