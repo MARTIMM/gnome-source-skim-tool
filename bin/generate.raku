@@ -1,7 +1,7 @@
 #!/usr/bin/env rakudo
 
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::Prepare;
+#use Gnome::SourceSkimTool::Prepare;
 use YAMLish;
 
 #-------------------------------------------------------------------------------
@@ -66,10 +66,11 @@ sub MAIN (
 
   # Get data using filename
   $filename .= lc;
-  my Gnome::SourceSkimTool::Prepare $prepare .= new;
+#  my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
   # Generate library code
   if $c {
+    say "\nGenerate code";
     $*generate-code = True;
     require ::('Gnome::SourceSkimTool::GenerateCode');
     my $raku-module =
@@ -80,6 +81,7 @@ sub MAIN (
 
   # Generate documentation
   if $d {
+    say "\nGenerate documentation";
     $*generate-doc = True;
 
     $*generate-doc = False;
@@ -87,6 +89,7 @@ sub MAIN (
 
   # Generate test code
   if $t {
+    say "\nGenerate tests";
     $*generate-test = True;
 
     require ::('Gnome::SourceSkimTool::GenerateTest');
