@@ -2458,9 +2458,9 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 
 #-------------------------------------------------------------------------------
 method save-file ( Str $filename is copy, Str $content, Str $comment ) {
-#note "$?LINE $filename";
+note "$?LINE $filename";
 
-  my Bool $save-it = False;
+  my Bool $save-it = True;
 
   # Ask to overwrite or save aside files
   if $filename.IO.e {
@@ -2468,9 +2468,7 @@ method save-file ( Str $filename is copy, Str $content, Str $comment ) {
      " Overwrite(o), new version(v), skip(s)";
     my Str $a = prompt "[o,v,s] s is default> ";
     given $a.lc {
-      when 'o' {
-        $save-it = True;
-      }
+      when 'o' { }
 
       when 'v' {
         my $f = $filename;
@@ -2480,11 +2478,12 @@ method save-file ( Str $filename is copy, Str $content, Str $comment ) {
           $v++;
           $filename = "$f;$v";
         }
-        $save-it = True;
       }
 
       # when 's'
-      #default { }
+      default {
+        $save-it = False;
+      }
     }
   }
 
