@@ -222,7 +222,7 @@ method make-function-test (
 
   if $isnew {
     $code ~= qq:to/EOTEST/;
-      #TB:0:$hash-fname\(\)
+      #TC:0:$hash-fname\(\)
     $assign-list.chop()
       $test-variable .= $hash-fname\($par-list\);
       ok .is-valid, '.$hash-fname\($par-list\)';
@@ -232,7 +232,7 @@ method make-function-test (
 
   elsif $hash-fname ~~ m/^ set / {
     $code ~= qq:to/EOTEST/;
-        #TB:0:$hash-fname\(\)
+        #TM:0:$hash-fname\(\)
     $assign-list.chop()
         .$hash-fname\($par-list\);
     EOTEST
@@ -245,7 +245,7 @@ method make-function-test (
       my Str $get-hash-fname = $hash-fname;
       $get-hash-fname ~~ s/^ set /get/;
       $code ~= qq:to/EOTEST/;
-          #TB:0:$get-hash-fname\(\)
+          #TM:0:$get-hash-fname\(\)
           $test-type .$get-hash-fname\(\), $par-list, '.$hash-fname\(\) / .$get-hash-fname\(\)';
 
       EOTEST
@@ -264,7 +264,7 @@ method make-function-test (
     $fn ~~ s/^ get /set/;
     if $hcs{$fn}:!exists {
       $code ~= qq:to/EOTEST/;
-          #TB:0:$hash-fname\(\)
+          #TM:0:$hash-fname\(\)
           $test-type .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
 
       EOTEST
@@ -273,7 +273,7 @@ method make-function-test (
 
   else {
     $code ~= qq:to/EOTEST/;
-        #TB:0:$hash-fname\(\)
+        #TM:0:$hash-fname\(\)
         ok .$hash-fname\($par-list\), '.$hash-fname\(\)';
 
     EOTEST
