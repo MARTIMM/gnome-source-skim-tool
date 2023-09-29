@@ -10,6 +10,8 @@ use Gnome::N::NativeLib;
 use Gnome::N::GlibToRakuTypes;
 use Gnome::N::X;
 
+#use Gnome::GObject::Object;
+
 #use Gnome::Glib::N-GError:api<2>;
 
 #-------------------------------------------------------------------------------
@@ -32,8 +34,95 @@ has Str $!sub-prefix is required;
 #has Str $!widget-name is required;
 #has Bool $!is-leaf;
 
+# Check on native library initialization.
+my Bool $gui-initialized = False;
+my Bool $may-not-initialize-gui = False;
+
 #-------------------------------------------------------------------------------
-submethod BUILD ( Str :$!library, Str :$!sub-prefix ) { }
+submethod BUILD ( Str :$!library, Str :$!sub-prefix ) {
+
+  if $!library ~~ / 4 || 3 / {
+
+    # check GTK+ init except when GtkApplication / GApplication is used
+    $may-not-initialize-gui = [or]
+      $may-not-initialize-gui,
+      $gui-initialized,
+
+      # Check for Application from Gio. That one inherits from Object.
+      # Application from Gtk3 inherits from Gio, so this test is always ok.
+      ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
+
+    self.gtk-initialize unless $may-not-initialize-gui;
+  }
+}
+
+#-------------------------------------------------------------------------------
+method gtk-initialize ( ) {
+
+  if $!library ~~ / 3 / {
+    # must setup gtk otherwise Raku will crash
+    my $argc = int-ptr.new;
+    $argc[0] = 1 + @*ARGS.elems;
+
+    my $arg_arr = char-pptr.new;
+    my Int $arg-count = 0;
+    $arg_arr[$arg-count++] = $*PROGRAM.Str;
+    for @*ARGS -> $arg {
+      $arg_arr[$arg-count++] = $arg;
+    }
+
+    my $argv = char-ppptr.new;
+    $argv[0] = $arg_arr;
+#`{{
+    # call gtk_init_check
+    my Callable $f = nativecast(
+      :( gint-ptr $argc, char-ppptr $argv --> gboolean ),
+      cglobal( $!library, 'gtk_init_check', gpointer)
+    );
+
+    $f( $argc, $argv);
+note "$?LINE $argc.gist(), $argv.gist()";
+}}
+    _init_check_v3( $argc, $argv);
+
+    # now refill the ARGS list with left over commandline arguments
+    @*ARGS = ();
+    for ^$argc[0] -> $i {
+      # skip first argument == programname
+      next unless $i;
+      @*ARGS.push: $argv[0][$i];
+    }
+  }
+
+  else {
+#`{{
+    my Callable $f = nativecast(
+      :( --> gboolean ),
+      cglobal( $!library, 'gtk_init_check', gpointer)
+    );
+
+    $f();
+}}
+    _init_check_v4();
+  }
+
+
+  $gui-initialized = True;
+}
+
+#-------------------------------------------------------------------------------
+# This sub belongs to GtkMain but is needed here.
+sub _init_check_v3 ( gint-ptr $argc, char-ppptr $argv --> gboolean )
+  is native(&gtk3-lib)
+  is symbol('gtk_init_check')
+  { * }
+
+#-------------------------------------------------------------------------------
+# This sub belongs to GtkMain but is needed here.
+sub _init_check_v4 ( --> gboolean )
+  is native(&gtk4-lib)
+  is symbol('gtk_init_check')
+  { * }
 
 #-------------------------------------------------------------------------------
 method call-native-sub (
@@ -41,6 +130,7 @@ method call-native-sub (
 ) {
 #say Backtrace.new.nice;
 #note "$?LINE $name @arguments.gist()";
+#note "$?LINE $!library, $!sub-prefix";
 
   # Set False, is set in native-parameters() as a side effect
   $!pointers-in-args = False;
@@ -76,6 +166,7 @@ method call-native-sub (
   if ?$routine<function-address>{$func-pattern} {
     note "Reuse native profile of function $name\()" if $Gnome::N::x-debug;
     $c = $routine<function-address>{$func-pattern};
+    note "Function $name\() retrieved from $func-pattern" if $Gnome::N::x-debug;
   }
 
   else {
@@ -84,9 +175,10 @@ method call-native-sub (
       $real-name, $parameters, $routine, $variable-list
     );
     $routine<function-address>{$func-pattern} = $c;
+    note "Function $name\() stored as $func-pattern" if $Gnome::N::x-debug;
   }
 
-#note "\n$?LINE '$func-pattern', $routine<function-address>.keys()";
+#note "\n$?LINE '$func-pattern', $routine.gist()";
 
   # Call routine
 
@@ -114,8 +206,9 @@ method call-native-sub (
     }
 
     else {
-#note "$?LINE ", $native-args.gist;
+#note "$?LINE $c.gist(), ", $native-args.gist;
       $x = $c(|$native-args);
+#note "$?LINE $x.gist()";
       $x = self!convert-return( $x, $routine<returns>);
     }
 
@@ -188,6 +281,7 @@ method !native-function (
 
   # Create signature
   my Signature $signature .= new( :params(|@parameterList), :$returns);
+#note "$?LINE $routine-name, $signature.gist()";
 
   # Get a pointer to the sub, then cast it to a sub with the proper
   # signature. after that, the sub can be called, returning a value.

@@ -14,12 +14,20 @@ unit role Gnome::N::GObjectSupport:auth<github:MARTIMM>:api<2>;
 
 my Hash $signal-types = {};
 
+#`{{
 # Check on native library initialization.
 my Bool $gui-initialized = False;
 my Bool $may-not-initialize-gui = False;
 
 #-------------------------------------------------------------------------------
-method gtk-initialize ( ) {
+#TODO The library to use and its call to this method depend on which 
+# package we need to use;
+#   gtk-3 for Gnome::Gtk3 modules
+#   gtk-4 for Gnome::Gtk4 modules
+#   no call when from Gio, Cairo or Pango
+method gtk-initialize ( Str $library ) {
+#note "$?LINE {self.^mro}";
+
 #`{{
   # check GTK+ init except when GtkApplication / GApplication is used
   $may-not-initialize-gui = [or]
@@ -49,7 +57,13 @@ note "$?LINE @*ARGS.gist()";
       $argv[0] = $arg_arr;
 
       # call gtk_init_check
-      _object_init_check( $argc, $argv);
+      my Callable $f = nativecast(
+        :( gint-ptr $argc, char-ppptr $argv --> gboolean),
+        cglobal( $library, 'gtk_init_check', gpointer)
+      );
+      $f( $argc, $argv);
+
+#      _object_init_check( $argc, $argv);
       $gui-initialized = True;
 
       # now refill the ARGS list with left over commandline arguments
@@ -65,12 +79,13 @@ note "$?LINE @*ARGS.gist()";
 
 #-------------------------------------------------------------------------------
 # This sub belongs to GtkMain but is needed here.
-sub _object_init_check (
-  gint-ptr $argc, char-ppptr $argv
-  --> gboolean
-) is native(&gtk-lib)
-  is symbol('gtk_init_check')
-  { * }
+#sub _object_init_check (
+#  gint-ptr $argc, char-ppptr $argv
+#  --> gboolean
+#) is native(&gtk4-lib)
+#  is symbol('gtk_init_check')
+#  { * }
+}}
 
 #-------------------------------------------------------------------------------
 method _set-native-object ( $n-native-object ) {
