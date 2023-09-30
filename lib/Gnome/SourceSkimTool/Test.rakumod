@@ -57,8 +57,8 @@ method generate-init-tests (
 
     {$!grd.pod-header($init-test-type)}
     subtest 'ISA test', \{
+      given $test-variable \{
     __DECL_VARS__
-
     #`\{\{
     EOTEST
 
@@ -119,7 +119,7 @@ method generate-init-tests (
 
   }
 
-  $code ~= "\}\}\n\};\n\n";
+  $code ~= "\}\}\n  \}\n\};\n\n";
 
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
@@ -190,8 +190,8 @@ method make-function-test (
       $decl-vars{$parameter<name>} = $parameter<raku-type>; # side effect
     }
 
-    $assign-list ~= "  " unless $isnew; # no extra indent for new tests
-    $assign-list ~= "  \$$parameter<name> = ";
+#    $assign-list ~= "  " unless $isnew; # no extra indent for new tests
+    $assign-list ~= "    \$$parameter<name> = ";
 
     # Get parameter type
     my Str $rtype = $parameter<raku-type>;
@@ -221,11 +221,18 @@ method make-function-test (
   $par-list ~~ s/^ . //;
 
   if $isnew {
+    if $hash-fname eq 'new' {
+      my Str $gnome-name = $*work-data<gnome-name>;
+      my Str $prefix = $*work-data<name-prefix>;
+      $gnome-name ~~ s:i/^ $prefix //;
+      $hash-fname ~= '-' ~ $gnome-name.lc;
+    }
+
     $code ~= qq:to/EOTEST/;
-      #TC:0:$hash-fname\(\)
+        #TC:0:$hash-fname\(\)
     $assign-list.chop()
-      $test-variable .= $hash-fname\($par-list\);
-      ok .is-valid, '.$hash-fname\($par-list\)';
+        $test-variable .= $hash-fname\($par-list\);
+        ok .is-valid, '.$hash-fname\($par-list\)';
 
     EOTEST
   }
