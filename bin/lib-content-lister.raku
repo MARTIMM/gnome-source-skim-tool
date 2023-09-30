@@ -38,13 +38,14 @@ list-dir("$api2/gnome-gtk3/lib");
 list-dir("$api2/gnome-gdk3/lib");
 list-dir("$api2/gnome-gobject/lib");
 list-dir("$api2/gnome-native/lib");
-list-dir("$api2/gnome-cairo/lib");
-list-dir("$api2/gnome-pango/lib");
 
 #`{{
+list-dir("$api2/gnome-cairo/lib");
+
 list-dir("$api2/gnome-glib/lib");
 list-dir("$api2/gnome-gio/lib");
 list-dir("$api2/gnome-atk/lib");
+list-dir("$api2/gnome-pango/lib");
 list-dir("$api2/gnome-gsk4/lib");
 }}
 
