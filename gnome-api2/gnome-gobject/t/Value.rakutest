@@ -35,6 +35,7 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
+  #TC:1:new()
   my N-GValue $native-object .= new;
   $native-object.g-type = G_TYPE_ULONG;
   $value .= new(:$native-object);
@@ -68,12 +69,12 @@ subtest 'Method tests', {
 
   # Functions
   with $value {
-    #TB:1:type-transformable()
+    #TF:1:type-transformable()
     $src-type = G_TYPE_UCHAR;
     $dest-type = G_TYPE_CHAR;
     ok .type-transformable( $src-type, $dest-type), '.type-transformable()';
 
-    #TB:1:type-compatible()
+    #TF:1:type-compatible()
     $src-type = G_TYPE_UINT;
     $dest-type = G_TYPE_INT;
     nok .type-compatible( $src-type, $dest-type), '.type-compatible()';
@@ -81,317 +82,317 @@ subtest 'Method tests', {
 
 #`{{
     # Methods
-    #TB:0:unset()
+    #TM:0:unset()
     ok .unset(), '.unset()';
 
-    #TB:0:transform()
+    #TM:0:transform()
     ok .transform( $dest-value), '.transform()';
 
-    #TB:0:take-variant()
+    #TM:0:take-variant()
     ok .take-variant( $variant), '.take-variant()';
 
-    #TB:0:take-string()
+    #TM:0:take-string()
     ok .take-string( $v-string), '.take-string()';
 
-    #TB:0:take-param()
+    #TM:0:take-param()
     ok .take-param( $param), '.take-param()';
 
-    #TB:0:take-object()
+    #TM:0:take-object()
     ok .take-object( $v-object), '.take-object()';
 
-    #TB:0:take-boxed()
+    #TM:0:take-boxed()
     ok .take-boxed( $v-boxed), '.take-boxed()';
 
-    #TB:0:set-variant()
+    #TM:0:set-variant()
     $variant = …;  # a native object
     .set-variant( $variant);
-    #TB:0:get-variant()
+    #TM:0:get-variant()
     is .get-variant(),  $variant, '.set-variant() / get-variant()';
 }}
 
   $value.reset;
   $native-object.g-type = G_TYPE_ULONG;
   with $value {
-    #TB:1:set-ulong()
+    #TM:1:set-ulong()
     $v-ulong = 42424242;
     .set-ulong( $v-ulong);
-    #TB:1:get-ulong()
+    #TM:1:get-ulong()
     is .get-ulong(),  $v-ulong, '.set-ulong() / .get-ulong()';
   }
 
 #`{{
-    #TB:0:set-uint64()
+    #TM:0:set-uint64()
     $v-uint64 = 42;
     .set-uint64( $v-uint64);
-    #TB:0:get-uint64()
+    #TM:0:get-uint64()
     is .get-uint64(),  $v-uint64, '.set-uint64() / get-uint64()';
 
-    #TB:0:set-uint()
+    #TM:0:set-uint()
     $v-uint = 42;
     .set-uint( $v-uint);
-    #TB:0:get-uint()
+    #TM:0:get-uint()
     is .get-uint(),  $v-uint, '.set-uint() / get-uint()';
 
-    #TB:0:set-uchar()
+    #TM:0:set-uchar()
     $v-uchar = 42;
     .set-uchar( $v-uchar);
-    #TB:0:get-uchar()
+    #TM:0:get-uchar()
     is .get-uchar(),  $v-uchar, '.set-uchar() / get-uchar()';
 
-    #TB:0:set-string()
+    #TM:0:set-string()
     $v-string = 'text';
     .set-string( $v-string);
-    #TB:0:get-string()
+    #TM:0:get-string()
     is .get-string(),  $v-string, '.set-string() / get-string()';
 
-    #TB:0:set-static-string()
+    #TM:0:set-static-string()
     $v-string = 'text';
     .set-static-string( $v-string);
     ok True, '.set-static-string()';
 
-    #TB:0:set-static-boxed()
+    #TM:0:set-static-boxed()
     $v-boxed = '…';
     .set-static-boxed( $v-boxed);
     ok True, '.set-static-boxed()';
 
-    #TB:0:set-schar()
+    #TM:0:set-schar()
     $v-char = -42;
     .set-schar( $v-char);
-    #TB:0:get-schar()
+    #TM:0:get-schar()
     is .get-schar(),  $v-char, '.set-schar() / get-schar()';
 
-    #TB:0:set-pointer()
+    #TM:0:set-pointer()
     $v-pointer = '…';
     .set-pointer( $v-pointer);
-    #TB:0:get-pointer()
+    #TM:0:get-pointer()
     is .get-pointer(),  $v-pointer, '.set-pointer() / get-pointer()';
 
-    #TB:0:set-param()
+    #TM:0:set-param()
     $param = …;  # a native object
     .set-param( $param);
-    #TB:0:get-param()
+    #TM:0:get-param()
     is .get-param(),  $param, '.set-param() / get-param()';
 
-    #TB:0:set-object()
+    #TM:0:set-object()
     $v-object = '…';
     .set-object( $v-object);
-    #TB:0:get-object()
+    #TM:0:get-object()
     is .get-object(),  $v-object, '.set-object() / get-object()';
 
-    #TB:0:set-long()
+    #TM:0:set-long()
     $v-long = -42;
     .set-long( $v-long);
-    #TB:0:get-long()
+    #TM:0:get-long()
     is .get-long(),  $v-long, '.set-long() / get-long()';
 
-    #TB:0:set-interned-string()
+    #TM:0:set-interned-string()
     $v-string = 'text';
     .set-interned-string( $v-string);
     ok True, '.set-interned-string()';
 
-    #TB:0:set-int64()
+    #TM:0:set-int64()
     $v-int64 = -42;
     .set-int64( $v-int64);
-    #TB:0:get-int64()
+    #TM:0:get-int64()
     is .get-int64(),  $v-int64, '.set-int64() / get-int64()';
 }}
 
   $value.reset;
   $native-object.g-type = G_TYPE_INT;
   with $value {
-    #TB:1:set-int()
+    #TM:1:set-int()
     $v-int = -42;
     .set-int( $v-int);
-    #TB:1:get-int()
+    #TM:1:get-int()
     is .get-int(), $v-int, '.set-int() / .get-int()';
   }
 
 #`{{
-   #TB:0:unset()
+   #TM:0:unset()
     ok .unset(), '.unset()';
 
-    #TB:0:transform()
+    #TM:0:transform()
     ok .transform( $dest-value), '.transform()';
 
-    #TB:0:take-variant()
+    #TM:0:take-variant()
     ok .take-variant( $variant), '.take-variant()';
 
-    #TB:0:take-string()
+    #TM:0:take-string()
     ok .take-string( $v-string), '.take-string()';
 
-    #TB:0:take-param()
+    #TM:0:take-param()
     ok .take-param( $param), '.take-param()';
 
-    #TB:0:take-object()
+    #TM:0:take-object()
     ok .take-object( $v-object), '.take-object()';
 
-    #TB:0:take-boxed()
+    #TM:0:take-boxed()
     ok .take-boxed( $v-boxed), '.take-boxed()';
 
-    #TB:0:set-variant()
+    #TM:0:set-variant()
     $variant = …;  # a native object
     .set-variant( $variant);
-    #TB:0:get-variant()
+    #TM:0:get-variant()
     is .get-variant(),  $variant, '.set-variant() / get-variant()';
 
-    #TB:0:set-ulong()
+    #TM:0:set-ulong()
     $v-ulong = 42;
     .set-ulong( $v-ulong);
-    #TB:0:get-ulong()
+    #TM:0:get-ulong()
     is .get-ulong(),  $v-ulong, '.set-ulong() / get-ulong()';
 
-    #TB:0:set-uint64()
+    #TM:0:set-uint64()
     $v-uint64 = 42;
     .set-uint64( $v-uint64);
-    #TB:0:get-uint64()
+    #TM:0:get-uint64()
     is .get-uint64(),  $v-uint64, '.set-uint64() / get-uint64()';
 
-    #TB:0:set-uint()
+    #TM:0:set-uint()
     $v-uint = 42;
     .set-uint( $v-uint);
-    #TB:0:get-uint()
+    #TM:0:get-uint()
     is .get-uint(),  $v-uint, '.set-uint() / get-uint()';
 
-    #TB:0:set-uchar()
+    #TM:0:set-uchar()
     $v-uchar = 42;
     .set-uchar( $v-uchar);
-    #TB:0:get-uchar()
+    #TM:0:get-uchar()
     is .get-uchar(),  $v-uchar, '.set-uchar() / get-uchar()';
 }}
 
   $value.reset;
   $native-object.g-type = G_TYPE_STRING;
   with $value {
-    #TB:1:set-string()
+    #TM:1:set-string()
     $v-string = 'text';
     .set-string($v-string);
-    #TB:1:get-string()
+    #TM:1:get-string()
     is .get-string(),  $v-string, '.set-string() / get-string()';
   }
 
 #`{{
-    #TB:0:set-static-string()
+    #TM:0:set-static-string()
     $v-string = 'text';
     .set-static-string( $v-string);
     ok True, '.set-static-string()';
 
-    #TB:0:set-static-boxed()
+    #TM:0:set-static-boxed()
     $v-boxed = '…';
     .set-static-boxed( $v-boxed);
     ok True, '.set-static-boxed()';
 
-    #TB:0:set-schar()
+    #TM:0:set-schar()
     $v-char = -42;
     .set-schar( $v-char);
-    #TB:0:get-schar()
+    #TM:0:get-schar()
     is .get-schar(),  $v-char, '.set-schar() / get-schar()';
 
-    #TB:0:set-pointer()
+    #TM:0:set-pointer()
     $v-pointer = '…';
     .set-pointer( $v-pointer);
-    #TB:0:get-pointer()
+    #TM:0:get-pointer()
     is .get-pointer(),  $v-pointer, '.set-pointer() / get-pointer()';
 
-    #TB:0:set-param()
+    #TM:0:set-param()
     $param = …;  # a native object
     .set-param( $param);
-    #TB:0:get-param()
+    #TM:0:get-param()
     is .get-param(),  $param, '.set-param() / get-param()';
 
-    #TB:0:set-object()
+    #TM:0:set-object()
     $v-object = '…';
     .set-object( $v-object);
-    #TB:0:get-object()
+    #TM:0:get-object()
     is .get-object(),  $v-object, '.set-object() / get-object()';
 
-    #TB:0:set-long()
+    #TM:0:set-long()
     $v-long = -42;
     .set-long( $v-long);
-    #TB:0:get-long()
+    #TM:0:get-long()
     is .get-long(),  $v-long, '.set-long() / get-long()';
 
-    #TB:0:set-interned-string()
+    #TM:0:set-interned-string()
     $v-string = 'text';
     .set-interned-string( $v-string);
     ok True, '.set-interned-string()';
 
-    #TB:0:set-int64()
+    #TM:0:set-int64()
     $v-int64 = -42;
     .set-int64( $v-int64);
-    #TB:0:get-int64()
+    #TM:0:get-int64()
     is .get-int64(),  $v-int64, '.set-int64() / get-int64()';
 
-    #TB:0:set-int()
+    #TM:0:set-int()
     $v-int = -42;
     .set-int( $v-int);
-    #TB:0:get-int()
+    #TM:0:get-int()
     is .get-int(),  $v-int, '.set-int() / get-int()';
 
-    #TB:0:set-instance()
+    #TM:0:set-instance()
     $instance = '…';
     .set-instance( $instance);
     ok True, '.set-instance()';
 
-    #TB:0:set-gtype()
+    #TM:0:set-gtype()
     $v-gtype = '…';
     .set-gtype( $v-gtype);
-    #TB:0:get-gtype()
+    #TM:0:get-gtype()
     is .get-gtype(),  $v-gtype, '.set-gtype() / get-gtype()';
 
-    #TB:0:set-float()
+    #TM:0:set-float()
     $v-float = 42.42;
     .set-float( $v-float);
-    #TB:0:get-float()
+    #TM:0:get-float()
     is-approx .get-float(),  $v-float, '.set-float() / get-float()';
 
-    #TB:0:set-flags()
+    #TM:0:set-flags()
     $v-flags = 42;
     .set-flags( $v-flags);
-    #TB:0:get-flags()
+    #TM:0:get-flags()
     is .get-flags(),  $v-flags, '.set-flags() / get-flags()';
 
-    #TB:0:set-enum()
+    #TM:0:set-enum()
     $v-enum = -42;
     .set-enum( $v-enum);
-    #TB:0:get-enum()
+    #TM:0:get-enum()
     is .get-enum(),  $v-enum, '.set-enum() / get-enum()';
 
-    #TB:0:set-double()
+    #TM:0:set-double()
     $v-double = 42.42;
     .set-double( $v-double);
-    #TB:0:get-double()
+    #TM:0:get-double()
     is-approx .get-double(),  $v-double, '.set-double() / get-double()';
 
-    #TB:0:set-boxed()
+    #TM:0:set-boxed()
     $v-boxed = '…';
     .set-boxed( $v-boxed);
-    #TB:0:get-boxed()
+    #TM:0:get-boxed()
     is .get-boxed(),  $v-boxed, '.set-boxed() / get-boxed()';
 }}
 
   $value.reset;
   $native-object.g-type = G_TYPE_BOOLEAN;
   with $value {
-    #TB:1:set-boolean()
+    #TM:1:set-boolean()
     $v-boolean = True;
     .set-boolean( $v-boolean);
-    #TB:1:get-boolean()
+    #TM:1:get-boolean()
     is .get-boolean(),  $v-boolean.Int, '.set-boolean() / get-boolean()';
   }
 
-  #TB:1:reset()
+  #TM:1:reset()
   $native-object = $value.reset;
   is $native-object.g-type, G_TYPE_BOOLEAN, '.reset()';
 
 #`{{
-    #TB:0:peek-pointer()
+    #TM:0:peek-pointer()
     ok .peek-pointer(), '.peek-pointer()';
 
-    #TB:0:init-from-instance()
+    #TM:0:init-from-instance()
     ok .init-from-instance( $instance), '.init-from-instance()';
 }}
 
-  #TB:1:init()
+  #TM:1:init()
   $native-object .= new;
   $value .= new(:$native-object);
   $g-type = G_TYPE_ULONG;
@@ -399,25 +400,25 @@ subtest 'Method tests', {
   is $native-object.g-type, $g-type, '.init()';
 
 #`{{
-    #TB:0:fits-pointer()
+    #TM:0:fits-pointer()
     ok .fits-pointer(), '.fits-pointer()';
 
-    #TB:0:dup-variant()
+    #TM:0:dup-variant()
     ok .dup-variant(), '.dup-variant()';
 
-    #TB:0:dup-string()
+    #TM:0:dup-string()
     ok .dup-string(), '.dup-string()';
 
-    #TB:0:dup-param()
+    #TM:0:dup-param()
     ok .dup-param(), '.dup-param()';
 
-    #TB:0:dup-object()
+    #TM:0:dup-object()
     ok .dup-object(), '.dup-object()';
 
-    #TB:0:dup-boxed()
+    #TM:0:dup-boxed()
     ok .dup-boxed(), '.dup-boxed()';
 
-    #TB:0:copy()
+    #TM:0:copy()
     ok .copy( $dest-value), '.copy()';
 }}
 
