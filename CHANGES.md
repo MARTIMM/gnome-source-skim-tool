@@ -48,7 +48,7 @@
 ```
 
 ### List of backward compatibility breaks 😭 😭
-* Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages.
+* Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages. The modules Glib, GObject and Gio 
 * Instanciating a class or record is done using positional arguments instead of named arguments. The names of these methods will not be `new()` anymore but something like `new-*()`.
 * The `new()` call is only used for specific work.
   * Providing a native object from elsewhere with `:$native-object`.
@@ -64,7 +64,10 @@
 
 # Release notes
 * 2023-09-27 0.11.3
-  * Reducing complexity by taking the glib, gobject and gio from :api<1>
+  * Reducing complexity by taking the glib, gio from :api<1>
+  * A few modules generated and tested from Gtk4
+  * A first application of a Window with a Button without signals works.
+  * First steps to get events working
 
 * 2023-09-20 0.11.2
   * Module **N-GValue**, **Value**, **T-Value** and **T-Type** added to `Gnome::GObject` and tested. **T-Type** is coded by hand and not generated because of missing constants in the gir system. An issue will be set at GitLab.
