@@ -32,8 +32,8 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
   # Misc is deprecated so shortcut to Widget. This is only for Gtk3!
   $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
-  self.add-import($parent);
-  $also ~= "also is $parent;\n";
+  my Bool $available = self.add-import($parent);
+  $also ~= ($available ?? '' !! '#') ~ "also is $parent;\n";
 
   my Bool $is-role = (($h<gir-type> // '' ) eq 'interface') // False;
   my Bool $is-class = (($h<gir-type> // '' ) eq 'class') // False;
@@ -42,8 +42,8 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     # Check for roles to implement
     my Array $roles = $h<implement-roles>//[];
     for @$roles -> $role {
-      self.add-import($role);
-      $also ~= "also does $role;\n";
+      $available = self.add-import($role);
+      $also ~= ($available ?? '' !! '#') ~ "also does $role;\n";
 #`{{ Simplified
       my Hash $role-h = self.search-name($role);
       if ?$role-h<class-name> {
@@ -237,6 +237,9 @@ method generate-callables (
 
           RAKUMOD
 }}
+
+        my Bool $available = self.add-import($role);
+        $c ~= "#`\{\{\n" unless $available;
         $c ~= qq:to/RAKUMOD/;
               \$r = self.{$role}::_fallback-v2\(
                 \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
@@ -244,6 +247,7 @@ method generate-callables (
               return \$r if \$_fallback-v2-ok;
 
           RAKUMOD
+        $c ~= "\}\}\n" unless $available;
       }
 
       $c ~= q:to/RAKUMOD/;
@@ -345,12 +349,16 @@ method get-role-signals ( Hash $h --> Str ) {
   for @$roles -> $role {
     once $role-signals = "\n    # Signals from interfaces\n";
 
+    my Bool $available = self.add-import($role);
+
     my Hash $role-h = self.search-name($role);
     if ?$role-h {
 #note "$?LINE role $role, ", $role-h.gist;
+      $role-signals ~= "#`\{\{\n" unless $available;
       $role-signals ~=
         "    self._add_$role-h<symbol-prefix>signal_types\(\$?CLASS\.^name)\n" ~
         "      if self.^can\('_add_$role-h<symbol-prefix>signal_types');\n";
+      $role-signals ~= "\}\}\n" unless $available;
     }
   }
 
