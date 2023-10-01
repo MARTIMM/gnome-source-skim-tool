@@ -468,6 +468,127 @@ method register-signal (
 }
 
 #-------------------------------------------------------------------------------
+# sub with conversion of user callback. $user-handler is used to get the types
+# from, while the $provided-handler is an intermediate between native and user.
+method _convert_g_signal_connect_object (
+  N-GObject $instance, Str $detailed-signal,
+  Callable $user-handler, Callable $provided-handler
+  --> gulong
+) {
+
+  # create callback handlers signature using the users callback.
+  # first argument is always a native widget.
+  my @sub-parameter-list = (
+    Parameter.new(type => N-GObject),     # object which received the signal
+  );
+
+  # then process all parameters of the callback. Skip the first which is the
+  # instance which is not needed in the argument list to the handler.
+  for $user-handler.signature.params[1..*-1] -> $p {
+
+    # named argument. test for '$_widget` and deprecate the use of it. then skip
+    if $p.named {
+      Gnome::N::deprecate(
+        'named argument :$_widget', ':$_native-object', '0.19.8', '0.21.0'
+      ) if $p.name eq '$_widget';
+
+      next;
+    }
+
+    next if $p.name ~~ Nil;       # seems to be possible
+    next if $p.name eq '%_';      # only at the end I think
+
+    @sub-parameter-list.push(self!convert-type($p.type));
+  }
+
+  # finish with data pointer argument which is ignored
+#  @sub-parameter-list.push(Parameter.new(type => gpointer));
+  @sub-parameter-list.push(self!convert-type(gpointer));
+
+  # create signature from user handler, test for return value
+  my Signature $sub-signature;
+
+  # Mu is not an accepted value for the NativeCall interface make it
+  # an OpaquePointer.
+  if $user-handler.signature.returns.gist ~~ '(Mu)' {
+    $sub-signature .= new(
+      :params( |@sub-parameter-list ),
+      :returns(gpointer)
+    );
+  }
+
+  else {
+    $sub-signature .= new(
+      :params( |@sub-parameter-list ),
+      :returns(self!convert-type( $user-handler.signature.returns, :type-only))
+    );
+  }
+
+  # create parameter list for call to g_signal_connect_object
+  my @parameterList = (
+    Parameter.new(type => N-GObject),     # $instance
+    Parameter.new(type => Str),           # $detailed-signal
+    Parameter.new(                        # wrapper around $user-handler
+      :type(Callable),
+      :$sub-signature
+    ),
+    Parameter.new(type => gpointer),      # $data is ignored
+    Parameter.new(type => GEnum)          # $connect-flags is ignored
+  );
+
+  # create signature for call to g_signal_connect_object
+  my Signature $signature .= new(
+    :params( |@parameterList ),
+    :returns(gulong)
+  );
+
+  # get a pointer to the sub, then cast it to a sub with the created
+  # signature. after that, the sub can be called, returning a value.
+  state $ptr = cglobal( gobject-lib(), 'g_signal_connect_object', Pointer);
+
+  my Callable $f = nativecast( $signature, $ptr);
+#note "F: $f.gist()";
+
+  note [~] "Calling: .g_signal_connect_object\(\n",
+    "  $instance.perl(),\n",
+    "  '$detailed-signal',\n",
+    "  $provided-handler.perl(),\n",
+    "  gpointer,\n",
+#    "  OpaquePointer,\n",
+    "  0\n",
+    ');'  if $Gnome::N::x-debug;
+
+  # returns the signal id
+
+#note "F: $instance.gist(), $detailed-signal, $provided-handler.gist()";
+  $f( $instance, $detailed-signal, $provided-handler, gpointer, 0)
+}
+
+#-------------------------------------------------------------------------------
+method !convert-type ( $type, Bool :$type-only = False --> Any ) {
+  my $converted-type;
+
+#note 'type: ', $type.^name;
+  given $type.^name {
+    when Bool { $converted-type = gboolean; }
+    when UInt { $converted-type = guint; }
+    when Int { $converted-type = gint; }
+    when Num { $converted-type = gfloat; }
+    when Rat { $converted-type = gdouble; }
+    when /^ Gnome '::' / { $converted-type = N-GObject; }
+    default { $converted-type = $type; }
+  }
+
+  if $type-only {
+    $converted-type
+  }
+
+  else {
+    Parameter.new(type => $converted-type)
+  }
+}
+
+#-------------------------------------------------------------------------------
 #--[Native subs]----------------------------------------------------------------
 #-------------------------------------------------------------------------------
 #TM:1:_g_object_ref:
