@@ -273,6 +273,8 @@ method generate-test ( ) {
 #note "$?LINE $hcs.keys()";
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
 
+  $code ~= $!tst.generate-test-separator;
+
   $hcs = $!mod.get-functions( $element, $!xpath, :user-side);
 #note "$?LINE $hcs.keys()";
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
