@@ -59,12 +59,12 @@ submethod BUILD ( *%options ) {
     );
 
     # Signals from interfaces
-    self._add_gtk_accessible_signal_types($?CLASS.^name)
-      if self.^can('_add_gtk_accessible_signal_types');
+#    self._add_gtk_accessible_signal_types($?CLASS.^name)
+#      if self.^can('_add_gtk_accessible_signal_types');
     self._add_gtk_buildable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_buildable_signal_types');
-    self._add_gtk_constraint_target_signal_types($?CLASS.^name)
-      if self.^can('_add_gtk_constraint_target_signal_types');
+#    self._add_gtk_constraint_target_signal_types($?CLASS.^name)
+#      if self.^can('_add_gtk_constraint_target_signal_types');
     $signals-added = True;
   }
 
@@ -283,21 +283,22 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
 
   else {
     my $r;
+#`{{
     $r = self.Gnome::Gtk4::R-Accessible::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
-
+}}
     $r = self.Gnome::Gtk4::R-Buildable::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
-
+#`{{
     $r = self.Gnome::Gtk4::R-ConstraintTarget::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
-
+}}
     callsame;
   }
 }
