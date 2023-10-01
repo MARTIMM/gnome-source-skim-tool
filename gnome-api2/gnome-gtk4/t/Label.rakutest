@@ -1,0 +1,306 @@
+# Command to generate: generate.raku -c -t Gtk4 label
+
+#TL:1:Gnome::Gtk4::Label:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Label:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+#use Gnome::Pango::T-Layout:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Label $label;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  my Str $str;
+
+  #TC:1:new()
+  $str = 'text';
+  $label .= new-label($str);
+  ok $label.is-valid, '.new-label( $str)';
+
+  #TC:0:new-with-mnemonic()
+  $str = '_text';
+  $label .= new-with-mnemonic($str);
+  ok $label.is-valid, '.new-with-mnemonic( $str)';
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $label {
+    my Array[Int] $start;
+    my Num() $xalign;
+    my Bool() $wrap;
+    my GtkJustification $jtype;
+    my Int() $lines;
+    my Int() $end-offset;
+    my Int() $start-offset;
+    my Str $str;
+    my Num() $yalign;
+    my Array[Int] $y;
+    my Array[Int] $end;
+#    my PangoEllipsizeMode  $mode;
+    my Bool() $single-line-mode;
+    my Bool() $setting;
+    my Int() $n-chars;
+    my N-GObject() $widget;
+    my GtkNaturalWrapMode $wrap-mode;
+    my N-GObject $attrs;
+    my N-GObject() $model;
+    my Array[Int] $x;
+
+
+    #TM:1:set-yalign()
+    $yalign = 0.5;
+    .set-yalign( $yalign);
+    #TM:1:get-yalign()
+    is-approx .get-yalign(),  $yalign, '.set-yalign() / .get-yalign()';
+
+    #TM:1:set-xalign()
+    $xalign = 0.9;
+    .set-xalign($xalign);
+    #TM:0:get-xalign()
+    is-approx .get-xalign(),  $xalign, '.set-xalign() / .get-xalign()';
+
+#`{{
+    #TM:0:set-wrap-mode()
+    $wrap-mode = …;  # an enum or fla
+    .set-wrap-mode( $wrap-mode);
+    #TM:0:get-wrap-mode()
+    is .get-wrap-mode(),  $wrap-mode, '.set-wrap-mode() / .get-wrap-mode()';
+
+    #TM:0:set-wrap()
+    $wrap = True;
+    .set-wrap( $wrap);
+    #TM:0:get-wrap()
+    is .get-wrap(),  $wrap, '.set-wrap() / .get-wrap()';
+
+    #TM:0:set-width-chars()
+    $n-chars = -42;
+    .set-width-chars( $n-chars);
+    #TM:0:get-width-chars()
+    is .get-width-chars(),  $n-chars, '.set-width-chars() / .get-width-chars()';
+
+    #TM:0:set-use-underline()
+    $setting = True;
+    .set-use-underline( $setting);
+    #TM:0:get-use-underline()
+    is .get-use-underline(),  $setting, '.set-use-underline() / .get-use-underline()';
+
+    #TM:0:set-use-markup()
+    $setting = True;
+    .set-use-markup( $setting);
+    #TM:0:get-use-markup()
+    is .get-use-markup(),  $setting, '.set-use-markup() / .get-use-markup()';
+
+    #TM:0:set-text-with-mnemonic()
+    $str = 'text';
+    .set-text-with-mnemonic( $str);
+    ok True, '.set-text-with-mnemonic()';
+
+    #TM:0:set-text()
+    $str = 'text';
+    .set-text( $str);
+    #TM:0:get-text()
+    is .get-text(),  $str, '.set-text() / .get-text()';
+
+    #TM:0:set-single-line-mode()
+    $single-line-mode = True;
+    .set-single-line-mode( $single-line-mode);
+    #TM:0:get-single-line-mode()
+    is .get-single-line-mode(),  $single-line-mode, '.set-single-line-mode() / .get-single-line-mode()';
+
+    #TM:0:set-selectable()
+    $setting = True;
+    .set-selectable( $setting);
+    #TM:0:get-selectable()
+    is .get-selectable(),  $setting, '.set-selectable() / .get-selectable()';
+
+    #TM:0:set-natural-wrap-mode()
+    $wrap-mode = …;  # an enum or fla
+    .set-natural-wrap-mode( $wrap-mode);
+    #TM:0:get-natural-wrap-mode()
+    is .get-natural-wrap-mode(),  $wrap-mode, '.set-natural-wrap-mode() / .get-natural-wrap-mode()';
+
+    #TM:0:set-mnemonic-widget()
+    $widget = …;  # a native object
+    .set-mnemonic-widget( $widget);
+    #TM:0:get-mnemonic-widget()
+    is .get-mnemonic-widget(),  $widget, '.set-mnemonic-widget() / .get-mnemonic-widget()';
+
+    #TM:0:set-max-width-chars()
+    $n-chars = -42;
+    .set-max-width-chars( $n-chars);
+    #TM:0:get-max-width-chars()
+    is .get-max-width-chars(),  $n-chars, '.set-max-width-chars() / .get-max-width-chars()';
+
+    #TM:0:set-markup-with-mnemonic()
+    $str = 'text';
+    .set-markup-with-mnemonic( $str);
+    ok True, '.set-markup-with-mnemonic()';
+
+    #TM:0:set-markup()
+    $str = 'text';
+    .set-markup( $str);
+    ok True, '.set-markup()';
+
+    #TM:0:set-lines()
+    $lines = -42;
+    .set-lines( $lines);
+    #TM:0:get-lines()
+    is .get-lines(),  $lines, '.set-lines() / .get-lines()';
+
+    #TM:0:set-label()
+    $str = 'text';
+    .set-label( $str);
+    #TM:0:get-label()
+    is .get-label(),  $str, '.set-label() / .get-label()';
+
+    #TM:0:set-justify()
+    $jtype = …;  # an enum or fla
+    .set-justify( $jtype);
+    #TM:0:get-justify()
+    is .get-justify(),  $jtype, '.set-justify() / .get-justify()';
+
+    #TM:0:set-extra-menu()
+    $model = …;  # a native object
+    .set-extra-menu( $model);
+    #TM:0:get-extra-menu()
+    is .get-extra-menu(),  $model, '.set-extra-menu() / .get-extra-menu()';
+
+    #TM:0:set-ellipsize()
+    $mode = …;  # an enum or fla
+    .set-ellipsize( $mode);
+    #TM:0:get-ellipsize()
+    is .get-ellipsize(),  $mode, '.set-ellipsize() / .get-ellipsize()';
+
+    #TM:0:set-attributes()
+    $attrs = …;  # a native object
+    .set-attributes( $attrs);
+    #TM:0:get-attributes()
+    is .get-attributes(),  $attrs, '.set-attributes() / .get-attributes()';
+
+    #TM:0:select-region()
+    ok .select-region( $start-offset, $end-offset), '.select-region()';
+
+    #TM:0:get-selection-bounds()
+    is .get-selection-bounds( $start, $end), '…', '.get-selection-bounds()';
+
+    #TM:0:get-mnemonic-keyval()
+     .get-mnemonic-keyval(), '…', '.get-mnemonic-keyval()';
+
+    #TM:0:get-layout-offsets()
+    is .get-layout-offsets( $x, $y), '…', '.get-layout-offsets()';
+
+    #TM:0:get-layout()
+     .get-layout(), '…', '.get-layout()';
+
+    #TM:0:get-current-uri()
+     .get-current-uri(), '…', '.get-current-uri()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Label() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Label;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Label :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Label $label .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $label.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
