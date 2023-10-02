@@ -659,25 +659,13 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my ( $rnt0, $rnt1) = $curr-function<return-raku-type>.split(':');
     if ?$rnt1 {
-#TM:1:$function-name
       $code ~= [~] '  ', $temp-inhibit, $function-name,
                   ' => %( :type(Constructor), ', $isnew,
                   ':returns(', $rnt0, '), ',
                   ':type-name(', $rnt1, '), ',  $parameters, "),\n";
-#`{{
-      $code ~= qq:to/EOSUB/;
-        $function-name =\> \%\(
-          :type\(Constructor\),
-          :returns\($rnt0\),
-          :type-name\($rnt1\),$parameters
-        ),
-
-      EOSUB
-}}
     }
 
     else {
-#TM:1:$function-name
       $code ~= [~] '  ', $temp-inhibit, $function-name,
                   ' => %( :type(Constructor), ', $isnew,
                   ':returns(', $rnt0, '), ',
@@ -685,15 +673,6 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
       # drop last comma from arg list
       $code ~~ s/ '),)' /))/;
-#`{{
-      $code ~= qq:to/EOSUB/;
-        $function-name =\> \%\(
-          :type\(Constructor\),
-          :returns\($rnt0\),$parameters
-        ),
-
-      EOSUB
-}}
     }
   }
 
@@ -742,6 +721,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     EOSUB
 
   for $hcs.keys.sort -> $function-name is copy {
+    my Str $cnv-return = '';
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
@@ -835,6 +815,9 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
     elsif ?$rnt0 and $xtype ne 'void' {
       $returns = " :returns\($rnt0\),";
+      if $xtype eq 'gboolean' {
+        $cnv-return = ' :cnv-return(Bool),';
+      }
     }
 
 #note "$?LINE $function-name";
@@ -842,18 +825,10 @@ method !generate-methods ( Hash $hcs --> Str ) {
 #note "$?LINE $par-list";
 
     $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %(',
-             $variable-list, $returns, $par-list, "),\n";
+             $variable-list, $returns, $cnv-return, $par-list, "),\n";
 
     # drop last comma from arg list
     $code ~~ s/ '),)' /))/;
-#`{{
-#TM:0:$function-name
-    $code ~= qq:to/EOSUB/;
-      $function-name =\> \%\($returns$par-list
-      ),
-
-    EOSUB
-}}
   }
 
   $code
