@@ -1,47 +1,11 @@
-# Command to generate: gnome-source-skim-tool.raku -c -v Gtk4 enums
+# Command to generate: generate.raku -v -t -c Gtk4 enums
 use v6;
-#-------------------------------------------------------------------------------
-#--[Module Imports]-------------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-use NativeCall;
-
-
-#use Gnome::Gtk4::T-Enums:api<2>;
-use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
-use Gnome::N::NativeLib:api<2>;
-
-use Gnome::N::TopLevelClassSupport:api<2>;
-
-use Gnome::N::GnomeRoutineCaller:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::T-Enums:auth<github:MARTIMM>:api<2>;
-also is Gnome::N::TopLevelClassSupport;
-
-#-------------------------------------------------------------------------------
-#--[Constants]------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-constant GTK_ACCESSIBLE_VALUE_UNDEFINED is export = -1;
-
-#-------------------------------------------------------------------------------
-#--[Bitfields]------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-enum GtkInputHints is export (
-  :GTK_INPUT_HINT_NONE(0), :GTK_INPUT_HINT_SPELLCHECK(1), :GTK_INPUT_HINT_NO_SPELLCHECK(2), :GTK_INPUT_HINT_WORD_COMPLETION(4), :GTK_INPUT_HINT_LOWERCASE(8), :GTK_INPUT_HINT_UPPERCASE_CHARS(16), :GTK_INPUT_HINT_UPPERCASE_WORDS(32), :GTK_INPUT_HINT_UPPERCASE_SENTENCES(64), :GTK_INPUT_HINT_INHIBIT_OSK(128), :GTK_INPUT_HINT_VERTICAL_WRITING(256), :GTK_INPUT_HINT_EMOJI(512), :GTK_INPUT_HINT_NO_EMOJI(1024), :GTK_INPUT_HINT_PRIVATE(2048)
-);
-
-enum GtkPickFlags is export (
-  :GTK_PICK_DEFAULT(0), :GTK_PICK_INSENSITIVE(1), :GTK_PICK_NON_TARGETABLE(2)
-);
-
-enum GtkStateFlags is export (
-  :GTK_STATE_FLAG_NORMAL(0), :GTK_STATE_FLAG_ACTIVE(1), :GTK_STATE_FLAG_PRELIGHT(2), :GTK_STATE_FLAG_SELECTED(4), :GTK_STATE_FLAG_INSENSITIVE(8), :GTK_STATE_FLAG_INCONSISTENT(16), :GTK_STATE_FLAG_FOCUSED(32), :GTK_STATE_FLAG_BACKDROP(64), :GTK_STATE_FLAG_DIR_LTR(128), :GTK_STATE_FLAG_DIR_RTL(256), :GTK_STATE_FLAG_LINK(512), :GTK_STATE_FLAG_VISITED(1024), :GTK_STATE_FLAG_CHECKED(2048), :GTK_STATE_FLAG_DROP_ACTIVE(4096), :GTK_STATE_FLAG_FOCUS_VISIBLE(8192), :GTK_STATE_FLAG_FOCUS_WITHIN(16384)
-);
 
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
@@ -266,42 +230,24 @@ enum GtkWrapMode is export <
   GTK_WRAP_NONE GTK_WRAP_CHAR GTK_WRAP_WORD GTK_WRAP_WORD_CHAR 
 >;
 
-
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+constant GTK_ACCESSIBLE_VALUE_UNDEFINED is export = -1;
 
 #-------------------------------------------------------------------------------
-#--[BUILD variables]------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
-
-# Define helper
-has Gnome::N::GnomeRoutineCaller $!routine-caller;
-
-#-------------------------------------------------------------------------------
-#--[BUILD submethod]------------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-submethod BUILD ( ) {
-  # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_>);
-}
-
-my Hash $methods = %(
-  
-  #--[Functions]----------------------------------------------------------------
-  ordering-from-cmpfunc => %( :type(Function),  :returns(GEnum), :type-name(GtkOrdering), :parameters([gint])),
-
+enum GtkInputHints is export (
+  :GTK_INPUT_HINT_NONE(0), :GTK_INPUT_HINT_SPELLCHECK(1), :GTK_INPUT_HINT_NO_SPELLCHECK(2), :GTK_INPUT_HINT_WORD_COMPLETION(4), :GTK_INPUT_HINT_LOWERCASE(8), :GTK_INPUT_HINT_UPPERCASE_CHARS(16), :GTK_INPUT_HINT_UPPERCASE_WORDS(32), :GTK_INPUT_HINT_UPPERCASE_SENTENCES(64), :GTK_INPUT_HINT_INHIBIT_OSK(128), :GTK_INPUT_HINT_VERTICAL_WRITING(256), :GTK_INPUT_HINT_EMOJI(512), :GTK_INPUT_HINT_NO_EMOJI(1024), :GTK_INPUT_HINT_PRIVATE(2048)
 );
 
-# This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
-  if $methods{$name}:exists {
-    my $native-object = self.get-native-object-no-reffing;
-    $_fallback-v2-ok = True;
-    return $!routine-caller.call-native-sub(
-      $name, @arguments, $methods, :$native-object
-    );
-  }
+enum GtkPickFlags is export (
+  :GTK_PICK_DEFAULT(0), :GTK_PICK_INSENSITIVE(1), :GTK_PICK_NON_TARGETABLE(2)
+);
 
-  else {
-    callsame;
-  }
-}
+enum GtkStateFlags is export (
+  :GTK_STATE_FLAG_NORMAL(0), :GTK_STATE_FLAG_ACTIVE(1), :GTK_STATE_FLAG_PRELIGHT(2), :GTK_STATE_FLAG_SELECTED(4), :GTK_STATE_FLAG_INSENSITIVE(8), :GTK_STATE_FLAG_INCONSISTENT(16), :GTK_STATE_FLAG_FOCUSED(32), :GTK_STATE_FLAG_BACKDROP(64), :GTK_STATE_FLAG_DIR_LTR(128), :GTK_STATE_FLAG_DIR_RTL(256), :GTK_STATE_FLAG_LINK(512), :GTK_STATE_FLAG_VISITED(1024), :GTK_STATE_FLAG_CHECKED(2048), :GTK_STATE_FLAG_DROP_ACTIVE(4096), :GTK_STATE_FLAG_FOCUS_VISIBLE(8192), :GTK_STATE_FLAG_FOCUS_WITHIN(16384)
+);
+
+
