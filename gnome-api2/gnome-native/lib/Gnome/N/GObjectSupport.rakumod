@@ -14,79 +14,6 @@ unit role Gnome::N::GObjectSupport:auth<github:MARTIMM>:api<2>;
 
 my Hash $signal-types = {};
 
-#`{{
-# Check on native library initialization.
-my Bool $gui-initialized = False;
-my Bool $may-not-initialize-gui = False;
-
-#-------------------------------------------------------------------------------
-#TODO The library to use and its call to this method depend on which 
-# package we need to use;
-#   gtk-3 for Gnome::Gtk3 modules
-#   gtk-4 for Gnome::Gtk4 modules
-#   no call when from Gio, Cairo or Pango
-method gtk-initialize ( Str $library ) {
-#note "$?LINE {self.^mro}";
-
-#`{{
-  # check GTK+ init except when GtkApplication / GApplication is used
-  $may-not-initialize-gui = [or]
-    $may-not-initialize-gui,
-    $gui-initialized,
-    # check for Application from Gio. that one inherits from Object.
-    # Application from Gtk3 inherits from Gio, so this test is always ok.
-    $mro[0..*-3].gist ~~ m/'(Application) (Object)'/;
-
-  unless $may-not-initialize-gui {
-    if not $gui-initialized #`{{and !%options<skip-init>}} {
-}}
-note "$?LINE @*ARGS.gist()";
-
-      # must setup gtk otherwise Raku will crash
-      my $argc = int-ptr.new;
-      $argc[0] = 1 + @*ARGS.elems;
-
-      my $arg_arr = char-pptr.new;
-      my Int $arg-count = 0;
-      $arg_arr[$arg-count++] = $*PROGRAM.Str;
-      for @*ARGS -> $arg {
-        $arg_arr[$arg-count++] = $arg;
-      }
-
-      my $argv = char-ppptr.new;
-      $argv[0] = $arg_arr;
-
-      # call gtk_init_check
-      my Callable $f = nativecast(
-        :( gint-ptr $argc, char-ppptr $argv --> gboolean),
-        cglobal( $library, 'gtk_init_check', gpointer)
-      );
-      $f( $argc, $argv);
-
-#      _object_init_check( $argc, $argv);
-      $gui-initialized = True;
-
-      # now refill the ARGS list with left over commandline arguments
-      @*ARGS = ();
-      for ^$argc[0] -> $i {
-        # skip first argument == programname
-        next unless $i;
-        @*ARGS.push: $argv[0][$i];
-      }
-#    }
-#  }
-}
-
-#-------------------------------------------------------------------------------
-# This sub belongs to GtkMain but is needed here.
-#sub _object_init_check (
-#  gint-ptr $argc, char-ppptr $argv
-#  --> gboolean
-#) is native(&gtk4-lib)
-#  is symbol('gtk_init_check')
-#  { * }
-}}
-
 #-------------------------------------------------------------------------------
 method _set-native-object ( $n-native-object ) {
   if ? $n-native-object {
@@ -273,7 +200,7 @@ method register-signal (
     my @module-names = self.^name, |(map( {.^name}, self.^parents));
     for @module-names -> $mn {
       note "  search in class: $mn, $signal-name" if $Gnome::N::x-debug;
-      if $signal-types{$mn}:exists and ?$signal-types{$mn}{$signal-name} {
+      if $signal-types{$mn}:exists and $signal-types{$mn}{$signal-name}:exists {
         $signal-type = $signal-types{$mn}{$signal-name};
         $module-name = $mn;
         note "  found key '$signal-type' for $mn" if $Gnome::N::x-debug;
