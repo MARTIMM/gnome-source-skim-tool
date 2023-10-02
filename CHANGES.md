@@ -64,7 +64,7 @@
 
 # Release notes
 * 2023-09-27 0.11.3
-  * Reducing complexity by taking the glib, gio from :api<1>
+  * Reducing complexity by taking the glib and gio from :api<1>.
   * A few modules generated and tested from Gtk4
   * A first application of a **Window** with a **Button** without signals works.
   * First steps to get events working. `Clicked` on a **Button** did work but `Destroy` on a **Window** did not work. Seems to be a difference between the Gtk3 and Gtk4 version. A discussion on `discourse.gnome.org` did not bring a solution except the gnome team encouraging people to use **Application** and **ApplicationWindow**. In the mean time I found the proper signal name to use that works. It is called `close-request`.
