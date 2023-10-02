@@ -199,17 +199,18 @@ method call-native-sub (
     my $x;
 
     if $routine<type-name>:exists {
-      $x = self!convert-return(
-        $c(|$native-args),
-        $routine<returns>, :type($routine<type-name>)
-      );
+      # When there is a type name, it is always an enum
+      $x = $routine<type-name>($c(|$native-args));
     }
 
     else {
 #note "$?LINE $c.gist(), ", $native-args.gist;
       $x = $c(|$native-args);
-#note "$?LINE $x.gist()";
-      $x = self!convert-return( $x, $routine<returns>);
+#note "$?LINE $x.gist(), {$routine.gist}";
+      $x = self.convert-return(
+        $x, $routine<cnv-return>:exists
+            ?? $routine<cnv-return> !! $routine<returns>
+      );
     }
 
     return $x
@@ -300,7 +301,8 @@ method !make-list-from-result (
   my @return-list = ();
   @return-list.push: $x if $routine<returns>:exists;
 
-  # Drop the first one when routine type is a Method
+  # Drop the first one when routine type is a Method.
+  # This is the instance variable.
   my Int $start = 0;
   given $routine<type> {
     when Constructor { $start = 0; }
@@ -313,7 +315,7 @@ method !make-list-from-result (
     my $p = $parameters[$i];
     my $v = $native-args[$i + $start];
     next unless $p.^name ~~ m/ CArray /;
-    @return-list.push: self!convert-return( $v, $p);
+    @return-list.push: self.convert-return( $v, $p);
   }
 
   @return-list
@@ -363,9 +365,9 @@ note "$?LINE $c.gist()";
 }
 
 #-------------------------------------------------------------------------------
-method !convert-return ( $v, $p, :$type = Any ) {
+multi method convert-return ( $v, $p ) {
   my $c;
-
+#note "$?LINE p = {$p.^name}, $p.gist()";
   # Use 'given' because $p is a type and is always undefined
   given $p {
     when gchar-pptr {
@@ -380,12 +382,12 @@ method !convert-return ( $v, $p, :$type = Any ) {
       $c = $v[0];
     }
 
-    when .^name ~~ / CArray / {
-      $c = ?$v[0] ?? $v[0] !! $p;
+    when .^name ~~ / Bool / {
+      $c = $v[0].Bool;
     }
 
-    when GEnum {
-      $c = $type($v);
+    when .^name ~~ / CArray / {
+      $c = ?$v[0] ?? $v[0] !! $p;
     }
 
     # Most values do not need conversion
