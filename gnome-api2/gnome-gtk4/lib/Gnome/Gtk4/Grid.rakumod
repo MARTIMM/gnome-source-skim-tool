@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 label
+# Command to generate: generate.raku -v -t -c Gtk4 grid
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -8,6 +8,7 @@ use v6;
 use NativeCall;
 
 
+#use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -15,16 +16,15 @@ use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
-#use Gnome::Pango::N-PangoAttrList:api<2>;
-#use Gnome::Pango::T-Layout:api<2>;
 
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::Label:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::Grid:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
+#also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -43,26 +43,27 @@ my Bool $signals-added = False;
 submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
-    self.add-signal-types( $?CLASS.^name,
-      :w0<activate-current-link copy-clipboard>,
-      :w1<activate-link>,
-      :w3<move-cursor>,
-    );
+    
+    # Signals from interfaces
+#`{{
+    self._add_gtk_orientable_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_orientable_signal_types');
+}}
     $signals-added = True;
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_label_>);
+  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_grid_>);
 
   # Prevent creating wrong widgets
-  if self.^name eq 'Gnome::Gtk4::Label' {
+  if self.^name eq 'Gnome::Gtk4::Grid' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     die X::Gnome.new(:message("Native object not defined"))
       unless self.is-valid;
 
     # only after creating the native-object, the gtype is known
-    self._set-class-info('GtkLabel');
+    self._set-class-info('GtkGrid');
   }
 }
 
@@ -73,57 +74,31 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-label => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
+  new-grid => %( :type(Constructor), :isnew, :returns(N-GObject), ),
 
   #--[Methods]------------------------------------------------------------------
-  #get-attributes => %( :returns(N-PangoAttrList )),
-  get-current-uri => %( :returns(Str)),
-  #get-ellipsize => %( :returns(GEnum), :type-name(PangoEllipsizeMode )),
-  get-extra-menu => %( :returns(N-GObject)),
-  get-justify => %( :returns(GEnum), :type-name(GtkJustification)),
-  get-label => %( :returns(Str)),
-  get-layout => %( :returns(N-GObject)),
-  get-layout-offsets => %( :parameters([gint-ptr, gint-ptr])),
-  get-lines => %( :returns(gint)),
-  get-max-width-chars => %( :returns(gint)),
-  get-mnemonic-keyval => %( :returns(guint)),
-  get-mnemonic-widget => %( :returns(N-GObject)),
-  get-natural-wrap-mode => %( :returns(GEnum), :type-name(GtkNaturalWrapMode)),
-  get-selectable => %( :returns(gboolean), :cnv-return(Bool)),
-  get-selection-bounds => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, gint-ptr])),
-  get-single-line-mode => %( :returns(gboolean), :cnv-return(Bool)),
-  get-text => %( :returns(Str)),
-  get-use-markup => %( :returns(gboolean), :cnv-return(Bool)),
-  get-use-underline => %( :returns(gboolean), :cnv-return(Bool)),
-  get-width-chars => %( :returns(gint)),
-  get-wrap => %( :returns(gboolean), :cnv-return(Bool)),
-  #get-wrap-mode => %( :returns(GEnum), :type-name(PangoWrapMode )),
-  get-xalign => %( :returns(gfloat)),
-  get-yalign => %( :returns(gfloat)),
-  select-region => %( :parameters([gint, gint])),
-  #set-attributes => %( :parameters([N-PangoAttrList ])),
-  #set-ellipsize => %( :parameters([GEnum])),
-  set-extra-menu => %( :parameters([N-GObject])),
-  set-justify => %( :parameters([GEnum])),
-  set-label => %( :parameters([Str])),
-  set-lines => %( :parameters([gint])),
-  set-markup => %( :parameters([Str])),
-  set-markup-with-mnemonic => %( :parameters([Str])),
-  set-max-width-chars => %( :parameters([gint])),
-  set-mnemonic-widget => %( :parameters([N-GObject])),
-  set-natural-wrap-mode => %( :parameters([GEnum])),
-  set-selectable => %( :parameters([gboolean])),
-  set-single-line-mode => %( :parameters([gboolean])),
-  set-text => %( :parameters([Str])),
-  set-text-with-mnemonic => %( :parameters([Str])),
-  set-use-markup => %( :parameters([gboolean])),
-  set-use-underline => %( :parameters([gboolean])),
-  set-width-chars => %( :parameters([gint])),
-  set-wrap => %( :parameters([gboolean])),
-  #set-wrap-mode => %( :parameters([GEnum])),
-  set-xalign => %( :parameters([gfloat])),
-  set-yalign => %( :parameters([gfloat])),
+  attach => %( :parameters([N-GObject, gint, gint, gint, gint])),
+  attach-next-to => %( :parameters([N-GObject, N-GObject, GEnum, gint, gint])),
+  get-baseline-row => %( :returns(gint)),
+  get-child-at => %( :returns(N-GObject), :parameters([gint, gint])),
+  get-column-homogeneous => %( :returns(gboolean), :cnv-return(Bool)),
+  get-column-spacing => %( :returns(guint)),
+  get-row-baseline-position => %( :returns(GEnum), :type-name(GtkBaselinePosition), :parameters([gint])),
+  get-row-homogeneous => %( :returns(gboolean), :cnv-return(Bool)),
+  get-row-spacing => %( :returns(guint)),
+  insert-column => %( :parameters([gint])),
+  insert-next-to => %( :parameters([N-GObject, GEnum])),
+  insert-row => %( :parameters([gint])),
+  query-child => %( :parameters([N-GObject, gint-ptr, gint-ptr, gint-ptr, gint-ptr])),
+  remove => %( :parameters([N-GObject])),
+  remove-column => %( :parameters([gint])),
+  remove-row => %( :parameters([gint])),
+  set-baseline-row => %( :parameters([gint])),
+  set-column-homogeneous => %( :parameters([gboolean])),
+  set-column-spacing => %( :parameters([guint])),
+  set-row-baseline-position => %( :parameters([gint, GEnum])),
+  set-row-homogeneous => %( :parameters([gboolean])),
+  set-row-spacing => %( :parameters([guint])),
 );
 
 #-------------------------------------------------------------------------------
@@ -133,7 +108,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_label_>
+        :library(gtk4-lib()), :sub-prefix<gtk_grid_>
       );
 
       # Check the function name. 
@@ -153,6 +128,14 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   }
 
   else {
+    my $r;
+#`{{
+    $r = self.Gnome::Gtk4::R-Orientable::_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+    );
+    return $r if $_fallback-v2-ok;
+
+}}
     callsame;
   }
 }

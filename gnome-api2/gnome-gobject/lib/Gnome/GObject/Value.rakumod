@@ -75,8 +75,8 @@ my Hash $methods = %(
   dup-param => %( :returns(N-GObject)),
   dup-string => %( :returns(Str)),
   #dup-variant => %( :returns(N-GVariant )),
-  fits-pointer => %( :returns(gboolean)),
-  get-boolean => %( :returns(gboolean)),
+  fits-pointer => %( :returns(gboolean), :cnv-return(Bool)),
+  get-boolean => %( :returns(gboolean), :cnv-return(Bool)),
   get-boxed => %( :returns(gpointer)),
   get-double => %( :returns(gdouble)),
   get-enum => %( :returns(gint)),
@@ -129,7 +129,7 @@ my Hash $methods = %(
   take-param => %( :parameters([N-GObject])),
   take-string => %( :parameters([Str])),
   #take-variant => %( :parameters([N-GVariant ])),
-  transform => %( :returns(gboolean), :parameters([N-GValue])),
+  transform => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GValue])),
   unset => %(),
 
   #--[Functions]----------------------------------------------------------------

@@ -83,10 +83,10 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-child => %( :returns(N-GObject)),
-  get-has-frame => %( :returns(gboolean)),
+  get-has-frame => %( :returns(gboolean), :cnv-return(Bool)),
   get-icon-name => %( :returns(Str)),
   get-label => %( :returns(Str)),
-  get-use-underline => %( :returns(gboolean)),
+  get-use-underline => %( :returns(gboolean), :cnv-return(Bool)),
   set-child => %( :parameters([N-GObject])),
   set-has-frame => %( :parameters([gboolean])),
   set-icon-name => %( :parameters([Str])),

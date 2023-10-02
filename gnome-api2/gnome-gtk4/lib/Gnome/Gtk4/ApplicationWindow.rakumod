@@ -63,7 +63,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-help-overlay => %( :returns(N-GObject)),
   get-id => %( :returns(guint)),
-  get-show-menubar => %( :returns(gboolean)),
+  get-show-menubar => %( :returns(gboolean), :cnv-return(Bool)),
   set-help-overlay => %( :parameters([N-GObject])),
   set-show-menubar => %( :parameters([gboolean])),
 );

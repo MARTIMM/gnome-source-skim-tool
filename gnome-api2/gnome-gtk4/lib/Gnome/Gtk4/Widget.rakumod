@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 widget
+# Command to generate: generate.raku -v -t -c Gtk4 Widget
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -7,10 +7,10 @@ use v6;
 
 use NativeCall;
 
-use Gnome::GObject::InitiallyUnowned:api<2>;
 
 #use Gnome::Cairo::N-cairo_font_options_t:api<2>;
-use Gnome::Glib::List;
+use Gnome::GObject::InitiallyUnowned:api<2>;
+#use Gnome::Glib::N-GList:api<2>;
 #use Gnome::Glib::N-GVariant:api<2>;
 #use Gnome::Gsk4::N-GskTransform:api<2>;
 use Gnome::Gtk4::N-GtkRequisition:api<2>;
@@ -53,18 +53,22 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<destroy unmap map show hide unrealize realize>,
-      :w1<mnemonic-activate keynav-failed state-flags-changed direction-changed move-focus>,
+      :w0<realize map show destroy hide unrealize unmap>,
+      :w1<direction-changed keynav-failed mnemonic-activate move-focus state-flags-changed>,
       :w4<query-tooltip>,
     );
 
     # Signals from interfaces
-#    self._add_gtk_accessible_signal_types($?CLASS.^name)
-#      if self.^can('_add_gtk_accessible_signal_types');
+#`{{
+    self._add_gtk_accessible_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_accessible_signal_types');
+}}
     self._add_gtk_buildable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_buildable_signal_types');
-#    self._add_gtk_constraint_target_signal_types($?CLASS.^name)
-#      if self.^can('_add_gtk_constraint_target_signal_types');
+#`{{
+    self._add_gtk_constraint_target_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_constraint_target_signal_types');
+}}
     $signals-added = True;
   }
 
@@ -91,33 +95,33 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   action-set-enabled => %( :parameters([Str, gboolean])),
-  activate => %( :returns(gboolean)),
-  activate-action => %(:variable-list,  :returns(gboolean), :parameters([Str, Str])),
-  #activate-action-variant => %( :returns(gboolean), :parameters([Str, N-GVariant ])),
+  activate => %( :returns(gboolean), :cnv-return(Bool)),
+  activate-action => %(:variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
+  #activate-action-variant => %( :returns(gboolean), :cnv-return(Bool), :parameters([Str, N-GVariant ])),
   activate-default => %(),
   add-controller => %( :parameters([N-GObject])),
   add-css-class => %( :parameters([Str])),
   add-mnemonic-label => %( :parameters([N-GObject])),
   #add-tick-callback => %( :returns(guint), :parameters([:( N-GObject, N-GObject, gpointer --> gboolean ), gpointer, ])),
   #allocate => %( :parameters([gint, gint, gint, N-GskTransform ])),
-  child-focus => %( :returns(gboolean), :parameters([GEnum])),
-  #compute-bounds => %( :returns(gboolean), :parameters([N-GObject, ])),
-  compute-expand => %( :returns(gboolean), :parameters([GEnum])),
-  #compute-point => %( :returns(gboolean), :parameters([N-GObject, , ])),
-  #compute-transform => %( :returns(gboolean), :parameters([N-GObject, ])),
-  contains => %( :returns(gboolean), :parameters([gdouble, gdouble])),
+  child-focus => %( :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
+  #compute-bounds => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject, ])),
+  compute-expand => %( :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
+  #compute-point => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject, , ])),
+  #compute-transform => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject, ])),
+  contains => %( :returns(gboolean), :cnv-return(Bool), :parameters([gdouble, gdouble])),
   create-pango-context => %( :returns(N-GObject)),
   create-pango-layout => %( :returns(N-GObject), :parameters([Str])),
-  drag-check-threshold => %( :returns(gboolean), :parameters([gint, gint, gint, gint])),
+  drag-check-threshold => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint, gint, gint])),
   error-bell => %(),
   get-allocated-baseline => %( :returns(gint)),
   get-allocated-height => %( :returns(gint)),
   get-allocated-width => %( :returns(gint)),
   #get-allocation => %(),
   get-ancestor => %( :returns(N-GObject), :parameters([GType])),
-  get-can-focus => %( :returns(gboolean)),
-  get-can-target => %( :returns(gboolean)),
-  get-child-visible => %( :returns(gboolean)),
+  get-can-focus => %( :returns(gboolean), :cnv-return(Bool)),
+  get-can-target => %( :returns(gboolean), :cnv-return(Bool)),
+  get-child-visible => %( :returns(gboolean), :cnv-return(Bool)),
   get-clipboard => %( :returns(N-GObject)),
   get-css-classes => %( :returns(gchar-pptr)),
   get-css-name => %( :returns(Str)),
@@ -126,19 +130,19 @@ my Hash $methods = %(
   get-display => %( :returns(N-GObject)),
   get-first-child => %( :returns(N-GObject)),
   get-focus-child => %( :returns(N-GObject)),
-  get-focus-on-click => %( :returns(gboolean)),
-  get-focusable => %( :returns(gboolean)),
+  get-focus-on-click => %( :returns(gboolean), :cnv-return(Bool)),
+  get-focusable => %( :returns(gboolean), :cnv-return(Bool)),
   get-font-map => %( :returns(N-GObject)),
   #get-font-options => %( :returns(N-cairo_font_options_t )),
   get-frame-clock => %( :returns(N-GObject)),
   get-halign => %( :returns(GEnum), :type-name(GtkAlign)),
-  get-has-tooltip => %( :returns(gboolean)),
+  get-has-tooltip => %( :returns(gboolean), :cnv-return(Bool)),
   get-height => %( :returns(gint)),
-  get-hexpand => %( :returns(gboolean)),
-  get-hexpand-set => %( :returns(gboolean)),
+  get-hexpand => %( :returns(gboolean), :cnv-return(Bool)),
+  get-hexpand-set => %( :returns(gboolean), :cnv-return(Bool)),
   get-last-child => %( :returns(N-GObject)),
   get-layout-manager => %( :returns(N-GObject)),
-  get-mapped => %( :returns(gboolean)),
+  get-mapped => %( :returns(gboolean), :cnv-return(Bool)),
   get-margin-bottom => %( :returns(gint)),
   get-margin-end => %( :returns(gint)),
   get-margin-start => %( :returns(gint)),
@@ -153,12 +157,12 @@ my Hash $methods = %(
   get-preferred-size => %( :parameters([N-GtkRequisition, N-GtkRequisition])),
   get-prev-sibling => %( :returns(N-GObject)),
   get-primary-clipboard => %( :returns(N-GObject)),
-  get-realized => %( :returns(gboolean)),
-  get-receives-default => %( :returns(gboolean)),
+  get-realized => %( :returns(gboolean), :cnv-return(Bool)),
+  get-receives-default => %( :returns(gboolean), :cnv-return(Bool)),
   get-request-mode => %( :returns(GEnum), :type-name(GtkSizeRequestMode)),
   get-root => %( :returns(N-GObject)),
   get-scale-factor => %( :returns(gint)),
-  get-sensitive => %( :returns(gboolean)),
+  get-sensitive => %( :returns(gboolean), :cnv-return(Bool)),
   get-settings => %( :returns(N-GObject)),
   get-size => %( :returns(gint), :parameters([GEnum])),
   get-size-request => %( :parameters([gint-ptr, gint-ptr])),
@@ -168,31 +172,31 @@ my Hash $methods = %(
   get-tooltip-markup => %( :returns(Str)),
   get-tooltip-text => %( :returns(Str)),
   get-valign => %( :returns(GEnum), :type-name(GtkAlign)),
-  get-vexpand => %( :returns(gboolean)),
-  get-vexpand-set => %( :returns(gboolean)),
-  get-visible => %( :returns(gboolean)),
+  get-vexpand => %( :returns(gboolean), :cnv-return(Bool)),
+  get-vexpand-set => %( :returns(gboolean), :cnv-return(Bool)),
+  get-visible => %( :returns(gboolean), :cnv-return(Bool)),
   get-width => %( :returns(gint)),
-  grab-focus => %( :returns(gboolean)),
-  has-css-class => %( :returns(gboolean), :parameters([Str])),
-  has-default => %( :returns(gboolean)),
-  has-focus => %( :returns(gboolean)),
-  has-visible-focus => %( :returns(gboolean)),
+  grab-focus => %( :returns(gboolean), :cnv-return(Bool)),
+  has-css-class => %( :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
+  has-default => %( :returns(gboolean), :cnv-return(Bool)),
+  has-focus => %( :returns(gboolean), :cnv-return(Bool)),
+  has-visible-focus => %( :returns(gboolean), :cnv-return(Bool)),
   hide => %(),
-  in-destruction => %( :returns(gboolean)),
+  in-destruction => %( :returns(gboolean), :cnv-return(Bool)),
   init-template => %(),
   insert-action-group => %( :parameters([Str, N-GObject])),
   insert-after => %( :parameters([N-GObject, N-GObject])),
   insert-before => %( :parameters([N-GObject, N-GObject])),
-  is-ancestor => %( :returns(gboolean), :parameters([N-GObject])),
-  is-drawable => %( :returns(gboolean)),
-  is-focus => %( :returns(gboolean)),
-  is-sensitive => %( :returns(gboolean)),
-  is-visible => %( :returns(gboolean)),
-  keynav-failed => %( :returns(gboolean), :parameters([GEnum])),
+  is-ancestor => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
+  is-drawable => %( :returns(gboolean), :cnv-return(Bool)),
+  is-focus => %( :returns(gboolean), :cnv-return(Bool)),
+  is-sensitive => %( :returns(gboolean), :cnv-return(Bool)),
+  is-visible => %( :returns(gboolean), :cnv-return(Bool)),
+  keynav-failed => %( :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
   #list-mnemonic-labels => %( :returns(N-GList )),
   map => %(),
   measure => %( :parameters([GEnum, gint, gint-ptr, gint-ptr, gint-ptr, gint-ptr])),
-  mnemonic-activate => %( :returns(gboolean), :parameters([gboolean])),
+  mnemonic-activate => %( :returns(gboolean), :cnv-return(Bool), :parameters([gboolean])),
   observe-children => %( :returns(N-GObject)),
   observe-controllers => %( :returns(N-GObject)),
   pick => %( :returns(N-GObject), :parameters([gdouble, gdouble, GFlag])),
@@ -239,11 +243,11 @@ my Hash $methods = %(
   set-vexpand => %( :parameters([gboolean])),
   set-vexpand-set => %( :parameters([gboolean])),
   set-visible => %( :parameters([gboolean])),
-  should-layout => %( :returns(gboolean)),
+  should-layout => %( :returns(gboolean), :cnv-return(Bool)),
   show => %(),
   #size-allocate => %( :parameters([, gint])),
   snapshot-child => %( :parameters([N-GObject, N-GObject])),
-  translate-coordinates => %( :returns(gboolean), :parameters([N-GObject, gdouble, gdouble, CArray[gdouble], CArray[gdouble]])),
+  translate-coordinates => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject, gdouble, gdouble, CArray[gdouble], CArray[gdouble]])),
   trigger-tooltip-query => %(),
   unmap => %(),
   unparent => %(),
@@ -288,16 +292,19 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
+
 }}
     $r = self.Gnome::Gtk4::R-Buildable::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
+
 #`{{
     $r = self.Gnome::Gtk4::R-ConstraintTarget::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
+
 }}
     callsame;
   }

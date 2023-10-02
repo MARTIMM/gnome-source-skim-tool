@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gtk4 window
+# Command to generate: generate.raku -v -c Gtk4 Window class
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -48,17 +48,23 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate-focus close-request keys-changed activate-default>,
+      :w0<keys-changed activate-default activate-focus close-request>,
       :w1<enable-debugging>,
     );
 
     # Signals from interfaces
+#`{{
     self._add_gtk_native_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_native_signal_types');
+}}
+#`{{
     self._add_gtk_root_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_root_signal_types');
+}}
+#`{{
     self._add_gtk_shortcut_manager_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_shortcut_manager_signal_types');
+}}
     $signals-added = True;
   }
 
@@ -93,27 +99,27 @@ my Hash $methods = %(
   fullscreen-on-monitor => %( :parameters([N-GObject])),
   get-application => %( :returns(N-GObject)),
   get-child => %( :returns(N-GObject)),
-  get-decorated => %( :returns(gboolean)),
+  get-decorated => %( :returns(gboolean), :cnv-return(Bool)),
   get-default-size => %( :parameters([gint-ptr, gint-ptr])),
   get-default-widget => %( :returns(N-GObject)),
-  get-deletable => %( :returns(gboolean)),
-  get-destroy-with-parent => %( :returns(gboolean)),
+  get-deletable => %( :returns(gboolean), :cnv-return(Bool)),
+  get-destroy-with-parent => %( :returns(gboolean), :cnv-return(Bool)),
   get-focus => %( :returns(N-GObject)),
-  get-focus-visible => %( :returns(gboolean)),
+  get-focus-visible => %( :returns(gboolean), :cnv-return(Bool)),
   get-group => %( :returns(N-GObject)),
-  get-handle-menubar-accel => %( :returns(gboolean)),
-  get-hide-on-close => %( :returns(gboolean)),
+  get-handle-menubar-accel => %( :returns(gboolean), :cnv-return(Bool)),
+  get-hide-on-close => %( :returns(gboolean), :cnv-return(Bool)),
   get-icon-name => %( :returns(Str)),
-  get-mnemonics-visible => %( :returns(gboolean)),
-  get-modal => %( :returns(gboolean)),
-  get-resizable => %( :returns(gboolean)),
+  get-mnemonics-visible => %( :returns(gboolean), :cnv-return(Bool)),
+  get-modal => %( :returns(gboolean), :cnv-return(Bool)),
+  get-resizable => %( :returns(gboolean), :cnv-return(Bool)),
   get-title => %( :returns(Str)),
   get-titlebar => %( :returns(N-GObject)),
   get-transient-for => %( :returns(N-GObject)),
-  has-group => %( :returns(gboolean)),
-  is-active => %( :returns(gboolean)),
-  is-fullscreen => %( :returns(gboolean)),
-  is-maximized => %( :returns(gboolean)),
+  has-group => %( :returns(gboolean), :cnv-return(Bool)),
+  is-active => %( :returns(gboolean), :cnv-return(Bool)),
+  is-fullscreen => %( :returns(gboolean), :cnv-return(Bool)),
+  is-maximized => %( :returns(gboolean), :cnv-return(Bool)),
   maximize => %(),
   minimize => %(),
   present => %(),
@@ -185,15 +191,20 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     );
     return $r if $_fallback-v2-ok;
 
+}}
+#`{{
     $r = self.Gnome::Gtk4::R-Root::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
 
+}}
+#`{{
     $r = self.Gnome::Gtk4::R-ShortcutManager::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
+
 }}
     callsame;
   }
