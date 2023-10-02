@@ -800,8 +800,8 @@ method generate-constant-tests ( @constants --> Str ) {
 #    $package ~~ s/ \d+ $//;
 #    $name ~~ s/^ $package //;
     my Str $name = $constant[0];
-    my Str $prefix = $*work-data<name-prefix>;
-    $name ~~ s:i/^ $prefix <[-_]>? //;
+#    my Str $prefix = $*work-data<name-prefix>;
+#    $name ~~ s:i/^ $prefix <[-_]>? //;
 
     # Get the XML element of the constant data
 #    my XML::Element $e = $xpath.find(
