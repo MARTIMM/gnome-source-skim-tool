@@ -1,0 +1,210 @@
+# Command to generate: generate.raku -v -t -c Gtk4 grid
+
+#TL:1:Gnome::Gtk4::Grid:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::Grid:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Grid $grid;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $grid {
+    #TC:1:new-grid()
+    $grid .= new-grid();
+    ok .is-valid, '.new-grid()';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $grid {
+    my Int() $column;
+    my GtkBaselinePosition $pos;
+    my Int() $height;
+    my Int() $width;
+    my Bool() $homogeneous;
+    my GtkPositionType $side;
+    my UInt() $spacing;
+    my Int() $row;
+    my N-GObject() $child;
+    my N-GObject() $sibling;
+    my Int() $position;
+
+
+    #TM:1:set-row-spacing()
+    $spacing = 42;
+    .set-row-spacing( $spacing);
+    #TM:1:get-row-spacing()
+    is .get-row-spacing(),  $spacing, '.set-row-spacing() / .get-row-spacing()';
+
+    #TM:1:set-row-homogeneous()
+    $homogeneous = True;
+    .set-row-homogeneous( $homogeneous);
+    #TM:1:get-row-homogeneous()
+    is .get-row-homogeneous(),  $homogeneous, '.set-row-homogeneous() / .get-row-homogeneous()';
+
+#`{{
+    #TM:0:set-row-baseline-position()
+    $row = -42;
+    $pos = …;  # an enum or fla
+    .set-row-baseline-position( $row, $pos);
+    #TM:0:get-row-baseline-position()
+    is .get-row-baseline-position(),  $row, $pos, '.set-row-baseline-position() / .get-row-baseline-position()';
+
+    #TM:0:set-column-spacing()
+    $spacing = 42;
+    .set-column-spacing( $spacing);
+    #TM:0:get-column-spacing()
+    is .get-column-spacing(),  $spacing, '.set-column-spacing() / .get-column-spacing()';
+
+    #TM:0:set-column-homogeneous()
+    $homogeneous = True;
+    .set-column-homogeneous( $homogeneous);
+    #TM:0:get-column-homogeneous()
+    is .get-column-homogeneous(),  $homogeneous, '.set-column-homogeneous() / .get-column-homogeneous()';
+
+    #TM:0:set-baseline-row()
+    $row = -42;
+    .set-baseline-row( $row);
+    #TM:0:get-baseline-row()
+    is .get-baseline-row(),  $row, '.set-baseline-row() / .get-baseline-row()';
+
+    #TM:0:remove-row()
+    ok .remove-row( $position), '.remove-row()';
+
+    #TM:0:remove-column()
+    ok .remove-column( $position), '.remove-column()';
+
+    #TM:0:remove()
+    ok .remove( $child), '.remove()';
+
+    #TM:0:query-child()
+    ok .query-child( $child, $column, $row, $width, $height), '.query-child()';
+
+    #TM:0:insert-row()
+    ok .insert-row( $position), '.insert-row()';
+
+    #TM:0:insert-next-to()
+    ok .insert-next-to( $sibling, $side), '.insert-next-to()';
+
+    #TM:0:insert-column()
+    ok .insert-column( $position), '.insert-column()';
+
+    #TM:0:get-child-at()
+    is .get-child-at( $column, $row), '…', '.get-child-at()';
+
+    #TM:0:attach-next-to()
+    ok .attach-next-to( $child, $sibling, $side, $width, $height), '.attach-next-to()';
+
+    #TM:0:attach()
+    ok .attach( $child, $column, $row, $width, $height), '.attach()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Grid() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Grid;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Grid :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Grid $grid .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $grid.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

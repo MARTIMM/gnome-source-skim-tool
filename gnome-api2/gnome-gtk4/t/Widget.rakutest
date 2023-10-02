@@ -1,0 +1,689 @@
+# Command to generate: generate.raku -v -t -c Gtk4 Widget
+
+#TL:1:Gnome::Gtk4::Widget:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::Widget:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Widget $widget;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $widget {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $widget {
+    my Bool() $focus-on-click;
+    my … $...;
+    my N-GObject() $child;
+    my GtkAlign $align;
+    my Bool() $sensitive;
+    my Bool() $focusable;
+    my GtkOrientation $orientation;
+    my  $notify;
+    my Str $format-string;
+    my N-GObject() $cursor;
+    my Bool() $receives-default;
+    my N-GObject $minimum-size;
+    my Str $name;
+    my  $out-transform;
+    my N-GObject() $font-map;
+    my Int() $width;
+    my N-GObject() $group;
+    my Array[Int] $natural-baseline;
+    my Bool() $enabled;
+    my  $src-y;
+    my  $src-x;
+    my N-GObject() $previous-sibling;
+    my Bool() $has-tooltip;
+    my N-GObject() $target;
+    my Str $action-name;
+    my Bool() $set;
+    my GType $widget-type;
+    my GtkOverflow $overflow;
+    my  $allocation;
+    my Str $text;
+    my  $dest-y;
+    my N-GObject $args;
+    my Bool() $can-target;
+    my  $callback;
+    my Int() $current-x;
+    my Bool() $clear;
+    my N-GObject $transform;
+    my Array[Int] $minimum-baseline;
+    my UInt() $id;
+    my N-GObject $natural-size;
+    my  $out-bounds;
+    my  $out-point;
+    my  $opacity;
+    my Array[Str] $classes;
+    my  $y;
+    my Str $css-class;
+    my GtkPickFlags $flags;
+    my N-GObject $options;
+    my Bool() $can-focus;
+    my GtkDirectionType $direction;
+    my Int() $start-y;
+    my N-GObject() $dest-widget;
+    my  $x;
+    my Int() $margin;
+    my Int() $start-x;
+    my Bool() $expand;
+    my N-GObject() $parent;
+    my N-GObject() $next-sibling;
+    my Str $markup;
+    my Int() $baseline;
+    my Bool() $visible;
+    my Array[Int] $natural;
+    my GtkTextDirection $dir;
+    my N-GObject() $controller;
+    my N-GObject() $layout-manager;
+    my Array[Int] $minimum;
+    my N-GObject() $snapshot;
+    my  $point;
+    my Int() $height;
+    my Int() $for-size;
+    my Bool() $child-visible;
+    my gpointer $user-data;
+    my Bool() $group-cycling;
+    my N-GObject() $ancestor;
+    my N-GObject() $label;
+    my  $dest-x;
+    my Int() $current-y;
+
+
+#`{{
+    #TM:0:unset-state-flags()
+    ok .unset-state-flags( $flags), '.unset-state-flags()';
+
+    #TM:0:unrealize()
+    ok .unrealize(), '.unrealize()';
+
+    #TM:0:unparent()
+    ok .unparent(), '.unparent()';
+
+    #TM:0:unmap()
+    ok .unmap(), '.unmap()';
+
+    #TM:0:trigger-tooltip-query()
+    ok .trigger-tooltip-query(), '.trigger-tooltip-query()';
+
+    #TM:0:translate-coordinates()
+    ok .translate-coordinates( $dest-widget, $src-x, $src-y, $dest-x, $dest-y), '.translate-coordinates()';
+
+    #TM:0:snapshot-child()
+    ok .snapshot-child( $child, $snapshot), '.snapshot-child()';
+
+    #TM:0:size-allocate()
+    ok .size-allocate( $allocation, $baseline), '.size-allocate()';
+
+    #TM:0:show()
+    ok .show(), '.show()';
+
+    #TM:0:should-layout()
+    ok .should-layout(), '.should-layout()';
+
+    #TM:0:set-visible()
+    $visible = True;
+    .set-visible( $visible);
+    #TM:0:get-visible()
+    is .get-visible(),  $visible, '.set-visible() / .get-visible()';
+
+    #TM:0:set-vexpand-set()
+    $set = True;
+    .set-vexpand-set( $set);
+    #TM:0:get-vexpand-set()
+    is .get-vexpand-set(),  $set, '.set-vexpand-set() / .get-vexpand-set()';
+
+    #TM:0:set-vexpand()
+    $expand = True;
+    .set-vexpand( $expand);
+    #TM:0:get-vexpand()
+    is .get-vexpand(),  $expand, '.set-vexpand() / .get-vexpand()';
+
+    #TM:0:set-valign()
+    $align = …;  # an enum or fla
+    .set-valign( $align);
+    #TM:0:get-valign()
+    is .get-valign(),  $align, '.set-valign() / .get-valign()';
+
+    #TM:0:set-tooltip-text()
+    $text = 'text';
+    .set-tooltip-text( $text);
+    #TM:0:get-tooltip-text()
+    is .get-tooltip-text(),  $text, '.set-tooltip-text() / .get-tooltip-text()';
+
+    #TM:0:set-tooltip-markup()
+    $markup = 'text';
+    .set-tooltip-markup( $markup);
+    #TM:0:get-tooltip-markup()
+    is .get-tooltip-markup(),  $markup, '.set-tooltip-markup() / .get-tooltip-markup()';
+
+    #TM:0:set-state-flags()
+    $flags = …;  # an enum or flag    $clear = True;
+    .set-state-flags( $flags, $clear);
+    #TM:0:get-state-flags()
+    is .get-state-flags(),  $flags, $clear, '.set-state-flags() / .get-state-flags()';
+
+    #TM:0:set-size-request()
+    $width = -42;
+    $height = -42;
+    .set-size-request( $width, $height);
+    #TM:0:get-size-request()
+    is .get-size-request(),  $width, $height, '.set-size-request() / .get-size-request()';
+
+    #TM:0:set-sensitive()
+    $sensitive = True;
+    .set-sensitive( $sensitive);
+    #TM:0:get-sensitive()
+    is .get-sensitive(),  $sensitive, '.set-sensitive() / .get-sensitive()';
+
+    #TM:0:set-receives-default()
+    $receives-default = True;
+    .set-receives-default( $receives-default);
+    #TM:0:get-receives-default()
+    is .get-receives-default(),  $receives-default, '.set-receives-default() / .get-receives-default()';
+
+    #TM:0:set-parent()
+    $parent = …;  # a native object
+    .set-parent( $parent);
+    #TM:0:get-parent()
+    is .get-parent(),  $parent, '.set-parent() / .get-parent()';
+
+    #TM:0:set-overflow()
+    $overflow = …;  # an enum or fla
+    .set-overflow( $overflow);
+    #TM:0:get-overflow()
+    is .get-overflow(),  $overflow, '.set-overflow() / .get-overflow()';
+
+    #TM:0:set-opacity()
+    $opacity = '…';
+    .set-opacity( $opacity);
+    #TM:0:get-opacity()
+    is .get-opacity(),  $opacity, '.set-opacity() / .get-opacity()';
+
+    #TM:0:set-name()
+    $name = 'text';
+    .set-name( $name);
+    #TM:0:get-name()
+    is .get-name(),  $name, '.set-name() / .get-name()';
+
+    #TM:0:set-margin-top()
+    $margin = -42;
+    .set-margin-top( $margin);
+    #TM:0:get-margin-top()
+    is .get-margin-top(),  $margin, '.set-margin-top() / .get-margin-top()';
+
+    #TM:0:set-margin-start()
+    $margin = -42;
+    .set-margin-start( $margin);
+    #TM:0:get-margin-start()
+    is .get-margin-start(),  $margin, '.set-margin-start() / .get-margin-start()';
+
+    #TM:0:set-margin-end()
+    $margin = -42;
+    .set-margin-end( $margin);
+    #TM:0:get-margin-end()
+    is .get-margin-end(),  $margin, '.set-margin-end() / .get-margin-end()';
+
+    #TM:0:set-margin-bottom()
+    $margin = -42;
+    .set-margin-bottom( $margin);
+    #TM:0:get-margin-bottom()
+    is .get-margin-bottom(),  $margin, '.set-margin-bottom() / .get-margin-bottom()';
+
+    #TM:0:set-layout-manager()
+    $layout-manager = …;  # a native object
+    .set-layout-manager( $layout-manager);
+    #TM:0:get-layout-manager()
+    is .get-layout-manager(),  $layout-manager, '.set-layout-manager() / .get-layout-manager()';
+
+    #TM:0:set-hexpand-set()
+    $set = True;
+    .set-hexpand-set( $set);
+    #TM:0:get-hexpand-set()
+    is .get-hexpand-set(),  $set, '.set-hexpand-set() / .get-hexpand-set()';
+
+    #TM:0:set-hexpand()
+    $expand = True;
+    .set-hexpand( $expand);
+    #TM:0:get-hexpand()
+    is .get-hexpand(),  $expand, '.set-hexpand() / .get-hexpand()';
+
+    #TM:0:set-has-tooltip()
+    $has-tooltip = True;
+    .set-has-tooltip( $has-tooltip);
+    #TM:0:get-has-tooltip()
+    is .get-has-tooltip(),  $has-tooltip, '.set-has-tooltip() / .get-has-tooltip()';
+
+    #TM:0:set-halign()
+    $align = …;  # an enum or fla
+    .set-halign( $align);
+    #TM:0:get-halign()
+    is .get-halign(),  $align, '.set-halign() / .get-halign()';
+
+    #TM:0:set-font-options()
+    $options = …;  # a native object
+    .set-font-options( $options);
+    #TM:0:get-font-options()
+    is .get-font-options(),  $options, '.set-font-options() / .get-font-options()';
+
+    #TM:0:set-font-map()
+    $font-map = …;  # a native object
+    .set-font-map( $font-map);
+    #TM:0:get-font-map()
+    is .get-font-map(),  $font-map, '.set-font-map() / .get-font-map()';
+
+    #TM:0:set-focusable()
+    $focusable = True;
+    .set-focusable( $focusable);
+    #TM:0:get-focusable()
+    is .get-focusable(),  $focusable, '.set-focusable() / .get-focusable()';
+
+    #TM:0:set-focus-on-click()
+    $focus-on-click = True;
+    .set-focus-on-click( $focus-on-click);
+    #TM:0:get-focus-on-click()
+    is .get-focus-on-click(),  $focus-on-click, '.set-focus-on-click() / .get-focus-on-click()';
+
+    #TM:0:set-focus-child()
+    $child = …;  # a native object
+    .set-focus-child( $child);
+    #TM:0:get-focus-child()
+    is .get-focus-child(),  $child, '.set-focus-child() / .get-focus-child()';
+
+    #TM:0:set-direction()
+    $dir = …;  # an enum or fla
+    .set-direction( $dir);
+    #TM:0:get-direction()
+    is .get-direction(),  $dir, '.set-direction() / .get-direction()';
+
+    #TM:0:set-cursor-from-name()
+    $name = 'text';
+    .set-cursor-from-name( $name);
+    ok True, '.set-cursor-from-name()';
+
+    #TM:0:set-cursor()
+    $cursor = …;  # a native object
+    .set-cursor( $cursor);
+    #TM:0:get-cursor()
+    is .get-cursor(),  $cursor, '.set-cursor() / .get-cursor()';
+
+    #TM:0:set-css-classes()
+    $classes = '…';
+    .set-css-classes( $classes);
+    #TM:0:get-css-classes()
+    is .get-css-classes(),  $classes, '.set-css-classes() / .get-css-classes()';
+
+    #TM:0:set-child-visible()
+    $child-visible = True;
+    .set-child-visible( $child-visible);
+    #TM:0:get-child-visible()
+    is .get-child-visible(),  $child-visible, '.set-child-visible() / .get-child-visible()';
+
+    #TM:0:set-can-target()
+    $can-target = True;
+    .set-can-target( $can-target);
+    #TM:0:get-can-target()
+    is .get-can-target(),  $can-target, '.set-can-target() / .get-can-target()';
+
+    #TM:0:set-can-focus()
+    $can-focus = True;
+    .set-can-focus( $can-focus);
+    #TM:0:get-can-focus()
+    is .get-can-focus(),  $can-focus, '.set-can-focus() / .get-can-focus()';
+
+    #TM:0:remove-tick-callback()
+    ok .remove-tick-callback( $id), '.remove-tick-callback()';
+
+    #TM:0:remove-mnemonic-label()
+    ok .remove-mnemonic-label( $label), '.remove-mnemonic-label()';
+
+    #TM:0:remove-css-class()
+    ok .remove-css-class( $css-class), '.remove-css-class()';
+
+    #TM:0:remove-controller()
+    ok .remove-controller( $controller), '.remove-controller()';
+
+    #TM:0:realize()
+    ok .realize(), '.realize()';
+
+    #TM:0:queue-resize()
+    ok .queue-resize(), '.queue-resize()';
+
+    #TM:0:queue-draw()
+    ok .queue-draw(), '.queue-draw()';
+
+    #TM:0:queue-allocate()
+    ok .queue-allocate(), '.queue-allocate()';
+
+    #TM:0:pick()
+    ok .pick( $x, $y, $flags), '.pick()';
+
+    #TM:0:observe-controllers()
+    ok .observe-controllers(), '.observe-controllers()';
+
+    #TM:0:observe-children()
+    ok .observe-children(), '.observe-children()';
+
+    #TM:0:mnemonic-activate()
+    ok .mnemonic-activate( $group-cycling), '.mnemonic-activate()';
+
+    #TM:0:measure()
+    ok .measure( $orientation, $for-size, $minimum, $natural, $minimum-baseline, $natural-baseline), '.measure()';
+
+    #TM:0:map()
+    ok .map(), '.map()';
+
+    #TM:0:list-mnemonic-labels()
+    ok .list-mnemonic-labels(), '.list-mnemonic-labels()';
+
+    #TM:0:keynav-failed()
+    ok .keynav-failed( $direction), '.keynav-failed()';
+
+    #TM:0:is-visible()
+    ok .is-visible(), '.is-visible()';
+
+    #TM:0:is-sensitive()
+    ok .is-sensitive(), '.is-sensitive()';
+
+    #TM:0:is-focus()
+    ok .is-focus(), '.is-focus()';
+
+    #TM:0:is-drawable()
+    ok .is-drawable(), '.is-drawable()';
+
+    #TM:0:is-ancestor()
+    ok .is-ancestor( $ancestor), '.is-ancestor()';
+
+    #TM:0:insert-before()
+    ok .insert-before( $parent, $next-sibling), '.insert-before()';
+
+    #TM:0:insert-after()
+    ok .insert-after( $parent, $previous-sibling), '.insert-after()';
+
+    #TM:0:insert-action-group()
+    ok .insert-action-group( $name, $group), '.insert-action-group()';
+
+    #TM:0:init-template()
+    ok .init-template(), '.init-template()';
+
+    #TM:0:in-destruction()
+    ok .in-destruction(), '.in-destruction()';
+
+    #TM:0:hide()
+    ok .hide(), '.hide()';
+
+    #TM:0:has-visible-focus()
+    ok .has-visible-focus(), '.has-visible-focus()';
+
+    #TM:0:has-focus()
+    ok .has-focus(), '.has-focus()';
+
+    #TM:0:has-default()
+    ok .has-default(), '.has-default()';
+
+    #TM:0:has-css-class()
+    ok .has-css-class( $css-class), '.has-css-class()';
+
+    #TM:0:grab-focus()
+    ok .grab-focus(), '.grab-focus()';
+
+    #TM:0:get-width()
+     .get-width(), '…', '.get-width()';
+
+    #TM:0:get-template-child()
+    is .get-template-child( $widget-type, $name), '…', '.get-template-child()';
+
+    #TM:0:get-style-context()
+     .get-style-context(), '…', '.get-style-context()';
+
+    #TM:0:get-size()
+    is .get-size( $orientation), '…', '.get-size()';
+
+    #TM:0:get-settings()
+     .get-settings(), '…', '.get-settings()';
+
+    #TM:0:get-scale-factor()
+     .get-scale-factor(), '…', '.get-scale-factor()';
+
+    #TM:0:get-root()
+     .get-root(), '…', '.get-root()';
+
+    #TM:0:get-request-mode()
+     .get-request-mode(), '…', '.get-request-mode()';
+
+    #TM:0:get-realized()
+     .get-realized(), '…', '.get-realized()';
+
+    #TM:0:get-primary-clipboard()
+     .get-primary-clipboard(), '…', '.get-primary-clipboard()';
+
+    #TM:0:get-prev-sibling()
+     .get-prev-sibling(), '…', '.get-prev-sibling()';
+
+    #TM:0:get-preferred-size()
+    is .get-preferred-size( $minimum-size, $natural-size), '…', '.get-preferred-size()';
+
+    #TM:0:get-pango-context()
+     .get-pango-context(), '…', '.get-pango-context()';
+
+    #TM:0:get-next-sibling()
+     .get-next-sibling(), '…', '.get-next-sibling()';
+
+    #TM:0:get-native()
+     .get-native(), '…', '.get-native()';
+
+    #TM:0:get-mapped()
+     .get-mapped(), '…', '.get-mapped()';
+
+    #TM:0:get-last-child()
+     .get-last-child(), '…', '.get-last-child()';
+
+    #TM:0:get-height()
+     .get-height(), '…', '.get-height()';
+
+    #TM:0:get-frame-clock()
+     .get-frame-clock(), '…', '.get-frame-clock()';
+
+    #TM:0:get-first-child()
+     .get-first-child(), '…', '.get-first-child()';
+
+    #TM:0:get-display()
+     .get-display(), '…', '.get-display()';
+
+    #TM:0:get-css-name()
+     .get-css-name(), '…', '.get-css-name()';
+
+    #TM:0:get-clipboard()
+     .get-clipboard(), '…', '.get-clipboard()';
+
+    #TM:0:get-ancestor()
+    is .get-ancestor( $widget-type), '…', '.get-ancestor()';
+
+    #TM:0:get-allocation()
+    is .get-allocation( $allocation), '…', '.get-allocation()';
+
+    #TM:0:get-allocated-width()
+     .get-allocated-width(), '…', '.get-allocated-width()';
+
+    #TM:0:get-allocated-height()
+     .get-allocated-height(), '…', '.get-allocated-height()';
+
+    #TM:0:get-allocated-baseline()
+     .get-allocated-baseline(), '…', '.get-allocated-baseline()';
+
+    #TM:0:error-bell()
+    ok .error-bell(), '.error-bell()';
+
+    #TM:0:drag-check-threshold()
+    ok .drag-check-threshold( $start-x, $start-y, $current-x, $current-y), '.drag-check-threshold()';
+
+    #TM:0:create-pango-layout()
+    ok .create-pango-layout( $text), '.create-pango-layout()';
+
+    #TM:0:create-pango-context()
+    ok .create-pango-context(), '.create-pango-context()';
+
+    #TM:0:contains()
+    ok .contains( $x, $y), '.contains()';
+
+    #TM:0:compute-transform()
+    ok .compute-transform( $target, $out-transform), '.compute-transform()';
+
+    #TM:0:compute-point()
+    ok .compute-point( $target, $point, $out-point), '.compute-point()';
+
+    #TM:0:compute-expand()
+    ok .compute-expand( $orientation), '.compute-expand()';
+
+    #TM:0:compute-bounds()
+    ok .compute-bounds( $target, $out-bounds), '.compute-bounds()';
+
+    #TM:0:child-focus()
+    ok .child-focus( $direction), '.child-focus()';
+
+    #TM:0:allocate()
+    ok .allocate( $width, $height, $baseline, $transform), '.allocate()';
+
+    #TM:0:add-tick-callback()
+    ok .add-tick-callback( $callback, $user-data, $notify), '.add-tick-callback()';
+
+    #TM:0:add-mnemonic-label()
+    ok .add-mnemonic-label( $label), '.add-mnemonic-label()';
+
+    #TM:0:add-css-class()
+    ok .add-css-class( $css-class), '.add-css-class()';
+
+    #TM:0:add-controller()
+    ok .add-controller( $controller), '.add-controller()';
+
+    #TM:0:activate-default()
+    ok .activate-default(), '.activate-default()';
+
+    #TM:0:activate-action-variant()
+    ok .activate-action-variant( $name, $args), '.activate-action-variant()';
+
+    #TM:0:activate-action()
+    ok .activate-action( $name, $format-string, $...), '.activate-action()';
+
+    #TM:0:activate()
+    ok .activate(), '.activate()';
+
+    #TM:0:action-set-enabled()
+    ok .action-set-enabled( $action-name, $enabled), '.action-set-enabled()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Widget() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Widget;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Widget :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Widget $widget .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $widget.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
