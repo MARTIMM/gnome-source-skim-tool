@@ -62,12 +62,21 @@
 * In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. There is no pixbuf package for version 4. There it is solved differently.
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 
+
+
+
 # Release notes
+* 2023-09-27 0.11.4
+  * Decided to add the Gio section too.
+  * Modules Application in Gio and Gtk4 added.
+  * A test of an **Application** and **ApplicationWindow** with a **Button** works.
+
 * 2023-09-27 0.11.3
   * Reducing complexity by taking the glib and gio from :api<1>.
   * A few modules generated and tested from Gtk4
   * A first application of a **Window** with a **Button** without signals works.
   * First steps to get events working. `Clicked` on a **Button** did work but `Destroy` on a **Window** did not work. Seems to be a difference between the Gtk3 and Gtk4 version. A discussion on `discourse.gnome.org` did not bring a solution except the gnome team encouraging people to use **Application** and **ApplicationWindow**. In the mean time I found the proper signal name to use that works. It is called `close-request`.
+  * Event signals work.
 
 * 2023-09-20 0.11.2
   * Module **N-GValue**, **Value**, **T-Value** and **T-Type** added to `Gnome::GObject` and tested. **T-Type** is coded by hand and not generated because of missing constants in the gir system. An issue will be set at GitLab.
