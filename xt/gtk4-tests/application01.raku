@@ -1,4 +1,7 @@
 
+# Example from
+# https://developer-old.gnome.org/gtk4/stable/gtk-getting-started.html
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
