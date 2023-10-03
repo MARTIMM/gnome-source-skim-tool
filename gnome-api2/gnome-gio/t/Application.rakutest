@@ -1,0 +1,269 @@
+# Command to generate: generate.raku -v -c -t Gio Application
+
+#TL:1:Gnome::Gio::Application:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gio::Application:api<2>;
+use Gnome::Gio::T-Ioenums:api<2>;
+#use Gnome::Glib::T-GOptionEntry:api<2>;
+#use Gnome::Glib::T-Option:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gio::Application $application;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $application {
+    my UInt  $flags;
+    my Str $application-id;
+
+    #TC:1:new-application()
+    $application-id = 'mt.github';
+    $flags = G_APPLICATION_FLAGS_NONE;  # an enum or fla
+    $application .= new-application( $application-id, $flags);
+    ok .is-valid, '.new-application( $application-id, $flags)';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $application {
+    my Str $application-id;
+    my N-GObject $entries;
+    my Str $parameter-string;
+#    my GOptionArg  $arg;
+    my gpointer $object;
+#    my GOptionFlags  $flags;
+    my Int() $short-name;
+    my N-GObject $group;
+    my Str $summary;
+    my Str $id;
+    my N-GObject() $files;
+    my Int() $argc;
+    my Str $description;
+    my Array[Str] $argv;
+    my Int() $n-files;
+    my Str $hint;
+    my UInt() $inactivity-timeout;
+    my N-GObject() $cancellable;
+    my N-GObject() $notification;
+    my Str $property;
+    my Str $arg-description;
+    my Str $long-name;
+    my Str $resource-path;
+
+
+#`{{
+    #TM:0:withdraw-notification()
+    ok .withdraw-notification( $id), '.withdraw-notification()';
+
+    #TM:0:unmark-busy()
+    ok .unmark-busy(), '.unmark-busy()';
+
+    #TM:0:unbind-busy-property()
+    ok .unbind-busy-property( $object, $property), '.unbind-busy-property()';
+
+    #TM:0:set-resource-base-path()
+    $resource-path = 'text';
+    .set-resource-base-path( $resource-path);
+    #TM:0:get-resource-base-path()
+    is .get-resource-base-path(),  $resource-path, '.set-resource-base-path() / .get-resource-base-path()';
+
+    #TM:0:set-option-context-summary()
+    $summary = 'text';
+    .set-option-context-summary( $summary);
+    ok True, '.set-option-context-summary()';
+
+    #TM:0:set-option-context-parameter-string()
+    $parameter-string = 'text';
+    .set-option-context-parameter-string( $parameter-string);
+    ok True, '.set-option-context-parameter-string()';
+
+    #TM:0:set-option-context-description()
+    $description = 'text';
+    .set-option-context-description( $description);
+    ok True, '.set-option-context-description()';
+
+    #TM:0:set-inactivity-timeout()
+    $inactivity-timeout = 42;
+    .set-inactivity-timeout( $inactivity-timeout);
+    #TM:0:get-inactivity-timeout()
+    is .get-inactivity-timeout(),  $inactivity-timeout, '.set-inactivity-timeout() / .get-inactivity-timeout()';
+
+    #TM:0:set-flags()
+    $flags = …;  # an enum or fla
+    .set-flags( $flags);
+    #TM:0:get-flags()
+    is .get-flags(),  $flags, '.set-flags() / .get-flags()';
+
+    #TM:0:set-default()
+
+    .set-default();
+    ok True, '.set-default()';
+
+    #TM:0:set-application-id()
+    $application-id = 'text';
+    .set-application-id( $application-id);
+    #TM:0:get-application-id()
+    is .get-application-id(),  $application-id, '.set-application-id() / .get-application-id()';
+
+    #TM:0:send-notification()
+    ok .send-notification( $id, $notification), '.send-notification()';
+
+    #TM:0:run()
+    ok .run( $argc, $argv), '.run()';
+
+    #TM:0:release()
+    ok .release(), '.release()';
+
+    #TM:0:register()
+    ok .register( $cancellable), '.register()';
+
+    #TM:0:quit()
+    ok .quit(), '.quit()';
+
+    #TM:0:open()
+    ok .open( $files, $n-files, $hint), '.open()';
+
+    #TM:0:mark-busy()
+    ok .mark-busy(), '.mark-busy()';
+
+    #TM:0:hold()
+    ok .hold(), '.hold()';
+
+    #TM:0:get-is-remote()
+     .get-is-remote(), '…', '.get-is-remote()';
+
+    #TM:0:get-is-registered()
+     .get-is-registered(), '…', '.get-is-registered()';
+
+    #TM:0:get-is-busy()
+     .get-is-busy(), '…', '.get-is-busy()';
+
+    #TM:0:get-dbus-object-path()
+     .get-dbus-object-path(), '…', '.get-dbus-object-path()';
+
+    #TM:0:get-dbus-connection()
+     .get-dbus-connection(), '…', '.get-dbus-connection()';
+
+    #TM:0:bind-busy-property()
+    ok .bind-busy-property( $object, $property), '.bind-busy-property()';
+
+    #TM:0:add-option-group()
+    ok .add-option-group( $group), '.add-option-group()';
+
+    #TM:0:add-main-option-entries()
+    ok .add-main-option-entries( $entries), '.add-main-option-entries()';
+
+    #TM:0:add-main-option()
+    ok .add-main-option( $long-name, $short-name, $flags, $arg, $description, $arg-description), '.add-main-option()';
+
+    #TM:0:activate()
+    ok .activate(), '.activate()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gio::Application() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gio::Application;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gio::Application :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gio::Application $application .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $application.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
