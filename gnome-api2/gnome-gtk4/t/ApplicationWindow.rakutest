@@ -8,7 +8,7 @@
 use NativeCall;
 use Test;
 
-use Gnome::Gio::Enums;
+use Gnome::Gio::T-Ioenums:api<2>;
 
 use Gnome::Gtk4::ApplicationWindow:api<2>;
 use Gnome::Gtk4::Application:api<2>;
@@ -78,9 +78,6 @@ subtest 'Method tests', {
 
     #TM:1:get-id()
     ok .get-id.defined, '.get-id()';
-
-#`{{
-}}
   }
 };
 
