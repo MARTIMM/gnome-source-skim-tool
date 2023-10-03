@@ -70,13 +70,11 @@ subtest 'Method tests', {
     my N-GObject() $child;
     my Bool() $use-underline;
 
-#`{{
-    #TM:0:set-use-underline()
+    #TM:1:set-use-underline()
     $use-underline = True;
     .set-use-underline( $use-underline);
-    #TM:0:get-use-underline()
+    #TM:1:get-use-underline()
     is .get-use-underline(),  $use-underline, '.set-use-underline() / .get-use-underline()';
-}}
 
     #TM:1:set-label()
     $label = 'text';
@@ -90,13 +88,13 @@ subtest 'Method tests', {
     #TM:1:get-icon-name()
     is .get-icon-name(),  $icon-name, '.set-icon-name() / .get-icon-name()';
 
-#`{{
-    #TM:0:set-has-frame()
+    #TM:1:set-has-frame()
     $has-frame = True;
     .set-has-frame( $has-frame);
-    #TM:0:get-has-frame()
+    #TM:1:get-has-frame()
     is .get-has-frame(),  $has-frame, '.set-has-frame() / .get-has-frame()';
 
+#`{{
     #TM:0:set-child()
     $child = …;  # a native object
     .set-child( $child);
