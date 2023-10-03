@@ -220,12 +220,12 @@ method register-signal (
     sub w0 ( N-GObject $w, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
-      note "\nw0, $handler-name for $signal-name: %named-args.gist()"
+      %named-args<_native-object> := $w;
+      note "\nw0, call $handler-name\() for $signal-name: %named-args.gist()"
         if $Gnome::N::x-debug;
 
       # Mu is not an accepted value for the NativeCall interface
       # _convert_g_signal_connect_object() in Signal makes it a gpointer
-      %named-args<_native-object> := $w;
       my $retval = $handler-object."$handler-name"(|%named-args);
 
       if $sh.signature.returns.gist ~~ '(Mu)' {
@@ -242,12 +242,12 @@ method register-signal (
     sub w1( N-GObject $w, $h0, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
-      note "\nw1, $handler-name for $signal-name: $h0, %named-args.gist()"
+      %named-args<_native-object> := $w;
+      note "\nw1, call $handler-name\() for $signal-name: $h0, %named-args.gist()"
         if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args($h0);
 #      $handler-object."$handler-name"( |@converted-args, |%named-args);
-      %named-args<_native-object> := $w;
       my $retval = $handler-object."$handler-name"( $h0, |%named-args);
 
       if $sh.signature.returns.gist ~~ '(Mu)' {
@@ -264,11 +264,11 @@ method register-signal (
     sub w2( N-GObject $w, $h0, $h1, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
-      note "\nw2, $handler-name for $signal-name: $h0, $h1, %named-args.gist()"
+      %named-args<_native-object> := $w;
+      note "\nw2, call $handler-name\() for $signal-name: $h0, $h1, %named-args.gist()"
         if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1);
-      %named-args<_native-object> := $w;
       my $retval = $handler-object."$handler-name"(
         $h0, $h1, |%named-args
       );
@@ -287,10 +287,10 @@ method register-signal (
     sub w3( N-GObject $w, $h0, $h1, $h2, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
-      note "\nw3, $handler-name for $signal-name: $h0, $h1, $h2, %named-args.gist()" if $Gnome::N::x-debug;
+      %named-args<_native-object> := $w;
+      note "\nw3, call $handler-name\() for $signal-name: $h0, $h1, $h2, %named-args.gist()" if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1, $h2);
-      %named-args<_native-object> := $w;
       my $retval = $handler-object."$handler-name"(
         $h0, $h1, $h2, |%named-args
       );
@@ -309,10 +309,10 @@ method register-signal (
     sub w4( N-GObject $w, $h0, $h1, $h2, $h3, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
-      note "\nw4, $handler-name for $signal-name: $h0, $h1, $h2, $h3, %named-args.gist()" if $Gnome::N::x-debug;
+      %named-args<_native-object> := $w;
+      note "\nw4, call $handler-name\() for $signal-name: $h0, $h1, $h2, $h3, %named-args.gist()" if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1, $h2, $h3);
-      %named-args<_native-object> := $w;
       my $retval = $handler-object."$handler-name"(
         $h0, $h1, $h2, $h3, |%named-args
       );
@@ -333,10 +333,10 @@ method register-signal (
     ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
-      note "\nw5, $handler-name for $signal-name: $h0, $h1, $h2, $h3, $h4, %named-args.gist()" if $Gnome::N::x-debug;
+      %named-args<_native-object> := $w;
+      note "\nw5, call $handler-name\() for $signal-name: $h0, $h1, $h2, $h3, $h4, %named-args.gist()" if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1, $h2, $h3, $h4);
-      %named-args<_native-object> := $w;
       my $retval = $handler-object."$handler-name"(
         $h0, $h1, $h2, $h3, $h4, |%named-args
       );
@@ -357,10 +357,10 @@ method register-signal (
     ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
-      note "\nw6, $handler-name for $signal-name: $h0, $h1, $h2, $h3, $h4, $h5, %named-args.gist()" if $Gnome::N::x-debug;
+      %named-args<_native-object> := $w;
+      note "\nw6, call $handler-name\() for $signal-name: $h0, $h1, $h2, $h3, $h4, $h5, %named-args.gist()" if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1, $h2, $h3, $h4, $h5);
-      %named-args<_native-object> := $w;
       my $retval = $handler-object."$handler-name"(
         $h0, $h1, $h2, $h3, $h4, $h5, |%named-args
       );
