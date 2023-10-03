@@ -477,105 +477,6 @@ method generate-method-tests (
   $code
 }
 
-#`{{
-#-------------------------------------------------------------------------------
-method generate-function-tests ( Str $class-name, Hash $hcs --> Str ) {
-
-  return '' unless ?$hcs;
-
-  my Str $symbol-prefix = $*work-data<sub-prefix>;
-
-  # Get all functions from the Hash
-  my Str $code = qq:to/EOSUB/;
-    {HLSEPARATOR}
-    {SEPARATOR( 'Standalone Functions', 2);}
-    subtest 'functions', \{
-      my $class-name \$cname .= new;
-
-    EOSUB
-
-  for $hcs.keys.sort -> $function-name {
-    my Hash $curr-function := $hcs{$function-name};
-
-     # Get method name, drop the prefix and substitute '_'
-    my Str $hash-fname = $function-name;
-    $hash-fname ~~ s/^ $symbol-prefix //;
-    $hash-fname ~~ s:g/ '_' /-/;
-
-    # Get parameter lists
-    my Str (
-      $par-list #, $call-list, #$own, $raku-list, $returns-doc, $items-doc, 
-    ) =  '';
-    my @rv-list = ();
-
-    for @($curr-function<parameters>) -> $parameter {
-
-#      self!get-types(
-#        $parameter, #$raku-list, 
-#        $call-list, #$items-doc,
-#        @rv-list #, $returns-doc
-#      );
-
-      # Get a list of types for the arguments
-      $par-list ~= ", $parameter<raku-type>";
-    }
-
-    # Remove first comma and space when there is only one parameter
-    $par-list ~~ s/^ . //;
-    $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
-    $par-list = ?$par-list
-              ?? [~] ' :parameters([', $par-list, ']),'
-              !! '';
-
-
-    # Return type
-    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my Str $returns;
-    my $xtype = $curr-function<return-raku-type>;
-    my ( $rnt0, $rnt1) = $xtype.split(':');
-    if ?$rnt1 {
-      $returns = " :returns\($rnt0\), :type-name\($rnt1\),";
-    }
-
-    elsif ?$rnt0 and $xtype ne 'void' {
-      $returns = " :returns\($rnt0\),";
-    }
-
-    else {
-      $returns = '';
-    }
-
-    if ?$returns {
-      $code ~= Q:qq:to/EOSUB/;
-          #TF:0:$hash-fname
-          #my \$return-value = \$cname.$hash-fname\($par-list\);
-          #is \$return-value, …, 'function .$hash-fname\(\)-> \$return-value';
-
-        EOSUB
-    }
-
-    else {
-      $code ~= Q:qq:to/EOSUB/;
-          #TF:0:$hash-fname
-          lives-ok \{
-            #\$cname.$hash-fname\($par-list\);
-          \}, 'function .$hash-fname\(\)';
-
-        EOSUB
-    }
-
-#note "$?LINE $hash-fname, {$returns//'-'}, {$par-list//'-'}";
-#TM:0:$hash-fname
-#    $code ~= [~] '  ', $hash-fname, ' => %( :type(Function),',
-#                 $returns, $par-list, "),\n";
-
-  }
-
-  $code ~= "};\n\n";
-  $code
-}
-}}
-
 #-------------------------------------------------------------------------------
 method generate-signal-tests ( Str $test-variable --> Str ) {
 
@@ -677,6 +578,14 @@ method generate-enumeration-tests ( Array:D $enum-names --> Str ) {
     my Str $name = $enum-name;
     my Str $package = $*gnome-package.Str;
     $package ~~ s/ \d+ $//;
+    if $package ~~ / Glib || GObject || Gio / {
+      $package = 'G';
+    }
+    
+    else {
+      $package ~~ s/ \d+ $//;
+    }
+
     $name ~~ s/^ $package //;
 
     # Get the XML element of the enum data
@@ -733,6 +642,17 @@ method generate-bitfield-tests ( Array:D $bitfield-names --> Str ) {
     my Str $name = $bitfield-name;
     my Str $prefix = $*work-data<name-prefix>;
     $name ~~ s:i/^ $prefix //;
+    my Str $package = $*gnome-package.Str;
+    if $package ~~ / Glib || GObject || Gio / {
+      $package = 'G';
+    }
+    
+    else {
+      $package ~~ s/ \d+ $//;
+    }
+
+    $name ~~ s/^ $package //;
+
 #    my Str $package = $*gnome-package.Str;
 #    $package ~~ s/ \d+ $//;
 #    $name ~~ s/^ $package //;

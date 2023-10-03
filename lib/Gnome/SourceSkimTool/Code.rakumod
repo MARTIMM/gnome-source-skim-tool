@@ -637,10 +637,6 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     $par-list ~~ s/^ . //;
     my Str $parameters = ?$par-list ?? ":parameters\(\[$par-list\]\)," !! '';
 
-    # Remove prefix from routine
-#    my Str $hash-fname = $function-name;
-#    $hash-fname ~~ s/^ $sub-prefix //;
-
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
@@ -656,24 +652,14 @@ method !generate-constructors ( Hash $hcs --> Str ) {
       $isnew = ':isnew, ';
     }
 
-    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my ( $rnt0, $rnt1) = $curr-function<return-raku-type>.split(':');
-    if ?$rnt1 {
-      $code ~= [~] '  ', $temp-inhibit, $function-name,
-                  ' => %( :type(Constructor), ', $isnew,
-                  ':returns(', $rnt0, '), ',
-                  ':type-name(', $rnt1, '), ',  $parameters, "),\n";
-    }
+    my $xtype = $curr-function<return-raku-type>;
+    $code ~= [~] '  ', $temp-inhibit, $function-name,
+                ' => %( :type(Constructor), ', $isnew,
+                ':returns(', $xtype, '), ',
+                $variable-list, $parameters, "),\n";
 
-    else {
-      $code ~= [~] '  ', $temp-inhibit, $function-name,
-                  ' => %( :type(Constructor), ', $isnew,
-                  ':returns(', $rnt0, '), ',
-                  $variable-list, $parameters, "),\n";
-
-      # drop last comma from arg list
-      $code ~~ s/ '),)' /))/;
-    }
+    # drop last comma from arg list
+    $code ~~ s/ '),)' /))/;
   }
 
   $code
@@ -810,7 +796,8 @@ method !generate-methods ( Hash $hcs --> Str ) {
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
     my ( $rnt0, $rnt1) = $xtype.split(':');
     if ?$rnt1 {
-      $returns = " :returns\($rnt0\), :type-name\($rnt1\),";
+      $returns = " :returns\($rnt0\),";
+      $cnv-return = " :cnv-return\($rnt1\),";
     }
 
     elsif ?$rnt0 and $xtype ne 'void' {
@@ -851,6 +838,7 @@ method generate-functions ( Hash $hcs --> Str ) {
     EOSUB
 
   for $hcs.keys.sort -> $function-name is copy {
+    my Str $cnv-return = '';
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
@@ -980,19 +968,19 @@ method generate-functions ( Hash $hcs --> Str ) {
 
     # Return type
     # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my Str $returns;
+    my Str $returns = '';
     my $xtype = $curr-function<return-raku-type>;
     my ( $rnt0, $rnt1) = $xtype.split(':');
     if ?$rnt1 {
-      $returns = " :returns\($rnt0\), :type-name\($rnt1\),";
+      $returns = " :returns\($rnt0\)";
+      $cnv-return = " :cnv-return\($rnt1\),";
     }
 
     elsif ?$rnt0 and $xtype ne 'void' {
       $returns = " :returns\($rnt0\),";
-    }
-
-    else {
-      $returns = '';
+      if $xtype eq 'gboolean' {
+        $cnv-return = ' :cnv-return(Bool),';
+      }
     }
 
 #note "$?LINE $function-name, {$returns//'-'}, {$par-list//'-'}";
@@ -1132,12 +1120,8 @@ method generate-callback (
 #-------------------------------------------------------------------------------
 method generate-enumerations-code ( Array:D $enum-names --> Str ) {
 
-  # Don't look enum names up if array is provided
-#  $enum-names = self!get-enumeration-names unless ?$enum-names;
-
   # Return empty string if no enums found.
   return '' unless ?$enum-names;
-#note "$?LINE e names: $enum-names.gist()";
 
   # Open enumerations file for xpath
   my Str $file = $*work-data<gir-module-path> ~ 'repo-enumeration.gir';
@@ -1150,23 +1134,18 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
     {HLSEPARATOR}
     EOENUM
 
-#`{{
-  my Str $doc = qq:to/EOENUM/;
-    {HLSEPARATOR}
-    {SEPARATOR('Enumerations');}
-    {HLSEPARATOR}
-    =begin pod
-    =head1 Enumerations
-    =end pod
-
-    EOENUM
-}}
-
   # For each of the found names
   for $enum-names.sort -> $enum-name {
     my Str $name = $enum-name;
     my Str $package = $*gnome-package.Str;
-    $package ~~ s/ \d+ $//;
+    if $package ~~ / Glib || GObject || Gio / {
+      $package = 'G';
+    }
+    
+    else {
+      $package ~~ s/ \d+ $//;
+    }
+
     $name ~~ s/^ $package //;
 
     # Get the XML element of the enum data
@@ -1174,8 +1153,6 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
       '//enumeration[@name="' ~ $name ~ '"]', :!to-list
     );
 
-#TE:0:$enum-name
-#      {HLSEPARATOR}
     $code ~= qq:to/EOENUM/;
       enum $enum-name is export \<
       EOENUM
@@ -1266,8 +1243,16 @@ method generate-bitfield-code ( Array:D $bitfield-names --> Str ) {
   for $bitfield-names.sort -> $bitfield-name {
     my Str $name = $bitfield-name;
     my Str $package = $*gnome-package.Str;
-    $package ~~ s/ \d+ $//;
+    if $package ~~ / Glib || GObject || Gio / {
+      $package = 'G';
+    }
+    
+    else {
+      $package ~~ s/ \d+ $//;
+    }
+
     $name ~~ s/^ $package //;
+
 #note "$?LINE $bitfield-name, $package, $name";
     # Get the XML element of the bitfield data
     my XML::Element $e = $xpath.find(
