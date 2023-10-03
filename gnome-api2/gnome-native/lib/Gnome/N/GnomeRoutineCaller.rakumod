@@ -207,10 +207,10 @@ method call-native-sub (
 #note "$?LINE $c.gist(), ", $native-args.gist;
       $x = $c(|$native-args);
 #note "$?LINE $x.gist(), {$routine.gist}";
-      $x = self.convert-return(
-        $x, $routine<cnv-return>:exists
-            ?? $routine<cnv-return> !! $routine<returns>
-      );
+      $x = self.convert-return( $x, $routine);
+#        $x, $routine<cnv-return>:exists
+#            ?? $routine<cnv-return> !! $routine<returns>
+#      );
     }
 
     return $x
@@ -365,11 +365,20 @@ note "$?LINE $c.gist()";
 }
 
 #-------------------------------------------------------------------------------
-multi method convert-return ( $v, $p ) {
+multi method convert-return ( $v, Hash $routine ) {
   my $c;
+  my $p = $routine<returns>;
 #note "$?LINE p = {$p.^name}, $p.gist()";
   # Use 'given' because $p is a type and is always undefined
   given $p {
+    when GEnum {
+      $c = $routine<cnv-return>($v);
+    }
+
+    when GFlag {
+      $c = $v.UInt;
+    }
+
     when gchar-pptr {
       my Int $i = 0;
       $c = [];
@@ -382,8 +391,9 @@ multi method convert-return ( $v, $p ) {
       $c = $v[0];
     }
 
-    when .^name ~~ / Bool / {
-      $c = $v[0].Bool;
+    # gboolean is an int32 so it is not visible if it should be a boolean
+    when gboolean {
+      $c = $v[0].Bool if $routine<cnv-return> ~~ Bool;
     }
 
     when .^name ~~ / CArray / {
@@ -394,6 +404,39 @@ multi method convert-return ( $v, $p ) {
     default {
       $c = $v;
     }
+  }
+
+  $c
+}
+
+#-------------------------------------------------------------------------------
+# called from make-list-from-result() to make lists of returned values via
+# argument pointers
+multi method convert-return ( $v, $p ) {
+  my $c;
+#note "$?LINE p = {$p.^name}, $p.gist()";
+  # Use 'given' because $p is a type and is always undefined
+  given $p {      
+    when gchar-pptr {
+      my Int $i = 0;
+      $c = [];
+      while $v[$i].defined {
+        $c.push: $v[$i++];
+      }
+    }
+
+    when gint-ptr {
+      $c = $v[0];
+    }
+
+    when .^name ~~ / CArray / {
+      $c = ?$v[0] ?? $v[0] !! $p;
+    }
+
+#    # Most values do not need conversion
+#    default {
+#      $c = $v;
+#    }
   }
 
   $c
