@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 label
+# Command to generate: generate.raku -v -c Gtk4 Label class
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate-current-link copy-clipboard>,
+      :w0<copy-clipboard activate-current-link>,
       :w1<activate-link>,
       :w3<move-cursor>,
     );
@@ -79,9 +79,9 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   #get-attributes => %( :returns(N-PangoAttrList )),
   get-current-uri => %( :returns(Str)),
-  #get-ellipsize => %( :returns(GEnum), :type-name(PangoEllipsizeMode )),
+  #get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode )),
   get-extra-menu => %( :returns(N-GObject)),
-  get-justify => %( :returns(GEnum), :type-name(GtkJustification)),
+  get-justify => %( :returns(GEnum), :cnv-return(GtkJustification)),
   get-label => %( :returns(Str)),
   get-layout => %( :returns(N-GObject)),
   get-layout-offsets => %( :parameters([gint-ptr, gint-ptr])),
@@ -89,7 +89,7 @@ my Hash $methods = %(
   get-max-width-chars => %( :returns(gint)),
   get-mnemonic-keyval => %( :returns(guint)),
   get-mnemonic-widget => %( :returns(N-GObject)),
-  get-natural-wrap-mode => %( :returns(GEnum), :type-name(GtkNaturalWrapMode)),
+  get-natural-wrap-mode => %( :returns(GEnum), :cnv-return(GtkNaturalWrapMode)),
   get-selectable => %( :returns(gboolean), :cnv-return(Bool)),
   get-selection-bounds => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, gint-ptr])),
   get-single-line-mode => %( :returns(gboolean), :cnv-return(Bool)),
@@ -98,7 +98,7 @@ my Hash $methods = %(
   get-use-underline => %( :returns(gboolean), :cnv-return(Bool)),
   get-width-chars => %( :returns(gint)),
   get-wrap => %( :returns(gboolean), :cnv-return(Bool)),
-  #get-wrap-mode => %( :returns(GEnum), :type-name(PangoWrapMode )),
+  #get-wrap-mode => %( :returns(GEnum), :cnv-return(PangoWrapMode )),
   get-xalign => %( :returns(gfloat)),
   get-yalign => %( :returns(gfloat)),
   select-region => %( :parameters([gint, gint])),

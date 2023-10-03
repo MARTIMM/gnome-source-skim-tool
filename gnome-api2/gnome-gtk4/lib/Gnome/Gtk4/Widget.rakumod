@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -t -c Gtk4 Widget
+# Command to generate: generate.raku -v -c Gtk4 Widget class
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -53,8 +53,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<realize map show destroy hide unrealize unmap>,
-      :w1<direction-changed keynav-failed mnemonic-activate move-focus state-flags-changed>,
+      :w0<show unmap realize destroy map unrealize hide>,
+      :w1<state-flags-changed move-focus direction-changed mnemonic-activate keynav-failed>,
       :w4<query-tooltip>,
     );
 
@@ -126,7 +126,7 @@ my Hash $methods = %(
   get-css-classes => %( :returns(gchar-pptr)),
   get-css-name => %( :returns(Str)),
   get-cursor => %( :returns(N-GObject)),
-  get-direction => %( :returns(GEnum), :type-name(GtkTextDirection)),
+  get-direction => %( :returns(GEnum), :cnv-return(GtkTextDirection)),
   get-display => %( :returns(N-GObject)),
   get-first-child => %( :returns(N-GObject)),
   get-focus-child => %( :returns(N-GObject)),
@@ -135,7 +135,7 @@ my Hash $methods = %(
   get-font-map => %( :returns(N-GObject)),
   #get-font-options => %( :returns(N-cairo_font_options_t )),
   get-frame-clock => %( :returns(N-GObject)),
-  get-halign => %( :returns(GEnum), :type-name(GtkAlign)),
+  get-halign => %( :returns(GEnum), :cnv-return(GtkAlign)),
   get-has-tooltip => %( :returns(gboolean), :cnv-return(Bool)),
   get-height => %( :returns(gint)),
   get-hexpand => %( :returns(gboolean), :cnv-return(Bool)),
@@ -151,7 +151,7 @@ my Hash $methods = %(
   get-native => %( :returns(N-GObject)),
   get-next-sibling => %( :returns(N-GObject)),
   get-opacity => %( :returns(gdouble)),
-  get-overflow => %( :returns(GEnum), :type-name(GtkOverflow)),
+  get-overflow => %( :returns(GEnum), :cnv-return(GtkOverflow)),
   get-pango-context => %( :returns(N-GObject)),
   get-parent => %( :returns(N-GObject)),
   get-preferred-size => %( :parameters([N-GtkRequisition, N-GtkRequisition])),
@@ -159,19 +159,19 @@ my Hash $methods = %(
   get-primary-clipboard => %( :returns(N-GObject)),
   get-realized => %( :returns(gboolean), :cnv-return(Bool)),
   get-receives-default => %( :returns(gboolean), :cnv-return(Bool)),
-  get-request-mode => %( :returns(GEnum), :type-name(GtkSizeRequestMode)),
+  get-request-mode => %( :returns(GEnum), :cnv-return(GtkSizeRequestMode)),
   get-root => %( :returns(N-GObject)),
   get-scale-factor => %( :returns(gint)),
   get-sensitive => %( :returns(gboolean), :cnv-return(Bool)),
   get-settings => %( :returns(N-GObject)),
   get-size => %( :returns(gint), :parameters([GEnum])),
   get-size-request => %( :parameters([gint-ptr, gint-ptr])),
-  get-state-flags => %( :returns(GFlag), :type-name(GtkStateFlags)),
+  get-state-flags => %( :returns(GFlag), :cnv-return(GtkStateFlags)),
   get-style-context => %( :returns(N-GObject)),
   get-template-child => %( :returns(N-GObject), :parameters([GType, Str])),
   get-tooltip-markup => %( :returns(Str)),
   get-tooltip-text => %( :returns(Str)),
-  get-valign => %( :returns(GEnum), :type-name(GtkAlign)),
+  get-valign => %( :returns(GEnum), :cnv-return(GtkAlign)),
   get-vexpand => %( :returns(gboolean), :cnv-return(Bool)),
   get-vexpand-set => %( :returns(gboolean), :cnv-return(Bool)),
   get-visible => %( :returns(gboolean), :cnv-return(Bool)),
@@ -255,7 +255,7 @@ my Hash $methods = %(
   unset-state-flags => %( :parameters([GFlag])),
 
   #--[Functions]----------------------------------------------------------------
-  get-default-direction => %( :type(Function),  :returns(GEnum), :type-name(GtkTextDirection)),
+  get-default-direction => %( :type(Function),  :returns(GEnum)),
   set-default-direction => %( :type(Function),  :parameters([GEnum])),
 );
 

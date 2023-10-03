@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -t -c Gtk4 grid
+# Command to generate: generate.raku -v -c Gtk4 Grid class
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ my Hash $methods = %(
   get-child-at => %( :returns(N-GObject), :parameters([gint, gint])),
   get-column-homogeneous => %( :returns(gboolean), :cnv-return(Bool)),
   get-column-spacing => %( :returns(guint)),
-  get-row-baseline-position => %( :returns(GEnum), :type-name(GtkBaselinePosition), :parameters([gint])),
+  get-row-baseline-position => %( :returns(GEnum), :cnv-return(GtkBaselinePosition), :parameters([gint])),
   get-row-homogeneous => %( :returns(gboolean), :cnv-return(Bool)),
   get-row-spacing => %( :returns(guint)),
   insert-column => %( :parameters([gint])),
