@@ -69,8 +69,8 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-angle => %( :returns(gdouble)),
-  get-ellipsize => %( :returns(GEnum), :type-name(PangoEllipsizeMode)),
-  get-justify => %( :returns(GEnum), :type-name(GtkJustification)),
+  get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
+  get-justify => %( :returns(GEnum), :cnv-return(GtkJustification)),
 …
   set-justify => %( :parameters([GEnum])),
   set-label => %( :parameters([Str])),
