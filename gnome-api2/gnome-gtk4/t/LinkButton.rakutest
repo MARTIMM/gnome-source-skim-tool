@@ -1,0 +1,155 @@
+# Command to generate: generate.raku -v -c -t Gtk4 linkbutton
+
+#TL:1:Gnome::Gtk4::LinkButton:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::LinkButton:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::LinkButton $linkbutton;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $linkbutton {
+    my Str $uri;
+    my Str $label;
+
+    #TC:1:new-linkbutton()
+    $uri = 'https://google.com';
+    $linkbutton .= new-linkbutton($uri);
+    ok .is-valid, '.new-linkbutton($uri)';
+
+    #TC:1:new-with-label()
+    $uri = 'https://developer-old.gnome.org/gtk4/stable/ch07.html';
+    $label = 'url';
+    $linkbutton .= new-with-label( $uri, $label);
+    ok .is-valid, '.new-with-label( $uri, $label)';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $linkbutton {
+    my Bool() $visited;
+    my Str $uri;
+
+
+#`{{
+    #TM:0:set-visited()
+    $visited = True;
+    .set-visited( $visited);
+    #TM:0:get-visited()
+    is .get-visited(),  $visited, '.set-visited() / .get-visited()';
+
+    #TM:0:set-uri()
+    $uri = 'text';
+    .set-uri( $uri);
+    #TM:0:get-uri()
+    is .get-uri(),  $uri, '.set-uri() / .get-uri()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::LinkButton() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::LinkButton;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::LinkButton :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::LinkButton $linkbutton .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $linkbutton.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
