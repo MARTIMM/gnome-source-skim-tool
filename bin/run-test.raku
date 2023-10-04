@@ -84,10 +84,13 @@ multi sub MAIN ( Str $xt ) {
   @pth.push: "$API2MODS/gnome-gsk4/lib" if $gtk-v eq '4';
   %*ENV<RAKULIB> = @pth.join(',');
 
-  my Str $cmd = "rakudo '$xt'";
-  my Proc $p = shell $cmd;#, :out, :err;
-#    note $p.out.slurp;#: :close;
-#    note $p.err.slurp;#: :close;
+  my $log = $xt;
+  $log ~~ s/ \. <-[.]>+ $/.log/;
+  my Str $time-cmd = [~] '/usr/bin/time ',
+      '-f "TT:%E UM:%U KM:%S C:%P" ', '-a -o ', $log;
+
+  my Str $cmd = "$time-cmd rakudo '$xt'";
+  my Proc $p = shell $cmd;
 
 #    shell "rakudo '$API2MODS/$test-location{$l}/t/$t.rakutest'"
 }
