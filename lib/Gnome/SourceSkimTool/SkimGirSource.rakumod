@@ -759,7 +759,9 @@ method !get-source-file( XML::Element:D $element --> Str ) {
 
       else {
         $module-filename = $module-filename.IO.basename;
+        # drop extension and optional version postfixes
         $module-filename ~~ s/ \. <-[\.]>+ $//;
+        $module-filename ~~ s/ <[-.\d]>+ $//;
 
         # In Gtk and Gdk for version 3, the filenames are having the prefix
         # 'gtk' or 'gdk' before it. Glib, GObject and Gio has a 'g' prefixed.
