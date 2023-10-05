@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 Button
+# Command to generate: generate.raku -v -c Gtk4 button
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ use v6;
 use NativeCall;
 
 
-#use Gnome::Gtk4::R-Actionable:api<2>;
+use Gnome::Gtk4::R-Actionable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -23,7 +23,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Button:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
-#also does Gnome::Gtk4::R-Actionable;
+also does Gnome::Gtk4::R-Actionable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -43,14 +43,12 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<clicked activate>,
+      :w0<activate clicked>,
     );
 
     # Signals from interfaces
-#`{{
     self._add_gtk_actionable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_actionable_signal_types');
-}}
     $signals-added = True;
   }
 
@@ -121,13 +119,11 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   }
 
   else {
-#`{{
     my $r;
     $r = self.Gnome::Gtk4::R-Actionable::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments
     );
     return $r if $_fallback-v2-ok;
-}}
 
     callsame;
   }
