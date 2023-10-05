@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gtk4 linkbutton
+# Command to generate: generate.raku -v -c Gtk4 linkbutton
 use v6;
 
 #-------------------------------------------------------------------------------

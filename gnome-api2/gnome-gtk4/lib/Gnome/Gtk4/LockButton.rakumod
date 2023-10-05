@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gtk4 lockbutton
+# Command to generate: generate.raku -v -c Gtk4 lockbutton
 use v6;
 
 #-------------------------------------------------------------------------------

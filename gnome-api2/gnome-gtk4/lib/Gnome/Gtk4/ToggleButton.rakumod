@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gtk4 togglebutton
+# Command to generate: generate.raku -v -c Gtk4 togglebutton
 use v6;
 
 #-------------------------------------------------------------------------------
