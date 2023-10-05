@@ -4,15 +4,15 @@ use v6;
 use NativeCall;
 use fatal;
 
-use Gnome::N::N-GObject;
-use Gnome::N::NativeLib;
-#use Gnome::N::TopLevelClassSupport;
-use Gnome::N::GlibToRakuTypes;
-use Gnome::N::X;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-GError:api<2>;
+use Gnome::N::NativeLib:api<2>;
+#use Gnome::N::TopLevelClassSupport:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::X:api<2>;
 
-#use Gnome::GObject::Object;
+#use Gnome::GObject::Object:api<2>;
 
-#use Gnome::Glib::N-GError:api<2>;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::N::GnomeRoutineCaller:auth<github:MARTIMM>:api<2>;
@@ -337,17 +337,11 @@ method !convert-args ( $v, $p ) {
       $c = CArray[gint].new(0);
     }
 
-#`{{
 
     # Only used to return a value
     when .^name ~~ / CArray .*? 'N-GError' / {
-#note "$?LINE";
-#      my N-GObject() $v0 = $v;
-#      $c = $v0;
-      $c = CArray[$p].new; #($p.new);
-note "$?LINE $c.gist()";
+      $c = CArray[N-GError].new(N-GError); #($p.new);
     }
-}}
 
     when N-GObject {
       my N-GObject() $no = $v;
