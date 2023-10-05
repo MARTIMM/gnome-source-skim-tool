@@ -74,7 +74,7 @@ method generate-test ( ) {
   $!mod.add-import($*work-data<raku-class-name>);
 
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!mod.search-name($ctype);
   my Str $code = $!tst.prepare-test($h<class-name>);
 
 #TODO generate a variable in a class using this interface
