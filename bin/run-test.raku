@@ -61,7 +61,7 @@ multi sub MAIN ( Str $l, Str $t ) {
 }
 
 #-------------------------------------------------------------------------------
-multi sub MAIN ( Str $xt ) {
+multi sub MAIN ( Str $xt, Bool :$d = False ) {
 
   # xt holds path name to either Ctk3 or Gtk4 in the xt dir
   my Str $gtk-v = ($xt ~~ / '3' /) ?? '3' !! '4';
@@ -89,8 +89,14 @@ multi sub MAIN ( Str $xt ) {
   my Str $time-cmd = [~] '/usr/bin/time ',
       '-f "TT:%E UM:%U KM:%S C:%P" ', '-a -o ', $log;
 
-  my Str $cmd = "$time-cmd rakudo '$xt'";
-  my Proc $p = shell $cmd;
+  my Str $cmd;
+  if $d {
+    $cmd = "$time-cmd raku-debug '$xt'";
+  }
 
-#    shell "rakudo '$API2MODS/$test-location{$l}/t/$t.rakutest'"
+  else {
+    $cmd = "$time-cmd rakudo '$xt'";
+  }
+
+  my Proc $p = shell $cmd;
 }
