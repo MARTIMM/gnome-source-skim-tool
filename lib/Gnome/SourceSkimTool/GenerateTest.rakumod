@@ -134,7 +134,7 @@ method generate-test ( ) {
   for $!filedata.keys -> $gir-type {
 
     next if $gir-type ~~ any(<class interface record union>);
-    next if $gir-type ~~ any(<callback alias function-macro>);
+    next if $gir-type ~~ any(<callback alias function-macro docsection>);
 
     # Test if gir-type is selected Skip a key if not mentioned on the
     # commandline or just do it when there is no preference
@@ -144,6 +144,8 @@ method generate-test ( ) {
 
     my $data = $!filedata{$gir-type}.values[0];
 #note "$?LINE $gir-type, ", $data.gist;
+    next unless ?$data<type-name>;
+
     my Str $type-name = $data<type-name>;
     my Str $prefix = $*work-data<name-prefix>;
     $type-name ~~ s:i/^ 'T-' $prefix /T-/;

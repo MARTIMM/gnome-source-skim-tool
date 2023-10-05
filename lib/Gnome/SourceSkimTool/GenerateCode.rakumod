@@ -121,14 +121,15 @@ method generate-code ( ) {
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
     next if $gir-type ~~ any(<class interface record union>);
-    next if $gir-type ~~ any(<callback alias function-macro>);
+    next if $gir-type ~~ any(<callback alias function-macro docsection>);
 
     # Test if gir-type is selected Skip a key if not mentioned on the
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my $data = $!filedata{$gir-type}.values[0];
-#note "$?LINE $gir-type, ", $data.gist;
+note "$?LINE $gir-type, ", $data.gist unless ?$data<type-name>;
+    next unless ?$data<type-name>;
 
     once $t-prep .= new;
     my Str $type-name = $data<type-name>;
@@ -155,7 +156,7 @@ method generate-code ( ) {
       }
 
       # Only for documentation
-      when 'docsection' { }
+      #when 'docsection' { }
 
       when 'enumeration' {
         my Array $enum-names = [];
@@ -179,9 +180,7 @@ method generate-code ( ) {
         $c ~= $!mod.generate-bitfield-code($bitfield-names);
       }
 
-      when 'callback' {
-        
-      }
+      #when 'callback' { }
 
       when 'function' {
         $has-functions = True;
@@ -201,9 +200,8 @@ method generate-code ( ) {
         $function-hash = $!mod.generate-functions($hms);
       }
 
-      when 'alias' {
-        
-      }
+      #when 'alias' { }
+      #when 'function-macro' { }
     }
   }
 
