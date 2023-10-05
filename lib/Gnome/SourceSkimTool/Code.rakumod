@@ -1998,6 +1998,7 @@ method convert-ntype (
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
   $ctype ~~ s:g/ const //;
+  $ctype ~~ s:g/ volatile //;
   $ctype ~~ s:g/ \s+ //;
 
   my Str $raku-type = '';
@@ -2010,6 +2011,7 @@ method convert-ntype (
     when /g? int '*'/         { $raku-type = 'gint-ptr'; }
     when /g? uint '*'/        { $raku-type = 'guint-ptr'; }
     when /g? uint16 '*'/      { $raku-type = 'CArray[uint16]'; }
+    when /g? uint32 '*'/      { $raku-type = 'CArray[uint32]'; }
     when /g? size '*'/        { $raku-type = 'CArray[gsize]'; }
     when /g? double '*'/      { $raku-type = 'CArray[gdouble]'; }
     when /g? pointer '*'/     { $raku-type = 'CArray[gpointer]'; }
@@ -2124,6 +2126,7 @@ method convert-rtype (
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
   $ctype ~~ s:g/ const //;
+  $ctype ~~ s:g/ volatile //;
   $ctype ~~ s:g/ \s+ //;
 
   my Str $raku-type = '';
