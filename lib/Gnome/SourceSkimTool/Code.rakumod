@@ -57,6 +57,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     if $*work-data<raku-class-name> eq 'Gnome::GObject::Object' {
       self.add-import('Gnome::N::TopLevelClassSupport');
       $also ~= 'also is Gnome::N::TopLevelClassSupport;' ~ "\n";
+
       self.add-import('Gnome::N::GObjectSupport');
       $also ~= 'also does Gnome::N::GObjectSupport;' ~ "\n";
     }
@@ -83,10 +84,9 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     $code ~= qq:to/RAKUMOD/;
       {$!grd.pod-header('Class Declaration');}
       unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
+      $also
       RAKUMOD
   }
-
-  $code ~= "$also\n";
 
   $code
 }
