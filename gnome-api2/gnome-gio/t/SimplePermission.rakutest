@@ -1,0 +1,43 @@
+# Command to generate: generate.raku -v -c -t Gio io
+
+#TL:1:Gnome::Gio::SimplePermission:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gio::SimplePermission:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gio::SimplePermission $simplepermission;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $simplepermission {
+    my gboolean $allowed;
+
+    #TC:1:new-simplepermission()
+    $allowed = True;
+    $simplepermission .= new-simplepermission($allowed);
+    ok .is-valid, '.new-simplepermission( $allowed)';
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish

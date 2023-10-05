@@ -1,0 +1,177 @@
+# Command to generate: generate.raku -v -c -t Gio permission
+
+#TL:1:Gnome::Gio::Permission:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+use Gnome::Glib::Error;
+
+# Testing Permission
+use Gnome::Gio::SimplePermission:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gio::SimplePermission $permission;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $permission {
+    $permission .= new-simplepermission(True);
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $permission {
+#    my  $callback;
+    my gpointer $user-data;
+    my Bool() $allowed = True;
+    my Bool() $can-release;
+    my N-GObject() $result;
+    my N-GObject() $cancellable;
+    my Bool() $can-acquire;
+
+    my List $r;
+
+#`{{
+    #TM:0:release-finish()
+    ok .release-finish( $result), '.release-finish()';
+
+    #TM:0:release-async()
+    ok .release-async( $cancellable, $callback, $user-data), '.release-async()';
+}}
+
+    #TM:1:release()
+    $r = .release($cancellable);
+    nok $r[0].Bool, '.release()';
+    is $r[1].message, 'Can\'t acquire or release permission', $r[1].message;
+
+#`{{
+    #TM:0:impl-update()
+    ok .impl-update( $allowed, $can-acquire, $can-release), '.impl-update()';
+}}
+
+    #TM:1:get-can-release()
+    nok .get-can-release(), '.get-can-release()';
+
+    #TM:0:get-can-acquire()
+    nok .get-can-acquire(), '.get-can-acquire()';
+
+    #TM:1:get-allowed()
+    is .get-allowed(), $allowed, '.get-allowed()';
+
+#`{{
+    #TM:0:acquire-finish()
+    ok .acquire-finish( $result), '.acquire-finish()';
+
+    #TM:0:acquire-async()
+    ok .acquire-async( $cancellable, $callback, $user-data), '.acquire-async()';
+}}
+
+    #TM:1:acquire()
+    $r = .acquire($cancellable);
+    nok $r[0].Bool, '.acquire()';
+    is $r[1].message, 'Can\'t acquire or release permission', $r[1].message;
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gio::Permission() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gio::Permission;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gio::Permission :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gio::Permission $permission .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $permission.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
