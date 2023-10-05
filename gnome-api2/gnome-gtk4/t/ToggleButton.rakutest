@@ -1,0 +1,155 @@
+# Command to generate: generate.raku -v -c -t Gtk4 togglebutton
+
+#TL:1:Gnome::Gtk4::ToggleButton:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::ToggleButton:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::ToggleButton $togglebutton;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $togglebutton {
+    my Str $label;
+
+    #TC:1:new-togglebutton()
+    $togglebutton .= new-togglebutton();
+    ok .is-valid, '.new-togglebutton()';
+
+    #TC:1:new-with-label()
+    $label = 'text';
+    $togglebutton .= new-with-label($label);
+    ok .is-valid, '.new-with-label($label)';
+
+    #TC:1:new-with-mnemonic()
+    $label = 'text';
+    $togglebutton .= new-with-mnemonic($label);
+    ok .is-valid, '.new-with-mnemonic($label)';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $togglebutton {
+    my Bool() $is-active;
+    my Gnome::Gtk4::ToggleButton $group;
+
+    #TM:1:toggled()
+    lives-ok {.toggled();}, '.toggled()';
+
+    #TM:1:set-group()
+    $group .= new-with-label('other text');
+    .set-group($group);
+    ok True, '.set-group()';
+
+    #TM:1:set-active()
+    $is-active = True;
+    .set-active( $is-active);
+    #TM:1:get-active()
+    is .get-active(),  $is-active, '.set-active() / .get-active()';
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::ToggleButton() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::ToggleButton;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::ToggleButton :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::ToggleButton $togglebutton .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $togglebutton.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
