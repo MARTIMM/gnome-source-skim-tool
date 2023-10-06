@@ -49,8 +49,8 @@
 
 ### List of backward compatibility breaks 😭 😭
 * Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages. The modules Glib, GObject and Gio 
-* Instanciating a class or record is done using positional arguments instead of named arguments. The names of these methods will not be `new()` anymore but something like `new-*()`.
-* The `new()` call is only used for specific work.
+* Instanciating a class or record is done using positional arguments instead of named arguments. The names of these methods will not be `new()` anymore but something like `new-*()`. E.g. `new-label($text)` or `new-grid()`.
+* The `new()` call is only used for specific work. I.e.
   * Providing a native object from elsewhere with `:$native-object`.
   * Using an id with `:$build-id` to get a native object from an XML description.
 * Need to rethink the inheriting mechanism, so for the time being it is off limits.
@@ -70,6 +70,7 @@
   * Decided to add the Gio section too.
   * Modules Application in Gio and Gtk4 added.
   * A test of an **Application** and **ApplicationWindow** with a **Button** works.
+  * Moved N-GError into Gnome::N to make used from GnomeRoutineCaller
 
 * 2023-09-27 0.11.3
   * Reducing complexity by taking the glib and gio from :api<1>.
