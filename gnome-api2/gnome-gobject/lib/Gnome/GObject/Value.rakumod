@@ -1,4 +1,4 @@
-# Command to generate: gnome-source-skim-tool.raku -v -c GObject value record
+# Command to generate: generate.raku -c GObject value record
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -8,8 +8,10 @@ use v6;
 use NativeCall;
 
 
+use Gnome::Glib::Variant;
+
 use Gnome::GObject::N-GValue:api<2>;
-#use Gnome::Glib::Variant;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -156,10 +158,14 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
       );
     }
 
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
+    }
+
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
-        $name, @arguments, $methods, :$native-object
+        $name, @arguments, $methods, $native-object
       );
     }
   }
