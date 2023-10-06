@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gtk4 Grid class
+# Command to generate: generate.raku -c Gtk4 grid
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -122,16 +122,17 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
-        $name, @arguments, $methods, :$native-object
+        $name, @arguments, $methods, $native-object
       );
     }
   }
 
   else {
     my $r;
+    my $native-object = self.get-native-object-no-reffing;
 #`{{
     $r = self.Gnome::Gtk4::R-Orientable::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 

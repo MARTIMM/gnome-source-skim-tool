@@ -1,0 +1,141 @@
+# Command to generate: generate.raku -v -c -t Gtk4 actionable interface
+
+#TL:1:Gnome::Gtk4::R-Actionable:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+use Gnome::Gtk4::Button:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  my Gnome::Gtk4::Button $button .= new-with-label('button text');
+  with $button {
+
+    my Str $format-string;
+    my Str $action-name;
+    my Str $detailed-action-name;
+    my N-GObject $target-value;
+
+
+    #TM:1:set-detailed-action-name()
+    $detailed-action-name = 'text';
+    .set-detailed-action-name( $detailed-action-name);
+    ok True, '.set-detailed-action-name()';
+#`{{
+
+    #TM:0:set-action-target-value()
+    $target-value = …;  # a native object
+    .set-action-target-value( $target-value);
+    #TM:0:get-action-target-value()
+    is .get-action-target-value(),  $target-value, '.set-action-target-value() / .get-action-target-value()';
+
+    #TM:0:set-action-target()
+    $format-string = 'text';
+    $... = '…';
+    .set-action-target( $format-string, $...);
+    ok True, '.set-action-target()';
+
+    #TM:0:set-action-name()
+    $action-name = 'text';
+    .set-action-name( $action-name);
+    #TM:0:get-action-name()
+    is .get-action-name(),  $action-name, '.set-action-name() / .get-action-name()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Actionable() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Actionable;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Actionable :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Actionable $actionable .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $actionable.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

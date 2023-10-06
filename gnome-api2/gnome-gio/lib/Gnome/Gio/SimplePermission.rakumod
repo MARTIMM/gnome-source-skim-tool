@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gio io
+# Command to generate: generate.raku -c Gio io
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
-        $name, @arguments, $methods, :$native-object
+        $name, @arguments, $methods, $native-object
       );
     }
   }

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gio Application
+# Command to generate: generate.raku -c Gio application
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -50,8 +50,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate name-lost shutdown startup>,
-      :w1<command-line handle-local-options>,
+      :w0<startup name-lost shutdown activate>,
+      :w1<handle-local-options command-line>,
       :w3<open>,
     );
 
@@ -92,7 +92,7 @@ my Hash $methods = %(
   get-application-id => %( :returns(Str)),
   get-dbus-connection => %( :returns(N-GObject)),
   get-dbus-object-path => %( :returns(Str)),
-  #get-flags => %( :returns(GFlag), :cnv-return(GApplicationFlags )),
+  get-flags => %( :returns(GFlag), :cnv-return(GApplicationFlags)),
   get-inactivity-timeout => %( :returns(guint)),
   get-is-busy => %( :returns(gboolean), :cnv-return(Bool)),
   get-is-registered => %( :returns(gboolean), :cnv-return(Bool)),
@@ -108,7 +108,7 @@ my Hash $methods = %(
   send-notification => %( :parameters([Str, N-GObject])),
   set-application-id => %( :parameters([Str])),
   set-default => %(),
-  #set-flags => %( :parameters([GFlag])),
+  set-flags => %( :parameters([GFlag])),
   set-inactivity-timeout => %( :parameters([guint])),
   set-option-context-description => %( :parameters([Str])),
   set-option-context-parameter-string => %( :parameters([Str])),
@@ -144,23 +144,24 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
-        $name, @arguments, $methods, :$native-object
+        $name, @arguments, $methods, $native-object
       );
     }
   }
 
   else {
     my $r;
+    my $native-object = self.get-native-object-no-reffing;
 #`{{
     $r = self.Gnome::Gio::R-ActionGroup::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
 }}
 #`{{
     $r = self.Gnome::Gio::R-ActionMap::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 

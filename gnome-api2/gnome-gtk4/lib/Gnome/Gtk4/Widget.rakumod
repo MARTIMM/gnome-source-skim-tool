@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gtk4 Widget class
+# Command to generate: generate.raku -c Gtk4 widget
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -53,8 +53,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<show unmap realize destroy map unrealize hide>,
-      :w1<state-flags-changed move-focus direction-changed mnemonic-activate keynav-failed>,
+      :w0<hide show unmap destroy realize unrealize map>,
+      :w1<keynav-failed move-focus state-flags-changed direction-changed mnemonic-activate>,
       :w4<query-tooltip>,
     );
 
@@ -280,28 +280,29 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
-        $name, @arguments, $methods, :$native-object
+        $name, @arguments, $methods, $native-object
       );
     }
   }
 
   else {
     my $r;
+    my $native-object = self.get-native-object-no-reffing;
 #`{{
     $r = self.Gnome::Gtk4::R-Accessible::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
 }}
     $r = self.Gnome::Gtk4::R-Buildable::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
 #`{{
     $r = self.Gnome::Gtk4::R-ConstraintTarget::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 

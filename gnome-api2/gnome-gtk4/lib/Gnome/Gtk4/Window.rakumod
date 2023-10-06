@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gtk4 Window class
+# Command to generate: generate.raku -c Gtk4 window
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<keys-changed activate-default activate-focus close-request>,
+      :w0<close-request activate-default keys-changed activate-focus>,
       :w1<enable-debugging>,
     );
 
@@ -178,30 +178,31 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
-        $name, @arguments, $methods, :$native-object
+        $name, @arguments, $methods, $native-object
       );
     }
   }
 
   else {
     my $r;
+    my $native-object = self.get-native-object-no-reffing;
 #`{{
     $r = self.Gnome::Gtk4::R-Native::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
 }}
 #`{{
     $r = self.Gnome::Gtk4::R-Root::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
 }}
 #`{{
     $r = self.Gnome::Gtk4::R-ShortcutManager::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 

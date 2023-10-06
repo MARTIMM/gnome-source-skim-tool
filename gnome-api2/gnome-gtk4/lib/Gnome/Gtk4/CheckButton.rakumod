@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gtk4 checkbutton
+# Command to generate: generate.raku -c Gtk4 checkbutton
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate toggled>,
+      :w0<toggled activate>,
     );
 
     # Signals from interfaces
@@ -111,15 +111,16 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
-        $name, @arguments, $methods, :$native-object
+        $name, @arguments, $methods, $native-object
       );
     }
   }
 
   else {
     my $r;
+    my $native-object = self.get-native-object-no-reffing;
     $r = self.Gnome::Gtk4::R-Actionable::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 

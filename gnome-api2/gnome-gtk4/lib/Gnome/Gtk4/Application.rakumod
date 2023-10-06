@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -t -c Gtk4 Application
+# Command to generate: generate.raku -c Gtk4 application
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -7,12 +7,11 @@ use v6;
 
 use NativeCall;
 
+
 use Gnome::Gio::Application:api<2>;
 use Gnome::Gio::T-Ioenums:api<2>;
 #use Gnome::Glib::N-GList:api<2>;
-
 use Gnome::Gtk4::T-Application:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -46,7 +45,7 @@ submethod BUILD ( *%options ) {
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
       :w0<query-end>,
-      :w1<window-added window-removed>,
+      :w1<window-removed window-added>,
     );
     $signals-added = True;
   }
@@ -113,7 +112,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
-        $name, @arguments, $methods, :$native-object
+        $name, @arguments, $methods, $native-object
       );
     }
   }
