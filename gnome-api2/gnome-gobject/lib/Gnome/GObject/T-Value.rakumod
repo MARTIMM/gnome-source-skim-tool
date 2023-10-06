@@ -1,4 +1,4 @@
-# Command to generate: gnome-source-skim-tool.raku -v -c GObject value
+# Command to generate: generate.raku -c GObject value
 use v6;
 
 #-------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ unit class Gnome::GObject::T-Value:auth<github:MARTIMM>:api<2>;
 #-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
-constant VALUE_NOCOPY_CONTENTS is export = 134217728;
 constant VALUE_INTERNED_STRING is export = 268435456;
+constant VALUE_NOCOPY_CONTENTS is export = 134217728;
 
 
