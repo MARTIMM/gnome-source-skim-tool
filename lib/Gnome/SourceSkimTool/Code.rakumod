@@ -166,17 +166,16 @@ method generate-callables (
 
     # For interfaces/roles, there is another fallback api called from class
     if $is-interface {
-      $c ~= q:to/RAKUMOD/;
+      $c ~= qq:to/RAKUMOD/;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
-        method _fallback-v2 (
-          Str $name, Bool $_fallback-v2-ok is rw,
-          Gnome::N::GnomeRoutineCaller $routine-caller, *@arguments
-        ) {
-          if $methods{$name}:exists {
-            my $native-object = self.get-native-object-no-reffing;
-            $_fallback-v2-ok = True;
-            return $routine-caller.call-native-sub(
-              $name, @arguments, $methods, :$native-object
+        method _fallback-v2 \(
+          Str \$name, Bool \$_fallback-v2-ok is rw,
+          Gnome\:\:N\:\:GnomeRoutineCaller \$routine-caller, \@arguments, \$native-object
+        ) \{
+          if \$methods\{\$name}:exists \{
+            \$_fallback-v2-ok = True;
+            return \$routine-caller.call-native-sub\(
+              \$name, \@arguments, \$methods, \$native-object, '$*work-data<sub-prefix>'
             );
           }
         }
@@ -208,10 +207,14 @@ method generate-callables (
               );
             }
 
+            elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+              return $!routine-caller.call-native-sub( $name, @arguments, $methods);
+            }
+
             else {
               my $native-object = self.get-native-object-no-reffing;
               return $!routine-caller.call-native-sub(
-                $name, @arguments, $methods, :$native-object
+                $name, @arguments, $methods, $native-object
               );
             }
           }
@@ -223,26 +226,19 @@ method generate-callables (
       my Str $ctype = $element.attribs<c:type>;
       my Hash $h = self.search-name($ctype);
       my Array $roles = $h<implement-roles>//[];
-      $c ~= '    my $r;' ~ "\n" if ?$roles;
+      if ?$roles {
+        $c ~= [~] '    my $r;', "\n",
+              '    my $native-object = self.get-native-object-no-reffing;',
+              "\n";
+      }
+
       for @$roles -> $role {
-#`{{ simplified
-        my Hash $role-h = self.search-name($role);
-        next unless ?$role-h;
-
-        $c ~= qq:to/RAKUMOD/;
-              \$r = self.{$role-h<class-name>}::_fallback-v2\(
-                \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
-              \);
-              return \$r if \$_fallback-v2-ok;
-
-          RAKUMOD
-}}
 
         my Bool $available = self.add-import($role);
         $c ~= "#`\{\{\n" unless $available;
         $c ~= qq:to/RAKUMOD/;
               \$r = self.{$role}::_fallback-v2\(
-                \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments
+                \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments, \$native-object
               \);
               return \$r if \$_fallback-v2-ok;
 
