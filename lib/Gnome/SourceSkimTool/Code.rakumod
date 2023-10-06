@@ -75,7 +75,6 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     $code ~= qq:to/RAKUMOD/;
       {$!grd.pod-header('Role Declaration');}
       unit role $h<class-name>:auth<github:MARTIMM>:api<2>;
-      $also
       RAKUMOD
   }
 
