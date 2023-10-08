@@ -1399,7 +1399,7 @@ method generate-structure (
 #TT:1:$class-name:
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
-    use v6;
+    use v6.d;
     RAKUMOD
 
   my @fields = $xpath.find( 'field', :start($element), :to-list);
@@ -1554,7 +1554,7 @@ method generate-union (
 #TT:1:$class-name:
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
-    use v6;
+    use v6.d;
     RAKUMOD
 
 #`{{

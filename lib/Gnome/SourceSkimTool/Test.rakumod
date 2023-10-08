@@ -31,6 +31,7 @@ method prepare-test ( Str $class-name --> Str ) {
 
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
+    use v6.d;
 
     #TL:1:$class-name:
     {$!grd.pod-header('Module Imports');}

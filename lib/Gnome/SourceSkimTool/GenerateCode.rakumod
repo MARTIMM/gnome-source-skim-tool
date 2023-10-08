@@ -213,7 +213,7 @@ note "$?LINE $gir-type, ", $data.gist unless ?$data<type-name>;
 
     my Str $code = qq:to/RAKUMOD/;
       # Command to generate: $*command-line
-      use v6;
+      use v6.d;
       RAKUMOD
 
     $code ~= $!mod.set-unit-for-file( $class-name, $has-functions);
