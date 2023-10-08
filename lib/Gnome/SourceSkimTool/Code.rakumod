@@ -2428,10 +2428,11 @@ note "$?LINE $filename";
 
   my Bool $save-it = True;
 
-  # Ask to overwrite or save aside files
+  # Ask to write a new file(w), overwrite original file, or save a new version
+  # aside files or skip saving.
   if $filename.IO.e {
     say "\nFile $filename.IO.basename() found,",
-     " Overwrite(o), new version(v), skip(s)";
+     " Overwrite(o), new version(v) or skip(s)";
     my Str $a = prompt "[o,v,s] s is default> ";
     given $a.lc {
       when 'o' { }
@@ -2451,6 +2452,13 @@ note "$?LINE $filename";
         $save-it = False;
       }
     }
+  }
+
+  else {
+    say "\nFile $filename.IO.basename() not yet saved,",
+      " Write(w), skip(s)";
+    my Str $a = prompt "[w,s] s is default> ";
+    $save-it = False if $a.ls eq 's';
   }
 
   if $save-it {
