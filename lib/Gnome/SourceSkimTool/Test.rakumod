@@ -1,3 +1,4 @@
+use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Doc;

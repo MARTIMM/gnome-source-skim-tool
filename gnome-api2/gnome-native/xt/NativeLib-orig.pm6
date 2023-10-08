@@ -97,7 +97,7 @@ on Appveyor using MSYS2 environment and
 05/22/2019  12:06 PM            93,720 zlib1.dll
 }}
 
-use v6;
+use v6.d;
 use NativeCall;
 
 #-------------------------------------------------------------------------------

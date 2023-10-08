@@ -1,0 +1,157 @@
+# Command to generate: gnome-source-skim-tool.raku -c -t -v Glib main
+
+#TL:1:Gnome::Glib::T-GMainContext:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+
+
+use Gnome::Glib::N-GMainContext:api<2>;
+use Gnome::Glib::N-GSource:api<2>;
+use Gnome::Glib::N-GSourceFuncs:api<2>;
+#use Gnome::Glib::T-GMainContext:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GMainContextFlags
+subtest 'GMainContextFlags', {
+};
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:G_PRIORITY_DEFAULT_IDLE
+is G_PRIORITY_DEFAULT_IDLE, 200, "constant G_PRIORITY_DEFAULT_IDLE = 200";
+
+#TE:1:G_SOURCE_REMOVE
+is G_SOURCE_REMOVE, false, "constant G_SOURCE_REMOVE = false";
+
+#TE:1:G_PRIORITY_DEFAULT
+is G_PRIORITY_DEFAULT, 0, "constant G_PRIORITY_DEFAULT = 0";
+
+#TE:1:G_PRIORITY_LOW
+is G_PRIORITY_LOW, 300, "constant G_PRIORITY_LOW = 300";
+
+#TE:1:G_PRIORITY_HIGH_IDLE
+is G_PRIORITY_HIGH_IDLE, 100, "constant G_PRIORITY_HIGH_IDLE = 100";
+
+#TE:1:G_SOURCE_CONTINUE
+is G_SOURCE_CONTINUE, true, "constant G_SOURCE_CONTINUE = true";
+
+#TE:1:G_PRIORITY_HIGH
+is G_PRIORITY_HIGH, -100, "constant G_PRIORITY_HIGH = -100";
+
+};
+
+
+my Gnome::Glib::T-GMainContext $main .= new;
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $main {
+    my gpointer $data;
+    my :( gpointer ) $notify;
+    my gpointer $user-data;
+    my guint $interval;
+    my :( , gint, gpointer ) $function;
+    my :( guint ) $clear-func;
+    my Str $name;
+    my  $pid;
+
+
+#`{{
+    #TB:0:timeout-source-new-seconds()
+    ok .timeout-source-new-seconds(), '.timeout-source-new-seconds()';
+
+    #TB:0:timeout-source-new()
+    ok .timeout-source-new(), '.timeout-source-new()';
+
+    #TB:0:timeout-add-seconds-full()
+    ok .timeout-add-seconds-full( $interval, $function, $data, $notify), '.timeout-add-seconds-full()';
+
+    #TB:0:timeout-add-seconds()
+    ok .timeout-add-seconds( $function, $data), '.timeout-add-seconds()';
+
+    #TB:0:timeout-add-full()
+    ok .timeout-add-full( $interval, $function, $data, $notify), '.timeout-add-full()';
+
+    #TB:0:timeout-add()
+    ok .timeout-add( $function, $data), '.timeout-add()';
+
+    #TB:0:source-set-name-by-id()
+    ok .source-set-name-by-id( $name), '.source-set-name-by-id()';
+
+    #TB:0:source-remove-by-user-data()
+    ok .source-remove-by-user-data(), '.source-remove-by-user-data()';
+
+    #TB:0:source-remove-by-funcs-user-data()
+    ok .source-remove-by-funcs-user-data( $user-data), '.source-remove-by-funcs-user-data()';
+
+    #TB:0:source-remove()
+    ok .source-remove(), '.source-remove()';
+
+    #TB:0:main-depth()
+    ok .main-depth(), '.main-depth()';
+
+    #TB:0:main-current-source()
+    ok .main-current-source(), '.main-current-source()';
+
+    #TB:0:main-context-ref-thread-default()
+    ok .main-context-ref-thread-default(), '.main-context-ref-thread-default()';
+
+    #TB:0:main-context-get-thread-default()
+    ok .main-context-get-thread-default(), '.main-context-get-thread-default()';
+
+    #TB:0:main-context-default()
+    ok .main-context-default(), '.main-context-default()';
+
+    #TB:0:idle-source-new()
+    ok .idle-source-new(), '.idle-source-new()';
+
+    #TB:0:idle-remove-by-data()
+    ok .idle-remove-by-data(), '.idle-remove-by-data()';
+
+    #TB:0:idle-add-full()
+    ok .idle-add-full( $function, $data, $notify), '.idle-add-full()';
+
+    #TB:0:idle-add()
+    ok .idle-add( $data), '.idle-add()';
+
+    #TB:0:get-real-time()
+     .get-real-time(), '…', '.get-real-time()';
+
+    #TB:0:get-monotonic-time()
+     .get-monotonic-time(), '…', '.get-monotonic-time()';
+
+    #TB:0:clear-handle-id()
+    ok .clear-handle-id( $clear-func), '.clear-handle-id()';
+
+    #TB:0:child-watch-source-new()
+    ok .child-watch-source-new(), '.child-watch-source-new()';
+
+    #TB:0:child-watch-add-full()
+    ok .child-watch-add-full( $pid, $function, $data, $notify), '.child-watch-add-full()';
+
+    #TB:0:child-watch-add()
+    ok .child-watch-add( $function, $data), '.child-watch-add()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

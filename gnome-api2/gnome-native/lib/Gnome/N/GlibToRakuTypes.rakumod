@@ -4,7 +4,7 @@
 # Please do not change any of the contents of this module.
 #-------------------------------------------------------------------------------
 
-use v6;
+use v6.d;
 use NativeCall;
 
 unit package Gnome::N::GlibToRakuTypes:auth<github:MARTIMM>:ver<0.3.0>;

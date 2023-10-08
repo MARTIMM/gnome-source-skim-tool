@@ -1,3 +1,4 @@
+use v6.d;
 
 =begin pod
 

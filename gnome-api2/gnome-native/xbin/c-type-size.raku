@@ -4,7 +4,7 @@
 # this program is just to test things. The real McCoy is in Build.pm6
 #-------------------------------------------------------------------------------
 
-use v6;
+use v6.d;
 
 my Bool $run-ok;
 my Hash $c-types = %();
@@ -115,7 +115,7 @@ my Str $module-text = Q:to/EOMOD_START/;
   # Please do not change any of the contents of this module.
   #-------------------------------------------------------------------------------
 
-  use v6;
+  use v6.d;
   unit package Gnome::N::GlibToRakuTypes;
 
   #-------------------------------------------------------------------------------

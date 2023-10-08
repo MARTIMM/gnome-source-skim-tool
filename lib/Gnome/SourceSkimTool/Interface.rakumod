@@ -36,7 +36,7 @@ method generate-code ( ) {
 
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
-    use v6;
+    use v6.d;
     RAKUMOD
 
   my $callables = $!mod.generate-callables( $element, $!xpath, :is-interface);

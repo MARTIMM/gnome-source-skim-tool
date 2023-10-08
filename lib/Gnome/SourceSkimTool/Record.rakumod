@@ -43,12 +43,12 @@ method generate-code ( ) {
 #TL:1:$*work-data<raku-class-name>:
     my Str $code = qq:to/RAKUMOD/;
       # Command to generate: $*command-line
-      use v6;
+      use v6.d;
       RAKUMOD
 
   #  my Str $module-doc = qq:to/RAKUMOD/;
   #    #TL:1:$*work-data<raku-class-name>:
-  #    use v6;
+  #    use v6.d;
   #
   #    {$!grd.pod-header('Record Description')}
   #    RAKUMOD
@@ -155,7 +155,7 @@ method generate-doc ( ) {
   my Str $module-code = '';
   my Str $module-doc = qq:to/RAKUMOD/;
     #TL:1:$*work-data<raku-class-name>:
-    use v6;
+    use v6.d;
 
     {$!grd.pod-header('Record Description')}
     RAKUMOD

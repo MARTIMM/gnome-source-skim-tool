@@ -1,5 +1,5 @@
 # Command to generate: gnome-source-skim-tool.raku -v -c GObject value
-use v6;
+use v6.d;
 
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------

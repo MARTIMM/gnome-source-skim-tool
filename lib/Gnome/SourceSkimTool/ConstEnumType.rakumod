@@ -1,4 +1,5 @@
 
+use v6.d;
 #-------------------------------------------------------------------------------
 #unit class Gnome::SourceSkimTool::ConstEnumType:auth<github:MARTIMM>;
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env raku
 
-use v6;
+use v6.d;
 
 constant $API1MODS is export = '..';
 constant $API2MODS is export = 'gnome-api2';

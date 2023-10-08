@@ -36,7 +36,7 @@ method generate-code ( ) {
 
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
-    use v6;
+    use v6.d;
     RAKUMOD
 
   my $callables = $!mod.generate-callables( $element, $!xpath);
@@ -66,7 +66,7 @@ method generate-doc ( ) {
 
   my Str $doc = qq:to/RAKUMOD/;
     #TL:1:pod doc of $*work-data<raku-class-name>:
-    use v6;
+    use v6.d;
 
     {$!grd.pod-header('Class Description')}
     RAKUMOD
