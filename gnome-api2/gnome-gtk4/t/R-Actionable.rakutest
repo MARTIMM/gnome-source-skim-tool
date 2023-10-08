@@ -32,34 +32,34 @@ subtest 'Method tests', {
     my Str $format-string;
     my Str $action-name;
     my Str $detailed-action-name;
-    my N-GObject $target-value;
-
+#    my N-GObject $target-value;
+    my Gnome::Glib::Variant $target-value;
 
     #TM:1:set-detailed-action-name()
-    $detailed-action-name = 'text';
+    $detailed-action-name = 'app.text';
     .set-detailed-action-name( $detailed-action-name);
     ok True, '.set-detailed-action-name()';
-#`{{
 
     #TM:0:set-action-target-value()
-    $target-value = …;  # a native object
-    .set-action-target-value( $target-value);
+    $target-value .= new(:parse('uint64 42'));  # a native object
+    .set-action-target-value($target-value);
     #TM:0:get-action-target-value()
-    is .get-action-target-value(),  $target-value, '.set-action-target-value() / .get-action-target-value()';
-
+    $target-value .= new(:native-object(.get-action-target-value()));
+    is $target-value.get-uint64, 42, '.set-action-target-value() / .get-action-target-value()';
+#`{{
     #TM:0:set-action-target()
     $format-string = 'text';
     $... = '…';
     .set-action-target( $format-string, $...);
     ok True, '.set-action-target()';
+}}
 
     #TM:0:set-action-name()
     $action-name = 'text';
-    .set-action-name( $action-name);
+    .set-action-name($action-name);
     #TM:0:get-action-name()
-    is .get-action-name(),  $action-name, '.set-action-name() / .get-action-name()';
+    is .get-action-name(), $action-name, '.set-action-name() / .get-action-name()';
 
-}}
   }
 };
 
