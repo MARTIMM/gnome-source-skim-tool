@@ -5,18 +5,34 @@ use NativeCall;
 use fatal;
 
 use Gnome::N::N-GObject:api<2>;
-use Gnome::N::N-GError:api<2>;
 use Gnome::N::NativeLib:api<2>;
-#use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::X:api<2>;
 
 #use Gnome::GObject::Object:api<2>;
 
-
 #-------------------------------------------------------------------------------
 unit class Gnome::N::GnomeRoutineCaller:auth<github:MARTIMM>:api<2>;
-#also is Gnome::N::TopLevelClassSupport;
+
+#-------------------------------------------------------------------------------
+# Define the error structure here too. It belongs in Gnome::Glib but
+# taking it from there creates a circular depency
+class N-GError is repr('CStruct') {
+
+  has GQuark $.domain;
+  has gint $.code;
+  has Str $.message;
+
+  submethod BUILD (
+    GQuark :$!domain, gint :$!code, Str :$!message, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-GError ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-GError, $no)
+  }
+}
 
 #-------------------------------------------------------------------------------
 enum RoutineType is export (
@@ -30,9 +46,6 @@ enum RoutineType is export (
 has Bool $!pointers-in-args;
 has Str $!library is required;
 has Str $!sub-prefix is required;
-#has $!widget is required;
-#has Str $!widget-name is required;
-#has Bool $!is-leaf;
 
 # Check on native library initialization.
 my Bool $gui-initialized = False;
@@ -73,16 +86,6 @@ method gtk-initialize ( ) {
 
     my $argv = char-ppptr.new;
     $argv[0] = $arg_arr;
-#`{{
-    # call gtk_init_check
-    my Callable $f = nativecast(
-      :( gint-ptr $argc, char-ppptr $argv --> gboolean ),
-      cglobal( $!library, 'gtk_init_check', gpointer)
-    );
-
-    $f( $argc, $argv);
-note "$?LINE $argc.gist(), $argv.gist()";
-}}
     _init_check_v3( $argc, $argv);
 
     # now refill the ARGS list with left over commandline arguments
@@ -95,14 +98,6 @@ note "$?LINE $argc.gist(), $argv.gist()";
   }
 
   else {
-#`{{
-    my Callable $f = nativecast(
-      :( --> gboolean ),
-      cglobal( $!library, 'gtk_init_check', gpointer)
-    );
-
-    $f();
-}}
     _init_check_v4();
   }
 
@@ -180,7 +175,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
     $routine<function-address>{$func-pattern} = $c;
   }
 
-#note "\n$?LINE '$func-pattern', $routine.gist()";
+#note "\n$?LINE '$func-pattern'\n[$native-args.join(', ')\]\n$routine.gist()";
 
   # Call routine as; `$c(|$native-args);`
 
@@ -190,7 +185,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
   # return value of functions $x.
   if $!pointers-in-args {
     self!make-list-from-result(
-      $native-args, $parameters, $routine, $c(|$native-args);
+      $native-args, $parameters, $routine, $c(|$native-args)
     ).List
   }
 
@@ -270,7 +265,7 @@ multi method call-native-sub (
   # return value of functions $x.
   if $!pointers-in-args {
     self!make-list-from-result(
-      $native-args, $parameters, $routine, $c(|$native-args);
+      $native-args, $parameters, $routine, $c(|$native-args)
     ).List
   }
 
@@ -351,7 +346,7 @@ multi method call-native-sub (
   # return value of functions $x.
   if $!pointers-in-args {
     self!make-list-from-result(
-      $native-args, $parameters, $routine, $c(|$native-args);
+      $native-args, $parameters, $routine, $c(|$native-args)
     ).List
   }
 
@@ -393,7 +388,6 @@ multi method native-parameters (
     my $p = $parameters[$i];
     my $a = self!convert-args( $arguments[$i], $p);
     $native-args.push: $a;
-#note "$?LINE np: ", $a.^name;
     $!pointers-in-args = True if $p.^name ~~ m/ CArray /;
   }
 
@@ -416,7 +410,6 @@ multi method native-parameters (
     my $p = $parameters[$i];
     my $a = self!convert-args( $arguments[$i], $p);
     $native-args.push: $a;
-#note "$?LINE np: ", $a.^name;
     $!pointers-in-args = True if $p.^name ~~ m/ CArray /;
   }
 
@@ -443,7 +436,6 @@ method !native-function (
     when Function { }
     #when Method { }
     default {
-#note "$?LINE nf: ", N-GObject.^name;
       @parameterList.push: Parameter.new(type => N-GObject);
     }
   }
