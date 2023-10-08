@@ -1,0 +1,89 @@
+# Command to generate: gnome-source-skim-tool.raku -t Glib error function
+
+#TL:1:Gnome::Glib::T-Error:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+use Test;
+use NativeCall;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::X:api<2>;
+#Gnome::N::debug(:on);
+
+use Gnome::Glib::T-Error:api<2>;
+use Gnome::Glib::N-GError:api<2>;
+
+#-------------------------------------------------------------------------------
+my Gnome::Glib::T-Error $error .= new;
+my N-GError() $n-error;
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $error {
+    my N-GObject $src;
+#    my … $...;
+    my Str $prefix;
+    my gint $code;
+    my GQuark $domain;
+    my Str $message;
+    my Str $format;
+
+    my $e = CArray[N-GError].new(N-GError);
+
+    #TB:1:set-error-literal()
+    $domain = 45444;
+    $code = 1012342;
+    $message = 'my error';
+
+    my List $l = .set-error-literal( $e, $domain, $code, $message);
+note $l.gist;
+    is $l[0].domain, 45444, '.set-error-literal()';
+    $n-error = $l[0];
+    is $n-error.domain, 45444, '.set-error-literal() from returned List';
+
+    #TB:1:set-error()
+    $e = CArray[N-GError].new(N-GError);
+    $domain = 87654;
+    $code = 7987;
+    $format = 'my %dnd error';
+
+    $l = .set-error( $e, $domain, $code, $format, gint32, 2);
+    is $l[0].message, sprintf( $format, 2), '.set-error() with added gint32';
+
+    $e = CArray[N-GError].new(N-GError);
+    $l = .set-error( $e, $domain, $code, $format, gint32, 3);
+    is $l[0].message, sprintf( $format, 3), '.set-error() with added gint32';
+
+    $e = CArray[N-GError].new(N-GError);
+    $format = 'illegal value %4.2f';
+    $l = .set-error( $e, $domain, $code, $format, gdouble, 32e-1);
+    is $l[0].message, sprintf( $format, 32e-1), '.set-error() with added gdouble';
+
+#`{{
+    #TB:0:propagate-prefixed-error()
+    ok .propagate-prefixed-error( $src, $format, $...), …, '.propagate-prefixed-error()';
+
+    #TB:0:propagate-error()
+    ok .propagate-error( $src), …, '.propagate-error()';
+
+    #TB:0:prefix-error-literal()
+    ok .prefix-error-literal( $prefix), …, '.prefix-error-literal()';
+
+    #TB:0:prefix-error()
+    ok .prefix-error( $format, $...), …, '.prefix-error()';
+}}
+
+    #TB:1:clear-error()
+    lives-ok { .clear-error(); }, '.clear-error()';
+
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
