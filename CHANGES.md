@@ -70,7 +70,8 @@
   * Decided to add the Gio section too.
   * Modules Application in Gio and Gtk4 added.
   * A test of an **Application** and **ApplicationWindow** with a **Button** works.
-  * Moved N-GError into Gnome::N to make used from GnomeRoutineCaller
+  * Made `N-GError` struct in GnomeRoutineCaller.
+  * Another problem found to work on; `List` in Glib has subs which are also defined in Any. FALLBACK is then not called and Raku throws errors about wrong arg types.
 
 * 2023-09-27 0.11.3
   * Reducing complexity by taking the glib and gio from :api<1>.
