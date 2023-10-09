@@ -1,0 +1,37 @@
+# Command to generate: generate.raku -v -c -t Glib list function
+
+#TL:1:Gnome::Glib::T-List:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-GList:api<2>;
+use Gnome::Glib::T-List:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+my Gnome::Glib::T-List $list .= new;
+#-------------------------------------------------------------------------------
+sub destroy ( gpointer $p ) {
+  say 'destroy';
+}
+
+subtest 'Method tests', {
+  with $list {
+    my CArray[N-GList] $list-ptr = CArray[N-GList].new;
+
+    #TB:1:clear-list()
+    ok .clear-list( $list-ptr, &destroy), '.clear-list()';
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

@@ -1,0 +1,185 @@
+# Command to generate: generate.raku -v -t Glib list record
+
+#TL:1:Gnome::Glib::List:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::List:api<2>;
+use Gnome::Glib::N-GList:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+Gnome::N::debug(:on);
+my Gnome::Glib::List $list;
+
+# Helpers to get data in and out
+sub pack ( Int $n --> gpointer ) {
+  my $o = CArray[gint].new;
+  $o[0] = $n;
+  nativecast( gpointer, $o)
+}
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  $list .= new;
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+#subtest 'Method tests', {
+  with $list {
+    my  $free-func;
+    my N-GList() $list2;
+    my  $func;
+    my N-GList() $link;
+    my  $compare-func;
+    my UInt() $n;
+    my N-GList() $llink;
+    my N-GList() $sibling;
+    my gpointer $user-data;
+
+    my gpointer $data;
+    my Int() $position;
+    my N-GList $n-glist;
+
+    $data = pack(10);
+
+
+#`{{
+    #TB:0:sort-with-data()
+    ok .sort-with-data( $compare-func, $user-data), '.sort-with-data()';
+
+    #TB:0:sort()
+    ok .sort( $compare-func), '.sort()';
+
+    #TB:0:reverse()
+    ok .reverse(), '.reverse()';
+
+    #TB:0:remove-link()
+    ok .remove-link( $llink), '.remove-link()';
+
+    #TB:0:remove-all()
+    ok .remove-all( $data), '.remove-all()';
+
+    #TB:0:remove()
+    ok .remove( $data), '.remove()';
+}}
+
+#TODO prepend is a method defined in Any. It is found before FALLBACK can
+    #TB:0:prepend()
+    $n-glist = .prepend( $n-glist, $data);
+    is .length($n-glist), 1, '.prepend()';
+
+#`{{
+    #TB:0:position()
+    ok .position( $llink), '.position()';
+
+    #TB:0:nth-prev()
+    ok .nth-prev( $n), '.nth-prev()';
+
+    #TB:0:nth-data()
+    ok .nth-data( $n), '.nth-data()';
+
+    #TB:0:nth()
+    ok .nth( $n), '.nth()';
+
+    #TB:0:length()
+    ok .length(), '.length()';
+
+    #TB:0:last()
+    ok .last(), '.last()';
+
+    #TB:0:insert-sorted-with-data()
+    ok .insert-sorted-with-data( $data, $func, $user-data), '.insert-sorted-with-data()';
+
+    #TB:0:insert-sorted()
+    ok .insert-sorted( $data, $func), '.insert-sorted()';
+
+    #TB:0:insert-before-link()
+    ok .insert-before-link( $sibling, $link-), '.insert-before-link()';
+
+    #TB:0:insert-before()
+    ok .insert-before( $sibling, $data), '.insert-before()';
+}}
+
+    $data = pack(10);
+
+    #TB:1:insert()
+    $n-glist = .insert( $n-glist, $data, 0);
+    $n-glist = .insert( $n-glist, $data, 1);
+    is .length($n-glist), 3, '.insert()';
+
+#`{{
+    #TB:0:index()
+    ok .index( $data), '.index()';
+
+    #TB:0:free-full()
+    ok .free-full( $free-func), '.free-full()';
+
+    #TB:0:free-1()
+    ok .free-1(), '.free-1()';
+
+    #TB:0:free()
+    ok .free(), '.free()';
+
+    #TB:0:foreach()
+    ok .foreach( $func, $user-data), '.foreach()';
+
+    #TB:0:first()
+    ok .first(), '.first()';
+
+    #TB:0:find-custom()
+    ok .find-custom( $data, $func), '.find-custom()';
+
+    #TB:0:find()
+    ok .find( $data), '.find()';
+
+    #TB:0:delete-link()
+    ok .delete-link( $link-), '.delete-link()';
+
+    #TB:0:copy-deep()
+    ok .copy-deep( $func, $user-data), '.copy-deep()';
+
+    #TB:0:copy()
+    ok .copy(), '.copy()';
+
+    #TB:0:concat()
+    ok .concat( $list2), '.concat()';
+
+    #TB:0:append()
+    ok .append( $data), '.append()';
+
+    #TB:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+#};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
