@@ -403,6 +403,10 @@ method drop-prefix (
 ) {
   return '' unless ?$prefixed-name;
 
+  # Drop type file prefix when only type specs are procesed
+  $prefixed-name ~~ s/^ 'T-' //;
+#note "$?LINE $prefixed-name";
+
   # Remove package prefix if there is any attached to the gnome class
   my Str $package-prefix;
   if $*gnome-package.Str ~~ any(<GObject Glib Gio>) {
