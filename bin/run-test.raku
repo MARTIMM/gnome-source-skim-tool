@@ -125,10 +125,19 @@ multi sub MAIN ( Str $xt, Bool :$d = False ) {
   @pth.push: "$API2MODS/gnome-gsk4/lib" if $gtk-v eq '4';
   %*ENV<RAKULIB> = @pth.join(',');
 
-  my $log = $xt;
-  $log ~~ s/ \. <-[.]>+ $/.log/;
+  my $log = $xt.IO.basename;
+  $log ~~ s/ \. <-[.]>+ $/-log.md/;
+  my Str $path = $xt.IO.dirname ~ '/log/';
+  mkdir $path, 0o750 unless $path.IO.e;
+  $log = $path ~ $log;
+note 'log: ', $log;
+
+  $log.IO.spurt(
+    'Elapsed time | User time| Kernel time | Cpu %' ~ "\n" ~ '|--|--|--|--|' ~ "\n"
+  ) unless $log.IO.e;
+
   my Str $time-cmd = [~] '/usr/bin/time ',
-      '-f "TT:%E UM:%U KM:%S C:%P" ', '-a -o ', $log;
+      '-f "%E | %U | %S | %P" ', '-a -o ', $log;
 
   my Str $cmd;
   if $d {
