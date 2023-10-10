@@ -143,7 +143,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
     ( $arguments, $parameters, $func-pattern ) =
        self!adjust-data( $arguments, $parameters);
 
-    # Get native parameters converted from $arguments
+    # Get native arguments converted from $arguments. True ≡ variable list.
     $native-args = self.native-parameters(
       $arguments, $parameters, $routine, True
     );
@@ -175,7 +175,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
     $routine<function-address>{$func-pattern} = $c;
   }
 
-#note "\n$?LINE '$func-pattern'\n[$native-args.join(', ')\]\n$routine.gist()";
+#note "\n$?LINE '$func-pattern'\n\[{$native-args>>.gist.join(', ')}\]";
 
   # Call routine as; `$c(|$native-args);`
 
@@ -383,6 +383,7 @@ multi method native-parameters (
   --> Array
 ) {
   my Array $native-args = [];
+#note "$?LINE {$arguments>>.gist()}";
 
   loop (my $i = 0; $i < $parameters.elems; $i++ ) {
     my $p = $parameters[$i];
@@ -392,6 +393,7 @@ multi method native-parameters (
   }
 
   $native-args.push: gpointer.new if $variable-list;
+#note "$?LINE {$native-args>>.gist()}";
 
   $native-args
 }
@@ -408,6 +410,7 @@ multi method native-parameters (
 
   loop (my $i = 0; $i < $parameters.elems; $i++ ) {
     my $p = $parameters[$i];
+note "$?LINE $i, $p.^name(), $arguments[$i]]";
     my $a = self!convert-args( $arguments[$i], $p);
     $native-args.push: $a;
     $!pointers-in-args = True if $p.^name ~~ m/ CArray /;
@@ -491,7 +494,7 @@ method !make-list-from-result (
 }
 
 #-------------------------------------------------------------------------------
-method !convert-args ( $v, $p ) {
+method !convert-args ( Mu $v, $p ) {
   my $c;
 #note "$?LINE $p.^name(), $v.gist()";
 
@@ -513,8 +516,15 @@ method !convert-args ( $v, $p ) {
     }
 
     when N-GObject {
-      my N-GObject() $no = $v;
+      my N-GObject $no = $v.get-native-object-no-reffing;
       $c = $no;
+    }
+
+    when Signature {
+note "$?LINE sig request: $p.gist()";
+note "$?LINE sig callable: $v.signature.gist(), equal: ", $p ~~ $v.signature;
+
+      $c = -> $p { };
     }
 
     # Most values do not need conversion
@@ -523,7 +533,7 @@ method !convert-args ( $v, $p ) {
     }
   }
 
-#note "$?LINE $p.gist(), {$v.defined ?? $v !! $v.gist}, {$c.defined ?? $c !! $c.gist}";
+#note "$?LINE $c.gist()";
   $c
 }
 

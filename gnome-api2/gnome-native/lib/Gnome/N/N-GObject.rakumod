@@ -150,7 +150,7 @@ method _wrap-native-type-from-no ( N-GObject $no --> Any ) {
 }
 
 #-------------------------------------------------------------------------------
-method COERCE ( Any $any --> N-GObject ) {
+method COERCE ( Mu $any --> N-GObject ) {
   nativecast( N-GObject, $any)
 }
 
