@@ -31,6 +31,7 @@ use Gnome::N::GlibToRakuTypes;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::N::TopLevelClassSupport;
+also is Mu;
 
 #-------------------------------------------------------------------------------
 # this native object is used by the toplevel class and its descendent classes.
@@ -252,7 +253,7 @@ method FALLBACK-ORIGINAL (
   # gtk object type than the native object stored at $!n-native-object.
   # This happens e.g. when a Gnome::Gtk::Button object uses gtk-widget-show()
   # which belongs to Gnome::Gtk::Widget.
-  my Any $g-object-cast;
+  my Mu $g-object-cast;
 
   #TODO Not all classes have $!gtk-class-* defined so we need to test it
   if $!n-native-object ~~ N-GObject and
@@ -314,11 +315,11 @@ Example;
 =end code
 
 =begin code
-  method COERCE( $no --> Any )
+  method COERCE( $no --> Mu )
 =end code
 
 =end pod
-method COERCE ( $no --> Any ) {
+method COERCE ( Mu $no --> Mu ) {
   note "Coercing from N-GObject to ", self.^name if $Gnome::N::x-debug;
   self._wrap-native-type( self.^name, $no)
 }
@@ -569,7 +570,7 @@ method _set-native-object ( $native-object ) {
     #self.clear-object; !!!! DON'T !!!!
 
     # if higher level object then extract native object from it
-    my Any $no = $native-object;
+    my Mu $no = $native-object;
 
 # assume that all arrives native so no conversion!
 #    $no = $native-object._get-native-object
@@ -712,13 +713,13 @@ method _get-test-mode ( --> Bool ) {
 Used by many classes to create a Raku instance with the native object wrapped in. Sometimes the native object C<$no> is returned from other methods as an undefined object. In that case, the Raku class is created as an invalid object in most cases. Exceptions are the two list classes from C<Gnome::Glib>.
 
   method _wrap-native-type (
-    Str:D $type where ?$type, Any $no
-    --> Any
+    Str:D $type where ?$type, Mu $no
+    --> Mu
   )
 
 =end pod
 
-method _wrap-native-type ( Str:D $type where ?$type, Any $no --> Any ) {
+method _wrap-native-type ( Str:D $type where ?$type, Mu $no --> Mu ) {
 
   # get class and wrap the native object in it
   try require ::($type);
@@ -766,7 +767,7 @@ As with C<_wrap-native-type()> this method is used by many classes to create a R
 #tm:4:_wrap-native-type-from-no:
 method _wrap-native-type-from-no (
   N-GObject $no, Str:D $match = '', Str:D $replace = '', *%options
-  --> Any
+  --> Mu
 ) {
   my Str $type;
 
@@ -945,11 +946,11 @@ method _set_invalid ( ) {
 
 This method is called from classes which are not leaf classes and may need to cast the native object into another type before calling the method at hand.
 
-  method _f ( Str $sub-class? --> Any )
+  method _f ( Str $sub-class? --> Mu )
 
 =end pod
 
-method _f ( Str $sub-class? --> Any ) {
+method _f ( Str $sub-class? --> Mu ) {
 #note "$?LINE _f $!n-native-object, $sub-class, $!class-gtype, {_name($!class-gtype)}";
 
   # cast to other gtk object type if the found subroutine is from another
@@ -958,7 +959,7 @@ method _f ( Str $sub-class? --> Any ) {
   # which belongs to Gnome::Gtk::Widget.
   #
   # Call the method only from classes where all variables are defined!
-#  my Any $g-object-cast;
+#  my Mu $g-object-cast;
 #`{{
     if ?$sub-class and $!class-name ne $sub-class {
     $g-object-cast = _check_instance_cast(
