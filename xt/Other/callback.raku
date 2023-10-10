@@ -1,5 +1,41 @@
 
 
+use NativeCall;
+
+use Gnome::Glib::N-GList:api<2>;
+use Gnome::Glib::List:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+
+
+# part of a method hash to simulate:
+# clear-list => %( :type(Function),  :parameters([ CArray[N-GList], :(gpointer)])),
+
+sub clear-list ( CArray[N-GList], Callable $h (gpointer) )
+  is native(glib-lib())
+  is symbol('g_clear_list')
+  { * }
+
+
+my CArray[N-GList] $list-ptr = CArray[N-GList].new;
+sub destroy ( gpointer $p ) {
+  say 'destroy';
+}
+
+my Gnome::Glib::List $list .= new;
+$list.insert( CArray[gint32].new(10), 0);
+say $list.length;
+
+clear-list( $list-ptr, &destroy);
+#$t-list.clear-list( $list-ptr, &destroy);
+
+=finish
+
+
+
+
 sub f1 ( Int $i --> Int ) { $i + 1; }
 say 'f1(20): ', f1(20);
 
@@ -37,6 +73,14 @@ try {
 
 
 =finish
+
+sub f ( Callable $f ) { $f(10); }
+
+sub g ( Int $i ) { say $i; }
+f( &g );
+
+
+
 #subset F5 of Callable where * ~~ sig2;
 #say F5.WHAT;
 #my F5 $f5 = &f4;
