@@ -466,7 +466,7 @@ method generate-method-tests (
     }
 }}
     #TODOinhibit callback signatures
-    if $type ~~ /^ ':('/ {
+    if $type ~~ /[^ ':('] || Callable / {
       $temp-inhibit = '#';
     }
 
