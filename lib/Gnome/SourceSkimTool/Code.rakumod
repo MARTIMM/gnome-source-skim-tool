@@ -1107,8 +1107,11 @@ method generate-callback (
 #                  $function-name, ' (', $par-list,
 #                  (?$returns ?? " --> $returns \)" !! ' )');
 
-  my $code = [~] ':(', $par-list, ?$returns ?? " --> $returns \)" !! ' )';
-  $code ~= ' _UA_' unless $available;
+  my $code = [~] 'Callable $handler (', $par-list,
+             ?$returns ?? " --> $returns \)" !! ' )';
+
+#  $code ~= ' _UA_' unless $available;
+  $code ~= ' _UA_'; # for the time being
 
   $code
 }
@@ -1469,10 +1472,10 @@ method generate-structure (
           $xpath.find( 'callback', :start($field), :!to-list);
         if ?$cb-element {
 #NOTE raku cannot handle this in native structures. Must become a pointer
-#          my Str $function-name = $cb-element.attribs<name>;
-#          my %h = self!get-callback-data( $cb-element, :$xpath);
-#          my Str $c = self.generate-callback( $function-name, %h);
-#          $code ~= "has $c \$.$field-name;\n";
+          my Str $function-name = $cb-element.attribs<name>;
+          my %h = self!get-callback-data( $cb-element, :$xpath);
+          my Str $c = self.generate-callback( $function-name, %h);
+          $code ~= "has $c \$.$field-name;\n";
 
           $code ~= "  has gpointer \$.$field-name;\n";
           $build-pars ~= "gpointer :\$\!$field-name, ";
@@ -2097,8 +2100,8 @@ method convert-ntype (
         when 'alias' { }
 
         when 'callback' {
-          my %h = self.get-callback-function($h<callback-name>);
-          $raku-type = self.generate-callback( $h<callback-name>, %h);
+          my %cb = self.get-callback-function($h<callback-name>);
+          $raku-type = self.generate-callback( $h<callback-name>, %cb);
         }
 
         default {
@@ -2233,8 +2236,8 @@ method convert-rtype (
         when 'alias' { }
 
         when 'callback' {
-#          my Hash %h = self.get-callback-function();
-#          $raku-type = self.generate-callback( $ctype, %h);
+          my %cb = self.get-callback-function($h<callback-name>);
+          $raku-type = self.generate-callback( $h<callback-name>, %cb);
         }
 
         default {
@@ -2459,7 +2462,7 @@ note "$?LINE $filename";
     say "\nFile $filename.IO.basename() not yet saved,",
       " Write(w), skip(s)";
     my Str $a = prompt "[w,s] s is default> ";
-    $save-it = False if $a.ls eq 's';
+    $save-it = False unless $a.lc eq 'w';
   }
 
   if $save-it {
