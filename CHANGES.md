@@ -72,6 +72,7 @@
   * A test of an **Application** and **ApplicationWindow** with a **Button** works.
   * Made `N-GError` struct in GnomeRoutineCaller.
   * Another problem found to work on; `List` in Glib has subs which are also defined in Any. FALLBACK is then not called and Raku throws errors about wrong arg types.
+  * **TopLevelClassSupport** is now inheriting from **Mu** which skips class **Any**. This prevents some clashes with routines found in **Any**.
 
 * 2023-09-27 0.11.3
   * Reducing complexity by taking the glib and gio from :api<1>.
