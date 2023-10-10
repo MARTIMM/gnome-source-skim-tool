@@ -15,7 +15,7 @@ constant \Window = Gnome::Gtk4::Window;
 constant \Button = Gnome::Gtk4::Button;
 
 
-my Gnome::Glib::MainLoop $main-loop .= new;
+my Gnome::Glib::MainLoop $main-loop .= new-mainloop;
 
 class SH {
   method stopit ( --> gboolean ) {

@@ -1,7 +1,7 @@
 
 my $t0 = now;
 
-use Gnome::Glib::MainLoop;
+use Gnome::Glib::MainLoop:api<2>;
 
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::Gtk4::Window:api<2>;
@@ -17,7 +17,7 @@ constant \Button = Gnome::Gtk4::Button;
 constant \Grid = Gnome::Gtk4::Grid;
 
 
-my Gnome::Glib::MainLoop $main-loop .= new;
+my Gnome::Glib::MainLoop $main-loop .= new-mainloop;
 
 class SH {
   method stopit ( --> gboolean ) {
