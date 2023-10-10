@@ -42,7 +42,7 @@ method generate-code ( ) {
 
   for $!filedata.keys {
     # -> $type-name
-#note "$?LINE $_";
+note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
@@ -129,10 +129,14 @@ method generate-code ( ) {
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my $data = $!filedata{$gir-type}.values[0];
-note "$?LINE $gir-type, ", $data.gist unless ?$data<type-name>;
+#note "$?LINE $gir-type, ", $data.gist;# unless ?$data<type-name>;
     next unless ?$data<type-name>;
 
-    once $t-prep .= new;
+    once {
+      $*gnome-class = $data<type-name>;
+      $t-prep .= new;
+#      $t-prep.display-hash( $*work-data, :label('type file data'));
+    };
     my Str $type-name = $data<type-name>;
     my Str $prefix = $*work-data<name-prefix>;
     $type-name ~~ s:i/^ 'T-' $prefix /T-/;
@@ -147,7 +151,7 @@ note "$?LINE $gir-type, ", $data.gist unless ?$data<type-name>;
       when 'constant' {
         my @constants = ();
         for $!filedata<constant>.kv -> $k, $v {
-          my Str $name = $t-prep.drop-prefix( $k, :constant);
+          my Str $name = $k; # $t-prep.drop-prefix( $k, :constant);
           @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
   #        $filename = $v<type-name> unless ?$filename;
   #        $class-name = $v<class-name> unless ?$class-name;
@@ -255,10 +259,9 @@ note "$?LINE $gir-type, ", $data.gist unless ?$data<type-name>;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
         method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           if $methods{$name}:exists {
-            my $native-object = self.get-native-object-no-reffing;
             $_fallback-v2-ok = True;
             return $!routine-caller.call-native-sub(
-              $name, @arguments, $methods, :$native-object
+              $name, @arguments, $methods
             );
           }
 
