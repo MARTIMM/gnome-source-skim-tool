@@ -105,21 +105,10 @@ my Hash $methods = %(
   #sort-with-data => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, , gpointer])),
 );
 
-#TODO prepend is a method defined in Any. It is found before FALLBACK can
-method prepend ( N-GList $list, gpointer $data --> N-GList ) {
-  g_list_prepend( $list, $data)
-}
-
-sub g_list_prepend (
-  N-GList $list, gpointer $data --> N-GList
-) is native(&glib-lib)
-  is symbol('g_list_prepend')
-  { * }
-
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
-note "$?LINE $name, $methods{$name}.gist()";
+#note "$?LINE $name, $methods{$name}.gist()";
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
