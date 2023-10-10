@@ -20,7 +20,7 @@ use Gnome::N::X:api<2>;
 #--[Test preparation]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-Gnome::N::debug(:on);
+#Gnome::N::debug(:on);
 my Gnome::Glib::List $list;
 
 # Helpers to get data in and out
@@ -66,6 +66,12 @@ unless %*ENV<raku_test_all>:exists {
 
     $data = pack(10);
 
+    #append
+    for ^10 -> $i {
+      $n-glist = .append( $n-glist, pack($i));
+    }
+    is .length($n-glist), 10, '.append()';
+
 
 #`{{
     #TB:0:sort-with-data()
@@ -90,7 +96,7 @@ unless %*ENV<raku_test_all>:exists {
 #TODO prepend is a method defined in Any. It is found before FALLBACK can
     #TB:0:prepend()
     $n-glist = .prepend( $n-glist, $data);
-    is .length($n-glist), 1, '.prepend()';
+    is .length($n-glist), 11, '.prepend()';
 
 #`{{
     #TB:0:position()
@@ -129,7 +135,7 @@ unless %*ENV<raku_test_all>:exists {
     #TB:1:insert()
     $n-glist = .insert( $n-glist, $data, 0);
     $n-glist = .insert( $n-glist, $data, 1);
-    is .length($n-glist), 3, '.insert()';
+    is .length($n-glist), 13, '.insert()';
 
 #`{{
     #TB:0:index()
