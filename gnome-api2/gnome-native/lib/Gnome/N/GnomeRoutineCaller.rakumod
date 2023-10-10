@@ -521,10 +521,11 @@ method !convert-args ( Mu $v, $p ) {
     }
 
     when Signature {
-note "$?LINE sig request: $p.gist()";
-note "$?LINE sig callable: $v.signature.gist(), equal: ", $p ~~ $v.signature;
+#note "$?LINE sig request: $p.gist()";
+#note "$?LINE sig callable: $v.signature.gist(), equal: ", $p ~~ $v.signature;
 
-      $c = -> $p { };
+#      $c = -> $p { };
+      $c = Callable;
     }
 
     # Most values do not need conversion

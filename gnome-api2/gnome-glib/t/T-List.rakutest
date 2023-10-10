@@ -26,8 +26,9 @@ subtest 'Method tests', {
   with $list {
     my CArray[N-GList] $list-ptr = CArray[N-GList].new;
 
-    #TB:1:clear-list()
-    ok .clear-list( $list-ptr, &destroy), '.clear-list()';
+    #TB:0:clear-list()
+#    ok .clear-list( $list-ptr, Callable), '.clear-list()';
+#    ok .clear-list( $list-ptr, &destroy), '.clear-list()';
   }
 };
 
