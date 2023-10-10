@@ -1,0 +1,108 @@
+# Command to generate: generate.raku -t Glib main
+use v6.d;
+
+#TL:1:Gnome::Glib::MainLoop:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::MainLoop:api<2>;
+use Gnome::Glib::N-GMainContext:api<2>;
+use Gnome::Glib::N-GMainLoop:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Glib::MainLoop $mainloop;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $mainloop {
+    my N-GMainContext $context;
+    my Bool() $is-running;
+
+#`{{
+    #TC:0:new-mainloop()
+    $context = '…';
+    $is-running = True;
+    $mainloop .= new-mainloop( $context, $is-running);
+    ok .is-valid, '.new-mainloop( $context, $is-running)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $mainloop {
+
+
+#`{{
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+    #TM:0:run()
+    ok .run(), '.run()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:quit()
+    ok .quit(), '.quit()';
+
+    #TM:0:is-running()
+    ok .is-running(), '.is-running()';
+
+    #TM:0:get-context()
+     .get-context(), '…', '.get-context()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $mainloop {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
