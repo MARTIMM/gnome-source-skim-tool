@@ -21,7 +21,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Glib::List $list;
+my Gnome::Glib::List $list .= new;
 
 # Helpers to get data in and out
 sub pack ( Int $n --> gpointer ) {
@@ -29,14 +29,6 @@ sub pack ( Int $n --> gpointer ) {
   $o[0] = $n;
   nativecast( gpointer, $o)
 }
-
-#-------------------------------------------------------------------------------
-#--[Class init tests]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-subtest 'ISA test', {
-  $list .= new;
-};
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -66,10 +58,11 @@ unless %*ENV<raku_test_all>:exists {
 
     $data = pack(10);
 
-    #append
+    #TM:1:append
     for ^10 -> $i {
       $n-glist = .append( $n-glist, pack($i));
     }
+    #TM:1:length
     is .length($n-glist), 10, '.append()';
 
 
@@ -94,7 +87,7 @@ unless %*ENV<raku_test_all>:exists {
 }}
 
 #TODO prepend is a method defined in Any. It is found before FALLBACK can
-    #TB:0:prepend()
+    #TB:1:prepend()
     $n-glist = .prepend( $n-glist, $data);
     is .length($n-glist), 11, '.prepend()';
 
