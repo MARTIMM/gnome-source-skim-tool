@@ -1,0 +1,167 @@
+# Command to generate: generate.raku -t -c Glib slist
+use v6.d;
+
+#TL:1:Gnome::Glib::SList:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-GSList:api<2>;
+use Gnome::Glib::SList:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Glib::SList $slist .= new;
+
+# Helpers to get data in and out
+sub pack ( Int $n --> gpointer ) {
+  my $o = CArray[gint].new;
+  $o[0] = $n;
+  nativecast( gpointer, $o)
+}
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $slist {
+#    my Callable $handler ( gpointer, gpointer --> gpointer )  $func;
+    my gpointer $data;
+    my Int() $position;
+    my UInt() $n;
+    my gpointer $user-data;
+    my N-GSList() $list2;
+    my N-GSList() $sibling;
+    my N-GSList() $llink;
+#    my Callable $handler ( gpointer )  $free-func;
+    my N-GSList() $link;
+#    my Callable $handler ( gpointer, gpointer --> gint )  $compare-func;
+
+    my N-GSList $n-gspos;
+    my N-GSList $n-gsl;
+
+    #TM:1:append
+    for ^10 -> $i {
+      $n-gsl = .append( $n-gsl, pack($i));
+    }
+    #TM:1:length
+    is .length($n-gsl), 10, '.append()';
+
+#`{{
+    #TM:0:sort-with-data()
+    ok .sort-with-data( $compare-func, $user-data), '.sort-with-data()';
+
+    #TM:0:sort()
+    ok .sort( $compare-func), '.sort()';
+
+    #TM:0:reverse()
+    ok .reverse(), '.reverse()';
+
+    #TM:0:remove-link()
+    ok .remove-link( $link-), '.remove-link()';
+
+    #TM:0:remove-all()
+    ok .remove-all( $data), '.remove-all()';
+
+    #TM:0:remove()
+    ok .remove( $data), '.remove()';
+}}
+
+    #TM:1:prepend()
+    $n-gsl = .prepend( $n-gsl, $data = pack(100));
+    is .length($n-gsl), 11, '.prepend()';
+
+#`{{
+    #TM:0:position()
+    ok .position( $llink), '.position()';
+
+    #TM:0:nth-data()
+    ok .nth-data( $n), '.nth-data()';
+
+    #TM:0:nth()
+    ok .nth( $n), '.nth()';
+
+    #TM:0:last()
+    ok .last(), '.last()';
+
+    #TM:0:insert-sorted-with-data()
+    ok .insert-sorted-with-data( $data, $func, $user-data), '.insert-sorted-with-data()';
+
+    #TM:0:insert-sorted()
+    ok .insert-sorted( $data, $func), '.insert-sorted()';
+
+    #TM:0:insert-before()
+    ok .insert-before( $sibling, $data), '.insert-before()';
+
+    #TM:0:insert()
+    ok .insert( $data, $position), '.insert()';
+}}
+
+    #TM:1:index()
+    # $data is prepended => position is 0
+    $position = .index( $n-gsl, $data);
+    is $position, 0, '.index()';
+
+
+#`{{
+    #TM:0:free-full()
+    ok .free-full( $free-func), '.free-full()';
+
+    #TM:0:free-1()
+    ok .free-1(), '.free-1()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:foreach()
+    ok .foreach( $func, $user-data), '.foreach()';
+
+    #TM:0:find-custom()
+    ok .find-custom( $data, $func), '.find-custom()';
+
+    #TM:0:find()
+    ok .find( $data), '.find()';
+
+    #TM:0:delete-link()
+    ok .delete-link( $link-), '.delete-link()';
+
+    #TM:0:copy-deep()
+    ok .copy-deep( $func, $user-data), '.copy-deep()';
+
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:concat()
+    ok .concat( $list2), '.concat()';
+
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
