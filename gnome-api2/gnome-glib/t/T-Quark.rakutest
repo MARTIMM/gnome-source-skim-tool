@@ -1,0 +1,65 @@
+# Command to generate: generate.raku -t -c Glib quark
+use v6.d;
+
+#TL:1:Gnome::Glib::T-Quark:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::T-Quark:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
+
+
+
+
+my Gnome::Glib::T-Quark $quark .= new;
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $quark {
+    my GQuark $quark;
+    my Str $string = 'my string';
+
+
+    #TM:1:try-string()
+    $quark = .try-string($string);
+    is $quark, 0, '.try-string()';    # not found
+    $quark = .from-string($string);   # set
+    is $quark, 1, '.from-string()';
+    $quark = .try-string($string);    # found
+    is $quark, 1, '.try-string()';
+
+    #TM:0:to-string()
+    is .to-string($quark), $string, '.to-string()';
+
+    #TM:0:from-string()
+    $string = 'my 2nd string';
+    $quark = .from-string($string);
+    is .to-string($quark), $string, '.from-string()';
+
+#`{{
+    #TM:0:from-static-string()
+    ok .from-static-string( $string), '.quark-from-static-string()';
+
+    #TM:0:intern-string()
+    ok .intern-string( $string), '.intern-string()';
+
+    #TM:0:intern-static-string()
+    ok .intern-static-string( $string), '.intern-static-string()';
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
