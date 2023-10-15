@@ -75,50 +75,6 @@ method generate-init-tests (
     $code ~= self.make-function-test(
       $hcs, $function-name, $test-variable, $decl-vars, :!ismethod
     );
-
-#`{{
-  for $hcs.keys.sort -> $function-name {
-    my Hash $curr-function := $hcs{$function-name};
-
-    my Bool $simple-func-new = !$curr-function<parameters>;
-    my $option-name = $curr-function<option-name>;
-    if !$simple-func-new {
-      my Str $par-list = '';
-      my Bool $first = True;
-      for @($curr-function<parameters>) -> $parameter {
-        if $first {
-          $par-list ~= ", :$curr-function<option-name>\(…\)";
-          $first = False;
-        }
-
-        else {
-          $par-list ~= ", :$parameter<name>\(…\)";
-        }
-      }
-
-      # Remove first comma and first space
-      $par-list ~~ s/^ . //;
-
-      $code ~= qq:to/EOTEST/;
-          #TB:1:new\($par-list\)
-          #$test-variable .= new\($par-list\);
-          #ok $test-variable.is-valid, '.new\($par-list\)';
-
-        EOTEST
-    }
-
-    else {
-      $code ~= qq:to/EOTEST/;
-          #TB:1:new\(\)
-          $test-variable .= new;
-          ok $test-variable.is-valid, '.new\(\)';
-
-        EOTEST
-    }
-  }
-  $code ~= "};\n\n";
-}}
-
   }
 
   $code ~= "\}\}\n  \}\n\};\n\n";
@@ -126,16 +82,6 @@ method generate-init-tests (
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
   for $decl-vars.kv -> $name, $type is copy {
-#`{{
-    if $type ~~ /^ GEnum / {
-      $type ~~ s/^ <-[:]>+ ':' //;
-    }
-
-    elsif $type ~~ /^ GFlag/ {
-      $type = 'UInt';
-    }
-}}
-
     $dstr ~= "    my $type \$$name;\n";
   }
 
@@ -182,18 +128,29 @@ method make-function-test (
     # Assume a compare test
     $test-type = 'is';
 
-    # Store type and name for declarations
-    if $parameter<raku-type> ~~ / <!before '('> ':' / {
+    # Sometimes a var name ends in an '_' char. This becomes a '-' which is
+    # not a proper name in raku, so correct it.
+    my Str $parameter-name = $parameter<name>;
+    $parameter-name ~~ s/ '-' $//;
+
+    # Store type and name for declarations. 
+    if $parameter<raku-type> ~~ /^ ':(' / {
+      $decl-vars{$parameter-name} = [~]
+        'sub ', $parameter-name, ' ', $parameter<raku-type>;
+      $decl-vars{$parameter-name} ~~ s/ ':(' /(/;
+    }
+
+    elsif $parameter<raku-type> ~~ / ':' / {
       my ( $type, $enum ) = $parameter<raku-type>.split(':');
-      $decl-vars{$parameter<name>} = $enum; # side effect
+      $decl-vars{$parameter-name} = $enum; # side effect
     }
 
     else {
-      $decl-vars{$parameter<name>} = $parameter<raku-type>; # side effect
+      $decl-vars{$parameter-name} = $parameter<raku-type>; # side effect
     }
 
 #    $assign-list ~= "  " unless $isnew; # no extra indent for new tests
-    $assign-list ~= "    \$$parameter<name> = ";
+    $assign-list ~= "    \$$parameter-name = ";
 
     # Get parameter type
     my Str $rtype = $parameter<raku-type>;
@@ -205,18 +162,20 @@ method make-function-test (
       when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
       when 'Bool' { $assign-list ~= "True;\n"; }
       when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
-      when / ':(' / { } # TODO a signature
+      when / ':(' / {
+        #my sub abc (Int $i) {say $i}
+      } # TODO a signature
       when / ':' / {
         my ( $type, $enum ) = .split(':');
         $assign-list ~= "…;  # an enum or flag" if ?$enum;
       }
 
       default {
-        note "Test variable \$$parameter<name> has type $rtype";
+        note "Test variable \$$parameter-name has type $rtype";
         $assign-list ~= "'…';\n";
       }
     }
-    $par-list ~= ", \$$parameter<name>";
+    $par-list ~= ", \$$parameter-name";
   }
 
   # Remove first comma
@@ -454,7 +413,6 @@ method generate-method-tests (
 
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
-  my Str $temp-inhibit = '';
   for $decl-vars.kv -> $name, $type is copy {
 #`{{
     if $type ~~ /^ GEnum / {
@@ -465,13 +423,14 @@ method generate-method-tests (
       $type = 'UInt';
     }
 }}
-    #TODOinhibit callback signatures
-    if $type ~~ /[^ ':('] || Callable / {
-      $temp-inhibit = '#';
+    # Generate the variable declarations. Special code for callback routines
+    if $type ~~ /^ sub / {
+      $dstr ~= "    $type \{\n    \}\n";
     }
 
-    $dstr ~= "$temp-inhibit    my $type \$$name;\n";
-    $temp-inhibit = '';
+    else {
+      $dstr ~= "    my $type \$$name;\n";
+    }
   }
 
   $code ~~ s/'__DECL_VARS__'/$dstr/;

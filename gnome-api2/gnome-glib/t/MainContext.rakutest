@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t Glib main
+# Command to generate: generate.raku -t Glib main record
 use v6.d;
 
 #TL:1:Gnome::Glib::MainContext:
@@ -6,14 +6,14 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
 use Gnome::Glib::MainContext:api<2>;
 use Gnome::Glib::N-GMainContext:api<2>;
 #use Gnome::Glib::N-GPollFD:api<2>;
-use Gnome::Glib::T-MainContext:api<2>;
+#use Gnome::Glib::T-GMainContext:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -32,7 +32,7 @@ my Gnome::Glib::MainContext $maincontext;
 
 subtest 'ISA test', {
   given $maincontext {
-    my UInt  $flags;
+    my GMainContextFlags  $flags;
 
 #`{{
     #TC:0:new-maincontext()
@@ -61,20 +61,23 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $maincontext {
-    my Array[Int] $timeout;
-#    my Callable $handler ( gpointer )  $notify;
+    my Int() $n-fds;
+    my N-GObject $funcs;
+    my gpointer $user-data;
+    my Int() $max-priority;
+    my UInt() $source-id;
+    my Bool() $may-block;
     my N-GObject $fd;
+    sub func ( N-GPollFD , guint, gint --> gint )  {
+    }
+    sub notify ( gpointer ) {
+    }
     my gpointer $data;
     my N-GObject $fds;
-#    my Callable $handler ( gpointer --> gboolean )  $function;
-    my Int() $max-priority;
-    my Int() $n-fds;
+    my Array[Int] $timeout;
+    sub function ( gpointer --> gboolean ) {
+    }
     my Int() $priority;
-    my N-GObject $funcs;
-#    my Callable $handler ( N-GPollFD , guint, gint --> gint )  $func;
-    my Bool() $may-block;
-    my UInt() $source-id;
-    my gpointer $user-data;
 
 
 #`{{
@@ -85,7 +88,7 @@ subtest 'Method tests', {
     ok .unref(), '.unref()';
 
     #TM:0:set-poll-func()
-    $func = '…';
+    $func =
     .set-poll-func( $func);
     #TM:0:get-poll-func()
     is .get-poll-func(),  $func, '.set-poll-func() / .get-poll-func()';
@@ -100,7 +103,7 @@ subtest 'Method tests', {
     ok .ref(), '.ref()';
 
     #TM:0:query()
-    ok .query( $max-priority, $timeout-, $fds, $n-fds), '.query()';
+    ok .query( $max-priority, $timeout, $fds, $n-fds), '.query()';
 
     #TM:0:push-thread-default()
     ok .push-thread-default(), '.push-thread-default()';
