@@ -9,6 +9,7 @@ use NativeCall;
 
 
 use Gnome::Glib::N-GList:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -82,7 +83,7 @@ my Hash $methods = %(
   first => %( :type(Function),  :returns(N-GList), :parameters([N-GList])),
   #foreach => %( :type(Function),  :parameters([ N-GList, , gpointer])),
   free => %( :type(Function),  :parameters([N-GList])),
-#  free-1 => %( :type(Function),  :parameters([N-GList])),
+  free-one => %( :type(Function),  :parameters([N-GList])),
   #free-full => %( :type(Function),  :parameters([ N-GList, ])),
   index => %( :type(Function),  :returns(gint), :parameters([ N-GList, gpointer])),
   insert => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer, gint])),
