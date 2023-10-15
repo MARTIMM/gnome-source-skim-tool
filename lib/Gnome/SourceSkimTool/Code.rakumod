@@ -707,7 +707,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
-#note "$?LINE  $function-name, inhibit: $temp-inhibit, $curr-function<missing-type>";
+note "$?LINE $function-name" if $curr-function<missing-type>;
 
     #$pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
     $variable-list = $curr-function<variable-list> ?? ':variable-list, ' !! '';
@@ -1063,15 +1063,14 @@ method get-callback-function ( Str $function-name --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-callback (
-#  Str $function-name, Hash $cb-data, Bool :$named-parameter = False --> Str
-  Str $function-name, Hash $cb-data --> Str
-) {
+method generate-callback ( Hash $cb-data --> Str ) {
   return '' unless ?$cb-data;
 
   my Bool $available = True;
   my Str $par-list = '';
   for @($cb-data<parameters>) -> $parameter {
+#note "$?LINE $parameter.gist()";
+
     my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
     if $rnt0 ~~ / _UA_ $/ {
       $available = False;
@@ -1083,14 +1082,10 @@ method generate-callback (
   # Remove first comma and space when there is only one parameter
   $par-list ~~ s/^ . //;
 
-  my Str $returns;
+  my Str $returns = '';
   my $xtype = $cb-data<return-raku-type>;
   my ( $rnt0, $rnt1) = $xtype.split(':');
-  if ?$rnt0 and $rnt0 eq 'void' {
-    $returns = '';
-  }
-
-  elsif ?$rnt0 {
+  if ?$rnt0 and $rnt0 ne 'void' {
     if $rnt0 ~~ / _UA_ $/ {
       $available = False;
       $rnt0 ~~ s/ _UA_ $//;
@@ -1098,20 +1093,8 @@ method generate-callback (
     $returns = $rnt0;
   }
 
-  else {
-    $returns = '';
-  }
-
-#Must do it differently, no argument spec but type => signature
-#  my $code = [~] 'Callable ', ($named-parameter ?? ':$' !! '$'),
-#                  $function-name, ' (', $par-list,
-#                  (?$returns ?? " --> $returns \)" !! ' )');
-
-  my $code = [~] 'Callable $handler (', $par-list,
-             ?$returns ?? " --> $returns \)" !! ' )';
-
-#  $code ~= ' _UA_' unless $available;
-  $code ~= ' _UA_'; # for the time being
+  my $code = [~] ':(', $par-list, ?$returns ?? " --> $returns \)" !! ' )';
+  $code ~= ' _UA_' unless $available;
 
   $code
 }
@@ -1466,20 +1449,24 @@ method generate-structure (
         }
       }
 
+#`{{
+TODO can we have callback fields in a structure?
       # no type found, is it a callback spec?
       else {
         my XML::Element $cb-element =
           $xpath.find( 'callback', :start($field), :!to-list);
         if ?$cb-element {
-#NOTE raku cannot handle this in native structures. Must become a pointer
-          my Str $function-name = $cb-element.attribs<name>;
           my %h = self!get-callback-data( $cb-element, :$xpath);
-          my Str $c = self.generate-callback( $function-name, %h);
+          my Str $c = self.generate-callback(%h);
           $code ~= "has $c \$.$field-name;\n";
 
           $code ~= "  has gpointer \$.$field-name;\n";
           $build-pars ~= "gpointer :\$\!$field-name, ";
         }
+      }
+}}
+      else {
+        $code ~= "has \$.$field-name;\n";
       }
     }
 
@@ -1841,7 +1828,7 @@ method !get-method-data (
   my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
-
+#note "$?LINE    $return-raku-type" if $missing-type;
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
   my @parameters = ();
@@ -1854,8 +1841,7 @@ method !get-method-data (
   for @prmtrs -> $p {
 #    my Str ( $type, $raku-type, $raku-rtype) = self!get-type( $p, :$user-side);
     my Str ( $type, $raku-type) = self!get-type( $p, :$user-side);
-    $missing-type = True
-      if !$raku-type or $raku-type ~~ /_UA_ $/ or $raku-type ~~ / ':(' /;
+    $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
     $raku-type ~~ s/ _UA_ $//;
 #note "$?LINE $raku-type, $missing-type";
     my Hash $attribs = $p.attribs;
@@ -2101,7 +2087,7 @@ method convert-ntype (
 
         when 'callback' {
           my %cb = self.get-callback-function($h<callback-name>);
-          $raku-type = self.generate-callback( $h<callback-name>, %cb);
+          $raku-type = self.generate-callback(%cb);
         }
 
         default {
@@ -2237,7 +2223,7 @@ method convert-rtype (
 
         when 'callback' {
           my %cb = self.get-callback-function($h<callback-name>);
-          $raku-type = self.generate-callback( $h<callback-name>, %cb);
+          $raku-type = self.generate-callback(%cb);
         }
 
         default {

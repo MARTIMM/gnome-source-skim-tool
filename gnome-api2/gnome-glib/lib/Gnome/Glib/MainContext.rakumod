@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Glib main
+# Command to generate: generate.raku -c Glib main record
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -12,8 +12,7 @@ use Gnome::Glib::N-GMainContext:api<2>;
 #use Gnome::Glib::N-GPollFD:api<2>;
 #use Gnome::Glib::N-GSource:api<2>;
 #use Gnome::Glib::N-GSourceFuncs:api<2>;
-use Gnome::Glib::T-MainContext:api<2>;
-
+#use Gnome::Glib::T-GMainContext:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -84,9 +83,9 @@ my Hash $methods = %(
   #find-source-by-funcs-user-data => %( :returns(N-GSource ), :parameters([N-GSourceFuncs , gpointer])),
   #find-source-by-id => %( :returns(N-GSource ), :parameters([guint])),
   #find-source-by-user-data => %( :returns(N-GSource ), :parameters([gpointer])),
-  #get-poll-func => %( :returns(Callable $handler ( N-GPollFD , guint, gint --> gint ) )),
-  #invoke => %( :parameters([Callable $handler ( gpointer --> gboolean ) , gpointer])),
-  #invoke-full => %( :parameters([gint, Callable $handler ( gpointer --> gboolean ) , gpointer, Callable $handler ( gpointer ) ])),
+  #get-poll-func => %( :returns(), :cnv-return(( N-GPollFD , guint, gint --> gint ) )),
+  invoke => %( :parameters([:( gpointer --> gboolean ), gpointer])),
+  invoke-full => %( :parameters([gint, :( gpointer --> gboolean ), gpointer, :( gpointer )])),
   is-owner => %( :returns(gboolean), :cnv-return(Bool)),
   iteration => %( :returns(gboolean), :cnv-return(Bool), :parameters([gboolean])),
   pending => %( :returns(gboolean), :cnv-return(Bool)),
@@ -97,7 +96,7 @@ my Hash $methods = %(
   ref => %( :returns(N-GMainContext)),
   release => %(),
   #remove-poll => %( :parameters([N-GPollFD ])),
-  #set-poll-func => %( :parameters([Callable $handler ( N-GPollFD , guint, gint --> gint ) ])),
+  #set-poll-func => %( :parameters([:( N-GPollFD , guint, gint --> gint ) ])),
   unref => %(),
   wakeup => %(),
 
