@@ -1,126 +1,156 @@
 
+#use lib 'xt/Other/lib';
 
 use NativeCall;
 
 use Gnome::Glib::N-GList:api<2>;
 use Gnome::Glib::List:api<2>;
+use Gnome::Glib::T-List:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
 
+#use Gnome::N::GnomeRoutineCaller:api<2>;
 
-# part of a method hash to simulate:
-# clear-list => %( :type(Function),  :parameters([ CArray[N-GList], :(gpointer)])),
+#-------------------------------------------------------------------------------
+# Helpers to get data in and out
 
-sub clear-list ( CArray[N-GList], Callable $h (gpointer) )
+my Gnome::Glib::List $list .= new;
+
+# Fill list
+sub fill-list ( --> N-GList ) {
+  say "\nFill list with numbers";
+
+  my N-GList $n-glist .= new;
+  for 2..12 -> $i {
+    my gpointer $data = pack($i);
+    note "Data inserted: ", unpack($data);
+    $n-glist = $list.append( $n-glist, $data);
+  }
+  
+  $n-glist
+}
+
+
+# Pack and store data to prevent garbage collecting
+my Hash $saved-data = %();
+sub pack ( Int $n --> gpointer ) {
+  my $o = CArray[gint].new;
+  $o[0] = $n;
+  my gpointer $data = nativecast( gpointer, $o);
+
+  $saved-data{$n} = $o;
+  $data
+}
+
+sub unpack ( gpointer $p --> Int ) {
+  my $o = nativecast( CArray[gint], $p);
+  $o[0]
+}
+
+sub destroy ( gpointer $p ) {
+  say 'destroy data: ', unpack($p);
+}
+
+#`{{
+sub show-sig ( Signature $sig, Str $i = '' ) {
+note $?LINE, $i, $sig.gist;
+  for $sig.params -> $p {
+note $?LINE, $i, $p.gist;
+#    say "$i name => $p.name(), type => $p.type()";
+    show-sig( $p.sub_signature, $i ~ '   ') if $p.sub_signature.defined;
+  }
+}
+}}
+
+#`{{
+Signature of x_clear_list:
+  (NativeCall::Types::CArray[N-GList] $, Callable $h (NativeCall::Types::Pointer $, int32 $, Str $))
+  (Sub+{NativeCall::Native[Sub,Str]})
+P name and type: , (CArray[N-GList]), (Signature)
+P name and type: $h, (Callable), (NativeCall::Types::Pointer, int32, Str)
+
+sub x_clear_list ( CArray[N-GList], Callable $h ( gpointer, int32, Str) )
   is native(glib-lib())
   is symbol('g_clear_list')
   { * }
 
-
-my CArray[N-GList] $list-ptr = CArray[N-GList].new;
-sub destroy ( gpointer $p ) {
-  say 'destroy';
-}
-
-my Gnome::Glib::List $list .= new;
-$list.insert( CArray[gint32].new(10), 0);
-say $list.length;
-
-clear-list( $list-ptr, &destroy);
-#$t-list.clear-list( $list-ptr, &destroy);
-
-=finish
-
-
-
-
-sub f1 ( Int $i --> Int ) { $i + 1; }
-say 'f1(20): ', f1(20);
-
-sub f2 ( Str $s --> Str ) { $s ~ ' def'; }
-say 'f2(20): ', f2('20');
-
-#`{{
-my Signature $sig = :( Int --> Int );
-say 'sig: ', $sig.gist;
-say 'sig params: ', $sig.params.gist;
-say 'sig returns: ', $sig.returns.gist;
-
-my Capture $c = \(23);
-say 'f1( ', $c.gist, ' ): ', f1(|$c);
-say $c.gist, ' ~~ ', $sig.gist, ': ',  $c ~~ $sig;
+show-sig(&x_clear_list.signature);
 }}
 
-sub f3 ( &fa:( Int --> Int ) ) { fa(30) + 20; }
-say f3(&f1);
-try {
-  say f3(&f2);
-  CATCH { default { note 'cannot run f3 with f2'; } }
-}
-
-#`{{
-my Signature \sig2 = :( Str --> Str );
-say sig2;
-}}
-sub f4 ( &fb:( Str --> Str ) ) { fb('pqr') ~ ' 20'; }
-say f4(&f2);
-try {
-  say f4(&f1);
-  CATCH { default { note 'cannot run f4 with f1'; } }
-}
-
-
-=finish
-
-sub f ( Callable $f ) { $f(10); }
-
-sub g ( Int $i ) { say $i; }
-f( &g );
-
-
-
-#subset F5 of Callable where * ~~ sig2;
-#say F5.WHAT;
-#my F5 $f5 = &f4;
-
-use NativeCall;
-use Gnome::N::NativeLib;
-use Gnome::N::N-GObject;
-use Gnome::N::GlibToRakuTypes;
-
-my Str $lib = gtk-lib;
-say $lib;
-
-sub gtk_label_new ( Str $str --> N-GObject )
-  is native('gtk-3')
+#-------------------------------------------------------------------------------
+# T1 direct use of native sub
+say "\n1st try …";
+sub g_clear_list ( CArray[N-GList], Callable $h (gpointer) )
+  is native(glib-lib())
+#  is symbol('g_clear_list')
   { * }
 
-sub gtk_label_get_label ( N-GObject $label --> Str )
-  is native($lib)
-  { * }
-
-my N-GObject $lo0 = gtk_label_new('label');
-say 'label: ', gtk_label_get_label($lo0);
+#say "\nSignature:\n  ", &g_clear_list.signature, "\n  ", &g_clear_list.WHAT;
+#for &g_clear_list.signature.params -> $p {
+#  say 'P name and type: ', $p.name, ', ', $p.type, ', ', $p.sub_signature, ', ', $p.sub_signature.^name;
+#}
 
 
+my N-GList $n-glist = fill-list();
+my $list-ptr = CArray[N-GList].new($n-glist);
+g_clear_list( $list-ptr, &destroy);
 
-=finish
-my $pf5a = cglobal( $lib, 'gtk_label_new', Pointer);
-say $pf5a.gist;
-my Signature $sf5a .= new(
-  :params(Parameter.new(:type(gchar-ptr)),), :returns(N-GObject)
-);
-say $sf5a.gist;
+#-------------------------------------------------------------------------------
+# T2 Test the helper
+say "\n2nd try …";
 
-my Callable $f5a = nativecast( $sf5a, $pf5a);
-say $f5a.gist;
-my N-GObject $lo = $f5a('label');
-say $lo.gist;
+$n-glist = fill-list();
+$list-ptr = CArray[N-GList].new($n-glist);
+#show-sig(&g_clear_list.signature);
 
-my Callable $f5b = nativecast(
-  :( N-GObject --> gchar-ptr ), cglobal( $lib, 'gtk_label_get_label', Pointer)
-);
+my $f = native-function;
+$f( $list-ptr, &destroy);
 
-say 'label: ', $f5b($lo);
+#-------------------------------------------------------------------------------
+sub native-function ( --> Callable ) {
+
+  # Create list of parameter types and start with inserting fixed arguments
+  my @parameterList = (
+    Parameter.new(type => CArray[N-GList]),
+    Parameter.new(
+      name => '$cb',
+      type => Callable,
+      sub-signature => Signature.new(
+        :params(
+          Parameter.new(
+            type => gpointer,
+            name => '$p',
+          ),
+        ),
+        :returns(Pointer),
+      ),
+    )
+  );
+
+  # Create return type
+  my $returns = Pointer;
+
+  # Create signature
+  my Signature $signature .= new( :params(|@parameterList), :$returns);
+#note "$?LINE $routine-name, $signature.gist()";
+
+  # Get a pointer to the sub, then cast it to a sub with the proper
+  # signature. after that, the sub can be called, returning a value.
+  my Callable $f = nativecast(
+    $signature, cglobal( glib-lib(), 'g_clear_list', Pointer)
+  );
+
+  $f
+}
+
+
+#-------------------------------------------------------------------------------
+# T3 use the class where it is defined
+my Gnome::Glib::T-List $t-list .= new;
+say "\n3rd try …";
+$n-glist = fill-list();
+$list-ptr = CArray[N-GList].new($n-glist);
+$t-list.clear-list( $list-ptr, &destroy);
+

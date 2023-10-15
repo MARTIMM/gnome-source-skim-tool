@@ -66,6 +66,9 @@
 
 
 # Release notes
+* 2023-10-15 0.11.5
+  * It is now possible to handle native functions having callback arguments
+
 * 2023-09-27 0.11.4
   * Decided to add the Gio section too.
   * Modules Application in Gio and Gtk4 added.

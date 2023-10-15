@@ -169,9 +169,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
 
   else {
     note "Get native function address of $name\()" if $Gnome::N::x-debug;
-    $c = self!native-function(
-      $routine-name, $parameters, $routine, $routine<variable-list>:exists
-    );
+    $c = self!native-function( $routine-name, $parameters, $routine);
     $routine<function-address>{$func-pattern} = $c;
   }
 
@@ -249,9 +247,7 @@ multi method call-native-sub (
 
   else {
     note "Get native function address of $name\()" if $Gnome::N::x-debug;
-    $c = self!native-function(
-      $routine-name, $parameters, $routine, $routine<variable-list>:exists
-    );
+    $c = self!native-function( $routine-name, $parameters, $routine);
     $routine<function-address>{$func-pattern} = $c;
   }
 
@@ -330,9 +326,7 @@ multi method call-native-sub (
 
   else {
     note "Get native function address of $name\()" if $Gnome::N::x-debug;
-    $c = self!native-function(
-      $routine-name, $parameters, $routine, $routine<variable-list>:exists
-    );
+    $c = self!native-function( $routine-name, $parameters, $routine);
     $routine<function-address>{$func-pattern} = $c;
   }
 
@@ -423,8 +417,7 @@ note "$?LINE $i, $p.^name(), $arguments[$i]]";
 
 #-------------------------------------------------------------------------------
 method !native-function (
-  Str $routine-name, Array $parameters, Hash $routine, Bool $variable-list
-  --> Callable
+  Str $routine-name, Array $parameters, Hash $routine --> Callable
 ) {
 
 #  $name ~~ s:g/ '-' /_/;
@@ -444,17 +437,27 @@ method !native-function (
   }
 
   for @$parameters -> $p {
-     @parameterList.push: Parameter.new(type => $p);
+    if $p.^name() eq 'Signature' {
+      @parameterList.push: Parameter.new(
+        type => Callable,
+        sub-signature => $p,
+      );
+    }
+
+    else {
+      @parameterList.push: Parameter.new(type => $p);
+    }
   }
 
-  @parameterList.push: Parameter.new(type => gpointer) if $variable-list;
+  # End argument list with a Null pointer if the list is of variable length
+  @parameterList.push: Parameter.new(type => gpointer)
+    if $routine<variable-list>:exists;
 
   # Create return type
   my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer;
 
   # Create signature
   my Signature $signature .= new( :params(|@parameterList), :$returns);
-#note "$?LINE $routine-name, $signature.gist()";
 
   # Get a pointer to the sub, then cast it to a sub with the proper
   # signature. after that, the sub can be called, returning a value.
@@ -519,14 +522,15 @@ method !convert-args ( Mu $v, $p ) {
       my N-GObject $no = $v.get-native-object-no-reffing;
       $c = $no;
     }
-
+#`{{
     when Signature {
-#note "$?LINE sig request: $p.gist()";
-#note "$?LINE sig callable: $v.signature.gist(), equal: ", $p ~~ $v.signature;
+      die X::Gnome.new(
+        :message('Signature of callback routine does not match')
+      ) unless $p ~~ $v.signature;
 
-#      $c = -> $p { };
-      $c = Callable;
+      $c = $v;
     }
+}}
 
     # Most values do not need conversion
     default {
