@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Glib list record
+# Command to generate: generate.raku -c Glib list
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,8 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-GList:api<2>;
-
+use Gnome::Glib::N-List:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -45,11 +44,8 @@ submethod BUILD ( *%options ) {
   if self.^name eq 'Gnome::Glib::List' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    
-    # may be undefined in list
     #die X::Gnome.new(:message("Native object not defined"))
     #  unless self.is-valid;
-    #self._set-native-object(N-GObject.new);
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GList');
@@ -72,44 +68,43 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Functions]----------------------------------------------------------------
-  alloc => %( :type(Function),  :returns(N-GList)),
-  append => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer])),
-  concat => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, N-GList])),
-  copy => %( :type(Function),  :returns(N-GList), :parameters([N-GList])),
-  #copy-deep => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, , gpointer])),
-  delete-link => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, N-GList])),
-  find => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer])),
-  #find-custom => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer, ])),
-  first => %( :type(Function),  :returns(N-GList), :parameters([N-GList])),
-  #foreach => %( :type(Function),  :parameters([ N-GList, , gpointer])),
-  free => %( :type(Function),  :parameters([N-GList])),
-  free-one => %( :type(Function),  :parameters([N-GList])),
-  #free-full => %( :type(Function),  :parameters([ N-GList, ])),
-  index => %( :type(Function),  :returns(gint), :parameters([ N-GList, gpointer])),
-  insert => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer, gint])),
-  insert-before => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, N-GList, gpointer])),
-  insert-before-link => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, N-GList, N-GList])),
-  #insert-sorted => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer, ])),
-  #insert-sorted-with-data => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer, , gpointer])),
-  last => %( :type(Function),  :returns(N-GList), :parameters([N-GList])),
-  length => %( :type(Function),  :returns(guint), :parameters([N-GList])),
-  nth => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, guint])),
-  nth-data => %( :type(Function),  :returns(gpointer), :parameters([ N-GList, guint])),
-  nth-prev => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, guint])),
-  position => %( :type(Function),  :returns(gint), :parameters([ N-GList, N-GList])),
-  prepend => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer])),
-  remove => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer])),
-  remove-all => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, gpointer])),
-  remove-link => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, N-GList])),
-  reverse => %( :type(Function),  :returns(N-GList), :parameters([N-GList])),
-  #sort => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, ])),
-  #sort-with-data => %( :type(Function),  :returns(N-GList), :parameters([ N-GList, , gpointer])),
+  alloc => %( :type(Function),  :returns(N-List)),
+  append => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer])),
+  concat => %( :type(Function),  :returns(N-List), :parameters([ N-List, N-List])),
+  copy => %( :type(Function),  :returns(N-List), :parameters([N-List])),
+  copy-deep => %( :type(Function),  :returns(N-List), :parameters([ N-List, :( gpointer, gpointer --> gpointer ), gpointer])),
+  delete-link => %( :type(Function),  :returns(N-List), :parameters([ N-List, N-List])),
+  find => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer])),
+  find-custom => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer, :( gpointer, gpointer --> gint )])),
+  first => %( :type(Function),  :returns(N-List), :parameters([N-List])),
+  foreach => %( :type(Function),  :parameters([ N-List, :( gpointer, gpointer ), gpointer])),
+  free => %( :type(Function),  :parameters([N-List])),
+  free-full => %( :type(Function),  :parameters([ N-List, :( gpointer )])),
+  free-one => %( :type(Function),  :parameters([N-List])),
+  index => %( :type(Function),  :returns(gint), :parameters([ N-List, gpointer])),
+  insert => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer, gint])),
+  insert-before => %( :type(Function),  :returns(N-List), :parameters([ N-List, N-List, gpointer])),
+  insert-before-link => %( :type(Function),  :returns(N-List), :parameters([ N-List, N-List, N-List])),
+  insert-sorted => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer, :( gpointer, gpointer --> gint )])),
+  insert-sorted-with-data => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer, :( gpointer, gpointer, gpointer --> gint ), gpointer])),
+  last => %( :type(Function),  :returns(N-List), :parameters([N-List])),
+  length => %( :type(Function),  :returns(guint), :parameters([N-List])),
+  nth => %( :type(Function),  :returns(N-List), :parameters([ N-List, guint])),
+  nth-data => %( :type(Function),  :returns(gpointer), :parameters([ N-List, guint])),
+  nth-prev => %( :type(Function),  :returns(N-List), :parameters([ N-List, guint])),
+  position => %( :type(Function),  :returns(gint), :parameters([ N-List, N-List])),
+  prepend => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer])),
+  remove => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer])),
+  remove-all => %( :type(Function),  :returns(N-List), :parameters([ N-List, gpointer])),
+  remove-link => %( :type(Function),  :returns(N-List), :parameters([ N-List, N-List])),
+  reverse => %( :type(Function),  :returns(N-List), :parameters([N-List])),
+  sort => %( :type(Function),  :returns(N-List), :parameters([ N-List, :( gpointer, gpointer --> gint )])),
+  sort-with-data => %( :type(Function),  :returns(N-List), :parameters([ N-List, :( gpointer, gpointer, gpointer --> gint ), gpointer])),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
-#note "$?LINE $name, $methods{$name}.gist()";
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {

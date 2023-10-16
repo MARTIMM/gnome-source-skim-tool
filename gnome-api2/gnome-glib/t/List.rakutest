@@ -10,7 +10,7 @@ use Test;
 
 
 use Gnome::Glib::List:api<2>;
-use Gnome::Glib::N-GList:api<2>;
+use Gnome::Glib::N-List:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -43,27 +43,27 @@ unless %*ENV<raku_test_all>:exists {
 #subtest 'Method tests', {
   with $list {
     my  $free-func;
-    my N-GList() $list2;
+    my N-List() $list2;
     my  $func;
-    my N-GList() $link;
+    my N-List() $link;
     my  $compare-func;
     my UInt() $n;
-    my N-GList() $llink;
-    my N-GList() $sibling;
+    my N-List() $llink;
+    my N-List() $sibling;
     my gpointer $user-data;
 
     my gpointer $data;
     my Int() $position;
-    my N-GList $n-glist;
+    my N-List $N-List;
 
     $data = pack(10);
 
     #TM:1:append
     for ^10 -> $i {
-      $n-glist = .append( $n-glist, pack($i));
+      $N-List = .append( $N-List, pack($i));
     }
     #TM:1:length
-    is .length($n-glist), 10, '.append()';
+    is .length($N-List), 10, '.append()';
 
 
 #`{{
@@ -88,8 +88,8 @@ unless %*ENV<raku_test_all>:exists {
 
 #TODO prepend is a method defined in Any. It is found before FALLBACK can
     #TB:1:prepend()
-    $n-glist = .prepend( $n-glist, $data);
-    is .length($n-glist), 11, '.prepend()';
+    $N-List = .prepend( $N-List, $data);
+    is .length($N-List), 11, '.prepend()';
 
 #`{{
     #TB:0:position()
@@ -126,9 +126,9 @@ unless %*ENV<raku_test_all>:exists {
     $data = pack(10);
 
     #TB:1:insert()
-    $n-glist = .insert( $n-glist, $data, 0);
-    $n-glist = .insert( $n-glist, $data, 1);
-    is .length($n-glist), 13, '.insert()';
+    $N-List = .insert( $N-List, $data, 0);
+    $N-List = .insert( $N-List, $data, 1);
+    is .length($N-List), 13, '.insert()';
 
 #`{{
     #TB:0:index()

@@ -1,19 +1,18 @@
-# Command to generate: generate.raku -t Glib main record
+# Command to generate: generate.raku -t -c Glib main record
 use v6.d;
 
-#TL:1:Gnome::Glib::MainContext:
+#TL:1:Gnome::Glib::N-MainContext:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
-use Gnome::Glib::MainContext:api<2>;
-use Gnome::Glib::N-GMainContext:api<2>;
-#use Gnome::Glib::N-GPollFD:api<2>;
-#use Gnome::Glib::T-GMainContext:api<2>;
+use Gnome::Glib::N-MainContext:api<2>;
+#use Gnome::Glib::N-PollFD:api<2>;
+use Gnome::Glib::T-MainContext:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -24,7 +23,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Glib::MainContext $maincontext;
+my Gnome::Glib::N-MainContext $maincontext;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
@@ -32,7 +31,7 @@ my Gnome::Glib::MainContext $maincontext;
 
 subtest 'ISA test', {
   given $maincontext {
-    my GMainContextFlags  $flags;
+    my GMainContextFlags $flags;
 
 #`{{
     #TC:0:new-maincontext()
@@ -61,23 +60,23 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $maincontext {
-    my Int() $n-fds;
-    my N-GObject $funcs;
-    my gpointer $user-data;
-    my Int() $max-priority;
-    my UInt() $source-id;
-    my Bool() $may-block;
     my N-GObject $fd;
-    sub func ( N-GPollFD , guint, gint --> gint )  {
-    }
+    my Bool() $may-block;
+    my Int() $priority;
+    my Array[Int] $timeout;
+    my gpointer $data;
     sub notify ( gpointer ) {
     }
-    my gpointer $data;
-    my N-GObject $fds;
-    my Array[Int] $timeout;
+    my gpointer $user-data;
+    my Int() $n-fds;
+    my UInt() $source-id;
+    my Int() $max-priority;
+    sub func ( N-GPollFD , guint, gint --> gint )  {
+    }
     sub function ( gpointer --> gboolean ) {
     }
-    my Int() $priority;
+    my N-GObject $fds;
+    my N-GObject $funcs;
 
 
 #`{{

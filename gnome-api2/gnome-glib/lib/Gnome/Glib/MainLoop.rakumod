@@ -8,8 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-GMainContext:api<2>;
-use Gnome::Glib::N-GMainLoop:api<2>;
+use Gnome::Glib::N-MainContext:api<2>;
+use Gnome::Glib::N-MainLoop:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -69,13 +69,13 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-mainloop => %( :type(Constructor), :isnew, :returns(N-GMainLoop), :parameters([ N-GMainContext, gboolean])),
+  new-mainloop => %( :type(Constructor), :isnew, :returns(N-MainLoop), :parameters([ N-MainContext, gboolean])),
 
   #--[Methods]------------------------------------------------------------------
-  get-context => %( :returns(N-GMainContext)),
+  get-context => %( :returns(N-MainContext)),
   is-running => %( :returns(gboolean), :cnv-return(Bool)),
   quit => %(),
-  ref => %( :returns(N-GMainLoop)),
+  ref => %( :returns(N-MainLoop)),
   run => %(),
   unref => %(),
 );

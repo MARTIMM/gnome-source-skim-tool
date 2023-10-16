@@ -7,11 +7,9 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-GMainContext:api<2>;
-#use Gnome::Glib::N-GPollFD:api<2>;
-#use Gnome::Glib::N-GSource:api<2>;
-#use Gnome::Glib::N-GSourceFuncs:api<2>;
-#use Gnome::Glib::T-GMainContext:api<2>;
+use Gnome::Glib::N-MainContext:api<2>;
+use Gnome::Glib::N-MainLoop:api<2>;
+#use Gnome::Glib::N-Source:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -28,22 +26,22 @@ unit class Gnome::Glib::T-MainContext:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
-#--[Constants]------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-constant G_PRIORITY_DEFAULT_IDLE is export = 200;
-constant G_PRIORITY_LOW is export = 300;
-constant G_SOURCE_CONTINUE is export = true;
-constant G_PRIORITY_HIGH is export = -100;
-constant G_PRIORITY_DEFAULT is export = 0;
-constant G_PRIORITY_HIGH_IDLE is export = 100;
-constant G_SOURCE_REMOVE is export = false;
-
-#-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 enum GMainContextFlags is export (
   :G_MAIN_CONTEXT_FLAGS_NONE(0), :G_MAIN_CONTEXT_FLAGS_OWNERLESS_POLLING(1)
 );
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+constant G_PRIORITY_DEFAULT is export = 0;
+constant G_SOURCE_CONTINUE is export = true;
+constant G_PRIORITY_HIGH_IDLE is export = 100;
+constant G_PRIORITY_HIGH is export = -100;
+constant G_PRIORITY_DEFAULT_IDLE is export = 200;
+constant G_PRIORITY_LOW is export = 300;
+constant G_SOURCE_REMOVE is export = false;
 
 
 
@@ -75,24 +73,24 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  #child-watch-add => %( :type(Function),  :returns(guint), :parameters([ , Callable $handler ( , gint, gpointer ) , gpointer])),
-  #child-watch-add-full => %( :type(Function),  :returns(guint), :parameters([ gint, , Callable $handler ( , gint, gpointer ) , gpointer, Callable $handler ( gpointer ) ])),
-  #child-watch-source-new => %( :type(Function),  :returns(N-GSource )),
-  #clear-handle-id => %( :type(Function),  :parameters([ gint-ptr, Callable $handler ( guint ) ])),
+  #child-watch-add => %( :type(Function),  :returns(guint), :parameters([ , :( , gint, gpointer ), gpointer])),
+  #child-watch-add-full => %( :type(Function),  :returns(guint), :parameters([ gint, , :( , gint, gpointer ), gpointer, :( gpointer )])),
+  #child-watch-source-new => %( :type(Function),  :returns(N-Source )),
+  clear-handle-id => %( :type(Function),  :parameters([ gint-ptr, :( guint )])),
   get-monotonic-time => %( :type(Function),  :returns(gint64)),
   get-real-time => %( :type(Function),  :returns(gint64)),
-  #idle-add => %( :type(Function),  :returns(guint), :parameters([ Callable $handler ( gpointer --> gboolean ) , gpointer])),
-  #idle-add-full => %( :type(Function),  :returns(guint), :parameters([ gint, Callable $handler ( gpointer --> gboolean ) , gpointer, Callable $handler ( gpointer ) ])),
+  idle-add => %( :type(Function),  :returns(guint), :parameters([ :( gpointer --> gboolean ), gpointer])),
+  idle-add-full => %( :type(Function),  :returns(guint), :parameters([ gint, :( gpointer --> gboolean ), gpointer, :( gpointer )])),
   idle-remove-by-data => %( :type(Function),  :returns(gboolean), :parameters([gpointer])),
-  #idle-source-new => %( :type(Function),  :returns(N-GSource )),
-  #main-current-source => %( :type(Function),  :returns(N-GSource )),
+  #idle-source-new => %( :type(Function),  :returns(N-Source )),
+  #main-current-source => %( :type(Function),  :returns(N-Source )),
   main-depth => %( :type(Function),  :returns(gint)),
-  #timeout-add => %( :type(Function),  :returns(guint), :parameters([ guint, Callable $handler ( gpointer --> gboolean ) , gpointer])),
-  #timeout-add-full => %( :type(Function),  :returns(guint), :parameters([ gint, guint, Callable $handler ( gpointer --> gboolean ) , gpointer, Callable $handler ( gpointer ) ])),
-  #timeout-add-seconds => %( :type(Function),  :returns(guint), :parameters([ guint, Callable $handler ( gpointer --> gboolean ) , gpointer])),
-  #timeout-add-seconds-full => %( :type(Function),  :returns(guint), :parameters([ gint, guint, Callable $handler ( gpointer --> gboolean ) , gpointer, Callable $handler ( gpointer ) ])),
-  #timeout-source-new => %( :type(Function),  :returns(N-GSource ), :parameters([guint])),
-  #timeout-source-new-seconds => %( :type(Function),  :returns(N-GSource ), :parameters([guint])),
+  timeout-add => %( :type(Function),  :returns(guint), :parameters([ guint, :( gpointer --> gboolean ), gpointer])),
+  timeout-add-full => %( :type(Function),  :returns(guint), :parameters([ gint, guint, :( gpointer --> gboolean ), gpointer, :( gpointer )])),
+  timeout-add-seconds => %( :type(Function),  :returns(guint), :parameters([ guint, :( gpointer --> gboolean ), gpointer])),
+  timeout-add-seconds-full => %( :type(Function),  :returns(guint), :parameters([ gint, guint, :( gpointer --> gboolean ), gpointer, :( gpointer )])),
+  #timeout-source-new => %( :type(Function),  :returns(N-Source ), :parameters([guint])),
+  #timeout-source-new-seconds => %( :type(Function),  :returns(N-Source ), :parameters([guint])),
 
 );
 

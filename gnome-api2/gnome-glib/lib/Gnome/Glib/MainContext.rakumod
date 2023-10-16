@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Glib main record
+# Command to generate: generate.raku -c Glib main
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,11 +8,11 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-GMainContext:api<2>;
-#use Gnome::Glib::N-GPollFD:api<2>;
-#use Gnome::Glib::N-GSource:api<2>;
-#use Gnome::Glib::N-GSourceFuncs:api<2>;
-#use Gnome::Glib::T-GMainContext:api<2>;
+use Gnome::Glib::N-MainContext:api<2>;
+#use Gnome::Glib::N-PollFD:api<2>;
+#use Gnome::Glib::N-Source:api<2>;
+#use Gnome::Glib::N-SourceFuncs:api<2>;
+use Gnome::Glib::T-MainContext:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -72,18 +72,18 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-maincontext => %( :type(Constructor), :isnew, :returns(N-GMainContext), ),
-  #new-with-flags => %( :type(Constructor), :returns(N-GMainContext), :parameters([ GFlag])),
+  new-maincontext => %( :type(Constructor), :isnew, :returns(N-MainContext), ),
+  new_with_flags => %( :type(Constructor), :returns(N-MainContext), :parameters([ GFlag])),
 
   #--[Methods]------------------------------------------------------------------
   acquire => %( :returns(gboolean), :cnv-return(Bool)),
-  #add-poll => %( :parameters([N-GPollFD , gint])),
-  #check => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint, N-GPollFD , gint])),
+  #add-poll => %( :parameters([N-PollFD , gint])),
+  #check => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint, N-PollFD , gint])),
   dispatch => %(),
-  #find-source-by-funcs-user-data => %( :returns(N-GSource ), :parameters([N-GSourceFuncs , gpointer])),
-  #find-source-by-id => %( :returns(N-GSource ), :parameters([guint])),
-  #find-source-by-user-data => %( :returns(N-GSource ), :parameters([gpointer])),
-  #get-poll-func => %( :returns(), :cnv-return(( N-GPollFD , guint, gint --> gint ) )),
+  #find-source-by-funcs-user-data => %( :returns(N-Source ), :parameters([N-SourceFuncs , gpointer])),
+  #find-source-by-id => %( :returns(N-Source ), :parameters([guint])),
+  #find-source-by-user-data => %( :returns(N-Source ), :parameters([gpointer])),
+  #get-poll-func => %( :returns(), :cnv-return(( N-PollFD , guint, gint --> gint ) )),
   invoke => %( :parameters([:( gpointer --> gboolean ), gpointer])),
   invoke-full => %( :parameters([gint, :( gpointer --> gboolean ), gpointer, :( gpointer )])),
   is-owner => %( :returns(gboolean), :cnv-return(Bool)),
@@ -92,18 +92,18 @@ my Hash $methods = %(
   pop-thread-default => %(),
   prepare => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr])),
   push-thread-default => %(),
-  #query => %( :returns(gint), :parameters([gint, gint-ptr, N-GPollFD , gint])),
-  ref => %( :returns(N-GMainContext)),
+  #query => %( :returns(gint), :parameters([gint, gint-ptr, N-PollFD , gint])),
+  ref => %( :returns(N-MainContext)),
   release => %(),
-  #remove-poll => %( :parameters([N-GPollFD ])),
-  #set-poll-func => %( :parameters([:( N-GPollFD , guint, gint --> gint ) ])),
+  #remove-poll => %( :parameters([N-PollFD ])),
+  #set-poll-func => %( :parameters([:( N-PollFD , guint, gint --> gint ) ])),
   unref => %(),
   wakeup => %(),
 
   #--[Functions]----------------------------------------------------------------
-  default => %( :type(Function),  :returns(N-GMainContext)),
-  get-thread-default => %( :type(Function),  :returns(N-GMainContext)),
-  ref-thread-default => %( :type(Function),  :returns(N-GMainContext)),
+  default => %( :type(Function),  :returns(N-MainContext)),
+  get-thread-default => %( :type(Function),  :returns(N-MainContext)),
+  ref-thread-default => %( :type(Function),  :returns(N-MainContext)),
 );
 
 #-------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Glib error
+# Command to generate: generate.raku -t -c Glib error
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-GError:api<2>;
+use Gnome::Glib::N-Error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -78,8 +78,8 @@ my Hash $methods = %(
   matches => %( :returns(gboolean), :cnv-return(Bool), :parameters([GQuark, gint])),
 
   #--[Functions]----------------------------------------------------------------
-  #domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
-  #domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
+  domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
+  domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
 );
 
 #-------------------------------------------------------------------------------

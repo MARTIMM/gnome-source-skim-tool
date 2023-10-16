@@ -1,7 +1,7 @@
-# Command to generate: generate.raku -t Glib main record
+# Command to generate: generate.raku -t -c Glib main record
 use v6.d;
 
-#TL:1:Gnome::Glib::MainLoop:
+#TL:1:Gnome::Glib::N-MainLoop:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -10,9 +10,8 @@ use Test;
 use NativeCall;
 
 
-use Gnome::Glib::MainLoop:api<2>;
-use Gnome::Glib::N-GMainContext:api<2>;
-use Gnome::Glib::N-GMainLoop:api<2>;
+use Gnome::Glib::N-MainContext:api<2>;
+use Gnome::Glib::N-MainLoop:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -23,7 +22,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Glib::MainLoop $mainloop;
+my Gnome::Glib::N-MainLoop $mainloop;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
@@ -31,8 +30,8 @@ my Gnome::Glib::MainLoop $mainloop;
 
 subtest 'ISA test', {
   given $mainloop {
-    my N-GMainContext $context;
     my Bool() $is-running;
+    my N-GMainContext $context;
 
 #`{{
     #TC:0:new-mainloop()
