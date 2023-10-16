@@ -303,110 +303,16 @@ method generate-method-tests (
     #`\{\{
     EOTEST
 
-  #| variables used in tests
+  # Variables used in tests
   my Hash $decl-vars = %();
 
-#  my Hash $hcs = $!mod.get-methods( $element, $xpath, :user-side);
   my Str $symbol-prefix = $*work-data<sub-prefix>;
-#note "$?LINE $hcs.gist()";
 
   # Use of .reverse() to get the set*() functions before the get*() functions
   for $hcs.keys.sort.reverse -> $function-name {
     $code ~= self.make-function-test(
       $hcs, $function-name, $test-variable, $decl-vars, :$ismethod
     );
-#`{{
-    my Hash $curr-function := $hcs{$function-name};
-
-    # get method name, drop the prefix
-    my Str $hash-fname = $function-name;
-    $hash-fname ~~ s/^ $symbol-prefix //;
-    $hash-fname ~~ s:g/ '_' /-/;
-
-    my Bool $first-param = True;
-
-    #| parameters used in call
-    my Str $par-list = '';
-
-    #| assignments before call
-    my Str $assign-list = '';
-    my Str $test-type;
-
-    for @($curr-function<parameters>) -> $parameter {
-      # Skip first argument, is solved by class
-      if $first-param {
-        $first-param = False;
-        next;
-      }
-
-      $test-type = 'is';
-      $decl-vars{$parameter<name>} = $parameter<raku-type>;
-      $assign-list ~= "    \$$parameter<name> = ";
-      my Str $rtype = $parameter<raku-type>;
-      $rtype ~~ s/'()'//;
-      with $rtype {
-        when 'Int' { $assign-list ~= "-42;\n"; }
-        when 'UInt' { $assign-list ~= "42;\n"; }
-        when 'Str' { $assign-list ~= "'text';\n"; }
-        when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
-        when 'Bool' { $assign-list ~= "True;\n"; }
-        when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
-        when /^ GEnum / { $assign-list ~= "…;  # a $rtype enum\n"; }
-        when /^ GEnum / { $assign-list ~= "…;  # a $rtype mask\n"; }
-        default {
-          note "Test variable \$$parameter<name> has type $rtype";
-          $assign-list ~= "'…';\n";
-        }
-      }
-      $par-list ~= ", \$$parameter<name>";
-    }
-
-    # Remove first comma and first space
-    $par-list ~~ s/^ . //;
-
-    if $hash-fname ~~ m/^ set / {
-      $code ~= qq:to/EOTEST/;
-          #TB:0:$hash-fname\(\)
-      $assign-list.chop()
-          lives-ok \{ .$hash-fname\($par-list\); \}, '.$hash-fname\(\)';
-      EOTEST
-
-      # Also test set-*() when there is one
-      my Str $fn = $function-name;
-      $fn ~~ s/^ set /get/;
-      if $hcs{$fn}:exists {
-        $hash-fname ~~ s/^ set /get/;
-        $code ~= qq:to/EOTEST/;
-            #TB:0:$hash-fname\(\)
-            $test-type .$hash-fname\(\), '…', '.$hash-fname\(\)';
-
-        EOTEST
-      }
-    }
-
-    elsif $hash-fname ~~ m/^ get / {
-      # Only test get-*() when they are not tested above
-      my Str $fn = $function-name;
-      $fn ~~ s/^ get /set/;
-
-      if $hcs{$fn}:!exists {
-        $code ~= qq:to/EOTEST/;
-            #TB:0:$hash-fname\(\)
-            $test-type .$hash-fname\($par-list\), '…', '.$hash-fname\(\)';
-
-        EOTEST
-      }
-    }
-
-    else {
-      $code ~= qq:to/EOTEST/;
-          #TB:0:$hash-fname\(\)
-          ok .$hash-fname\($par-list\), '.$hash-fname\(\)';
-
-      EOTEST
-    }
-}}
-
   }
 
   $code ~= "\}\}\n  \}\n\};\n\n";
