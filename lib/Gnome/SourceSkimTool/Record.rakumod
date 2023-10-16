@@ -251,36 +251,45 @@ method generate-test ( ) {
   $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
 
+  # Get name of test variable holding this record object
   my Str $test-variable = $h<gnome-name>.lc;
   $test-variable ~~ s:i/^ $prefix //;
   $test-variable = '$' ~ $test-variable;
+
+  # Import the record structure
   my Str $raku-class-struct = $h<class-name>;
   $!mod.add-import($raku-class-struct);
+
+  # Import the module to be tested. Drop the 'N- <prefix>' to get the
+  # class name of the tested module.
   my Str $raku-class = $raku-class-struct;
   $raku-class ~~ s:i/ '::N-' $prefix /::/;
   $!mod.add-import($raku-class);
+
+  # Set up start of test code
   my Str $code = $!tst.prepare-test($raku-class);
 
+  # Get constructors if there are any and make tests for them
   my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
-#note "$?LINE $hcs.gist()";
   $code ~= $!tst.generate-init-tests(
     $test-variable, 'Class init tests', $hcs, :test-class($raku-class)
   );
 
   $code ~= $!tst.generate-test-separator;
 
+  # Get methods if there are any and make tests for them
   $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
-#note "$?LINE $hcs.keys()";
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
 
   $code ~= $!tst.generate-test-separator;
 
+  # Get functions if there are any and make tests for them.
+  # Likely the only type of subs in a record module
   $hcs = $!mod.get-functions( $element, $!xpath, :user-side);
-#note "$?LINE $hcs.keys()";
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
 
+  # End the tests and subsitute all necessary modules to import
   $code ~= $!tst.generate-test-end;
-
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
   $!mod.save-file( $fname, $code, "record tests");
