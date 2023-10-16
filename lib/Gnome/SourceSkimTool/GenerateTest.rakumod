@@ -148,11 +148,11 @@ method generate-test ( ) {
     next unless ?$data<type-name>;
 
     my Str $type-name = $data<type-name>;
-    my Str $prefix = $*work-data<name-prefix>;
-    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
+#    my Str $prefix = $*work-data<name-prefix>;
+#    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
     $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
     $class-name = $data<class-name>;
-    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
+#    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
 

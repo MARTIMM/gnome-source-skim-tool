@@ -636,7 +636,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-    $function-name ~~ s:g/ '_' /-/;
+#    $function-name ~~ s:g/ '_' /-/;
     
     my Str $isnew = '';
     if $function-name eq 'new' {
@@ -719,7 +719,7 @@ note "$?LINE $function-name" if $curr-function<missing-type>;
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-    $function-name ~~ s:g/ '_' /-/;
+#    $function-name ~~ s:g/ '_' /-/;
 
     # get parameter lists
     my Str $par-list = '';
@@ -742,6 +742,7 @@ note "$?LINE $function-name" if $curr-function<missing-type>;
         # Signatures have a colon at the first char followed by '('
         if $xtype ~~ m/^ ':(' / {
           $par-list ~= ", $xtype";
+note "  $?LINE $par-list";
         }
 
         else {
@@ -848,7 +849,7 @@ method generate-functions ( Hash $hcs --> Str ) {
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-    $function-name ~~ s:g/ '_' /-/;
+#    $function-name ~~ s:g/ '_' /-/;
 
 #    my Str $function-doc = $curr-function<function-doc>;
 #    $function-doc = "No documentation of function." unless ?$function-doc;
@@ -871,9 +872,22 @@ method generate-functions ( Hash $hcs --> Str ) {
 #      );
       last if $parameter<raku-type> eq '…';
 
-#TODO emptied when signature found: starts with ':('
-      # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-      my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
+      my Str $xtype = $parameter<raku-type>;
+      if $xtype ~~ m/^ ':(' / {
+        $par-list ~= ", $xtype";
+      }
+
+      elsif $xtype ~~ m/^ ':' / {
+        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+        my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
+        if $rnt0 eq 'GEnum' {
+          $par-list ~= ', $rnt1';
+        }
+
+        else { # ≡ GFlag
+          $par-list = ', UInt';
+        }
+      }
 
 #`{{
       if $curr-function<variable-list> {
@@ -896,10 +910,10 @@ method generate-functions ( Hash $hcs --> Str ) {
         }
       }
 
-      else {
 }}
-        $par-list ~= ", $rnt0";
-#      }
+      else {
+        $par-list ~= ", $xtype";
+      }
     }
 
     # Remove first comma and space when there is only one parameter
@@ -1817,8 +1831,11 @@ method init-xpath ( Str $element-name, Str $gir-filename --> List ) {
 method !get-method-data (
   XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List
 ) {
-  my Str $function-name = $e.attribs<name>;   #$e.attribs<c:identifier>;
-#  my Str $sub-prefix = $*work-data<sub-prefix>;
+  # Get function name. Sometimes it ends in '-1' which is not a raku id.
+  # This must be converted.
+  my Str $function-name = $e.attribs<name>;
+  $function-name ~~ s:g/ '_' /-/;
+  $function-name ~~ s/ '-' (\d+) $/-{cnv-to-word($0)}/;
   my Bool $missing-type = False;
 
 #note "\n$?LINE $function-name";
@@ -1876,7 +1893,7 @@ method !get-method-data (
 }}
     @parameters.push: $ph;
   }
-#note "  $?LINE $function-name, miss types: $missing-type";
+note "  $?LINE $function-name, miss types: $missing-type";
 
   ( $function-name, %(
       :@parameters, :$variable-list, :$rv-type, :$return-raku-type,
@@ -1885,6 +1902,13 @@ method !get-method-data (
 #      :$rv-transfer-ownership,
     )
   );
+}
+
+#-------------------------------------------------------------------------------
+# simple converter to convert last digit of function name into a word.
+# It is never a big number (assumably)
+sub cnv-to-word ( $i --> Str ) {
+  <zero one two three>[$i.Int]
 }
 
 #-------------------------------------------------------------------------------
@@ -2052,7 +2076,7 @@ method convert-ntype (
 
         when 'record' {
 #NOTE changed somewhere? add-import creates cyclic dependency -> make it an Object;
-          $raku-type = "N-$h<gnome-name>";
+          $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
@@ -2062,7 +2086,7 @@ method convert-ntype (
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<class-name>);
 #          $raku-type = 'N-GObject';
-          $raku-type = "N-$h<gnome-name>";
+          $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
@@ -2224,6 +2248,7 @@ method convert-rtype (
         when 'callback' {
           my %cb = self.get-callback-function($h<callback-name>);
           $raku-type = self.generate-callback(%cb);
+note "$?LINE     callback $raku-type";
         }
 
         default {
@@ -2624,7 +2649,7 @@ method make-build-submethod (
       # Save as a user recognizable name. This makes it possible
       # to postpone the translation as late as possible at run time
       # and only once per function.
-      $function-name ~~ s:g/ '_' /-/;
+#      $function-name ~~ s:g/ '_' /-/;
 
       # Insert a method without args if there are no parameters.
       $simple-func-new = True unless ?$curr-function<parameters>;
