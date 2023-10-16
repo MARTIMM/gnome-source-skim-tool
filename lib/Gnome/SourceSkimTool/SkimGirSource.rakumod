@@ -457,11 +457,14 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
+
 #      my Str $np = $*work-data<name-prefix>;
 #      my Str $record-prefix = 'N-';
 #      $class-name ~~ s:i/^ $np //;
 #      my Str $container-class = $attrs<name>;
       my Str $record-class = "N-$ctype";
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $record-class ~~ s:i/ 'N-' $name-prefix /N-/;
       $class-name = [~] $*work-data<raku-package>, '::', $record-class;
       self!map-class-to-fname( $source-filename, $ctype);
 
@@ -501,6 +504,8 @@ method !map-element (
 #      my Str $union-class = "N-$ctype";
 #      $class-name = [~] $*work-data<raku-package>, '::', $container-class;
       my Str $union-class = "N-$ctype";
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $union-class ~~ s:i/ 'N-' $name-prefix /N-/;
       $class-name = [~] $*work-data<raku-package>, '::', $union-class;
       self!map-class-to-fname( $source-filename, $ctype);
 
@@ -533,12 +538,12 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-#      my Str $type-name = $gnome-name;
-#      my Str $name-prefix = $*work-data<name-prefix>;
-#      $type-name ~~ s:i/^ $name-prefix //;
-#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-      my Str $type-name =
-         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
+      my Str $type-name = $gnome-name;
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
+#      my Str $type-name =
+#         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -572,12 +577,12 @@ method !map-element (
         }
       }
 
-#      my Str $type-name = $gnome-name;
-#      my Str $name-prefix = $*work-data<name-prefix>;
-#      $type-name ~~ s:i/^ $name-prefix //;
-#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-      my Str $type-name =
-         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
+      my Str $type-name = $gnome-name;
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
+#      my Str $type-name =
+#         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -600,12 +605,12 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-#      my Str $type-name = $gnome-name;
-#      my Str $name-prefix = $*work-data<name-prefix>;
-#      $type-name ~~ s:i/^ $name-prefix //;
-#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-      my Str $type-name =
-         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
+      my Str $type-name = $gnome-name;
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
+#      my Str $type-name =
+#         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -625,11 +630,12 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-#      my Str $type-name = $gnome-name;
-#      my Str $name-prefix = $*work-data<name-prefix>;
-#      $type-name ~~ s:i/^ $name-prefix //;
-      my Str $type-name =
-         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
+      my Str $type-name = $gnome-name;
+      my Str $name-prefix = $*work-data<name-prefix>;
+      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
+#      my Str $type-name =
+#         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
@@ -764,19 +770,13 @@ method !get-source-file( XML::Element:D $element --> Str ) {
         $module-filename ~~ s/ <[-.\d]>+ $//;
 
         # In Gtk and Gdk for version 3, the filenames are having the prefix
-        # 'gtk' or 'gdk' before it. Glib, GObject and Gio has a 'g' prefixed.
+        # 'gtk' or 'gdk' before it. Glib, GObject and Gio have a 'g' prefixed.
         if $*gnome-package.Str ~~ any(<
           Gtk3 Gdk3 Gtk4 Gdk4 Gsk4 Glib GObject Gio Atk Pango
         >) {
           my $name-prefix = $*work-data<name-prefix>;
           $module-filename ~~ s/^ $name-prefix <[_-]>? //;
         }
-
-#        elsif $*gnome-package.Str eq 'Gtk4' {
-#          # Gtk 4 prefixes filenames with 'gtk', must remove it
-#          my Str $prefix = $*work-data<name-prefix>;
-#          $module-filename ~~ s/^ $prefix //;
-#        }
       }
 
       last;
