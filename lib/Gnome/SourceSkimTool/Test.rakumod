@@ -87,6 +87,8 @@ method generate-init-tests (
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
   for $decl-vars.kv -> $name, $type is copy {
+    # skip when both are unknown. it means variable list
+    next if $name ~~ / '…' || '...' / and $type ~~ / '…' || '...' /;
     $dstr ~= "    my $type \$$name;\n";
   }
 
@@ -123,6 +125,15 @@ method make-function-test (
   my Str $assign-list = '';
 
   for @parameters -> $parameter {
+    # Sometimes a var name ends in an '_' char. This becomes a '-' which is
+    # not a proper name in raku, so correct it.
+    my Str $parameter-name = $parameter<name>;
+    $parameter-name ~~ s/ '-' $//;
+
+    # skip when both are unknown. it means variable list
+    next if $parameter-name ~~ / '…' || '...' / and
+            $parameter<raku-type> ~~ / '…' || '...' /;
+
     # If this is a method, the first parameters is the instance which
     # is provided by this object
     if $ismethod and $first-param {
@@ -132,11 +143,6 @@ method make-function-test (
 
     # Assume a compare test
     $test-type = 'is';
-
-    # Sometimes a var name ends in an '_' char. This becomes a '-' which is
-    # not a proper name in raku, so correct it.
-    my Str $parameter-name = $parameter<name>;
-    $parameter-name ~~ s/ '-' $//;
 
     # Store type and name for declarations. 
     if $parameter<raku-type> ~~ /^ ':(' / {
@@ -167,9 +173,6 @@ method make-function-test (
       when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
       when 'Bool' { $assign-list ~= "True;\n"; }
       when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
-      when / ':(' / {
-        #my sub abc (Int $i) {say $i}
-      } # TODO a signature
       when / ':' / {
         my ( $type, $enum ) = .split(':');
         $assign-list ~= "…;  # an enum or flag" if ?$enum;
@@ -325,6 +328,8 @@ method generate-method-tests (
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
   for $decl-vars.kv -> $name, $type is copy {
+    # skip when both are unknown. it means variable list
+    next if $name ~~ / '…' || '...' / and $type ~~ / '…' || '...' /;
 #`{{
     if $type ~~ /^ GEnum / {
       $type ~~ s/^ <-[:]>+ ':' //;
