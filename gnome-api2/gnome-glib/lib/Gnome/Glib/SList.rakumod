@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t -c Glib slist
+# Command to generate: generate.raku -c Glib slist
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-GSList:api<2>;
+use Gnome::Glib::N-SList:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -68,35 +68,35 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Functions]----------------------------------------------------------------
-  alloc => %( :type(Function),  :returns(N-GSList)),
-  append => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer])),
-  concat => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, N-GSList])),
-  copy => %( :type(Function),  :returns(N-GSList), :parameters([N-GSList])),
-  #copy-deep => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, Callable $handler ( gpointer, gpointer --> gpointer ) , gpointer])),
-  delete-link => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, N-GSList])),
-  find => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer])),
-  #find-custom => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer, Callable $handler ( gpointer, gpointer --> gint ) ])),
-  #foreach => %( :type(Function),  :parameters([ N-GSList, Callable $handler ( gpointer, gpointer ) , gpointer])),
-  free => %( :type(Function),  :parameters([N-GSList])),
-  free-one => %( :type(Function),  :parameters([N-GSList])),
-  #free-full => %( :type(Function),  :parameters([ N-GSList, Callable $handler ( gpointer ) ])),
-  index => %( :type(Function),  :returns(gint), :parameters([ N-GSList, gpointer])),
-  insert => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer, gint])),
-  insert-before => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, N-GSList, gpointer])),
-  #insert-sorted => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer, Callable $handler ( gpointer, gpointer --> gint ) ])),
-  #insert-sorted-with-data => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer, Callable $handler ( gpointer, gpointer, gpointer --> gint ) , gpointer])),
-  last => %( :type(Function),  :returns(N-GSList), :parameters([N-GSList])),
-  length => %( :type(Function),  :returns(guint), :parameters([N-GSList])),
-  nth => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, guint])),
-  nth-data => %( :type(Function),  :returns(gpointer), :parameters([ N-GSList, guint])),
-  position => %( :type(Function),  :returns(gint), :parameters([ N-GSList, N-GSList])),
-  prepend => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer])),
-  remove => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer])),
-  remove-all => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, gpointer])),
-  remove-link => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, N-GSList])),
-  reverse => %( :type(Function),  :returns(N-GSList), :parameters([N-GSList])),
-  #sort => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, Callable $handler ( gpointer, gpointer --> gint ) ])),
-  #sort-with-data => %( :type(Function),  :returns(N-GSList), :parameters([ N-GSList, Callable $handler ( gpointer, gpointer, gpointer --> gint ) , gpointer])),
+  alloc => %( :type(Function),  :returns(N-SList)),
+  append => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer])),
+  concat => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, N-SList])),
+  copy => %( :type(Function),  :returns(N-SList), :parameters([N-SList])),
+  copy-deep => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, :( gpointer $src, gpointer $data --> gpointer ), gpointer])),
+  delete-link => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, N-SList])),
+  find => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer])),
+  find-custom => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer, :( gpointer $a, gpointer $b --> gint )])),
+  foreach => %( :type(Function),  :parameters([ N-SList, :( gpointer $data, gpointer $user-data ), gpointer])),
+  free => %( :type(Function),  :parameters([N-SList])),
+  free-full => %( :type(Function),  :parameters([ N-SList, :( gpointer $data )])),
+  free-one => %( :type(Function),  :parameters([N-SList])),
+  index => %( :type(Function),  :returns(gint), :parameters([ N-SList, gpointer])),
+  insert => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer, gint])),
+  insert-before => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, N-SList, gpointer])),
+  insert-sorted => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer, :( gpointer $a, gpointer $b --> gint )])),
+  insert-sorted-with-data => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer, :( gpointer $a, gpointer $b, gpointer $user-data --> gint ), gpointer])),
+  last => %( :type(Function),  :returns(N-SList), :parameters([N-SList])),
+  length => %( :type(Function),  :returns(guint), :parameters([N-SList])),
+  nth => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, guint])),
+  nth-data => %( :type(Function),  :returns(gpointer), :parameters([ N-SList, guint])),
+  position => %( :type(Function),  :returns(gint), :parameters([ N-SList, N-SList])),
+  prepend => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer])),
+  remove => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer])),
+  remove-all => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, gpointer])),
+  remove-link => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, N-SList])),
+  reverse => %( :type(Function),  :returns(N-SList), :parameters([N-SList])),
+  sort => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, :( gpointer $a, gpointer $b --> gint )])),
+  sort-with-data => %( :type(Function),  :returns(N-SList), :parameters([ N-SList, :( gpointer $a, gpointer $b, gpointer $user-data --> gint ), gpointer])),
 );
 
 #-------------------------------------------------------------------------------

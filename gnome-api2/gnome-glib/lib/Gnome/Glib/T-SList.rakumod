@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t -c Glib slist
+# Command to generate: generate.raku -c Glib slist
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -7,13 +7,12 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-GSList:api<2>;
+use Gnome::Glib::N-SList:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
-use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -52,7 +51,7 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  #clear-slist => %( :type(Function),  :parameters([ CArray[N-GSList], Callable $handler ( gpointer ) ])),
+  clear-slist => %( :type(Function),  :parameters([ CArray[N-SList], :( gpointer $data )])),
 
 );
 

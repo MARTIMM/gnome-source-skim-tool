@@ -10,7 +10,7 @@ use NativeCall;
 use Test;
 
 
-use Gnome::Glib::N-GSList:api<2>;
+use Gnome::Glib::N-SList:api<2>;
 use Gnome::Glib::SList:api<2>;
 use Gnome::Glib::T-SList:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -25,7 +25,7 @@ my Gnome::Glib::T-SList $slist .= new;
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $slist {
-    my CArray[N-GSList] $slist-ptr;
+    my CArray[N-SList] $slist-ptr;
 #    my Callable $handler ( gpointer )  $destroy;
 
 

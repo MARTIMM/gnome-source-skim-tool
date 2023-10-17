@@ -10,7 +10,7 @@ use NativeCall;
 use Test;
 
 
-use Gnome::Glib::N-GSList:api<2>;
+use Gnome::Glib::N-SList:api<2>;
 use Gnome::Glib::SList:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -44,20 +44,20 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $slist {
-#    my Callable $handler ( gpointer, gpointer --> gpointer )  $func;
+    sub func ( gpointer $src, gpointer $data --> gpointer ) {}
     my gpointer $data;
     my Int() $position;
     my UInt() $n;
     my gpointer $user-data;
-    my N-GSList() $list2;
-    my N-GSList() $sibling;
-    my N-GSList() $llink;
-#    my Callable $handler ( gpointer )  $free-func;
-    my N-GSList() $link;
-#    my Callable $handler ( gpointer, gpointer --> gint )  $compare-func;
+    my N-SList() $list2;
+    my N-SList() $sibling;
+    my N-SList() $llink;
+    sub free-func ( gpointer $data ) {}
+    my N-SList() $link;
+    sub compare-func ( gpointer $a, gpointer $b --> gint ) {}
 
-    my N-GSList $n-gspos;
-    my N-GSList $n-gsl;
+    my N-SList $n-gspos;
+    my N-SList $n-gsl;
 
     #TM:1:append
     for ^10 -> $i {
