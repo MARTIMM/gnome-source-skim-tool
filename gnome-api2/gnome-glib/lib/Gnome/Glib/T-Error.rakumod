@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t -c Glib error
+# Command to generate: generate.raku -c -t Glib error
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -53,12 +53,12 @@ my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
   clear-error => %( :type(Function), ),
-  prefix-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-GError], Str])),
-  prefix-error-literal => %( :type(Function),  :parameters([ CArray[N-GError], Str])),
-  propagate-error => %( :type(Function),  :parameters([ CArray[N-GError], N-GError])),
-  propagate-prefixed-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-GError], N-GError, Str])),
-  set-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-GError], GQuark, gint, Str])),
-  set-error-literal => %( :type(Function),  :parameters([ CArray[N-GError], GQuark, gint, Str])),
+  prefix-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-Error], Str])),
+  prefix-error-literal => %( :type(Function),  :parameters([ CArray[N-Error], Str])),
+  propagate-error => %( :type(Function),  :parameters([ CArray[N-Error], N-Error])),
+  propagate-prefixed-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-Error], N-Error, Str])),
+  set-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-Error], GQuark, gint, Str])),
+  set-error-literal => %( :type(Function),  :parameters([ CArray[N-Error], GQuark, gint, Str])),
 
 );
 

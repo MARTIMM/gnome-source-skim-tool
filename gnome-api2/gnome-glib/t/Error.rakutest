@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t -c Glib error
+# Command to generate: generate.raku -t Glib error
 use v6.d;
 
 #TL:1:Gnome::Glib::N-Error:
@@ -6,11 +6,12 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
 use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::Error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -21,29 +22,50 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Glib::N-Error $error;
-
+my N-Error $n-error;
+my Gnome::Glib::Error $error;
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
   given $error {
-    my GQuark $domain;
-    my … $...;
+#    my  $args;
     my Str $format;
-    my Int() $code;
-    my  $args;
-    my Str $message;
+
+  #TB:1:new-error
+  my GQuark $domain = 45444;
+  my Int $code = 1012342;
+  my Str $message = 'my error';
+
+  $error .= new-error( $domain, $code, $message);
+  ok $error.is-valid, '.new-error( $domain, $code, $message)';
+  my N-Error $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
+  is $ne.domain, $domain, "domain; $domain";
+
+  $message = 'my error %d from file %s';
+  $error .= new-error( $domain, $code, $message, gint, 2, Str, 'log.txt');
+  ok $error.is-valid, '.new-error( $domain, $code, $message, …)';
+  $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
+  is $ne.message, sprintf( $message, 2, 'log.txt'), "message; $ne.message()";
+
+  #TB:1:new-literal
+  $error .= new-literal( $domain, $code, $message);
+  ok $error.is-valid, '.new-literal( $domain, $code, $message)';
+  $ne = nativecast( N-Error, $error._get-native-object-no-reffing);
+  is $ne.code, $code, "code; $code";
+
+  #TB:0:new( :valist(…), :code(…), :format(…), :args(…))
+  #$error .= new( :valist(…), :code(…), :format(…), :args(…));
+  #ok $error.is-valid, '.new( :valist(…), :code(…), :format(…), :args(…))';
 
 #`{{
     #TC:0:new-error()
     $domain = '…';
     $code = -42;
     $format = 'text';
-    $... = '…';
-    $error .= new-error( $domain, $code, $format, $...);
-    ok .is-valid, '.new-error( $domain, $code, $format, $...)';
+    $error .= new-error( $domain, $code, $format);
+    ok .is-valid, '.new-error( $domain, $code, $format)';
 
     #TC:0:new-literal()
     $domain = '…';
@@ -106,13 +128,10 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $error {
-    sub error-type-init ( N-GError ) {
-    }
-    sub error-type-copy ( N-GError, N-GError ) {
-    }
     my Int() $error-type-private-size;
-    sub error-type-clear ( N-GError ) {
-    }
+    sub error-type-copy ( N-Error $src-error, N-Error $dest-error ) {}
+    sub error-type-init ( N-Error $error ) {}
+    sub error-type-clear ( N-Error $error ) {}
 
 
 #`{{

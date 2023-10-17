@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t -c Glib error
+# Command to generate: generate.raku -t Glib error
 use v6.d;
 
 #TL:1:Gnome::Glib::T-Error:
@@ -24,37 +24,51 @@ my Gnome::Glib::T-Error $error .= new;
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $error {
-    my CArray[N-GError] $err;
-    my Str $message;
     my Str $prefix;
-    my GQuark $domain;
+    my CArray[N-Error] $err;
     my gint $code;
-    my CArray[N-GError] $dest;
-    my … $...;
+    my GQuark $domain;
     my Str $format;
-    my N-GError $src;
+    my CArray[N-Error] $dest;
+    my Str $message;
+    my N-Error $src;
 
+    my N-Error $n-error;
+
+    my $e = CArray[N-Error].new(N-Error);
+
+    #TB:1:set-error-literal()
+    $domain = 45444;
+    $code = 1012342;
+    $message = 'my error';
+
+    my List $l = .set-error-literal( $e, $domain, $code, $message);
+    is $l[0].domain, 45444, '.set-error-literal()';
+    $n-error = $l[0];
+    is $n-error.domain, 45444, '.set-error-literal() from returned List';
+
+    #TB:1:set-error()
+    $e = CArray[N-Error].new(N-Error);
+    $domain = 87654;
+    $code = 7987;
+    $format = 'my %dnd error';
+
+    $l = .set-error( $e, $domain, $code, $format, gint32, 2);
+    is $l[0].message, sprintf( $format, 2), '.set-error() with added gint32';
+
+    $e = CArray[N-Error].new(N-Error);
+    $l = .set-error( $e, $domain, $code, $format, gint32, 3);
+    is $l[0].message, sprintf( $format, 3), '.set-error() with added gint32';
+
+    $e = CArray[N-Error].new(N-Error);
+    $format = 'illegal value %4.2f';
+    $l = .set-error( $e, $domain, $code, $format, gdouble, 32e-1);
+    is $l[0].message, sprintf( $format, 32e-1), '.set-error() with added gdouble';
 
 #`{{
-    #TM:0:set-error-literal()
-    $err = '…';
-    $domain = '…';
-    $code = '…';
-    $message = 'text';
-    .set-error-literal( $err, $domain, $code, $message);
-    ok True, '.set-error-literal()';
-
-    #TM:0:set-error()
-    $err = '…';
-    $domain = '…';
-    $code = '…';
-    $format = 'text';
-    $... = '…';
-    .set-error( $err, $domain, $code, $format, $...);
-    ok True, '.set-error()';
 
     #TM:0:propagate-prefixed-error()
-    ok .propagate-prefixed-error( $dest, $src, $format, $...), '.propagate-prefixed-error()';
+    ok .propagate-prefixed-error( $dest, $src, $format), '.propagate-prefixed-error()';
 
     #TM:0:propagate-error()
     ok .propagate-error( $dest, $src), '.propagate-error()';
@@ -63,11 +77,10 @@ subtest 'Method tests', {
     ok .prefix-error-literal( $err, $prefix), '.prefix-error-literal()';
 
     #TM:0:prefix-error()
-    ok .prefix-error( $err, $format, $...), '.prefix-error()';
+    ok .prefix-error( $err, $format), '.prefix-error()';
 
     #TM:0:clear-error()
     ok .clear-error(), '.clear-error()';
-
 }}
   }
 };

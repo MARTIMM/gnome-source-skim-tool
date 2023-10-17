@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t -c Glib error
+# Command to generate: generate.raku -c Glib error
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -68,18 +68,18 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-error => %( :type(Constructor), :isnew, :returns(N-GError), :variable-list, :parameters([ GQuark, gint, Str])),
-  new-literal => %( :type(Constructor), :returns(N-GError), :parameters([ GQuark, gint, Str])),
-  #new-valist => %( :type(Constructor), :returns(N-GError), :parameters([ GQuark, gint, Str, ])),
+  new-error => %( :type(Constructor), :isnew, :returns(N-Error), :variable-list, :parameters([ GQuark, gint, Str])),
+  new-literal => %( :type(Constructor), :returns(N-Error), :parameters([ GQuark, gint, Str])),
+  #new-valist => %( :type(Constructor), :returns(N-Error), :parameters([ GQuark, gint, Str, ])),
 
   #--[Methods]------------------------------------------------------------------
-  copy => %( :returns(N-GError)),
+  copy => %( :returns(N-Error)),
   free => %(),
   matches => %( :returns(gboolean), :cnv-return(Bool), :parameters([GQuark, gint])),
 
   #--[Functions]----------------------------------------------------------------
-  domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
-  domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, , , ])),
+  domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, :( N-Error $error ), :( N-Error $src-error, N-Error $dest-error ), :( N-Error $error )])),
+  domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, :( N-Error $error ), :( N-Error $src-error, N-Error $dest-error ), :( N-Error $error )])),
 );
 
 #-------------------------------------------------------------------------------
