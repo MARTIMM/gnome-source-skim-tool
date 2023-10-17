@@ -10,6 +10,7 @@ use NativeCall;
 use Test;
 
 
+use Gnome::Glib::List:api<2>;
 use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-List:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -17,23 +18,54 @@ use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
+my Gnome::Glib::List $list .= new;
 
-
-
-my Gnome::Glib::T-List $list .= new;
 #-------------------------------------------------------------------------------
-sub destroy ( gpointer $p ) {
-  say 'destroy';
+# Fill list
+sub fill-list ( --> N-List ) {
+#  say "\nFill list with numbers";
+
+  my N-List $n-glist .= new;
+  for 2..12 -> $i {
+    my gpointer $data = pack($i);
+#    note "Data inserted: ", unpack($data);
+    $n-glist = $list.append( $n-glist, $data);
+  }
+  
+  $n-glist
 }
 
-subtest 'Method tests', {
-  with $list {
-    my CArray[N-List] $list-ptr = CArray[N-List].new;
+#-------------------------------------------------------------------------------
+# Pack and store data to prevent garbage collecting
+my Hash $saved-data = %();
+sub pack ( Int $n --> gpointer ) {
+  my $o = CArray[gint].new;
+  $o[0] = $n;
+  my gpointer $data = nativecast( gpointer, $o);
 
-    #TB:0:clear-list()
-#    ok .clear-list( $list-ptr, Callable), '.clear-list()';
-#    ok .clear-list( $list-ptr, &destroy), '.clear-list()';
-  }
+  $saved-data{$n} = $o;
+  $data
+}
+
+sub unpack ( gpointer $p --> Int ) {
+  my $o = nativecast( CArray[gint], $p);
+  $o[0]
+}
+
+my Str $destroyed = '';
+sub destroy ( gpointer $p ) {
+  $destroyed ~= unpack($p);
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  my Gnome::Glib::T-List $t-list .= new;
+
+  #TB:1:clear-list()
+  my N-List $n-glist = fill-list();
+  my $list-ptr = CArray[N-List].new($n-glist);
+  $t-list.clear-list( $list-ptr, &destroy);
+  is $destroyed, '23456789101112', '.clear-list()';
 };
 
 
