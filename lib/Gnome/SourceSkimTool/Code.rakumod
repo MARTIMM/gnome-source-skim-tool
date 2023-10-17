@@ -636,7 +636,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-#    $function-name ~~ s:g/ '_' /-/;
+    $function-name ~~ s:g/ '_' /-/;
     
     my Str $isnew = '';
     if $function-name eq 'new' {
@@ -719,7 +719,7 @@ note "$?LINE $function-name" if $curr-function<missing-type>;
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-#    $function-name ~~ s:g/ '_' /-/;
+    $function-name ~~ s:g/ '_' /-/;
 
     # get parameter lists
     my Str $par-list = '';
@@ -849,7 +849,7 @@ method generate-functions ( Hash $hcs --> Str ) {
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-#    $function-name ~~ s:g/ '_' /-/;
+    $function-name ~~ s:g/ '_' /-/;
 
 #    my Str $function-doc = $curr-function<function-doc>;
 #    $function-doc = "No documentation of function." unless ?$function-doc;
@@ -2650,7 +2650,7 @@ method make-build-submethod (
       # Save as a user recognizable name. This makes it possible
       # to postpone the translation as late as possible at run time
       # and only once per function.
-#      $function-name ~~ s:g/ '_' /-/;
+      $function-name ~~ s:g/ '_' /-/;
 
       # Insert a method without args if there are no parameters.
       $simple-func-new = True unless ?$curr-function<parameters>;
