@@ -1083,14 +1083,14 @@ method generate-callback ( Hash $cb-data --> Str ) {
   my Bool $available = True;
   my Str $par-list = '';
   for @($cb-data<parameters>) -> $parameter {
-#note "$?LINE $parameter.gist()";
-
     my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
     if $rnt0 ~~ / _UA_ $/ {
       $available = False;
       $rnt0 ~~ s/ _UA_ $//;
     }
-    $par-list ~= ", $rnt0";
+    my Str $parameter-name = $parameter<name>;
+    $parameter-name ~~ s/ '-' $//;
+    $par-list ~= ", $rnt0 \$$parameter-name";
   }
 
   # Remove first comma and space when there is only one parameter
@@ -1864,6 +1864,7 @@ method !get-method-data (
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
     $parameter-name ~~ s:g/ '_' /-/;
+    $parameter-name ~~ s/ '-' $//;
 
     # When '...', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.

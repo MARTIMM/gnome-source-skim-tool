@@ -51,11 +51,16 @@ method generate-init-tests (
   Str :$test-class, Str :$struct-class
   --> Str
 ) {
+  my Str $test-type =
+    $test-class ?? $test-class !! $*work-data<raku-class-name>;
+  
+  # The record and union classes are whithout a package name and are exported
+  $test-type ~~ s/^ .*? 'N-' /N-/ if $test-type ~~ / 'N-' /;
 
   my Str $code = qq:to/EOTEST/;
     {$!grd.pod-header('Test preparation')}
     #Gnome::N::debug(:on);
-    my { ?$test-class ?? $test-class !! $*work-data<raku-class-name> } $test-variable;
+    my $test-type $test-variable;
 
     {$!grd.pod-header($init-test-type)}
     subtest 'ISA test', \{
@@ -331,7 +336,7 @@ method generate-method-tests (
 }}
     # Generate the variable declarations. Special code for callback routines
     if $type ~~ /^ sub / {
-      $dstr ~= "    $type \{\n    \}\n";
+      $dstr ~= "    $type \{\}\n";
     }
 
     else {
