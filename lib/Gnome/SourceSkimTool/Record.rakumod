@@ -33,7 +33,7 @@ submethod BUILD ( ) {
 # In a <record> there might be constructors, methods, functions or fields
 method generate-code ( ) {
 
-  my XML::Element $element = $!xpath.find('//record');
+  my XML::Element $element = $!xpath.find('//namespace/record');
   die "//record elements not found in gir-record-file for $*work-data<raku-class-name>" unless ?$element;
 
   my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
@@ -246,7 +246,7 @@ method generate-test ( ) {
 
   $!tst .= new;
 
-  my XML::Element $element = $!xpath.find('//record');
+  my XML::Element $element = $!xpath.find('//namespace/record');
 
   $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
@@ -281,12 +281,10 @@ method generate-test ( ) {
   $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
 
-  $code ~= $!tst.generate-test-separator;
-
   # Get functions if there are any and make tests for them.
   # Likely the only type of subs in a record module
   $hcs = $!mod.get-functions( $element, $!xpath, :user-side);
-  $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
+  $code ~= $!tst.generate-method-tests( $hcs, $test-variable, :!ismethod);
 
   # End the tests and subsitute all necessary modules to import
   $code ~= $!tst.generate-test-end;
