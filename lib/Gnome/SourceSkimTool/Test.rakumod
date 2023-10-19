@@ -89,7 +89,16 @@ method generate-init-tests (
   for $decl-vars.kv -> $name, $type is copy {
     # Skip when both name and type are unknown. It means variable list.
     next if $name ~~ / '…' || '...' / and $type ~~ / '…' || '...' /;
-    $dstr ~= "    my $type \$$name;\n";
+
+#    $dstr ~= "    my $type \$$name;\n";
+    # Generate the variable declarations. Special code for callback routines
+    if $type ~~ /^ sub / {
+      $dstr ~= "    $type \{\}\n";
+    }
+
+    else {
+      $dstr ~= "    my $type \$$name;\n";
+    }
   }
 
   $code ~~ s/'__DECL_VARS__'/$dstr/;
@@ -152,6 +161,7 @@ method make-function-test (
       $decl-vars{$parameter-name} = [~]
         'sub ', $parameter-name, ' ', $parameter<raku-type>;
       $decl-vars{$parameter-name} ~~ s/ ':(' /(/;
+note "$?LINE $parameter-name, $decl-vars{$parameter-name}";
     }
 
     elsif $parameter<raku-type> ~~ / ':' / {
@@ -182,7 +192,7 @@ method make-function-test (
       }
 
       default {
-        note "Test variable \$$parameter-name has type $rtype";
+#        note "Test variable \$$parameter-name has type $rtype";
         $assign-list ~= "'…';\n";
       }
     }
@@ -331,8 +341,9 @@ method generate-method-tests (
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
   for $decl-vars.kv -> $name, $type is copy {
+#note "$?LINE $type $name";
     # Skip when both are unknown. It means variable list.
-    next if $name ~~ / '…' || '...' / and $type ~~ / '…' || '...' /;
+    next if $name ~~ / '…' / and $type ~~ / '…' /;
 #`{{
     if $type ~~ /^ GEnum / {
       $type ~~ s/^ <-[:]>+ ':' //;
