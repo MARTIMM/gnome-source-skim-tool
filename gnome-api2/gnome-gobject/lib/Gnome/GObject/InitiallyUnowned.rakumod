@@ -1,4 +1,4 @@
-# Command to generate: gnome-source-skim-tool.raku -c -v GObject object
+# Command to generate: generate.raku -v -c -t GObject object
 use v6.d;
 
 #-------------------------------------------------------------------------------
