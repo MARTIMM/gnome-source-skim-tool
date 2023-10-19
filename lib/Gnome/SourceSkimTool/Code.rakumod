@@ -466,7 +466,7 @@ method !get-constructor-data (
   my Str $function-name = $e.attribs<c:identifier>;
 
   my Str $sub-prefix = $*work-data<sub-prefix>;
-
+#`{{
   # Find suitable option names for the BUILD submethod.
   # Constructors have '_new' in the name. To get a name for the build options
   # remove the subroutine prefix and the 'new_' string from the subroutine
@@ -481,6 +481,7 @@ method !get-constructor-data (
 
   # When nothing is left, make it empty.
   $option-name = '' if $option-name ~~ m/^ \s* $/;
+}}
 
   # Find return value; constructors should return a native N-GObject while
   # the gnome might say e.g. gtkwidget 
@@ -499,9 +500,10 @@ method !get-constructor-data (
 
   my Str ( $type, $raku-type);
   my Bool $variable-list = False;
-  my Bool $first = True;
+#  my Bool $first = True;
   for @prmtrs -> $p {
 
+#`{{
     # Process first argument type to attach to option name
     if $first {
       # We need the native type to keep the $option-name the same in all cases
@@ -541,19 +543,19 @@ method !get-constructor-data (
     }
 
     else {
+}}
       ( $type, $raku-type) = self!get-type( $p, :$user-side);
-    }
+#    }
 
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
     $raku-type ~~ s/ _UA_ $//;
 
     my Hash $attribs = $p.attribs;
-    my Str $parameter-name = $attribs<name>;
-    $parameter-name ~~ s:g/ '_' /-/;
+    my Str $parameter-name = self.cleanup-id($attribs<name>);
 
-    # When '...', there will be no type for that parameter. It means that
+    # When '…', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
-    if $parameter-name eq '...' {
+    if $parameter-name eq '…' {
       $type = $raku-type = '…';
       $variable-list = True;
     }
@@ -568,7 +570,8 @@ method !get-constructor-data (
   }
 
   ( $function-name, %(
-      :$option-name, :@parameters, :$variable-list,
+      :@parameters, :$variable-list,
+#      :$option-name, :@parameters, :$variable-list,
       :$rv-type, :$return-raku-type, :$missing-type
     )
   );
@@ -636,7 +639,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-    $function-name ~~ s:g/ '_' /-/;
+    #$function-name ~~ s:g/ '_' /-/;
     
     my Str $isnew = '';
     if $function-name eq 'new' {
@@ -669,13 +672,18 @@ method get-methods (
 
   my @methods = $xpath.find( 'method', :start($element), :to-list);
 
-  for @methods -> $function {
+  for @methods -> XML::Element $function {
     # Skip deprecated methods
     next if $function.attribs<deprecated>:exists and
             $function.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) =
       self!get-method-data( $function, :$xpath, :$user-side);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
     $hms{$function-name} = %h;
   }
 
@@ -707,7 +715,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
 
-note "$?LINE $function-name" if $curr-function<missing-type>;
+#note "$?LINE $function-name" if $curr-function<missing-type>;
 
     #$pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
     $variable-list = $curr-function<variable-list> ?? ':variable-list, ' !! '';
@@ -719,7 +727,7 @@ note "$?LINE $function-name" if $curr-function<missing-type>;
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-    $function-name ~~ s:g/ '_' /-/;
+    #$function-name ~~ s:g/ '_' /-/;
 
     # get parameter lists
     my Str $par-list = '';
@@ -742,7 +750,7 @@ note "$?LINE $function-name" if $curr-function<missing-type>;
         # Signatures have a colon at the first char followed by '('
         if $xtype ~~ m/^ ':(' / {
           $par-list ~= ", $xtype";
-note "  $?LINE $par-list";
+#note "  $?LINE $par-list";
         }
 
         else {
@@ -849,7 +857,7 @@ method generate-functions ( Hash $hcs --> Str ) {
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
     # and only once per function.
-    $function-name ~~ s:g/ '_' /-/;
+    #$function-name ~~ s:g/ '_' /-/;
 
 #    my Str $function-doc = $curr-function<function-doc>;
 #    $function-doc = "No documentation of function." unless ?$function-doc;
@@ -1021,6 +1029,11 @@ method get-functions (
 
     my ( $function-name, %h) =
       self!get-method-data( $function, :$xpath, :$user-side);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
     $hms{$function-name} = %h;
   }
 
@@ -1052,6 +1065,11 @@ method get-standalone-functions (
 
   for @methods -> $cn {
     my ( $function-name, %h) = self!get-method-data( $cn, :$xpath, :$user-side);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
     $hms{$function-name} = %h;
   }
 
@@ -1171,37 +1189,6 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
   $code
 }
 
-#`{{
-#-------------------------------------------------------------------------------
-# When in a class the enumerations are found in separate files. To find the
-# correct file, look them up using the filename of the current class. Then use
-# that name to find the enumeration names having the same filename. The filename
-# is set in the field 'source-filename'.
-method !get-enumeration-names ( --> Array ) {
-
-  # Get all enumerations for this class
-  my $name = $*work-data<gnome-name>;
-
-  # First get the name of the file of this class
-  my Hash $h0 = self.search-name($name);
-  return [] unless ?$h0;
-
-  my Str $source-filename = $h0<source-filename>;
-
-  # Now get all other types defined in this class file
-  my Hash $h1 = self.search-entries( 'source-filename', $source-filename);
-
-  # Keep all enumeration names
-  my Array $enum-names = [];
-  for $h1.kv -> $k, $v {
-#note $?LINE $k, $v<gir-type>";
-    $enum-names.push: $k if $v<gir-type> eq 'enumeration';
-  }
-
-  $enum-names
-}
-}}
-
 #-------------------------------------------------------------------------------
 method generate-bitfield-code ( Array:D $bitfield-names --> Str ) {
 
@@ -1278,33 +1265,6 @@ method generate-bitfield-code ( Array:D $bitfield-names --> Str ) {
 #exit;
   $code
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method !get-bitfield-names ( --> Array ) {
-
-  # Get all bitfields for this class
-  my $name = $*work-data<gnome-name>;
-
-  # First get the name of the file of this class
-  my Hash $h0 = self.search-name($name);
-  return [] unless ?$h0;
-
-  my Str $class-file = $h0<source-filename>;
-
-  # Now get all other types defined in this class file
-  my Hash $h1 = self.search-entries( 'class-file', $class-file);
-
-  # Keep all bitfield names
-  my Array $bitfield-names = [];
-  for $h1.kv -> $k, $v {
-#note $?LINE $k, $v<gir-type>";
-    $bitfield-names.push: $k if $v<gir-type> eq 'bitfield';
-  }
-
-  $bitfield-names
-}
-}}
 
 #-------------------------------------------------------------------------------
 method generate-constants ( @constants --> Str ) {
@@ -1418,12 +1378,12 @@ method generate-structure (
       EOREC
 
     for @fields -> $field {
-      my $field-name = $field.attribs<name>;
+      my $field-name = self.cleanup-id($field.attribs<name>);
 #note "$?LINE $field-name";
       my Str ( $type, $raku-type, $raku-rtype) =
         self!get-type( $field, :$user-side);
 
-      $field-name ~~ s:g/ '_' /-/;
+      #$field-name ~~ s:g/ '_' /-/;
       if ?$type {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
         my Str ( $rnt0, $rnt1) = $raku-type.split(':');
@@ -1586,11 +1546,11 @@ method generate-union (
       EOREC
 
     for @fields -> $field {
-      my $field-name = $field.attribs<name>;
+      my $field-name = self.cleanup-id($field.attribs<name>);
       my Str ( $type, $raku-type, $raku-rtype) =
         self!get-type( $field, :$user-side);
 
-      $field-name ~~ s:g/ '_' /-/;
+      #$field-name ~~ s:g/ '_' /-/;
       if ?$type {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
         my Str ( $rnt0, $rnt1) = $raku-type.split(':');
@@ -1750,6 +1710,30 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+method cleanup-id ( $id is copy, Bool :$is-function = False --> Str ) {
+ 
+  # Skip function names ending in '_'. Assumed that those are for internal use
+  return '' if $is-function and $id ~~ m/ '_' $/;
+
+  # Drop the last underscore if there, its ugly 😎.
+  $id ~~ s/ '_' $//;
+
+  # Cleanup the name, convert _ to - and ending numbers in words
+  $id ~~ s:g/ '_' /-/;
+  $id ~~ s/ '-' (\d+) $/-{cnv-to-word($0)}/;
+  $id ~~ s/ '...' /…/;
+
+  $id
+}
+
+#-------------------------------------------------------------------------------
+# simple converter to convert last digit of function name into a word.
+# It is never a big number (assumably)
+sub cnv-to-word ( $i --> Str ) {
+  <zero one two three>[$i.Int]
+}
+
+#-------------------------------------------------------------------------------
 method add-import ( Str $import --> Bool ) {
   my Bool $available = False;
 
@@ -1821,7 +1805,7 @@ method substitute-MODULE-IMPORTS ( Str $code is copy, *@exclasses --> Str ) {
 method init-xpath ( Str $element-name, Str $gir-filename --> List ) {
 #  my XML::XPath $xpath .= new(:file($*work-data{$gir-filename}));
   my XML::XPath $xpath .= new(:file($gir-filename));
-  my XML::Element $element = $xpath.find("//$element-name");
+  my XML::Element $element = $xpath.find("//namespace/$element-name");
   die "//$element-name elements not found in $gir-filename for $*work-data<raku-class-name>" unless ?$element;
 
   ( $xpath, $element )
@@ -1833,9 +1817,11 @@ method !get-method-data (
 ) {
   # Get function name. Sometimes it ends in '-1' which is not a raku id.
   # This must be converted.
-  my Str $function-name = $e.attribs<name>;
-  $function-name ~~ s:g/ '_' /-/;
-  $function-name ~~ s/ '-' (\d+) $/-{cnv-to-word($0)}/;
+  my Str $function-name = self.cleanup-id( $e.attribs<name>, :is-function);
+
+  # Skip emptied function names. Assumed that those are for internal use.
+  return ( '', %()) unless ?$function-name;
+
   my Bool $missing-type = False;
 
 #note "\n$?LINE $function-name";
@@ -1862,13 +1848,11 @@ method !get-method-data (
     $raku-type ~~ s/ _UA_ $//;
 #note "$?LINE $raku-type, $missing-type";
     my Hash $attribs = $p.attribs;
-    my Str $parameter-name = $attribs<name>;
-    $parameter-name ~~ s:g/ '_' /-/;
-    $parameter-name ~~ s/ '-' $//;
+    my Str $parameter-name = self.cleanup-id($attribs<name>);
 
-    # When '...', there will be no type for that parameter. It means that
+    # When '…', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
-    if $parameter-name eq '...' {
+    if $parameter-name eq '…' {
 #      $type = $raku-type = $raku-rtype = '…';
       $type = $raku-type = '…';
       $variable-list = True;
@@ -1894,7 +1878,7 @@ method !get-method-data (
 }}
     @parameters.push: $ph;
   }
-note "  $?LINE $function-name, miss types: $missing-type";
+#note "  $?LINE $function-name, miss types: $missing-type";
 
   ( $function-name, %(
       :@parameters, :$variable-list, :$rv-type, :$return-raku-type,
@@ -1903,13 +1887,6 @@ note "  $?LINE $function-name, miss types: $missing-type";
 #      :$rv-transfer-ownership,
     )
   );
-}
-
-#-------------------------------------------------------------------------------
-# simple converter to convert last digit of function name into a word.
-# It is never a big number (assumably)
-sub cnv-to-word ( $i --> Str ) {
-  <zero one two three>[$i.Int]
 }
 
 #-------------------------------------------------------------------------------
@@ -1934,12 +1911,11 @@ method !get-callback-data (
 
     my Str ( $type, $raku-type) = self!get-type( $p, :$user-side);
     my Hash $attribs = $p.attribs;
-    my Str $parameter-name = $attribs<name>;
-    $parameter-name ~~ s:g/ '_' /-/;
+    my Str $parameter-name = self.cleanup-id($attribs<name>);
 
-    # When '...', there will be no type for that parameter. It means that
+    # When '…', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
-    if $parameter-name eq '...' {
+    if $parameter-name eq '…' {
       $type = $raku-type = '…';
       $variable-list = True;
     }
@@ -1961,10 +1937,10 @@ method !get-callback-data (
 #-------------------------------------------------------------------------------
 method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
 
-  # With variable argument lists, the name is '...'. It would not have a type
+  # With variable argument lists, the name is '…'. It would not have a type
   # so return something to prevent it marked as a missing type
-  return ('...', '...')
-    if $e.attribs<name>:exists and $e.attribs<name> eq '...';
+  return ('…', '…')
+    if $e.attribs<name>:exists and $e.attribs<name> eq '…';
 #note "$?LINE $e";
 
   my Str ( $ctype, $raku-type) = '' xx 2;
