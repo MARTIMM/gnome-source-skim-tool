@@ -129,14 +129,13 @@ note "$?LINE $_";
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my $data = $!filedata{$gir-type}.values[0];
-#note "$?LINE $gir-type, ", $data.gist;# unless ?$data<type-name>;
+note "$?LINE $gir-type, ", $data.gist;
     next unless ?$data<type-name>;
 
-    once {
-      $*gnome-class = $data<type-name>;
-      $t-prep .= new;
+    $*gnome-class = $data<type-name>;
+    $t-prep .= new unless ?$t-prep;
 #      $t-prep.display-hash( $*work-data, :label('type file data'));
-    };
+
     my Str $type-name = $data<type-name>;
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
