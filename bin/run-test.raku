@@ -2,7 +2,7 @@
 
 use v6.d;
 
-constant $API1MODS is export = '..';
+#constant $API1MODS is export = '..';
 constant $API2MODS is export = 'gnome-api2';
 
 my Hash $test-location = %(
@@ -17,11 +17,19 @@ my Hash $test-location = %(
 );
 
 #-------------------------------------------------------------------------------
-multi sub MAIN ( Str $l, Str $t ) {
+multi sub MAIN ( Str $l, Str $t, Bool :$c = False ) {
 
-  if $test-location{$l}:exists and
-     "$API2MODS/$test-location{$l}/t/$t.rakutest".IO.r
-  {
+  my Str $test-file;
+  # --c compile module to see if there are problems when there is no test file
+  if $c {
+    $test-file = "$API2MODS/$test-location{$l}/lib/Gnome/$l/$t.rakumod";
+  }
+
+  else {
+    $test-file = "$API2MODS/$test-location{$l}/t/$t.rakutest";
+  }
+
+  if $test-location{$l}:exists and $test-file.IO.r {
     my Str $gtk-v = '';
     $gtk-v = '3' if $l ~~ / 3 /;
     $gtk-v = '4' if $l ~~ / 4 /;
@@ -82,12 +90,10 @@ multi sub MAIN ( Str $l, Str $t ) {
 
     %*ENV<RAKULIB> = @pth.join(',');
 
-    my Str $cmd = "rakudo '$API2MODS/$test-location{$l}/t/$t.rakutest'";
-    my Proc $p = shell $cmd;#, :out, :err;
+     my Str $cmd = "rakudo '$test-file'";
+     my Proc $p = shell $cmd;#, :out, :err;
 #    note $p.out.slurp;#: :close;
 #    note $p.err.slurp;#: :close;
-
-#    shell "rakudo '$API2MODS/$test-location{$l}/t/$t.rakutest'"
   }
 
   else {
@@ -96,7 +102,7 @@ multi sub MAIN ( Str $l, Str $t ) {
     }
 
     else {
-      note "Test file '$test-location{$l}/t/$t.rakutest' is not found";
+      note "Test file '$test-file' is not found";
     }
   }
 }
@@ -130,7 +136,7 @@ multi sub MAIN ( Str $xt, Bool :$d = False ) {
   my Str $path = $xt.IO.dirname ~ '/log/';
   mkdir $path, 0o750 unless $path.IO.e;
   $log = $path ~ $log;
-note 'log: ', $log;
+#note 'log: ', $log;
 
   $log.IO.spurt(
     'Elapsed time | User time| Kernel time | Cpu %' ~ "\n" ~ '|--|--|--|--|' ~ "\n"
