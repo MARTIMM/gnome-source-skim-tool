@@ -404,7 +404,7 @@ multi method native-parameters (
 
   loop (my $i = 0; $i < $parameters.elems; $i++ ) {
     my $p = $parameters[$i];
-note "$?LINE $i, $p.^name(), $arguments[$i]]";
+#note "$?LINE $i, $p.^name(), $arguments[$i]]";
     my $a = self!convert-args( $arguments[$i], $p);
     $native-args.push: $a;
     $!pointers-in-args = True if $p.^name ~~ m/ CArray /;
