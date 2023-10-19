@@ -117,11 +117,11 @@ method make-function-test (
 #note "$?LINE $function-name, $test-variable, $ismethod";
 
   # Get method name and drop the prefix
-  my Str $symbol-prefix = $*work-data<sub-prefix>;
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $hash-fname = $function-name;
   return '' if $hash-fname ~~ / '_' $/;
-  $hash-fname ~~ s/^ $symbol-prefix //;
-  $hash-fname ~~ s:g/ '_' /-/;
+#  $hash-fname ~~ s/^ $symbol-prefix //;
+#  $hash-fname ~~ s:g/ '_' /-/;
 
   my Bool $isnew = ($hash-fname ~~ m/^ new /).Bool;
 
@@ -142,8 +142,7 @@ method make-function-test (
     $parameter-name ~~ s/ '-' $//;
 
     # skip when both are unknown. it means variable list
-    next if $parameter-name ~~ / '…' || '...' / and
-            $parameter<raku-type> ~~ / '…' || '...' /;
+    next if $parameter-name ~~ / '…' / and $parameter<raku-type> ~~ / '…' /;
 
     # If this is a method, the first parameters is the instance which
     # is provided by this object
