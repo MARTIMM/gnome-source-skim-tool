@@ -273,11 +273,8 @@ method generate-test ( ) {
   $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
 
-  $code ~= $!tst.generate-test-separator;
-
   $hcs = $!mod.get-functions( $element, $!xpath, :user-side);
-#note "$?LINE $hcs.keys()";
-  $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
+  $code ~= $!tst.generate-method-tests( $hcs, $test-variable, :!ismethod);
 
   $code ~= $!tst.generate-test-end;
 #  $code ~= $!tst.generate-signal-tests($test-variable);
