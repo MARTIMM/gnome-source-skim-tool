@@ -69,7 +69,7 @@ method generate-init-tests (
     #`\{\{
     EOTEST
 
-  #| variables used in tests
+  # Variables used in tests
   my Hash $decl-vars = %();
 
 #  my Hash $hcs = $!mod.get-methods( $element, $xpath, :user-side);
@@ -87,7 +87,7 @@ method generate-init-tests (
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
   for $decl-vars.kv -> $name, $type is copy {
-    # skip when both are unknown. it means variable list
+    # Skip when both name and type are unknown. It means variable list.
     next if $name ~~ / '…' || '...' / and $type ~~ / '…' || '...' /;
     $dstr ~= "    my $type \$$name;\n";
   }
@@ -110,8 +110,10 @@ method make-function-test (
   # Get method name and drop the prefix
   my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $hash-fname = $function-name;
+  return '' if $hash-fname ~~ / '_' $/;
   $hash-fname ~~ s/^ $symbol-prefix //;
   $hash-fname ~~ s:g/ '_' /-/;
+
   my Bool $isnew = ($hash-fname ~~ m/^ new /).Bool;
 
   my Bool $first-param = True;
@@ -144,7 +146,8 @@ method make-function-test (
     # Assume a compare test
     $test-type = 'is';
 
-    # Store type and name for declarations. 
+    # Store type and name for declarations. Changing $decl-vars
+    # is a side effect, var is declared and used elsewhere.
     if $parameter<raku-type> ~~ /^ ':(' / {
       $decl-vars{$parameter-name} = [~]
         'sub ', $parameter-name, ' ', $parameter<raku-type>;
@@ -153,11 +156,11 @@ method make-function-test (
 
     elsif $parameter<raku-type> ~~ / ':' / {
       my ( $type, $enum ) = $parameter<raku-type>.split(':');
-      $decl-vars{$parameter-name} = $enum; # side effect
+      $decl-vars{$parameter-name} = $enum;
     }
 
     else {
-      $decl-vars{$parameter-name} = $parameter<raku-type>; # side effect
+      $decl-vars{$parameter-name} = $parameter<raku-type>;
     }
 
 #    $assign-list ~= "  " unless $isnew; # no extra indent for new tests
@@ -213,7 +216,7 @@ method make-function-test (
         .$hash-fname\($par-list\);
     EOTEST
 
-    # Also test set-*() when there is one. Need to keep an eye on the parameter
+    # Also test get-*() when there is one. Need to keep an eye on the parameter
     # list. It could be more than one. If so the '$test-type' test will fail
     my Str $fn = $function-name;
     $fn ~~ s/^ set /get/;
@@ -235,7 +238,7 @@ method make-function-test (
   }
 
   elsif $hash-fname ~~ m/^ get / {
-    # Only test get-*() when they are not tested above
+    # Only test get-*() when they are not tested above with set-*
     my Str $fn = $function-name;
     $fn ~~ s/^ get /set/;
     if $hcs{$fn}:!exists {
@@ -304,7 +307,7 @@ method generate-method-tests (
   # Set up tests for the methods
   my Str $code = qq:to/EOTEST/;
     {HLSEPARATOR}
-    subtest 'Method tests', \{
+    subtest '{$ismethod ?? 'Method tests' !! 'Function tests'}', \{
       with $test-variable \{
     __DECL_VARS__
 
@@ -316,8 +319,8 @@ method generate-method-tests (
 
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
-  # Use of .reverse() to get the set*() functions before the get*() functions
-  for $hcs.keys.sort.reverse -> $function-name {
+#???  # Use of .reverse() to get the set*() functions before the get*() functions
+  for $hcs.keys.sort -> $function-name {
     $code ~= self.make-function-test(
       $hcs, $function-name, $test-variable, $decl-vars, :$ismethod
     );
@@ -328,7 +331,7 @@ method generate-method-tests (
   # Write out the gathered variables and make declarations
   my Str $dstr = '';
   for $decl-vars.kv -> $name, $type is copy {
-    # skip when both are unknown. it means variable list
+    # Skip when both are unknown. It means variable list.
     next if $name ~~ / '…' || '...' / and $type ~~ / '…' || '...' /;
 #`{{
     if $type ~~ /^ GEnum / {
