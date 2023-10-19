@@ -463,9 +463,12 @@ method get-constructors (
 method !get-constructor-data (
   XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List ) {
   my Bool $missing-type = False;
-  my Str $function-name = $e.attribs<c:identifier>;
+  my Str $function-name =
+    self.cleanup-id( $e.attribs<c:identifier>, :is-function);
 
-  my Str $sub-prefix = $*work-data<sub-prefix>;
+#  my Str $sub-prefix = $*work-data<sub-prefix>;
+#  $function-name ~~ s/^ $sub-prefix //;
+
 #`{{
   # Find suitable option names for the BUILD submethod.
   # Constructors have '_new' in the name. To get a name for the build options
@@ -473,7 +476,6 @@ method !get-constructor-data (
   # name.
   my Str $option-name = $function-name;
   $option-name ~~ s/^ $sub-prefix new '_'? //;
-  $function-name ~~ s/^ $sub-prefix //;
 
   # Remove any other prefix ending in '_'.
   my Int $last-u = $option-name.rindex('_');
@@ -580,7 +582,7 @@ method !get-constructor-data (
 #-------------------------------------------------------------------------------
 method !generate-constructors ( Hash $hcs --> Str ) {
 
-  my Str $sub-prefix = $*work-data<sub-prefix>;
+#  my Str $sub-prefix = $*work-data<sub-prefix>;
 #  my Str $pattern = '';
   my Str $temp-inhibit = '';
   my Str $variable-list = '';
@@ -1712,8 +1714,14 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #-------------------------------------------------------------------------------
 method cleanup-id ( $id is copy, Bool :$is-function = False --> Str ) {
  
-  # Skip function names ending in '_'. Assumed that those are for internal use
-  return '' if $is-function and $id ~~ m/ '_' $/;
+  if $is-function {
+    # Skip function names ending in '_'. Assumed that those are for internal use
+    return '' if $id ~~ m/ '_' $/;
+
+    # Remove package prefix from function name
+    my Str $sub-prefix = $*work-data<sub-prefix>;
+    $id ~~ s/^ $sub-prefix //;
+  }
 
   # Drop the last underscore if there, its ugly 😎.
   $id ~~ s/ '_' $//;
