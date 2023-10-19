@@ -1,0 +1,471 @@
+# Command to generate: generate.raku -v -t Glib variant
+use v6.d;
+
+#TL:1:Gnome::Glib::N-Variant:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-Variant:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Variant $variant;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $variant {
+    my Int() $length;
+    my gpointer $data;
+    my  $app;
+    my N-GObject $children;
+    my N-GObject $child-type;
+    my Str $format;
+    my Array[Str] $strv;
+    my N-GObject $bytes;
+    my Str $format-string;
+    my gpointer $user-data;
+    my gpointer $elements;
+    my N-GObject $child;
+    my Str $signature;
+    my Array[Str] $endptr;
+    my Str $string;
+    my N-GObject $type;
+    my Int() $n-elements;
+    my Int() $size;
+    my N-GObject $element-type;
+    my N-GObject $value;
+    my Int() $n-children;
+    my Bool() $trusted;
+    sub notify ( gpointer $data ) {}
+    my Str $object-path;
+    my Int() $element-size;
+    my N-GObject $key;
+
+#`{{
+    #TC:0:new-variant()
+    $format-string = 'text';
+    $variant .= new-variant( $format-string);
+    ok .is-valid, '.new-variant( $format-string)';
+
+    #TC:0:new-array()
+    $child-type = …;  # a native object
+    $children = …;  # a native object
+    $n-children = -42;
+    $variant .= new-array( $child-type, $children, $n-children);
+    ok .is-valid, '.new-array( $child-type, $children, $n-children)';
+
+    #TC:0:new-boolean()
+    $value = True;
+    $variant .= new-boolean( $value);
+    ok .is-valid, '.new-boolean( $value)';
+
+    #TC:0:new-byte()
+    $value = 42;
+    $variant .= new-byte( $value);
+    ok .is-valid, '.new-byte( $value)';
+
+    #TC:0:new-bytestring()
+    $string = 'text';
+    $variant .= new-bytestring( $string);
+    ok .is-valid, '.new-bytestring( $string)';
+
+    #TC:0:new-bytestring-array()
+    $strv = '…';
+    $length = -42;
+    $variant .= new-bytestring-array( $strv, $length);
+    ok .is-valid, '.new-bytestring-array( $strv, $length)';
+
+    #TC:0:new-dict-entry()
+    $key = …;  # a native object
+    $value = …;  # a native object
+    $variant .= new-dict-entry( $key, $value);
+    ok .is-valid, '.new-dict-entry( $key, $value)';
+
+    #TC:0:new-double()
+    $value = 42.42;
+    $variant .= new-double( $value);
+    ok .is-valid, '.new-double( $value)';
+
+    #TC:0:new-fixed-array()
+    $element-type = …;  # a native object
+    $elements = '…';
+    $n-elements = -42;
+    $element-size = -42;
+    $variant .= new-fixed-array( $element-type, $elements, $n-elements, $element-size);
+    ok .is-valid, '.new-fixed-array( $element-type, $elements, $n-elements, $element-size)';
+
+    #TC:0:new-from-bytes()
+    $type = …;  # a native object
+    $bytes = …;  # a native object
+    $trusted = True;
+    $variant .= new-from-bytes( $type, $bytes, $trusted);
+    ok .is-valid, '.new-from-bytes( $type, $bytes, $trusted)';
+
+    #TC:0:new-from-data()
+    $type = …;  # a native object
+    $data = '…';
+    $size = -42;
+    $trusted = True;
+    $notify = …;  # an enum or flag    $user-data = '…';
+    $variant .= new-from-data( $type, $data, $size, $trusted, $notify, $user-data);
+    ok .is-valid, '.new-from-data( $type, $data, $size, $trusted, $notify, $user-data)';
+
+    #TC:0:new-handle()
+    $value = -42;
+    $variant .= new-handle( $value);
+    ok .is-valid, '.new-handle( $value)';
+
+    #TC:0:new-int16()
+    $value = -42;
+    $variant .= new-int16( $value);
+    ok .is-valid, '.new-int16( $value)';
+
+    #TC:0:new-int32()
+    $value = -42;
+    $variant .= new-int32( $value);
+    ok .is-valid, '.new-int32( $value)';
+
+    #TC:0:new-int64()
+    $value = -42;
+    $variant .= new-int64( $value);
+    ok .is-valid, '.new-int64( $value)';
+
+    #TC:0:new-maybe()
+    $child-type = …;  # a native object
+    $child = …;  # a native object
+    $variant .= new-maybe( $child-type, $child);
+    ok .is-valid, '.new-maybe( $child-type, $child)';
+
+    #TC:0:new-object-path()
+    $object-path = 'text';
+    $variant .= new-object-path( $object-path);
+    ok .is-valid, '.new-object-path( $object-path)';
+
+    #TC:0:new-objv()
+    $strv = '…';
+    $length = -42;
+    $variant .= new-objv( $strv, $length);
+    ok .is-valid, '.new-objv( $strv, $length)';
+
+    #TC:0:new-parsed()
+    $format = 'text';
+    $variant .= new-parsed( $format);
+    ok .is-valid, '.new-parsed( $format)';
+
+    #TC:0:new-parsed-va()
+    $format = 'text';
+    $app = '…';
+    $variant .= new-parsed-va( $format, $app);
+    ok .is-valid, '.new-parsed-va( $format, $app)';
+
+    #TC:0:new-printf()
+    $format-string = 'text';
+    $variant .= new-printf( $format-string);
+    ok .is-valid, '.new-printf( $format-string)';
+
+    #TC:0:new-signature()
+    $signature = 'text';
+    $variant .= new-signature( $signature);
+    ok .is-valid, '.new-signature( $signature)';
+
+    #TC:0:new-string()
+    $string = 'text';
+    $variant .= new-string( $string);
+    ok .is-valid, '.new-string( $string)';
+
+    #TC:0:new-strv()
+    $strv = '…';
+    $length = -42;
+    $variant .= new-strv( $strv, $length);
+    ok .is-valid, '.new-strv( $strv, $length)';
+
+    #TC:0:new-take-string()
+    $string = 'text';
+    $variant .= new-take-string( $string);
+    ok .is-valid, '.new-take-string( $string)';
+
+    #TC:0:new-tuple()
+    $children = …;  # a native object
+    $n-children = -42;
+    $variant .= new-tuple( $children, $n-children);
+    ok .is-valid, '.new-tuple( $children, $n-children)';
+
+    #TC:0:new-uint16()
+    $value = 42;
+    $variant .= new-uint16( $value);
+    ok .is-valid, '.new-uint16( $value)';
+
+    #TC:0:new-uint32()
+    $value = 42;
+    $variant .= new-uint32( $value);
+    ok .is-valid, '.new-uint32( $value)';
+
+    #TC:0:new-uint64()
+    $value = 42;
+    $variant .= new-uint64( $value);
+    ok .is-valid, '.new-uint64( $value)';
+
+    #TC:0:new-va()
+    $format-string = 'text';
+    $endptr = '…';
+    $app = '…';
+    $variant .= new-va( $format-string, $endptr, $app);
+    ok .is-valid, '.new-va( $format-string, $endptr, $app)';
+
+    #TC:0:new-variant()
+    $value = …;  # a native object
+    $variant .= new-variant( $value);
+    ok .is-valid, '.new-variant( $value)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $variant {
+    my Str $key;
+    my Bool() $type-annotate;
+    my Array[gsize] $length;
+    my Int() $element-size;
+    my Array[Str] $endptr;
+    my Str $format-string;
+    my  $app;
+    my gpointer $data;
+    my Int() $index;
+    my Array[gsize] $n-elements;
+    my Bool() $copy-only;
+    my N-GObject $type;
+    my gpointer $two;
+    my N-GObject $expected-type;
+    my N-GObject $string;
+
+
+#`{{
+    #TM:0:byteswap()
+    ok .byteswap(), '.byteswap()';
+
+    #TM:0:check-format-string()
+    ok .check-format-string( $format-string, $copy-only), '.check-format-string()';
+
+    #TM:0:classify()
+    ok .classify(), '.classify()';
+
+    #TM:0:compare()
+    ok .compare( $two), '.compare()';
+
+    #TM:0:dup-bytestring()
+    ok .dup-bytestring( $length), '.dup-bytestring()';
+
+    #TM:0:dup-bytestring-array()
+    ok .dup-bytestring-array( $length), '.dup-bytestring-array()';
+
+    #TM:0:dup-objv()
+    ok .dup-objv( $length), '.dup-objv()';
+
+    #TM:0:dup-string()
+    ok .dup-string( $length), '.dup-string()';
+
+    #TM:0:dup-strv()
+    ok .dup-strv( $length), '.dup-strv()';
+
+    #TM:0:equal()
+    ok .equal( $two), '.equal()';
+
+    #TM:0:get()
+    is .get( $format-string), '…', '.get()';
+
+    #TM:0:get-boolean()
+     .get-boolean(), '…', '.get-boolean()';
+
+    #TM:0:get-byte()
+     .get-byte(), '…', '.get-byte()';
+
+    #TM:0:get-bytestring()
+     .get-bytestring(), '…', '.get-bytestring()';
+
+    #TM:0:get-bytestring-array()
+    is .get-bytestring-array( $length), '…', '.get-bytestring-array()';
+
+    #TM:0:get-child()
+    is .get-child( $index, $format-string), '…', '.get-child()';
+
+    #TM:0:get-child-value()
+    is .get-child-value( $index), '…', '.get-child-value()';
+
+    #TM:0:get-data()
+     .get-data(), '…', '.get-data()';
+
+    #TM:0:get-data-as-bytes()
+     .get-data-as-bytes(), '…', '.get-data-as-bytes()';
+
+    #TM:0:get-double()
+     .get-double(), '…', '.get-double()';
+
+    #TM:0:get-fixed-array()
+    is .get-fixed-array( $n-elements, $element-size), '…', '.get-fixed-array()';
+
+    #TM:0:get-handle()
+     .get-handle(), '…', '.get-handle()';
+
+    #TM:0:get-int16()
+     .get-int16(), '…', '.get-int16()';
+
+    #TM:0:get-int32()
+     .get-int32(), '…', '.get-int32()';
+
+    #TM:0:get-int64()
+     .get-int64(), '…', '.get-int64()';
+
+    #TM:0:get-maybe()
+     .get-maybe(), '…', '.get-maybe()';
+
+    #TM:0:get-normal-form()
+     .get-normal-form(), '…', '.get-normal-form()';
+
+    #TM:0:get-objv()
+    is .get-objv( $length), '…', '.get-objv()';
+
+    #TM:0:get-size()
+     .get-size(), '…', '.get-size()';
+
+    #TM:0:get-string()
+    is .get-string( $length), '…', '.get-string()';
+
+    #TM:0:get-strv()
+    is .get-strv( $length), '…', '.get-strv()';
+
+    #TM:0:get-type()
+     .get-type(), '…', '.get-type()';
+
+    #TM:0:get-type-string()
+     .get-type-string(), '…', '.get-type-string()';
+
+    #TM:0:get-uint16()
+     .get-uint16(), '…', '.get-uint16()';
+
+    #TM:0:get-uint32()
+     .get-uint32(), '…', '.get-uint32()';
+
+    #TM:0:get-uint64()
+     .get-uint64(), '…', '.get-uint64()';
+
+    #TM:0:get-va()
+    is .get-va( $format-string, $endptr, $app), '…', '.get-va()';
+
+    #TM:0:get-variant()
+     .get-variant(), '…', '.get-variant()';
+
+    #TM:0:hash()
+    ok .hash(), '.hash()';
+
+    #TM:0:is-container()
+    ok .is-container(), '.is-container()';
+
+    #TM:0:is-floating()
+    ok .is-floating(), '.is-floating()';
+
+    #TM:0:is-normal-form()
+    ok .is-normal-form(), '.is-normal-form()';
+
+    #TM:0:is-of-type()
+    ok .is-of-type( $type), '.is-of-type()';
+
+    #TM:0:iter-new()
+    ok .iter-new(), '.iter-new()';
+
+    #TM:0:lookup()
+    ok .lookup( $key, $format-string), '.lookup()';
+
+    #TM:0:lookup-value()
+    ok .lookup-value( $key, $expected-type), '.lookup-value()';
+
+    #TM:0:n-children()
+    ok .n-children(), '.n-children()';
+
+    #TM:0:print()
+    ok .print( $type-annotate), '.print()';
+
+    #TM:0:print-string()
+    ok .print-string( $string, $type-annotate), '.print-string()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:ref-sink()
+    ok .ref-sink(), '.ref-sink()';
+
+    #TM:0:store()
+    ok .store( $data), '.store()';
+
+    #TM:0:take-ref()
+    ok .take-ref(), '.take-ref()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $variant {
+    my Str $limit;
+    my N-GObject $type;
+    my Str $string;
+    my Array[Str] $endptr;
+    my Str $source-str;
+    my N-GObject $error;
+    my Str $text;
+
+
+#`{{
+    #TM:0:is-object-path()
+    ok .is-object-path( $string), '.is-object-path()';
+
+    #TM:0:is-signature()
+    ok .is-signature( $string), '.is-signature()';
+
+    #TM:0:parse()
+    ok .parse( $type, $text, $limit, $endptr), '.parse()';
+
+    #TM:0:parse-error-print-context()
+    ok .parse-error-print-context( $error, $source-str), '.parse-error-print-context()';
+
+    #TM:0:parse-error-quark()
+    ok .parse-error-quark(), '.parse-error-quark()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

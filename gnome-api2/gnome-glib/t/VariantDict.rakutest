@@ -1,0 +1,115 @@
+# Command to generate: generate.raku -v -t Glib variant
+use v6.d;
+
+#TL:1:Gnome::Glib::N-VariantDict:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-VariantDict:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-VariantDict $variantdict;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $variantdict {
+    my N-GObject $from-asv;
+
+#`{{
+    #TC:0:new-variantdict()
+    $from-asv = …;  # a native object
+    $variantdict .= new-variantdict( $from-asv);
+    ok .is-valid, '.new-variantdict( $from-asv)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $variantdict {
+    my N-GObject $value;
+    my Str $key;
+    my Str $format-string;
+    my N-GObject $expected-type;
+    my N-GObject $from-asv;
+
+
+#`{{
+    #TM:0:clear()
+    ok .clear(), '.clear()';
+
+    #TM:0:contains()
+    ok .contains( $key), '.contains()';
+
+    #TM:0:end()
+    ok .end(), '.end()';
+
+    #TM:0:init()
+    ok .init( $from-asv), '.init()';
+
+    #TM:0:insert()
+    ok .insert( $key, $format-string), '.insert()';
+
+    #TM:0:insert-value()
+    ok .insert-value( $key, $value), '.insert-value()';
+
+    #TM:0:lookup()
+    ok .lookup( $key, $format-string), '.lookup()';
+
+    #TM:0:lookup-value()
+    ok .lookup-value( $key, $expected-type), '.lookup-value()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:remove()
+    ok .remove( $key), '.remove()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $variantdict {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

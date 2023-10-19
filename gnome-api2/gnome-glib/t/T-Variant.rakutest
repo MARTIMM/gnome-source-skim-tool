@@ -1,0 +1,72 @@
+# Command to generate: generate.raku -v -t Glib variant
+use v6.d;
+
+#TL:1:Gnome::Glib::T-Variant:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::T-Variant:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GVariantParseError
+subtest 'GVariantParseError', {
+  is G_VARIANT_PARSE_ERROR_FAILED.value, 0, 'enum G_VARIANT_PARSE_ERROR_FAILED = 0';
+
+  is G_VARIANT_PARSE_ERROR_BASIC_TYPE_EXPECTED.value, 1, 'enum G_VARIANT_PARSE_ERROR_BASIC_TYPE_EXPECTED = 1';
+
+  is G_VARIANT_PARSE_ERROR_CANNOT_INFER_TYPE.value, 2, 'enum G_VARIANT_PARSE_ERROR_CANNOT_INFER_TYPE = 2';
+
+  is G_VARIANT_PARSE_ERROR_DEFINITE_TYPE_EXPECTED.value, 3, 'enum G_VARIANT_PARSE_ERROR_DEFINITE_TYPE_EXPECTED = 3';
+
+  is G_VARIANT_PARSE_ERROR_INPUT_NOT_AT_END.value, 4, 'enum G_VARIANT_PARSE_ERROR_INPUT_NOT_AT_END = 4';
+
+  is G_VARIANT_PARSE_ERROR_INVALID_CHARACTER.value, 5, 'enum G_VARIANT_PARSE_ERROR_INVALID_CHARACTER = 5';
+
+  is G_VARIANT_PARSE_ERROR_INVALID_FORMAT_STRING.value, 6, 'enum G_VARIANT_PARSE_ERROR_INVALID_FORMAT_STRING = 6';
+
+  is G_VARIANT_PARSE_ERROR_INVALID_OBJECT_PATH.value, 7, 'enum G_VARIANT_PARSE_ERROR_INVALID_OBJECT_PATH = 7';
+
+  is G_VARIANT_PARSE_ERROR_INVALID_SIGNATURE.value, 8, 'enum G_VARIANT_PARSE_ERROR_INVALID_SIGNATURE = 8';
+
+  is G_VARIANT_PARSE_ERROR_INVALID_TYPE_STRING.value, 9, 'enum G_VARIANT_PARSE_ERROR_INVALID_TYPE_STRING = 9';
+
+  is G_VARIANT_PARSE_ERROR_NO_COMMON_TYPE.value, 10, 'enum G_VARIANT_PARSE_ERROR_NO_COMMON_TYPE = 10';
+
+  is G_VARIANT_PARSE_ERROR_NUMBER_OUT_OF_RANGE.value, 11, 'enum G_VARIANT_PARSE_ERROR_NUMBER_OUT_OF_RANGE = 11';
+
+  is G_VARIANT_PARSE_ERROR_NUMBER_TOO_BIG.value, 12, 'enum G_VARIANT_PARSE_ERROR_NUMBER_TOO_BIG = 12';
+
+  is G_VARIANT_PARSE_ERROR_TYPE_ERROR.value, 13, 'enum G_VARIANT_PARSE_ERROR_TYPE_ERROR = 13';
+
+  is G_VARIANT_PARSE_ERROR_UNEXPECTED_TOKEN.value, 14, 'enum G_VARIANT_PARSE_ERROR_UNEXPECTED_TOKEN = 14';
+
+  is G_VARIANT_PARSE_ERROR_UNKNOWN_KEYWORD.value, 15, 'enum G_VARIANT_PARSE_ERROR_UNKNOWN_KEYWORD = 15';
+
+  is G_VARIANT_PARSE_ERROR_UNTERMINATED_STRING_CONSTANT.value, 16, 'enum G_VARIANT_PARSE_ERROR_UNTERMINATED_STRING_CONSTANT = 16';
+
+  is G_VARIANT_PARSE_ERROR_VALUE_EXPECTED.value, 17, 'enum G_VARIANT_PARSE_ERROR_VALUE_EXPECTED = 17';
+
+  is G_VARIANT_PARSE_ERROR_RECURSION.value, 18, 'enum G_VARIANT_PARSE_ERROR_RECURSION = 18';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

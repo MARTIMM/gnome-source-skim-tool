@@ -1,0 +1,191 @@
+# Command to generate: generate.raku -v -c -t Glib varianttype
+use v6.d;
+
+#TL:1:Gnome::Glib::VariantType:
+#TL:1:Gnome::Glib::N-VariantType:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::VariantType:api<2>;
+use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Glib::VariantType $varianttype;
+my N-VariantType $n-varianttype;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $varianttype {
+    my N-GObject $items;
+    my N-GObject $element;
+    my N-GObject $key;
+    my Int() $length;
+    my N-GObject $value;
+    my Str $type-string;
+
+    #TC:1:new-varianttype()
+    $type-string = 'b';
+    $varianttype .= new-varianttype($type-string);
+    ok .is-valid, '.new-varianttype($type-string)';
+
+    #TC:1:new-array()
+    $element = $varianttype.get-native-object;  # a native object
+    $varianttype .= new-array($element);
+    ok .is-valid, '.new-array($element)';
+
+#`{{
+    #TC:0:new-dict-entry()
+    $key = …;  # a native object
+    $value = …;  # a native object
+    $varianttype .= new-dict-entry( $key, $value);
+    ok .is-valid, '.new-dict-entry( $key, $value)';
+}}
+
+    #TC:1:new-maybe()
+    #$element = …;  # a native object
+    $varianttype .= new-maybe($element);
+    ok .is-valid, '.new-maybe($element)';
+
+#`{{
+    #TC:0:new-tuple()
+    $items = …;  # a native object
+    $length = -42;
+    $varianttype .= new-tuple( $items, $length);
+    ok .is-valid, '.new-tuple( $items, $length)';
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $varianttype {
+    my gpointer $type2;
+    my N-GObject $supertype;
+
+#`{{
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:dup-string()
+    ok .dup-string(), '.dup-string()';
+
+    #TM:0:element()
+    ok .element(), '.element()';
+
+    #TM:0:equal()
+    ok .equal( $type2), '.equal()';
+
+    #TM:0:first()
+    ok .first(), '.first()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-string-length()
+     .get-string-length(), '…', '.get-string-length()';
+
+    #TM:0:hash()
+    ok .hash(), '.hash()';
+}}
+
+
+    #TM:0:is-array()
+    $element = $varianttype.get-native-object;  # a native object
+    $varianttype .= new-array($element);
+    ok .is-array(), '.is-array()';
+
+    $type-string = 'b';
+    $varianttype .= new-varianttype($type-string);
+    #TM:0:is-basic()
+    ok .is-basic(), '.is-basic()';
+
+    #TM:0:is-container()
+    ok .is-container(), '.is-container()';
+
+    #TM:0:is-definite()
+    ok .is-definite(), '.is-definite()';
+
+    #TM:0:is-dict-entry()
+    ok .is-dict-entry(), '.is-dict-entry()';
+
+    #TM:0:is-maybe()
+    ok .is-maybe(), '.is-maybe()';
+
+    #TM:0:is-subtype-of()
+    ok .is-subtype-of( $supertype), '.is-subtype-of()';
+
+    #TM:0:is-tuple()
+    ok .is-tuple(), '.is-tuple()';
+
+    #TM:0:is-variant()
+    ok .is-variant(), '.is-variant()';
+
+    #TM:0:key()
+    ok .key(), '.key()';
+
+    #TM:0:n-items()
+    ok .n-items(), '.n-items()';
+
+    #TM:0:next()
+    ok .next(), '.next()';
+
+    #TM:0:peek-string()
+    ok .peek-string(), '.peek-string()';
+
+    #TM:0:value()
+    ok .value(), '.value()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $varianttype {
+    my Array[Str] $endptr;
+    my Str $string;
+    my Str $type-string;
+    my Str $limit;
+
+
+#`{{
+    #TM:0:string-is-valid()
+    ok .string-is-valid( $type-string), '.string-is-valid()';
+
+    #TM:0:string-scan()
+    ok .string-scan( $string, $limit, $endptr), '.string-scan()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
