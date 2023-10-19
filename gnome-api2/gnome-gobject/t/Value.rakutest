@@ -8,7 +8,7 @@
 use Test;
 use NativeCall;
 
-use Gnome::GObject::N-GValue:api<2>;
+use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::Value:api<2>;
 use Gnome::GObject::T-Type:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -36,7 +36,7 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   #TC:1:new()
-  my N-GValue $native-object .= new;
+  my N-Value $native-object .= new;
   $native-object.g-type = G_TYPE_ULONG;
   $value .= new(:$native-object);
 

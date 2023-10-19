@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c GObject value record
+# Command to generate: generate.raku -v -c GObject value
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,10 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::Variant;
-
-use Gnome::GObject::N-GValue:api<2>;
-
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::Glib::N-Variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -71,12 +69,12 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  copy => %( :parameters([N-GValue])),
+  copy => %( :parameters([N-Value])),
   dup-boxed => %( :returns(gpointer)),
   dup-object => %( :returns(gpointer)),
   dup-param => %( :returns(N-GObject)),
   dup-string => %( :returns(Str)),
-  #dup-variant => %( :returns(N-GVariant )),
+  dup-variant => %( :returns(N-Variant)),
   fits-pointer => %( :returns(gboolean), :cnv-return(Bool)),
   get-boolean => %( :returns(gboolean), :cnv-return(Bool)),
   get-boxed => %( :returns(gpointer)),
@@ -97,11 +95,11 @@ my Hash $methods = %(
   get-uint => %( :returns(guint)),
   get-uint64 => %( :returns(guint64)),
   get-ulong => %( :returns(gulong)),
-  #get-variant => %( :returns(N-GVariant )),
-  init => %( :returns(N-GValue), :parameters([GType])),
+  get-variant => %( :returns(N-Variant)),
+  init => %( :returns(N-Value), :parameters([GType])),
   init-from-instance => %( :parameters([gpointer])),
   peek-pointer => %( :returns(gpointer)),
-  reset => %( :returns(N-GValue)),
+  reset => %( :returns(N-Value)),
   set-boolean => %( :parameters([gboolean])),
   set-boxed => %( :parameters([gpointer])),
   set-double => %( :parameters([gdouble])),
@@ -125,17 +123,17 @@ my Hash $methods = %(
   set-uint => %( :parameters([guint])),
   set-uint64 => %( :parameters([guint64])),
   set-ulong => %( :parameters([gulong])),
-  #set-variant => %( :parameters([N-GVariant ])),
+  set-variant => %( :parameters([N-Variant])),
   take-boxed => %( :parameters([gpointer])),
   take-object => %( :parameters([gpointer])),
   take-param => %( :parameters([N-GObject])),
   take-string => %( :parameters([Str])),
-  #take-variant => %( :parameters([N-GVariant ])),
-  transform => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GValue])),
+  take-variant => %( :parameters([N-Variant])),
+  transform => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Value])),
   unset => %(),
 
   #--[Functions]----------------------------------------------------------------
-  register-transform-func => %( :type(Function),  :parameters([ GType, GType, ])),
+  register-transform-func => %( :type(Function),  :parameters([ GType, GType, :( N-Value $src-value, N-Value $dest-value )])),
   type-compatible => %( :type(Function),  :returns(gboolean), :parameters([ GType, GType])),
   type-transformable => %( :type(Function),  :returns(gboolean), :parameters([ GType, GType])),
 );

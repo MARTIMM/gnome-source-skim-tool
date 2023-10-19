@@ -7,7 +7,6 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -18,7 +17,7 @@ use Gnome::N::X:api<2>;
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class N-GValue:auth<github:MARTIMM>:api<2> is export is repr('CStruct');
+unit class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct');
 
 # Data is a union. We do not use it but GTK does, so here it is
 # only set to a type with 64 bits for the longest field in the union.
@@ -31,7 +30,7 @@ submethod TWEAK {
   $!g-data = 0;
 }
 
-method COERCE ( $no --> N-GValue ) {
+method COERCE ( $no --> N-Value ) {
   note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-  nativecast( N-GValue, $no)
+  nativecast( N-Value, $no)
 }
