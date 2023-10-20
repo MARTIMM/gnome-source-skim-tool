@@ -1,0 +1,54 @@
+# Command to generate: generate.raku -v -c -t Gio menumodel
+use v6.d;
+
+#TL:1:Gnome::Gio::T-Menumodel:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gio::T-Menumodel:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:G_MENU_ATTRIBUTE_LABEL
+is G_MENU_ATTRIBUTE_LABEL, 'label', "constant G_MENU_ATTRIBUTE_LABEL = 'label'";
+
+#TE:1:G_MENU_ATTRIBUTE_ACTION_NAMESPACE
+is G_MENU_ATTRIBUTE_ACTION_NAMESPACE, 'action-namespace', "constant G_MENU_ATTRIBUTE_ACTION_NAMESPACE = 'action-namespace'";
+
+#TE:1:G_MENU_ATTRIBUTE_TARGET
+is G_MENU_ATTRIBUTE_TARGET, 'target', "constant G_MENU_ATTRIBUTE_TARGET = 'target'";
+
+#TE:1:G_MENU_LINK_SUBMENU
+is G_MENU_LINK_SUBMENU, 'submenu', "constant G_MENU_LINK_SUBMENU = 'submenu'";
+
+#TE:1:G_MENU_ATTRIBUTE_ICON
+is G_MENU_ATTRIBUTE_ICON, 'icon', "constant G_MENU_ATTRIBUTE_ICON = 'icon'";
+
+#TE:1:G_MENU_LINK_SECTION
+is G_MENU_LINK_SECTION, 'section', "constant G_MENU_LINK_SECTION = 'section'";
+
+#TE:1:G_MENU_ATTRIBUTE_ACTION
+is G_MENU_ATTRIBUTE_ACTION, 'action', "constant G_MENU_ATTRIBUTE_ACTION = 'action'";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

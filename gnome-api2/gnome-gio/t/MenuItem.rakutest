@@ -1,0 +1,233 @@
+# Command to generate: generate.raku -v -t Gio io
+use v6.d;
+
+#TL:1:Gnome::Gio::MenuItem:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gio::MenuItem:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gio::MenuItem $menuitem;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $menuitem {
+    my Int() $item-index;
+    my N-GObject() $submenu;
+    my N-GObject() $section;
+    my Str $label;
+    my N-GObject() $model;
+    my Str $detailed-action;
+
+#`{{
+    #TC:0:new-menuitem()
+    $label = 'text';
+    $detailed-action = 'text';
+    $menuitem .= new-menuitem( $label, $detailed-action);
+    ok .is-valid, '.new-menuitem( $label, $detailed-action)';
+
+    #TC:0:new-from-model()
+    $model = …;  # a native object
+    $item-index = -42;
+    $menuitem .= new-from-model( $model, $item-index);
+    ok .is-valid, '.new-from-model( $model, $item-index)';
+
+    #TC:0:new-section()
+    $label = 'text';
+    $section = …;  # a native object
+    $menuitem .= new-section( $label, $section);
+    ok .is-valid, '.new-section( $label, $section)';
+
+    #TC:0:new-submenu()
+    $label = 'text';
+    $submenu = …;  # a native object
+    $menuitem .= new-submenu( $label, $submenu);
+    ok .is-valid, '.new-submenu( $label, $submenu)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $menuitem {
+    my Str $attribute;
+    my N-GObject $value;
+    my Str $detailed-action;
+    my Str $link;
+    my Str $label;
+    my N-GObject $expected-type;
+    my N-GObject $target-value;
+    my Str $format-string;
+    my N-GObject() $model;
+    my N-GObject() $submenu;
+    my Str $action;
+    my N-GObject() $section;
+    my N-GObject() $icon;
+
+
+#`{{
+    #TM:0:set-action-and-target()
+    $action = 'text';
+    $format-string = 'text';
+    .set-action-and-target( $action, $format-string);
+    ok True, '.set-action-and-target()';
+
+    #TM:0:set-action-and-target-value()
+    $action = 'text';
+    $target-value = …;  # a native object
+    .set-action-and-target-value( $action, $target-value);
+    ok True, '.set-action-and-target-value()';
+
+    #TM:0:set-attribute()
+    $attribute = 'text';
+    $format-string = 'text';
+    .set-attribute( $attribute, $format-string);
+    #TM:0:get-attribute()
+    is .get-attribute(),  $attribute, $format-string, '.set-attribute() / .get-attribute()';
+
+    #TM:0:set-attribute-value()
+    $attribute = 'text';
+    $value = …;  # a native object
+    .set-attribute-value( $attribute, $value);
+    #TM:0:get-attribute-value()
+    is .get-attribute-value(),  $attribute, $value, '.set-attribute-value() / .get-attribute-value()';
+
+    #TM:0:set-detailed-action()
+    $detailed-action = 'text';
+    .set-detailed-action( $detailed-action);
+    ok True, '.set-detailed-action()';
+
+    #TM:0:set-icon()
+    $icon = …;  # a native object
+    .set-icon( $icon);
+    ok True, '.set-icon()';
+
+    #TM:0:set-label()
+    $label = 'text';
+    .set-label( $label);
+    ok True, '.set-label()';
+
+    #TM:0:set-link()
+    $link = 'text';
+    $model = …;  # a native object
+    .set-link( $link, $model);
+    #TM:0:get-link()
+    is .get-link(),  $link, $model, '.set-link() / .get-link()';
+
+    #TM:0:set-section()
+    $section = …;  # a native object
+    .set-section( $section);
+    ok True, '.set-section()';
+
+    #TM:0:set-submenu()
+    $submenu = …;  # a native object
+    .set-submenu( $submenu);
+    ok True, '.set-submenu()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gio::MenuItem() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gio::MenuItem;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gio::MenuItem :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gio::MenuItem $menuitem .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $menuitem.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
