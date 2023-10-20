@@ -538,10 +538,11 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = $gnome-name;
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
+      my Str $type-name = 'T-' ~ $source-filename.tc;
+#      my Str $name-prefix = $*work-data<name-prefix>;
+#      my Str $type-name = $gnome-name;
+#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+#      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
 #      my Str $type-name =
 #         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
@@ -577,10 +578,11 @@ method !map-element (
         }
       }
 
-      my Str $type-name = $gnome-name;
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
+      my Str $type-name = 'T-' ~ $source-filename.tc;
+#      my Str $type-name = $gnome-name;
+#      my Str $name-prefix = $*work-data<name-prefix>;
+#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+#      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
 #      my Str $type-name =
 #         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
@@ -605,10 +607,11 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = $gnome-name;
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
+      my Str $type-name = 'T-' ~ $source-filename.tc;
+#      my Str $type-name = $gnome-name;
+#      my Str $name-prefix = $*work-data<name-prefix>;
+#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+#      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
 #      my Str $type-name =
 #         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
@@ -630,10 +633,11 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = $gnome-name;
-      my Str $name-prefix = $*work-data<name-prefix>;
-      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
+      my Str $type-name = 'T-' ~ $source-filename.tc;
+#      my Str $type-name = $gnome-name;
+#      my Str $name-prefix = $*work-data<name-prefix>;
+#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
+#      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
 #      my Str $type-name =
 #         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
 #      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
@@ -675,10 +679,12 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
+      my Str $type-name = 'T-' ~ $source-filename.tc;
       my Str $callback-name = $attrs<name>;
       $!map{$ctype} = %(
         :gir-type<callback>,
 
+        :$type-name,
         :$source-filename,
         :$gnome-name,
         :$callback-name,
