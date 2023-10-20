@@ -103,7 +103,7 @@ my Hash $methods = %(
   new-uint32 => %( :type(Constructor), :returns(N-Variant), :parameters([ guint32])),
   new-uint64 => %( :type(Constructor), :returns(N-Variant), :parameters([ guint64])),
   #new-va => %( :type(Constructor), :returns(N-Variant), :parameters([ Str, gchar-pptr, ])),
-  new-variant => %( :type(Constructor), :returns(N-Variant), :parameters([ N-Variant])),
+#??  new-variant => %( :type(Constructor), :returns(N-Variant), :parameters([ N-Variant])),
 
   #--[Methods]------------------------------------------------------------------
   byteswap => %( :returns(N-Variant)),
