@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gio application
+# Command to generate: generate.raku -v -c Gio application
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -9,13 +9,13 @@ use NativeCall;
 
 
 use Gnome::GObject::Object:api<2>;
-#use Gnome::Gio::R-ActionGroup:api<2>;
-#use Gnome::Gio::R-ActionMap:api<2>;
-use Gnome::Gio::T-Ioenums:api<2>;
-#use Gnome::Glib::N-GOptionEntry:api<2>;
-#use Gnome::Glib::N-GOptionGroup:api<2>;
-#use Gnome::Glib::T-GOptionEntry:api<2>;
-#use Gnome::Glib::T-Option:api<2>;
+use Gnome::Gio::R-ActionGroup:api<2>;
+use Gnome::Gio::R-ActionMap:api<2>;
+#use Gnome::Gio::T-ApplicationFlags:api<2>;
+#use Gnome::Glib::N-OptionEntry:api<2>;
+#use Gnome::Glib::N-OptionGroup:api<2>;
+#use Gnome::Glib::T-OptionArg:api<2>;
+#use Gnome::Glib::T-OptionEntry:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -29,8 +29,8 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gio::Application:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
-#also does Gnome::Gio::R-ActionGroup;
-#also does Gnome::Gio::R-ActionMap;
+also does Gnome::Gio::R-ActionGroup;
+also does Gnome::Gio::R-ActionMap;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -50,7 +50,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<startup name-lost shutdown activate>,
+      :w0<name-lost shutdown activate startup>,
       :w1<handle-local-options command-line>,
       :w3<open>,
     );
@@ -86,13 +86,13 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   activate => %(),
   #add-main-option => %( :parameters([Str, gchar, GFlag, GEnum, Str, Str])),
-  #add-main-option-entries => %( :parameters([N-GOptionEntry ])),
-  #add-option-group => %( :parameters([N-GOptionGroup ])),
+  #add-main-option-entries => %( :parameters([N-OptionEntry ])),
+  #add-option-group => %( :parameters([N-OptionGroup ])),
   bind-busy-property => %( :parameters([gpointer, Str])),
   get-application-id => %( :returns(Str)),
   get-dbus-connection => %( :returns(N-GObject)),
   get-dbus-object-path => %( :returns(Str)),
-  get-flags => %( :returns(GFlag), :cnv-return(GApplicationFlags)),
+  #get-flags => %( :returns(GFlag), :cnv-return(GApplicationFlags )),
   get-inactivity-timeout => %( :returns(guint)),
   get-is-busy => %( :returns(gboolean), :cnv-return(Bool)),
   get-is-registered => %( :returns(gboolean), :cnv-return(Bool)),
@@ -108,7 +108,7 @@ my Hash $methods = %(
   send-notification => %( :parameters([Str, N-GObject])),
   set-application-id => %( :parameters([Str])),
   set-default => %(),
-  set-flags => %( :parameters([GFlag])),
+  #set-flags => %( :parameters([GFlag])),
   set-inactivity-timeout => %( :parameters([guint])),
   set-option-context-description => %( :parameters([Str])),
   set-option-context-parameter-string => %( :parameters([Str])),
@@ -141,6 +141,10 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
       );
     }
 
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
+    }
+
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
@@ -152,20 +156,16 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-#`{{
     $r = self.Gnome::Gio::R-ActionGroup::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
-}}
-#`{{
     $r = self.Gnome::Gio::R-ActionMap::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
-}}
     callsame;
   }
 }
