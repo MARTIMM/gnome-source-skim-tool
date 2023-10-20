@@ -499,42 +499,48 @@ method !make-list-from-result (
 #-------------------------------------------------------------------------------
 method !convert-args ( Mu $v, $p ) {
   my $c;
-#note "$?LINE $p.^name(), $v.gist()";
 
-  given $p {
-    # May be used to receive an array of strings or to provide one.
-    when gchar-pptr {
-      $c = CArray[Str].new(|$v);
-    }
+#note "$?LINE $p.^name(), $v.gist(), ", $v.^mro;
+  if $v.can('get-native-object-no-reffing') {
+    my N-GObject $no = $v.get-native-object-no-reffing;
+    $c = $no;
+  }
 
-    # Only used to return a value
-    when gint-ptr {
-      $c = CArray[gint].new(0);
-    }
+  else {
+    given $p {
+      # May be used to receive an array of strings or to provide one.
+      when gchar-pptr {
+        $c = CArray[Str].new(|$v);
+      }
 
+      # Only used to return a value
+      when gint-ptr {
+        $c = CArray[gint].new(0);
+      }
 
-    # Only used to return a value
-    when .^name ~~ / CArray .*? 'N-GError' / {
-      $c = CArray[N-GError].new(N-GError); #($p.new);
-    }
+      # Only used to return a value
+      when .^name ~~ / CArray .*? 'N-GError' / {
+        $c = CArray[N-GError].new(N-GError); #($p.new);
+      }
 
-    when N-GObject {
-      my N-GObject $no = $v.get-native-object-no-reffing;
-      $c = $no;
-    }
 #`{{
-    when Signature {
-      die X::Gnome.new(
-        :message('Signature of callback routine does not match')
-      ) unless $p ~~ $v.signature;
+      when N-GObject {
+        my N-GObject $no = $v.get-native-object-no-reffing;
+        $c = $no;
+      }
+      when Signature {
+        die X::Gnome.new(
+          :message('Signature of callback routine does not match')
+        ) unless $p ~~ $v.signature;
 
-      $c = $v;
-    }
+        $c = $v;
+      }
 }}
 
-    # Most values do not need conversion
-    default {
-      $c = $v;
+      # Most values do not need conversion
+      default {
+        $c = $v;
+      }
     }
   }
 
@@ -629,6 +635,7 @@ method !adjust-data ( Array $arguments, Array $parameters --> List ) {
 
   if $arguments.elems > $np {
     for $arguments[$np..*-1] -> $type, $value {
+note "$?LINE $type.gist(), $value.gist()";
       $new-arguments.push: $value;
       $new-parameters.push: $type;
       $func-pattern ~= $type.^name;
