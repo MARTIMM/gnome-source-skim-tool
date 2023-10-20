@@ -1,0 +1,170 @@
+# Command to generate: generate.raku -v -t Gio io
+use v6.d;
+
+#TL:1:Gnome::Gio::SimpleAction:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gio::SimpleAction:api<2>;
+
+use Gnome::Glib::Variant:api<2>;
+use Gnome::Glib::VariantType:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gio::SimpleAction $simpleaction;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $simpleaction {
+    my Gnome::Glib::VariantType $parameter-type;
+    my Str $name;
+    my Gnome::Glib::Variant $state;
+
+    #TC:1:new-simpleaction()
+    $name = 'new-action';
+    $parameter-type .= new-varianttype('b');
+    $simpleaction .= new-simpleaction( $name, $parameter-type);
+    ok .is-valid, '.new-simpleaction( $name, $parameter-type)';
+
+    #TC:1:new-stateful()
+    $name = 'my-action';
+    $parameter-type .= new-varianttype('i');
+    $state .= new-variant( 'i', gint32, 40);
+    $simpleaction .= new-stateful( $name, $parameter-type, $state);
+    ok .is-valid, '.new-stateful( $name, $parameter-type, $state)';
+#`{{
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $simpleaction {
+    my N-GObject $state-hint;
+    my Bool() $enabled;
+    my N-GObject $value;
+
+
+#`{{
+    #TM:0:set-enabled()
+    $enabled = True;
+    .set-enabled( $enabled);
+    ok True, '.set-enabled()';
+
+    #TM:0:set-state()
+    $value = …;  # a native object
+    .set-state( $value);
+    ok True, '.set-state()';
+
+    #TM:0:set-state-hint()
+    $state-hint = …;  # a native object
+    .set-state-hint( $state-hint);
+    ok True, '.set-state-hint()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gio::SimpleAction() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gio::SimpleAction;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gio::SimpleAction :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gio::SimpleAction $simpleaction .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $simpleaction.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
