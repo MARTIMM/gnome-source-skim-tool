@@ -887,11 +887,11 @@ method generate-functions ( Hash $hcs --> Str ) {
         $par-list ~= ", $xtype";
       }
 
-      elsif $xtype ~~ m/^ ':' / {
+      elsif $xtype ~~ m/ ':' / {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
         my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
         if $rnt0 eq 'GEnum' {
-          $par-list ~= ', $rnt1';
+          $par-list ~= ", $rnt1";
         }
 
         else { # ≡ GFlag
