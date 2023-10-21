@@ -108,13 +108,14 @@ multi sub MAIN ( Str $l, Str $t, Bool :$c = False ) {
 }
 
 #-------------------------------------------------------------------------------
-multi sub MAIN ( Str $xt, Bool :$d = False ) {
+multi sub MAIN ( Str $xt, Bool :$d = False, Bool :$api1 = False ) {
 
   # xt holds path name to either Ctk3 or Gtk4 in the xt dir
   my Str $gtk-v = ($xt ~~ / '3' /) ?? '3' !! '4';
 
   # Paths to find by Raku
-  my @pth = (
+  my @pth = ();
+  @pth = (
     "$API2MODS/gnome-native/lib",
     "$API2MODS/gnome-glib/lib",
     "$API2MODS/gnome-gobject/lib",
@@ -124,7 +125,7 @@ multi sub MAIN ( Str $xt, Bool :$d = False ) {
 #    "$API2MODS/gnome-atk/lib",
     "$API2MODS/gnome-gtk$gtk-v/lib",
     "$API2MODS/gnome-gdk$gtk-v/lib",
-  );
+  ) unless $api1;
 
   %*ENV<RAKULIB> = @pth.join(',');
 
@@ -139,7 +140,8 @@ multi sub MAIN ( Str $xt, Bool :$d = False ) {
 #note 'log: ', $log;
 
   $log.IO.spurt(
-    'Elapsed time | User time| Kernel time | Cpu %' ~ "\n" ~ '|--|--|--|--|' ~ "\n"
+    'Elapsed time | User time| Kernel time | Cpu % | Notes' ~
+    "\n" ~ '|--|--|--|--|--|' ~ "\n"
   ) unless $log.IO.e;
 
   my Str $time-cmd = [~] '/usr/bin/time ',
