@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 widget
+# Command to generate: generate.raku -c -t Gtk4 widget class
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,12 +8,12 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Cairo::N-cairo_font_options_t:api<2>;
+#use Gnome::Cairo::N-_font_options_t:api<2>;
 use Gnome::GObject::InitiallyUnowned:api<2>;
-#use Gnome::Glib::N-GList:api<2>;
-#use Gnome::Glib::N-GVariant:api<2>;
-#use Gnome::Gsk4::N-GskTransform:api<2>;
-use Gnome::Gtk4::N-GtkRequisition:api<2>;
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Glib::N-Variant:api<2>;
+#use Gnome::Gsk4::N-Transform:api<2>;
+use Gnome::Gtk4::N-Requisition:api<2>;
 #use Gnome::Gtk4::R-Accessible:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 #use Gnome::Gtk4::R-ConstraintTarget:api<2>;
@@ -53,8 +53,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<hide show unmap destroy realize unrealize map>,
-      :w1<keynav-failed move-focus state-flags-changed direction-changed mnemonic-activate>,
+      :w0<destroy unmap realize show map hide unrealize>,
+      :w1<mnemonic-activate direction-changed state-flags-changed move-focus keynav-failed>,
       :w4<query-tooltip>,
     );
 
@@ -96,14 +96,14 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   action-set-enabled => %( :parameters([Str, gboolean])),
   activate => %( :returns(gboolean), :cnv-return(Bool)),
-  activate-action => %(:variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
-  #activate-action-variant => %( :returns(gboolean), :cnv-return(Bool), :parameters([Str, N-GVariant ])),
+  #activate-action => %(:variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
+  activate-action-variant => %( :returns(gboolean), :cnv-return(Bool), :parameters([Str, N-Variant])),
   activate-default => %(),
   add-controller => %( :parameters([N-GObject])),
   add-css-class => %( :parameters([Str])),
   add-mnemonic-label => %( :parameters([N-GObject])),
-  #add-tick-callback => %( :returns(guint), :parameters([:( N-GObject, N-GObject, gpointer --> gboolean ), gpointer, ])),
-  #allocate => %( :parameters([gint, gint, gint, N-GskTransform ])),
+  #add-tick-callback => %( :returns(guint), :parameters([:( N-GObject $widget, N-GObject $frame-clock, gpointer $user-data --> gboolean ), gpointer, ])),
+  #allocate => %( :parameters([gint, gint, gint, N-Transform ])),
   child-focus => %( :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
   #compute-bounds => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject, ])),
   compute-expand => %( :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
@@ -133,7 +133,7 @@ my Hash $methods = %(
   get-focus-on-click => %( :returns(gboolean), :cnv-return(Bool)),
   get-focusable => %( :returns(gboolean), :cnv-return(Bool)),
   get-font-map => %( :returns(N-GObject)),
-  #get-font-options => %( :returns(N-cairo_font_options_t )),
+  #get-font-options => %( :returns(N-_font_options_t )),
   get-frame-clock => %( :returns(N-GObject)),
   get-halign => %( :returns(GEnum), :cnv-return(GtkAlign)),
   get-has-tooltip => %( :returns(gboolean), :cnv-return(Bool)),
@@ -154,7 +154,7 @@ my Hash $methods = %(
   get-overflow => %( :returns(GEnum), :cnv-return(GtkOverflow)),
   get-pango-context => %( :returns(N-GObject)),
   get-parent => %( :returns(N-GObject)),
-  get-preferred-size => %( :parameters([N-GtkRequisition, N-GtkRequisition])),
+  get-preferred-size => %( :parameters([N-Requisition, N-Requisition])),
   get-prev-sibling => %( :returns(N-GObject)),
   get-primary-clipboard => %( :returns(N-GObject)),
   get-realized => %( :returns(gboolean), :cnv-return(Bool)),
@@ -193,7 +193,7 @@ my Hash $methods = %(
   is-sensitive => %( :returns(gboolean), :cnv-return(Bool)),
   is-visible => %( :returns(gboolean), :cnv-return(Bool)),
   keynav-failed => %( :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
-  #list-mnemonic-labels => %( :returns(N-GList )),
+  list-mnemonic-labels => %( :returns(N-List)),
   map => %(),
   measure => %( :parameters([GEnum, gint, gint-ptr, gint-ptr, gint-ptr, gint-ptr])),
   mnemonic-activate => %( :returns(gboolean), :cnv-return(Bool), :parameters([gboolean])),
@@ -219,7 +219,7 @@ my Hash $methods = %(
   set-focus-on-click => %( :parameters([gboolean])),
   set-focusable => %( :parameters([gboolean])),
   set-font-map => %( :parameters([N-GObject])),
-  #set-font-options => %( :parameters([N-cairo_font_options_t ])),
+  #set-font-options => %( :parameters([N-_font_options_t ])),
   set-halign => %( :parameters([GEnum])),
   set-has-tooltip => %( :parameters([gboolean])),
   set-hexpand => %( :parameters([gboolean])),
@@ -256,7 +256,7 @@ my Hash $methods = %(
 
   #--[Functions]----------------------------------------------------------------
   get-default-direction => %( :type(Function),  :returns(GEnum)),
-  set-default-direction => %( :type(Function),  :parameters([GEnum])),
+  set-default-direction => %( :type(Function),  :parameters([GtkTextDirection])),
 );
 
 #-------------------------------------------------------------------------------
@@ -275,6 +275,10 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           $routine-caller.call-native-sub( $name, @arguments, $methods)
         )
       );
+    }
+
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
     }
 
     else {
