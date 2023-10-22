@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 application
+# Command to generate: generate.raku -c -t Gtk4 application
 use v6.d;
 
 #-------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 application
+# Command to generate: generate.raku -c -t Gtk4 application
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::Gio::Application:api<2>;
 use Gnome::Gio::T-Ioenums:api<2>;
-#use Gnome::Glib::N-GList:api<2>;
+use Gnome::Glib::N-List:api<2>;
 use Gnome::Gtk4::T-Application:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -82,7 +82,7 @@ my Hash $methods = %(
   get-menu-by-id => %( :returns(N-GObject), :parameters([Str])),
   get-menubar => %( :returns(N-GObject)),
   get-window-by-id => %( :returns(N-GObject), :parameters([guint])),
-  #get-windows => %( :returns(N-GList )),
+  get-windows => %( :returns(N-List)),
   inhibit => %( :returns(guint), :parameters([N-GObject, GFlag, Str])),
   list-action-descriptions => %( :returns(gchar-pptr)),
   remove-window => %( :parameters([N-GObject])),
@@ -107,6 +107,10 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           $routine-caller.call-native-sub( $name, @arguments, $methods)
         )
       );
+    }
+
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
     }
 
     else {

@@ -70,14 +70,32 @@ subtest 'Method tests', {
 
 
 #`{{
-    #TM:0:uninhibit()
-    ok .uninhibit( $cookie), '.uninhibit()';
+    #TM:0:add-window()
+    ok .add-window( $window), '.add-window()';
 
-    #TM:0:set-menubar()
-    $menubar = …;  # a native object
-    .set-menubar( $menubar);
-    #TM:0:get-menubar()
-    is .get-menubar(),  $menubar, '.set-menubar() / .get-menubar()';
+    #TM:0:get-actions-for-accel()
+    is .get-actions-for-accel( $accel), '…', '.get-actions-for-accel()';
+
+    #TM:0:get-active-window()
+     .get-active-window(), '…', '.get-active-window()';
+
+    #TM:0:get-menu-by-id()
+    is .get-menu-by-id( $id), '…', '.get-menu-by-id()';
+
+    #TM:0:get-window-by-id()
+    is .get-window-by-id( $id), '…', '.get-window-by-id()';
+
+    #TM:0:get-windows()
+     .get-windows(), '…', '.get-windows()';
+
+    #TM:0:inhibit()
+    ok .inhibit( $window, $flags, $reason), '.inhibit()';
+
+    #TM:0:list-action-descriptions()
+    ok .list-action-descriptions(), '.list-action-descriptions()';
+
+    #TM:0:remove-window()
+    ok .remove-window( $window), '.remove-window()';
 
     #TM:0:set-accels-for-action()
     $detailed-action-name = 'text';
@@ -86,33 +104,14 @@ subtest 'Method tests', {
     #TM:0:get-accels-for-action()
     is .get-accels-for-action(),  $detailed-action-name, $accels, '.set-accels-for-action() / .get-accels-for-action()';
 
-    #TM:0:remove-window()
-    ok .remove-window( $window), '.remove-window()';
+    #TM:0:set-menubar()
+    $menubar = …;  # a native object
+    .set-menubar( $menubar);
+    #TM:0:get-menubar()
+    is .get-menubar(),  $menubar, '.set-menubar() / .get-menubar()';
 
-    #TM:0:list-action-descriptions()
-    ok .list-action-descriptions(), '.list-action-descriptions()';
-
-    #TM:0:inhibit()
-    ok .inhibit( $window, $flags, $reason), '.inhibit()';
-
-    #TM:0:get-windows()
-     .get-windows(), '…', '.get-windows()';
-
-    #TM:0:get-window-by-id()
-    is .get-window-by-id( $id), '…', '.get-window-by-id()';
-
-    #TM:0:get-menu-by-id()
-    is .get-menu-by-id( $id), '…', '.get-menu-by-id()';
-
-    #TM:0:get-active-window()
-     .get-active-window(), '…', '.get-active-window()';
-
-    #TM:0:get-actions-for-accel()
-    is .get-actions-for-accel( $accel), '…', '.get-actions-for-accel()';
-
-    #TM:0:add-window()
-    ok .add-window( $window), '.add-window()';
-
+    #TM:0:uninhibit()
+    ok .uninhibit( $cookie), '.uninhibit()';
 }}
   }
 };
