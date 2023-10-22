@@ -15,7 +15,7 @@ use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
-#use Gnome::Pango::N-PangoAttrList:api<2>;
+#use Gnome::Pango::N-AttrList:api<2>;
 #use Gnome::Pango::T-Layout:api<2>;
 
 
@@ -44,7 +44,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<copy-clipboard activate-current-link>,
+      :w0<activate-current-link copy-clipboard>,
       :w1<activate-link>,
       :w3<move-cursor>,
     );
@@ -77,7 +77,7 @@ my Hash $methods = %(
   new-with-mnemonic => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  #get-attributes => %( :returns(N-PangoAttrList )),
+  #get-attributes => %( :returns(N-AttrList )),
   get-current-uri => %( :returns(Str)),
   #get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode )),
   get-extra-menu => %( :returns(N-GObject)),
@@ -102,7 +102,7 @@ my Hash $methods = %(
   get-xalign => %( :returns(gfloat)),
   get-yalign => %( :returns(gfloat)),
   select-region => %( :parameters([gint, gint])),
-  #set-attributes => %( :parameters([N-PangoAttrList ])),
+  #set-attributes => %( :parameters([N-AttrList ])),
   #set-ellipsize => %( :parameters([GEnum])),
   set-extra-menu => %( :parameters([N-GObject])),
   set-justify => %( :parameters([GEnum])),
@@ -142,6 +142,10 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           $routine-caller.call-native-sub( $name, @arguments, $methods)
         )
       );
+    }
+
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
     }
 
     else {
