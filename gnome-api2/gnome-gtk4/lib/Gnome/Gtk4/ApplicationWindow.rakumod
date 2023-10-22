@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 applicationwindow
+# Command to generate: generate.raku -c -t Gtk4 applicationwindow
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -84,6 +84,10 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           $routine-caller.call-native-sub( $name, @arguments, $methods)
         )
       );
+    }
+
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
     }
 
     else {

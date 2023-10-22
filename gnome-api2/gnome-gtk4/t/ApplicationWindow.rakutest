@@ -61,12 +61,8 @@ subtest 'Method tests', {
     my Bool() $show-menubar;
     my N-GObject() $help-overlay;
 
-
-    #TM:1:set-show-menubar()
-    $show-menubar = True;
-    .set-show-menubar( $show-menubar);
-    #TM:1:get-show-menubar()
-    is .get-show-menubar(),  $show-menubar, '.set-show-menubar() / .get-show-menubar()';
+    #TM:1:get-id()
+    ok .get-id.defined, '.get-id()';
 
 #`{{
     #TM:0:set-help-overlay()
@@ -76,8 +72,11 @@ subtest 'Method tests', {
     is .get-help-overlay(),  $help-overlay, '.set-help-overlay() / .get-help-overlay()';
 }}
 
-    #TM:1:get-id()
-    ok .get-id.defined, '.get-id()';
+    #TM:1:set-show-menubar()
+    $show-menubar = True;
+    .set-show-menubar( $show-menubar);
+    #TM:1:get-show-menubar()
+    is .get-show-menubar(),  $show-menubar, '.set-show-menubar() / .get-show-menubar()';
   }
 };
 
