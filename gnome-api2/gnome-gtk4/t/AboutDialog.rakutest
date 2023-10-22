@@ -1,0 +1,251 @@
+# Command to generate: generate.raku -c -t Gtk4 AboutDialog
+use v6.d;
+
+#TL:1:Gnome::Gtk4::AboutDialog:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::AboutDialog:api<2>;
+use Gnome::Gtk4::T-Aboutdialog:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::AboutDialog $aboutdialog;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $aboutdialog {
+
+    #TC:1:new-aboutdialog()
+    $aboutdialog .= new-aboutdialog();
+    ok .is-valid, '.new-aboutdialog()';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $aboutdialog {
+    my GtkLicense $license-type;
+    my Str $version;
+    my Str $comments;
+    my Str $copyright;
+    my N-GObject() $logo;
+    my Bool() $wrap-license;
+    my Str $website;
+    my Str $system-information;
+    my Str $license;
+    my Array[Str] $people;
+    my Str $name;
+    my Str $icon-name;
+    my Array[Str] $authors;
+    my Array[Str] $artists;
+    my Array[Str] $documenters;
+    my Str $section-name;
+    my Str $website-label;
+    my Str $translator-credits;
+
+
+#`{{
+    #TM:0:add-credit-section()
+    ok .add-credit-section( $section-name, $people), '.add-credit-section()';
+
+    #TM:0:set-artists()
+    $artists = '…';
+    .set-artists( $artists);
+    #TM:0:get-artists()
+    is .get-artists(),  $artists, '.set-artists() / .get-artists()';
+
+    #TM:0:set-authors()
+    $authors = '…';
+    .set-authors( $authors);
+    #TM:0:get-authors()
+    is .get-authors(),  $authors, '.set-authors() / .get-authors()';
+
+    #TM:0:set-comments()
+    $comments = 'text';
+    .set-comments( $comments);
+    #TM:0:get-comments()
+    is .get-comments(),  $comments, '.set-comments() / .get-comments()';
+
+    #TM:0:set-copyright()
+    $copyright = 'text';
+    .set-copyright( $copyright);
+    #TM:0:get-copyright()
+    is .get-copyright(),  $copyright, '.set-copyright() / .get-copyright()';
+
+    #TM:0:set-documenters()
+    $documenters = '…';
+    .set-documenters( $documenters);
+    #TM:0:get-documenters()
+    is .get-documenters(),  $documenters, '.set-documenters() / .get-documenters()';
+
+    #TM:0:set-license()
+    $license = 'text';
+    .set-license( $license);
+    #TM:0:get-license()
+    is .get-license(),  $license, '.set-license() / .get-license()';
+
+    #TM:0:set-license-type()
+    $license-type = …;  # an enum or fla
+    .set-license-type( $license-type);
+    #TM:0:get-license-type()
+    is .get-license-type(),  $license-type, '.set-license-type() / .get-license-type()';
+
+    #TM:0:set-logo()
+    $logo = …;  # a native object
+    .set-logo( $logo);
+    #TM:0:get-logo()
+    is .get-logo(),  $logo, '.set-logo() / .get-logo()';
+
+    #TM:0:set-logo-icon-name()
+    $icon-name = 'text';
+    .set-logo-icon-name( $icon-name);
+    #TM:0:get-logo-icon-name()
+    is .get-logo-icon-name(),  $icon-name, '.set-logo-icon-name() / .get-logo-icon-name()';
+
+    #TM:0:set-program-name()
+    $name = 'text';
+    .set-program-name( $name);
+    #TM:0:get-program-name()
+    is .get-program-name(),  $name, '.set-program-name() / .get-program-name()';
+
+    #TM:0:set-system-information()
+    $system-information = 'text';
+    .set-system-information( $system-information);
+    #TM:0:get-system-information()
+    is .get-system-information(),  $system-information, '.set-system-information() / .get-system-information()';
+
+    #TM:0:set-translator-credits()
+    $translator-credits = 'text';
+    .set-translator-credits( $translator-credits);
+    #TM:0:get-translator-credits()
+    is .get-translator-credits(),  $translator-credits, '.set-translator-credits() / .get-translator-credits()';
+
+    #TM:0:set-version()
+    $version = 'text';
+    .set-version( $version);
+    #TM:0:get-version()
+    is .get-version(),  $version, '.set-version() / .get-version()';
+
+    #TM:0:set-website()
+    $website = 'text';
+    .set-website( $website);
+    #TM:0:get-website()
+    is .get-website(),  $website, '.set-website() / .get-website()';
+
+    #TM:0:set-website-label()
+    $website-label = 'text';
+    .set-website-label( $website-label);
+    #TM:0:get-website-label()
+    is .get-website-label(),  $website-label, '.set-website-label() / .get-website-label()';
+
+    #TM:0:set-wrap-license()
+    $wrap-license = True;
+    .set-wrap-license( $wrap-license);
+    #TM:0:get-wrap-license()
+    is .get-wrap-license(),  $wrap-license, '.set-wrap-license() / .get-wrap-license()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::AboutDialog() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::AboutDialog;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::AboutDialog :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::AboutDialog $aboutdialog .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $aboutdialog.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

@@ -1,0 +1,86 @@
+# Command to generate: generate.raku -c -t Gtk4 AboutDialog
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Aboutdialog:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Aboutdialog:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkLicense
+subtest 'GtkLicense', {
+  is GTK_LICENSE_UNKNOWN.value, 0, 'enum GTK_LICENSE_UNKNOWN = 0';
+
+  is GTK_LICENSE_CUSTOM.value, 1, 'enum GTK_LICENSE_CUSTOM = 1';
+
+  is GTK_LICENSE_GPL_2_0.value, 2, 'enum GTK_LICENSE_GPL_2_0 = 2';
+
+  is GTK_LICENSE_GPL_3_0.value, 3, 'enum GTK_LICENSE_GPL_3_0 = 3';
+
+  is GTK_LICENSE_LGPL_2_1.value, 4, 'enum GTK_LICENSE_LGPL_2_1 = 4';
+
+  is GTK_LICENSE_LGPL_3_0.value, 5, 'enum GTK_LICENSE_LGPL_3_0 = 5';
+
+  is GTK_LICENSE_BSD.value, 6, 'enum GTK_LICENSE_BSD = 6';
+
+  is GTK_LICENSE_MIT_X11.value, 7, 'enum GTK_LICENSE_MIT_X11 = 7';
+
+  is GTK_LICENSE_ARTISTIC.value, 8, 'enum GTK_LICENSE_ARTISTIC = 8';
+
+  is GTK_LICENSE_GPL_2_0_ONLY.value, 9, 'enum GTK_LICENSE_GPL_2_0_ONLY = 9';
+
+  is GTK_LICENSE_GPL_3_0_ONLY.value, 10, 'enum GTK_LICENSE_GPL_3_0_ONLY = 10';
+
+  is GTK_LICENSE_LGPL_2_1_ONLY.value, 11, 'enum GTK_LICENSE_LGPL_2_1_ONLY = 11';
+
+  is GTK_LICENSE_LGPL_3_0_ONLY.value, 12, 'enum GTK_LICENSE_LGPL_3_0_ONLY = 12';
+
+  is GTK_LICENSE_AGPL_3_0.value, 13, 'enum GTK_LICENSE_AGPL_3_0 = 13';
+
+  is GTK_LICENSE_AGPL_3_0_ONLY.value, 14, 'enum GTK_LICENSE_AGPL_3_0_ONLY = 14';
+
+  is GTK_LICENSE_BSD_3.value, 15, 'enum GTK_LICENSE_BSD_3 = 15';
+
+  is GTK_LICENSE_APACHE_2_0.value, 16, 'enum GTK_LICENSE_APACHE_2_0 = 16';
+
+  is GTK_LICENSE_MPL_2_0.value, 17, 'enum GTK_LICENSE_MPL_2_0 = 17';
+
+};
+
+
+my Gnome::Gtk4::T-Aboutdialog $aboutdialog .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $aboutdialog {
+    my Str $first-property-name;
+    my N-GObject $parent;
+
+
+#`{{
+    #TM:0:show-about-dialog()
+    ok .show-about-dialog( $parent, $first-property-name), '.show-about-dialog()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
