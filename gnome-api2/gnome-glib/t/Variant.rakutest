@@ -58,8 +58,9 @@ subtest 'ISA test', {
 
     #TC:0:new-variant()
     $format-string = 'i';
-    $variant .= new-variant( $format-string, gint, 40);
+    $variant .= new-variant( $format-string, gint32, 40);
     ok .is-valid, '.new-variant($format-string)';
+    is .get-int32, 40, '.get-int32()';
 
 #`{{
     #TC:0:new-array()
@@ -227,7 +228,7 @@ subtest 'ISA test', {
     $variant .= new-va( $format-string, $endptr, $app);
     ok .is-valid, '.new-va( $format-string, $endptr, $app)';
 
-    #TC:0:new-variant()
+#??    #TC:0:new-variant()
     $value = …;  # a native object
     $variant .= new-variant( $value);
     ok .is-valid, '.new-variant( $value)';
