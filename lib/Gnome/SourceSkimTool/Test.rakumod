@@ -160,12 +160,18 @@ method make-function-test (
       $decl-vars{$parameter-name} = [~]
         'sub ', $parameter-name, ' ', $parameter<raku-type>;
       $decl-vars{$parameter-name} ~~ s/ ':(' /(/;
-note "$?LINE $parameter-name, $decl-vars{$parameter-name}";
+#note "$?LINE $parameter-name, $decl-vars{$parameter-name}";
     }
 
     elsif $parameter<raku-type> ~~ / ':' / {
       my ( $type, $enum ) = $parameter<raku-type>.split(':');
-      $decl-vars{$parameter-name} = $enum;
+      if $type eq 'GEnum' {
+        $decl-vars{$parameter-name} = $enum;
+      }
+
+      else{
+        $decl-vars{$parameter-name} = $type;
+      }
     }
 
     else {
@@ -184,7 +190,7 @@ note "$?LINE $parameter-name, $decl-vars{$parameter-name}";
       when 'Str' { $assign-list ~= "'text';\n"; }
       when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
       when 'Bool' { $assign-list ~= "True;\n"; }
-      when 'N-GObject' { $assign-list ~= "…;  # a native object\n"; }
+      when 'N-GObject' { $assign-list ~= "…;"; }
       when / ':' / {
         my ( $type, $enum ) = .split(':');
         $assign-list ~= "…;  # an enum or flag" if ?$enum;
