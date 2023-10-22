@@ -72,6 +72,8 @@ submethod BUILD ( Str :$!library, Str :$!sub-prefix ) {
 #-------------------------------------------------------------------------------
 method gtk-initialize ( ) {
 
+  note "Initialize Gtk" if $Gnome::N::x-debug;
+
   if $!library ~~ / 3 / {
     # must setup gtk otherwise Raku will crash
     my $argc = int-ptr.new;
@@ -635,7 +637,16 @@ method !adjust-data ( Array $arguments, Array $parameters --> List ) {
 
   if $arguments.elems > $np {
     for $arguments[$np..*-1] -> $type, $value {
-note "$?LINE $type.gist(), $value.gist()";
+      # Must be an undefined type followed by a defined value
+      if $type.defined and !$value.defined {
+        die X::Gnome.new(
+          :message('Variable lists must be extended by paired variables: a type and a value')
+        )
+      }
+
+      note "extend list with a $type.gist() followed $value.gist()"
+        if $Gnome::N::x-debug;
+
       $new-arguments.push: $value;
       $new-parameters.push: $type;
       $func-pattern ~= $type.^name;
