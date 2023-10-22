@@ -229,12 +229,12 @@ subtest 'Method tests', {
      .get-pango-context(), '…', '.get-pango-context()';
 }}
 
-#`{{
-    #TM:0:get-preferred-size()
-    my List $l = .get-preferred-size;
-    note $l.gist;
-    #, '.get-preferred-size()';
-  }}
+    #TM:1:get-preferred-size()
+    $minimum-size .= new;
+    $natural-size .= new;
+    .get-preferred-size( $minimum-size, $natural-size);
+   is $minimum-size.width, 0, '.get-preferred-size()';
+#note $natural-size.gist;
 
 #`{{
     #TM:0:get-prev-sibling()
