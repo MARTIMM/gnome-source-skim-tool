@@ -42,7 +42,7 @@ method generate-code ( ) {
 
   for $!filedata.keys {
     # -> $type-name
-note "$?LINE $_";
+#note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
@@ -129,7 +129,7 @@ note "$?LINE $_";
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my $data = $!filedata{$gir-type}.values[0];
-note "$?LINE $gir-type, ", $data.gist;
+#note "$?LINE $gir-type, ", $data.gist;
     next unless ?$data<type-name>;
 
     $*gnome-class = $data<type-name>;
