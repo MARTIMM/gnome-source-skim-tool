@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 buildable interface
+# Command to generate: generate.raku -c Gtk4 buildable
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -12,6 +12,7 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------

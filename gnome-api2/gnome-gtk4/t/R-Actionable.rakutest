@@ -9,6 +9,7 @@ use NativeCall;
 use Test;
 
 use Gnome::Gtk4::Button:api<2>;
+use Gnome::Glib::Variant:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -40,12 +41,12 @@ subtest 'Method tests', {
     .set-detailed-action-name( $detailed-action-name);
     ok True, '.set-detailed-action-name()';
 
-    #TM:0:set-action-target-value()
-    $target-value .= new(:parse('uint64 42'));  # a native object
+    #TM:1:set-action-target-value()
+    $target-value .= new-variant( 'u', 'uint32', 42);
     .set-action-target-value($target-value);
-    #TM:0:get-action-target-value()
+    #TM:1:get-action-target-value()
     $target-value .= new(:native-object(.get-action-target-value()));
-    is $target-value.get-uint64, 42, '.set-action-target-value() / .get-action-target-value()';
+    is $target-value.get-uint32, 42, '.set-action-target-value() / .get-action-target-value()';
 #`{{
     #TM:0:set-action-target()
     $format-string = 'text';
@@ -54,10 +55,10 @@ subtest 'Method tests', {
     ok True, '.set-action-target()';
 }}
 
-    #TM:0:set-action-name()
+    #TM:1:set-action-name()
     $action-name = 'text';
     .set-action-name($action-name);
-    #TM:0:get-action-name()
+    #TM:1:get-action-name()
     is .get-action-name(), $action-name, '.set-action-name() / .get-action-name()';
 
   }
