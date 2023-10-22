@@ -66,11 +66,16 @@
 
 
 # Release notes
+* 2023-10-22 0.11.6
+  * Added more modules from Glib, GObject, Gio and Gtk4.
+  * Native structures names are changed a small bit; N-GError becomes **N-Error** and N-GtkRequisition becomes **N-Requisition**. The only structure unchanged for now is **N-GObject**.
+  * Added a META6.json generator using **META6**.
+
 * 2023-10-15 0.11.5
   * It is now possible to handle native functions having callback arguments
 
 * 2023-09-27 0.11.4
-  * Decided to add the Gio section too.
+  * Decided to add the Glib and Gio sections too.
   * Modules Application in Gio and Gtk4 added.
   * A test of an **Application** and **ApplicationWindow** with a **Button** works.
   * Made `N-GError` struct in GnomeRoutineCaller.
