@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 button
+# Command to generate: generate.raku -c -t Gtk4 button
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -10,7 +10,6 @@ use NativeCall;
 
 use Gnome::Gtk4::R-Actionable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-GObject:api<2>;
@@ -44,7 +43,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate clicked>,
+      :w0<clicked activate>,
     );
 
     # Signals from interfaces
@@ -109,6 +108,10 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           $routine-caller.call-native-sub( $name, @arguments, $methods)
         )
       );
+    }
+
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
     }
 
     else {

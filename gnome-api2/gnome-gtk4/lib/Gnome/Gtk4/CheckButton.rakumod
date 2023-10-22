@@ -108,6 +108,10 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
       );
     }
 
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
+    }
+
     else {
       my $native-object = self.get-native-object-no-reffing;
       return $!routine-caller.call-native-sub(
