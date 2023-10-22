@@ -1,0 +1,69 @@
+# Command to generate: generate.raku -c -t Gtk4 Dialog
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Dialog:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Dialog:api<2>;
+use Gnome::Gtk4::T-Dialog:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkResponseType
+subtest 'GtkResponseType', {
+  is GTK_RESPONSE_NONE.value, 0, 'enum GTK_RESPONSE_NONE = 0';
+
+  is GTK_RESPONSE_REJECT.value, 1, 'enum GTK_RESPONSE_REJECT = 1';
+
+  is GTK_RESPONSE_ACCEPT.value, 2, 'enum GTK_RESPONSE_ACCEPT = 2';
+
+  is GTK_RESPONSE_DELETE_EVENT.value, 3, 'enum GTK_RESPONSE_DELETE_EVENT = 3';
+
+  is GTK_RESPONSE_OK.value, 4, 'enum GTK_RESPONSE_OK = 4';
+
+  is GTK_RESPONSE_CANCEL.value, 5, 'enum GTK_RESPONSE_CANCEL = 5';
+
+  is GTK_RESPONSE_CLOSE.value, 6, 'enum GTK_RESPONSE_CLOSE = 6';
+
+  is GTK_RESPONSE_YES.value, 7, 'enum GTK_RESPONSE_YES = 7';
+
+  is GTK_RESPONSE_NO.value, 8, 'enum GTK_RESPONSE_NO = 8';
+
+  is GTK_RESPONSE_APPLY.value, 9, 'enum GTK_RESPONSE_APPLY = 9';
+
+  is GTK_RESPONSE_HELP.value, 10, 'enum GTK_RESPONSE_HELP = 10';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkDialogFlags
+subtest 'GtkDialogFlags', {
+  is GTK_DIALOG_MODAL.value, 1, 'bitfield GTK_DIALOG_MODAL = 1';
+
+  is GTK_DIALOG_DESTROY_WITH_PARENT.value, 2, 'bitfield GTK_DIALOG_DESTROY_WITH_PARENT = 2';
+
+  is GTK_DIALOG_USE_HEADER_BAR.value, 4, 'bitfield GTK_DIALOG_USE_HEADER_BAR = 4';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
