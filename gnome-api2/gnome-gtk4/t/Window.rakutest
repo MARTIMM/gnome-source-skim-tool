@@ -1,4 +1,5 @@
-# Command to generate: generate.raku -v -t Gtk4 window
+# Command to generate: generate.raku -c -t Gtk4 window
+use v6.d;
 
 #TL:1:Gnome::Gtk4::Window:
 #-------------------------------------------------------------------------------
@@ -28,8 +29,8 @@ my Gnome::Gtk4::Window $window;
 
 subtest 'ISA test', {
   given $window {
-    #TC:0:new-window()
 
+    #TC:1:new-window()
     $window .= new-window();
     ok .is-valid, '.new-window()';
   }
@@ -47,47 +48,166 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $window {
-    my Array[Int] $width;
+    my UInt() $timestamp;
+    my N-GObject() $application;
+    my Str $title;
+    my N-GObject() $parent;
+    my N-GObject() $focus;
     my N-GObject() $display;
+    my Int() $width;
+    my Int() $height;
+    my Bool() $handle-menubar-accel;
+    my Str $name;
+    my N-GObject() $child;
+    my N-GObject() $default-widget;
+    my Bool() $resizable;
+    my N-GObject() $titlebar;
+    my Bool() $modal;
     my Bool() $setting;
     my Str $startup-id;
-    my N-GObject() $application;
-    my Bool() $modal;
-    my Array[Int] $height;
-    my N-GObject() $default-widget;
-    my N-GObject() $parent;
-    my Str $title;
-    my N-GObject() $titlebar;
-    my N-GObject() $child;
-    my UInt() $timestamp;
-    my Str $name;
-    my Bool() $resizable;
-    my Bool() $handle-menubar-accel;
     my N-GObject() $monitor;
-    my N-GObject() $focus;
 
-
-    #TM:1:unminimize()
-    lives-ok {.unminimize()}, '.unminimize()';
-
-    #TM:1:unmaximize()
-    lives-ok {.unmaximize()}, '.unmaximize()';
-
-    #TM:1:unfullscreen()
-    lives-ok {.unfullscreen()}, '.unfullscreen()';
 
 #`{{
-    #TM:0:set-transient-for()
-    $parent = …;  # a native object
-    .set-transient-for( $parent);
-    #TM:0:get-transient-for()
-    is .get-transient-for(),  $parent, '.set-transient-for() / .get-transient-for()';
+    #TM:0:close()
+    ok .close(), '.close()';
 
-    #TM:0:set-titlebar()
-    $titlebar = …;  # a native object
-    .set-titlebar( $titlebar);
-    #TM:0:get-titlebar()
-    is .get-titlebar(),  $titlebar, '.set-titlebar() / .get-titlebar()';
+    #TM:0:destroy()
+    ok .destroy(), '.destroy()';
+
+    #TM:0:fullscreen()
+    ok .fullscreen(), '.fullscreen()';
+
+    #TM:0:fullscreen-on-monitor()
+    ok .fullscreen-on-monitor( $monitor), '.fullscreen-on-monitor()';
+
+    #TM:0:get-group()
+     .get-group(), '…', '.get-group()';
+
+    #TM:0:has-group()
+    ok .has-group(), '.has-group()';
+
+    #TM:0:is-active()
+    ok .is-active(), '.is-active()';
+
+    #TM:0:is-fullscreen()
+    ok .is-fullscreen(), '.is-fullscreen()';
+
+    #TM:0:is-maximized()
+    ok .is-maximized(), '.is-maximized()';
+
+    #TM:0:maximize()
+    ok .maximize(), '.maximize()';
+
+    #TM:0:minimize()
+    ok .minimize(), '.minimize()';
+
+    #TM:0:present()
+    ok .present(), '.present()';
+
+    #TM:0:present-with-time()
+    ok .present-with-time( $timestamp), '.present-with-time()';
+
+    #TM:0:set-application()
+    $application = …;  # a native object
+    .set-application( $application);
+    #TM:0:get-application()
+    is .get-application(),  $application, '.set-application() / .get-application()';
+
+    #TM:0:set-child()
+    $child = …;  # a native object
+    .set-child( $child);
+    #TM:0:get-child()
+    is .get-child(),  $child, '.set-child() / .get-child()';
+
+    #TM:0:set-decorated()
+    $setting = True;
+    .set-decorated( $setting);
+    #TM:0:get-decorated()
+    is .get-decorated(),  $setting, '.set-decorated() / .get-decorated()';
+
+    #TM:0:set-default-size()
+    $width = -42;
+    $height = -42;
+    .set-default-size( $width, $height);
+    #TM:0:get-default-size()
+    is .get-default-size(),  $width, $height, '.set-default-size() / .get-default-size()';
+
+    #TM:0:set-default-widget()
+    $default-widget = …;  # a native object
+    .set-default-widget( $default-widget);
+    #TM:0:get-default-widget()
+    is .get-default-widget(),  $default-widget, '.set-default-widget() / .get-default-widget()';
+
+    #TM:0:set-deletable()
+    $setting = True;
+    .set-deletable( $setting);
+    #TM:0:get-deletable()
+    is .get-deletable(),  $setting, '.set-deletable() / .get-deletable()';
+
+    #TM:0:set-destroy-with-parent()
+    $setting = True;
+    .set-destroy-with-parent( $setting);
+    #TM:0:get-destroy-with-parent()
+    is .get-destroy-with-parent(),  $setting, '.set-destroy-with-parent() / .get-destroy-with-parent()';
+
+    #TM:0:set-display()
+    $display = …;  # a native object
+    .set-display( $display);
+    ok True, '.set-display()';
+
+    #TM:0:set-focus()
+    $focus = …;  # a native object
+    .set-focus( $focus);
+    #TM:0:get-focus()
+    is .get-focus(),  $focus, '.set-focus() / .get-focus()';
+
+    #TM:0:set-focus-visible()
+    $setting = True;
+    .set-focus-visible( $setting);
+    #TM:0:get-focus-visible()
+    is .get-focus-visible(),  $setting, '.set-focus-visible() / .get-focus-visible()';
+
+    #TM:0:set-handle-menubar-accel()
+    $handle-menubar-accel = True;
+    .set-handle-menubar-accel( $handle-menubar-accel);
+    #TM:0:get-handle-menubar-accel()
+    is .get-handle-menubar-accel(),  $handle-menubar-accel, '.set-handle-menubar-accel() / .get-handle-menubar-accel()';
+
+    #TM:0:set-hide-on-close()
+    $setting = True;
+    .set-hide-on-close( $setting);
+    #TM:0:get-hide-on-close()
+    is .get-hide-on-close(),  $setting, '.set-hide-on-close() / .get-hide-on-close()';
+
+    #TM:0:set-icon-name()
+    $name = 'text';
+    .set-icon-name( $name);
+    #TM:0:get-icon-name()
+    is .get-icon-name(),  $name, '.set-icon-name() / .get-icon-name()';
+
+    #TM:0:set-mnemonics-visible()
+    $setting = True;
+    .set-mnemonics-visible( $setting);
+    #TM:0:get-mnemonics-visible()
+    is .get-mnemonics-visible(),  $setting, '.set-mnemonics-visible() / .get-mnemonics-visible()';
+
+    #TM:0:set-modal()
+    $modal = True;
+    .set-modal( $modal);
+    #TM:0:get-modal()
+    is .get-modal(),  $modal, '.set-modal() / .get-modal()';
+
+    #TM:0:set-resizable()
+    $resizable = True;
+    .set-resizable( $resizable);
+    #TM:0:get-resizable()
+    is .get-resizable(),  $resizable, '.set-resizable() / .get-resizable()';
+
+    #TM:0:set-startup-id()
+    $startup-id = 'text';
+    .set-startup-id( $startup-id);
+    ok True, '.set-startup-id()';
 }}
 
     #TM:1:set-title()
@@ -97,145 +217,27 @@ subtest 'Method tests', {
     is .get-title(),  $title, '.set-title() / .get-title()';
 
 #`{{
-    #TM:0:set-startup-id()
-    $startup-id = 'text';
-    .set-startup-id( $startup-id);
-    ok True, '.set-startup-id()';
 
-    #TM:0:set-resizable()
-    $resizable = True;
-    .set-resizable( $resizable);
-    #TM:0:get-resizable()
-    is .get-resizable(),  $resizable, '.set-resizable() / .get-resizable()';
+    #TM:0:set-titlebar()
+    $titlebar = …;  # a native object
+    .set-titlebar( $titlebar);
+    #TM:0:get-titlebar()
+    is .get-titlebar(),  $titlebar, '.set-titlebar() / .get-titlebar()';
 
-    #TM:0:set-modal()
-    $modal = True;
-    .set-modal( $modal);
-    #TM:0:get-modal()
-    is .get-modal(),  $modal, '.set-modal() / .get-modal()';
+    #TM:0:set-transient-for()
+    $parent = …;  # a native object
+    .set-transient-for( $parent);
+    #TM:0:get-transient-for()
+    is .get-transient-for(),  $parent, '.set-transient-for() / .get-transient-for()';
 
-    #TM:0:set-mnemonics-visible()
-    $setting = True;
-    .set-mnemonics-visible( $setting);
-    #TM:0:get-mnemonics-visible()
-    is .get-mnemonics-visible(),  $setting, '.set-mnemonics-visible() / .get-mnemonics-visible()';
+    #TM:0:unfullscreen()
+    ok .unfullscreen(), '.unfullscreen()';
 
-    #TM:0:set-icon-name()
-    $name = 'text';
-    .set-icon-name( $name);
-    #TM:0:get-icon-name()
-    is .get-icon-name(),  $name, '.set-icon-name() / .get-icon-name()';
+    #TM:0:unmaximize()
+    ok .unmaximize(), '.unmaximize()';
 
-    #TM:0:set-hide-on-close()
-    $setting = True;
-    .set-hide-on-close( $setting);
-    #TM:0:get-hide-on-close()
-    is .get-hide-on-close(),  $setting, '.set-hide-on-close() / .get-hide-on-close()';
-
-    #TM:0:set-handle-menubar-accel()
-    $handle-menubar-accel = True;
-    .set-handle-menubar-accel( $handle-menubar-accel);
-    #TM:0:get-handle-menubar-accel()
-    is .get-handle-menubar-accel(),  $handle-menubar-accel, '.set-handle-menubar-accel() / .get-handle-menubar-accel()';
-
-    #TM:0:set-focus-visible()
-    $setting = True;
-    .set-focus-visible( $setting);
-    #TM:0:get-focus-visible()
-    is .get-focus-visible(),  $setting, '.set-focus-visible() / .get-focus-visible()';
-
-    #TM:0:set-focus()
-    $focus = …;  # a native object
-    .set-focus( $focus);
-    #TM:0:get-focus()
-    is .get-focus(),  $focus, '.set-focus() / .get-focus()';
-
-    #TM:0:set-display()
-    $display = …;  # a native object
-    .set-display( $display);
-    ok True, '.set-display()';
-
-    #TM:0:set-destroy-with-parent()
-    $setting = True;
-    .set-destroy-with-parent( $setting);
-    #TM:0:get-destroy-with-parent()
-    is .get-destroy-with-parent(),  $setting, '.set-destroy-with-parent() / .get-destroy-with-parent()';
-
-    #TM:0:set-deletable()
-    $setting = True;
-    .set-deletable( $setting);
-    #TM:0:get-deletable()
-    is .get-deletable(),  $setting, '.set-deletable() / .get-deletable()';
-
-    #TM:0:set-default-widget()
-    $default-widget = …;  # a native object
-    .set-default-widget( $default-widget);
-    #TM:0:get-default-widget()
-    is .get-default-widget(),  $default-widget, '.set-default-widget() / .get-default-widget()';
-
-    #TM:0:set-default-size()
-    $width = -42;
-    $height = -42;
-    .set-default-size( $width, $height);
-    #TM:0:get-default-size()
-    is .get-default-size(),  $width, $height, '.set-default-size() / .get-default-size()';
-
-    #TM:0:set-decorated()
-    $setting = True;
-    .set-decorated( $setting);
-    #TM:0:get-decorated()
-    is .get-decorated(),  $setting, '.set-decorated() / .get-decorated()';
-
-    #TM:0:set-child()
-    $child = …;  # a native object
-    .set-child( $child);
-    #TM:0:get-child()
-    is .get-child(),  $child, '.set-child() / .get-child()';
-
-    #TM:0:set-application()
-    $application = …;  # a native object
-    .set-application( $application);
-    #TM:0:get-application()
-    is .get-application(),  $application, '.set-application() / .get-application()';
-
-    #TM:0:present-with-time()
-    ok .present-with-time( $timestamp), '.present-with-time()';
-
-    #TM:0:present()
-    ok .present(), '.present()';
-
-    #TM:0:minimize()
-    ok .minimize(), '.minimize()';
-
-    #TM:0:maximize()
-    ok .maximize(), '.maximize()';
-
-    #TM:0:is-maximized()
-    ok .is-maximized(), '.is-maximized()';
-
-    #TM:0:is-fullscreen()
-    ok .is-fullscreen(), '.is-fullscreen()';
-
-    #TM:0:is-active()
-    ok .is-active(), '.is-active()';
-
-    #TM:0:has-group()
-    ok .has-group(), '.has-group()';
-
-    #TM:0:get-group()
-     .get-group(), '…', '.get-group()';
-
-    #TM:0:fullscreen-on-monitor()
-    ok .fullscreen-on-monitor( $monitor), '.fullscreen-on-monitor()';
-
-    #TM:0:fullscreen()
-    ok .fullscreen(), '.fullscreen()';
-
-    #TM:0:destroy()
-    ok .destroy(), '.destroy()';
-
-    #TM:0:close()
-    ok .close(), '.close()';
+    #TM:0:unminimize()
+    ok .unminimize(), '.unminimize()';
 
 }}
   }
