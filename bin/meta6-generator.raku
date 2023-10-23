@@ -5,7 +5,7 @@ use META6;
 
 
 
-my Str $api2 = '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
+my Str $api2 = $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
 
 check-modules( 'Gtk4', "$api2/gnome-gtk4/lib");
 
@@ -38,30 +38,35 @@ sub check-modules ( Str $name, Str $cdir ) {
   $base-path ~~ s/ lib $//;
 
   my Str $meta-file = "{$base-path}/META6.json";
-  my META6 $meta .= new(:file($meta-file));
+  say "load meta file: $meta-file";
+  my META6 $meta;
   if $meta-file.IO.e {
+    $meta .= new(:file($meta-file));
     $*meta-modified = $meta-file.IO.modified;
   }
 
   else {
     $*meta-modified = Instant.from-posix(0);
+    $meta .= new();
     given $meta {
-      .<description> = "Modules for package Gnome\::{$name}\:api<2>";
       .<name> = "Gnome\::{$name}";
       .<api> = '2';
       .<version> = v0.1.0;
       .<auth> = "cpan:MARTIMM";
       .<tags> = [ 'Gnome', $name];
       .<author> = 'Marcel Timmerman';
+#      .<authors> = ['Marcel Timmerman'];
       .<raku-version> = '6.d';
-      .<raku> = '6.d';
+#      .<raku> = '6.d';
+      .<meta-version> = 2;
       .<license> = 'Artistic-2.0';
       .<source-url> = "git://github.com/MARTIMM/gnome-{$name.lc}-api2.git";
 
       if $name ~~ 'Gtk4' {
-         # Gnome::Gdk4 Gnome::Gsk4
+         # Gnome::Gdk4:api<2> Gnome::Gsk4:api<2>
+        .<description> = "Modules for package Gnome\::Gtk4\:api<2>. The language binding to GNOME’s user interface toolkit version 4";
         .<depends> = <
-          Gnome::Gio Gnome::GObject Gnome::Glib Gnome::N
+          Gnome::Gio:api<2> Gnome::GObject:api<2> Gnome::Glib Gnome::N:api<2>
         >;
       }
 
@@ -74,34 +79,41 @@ sub check-modules ( Str $name, Str $cdir ) {
 #      elsif $name ~~ 'Cairo' { }
 
       elsif $name ~~ 'Gio' {
-        .<depends> = <Gnome::GObject Gnome::Glib Gnome::N>;
+        .<description> = "Modules for package Gnome\::Gio\:api<2>. The language binding to GNOME I/O libraries";
+        .<depends> = <Gnome::GObject:api<2> Gnome::Glib Gnome::N:api<2>>;
       }
 
       elsif $name ~~ 'GObject' {
-        .<depends> = <Gnome::Glib Gnome::N>;
+        .<description> = "Modules for package Gnome\::GObject\:api<2>. The language binding to GNOME's lower level object library";
+        .<depends> = <Gnome::Glib:api<2> Gnome::N:api<2>>;
       }
 
       elsif $name ~~ 'Glib' {
-        .<depends> = <Gnome::N>;
+        .<description> = "Modules for package Gnome\::Glib\:api<2>. The language binding to GNOME's lowest level library";
+        .<depends> = ['Gnome::N:api<2>'];
       }
 
-#      .<authors>:delete;
-#      .<resources>:delete;
-#      .<meta-version>:delete;
+      elsif $name ~~ 'N' {
+        .<description> = "Modules for package Gnome\::N\:api<2>. The support library for other Gnome::* libraries";
+      }
     }
   }
 
+  # Find the provides hash
   check-module-files($cdir);
 
-  $meta<provides> = $*provides;
+  # Check if other files are changed. Don't need to check if META6
+  # must be regenerated.
+  check-other-files($base-path) unless $*update-version;
+
   if $*update-version {
+    $meta<provides> = $*provides;
+
     my @parts = $meta<version>.parts;
     @parts[2]++;
     $meta<version> = Version.new(@parts.join('.'));
+    "$base-path/META6.json".IO.spurt($meta.to-json);
   }
-
-  print $meta.to-json;
-  exit
 }
 
 #-------------------------------------------------------------------------------
@@ -123,6 +135,8 @@ sub check-module-files ( Str $cdir ) {
       # Skip all but module files
       next unless $mpath ~~ m/ \. rakumod $/;
 
+      $*update-version = ($*update-version or ($f.modified > $*meta-modified));
+
       my Str $mclass = $mpath;
 
       # Remove large part of path, then drop the extension, then make it a class
@@ -130,12 +144,36 @@ sub check-module-files ( Str $cdir ) {
       $mclass ~~ s/ \. rakumod $//;
       $mclass ~~ s:g/ '/' /::/;
 
+      # Remove large part of path.
       $mpath ~~ s/^ .*? '/lib' /lib/;
-      $*update-version = ($*update-version or
-                          ($mpath.IO.modified > $*meta-modified)
-                         );
-note "$mclass => $mpath";
+
+      # Add to the provides hash
       $*provides{$mclass} = $mpath;
+    }
+  }
+}
+
+#-------------------------------------------------------------------------------
+sub check-other-files ( Str $cdir ) {
+
+  # We're done if update is needed
+  return if $*update-version;
+
+  # Skip all hidden directories like .precomp
+  return if $cdir ~~ m/^ '.' /;
+  return unless $cdir.IO.d;
+
+  for dir($cdir) -> $f {
+    # Recurse into directory
+    if $f ~~ :d {
+      # Skip lib, we did that above
+      next if $f.Str ~~ / lib /;
+
+      check-module-files($f.Str);
+    }
+
+    else {
+      $*update-version = ($*update-version or ($f.modified > $*meta-modified));
     }
   }
 }
