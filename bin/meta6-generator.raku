@@ -38,7 +38,7 @@ sub check-modules ( Str $name, Str $cdir ) {
   $base-path ~~ s/ lib $//;
 
   my Str $meta-file = "{$base-path}/META6.json";
-  say "load meta file: $meta-file";
+  say "\nload meta file for $name";
   my META6 $meta;
   if $meta-file.IO.e {
     $meta .= new(:file($meta-file));
@@ -112,7 +112,7 @@ sub check-modules ( Str $name, Str $cdir ) {
     my @parts = $meta<version>.parts;
     @parts[2]++;
     $meta<version> = Version.new(@parts.join('.'));
-    "$base-path/META6.json".IO.spurt($meta.to-json);
+    "$base-path/META6.json".IO.spurt($meta.to-json(:sorted-keys));
   }
 }
 
