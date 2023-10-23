@@ -47,6 +47,11 @@
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 ```
 
+Number of lines coded and generated in this project
+```
+find . -name '*.raku*' | xargs wc -l
+```
+
 ### List of backward compatibility breaks 😭 😭
 * Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages. The modules Glib, GObject and Gio 
 * Instanciating a class or record is done using positional arguments instead of named arguments. The names of these methods will not be `new()` anymore but something like `new-*()`. E.g. `new-label($text)` or `new-grid()`.
