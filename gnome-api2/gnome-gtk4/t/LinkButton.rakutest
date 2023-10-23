@@ -60,13 +60,13 @@ subtest 'Method tests', {
     my Str $uri;
 
 
-#`{{
-    #TM:0:set-visited()
+    #TM:1:set-visited()
     $visited = True;
     .set-visited( $visited);
-    #TM:0:get-visited()
+    #TM:1:get-visited()
     is .get-visited(),  $visited, '.set-visited() / .get-visited()';
 
+#`{{
     #TM:0:set-uri()
     $uri = 'text';
     .set-uri( $uri);
