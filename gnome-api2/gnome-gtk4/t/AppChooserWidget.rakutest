@@ -1,0 +1,173 @@
+# Command to generate: generate.raku -c -t Gtk4 appchooserwidget
+use v6.d;
+
+#TL:1:Gnome::Gtk4::AppChooserWidget:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::AppChooserWidget:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::AppChooserWidget $appchooserwidget;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $appchooserwidget {
+    my Str $content-type;
+
+    #TC:1:new-appchooserwidget()
+    $content-type = 'plain/*';
+    $appchooserwidget .= new-appchooserwidget($content-type);
+    ok .is-valid, '.new-appchooserwidget($content-type)';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $appchooserwidget {
+    my Bool() $setting;
+    my Str $text;
+
+
+#`{{
+    #TM:0:set-default-text()
+    $text = 'text';
+    .set-default-text( $text);
+    #TM:0:get-default-text()
+    is .get-default-text(),  $text, '.set-default-text() / .get-default-text()';
+
+    #TM:0:set-show-all()
+    $setting = True;
+    .set-show-all( $setting);
+    #TM:0:get-show-all()
+    is .get-show-all(),  $setting, '.set-show-all() / .get-show-all()';
+
+    #TM:0:set-show-default()
+    $setting = True;
+    .set-show-default( $setting);
+    #TM:0:get-show-default()
+    is .get-show-default(),  $setting, '.set-show-default() / .get-show-default()';
+
+    #TM:0:set-show-fallback()
+    $setting = True;
+    .set-show-fallback( $setting);
+    #TM:0:get-show-fallback()
+    is .get-show-fallback(),  $setting, '.set-show-fallback() / .get-show-fallback()';
+
+    #TM:0:set-show-other()
+    $setting = True;
+    .set-show-other( $setting);
+    #TM:0:get-show-other()
+    is .get-show-other(),  $setting, '.set-show-other() / .get-show-other()';
+
+    #TM:0:set-show-recommended()
+    $setting = True;
+    .set-show-recommended( $setting);
+    #TM:0:get-show-recommended()
+    is .get-show-recommended(),  $setting, '.set-show-recommended() / .get-show-recommended()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::AppChooserWidget() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::AppChooserWidget;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::AppChooserWidget :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::AppChooserWidget $appchooserwidget .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $appchooserwidget.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
