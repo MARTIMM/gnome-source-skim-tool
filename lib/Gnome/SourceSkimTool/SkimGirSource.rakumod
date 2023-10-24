@@ -75,7 +75,7 @@ method get-classes-from-gir ( ) {
 
 #note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
     # Map an element into the repo-object-map. Returns True if
-    # element is deprecated or is a *class, *iface or *private type.
+    # element is deprecated or is a *class, *iface, *interface or *private type.
     next if self!map-element(
       $element, $namespace-name, $symbol-prefix, $id-prefix
     );
@@ -373,8 +373,8 @@ method !map-element (
                   $attrs<c:identifier> //     # Functions
                   $attrs<name> // ''          # Doc sections
                   ;
-  # Return when an element ends in specific words.
-  return True if $ctype ~~ m/ [ Private || Class || Iface ] $/;
+  # Return when an element ends in specific words. Most of those are records.
+  return True if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
 
   # Check for this id. If undefined make some noise and return
   unless ?$ctype {
