@@ -70,21 +70,20 @@ method get-classes-from-gir ( ) {
   for @elements -> $element {
 
     # Ignore the entry when the item is moved to some other module
-    next if $element.attribs<moved-to>:exists;
-#note "\n$?LINE: $element.attribs()";
+    my $attrs = $element.attribs;
+    next if $attribs<moved-to>:exists;
 
-#note "$?LINE: $namespace-name, $symbol-prefix, $id-prefix";
     # Map an element into the repo-object-map. Returns True if
     # element is deprecated or is a *class, *iface, *interface or *private type.
     next if self!map-element(
       $element, $namespace-name, $symbol-prefix, $id-prefix
     );
 
-    given $element.name {
+    my Str $element-name = self.test-for-oddities( $element.name, $attrs);
+    given $element-name {
 
       # save the class info in separate gir files
       when 'class' {
-        my $attrs = $element.attribs;
         my $name = $attrs<name>;
 
         my Str $xml = qq:to/EOXML/;
@@ -103,6 +102,10 @@ method get-classes-from-gir ( ) {
           </repository>
           EOXML
 
+        if $element.name ne 'class' {
+          $xml ~~ s/ '<interface ' /\<class /;
+          $xml ~~ s/ '</interface>' /\<\/class\>/;
+        }
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
         note "Save class $name" if $*verbose;
         $xml-file.IO.spurt($xml);
@@ -118,7 +121,6 @@ method get-classes-from-gir ( ) {
       # constructors, methods and functions.
       when 'record' {
 #        $!other<record>.push: $element;
-        my $attrs = $element.attribs;
         my $name = $attrs<c:type>;
 
         my Str $name-prefix = $*work-data<name-prefix>;
@@ -155,7 +157,6 @@ method get-classes-from-gir ( ) {
 
       when 'union' {
 #        $!other<union>.push: $element;
-        my $attrs = $element.attribs;
         my $name = $attrs<c:type>;
 
         if ?$name {
@@ -197,7 +198,6 @@ method get-classes-from-gir ( ) {
       }
 
       when 'interface' {
-        my $attrs = $element.attribs;
         my $name = $attrs<name>;
 
         my Str $xml = qq:to/EOXML/;
@@ -374,6 +374,7 @@ method !map-element (
                   $attrs<name> // ''          # Doc sections
                   ;
   # Return when an element ends in specific words. Most of those are records.
+note
   return True if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
 
   # Check for this id. If undefined make some noise and return
@@ -388,7 +389,8 @@ method !map-element (
 #note "$?LINE $symbol-prefix";
 
   # Gather data depending on the tag type
-  given $element.name {
+  my Str $element-name = self.test-for-oddities( $element.name, $attrs);
+  given $element-name {
     when 'class' {
       $source-filename = self!get-source-file($element);
       $deprecated = ($source-filename eq 'deprecated');
@@ -753,6 +755,21 @@ method !is-inheritable-r ( Str $classname --> Bool ) {
   return False if $parent ~~ m/ GInitiallyUnowned || GObject || '-' /;
 
   self!is-inheritable-r($parent);
+}
+
+#-------------------------------------------------------------------------------
+# Test for items which must be converted into another type. E.g. GFile in Gio is
+# marked as an interface but there is no example of its use anywhere.
+# In api<1> I already decided it to become a Raku class instead of a role.
+method test-for-oddities ( Str $element-name is copy, Hash $attribs --> Str ) {
+  if $*gnome-package.Str eq 'Gio' and
+     $element-name eq 'interface' and 
+     $attribs<name> eq 'File'
+  {
+    $element-name = 'class';
+  }
+
+  $element-name
 }
 
 #-------------------------------------------------------------------------------
