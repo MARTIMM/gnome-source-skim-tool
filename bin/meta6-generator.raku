@@ -3,7 +3,10 @@
 use v6.d;
 use META6;
 
-
+# TODO use IO::Notification::Recursive
+# Also make Gui for it to combine this program and lib-content-lister.
+#my @changed = ();
+#my @created = ();
 
 my Str $api2 = $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
 
@@ -75,6 +78,10 @@ sub check-modules ( Str $name, Str $cdir ) {
 
 #      elsif $name ~~ 'Gtk3' { }
 #      elsif $name ~~ 'Gdk3' { }
+#      elsif $name ~~ 'GdkPixbuf' { }
+#      elsif $name ~~ 'GdkPixdata' { }
+
+#      elsif $name ~~ 'Atk' { }
 #      elsif $name ~~ 'Pango' { }
 #      elsif $name ~~ 'Cairo' { }
 
@@ -113,6 +120,7 @@ sub check-modules ( Str $name, Str $cdir ) {
     @parts[2]++;
     $meta<version> = Version.new(@parts.join('.'));
     "$base-path/META6.json".IO.spurt($meta.to-json(:sorted-keys));
+    say "New meta file version $meta<version> for $name saved";
   }
 }
 
@@ -156,7 +164,7 @@ sub check-module-files ( Str $cdir ) {
 #-------------------------------------------------------------------------------
 sub check-other-files ( Str $cdir ) {
 
-  # We're done if update is needed
+  # We're done if update is already needed
   return if $*update-version;
 
   # Skip all hidden directories like .precomp
@@ -164,12 +172,15 @@ sub check-other-files ( Str $cdir ) {
   return unless $cdir.IO.d;
 
   for dir($cdir) -> $f {
+    # skip check of META6.json
+    next if $f.Str ~~ m/ META6\.json $/;
+
     # Recurse into directory
     if $f ~~ :d {
       # Skip lib, we did that above
       next if $f.Str ~~ / lib /;
 
-      check-module-files($f.Str);
+      check-other-files($f.Str);
     }
 
     else {
