@@ -53,7 +53,7 @@ find . -name '*.raku*' | xargs wc -l
 ```
 
 ### List of backward compatibility breaks 😭 😭
-* Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages. The modules Glib, GObject and Gio 
+* Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages.
 * Instanciating a class or record is done using positional arguments instead of named arguments. The names of these methods will not be `new()` anymore but something like `new-*()`. E.g. `new-label($text)` or `new-grid()`.
 * The `new()` call is only used for specific work. I.e.
   * Providing a native object from elsewhere with `:$native-object`.
@@ -61,8 +61,8 @@ find . -name '*.raku*' | xargs wc -l
 * Need to rethink the inheriting mechanism, so for the time being it is off limits.
 * Code is split into more separate files.
   * **Gnome::\<package>::\<class>**. Class names are as before.
-  * **Gnome::\<package>::R-\<roles>**. Name of roles are changed but is not a problem because they cannot be used as a class.
-  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structures are exported so that the last part can be used; E.g. **N-GError**.
+  * **Gnome::\<package>::R-\<role>**. Name of roles are changed but is not a problem because they cannot be used as a class.
+  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**.
   * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
 * In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. There is no pixbuf package for version 4. There it is solved differently.
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
@@ -75,6 +75,7 @@ find . -name '*.raku*' | xargs wc -l
   * Added more modules from Glib, GObject, Gio and Gtk4.
   * Native structures names are changed a small bit; N-GError becomes **N-Error** and N-GtkRequisition becomes **N-Requisition**. The only structure unchanged for now is **N-GObject**.
   * Added a META6.json generator using **META6**.
+  * Changed **Gnome::Gio::File** from interface into class. Also the functions found in File to create the object are transformed into constructors. This is accomplished by changing the `C-File.gir` XML elements. To prevent overwriting, the skimming process does not overwrite the previously created gir files.
 
 * 2023-10-15 0.11.5
   * It is now possible to handle native functions having callback arguments
