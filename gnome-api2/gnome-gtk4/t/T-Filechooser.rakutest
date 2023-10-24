@@ -1,0 +1,52 @@
+# Command to generate: generate.raku -c -t Gtk4 filechooser
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Filechooser:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Filechooser:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkFileChooserAction
+subtest 'GtkFileChooserAction', {
+  is GTK_FILE_CHOOSER_ACTION_OPEN.value, 0, 'enum GTK_FILE_CHOOSER_ACTION_OPEN = 0';
+
+  is GTK_FILE_CHOOSER_ACTION_SAVE.value, 1, 'enum GTK_FILE_CHOOSER_ACTION_SAVE = 1';
+
+  is GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER.value, 2, 'enum GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkFileChooserError
+subtest 'GtkFileChooserError', {
+  is GTK_FILE_CHOOSER_ERROR_NONEXISTENT.value, 0, 'enum GTK_FILE_CHOOSER_ERROR_NONEXISTENT = 0';
+
+  is GTK_FILE_CHOOSER_ERROR_BAD_FILENAME.value, 1, 'enum GTK_FILE_CHOOSER_ERROR_BAD_FILENAME = 1';
+
+  is GTK_FILE_CHOOSER_ERROR_ALREADY_EXISTS.value, 2, 'enum GTK_FILE_CHOOSER_ERROR_ALREADY_EXISTS = 2';
+
+  is GTK_FILE_CHOOSER_ERROR_INCOMPLETE_HOSTNAME.value, 3, 'enum GTK_FILE_CHOOSER_ERROR_INCOMPLETE_HOSTNAME = 3';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
