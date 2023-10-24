@@ -59,21 +59,17 @@ subtest 'Method tests', {
     my Bool() $visited;
     my Str $uri;
 
-
     #TM:1:set-visited()
     $visited = True;
     .set-visited( $visited);
     #TM:1:get-visited()
     is .get-visited(),  $visited, '.set-visited() / .get-visited()';
 
-#`{{
-    #TM:0:set-uri()
-    $uri = 'text';
+    #TM:1:set-uri()
+    $uri = 'https://developer-old.gnome.org';
     .set-uri( $uri);
-    #TM:0:get-uri()
-    is .get-uri(),  $uri, '.set-uri() / .get-uri()';
-
-}}
+    #TM:1:get-uri()
+    is .get-uri(), $uri, '.set-uri() / .get-uri()';
   }
 };
 
