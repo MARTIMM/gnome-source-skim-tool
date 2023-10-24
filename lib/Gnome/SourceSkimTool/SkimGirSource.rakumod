@@ -86,29 +86,31 @@ method get-classes-from-gir ( ) {
       when 'class' {
         my $name = $attrs<name>;
 
-        my Str $xml = qq:to/EOXML/;
-          <?xml version="1.0"?>
-          <!--
-            File is automatically generated from original gir files;
-            DO NOT EDIT!
-          -->
-          <repository version="1.2"
-                      xmlns="http://www.gtk.org/introspection/core/1.0"
-                      xmlns:c="http://www.gtk.org/introspection/c/1.0"
-                      xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
-              $xml-namespace
-              $element.Str()
-            </namespace>
-          </repository>
-          EOXML
-
-        if $element.name ne 'class' {
-          $xml ~~ s/ '<interface ' /\<class /;
-          $xml ~~ s/ '</interface>' /\<\/class\>/;
-        }
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
-        note "Save class $name" if $*verbose;
-        $xml-file.IO.spurt($xml);
+        unless $xml-file.IO.e {
+          my Str $xml = qq:to/EOXML/;
+            <?xml version="1.0"?>
+            <!--
+              File is automatically generated from original gir files;
+              DO NOT EDIT!
+            -->
+            <repository version="1.2"
+                        xmlns="http://www.gtk.org/introspection/core/1.0"
+                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+                $xml-namespace
+                $element.Str()
+              </namespace>
+            </repository>
+            EOXML
+
+          if $element.name ne 'class' {
+            $xml ~~ s/ '<interface ' /\<class /;
+            $xml ~~ s/ '</interface>' /\<\/class\>/;
+          }
+          note "Save class $name" if $*verbose;
+          $xml-file.IO.spurt($xml);
+        }
       }
 
       # Only stand alone functions. Functions within other
@@ -123,43 +125,8 @@ method get-classes-from-gir ( ) {
 #        $!other<record>.push: $element;
         my $name = $attrs<c:type>;
 
-        my Str $name-prefix = $*work-data<name-prefix>;
-        $name ~~ s:i/^ $name-prefix //;
-
-        my Str $xml = qq:to/EOXML/;
-          <?xml version="1.0"?>
-          <!--
-            File is automatically generated from original gir files;
-            DO NOT EDIT!
-          -->
-          <repository version="1.2"
-                      xmlns="http://www.gtk.org/introspection/core/1.0"
-                      xmlns:c="http://www.gtk.org/introspection/c/1.0"
-                      xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
-              $xml-namespace
-              $element.Str()
-            </namespace>
-          </repository>
-          EOXML
-
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
-        note "Save record $name" if $*verbose;
-        $xml-file.IO.spurt($xml);
-      }
-
-      when 'constant' {
-        $!other<constant>.push: $element;
-      }
-
-      when 'docsection' {
-        $!other<docsection>.push: $element;
-      }
-
-      when 'union' {
-#        $!other<union>.push: $element;
-        my $name = $attrs<c:type>;
-
-        if ?$name {
+        unless $xml-file.IO.e {
           my Str $name-prefix = $*work-data<name-prefix>;
           $name ~~ s:i/^ $name-prefix //;
 
@@ -179,9 +146,48 @@ method get-classes-from-gir ( ) {
             </repository>
             EOXML
 
-          my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
-          note "Save union $name" if $*verbose;
+          note "Save record R-$name" if $*verbose;
           $xml-file.IO.spurt($xml);
+        }
+      }
+
+      when 'constant' {
+        $!other<constant>.push: $element;
+      }
+
+      when 'docsection' {
+        $!other<docsection>.push: $element;
+      }
+
+      when 'union' {
+#        $!other<union>.push: $element;
+        my $name = $attrs<c:type>;
+
+        if ?$name {
+          my Str $name-prefix = $*work-data<name-prefix>;
+          $name ~~ s:i/^ $name-prefix //;
+
+          my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
+          unless $xml-file.IO.e {
+            my Str $xml = qq:to/EOXML/;
+              <?xml version="1.0"?>
+              <!--
+                File is automatically generated from original gir files;
+                DO NOT EDIT!
+              -->
+              <repository version="1.2"
+                          xmlns="http://www.gtk.org/introspection/core/1.0"
+                          xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                          xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+                  $xml-namespace
+                  $element.Str()
+                </namespace>
+              </repository>
+              EOXML
+
+            note "Save union U-$name" if $*verbose;
+            $xml-file.IO.spurt($xml);
+          }
         }
       }
 
@@ -200,25 +206,27 @@ method get-classes-from-gir ( ) {
       when 'interface' {
         my $name = $attrs<name>;
 
-        my Str $xml = qq:to/EOXML/;
-          <?xml version="1.0"?>
-          <!--
-            File is automatically generated from original gir files;
-            DO NOT EDIT!
-          -->
-          <repository version="1.2"
-                      xmlns="http://www.gtk.org/introspection/core/1.0"
-                      xmlns:c="http://www.gtk.org/introspection/c/1.0"
-                      xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
-              $xml-namespace
-              $element.Str()
-            </namespace>
-          </repository>
-          EOXML
-
         my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
-        note "Save interface $name" if $*verbose;
-        $xml-file.IO.spurt($xml);
+        unless $xml-file.IO.e {
+          my Str $xml = qq:to/EOXML/;
+            <?xml version="1.0"?>
+            <!--
+              File is automatically generated from original gir files;
+              DO NOT EDIT!
+            -->
+            <repository version="1.2"
+                        xmlns="http://www.gtk.org/introspection/core/1.0"
+                        xmlns:c="http://www.gtk.org/introspection/c/1.0"
+                        xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+                $xml-namespace
+                $element.Str()
+              </namespace>
+            </repository>
+            EOXML
+
+          note "Save interface I-$name" if $*verbose;
+          $xml-file.IO.spurt($xml);
+        }
       }
     }
   }
