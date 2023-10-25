@@ -36,18 +36,18 @@ Types and files for a role like the <ins>Orientable</ins> class in Gtk version 3
 * Doc filename `doc/R-Orientable.rakudoc`.
 
 ## Record
-Types and files for a record like used in <ins>List</ins> structure in Glib. The class is exported and therefore usable as `N-GList`.
-* Class name **Gnome::Glib::List::N-GList**.
-* Class Filename `lib/Gnome/Glib/List/N-GList.rakumod`.
-* Test Filename `t/N-GList.rakutest`.
-* Doc filename `doc/N-GList.rakudoc`.
+Types and files for a record like used in <ins>List</ins> structure in Glib. The class is exported and therefore usable as `N-List`.
+* Class name **Gnome::Glib::List::N-List**.
+* Class Filename `lib/Gnome/Glib/List/N-List.rakumod`.
+* Test Filename `t/N-List.rakutest`.
+* Doc filename `doc/N-List.rakudoc`.
 
 ## Union
-Types and files for a union like used in <ins>Event</ins> structure in Gdk version 3. The class is exported and therefore usable as `N-GdkEvent`.
-* Class name **Gnome::Gdk3::Event::N-GdkEvent**.
-* Class Filename `lib/Gnome/Gdk3/Event/N-GdkEvent.rakumod`.
-* Test Filename `t/N-GdkEvent.rakutest`.
-* Doc filename `doc/N-GdkEvent.rakudoc`.
+Types and files for a union like used in <ins>Event</ins> structure in Gdk version 3. The class is exported and therefore usable as `N-Event`.
+* Class name **Gnome::Gdk3::Event::N-Event**.
+* Class Filename `lib/Gnome/Gdk3/Event/N-Event.rakumod`.
+* Test Filename `t/N-Event.rakutest`.
+* Doc filename `doc/N-Event.rakudoc`.
 
 ## Other types
 Other types like enumerations, constants and standalone functions are gathered in one file named after the C source file it is defined in. For example the <ins>Window</ins> class in Gtk version 3 has a few enumerations.
@@ -64,7 +64,7 @@ All routines available in a class, role or as standalone functions are generated
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new => %( :type(Constructor),:returns(N-GObject), :parameters([ Str])),
+  new-label => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str])),
   new-with-mnemonic => %( :type(Constructor),:returns(N-GObject), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
@@ -87,6 +87,8 @@ The key of the `$methods` hash is the name of the function as the developer uses
 * **returns**; A type of the return value if there is any.
 * **type-name**; An enumeration type. When a return type is a `GEnum` (an enumeration) the number is translated into the enum name.
 * **variable-list**; A boolean value which says that the argument list is longer than provided in the parameters array. The user must provide the type and value for the rest of the arguments.
+* **isnew**; A boolean value to show that the real name is `new`.
+* **realname**; A string with the realname of a constructor, method or function. The field will probably replace `isnew` because it has the same kind of use.
 
 
 # Types of argument lists
