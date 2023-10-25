@@ -1,0 +1,86 @@
+# Command to generate: generate.raku -c -t Pango gravity
+use v6.d;
+
+#TL:1:Gnome::Pango::T-Gravity:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+#use Gnome::Pango::N-Matrix:api<2>;
+use Gnome::Pango::T-Gravity:api<2>;
+#use Gnome::Pango::T-Script:api<2>;
+
+
+
+
+my Gnome::Pango::T-Gravity $gravity .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $gravity {
+#    my PangoScript  $script;
+#    my N-Matrix  $matrix;
+    my PangoGravity $base-gravity;
+    my PangoGravity $gravity;
+    my gboolean $wide;
+#    my PangoGravityHint $hint;
+
+
+#`{{
+    #TM:0:gravity-get-for-matrix()
+    ok .gravity-get-for-matrix( $matrix), '.gravity-get-for-matrix()';
+
+    #TM:0:gravity-get-for-script()
+    ok .gravity-get-for-script( $script, $base-gravity, $hint), '.gravity-get-for-script()';
+
+    #TM:0:gravity-get-for-script-and-width()
+    ok .gravity-get-for-script-and-width( $script, $wide, $base-gravity, $hint), '.gravity-get-for-script-and-width()';
+
+    #TM:0:gravity-to-rotation()
+    ok .gravity-to-rotation( $gravity), '.gravity-to-rotation()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:PangoGravity
+subtest 'PangoGravity', {
+  is PANGO_GRAVITY_SOUTH.value, 0, 'enum PANGO_GRAVITY_SOUTH = 0';
+
+  is PANGO_GRAVITY_EAST.value, 1, 'enum PANGO_GRAVITY_EAST = 1';
+
+  is PANGO_GRAVITY_NORTH.value, 2, 'enum PANGO_GRAVITY_NORTH = 2';
+
+  is PANGO_GRAVITY_WEST.value, 3, 'enum PANGO_GRAVITY_WEST = 3';
+
+  is PANGO_GRAVITY_AUTO.value, 4, 'enum PANGO_GRAVITY_AUTO = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:PangoGravityHint
+subtest 'PangoGravityHint', {
+  is PANGO_GRAVITY_HINT_NATURAL.value, 0, 'enum PANGO_GRAVITY_HINT_NATURAL = 0';
+
+  is PANGO_GRAVITY_HINT_STRONG.value, 1, 'enum PANGO_GRAVITY_HINT_STRONG = 1';
+
+  is PANGO_GRAVITY_HINT_LINE.value, 2, 'enum PANGO_GRAVITY_HINT_LINE = 2';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

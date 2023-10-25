@@ -1,0 +1,47 @@
+# Command to generate: generate.raku -c -t Pango direction
+use v6.d;
+
+#TL:1:Gnome::Pango::T-Direction:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::T-Direction:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:PangoDirection
+subtest 'PangoDirection', {
+  is PANGO_DIRECTION_LTR.value, 0, 'enum PANGO_DIRECTION_LTR = 0';
+
+  is PANGO_DIRECTION_RTL.value, 1, 'enum PANGO_DIRECTION_RTL = 1';
+
+  is PANGO_DIRECTION_TTB_LTR.value, 2, 'enum PANGO_DIRECTION_TTB_LTR = 2';
+
+  is PANGO_DIRECTION_TTB_RTL.value, 3, 'enum PANGO_DIRECTION_TTB_RTL = 3';
+
+  is PANGO_DIRECTION_WEAK_LTR.value, 4, 'enum PANGO_DIRECTION_WEAK_LTR = 4';
+
+  is PANGO_DIRECTION_WEAK_RTL.value, 5, 'enum PANGO_DIRECTION_WEAK_RTL = 5';
+
+  is PANGO_DIRECTION_NEUTRAL.value, 6, 'enum PANGO_DIRECTION_NEUTRAL = 6';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
