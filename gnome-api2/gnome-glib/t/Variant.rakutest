@@ -48,7 +48,7 @@ subtest 'ISA test', {
     my Int() $n-elements;
     my Int() $size;
     my N-GObject $element-type;
-    my N-GObject $value;
+    my $value;
     my Int() $n-children;
     my Bool() $trusted;
     sub notify ( gpointer $data ) {}
@@ -227,13 +227,14 @@ subtest 'ISA test', {
     $app = '…';
     $variant .= new-va( $format-string, $endptr, $app);
     ok .is-valid, '.new-va( $format-string, $endptr, $app)';
-
-#??    #TC:0:new-variant()
-    $value = …;  # a native object
-    $variant .= new-variant( $value);
-    ok .is-valid, '.new-variant( $value)';
-
 }}
+
+    #TC:1:new-variant-with-variant()
+    $format-string = 'i';
+    $value = Gnome::Glib::Variant.new-variant( $format-string, gint32, 40);
+    $variant .= new-variant-with-variant($value);
+    ok .is-valid, '.new-variant-with-variant($value)';
+
   }
 };
 
