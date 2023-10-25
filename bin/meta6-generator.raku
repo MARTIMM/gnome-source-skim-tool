@@ -16,6 +16,8 @@ check-modules( 'Glib', "$api2/gnome-glib/lib");
 check-modules( 'Gio', "$api2/gnome-gio/lib");
 check-modules( 'GObject', "$api2/gnome-gobject/lib");
 
+check-modules( 'Pango', "$api2/gnome-pango/lib");
+
 check-modules( 'N', "$api2/gnome-native/lib");
 
 #`{{
@@ -28,7 +30,6 @@ check-modules( "$api2/gnome-gdk4/lib");
 check-modules( "$api2/gnome-gsk4/lib");
 
 check-modules( "$api2/gnome-atk/lib");
-check-modules( "$api2/gnome-pango/lib");
 }}
 
 #-------------------------------------------------------------------------------
@@ -58,7 +59,7 @@ sub check-modules ( Str $name, Str $cdir ) {
       .<auth> = "cpan:MARTIMM";
       .<tags> = [ 'Gnome', $name];
       .<author> = 'Marcel Timmerman';
-#      .<authors> = ['Marcel Timmerman'];
+      .<authors> = ['Marcel Timmerman'];
       .<raku-version> = '6.d';
 #      .<raku> = '6.d';
       .<meta-version> = 2;
@@ -85,14 +86,13 @@ sub check-modules ( Str $name, Str $cdir ) {
 #      elsif $name ~~ 'Cairo' { }
 
       elsif $name ~~ 'Pango' {
-        .<tags>.push: 'text-layout';
-        .<tags>.push: 'text-rendering';
-        <description> = "Modules for package Gnome\::Pango\:api<2>. The language binding to Pango: Internationalized text layout and rendering";
+        .<tags> = [ 'Gnome', $name, 'text-layout', 'text-rendering'];
+        .<description> = "Modules for package Gnome\::Pango\:api<2>. The language binding to Pango: Internationalized text layout and rendering";
         .<depends> = <Gnome::GObject:api<2> Gnome::Glib:api<2> Gnome::N:api<2>>;
       }
 
       elsif $name ~~ 'Gio' {
-        .<tags>.push: 'io';
+        .<tags> = [ 'Gnome', $name, 'io'];
         .<description> = "Modules for package Gnome\::Gio\:api<2>. The language binding to GNOME I/O libraries";
         .<depends> = <Gnome::GObject:api<2> Gnome::Glib:api<2> Gnome::N:api<2>>;
       }
