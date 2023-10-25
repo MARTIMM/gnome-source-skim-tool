@@ -1,0 +1,118 @@
+# Command to generate: generate.raku -c -t Pango Layout
+use v6.d;
+
+#TL:1:Gnome::Pango::N-LayoutLine:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::N-LayoutLine:api<2>;
+#use Gnome::Pango::T-Direction:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-LayoutLine $layoutline;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $layoutline {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $layoutline {
+    my Array[Int] $trailing;
+    my Int() $start-index;
+    my N-GObject $ink-rect;
+    my N-GObject $logical-rect;
+    my Array[Int] $height;
+    my Array[Int] $n-ranges;
+    my Array[Int] $ranges;
+    my Int() $x-pos;
+    my Int() $end-index;
+    my Array[Int] $index;
+
+
+#`{{
+    #TM:0:get-extents()
+    is .get-extents( $ink-rect, $logical-rect), '…', '.get-extents()';
+
+    #TM:0:get-height()
+    is .get-height( $height), '…', '.get-height()';
+
+    #TM:0:get-length()
+     .get-length(), '…', '.get-length()';
+
+    #TM:0:get-pixel-extents()
+    is .get-pixel-extents( $ink-rect, $logical-rect), '…', '.get-pixel-extents()';
+
+    #TM:0:get-resolved-direction()
+     .get-resolved-direction(), '…', '.get-resolved-direction()';
+
+    #TM:0:get-start-index()
+     .get-start-index(), '…', '.get-start-index()';
+
+    #TM:0:get-x-ranges()
+    is .get-x-ranges( $start-index, $end-index, $ranges, $n-ranges), '…', '.get-x-ranges()';
+
+    #TM:0:index-to-x()
+    ok .index-to-x( $index, $trailing, $x-pos), '.index-to-x()';
+
+    #TM:0:is-paragraph-start()
+    ok .is-paragraph-start(), '.is-paragraph-start()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+    #TM:0:x-to-index()
+    ok .x-to-index( $x-pos, $index, $trailing), '.x-to-index()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $layoutline {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

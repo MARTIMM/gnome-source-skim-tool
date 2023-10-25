@@ -1,0 +1,138 @@
+# Command to generate: generate.raku -c -t Pango Layout
+use v6.d;
+
+#TL:1:Gnome::Pango::N-LayoutIter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::N-LayoutIter:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-LayoutIter $layoutiter;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $layoutiter {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $layoutiter {
+    my N-GObject $ink-rect;
+    my Array[Int] $y0;
+    my N-GObject $logical-rect;
+    my Array[Int] $y1;
+
+
+#`{{
+    #TM:0:at-last-line()
+    ok .at-last-line(), '.at-last-line()';
+
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-baseline()
+     .get-baseline(), '…', '.get-baseline()';
+
+    #TM:0:get-char-extents()
+    is .get-char-extents( $logical-rect), '…', '.get-char-extents()';
+
+    #TM:0:get-cluster-extents()
+    is .get-cluster-extents( $ink-rect, $logical-rect), '…', '.get-cluster-extents()';
+
+    #TM:0:get-index()
+     .get-index(), '…', '.get-index()';
+
+    #TM:0:get-layout()
+     .get-layout(), '…', '.get-layout()';
+
+    #TM:0:get-layout-extents()
+    is .get-layout-extents( $ink-rect, $logical-rect), '…', '.get-layout-extents()';
+
+    #TM:0:get-line()
+     .get-line(), '…', '.get-line()';
+
+    #TM:0:get-line-extents()
+    is .get-line-extents( $ink-rect, $logical-rect), '…', '.get-line-extents()';
+
+    #TM:0:get-line-readonly()
+     .get-line-readonly(), '…', '.get-line-readonly()';
+
+    #TM:0:get-line-yrange()
+    is .get-line-yrange( $y0, $y1), '…', '.get-line-yrange()';
+
+    #TM:0:get-run()
+     .get-run(), '…', '.get-run()';
+
+    #TM:0:get-run-baseline()
+     .get-run-baseline(), '…', '.get-run-baseline()';
+
+    #TM:0:get-run-extents()
+    is .get-run-extents( $ink-rect, $logical-rect), '…', '.get-run-extents()';
+
+    #TM:0:get-run-readonly()
+     .get-run-readonly(), '…', '.get-run-readonly()';
+
+    #TM:0:next-char()
+    ok .next-char(), '.next-char()';
+
+    #TM:0:next-cluster()
+    ok .next-cluster(), '.next-cluster()';
+
+    #TM:0:next-line()
+    ok .next-line(), '.next-line()';
+
+    #TM:0:next-run()
+    ok .next-run(), '.next-run()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $layoutiter {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

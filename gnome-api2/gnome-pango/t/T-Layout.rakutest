@@ -1,0 +1,98 @@
+# Command to generate: generate.raku -c -t Pango Layout
+use v6.d;
+
+#TL:1:Gnome::Pango::T-Layout:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::Layout:api<2>;
+#use Gnome::Pango::T-Direction:api<2>;
+use Gnome::Pango::T-Layout:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:PangoAlignment
+subtest 'PangoAlignment', {
+  is PANGO_ALIGN_LEFT.value, 0, 'enum PANGO_ALIGN_LEFT = 0';
+
+  is PANGO_ALIGN_CENTER.value, 1, 'enum PANGO_ALIGN_CENTER = 1';
+
+  is PANGO_ALIGN_RIGHT.value, 2, 'enum PANGO_ALIGN_RIGHT = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:PangoEllipsizeMode
+subtest 'PangoEllipsizeMode', {
+  is PANGO_ELLIPSIZE_NONE.value, 0, 'enum PANGO_ELLIPSIZE_NONE = 0';
+
+  is PANGO_ELLIPSIZE_START.value, 1, 'enum PANGO_ELLIPSIZE_START = 1';
+
+  is PANGO_ELLIPSIZE_MIDDLE.value, 2, 'enum PANGO_ELLIPSIZE_MIDDLE = 2';
+
+  is PANGO_ELLIPSIZE_END.value, 3, 'enum PANGO_ELLIPSIZE_END = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:PangoLayoutDeserializeError
+subtest 'PangoLayoutDeserializeError', {
+  is PANGO_LAYOUT_DESERIALIZE_INVALID.value, 0, 'enum PANGO_LAYOUT_DESERIALIZE_INVALID = 0';
+
+  is PANGO_LAYOUT_DESERIALIZE_INVALID_VALUE.value, 1, 'enum PANGO_LAYOUT_DESERIALIZE_INVALID_VALUE = 1';
+
+  is PANGO_LAYOUT_DESERIALIZE_MISSING_VALUE.value, 2, 'enum PANGO_LAYOUT_DESERIALIZE_MISSING_VALUE = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:PangoWrapMode
+subtest 'PangoWrapMode', {
+  is PANGO_WRAP_WORD.value, 0, 'enum PANGO_WRAP_WORD = 0';
+
+  is PANGO_WRAP_CHAR.value, 1, 'enum PANGO_WRAP_CHAR = 1';
+
+  is PANGO_WRAP_WORD_CHAR.value, 2, 'enum PANGO_WRAP_WORD_CHAR = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:PangoLayoutDeserializeFlags
+subtest 'PangoLayoutDeserializeFlags', {
+  is PANGO_LAYOUT_DESERIALIZE_DEFAULT.value, 0, 'bitfield PANGO_LAYOUT_DESERIALIZE_DEFAULT = 0';
+
+  is PANGO_LAYOUT_DESERIALIZE_CONTEXT.value, 1, 'bitfield PANGO_LAYOUT_DESERIALIZE_CONTEXT = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:PangoLayoutSerializeFlags
+subtest 'PangoLayoutSerializeFlags', {
+  is PANGO_LAYOUT_SERIALIZE_DEFAULT.value, 0, 'bitfield PANGO_LAYOUT_SERIALIZE_DEFAULT = 0';
+
+  is PANGO_LAYOUT_SERIALIZE_CONTEXT.value, 1, 'bitfield PANGO_LAYOUT_SERIALIZE_CONTEXT = 1';
+
+  is PANGO_LAYOUT_SERIALIZE_OUTPUT.value, 2, 'bitfield PANGO_LAYOUT_SERIALIZE_OUTPUT = 2';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

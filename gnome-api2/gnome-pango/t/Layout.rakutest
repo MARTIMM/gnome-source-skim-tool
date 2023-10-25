@@ -1,0 +1,378 @@
+# Command to generate: generate.raku -c -t Pango Layout
+use v6.d;
+
+#TL:1:Gnome::Pango::Layout:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::Layout:api<2>;
+use Gnome::Pango::Context:api<2>;
+use Gnome::Pango::T-Direction:api<2>;
+use Gnome::Pango::T-Layout:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Pango::Layout $layout;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $layout {
+    my Gnome::Pango::Context $context;
+
+    #TC:1:new-layout()
+    $context .= new-context;
+    $layout .= new-layout($context);
+    ok .is-valid, '.new-layout($context)';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $layout {
+    my N-GObject $ink-rect;
+    my Bool() $justify;
+    my PangoEllipsizeMode $ellipsize;
+    my Bool() $strong;
+    my N-GObject $desc;
+    my Str $markup;
+    my N-GObject $attrs;
+    my Int() $x;
+    my N-GObject $tabs;
+    my Int() $indent;
+    my N-GObject $strong-pos;
+    my PangoWrapMode $wrap;
+    my PangoAlignment $alignment;
+    my Int() $width;
+    my N-GObject $logical-rect;
+    my Num() $factor;
+    my Array[Int] $line;
+    my Array[Int] $x-pos;
+    my Int() $old-index;
+    my N-GObject $pos;
+    my Int() $length;
+    my Bool() $auto-dir;
+    my Str $accel-char;
+    my Array[Int] $index;
+    my Str $filename;
+    my Int() $height;
+    my Array[Int] $new-trailing;
+    my Array[Int] $new-index;
+    my Int() $direction;
+    my Array[Int] $n-attrs;
+    my UInt $flags;
+    my UInt() $accel-marker;
+    my N-GObject $weak-pos;
+    my Int() $spacing;
+    my Bool() $setting;
+    my Str $text;
+    my Array[Int] $trailing;
+    my Int() $old-trailing;
+    my Int() $y;
+
+
+#`{{
+    #TM:0:context-changed()
+    ok .context-changed(), '.context-changed()';
+
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:get-baseline()
+     .get-baseline(), '…', '.get-baseline()';
+
+    #TM:0:get-caret-pos()
+    is .get-caret-pos( $index, $strong-pos, $weak-pos), '…', '.get-caret-pos()';
+
+    #TM:0:get-character-count()
+     .get-character-count(), '…', '.get-character-count()';
+
+    #TM:0:get-context()
+     .get-context(), '…', '.get-context()';
+
+    #TM:0:get-cursor-pos()
+    is .get-cursor-pos( $index, $strong-pos, $weak-pos), '…', '.get-cursor-pos()';
+
+    #TM:0:get-direction()
+    is .get-direction( $index), '…', '.get-direction()';
+
+    #TM:0:get-extents()
+    is .get-extents( $ink-rect, $logical-rect), '…', '.get-extents()';
+
+    #TM:0:get-iter()
+     .get-iter(), '…', '.get-iter()';
+
+    #TM:0:get-line()
+    is .get-line( $line), '…', '.get-line()';
+
+    #TM:0:get-line-count()
+     .get-line-count(), '…', '.get-line-count()';
+
+    #TM:0:get-line-readonly()
+    is .get-line-readonly( $line), '…', '.get-line-readonly()';
+
+    #TM:0:get-lines()
+     .get-lines(), '…', '.get-lines()';
+
+    #TM:0:get-lines-readonly()
+     .get-lines-readonly(), '…', '.get-lines-readonly()';
+
+    #TM:0:get-log-attrs()
+    is .get-log-attrs( $attrs, $n-attrs), '…', '.get-log-attrs()';
+
+    #TM:0:get-log-attrs-readonly()
+    is .get-log-attrs-readonly( $n-attrs), '…', '.get-log-attrs-readonly()';
+
+    #TM:0:get-pixel-extents()
+    is .get-pixel-extents( $ink-rect, $logical-rect), '…', '.get-pixel-extents()';
+
+    #TM:0:get-pixel-size()
+    is .get-pixel-size( $width, $height), '…', '.get-pixel-size()';
+
+    #TM:0:get-serial()
+     .get-serial(), '…', '.get-serial()';
+
+    #TM:0:get-size()
+    is .get-size( $width, $height), '…', '.get-size()';
+
+    #TM:0:get-unknown-glyphs-count()
+     .get-unknown-glyphs-count(), '…', '.get-unknown-glyphs-count()';
+
+    #TM:0:index-to-line-x()
+    ok .index-to-line-x( $index, $trailing, $line, $x-pos), '.index-to-line-x()';
+
+    #TM:0:index-to-pos()
+    ok .index-to-pos( $index, $pos), '.index-to-pos()';
+
+    #TM:0:is-ellipsized()
+    ok .is-ellipsized(), '.is-ellipsized()';
+
+    #TM:0:is-wrapped()
+    ok .is-wrapped(), '.is-wrapped()';
+
+    #TM:0:move-cursor-visually()
+    ok .move-cursor-visually( $strong, $old-index, $old-trailing, $direction, $new-index, $new-trailing), '.move-cursor-visually()';
+
+    #TM:0:serialize()
+    ok .serialize( $flags), '.serialize()';
+
+    #TM:0:set-alignment()
+    $alignment = …;  # an enum or fla
+    .set-alignment( $alignment);
+    #TM:0:get-alignment()
+    is .get-alignment(),  $alignment, '.set-alignment() / .get-alignment()';
+
+    #TM:0:set-attributes()
+    $attrs = …
+    .set-attributes( $attrs);
+    #TM:0:get-attributes()
+    is .get-attributes(),  $attrs, '.set-attributes() / .get-attributes()';
+
+    #TM:0:set-auto-dir()
+    $auto-dir = True;
+    .set-auto-dir( $auto-dir);
+    #TM:0:get-auto-dir()
+    is .get-auto-dir(),  $auto-dir, '.set-auto-dir() / .get-auto-dir()';
+
+    #TM:0:set-ellipsize()
+    $ellipsize = …;  # an enum or fla
+    .set-ellipsize( $ellipsize);
+    #TM:0:get-ellipsize()
+    is .get-ellipsize(),  $ellipsize, '.set-ellipsize() / .get-ellipsize()';
+
+    #TM:0:set-font-description()
+    $desc = …
+    .set-font-description( $desc);
+    #TM:0:get-font-description()
+    is .get-font-description(),  $desc, '.set-font-description() / .get-font-description()';
+
+    #TM:0:set-height()
+    $height = -42;
+    .set-height( $height);
+    #TM:0:get-height()
+    is .get-height(),  $height, '.set-height() / .get-height()';
+
+    #TM:0:set-indent()
+    $indent = -42;
+    .set-indent( $indent);
+    #TM:0:get-indent()
+    is .get-indent(),  $indent, '.set-indent() / .get-indent()';
+
+    #TM:0:set-justify()
+    $justify = True;
+    .set-justify( $justify);
+    #TM:0:get-justify()
+    is .get-justify(),  $justify, '.set-justify() / .get-justify()';
+
+    #TM:0:set-justify-last-line()
+    $justify = True;
+    .set-justify-last-line( $justify);
+    #TM:0:get-justify-last-line()
+    is .get-justify-last-line(),  $justify, '.set-justify-last-line() / .get-justify-last-line()';
+
+    #TM:0:set-line-spacing()
+    $factor = 42.42;
+    .set-line-spacing( $factor);
+    #TM:0:get-line-spacing()
+    is-approx .get-line-spacing(),  $factor, '.set-line-spacing() / .get-line-spacing()';
+
+    #TM:0:set-markup()
+    $markup = 'text';
+    $length = -42;
+    .set-markup( $markup, $length);
+    ok True, '.set-markup()';
+
+    #TM:0:set-markup-with-accel()
+    $markup = 'text';
+    $length = -42;
+    $accel-marker = 42;
+    $accel-char = 'text';
+    .set-markup-with-accel( $markup, $length, $accel-marker, $accel-char);
+    ok True, '.set-markup-with-accel()';
+
+    #TM:0:set-single-paragraph-mode()
+    $setting = True;
+    .set-single-paragraph-mode( $setting);
+    #TM:0:get-single-paragraph-mode()
+    is .get-single-paragraph-mode(),  $setting, '.set-single-paragraph-mode() / .get-single-paragraph-mode()';
+
+    #TM:0:set-spacing()
+    $spacing = -42;
+    .set-spacing( $spacing);
+    #TM:0:get-spacing()
+    is .get-spacing(),  $spacing, '.set-spacing() / .get-spacing()';
+
+    #TM:0:set-tabs()
+    $tabs = …
+    .set-tabs( $tabs);
+    #TM:0:get-tabs()
+    is .get-tabs(),  $tabs, '.set-tabs() / .get-tabs()';
+
+    #TM:0:set-text()
+    $text = 'text';
+    $length = -42;
+    .set-text( $text, $length);
+    #TM:0:get-text()
+    is .get-text(),  $text, $length, '.set-text() / .get-text()';
+
+    #TM:0:set-width()
+    $width = -42;
+    .set-width( $width);
+    #TM:0:get-width()
+    is .get-width(),  $width, '.set-width() / .get-width()';
+
+    #TM:0:set-wrap()
+    $wrap = …;  # an enum or fla
+    .set-wrap( $wrap);
+    #TM:0:get-wrap()
+    is .get-wrap(),  $wrap, '.set-wrap() / .get-wrap()';
+
+    #TM:0:write-to-file()
+    ok .write-to-file( $flags, $filename), '.write-to-file()';
+
+    #TM:0:xy-to-index()
+    ok .xy-to-index( $x, $y, $index, $trailing), '.xy-to-index()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Pango::Layout() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Pango::Layout;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Pango::Layout :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Pango::Layout $layout .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $layout.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
