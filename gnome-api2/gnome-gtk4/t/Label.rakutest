@@ -15,7 +15,7 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
-#use Gnome::Pango::T-Layout:api<2>;
+use Gnome::Pango::T-Layout:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
@@ -36,7 +36,7 @@ subtest 'ISA test', {
   $label .= new-label($str);
   ok $label.is-valid, '.new-label( $str)';
 
-  #TC:0:new-with-mnemonic()
+  #TC:1:new-with-mnemonic()
   $str = '_text';
   $label .= new-with-mnemonic($str);
   ok $label.is-valid, '.new-with-mnemonic( $str)';
@@ -65,7 +65,7 @@ subtest 'Method tests', {
     my Num() $yalign;
     my Array[Int] $y;
     my Array[Int] $end;
-#    my PangoEllipsizeMode  $mode;
+    my PangoEllipsizeMode  $mode;
     my Bool() $single-line-mode;
     my Bool() $setting;
     my Int() $n-chars;
@@ -193,13 +193,15 @@ subtest 'Method tests', {
     .set-extra-menu( $model);
     #TM:0:get-extra-menu()
     is .get-extra-menu(),  $model, '.set-extra-menu() / .get-extra-menu()';
+}}
 
-    #TM:0:set-ellipsize()
-    $mode = …;  # an enum or fla
+    #TM:1:set-ellipsize()
+    $mode = PANGO_ELLIPSIZE_MIDDLE;
     .set-ellipsize( $mode);
-    #TM:0:get-ellipsize()
+    #TM:1:get-ellipsize()
     is .get-ellipsize(),  $mode, '.set-ellipsize() / .get-ellipsize()';
 
+#`{{
     #TM:0:set-attributes()
     $attrs = …;  # a native object
     .set-attributes( $attrs);

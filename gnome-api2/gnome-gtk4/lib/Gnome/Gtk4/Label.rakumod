@@ -16,7 +16,7 @@ use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-AttrList:api<2>;
-#use Gnome::Pango::T-Layout:api<2>;
+use Gnome::Pango::T-Layout:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   #get-attributes => %( :returns(N-AttrList )),
   get-current-uri => %( :returns(Str)),
-  #get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode )),
+  get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode )),
   get-extra-menu => %( :returns(N-GObject)),
   get-justify => %( :returns(GEnum), :cnv-return(GtkJustification)),
   get-label => %( :returns(Str)),
@@ -103,7 +103,7 @@ my Hash $methods = %(
   get-yalign => %( :returns(gfloat)),
   select-region => %( :parameters([gint, gint])),
   #set-attributes => %( :parameters([N-AttrList ])),
-  #set-ellipsize => %( :parameters([GEnum])),
+  set-ellipsize => %( :parameters([GEnum])),
   set-extra-menu => %( :parameters([N-GObject])),
   set-justify => %( :parameters([GEnum])),
   set-label => %( :parameters([Str])),
