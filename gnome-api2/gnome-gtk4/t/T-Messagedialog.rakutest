@@ -1,0 +1,45 @@
+# Command to generate: generate.raku -c -t Gtk4 messagedialog
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Messagedialog:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Messagedialog:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkButtonsType
+subtest 'GtkButtonsType', {
+  is GTK_BUTTONS_NONE.value, 0, 'enum GTK_BUTTONS_NONE = 0';
+
+  is GTK_BUTTONS_OK.value, 1, 'enum GTK_BUTTONS_OK = 1';
+
+  is GTK_BUTTONS_CLOSE.value, 2, 'enum GTK_BUTTONS_CLOSE = 2';
+
+  is GTK_BUTTONS_CANCEL.value, 3, 'enum GTK_BUTTONS_CANCEL = 3';
+
+  is GTK_BUTTONS_YES_NO.value, 4, 'enum GTK_BUTTONS_YES_NO = 4';
+
+  is GTK_BUTTONS_OK_CANCEL.value, 5, 'enum GTK_BUTTONS_OK_CANCEL = 5';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
