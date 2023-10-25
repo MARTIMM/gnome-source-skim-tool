@@ -356,6 +356,11 @@ method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
     $routine-name = 'new';
   }
 
+  elsif $routine<realname>:exists {
+    $routine-name = $routine<realname>;
+    $routine-name ~~ s:g/ '-' /_/;
+  }
+
   else {
     $routine-name = $name;
     $routine-name ~~ s:g/ '-' /_/;
