@@ -2138,6 +2138,8 @@ method convert-rtype (
 #    when /:i g? error '*'/      { $raku-type = 'N-GObject'; }
     when /g? pointer '*'/       { $raku-type = 'Array'; }
 
+    # Other packages like those from Cairo or Pango might not have
+    # the 'g' prefixed
     when / g? boolean / {
       $raku-type = 'Bool';
       $raku-type ~= '()';     # unless $return-type;
@@ -2159,7 +2161,7 @@ method convert-rtype (
       $raku-type ~= '()' unless $return-type;
     }
 
-    when /g [float || double]/ {
+    when /g? [float || double]/ {
       $raku-type = 'Num';
       $raku-type ~= '()' unless $return-type;
     }
