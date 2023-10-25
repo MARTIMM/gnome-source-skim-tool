@@ -76,6 +76,7 @@ find . -name '*.raku*' | xargs wc -l
   * Native structures names are changed a small bit; N-GError becomes **N-Error** and N-GtkRequisition becomes **N-Requisition**. The only structure unchanged for now is **N-GObject**.
   * Added a META6.json generator using **META6**.
   * Changed **Gnome::Gio::File** from interface into class. Also the functions found in File to create the object are transformed into constructors. This is accomplished by changing the `C-File.gir` XML elements. To prevent overwriting, the skimming process does not overwrite the previously created gir files.
+  * 'g_variant_new_variant' gave a clash 'g_variant_new' created by the generator because the latter is translated in `new-variant` while the first one got the same name. The latter is now translated into `new-variant-with-variant`.
 
 * 2023-10-15 0.11.5
   * It is now possible to handle native functions having callback arguments
