@@ -1,0 +1,214 @@
+# Command to generate: generate.raku -c -t Pango context
+use v6.d;
+
+#TL:1:Gnome::Pango::Context:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::Context:api<2>;
+use Gnome::Pango::T-Direction:api<2>;
+use Gnome::Pango::T-Gravity:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Pango::Context $context;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $context {
+
+    #TC:1:new-context()
+    $context .= new-context();
+    ok .is-valid, '.new-context()';
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $context {
+    my PangoDirection $direction;
+    my N-GObject() $font-map;
+    my N-GObject() $families;
+    my Array[Int] $n-families;
+    my PangoGravityHint $hint;
+    my N-GObject $language;
+    my N-GObject $desc;
+    my PangoGravity $gravity;
+    my N-GObject $matrix;
+    my Bool() $round-positions;
+
+
+#`{{
+    #TM:0:changed()
+    ok .changed(), '.changed()';
+
+    #TM:0:get-gravity()
+     .get-gravity(), '…', '.get-gravity()';
+
+    #TM:0:get-metrics()
+    is .get-metrics( $desc, $language), '…', '.get-metrics()';
+
+    #TM:0:get-serial()
+     .get-serial(), '…', '.get-serial()';
+
+    #TM:0:list-families()
+    ok .list-families( $families, $n-families), '.list-families()';
+
+    #TM:0:load-font()
+    ok .load-font( $desc), '.load-font()';
+
+    #TM:0:load-fontset()
+    ok .load-fontset( $desc, $language), '.load-fontset()';
+
+    #TM:0:set-base-dir()
+    $direction = …;  # an enum or fla
+    .set-base-dir( $direction);
+    #TM:0:get-base-dir()
+    is .get-base-dir(),  $direction, '.set-base-dir() / .get-base-dir()';
+
+    #TM:0:set-base-gravity()
+    $gravity = …;  # an enum or fla
+    .set-base-gravity( $gravity);
+    #TM:0:get-base-gravity()
+    is .get-base-gravity(),  $gravity, '.set-base-gravity() / .get-base-gravity()';
+
+    #TM:0:set-font-description()
+    $desc = …
+    .set-font-description( $desc);
+    #TM:0:get-font-description()
+    is .get-font-description(),  $desc, '.set-font-description() / .get-font-description()';
+
+    #TM:0:set-font-map()
+    $font-map = …
+    .set-font-map( $font-map);
+    #TM:0:get-font-map()
+    is .get-font-map(),  $font-map, '.set-font-map() / .get-font-map()';
+
+    #TM:0:set-gravity-hint()
+    $hint = …;  # an enum or fla
+    .set-gravity-hint( $hint);
+    #TM:0:get-gravity-hint()
+    is .get-gravity-hint(),  $hint, '.set-gravity-hint() / .get-gravity-hint()';
+
+    #TM:0:set-language()
+    $language = …
+    .set-language( $language);
+    #TM:0:get-language()
+    is .get-language(),  $language, '.set-language() / .get-language()';
+
+    #TM:0:set-matrix()
+    $matrix = …
+    .set-matrix( $matrix);
+    #TM:0:get-matrix()
+    is .get-matrix(),  $matrix, '.set-matrix() / .get-matrix()';
+
+    #TM:0:set-round-glyph-positions()
+    $round-positions = True;
+    .set-round-glyph-positions( $round-positions);
+    #TM:0:get-round-glyph-positions()
+    is .get-round-glyph-positions(),  $round-positions, '.set-round-glyph-positions() / .get-round-glyph-positions()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Pango::Context() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Pango::Context;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Pango::Context :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Pango::Context $context .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $context.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
