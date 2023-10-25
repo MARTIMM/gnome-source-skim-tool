@@ -32,32 +32,10 @@ subtest 'ISA test', {
   given $filechooserwidget {
     my GtkFileChooserAction $action;
 
-#`{{
-    #TC:0:new-filechooserwidget()
-    $action = …;  # an enum or fla
-    $filechooserwidget .= new-filechooserwidget( $action);
-    ok .is-valid, '.new-filechooserwidget( $action)';
-
-}}
-  }
-};
-
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# set environment variable 'raku-test-all' if rest must be tested too.
-unless %*ENV<raku_test_all>:exists {
-  done-testing;
-  exit;
-}
-
-#-------------------------------------------------------------------------------
-subtest 'Method tests', {
-  with $filechooserwidget {
-
-
-#`{{
-}}
+    #TC:1:new-filechooserwidget()
+    $action = GTK_FILE_CHOOSER_ACTION_OPEN;
+    $filechooserwidget .= new-filechooserwidget($action);
+    ok .is-valid, '.new-filechooserwidget($action)';
   }
 };
 

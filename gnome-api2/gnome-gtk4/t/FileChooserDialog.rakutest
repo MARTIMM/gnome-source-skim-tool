@@ -12,6 +12,9 @@ use Test;
 
 use Gnome::Gtk4::FileChooserDialog:api<2>;
 use Gnome::Gtk4::T-Filechooser:api<2>;
+use Gnome::Gtk4::T-Dialog:api<2>;
+use Gnome::Gtk4::Window:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-GObject:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -30,38 +33,21 @@ my Gnome::Gtk4::FileChooserDialog $filechooserdialog;
 
 subtest 'ISA test', {
   given $filechooserdialog {
-    my N-GObject() $parent;
+    my Gnome::Gtk4::Window $parent;
     my Str $first-button-text;
     my Str $title;
     my GtkFileChooserAction $action;
 
-#`{{
-    #TC:0:new-filechooserdialog()
-    $title = 'text';
-    $parent = …;    $action = …;  # an enum or flag    $first-button-text = 'text';
-    $filechooserdialog .= new-filechooserdialog( $title, $parent, $action, $first-button-text);
-    ok .is-valid, '.new-filechooserdialog( $title, $parent, $action, $first-button-text)';
-
-}}
-  }
-};
-
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# set environment variable 'raku-test-all' if rest must be tested too.
-unless %*ENV<raku_test_all>:exists {
-  done-testing;
-  exit;
-}
-
-#-------------------------------------------------------------------------------
-subtest 'Method tests', {
-  with $filechooserdialog {
-
-
-#`{{
-}}
+    #TC:1:new-filechooserdialog()
+    $title = 'Zoek je bestand!';
+    $parent .= new-window;
+    $action = GTK_FILE_CHOOSER_ACTION_OPEN;
+    $first-button-text = 'Open';
+    $filechooserdialog .= new-filechooserdialog(
+      $title, $parent, $action, $first-button-text, GEnum, GTK_RESPONSE_ACCEPT,
+      Str, 'Cancel', GEnum, GTK_RESPONSE_CANCEL
+    );
+    ok .is-valid, '.new-filechooserdialog( $title, $parent, $action, $first-button-text, "…")';
   }
 };
 
