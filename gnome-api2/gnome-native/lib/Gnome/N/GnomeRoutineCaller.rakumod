@@ -54,19 +54,16 @@ my Bool $may-not-initialize-gui = False;
 #-------------------------------------------------------------------------------
 submethod BUILD ( Str :$!library, Str :$!sub-prefix ) {
 
-  if $!library ~~ / 4 || 3 / {
+  # check GTK+ init except when GtkApplication / GApplication is used
+  $may-not-initialize-gui = [or]
+    $may-not-initialize-gui,
+    $gui-initialized,
 
-    # check GTK+ init except when GtkApplication / GApplication is used
-    $may-not-initialize-gui = [or]
-      $may-not-initialize-gui,
-      $gui-initialized,
+    # Check for Application from Gio. That one inherits from Object.
+    # Application from Gtk3 inherits from Gio, so this test is always ok.
+    ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
 
-      # Check for Application from Gio. That one inherits from Object.
-      # Application from Gtk3 inherits from Gio, so this test is always ok.
-      ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
-
-    self.gtk-initialize unless $may-not-initialize-gui;
-  }
+  self.gtk-initialize unless $may-not-initialize-gui;
 }
 
 #-------------------------------------------------------------------------------
