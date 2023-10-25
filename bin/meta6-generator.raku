@@ -82,12 +82,19 @@ sub check-modules ( Str $name, Str $cdir ) {
 #      elsif $name ~~ 'GdkPixdata' { }
 
 #      elsif $name ~~ 'Atk' { }
-#      elsif $name ~~ 'Pango' { }
 #      elsif $name ~~ 'Cairo' { }
 
+      elsif $name ~~ 'Pango' {
+        .<tags>.push: 'text-layout';
+        .<tags>.push: 'text-rendering';
+        <description> = "Modules for package Gnome\::Pango\:api<2>. The language binding to Pango: Internationalized text layout and rendering";
+        .<depends> = <Gnome::GObject:api<2> Gnome::Glib:api<2> Gnome::N:api<2>>;
+      }
+
       elsif $name ~~ 'Gio' {
+        .<tags>.push: 'io';
         .<description> = "Modules for package Gnome\::Gio\:api<2>. The language binding to GNOME I/O libraries";
-        .<depends> = <Gnome::GObject:api<2> Gnome::Glib Gnome::N:api<2>>;
+        .<depends> = <Gnome::GObject:api<2> Gnome::Glib:api<2> Gnome::N:api<2>>;
       }
 
       elsif $name ~~ 'GObject' {
