@@ -41,6 +41,8 @@ sub check-modules ( Str $name, Str $cdir ) {
   my Str $base-path = $cdir;
   $base-path ~~ s/ lib $//;
 
+  my Str $dep-pfix = ':auth<github:MARTIMM>:api<2>';
+
   my Str $meta-file = "{$base-path}/META6.json";
   say "\nload meta file for $name";
   my META6 $meta;
@@ -61,7 +63,7 @@ sub check-modules ( Str $name, Str $cdir ) {
       .<author> = 'Marcel Timmerman';
       .<authors> = ['Marcel Timmerman'];
       .<raku-version> = '6.d';
-#      .<raku> = '6.d';
+      .<raku> = '6.d';
       .<meta-version> = 2;
       .<license> = 'Artistic-2.0';
       .<source-url> = "git://github.com/MARTIMM/gnome-{$name.lc}-api2.git";
@@ -69,9 +71,9 @@ sub check-modules ( Str $name, Str $cdir ) {
       if $name ~~ 'Gtk4' {
          # Gnome::Gdk4:api<2> Gnome::Gsk4:api<2>
         .<description> = "Modules for package Gnome\::Gtk4\:api<2>. The language binding to GNOME’s user interface toolkit version 4";
-        .<depends> = <
-          Gnome::Gio:api<2> Gnome::GObject:api<2> Gnome::Glib Gnome::N:api<2>
-        >;
+        .<depends> = [  "Gnome::Gio$dep-pfix", "Gnome::GObject$dep-pfix",
+          "Gnome::Glib$dep-pfix", "Gnome::N$dep-pfix"
+        ];
       }
 
 #      elsif $name ~~ 'Gsk4' { }
@@ -88,7 +90,9 @@ sub check-modules ( Str $name, Str $cdir ) {
       elsif $name ~~ 'Pango' {
         .<tags> = [ 'Gnome', $name, 'text-layout', 'text-rendering'];
         .<description> = "Modules for package Gnome\::Pango\:api<2>. The language binding to Pango: Internationalized text layout and rendering";
-        .<depends> = <Gnome::GObject:api<2> Gnome::Glib:api<2> Gnome::N:api<2>>;
+        .<depends> = [ "Gnome::GObject$dep-pfix", "Gnome::Glib$dep-pfix",
+          "Gnome::N$dep-pfix"
+        ];
       }
 
       elsif $name ~~ 'Gio' {
@@ -158,6 +162,7 @@ sub check-module-files ( Str $cdir ) {
       $mclass ~~ s/^ .*? '/lib/' //;
       $mclass ~~ s/ \. rakumod $//;
       $mclass ~~ s:g/ '/' /::/;
+#      $mclass ~= ':api<2>';
 
       # Remove large part of path.
       $mpath ~~ s/^ .*? '/lib' /lib/;
