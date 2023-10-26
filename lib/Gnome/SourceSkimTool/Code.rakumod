@@ -305,8 +305,7 @@ method make-build-submethod (
   $code ~= q:to/EOBUILD/;
         # If already initialized using ':$native-object', ':$build-id', or
         # any '.new*()' constructor, the object is valid.
-        die X::Gnome.new(:message("Native object not defined"))
-          unless self.is-valid;
+        note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
     EOBUILD
 
   $code ~= qq:to/EOBUILD/;
