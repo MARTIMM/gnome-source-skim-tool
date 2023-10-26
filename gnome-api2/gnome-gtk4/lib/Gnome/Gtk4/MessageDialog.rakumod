@@ -46,8 +46,7 @@ submethod BUILD ( *%options ) {
   if self.^name eq 'Gnome::Gtk4::MessageDialog' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GtkMessageDialog');
