@@ -1,0 +1,35 @@
+# Command to generate: generate.raku -c -t Gtk4 shortcutaction
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Shortcutaction:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Shortcutaction:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkShortcutActionFlags
+subtest 'GtkShortcutActionFlags', {
+  is GTK_SHORTCUT_ACTION_EXCLUSIVE.value, 1, 'bitfield GTK_SHORTCUT_ACTION_EXCLUSIVE = 1';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
