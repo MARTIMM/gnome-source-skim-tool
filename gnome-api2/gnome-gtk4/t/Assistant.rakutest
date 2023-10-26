@@ -1,0 +1,223 @@
+# Command to generate: generate.raku -c -t Gtk4 assistant
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Assistant:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::Assistant:api<2>;
+use Gnome::Gtk4::T-Assistant:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Assistant $assistant;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $assistant {
+
+    #TC:1:new-assistant()
+    $assistant .= new-assistant();
+    ok .is-valid, '.new-assistant()';
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $assistant {
+    my GtkAssistantPageType $type;
+    my gpointer $data;
+    my Int() $page-num;
+    sub page-func ( gint $current-page, gpointer $data --> gint ) {}
+    my N-GObject() $page;
+    my  $destroy;
+    my Str $title;
+    my Bool() $complete;
+    my Int() $position;
+    my N-GObject() $child;
+
+
+#`{{
+    #TM:0:add-action-widget()
+    ok .add-action-widget( $child), '.add-action-widget()';
+
+    #TM:0:append-page()
+    ok .append-page( $page), '.append-page()';
+
+    #TM:0:commit()
+    ok .commit(), '.commit()';
+
+    #TM:0:get-n-pages()
+     .get-n-pages(), '…', '.get-n-pages()';
+
+    #TM:0:get-nth-page()
+    is .get-nth-page( $page-num), '…', '.get-nth-page()';
+
+    #TM:0:get-page()
+    is .get-page( $child), '…', '.get-page()';
+
+    #TM:0:get-pages()
+     .get-pages(), '…', '.get-pages()';
+
+    #TM:0:insert-page()
+    ok .insert-page( $page, $position), '.insert-page()';
+
+    #TM:0:next-page()
+    ok .next-page(), '.next-page()';
+
+    #TM:0:prepend-page()
+    ok .prepend-page( $page), '.prepend-page()';
+
+    #TM:0:previous-page()
+    ok .previous-page(), '.previous-page()';
+
+    #TM:0:remove-action-widget()
+    ok .remove-action-widget( $child), '.remove-action-widget()';
+
+    #TM:0:remove-page()
+    ok .remove-page( $page-num), '.remove-page()';
+
+    #TM:0:set-current-page()
+    $page-num = -42;
+    .set-current-page( $page-num);
+    #TM:0:get-current-page()
+    is .get-current-page(),  $page-num, '.set-current-page() / .get-current-page()';
+
+    #TM:0:set-forward-page-func()
+    $page-func = …;
+    $data = '…';
+    $destroy = '…';
+    .set-forward-page-func( $page-func, $data, $destroy);
+    ok True, '.set-forward-page-func()';
+
+    #TM:0:set-page-complete()
+    $page = …;
+    $complete = True;
+    .set-page-complete( $page, $complete);
+    #TM:0:get-page-complete()
+    is .get-page-complete(),  $page, $complete, '.set-page-complete() / .get-page-complete()';
+
+    #TM:0:set-page-title()
+    $page = …;
+    $title = 'text';
+    .set-page-title( $page, $title);
+    #TM:0:get-page-title()
+    is .get-page-title(),  $page, $title, '.set-page-title() / .get-page-title()';
+
+    #TM:0:set-page-type()
+    $page = …;
+    $type = …;
+    .set-page-type( $page, $type);
+    #TM:0:get-page-type()
+    is .get-page-type(),  $page, $type, '.set-page-type() / .get-page-type()';
+
+    #TM:0:update-buttons-state()
+    ok .update-buttons-state(), '.update-buttons-state()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Assistant() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Assistant;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Assistant :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Assistant $assistant .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $assistant.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

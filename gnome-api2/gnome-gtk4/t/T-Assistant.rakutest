@@ -1,0 +1,45 @@
+# Command to generate: generate.raku -c -t Gtk4 assistant
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Assistant:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Assistant:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkAssistantPageType
+subtest 'GtkAssistantPageType', {
+  is GTK_ASSISTANT_PAGE_CONTENT.value, 0, 'enum GTK_ASSISTANT_PAGE_CONTENT = 0';
+
+  is GTK_ASSISTANT_PAGE_INTRO.value, 1, 'enum GTK_ASSISTANT_PAGE_INTRO = 1';
+
+  is GTK_ASSISTANT_PAGE_CONFIRM.value, 2, 'enum GTK_ASSISTANT_PAGE_CONFIRM = 2';
+
+  is GTK_ASSISTANT_PAGE_SUMMARY.value, 3, 'enum GTK_ASSISTANT_PAGE_SUMMARY = 3';
+
+  is GTK_ASSISTANT_PAGE_PROGRESS.value, 4, 'enum GTK_ASSISTANT_PAGE_PROGRESS = 4';
+
+  is GTK_ASSISTANT_PAGE_CUSTOM.value, 5, 'enum GTK_ASSISTANT_PAGE_CUSTOM = 5';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
