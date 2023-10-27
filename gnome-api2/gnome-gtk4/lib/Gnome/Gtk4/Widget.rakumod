@@ -313,3 +313,31 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     callsame;
   }
 }
+
+#-------------------------------------------------------------------------------
+method set-margin-bottom ( *@arguments ) {
+  $!routine-caller.object-call(
+    'set-margin-bottom', @arguments, $methods<set-margin-bottom>, self
+  );
+}
+
+#-------------------------------------------------------------------------------
+method set-margin-end ( *@arguments ) {
+  $!routine-caller.object-call(
+    'set-margin-end', @arguments, $methods<set-margin-end>, self
+  );
+}
+
+#-------------------------------------------------------------------------------
+method set-margin-start ( *@arguments ) {
+  $!routine-caller.object-call(
+    'set-margin-start', @arguments, $methods<set-margin-start>, self
+  );
+}
+
+#-------------------------------------------------------------------------------
+method set-margin-top ( *@arguments ) {
+  $!routine-caller.object-call(
+    'set-margin-top', @arguments, $methods<set-margin-top>, self
+  );
+}

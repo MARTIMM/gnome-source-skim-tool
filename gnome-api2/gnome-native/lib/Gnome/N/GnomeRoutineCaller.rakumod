@@ -129,7 +129,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
   $!pointers-in-args = False;
 
   my Hash $routine := $methods{$name};
-  my Str $routine-name = self.set-routine-name( $name, $routine);
+#  my Str $routine-name = self.set-routine-name( $name, $routine);
 
   my Array $arguments = [|@arguments];
   my Array $native-args;
@@ -167,7 +167,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
 
   else {
     note "Get native function address of $name\()" if $Gnome::N::x-debug;
-    $c = self!native-function( $routine-name, $parameters, $routine);
+    $c = self!native-function( $name, $parameters, $routine);
     $routine<function-address>{$func-pattern} = $c;
   }
 
@@ -204,7 +204,7 @@ multi method call-native-sub (
   $!pointers-in-args = False;
 
   my Hash $routine := $methods{$name};
-  my Str $routine-name = self.set-routine-name( $name, $routine);
+#  my Str $routine-name = self.set-routine-name( $name, $routine);
 
   my Array $arguments = [|@arguments];
   my Array $native-args;
@@ -245,7 +245,7 @@ multi method call-native-sub (
 
   else {
     note "Get native function address of $name\()" if $Gnome::N::x-debug;
-    $c = self!native-function( $routine-name, $parameters, $routine);
+    $c = self!native-function( $name, $parameters, $routine);
     $routine<function-address>{$func-pattern} = $c;
   }
 
@@ -283,7 +283,7 @@ multi method call-native-sub (
   $!pointers-in-args = False;
 
   my Hash $routine := $methods{$name};
-  my Str $routine-name = self.set-routine-name( $name, $routine, :$sub-prefix);
+#  my Str $routine-name = self.set-routine-name( $name, $routine, :$sub-prefix);
 
   my Array $arguments = [|@arguments];
   my Array $native-args;
@@ -324,7 +324,7 @@ multi method call-native-sub (
 
   else {
     note "Get native function address of $name\()" if $Gnome::N::x-debug;
-    $c = self!native-function( $routine-name, $parameters, $routine);
+    $c = self!native-function( $name, $parameters, $routine);
     $routine<function-address>{$func-pattern} = $c;
   }
 
@@ -348,27 +348,156 @@ multi method call-native-sub (
 }
 
 #-------------------------------------------------------------------------------
-method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
-  my Str $routine-name;
+# Call for methods
+method object-call (
+  Str $name, @arguments, Hash $routine, Mu $raku-object
+  --> Any
+) {
+#say Backtrace.new.nice;
+#note "$?LINE $name @arguments.gist()";
+#note "$?LINE $!library, $!sub-prefix";
 
-  if $routine<isnew>:exists {
-    $routine-name = 'new';
-  }
+  my N-GObject $native-object = $raku-object.get-native-object-no-reffing;
 
-  elsif $routine<realname>:exists {
-    $routine-name = $routine<realname>;
-    $routine-name ~~ s:g/ '-' /_/;
+  # Set False, is set in native-parameters() as a side effect
+  $!pointers-in-args = False;
+
+#  my Hash $routine := $methods{$name};
+
+  my Array $arguments = [|@arguments];
+  my Array $native-args;
+  my Array $parameters =
+     $routine<parameters>:exists ?? [|$routine<parameters>] !! [];
+
+  my Str $func-pattern = '';
+  if $routine<variable-list>:exists {
+    ( $arguments, $parameters, $func-pattern ) =
+       self!adjust-data( $arguments, $parameters);
+
+    # Get native parameters converted from $arguments
+    $native-args = self.native-parameters(
+      $arguments, $parameters, $routine, $native-object, True
+    );
   }
 
   else {
-    $routine-name = $name;
-    $routine-name ~~ s:g/ '-' /_/;
+    $native-args = self.native-parameters(
+      $arguments, $parameters, $routine, $native-object
+    );
   }
 
-  $routine-name = ($sub-prefix // $!sub-prefix) ~ $routine-name;
 
-#note "$?LINE $name, {$sub-prefix//'-'}, $routine-name, $routine.gist()";
-  $routine-name
+  # Set the function pattern under which the function is to be stored.
+  # Mostly just the function name. With variable argument list a type
+  # pattern is attached.
+  $func-pattern = $func-pattern ?? "$name\-$func-pattern" !! $name;
+
+  # Get routine address. Search for the name, if not found create
+  # native function and store
+  my Callable $c;
+  $routine<function-address> = %() unless $routine<function-address>:exists;
+  if ?$routine<function-address>{$func-pattern} {
+    note "Reuse native function address of $name\()" if $Gnome::N::x-debug;
+    $c = $routine<function-address>{$func-pattern};
+  }
+
+  else {
+    note "Get native function address of $name\()" if $Gnome::N::x-debug;
+    $c = self!native-function( $name, $parameters, $routine);
+    $routine<function-address>{$func-pattern} = $c;
+  }
+
+#note "\n$?LINE '$func-pattern', $routine.gist()";
+
+  # Call routine as; `$c(|$native-args);`
+
+  # If there are pointers in the argument list, values are placed
+  # there. Mostly returned like this when there is more than one value,
+  # otherwise it could have been returned the normal way using the
+  # return value of functions $x.
+  if $!pointers-in-args {
+    self!make-list-from-result(
+      $native-args, $parameters, $routine, $c(|$native-args)
+    ).List
+  }
+
+  else {
+    self.convert-return( $c(|$native-args), $routine);
+  }
+}
+
+#-------------------------------------------------------------------------------
+#NOTE this is an experiment call directly from methods to see if
+#     there is any improvement in code to be made
+# Call for Contructors and Functions. They do not have a native
+# object as their 1st argument.
+method objectless-call ( Str $name, Hash $routine, @arguments ) {
+#say Backtrace.new.nice;
+#note "$?LINE $name @arguments.gist()";
+#note "$?LINE $!library, $!sub-prefix";
+
+  # Set False. Var is set in native-parameters() as a side effect
+  $!pointers-in-args = False;
+
+#  my Hash $routine := $methods{$name};
+
+  my Array $arguments = [|@arguments];
+  my Array $native-args;
+  my Array $parameters =
+     $routine<parameters>:exists ?? [|$routine<parameters>] !! [];
+
+  my Str $func-pattern = '';
+  if $routine<variable-list>:exists {
+    ( $arguments, $parameters, $func-pattern ) =
+       self!adjust-data( $arguments, $parameters);
+
+    # Get native arguments converted from $arguments. True ≡ variable list.
+    $native-args = self.native-parameters(
+      $arguments, $parameters, $routine, True
+    );
+  }
+
+  else {
+    $native-args = self.native-parameters( $arguments, $parameters, $routine);
+  }
+
+  # Set the function pattern under which the function is to be stored.
+  # Mostly just the function name. With variable argument list a type
+  # pattern is attached.
+  $func-pattern = $func-pattern ?? "$name\-$func-pattern" !! $name;
+
+  # Get routine address. Search for the name, if not found
+  # create native function and store
+  my Callable $c;
+  $routine<function-address> = %() unless $routine<function-address>:exists;
+  if ?$routine<function-address>{$func-pattern} {
+    note "Reuse native function address of $name\()" if $Gnome::N::x-debug;
+    $c = $routine<function-address>{$func-pattern};
+  }
+
+  else {
+    note "Get native function address of $name\()" if $Gnome::N::x-debug;
+    $c = self!native-function( $name, $parameters, $routine);
+    $routine<function-address>{$func-pattern} = $c;
+  }
+
+#note "\n$?LINE '$func-pattern'\n\[{$native-args>>.gist.join(', ')}\]";
+
+  # Call routine as; `$c(|$native-args);`
+
+  # If there are pointers in the argument list, values are placed
+  # there. Mostly returned like this when there is more than one value,
+  # otherwise it could have been returned the normal way using the
+  # return value of functions $x.
+  if $!pointers-in-args {
+    self!make-list-from-result(
+      $native-args, $parameters, $routine, $c(|$native-args)
+    ).List
+  }
+
+  else {
+    self.convert-return( $c(|$native-args), $routine);
+  }
 }
 
 #-------------------------------------------------------------------------------
@@ -420,11 +549,8 @@ multi method native-parameters (
 
 #-------------------------------------------------------------------------------
 method !native-function (
-  Str $routine-name, Array $parameters, Hash $routine --> Callable
+  Str $name, Array $parameters, Hash $routine --> Callable
 ) {
-
-#  $name ~~ s:g/ '-' /_/;
-#  my Str $routine-name = $!sub-prefix ~ $name;
 
   # Create list of parameter types and start with inserting fixed arguments
   my @parameterList = ();
@@ -465,10 +591,36 @@ method !native-function (
   # Get a pointer to the sub, then cast it to a sub with the proper
   # signature. after that, the sub can be called, returning a value.
   my Callable $f = nativecast(
-    $signature, cglobal( $!library, $routine-name, Pointer)
+    $signature, cglobal(
+      $!library, self.set-routine-name( $name, $routine), Pointer
+      )
   );
 
   $f
+}
+
+#-------------------------------------------------------------------------------
+method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
+  my Str $routine-name;
+
+  if $routine<isnew>:exists {
+    $routine-name = 'new';
+  }
+
+  elsif $routine<realname>:exists {
+    $routine-name = $routine<realname>;
+    $routine-name ~~ s:g/ '-' /_/;
+  }
+
+  else {
+    $routine-name = $name;
+    $routine-name ~~ s:g/ '-' /_/;
+  }
+
+  $routine-name = ($sub-prefix // $!sub-prefix) ~ $routine-name;
+
+#note "$?LINE $name, {$sub-prefix//'-'}, $routine-name, $routine.gist()";
+  $routine-name
 }
 
 #-------------------------------------------------------------------------------

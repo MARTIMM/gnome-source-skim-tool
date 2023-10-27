@@ -50,6 +50,11 @@ with my Button $button1 .= new-with-label('Hello World') {
 }
 
 with my Grid $grid .= new-grid {
+  .set-margin-top(30);
+  .set-margin-bottom(30);
+  .set-margin-start(30);
+  .set-margin-end(30);
+
   .attach( $button1, 0, 0, 1, 1);
   .attach( $button2, 0, 1, 1, 1);
 }
