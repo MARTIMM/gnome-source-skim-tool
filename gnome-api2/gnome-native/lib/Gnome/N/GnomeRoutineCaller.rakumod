@@ -100,7 +100,6 @@ method gtk-initialize ( ) {
     _init_check_v4();
   }
 
-
   $gui-initialized = True;
 }
 
