@@ -62,9 +62,6 @@ submethod BUILD ( *%options ) {
       if self.^can('_add_gtk_root_signal_types');
 }}
 
-    self._add_gtk_shortcut_manager_signal_types($?CLASS.^name)
-      if self.^can('_add_gtk_shortcut_manager_signal_types');
-
     $signals-added = True;
   }
 
@@ -203,11 +200,6 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     return $r if $_fallback-v2-ok;
 
 }}
-
-    $r = self.Gnome::Gtk4::R-ShortcutManager::_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
-    return $r if $_fallback-v2-ok;
 
     callsame;
   }
