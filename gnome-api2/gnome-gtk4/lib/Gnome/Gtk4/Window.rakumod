@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Glib::N-List:api<2>;
 #use Gnome::Gtk4::R-Native:api<2>;
 #use Gnome::Gtk4::R-Root:api<2>;
-#use Gnome::Gtk4::R-ShortcutManager:api<2>;
+use Gnome::Gtk4::R-ShortcutManager:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -28,7 +28,7 @@ unit class Gnome::Gtk4::Window:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
 #also does Gnome::Gtk4::R-Native;
 #also does Gnome::Gtk4::R-Root;
-#also does Gnome::Gtk4::R-ShortcutManager;
+also does Gnome::Gtk4::R-ShortcutManager;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -61,10 +61,10 @@ submethod BUILD ( *%options ) {
     self._add_gtk_root_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_root_signal_types');
 }}
-#`{{
+
     self._add_gtk_shortcut_manager_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_shortcut_manager_signal_types');
-}}
+
     $signals-added = True;
   }
 
@@ -203,13 +203,12 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     return $r if $_fallback-v2-ok;
 
 }}
-#`{{
+
     $r = self.Gnome::Gtk4::R-ShortcutManager::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
-}}
     callsame;
   }
 }
