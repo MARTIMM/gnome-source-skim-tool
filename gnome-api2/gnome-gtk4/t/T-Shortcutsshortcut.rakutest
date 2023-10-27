@@ -1,0 +1,53 @@
+# Command to generate: generate.raku -c -t Gtk4 shortcutsshortcut
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Shortcutsshortcut:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-Shortcutsshortcut:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkShortcutType
+subtest 'GtkShortcutType', {
+  is GTK_SHORTCUT_ACCELERATOR.value, 0, 'enum GTK_SHORTCUT_ACCELERATOR = 0';
+
+  is GTK_SHORTCUT_GESTURE_PINCH.value, 1, 'enum GTK_SHORTCUT_GESTURE_PINCH = 1';
+
+  is GTK_SHORTCUT_GESTURE_STRETCH.value, 2, 'enum GTK_SHORTCUT_GESTURE_STRETCH = 2';
+
+  is GTK_SHORTCUT_GESTURE_ROTATE_CLOCKWISE.value, 3, 'enum GTK_SHORTCUT_GESTURE_ROTATE_CLOCKWISE = 3';
+
+  is GTK_SHORTCUT_GESTURE_ROTATE_COUNTERCLOCKWISE.value, 4, 'enum GTK_SHORTCUT_GESTURE_ROTATE_COUNTERCLOCKWISE = 4';
+
+  is GTK_SHORTCUT_GESTURE_TWO_FINGER_SWIPE_LEFT.value, 5, 'enum GTK_SHORTCUT_GESTURE_TWO_FINGER_SWIPE_LEFT = 5';
+
+  is GTK_SHORTCUT_GESTURE_TWO_FINGER_SWIPE_RIGHT.value, 6, 'enum GTK_SHORTCUT_GESTURE_TWO_FINGER_SWIPE_RIGHT = 6';
+
+  is GTK_SHORTCUT_GESTURE.value, 7, 'enum GTK_SHORTCUT_GESTURE = 7';
+
+  is GTK_SHORTCUT_GESTURE_SWIPE_LEFT.value, 8, 'enum GTK_SHORTCUT_GESTURE_SWIPE_LEFT = 8';
+
+  is GTK_SHORTCUT_GESTURE_SWIPE_RIGHT.value, 9, 'enum GTK_SHORTCUT_GESTURE_SWIPE_RIGHT = 9';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
