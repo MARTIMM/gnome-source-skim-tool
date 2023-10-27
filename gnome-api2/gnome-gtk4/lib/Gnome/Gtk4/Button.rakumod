@@ -132,3 +132,18 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     callsame;
   }
 }
+
+#-------------------------------------------------------------------------------
+method new-with-label ( *@arguments ) {
+
+  # Must initialize
+  my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
+    :library(gtk4-lib()), :sub-prefix<gtk_button_>
+  );
+
+  self.bless(
+    :native-object(
+      $routine-caller.call-native-sub( 'new-with-label', @arguments, $methods)
+    )
+  );
+}

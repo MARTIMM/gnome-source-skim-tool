@@ -143,3 +143,25 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     callsame;
   }
 }
+
+#-------------------------------------------------------------------------------
+method new-grid ( *@arguments ) {
+
+  # Must initialize
+  my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
+    :library(gtk4-lib()), :sub-prefix<gtk_grid_>
+  );
+
+  self.bless(
+    :native-object(
+      $routine-caller.call-native-sub( 'new-grid', @arguments, $methods)
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+method attach ( *@arguments ) {
+  $!routine-caller.call-native-sub(
+    'attach', @arguments, $methods, self.get-native-object-no-reffing
+  );
+}

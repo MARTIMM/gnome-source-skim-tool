@@ -82,7 +82,6 @@ submethod BUILD ( *%options ) {
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
 #-------------------------------------------------------------------------------
-
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
@@ -203,4 +202,43 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
 
     callsame;
   }
+}
+
+#-------------------------------------------------------------------------------
+method new-window ( *@arguments ) {
+
+  # Must initialize
+  my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
+    :library(gtk4-lib()), :sub-prefix<gtk_window_>
+  );
+
+  self.bless(
+    :native-object(
+      $routine-caller.call-native-sub( 'new-window', @arguments, $methods)
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+method set-title ( *@arguments ) {
+  $!routine-caller.call-native-sub(
+    'set-title', @arguments, $methods, self.get-native-object-no-reffing
+  );
+}
+
+#-------------------------------------------------------------------------------
+method set-child ( *@arguments ) {
+  $!routine-caller.call-native-sub(
+    'set-child', @arguments, $methods, self.get-native-object-no-reffing
+  );
+}
+
+#-------------------------------------------------------------------------------
+method set-default-icon-name ( *@arguments ) {
+  $!routine-caller.call-native-sub( 'set-default-icon-name', @arguments, $methods);
+}
+
+#-------------------------------------------------------------------------------
+method get-default-icon-name ( *@arguments ) {
+  $!routine-caller.call-native-sub( 'get-default-icon-name', @arguments, $methods);
 }

@@ -244,6 +244,16 @@ subtest 'Method tests', {
 };
 
 #-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $window {
+    #TM:1:set-default-icon-name()
+    .set-default-icon-name('bookmarks');
+    #TM:1:get-default-icon-name()
+    is .get-default-icon-name, 'bookmarks', '.set-default-icon-name() / .get-default-icon-name()';
+  }
+}
+
+#-------------------------------------------------------------------------------
 done-testing;
 
 =finish
