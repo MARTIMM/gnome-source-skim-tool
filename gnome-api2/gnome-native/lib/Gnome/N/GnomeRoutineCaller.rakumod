@@ -268,6 +268,10 @@ multi method call-native-sub (
   }
 }
 
+#`{{
+#-------------------------------------------------------------------------------
+# Part of the experiment
+my Hash $function-addresses = %();
 #-------------------------------------------------------------------------------
 # Call for methods from interfaces
 multi method call-native-sub (
@@ -394,7 +398,8 @@ method object-call (
 
   # Get routine address. Search for the name, if not found create
   # native function and store
-  my Callable $c;
+  my Callable $c = self.get-native-function( $routine, $parameters);
+#`{{
   $routine<function-address> = %() unless $routine<function-address>:exists;
   if ?$routine<function-address>{$func-pattern} {
     note "Reuse native function address of $name\()" if $Gnome::N::x-debug;
@@ -406,7 +411,7 @@ method object-call (
     $c = self!native-function( $name, $parameters, $routine);
     $routine<function-address>{$func-pattern} = $c;
   }
-
+}}
 #note "\n$?LINE '$func-pattern', $routine.gist()";
 
   # Call routine as; `$c(|$native-args);`
@@ -499,6 +504,7 @@ method objectless-call ( Str $name, Hash $routine, @arguments ) {
     self.convert-return( $c(|$native-args), $routine);
   }
 }
+}}
 
 #-------------------------------------------------------------------------------
 # Native parameters for Contructors and Functions with optionally a
@@ -598,6 +604,69 @@ method !native-function (
 
   $f
 }
+
+#`{{
+#-------------------------------------------------------------------------------
+#part of the experiment
+method get-native-function ( Hash $routine, Array $parameters --> Callable ) {
+
+  # Get the real name of the native function
+  my Str $name = $routine<is-symbol>;
+
+  # Check if function is made before, return if so after updating use count
+  if $function-addresses{$name}:exists {
+    $function-addresses{$name}[1]++;
+    return $function-addresses{$name}[0];
+  }
+
+  # Create list of parameter types and start with inserting fixed arguments
+  my @parameterList = ();
+
+  given $routine<type> {
+    # Constructors and functions do not have an instance parameter
+    when Constructor { }
+    when Function { }
+    #when Method { }
+    default {
+      @parameterList.push: Parameter.new(type => N-GObject);
+    }
+  }
+
+  for @$parameters -> $p {
+    if $p.^name() eq 'Signature' {
+      @parameterList.push: Parameter.new(
+        type => Callable,
+        sub-signature => $p,
+      );
+    }
+
+    else {
+      @parameterList.push: Parameter.new(type => $p);
+    }
+  }
+
+  # End argument list with a Null pointer if the list is of variable length
+  @parameterList.push: Parameter.new(type => gpointer)
+    if $routine<variable-list>:exists;
+
+  # Create return type
+  my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer;
+
+  # Create signature
+  my Signature $signature .= new( :params(|@parameterList), :$returns);
+
+  # Get a pointer to the sub, then cast it to a sub with the proper
+  # signature. after that, the sub can be called, returning a value.
+  my Callable $f = nativecast( $signature, cglobal( $!library, $name, Pointer));
+
+  $function-addresses{$name} = [ $f, 1];
+  $f
+}
+
+submethod DESTROY ( ) {
+  note $function-addresses.gist;
+}
+}}
 
 #-------------------------------------------------------------------------------
 method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {

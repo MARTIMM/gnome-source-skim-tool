@@ -924,6 +924,449 @@ method _set_invalid ( ) {
 }
 
 #-------------------------------------------------------------------------------
+#--[ some necessary native subroutines ]----------------------------------------
+#-------------------------------------------------------------------------------
+# These subs belong to Gnome::GObject::Type but is needed here. To avoid
+# circular dependencies, the subs are redeclared here for this purpose
+sub _from_name ( Str $name --> GType )
+  is native(&gobject-lib)
+  is symbol('g_type_from_name')
+  { * }
+
+sub _check_instance_cast (
+  N-GObject $instance, GType $iface_type --> N-GObject
+) is native(&gobject-lib)
+  is symbol('g_type_check_instance_cast')
+  { * }
+
+sub _name_from_instance ( N-GObject $instance --> Str )
+  is native(&gobject-lib)
+  is symbol('g_type_name_from_instance')
+  { * }
+
+sub _check_instance_is_a (
+  N-GObject $instance, GType $iface_type --> gboolean
+) is native(&gobject-lib)
+  is symbol('g_type_check_instance_is_a')
+  { * }
+
+#-------------------------------------------------------------------------------
+#--[ experimenal, code from GnomeRoutineCaller ]--------------------------------
+#-------------------------------------------------------------------------------
+my Hash $function-addresses = %();
+has Bool $!pointers-in-args;
+has Str $!library;# is required;
+method set-library( Str:D $!library ) { }
+
+#-------------------------------------------------------------------------------
+submethod DESTROY ( ) {
+  for $function-addresses.keys.sort -> $name {
+    say $name.fmt('%-30s'), ': ', $function-addresses{$name}[1];
+  }
+}
+
+#-------------------------------------------------------------------------------
+# Call for methods
+method object-call ( @arguments, Hash $routine --> Any ) {
+#say Backtrace.new.nice;
+#note "$?LINE $name @arguments.gist()";
+#note "$?LINE $!library, $!sub-prefix";
+
+  # Set False, is set in native-parameters() as a side effect
+  $!pointers-in-args = False;
+
+  my Array $arguments = [|@arguments];
+  my Array $parameters =
+     $routine<parameters>:exists ?? [|$routine<parameters>] !! [];
+
+  my Str $func-pattern = '';
+  ( $arguments, $parameters, $func-pattern ) =
+      self!adjust-data( $arguments, $parameters)
+      if $routine<variable-list>:exists;
+
+  # Get native parameters converted from $arguments
+  my Array $native-args = self!native-parameters(
+    $arguments, $parameters, $routine,
+    $routine<variable-list>:exists, :has-n-object
+  );
+
+  # Get routine address. Search for the name, if not found create
+  # native function and store
+  my Callable $c = self!native-function(
+    $routine, $parameters, $func-pattern, :has-n-object
+  );
+
+#note "\n$?LINE '$func-pattern', $routine.gist()";
+
+  # Call routine as; `$c(|$native-args);`
+
+  # If there are pointers in the argument list, values are placed
+  # there. Mostly returned like this when there is more than one value,
+  # otherwise it could have been returned the normal way using the
+  # return value of functions $x.
+  if $!pointers-in-args {
+    self!make-list-from-result(
+      $native-args, $parameters, $routine, $c(|$native-args), :has-n-object
+    ).List
+  }
+
+  else {
+    self.convert-return( $c(|$native-args), $routine);
+  }
+}
+
+#-------------------------------------------------------------------------------
+# Call for Contructors and Functions. They do not have a native
+# object as their 1st argument.
+method objectless-call ( @arguments, Hash $routine ) {
+#say Backtrace.new.nice;
+#note "$?LINE $name @arguments.gist()";
+#note "$?LINE $!library, $!sub-prefix";
+
+  # Set False. Var is set in native-parameters() as a side effect
+  $!pointers-in-args = False;
+
+  my Array $arguments = [|@arguments];
+  my Array $native-args;
+  my Array $parameters =
+     $routine<parameters>:exists ?? [|$routine<parameters>] !! [];
+
+  my Str $func-pattern = '';
+  ( $arguments, $parameters, $func-pattern ) =
+    self!adjust-data( $arguments, $parameters)
+    if $routine<variable-list>:exists;
+
+  # Get native arguments converted from $arguments. True ≡ variable list.
+  $native-args = self!native-parameters(
+    $arguments, $parameters, $routine,
+    $routine<variable-list>:exists, :!has-n-object
+  );
+
+  my Callable  $c = self!native-function(
+    $routine, $parameters, $func-pattern, :!has-n-object
+  );
+#note "\n$?LINE '$func-pattern'\n\[{$native-args>>.gist.join(', ')}\]";
+
+  # Call routine as; `$c(|$native-args);`
+
+  # If there are pointers in the argument list, values are placed
+  # there. Mostly returned like this when there is more than one value,
+  # otherwise it could have been returned the normal way using the
+  # return value of functions $x.
+  if $!pointers-in-args {
+    self!make-list-from-result(
+      $native-args, $parameters, $routine, $c(|$native-args), :!has-n-object
+    ).List
+  }
+
+  else {
+    self.convert-return( $c(|$native-args), $routine);
+  }
+}
+
+#-------------------------------------------------------------------------------
+method !adjust-data ( Array $arguments, Array $parameters --> List ) {
+  my Int $np = $parameters.elems;
+  my Array $new-arguments = [|$arguments[0..^$np]];
+  my Array $new-parameters = [|$parameters];
+  my Str $func-pattern = '';
+
+  if $arguments.elems > $np {
+    for $arguments[$np..*-1] -> $type, $value {
+      # Must be an undefined type followed by a defined value
+      if $type.defined and !$value.defined {
+        die X::Gnome.new(
+          :message('Variable lists must be extended by paired variables: a type and a value')
+        )
+      }
+
+      note "extend list with a $type.gist() followed $value.gist()"
+        if $Gnome::N::x-debug;
+
+      $new-arguments.push: $value;
+      $new-parameters.push: $type;
+      $func-pattern ~= $type.^name;
+    }
+  }
+
+  ( $new-arguments, $new-parameters, $func-pattern )
+}
+
+#-------------------------------------------------------------------------------
+# Native parameters for Methods, a native object is provided
+# as its first argument
+method !native-parameters (
+  Array $arguments, Array $parameters, Hash $routine,
+  Bool $variable-list = False, Bool :$has-n-object = False
+  --> Array
+) {
+  my Array $native-args = [];
+  $native-args.push: $!n-native-object if $has-n-object;
+
+  loop (my $i = 0; $i < $parameters.elems; $i++ ) {
+    my $p = $parameters[$i];
+#note "$?LINE $i, $p.^name(), $arguments[$i]]";
+    my $a = self!convert-args( $arguments[$i], $p);
+    $native-args.push: $a;
+    $!pointers-in-args = True if $p.^name ~~ m/ CArray /;
+  }
+
+  $native-args.push: gpointer.new if $variable-list;
+
+  $native-args
+}
+
+
+#-------------------------------------------------------------------------------
+#part of the experiment
+method !native-function (
+  Hash $routine, Array $parameters, Str $func-pattern,
+  Bool :$has-n-object = False
+  --> Callable
+) {
+
+  # Get the real name of the native function
+  my Str $name = $routine<is-symbol>;
+  my Str $store = $name ~ $func-pattern;
+
+  # Check if function is made before, return if so after updating use count
+  if $function-addresses{$store}:exists {
+    $function-addresses{$store}[1]++;
+    return $function-addresses{$store}[0];
+  }
+
+  # Create list of parameter types and start with inserting fixed arguments
+  my @parameterList = ();
+  @parameterList.push: Parameter.new(type => N-GObject) if $has-n-object;
+
+  for @$parameters -> $p {
+    if $p.^name() eq 'Signature' {
+      @parameterList.push: Parameter.new(
+        type => Callable,
+        sub-signature => $p,
+      );
+    }
+
+    else {
+      @parameterList.push: Parameter.new(type => $p);
+    }
+  }
+  # End argument list with a Null pointer if the list is of variable length
+  @parameterList.push: Parameter.new(type => gpointer)
+    if $routine<variable-list>:exists;
+#note "$?LINE @parameterList.gist()";
+
+  # Create return type
+  my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer;
+#note "$?LINE $returns.gist()";
+
+  # Create signature
+  my Signature $signature .= new( :params(|@parameterList), :$returns);
+#note "$?LINE $signature.gist()";
+
+  # Get a pointer to the sub, then cast it to a sub with the proper
+  # signature. after that, the sub can be called, returning a value.
+  my Callable $f = nativecast( $signature, cglobal( $!library, $name, Pointer));
+#note "$?LINE $f.gist()";
+
+  $function-addresses{$store} = [ $f, 1];
+#note "$?LINE $function-addresses.gist()";
+  $f
+}
+
+#-------------------------------------------------------------------------------
+method !convert-args ( Mu $v, $p ) {
+  my $c;
+
+#note "$?LINE $p.^name(), $v.gist(), ", $v.^mro;
+  if $v.can('get-native-object-no-reffing') {
+    my N-GObject $no = $v.get-native-object-no-reffing;
+    $c = $no;
+  }
+
+  else {
+    given $p {
+      # May be used to receive an array of strings or to provide one.
+      when gchar-pptr {
+        $c = CArray[Str].new(|$v);
+      }
+
+      # Only used to return a value
+      when gint-ptr {
+        $c = CArray[gint].new(0);
+      }
+
+      # Only used to return a value
+#      when .^name ~~ / CArray .*? 'N-GError' / {
+#        $c = CArray[N-GError].new(N-GError); #($p.new);
+#      }
+
+#`{{
+      when N-GObject {
+        my N-GObject $no = $v.get-native-object-no-reffing;
+        $c = $no;
+      }
+      when Signature {
+        die X::Gnome.new(
+          :message('Signature of callback routine does not match')
+        ) unless $p ~~ $v.signature;
+
+        $c = $v;
+      }
+}}
+
+      # Most values do not need conversion
+      default {
+        $c = $v;
+      }
+    }
+  }
+
+#note "$?LINE $c.gist()";
+  $c
+}
+
+#-------------------------------------------------------------------------------
+method !make-list-from-result (
+  Array $native-args, Array $parameters, Hash $routine, $x,
+  Bool :$has-n-object = False
+  --> List
+) {
+  my @return-list = ();
+  @return-list.push: $x if $routine<returns>:exists;
+
+  # Drop the first one when routine type is a Method.
+  # This is the instance variable.
+  my Int $start = $has-n-object ?? 1 !! 0;
+
+  loop ( my Int $i = 0; $i < $parameters.elems; $i++ ) {
+    my $p = $parameters[$i];
+    my $v = $native-args[$i + $start];
+    next unless $p.^name ~~ m/ CArray /;
+    @return-list.push: self.convert-return( $v, $p);
+  }
+
+  @return-list
+}
+
+#-------------------------------------------------------------------------------
+multi method convert-return ( $v, Hash $routine ) {
+  my $c;
+  my $p = $routine<returns>;
+#note "$?LINE p = {$p.^name}, $p.gist()";
+  # Use 'given' because $p is a type and is always undefined
+  given $p {
+    when GEnum {
+      $c = $routine<cnv-return>($v);
+    }
+
+    when GFlag {
+      $c = $v.UInt;
+    }
+
+    when gchar-pptr {
+      my Int $i = 0;
+      $c = [];
+      while $v[$i].defined {
+        $c.push: $v[$i++];
+      }
+    }
+
+    when gint-ptr {
+      $c = $v[0];
+    }
+
+    # gboolean is an int32 so it is not visible if it should be a boolean
+    when gboolean {
+      $c = $v[0].Bool if $routine<cnv-return> ~~ Bool;
+    }
+
+    when .^name ~~ / CArray / {
+      $c = ?$v[0] ?? $v[0] !! $p;
+    }
+
+    # Most values do not need conversion
+    default {
+      $c = $v;
+    }
+  }
+
+  $c
+}
+
+#-------------------------------------------------------------------------------
+# called from make-list-from-result() to make lists of returned values via
+# argument pointers
+multi method convert-return ( $v, $p ) {
+  my $c;
+#note "$?LINE p = {$p.^name}, $p.gist()";
+  # Use 'given' because $p is a type and is always undefined
+  given $p {      
+    when gchar-pptr {
+      my Int $i = 0;
+      $c = [];
+      while $v[$i].defined {
+        $c.push: $v[$i++];
+      }
+    }
+
+    when gint-ptr {
+      $c = $v[0];
+    }
+
+    when .^name ~~ / CArray / {
+      $c = ?$v[0] ?? $v[0] !! $p;
+    }
+
+#    # Most values do not need conversion
+#    default {
+#      $c = $v;
+#    }
+  }
+
+  $c
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
+
+sub _name ( GType $type --> Str )
+  is native(&gobject-lib)
+  is symbol('g_type_name')
+  { * }
+
+sub _path_to_string ( N-GObject $path --> Str )
+  is native(&gtk-lib)
+  is symbol('gtk_widget_path_to_string')
+  { * }
+
+# These subs belong to Gnome::Gtk3::Widget but is needed here. To avoid
+# circular dependencies, the subs are redeclared here for this purpose
+sub _get_path (
+  N-GObject $widget --> N-GObject
+) is native(&gtk-lib)
+  is symbol('gtk_widget_get_path')
+  { * }
+
+# These subs belong to Gnome::Gtk3::WidgetPath but is needed here. To avoid
+# circular dependencies, the subs are redeclared here for this purpose
+sub _iter_get_name ( N-GObject $path, int32 $pos --> Str )
+  is native(&gtk-lib)
+  is symbol('gtk_widget_path_iter_get_name')
+  { * }
+
+#-------------------------------------------------------------------------------
 ### test for substite FALLBACK without search
 #-------------------------------------------------------------------------------
 # no pod. user does not have to know about it.
@@ -979,63 +1422,6 @@ method _f ( Str $sub-class? --> Mu ) {
 $!n-native-object
 }
 
-#-------------------------------------------------------------------------------
-#--[ some necessary native subroutines ]----------------------------------------
-#-------------------------------------------------------------------------------
-# These subs belong to Gnome::GObject::Type but is needed here. To avoid
-# circular dependencies, the subs are redeclared here for this purpose
-sub _from_name ( Str $name --> GType )
-  is native(&gobject-lib)
-  is symbol('g_type_from_name')
-  { * }
-
-sub _name ( GType $type --> Str )
-  is native(&gobject-lib)
-  is symbol('g_type_name')
-  { * }
-
-sub _check_instance_cast (
-  N-GObject $instance, GType $iface_type --> N-GObject
-) is native(&gobject-lib)
-  is symbol('g_type_check_instance_cast')
-  { * }
-
-sub _name_from_instance ( N-GObject $instance --> Str )
-  is native(&gobject-lib)
-  is symbol('g_type_name_from_instance')
-  { * }
-
-sub _check_instance_is_a (
-  N-GObject $instance, GType $iface_type --> gboolean
-) is native(&gobject-lib)
-  is symbol('g_type_check_instance_is_a')
-  { * }
-
-sub _path_to_string ( N-GObject $path --> Str )
-  is native(&gtk-lib)
-  is symbol('gtk_widget_path_to_string')
-  { * }
-
-# These subs belong to Gnome::Gtk3::Widget but is needed here. To avoid
-# circular dependencies, the subs are redeclared here for this purpose
-sub _get_path (
-  N-GObject $widget --> N-GObject
-) is native(&gtk-lib)
-  is symbol('gtk_widget_get_path')
-  { * }
-
-# These subs belong to Gnome::Gtk3::WidgetPath but is needed here. To avoid
-# circular dependencies, the subs are redeclared here for this purpose
-sub _iter_get_name ( N-GObject $path, int32 $pos --> Str )
-  is native(&gtk-lib)
-  is symbol('gtk_widget_path_iter_get_name')
-  { * }
-
-
-
-
-
-=finish
 #-------------------------------------------------------------------------------
 #--[ Constants and routines to use in new module setup ]------------------------
 #-------------------------------------------------------------------------------
