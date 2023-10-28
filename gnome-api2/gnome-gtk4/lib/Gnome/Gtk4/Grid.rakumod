@@ -53,10 +53,18 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
+  self.set-library(gtk4-lib());
   $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_grid_>);
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Grid' {
+    if %options<new-grid>:exists {
+      my $no = self.objectless-call(
+        %options<new-grid>[0].List, %options<new-grid>[1]
+      );
+      self._set-native-object($no);
+    }
+
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
@@ -73,10 +81,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-grid => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+#  new-grid => %( :type(Constructor), :isnew, :returns(N-GObject), ),
 
   #--[Methods]------------------------------------------------------------------
-  attach => %( :parameters([N-GObject, gint, gint, gint, gint])),
+#  attach => %( :parameters([N-GObject, gint, gint, gint, gint])),
   attach-next-to => %( :parameters([N-GObject, N-GObject, GEnum, gint, gint])),
   get-baseline-row => %( :returns(gint)),
   get-child-at => %( :returns(N-GObject), :parameters([gint, gint])),
@@ -144,6 +152,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   }
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method new-grid ( *@arguments ) {
 
@@ -158,10 +167,23 @@ method new-grid ( *@arguments ) {
     )
   );
 }
+}}
+
+#-------------------------------------------------------------------------------
+method new-grid ( *@arguments ) {
+  self.bless(
+    :new-grid(
+      @arguments, %( :returns(N-GObject), :is-symbol<gtk_grid_new> )
+    )
+  );
+}
 
 #-------------------------------------------------------------------------------
 method attach ( *@arguments ) {
-  $!routine-caller.call-native-sub(
-    'attach', @arguments, $methods, self.get-native-object-no-reffing
+  self.object-call(
+    @arguments,
+    %( :parameters([N-GObject, gint, gint, gint, gint]),
+       :is-symbol<gtk_grid_attach>
+    )
   );
 }

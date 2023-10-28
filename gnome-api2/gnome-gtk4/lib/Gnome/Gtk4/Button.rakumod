@@ -53,10 +53,20 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
+  self.set-library(gtk4-lib());
   $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_button_>);
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Button' {
+    if %options<new-with-label>:exists {
+#note "$?LINE ", %options<new-with-label>[0].List.gist, %options<new-with-label>[1].gist;
+      my $no = self.objectless-call(
+        %options<new-with-label>[0].List, %options<new-with-label>[1]
+      );
+#note "$?LINE ", $no.gist;
+      self._set-native-object($no);
+    }
+
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
@@ -75,7 +85,7 @@ my Hash $methods = %(
   #--[Constructors]-------------------------------------------------------------
   new-button => %( :type(Constructor), :isnew, :returns(N-GObject), ),
   new-from-icon-name => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
-  new-with-label => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
+#  new-with-label => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
   new-with-mnemonic => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
@@ -133,6 +143,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   }
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method new-with-label ( *@arguments ) {
 
@@ -144,6 +155,20 @@ method new-with-label ( *@arguments ) {
   self.bless(
     :native-object(
       $routine-caller.call-native-sub( 'new-with-label', @arguments, $methods)
+    )
+  );
+}
+}}
+
+#-------------------------------------------------------------------------------
+method new-with-label ( *@arguments ) {
+  self.bless(
+    :new-with-label(
+      @arguments,
+      %( :parameters([Str]),
+         :returns(N-GObject),
+         :is-symbol<gtk_button_new_with_label>
+      )
     )
   );
 }
