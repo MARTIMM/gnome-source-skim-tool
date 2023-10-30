@@ -1,8 +1,6 @@
 use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;
-#use Gnome::SourceSkimTool::SkimGirSource;
-use Gnome::SourceSkimTool::Doc;
 
 use XML;
 use XML::XPath;
@@ -12,13 +10,8 @@ use YAMLish;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::Doc $!grd;
-
 #-------------------------------------------------------------------------------
-submethod BUILD ( ) {
-
-  $!grd .= new;
-}
+submethod BUILD ( ) { }
 
 #-------------------------------------------------------------------------------
 method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
@@ -67,14 +60,14 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   self.add-import('Gnome::N::GnomeRoutineCaller') if ?$callables;
   my Str $code = qq:to/RAKUMOD/;
 
-    {$!grd.pod-header('Module Imports')}
+    {pod-header('Module Imports')}
     __MODULE__IMPORTS__
 
     RAKUMOD
 
   if $is-role {
     $code ~= qq:to/RAKUMOD/;
-      {$!grd.pod-header('Role Declaration');}
+      {pod-header('Role Declaration');}
       unit role $h<class-name>:auth<github:MARTIMM>:api<2>;
       RAKUMOD
   }
@@ -82,7 +75,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   # Classes, records and unions
   else {
     $code ~= qq:to/RAKUMOD/;
-      {$!grd.pod-header('Class Declaration');}
+      {pod-header('Class Declaration');}
       unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
       $also
       RAKUMOD
@@ -101,7 +94,7 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
 
   if $has-functions {
     $code ~= qq:to/RAKUMOD/;
-    {$!grd.pod-header('Module Imports')}
+    {pod-header('Module Imports')}
     __MODULE__IMPORTS__
     RAKUMOD
 
@@ -111,7 +104,7 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
 
   $code ~= qq:to/RAKUMOD/;
 
-    {$!grd.pod-header('Class Declaration');}
+    {pod-header('Class Declaration');}
     unit class $class-name\:auth<github:MARTIMM>:api<2>;
     RAKUMOD
 
@@ -157,7 +150,7 @@ method generate-callables (
   if ?$code {
     $c = qq:to/RAKUMOD/;
 
-      {$!grd.pod-header('Native Routine Definitions');}
+      {pod-header('Native Routine Definitions');}
       my Hash \$methods = \%\(
       $code);
 
@@ -285,11 +278,11 @@ method make-build-submethod (
 
   # Generate code for signal admin and init of callable helper
   my Str $code = qq:to/EOBUILD/;
-    {$!grd.pod-header('BUILD variables');}
+    {pod-header('BUILD variables');}
     # Define callable helper
     has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
     $c$gtk-init-code[0]
-    {$!grd.pod-header('BUILD submethod');}
+    {pod-header('BUILD submethod');}
     submethod BUILD \( *\%options \) \{
     $gtk-init-code[1]$signal-admin
       # Initialize helper
@@ -487,7 +480,7 @@ method !get-constructor-data (
   # Find return value; constructors should return a native N-GObject while
   # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
+  my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
 
@@ -508,7 +501,7 @@ method !get-constructor-data (
     # Process first argument type to attach to option name
     if $first {
       # We need the native type to keep the $option-name the same in all cases
-      ( $type, $raku-type) = self!get-type( $p, :!user-side);
+      ( $type, $raku-type) = self.get-type( $p, :!user-side);
       with $raku-type {
         when 'Str' {
           $option-name ~= (?$option-name ?? '-' !! '') ~ 'text';
@@ -545,7 +538,7 @@ method !get-constructor-data (
 
     else {
 }}
-      ( $type, $raku-type) = self!get-type( $p, :$user-side);
+      ( $type, $raku-type) = self.get-type( $p, :$user-side);
 #    }
 
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
@@ -874,7 +867,7 @@ method generate-functions ( Hash $hcs --> Str ) {
 
 #    my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
-#      self!get-types(
+#      self.get-types(
 #        $parameter, #$raku-list, 
 #        $call-list, #$items-doc,
 #        @rv-list #, $returns-doc
@@ -1370,10 +1363,10 @@ method generate-structure (
 
     $code ~= qq:to/EOREC/;
 
-      {$!grd.pod-header('Module Imports')}
+      {pod-header('Module Imports')}
       __MODULE__IMPORTS__
 
-      {$!grd.pod-header('Record Structure')}
+      {pod-header('Record Structure')}
       unit class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct');
 
       EOREC
@@ -1382,7 +1375,7 @@ method generate-structure (
       my $field-name = self.cleanup-id($field.attribs<name>);
 #note "$?LINE $field-name";
       my Str ( $type, $raku-type, $raku-rtype) =
-        self!get-type( $field, :$user-side);
+        self.get-type( $field, :$user-side);
 
       #$field-name ~~ s:g/ '_' /-/;
       if ?$type {
@@ -1481,7 +1474,7 @@ TODO can we have callback fields in a structure?
   else {
     # Generate structure as a pointer when no fields are documented
     $code ~= qq:to/EOREC/;
-      {$!grd.pod-header('Record Structure')}
+      {pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
       unit class $record-class is export is repr\('CPointer');
 
@@ -1524,10 +1517,10 @@ method generate-union (
     RAKUMOD
 
 #`{{
-    {$!grd.pod-header('Module Imports')}
+    {pod-header('Module Imports')}
     __MODULE__IMPORTS__
 
-    {$!grd.pod-header('Union Structure')}
+    {pod-header('Union Structure')}
     unit class $class-name\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
 }}
 
@@ -1538,10 +1531,10 @@ method generate-union (
 
     $code ~= qq:to/EOREC/;
 
-      {$!grd.pod-header('Module Imports')}
+      {pod-header('Module Imports')}
       __MODULE__IMPORTS__
 
-      {$!grd.pod-header('Union Structure')}
+      {pod-header('Union Structure')}
       unit class $union-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
 
       EOREC
@@ -1549,7 +1542,7 @@ method generate-union (
     for @fields -> $field {
       my $field-name = self.cleanup-id($field.attribs<name>);
       my Str ( $type, $raku-type, $raku-rtype) =
-        self!get-type( $field, :$user-side);
+        self.get-type( $field, :$user-side);
 
       #$field-name ~~ s:g/ '_' /-/;
       if ?$type {
@@ -1614,7 +1607,7 @@ method generate-union (
   else {
     # Generate union as a pointer when no fields are documented
     $code ~= qq:to/EOREC/;
-      {$!grd.pod-header('Union Structure')}
+      {pod-header('Union Structure')}
       # This is an opaque type of which fields are not available.
       unit class $union-class is export is repr\('CPointer');
 
@@ -1703,7 +1696,7 @@ method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
 #  $code ~= qq:to/RAKUMOD/;
 #
-#    {$!grd.pod-header('Native Routine Definitions');}
+#    {pod-header('Native Routine Definitions');}
 #    my Hash \$methods = \%\(
 #    RAKUMOD
 
@@ -1835,7 +1828,7 @@ method !get-method-data (
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
 #  my Str ( $rv-type, $return-raku-type, $return-raku-rtype) =
-  my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
+  my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
 #note "$?LINE    $return-raku-type" if $missing-type;
@@ -1849,8 +1842,8 @@ method !get-method-data (
 
   my Bool $variable-list = False;
   for @prmtrs -> $p {
-#    my Str ( $type, $raku-type, $raku-rtype) = self!get-type( $p, :$user-side);
-    my Str ( $type, $raku-type) = self!get-type( $p, :$user-side);
+#    my Str ( $type, $raku-type, $raku-rtype) = self.get-type( $p, :$user-side);
+    my Str ( $type, $raku-type) = self.get-type( $p, :$user-side);
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
     $raku-type ~~ s/ _UA_ $//;
 #note "$?LINE $raku-type, $missing-type";
@@ -1903,7 +1896,7 @@ method !get-callback-data (
 ) {
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-type, $return-raku-type) = self!get-type( $rvalue, :$user-side);
+  my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -1916,7 +1909,7 @@ method !get-callback-data (
   my Bool $variable-list = False;
   for @prmtrs -> $p {
 
-    my Str ( $type, $raku-type) = self!get-type( $p, :$user-side);
+    my Str ( $type, $raku-type) = self.get-type( $p, :$user-side);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = self.cleanup-id($attribs<name>);
 
@@ -1942,7 +1935,7 @@ method !get-callback-data (
 }
 
 #-------------------------------------------------------------------------------
-method !get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
+method get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
 
   # With variable argument lists, the name is '…'. It would not have a type
   # so return something to prevent it marked as a missing type
@@ -2290,40 +2283,6 @@ method search-name ( Str $name is copy --> Hash ) {
 
 #-------------------------------------------------------------------------------
 # Search for names of specific type in object maps 
-method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
-
-  self.check-search-list;
-
-  my Hash $h = %();
-  for @*map-search-list -> $map-name {
-    self.check-map($map-name);
-
-#    note "Search for $prefix-name in map $map-name where field $entry-name ≡? $value" if $*verbose;
-    # It is possible that not all hashes are loaded
-    next unless $*object-maps{$map-name}:exists;
-
-    for $*object-maps{$map-name}.kv -> $name, $value-hash {
-#note "$?LINE snames $map-name, $prefix-name, $entry-name, $value, $name, $value-hash.gist()";
-      next unless $value-hash{$entry-name}:exists;
-
-      next unless $value-hash{$entry-name} eq $value;
-      next unless $name ~~ m/^ [ $map-name ]? $prefix-name /;
-      $h{$name} = $value-hash;
-
-      # Add package name to this hash
-#      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
-    }
-
-    last if ?$h;
-  }
-
-#say "$?LINE: search names for $entry-name -> $h.gist()";
-
-  $h
-}
-
-#-------------------------------------------------------------------------------
-# Search for names of specific type in object maps 
 method search-entries ( Str $entry-name, Str $value --> Hash ) {
 
   self.check-search-list;
@@ -2484,6 +2443,40 @@ note "$?LINE $filename";
 =finish
 
 #-------------------------------------------------------------------------------
+# Search for names of specific type in object maps 
+method search-names ( Str $prefix-name, Str $entry-name, Str $value --> Hash ) {
+
+  self.check-search-list;
+
+  my Hash $h = %();
+  for @*map-search-list -> $map-name {
+    self.check-map($map-name);
+
+#    note "Search for $prefix-name in map $map-name where field $entry-name ≡? $value" if $*verbose;
+    # It is possible that not all hashes are loaded
+    next unless $*object-maps{$map-name}:exists;
+
+    for $*object-maps{$map-name}.kv -> $name, $value-hash {
+#note "$?LINE snames $map-name, $prefix-name, $entry-name, $value, $name, $value-hash.gist()";
+      next unless $value-hash{$entry-name}:exists;
+
+      next unless $value-hash{$entry-name} eq $value;
+      next unless $name ~~ m/^ [ $map-name ]? $prefix-name /;
+      $h{$name} = $value-hash;
+
+      # Add package name to this hash
+#      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
+    }
+
+    last if ?$h;
+  }
+
+#say "$?LINE: search names for $entry-name -> $h.gist()";
+
+  $h
+}
+
+#-------------------------------------------------------------------------------
 method make-build-submethod (
   XML::Element $element, XML::XPath $xpath --> Str
 ) {
@@ -2577,11 +2570,11 @@ method make-build-submethod (
   }
 #---
   my Str $code = qq:to/EOBUILD/;
-    {$!grd.pod-header('BUILD variables');}
+    {pod-header('BUILD variables');}
     # Define callable helper
     has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
     $c
-    {$!grd.pod-header('BUILD submethod');}
+    {pod-header('BUILD submethod');}
     submethod BUILD \( *\%options \) \{
     $init-gtk$signal-admin
       # Initialize helper

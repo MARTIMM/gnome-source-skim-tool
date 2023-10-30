@@ -58,7 +58,8 @@ method generate-code ( ) {
 
 #-------------------------------------------------------------------------------
 method generate-doc ( ) {
-#`{{
+  my Str $fname = $*work-data<result-docs> ~ $*gnome-class ~ '.rakudoc';
+
   $!grd .= new;
 
   my XML::Element $element = $!xpath.find('//class');
@@ -68,7 +69,7 @@ method generate-doc ( ) {
     #TL:1:pod doc of $*work-data<raku-class-name>:
     use v6.d;
 
-    {$!grd.pod-header('Class Description')}
+    {pod-header('Class Description')}
     RAKUMOD
 
   note "Document module" if $*verbose;
@@ -92,8 +93,7 @@ method generate-doc ( ) {
   $doc ~= $!grd.document-properties( $element, $!xpath);
 
   note "Save pod doc";
-  $*work-data<raku-module-doc-file>.IO.spurt($doc);
-}}
+  $!mod.save-file( $fname, $doc, "class documentation");
 }
 
 #-------------------------------------------------------------------------------

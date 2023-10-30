@@ -83,7 +83,9 @@ sub MAIN (
   if $d {
     say "\nGenerate documentation";
     $*generate-doc = True;
-
+    require ::('Gnome::SourceSkimTool::GenerateDoc');
+    my $raku-module = ::('Gnome::SourceSkimTool::GenerateDoc').new(:$filename);
+    $raku-module.generate-doc;
     $*generate-doc = False;
   }
 

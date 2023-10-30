@@ -155,7 +155,7 @@ method generate-doc ( ) {
     #TL:1:$*work-data<raku-class-name>:
     use v6.d;
 
-    {$!grd.pod-header('Record Description')}
+    {pod-header('Record Description')}
     RAKUMOD
 
   note "Generate module description" if $*verbose;  

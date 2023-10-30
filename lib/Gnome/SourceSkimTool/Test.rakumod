@@ -1,7 +1,7 @@
 use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::Doc;
+#use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
 
 use XML;
@@ -10,7 +10,7 @@ use XML::XPath;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Test:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::Doc $!grd;
+#has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
 
 has Str $!filename;
@@ -20,7 +20,7 @@ has XML::XPath $!xpath;
 #-------------------------------------------------------------------------------
 submethod BUILD ( Str :$!filename ) {
 
-  $!grd .= new;
+#  $!grd .= new;
   $!mod .= new;
 }
 
@@ -35,7 +35,7 @@ method prepare-test ( Str $class-name --> Str ) {
     use v6.d;
 
     #TL:1:$class-name:
-    {$!grd.pod-header('Module Imports');}
+    {pod-header('Module Imports');}
     __MODULE__IMPORTS__
     RAKUMOD
 
@@ -58,11 +58,11 @@ method generate-init-tests (
   $test-type ~~ s/^ .*? 'N-' /N-/ if $test-type ~~ / 'N-' /;
 
   my Str $code = qq:to/EOTEST/;
-    {$!grd.pod-header('Test preparation')}
+    {pod-header('Test preparation')}
     #Gnome::N::debug(:on);
     my $test-type $test-variable;
 
-    {$!grd.pod-header($init-test-type)}
+    {pod-header($init-test-type)}
     subtest 'ISA test', \{
       given $test-variable \{
     __DECL_VARS__
@@ -291,7 +291,7 @@ return $code;
   # check if class is inheritable
   if $h<inheritable> {
     $code ~= qq:to/EOTEST/;
-    {$!grd.pod-header('Inheritance test')}
+    {pod-header('Inheritance test')}
     #TB:1:Inheriting
     subtest 'Inherit $*work-data<raku-class-name>', \{
       class MyClass is $*work-data<raku-class-name> \{
@@ -604,7 +604,7 @@ method generate-constant-tests ( @constants --> Str ) {
 
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
   my Str $code = qq:to/EOCONST/;
-    {$!grd.pod-header('Constants');}
+    {pod-header('Constants');}
     subtest 'constants', \{
     EOCONST
 

@@ -1,23 +1,23 @@
 
 
 use Gnome::SourceSkimTool::ConstEnumType;
-#use Gnome::SourceSkimTool::SearchAndSubstitute;
+use Gnome::SourceSkimTool::Code;
 
 use XML;
 use XML::XPath;
 
 #-------------------------------------------------------------------------------
-#TODO Rename to ModuleDoc
-unit class  Gnome::SourceSkimTool::Doc:auth<github:MARTIMM>;
+unit class Gnome::SourceSkimTool::Doc:auth<github:MARTIMM>;
 
-#has Gnome::SourceSkimTool::SearchAndSubstitute $!sas;
+has Gnome::SourceSkimTool::Code $!mod;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
- 
-#  $!sas .= new;
+
+  $!mod .= new;
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method pod-header (
   Str $text = '', Int :$indent = 0, Bool :$pod = False
@@ -40,11 +40,7 @@ method pod-header (
       RAKUMOD
   }
 }
-
-
-
-
-=finish
+}}
 
 #-------------------------------------------------------------------------------
 # Get the description at the start of a class, record or union.
@@ -54,7 +50,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   #$doc ~= $xpath.find( 'doc/text()', :start($element)).Str;
   my Str $widget-picture = '';
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = $!mod.search-name($ctype);
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
     if $h<inheritable>;
 
@@ -92,7 +88,7 @@ method !set-inherit-example ( XML::Element $element --> Str ) {
 
   my Str $doc = '';
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = $!mod.search-name($ctype);
 
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
@@ -152,6 +148,7 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
   for $hcs.keys.sort -> $function-name {
     $build-doc = '';
 
+#`{{
     my Str $option-name = $hcs{$function-name}<option-name>;
     
     # If $option-name is a dash, the new C-function has no special name.
@@ -218,6 +215,7 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
       $hcs{$function-name}<function-doc>, $variable-map
     );
     $build-doc ~~ s/ '____FUNCTIONDOC___' /$d/;
+}}
     $doc ~= $build-doc;
   }
 
@@ -233,10 +231,11 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
 
     EOBUILD
 
+#`{{
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = $!mod.search-name($ctype);
   if $h<inheritable> {
     $doc ~= qq:to/EOBUILD/;
 
@@ -250,6 +249,7 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
 
       EOBUILD
   }
+}}
 
   $doc
 }
@@ -258,7 +258,7 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
 method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!sas.search-name($ctype);
+  my Hash $h = $!mod.search-name($ctype);
   my Bool $is-leaf = $h<leaf> // False;
 #  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
   my Str $symbol-prefix = $*work-data<sub-prefix>;
@@ -515,12 +515,15 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     my XML::Element $rvalue = $xpath.find( 'return-value', :start($si));
     $curr-signal<transfer-ownership> = $rvalue.attribs<transfer-ownership>;
 
-    my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
-      $!sas.get-doc-type( $rvalue, :return-type, :$xpath);
-    $curr-signal<rv-doc> = $rv-doc;
+    my Str ( $rv-type, $return-ntype) = $!mod.get-type( $rvalue, :!user-side);
+    my Str ( $rv-doc = '';
+
+#    my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
+#      $!mod.get-type( $rvalue, :user-side);
+#    $curr-signal<rv-doc> = $rv-doc;
     $curr-signal<rv-type> = $rv-type;
-    $curr-signal<return-raku-ntype> = $return-raku-ntype;
-    $curr-signal<return-raku-rtype> = $return-raku-rtype;
+    $curr-signal<return-ntype> = $return-ntype;
+#    $curr-signal<return-raku-rtype> = $return-raku-rtype;
 
     # parameter info
     $curr-signal<parameters> = [];
@@ -529,12 +532,13 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
       my Hash $attribs = $prmtr.attribs;
       my $pname = $attribs<name>;
       my $transfer-ownership = $attribs<transfer-ownership>;
-      my Str ( $pdoc, $ptype, $raku-ntype, $raku-rtype) =
-        $!sas.get-doc-type( $prmtr, :$xpath);
-
+      my Str ( $type, $raku-ntype) = $!sas.get-type( $prmtr, :!user-side);
+#      my Str ( $pdoc, $ptype, $raku-ntype, $raku-rtype) =
+#        $!sas.get-doc-type( $prmtr, :$xpath);
+      my Str $pdoc = '';
       $curr-signal<parameters>.push: %(
-        :$pname, :$pdoc, :$ptype,
-        :$raku-ntype, :$raku-rtype,
+        :$pname, :$pdoc, #:$ptype,
+        :$raku-ntype, #:$raku-rtype,
         :$transfer-ownership
       );
     }
@@ -571,15 +575,15 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
       # return value info
       my Str ( $rv-method, $returns-doc ) = ( '', '');
 
-      if ?$curr-signal<return-raku-ntype> and
-         $curr-signal<return-raku-ntype> ne 'void' {
+      if ?$curr-signal<return-ntype> and
+         $curr-signal<return-ntype> ne 'void' {
         my Str $own = '';
         $own = "\(transfer ownership: $curr-signal<transfer-ownership>\) "
           if ?$curr-signal<transfer-ownership> and
              $curr-signal<transfer-ownership> ne 'none';
 
         $returns-doc = "\nReturn value; $own$curr-signal<rv-doc>\n";
-        $rv-method = "\n  --> $curr-signal<return-raku-ntype>";
+        $rv-method = "\n  --> $curr-signal<return-ntype>";
       }
 
       $doc ~= qq:to/EOSIG/;
@@ -609,8 +613,8 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
       $doc ~= $returns-doc;
 
 #`{{
-      $doc ~= "Return value \(transfer ownership: $curr-signal<return-raku-ntype> \($curr-signal<transfer-ownership>); $curr-signal<rv-doc>\n"
-            if $curr-signal<return-raku-ntype> ne 'void';
+      $doc ~= "Return value \(transfer ownership: $curr-signal<return-ntype> \($curr-signal<transfer-ownership>); $curr-signal<rv-doc>\n"
+            if $curr-signal<return-ntype> ne 'void';
 }}
     }
 
@@ -1065,7 +1069,7 @@ method !get-types (
 
 
 
-
+=finish
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -1280,8 +1284,6 @@ method gobject-value-type( Str $ctype --> Str ) {
 
   $g-type
 }
-
-
 
 #-------------------------------------------------------------------------------
 method get-types (

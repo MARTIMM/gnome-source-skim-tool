@@ -66,6 +66,29 @@ enum ExternalModuleType is export <
 >;
 
 
+#-------------------------------------------------------------------------------
+sub pod-header (
+  Str $text = '', Int :$indent = 0, Bool :$pod = False
+  --> Str
+) is export {
+
+  if $pod {
+    HLPODSEPARATOR
+  }
+
+  elsif !$text {
+    HLSEPARATOR
+  }
+
+  else {
+    qq:to/RAKUMOD/;
+      {SEPARATOR( '', $indent);}
+      {SEPARATOR( $text, $indent);}
+      {SEPARATOR( '', $indent);}
+      RAKUMOD
+  }
+}
+
 
 
 =finish
