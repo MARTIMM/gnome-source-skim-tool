@@ -73,7 +73,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  self.set-library(gtk4-lib());
+#  self.set-library(gtk4-lib());
   $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_widget_>);
 
   # Prevent creating wrong widgets
@@ -225,16 +225,16 @@ my Hash $methods = %(
   set-hexpand => %( :parameters([gboolean])),
   set-hexpand-set => %( :parameters([gboolean])),
   set-layout-manager => %( :parameters([N-GObject])),
-#  set-margin-bottom => %( :parameters([gint])),
-#  set-margin-end => %( :parameters([gint])),
-#  set-margin-start => %( :parameters([gint])),
-#  set-margin-top => %( :parameters([gint])),
+  set-margin-bottom => %( :parameters([gint])),
+  set-margin-end => %( :parameters([gint])),
+  set-margin-start => %( :parameters([gint])),
+  set-margin-top => %( :parameters([gint])),
   set-name => %( :parameters([Str])),
   set-opacity => %( :parameters([gdouble])),
   set-overflow => %( :parameters([GEnum])),
   set-parent => %( :parameters([N-GObject])),
   set-receives-default => %( :parameters([gboolean])),
-#  set-sensitive => %( :parameters([gboolean])),
+  set-sensitive => %( :parameters([gboolean])),
   set-size-request => %( :parameters([gint, gint])),
   set-state-flags => %( :parameters([GFlag, gboolean])),
   set-tooltip-markup => %( :parameters([Str])),
@@ -315,6 +315,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   }
 }
 
+=finish
 #-------------------------------------------------------------------------------
 method set-margin-bottom ( *@arguments ) {
   self.object-call(

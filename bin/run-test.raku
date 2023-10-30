@@ -121,7 +121,7 @@ multi sub MAIN ( Str $xt, Bool :$d = False, Bool :$api1 = False ) {
     "$API2MODS/gnome-glib/lib",
     "$API2MODS/gnome-gobject/lib",
     "$API2MODS/gnome-gio/lib",
-#    "$API2MODS/gnome-pango/lib",
+    "$API2MODS/gnome-pango/lib",
 #    "$API2MODS/gnome-cairo/lib",
 #    "$API2MODS/gnome-atk/lib",
     "$API2MODS/gnome-gtk$gtk-v/lib",

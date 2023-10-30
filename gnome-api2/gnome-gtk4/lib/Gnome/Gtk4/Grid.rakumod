@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Gtk4::R-Orientable:api<2>;
+use Gnome::Gtk4::R-Orientable:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -24,7 +24,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Grid:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
-#also does Gnome::Gtk4::R-Orientable;
+also does Gnome::Gtk4::R-Orientable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -34,7 +34,7 @@ also is Gnome::Gtk4::Widget;
 has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 # Add signal registration helper
-my Bool $signals-added = False;
+#my Bool $signals-added = False;
 
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
@@ -42,6 +42,7 @@ my Bool $signals-added = False;
 
 submethod BUILD ( *%options ) {
   # Add signal administration info.
+#`{{
   unless $signals-added {
     
     # Signals from interfaces
@@ -51,19 +52,22 @@ submethod BUILD ( *%options ) {
 }}
     $signals-added = True;
   }
+}}
 
   # Initialize helper
-  self.set-library(gtk4-lib());
+#  self.set-library(gtk4-lib());
   $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_grid_>);
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Grid' {
+#`{{
     if %options<new-grid>:exists {
       my $no = self.objectless-call(
         %options<new-grid>[0].List, %options<new-grid>[1]
       );
       self._set-native-object($no);
     }
+}}
 
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
@@ -81,10 +85,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-#  new-grid => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+  new-grid => %( :type(Constructor), :isnew, :returns(N-GObject), ),
 
   #--[Methods]------------------------------------------------------------------
-#  attach => %( :parameters([N-GObject, gint, gint, gint, gint])),
+  attach => %( :parameters([N-GObject, gint, gint, gint, gint])),
   attach-next-to => %( :parameters([N-GObject, N-GObject, GEnum, gint, gint])),
   get-baseline-row => %( :returns(gint)),
   get-child-at => %( :returns(N-GObject), :parameters([gint, gint])),
@@ -141,34 +145,16 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-#`{{
+
     $r = self.Gnome::Gtk4::R-Orientable::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
-
-}}
     callsame;
   }
 }
 
-#`{{
-#-------------------------------------------------------------------------------
-method new-grid ( *@arguments ) {
-
-  # Must initialize
-  my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-    :library(gtk4-lib()), :sub-prefix<gtk_grid_>
-  );
-
-  self.bless(
-    :native-object(
-      $routine-caller.call-native-sub( 'new-grid', @arguments, $methods)
-    )
-  );
-}
-}}
-
+=finish
 #-------------------------------------------------------------------------------
 method new-grid ( *@arguments ) {
   self.bless(

@@ -1,6 +1,15 @@
 [TOC]
 
-# Result files
+# About the project
+
+This project is about the skimming of the `Gnome Introspection Repository` or `GIR` and generation of the Raku code.
+
+# Skimming
+
+# Generation
+
+---
+## Result files
 
 The program takes a name which is originally the C-source filename (`\*.h` and `\*.c`). Together with the package name it searches through the `repo-object-map.yaml` file to search for all gir types defined originally in that source.
 
@@ -17,46 +26,55 @@ E.g.
 use Gnome::Gtk3::Window:api<2>;
 use Gnome::Gtk3::T-Window:api<2>;
 ```
-
-# Raku Classes
+---
+## Raku Classes
 
 A list of what to expect from the objects defined below
-## Class
+
+### Class
 Types and files for a class like the <ins>Label</ins> class in Gtk version 3
 * Class name **Gnome::Gtk3::Label**.
 * Class Filename `lib/Gnome/Gtk3/Label.rakumod`.
 * Test Filename `t/Label.rakutest`.
 * Doc filename `doc/Label.rakudoc`.
 
-## Interface
+### Interface
 Types and files for a role like the <ins>Orientable</ins> class in Gtk version 3
 * Class name **Gnome::Gtk3::R-Orientable**.
 * Class Filename `lib/Gnome/Gtk3/R-Orientable.rakumod`.
 * Test Filename `t/R-Orientable.rakutest`.
 * Doc filename `doc/R-Orientable.rakudoc`.
 
-## Record
+### Record
 Types and files for a record like used in <ins>List</ins> structure in Glib. The class is exported and therefore usable as `N-List`.
 * Class name **Gnome::Glib::List::N-List**.
 * Class Filename `lib/Gnome/Glib/List/N-List.rakumod`.
 * Test Filename `t/N-List.rakutest`.
 * Doc filename `doc/N-List.rakudoc`.
 
-## Union
+### Union
 Types and files for a union like used in <ins>Event</ins> structure in Gdk version 3. The class is exported and therefore usable as `N-Event`.
 * Class name **Gnome::Gdk3::Event::N-Event**.
 * Class Filename `lib/Gnome/Gdk3/Event/N-Event.rakumod`.
 * Test Filename `t/N-Event.rakutest`.
 * Doc filename `doc/N-Event.rakudoc`.
 
-## Other types
+### Other types
 Other types like enumerations, constants and standalone functions are gathered in one file named after the C source file it is defined in. For example the <ins>Window</ins> class in Gtk version 3 has a few enumerations.
 * Class name **Gnome::Gtk3::T-Window**.
 * Class Filename `lib/Gnome/Gtk3/T-Window.rakumod`.
 * Test Filename `t/T-Window.rakutest`.
 * Doc filename `doc/T-Window.rakudoc`.
 
-# Call interface
+---
+## Call interface
+
+There are two ways to generate the methods;
+* First one is to make a Hash where all information is available. This type is now generated.
+* In the mean time I've investigated a way to get rid of the FALLBACK method hidden in the **TopLevelClassSupport**. Added routines there, copied from **GnomeRoutineCaller**, and made methods in **Window**, **Button**, and **Grid** to see the effect using a simple program `button02.raku` (originally found in the `GTK::Simple` distribution). At first site, it does not show a big improvement but I need to benchmark the implications of the changes for compile-time versus run-time in comparison with the previous version.
+* A third method would be to use RakuAst to generate a method when it is needed.
+
+### Current implementation
 
 All routines available in a class, role or as standalone functions are generated in a data structure as a Hash table. A small sample from the **Gnome::Gtk3::Label** class;
 
@@ -88,16 +106,16 @@ The key of the `$methods` hash is the name of the function as the developer uses
 * **type-name**; An enumeration type. When a return type is a `GEnum` (an enumeration) the number is translated into the enum name.
 * **variable-list**; A boolean value which says that the argument list is longer than provided in the parameters array. The user must provide the type and value for the rest of the arguments.
 * **isnew**; A boolean value to show that the real name is `new`.
-* **realname**; A string with the realname of a constructor, method or function. The field will probably replace `isnew` because it has the same kind of use.
+* **realname**; A string with the realname of a constructor, method or function. The field will probably replace `isnew` because it has the same kind of use. Later on I thought that **is-symbol** might be a better idea.
 
 
-# Types of argument lists
-## Empty argument lists
+### Types of argument lists
+#### Empty argument lists
 
 This is easy to use. For example in the `get-angle` example above, shows only a return value of a `gdouble` which would become a Raku `Num` type.
 
 
-## With fixed argument list
+#### With fixed argument list
 
 The `set-label` has one argument, a string. 
 ```
@@ -113,7 +131,7 @@ with my Gnome::Gtk3::Label $label .= new(:text('my new label')) {
 ```
 
 
-## With variable argument lists
+#### With variable argument lists
 An entry from the **Gnome::Glib::T-Error** module shows
 ```
   set-error => %(
@@ -140,7 +158,7 @@ say $e[0].domain;         # 87654
 say $e[0].message;        # 'my 2nd error'
 ```
 
-## Pointer arguments
+#### Pointer arguments
 
 Arguments which are pointers to locations are mostly used to store information. In the above example from **Gnome::Glib::T-Error**, there is this `CArray[N-GError]` where the created **Gnome::Glib::N-GError** will be stored.
 The returned value of the pointer arguments are also returned in a List so that the values can be read directly.
@@ -163,3 +181,92 @@ $w.set-default-size( 123, 356);
 my Int ( $ww, $wh) = $w.get-default-size;
 say "$ww, $wh";     # 123, 356
 ```
+
+
+### New tested version
+
+This version is making a method for each function like in api<1>. The difference is that it calls a routine with about the same number of arguments. This routine gets the address of the function and stores it. Then it will call the function with the arguments provided returning any results. For constructors it needs also a bit of code in the `BUILD()` submethod.
+
+An example from the **Window** class showing a constructor, a method, and a function;
+```
+method new-window ( *@arguments ) {
+  self.bless(
+    :new-window(
+      @arguments,
+      %( :returns(N-GObject), :is-symbol<gtk_window_new> )
+    )
+  );
+}
+
+method set-title ( *@arguments ) {
+  self.object-call(
+    @arguments, %( :parameters([Str]), :is-symbol<gtk_window_set_title>),
+  );
+}
+
+method get-default-icon-name ( *@arguments ) {
+  self.objectless-call(
+    @arguments,
+    %( :parameters([gboolean]),
+       :is-symbol<gtk_window_get_default_icon_name>, :returns(Str)
+    )
+  );
+}
+```
+
+The call `self.bless()` will end up in `BUILD()` where a call is made to `objectless-call()`. The other methods call `object-call()` or `objectless-call()` depending on the fact if the routine needs the native object or not.
+
+Also the library name needs to be set beforehand in `BUILD()`. A new field is used here; `is-symbol` named after the native sub declaration where a trait `is symbol(…)` can be used. This saves some time substituting the string getting the same result.
+
+---
+# Benchmarks
+
+Program `bench01.raku` is made to test the current implemented method versus a new idea making methods for each entry from the `$methods` Hash.
+
+There are two subs creating a widget, set text, get text and destroy the object
+The widget is a button. The method implemented has a different name but ends up calling the same native function.
+```
+# FALLBACK method for normal routines
+sub set1-fallback ( ) {
+  with my Gnome::Gtk4::Button $button .= new-button('text') {
+    .set-label('t2');
+    my Str $txt = .get-label;
+    .clear-object;
+  }
+}
+
+# Methods for renamed routines
+sub set2-methods ( ) {
+  with my Gnome::Gtk4::Button $button .= M-new-button {
+    .M-set-label('label');
+    my Str $txt = .M-get-label;
+    .clear-object;
+  }
+}
+
+# Function create, this will not be timed.
+set1-fallback;
+set2-methods;
+
+my %r = timethese 10000, {
+  set1-fallback => &set1-fallback,
+  set2-methods => &set2-methods,
+}, :statistics;
+
+say ~%r;
+```
+
+## Results
+
+test | max | min | mean |
+|--|--|--|--|
+set1-fallback | 0.008176582 | 0.000369133 | 0.000426
+set2-methods  | 0.003227472 | 0.000308849 | 0.000351
+
+The mean difference of one call is only about a tenth of a µsec faster for the methods implementation which is not something to write home about. Also when there are a lot of methods, I can imagine that the compile-time for it would be greater than compiling hashes.
+
+I haven't shown the time needed to map the function to its native counterpart in a library because it is the same for each implementation. However, it takes much time to get that done. Mostly something like a tenth of a second.
+
+## Conclusion
+Whatever is implemented, it is clear that moving the creation of functions to run-time has the best impact on user experience. Most of the time a few calls are needed per class to get the things done and therefore many functions do not need to be compiled.
+

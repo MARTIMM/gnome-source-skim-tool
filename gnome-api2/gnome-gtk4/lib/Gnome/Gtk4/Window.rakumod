@@ -66,19 +66,19 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  self.set-library(gtk4-lib());
+#  self.set-library(gtk4-lib());
   $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_window_>);
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Window' {
+#`{{
     if %options<new-window>:exists {
-#note "$?LINE ", %options<new-window>[0].List.gist, %options<new-window>[1].gist;
       my $no = self.objectless-call(
         %options<new-window>[0].List, %options<new-window>[1]
       );
-#note "$?LINE ", $no.gist;
       self._set-native-object($no);
     }
+}}
 
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
@@ -95,7 +95,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-#  new-window => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+  new-window => %( :type(Constructor), :isnew, :returns(N-GObject), ),
 
   #--[Methods]------------------------------------------------------------------
   close => %(),
@@ -130,7 +130,7 @@ my Hash $methods = %(
   present => %(),
   present-with-time => %( :parameters([guint32])),
   set-application => %( :parameters([N-GObject])),
-#  set-child => %( :parameters([N-GObject])),
+  set-child => %( :parameters([N-GObject])),
   set-decorated => %( :parameters([gboolean])),
   set-default-size => %( :parameters([gint, gint])),
   set-default-widget => %( :parameters([N-GObject])),
@@ -146,7 +146,7 @@ my Hash $methods = %(
   set-modal => %( :parameters([gboolean])),
   set-resizable => %( :parameters([gboolean])),
   set-startup-id => %( :parameters([Str])),
-#  set-title => %( :parameters([Str])),
+  set-title => %( :parameters([Str])),
   set-titlebar => %( :parameters([N-GObject])),
   set-transient-for => %( :parameters([N-GObject])),
   unfullscreen => %(),
@@ -154,11 +154,11 @@ my Hash $methods = %(
   unminimize => %(),
 
   #--[Functions]----------------------------------------------------------------
-#  get-default-icon-name => %( :type(Function), :returns(Str)),
+  get-default-icon-name => %( :type(Function), :returns(Str)),
   get-toplevels => %( :type(Function),  :returns(N-GObject)),
   list-toplevels => %( :type(Function),  :returns(N-List)),
   set-auto-startup-notification => %( :type(Function),  :parameters([gboolean])),
-#  set-default-icon-name => %( :type(Function),  :parameters([Str])),
+  set-default-icon-name => %( :type(Function),  :parameters([Str])),
   set-interactive-debugging => %( :type(Function),  :parameters([gboolean])),
 );
 
@@ -214,30 +214,24 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   }
 }
 
-#`{{
+
+=finish
 #-------------------------------------------------------------------------------
-method new-window ( *@arguments ) {
-
-  # Must initialize
-  my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-    :library(gtk4-lib()), :sub-prefix<gtk_window_>
-  );
-
-  self.bless(
-    :native-object(
-      $routine-caller.call-native-sub( 'new-window', @arguments, $methods)
-    )
-  );
-}
-}}
-
-#-------------------------------------------------------------------------------
+# constructor
 method new-window ( *@arguments ) {
   self.bless(
     :new-window(
       @arguments,
       %( :returns(N-GObject), :is-symbol<gtk_window_new> )
     )
+  );
+}
+
+#-------------------------------------------------------------------------------
+# methods
+method get-title ( *@arguments ) {
+  self.object-call(
+    @arguments, %( :returns(Str), :is-symbol<gtk_window_get_title>),
   );
 }
 
@@ -256,6 +250,7 @@ method set-title ( *@arguments ) {
 }
 
 #-------------------------------------------------------------------------------
+# functions
 method get-default-icon-name ( *@arguments ) {
   self.objectless-call(
     @arguments,
