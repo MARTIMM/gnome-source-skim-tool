@@ -71,6 +71,9 @@ find . -name '*.raku*' | xargs wc -l
 
 
 # Release notes
+* 2023-10-30 0.12.0
+  * Testing done of current implementation using a Hash with the native function information versus a method coded implementation. The latter is only marginally faster while having much more code for the methods would mean longer compile-times. This means that I will continue using a Hash to describe the native function and relying on the FALLBACK mechanism.
+
 * 2023-10-22 0.11.6
   * Added more modules from Glib, GObject, Gio and Gtk4.
   * Native structures names are changed a small bit; N-GError becomes **N-Error** and N-GtkRequisition becomes **N-Requisition**. The only structure unchanged for now is **N-GObject**.
