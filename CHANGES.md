@@ -29,6 +29,10 @@
 
 * TODO investigate using constructors directly instead of using BUILD with options
 * TODO Generate META6 files of api2 projects
+
+* TODO Change all :isnew and :realname into :is-symbol. Add :is-symbol to all routines. Note the gnome name in :is-symbol. Then no prefix is needed and converting dashes.
+
+* Check if failing COERCE has something to do with skipping Any class in TopLevelClassSupport. If so, insert a simplyfied Any (MyAny).
 <!-- -->
 
 <!---->
