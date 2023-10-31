@@ -17,31 +17,6 @@ submethod BUILD ( ) {
   $!mod .= new;
 }
 
-#`{{
-#-------------------------------------------------------------------------------
-method pod-header (
-  Str $text = '', Int :$indent = 0, Bool :$pod = False
-  --> Str
-) {
-
-  if $pod {
-    HLPODSEPARATOR
-  }
-
-  elsif !$text {
-    HLSEPARATOR
-  }
-
-  else {
-    qq:to/RAKUMOD/;
-      {SEPARATOR( '', $indent);}
-      {SEPARATOR( $text, $indent);}
-      {SEPARATOR( '', $indent);}
-      RAKUMOD
-  }
-}
-}}
-
 #-------------------------------------------------------------------------------
 # Get the description at the start of a class, record or union.
 method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
@@ -139,7 +114,7 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
     =begin pod
     =head1 Methods
 
-    {self.pod-header('Class Initialization')}
+    {pod-header('Class Initialization')}
     #TM:1:new:
     =head2 new
     EOBUILD
@@ -268,9 +243,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
   return '' unless ?$hcs;
 
   my Str $doc = qq:to/EOSUB/;
-    {HLSEPARATOR}
-    {SEPARATOR('Methods');}
-    {HLSEPARATOR}
+    {pod-header('Methods')}
     =begin pod
     =head1 Methods
     =end pod
@@ -472,17 +445,17 @@ method get-doc-type (
 #note "$?LINE $attribs.gist()" if $type ~~ m/Pixbuf/;
 #        $type ~~ s:g/ '.' //;
         $raku-ntype =
-          self.convert-ntype($attribs<c:type> // $type, :$return-type);
+          $!mod.convert-ntype($attribs<c:type> // $type, :$return-type);
         $raku-rtype =
-          self.convert-rtype($attribs<c:type> // $type, :$return-type);
+          $!mod.convert-rtype($attribs<c:type> // $type, :$return-type);
         $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
       }
 
       when 'array' {
         # sometime there is no 'c:type', assume an array of strings
         $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = self.convert-ntype( $type, :$return-type);
-        $raku-rtype = self.convert-rtype( $type, :$return-type);
+        $raku-ntype = $!mod.convert-ntype( $type, :$return-type);
+        $raku-rtype = $!mod.convert-rtype( $type, :$return-type);
         $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
       }
     }
@@ -516,7 +489,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     $curr-signal<transfer-ownership> = $rvalue.attribs<transfer-ownership>;
 
     my Str ( $rv-type, $return-ntype) = $!mod.get-type( $rvalue, :!user-side);
-    my Str ( $rv-doc = '';
+    my Str $rv-doc = '';
 
 #    my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
 #      $!mod.get-type( $rvalue, :user-side);
@@ -532,7 +505,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
       my Hash $attribs = $prmtr.attribs;
       my $pname = $attribs<name>;
       my $transfer-ownership = $attribs<transfer-ownership>;
-      my Str ( $type, $raku-ntype) = $!sas.get-type( $prmtr, :!user-side);
+      my Str ( $type, $raku-ntype) = $!mod.get-type( $prmtr, :!user-side);
 #      my Str ( $pdoc, $ptype, $raku-ntype, $raku-rtype) =
 #        $!sas.get-doc-type( $prmtr, :$xpath);
       my Str $pdoc = '';
@@ -547,9 +520,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   # If there are signals, make the docs for it
   if $signals.keys.elems {
     $doc ~= qq:to/EOSIG/;
-      {HLSEPARATOR}
-      {SEPARATOR('Signal Documentation');}
-      {HLSEPARATOR}
+      {pod-header('Signal Documentation')}
       =begin pod
       =head1 Signals
       EOSIG
@@ -660,7 +631,7 @@ method document-properties (
     my Str $transfer-ownership = $attribs<transfer-ownership>;
 
     my Str ( $pdoc, $type, $raku-ntype, $raku-rtype, $g-type) =
-      $!sas.get-doc-type( $pi, :add-gtype, :$xpath);
+      self.get-doc-type( $pi, :add-gtype, :$xpath);
 
     $properties{$property-name} = %(
       :$pdoc, :$writable, :$type, :$raku-ntype, :$g-type,
@@ -672,9 +643,7 @@ method document-properties (
 
   $doc ~= qq:to/EOSIG/;
 
-    {HLSEPARATOR}
-    {SEPARATOR('Property Documentation');}
-    {HLSEPARATOR}
+    {pod-header('Property Documentation')}
     =begin pod
     =head1 Properties
 
@@ -851,7 +820,7 @@ method !modify-functions ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
-    my Hash $h = self.search-name($function-name);
+    my Hash $h = $!mod.search-name($function-name);
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
     
@@ -888,7 +857,7 @@ method !modify-classes ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-    my Hash $h = self.search-name($class-name);
+    my Hash $h = $!mod.search-name($class-name);
     my Str $raku-name = $h<rname> // '';
 
     if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
@@ -1060,104 +1029,6 @@ method !get-types (
   $result  
 }
 
-
-
-
-
-
-
-
-
-
-=finish
-
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-### from Code
-
-#-------------------------------------------------------------------------------
-method !get-types (
-  Hash $parameter,
-#  Str $raku-list,
-   Str $call-list,
-#  Str $items-doc is rw,
-   @rv-list,
-#  Str $returns-doc is rw
-  --> Hash
-) {
-
-#  my Str $own = '';
-  my Int $a-count = 0;
-  my Hash $result = %();
-
-  given my $xtype = $parameter<raku-ntype> {
-    when 'N-GObject' {
-#      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-#      $call-list ~= ", \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[Str]' {
-#      $raku-list ~= ", Array[Str] \$$parameter<name>";
-#      $call-list ~= ", \$ca$a-count";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $a-count++;
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-#      $ntype ~~ s:g/ [const || \s+ || '*'] //;
-      @rv-list.push: "\$$parameter<name>";
-#      $call-list ~= ", my gint \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<rv-list> = "\$$parameter<name>";
-
-#      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    default {
-#      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-#      $call-list ~= ", \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-  }
-
-  $result  
-}
-
 #-------------------------------------------------------------------------------
 method gobject-value-type( Str $ctype --> Str ) {
 
@@ -1273,7 +1144,7 @@ method gobject-value-type( Str $ctype --> Str ) {
     }
 
     default {
-      my Hash $h = self.search-name($ctype);
+      my Hash $h = $!mod.search-name($ctype);
       if ?$h<gir-type> {
         $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
         $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
@@ -1283,6 +1154,104 @@ method gobject-value-type( Str $ctype --> Str ) {
   }
 
   $g-type
+}
+
+
+
+
+
+
+
+
+
+
+=finish
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+### from Code
+
+#-------------------------------------------------------------------------------
+method !get-types (
+  Hash $parameter,
+#  Str $raku-list,
+   Str $call-list,
+#  Str $items-doc is rw,
+   @rv-list,
+#  Str $returns-doc is rw
+  --> Hash
+) {
+
+#  my Str $own = '';
+  my Int $a-count = 0;
+  my Hash $result = %();
+
+  given my $xtype = $parameter<raku-ntype> {
+    when 'N-GObject' {
+#      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+#      $call-list ~= ", \$$parameter<name>";
+
+#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+
+#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+#        if ?$parameter<transfer-ownership> and
+#          $parameter<transfer-ownership> ne 'none';
+
+#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[Str]' {
+#      $raku-list ~= ", Array[Str] \$$parameter<name>";
+#      $call-list ~= ", \$ca$a-count";
+
+#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+
+      $a-count++;
+
+#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+#        if ?$parameter<transfer-ownership> and
+#          $parameter<transfer-ownership> ne 'none';
+#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    when 'CArray[gint]' {
+#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
+#            my $ntype = 'gint';
+#      $ntype ~~ s:g/ [const || \s+ || '*'] //;
+      @rv-list.push: "\$$parameter<name>";
+#      $call-list ~= ", my gint \$$parameter<name>";
+
+#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+      $result<rv-list> = "\$$parameter<name>";
+
+#      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    default {
+#      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+#      $call-list ~= ", \$$parameter<name>";
+
+#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<call-list> = ", \$$parameter<name>";
+
+#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+#        if ?$parameter<transfer-ownership> and
+#          $parameter<transfer-ownership> ne 'none';
+#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+  }
+
+  $result  
 }
 
 #-------------------------------------------------------------------------------
@@ -1543,17 +1512,17 @@ method get-doc-type (
 #note "$?LINE $attribs.gist()" if $type ~~ m/Pixbuf/;
 #        $type ~~ s:g/ '.' //;
         $raku-ntype =
-          self.convert-ntype($attribs<c:type> // $type, :$return-type);
+          $!mod.convert-ntype($attribs<c:type> // $type, :$return-type);
         $raku-rtype =
-          self.convert-rtype($attribs<c:type> // $type, :$return-type);
+          $!mod.convert-rtype($attribs<c:type> // $type, :$return-type);
         $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
       }
 
       when 'array' {
         # sometime there is no 'c:type', assume an array of strings
         $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = self.convert-ntype( $type, :$return-type);
-        $raku-rtype = self.convert-rtype( $type, :$return-type);
+        $raku-ntype = $!mod.convert-ntype( $type, :$return-type);
+        $raku-rtype = $!mod.convert-rtype( $type, :$return-type);
         $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
       }
     }
@@ -1574,16 +1543,16 @@ method get-doc-type-code ( XML::Element $e --> List ) {
 #print "$?LINE: $type, na = ", $n.attribs.gist;
 #        $type ~~ s:g/ '.' //;
         $raku-ntype =
-          self.convert-ntype($n.attribs<c:type> // $type);
+          $!mod.convert-ntype($n.attribs<c:type> // $type);
         $raku-rtype =
-          self.convert-rtype($n.attribs<c:type> // $type);
+          $!mod.convert-rtype($n.attribs<c:type> // $type);
       }
 
       when 'array' {
         # sometimes there is no 'c:type', assume an array of strings
         $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = self.convert-ntype( $type);
-        $raku-rtype = self.convert-rtype( $type);
+        $raku-ntype = $!mod.convert-ntype( $type);
+        $raku-rtype = $!mod.convert-rtype( $type);
       }
     }
   }
@@ -1718,7 +1687,7 @@ method modify-functions ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
-    my Hash $h = self.search-name($function-name);
+    my Hash $h = $!mod.search-name($function-name);
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
     
@@ -1755,7 +1724,7 @@ method modify-classes ( Str $text is copy --> Str ) {
 
   while $text ~~ $r {
     my Str $class-name = $<class-name>.Str;
-    my Hash $h = self.search-name($class-name);
+    my Hash $h = $!mod.search-name($class-name);
     my Str $raku-name = $h<rname> // '';
 
     if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
