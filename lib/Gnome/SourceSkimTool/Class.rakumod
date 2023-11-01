@@ -80,7 +80,8 @@ method generate-doc ( ) {
 
   note "Document BUILD submethod" if $*verbose;
   my Hash $hcs = $!mod.get-constructors( $element, $!xpath);
-  $doc ~= $!grd.make-build-doc( $element, $hcs);
+  $doc ~= $!grd.document-build( $element, $hcs);
+  $doc ~= $!grd.document-constructors( $element, $hcs);
 
   note "Document methods" if $*verbose;
   $doc ~= $!grd.document-methods( $element, $!xpath);
@@ -90,7 +91,7 @@ method generate-doc ( ) {
 #  $doc ~= $sig-info<doc>;
 
   note "Generate module properties doc" if $*verbose;  
-#  $doc ~= $!grd.document-properties( $element, $!xpath);
+  $doc ~= $!grd.document-properties( $element, $!xpath);
 
   note "Save pod doc";
   $!mod.save-file( $fname, $doc, "class documentation");

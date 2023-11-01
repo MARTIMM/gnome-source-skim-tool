@@ -33,7 +33,8 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
   #??$doc ~= self!set-declaration;
   $doc ~= self!set-uml;
-  $doc ~= self!set-inherit-example($element);
+#NOTE still needed?
+#  $doc ~= self!set-inherit-example($element);
   $doc ~= self!set-example;
 
   qq:to/RAKUMOD/;
@@ -107,12 +108,12 @@ method !set-example ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
+method document-build ( XML::Element $element, Hash $hcs --> Str ) {
   my Str $doc = qq:to/EOBUILD/;
 
     {HLSEPARATOR}
     =begin pod
-    =head1 Methods
+    =head1 Class initialization
 
     {pod-header('Class Initialization')}
     #TM:1:new:
@@ -206,7 +207,6 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
 
     EOBUILD
 
-#`{{
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
   my Str $ctype = $element.attribs<c:type>;
@@ -224,45 +224,38 @@ method make-build-doc ( XML::Element $element, Hash $hcs --> Str ) {
 
       EOBUILD
   }
-}}
 
   $doc
 }
 
 #-------------------------------------------------------------------------------
-method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
+method document-constructors (
+  XML::Element $element, Hash $hcs --> Str
+) {
+  return '' unless ?$hcs;
 
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
-  my Bool $is-leaf = $h<leaf> // False;
-#  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
   my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all methods in this class
-  my Hash $hcs = self.get-methods( $element, $xpath);
-  return '' unless ?$hcs;
+#  my Hash $hcs = self.get-methods( $element, $xpath);
 
   my Str $doc = qq:to/EOSUB/;
-    {pod-header('Methods')}
+    {pod-header('Constructors')}
     =begin pod
-    =head1 Methods
+    =head1 Constructors
     =end pod
 
     EOSUB
 
-  for $hcs.keys.sort -> $function-name {
-    my Hash $curr-function := $hcs{$function-name};
-
-    # get method name, drop the prefix and substitute '_'
-    my Str $method-name = $function-name;
-    $method-name ~~ s/^ $symbol-prefix //;
-    # keep this version for later
-    $method-name ~~ s:g/ '_' /-/;
-
+  for $hcs.keys.sort -> $method-name {
+    my Hash $curr-function := $hcs{$method-name};
+note "$?LINE $method-name, $hcs.gist()";
     my Str $method-doc = $curr-function<function-doc>;
     $method-doc = "No documentation of method.\n" unless ?$method-doc;
 
-    # get parameter lists
+    # Get parameter lists
     my Str ( $raku-list, $call-list, $items-doc, $own, $returns-doc) =  '' xx 5;
     my @rv-list = ();
 
@@ -277,7 +270,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
     my $xtype = $curr-function<return-raku-rtype>;
     if ?$xtype and $xtype ne 'void' {
-      $raku-list ~= "  --> $xtype";
+      $raku-list ~= " --> $xtype";
       $own = '';
       $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
         if ?$curr-function<transfer-ownership> and
@@ -304,6 +297,97 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
     # remove first comma
     $raku-list ~~ s/^ . //;
+
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      =begin pod
+      =head2 $method-name
+
+      $method-doc
+
+      =begin code
+      method $method-name \(
+       $raku-list
+      \)
+      =end code
+
+      $items-doc
+      $returns-doc
+      =end pod
+      EOSUB
+  }
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
+
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!mod.search-name($ctype);
+  my Str $symbol-prefix = $*work-data<sub-prefix>;
+
+  # Get all methods in this class
+  my Hash $hcs = self.get-methods( $element, $xpath);
+  return '' unless ?$hcs;
+
+  my Str $doc = qq:to/EOSUB/;
+    {pod-header('Methods')}
+    =begin pod
+    =head1 Methods
+    =end pod
+
+    EOSUB
+
+  for $hcs.keys.sort -> $method-name {
+    my Hash $curr-function := $hcs{$method-name};
+
+    my Str $method-doc = $curr-function<function-doc>;
+    $method-doc = "No documentation of method.\n" unless ?$method-doc;
+
+    # Get parameter lists
+    my Str ( $raku-list, $call-list, $items-doc, $own, $returns-doc) =  '' xx 5;
+    my @rv-list = ();
+
+    my Bool $first-param = True;
+    for @($curr-function<parameters>) -> $parameter {
+      self!get-types(
+        $parameter, $raku-list,
+        $call-list, $items-doc,
+        @rv-list, $returns-doc
+      );
+    }
+
+    my $xtype = $curr-function<return-raku-rtype>;
+    if ?$xtype and $xtype ne 'void' {
+      $raku-list ~= " --> $xtype";
+      $own = '';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
+
+      # Check if there is info about the return value
+      if ?$curr-function<rv-doc> {
+        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+      }
+
+      elsif $raku-list ~~ / '-->' / {
+        $returns-doc =
+          "\nReturn value; No documentation about its value and use\n";
+      }
+    }
+
+    # Assumed that there are no multiple methods to return values. I.e not
+    # returning an array and pointer arguments to receive values in those vars.
+    elsif ?@rv-list {
+      $returns-doc = "Returns a List holding the values\n$returns-doc";
+      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
+      $raku-list ~= "  --> List";
+    }
+
+    # remove first comma
+    $raku-list ~~ s/^ . //;
+
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
       =begin pod
@@ -337,6 +421,10 @@ method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
     $hms{$function-name} = %h;
   }
 
@@ -344,16 +432,22 @@ method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-#TODO copied. Make this method search for documentation only
+#TODO copied from ::Code. Make this method search for documentation only
 method !get-method-data (
   XML::Element $e, Bool :$build = False, XML::XPath :$xpath
   --> List
 ) {
-  my Str ( $function-name, $option-name, $function-doc);
+  # Get function name. Sometimes it ends in '-1' which is not a raku id.
+  # This must be converted.
+  my Str $function-name = $!mod.cleanup-id( $e.attribs<name>, :is-function);
 
-  $option-name = $function-name = $e.attribs<c:identifier>;
+  # Skip emptied function names. Assumed that those are for internal use.
+  return ( '', %()) unless ?$function-name;
+
+  my Bool $missing-type = False;
+
+#`{{
   my Str $sub-prefix := $*work-data<sub-prefix>;
-
   # Option names are used in BUILD only
   if $build {
     # Constructors have '_new' in the name. To get a name for the build options
@@ -368,15 +462,18 @@ method !get-method-data (
     # When nothing is left, mark the option as a default.
     $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
   }
+}}
 
   my Str $edoc = ($xpath.find( 'doc/text()', :start($e)) // '').Str;
   my Str $s = self!modify-text($edoc);
-  $function-doc = self!cleanup($s);
+  my Str $function-doc = self!cleanup($s);
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
-    self.get-doc-type( $rvalue, :return-type, :$xpath);
+  my Str ( $rv-doc, $rv-type, $return-raku-type) =
+    self.get-doc-type( $rvalue, :$xpath, :user-side);
+  $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
+  $return-raku-type ~~ s/ _UA_ $//;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -387,15 +484,15 @@ method !get-method-data (
   );
 
   for @prmtrs -> $p {
-    my Str ( $doc, $type, $raku-ntype, $raku-rtype) =
-      self.get-doc-type( $p, :$xpath);
+    my Str ( $doc, $type, $raku-type) =
+      self.get-doc-type( $p, :$xpath, :user-side);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
-    $parameter-name ~~ s:g/ '_' /-/;
+#    $parameter-name ~~ s:g/ '_' /-/;
 
     my Hash $ph = %(
       :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
-      :$doc, :$type, :$raku-ntype, :$raku-rtype
+      :$doc, :$type, :$raku-type
     );
 
     if $p.name eq 'instance-parameter' {
@@ -414,8 +511,8 @@ method !get-method-data (
   }
 
   ( $function-name, %(
-      :$option-name, :$function-doc, :@parameters,
-      :$rv-doc, :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
+      :$function-doc, :@parameters,
+      :$rv-doc, :$rv-type, :$return-raku-type,
       :$rv-transfer-ownership,
     )
   );
@@ -424,14 +521,23 @@ method !get-method-data (
 #-------------------------------------------------------------------------------
 #TODO copied. Make this method search for documentation only
 method get-doc-type (
-  XML::Element $e, Bool :$return-type = False,
-  Bool :$add-gtype = False, XML::XPath :$xpath
+  XML::Element $e,
+# Bool :$return-type = False,
+#  Bool :$add-gtype = False,
+  XML::XPath :$xpath, Bool :$user-side = False
   --> List
 ) {
 
-  my Str ( $doc, $type, $raku-ntype, $raku-rtype, $g-type) = '' xx 5;
+  # With variable argument lists, the name is '…'. It would not have a type
+  # so return something to prevent it marked as a missing type
+  return ('…', '…')
+    if $e.attribs<name>:exists and $e.attribs<name> eq '…';
+
+#  my Str ( $doc, $ctype, $raku-ntype, $raku-rtype, $g-type) = '' xx 5;
+  my Str ( $doc, $ctype, $raku-type) = '' xx 5;
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
+
     with $n.name {
       when 'doc' {
         $doc = self!cleanup(
@@ -440,28 +546,48 @@ method get-doc-type (
       }
 
       when 'type' {
-        my Hash $attribs = $n.attribs;
-        $type = $attribs<name>;
-#note "$?LINE $attribs.gist()" if $type ~~ m/Pixbuf/;
-#        $type ~~ s:g/ '.' //;
+        $ctype = $n.attribs<c:type> // $n.attribs<name>;
+        $raku-type = $user-side
+                   ?? $!mod.convert-rtype($ctype)
+                   !! $!mod.convert-ntype($ctype)
+                   ;
+      }
+
+      when 'array' {
+        # Sometimes there is no 'c:type', assume an array of strings
+        $ctype = $n.attribs<c:type> // 'gchar**';
+        $raku-type = $user-side
+                   ?? $!mod.convert-rtype($ctype)
+                   !! $!mod.convert-ntype($ctype)
+                   ;
+      }
+
+#`{{
+      when 'type' {
+        my Hash $attribs = $n.attribs<c:type> // $n.attribs;
+        $ctype = $attribs<name>;
+#note "$?LINE $attribs.gist()" if $ctype ~~ m/Pixbuf/;
+#        $ctype ~~ s:g/ '.' //;
         $raku-ntype =
-          $!mod.convert-ntype($attribs<c:type> // $type, :$return-type);
+          $!mod.convert-ntype($ctype, :$return-type);
         $raku-rtype =
-          $!mod.convert-rtype($attribs<c:type> // $type, :$return-type);
+          $!mod.convert-rtype($ctype, :$return-type);
         $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
       }
 
       when 'array' {
         # sometime there is no 'c:type', assume an array of strings
-        $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = $!mod.convert-ntype( $type, :$return-type);
-        $raku-rtype = $!mod.convert-rtype( $type, :$return-type);
+        $ctype = $n.attribs<c:type> // 'gchar**';
+        $raku-ntype = $!mod.convert-ntype( $ctype, :$return-type);
+        $raku-rtype = $!mod.convert-rtype( $ctype, :$return-type);
         $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
       }
+}}
     }
   }
 
-  ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
+  ( $doc, $ctype, $raku-type)
+#  ( $doc, $ctype, $raku-ntype, $raku-rtype, $g-type)
 }
 
 #-------------------------------------------------------------------------------
@@ -505,13 +631,15 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
       my Hash $attribs = $prmtr.attribs;
       my $pname = $attribs<name>;
       my $transfer-ownership = $attribs<transfer-ownership>;
-      my Str ( $type, $raku-ntype) = $!mod.get-type( $prmtr, :!user-side);
+#      my Str ( $type, $raku-ntype) = $!mod.get-type( $prmtr, :!user-side);
 #      my Str ( $pdoc, $ptype, $raku-ntype, $raku-rtype) =
 #        $!sas.get-doc-type( $prmtr, :$xpath);
+      my Str ( $type, $raku-type) =
+        self.get-doc-type( $prmtr, :$xpath, :!user-side);
       my Str $pdoc = '';
       $curr-signal<parameters>.push: %(
         :$pname, :$pdoc, #:$ptype,
-        :$raku-ntype, #:$raku-rtype,
+        :$raku-type, #:$raku-rtype,
         :$transfer-ownership
       );
     }
@@ -630,11 +758,12 @@ method document-properties (
 
     my Str $transfer-ownership = $attribs<transfer-ownership>;
 
-    my Str ( $pdoc, $type, $raku-ntype, $raku-rtype, $g-type) =
-      self.get-doc-type( $pi, :add-gtype, :$xpath);
+    my Str ( $pdoc, $type, $raku-type) =
+      self.get-doc-type( $pi, :$xpath, :!user-side);
+    my Str $g-type = self.gobject-value-type($raku-type);
 
     $properties{$property-name} = %(
-      :$pdoc, :$writable, :$type, :$raku-ntype, :$g-type,
+      :$pdoc, :$writable, :$type, :$raku-type, :$g-type,
       :$pgetter, :$psetter, :$transfer-ownership
     );
   }
@@ -672,7 +801,7 @@ method document-properties (
 
     $doc ~= "=item B<Gnome::GObject::Value> for this property is $properties{$property-name}<g-type>.\n";
 
-    $doc ~= "=item The native type is $properties{$property-name}<raku-ntype>.\n";
+    $doc ~= "=item The native type is $properties{$property-name}<raku-type>.\n";
 
     if $properties{$property-name}<writable> {
       $doc ~= "=item Property is readable and writable\n";
@@ -965,12 +1094,12 @@ method !get-types (
   my Int $a-count = 0;
   my Hash $result = %();
 
-  given my $xtype = $parameter<raku-ntype> {
+  given my $xtype = $parameter<raku-type> {
     when 'N-GObject' {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+      $raku-list ~= ", $parameter<raku-type> \$$parameter<name>";
       $call-list ~= ", \$$parameter<name>";
 
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
       $result<call-list> = ", \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
@@ -984,7 +1113,7 @@ method !get-types (
       $raku-list ~= ", Array[Str] \$$parameter<name>";
       $call-list ~= ", \$ca$a-count";
 
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
       $result<call-list> = ", \$$parameter<name>";
 
       $a-count++;
@@ -1004,7 +1133,7 @@ method !get-types (
       @rv-list.push: "\$$parameter<name>";
       $call-list ~= ", my gint \$$parameter<name>";
 
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
+      $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
       $result<call-list> = ", \$$parameter<name>";
       $result<rv-list> = "\$$parameter<name>";
 
@@ -1014,7 +1143,7 @@ method !get-types (
     }
 
     default {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
+      $raku-list ~= ", $parameter<raku-type> \$$parameter<name>";
       $call-list ~= ", \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
@@ -1155,6 +1284,16 @@ method gobject-value-type( Str $ctype --> Str ) {
 
   $g-type
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1443,8 +1582,8 @@ method get-method-data (
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
-    self.get-doc-type( $rvalue, :return-type, :$xpath);
+  my Str ( $rv-doc, $rv-type, $return-raku-type) =
+    self.get-doc-type( $rvalue, :$xpath, :user-side);
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -1455,15 +1594,15 @@ method get-method-data (
   );
 
   for @prmtrs -> $p {
-    my Str ( $doc, $type, $raku-ntype, $raku-rtype) =
-      self.get-doc-type( $p, :$xpath);
+    my Str ( $doc, $type, $raku-type) =
+      self.get-doc-type( $p, :$xpath, :user-side);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $attribs<name>;
     $parameter-name ~~ s:g/ '_' /-/;
 
     my Hash $ph = %(
       :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
-      :$doc, :$type, :$raku-ntype, :$raku-rtype
+      :$doc, :$type, :$raku-type
     );
 
     if $p.name eq 'instance-parameter' {
@@ -1483,7 +1622,7 @@ method get-method-data (
 
   ( $function-name, %(
       :$option-name, :$function-doc, :@parameters,
-      :$rv-doc, :$rv-type, :$return-raku-ntype, :$return-raku-rtype,
+      :$rv-doc, :$rv-type, :$return-raku-type,
       :$rv-transfer-ownership,
     )
   );
