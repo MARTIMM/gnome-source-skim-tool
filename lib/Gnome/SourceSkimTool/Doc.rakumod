@@ -230,16 +230,15 @@ method document-build ( XML::Element $element, Hash $hcs --> Str ) {
 
 #-------------------------------------------------------------------------------
 method document-constructors (
-  XML::Element $element, Hash $hcs --> Str
+  XML::Element $element, XML::XPath $xpath --> Str
 ) {
-  return '' unless ?$hcs;
 
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
-  my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all methods in this class
-#  my Hash $hcs = self.get-methods( $element, $xpath);
+  my Hash $hcs = self.get-constructors( $element, $xpath);
+  return '' unless ?$hcs;
 
   my Str $doc = qq:to/EOSUB/;
     {pod-header('Constructors')}
@@ -249,50 +248,30 @@ method document-constructors (
 
     EOSUB
 
-  for $hcs.keys.sort -> $method-name {
+  for $hcs.keys.sort -> $method-name is copy {
     my Hash $curr-function := $hcs{$method-name};
-note "$?LINE $method-name, $hcs.gist()";
+
+    $method-name = $!mod.cleanup-id($method-name);
+#note "$?LINE $method-name, $hcs.gist()";
+
     my Str $method-doc = $curr-function<function-doc>;
     $method-doc = "No documentation of method.\n" unless ?$method-doc;
 
     # Get parameter lists
-    my Str ( $raku-list, $call-list, $items-doc, $own, $returns-doc) =  '' xx 5;
-    my @rv-list = ();
+    my Str ( $raku-list, $items-doc) =  '' xx 5;
 
-    my Bool $first-param = True;
+    my Hash $result;
     for @($curr-function<parameters>) -> $parameter {
-      self!get-types(
-        $parameter, $raku-list,
-        $call-list, $items-doc,
-        @rv-list, $returns-doc
-      );
+      self!get-types( $parameter, @);
+      $raku-list ~= $result<raku-list> // '';
+      $items-doc ~= $result<items-doc> // '';
     }
 
-    my $xtype = $curr-function<return-raku-rtype>;
-    if ?$xtype and $xtype ne 'void' {
-      $raku-list ~= " --> $xtype";
-      $own = '';
-      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
-        if ?$curr-function<transfer-ownership> and
-            $curr-function<transfer-ownership> ne 'none';
-
-      # Check if there is info about the return value
-      if ?$curr-function<rv-doc> {
-        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
-      }
-
-      elsif $raku-list ~~ / '-->' / {
-        $returns-doc =
-          "\nReturn value; No documentation about its value and use\n";
-      }
-    }
-
-    # Assumed that there are no multiple methods to return values. I.e not
-    # returning an array and pointer arguments to receive values in those vars.
-    elsif ?@rv-list {
-      $returns-doc = "Returns a List holding the values\n$returns-doc";
-      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
-      $raku-list ~= "  --> List";
+    if $method-name eq 'new' {
+      my Str $gname = $*work-data<gnome-name>;
+      my Str $prefix = $*work-data<name-prefix>;
+      $gname ~~ s:i/^ $prefix //;
+      $method-name ~= '-' ~ $gname.lc;
     }
 
     # remove first comma
@@ -307,12 +286,11 @@ note "$?LINE $method-name, $hcs.gist()";
 
       =begin code
       method $method-name \(
-       $raku-list
+       $raku-list --> $*work-data<raku-class-name>
       \)
       =end code
 
       $items-doc
-      $returns-doc
       =end pod
       EOSUB
   }
@@ -325,7 +303,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
-  my Str $symbol-prefix = $*work-data<sub-prefix>;
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all methods in this class
   my Hash $hcs = self.get-methods( $element, $xpath);
@@ -339,26 +317,35 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
     EOSUB
 
-  for $hcs.keys.sort -> $method-name {
+  for $hcs.keys.sort -> $method-name is copy {
     my Hash $curr-function := $hcs{$method-name};
+
+    $method-name = $!mod.cleanup-id($method-name);
+
+note "\n$?LINE $method-name, $curr-function.gist()";
 
     my Str $method-doc = $curr-function<function-doc>;
     $method-doc = "No documentation of method.\n" unless ?$method-doc;
 
     # Get parameter lists
-    my Str ( $raku-list, $call-list, $items-doc, $own, $returns-doc) =  '' xx 5;
+    my Str ( $raku-list, $items-doc, $own, $returns-doc) =  '' xx 5;
     my @rv-list = ();
 
+    my Hash $result;
     my Bool $first-param = True;
     for @($curr-function<parameters>) -> $parameter {
-      self!get-types(
-        $parameter, $raku-list,
-        $call-list, $items-doc,
-        @rv-list, $returns-doc
-      );
+      if $first-param {
+        $first-param = False;
+        next;
+      }
+
+      $result = self!get-types( $parameter, @rv-list);
+      $raku-list ~= $result<raku-list> // '';
+      $items-doc ~= $result<items-doc> // '';
+      $returns-doc ~= $result<returns-doc> // '';
     }
 
-    my $xtype = $curr-function<return-raku-rtype>;
+    my $xtype = $curr-function<return-raku-type>;
     if ?$xtype and $xtype ne 'void' {
       $raku-list ~= " --> $xtype";
       $own = '';
@@ -382,7 +369,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
     elsif ?@rv-list {
       $returns-doc = "Returns a List holding the values\n$returns-doc";
       #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
-      $raku-list ~= "  --> List";
+      $raku-list ~= " --> List";
     }
 
     # remove first comma
@@ -396,9 +383,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
       $method-doc
 
       =begin code
-      method $method-name \(
-       $raku-list
-      \)
+      method $method-name \( $raku-list \)
       =end code
 
       $items-doc
@@ -411,6 +396,27 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
+  my Hash $hms = %();
+
+  my @methods = $xpath.find( 'constructor', :start($element), :to-list);
+
+  for @methods -> $cn {
+    # Skip deprecated methods
+    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
+#-------------------------------------------------------------------------------
 method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my Hash $hms = %();
 
@@ -420,7 +426,7 @@ method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Skip deprecated methods
     next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
-    my ( $function-name, %h) = self!get-method-data( $cn, :!build, :$xpath);
+    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
 
     # Function names which are returned emptied, are assumably internal
     next unless ?$function-name and ?%h;
@@ -433,10 +439,8 @@ method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
 #-------------------------------------------------------------------------------
 #TODO copied from ::Code. Make this method search for documentation only
-method !get-method-data (
-  XML::Element $e, Bool :$build = False, XML::XPath :$xpath
-  --> List
-) {
+method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
+
   # Get function name. Sometimes it ends in '-1' which is not a raku id.
   # This must be converted.
   my Str $function-name = $!mod.cleanup-id( $e.attribs<name>, :is-function);
@@ -445,24 +449,6 @@ method !get-method-data (
   return ( '', %()) unless ?$function-name;
 
   my Bool $missing-type = False;
-
-#`{{
-  my Str $sub-prefix := $*work-data<sub-prefix>;
-  # Option names are used in BUILD only
-  if $build {
-    # Constructors have '_new' in the name. To get a name for the build options
-    # remove the subroutine prefix and the 'new_' string from the subroutine
-    # name.
-    $option-name ~~ s/^ $sub-prefix new '_'? //;
-
-    # Remove any other prefix ending in '_'.
-    my Int $last-u = $option-name.rindex('_');
-    $option-name .= substr($last-u + 1) if $last-u.defined;
-
-    # When nothing is left, mark the option as a default.
-    $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
-  }
-}}
 
   my Str $edoc = ($xpath.find( 'doc/text()', :start($e)) // '').Str;
   my Str $s = self!modify-text($edoc);
@@ -1082,13 +1068,7 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !get-types (
-  Hash $parameter,
-  Str $raku-list is rw, Str $call-list is rw,
-  Str $items-doc is rw, @rv-list,
-  Str $returns-doc is rw
-  --> Hash
-) {
+method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
   my Str $own = '';
   my Int $a-count = 0;
@@ -1096,11 +1076,11 @@ method !get-types (
 
   given my $xtype = $parameter<raku-type> {
     when 'N-GObject' {
-      $raku-list ~= ", $parameter<raku-type> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
+#      $raku-list ~= ", $parameter<raku-type> \$$parameter<name>";
+#      $call-list ~= ", \$$parameter<name>";
 
       $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
+#      $result<call-list> = ", \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
@@ -1110,18 +1090,18 @@ method !get-types (
     }
 
     when 'CArray[Str]' {
-      $raku-list ~= ", Array[Str] \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
+#      $raku-list ~= ", Array[Str] \$$parameter<name>";
+#      $call-list ~= ", \$ca$a-count";
 
       $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
+#      $result<call-list> = ", \$$parameter<name>";
 
       $a-count++;
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
 
       $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
@@ -1131,25 +1111,27 @@ method !get-types (
 #            my $ntype = 'gint';
       #$ntype ~~ s:g/ [const || \s+ || '*'] //;
       @rv-list.push: "\$$parameter<name>";
-      $call-list ~= ", my gint \$$parameter<name>";
+#      $call-list ~= ", my gint \$$parameter<name>";
 
       $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
+#      $result<call-list> = ", \$$parameter<name>";
       $result<rv-list> = "\$$parameter<name>";
 
-      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+      $result<returns-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
 
       $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
     default {
-      $raku-list ~= ", $parameter<raku-type> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
+#      $raku-list ~= ", $parameter<raku-type> \$$parameter<name>";
+#      $call-list ~= ", \$$parameter<name>";
+
+      $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
+#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
 
       $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
@@ -1283,677 +1265,4 @@ method gobject-value-type( Str $ctype --> Str ) {
   }
 
   $g-type
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
-
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-### from Code
-
-#-------------------------------------------------------------------------------
-method !get-types (
-  Hash $parameter,
-#  Str $raku-list,
-   Str $call-list,
-#  Str $items-doc is rw,
-   @rv-list,
-#  Str $returns-doc is rw
-  --> Hash
-) {
-
-#  my Str $own = '';
-  my Int $a-count = 0;
-  my Hash $result = %();
-
-  given my $xtype = $parameter<raku-ntype> {
-    when 'N-GObject' {
-#      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-#      $call-list ~= ", \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[Str]' {
-#      $raku-list ~= ", Array[Str] \$$parameter<name>";
-#      $call-list ~= ", \$ca$a-count";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $a-count++;
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-#      $ntype ~~ s:g/ [const || \s+ || '*'] //;
-      @rv-list.push: "\$$parameter<name>";
-#      $call-list ~= ", my gint \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<rv-list> = "\$$parameter<name>";
-
-#      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    default {
-#      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-#      $call-list ~= ", \$$parameter<name>";
-
-#      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-#      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-#        if ?$parameter<transfer-ownership> and
-#          $parameter<transfer-ownership> ne 'none';
-#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-#      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-  }
-
-  $result  
-}
-
-#-------------------------------------------------------------------------------
-method get-types (
-  Hash $parameter,
-  Str $raku-list is rw, Str $call-list is rw,
-  Str $items-doc is rw, @rv-list,
-  Str $returns-doc is rw
-  --> Hash
-) {
-
-  my Str $own = '';
-  my Int $a-count = 0;
-  my Hash $result = %();
-
-  given my $xtype = $parameter<raku-ntype> {
-    when 'N-GObject' {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[Str]' {
-      $raku-list ~= ", Array[Str] \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $a-count++;
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
-      @rv-list.push: "\$$parameter<name>";
-      $call-list ~= ", my gint \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<rv-list> = "\$$parameter<name>";
-
-      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    default {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-  }
-
-  $result  
-}
-
-#-------------------------------------------------------------------------------
-method get-type-doc (
-  Hash $parameter,
-  Str $raku-list is rw, Str $call-list is rw,
-  Str $items-doc is rw, @rv-list,
-  Str $returns-doc is rw
-  --> Hash
-) {
-
-  my Str $own = '';
-  my Int $a-count = 0;
-  my Hash $result = %();
-
-  given my $xtype = $parameter<raku-ntype> {
-    when 'N-GObject' {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[Str]' {
-      $raku-list ~= ", Array[Str] \$$parameter<name>";
-      $call-list ~= ", \$ca$a-count";
-      $p-convert =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<p-convert> =
-        "  my \$ca$a-count = CArray\[Str].new\(|\$$parameter<name>);\n";
-
-      $a-count++;
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
-      @rv-list.push: "\$$parameter<name>";
-      $call-list ~= ", my gint \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-rtype> \$$parameter<name>";
-      $result<call-list> = ", \$$parameter<name>";
-      $result<rv-list> = "\$$parameter<name>";
-
-      $returns-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-
-    default {
-      $raku-list ~= ", $parameter<raku-rtype> \$$parameter<name>";
-      $call-list ~= ", \$$parameter<name>";
-
-      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
-        if ?$parameter<transfer-ownership> and
-          $parameter<transfer-ownership> ne 'none';
-      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-    }
-  }
-
-  $result  
-}
-
-#-------------------------------------------------------------------------------
-method get-method-data (
-  XML::Element $e, Bool :$build = False, XML::XPath :$xpath
-  --> List
-) {
-  my Str ( $function-name, $option-name, $function-doc);
-
-  $option-name = $function-name = $e.attribs<c:identifier>;
-  my Str $sub-prefix := $*work-data<sub-prefix>;
-
-  # Option names are used in BUILD only
-  if $build {
-    # Constructors have '_new' in the name. To get a name for the build options
-    # remove the subroutine prefix and the 'new_' string from the subroutine
-    # name.
-    $option-name ~~ s/^ $sub-prefix new '_'? //;
-
-    # Remove any other prefix ending in '_'.
-    my Int $last-u = $option-name.rindex('_');
-    $option-name .= substr($last-u + 1) if $last-u.defined;
-
-    # When nothing is left, mark the option as a default.
-    $option-name = '__DEFAULT__' if $option-name ~~ m/^ \s* $/;
-  }
-
-  my Str $edoc = ($xpath.find( 'doc/text()', :start($e)) // '').Str;
-  my Str $s = self.modify-text($edoc);
-  $function-doc = self.cleanup($s);
-
-  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
-  my Str ( $rv-doc, $rv-type, $return-raku-type) =
-    self.get-doc-type( $rvalue, :$xpath, :user-side);
-
-  # Get all parameters. Mostly the instance parameters come first
-  # but I am not certain.
-  my @parameters = ();
-  my @prmtrs = $xpath.find(
-    'parameters/instance-parameter | parameters/parameter',
-    :start($e), :to-list
-  );
-
-  for @prmtrs -> $p {
-    my Str ( $doc, $type, $raku-type) =
-      self.get-doc-type( $p, :$xpath, :user-side);
-    my Hash $attribs = $p.attribs;
-    my Str $parameter-name = $attribs<name>;
-    $parameter-name ~~ s:g/ '_' /-/;
-
-    my Hash $ph = %(
-      :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
-      :$doc, :$type, :$raku-type
-    );
-
-    if $p.name eq 'instance-parameter' {
-      $ph<allow-none> = False;
-      $ph<nullable> = False;
-      $ph<is-instance> = True;
-    }
-
-    elsif $p.name eq 'parameter' {
-      $ph<allow-none> = $attribs<allow-none>.Bool;
-      $ph<nullable> = $attribs<nullable>.Bool;
-      $ph<is-instance> = False;
-    }
-
-    @parameters.push: $ph;
-  }
-
-  ( $function-name, %(
-      :$option-name, :$function-doc, :@parameters,
-      :$rv-doc, :$rv-type, :$return-raku-type,
-      :$rv-transfer-ownership,
-    )
-  );
-}
-
-#-------------------------------------------------------------------------------
-method get-doc-type (
-  XML::Element $e, Bool :$return-type = False,
-  Bool :$add-gtype = False, XML::XPath :$xpath
-  --> List
-) {
-
-  my Str ( $doc, $type, $raku-ntype, $raku-rtype, $g-type) = '' xx 5;
-  for $e.nodes -> $n {
-    next if $n ~~ XML::Text;
-    with $n.name {
-      when 'doc' {
-        $doc = self.cleanup(
-          self.modify-text(($xpath.find( 'text()', :start($n)) // '').Str)
-        );
-      }
-
-      when 'type' {
-        my Hash $attribs = $n.attribs;
-        $type = $attribs<name>;
-#note "$?LINE $attribs.gist()" if $type ~~ m/Pixbuf/;
-#        $type ~~ s:g/ '.' //;
-        $raku-ntype =
-          $!mod.convert-ntype($attribs<c:type> // $type, :$return-type);
-        $raku-rtype =
-          $!mod.convert-rtype($attribs<c:type> // $type, :$return-type);
-        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
-      }
-
-      when 'array' {
-        # sometime there is no 'c:type', assume an array of strings
-        $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = $!mod.convert-ntype( $type, :$return-type);
-        $raku-rtype = $!mod.convert-rtype( $type, :$return-type);
-        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
-      }
-    }
-  }
-
-  ( $doc, $type, $raku-ntype, $raku-rtype, $g-type)
-}
-
-#-------------------------------------------------------------------------------
-method get-doc-type-code ( XML::Element $e --> List ) {
-
-  my Str ( $type, $raku-ntype, $raku-rtype) = '' xx 3;
-  for $e.nodes -> $n {
-    next if $n ~~ XML::Text;
-    with $n.name {
-      when 'type' {
-        $type = $n.attribs<name>;
-#print "$?LINE: $type, na = ", $n.attribs.gist;
-#        $type ~~ s:g/ '.' //;
-        $raku-ntype =
-          $!mod.convert-ntype($n.attribs<c:type> // $type);
-        $raku-rtype =
-          $!mod.convert-rtype($n.attribs<c:type> // $type);
-      }
-
-      when 'array' {
-        # sometimes there is no 'c:type', assume an array of strings
-        $type = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = $!mod.convert-ntype( $type);
-        $raku-rtype = $!mod.convert-rtype( $type);
-      }
-    }
-  }
-
-#note " -> $raku-ntype, $raku-rtype\n";
-  ( $type, $raku-ntype, $raku-rtype)
-}
-
-#-------------------------------------------------------------------------------
-method modify-text ( Str $text is copy --> Str ) {
-
-  # Do not modify text whithin example code. C code is to be changed
-  # later anyway and on other places like in XML examples it must be kept as is.
-  my Int $ex-counter = 0;
-  my Hash $examples = %();
-  while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
-    my Str $example = $<example>.Str;
-    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
-    $examples{$ex-key} = $example;
-    $text ~~ s/ $example /$ex-key/;
-  }
-
-  $text = self.modify-signals($text);
-  $text = self.modify-properties($text);
-  $text = self.modify-functions($text);
-  $text = self.modify-variables($text);
-  $text = self.modify-markdown-links($text);
-  $text = self.modify-classes($text);
-  $text = self.modify-rest($text);
-
-  # Subtitute the examples back into the text before we can finally modify it
-  for $examples.keys -> $ex-key {
-    $text ~~ s/ $ex-key /$examples{$ex-key}/;
-  }
-
-  $text = self.modify-xml($text);
-  $text = self.modify-examples($text);
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify text '::sig-name'
-method modify-signals ( Str $text is copy --> Str ) {
-
-  my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#'? $<cname> = [\w+]? '::' $<signal-name> = [<[-\w]>+] /;
-  while $text ~~ $r {
-    my Str $signal-name = $<signal-name>.Str;
-    my Str $cname = ($<cname>//'').Str;
-    if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#'? $cname '::' $signal-name /I<$signal-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $cname'::' $signal-name /I<$signal-name defined in $cname>/;
-    }
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-properties ( Str $text is copy --> Str ) {
-
-  my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#'? $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
-  while $text ~~ $r {
-    my Str $pname = $<pname>.Str;
-    my Str $cname = ($<cname>//'').Str;
-    if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#'? $cname ':' $pname /I<property $pname>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $cname':' $pname /I<property $pname defined in $cname>/;
-    }
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-variables ( Str $text is copy --> Str ) {
-
-  $text ~~ s:g/ \s? '@' (\w+) / C<\$$0>/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-build-variables (
-  Str $text is copy, Hash $variable-map
-  --> Str
-) {
-  # Only map for names in hash, others are done above. This is meant to
-  # be used for the BUILD options to variable mapping. The substitutions might
-  # already been done via .modify-text() so check on '$' as well.
-  for $variable-map.kv -> $orig, $new {
-    $text ~~ s:g/ \s? ['$'] $orig / \$$new/;
-    $text ~~ s:g/ \s? ['@'] $orig / C<\$$new>/;
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-functions ( Str $text is copy --> Str ) {
-
-  my Str $sub-prefix = $*work-data<sub-prefix>;
-
-  # When a local function has '_new_' in the text, convert it into an init call
-  # E.g. 'gtk_label_new_with_mnemonic()' becomes '.new(:$with-mnemonic)'
-  $text ~~ s:g/ $sub-prefix new '_' (\w+) '()'
-              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
-
-  # Other functions local to this module, remove the sub-prefix and place
-  # a '.' at front. E.g in module Label and package Gtk3 converting
-  # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
-  $text ~~ s:g/ $sub-prefix (\w+) '()' 
-              /C<.{S:g/'_'/-/ with $0}\(\)>/;
-
-  # Functions not local to this module
-  my Regex $r = / $<function-name> = [
-                    <!after "\x200B">
-                    [ atk || gtk || gdk || gsk ||
-                      pangocairo || pango || cairo || g
-                    ]
-                    '_' \w*?
-                  ] '()'
-                /;
-
-  while $text ~~ $r {
-    my Str $function-name = $<function-name>.Str;
-    my Hash $h = $!mod.search-name($function-name);
-    my Str $package-name = $h<raku-package> // '';
-    my Str $raku-name = $h<rname> // '';
-    
-    if ?$raku-name {
-      $text ~~ s:g/ $function-name\(\) 
-                  /C<\x200B$raku-name\(\) function from $package-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
-    }
-  }
-
-  # After all work remove the zero width space marker
-  $text ~~ s:g/ \x200B //;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-classes ( Str $text is copy --> Str ) {
-
-  # When classnames are found (or not) a zero width space is inserted just
-  # before the word to prevent finding this word (or part of it again when not
-  # substituted. See also https://invisible-characters.com/.
-  my Regex $r = / '#'? $<class-name> = [
-                     <!after ["\x200B" || '::']>
-                     [ Atk || Gtk || Gdk || Gsk ||
-                       PangoCairo || Pango || Cairo || G
-                     ]
-                     \w+
-                  ]
-                /;
-
-  while $text ~~ $r {
-    my Str $class-name = $<class-name>.Str;
-    my Hash $h = $!mod.search-name($class-name);
-    my Str $raku-name = $h<rname> // '';
-
-    if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
-      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name enumeration>/;
-    }
-    
-    elsif ?$h<gir-type> and $h<gir-type> eq 'bitfield' {
-      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name bitfield>/;
-    }
-    
-    elsif ?$raku-name {
-      $text ~~ s:g/ '#'? $class-name /B<\x200B$raku-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $class-name /\x200B$class-name/;
-    }
-  }
-
-  # After all work remove the zero width space marker
-  $text ~~ s:g/ \x200B //;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# convert |[ … ]| marks. Must be processed at the end because other
-# modifications may depend on those marks
-method modify-examples ( Str $text is copy --> Str ) {
-
-  $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="xml"' \s* '-->' 
-              /=begin comment\nFollowing text is XML\n= begin code\n/;
-
-  $text ~~ s:g/^^ '|[<!-- language="plain" -->'
-              /=begin comment\n= begin code/;
-
-  $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="C"' \s* '-->' 
-              /=begin comment\n= begin code/;
-
-  $text ~~ s:g/^^ ']|' /= end code\n=end comment\n/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify xml remnants
-method modify-xml ( Str $text is copy --> Str ) {
-  
-  # xml escapes
-  $text ~~ s:g/ '&lt;' /</;
-  $text ~~ s:g/ '&gt;' />/;
-  $text ~~ s:g/ '&amp;' /\&/;
-  $text ~~ s:g/ [ '&#160;' || '&nbsp;' ] / /;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method modify-markdown-links ( Str $text is copy --> Str ) {
-  $text ~~ s:g/ \s '[' ( <-[\]]>+ ) '][' <-[\]]>+ ']' / $0/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify rest
-method modify-rest ( Str $text is copy --> Str ) {
-
-  # variable changes
-  $text ~~ s:g/ '%' TRUE /C<True>/;
-  $text ~~ s:g/ '%' FALSE /C<False>/;
-  $text ~~ s:g/ '%' NULL /C<Nil>/;
-
-  # sections
-  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
-#  $text = self.scan-for-unresolved-items($text);
-  $text ~~ s:g/ ' '+ / /;
-  $text ~~ s:g/ <|w> \n <|w> / /;
-  $text ~~ s:g/ \n ** 3..* /\n\n/;
-
-  if $trim {
-    $text ~~ s/^ \s+ //;
-    $text ~~ s/ \s+ $//;
-  }
-
-  $text
 }

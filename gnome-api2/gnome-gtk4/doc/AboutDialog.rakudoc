@@ -76,7 +76,7 @@ class `.aboutdialog`.
 
 #-------------------------------------------------------------------------------
 =begin pod
-=head1 submethod BUILD
+=head1 Class initialization
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
@@ -101,6 +101,28 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 =end pod
 
 #-------------------------------------------------------------------------------
+#--[Constructors]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constructors
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-aboutdialog
+
+Creates a new `GtkAboutDialog`.
+
+=begin code
+method new-aboutdialog (
+  --> Gnome::Gtk4::AboutDialog
+)
+=end code
+
+
+=end pod
+#-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
@@ -115,12 +137,9 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 Creates a new section in the "Credits" page.
 
 =begin code
-method add-credit-section (
-  N-GObject() $about, Str $section_name, Array[Str] $people
-)
+method add-credit-section (  Str $section_name, Array[Str] $people )
 =end code
 
-=item $about; A `GtkAboutDialog`
 =item $section_name; The name of the section
 =item $people; The people who belong to that section
 
@@ -133,13 +152,13 @@ method add-credit-section (
 Returns the names of the artists which are displayed in the credits page.
 
 =begin code
-method get-artists (
-  N-GObject() $about
-)
+method get-artists ( --> Array[Str] )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; A
+ `NULL`-terminated string array containing the artists
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -149,13 +168,13 @@ method get-artists (
 Returns the names of the authors which are displayed in the credits page.
 
 =begin code
-method get-authors (
-  N-GObject() $about
-)
+method get-authors ( --> Array[Str] )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; A
+ `NULL`-terminated string array containing the authors
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -165,13 +184,12 @@ method get-authors (
 Returns the comments string.
 
 =begin code
-method get-comments (
-  N-GObject() $about
-)
+method get-comments ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; The comments
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -181,13 +199,12 @@ method get-comments (
 Returns the copyright string.
 
 =begin code
-method get-copyright (
-  N-GObject() $about
-)
+method get-copyright ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; The copyright string
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -197,13 +214,13 @@ method get-copyright (
 Returns the name of the documenters which are displayed in the credits page.
 
 =begin code
-method get-documenters (
-  N-GObject() $about
-)
+method get-documenters ( --> Array[Str] )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; A
+ `NULL`-terminated string array containing the documenters
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -213,13 +230,12 @@ method get-documenters (
 Returns the license information.
 
 =begin code
-method get-license (
-  N-GObject() $about
-)
+method get-license ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; The license information
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -229,13 +245,12 @@ method get-license (
 Retrieves the license type.
 
 =begin code
-method get-license-type (
-  N-GObject() $about
-)
+method get-license-type ( --> GEnum:GtkLicense )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; a [enum C<$Gtk>.License] value
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -245,13 +260,14 @@ method get-license-type (
 Returns the paintable displayed as logo in the about dialog.
 
 =begin code
-method get-logo (
-  N-GObject() $about
-)
+method get-logo ( --> N-GObject() )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; the paintable displayed as
+ logo or `NULL` if the logo is unset or has been set via
+ [method C<$Gtk>.AboutDialog.set_logo_icon_name]
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -261,13 +277,13 @@ method get-logo (
 Returns the icon name displayed as logo in the about dialog.
 
 =begin code
-method get-logo-icon-name (
-  N-GObject() $about
-)
+method get-logo-icon-name ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; the icon name displayed as logo,
+ or `NULL` if the logo has been set via [method C<$Gtk>.AboutDialog.set_logo]
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -277,13 +293,12 @@ method get-logo-icon-name (
 Returns the program name displayed in the about dialog.
 
 =begin code
-method get-program-name (
-  N-GObject() $about
-)
+method get-program-name ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; The program name
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -293,13 +308,12 @@ method get-program-name (
 Returns the system information that is shown in the about dialog.
 
 =begin code
-method get-system-information (
-  N-GObject() $about
-)
+method get-system-information ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; the system information
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -309,13 +323,12 @@ method get-system-information (
 Returns the translator credits string which is displayed in the credits page.
 
 =begin code
-method get-translator-credits (
-  N-GObject() $about
-)
+method get-translator-credits ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; The translator credits string
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -325,13 +338,12 @@ method get-translator-credits (
 Returns the version string.
 
 =begin code
-method get-version (
-  N-GObject() $about
-)
+method get-version ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; The version string
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -341,13 +353,12 @@ method get-version (
 Returns the website URL.
 
 =begin code
-method get-website (
-  N-GObject() $about
-)
+method get-website ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; The website URL
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -357,13 +368,12 @@ method get-website (
 Returns the label used for the website link.
 
 =begin code
-method get-website-label (
-  N-GObject() $about
-)
+method get-website-label ( --> Str )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; The label used for the website link
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -373,13 +383,12 @@ method get-website-label (
 Returns whether the license text in the about dialog is automatically wrapped.
 
 =begin code
-method get-wrap-license (
-  N-GObject() $about
-)
+method get-wrap-license ( --> Bool() )
 =end code
 
-=item $about; a `GtkAboutDialog`
 
+
+Return value; `TRUE` if the license text is wrapped
 
 =end pod
 #-------------------------------------------------------------------------------
@@ -389,12 +398,9 @@ method get-wrap-license (
 Sets the names of the artists to be displayed in the "Credits" page.
 
 =begin code
-method set-artists (
-  N-GObject() $about, Array[Str] $artists
-)
+method set-artists (  Array[Str] $artists )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $artists; the authors of the artwork
  of the application
 
@@ -407,12 +413,9 @@ method set-artists (
 Sets the names of the authors which are displayed in the "Credits" page of the about dialog.
 
 =begin code
-method set-authors (
-  N-GObject() $about, Array[Str] $authors
-)
+method set-authors (  Array[Str] $authors )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $authors; the authors of the application
 
 
@@ -426,12 +429,9 @@ Sets the comments string to display in the about dialog.
 This should be a short string of one or two lines.
 
 =begin code
-method set-comments (
-  N-GObject() $about, Str $comments
-)
+method set-comments (  Str $comments )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $comments; a comments string
 
 
@@ -445,12 +445,9 @@ Sets the copyright string to display in the about dialog.
 This should be a short string of one or two lines.
 
 =begin code
-method set-copyright (
-  N-GObject() $about, Str $copyright
-)
+method set-copyright (  Str $copyright )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $copyright; the copyright string
 
 
@@ -462,12 +459,9 @@ method set-copyright (
 Sets the names of the documenters which are displayed in the "Credits" page.
 
 =begin code
-method set-documenters (
-  N-GObject() $about, Array[Str] $documenters
-)
+method set-documenters (  Array[Str] $documenters )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $documenters; the authors of the documentation
  of the application
 
@@ -482,12 +476,9 @@ Sets the license information to be displayed in the about dialog.
 If `license` is `NULL`, the license page is hidden.
 
 =begin code
-method set-license (
-  N-GObject() $about, Str $license
-)
+method set-license (  Str $license )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $license; the license information
 
 
@@ -502,12 +493,9 @@ This function overrides the license set using
 [method C<$Gtk>.AboutDialog.set_license].
 
 =begin code
-method set-license-type (
-  N-GObject() $about, GEnum:GtkLicense $license_type
-)
+method set-license-type (  GEnum:GtkLicense $license_type )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $license_type; the type of license
 
 
@@ -519,12 +507,9 @@ method set-license-type (
 Sets the logo in the about dialog.
 
 =begin code
-method set-logo (
-  N-GObject() $about, N-GObject() $logo
-)
+method set-logo (  N-GObject() $logo )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $logo; a `GdkPaintable`
 
 
@@ -536,12 +521,9 @@ method set-logo (
 Sets the icon name to be displayed as logo in the about dialog.
 
 =begin code
-method set-logo-icon-name (
-  N-GObject() $about, Str $icon_name
-)
+method set-logo-icon-name (  Str $icon_name )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $icon_name; an icon name
 
 
@@ -555,12 +537,9 @@ Sets the name to display in the about dialog.
 If `name` is not set, the string returned by `g_get_application_name()` is used.
 
 =begin code
-method set-program-name (
-  N-GObject() $about, Str $name
-)
+method set-program-name (  Str $name )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $name; the program name
 
 
@@ -576,12 +555,9 @@ If `system_information` is `NULL`, the system information page is hidden.
 See [property C<$Gtk>.I<property system-information defined in AboutDialog>].
 
 =begin code
-method set-system-information (
-  N-GObject() $about, Str $system_information
-)
+method set-system-information (  Str $system_information )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $system_information; system information
 
 
@@ -605,12 +581,9 @@ for this purpose, since translators will already know the purpose of that `msgid
 is untranslated and omit translator credits.
 
 =begin code
-method set-translator-credits (
-  N-GObject() $about, Str $translator_credits
-)
+method set-translator-credits (  Str $translator_credits )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $translator_credits; the translator credits
 
 
@@ -622,12 +595,9 @@ method set-translator-credits (
 Sets the version string to display in the about dialog.
 
 =begin code
-method set-version (
-  N-GObject() $about, Str $version
-)
+method set-version (  Str $version )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $version; the version string
 
 
@@ -639,12 +609,9 @@ method set-version (
 Sets the URL to use for the website link.
 
 =begin code
-method set-website (
-  N-GObject() $about, Str $website
-)
+method set-website (  Str $website )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $website; a URL string starting with `http://`
 
 
@@ -656,12 +623,9 @@ method set-website (
 Sets the label to be used for the website link.
 
 =begin code
-method set-website-label (
-  N-GObject() $about, Str $website_label
-)
+method set-website-label (  Str $website_label )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $website_label; the label used for the website link
 
 
@@ -673,12 +637,9 @@ method set-website-label (
 Sets whether the license text in the about dialog should be automatically wrapped.
 
 =begin code
-method set-wrap-license (
-  N-GObject() $about, Bool() $wrap_license
-)
+method set-wrap-license (  Bool() $wrap_license )
 =end code
 
-=item $about; a `GtkAboutDialog`
 =item $wrap_license; whether to wrap the license
 
 

@@ -81,7 +81,7 @@ method generate-doc ( ) {
   note "Document BUILD submethod" if $*verbose;
   my Hash $hcs = $!mod.get-constructors( $element, $!xpath);
   $doc ~= $!grd.document-build( $element, $hcs);
-  $doc ~= $!grd.document-constructors( $element, $hcs);
+  $doc ~= $!grd.document-constructors( $element, $!xpath);
 
   note "Document methods" if $*verbose;
   $doc ~= $!grd.document-methods( $element, $!xpath);
