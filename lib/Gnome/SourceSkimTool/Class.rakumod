@@ -87,8 +87,8 @@ method generate-doc ( ) {
   $doc ~= $!grd.document-methods( $element, $!xpath);
 
   note "Document signals" if $*verbose;
-#  my Hash $sig-info = $!grd.document-signals( $element, $!xpath);
-#  $doc ~= $sig-info<doc>;
+  my Hash $sig-info = $!grd.document-signals( $element, $!xpath);
+  $doc ~= $sig-info<doc>;
 
   note "Generate module properties doc" if $*verbose;  
   $doc ~= $!grd.document-properties( $element, $!xpath);

@@ -549,19 +549,14 @@ method check-special (
 #-------------------------------------------------------------------------------
 #TODO copied. Make this method search for documentation only
 method get-doc-type (
-  XML::Element $e,
-# Bool :$return-type = False,
-#  Bool :$add-gtype = False,
-  XML::XPath :$xpath, Bool :$user-side = False
+  XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False
   --> List
 ) {
 
   # With variable argument lists, the name is '…'. It would not have a type
   # so return something to prevent it marked as a missing type
-  return ('…', '…')
-    if $e.attribs<name>:exists and $e.attribs<name> eq '…';
+  return ('…', '…') if $e.attribs<name>:exists and $e.attribs<name> eq '…';
 
-#  my Str ( $doc, $ctype, $raku-ntype, $raku-rtype, $g-type) = '' xx 5;
   my Str ( $doc, $ctype, $raku-type) = '' xx 5;
   for $e.nodes -> $n {
     next if $n ~~ XML::Text;
@@ -589,33 +584,10 @@ method get-doc-type (
                    !! $!mod.convert-ntype($ctype)
                    ;
       }
-
-#`{{
-      when 'type' {
-        my Hash $attribs = $n.attribs<c:type> // $n.attribs;
-        $ctype = $attribs<name>;
-#note "$?LINE $attribs.gist()" if $ctype ~~ m/Pixbuf/;
-#        $ctype ~~ s:g/ '.' //;
-        $raku-ntype =
-          $!mod.convert-ntype($ctype, :$return-type);
-        $raku-rtype =
-          $!mod.convert-rtype($ctype, :$return-type);
-        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
-      }
-
-      when 'array' {
-        # sometime there is no 'c:type', assume an array of strings
-        $ctype = $n.attribs<c:type> // 'gchar**';
-        $raku-ntype = $!mod.convert-ntype( $ctype, :$return-type);
-        $raku-rtype = $!mod.convert-rtype( $ctype, :$return-type);
-        $g-type = self.gobject-value-type($raku-ntype) if $add-gtype;
-      }
-}}
     }
   }
 
   ( $doc, $ctype, $raku-type)
-#  ( $doc, $ctype, $raku-ntype, $raku-rtype, $g-type)
 }
 
 #-------------------------------------------------------------------------------
@@ -630,45 +602,34 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     my Hash $attribs = $si.attribs;
     next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
 
-    # signal documentation
+    # Signal documentation
     my Str $signal-name = $attribs<name>;
     my Str $sdoc = self!cleanup(
       self!modify-text(($xpath.find( 'doc/text()', :start($si)) // '').Str)
     );
     my Hash $curr-signal := $signals{$signal-name} = %(:$sdoc,);
-#    $curr-signal = %(:$sdoc,);
 
-    # return value info
+    # Return value info
     my XML::Element $rvalue = $xpath.find( 'return-value', :start($si));
     $curr-signal<transfer-ownership> = $rvalue.attribs<transfer-ownership>;
 
     my Str ( $rv-type, $return-ntype) = $!mod.get-type( $rvalue, :!user-side);
     my Str $rv-doc = '';
 
-#    my Str ( $rv-doc, $rv-type, $return-raku-ntype, $return-raku-rtype) =
-#      $!mod.get-type( $rvalue, :user-side);
-#    $curr-signal<rv-doc> = $rv-doc;
     $curr-signal<rv-type> = $rv-type;
     $curr-signal<return-ntype> = $return-ntype;
-#    $curr-signal<return-raku-rtype> = $return-raku-rtype;
 
-    # parameter info
+    # Signal parameter info
     $curr-signal<parameters> = [];
     my @prmtrs = $xpath.find( 'parameters/parameter', :start($si), :to-list);
-    for @prmtrs -> $prmtr {
-      my Hash $attribs = $prmtr.attribs;
-      my $pname = $attribs<name>;
+    for @prmtrs -> $parameter {
+      my Hash $attribs = $parameter.attribs;
+      my $pname = $!mod.cleanup-id($attribs<name>);
       my $transfer-ownership = $attribs<transfer-ownership>;
-#      my Str ( $type, $raku-ntype) = $!mod.get-type( $prmtr, :!user-side);
-#      my Str ( $pdoc, $ptype, $raku-ntype, $raku-rtype) =
-#        $!sas.get-doc-type( $prmtr, :$xpath);
-      my Str ( $type, $raku-type) =
-        self.get-doc-type( $prmtr, :$xpath, :!user-side);
-      my Str $pdoc = '';
+      my Str ( $pdoc, $type, $raku-type) =
+        self.get-doc-type( $parameter, :$xpath, :!user-side);
       $curr-signal<parameters>.push: %(
-        :$pname, :$pdoc, #:$ptype,
-        :$raku-type, #:$raku-rtype,
-        :$transfer-ownership
+        :$pname, :$pdoc, :$type, :$raku-type, :$transfer-ownership
       );
     }
   }
@@ -686,7 +647,6 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
       $doc ~= qq:to/EOSIG/;
 
         {HLPODSEPARATOR}
-        =comment #TS:0:$signal-name:
         =head3 $signal-name
 
         $curr-signal<sdoc>
@@ -695,8 +655,17 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
         method handler \(
         EOSIG
 
-      for @($curr-signal<parameters>) -> $prmtr {
-        $doc ~= "  $prmtr<raku-rtype> \$$prmtr<pname>,\n";
+      for @($curr-signal<parameters>) -> $parameter {
+        my $raku-type = $parameter<raku-type>;
+        if $raku-type ~~ m/ GEnum / {
+          $raku-type = Int();
+        }
+
+        elsif $raku-type ~~ m/ GFlag / {
+          $raku-type = UInt();
+        }
+
+        $doc ~= "  $raku-type \$$parameter<pname>,\n";
       }
 
       # return value info
@@ -723,18 +692,18 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
         EOSIG
 
-      for @($curr-signal<parameters>) -> $prmtr {
-        my Str $own = ( ?$prmtr<transfer-ownership> and
-                        $prmtr<transfer-ownership> ne 'none'
-                      ) ?? "\(transfer ownership: $prmtr<transfer-ownership>)"
+      for @($curr-signal<parameters>) -> $parameter {
+        my Str $own = ( ?$parameter<transfer-ownership> and
+                        $parameter<transfer-ownership> ne 'none'
+                      ) ?? "\(transfer ownership: $parameter<transfer-ownership>)"
                         !! '';
-        $doc ~= "=item \$$prmtr<pname>; $own$prmtr<pdoc>.\n";
+        $doc ~= "=item \$$parameter<pname>; $own$parameter<pdoc>.\n";
       }
 
       $doc ~= q:to/EOSIG/;
-        =item $_handle_id; the registered event handler id.
-        =item $_native-object; The native object provided by the caller wrapped in the Raku object.
-        =item $_widget; the object which received the signal.
+        =item $_handle_id; The registered event handler id.
+        =item $_native-object; The native object provided by the Raku object which registered this event.
+        =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
         =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
         EOSIG
       $doc ~= $returns-doc;

@@ -660,6 +660,42 @@ method set-wrap-license (  Bool() $wrap-license )
 
 
 =end pod
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate-link
+
+Emitted every time a URL is activated.
+
+Applications may connect to it to override the default behaviour,
+which is to call [func C<$Gtk>.show_uri].
+
+=begin code
+method handler (
+  Str $uri,
+  Int :$_handle_id,
+  Gnome::Gtk4::AboutDialog() :$_native-object,
+  Gnome::Gtk4::AboutDialog :$_widget,
+  *%user-options
+  --> gboolean
+)
+=end code
+
+=item $uri; the URI that is activated.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
+
+Return value; 
+
+=end pod
+
 
 #-------------------------------------------------------------------------------
 #--[Property Documentation]-----------------------------------------------------
@@ -673,7 +709,6 @@ about because there are routines to get or set its value for many of
 those properties.
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:artists:
 =head3 artists
 
 The people who contributed artwork to the program, as a `NULL`-terminated array of strings.
@@ -687,7 +722,6 @@ Each string may contain email addresses and URLs, which will be displayed as lin
 =item Setter method is C<.set-artists()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:authors:
 =head3 authors
 
 The authors of the program, as a `NULL`-terminated array of strings.
@@ -701,7 +735,6 @@ Each string may contain email addresses and URLs, which will be displayed as lin
 =item Setter method is C<.set-authors()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:comments:
 =head3 comments
 
 Comments about the program.
@@ -716,7 +749,6 @@ not a detailed list of features.
 =item Setter method is C<.set-comments()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:copyright:
 =head3 copyright
 
 Copyright information for the program.
@@ -728,7 +760,6 @@ Copyright information for the program.
 =item Setter method is C<.set-copyright()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:documenters:
 =head3 documenters
 
 The people documenting the program, as a `NULL`-terminated array of strings.
@@ -742,7 +773,6 @@ Each string may contain email addresses and URLs, which will be displayed as lin
 =item Setter method is C<.set-documenters()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:license:
 =head3 license
 
 The license of the program, as free-form text.
@@ -764,7 +794,6 @@ and email references in the form `<mail-to C<$some>.body>`, and these will be co
 =item Setter method is C<.set-license()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:license-type:
 =head3 license-type
 
 The license of the program.
@@ -786,7 +815,6 @@ For any other [enum C<$Gtk>.License] value, the contents of the
 =item Setter method is C<.set-license-type()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:logo:
 =head3 logo
 
 A logo for the about box.
@@ -801,7 +829,6 @@ If it is `NULL`, the default window icon set with
 =item Setter method is C<.set-logo()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:logo-icon-name:
 =head3 logo-icon-name
 
 A named icon to use as the logo for the about box.
@@ -815,7 +842,6 @@ This property overrides the [property C<$Gtk>.I<property logo defined in AboutDi
 =item Setter method is C<.set-logo-icon-name()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:program-name:
 =head3 program-name
 
 The name of the program.
@@ -830,7 +856,6 @@ If this is not set, it defaults to the value returned by
 =item Setter method is C<.set-program-name()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:system-information:
 =head3 system-information
 
 Information about the system on which the program is running.
@@ -847,7 +872,6 @@ and email references in the form `<mail-to C<$some>.body>`, and these will be co
 =item Setter method is C<.set-system-information()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:translator-credits:
 =head3 translator-credits
 
 Credits to the translators.
@@ -863,7 +887,6 @@ The string may contain email addresses and URLs, which will be displayed as link
 =item Setter method is C<.set-translator-credits()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:version:
 =head3 version
 
 The version of the program.
@@ -875,7 +898,6 @@ The version of the program.
 =item Setter method is C<.set-version()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:website:
 =head3 website
 
 The URL for the link to the website of the program.
@@ -889,7 +911,6 @@ This should be a string starting with `http://` or `https://`.
 =item Setter method is C<.set-website()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:website-label:
 =head3 website-label
 
 The label for the link to the website of the program.
@@ -901,7 +922,6 @@ The label for the link to the website of the program.
 =item Setter method is C<.set-website-label()>
 
 =comment -----------------------------------------------------------------------
-=comment #TP:0:wrap-license:
 =head3 wrap-license
 
 Whether to wrap the text in the license dialog.
