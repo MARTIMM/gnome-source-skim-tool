@@ -840,32 +840,58 @@ method !modify-text ( Str $text is copy --> Str ) {
   #   method    class name       .  function name
   #   signal    class name       :: signal name
   #   property  class name       :  property name
-  #
+  
+  #   iface     interface name
+
 
   # Then there is;
   #   `prefix classname`, e.g. `GtkCssSection` (with backticks)
   #   @parameter, e.g. @orientable and @section.
   #   Sometimes the prefix is missing e.g. [method@CssSection.get_parent]
 
+  my Bool $version4 = ($*gnome-package.Str ~~ / 4 /).Bool;
+
   # Do not modify text whithin example code. C code is to be changed
   # later anyway and on other places like in XML examples it must be kept as is.
   my Int $ex-counter = 0;
   my Hash $examples = %();
-  while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
-    my Str $example = $<example>.Str;
-    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
-    $examples{$ex-key} = $example;
-    $text ~~ s/ $example /$ex-key/;
+  if $version4 {
+    while $text ~~ m/ $<example> = [ '```' .*? '```' ] / {
+      my Str $example = $<example>.Str;
+      my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
+      $examples{$ex-key} = $example;
+      $text ~~ s/ $example /$ex-key/;
+    }
   }
 
-  my Bool $version4 = ($*gnome-package.Str ~~ / 4 /).Bool;
+  else {
+    while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
+      my Str $example = $<example>.Str;
+      my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
+      $examples{$ex-key} = $example;
+      $text ~~ s/ $example /$ex-key/;
+    }
+  }
 
-  $text = self!modify-signals( $text, :$version4);
-  $text = self!modify-properties( $text, :$version4);
-  $text = self!modify-functions( $text, :$version4);
+
+  # Some types are better specified in version 4 and can be translated better
+  if $version4 {
+    $text = self!modify-v4signals($text);
+    $text = self!modify-v4methods($text);
+    $text = self!modify-v4properties($text);
+    $text = self!modify-v4classes($text);
+    $text = self!modify-v4enum($text);
+  }
+
+  else {
+    $text = self!modify-signals($text);
+    $text = self!modify-functions($text);
+    $text = self!modify-properties($text);
+    $text = self!modify-classes($text);
+  }
+
   $text = self!modify-variables( $text, :$version4);
   $text = self!modify-markdown-links($text);
-  $text = self!modify-classes( $text, :$version4);
   $text = self!modify-rest($text);
 
   # Subtitute the examples back into the text before we can finally modify it
@@ -878,6 +904,100 @@ method !modify-text ( Str $text is copy --> Str ) {
 
   $text
 }
+
+#-------------------------------------------------------------------------------
+# [signal@Gtk.AboutDialog::activate-link]
+
+method !modify-v4signals ( Str $text is copy, Bool :$version4 --> Str ) {
+
+  my Str $prefix = $*work-data<name-prefix>.tc;
+  my Str $gname = $*work-data<gnome-name>;
+  $gname ~~ s/^ $prefix //;
+
+  # Signals within same module/class
+  $text ~~ s:g/ '[' signal '@' $prefix '.' $gname '::' (<-[\]]>+) ']'
+              /I<$0>/;
+
+  # Signals defined elsewhere
+  $text ~~ s:g/ '[' signal '@' $prefix '.' (<-[\.]>+) '::' (<-[\]]>+) ']'
+              /I<$1 defined in $0>/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# [method@Gtk.AboutDialog.set_logo]
+
+method !modify-v4methods ( Str $text is copy --> Str ) {
+
+  my Str $prefix = $*work-data<name-prefix>.tc;
+  my Str $gname = $*work-data<gnome-name>;
+  $gname ~~ s/^ $prefix //;
+
+  # Methods within same module/class
+  $text ~~ s:g/ '[' method '@' $prefix '.' $gname '.' (<-[\]]>+) ']'
+              /C<.$0\(\)>/;
+
+  # Methods defined elsewhere
+  $text ~~ s:g/ '[' method '@' $prefix '.' (<-[\.]>+) '.' (<-[\]]>+) ']'
+              /C<.$1\(\) defined in $0>/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# [property@Gtk.AboutDialog:system-information]
+
+method !modify-v4properties ( Str $text is copy --> Str ) {
+
+  my Str $prefix = $*work-data<name-prefix>.tc;
+  my Str $gname = $*work-data<gnome-name>;
+  $gname ~~ s/^ $prefix //;
+
+  # Properties within same module/class
+  $text ~~ s:g/ '[' property '@' $prefix '.' $gname ':' (<-[\]]>+) ']'
+              /I<$0>/;
+
+  # Properties defined elsewhere
+  $text ~~ s:g/ '[' property '@' $prefix '.' (<-[\.]>+) ':' (<-[\]]>+) ']'
+              /I<$1 defined in $0>/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# [class@Gtk.Entry]
+
+method !modify-v4classes ( Str $text is copy --> Str ) {
+
+  my Str $package = $*gnome-package.Str;
+  my Str $prefix = $*work-data<name-prefix>.tc;
+  my Str $gname = $*work-data<gnome-name>;
+  $gname ~~ s/^ $prefix //;
+
+  # Classes
+  $text ~~ s:g/ '[' class '@' $prefix '.' $gname ']'
+              /B<Gnome\:\:$package\:\:$gname>/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# [enum@Gtk.Overflow]
+
+method !modify-v4enum ( Str $text is copy --> Str ) {
+
+  my Str $package = $*gnome-package.Str;
+  my Str $prefix = $*work-data<name-prefix>.tc;
+  my Str $gname = $*work-data<gnome-name>;
+  $gname ~~ s/^ $prefix //;
+
+  # Enums within same module/class
+  $text ~~ s:g/ '[' enum '@' $prefix '.' (<-[\.]>+) ']' /C<$prefix$0> enumeration/;
+
+  $text
+}
+
 
 #-------------------------------------------------------------------------------
 method !modify-signals ( Str $text is copy, Bool :$version4 --> Str ) {
@@ -901,7 +1021,7 @@ method !modify-signals ( Str $text is copy, Bool :$version4 --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !modify-properties ( Str $text is copy, Bool :$version4 --> Str ) {
+method !modify-properties ( Str $text is copy --> Str ) {
 
   # Modify text ':prop-name'
   my Str $section-prefix-name = $*work-data<gnome-name>;
@@ -922,70 +1042,54 @@ method !modify-properties ( Str $text is copy, Bool :$version4 --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !modify-functions ( Str $text is copy, Bool :$version4 --> Str ) {
+method !modify-functions ( Str $text is copy --> Str ) {
 
   my Str $prefix = $*work-data<name-prefix>.tc;
   my Str $gname = $*work-data<gnome-name>;
   $gname ~~ s/^ $prefix //;
 
-  if $version4 {
-    # Functions or methods within same module/class
-    $text ~~ s:g/ '[' [ method || func ]
-                      '@' $prefix '.' $gname '.' (<-[\]]>+)
-                  ']'
-                /C<.$0\(\)>/;
+  my Str $sub-prefix = $*work-data<sub-prefix>;
+  $gname .= lc;
 
-    # Functions or methods defined elsewhere
-    $text ~~ s:g/ '[' [ method || func ]
-                      '@' $prefix '.' (<-[\.]>+) '.' (<-[\]]>+)
-                  ']'
-                /C<.$1\(\) defined in $0>/;
-  }
+  # When a local function has '_new' at the end in the text, convert it into
+  # a different name. E.g. 'gtk_label_new()' becomes '.new-label()'
+  $text ~~ s:g/ $sub-prefix new '()' /C<.new-$gname\(\)>/;
+#              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
 
-  else {
-    my Str $sub-prefix = $*work-data<sub-prefix>;
-    $gname .= lc;
+  # Other functions local to this module, remove the sub-prefix and place
+  # a '.' at front. E.g in module Label and package Gtk3 converting
+  # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
+  $text ~~ s:g/ $sub-prefix (\w+) '()' 
+              /C<.{S:g/'_'/-/ with $0}\(\)>/;
 
-    # When a local function has '_new' at the end in the text, convert it into
-    # a different name. E.g. 'gtk_label_new()' becomes '.new-label()'
-    $text ~~ s:g/ $sub-prefix new '()' /C<.new-$gname\(\)>/;
-  #              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
+  # Functions not local to this module
+  my Regex $r = / $<function-name> = [
+                    <!after "\x200B">
+                    [ atk || gtk || gdk || gsk ||
+                      pangocairo || pango || cairo || g
+                    ]
+                    '_' \w*?
+                  ] '()'
+                /;
 
-    # Other functions local to this module, remove the sub-prefix and place
-    # a '.' at front. E.g in module Label and package Gtk3 converting
-    # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
-    $text ~~ s:g/ $sub-prefix (\w+) '()' 
-                /C<.{S:g/'_'/-/ with $0}\(\)>/;
-
-    # Functions not local to this module
-    my Regex $r = / $<function-name> = [
-                      <!after "\x200B">
-                      [ atk || gtk || gdk || gsk ||
-                        pangocairo || pango || cairo || g
-                      ]
-                      '_' \w*?
-                    ] '()'
-                  /;
-
-    while $text ~~ $r {
-      my Str $function-name = $<function-name>.Str;
-      my Hash $h = $!mod.search-name($function-name);
-      my Str $package-name = $h<raku-package> // '';
-      my Str $raku-name = $h<rname> // '';
-      
-      if ?$raku-name {
-        $text ~~ s:g/ $function-name\(\) 
-                    /C<\x200B$raku-name\(\) function from $package-name>/;
-      }
-
-      else {
-        $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
-      }
+  while $text ~~ $r {
+    my Str $function-name = $<function-name>.Str;
+    my Hash $h = $!mod.search-name($function-name);
+    my Str $package-name = $h<raku-package> // '';
+    my Str $raku-name = $h<rname> // '';
+    
+    if ?$raku-name {
+      $text ~~ s:g/ $function-name\(\) 
+                  /C<\x200B$raku-name\(\) function from $package-name>/;
     }
 
-    # After all work remove the zero width space marker
-    $text ~~ s:g/ \x200B //;
+    else {
+      $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
+    }
   }
+
+  # After all work remove the zero width space marker
+  $text ~~ s:g/ \x200B //;
 
   $text
 }

@@ -26,9 +26,9 @@ option from the `Help` menu. All parts of the dialog are optional.
 ![An example GtkAboutDialog](aboutdialog.png)
 
 About dialogs often contain links and email addresses. `GtkAboutDialog`
-displays these as clickable links. By default, it calls C<. The behaviour can be overridden with the
-[signal C<$Gtk>.I<activate-link defined in AboutDialog>() defined in show_uri]
-when a user clicks one> signal.
+displays these as clickable links. By default, it calls [func C<$Gtk>.show_uri]
+when a user clicks one. The behaviour can be overridden with the
+I<activate-link> signal.
 
 To specify a person with an email address, use a string like
 `Edgar Allan Poe <edgar C<$poe>.com>`. To specify a website with a title,
@@ -256,7 +256,7 @@ method get-license-type ( --> GtkLicense )
 
 
 
-Return value; a [enum C<$Gtk>.License] value.  An enumeration.
+Return value; a C<GtkLicense> enumeration value.  An enumeration.
 
 
 =end pod
@@ -567,7 +567,7 @@ Sets the system information to be displayed in the about dialog.
 
 If `system_information` is `NULL`, the system information page is hidden.
 
-See [property C<$Gtk>.I<property system-information defined in AboutDialog>].
+See I<system-information>.
 
 =begin code
 method set-system-information (  Str $system-information )
@@ -779,8 +779,7 @@ The license of the program, as free-form text.
 This string is displayed in a text view in a secondary dialog, therefore it is fine to use a long multi-paragraph text. Note that the text is only wrapped in the text view if the "wrap-license" property is set to `TRUE`;
 otherwise the text itself must contain the intended linebreaks.
 
-When setting this property to a non-`NULL` value, the
-[property C<$Gtk>.I<property license-type defined in AboutDialog>] property is set to
+When setting this property to a non-`NULL` value, the I<license-type> property is set to
 `GTK_LICENSE_CUSTOM` as a side effect.
 
 The text may contain links in this format `<http://www.some.place/>`
@@ -799,13 +798,11 @@ The license of the program.
 
 The `GtkAboutDialog` will automatically fill out a standard disclaimer and link the user to the appropriate online resource for the license text.
 
-If `GTK_LICENSE_UNKNOWN` is used, the link used will be the same specified in the [property C<$Gtk>.I<property website defined in AboutDialog>] property.
+If `GTK_LICENSE_UNKNOWN` is used, the link used will be the same specified in the I<website> property.
 
-If `GTK_LICENSE_CUSTOM` is used, the current contents of the
-[property C<$Gtk>.I<property license defined in AboutDialog>] property are used.
+If `GTK_LICENSE_CUSTOM` is used, the current contents of the I<license> property are used.
 
-For any other [enum C<$Gtk>.License] value, the contents of the
-[property C<$Gtk>.I<property license defined in AboutDialog>] property are also set by this property as a side effect.
+For any other C<GtkLicense> enumeration value, the contents of the I<license> property are also set by this property as a side effect.
 
 =item B<Gnome::GObject::Value> for this property is .
 =item The native type is GEnum:License.
@@ -832,7 +829,7 @@ If it is `NULL`, the default window icon set with
 
 A named icon to use as the logo for the about box.
 
-This property overrides the [property C<$Gtk>.I<property logo defined in AboutDialog>] property.
+This property overrides the I<logo> property.
 
 =item B<Gnome::GObject::Value> for this property is .
 =item The native type is Str.
