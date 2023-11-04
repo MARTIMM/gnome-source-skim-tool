@@ -320,7 +320,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
   for $hcs.keys.sort -> $method-name is copy {
     my Hash $curr-function := $hcs{$method-name};
 
-    $method-name = $!mod.cleanup-id($method-name);
+#    $method-name = $!mod.cleanup-id($method-name);
 
 note "\n$?LINE $method-name, $curr-function.gist()";
 
@@ -334,6 +334,7 @@ note "\n$?LINE $method-name, $curr-function.gist()";
     my Hash $result;
     my Bool $first-param = True;
     for @($curr-function<parameters>) -> $parameter {
+      # Skip first parameter
       if $first-param {
         $first-param = False;
         next;
@@ -347,7 +348,10 @@ note "\n$?LINE $method-name, $curr-function.gist()";
 
     my $xtype = $curr-function<return-raku-type>;
     if ?$xtype and $xtype ne 'void' {
-      $raku-list ~= " --> $xtype";
+
+      my Str ( $l, $d ) = self.check-special( $xtype, '', '');
+
+      $raku-list ~= " --> $l";
       $own = '';
       $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
         if ?$curr-function<transfer-ownership> and
@@ -355,12 +359,12 @@ note "\n$?LINE $method-name, $curr-function.gist()";
 
       # Check if there is info about the return value
       if ?$curr-function<rv-doc> {
-        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>\n";
+        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>. $d\n";
       }
 
       elsif $raku-list ~~ / '-->' / {
         $returns-doc =
-          "\nReturn value; No documentation about its value and use\n";
+          "\nReturn value; No documentation about its value and use. $d\n";
       }
     }
 
@@ -472,9 +476,12 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   for @prmtrs -> $p {
     my Str ( $doc, $type, $raku-type) =
       self.get-doc-type( $p, :$xpath, :user-side);
+    $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
+    $raku-type ~~ s/ _UA_ $//;
+
     my Hash $attribs = $p.attribs;
-    my Str $parameter-name = $attribs<name>;
-#    $parameter-name ~~ s:g/ '_' /-/;
+    my Str $parameter-name = $!mod.cleanup-id($attribs<name>);
+#    next unless ?$parameter-name;
 
     my Hash $ph = %(
       :name($parameter-name), :transfer-ownership($attribs<transfer-ownership>),
@@ -497,11 +504,46 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   }
 
   ( $function-name, %(
-      :$function-doc, :@parameters,
+      :$function-doc, :@parameters, :$missing-type,
       :$rv-doc, :$rv-type, :$return-raku-type,
       :$rv-transfer-ownership,
     )
   );
+}
+
+#-------------------------------------------------------------------------------
+# Check on GEnum, GFlag, or callback and change doc
+
+method check-special (
+  Str $type, Str $name, Str $doc is copy --> List
+) {
+  my Str $list = '';
+  
+  # Test for callback signature
+  if $type ~~ m/^ ':(' / {
+
+  }
+
+  # Test for enumerations or bitmaps
+  elsif $type ~~ m/ ':' / {
+    my ( $t0, $t1) = $type.split(':');
+    if $t0 eq 'GEnum' {
+      $list = ?$name ?? ", $t1 \$$name" !! $t1;
+      $doc ~= " An enumeration.\n"; 
+    }
+
+    else {
+      $list = ?$name ?? ", UInt \$$name" !! UInt;
+      $doc ~= " A bitmap.\n"; 
+    }
+  }
+
+  else {
+    $list = ?$name ?? ", $type \$$name" !! $type;
+    $doc ~= "\n"; 
+  }
+
+  ( $list, $doc)
 }
 
 #-------------------------------------------------------------------------------
@@ -768,10 +810,10 @@ method document-properties (
     EOSIG
 
   for $properties.keys.sort -> $property-name {
+#      =comment #TP:0:$property-name:
     $doc ~= qq:to/EOSIG/;
 
       {HLPODSEPARATOR}
-      =comment #TP:0:$property-name:
       =head3 $property-name
       EOSIG
 
@@ -1076,11 +1118,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
   given my $xtype = $parameter<raku-type> {
     when 'N-GObject' {
-#      $raku-list ~= ", $parameter<raku-type> \$$parameter<name>";
-#      $call-list ~= ", \$$parameter<name>";
-
       $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
-#      $result<call-list> = ", \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
@@ -1090,50 +1128,60 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
     }
 
     when 'CArray[Str]' {
-#      $raku-list ~= ", Array[Str] \$$parameter<name>";
-#      $call-list ~= ", \$ca$a-count";
-
       $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
-#      $result<call-list> = ", \$$parameter<name>";
 
       $a-count++;
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
-#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
-
       $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
     when 'CArray[gint]' {
-#            $raku-list ~= ", CArray[gint] \$$parameter<name>";
-#            my $ntype = 'gint';
-      #$ntype ~~ s:g/ [const || \s+ || '*'] //;
       @rv-list.push: "\$$parameter<name>";
-#      $call-list ~= ", my gint \$$parameter<name>";
-
       $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
-#      $result<call-list> = ", \$$parameter<name>";
       $result<rv-list> = "\$$parameter<name>";
-
       $result<returns-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-
       $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
     default {
-#      $raku-list ~= ", $parameter<raku-type> \$$parameter<name>";
-#      $call-list ~= ", \$$parameter<name>";
-
-      $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
-
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
-#      $items-doc ~= "=item \$$parameter<name>; $own$parameter<doc>\n";
 
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+      my Str ( $l, $d ) = self.check-special(
+        $parameter<raku-type>, $parameter<name>,
+        "=item \$$parameter<name>; $own$parameter<doc>."
+      );
+      $result<raku-list> = $l;
+      $result<items-doc> = $d;
+#`{{
+      # Test for callback signature
+      if $parameter<raku-type> ~~ m/^ ':(' / {
+
+      }
+
+      # Test for enumerations or bitmaps
+      elsif $parameter<raku-type> ~~ m/ ':' / {
+        my ( $t0, $t1) = $parameter<raku-type>.split(':');
+        if $t0 eq 'GEnum' {
+          $result<raku-list> = ", $t1 \$$parameter<name>";
+          $result<items-doc> ~= " An enumeration.\n"; 
+        }
+
+        else {
+          $result<raku-list> = ", UInt \$$parameter<name>";
+          $result<items-doc> ~= " A bitmap.\n"; 
+        }
+      }
+
+      else {
+        $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
+        $result<items-doc> ~= "\n"; 
+      }
+}}
     }
   }
 
