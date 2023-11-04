@@ -322,7 +322,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
 #    $method-name = $!mod.cleanup-id($method-name);
 
-note "\n$?LINE $method-name, $curr-function.gist()";
+#note "\n$?LINE $method-name, $curr-function.gist()";
 
     my Str $method-doc = $curr-function<function-doc>;
     $method-doc = "No documentation of method.\n" unless ?$method-doc;
@@ -823,6 +823,30 @@ method document-properties (
 #-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
 
+  # Gtk version 4 docs have specifications which differ from previous versions.
+  # It uses a spec like e.g. '[enum@Gtk.License]'. GtkLicense is defined with
+  # AboutDialog and stored in T-AboutDialog.rakumod. Types being enum, method,
+  # property, etc.
+  #
+  # So taking the format like [type @ prefix . name1 c2 name2]
+  # Where prefix is only Gtk, Gdk, or Gsk because those are of version 4
+
+  #   type      name1            c2 name2
+  # --------------------------------------------------
+  #   enum      enum name
+  #   struct    structure name
+  #   class     class name
+  #   func      function name
+  #   method    class name       .  function name
+  #   signal    class name       :: signal name
+  #   property  class name       :  property name
+  #
+
+  # Then there is;
+  #   `prefix classname`, e.g. `GtkCssSection` (with backticks)
+  #   @parameter, e.g. @orientable and @section.
+  #   Sometimes the prefix is missing e.g. [method@CssSection.get_parent]
+
   # Do not modify text whithin example code. C code is to be changed
   # later anyway and on other places like in XML examples it must be kept as is.
   my Int $ex-counter = 0;
@@ -834,12 +858,14 @@ method !modify-text ( Str $text is copy --> Str ) {
     $text ~~ s/ $example /$ex-key/;
   }
 
-  $text = self!modify-signals($text);
-  $text = self!modify-properties($text);
-  $text = self!modify-functions($text);
-  $text = self!modify-variables($text);
+  my Bool $version4 = ($*gnome-package.Str ~~ / 4 /).Bool;
+
+  $text = self!modify-signals( $text, :$version4);
+  $text = self!modify-properties( $text, :$version4);
+  $text = self!modify-functions( $text, :$version4);
+  $text = self!modify-variables( $text, :$version4);
   $text = self!modify-markdown-links($text);
-  $text = self!modify-classes($text);
+  $text = self!modify-classes( $text, :$version4);
   $text = self!modify-rest($text);
 
   # Subtitute the examples back into the text before we can finally modify it
@@ -854,9 +880,9 @@ method !modify-text ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-# Modify text '::sig-name'
-method !modify-signals ( Str $text is copy --> Str ) {
+method !modify-signals ( Str $text is copy, Bool :$version4 --> Str ) {
 
+  # Modify text '::sig-name'
   my Str $section-prefix-name = $*work-data<gnome-name>;
   my Regex $r = / '#'? $<cname> = [\w+]? '::' $<signal-name> = [<[-\w]>+] /;
   while $text ~~ $r {
@@ -875,8 +901,9 @@ method !modify-signals ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !modify-properties ( Str $text is copy --> Str ) {
+method !modify-properties ( Str $text is copy, Bool :$version4 --> Str ) {
 
+  # Modify text ':prop-name'
   my Str $section-prefix-name = $*work-data<gnome-name>;
   my Regex $r = / '#'? $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
   while $text ~~ $r {
@@ -895,7 +922,76 @@ method !modify-properties ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !modify-variables ( Str $text is copy --> Str ) {
+method !modify-functions ( Str $text is copy, Bool :$version4 --> Str ) {
+
+  my Str $prefix = $*work-data<name-prefix>.tc;
+  my Str $gname = $*work-data<gnome-name>;
+  $gname ~~ s/^ $prefix //;
+
+  if $version4 {
+    # Functions or methods within same module/class
+    $text ~~ s:g/ '[' [ method || func ]
+                      '@' $prefix '.' $gname '.' (<-[\]]>+)
+                  ']'
+                /C<.$0\(\)>/;
+
+    # Functions or methods defined elsewhere
+    $text ~~ s:g/ '[' [ method || func ]
+                      '@' $prefix '.' (<-[\.]>+) '.' (<-[\]]>+)
+                  ']'
+                /C<.$1\(\) defined in $0>/;
+  }
+
+  else {
+    my Str $sub-prefix = $*work-data<sub-prefix>;
+    $gname .= lc;
+
+    # When a local function has '_new' at the end in the text, convert it into
+    # a different name. E.g. 'gtk_label_new()' becomes '.new-label()'
+    $text ~~ s:g/ $sub-prefix new '()' /C<.new-$gname\(\)>/;
+  #              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
+
+    # Other functions local to this module, remove the sub-prefix and place
+    # a '.' at front. E.g in module Label and package Gtk3 converting
+    # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
+    $text ~~ s:g/ $sub-prefix (\w+) '()' 
+                /C<.{S:g/'_'/-/ with $0}\(\)>/;
+
+    # Functions not local to this module
+    my Regex $r = / $<function-name> = [
+                      <!after "\x200B">
+                      [ atk || gtk || gdk || gsk ||
+                        pangocairo || pango || cairo || g
+                      ]
+                      '_' \w*?
+                    ] '()'
+                  /;
+
+    while $text ~~ $r {
+      my Str $function-name = $<function-name>.Str;
+      my Hash $h = $!mod.search-name($function-name);
+      my Str $package-name = $h<raku-package> // '';
+      my Str $raku-name = $h<rname> // '';
+      
+      if ?$raku-name {
+        $text ~~ s:g/ $function-name\(\) 
+                    /C<\x200B$raku-name\(\) function from $package-name>/;
+      }
+
+      else {
+        $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
+      }
+    }
+
+    # After all work remove the zero width space marker
+    $text ~~ s:g/ \x200B //;
+  }
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-variables ( Str $text is copy, Bool :$version4 --> Str ) {
 
   $text ~~ s:g/ \s? '@' (\w+) / C<\$$0>/;
 
@@ -903,71 +999,14 @@ method !modify-variables ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !modify-build-variables (
-  Str $text is copy, Hash $variable-map
-  --> Str
-) {
-  # Only map for names in hash, others are done above. This is meant to
-  # be used for the BUILD options to variable mapping. The substitutions might
-  # already been done via .modify-text() so check on '$' as well.
-  for $variable-map.kv -> $orig, $new {
-    $text ~~ s:g/ \s? ['$'] $orig / \$$new/;
-    $text ~~ s:g/ \s? ['@'] $orig / C<\$$new>/;
-  }
+method !modify-markdown-links ( Str $text is copy --> Str ) {
+  $text ~~ s:g/ \s '[' ( <-[\]]>+ ) '][' <-[\]]>+ ']' / $0/;
 
   $text
 }
 
 #-------------------------------------------------------------------------------
-method !modify-functions ( Str $text is copy --> Str ) {
-
-  my Str $sub-prefix = $*work-data<sub-prefix>;
-
-  # When a local function has '_new_' in the text, convert it into an init call
-  # E.g. 'gtk_label_new_with_mnemonic()' becomes '.new(:$with-mnemonic)'
-  $text ~~ s:g/ $sub-prefix new '_' (\w+) '()'
-              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
-
-  # Other functions local to this module, remove the sub-prefix and place
-  # a '.' at front. E.g in module Label and package Gtk3 converting
-  # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
-  $text ~~ s:g/ $sub-prefix (\w+) '()' 
-              /C<.{S:g/'_'/-/ with $0}\(\)>/;
-
-  # Functions not local to this module
-  my Regex $r = / $<function-name> = [
-                    <!after "\x200B">
-                    [ atk || gtk || gdk || gsk ||
-                      pangocairo || pango || cairo || g
-                    ]
-                    '_' \w*?
-                  ] '()'
-                /;
-
-  while $text ~~ $r {
-    my Str $function-name = $<function-name>.Str;
-    my Hash $h = $!mod.search-name($function-name);
-    my Str $package-name = $h<raku-package> // '';
-    my Str $raku-name = $h<rname> // '';
-    
-    if ?$raku-name {
-      $text ~~ s:g/ $function-name\(\) 
-                  /C<\x200B$raku-name\(\) function from $package-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
-    }
-  }
-
-  # After all work remove the zero width space marker
-  $text ~~ s:g/ \x200B //;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !modify-classes ( Str $text is copy --> Str ) {
+method !modify-classes ( Str $text is copy, Bool :$version4 --> Str ) {
 
   # When classnames are found (or not) a zero width space is inserted just
   # before the word to prevent finding this word (or part of it again when not
@@ -1010,6 +1049,21 @@ method !modify-classes ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+# Modify rest
+method !modify-rest ( Str $text is copy --> Str ) {
+
+  # variable changes
+  $text ~~ s:g/ '%' TRUE /C<True>/;
+  $text ~~ s:g/ '%' FALSE /C<False>/;
+  $text ~~ s:g/ '%' NULL /C<Nil>/;
+
+  # sections
+  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
 # convert |[ … ]| marks. Must be processed at the end because other
 # modifications may depend on those marks
 method !modify-examples ( Str $text is copy --> Str ) {
@@ -1037,28 +1091,6 @@ method !modify-xml ( Str $text is copy --> Str ) {
   $text ~~ s:g/ '&gt;' />/;
   $text ~~ s:g/ '&amp;' /\&/;
   $text ~~ s:g/ [ '&#160;' || '&nbsp;' ] / /;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !modify-markdown-links ( Str $text is copy --> Str ) {
-  $text ~~ s:g/ \s '[' ( <-[\]]>+ ) '][' <-[\]]>+ ']' / $0/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify rest
-method !modify-rest ( Str $text is copy --> Str ) {
-
-  # variable changes
-  $text ~~ s:g/ '%' TRUE /C<True>/;
-  $text ~~ s:g/ '%' FALSE /C<False>/;
-  $text ~~ s:g/ '%' NULL /C<Nil>/;
-
-  # sections
-  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
 
   $text
 }

@@ -26,9 +26,9 @@ option from the `Help` menu. All parts of the dialog are optional.
 ![An example GtkAboutDialog](aboutdialog.png)
 
 About dialogs often contain links and email addresses. `GtkAboutDialog`
-displays these as clickable links. By default, it calls [func C<$Gtk>.show_uri]
-when a user clicks one. The behaviour can be overridden with the
-[signal C<$Gtk>.I<activate-link defined in AboutDialog>] signal.
+displays these as clickable links. By default, it calls C<. The behaviour can be overridden with the
+[signal C<$Gtk>.I<activate-link defined in AboutDialog>() defined in show_uri]
+when a user clicks one> signal.
 
 To specify a person with an email address, use a string like
 `Edgar Allan Poe <edgar C<$poe>.com>`. To specify a website with a title,
@@ -274,7 +274,7 @@ method get-logo ( --> N-GObject() )
 
 Return value; the paintable displayed as
  logo or `NULL` if the logo is unset or has been set via
- [method C<$Gtk>.AboutDialog.set_logo_icon_name]. 
+ C<.set_logo_icon_name()>. 
 
 
 =end pod
@@ -291,7 +291,7 @@ method get-logo-icon-name ( --> Str )
 
 
 Return value; the icon name displayed as logo,
- or `NULL` if the logo has been set via [method C<$Gtk>.AboutDialog.set_logo]. 
+ or `NULL` if the logo has been set via C<.set_logo()>. 
 
 
 =end pod
@@ -505,8 +505,7 @@ method set-license (  Str $license )
 
 Sets the license of the application showing the about dialog from a list of known licenses.
 
-This function overrides the license set using
-[method C<$Gtk>.AboutDialog.set_license].
+This function overrides the license set using C<.set_license()>.
 
 =begin code
 method set-license-type (  GtkLicense $license-type )
