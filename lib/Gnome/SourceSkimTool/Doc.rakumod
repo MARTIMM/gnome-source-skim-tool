@@ -704,7 +704,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
         =item $_handle_id; The registered event handler id.
         =item $_native-object; The native object provided by the Raku object which registered this event.
         =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-        =item %user-options; A list of named arguments provided at the C<.register-signal() method from Gnome::GObject::Object>.
+        =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
         EOSIG
       $doc ~= $returns-doc;
 
@@ -723,6 +723,9 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   $sig-info
 }
 
+#`{{
+NOTE For now, skip property documentation
+
 #-------------------------------------------------------------------------------
 method document-properties (
   XML::Element $element, XML::XPath $xpath --> Str
@@ -736,7 +739,7 @@ method document-properties (
     my Hash $attribs = $pi.attribs;
     next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
 
-    # signal documentation
+    # Property documentation
     my Str $property-name = $attribs<name>;
     my Bool $writable = $attribs<writable>.Bool;
 
@@ -758,7 +761,7 @@ method document-properties (
     my Str ( $pdoc, $type, $raku-type) =
       self.get-doc-type( $pi, :$xpath, :!user-side);
     my Str $g-type = self.gobject-value-type($raku-type);
-
+note "$?LINE $property-name, $type, $raku-type, $g-type";
     $properties{$property-name} = %(
       :$pdoc, :$writable, :$type, :$raku-type, :$g-type,
       :$pgetter, :$psetter, :$transfer-ownership
@@ -779,6 +782,7 @@ method document-properties (
     EOSIG
 
   for $properties.keys.sort -> $property-name {
+    my Hash $curr-property := $properties{$property-name};
 #      =comment #TP:0:$property-name:
     $doc ~= qq:to/EOSIG/;
 
@@ -786,21 +790,21 @@ method document-properties (
       =head3 $property-name
       EOSIG
 
-#say "$?LINE props $property-name: $properties{$property-name}.gist()";
+#say "$?LINE props $property-name: $curr-property.gist()";
 
-    if $properties{$property-name}<pdoc> ~~ m/^ \s* $/ {
+    if $curr-property<pdoc> ~~ m/^ \s* $/ {
       $doc ~= "\nThere is no documentation for this property\n\n";
     }
 
     else {
-      $doc ~= "\n$properties{$property-name}<pdoc>\n\n";
+      $doc ~= "\n$curr-property<pdoc>\n\n";
     }
 
-    $doc ~= "=item B<Gnome::GObject::Value> for this property is $properties{$property-name}<g-type>.\n";
+    $doc ~= "=item B<Gnome::GObject::Value> for this property is $curr-property<g-type>.\n";
 
-    $doc ~= "=item The native type is $properties{$property-name}<raku-type>.\n";
+    $doc ~= "=item The native type is $curr-property<raku-type>.\n";
 
-    if $properties{$property-name}<writable> {
+    if $curr-property<writable> {
       $doc ~= "=item Property is readable and writable\n";
     }
 
@@ -808,17 +812,18 @@ method document-properties (
       $doc ~= "=item Property is readonly\n";
     }
 
-    $doc ~= "=item Getter method is $properties{$property-name}<pgetter>\n"
-      if ?$properties{$property-name}<pgetter>;
+    $doc ~= "=item Getter method is $curr-property<pgetter>\n"
+      if ?$curr-property<pgetter>;
 
-    $doc ~= "=item Setter method is $properties{$property-name}<psetter>\n"
-      if ?$properties{$property-name}<psetter>;
+    $doc ~= "=item Setter method is $curr-property<psetter>\n"
+      if ?$curr-property<psetter>;
   }
 
   $doc ~= "\n=end pod\n\n";
 
   $doc
 }
+}}
 
 #-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
@@ -1293,11 +1298,15 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
   $result  
 }
 
+#`{{
+NOTE For now, skip property documentation
+
 #-------------------------------------------------------------------------------
-method gobject-value-type( Str $ctype --> Str ) {
+method gobject-value-type( Str $ctype is copy --> Str ) {
 
   my $g-type = '';
 
+  $ctype ~~ s:g/ '*' //;
   with $ctype {
     when 'gboolean' {
       $g-type = 'G_TYPE_BOOLEAN';
@@ -1399,11 +1408,11 @@ method gobject-value-type( Str $ctype --> Str ) {
 #      $g-type = '';
 #    }
  
-    when 'GEnum' {
+    when / GEnum ':' / {
       $g-type = 'G_TYPE_ENUM';
     }
  
-    when 'GFlag' {
+    when / GFlag ':' / {
       $g-type = 'G_TYPE_FLAGS';
     }
 
@@ -1419,3 +1428,5 @@ method gobject-value-type( Str $ctype --> Str ) {
 
   $g-type
 }
+
+}}

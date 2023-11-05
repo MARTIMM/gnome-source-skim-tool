@@ -90,8 +90,9 @@ method generate-doc ( ) {
   my Hash $sig-info = $!grd.document-signals( $element, $!xpath);
   $doc ~= $sig-info<doc>;
 
-  note "Generate module properties doc" if $*verbose;  
-  $doc ~= $!grd.document-properties( $element, $!xpath);
+#NOTE For now, skip property documentation
+#  note "Generate module properties doc" if $*verbose;  
+#  $doc ~= $!grd.document-properties( $element, $!xpath);
 
   note "Save pod doc";
   $!mod.save-file( $fname, $doc, "class documentation");
