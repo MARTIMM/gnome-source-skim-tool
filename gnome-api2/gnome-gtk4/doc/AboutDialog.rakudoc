@@ -44,17 +44,20 @@ order to ensure proper translation of the title, applications should
 set the title property explicitly when constructing a `GtkAboutDialog`,
 as shown in the following example:
 
-```c
-GFile *logo_file = g_file_new_for_path ("./logo.png");
-GdkTexture *example_logo = gdk_texture_new_from_file (logo_file, NULL);
-g_object_unref (logo_file);
+=begin comment 
+Following example code is in c
 
-gtk_show_about_dialog (NULL,
-                       "program-name", "ExampleCode",
-                       "logo", example_logo,
-                       "title", _("About ExampleCode"),
-                       NULL);
-```
+  GFile *logo_file = g_file_new_for_path ("./logo.png");
+  GdkTexture *example_logo = gdk_texture_new_from_file (logo_file, NULL);
+  g_object_unref (logo_file);
+  
+  gtk_show_about_dialog (NULL,
+                         "program-name", "ExampleCode",
+                         "logo", example_logo,
+                         "title", _("About ExampleCode"),
+                         NULL);
+=end comment
+
 
 ## CSS nodes
 
@@ -586,10 +589,13 @@ Sets the translator credits string which is displayed in the credits page.
 The intended use for this string is to display the translator of the language which is currently used in the user interface.
 Using `gettext()`, a simple way to achieve that is to mark the string for translation:
 
-```c GtkWidget *about = gtk_about_dialog_new ();
+=begin comment 
+Following example code is in c
+
+ GtkWidget *about = gtk_about_dialog_new ();
  gtk_about_dialog_set_translator_credits (GTK_ABOUT_DIALOG (about),
  _("translator-credits"));
-```
+=end comment
 
 It is a good idea to use the customary `msgid` “translator-credits”
 for this purpose, since translators will already know the purpose of that `msgid`, and since `GtkAboutDialog` will detect if “translator-credits”

@@ -860,6 +860,9 @@ method !modify-text ( Str $text is copy --> Str ) {
   # later anyway and on other places like in XML examples it must be kept as is.
   my Int $ex-counter = 0;
   my Hash $examples = %();
+
+  # Some types are better specified in version 4 and can be translated better.
+  # Properties are not documented but can be referenced from other docs.
   if $version4 {
     while $text ~~ m/ $<example> = [ '```' .*? '```' ] / {
       my Str $example = $<example>.Str;
@@ -867,6 +870,12 @@ method !modify-text ( Str $text is copy --> Str ) {
       $examples{$ex-key} = $example;
       $text ~~ s/ $example /$ex-key/;
     }
+
+    $text = self!modify-v4signals($text);
+    $text = self!modify-v4methods($text);
+    $text = self!modify-v4properties($text);
+    $text = self!modify-v4classes($text);
+    $text = self!modify-v4enum($text);
   }
 
   else {
@@ -876,19 +885,7 @@ method !modify-text ( Str $text is copy --> Str ) {
       $examples{$ex-key} = $example;
       $text ~~ s/ $example /$ex-key/;
     }
-  }
 
-
-  # Some types are better specified in version 4 and can be translated better
-  if $version4 {
-    $text = self!modify-v4signals($text);
-    $text = self!modify-v4methods($text);
-    $text = self!modify-v4properties($text);
-    $text = self!modify-v4classes($text);
-    $text = self!modify-v4enum($text);
-  }
-
-  else {
     $text = self!modify-signals($text);
     $text = self!modify-functions($text);
     $text = self!modify-properties($text);
@@ -901,17 +898,26 @@ method !modify-text ( Str $text is copy --> Str ) {
 
   # Subtitute the examples back into the text before we can finally modify it
   for $examples.keys -> $ex-key {
-    $text ~~ s/ $ex-key /$examples{$ex-key}/;
+    my Str $t = $examples{$ex-key};
+
+    if $version4 {
+      $t = self!modify-v4examples($t);
+    }
+
+    else {
+      $t = self!modify-examples($t);
+    }
+
+    $text ~~ s/ $ex-key /$t/;
   }
 
   $text = self!modify-xml($text);
-  $text = self!modify-examples($text);
 
   $text
 }
 
 #-------------------------------------------------------------------------------
-# [signal@Gtk.AboutDialog::activate-link]
+# Convert [signal@Gtk.AboutDialog::activate-link]
 
 method !modify-v4signals ( Str $text is copy, Bool :$version4 --> Str ) {
 
@@ -931,7 +937,7 @@ method !modify-v4signals ( Str $text is copy, Bool :$version4 --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-# [method@Gtk.AboutDialog.set_logo]
+# Convert [method@Gtk.AboutDialog.set_logo]
 
 method !modify-v4methods ( Str $text is copy --> Str ) {
 
@@ -951,7 +957,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-# [property@Gtk.AboutDialog:system-information]
+# Convert [property@Gtk.AboutDialog:system-information]
 
 method !modify-v4properties ( Str $text is copy --> Str ) {
 
@@ -971,7 +977,7 @@ method !modify-v4properties ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-# [class@Gtk.Entry]
+# Convert [class@Gtk.Entry]
 
 method !modify-v4classes ( Str $text is copy --> Str ) {
 
@@ -988,7 +994,7 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-# [enum@Gtk.Overflow]
+# Convert [enum@Gtk.Overflow]
 
 method !modify-v4enum ( Str $text is copy --> Str ) {
 
@@ -1003,11 +1009,27 @@ method !modify-v4enum ( Str $text is copy --> Str ) {
   $text
 }
 
+#-------------------------------------------------------------------------------
+# Convert ``` … ``` marks. Must be processed at the end because other
+# modifications may change this code example
+method !modify-v4examples ( Str $text is copy --> Str ) {
+
+  # Indent first
+  $text ~~ s:g/^^/  /;
+
+  $text ~~ s:g/^^ \s\s '```' \s* (\w+)
+              /=begin comment \nFollowing example code is in $0\n/;
+
+  $text ~~ s:g/^^ \s\s '```' /=end comment\n/;
+
+  $text
+}
+
 
 #-------------------------------------------------------------------------------
+# Convert '::sig-name'
 method !modify-signals ( Str $text is copy, Bool :$version4 --> Str ) {
 
-  # Modify text '::sig-name'
   my Str $section-prefix-name = $*work-data<gnome-name>;
   my Regex $r = / '#'? $<cname> = [\w+]? '::' $<signal-name> = [<[-\w]>+] /;
   while $text ~~ $r {
@@ -1026,9 +1048,9 @@ method !modify-signals ( Str $text is copy, Bool :$version4 --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+# Convert ':prop-name'
 method !modify-properties ( Str $text is copy --> Str ) {
 
-  # Modify text ':prop-name'
   my Str $section-prefix-name = $*work-data<gnome-name>;
   my Regex $r = / '#'? $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
   while $text ~~ $r {
@@ -1267,31 +1289,6 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
       );
       $result<raku-list> = $l;
       $result<items-doc> = $d;
-#`{{
-      # Test for callback signature
-      if $parameter<raku-type> ~~ m/^ ':(' / {
-
-      }
-
-      # Test for enumerations or bitmaps
-      elsif $parameter<raku-type> ~~ m/ ':' / {
-        my ( $t0, $t1) = $parameter<raku-type>.split(':');
-        if $t0 eq 'GEnum' {
-          $result<raku-list> = ", $t1 \$$parameter<name>";
-          $result<items-doc> ~= " An enumeration.\n"; 
-        }
-
-        else {
-          $result<raku-list> = ", UInt \$$parameter<name>";
-          $result<items-doc> ~= " A bitmap.\n"; 
-        }
-      }
-
-      else {
-        $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
-        $result<items-doc> ~= "\n"; 
-      }
-}}
     }
   }
 
