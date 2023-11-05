@@ -47,13 +47,13 @@ sub check-modules ( Str $name, Str $cdir ) {
   say "\nload meta file for $name";
   my META6 $meta;
   if $meta-file.IO.e {
-    $meta .= new(:file($meta-file));
     $*meta-modified = $meta-file.IO.modified;
+    $meta .= new(:file($meta-file));
   }
 
   else {
     $*meta-modified = Instant.from-posix(0);
-    $meta .= new();
+    $meta .= new;
     given $meta {
       .<name> = "Gnome\::{$name}";
       .<api> = '2';
