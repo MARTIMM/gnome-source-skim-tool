@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Gnome::Gtk4::AboutDialog</title>
+<meta charset="UTF-8" />
+
+<link href="/asset_files/images/favicon.ico" rel="icon" type="image/x-icon"/>
+<meta name="Author" value="Marcel Timmerman" />
+<meta name="Version" value="0.1.7" />
+<link rel="stylesheet" type="text/css" href="asset_files/css/rakudoc-extra.css" />
+<link rel="stylesheet" type="text/css" href="asset_files/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="asset_files/css/rakudoc-styling.css" />
+
+</head>
+	<body class="pod">
+<header>
+<img id="Camelia_bug" src="/asset_files/images/Camelia.svg"><h1 class="title">Gnome::Gtk4::AboutDialog</h1></header><div class="pod-content"><nav><div id="_TOC"><table>
+<caption>Table of Contents</caption>
+<tr class="toc-level-1"><td class="toc-text"><a href="#NAME">NAME</a></td></tr>
+ <tr class="toc-level-1"><td class="toc-text"><a href="#Gnome::Gtk4::AboutDialog">Gnome::Gtk4::AboutDialog</a></td></tr>
+ <tr class="toc-level-1"><td class="toc-text"><a href="#Description">Description</a></td></tr>
+ <tr class="toc-level-1"><td class="toc-text"><a href="#Class_initialization">Class initialization</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#new">new</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#:native-object">:native-object</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#:build-id">:build-id</a></td></tr>
+ <tr class="toc-level-1"><td class="toc-text"><a href="#Constructors">Constructors</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#new-aboutdialog">new-aboutdialog</a></td></tr>
+ <tr class="toc-level-1"><td class="toc-text"><a href="#Methods">Methods</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#add-credit-section">add-credit-section</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-artists">get-artists</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-authors">get-authors</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-comments">get-comments</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-copyright">get-copyright</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-documenters">get-documenters</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-license">get-license</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-license-type">get-license-type</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-logo">get-logo</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-logo-icon-name">get-logo-icon-name</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-program-name">get-program-name</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-system-information">get-system-information</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-translator-credits">get-translator-credits</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-version">get-version</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-website">get-website</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-website-label">get-website-label</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#get-wrap-license">get-wrap-license</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-artists">set-artists</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-authors">set-authors</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-comments">set-comments</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-copyright">set-copyright</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-documenters">set-documenters</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-license">set-license</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-license-type">set-license-type</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-logo">set-logo</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-logo-icon-name">set-logo-icon-name</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-program-name">set-program-name</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-system-information">set-system-information</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-translator-credits">set-translator-credits</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-version">set-version</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-website">set-website</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-website-label">set-website-label</a></td></tr>
+ <tr class="toc-level-2"><td class="toc-text"><a href="#set-wrap-license">set-wrap-license</a></td></tr>
+ <tr class="toc-level-1"><td class="toc-text"><a href="#Signals">Signals</a></td></tr>
+ <tr class="toc-level-3"><td class="toc-text"><a href="#activate-link">activate-link</a></td></tr>
+</table></div>
+</nav><div id=""></div><div class="subtitle"><p>Modules for package Gnome::Gtk4:api&lt;2&gt;. The language binding to GNOME’s user interface toolkit version 4</p></div><div class="pod-body">
+<h1 id="NAME"><a href="#___top" class="u" title="go to top of document">NAME</a></h1>
+<p>Gnome::Gtk4::AboutDialog</p>
+<section name="pod">
+<h1 id="Gnome::Gtk4::AboutDialog"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Gnome::Gtk4::AboutDialog</a></h1>
+<p>![](images/aboutdialog.png)</p>
+<h1 id="Description"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Description</a></h1>
+<p>The `GtkAboutDialog` offers a simple way to display information about a program.</p><p>The shown information includes the programs' logo, name, copyright, website and license. It is also possible to give credits to the authors, documenters, translators and artists who have worked on the program.</p><p>An about dialog is typically opened when the user selects the `About` option from the `Help` menu. All parts of the dialog are optional.</p><p>![An example GtkAboutDialog](aboutdialog.png)</p><p>About dialogs often contain links and email addresses. `GtkAboutDialog` displays these as clickable links. By default, it calls [func <code>$Gtk</code>.show_uri] when a user clicks one. The behaviour can be overridden with the <em>activate-link</em> signal.</p><p>To specify a person with an email address, use a string like `Edgar Allan Poe &lt;edgar <code>$poe</code>.com&gt;`. To specify a website with a title, use a string like `GTK team https://www.gtk.org`.</p><p>To make constructing a `GtkAboutDialog` as convenient as possible, you can use the function [func <code>$Gtk</code>.show_about_dialog] which constructs and shows a dialog and keeps it around so that it can be shown again.</p><p>Note that GTK sets a default title of `_(&quot;About %s&quot;)` on the dialog window (where `%s` is replaced by the name of the application, but in order to ensure proper translation of the title, applications should set the title property explicitly when constructing a `GtkAboutDialog`, as shown in the following example:</p><p>## CSS nodes</p><p>`GtkAboutDialog` has a single CSS node with the name `window` and style class `.aboutdialog`.</p></section>
+<section name="pod">
+<h1 id="Class_initialization"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Class initialization</a></h1>
+
+<h2 id="new"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">new</a></h2>
+
+<h3 id=":native-object"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">:native-object</a></h3>
+<p>Create an object using a native object from elsewhere. See also <strong>Gnome::N::TopLevelSupportClass</strong>.</p><pre class="pod-block-code">multi method new ( N-GObject :$native-object! )</pre>
+<h3 id=":build-id"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">:build-id</a></h3>
+<p>Create an object using a native object from a builder. See also <strong>Gnome::GObject::Object</strong>.</p><pre class="pod-block-code">multi method new ( Str :$build-id! )</pre></section>
+<section name="pod">
+<h1 id="Constructors"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Constructors</a></h1>
+</section>
+<section name="pod">
+<h2 id="new-aboutdialog"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">new-aboutdialog</a></h2>
+<p>Creates a new `GtkAboutDialog`.</p><pre class="pod-block-code">method new-aboutdialog (
+  --&gt; Gnome::Gtk4::AboutDialog
+)
+</pre></section>
+<section name="pod">
+<h1 id="Methods"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Methods</a></h1>
+</section>
+<section name="pod">
+<h2 id="add-credit-section"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">add-credit-section</a></h2>
+<p>Creates a new section in the &quot;Credits&quot; page.</p><pre class="pod-block-code">method add-credit-section (  Str $section-name, Array[Str] $people )
+</pre><ul>
+<li><p>$section-name; The name of the section.</p></li>
+<li><p>$people; The people who belong to that section.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="get-artists"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-artists</a></h2>
+<p>Returns the names of the artists which are displayed in the credits page.</p><pre class="pod-block-code">method get-artists ( --&gt; Array[Str] )
+</pre><p>Return value; A `NULL`-terminated string array containing the artists. </p></section>
+<section name="pod">
+<h2 id="get-authors"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-authors</a></h2>
+<p>Returns the names of the authors which are displayed in the credits page.</p><pre class="pod-block-code">method get-authors ( --&gt; Array[Str] )
+</pre><p>Return value; A `NULL`-terminated string array containing the authors. </p></section>
+<section name="pod">
+<h2 id="get-comments"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-comments</a></h2>
+<p>Returns the comments string.</p><pre class="pod-block-code">method get-comments ( --&gt; Str )
+</pre><p>Return value; The comments. </p></section>
+<section name="pod">
+<h2 id="get-copyright"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-copyright</a></h2>
+<p>Returns the copyright string.</p><pre class="pod-block-code">method get-copyright ( --&gt; Str )
+</pre><p>Return value; The copyright string. </p></section>
+<section name="pod">
+<h2 id="get-documenters"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-documenters</a></h2>
+<p>Returns the name of the documenters which are displayed in the credits page.</p><pre class="pod-block-code">method get-documenters ( --&gt; Array[Str] )
+</pre><p>Return value; A `NULL`-terminated string array containing the documenters. </p></section>
+<section name="pod">
+<h2 id="get-license"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-license</a></h2>
+<p>Returns the license information.</p><pre class="pod-block-code">method get-license ( --&gt; Str )
+</pre><p>Return value; The license information. </p></section>
+<section name="pod">
+<h2 id="get-license-type"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-license-type</a></h2>
+<p>Retrieves the license type.</p><pre class="pod-block-code">method get-license-type ( --&gt; GtkLicense )
+</pre><p>Return value; a <code>GtkLicense</code> enumeration value. An enumeration.</p></section>
+<section name="pod">
+<h2 id="get-logo"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-logo</a></h2>
+<p>Returns the paintable displayed as logo in the about dialog.</p><pre class="pod-block-code">method get-logo ( --&gt; N-GObject() )
+</pre><p>Return value; the paintable displayed as logo or `NULL` if the logo is unset or has been set via <code>.set_logo_icon_name()</code>. </p></section>
+<section name="pod">
+<h2 id="get-logo-icon-name"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-logo-icon-name</a></h2>
+<p>Returns the icon name displayed as logo in the about dialog.</p><pre class="pod-block-code">method get-logo-icon-name ( --&gt; Str )
+</pre><p>Return value; the icon name displayed as logo, or `NULL` if the logo has been set via <code>.set_logo()</code>. </p></section>
+<section name="pod">
+<h2 id="get-program-name"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-program-name</a></h2>
+<p>Returns the program name displayed in the about dialog.</p><pre class="pod-block-code">method get-program-name ( --&gt; Str )
+</pre><p>Return value; The program name. </p></section>
+<section name="pod">
+<h2 id="get-system-information"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-system-information</a></h2>
+<p>Returns the system information that is shown in the about dialog.</p><pre class="pod-block-code">method get-system-information ( --&gt; Str )
+</pre><p>Return value; the system information. </p></section>
+<section name="pod">
+<h2 id="get-translator-credits"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-translator-credits</a></h2>
+<p>Returns the translator credits string which is displayed in the credits page.</p><pre class="pod-block-code">method get-translator-credits ( --&gt; Str )
+</pre><p>Return value; The translator credits string. </p></section>
+<section name="pod">
+<h2 id="get-version"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-version</a></h2>
+<p>Returns the version string.</p><pre class="pod-block-code">method get-version ( --&gt; Str )
+</pre><p>Return value; The version string. </p></section>
+<section name="pod">
+<h2 id="get-website"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-website</a></h2>
+<p>Returns the website URL.</p><pre class="pod-block-code">method get-website ( --&gt; Str )
+</pre><p>Return value; The website URL. </p></section>
+<section name="pod">
+<h2 id="get-website-label"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-website-label</a></h2>
+<p>Returns the label used for the website link.</p><pre class="pod-block-code">method get-website-label ( --&gt; Str )
+</pre><p>Return value; The label used for the website link. </p></section>
+<section name="pod">
+<h2 id="get-wrap-license"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">get-wrap-license</a></h2>
+<p>Returns whether the license text in the about dialog is automatically wrapped.</p><pre class="pod-block-code">method get-wrap-license ( --&gt; Bool() )
+</pre><p>Return value; `TRUE` if the license text is wrapped. </p></section>
+<section name="pod">
+<h2 id="set-artists"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-artists</a></h2>
+<p>Sets the names of the artists to be displayed in the &quot;Credits&quot; page.</p><pre class="pod-block-code">method set-artists (  Array[Str] $artists )
+</pre><ul>
+<li><p>$artists; the authors of the artwork of the application.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-authors"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-authors</a></h2>
+<p>Sets the names of the authors which are displayed in the &quot;Credits&quot; page of the about dialog.</p><pre class="pod-block-code">method set-authors (  Array[Str] $authors )
+</pre><ul>
+<li><p>$authors; the authors of the application.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-comments"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-comments</a></h2>
+<p>Sets the comments string to display in the about dialog.</p><p>This should be a short string of one or two lines.</p><pre class="pod-block-code">method set-comments (  Str $comments )
+</pre><ul>
+<li><p>$comments; a comments string.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-copyright"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-copyright</a></h2>
+<p>Sets the copyright string to display in the about dialog.</p><p>This should be a short string of one or two lines.</p><pre class="pod-block-code">method set-copyright (  Str $copyright )
+</pre><ul>
+<li><p>$copyright; the copyright string.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-documenters"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-documenters</a></h2>
+<p>Sets the names of the documenters which are displayed in the &quot;Credits&quot; page.</p><pre class="pod-block-code">method set-documenters (  Array[Str] $documenters )
+</pre><ul>
+<li><p>$documenters; the authors of the documentation of the application.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-license"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-license</a></h2>
+<p>Sets the license information to be displayed in the about dialog.</p><p>If `license` is `NULL`, the license page is hidden.</p><pre class="pod-block-code">method set-license (  Str $license )
+</pre><ul>
+<li><p>$license; the license information.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-license-type"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-license-type</a></h2>
+<p>Sets the license of the application showing the about dialog from a list of known licenses.</p><p>This function overrides the license set using <code>.set_license()</code>.</p><pre class="pod-block-code">method set-license-type (  GtkLicense $license-type )
+</pre><ul>
+<li><p>$license-type; the type of license. An enumeration.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-logo"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-logo</a></h2>
+<p>Sets the logo in the about dialog.</p><pre class="pod-block-code">method set-logo (  N-GObject() $logo )
+</pre><ul>
+<li><p>$logo; a `GdkPaintable`.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-logo-icon-name"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-logo-icon-name</a></h2>
+<p>Sets the icon name to be displayed as logo in the about dialog.</p><pre class="pod-block-code">method set-logo-icon-name (  Str $icon-name )
+</pre><ul>
+<li><p>$icon-name; an icon name.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-program-name"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-program-name</a></h2>
+<p>Sets the name to display in the about dialog.</p><p>If `name` is not set, the string returned by `g_get_application_name()` is used.</p><pre class="pod-block-code">method set-program-name (  Str $name )
+</pre><ul>
+<li><p>$name; the program name.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-system-information"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-system-information</a></h2>
+<p>Sets the system information to be displayed in the about dialog.</p><p>If `system_information` is `NULL`, the system information page is hidden.</p><p>See <em>system-information</em>.</p><pre class="pod-block-code">method set-system-information (  Str $system-information )
+</pre><ul>
+<li><p>$system-information; system information.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-translator-credits"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-translator-credits</a></h2>
+<p>Sets the translator credits string which is displayed in the credits page.</p><p>The intended use for this string is to display the translator of the language which is currently used in the user interface. Using `gettext()`, a simple way to achieve that is to mark the string for translation:</p><p>It is a good idea to use the customary `msgid` “translator-credits” for this purpose, since translators will already know the purpose of that `msgid`, and since `GtkAboutDialog` will detect if “translator-credits” is untranslated and omit translator credits.</p><pre class="pod-block-code">method set-translator-credits (  Str $translator-credits )
+</pre><ul>
+<li><p>$translator-credits; the translator credits.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-version"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-version</a></h2>
+<p>Sets the version string to display in the about dialog.</p><pre class="pod-block-code">method set-version (  Str $version )
+</pre><ul>
+<li><p>$version; the version string.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-website"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-website</a></h2>
+<p>Sets the URL to use for the website link.</p><pre class="pod-block-code">method set-website (  Str $website )
+</pre><ul>
+<li><p>$website; a URL string starting with `http://`.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-website-label"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-website-label</a></h2>
+<p>Sets the label to be used for the website link.</p><pre class="pod-block-code">method set-website-label (  Str $website-label )
+</pre><ul>
+<li><p>$website-label; the label used for the website link.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h2 id="set-wrap-license"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">set-wrap-license</a></h2>
+<p>Sets whether the license text in the about dialog should be automatically wrapped.</p><pre class="pod-block-code">method set-wrap-license (  Bool() $wrap-license )
+</pre><ul>
+<li><p>$wrap-license; whether to wrap the license.</p></li>
+</ul>
+</section>
+<section name="pod">
+<h1 id="Signals"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Signals</a></h1>
+
+<h3 id="activate-link"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">activate-link</a></h3>
+<p>Emitted every time a URL is activated.</p><p>Applications may connect to it to override the default behaviour, which is to call [func <code>$Gtk</code>.show_uri].</p><pre class="pod-block-code">method handler (
+  Str $uri,
+  Int :$_handle_id,
+  Gnome::Gtk4::AboutDialog() :$_native-object,
+  Gnome::Gtk4::AboutDialog :$_widget,
+  *%user-options
+  --&gt; gboolean
+)
+</pre><ul>
+<li><p>$uri; the URI that is activated.</p></li>
+<li><p>$_handle_id; The registered event handler id.</p></li>
+<li><p>$_native-object; The native object provided by the Raku object which registered this event.</p></li>
+<li><p>$_widget; The object which registered the signal. User code may have left the object going out of scope.</p></li>
+<li><p>%user-options; A list of named arguments provided at the <code>.register-signal()</code> method from <strong>Gnome::GObject::Object</strong>.</p></li>
+</ul>
+<p>Return value; </p></section>		</div>
+</div><footer><div>Rendered from <span class="path">gnome-api2/gnome-gtk4/doc/AboutDialog.rakudoc</span></div><div>at <span class="time">2023-11-05T18:21:18Z</span></div></footer>
+	</body>
+</html>

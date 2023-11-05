@@ -65,17 +65,13 @@ method generate-doc ( ) {
   my XML::Element $element = $!xpath.find('//class');
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
-  my Str $doc = qq:to/RAKUMOD/;
-    #TL:1:pod doc of $*work-data<raku-class-name>:
-    use v6.d;
+  note "Document init" if $*verbose;
+  my Str $doc = $!grd.start-document;
 
-    {pod-header('Class Description')}
-    RAKUMOD
-
-  note "Document module" if $*verbose;
+  note "Document module description" if $*verbose;
   $doc ~= $!grd.get-description( $element, $!xpath);
 
-  note "Document enumerations and bitmasks";
+  #note "Document enumerations and bitmasks";
   #$doc ~= $!mod.generate-enumerations-doc;
 
   note "Document BUILD submethod" if $*verbose;
@@ -85,6 +81,9 @@ method generate-doc ( ) {
 
   note "Document methods" if $*verbose;
   $doc ~= $!grd.document-methods( $element, $!xpath);
+
+  #note "Document functions" if $*verbose;
+  #$doc ~= $!grd.document-functions( $element, $!xpath);
 
   note "Document signals" if $*verbose;
   my Hash $sig-info = $!grd.document-signals( $element, $!xpath);

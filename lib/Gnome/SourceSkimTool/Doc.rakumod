@@ -1,10 +1,12 @@
 
+use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
 
 use XML;
 use XML::XPath;
+use META6;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Doc:auth<github:MARTIMM>;
@@ -15,6 +17,39 @@ has Gnome::SourceSkimTool::Code $!mod;
 submethod BUILD ( ) {
 
   $!mod .= new;
+}
+
+#-------------------------------------------------------------------------------
+method start-document ( --> Str ) {
+  my Str $name = '';
+  my Str $author = '';
+  my Version $version = v0.1.0;
+  my Str $title = '';
+  my Str $subtitle = '';
+
+  my META6 $meta;
+  my Str $meta-file = [~] './gnome-api2/gnome-', $*gnome-package.Str.lc,
+                          '/META6.json';
+  if $meta-file.IO.e {
+    $meta .= new(:file($meta-file));
+
+    $name = $*work-data<raku-class-name>;
+    $author = $meta<author>;
+    $version = $meta<version>;
+    $title = $name;
+    $subtitle = $meta<description>;
+  }
+
+  qq:to/RAKUDOC/;
+    use v6.d;
+
+    =AUTHOR $author
+    =VERSION $version.Str()
+    =TITLE $title
+    =SUBTITLE $subtitle
+    RAKUDOC
+
+#    =NAME $name
 }
 
 #-------------------------------------------------------------------------------
@@ -38,6 +73,8 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   $doc ~= self!set-example;
 
   qq:to/RAKUMOD/;
+    
+    {pod-header('Class Description')}
     =begin pod
     =head1 $*work-data<raku-class-name>
 
@@ -54,7 +91,7 @@ method !set-uml ( --> Str ) {
 
     =begin comment
     =head2 Uml Diagram
-    ![](plantuml/Label.svg)
+    ![](plantuml/….svg)
     =end comment
     EOEX
   $doc
@@ -111,12 +148,10 @@ method !set-example ( --> Str ) {
 method document-build ( XML::Element $element, Hash $hcs --> Str ) {
   my Str $doc = qq:to/EOBUILD/;
 
-    {HLSEPARATOR}
+    {pod-header('Class Initialization')}
     =begin pod
     =head1 Class initialization
 
-    {pod-header('Class Initialization')}
-    #TM:1:new:
     =head2 new
     EOBUILD
 
@@ -895,6 +930,7 @@ method !modify-text ( Str $text is copy --> Str ) {
   $text = self!modify-variables( $text, :$version4);
   $text = self!modify-markdown-links($text);
   $text = self!modify-rest($text);
+  $text = self!modify-xml($text);
 
   # Subtitute the examples back into the text before we can finally modify it
   for $examples.keys -> $ex-key {
@@ -911,7 +947,6 @@ method !modify-text ( Str $text is copy --> Str ) {
     $text ~~ s/ $ex-key /$t/;
   }
 
-  $text = self!modify-xml($text);
 
   $text
 }
@@ -1016,11 +1051,12 @@ method !modify-v4examples ( Str $text is copy --> Str ) {
 
   # Indent first
   $text ~~ s:g/^^/  /;
+#note "$?LINE\n$text";
 
-  $text ~~ s:g/^^ \s\s '```' \s* (\w+)
+  $text ~~ s/'  ```' (\w+)
               /=begin comment \nFollowing example code is in $0\n/;
 
-  $text ~~ s:g/^^ \s\s '```' /=end comment\n/;
+  $text ~~ s/'  ```' /=end comment/;
 
   $text
 }
