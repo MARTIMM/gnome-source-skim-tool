@@ -1,27 +1,21 @@
-NAME
-====
-
-Gnome::Gtk4::AboutDialog
-
-AUTHOR
-======
-
-Marcel Timmerman
-
-VERSION
+rakudoc
 =======
 
-0.1.7
+Project Description
+-------------------
 
-TITLE
-=====
+  * **Distribution:** Gnome::Gtk4
 
-Gnome::Gtk4::AboutDialog
+  * **Project description:** Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
 
-SUBTITLE
-========
+  * **Project version:** 0.1.7
 
-Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
+  * **Rakudo version:** Raku.version, Raku.compiler.version
+
+  * **Author:** Marcel Timmerman
+
+rakudoc
+=======
 
 Gnome::Gtk4::AboutDialog
 ========================
@@ -51,6 +45,9 @@ Note that GTK sets a default title of `_("About %s")` on the dialog window (wher
 
 `GtkAboutDialog` has a single CSS node with the name `window` and style class `.aboutdialog`.
 
+rakudoc
+=======
+
 Class initialization
 ====================
 
@@ -61,16 +58,16 @@ new
 
 Create an object using a native object from elsewhere. See also **Gnome::N::TopLevelSupportClass**.
 
-    multi method new ( N-GObject :$native-object! )
+multi method new ( N-GObject :$native-object! )
 
 ### :build-id
 
 Create an object using a native object from a builder. See also **Gnome::GObject::Object**.
 
-    multi method new ( Str :$build-id! )
+multi method new ( Str :$build-id! )
 
-Constructors
-============
+rakudoc
+=======
 
 new-aboutdialog
 ---------------
@@ -81,7 +78,13 @@ Creates a new `GtkAboutDialog`.
       --> Gnome::Gtk4::AboutDialog
     )
 
+rakudoc
+=======
+
 Methods
+=======
+
+rakudoc
 =======
 
 add-credit-section
@@ -95,6 +98,9 @@ Creates a new section in the "Credits" page.
 
   * $people; The people who belong to that section.
 
+rakudoc
+=======
+
 get-artists
 -----------
 
@@ -103,6 +109,9 @@ Returns the names of the artists which are displayed in the credits page.
     method get-artists ( --> Array[Str] )
 
 Return value; A `NULL`-terminated string array containing the artists. 
+
+rakudoc
+=======
 
 get-authors
 -----------
@@ -113,6 +122,9 @@ Returns the names of the authors which are displayed in the credits page.
 
 Return value; A `NULL`-terminated string array containing the authors. 
 
+rakudoc
+=======
+
 get-comments
 ------------
 
@@ -121,6 +133,9 @@ Returns the comments string.
     method get-comments ( --> Str )
 
 Return value; The comments. 
+
+rakudoc
+=======
 
 get-copyright
 -------------
@@ -131,6 +146,9 @@ Returns the copyright string.
 
 Return value; The copyright string. 
 
+rakudoc
+=======
+
 get-documenters
 ---------------
 
@@ -139,6 +157,9 @@ Returns the name of the documenters which are displayed in the credits page.
     method get-documenters ( --> Array[Str] )
 
 Return value; A `NULL`-terminated string array containing the documenters. 
+
+rakudoc
+=======
 
 get-license
 -----------
@@ -149,6 +170,9 @@ Returns the license information.
 
 Return value; The license information. 
 
+rakudoc
+=======
+
 get-license-type
 ----------------
 
@@ -157,6 +181,9 @@ Retrieves the license type.
     method get-license-type ( --> GtkLicense )
 
 Return value; a `GtkLicense` enumeration value. An enumeration.
+
+rakudoc
+=======
 
 get-logo
 --------
@@ -167,6 +194,9 @@ Returns the paintable displayed as logo in the about dialog.
 
 Return value; the paintable displayed as logo or `NULL` if the logo is unset or has been set via `.set_logo_icon_name()`. 
 
+rakudoc
+=======
+
 get-logo-icon-name
 ------------------
 
@@ -175,6 +205,9 @@ Returns the icon name displayed as logo in the about dialog.
     method get-logo-icon-name ( --> Str )
 
 Return value; the icon name displayed as logo, or `NULL` if the logo has been set via `.set_logo()`. 
+
+rakudoc
+=======
 
 get-program-name
 ----------------
@@ -185,6 +218,9 @@ Returns the program name displayed in the about dialog.
 
 Return value; The program name. 
 
+rakudoc
+=======
+
 get-system-information
 ----------------------
 
@@ -193,6 +229,9 @@ Returns the system information that is shown in the about dialog.
     method get-system-information ( --> Str )
 
 Return value; the system information. 
+
+rakudoc
+=======
 
 get-translator-credits
 ----------------------
@@ -203,6 +242,9 @@ Returns the translator credits string which is displayed in the credits page.
 
 Return value; The translator credits string. 
 
+rakudoc
+=======
+
 get-version
 -----------
 
@@ -211,6 +253,9 @@ Returns the version string.
     method get-version ( --> Str )
 
 Return value; The version string. 
+
+rakudoc
+=======
 
 get-website
 -----------
@@ -221,6 +266,9 @@ Returns the website URL.
 
 Return value; The website URL. 
 
+rakudoc
+=======
+
 get-website-label
 -----------------
 
@@ -229,6 +277,9 @@ Returns the label used for the website link.
     method get-website-label ( --> Str )
 
 Return value; The label used for the website link. 
+
+rakudoc
+=======
 
 get-wrap-license
 ----------------
@@ -239,6 +290,9 @@ Returns whether the license text in the about dialog is automatically wrapped.
 
 Return value; `TRUE` if the license text is wrapped. 
 
+rakudoc
+=======
+
 set-artists
 -----------
 
@@ -248,6 +302,9 @@ Sets the names of the artists to be displayed in the "Credits" page.
 
   * $artists; the authors of the artwork of the application.
 
+rakudoc
+=======
+
 set-authors
 -----------
 
@@ -256,6 +313,9 @@ Sets the names of the authors which are displayed in the "Credits" page of the a
     method set-authors (  Array[Str] $authors )
 
   * $authors; the authors of the application.
+
+rakudoc
+=======
 
 set-comments
 ------------
@@ -268,6 +328,9 @@ This should be a short string of one or two lines.
 
   * $comments; a comments string.
 
+rakudoc
+=======
+
 set-copyright
 -------------
 
@@ -279,6 +342,9 @@ This should be a short string of one or two lines.
 
   * $copyright; the copyright string.
 
+rakudoc
+=======
+
 set-documenters
 ---------------
 
@@ -287,6 +353,9 @@ Sets the names of the documenters which are displayed in the "Credits" page.
     method set-documenters (  Array[Str] $documenters )
 
   * $documenters; the authors of the documentation of the application.
+
+rakudoc
+=======
 
 set-license
 -----------
@@ -299,6 +368,9 @@ If `license` is `NULL`, the license page is hidden.
 
   * $license; the license information.
 
+rakudoc
+=======
+
 set-license-type
 ----------------
 
@@ -310,6 +382,9 @@ This function overrides the license set using `.set_license()`.
 
   * $license-type; the type of license. An enumeration.
 
+rakudoc
+=======
+
 set-logo
 --------
 
@@ -319,6 +394,9 @@ Sets the logo in the about dialog.
 
   * $logo; a `GdkPaintable`.
 
+rakudoc
+=======
+
 set-logo-icon-name
 ------------------
 
@@ -327,6 +405,9 @@ Sets the icon name to be displayed as logo in the about dialog.
     method set-logo-icon-name (  Str $icon-name )
 
   * $icon-name; an icon name.
+
+rakudoc
+=======
 
 set-program-name
 ----------------
@@ -338,6 +419,9 @@ If `name` is not set, the string returned by `g_get_application_name()` is used.
     method set-program-name (  Str $name )
 
   * $name; the program name.
+
+rakudoc
+=======
 
 set-system-information
 ----------------------
@@ -352,6 +436,9 @@ See *system-information*.
 
   * $system-information; system information.
 
+rakudoc
+=======
+
 set-translator-credits
 ----------------------
 
@@ -365,6 +452,9 @@ It is a good idea to use the customary `msgid` “translator-credits” for this
 
   * $translator-credits; the translator credits.
 
+rakudoc
+=======
+
 set-version
 -----------
 
@@ -373,6 +463,9 @@ Sets the version string to display in the about dialog.
     method set-version (  Str $version )
 
   * $version; the version string.
+
+rakudoc
+=======
 
 set-website
 -----------
@@ -383,6 +476,9 @@ Sets the URL to use for the website link.
 
   * $website; a URL string starting with `http://`.
 
+rakudoc
+=======
+
 set-website-label
 -----------------
 
@@ -392,6 +488,9 @@ Sets the label to be used for the website link.
 
   * $website-label; the label used for the website link.
 
+rakudoc
+=======
+
 set-wrap-license
 ----------------
 
@@ -400,6 +499,9 @@ Sets whether the license text in the about dialog should be automatically wrappe
     method set-wrap-license (  Bool() $wrap-license )
 
   * $wrap-license; whether to wrap the license.
+
+rakudoc
+=======
 
 Signals
 =======

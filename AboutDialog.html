@@ -5,25 +5,20 @@
 <meta charset="UTF-8" />
 
 <link href="/asset_files/images/favicon.ico" rel="icon" type="image/x-icon"/>
-<meta name="Author" value="Marcel Timmerman" />
-<meta name="Version" value="0.1.7" />
 <link rel="stylesheet" type="text/css" href="asset_files/css/rakudoc-extra.css" />
-<link rel="stylesheet" type="text/css" href="asset_files/css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css" href="asset_files/css/rakudoc-styling.css" />
+<link rel="stylesheet" type="text/css" href="asset_files/css/font-awesome.min.css" />
 
 </head>
 	<body class="pod">
 <header>
 <img id="Camelia_bug" src="/asset_files/images/Camelia.svg"><h1 class="title">Gnome::Gtk4::AboutDialog</h1></header><div class="pod-content"><nav><div id="_TOC"><table>
 <caption>Table of Contents</caption>
-<tr class="toc-level-1"><td class="toc-text"><a href="#NAME">NAME</a></td></tr>
- <tr class="toc-level-1"><td class="toc-text"><a href="#Gnome::Gtk4::AboutDialog">Gnome::Gtk4::AboutDialog</a></td></tr>
- <tr class="toc-level-1"><td class="toc-text"><a href="#Description">Description</a></td></tr>
+<tr class="toc-level-1"><td class="toc-text"><a href="#Description">Description</a></td></tr>
  <tr class="toc-level-1"><td class="toc-text"><a href="#Class_initialization">Class initialization</a></td></tr>
  <tr class="toc-level-2"><td class="toc-text"><a href="#new">new</a></td></tr>
  <tr class="toc-level-3"><td class="toc-text"><a href="#:native-object">:native-object</a></td></tr>
  <tr class="toc-level-3"><td class="toc-text"><a href="#:build-id">:build-id</a></td></tr>
- <tr class="toc-level-1"><td class="toc-text"><a href="#Constructors">Constructors</a></td></tr>
  <tr class="toc-level-2"><td class="toc-text"><a href="#new-aboutdialog">new-aboutdialog</a></td></tr>
  <tr class="toc-level-1"><td class="toc-text"><a href="#Methods">Methods</a></td></tr>
  <tr class="toc-level-2"><td class="toc-text"><a href="#add-credit-section">add-credit-section</a></td></tr>
@@ -62,12 +57,8 @@
  <tr class="toc-level-1"><td class="toc-text"><a href="#Signals">Signals</a></td></tr>
  <tr class="toc-level-3"><td class="toc-text"><a href="#activate-link">activate-link</a></td></tr>
 </table></div>
-</nav><div id=""></div><div class="subtitle"><p>Modules for package Gnome::Gtk4:api&lt;2&gt;. The language binding to GNOME’s user interface toolkit version 4</p></div><div class="pod-body">
-<h1 id="NAME"><a href="#___top" class="u" title="go to top of document">NAME</a></h1>
-<p>Gnome::Gtk4::AboutDialog</p>
-<section name="pod">
-<h1 id="Gnome::Gtk4::AboutDialog"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Gnome::Gtk4::AboutDialog</a></h1>
-<p>![](images/aboutdialog.png)</p>
+</nav><div id=""></div><div class="pod-body">
+<section name="pod"><p>&lt;a name=&quot;Gnome::Gtk4::AboutDialog&quot; /&gt;</p>
 <h1 id="Description"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Description</a></h1>
 <p>The `GtkAboutDialog` offers a simple way to display information about a program.</p><p>The shown information includes the programs' logo, name, copyright, website and license. It is also possible to give credits to the authors, documenters, translators and artists who have worked on the program.</p><p>An about dialog is typically opened when the user selects the `About` option from the `Help` menu. All parts of the dialog are optional.</p><p>![An example GtkAboutDialog](aboutdialog.png)</p><p>About dialogs often contain links and email addresses. `GtkAboutDialog` displays these as clickable links. By default, it calls [func <code>$Gtk</code>.show_uri] when a user clicks one. The behaviour can be overridden with the <em>activate-link</em> signal.</p><p>To specify a person with an email address, use a string like `Edgar Allan Poe &lt;edgar <code>$poe</code>.com&gt;`. To specify a website with a title, use a string like `GTK team https://www.gtk.org`.</p><p>To make constructing a `GtkAboutDialog` as convenient as possible, you can use the function [func <code>$Gtk</code>.show_about_dialog] which constructs and shows a dialog and keeps it around so that it can be shown again.</p><p>Note that GTK sets a default title of `_(&quot;About %s&quot;)` on the dialog window (where `%s` is replaced by the name of the application, but in order to ensure proper translation of the title, applications should set the title property explicitly when constructing a `GtkAboutDialog`, as shown in the following example:</p><p>## CSS nodes</p><p>`GtkAboutDialog` has a single CSS node with the name `window` and style class `.aboutdialog`.</p></section>
 <section name="pod">
@@ -79,9 +70,6 @@
 <p>Create an object using a native object from elsewhere. See also <strong>Gnome::N::TopLevelSupportClass</strong>.</p><pre class="pod-block-code">multi method new ( N-GObject :$native-object! )</pre>
 <h3 id=":build-id"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">:build-id</a></h3>
 <p>Create an object using a native object from a builder. See also <strong>Gnome::GObject::Object</strong>.</p><pre class="pod-block-code">multi method new ( Str :$build-id! )</pre></section>
-<section name="pod">
-<h1 id="Constructors"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">Constructors</a></h1>
-</section>
 <section name="pod">
 <h2 id="new-aboutdialog"><a href="#Gnome::Gtk4::AboutDialog" class="u" title="go to top of document">new-aboutdialog</a></h2>
 <p>Creates a new `GtkAboutDialog`.</p><pre class="pod-block-code">method new-aboutdialog (
@@ -295,6 +283,6 @@
 <li><p>%user-options; A list of named arguments provided at the <code>.register-signal()</code> method from <strong>Gnome::GObject::Object</strong>.</p></li>
 </ul>
 <p>Return value; </p></section>		</div>
-</div><footer><div>Rendered from <span class="path">gnome-api2/gnome-gtk4/doc/AboutDialog.rakudoc</span></div><div>at <span class="time">2023-11-05T18:21:18Z</span></div></footer>
+</div><footer><div>Rendered from <span class="path">gnome-api2/gnome-gtk4/doc/AboutDialog.rakudoc</span></div><div>at <span class="time">2023-11-06T20:10:21Z</span></div></footer>
 	</body>
 </html>

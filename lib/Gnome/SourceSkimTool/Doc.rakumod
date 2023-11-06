@@ -21,11 +21,13 @@ submethod BUILD ( ) {
 
 #-------------------------------------------------------------------------------
 method start-document ( --> Str ) {
+#`{{
   my Str $name = '';
   my Str $author = '';
   my Version $version = v0.1.0;
   my Str $title = '';
   my Str $subtitle = '';
+  my Str $raku-version = "$*RAKU.version, $*RAKU.compiler.version";
 
   my META6 $meta;
   my Str $meta-file = [~] './gnome-api2/gnome-', $*gnome-package.Str.lc,
@@ -33,23 +35,28 @@ method start-document ( --> Str ) {
   if $meta-file.IO.e {
     $meta .= new(:file($meta-file));
 
-    $name = $*work-data<raku-class-name>;
+    $name = $meta<name>;
     $author = $meta<author>;
     $version = $meta<version>;
-    $title = $name;
+    $title = $*work-data<raku-class-name>;
     $subtitle = $meta<description>;
   }
 
   qq:to/RAKUDOC/;
     use v6.d;
 
-    =AUTHOR $author
-    =VERSION $version.Str()
-    =TITLE $title
-    =SUBTITLE $subtitle
-    RAKUDOC
+    =begin pod
+    =head2 Project Description
+    =item B<Distribution:> $name
+    =item B<Project description:> $subtitle
+    =item B<Project version:> $version.Str()
+    =item B<Rakudo version:> $raku-version
+    =item B<Author:> $author
+    =end pod
 
-#    =NAME $name
+   RAKUDOC
+}}
+  "use v6.d;\n=TITLE $*work-data<raku-class-name>\n";
 }
 
 #-------------------------------------------------------------------------------
@@ -58,11 +65,11 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Str $doc = "=head1 Description\n\n";
 
   #$doc ~= $xpath.find( 'doc/text()', :start($element)).Str;
-  my Str $widget-picture = '';
+#  my Str $widget-picture = '';
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
-  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
-    if $h<inheritable>;
+#  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
+#    if $h<inheritable>;
 
   $doc ~= self!modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
 
@@ -72,8 +79,9 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #  $doc ~= self!set-inherit-example($element);
   $doc ~= self!set-example;
 
+#`{{
   qq:to/RAKUMOD/;
-    
+
     {pod-header('Class Description')}
     =begin pod
     =head1 $*work-data<raku-class-name>
@@ -81,6 +89,17 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
     $widget-picture$doc
     =end pod
     RAKUMOD
+}}
+
+  qq:to/RAKUMOD/;
+
+    {pod-header('Class Description')}
+    =begin pod
+    <a name="$*work-data<raku-class-name>" />
+    $doc
+    =end pod
+    RAKUMOD
+
 }
 
 #-------------------------------------------------------------------------------
@@ -96,6 +115,8 @@ method !set-uml ( --> Str ) {
     EOEX
   $doc
 }
+
+#`{{
 #-------------------------------------------------------------------------------
 method !set-inherit-example ( XML::Element $element --> Str ) {
 
@@ -130,6 +151,7 @@ method !set-inherit-example ( XML::Element $element --> Str ) {
 
   $doc
 }
+}}
 
 #-------------------------------------------------------------------------------
 method !set-example ( --> Str ) {
@@ -275,13 +297,17 @@ method document-constructors (
   my Hash $hcs = self.get-constructors( $element, $xpath);
   return '' unless ?$hcs;
 
-  my Str $doc = qq:to/EOSUB/;
+  my Str $doc = '';
+
+#`{{
+  $doc ~= qq:to/EOSUB/;
     {pod-header('Constructors')}
     =begin pod
     =head1 Constructors
     =end pod
 
     EOSUB
+}}
 
   for $hcs.keys.sort -> $method-name is copy {
     my Hash $curr-function := $hcs{$method-name};

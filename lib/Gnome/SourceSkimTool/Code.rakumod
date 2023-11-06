@@ -2425,6 +2425,10 @@ note "$?LINE $filename";
   if $save-it {
     $filename.IO.spurt($content);
     $*saved-file-summary.push: $filename.IO.basename;
+
+    if $*generate-doc {
+
+    }
   }
 }
 
