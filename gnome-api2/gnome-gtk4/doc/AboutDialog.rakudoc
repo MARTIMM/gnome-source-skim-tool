@@ -20,35 +20,35 @@
 
 =head1 Description
 
-The `GtkAboutDialog` offers a simple way to display information about
+The C<B<Gnome::Gtk4::AboutDialog>> offers a simple way to display information about
 a program.
 
 The shown information includes the programs' logo, name, copyright,
 website and license. It is also possible to give credits to the authors,
 documenters, translators and artists who have worked on the program.
 
-An about dialog is typically opened when the user selects the `About`
-option from the `Help` menu. All parts of the dialog are optional.
+An about dialog is typically opened when the user selects the C<About>
+option from the C<Help> menu. All parts of the dialog are optional.
 
 ![An example GtkAboutDialog](aboutdialog.png)
 
-About dialogs often contain links and email addresses. `GtkAboutDialog`
+About dialogs often contain links and email addresses. C<B<Gnome::Gtk4::AboutDialog>>
 displays these as clickable links. By default, it calls [func C<$Gtk>.show_uri]
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
 To specify a person with an email address, use a string like
-`Edgar Allan Poe <edgar C<$poe>.com>`. To specify a website with a title,
-use a string like `GTK team https://www.gtk.org`.
+C<Edgar Allan Poe <edgar C<$poe>.com>>. To specify a website with a title,
+use a string like C<GTK team https://www.gtk.org>.
 
-To make constructing a `GtkAboutDialog` as convenient as possible, you can
+To make constructing a C<B<Gnome::Gtk4::AboutDialog>> as convenient as possible, you can
 use the function [func C<$Gtk>.show_about_dialog] which constructs and shows
 a dialog and keeps it around so that it can be shown again.
 
-Note that GTK sets a default title of `_("About %s")` on the dialog
-window (where `%s` is replaced by the name of the application, but in
+Note that GTK sets a default title of C<_("About %s")> on the dialog
+window (where C<%s> is replaced by the name of the application, but in
 order to ensure proper translation of the title, applications should
-set the title property explicitly when constructing a `GtkAboutDialog`,
+set the title property explicitly when constructing a C<B<Gnome::Gtk4::AboutDialog>>,
 as shown in the following example:
 
 =begin comment 
@@ -67,8 +67,8 @@ Following example code is in c
 
 ## CSS nodes
 
-`GtkAboutDialog` has a single CSS node with the name `window` and style
-class `.aboutdialog`.
+C<B<Gnome::Gtk4::AboutDialog>> has a single CSS node with the name C<window> and style
+class C<.aboutdialog>.
 
 =begin comment
 =head2 Uml Diagram
@@ -111,7 +111,7 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 =begin pod
 =head2 new-aboutdialog
 
-Creates a new `GtkAboutDialog`.
+Creates a new C<B<Gnome::Gtk4::AboutDialog>>.
 
 =begin code
 method new-aboutdialog (
@@ -157,7 +157,7 @@ method get-artists ( --> Array[Str] )
 
 
 Return value; A
- `NULL`-terminated string array containing the artists. 
+ C<NULL>-terminated string array containing the artists. 
 
 
 =end pod
@@ -174,7 +174,7 @@ method get-authors ( --> Array[Str] )
 
 
 Return value; A
- `NULL`-terminated string array containing the authors. 
+ C<NULL>-terminated string array containing the authors. 
 
 
 =end pod
@@ -223,7 +223,7 @@ method get-documenters ( --> Array[Str] )
 
 
 Return value; A
- `NULL`-terminated string array containing the documenters. 
+ C<NULL>-terminated string array containing the documenters. 
 
 
 =end pod
@@ -272,7 +272,7 @@ method get-logo ( --> N-GObject() )
 
 
 Return value; the paintable displayed as
- logo or `NULL` if the logo is unset or has been set via
+ logo or C<NULL> if the logo is unset or has been set via
  C<.set_logo_icon_name()>. 
 
 
@@ -290,7 +290,7 @@ method get-logo-icon-name ( --> Str )
 
 
 Return value; the icon name displayed as logo,
- or `NULL` if the logo has been set via C<.set_logo()>. 
+ or C<NULL> if the logo has been set via C<.set_logo()>. 
 
 
 =end pod
@@ -402,7 +402,7 @@ method get-wrap-license ( --> Bool() )
 
 
 
-Return value; `TRUE` if the license text is wrapped. 
+Return value; C<TRUE> if the license text is wrapped. 
 
 
 =end pod
@@ -488,7 +488,7 @@ method set-documenters (  Array[Str] $documenters )
 
 Sets the license information to be displayed in the about dialog.
 
-If `license` is `NULL`, the license page is hidden.
+If C<license> is C<NULL>, the license page is hidden.
 
 =begin code
 method set-license (  Str $license )
@@ -524,7 +524,7 @@ Sets the logo in the about dialog.
 method set-logo (  N-GObject() $logo )
 =end code
 
-=item $logo; a `GdkPaintable`.
+=item $logo; a C<GdkPaintable>.
 
 
 =end pod
@@ -548,7 +548,7 @@ method set-logo-icon-name (  Str $icon-name )
 
 Sets the name to display in the about dialog.
 
-If `name` is not set, the string returned by `g_get_application_name()` is used.
+If C<name> is not set, the string returned by C<g_get_application_name()> is used.
 
 =begin code
 method set-program-name (  Str $name )
@@ -564,7 +564,7 @@ method set-program-name (  Str $name )
 
 Sets the system information to be displayed in the about dialog.
 
-If `system_information` is `NULL`, the system information page is hidden.
+If C<system_information> is C<NULL>, the system information page is hidden.
 
 See I<system-information>.
 
@@ -583,7 +583,7 @@ method set-system-information (  Str $system-information )
 Sets the translator credits string which is displayed in the credits page.
 
 The intended use for this string is to display the translator of the language which is currently used in the user interface.
-Using `gettext()`, a simple way to achieve that is to mark the string for translation:
+Using C<gettext()>, a simple way to achieve that is to mark the string for translation:
 
 =begin comment 
 Following example code is in c
@@ -593,8 +593,8 @@ Following example code is in c
  _("translator-credits"));
 =end comment
 
-It is a good idea to use the customary `msgid` “translator-credits”
-for this purpose, since translators will already know the purpose of that `msgid`, and since `GtkAboutDialog` will detect if “translator-credits”
+It is a good idea to use the customary C<msgid> “translator-credits”
+for this purpose, since translators will already know the purpose of that C<msgid>, and since C<B<Gnome::Gtk4::AboutDialog>> will detect if “translator-credits”
 is untranslated and omit translator credits.
 
 =begin code
@@ -629,7 +629,7 @@ Sets the URL to use for the website link.
 method set-website (  Str $website )
 =end code
 
-=item $website; a URL string starting with `http://`.
+=item $website; a URL string starting with C<http://>.
 
 
 =end pod

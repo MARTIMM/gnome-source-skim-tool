@@ -16,7 +16,7 @@ Project Description
 Description
 ===========
 
-The `GtkAboutDialog` offers a simple way to display information about a program.
+The `B<Gnome::Gtk4::AboutDialog>` offers a simple way to display information about a program.
 
 The shown information includes the programs' logo, name, copyright, website and license. It is also possible to give credits to the authors, documenters, translators and artists who have worked on the program.
 
@@ -24,17 +24,17 @@ An about dialog is typically opened when the user selects the `About` option fro
 
 ![An example GtkAboutDialog](aboutdialog.png)
 
-About dialogs often contain links and email addresses. `GtkAboutDialog` displays these as clickable links. By default, it calls [func `$Gtk`.show_uri] when a user clicks one. The behaviour can be overridden with the *activate-link* signal.
+About dialogs often contain links and email addresses. `B<Gnome::Gtk4::AboutDialog>` displays these as clickable links. By default, it calls [func `$Gtk`.show_uri] when a user clicks one. The behaviour can be overridden with the *activate-link* signal.
 
-To specify a person with an email address, use a string like `Edgar Allan Poe <edgar `$poe`.com>`. To specify a website with a title, use a string like `GTK team https://www.gtk.org`.
+To specify a person with an email address, use a string like `Edgar Allan Poe <edgar C<$poe>.com>`. To specify a website with a title, use a string like `GTK team https://www.gtk.org`.
 
-To make constructing a `GtkAboutDialog` as convenient as possible, you can use the function [func `$Gtk`.show_about_dialog] which constructs and shows a dialog and keeps it around so that it can be shown again.
+To make constructing a `B<Gnome::Gtk4::AboutDialog>` as convenient as possible, you can use the function [func `$Gtk`.show_about_dialog] which constructs and shows a dialog and keeps it around so that it can be shown again.
 
-Note that GTK sets a default title of `_("About %s")` on the dialog window (where `%s` is replaced by the name of the application, but in order to ensure proper translation of the title, applications should set the title property explicitly when constructing a `GtkAboutDialog`, as shown in the following example:
+Note that GTK sets a default title of `_("About %s")` on the dialog window (where `%s` is replaced by the name of the application, but in order to ensure proper translation of the title, applications should set the title property explicitly when constructing a `B<Gnome::Gtk4::AboutDialog>`, as shown in the following example:
 
 ## CSS nodes
 
-`GtkAboutDialog` has a single CSS node with the name `window` and style class `.aboutdialog`.
+`B<Gnome::Gtk4::AboutDialog>` has a single CSS node with the name `window` and style class `.aboutdialog`.
 
 Class initialization
 ====================
@@ -57,7 +57,7 @@ Create an object using a native object from a builder. See also **Gnome::GObject
 new-aboutdialog
 ---------------
 
-Creates a new `GtkAboutDialog`.
+Creates a new `B<Gnome::Gtk4::AboutDialog>`.
 
     method new-aboutdialog (
       --> Gnome::Gtk4::AboutDialog
@@ -341,7 +341,7 @@ Sets the translator credits string which is displayed in the credits page.
 
 The intended use for this string is to display the translator of the language which is currently used in the user interface. Using `gettext()`, a simple way to achieve that is to mark the string for translation:
 
-It is a good idea to use the customary `msgid` “translator-credits” for this purpose, since translators will already know the purpose of that `msgid`, and since `GtkAboutDialog` will detect if “translator-credits” is untranslated and omit translator credits.
+It is a good idea to use the customary `msgid` “translator-credits” for this purpose, since translators will already know the purpose of that `msgid`, and since `B<Gnome::Gtk4::AboutDialog>` will detect if “translator-credits” is untranslated and omit translator credits.
 
     method set-translator-credits (  Str $translator-credits )
 

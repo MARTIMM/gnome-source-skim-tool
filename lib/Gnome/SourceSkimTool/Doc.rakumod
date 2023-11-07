@@ -922,6 +922,7 @@ method !modify-text ( Str $text is copy --> Str ) {
     $text = self!modify-v4properties($text);
     $text = self!modify-v4classes($text);
     $text = self!modify-v4enum($text);
+    $text = self!modify-v4rest($text);
   }
 
   else {
@@ -936,11 +937,11 @@ method !modify-text ( Str $text is copy --> Str ) {
     $text = self!modify-functions($text);
     $text = self!modify-properties($text);
     $text = self!modify-classes($text);
+    $text = self!modify-rest($text);
   }
 
   $text = self!modify-variables( $text, :$version4);
   $text = self!modify-markdown-links($text);
-  $text = self!modify-rest($text);
   $text = self!modify-xml($text);
 
   # Subtitute the examples back into the text before we can finally modify it
@@ -1051,6 +1052,43 @@ method !modify-v4enum ( Str $text is copy --> Str ) {
 
   # Enums within same module/class
   $text ~~ s:g/ '[' enum '@' $prefix '.' (<-[\.]>+) ']' /C<$prefix$0> enumeration/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# Modify rest
+
+method !modify-v4rest ( Str $text is copy --> Str ) {
+#note "$?LINE $text";
+
+  # Markdown backtick changes
+  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
+#note "$?LINE ", $<word>//'-';
+    my Str $word = self!modify-word($/<word>.Str);
+    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
+  }
+#exit;
+  # Variable changes
+  $text ~~ s:g/ '%' TRUE /C<True>/;
+  $text ~~ s:g/ '%' FALSE /C<False>/;
+  $text ~~ s:g/ '%' NULL /C<Nil>/;
+
+  # Markdown Sections
+  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+method !modify-word ( Str $text is copy --> Str ) {
+#note "$?LINE $text";
+  my Str $gname = $*work-data<gnome-name>;
+  my Str $rname = $*work-data<raku-class-name>;
+  $text ~~ s/ $gname /B<$rname>/;
+#note "$?LINE $gname ,$rname, ", ?$text;
+
+  $text = "C<$text>";
 
   $text
 }
