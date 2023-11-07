@@ -7,6 +7,10 @@ use XML::XPath;
 use JSON::Fast;
 use YAMLish;
 
+use Pod::Load;
+use Pod::To::Markdown;
+#use Pod::To::MarkDown2;
+
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
 
@@ -2384,7 +2388,7 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 }
 
 #-------------------------------------------------------------------------------
-method save-file ( Str $filename is copy, Str $content, Str $comment ) {
+method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
 note "$?LINE $filename";
 
   my Bool $save-it = True;
@@ -2427,7 +2431,16 @@ note "$?LINE $filename";
     $*saved-file-summary.push: $filename.IO.basename;
 
     if $*generate-doc {
+      $content ~~ s/ 'use v6.d;' //;
+      my $pod = load($content);
+      my Str $md = pod2markdown($pod);
 
+      my Str $md-dir = $*work-data<result-docs> ~ 'md/';
+      mkdir $md-dir, 0o655 unless $md-dir.IO.e;
+      my Str $md-filename = $md-dir ~ $filename.IO.basename;
+      $md-filename ~~ s/ '.rakudoc' $/.md/;
+      $md-filename.IO.spurt($md);
+      $*saved-file-summary.push: $md-filename.IO.basename;
     }
   }
 }

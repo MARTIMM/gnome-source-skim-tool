@@ -21,7 +21,7 @@ submethod BUILD ( ) {
 
 #-------------------------------------------------------------------------------
 method start-document ( --> Str ) {
-#`{{
+##`{{
   my Str $name = '';
   my Str $author = '';
   my Version $version = v0.1.0;
@@ -55,8 +55,8 @@ method start-document ( --> Str ) {
     =end pod
 
    RAKUDOC
-}}
-  "use v6.d;\n=TITLE $*work-data<raku-class-name>\n";
+#}}
+#  "use v6.d;\n=TITLE $*work-data<raku-class-name>\n";
 }
 
 #-------------------------------------------------------------------------------
@@ -65,11 +65,10 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Str $doc = "=head1 Description\n\n";
 
   #$doc ~= $xpath.find( 'doc/text()', :start($element)).Str;
-#  my Str $widget-picture = '';
+  my Str $widget-picture = '';
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
-#  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
-#    if $h<inheritable>;
+  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n";
 
   $doc ~= self!modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
 
@@ -79,27 +78,13 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #  $doc ~= self!set-inherit-example($element);
   $doc ~= self!set-example;
 
-#`{{
-  qq:to/RAKUMOD/;
+  qq:to/RAKUDOC/;
 
     {pod-header('Class Description')}
     =begin pod
-    =head1 $*work-data<raku-class-name>
-
     $widget-picture$doc
     =end pod
-    RAKUMOD
-}}
-
-  qq:to/RAKUMOD/;
-
-    {pod-header('Class Description')}
-    =begin pod
-    <a name="$*work-data<raku-class-name>" />
-    $doc
-    =end pod
-    RAKUMOD
-
+    RAKUDOC
 }
 
 #-------------------------------------------------------------------------------

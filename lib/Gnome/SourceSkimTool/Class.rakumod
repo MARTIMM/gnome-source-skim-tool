@@ -58,7 +58,6 @@ method generate-code ( ) {
 
 #-------------------------------------------------------------------------------
 method generate-doc ( ) {
-  my Str $fname = $*work-data<result-docs> ~ $*gnome-class ~ '.rakudoc';
 
   $!grd .= new;
 
@@ -93,13 +92,13 @@ method generate-doc ( ) {
 #  note "Generate module properties doc" if $*verbose;  
 #  $doc ~= $!grd.document-properties( $element, $!xpath);
 
-  note "Save pod doc";
+#  note "Save pod doc";
+  my Str $fname = $*work-data<result-docs> ~ $*gnome-class ~ '.rakudoc';
   $!mod.save-file( $fname, $doc, "class documentation");
 }
 
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
-  my Str $fname = $*work-data<result-tests> ~ $*gnome-class ~ '.rakutest';
 
   $!tst .= new;
 
@@ -121,5 +120,6 @@ method generate-test ( ) {
   $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
+  my Str $fname = $*work-data<result-tests> ~ $*gnome-class ~ '.rakutest';
   $!mod.save-file( $fname, $code, "class tests");
 }
