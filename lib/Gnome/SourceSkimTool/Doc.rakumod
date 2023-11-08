@@ -27,7 +27,7 @@ method start-document ( --> Str ) {
   my Version $version = v0.1.0;
   my Str $title = '';
   my Str $subtitle = '';
-  my Str $raku-version = "$*RAKU.version, $*RAKU.compiler.version";
+  my Str $raku-version = "$*RAKU.version(), $*RAKU.compiler.version()";
 
   my META6 $meta;
   my Str $meta-file = [~] './gnome-api2/gnome-', $*gnome-package.Str.lc,
@@ -659,9 +659,9 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     my XML::Element $rvalue = $xpath.find( 'return-value', :start($si));
     $curr-signal<transfer-ownership> = $rvalue.attribs<transfer-ownership>;
 
-    my Str ( $rv-type, $return-ntype) = $!mod.get-type( $rvalue, :!user-side);
-    my Str $rv-doc = '';
-
+    my Str ( $rv-doc, $rv-type, $return-ntype) =
+       $!mod.get-doc-type( $rvalue, :$xpath, :!user-side);
+    $curr-signal<rv-doc> = $rv-doc;
     $curr-signal<rv-type> = $rv-type;
     $curr-signal<return-ntype> = $return-ntype;
 
@@ -919,6 +919,7 @@ method !modify-text ( Str $text is copy --> Str ) {
 
     $text = self!modify-v4signals($text);
     $text = self!modify-v4methods($text);
+    $text = self!modify-v4functions($text);
     $text = self!modify-v4properties($text);
     $text = self!modify-v4classes($text);
     $text = self!modify-v4enum($text);
@@ -1000,6 +1001,25 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
   $text ~~ s:g/ '[' method '@' $prefix '.' (<-[\.]>+) '.' (<-[\]]>+) ']'
               /C<.$1\(\) defined in $0>/;
 
+  $text ~~ s:g/ '_' /-/;
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# Convert [func@Gtk.show_uri]
+
+method !modify-v4functions ( Str $text is copy --> Str ) {
+
+  my Str $prefix = $*work-data<name-prefix>.tc;
+  my Str $gname = $*work-data<gnome-name>;
+  $gname ~~ s/^ $prefix //;
+
+  # Functions
+  $text ~~ s:g/ '[' func '@' $prefix '.' (<-[\]]>+) ']' /C<.$0\(\)>/;
+
+  $text ~~ s:g/ '_' /-/;
+
   $text
 }
 
@@ -1075,7 +1095,9 @@ method !modify-v4rest ( Str $text is copy --> Str ) {
   }
 
   # Markdown Sections
-  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
+  $text ~~ s:g/^^ '###' \s+ (\w) /=head3 $0/;
+  $text ~~ s:g/^^ '##' \s+ (\w) /=head2 $0/;
+  $text ~~ s:g/^^ '#' \s+ (\w) /=head1 $0/;
 
   $text
 }

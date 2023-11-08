@@ -22,15 +22,36 @@ The shown information includes the programs' logo, name, copyright, website and 
 
 An about dialog is typically opened when the user selects the *About* option from the *Help* menu. All parts of the dialog are optional.
 
-About dialogs often contain links and email addresses. **Gnome::Gtk4::AboutDialog** displays these as clickable links. By default, it calls [func `$Gtk`.show_uri] when a user clicks one. The behaviour can be overridden with the *activate-link* signal.
+About dialogs often contain links and email addresses. **Gnome::Gtk4::AboutDialog** displays these as clickable links. By default, it calls `show-uri()` defined in **Gnome::Gtk4::Show** when a user clicks one. The behaviour can be overridden with the *activate-link* signal.
 
 To specify a person with an email address, use a string like *Edgar Allan Poe <edgar@poe.com>*. To specify a website with a title, use a string like *GTK team https://www.gtk.org*.
 
-To make constructing a **Gnome::Gtk4::AboutDialog** as convenient as possible, you can use the function [func `$Gtk`.show_about_dialog] which constructs and shows a dialog and keeps it around so that it can be shown again.
+To make constructing a **Gnome::Gtk4::AboutDialog** as convenient as possible, you can use the function `show-about-dialog()` defined in **Gnome::Gtk4::T-AboutDialog** which constructs and shows a dialog and keeps it around so that it can be shown again.
 
 Note that GTK sets a default title of *_("About %s")* on the dialog window (where *%s* is replaced by the name of the application, but in order to ensure proper translation of the title, applications should set the title property explicitly when constructing a **Gnome::Gtk4::AboutDialog**, as shown in the following example:
 
-## CSS nodes
+    use Gnome::Glib::Error:api<2>;
+    use Gnome::Gio::File:api<2>;
+    use Gnome::Gtk4::T-AboutDialog:api<2>;
+    use Gnome::Gtk4::Window:api<2>;
+    use Gnome::Gdk4::Texture:api<2>;
+
+    my Gnome::Gtk4::Window $some-main-window .= new;
+
+    my Gnome::Gio::File $logo-file .= new-for-path("./logo.png");
+    my Gnome::Gdk4::Texture $example-logo = new-from-file( logo_file, GError);
+    $logo-file.clear-object;
+
+    my Gnome::Gtk4::T-AboutDialog $t-dialog .= new;
+    $t-dialog.show-about-dialog (
+      $some-main-window, "program-name",
+      Str, "ExampleCode",
+      Str, "logo", Gnome::Gdk4::Texture, $example-logo,
+      Str, "title", Str, "About ExampleCode",
+    );
+
+CSS nodes
+---------
 
 **Gnome::Gtk4::AboutDialog** has a single CSS node with the name *window* and style class *.aboutdialog*.
 
@@ -388,7 +409,7 @@ Signals
 
 Emitted every time a URL is activated.
 
-Applications may connect to it to override the default behaviour, which is to call [func `$Gtk`.show_uri].
+Applications may connect to it to override the default behaviour, which is to call `show-uri()`.
 
     method handler (
       Str $uri,
@@ -409,4 +430,5 @@ Applications may connect to it to override the default behaviour, which is to ca
 
   * %user-options; A list of named arguments provided at the `.register-signal()` method from **Gnome::GObject::Object**.
 
-Return value; 
+Return value; `True` if the link has been activated
+

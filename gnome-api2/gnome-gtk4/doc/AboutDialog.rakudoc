@@ -31,7 +31,7 @@ An about dialog is typically opened when the user selects the I<About>
 option from the I<Help> menu. All parts of the dialog are optional.
 
 About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog>
-displays these as clickable links. By default, it calls [func C<$Gtk>.show_uri]
+displays these as clickable links. By default, it calls C<show-uri()> defined in B<Gnome::Gtk4::Show>
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
@@ -40,7 +40,7 @@ I<Edgar Allan Poe <edgar@poe.com>>. To specify a website with a title,
 use a string like I<GTK team https://www.gtk.org>.
 
 To make constructing a B<Gnome::Gtk4::AboutDialog> as convenient as possible, you can
-use the function [func C<$Gtk>.show_about_dialog] which constructs and shows
+use the function C<show-about-dialog()> defined in B<Gnome::Gtk4::T-AboutDialog> which constructs and shows
 a dialog and keeps it around so that it can be shown again.
 
 Note that GTK sets a default title of I<_("About %s")> on the dialog
@@ -49,21 +49,28 @@ order to ensure proper translation of the title, applications should
 set the title property explicitly when constructing a B<Gnome::Gtk4::AboutDialog>,
 as shown in the following example:
 
-=begin comment 
-Following example code is in c
+  use Gnome::Glib::Error:api<2>;
+  use Gnome::Gio::File:api<2>;
+  use Gnome::Gtk4::T-AboutDialog:api<2>;
+  use Gnome::Gtk4::Window:api<2>;
+  use Gnome::Gdk4::Texture:api<2>;
 
-  GFile *logo_file = g_file_new_for_path ("./logo.png");
-  GdkTexture *example_logo = gdk_texture_new_from_file (logo_file, NULL);
-  g_object_unref (logo_file);
-  
-  gtk_show_about_dialog (NULL,
-                         "program-name", "ExampleCode",
-                         "logo", example_logo,
-                         "title", _("About ExampleCode"),
-                         NULL);
-=end comment
+  my Gnome::Gtk4::Window $some-main-window .= new;
 
-## CSS nodes
+  my Gnome::Gio::File $logo-file .= new-for-path("./logo.png");
+  my Gnome::Gdk4::Texture $example-logo = new-from-file( logo_file, GError);
+  $logo-file.clear-object;
+
+  my Gnome::Gtk4::T-AboutDialog $t-dialog .= new;
+  $t-dialog.show-about-dialog (
+    $some-main-window, "program-name",
+    Str, "ExampleCode",
+    Str, "logo", Gnome::Gdk4::Texture, $example-logo,
+    Str, "title", Str, "About ExampleCode",
+  );
+
+
+=head2 CSS nodes
 
 B<Gnome::Gtk4::AboutDialog> has a single CSS node with the name I<window> and style
 class I<.aboutdialog>.
@@ -672,7 +679,7 @@ method set-wrap-license (  Bool() $wrap-license )
 Emitted every time a URL is activated.
 
 Applications may connect to it to override the default behaviour,
-which is to call [func C<$Gtk>.show_uri].
+which is to call C<show-uri()>.
 
 =begin code
 method handler (
@@ -691,7 +698,7 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-Return value; 
+Return value; C<True> if the link has been activated
 
 =end pod
 
