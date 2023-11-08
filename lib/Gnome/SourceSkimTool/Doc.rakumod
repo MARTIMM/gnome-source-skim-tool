@@ -1060,19 +1060,19 @@ method !modify-v4enum ( Str $text is copy --> Str ) {
 # Modify rest
 
 method !modify-v4rest ( Str $text is copy --> Str ) {
-#note "$?LINE $text";
+
+  # Literals changes
+  $text ~~ s:g/ '`' TRUE '`' /C<True>/;
+  $text ~~ s:g/ '`' FALSE '`' /C<False>/;
+
+  $text ~~ s:g/ '`' NULL '`' '-' terminated \s (\w+) \s array /$0 array/;
+  $text ~~ s:g/ '`' NULL '`' /undefined/;
 
   # Markdown backtick changes
   while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
-#note "$?LINE ", $<word>//'-';
     my Str $word = self!modify-word($/<word>.Str);
     $text ~~ s/ '`' <-[`]>+ '`' /$word/;
   }
-#exit;
-  # Variable changes
-  $text ~~ s:g/ '%' TRUE /C<True>/;
-  $text ~~ s:g/ '%' FALSE /C<False>/;
-  $text ~~ s:g/ '%' NULL /C<Nil>/;
 
   # Markdown Sections
   $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
@@ -1082,13 +1082,36 @@ method !modify-v4rest ( Str $text is copy --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !modify-word ( Str $text is copy --> Str ) {
-#note "$?LINE $text";
+
   my Str $gname = $*work-data<gnome-name>;
   my Str $rname = $*work-data<raku-class-name>;
-  $text ~~ s/ $gname /B<$rname>/;
-#note "$?LINE $gname ,$rname, ", ?$text;
+  given $text {
 
-  $text = "C<$text>";
+    # Class names
+    when / $gname / {
+      $text ~~ s/ $gname /B<$rname>/;
+    }
+
+#    # Email, replace AT-sign
+#    when / '@' / {
+#      $text ~~ s/ '@' /\\x0040/;
+#      $text = "I<$text>";
+#    }
+
+    # Functions
+    when / '()' $/ {
+      $text = "C<$text>";
+    }
+
+    # Links
+    when / '&lt;' .*? '&gt;' / {
+      $text ~~ s/ '&lt;' (.*?) '&gt;' /U<$0>/;
+    }
+
+    default {
+      $text = "I<$text>";
+    }
+  }
 
   $text
 }

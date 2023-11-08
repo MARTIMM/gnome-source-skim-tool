@@ -16,25 +16,23 @@ Project Description
 Description
 ===========
 
-The `B<Gnome::Gtk4::AboutDialog>` offers a simple way to display information about a program.
+The **Gnome::Gtk4::AboutDialog** offers a simple way to display information about a program.
 
 The shown information includes the programs' logo, name, copyright, website and license. It is also possible to give credits to the authors, documenters, translators and artists who have worked on the program.
 
-An about dialog is typically opened when the user selects the `About` option from the `Help` menu. All parts of the dialog are optional.
+An about dialog is typically opened when the user selects the *About* option from the *Help* menu. All parts of the dialog are optional.
 
-![An example GtkAboutDialog](aboutdialog.png)
+About dialogs often contain links and email addresses. **Gnome::Gtk4::AboutDialog** displays these as clickable links. By default, it calls [func `$Gtk`.show_uri] when a user clicks one. The behaviour can be overridden with the *activate-link* signal.
 
-About dialogs often contain links and email addresses. `B<Gnome::Gtk4::AboutDialog>` displays these as clickable links. By default, it calls [func `$Gtk`.show_uri] when a user clicks one. The behaviour can be overridden with the *activate-link* signal.
+To specify a person with an email address, use a string like *Edgar Allan Poe <edgar@poe.com>*. To specify a website with a title, use a string like *GTK team https://www.gtk.org*.
 
-To specify a person with an email address, use a string like `Edgar Allan Poe <edgar C<$poe>.com>`. To specify a website with a title, use a string like `GTK team https://www.gtk.org`.
+To make constructing a **Gnome::Gtk4::AboutDialog** as convenient as possible, you can use the function [func `$Gtk`.show_about_dialog] which constructs and shows a dialog and keeps it around so that it can be shown again.
 
-To make constructing a `B<Gnome::Gtk4::AboutDialog>` as convenient as possible, you can use the function [func `$Gtk`.show_about_dialog] which constructs and shows a dialog and keeps it around so that it can be shown again.
-
-Note that GTK sets a default title of `_("About %s")` on the dialog window (where `%s` is replaced by the name of the application, but in order to ensure proper translation of the title, applications should set the title property explicitly when constructing a `B<Gnome::Gtk4::AboutDialog>`, as shown in the following example:
+Note that GTK sets a default title of *_("About %s")* on the dialog window (where *%s* is replaced by the name of the application, but in order to ensure proper translation of the title, applications should set the title property explicitly when constructing a **Gnome::Gtk4::AboutDialog**, as shown in the following example:
 
 ## CSS nodes
 
-`B<Gnome::Gtk4::AboutDialog>` has a single CSS node with the name `window` and style class `.aboutdialog`.
+**Gnome::Gtk4::AboutDialog** has a single CSS node with the name *window* and style class *.aboutdialog*.
 
 Class initialization
 ====================
@@ -57,7 +55,7 @@ Create an object using a native object from a builder. See also **Gnome::GObject
 new-aboutdialog
 ---------------
 
-Creates a new `B<Gnome::Gtk4::AboutDialog>`.
+Creates a new **Gnome::Gtk4::AboutDialog**.
 
     method new-aboutdialog (
       --> Gnome::Gtk4::AboutDialog
@@ -84,7 +82,7 @@ Returns the names of the artists which are displayed in the credits page.
 
     method get-artists ( --> Array[Str] )
 
-Return value; A `NULL`-terminated string array containing the artists. 
+Return value; A string array containing the artists. 
 
 get-authors
 -----------
@@ -93,7 +91,7 @@ Returns the names of the authors which are displayed in the credits page.
 
     method get-authors ( --> Array[Str] )
 
-Return value; A `NULL`-terminated string array containing the authors. 
+Return value; A string array containing the authors. 
 
 get-comments
 ------------
@@ -120,7 +118,7 @@ Returns the name of the documenters which are displayed in the credits page.
 
     method get-documenters ( --> Array[Str] )
 
-Return value; A `NULL`-terminated string array containing the documenters. 
+Return value; A string array containing the documenters. 
 
 get-license
 -----------
@@ -147,7 +145,7 @@ Returns the paintable displayed as logo in the about dialog.
 
     method get-logo ( --> N-GObject() )
 
-Return value; the paintable displayed as logo or `NULL` if the logo is unset or has been set via `.set_logo_icon_name()`. 
+Return value; the paintable displayed as logo or undefined if the logo is unset or has been set via `.set_logo_icon_name()`. 
 
 get-logo-icon-name
 ------------------
@@ -156,7 +154,7 @@ Returns the icon name displayed as logo in the about dialog.
 
     method get-logo-icon-name ( --> Str )
 
-Return value; the icon name displayed as logo, or `NULL` if the logo has been set via `.set_logo()`. 
+Return value; the icon name displayed as logo, or undefined if the logo has been set via `.set_logo()`. 
 
 get-program-name
 ----------------
@@ -219,7 +217,7 @@ Returns whether the license text in the about dialog is automatically wrapped.
 
     method get-wrap-license ( --> Bool() )
 
-Return value; `TRUE` if the license text is wrapped. 
+Return value; `True` if the license text is wrapped. 
 
 set-artists
 -----------
@@ -275,7 +273,7 @@ set-license
 
 Sets the license information to be displayed in the about dialog.
 
-If `license` is `NULL`, the license page is hidden.
+If `license` is undefined, the license page is hidden.
 
     method set-license (  Str $license )
 
@@ -299,7 +297,7 @@ Sets the logo in the about dialog.
 
     method set-logo (  N-GObject() $logo )
 
-  * $logo; a `GdkPaintable`.
+  * $logo; a *GdkPaintable*.
 
 set-logo-icon-name
 ------------------
@@ -315,7 +313,7 @@ set-program-name
 
 Sets the name to display in the about dialog.
 
-If `name` is not set, the string returned by `g_get_application_name()` is used.
+If *name* is not set, the string returned by `g_get_application_name()` is used.
 
     method set-program-name (  Str $name )
 
@@ -326,7 +324,7 @@ set-system-information
 
 Sets the system information to be displayed in the about dialog.
 
-If `system_information` is `NULL`, the system information page is hidden.
+If `system_information` is undefined, the system information page is hidden.
 
 See *system-information*.
 
@@ -341,7 +339,7 @@ Sets the translator credits string which is displayed in the credits page.
 
 The intended use for this string is to display the translator of the language which is currently used in the user interface. Using `gettext()`, a simple way to achieve that is to mark the string for translation:
 
-It is a good idea to use the customary `msgid` “translator-credits” for this purpose, since translators will already know the purpose of that `msgid`, and since `B<Gnome::Gtk4::AboutDialog>` will detect if “translator-credits” is untranslated and omit translator credits.
+It is a good idea to use the customary *msgid* “translator-credits” for this purpose, since translators will already know the purpose of that *msgid*, and since **Gnome::Gtk4::AboutDialog** will detect if “translator-credits” is untranslated and omit translator credits.
 
     method set-translator-credits (  Str $translator-credits )
 
@@ -363,7 +361,7 @@ Sets the URL to use for the website link.
 
     method set-website (  Str $website )
 
-  * $website; a URL string starting with `http://`.
+  * $website; a URL string starting with *http://*.
 
 set-website-label
 -----------------
