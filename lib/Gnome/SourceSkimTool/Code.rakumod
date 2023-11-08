@@ -1149,6 +1149,8 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
   # For each of the found names
   for $enum-names.sort -> $enum-name {
     my Str $name = $enum-name;
+
+    # Must have a name to search using the @name attribute on an element
     my Str $package = $*gnome-package.Str;
     if $package ~~ / Glib || GObject || Gio / {
       $package = 'G';
@@ -1168,11 +1170,6 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
     $code ~= qq:to/EOENUM/;
       enum $enum-name is export \<
       EOENUM
-
-#    my Str $edoc =
-#      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
-#    my Str $s = self.modify-text($edoc);
-#    $doc = self.cleanup($s);
 
     my Str $member-name-list = '';
     my @members = $xpath.find( 'member', :start($e), :to-list);
