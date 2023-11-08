@@ -660,7 +660,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     $curr-signal<transfer-ownership> = $rvalue.attribs<transfer-ownership>;
 
     my Str ( $rv-doc, $rv-type, $return-ntype) =
-       $!mod.get-doc-type( $rvalue, :$xpath, :!user-side);
+       self.get-doc-type( $rvalue, :$xpath, :!user-side);
     $curr-signal<rv-doc> = $rv-doc;
     $curr-signal<rv-type> = $rv-type;
     $curr-signal<return-ntype> = $return-ntype;
@@ -872,7 +872,68 @@ note "$?LINE $property-name, $type, $raku-type, $g-type";
 }}
 
 #-------------------------------------------------------------------------------
-method document-constants ( ) {
+method document-constants ( @constants --> Str ) {
+}
+
+#-------------------------------------------------------------------------------
+method document-enumerations ( @enum-names --> Str ) {
+
+  # Return empty string if no enums found.
+  return '' unless ?@enum-names;
+
+  # Open enumerations file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-enumeration.gir';
+  my XML::XPath $xpath .= new(:$file);
+
+  my Str $doc = qq:to/EOENUM/;
+    =begin pod
+    =head1 Enumerations
+
+    EOENUM
+
+  # For each of the found names
+  for @enum-names.sort -> $enum-name {
+    $doc ~= qq:to/EOENUM/;
+    =head2 $enum-name
+
+    EOENUM
+
+    # Must have a name to search using the @name attribute on an element
+    my Str $prefix = $*work-data<name-prefix>.tc;
+    my Str $name = $enum-name;
+    $name ~~ s/^ $prefix //;
+ 
+    # Get the XML element of the enum data
+    my XML::Element $e = $xpath.find(
+      '//enumeration[@name="' ~ $name ~ '"]', :!to-list
+    );
+
+    my Str $enum-doc =
+      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+    $doc ~= self!cleanup(self!modify-text($enum-doc));
+   
+    my @members = $xpath.find( 'member', :start($e), :to-list);
+    for @members -> $m {
+      $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
+      my Str $enum-member-doc =
+        ($xpath.find( 'doc/text()', :start($m), :!to-list) // '').Str;
+      $doc ~= self!cleanup(self!modify-text($enum-member-doc)) ~ "\n";
+    }
+  }
+
+  $doc ~= "=end pod\n\n";
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method document-bitfield ( @bitfield-names --> Str ) {
+  ''
+}
+
+#-------------------------------------------------------------------------------
+method document-functions ( @function-names --> Str ) {
+  ''
 }
 
 #-------------------------------------------------------------------------------

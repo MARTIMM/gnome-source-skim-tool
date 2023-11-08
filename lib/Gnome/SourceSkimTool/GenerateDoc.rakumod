@@ -43,7 +43,6 @@ method generate-doc ( ) {
 
   for $!filedata.keys {
     # -> $type-name
-note "$?LINE $_";
 
     next if ?@*gir-type-select and ($_ ~~ none(|@*gir-type-select));
 
@@ -125,7 +124,7 @@ note "$?LINE $_";
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
     next if $gir-type ~~ any(<class interface record union>);
-    next if $gir-type ~~ any(<callback alias function-macro docsection>);
+    next if $gir-type ~~ any(<callback alias function-macro>);
     # Test if gir-type is selected Skip a key if not mentioned on the
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
@@ -141,12 +140,11 @@ note "$?LINE $gir-type, ", $data.gist;
     my Str $type-name = $data<type-name>;
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
-    $filename = [~] $*work-data<result-mods>, $type-name, '.rakumod';
+    $filename = [~] $*work-data<result-docs>, $type-name, '.rakudoc';
     $class-name = $data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
-#note "$?LINE $gir-type, $filename, $class-name";
-#note "$?LINE $*work-data<sub-prefix>";
+note "$?LINE $filename";
 
     given $gir-type {
       when 'constant' {
@@ -154,48 +152,39 @@ note "$?LINE $gir-type, ", $data.gist;
         for $!filedata<constant>.kv -> $k, $v {
           my Str $name = $k; # $t-prep.drop-prefix( $k, :constant);
           @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
-  #        $filename = $v<type-name> unless ?$filename;
-  #        $class-name = $v<class-name> unless ?$class-name;
         }
 
         $c ~= $!grd.document-constants(@constants);
       }
 
-#`{{
       # Only for documentation
-      #when 'docsection' { }
+      when 'docsection' { }
 
       when 'enumeration' {
-        my Array $enum-names = [];
+        my @enum-names = ();
         for $!filedata<enumeration>.kv -> $k, $v {
-          $enum-names.push: $k;
-  #        $filename = $v<type-name> unless ?$filename;
-  #        $class-name = $v<class-name> unless ?$class-name;
+          @enum-names.push: $k;
         }
 
-        $c ~= $!mod.generate-enumerations-code($enum-names);
+        $c ~= $!grd.document-enumerations(@enum-names);
       }
 
       when 'bitfield' {
-        my Array $bitfield-names = [];
+        my @bitfield-names = [];
         for $!filedata<bitfield>.kv -> $k, $v {
-          $bitfield-names.push: $k;
-  #        $filename = $v<type-name> unless ?$filename;
-  #        $class-name = $v<class-name> unless ?$class-name;
+          @bitfield-names.push: $k;
         }
 
-        $c ~= $!mod.generate-bitfield-code($bitfield-names);
+        $c ~= $!grd.document-bitfield(@bitfield-names);
       }
 
       #when 'callback' { }
 
       when 'function' {
         $has-functions = True;
-        my Array $function-names = [];
+        my @function-names = [];
         for $!filedata<function>.kv -> $k, $v {
-          $function-names.push: $v<function-name>;
-  #        $filename = $v<type-name> unless ?$filename;
-  #        $class-name = $v<class-name> unless ?$class-name;
+          @function-names.push: $v<function-name>;
         }
 
 #        my Str $package-name = (S/ \d+ $// with $*gnome-package.Str).lc;
@@ -203,18 +192,27 @@ note "$?LINE $gir-type, ", $data.gist;
 #                                  ?? 'g_' !! $package-name ~ '_';
 #note "$?LINE f $package-name $*work-data<sub-prefix>";
 
-        my Hash $hms = $!mod.get-standalone-functions($function-names);
-        $function-hash = $!mod.generate-functions($hms);
+#        my Hash $hms = $!mod.get-standalone-functions($function-names);
+#        $function-hash = $!mod.generate-functions($hms);
+
+        $c ~= $!grd.document-functions(@function-names);
       }
 
       #when 'alias' { }
       #when 'function-macro' { }
-}}
+
     }
   }
 
 note "$?LINE $class-name, $filename";
   if ?$class-name and ?$filename {
+
+    note "Document init" if $*verbose;
+    my Str $doc = $!grd.start-document;
+    $doc ~= "=head1 $class-name\n\n";
+    $doc ~= $c;
+
+
 #`{{
 #    mkdir $filename.IO.dirname, 0o750 unless $filename.IO.dirname.IO ~~ :e;
 
@@ -276,9 +274,9 @@ note "$?LINE $class-name, $filename";
 
     $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
-#    $filename = $*work-data<result-mods> ~ $filename ~ '.rakumod';
-    $!mod.save-file( $filename, $code, "types module");
 }}
+
+    $!mod.save-file( $filename, $doc, "types documentation");
   }
 }
 
