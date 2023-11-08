@@ -58,7 +58,7 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  #show-about-dialog => %( :type(Function), :variable-list,  :parameters([ N-GObject, Str])),
+  show-about-dialog => %( :type(Function), :variable-list,  :parameters([ N-GObject, Str])),
 
 );
 
