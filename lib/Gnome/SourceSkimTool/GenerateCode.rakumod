@@ -226,11 +226,11 @@ method generate-code ( ) {
     if $has-functions {
       $code ~= qq:to/RAKUMOD/;
 
-        {$!grd.pod-header('BUILD variables')}
+        {pod-header('BUILD variables')}
         # Define helper
         has Gnome::N::GnomeRoutineCaller \$!routine-caller;
 
-        {$!grd.pod-header('BUILD submethod')}
+        {pod-header('BUILD submethod')}
         submethod BUILD ( ) \{
           # Initialize helper
           \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\("$*work-data<name-prefix>_"\)\);
