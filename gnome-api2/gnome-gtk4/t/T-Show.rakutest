@@ -1,0 +1,54 @@
+# Command to generate: generate.raku -v -c -t Gtk4 show
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Show:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Show:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-GObject:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+my Gnome::Gtk4::T-Show $show .= new;
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $show {
+    my  $callback;
+    my gpointer $user-data;
+    my guint32 $timestamp;
+    my N-GObject $result;
+    my N-GObject $parent;
+    my N-GObject $cancellable;
+    my Str $uri;
+
+
+    #TM:1:show-uri()
+    $timestamp = now.Int;
+    lives-ok { .show-uri( N-GObject, 'https://google.com', $timestamp) }, '.show-uri()';
+
+#`{{
+    #TM:0:show-uri-full()
+    ok .show-uri-full( $parent, $uri, $timestamp, $cancellable, $callback, $user-data), '.show-uri-full()';
+
+    #TM:0:show-uri-full-finish()
+    ok .show-uri-full-finish( $parent, $result), '.show-uri-full-finish()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
