@@ -872,6 +872,10 @@ note "$?LINE $property-name, $type, $raku-type, $g-type";
 }}
 
 #-------------------------------------------------------------------------------
+method document-constants ( ) {
+}
+
+#-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
 
   # Gtk version 4 docs have specifications which differ from previous versions.

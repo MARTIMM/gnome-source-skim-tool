@@ -7,7 +7,7 @@
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
-#use Gnome::SourceSkimTool::Doc;
+use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Prepare;
 
 
@@ -15,7 +15,7 @@ use Gnome::SourceSkimTool::Prepare;
 unit class Gnome::SourceSkimTool::GenerateDoc:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Code $!mod;
-#has Gnome::SourceSkimTool::Doc $!grd;
+has Gnome::SourceSkimTool::Doc $!grd;
 
 has Str $!filename;
 has Hash $!filedata;
@@ -23,6 +23,7 @@ has Hash $!filedata;
 #-------------------------------------------------------------------------------
 submethod BUILD ( Str :$!filename ) {
   $!mod .= new;
+  $!grd .= new;
 
   self!get-data-from-filename;
 }
@@ -125,13 +126,12 @@ note "$?LINE $_";
   for $!filedata.keys -> $gir-type {
     next if $gir-type ~~ any(<class interface record union>);
     next if $gir-type ~~ any(<callback alias function-macro docsection>);
-#`{{
     # Test if gir-type is selected Skip a key if not mentioned on the
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my $data = $!filedata{$gir-type}.values[0];
-#note "$?LINE $gir-type, ", $data.gist;
+note "$?LINE $gir-type, ", $data.gist;
     next unless ?$data<type-name>;
 
     $*gnome-class = $data<type-name>;
@@ -158,9 +158,10 @@ note "$?LINE $_";
   #        $class-name = $v<class-name> unless ?$class-name;
         }
 
-        $c ~= $!mod.generate-constants(@constants);
+        $c ~= $!grd.document-constants(@constants);
       }
 
+#`{{
       # Only for documentation
       #when 'docsection' { }
 
@@ -208,14 +209,13 @@ note "$?LINE $_";
 
       #when 'alias' { }
       #when 'function-macro' { }
-    }
 }}
+    }
   }
 
-#TL:1:$*work-data<raku-class-name>:
-#note "$?LINE $class-name, $filename";
-#`{{
+note "$?LINE $class-name, $filename";
   if ?$class-name and ?$filename {
+#`{{
 #    mkdir $filename.IO.dirname, 0o750 unless $filename.IO.dirname.IO ~~ :e;
 
     my Str $code = qq:to/RAKUMOD/;
@@ -278,8 +278,8 @@ note "$?LINE $_";
 
 #    $filename = $*work-data<result-mods> ~ $filename ~ '.rakumod';
     $!mod.save-file( $filename, $code, "types module");
-  }
 }}
+  }
 }
 
 #-------------------------------------------------------------------------------
