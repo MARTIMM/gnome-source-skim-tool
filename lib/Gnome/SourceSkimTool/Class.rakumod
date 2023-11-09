@@ -70,9 +70,6 @@ method generate-doc ( ) {
   note "Document module description" if $*verbose;
   $doc ~= $!grd.get-description( $element, $!xpath);
 
-  #note "Document enumerations and bitmasks";
-  #$doc ~= $!mod.generate-enumerations-doc;
-
   note "Document BUILD submethod" if $*verbose;
   my Hash $hcs = $!mod.get-constructors( $element, $!xpath);
   $doc ~= $!grd.document-build( $element, $hcs);
