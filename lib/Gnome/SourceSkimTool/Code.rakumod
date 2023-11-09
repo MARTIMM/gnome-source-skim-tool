@@ -127,13 +127,14 @@ method generate-callables (
   my Str $code = '';
   my Str $c;
 
-  my Hash $hcs = self.get-constructors( $element, $xpath);
+  my Hash $hcs =
+    self.get-native-subs( $element, $xpath, :routine-name<constructor>);
   # Generate constructors
   $code ~= self!generate-constructors($hcs) if ?$hcs;
   note "Generate constructors" if $*verbose and ?$code;
 
   # Get all methods in this class
-  $hcs = self.get-methods( $element, $xpath);
+  $hcs = self.get-native-subs( $element, $xpath, :routine-type<method>);
   if ?$hcs {
     # Generate methods
     $c = self!generate-methods($hcs);
@@ -142,7 +143,7 @@ method generate-callables (
   }
 
   # Get all functions in this class
-  $hcs = self.get-functions( $element, $xpath);
+  $hcs = self.get-native-subs( $element, $xpath, :routine-type<function>);
   if ?$hcs {
     # Generate functions
     $code ~= self.generate-functions($hcs);
@@ -434,6 +435,7 @@ method get-gtk-init ( --> List ) {
   ( $code, $init-gtk)
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method get-constructors (
   XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
@@ -454,7 +456,9 @@ method get-constructors (
 
   $hcs
 }
+}}
 
+#`{{
 #-------------------------------------------------------------------------------
 method !get-constructor-data (
   XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List ) {
@@ -574,6 +578,7 @@ method !get-constructor-data (
     )
   );
 }
+}}
 
 #-------------------------------------------------------------------------------
 method !generate-constructors ( Hash $hcs --> Str ) {
@@ -663,6 +668,35 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+method get-native-subs (
+  XML::Element $element, XML::XPath $xpath,
+  Bool :$user-side = False, Str :$routine-type = 'method'
+  --> Hash
+) {
+  my Hash $hms = %();
+
+  my @subs = $xpath.find( $routine-type, :start($element), :to-list);
+
+  for @subs -> $native-sub {
+    # Skip deprecated methods
+    next if $native-sub.attribs<deprecated>:exists and
+            $native-sub.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) =
+      self!get-method-data( $native-sub, :$xpath, :$user-side);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
+#`{{
+#-------------------------------------------------------------------------------
 method get-methods (
   XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
 ) {
@@ -687,6 +721,7 @@ method get-methods (
 
   $hms
 }
+}}
 
 #-------------------------------------------------------------------------------
 method !generate-methods ( Hash $hcs --> Str ) {
@@ -1012,6 +1047,7 @@ method generate-functions ( Hash $hcs --> Str ) {
   $code
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method get-functions (
   XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
@@ -1037,6 +1073,7 @@ method get-functions (
 
   $hms
 }
+}}
 
 #-------------------------------------------------------------------------------
 method get-standalone-functions (
@@ -1148,9 +1185,13 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
 
   # For each of the found names
   for $enum-names.sort -> $enum-name {
-    my Str $name = $enum-name;
+#    my Str $name = $enum-name;
 
     # Must have a name to search using the @name attribute on an element
+    my Str $prefix = $*work-data<name-prefix>.tc;
+    my Str $name = $enum-name;
+    $name ~~ s/^ $prefix //;
+#`{{
     my Str $package = $*gnome-package.Str;
     if $package ~~ / Glib || GObject || Gio / {
       $package = 'G';
@@ -1161,6 +1202,7 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
     }
 
     $name ~~ s/^ $package //;
+}}
 
     # Get the XML element of the enum data
     my XML::Element $e = $xpath.find(
@@ -1980,7 +2022,7 @@ method convert-ntype (
 #  Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
-#note "\n$?LINE convert-ntype ctype: $ctype";
+note "\n$?LINE convert-ntype ctype: $ctype";
 
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
@@ -2100,7 +2142,7 @@ method convert-ntype (
     }
   }
 
-#note "  $?LINE $ctype, $raku-type";
+note "  $?LINE $ctype, $raku-type";
   $raku-type
 }
 
@@ -2629,7 +2671,8 @@ method make-build-submethod (
 
   my Bool $simple-func-new = False;
   my Str $ifelse = 'if';
-  my Hash $hcs = self.get-constructors( $element, $xpath);
+  my Hash $hcs =
+    self.get-native-subs( $element, $xpath, :routine-name<constructor>);
   if ?$hcs {
     for $hcs.keys.sort -> $function-name is copy {
 

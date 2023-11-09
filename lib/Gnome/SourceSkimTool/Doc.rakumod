@@ -279,7 +279,8 @@ method document-constructors (
   my Hash $h = $!mod.search-name($ctype);
 
   # Get all methods in this class
-  my Hash $hcs = self.get-constructors( $element, $xpath);
+  my Hash $hcs =
+    self.get-native-subs( $element, $xpath, :routine-type<constructor>);
   return '' unless ?$hcs;
 
   my Str $doc = '';
@@ -352,7 +353,7 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
 
   # Get all methods in this class
-  my Hash $hcs = self.get-methods( $element, $xpath);
+  my Hash $hcs = self.get-native-subs( $element, $xpath, :routine-type<method>);
   return '' unless ?$hcs;
 
   my Str $doc = qq:to/EOSUB/;
@@ -446,6 +447,112 @@ method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+method document-native-subs (
+  XML::Element $element, XML::XPath $xpath, Str :$routine-type = 'method' 
+  --> Str ) {
+
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!mod.search-name($ctype);
+
+  # Get all subs of $routine-type in this class
+  my Hash $hcs =
+    self.get-native-subs( $element, $xpath, :$routine-type);
+  return '' unless ?$hcs;
+
+  my Str $subs-header = $routine-type.tc ~ 's';
+  my Str $doc = qq:to/EOSUB/;
+    {pod-header($subs-header)}
+    =begin pod
+    =head1 $subs-header
+    =end pod
+
+    EOSUB
+
+  for $hcs.keys.sort -> $native-sub is copy {
+    my Hash $curr-function := $hcs{$native-sub};
+
+#    $native-sub = $!mod.cleanup-id($native-sub);
+
+note "\n$?LINE $native-sub, $curr-function.gist()";
+
+    my Str $native-sub-doc = $curr-function<function-doc>;
+    $native-sub-doc = "No documentation of method.\n" unless ?$native-sub-doc;
+
+    # Get parameter lists
+    my Str ( $raku-list, $items-doc, $own, $returns-doc) =  '' xx 5;
+    my @rv-list = ();
+
+    my Hash $result;
+    my Bool $first-param = True;
+    for @($curr-function<parameters>) -> $parameter {
+      # Skip first parameter if $routine-type ~~ 'method'. That one is
+      # retrieved from the current object, called 'instance-parameter'.
+      if $routine-type eq 'method' and $first-param {
+        $first-param = False;
+        next;
+      }
+
+      $result = self!get-types( $parameter, @rv-list);
+      $raku-list ~= $result<raku-list> // '';
+      $items-doc ~= $result<items-doc> // '';
+      $returns-doc ~= $result<returns-doc> // '';
+    }
+
+    my $xtype = $curr-function<return-raku-type>;
+    if ?$xtype and $xtype ne 'void' {
+
+      my Str ( $l, $d ) = self.check-special( $xtype, '', '');
+
+      $raku-list ~= " --> $l";
+      $own = '';
+      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
+        if ?$curr-function<transfer-ownership> and
+            $curr-function<transfer-ownership> ne 'none';
+
+      # Check if there is info about the return value
+      if ?$curr-function<rv-doc> {
+        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>. $d\n";
+      }
+
+      elsif $raku-list ~~ / '-->' / {
+        $returns-doc =
+          "\nReturn value; No documentation about its value and use. $d\n";
+      }
+    }
+
+    # Assumed that there are no multiple methods to return values. I.e not
+    # returning an array and pointer arguments to receive values in those vars.
+    elsif ?@rv-list {
+      $returns-doc = "Returns a List holding the values\n$returns-doc";
+      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
+      $raku-list ~= " --> List";
+    }
+
+    # remove first comma
+    $raku-list ~~ s/^ . //;
+
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      =begin pod
+      =head2 $native-sub
+
+      $native-sub-doc
+
+      =begin code
+      method $native-sub \( $raku-list \)
+      =end code
+
+      $items-doc
+      $returns-doc
+      =end pod
+      EOSUB
+  }
+
+  $doc
+}
+
+#`{{
+#-------------------------------------------------------------------------------
 method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my Hash $hms = %();
 
@@ -481,6 +588,61 @@ method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Function names which are returned emptied, are assumably internal
     next unless ?$function-name and ?%h;
 
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
+#-------------------------------------------------------------------------------
+method get-functions (
+  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
+) {
+  my Hash $hms = %();
+
+  my @methods = $xpath.find( 'function', :start($element), :to-list);
+
+  for @methods -> $function {
+    # Skip deprecated methods
+    next if $function.attribs<deprecated>:exists and
+            $function.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) =
+      self!get-method-data( $function, :$xpath, :$user-side);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+}}
+
+#-------------------------------------------------------------------------------
+method get-native-subs (
+  XML::Element $element, XML::XPath $xpath,
+  Bool :$user-side = False, Str :$routine-type = 'method'
+  --> Hash
+) {
+  my Hash $hms = %();
+
+  my @subs = $xpath.find( $routine-type, :start($element), :to-list);
+
+  for @subs -> $native-sub {
+    # Skip deprecated methods
+    next if $native-sub.attribs<deprecated>:exists and
+            $native-sub.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) =
+      self!get-method-data( $native-sub, :$xpath, :$user-side);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
     $hms{$function-name} = %h;
   }
 
@@ -873,6 +1035,7 @@ note "$?LINE $property-name, $type, $raku-type, $g-type";
 
 #-------------------------------------------------------------------------------
 method document-constants ( @constants --> Str ) {
+  ''
 }
 
 #-------------------------------------------------------------------------------
@@ -932,9 +1095,11 @@ method document-bitfield ( @bitfield-names --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method document-functions ( @function-names --> Str ) {
+method document-standalone-functions ( @function-names --> Str ) {
   ''
 }
+
+
 
 #-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
