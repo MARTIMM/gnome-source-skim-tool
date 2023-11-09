@@ -7,7 +7,7 @@ Project Description
 
   * **Project version:** 0.1.7
 
-  * **Rakudo version:** Raku.version, Raku.compiler.version
+  * **Rakudo version:** 2023.10.67.g.688.b.625.ac
 
   * **Author:** Marcel Timmerman
 
