@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 AboutDialog
+# Command to generate: generate.raku -v -c Gtk4 aboutdialog function enumeration
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
