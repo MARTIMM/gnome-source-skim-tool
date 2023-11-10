@@ -71,10 +71,13 @@ method generate-doc ( ) {
   $doc ~= $!grd.get-description( $element, $!xpath);
 
   note "Document BUILD submethod" if $*verbose;
-  my Hash $hcs =
-    $!grd.get-native-subs( $element, $!xpath, :routine-type<constructor>);
-  $doc ~= $!grd.document-build( $element, $hcs);
+#  my Hash $hcs =
+#    $!grd.get-native-subs( $element, $!xpath, :routine-type<constructor>);
+  $doc ~= $!grd.document-build($element);
   $doc ~= $!grd.document-constructors( $element, $!xpath);
+#  $doc ~= $!grd.document-native-subs(
+#    $element, $!xpath, :routine-type<constructor>
+#  );
 
   note "Document methods" if $*verbose;
   $doc ~= $!grd.document-native-subs( $element, $!xpath, :routine-type<method>);
