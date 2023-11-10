@@ -30,8 +30,6 @@ The **Gnome::Gtk4::Window** implementation of the [iface `$Gtk`.Buildable] inter
 CSS nodes
 =========
 
-----EXAMPLE----0
-
 **Gnome::Gtk4::Window** has a main CSS node with name window and style class .background.
 
 Style classes that are typically used with the main CSS node are .csd (when client-side decorations are in use), .solid-csd (for client-side decorations without invisible borders), .ssd (used by mutter when rendering server-side decorations). GtkWindow also represents window states with the following style classes on the main node: .maximized, .fullscreen, .tiled (when supported, also .tiled-top, .tiled-left, .tiled-right, .tiled-bottom).
@@ -45,7 +43,7 @@ Generally, some CSS properties don't make sense on the toplevel window node, suc
 Accessibility
 =============
 
-**Gnome::Gtk4::Window** uses the %GTK-ACCESSIBLE-ROLE-WINDOW role.
+**Gnome::Gtk4::Window** uses the %GTK_ACCESSIBLE_ROLE_WINDOW role.
 
 Actions
 =======
@@ -70,20 +68,23 @@ Create an object using a native object from a builder. See also **Gnome::GObject
 
     multi method new ( Str :$build-id! )
 
-new-window
-----------
+Constructors
+============
+
+new
+---
 
 Creates a new **Gnome::Gtk4::Window**.
 
 To get an undecorated window (no window borders), use `.set-decorated()`.
 
-All top-level windows created by gtk-window-new() are stored in an internal top-level window list. This list can be obtained from `.Window.list-toplevels()`. Due to GTK keeping a reference to the window internally, gtk-window-new() does not return a reference to the caller.
+All top-level windows created by gtk_window_new() are stored in an internal top-level window list. This list can be obtained from `.Window.list-toplevels()`. Due to GTK keeping a reference to the window internally, gtk_window_new() does not return a reference to the caller.
 
 To delete a **Gnome::Gtk4::Window**, call `.destroy()`.
 
-    method new-window (
-      --> Gnome::Gtk4::Window
-    )
+    method new ( --> N-GObject() )
+
+Return value; a new **Gnome::Gtk4::Window**.. 
 
 Methods
 =======
@@ -202,7 +203,7 @@ get-focus
 
 Retrieves the current focused widget within the window.
 
-Note that this is the widget that would have the focus if the toplevel window focused; if the toplevel window is not focused then *gtk-widget-has-focus (widget)* will not be %TRUE for the widget.
+Note that this is the widget that would have the focus if the toplevel window focused; if the toplevel window is not focused then *gtk_widget_has_focus (widget)* will not be %TRUE for the widget.
 
     method get-focus ( --> N-GObject() )
 
@@ -276,7 +277,7 @@ Return value; %TRUE if the window is set to be modal and establishes a grab when
 get-resizable
 -------------
 
-Gets the value set by gtk-window-set-resizable().
+Gets the value set by gtk_window_set_resizable().
 
     method get-resizable ( --> Bool() )
 
@@ -294,7 +295,7 @@ Return value; the title of the window.
 get-titlebar
 ------------
 
-Returns the custom titlebar that has been set with gtk-window-set-titlebar().
+Returns the custom titlebar that has been set with gtk_window_set_titlebar().
 
     method get-titlebar ( --> N-GObject() )
 
@@ -336,7 +337,7 @@ is-fullscreen
 
 Retrieves the current fullscreen state of `$window`.
 
-Note that since fullscreening is ultimately handled by the window manager and happens asynchronously to an application request, you shouldn’t assume the return value of this function changing immediately (or at all), as an effect of calling `.fullscreen()` or `.unfullscreen()`.
+Note that since fullscreening is ultimately handled by the window manager and happens asynchronously to an application request, you shouldn’t assume the return value of this function changing immediately (or at all), as an effect of calling `.fullscreen()` or `.unfullscreen() defined in Window`.
 
 If the window isn't yet mapped, the value returned will whether the initial requested state is fullscreen.
 
@@ -349,7 +350,7 @@ is-maximized
 
 Retrieves the current maximized state of `$window`.
 
-Note that since maximization is ultimately handled by the window manager and happens asynchronously to an application request, you shouldn’t assume the return value of this function changing immediately (or at all), as an effect of calling `.maximize()` or `.unmaximize()`.
+Note that since maximization is ultimately handled by the window manager and happens asynchronously to an application request, you shouldn’t assume the return value of this function changing immediately (or at all), as an effect of calling `.maximize()` or `.unmaximize() defined in Window`.
 
 If the window isn't yet mapped, the value returned will whether the initial requested state is maximized.
 
@@ -414,7 +415,7 @@ set-application
 
 Sets or unsets the *GtkApplication* associated with the window.
 
-The application will be kept alive for at least as long as it has any windows associated with it (see g-application-hold() for a way to keep it alive without windows).
+The application will be kept alive for at least as long as it has any windows associated with it (see g_application_hold() for a way to keep it alive without windows).
 
 Normally, the connection between the application and the window will remain until the window is destroyed, but you can explicitly remove it by setting the `$application` to %NULL.
 
@@ -558,7 +559,7 @@ Sets the icon for the window from a named themed icon.
 
 See the docs for [class `$Gtk`.IconTheme] for more details. On some platforms, the window icon is not used at all.
 
-Note that this has nothing to do with the WM-ICON-NAME property which is mentioned in the ICCCM.
+Note that this has nothing to do with the WM_ICON_NAME property which is mentioned in the ICCCM.
 
     method set-icon-name (  Str $name )
 
@@ -639,7 +640,7 @@ If you set a custom titlebar, GTK will do its best to convince the window manage
 set-transient-for
 -----------------
 
-Dialog windows should be set transient for the main application window they were spawned from. This allows window managers to e.g. keep the dialog on top of the main window, or center the dialog over the main window. [ctor `$Gtk`.Dialog.new-with-buttons] and other convenience functions in GTK will sometimes call gtk-window-set-transient-for() on your behalf.
+Dialog windows should be set transient for the main application window they were spawned from. This allows window managers to e.g. keep the dialog on top of the main window, or center the dialog over the main window. [ctor `$Gtk`.Dialog.new_with_buttons] and other convenience functions in GTK will sometimes call gtk_window_set_transient_for() on your behalf.
 
 Passing %NULL for `$parent` unsets the current transient window.
 
@@ -703,7 +704,7 @@ Returns a list of all existing toplevel windows.
 
 If you want to iterate through the list and perform actions involving callbacks that might destroy the widgets or add new ones, be aware that the list of toplevels will change and emit the "items-changed" signal.
 
-    method get-toplevels ( --> N-GList() )
+    method get-toplevels ( --> N-List() )
 
 Return value; the list of toplevel widgets. 
 
@@ -712,9 +713,9 @@ list-toplevels
 
 Returns a list of all existing toplevel windows.
 
-The widgets in the list are not individually referenced. If you want to iterate through the list and perform actions involving callbacks that might destroy the widgets, you must call *g-list-foreach (result, (GFunc)g-object-ref, NULL)* first, and then unref all the widgets afterwards.
+The widgets in the list are not individually referenced. If you want to iterate through the list and perform actions involving callbacks that might destroy the widgets, you must call *g_list_foreach (result, (GFunc)g_object_ref, NULL)* first, and then unref all the widgets afterwards.
 
-    method list-toplevels ( --> N-GList() )
+    method list-toplevels ( --> N-List() )
 
 Return value; list of toplevel widgets. 
 
@@ -723,7 +724,7 @@ set-auto-startup-notification
 
 Sets whether the window should request startup notification.
 
-By default, after showing the first **Gnome::Gtk4::Window**, GTK calls [method `$Gdk`.Display.notify-startup-complete]. Call this function to disable the automatic startup notification. You might do this if your first window is a splash screen, and you want to delay notification until after your real main window has been shown, for example.
+By default, after showing the first **Gnome::Gtk4::Window**, GTK calls [method `$Gdk`.Display.notify_startup_complete]. Call this function to disable the automatic startup notification. You might do this if your first window is a splash screen, and you want to delay notification until after your real main window has been shown, for example.
 
 In that example, you would disable startup notification temporarily, show your splash screen, then re-enable it so that showing the main window would automatically result in notification.
 
