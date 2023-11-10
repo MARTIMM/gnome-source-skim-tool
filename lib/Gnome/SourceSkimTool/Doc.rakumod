@@ -152,7 +152,8 @@ method !set-example ( --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method document-build ( XML::Element $element, Hash $hcs --> Str ) {
+method document-build ( XML::Element $element --> Str ) {
+#method document-build ( XML::Element $element, Hash $hcs --> Str ) {
   my Str $doc = qq:to/EOBUILD/;
 
     {pod-header('Class Initialization')}
@@ -162,11 +163,11 @@ method document-build ( XML::Element $element, Hash $hcs --> Str ) {
     =head2 new
     EOBUILD
 
+#`{{
   my Str $build-doc;
   for $hcs.keys.sort -> $function-name {
     $build-doc = '';
 
-#`{{
     my Str $option-name = $hcs{$function-name}<option-name>;
     
     # If $option-name is a dash, the new C-function has no special name.
@@ -233,9 +234,9 @@ method document-build ( XML::Element $element, Hash $hcs --> Str ) {
       $hcs{$function-name}<function-doc>, $variable-map
     );
     $build-doc ~~ s/ '____FUNCTIONDOC___' /$d/;
-}}
     $doc ~= $build-doc;
   }
+}}
 
 
   # Finish with standard options
@@ -473,7 +474,7 @@ method document-native-subs (
 
 #    $native-sub = $!mod.cleanup-id($native-sub);
 
-note "\n$?LINE $native-sub, $curr-function.gist()";
+#note "\n$?LINE $native-sub, $curr-function.gist()";
 
     my Str $native-sub-doc = $curr-function<function-doc>;
     $native-sub-doc = "No documentation of method.\n" unless ?$native-sub-doc;
@@ -1178,7 +1179,7 @@ method !modify-text ( Str $text is copy --> Str ) {
   # Subtitute the examples back into the text before we can finally modify it
   for $examples.keys -> $ex-key {
     my Str $t = $examples{$ex-key};
-
+note "$?LINE $ex-key";
     if $version4 {
       $t = self!modify-v4examples($t);
     }
@@ -1224,14 +1225,21 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
   $gname ~~ s/^ $prefix //;
 
   # Methods within same module/class
-  $text ~~ s:g/ '[' method '@' $prefix '.' $gname '.' (<-[\]]>+) ']'
-              /C<.$0\(\)>/;
+  while $text ~~ m:c/ '[method@' $prefix ".$gname." $<func> = <-[\]]>+ ']' / {
+    my Str $func = $/<func>.Str;
+    $func ~~ s:g/ '_' /-/;
+    $text ~~ s/ '[method@' $prefix ".$gname." <-[\]]>+ ']' /C<.$func\(\)>/;
+  }
 
   # Methods defined elsewhere
-  $text ~~ s:g/ '[' method '@' $prefix '.' (<-[\.]>+) '.' (<-[\]]>+) ']'
-              /C<.$1\(\) defined in $0>/;
-
-  $text ~~ s:g/ '_' /-/;
+  while $text ~~ m:c/ '[method@' $prefix '.' $<class> = <-[\.]>+ 
+                                         '.' $<func> = <-[\]]>+ ']' / {
+    my Str $class = $/<class>.Str;
+    my Str $func = $/<func>.Str;
+    $func ~~ s:g/ '_' /-/;
+    $text ~~ s/ '[method@' $prefix '.' <-[\.]>+ '.' <-[\]]>+ ']'
+              /C<.$func\(\) defined in $class>/;
+  }
 
   $text
 }
@@ -1240,17 +1248,17 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 # Convert [func@Gtk.show_uri]
 
 method !modify-v4functions ( Str $text is copy --> Str ) {
-
   my Str $prefix = $*work-data<name-prefix>.tc;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s/^ $prefix //;
 
   # Functions
-  $text ~~ s:g/ '[' func '@' $prefix '.' (<-[\]]>+) ']' /C<.$0\(\)>/;
-
-  $text ~~ s:g/ '_' /-/;
+  while $text ~~ m:c/ '[func@' $prefix '.' $<func> = <-[\]]>+ ']' / {
+    my Str $func = $/<func>.Str;
+    $func ~~ s:g/ '_' /-/;
+    $text ~~ s/ '[func@' $prefix '.' <-[\]]>+ ']' /C<.$func\(\)>/;
+  }
 
   $text
+
 }
 
 #-------------------------------------------------------------------------------
@@ -1377,11 +1385,17 @@ method !modify-v4examples ( Str $text is copy --> Str ) {
   $text ~~ s:g/^^/  /;
 #note "$?LINE\n$text";
 
-  $text ~~ s/'  ```' (\w+)
+  if $text ~~ m/ '  ```' \w+ / {
+    $text ~~ s/ '  ```' (\w+)?
               /=begin comment \nFollowing example code is in $0\n/;
+  }
+  else {
+    $text ~~ s/ '  ```' /=begin comment\n/;
+  }
 
   $text ~~ s/'  ```' /=end comment/;
 
+note "$?LINE\n$text";
   $text
 }
 
