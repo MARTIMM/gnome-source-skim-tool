@@ -1424,7 +1424,7 @@ method generate-structure (
       if ?$type {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
         my Str ( $rnt0, $rnt1) = $raku-type.split(':');
-#note "\n$?LINE $raku-type, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $class-name eq 'N-GClosureNotifyData';
+#note "\n$?LINE $raku-type, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $class-name eq 'N-ClosureNotifyData';
         if ?$rnt1 {
           $code ~= "has $rnt0 \$.$field-name;           # $rnt1\n";
         }
@@ -2168,7 +2168,7 @@ method convert-rtype (
     when /g? int \d* '*'/       { $raku-type = 'Array[Int]'; }
     when /g? uint \d* '*'/      { $raku-type = 'Array[UInt]'; }
     when /g? size '*'/          { $raku-type = 'Array[gsize]'; }
-#    when /:i g? error '*'/      { $raku-type = 'Array[N-GError]'; }
+#    when /:i g? error '*'/      { $raku-type = 'Array[N-Error]'; }
 #    when /:i g? pixbuf '*'/     { $raku-type = 'N-GObject'; }
 #    when /:i g? error '*'/      { $raku-type = 'N-GObject'; }
     when /g? pointer '*'/       { $raku-type = 'Array'; }
@@ -2205,12 +2205,12 @@ method convert-rtype (
 
     when /GQuark/ { $raku-type = 'UInt'; }
     when /GList/ {
-      $raku-type = 'N-GList';
+      $raku-type = 'N-List';
       $raku-type ~= '()' unless $return-type;
     }
 
     when /GSList/ {
-      $raku-type = 'N-GSList';
+      $raku-type = 'N-SList';
       $raku-type ~= '()' unless $return-type;
     }
 
