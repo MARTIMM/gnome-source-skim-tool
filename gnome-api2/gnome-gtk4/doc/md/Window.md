@@ -68,11 +68,8 @@ Create an object using a native object from a builder. See also **Gnome::GObject
 
     multi method new ( Str :$build-id! )
 
-Constructors
-============
-
-new
----
+new-window
+----------
 
 Creates a new **Gnome::Gtk4::Window**.
 
@@ -82,9 +79,9 @@ All top-level windows created by gtk_window_new() are stored in an internal top-
 
 To delete a **Gnome::Gtk4::Window**, call `.destroy()`.
 
-    method new ( --> N-GObject() )
-
-Return value; a new **Gnome::Gtk4::Window**.. 
+    method new-window (
+      --> Gnome::Gtk4::Window
+    )
 
 Methods
 =======

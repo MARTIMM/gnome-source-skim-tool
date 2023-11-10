@@ -115,16 +115,8 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 =end pod
 
 #-------------------------------------------------------------------------------
-#--[Constructors]---------------------------------------------------------------
-#-------------------------------------------------------------------------------
-
 =begin pod
-=head1 Constructors
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-=head2 new
+=head2 new-window
 
 Creates a new B<Gnome::Gtk4::Window>.
 
@@ -135,12 +127,10 @@ All top-level windows created by gtk_window_new() are stored in an internal top-
 To delete a B<Gnome::Gtk4::Window>, call C<.destroy()>.
 
 =begin code
-method new ( --> N-GObject() )
+method new-window (
+  --> Gnome::Gtk4::Window
+)
 =end code
-
-
-
-Return value; a new B<Gnome::Gtk4::Window>.. 
 
 
 =end pod
