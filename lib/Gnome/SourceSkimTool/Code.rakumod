@@ -2022,7 +2022,7 @@ method convert-ntype (
 #  Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
-note "\n$?LINE convert-ntype ctype: $ctype";
+#note "\n$?LINE convert-ntype ctype: $ctype";
 
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
@@ -2142,7 +2142,7 @@ note "\n$?LINE convert-ntype ctype: $ctype";
     }
   }
 
-note "  $?LINE $ctype, $raku-type";
+#note "  $?LINE $ctype, $raku-type";
   $raku-type
 }
 
