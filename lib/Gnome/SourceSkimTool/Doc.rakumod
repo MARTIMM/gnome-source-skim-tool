@@ -1439,6 +1439,14 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
       $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
+    # Variable argument lists
+    when '…' {
+note "$?LINE $parameter<raku-type> $parameter<name> $parameter<doc>";
+      my $doc = $parameter<doc>;
+      $doc ~~ s/ ','? \s* 'undefined-terminated' //;
+      $doc ~= '. Note that each argument is a pair of type and its value!';
+    }
+
     default {
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
