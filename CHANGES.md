@@ -32,7 +32,9 @@
 
 * TODO Change all :isnew and :realname into :is-symbol. Add :is-symbol to all routines. Note the gnome name in :is-symbol. Then no prefix is needed and converting dashes.
 
-* Check if failing COERCE has something to do with skipping Any class in TopLevelClassSupport. If so, insert a simplyfied Any (MyAny).
+* TODO Check if failing COERCE has something to do with skipping Any class in TopLevelClassSupport. If so, insert a simplyfied Any (MyAny).
+
+* TODO Make a protected files yaml file. This can be used to prevent overwriting the generated sources.
 
 ### Testing command with timing -o for dump to file
 * With some options
