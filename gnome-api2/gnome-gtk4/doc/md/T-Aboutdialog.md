@@ -57,3 +57,21 @@ This enumeration can be expanded at later date.=item `GTK_LICENSE_UNKNOWN`; No l
   * `GTK_LICENSE_APACHE_2_0`; The Apache License, version 2.0
 
   * `GTK_LICENSE_MPL_2_0`; The Mozilla Public License, version 2.0
+
+Standalone Functions
+====================
+
+show-about-dialog
+-----------------
+
+A convenience function for showing an application’s about dialog.
+
+The constructed dialog is associated with the parent window and reused for future invocations of this function.
+
+    method show-about-dialog (  N-GObject() $parent, Str $first-property-name,  $… )
+
+  * $parent; the parent top-level window.
+
+  * $first-property-name; the name of the first property.
+
+  * $…; value of first property, followed by more pairs of property name and value, undefined-terminated.
