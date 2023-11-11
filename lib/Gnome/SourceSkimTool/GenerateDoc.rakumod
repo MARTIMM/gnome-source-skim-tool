@@ -195,7 +195,7 @@ note "$?LINE $filename";
 #        my Hash $hms = $!mod.get-standalone-functions($function-names);
 #        $function-hash = $!mod.generate-functions($hms);
 
-        $c ~= $!grd.document-functions(@function-names);
+        $c ~= $!grd.document-standalone-functions(@function-names);
       }
 
       #when 'alias' { }
@@ -204,8 +204,8 @@ note "$?LINE $filename";
     }
   }
 
-note "$?LINE $class-name, $filename";
   if ?$class-name and ?$filename {
+#note "$?LINE $class-name, $filename";
 
     note "Document init" if $*verbose;
     my Str $doc = $!grd.start-document;

@@ -21,7 +21,7 @@ submethod BUILD ( ) {
 
 #-------------------------------------------------------------------------------
 method start-document ( --> Str ) {
-##`{{
+
   my Str $name = '';
   my Str $author = '';
   my Version $version = v0.1.0;
@@ -55,8 +55,6 @@ method start-document ( --> Str ) {
     =end pod
 
    RAKUDOC
-#}}
-#  "use v6.d;\n=TITLE $*work-data<raku-class-name>\n";
 }
 
 #-------------------------------------------------------------------------------
@@ -153,7 +151,6 @@ method !set-example ( --> Str ) {
 
 #-------------------------------------------------------------------------------
 method document-build ( XML::Element $element --> Str ) {
-#method document-build ( XML::Element $element, Hash $hcs --> Str ) {
   my Str $doc = qq:to/EOBUILD/;
 
     {pod-header('Class Initialization')}
@@ -162,82 +159,6 @@ method document-build ( XML::Element $element --> Str ) {
 
     =head2 new
     EOBUILD
-
-#`{{
-  my Str $build-doc;
-  for $hcs.keys.sort -> $function-name {
-    $build-doc = '';
-
-    my Str $option-name = $hcs{$function-name}<option-name>;
-    
-    # If $option-name is a dash, the new C-function has no special name.
-    # It can have parameters. If so, take that name as an option name instead.
-    # It will help to replace the text in the documentation noted as '@var'.
-    if $option-name eq '-' {
-      if $hcs{$function-name}<parameters>.elems {
-        $option-name = $hcs{$function-name}<parameters>[0]<name>;
-        $hcs{$function-name}<option-name> = $option-name;
-      }
-    }
-
-    $build-doc ~= "\n=head3 :$option-name\n\n";
-    $build-doc ~= "____FUNCTIONDOC___\n\n";
-    $build-doc ~= "  multi method new (";
-
-    my Hash $variable-map = %();
-    if $hcs{$function-name}<parameters>.elems {
-      my Bool $first = True;
-      for @($hcs{$function-name}<parameters>) -> $parameter {
-        if $first {
-          $build-doc ~= " $parameter<raku-rtype> :\$$option-name!";
-          $variable-map{$parameter<name>} = $option-name;
-          $first = False;
-        }
-
-        else {
-          $build-doc ~=  ", $parameter<raku-rtype> :\$$parameter<name>";
-        }
-      }
-
-      $build-doc.chop(1);
-      $build-doc ~= " )\n\n";
-
-      $first = True;
-      for @($hcs{$function-name}<parameters>) -> $parameter {
-        if $first {
-          $build-doc ~= "=item :\$$option-name; $parameter<doc>\n";
-          $first = False;
-        }
-
-        else {
-          $build-doc ~= "=item :\$$parameter<name>; $parameter<doc>\n";
-        }
-      }
-    }
-
-    else {
-      $build-doc ~= qq:to/EOPOD/;
-
-        =head3 default, no options
-        
-        $hcs{$function-name}<function-doc>
-        
-          multi method new ( )
-        EOPOD
-    }
-
-#    # Add variable map to function data
-#    $hcs{$function-name}<variable-map> = $variable-map;
-
-    # Modify variable names in the build doc and replace ____FUNCTIONDOC___
-    my Str $d = $!sas.modify-build-variables(
-      $hcs{$function-name}<function-doc>, $variable-map
-    );
-    $build-doc ~~ s/ '____FUNCTIONDOC___' /$d/;
-    $doc ~= $build-doc;
-  }
-}}
-
 
   # Finish with standard options
   $doc ~= qq:to/EOBUILD/;
@@ -286,16 +207,6 @@ method document-constructors (
 
   my Str $doc = '';
 
-#`{{
-  $doc ~= qq:to/EOSUB/;
-    {pod-header('Constructors')}
-    =begin pod
-    =head1 Constructors
-    =end pod
-
-    EOSUB
-}}
-
   for $hcs.keys.sort -> $method-name is copy {
     my Hash $curr-function := $hcs{$method-name};
 
@@ -315,6 +226,7 @@ method document-constructors (
       $items-doc ~= $result<items-doc> // '';
     }
 
+    # Change constructor name if it is only 'new'
     if $method-name eq 'new' {
       my Str $gname = $*work-data<gnome-name>;
       my Str $prefix = $*work-data<name-prefix>;
@@ -347,117 +259,14 @@ method document-constructors (
 }
 
 #-------------------------------------------------------------------------------
-method document-methods ( XML::Element $element, XML::XPath $xpath --> Str ) {
-
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
-#  my Str $symbol-prefix = $*work-data<sub-prefix>;
-
-  # Get all methods in this class
-  my Hash $hcs = self.get-native-subs( $element, $xpath, :routine-type<method>);
-  return '' unless ?$hcs;
-
-  my Str $doc = qq:to/EOSUB/;
-    {pod-header('Methods')}
-    =begin pod
-    =head1 Methods
-    =end pod
-
-    EOSUB
-
-  for $hcs.keys.sort -> $method-name is copy {
-    my Hash $curr-function := $hcs{$method-name};
-
-#    $method-name = $!mod.cleanup-id($method-name);
-
-#note "\n$?LINE $method-name, $curr-function.gist()";
-
-    my Str $method-doc = $curr-function<function-doc>;
-    $method-doc = "No documentation of method.\n" unless ?$method-doc;
-
-    # Get parameter lists
-    my Str ( $raku-list, $items-doc, $own, $returns-doc) =  '' xx 5;
-    my @rv-list = ();
-
-    my Hash $result;
-    my Bool $first-param = True;
-    for @($curr-function<parameters>) -> $parameter {
-      # Skip first parameter
-      if $first-param {
-        $first-param = False;
-        next;
-      }
-
-      $result = self!get-types( $parameter, @rv-list);
-      $raku-list ~= $result<raku-list> // '';
-      $items-doc ~= $result<items-doc> // '';
-      $returns-doc ~= $result<returns-doc> // '';
-    }
-
-    my $xtype = $curr-function<return-raku-type>;
-    if ?$xtype and $xtype ne 'void' {
-
-      my Str ( $l, $d ) = self.check-special( $xtype, '', '');
-
-      $raku-list ~= " --> $l";
-      $own = '';
-      $own = "\(transfer ownership: $curr-function<transfer-ownership>\) "
-        if ?$curr-function<transfer-ownership> and
-            $curr-function<transfer-ownership> ne 'none';
-
-      # Check if there is info about the return value
-      if ?$curr-function<rv-doc> {
-        $returns-doc = "\nReturn value; $own$curr-function<rv-doc>. $d\n";
-      }
-
-      elsif $raku-list ~~ / '-->' / {
-        $returns-doc =
-          "\nReturn value; No documentation about its value and use. $d\n";
-      }
-    }
-
-    # Assumed that there are no multiple methods to return values. I.e not
-    # returning an array and pointer arguments to receive values in those vars.
-    elsif ?@rv-list {
-      $returns-doc = "Returns a List holding the values\n$returns-doc";
-      #$return-list = [~] '  (', @rv-list.join(', '), ")\n";
-      $raku-list ~= " --> List";
-    }
-
-    # remove first comma
-    $raku-list ~~ s/^ . //;
-
-    $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
-      =begin pod
-      =head2 $method-name
-
-      $method-doc
-
-      =begin code
-      method $method-name \( $raku-list \)
-      =end code
-
-      $items-doc
-      $returns-doc
-      =end pod
-      EOSUB
-  }
-
-  $doc
-}
-
-#-------------------------------------------------------------------------------
 method document-native-subs (
   XML::Element $element, XML::XPath $xpath, Str :$routine-type = 'method' 
   --> Str ) {
 
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
 
   # Get all subs of $routine-type in this class
-  my Hash $hcs =
-    self.get-native-subs( $element, $xpath, :$routine-type);
+  my Hash $hcs = self.get-native-subs( $element, $xpath, :$routine-type);
   return '' unless ?$hcs;
 
   my Str $subs-header = $routine-type.tc ~ 's';
@@ -469,6 +278,15 @@ method document-native-subs (
 
     EOSUB
 
+  $doc ~= self._document-native-subs( $hcs, :$routine-type);
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
+  my Str $doc = '';
+  
   for $hcs.keys.sort -> $native-sub is copy {
     my Hash $curr-function := $hcs{$native-sub};
 
@@ -551,76 +369,6 @@ method document-native-subs (
 
   $doc
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method get-constructors ( XML::Element $element, XML::XPath $xpath --> Hash ) {
-  my Hash $hms = %();
-
-  my @methods = $xpath.find( 'constructor', :start($element), :to-list);
-
-  for @methods -> $cn {
-    # Skip deprecated methods
-    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
-
-    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
-
-    # Function names which are returned emptied, are assumably internal
-    next unless ?$function-name and ?%h;
-
-    $hms{$function-name} = %h;
-  }
-
-  $hms
-}
-
-#-------------------------------------------------------------------------------
-method get-methods ( XML::Element $element, XML::XPath $xpath --> Hash ) {
-  my Hash $hms = %();
-
-  my @methods = $xpath.find( 'method', :start($element), :to-list);
-
-  for @methods -> $cn {
-    # Skip deprecated methods
-    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
-
-    my ( $function-name, %h) = self!get-method-data( $cn, :$xpath);
-
-    # Function names which are returned emptied, are assumably internal
-    next unless ?$function-name and ?%h;
-
-    $hms{$function-name} = %h;
-  }
-
-  $hms
-}
-
-#-------------------------------------------------------------------------------
-method get-functions (
-  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
-) {
-  my Hash $hms = %();
-
-  my @methods = $xpath.find( 'function', :start($element), :to-list);
-
-  for @methods -> $function {
-    # Skip deprecated methods
-    next if $function.attribs<deprecated>:exists and
-            $function.attribs<deprecated> eq '1';
-
-    my ( $function-name, %h) =
-      self!get-method-data( $function, :$xpath, :$user-side);
-
-    # Function names which are returned emptied, are assumably internal
-    next unless ?$function-name and ?%h;
-
-    # Add to hash with functionname as its
-    $hms{$function-name} = %h;
-  }
-
-  $hms
-}
-}}
 
 #-------------------------------------------------------------------------------
 method get-native-subs (
@@ -1097,7 +845,50 @@ method document-bitfield ( @bitfield-names --> Str ) {
 
 #-------------------------------------------------------------------------------
 method document-standalone-functions ( @function-names --> Str ) {
-  ''
+  my Hash $hcs = %();
+
+  # Get the function information from an XML file of functions
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-function.gir';
+  my XML::XPath $xpath .= new(:$file);
+
+  # Get the XML::Element's in @subs of the provided @function-names
+  my @subs = ();
+  for @function-names -> $name {
+    my XML::Element $element =
+      $xpath.find( '//function[@name="' ~ $name ~ '"]', :!to-list);
+
+    # Skip empty elements
+    next unless ?$element;
+#    next if $element.attribs<deprecated>:exists and
+#            $element.attribs<deprecated> eq '1';
+
+    @subs.push: $element
+  }
+
+  for @subs -> $element {
+    my ( $function-name, %h) = self!get-method-data( $element, :$xpath);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
+    $hcs{$function-name} = %h;
+  }
+
+  return '' unless ?$hcs;
+
+  my Str $doc = qq:to/EOSUB/;
+    {pod-header('Standalone Functions')}
+    =begin pod
+    =head1 Standalone Functions
+    =end pod
+
+    EOSUB
+
+
+  $doc ~= self._document-native-subs( $hcs, :routine-type<function>);
+
+  $doc
 }
 
 
@@ -1179,7 +970,6 @@ method !modify-text ( Str $text is copy --> Str ) {
   # Subtitute the examples back into the text before we can finally modify it
   for $examples.keys -> $ex-key {
     my Str $t = $examples{$ex-key};
-note "$?LINE $ex-key";
     if $version4 {
       $t = self!modify-v4examples($t);
     }
@@ -1258,7 +1048,6 @@ method !modify-v4functions ( Str $text is copy --> Str ) {
   }
 
   $text
-
 }
 
 #-------------------------------------------------------------------------------
@@ -1383,7 +1172,6 @@ method !modify-v4examples ( Str $text is copy --> Str ) {
 
   # Indent first
   $text ~~ s:g/^^/  /;
-#note "$?LINE\n$text";
 
   if $text ~~ m/ '  ```' \w+ / {
     $text ~~ s/ '  ```' (\w+)?
@@ -1395,7 +1183,6 @@ method !modify-v4examples ( Str $text is copy --> Str ) {
 
   $text ~~ s/'  ```' /=end comment/;
 
-note "$?LINE\n$text";
   $text
 }
 
