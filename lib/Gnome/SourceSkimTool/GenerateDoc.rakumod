@@ -213,12 +213,26 @@ note "$?LINE $filename";
 #note "$?LINE $class-name, $filename";
 
     note "Document init" if $*verbose;
-    my Str $doc = [~] $!grd.start-document,
-      "=head1 $class-name\n\n",
-      $types-doc<constant> // '',
-      $types-doc<enumeration> // '',
-      $types-doc<bitfield> // '',
-      $types-doc<function> // '';
+    my Str $doc = $!grd.start-document;
+    $doc ~= qq:to/EODOC/;
+      {pod-header('Class Initialization')}
+        =begin pod
+        =head1 $class-name
+        =head1 Class initialization
+
+        =head2 new
+
+        Initialization of a type class is simple.
+
+          method new ( )
+
+        =end pod
+      EODOC
+
+    $doc ~= [~] $types-doc<constant> // '',
+                $types-doc<enumeration> // '',
+                $types-doc<bitfield> // '',
+                $types-doc<function> // '';
 
 
 

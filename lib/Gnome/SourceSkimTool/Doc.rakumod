@@ -90,7 +90,6 @@ method !set-uml ( --> Str ) {
   # Using a markdown link not a Raku pod link
   my Str $doc = q:to/EOEX/;
 
-
     =begin comment
     =head2 Uml Diagram
     ![](plantuml/….svg)
