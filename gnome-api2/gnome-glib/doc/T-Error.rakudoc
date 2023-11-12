@@ -1,0 +1,159 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Glib
+ =item B<Project description:> Modules for package Gnome::Glib:api<2>. The language binding to GNOME's lowest level library
+ =item B<Project version:> 0.1.3
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+  =begin pod
+  =head1 Gnome::Glib::T-Error
+  =head1 Class initialization
+
+  =head2 new
+
+  Initialization of a type class is simple.
+
+    method new ( )
+
+  =end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-error
+
+If C<$err> or * C<$err> is C<Nil>, does nothing. Otherwise,
+calls C<.free()> on * C<$err> and sets * C<$err> to C<Nil>.
+
+=begin code
+method clear-error (  )
+=end code
+
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prefix-error
+
+Formats a string according to C<$format> and prefix it to an existing error message. If C<$err> is C<Nil> (ie: no error variable) then do nothing.
+
+If * C<$err> is C<Nil> (ie: an error variable is present but there is no error condition) then also do nothing.
+
+=begin code
+method prefix-error (  N-GObject $err, Str $format, … )
+=end code
+
+=item $err; (transfer ownership: full) a return location for a GError
+=item $format; printf()-style format string.
+=item …; arguments to C<$format>. Note that each argument must be specified as a pair of a type and its value!
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prefix-error-literal
+
+Prefixes C<$prefix> to an existing error message. If C<$err> or * C<$err> is C<Nil> (i.e.: no error variable) then do nothing.
+
+=begin code
+method prefix-error-literal (  N-GObject $err, Str $prefix )
+=end code
+
+=item $err; a return location for a GError, or C<Nil>
+=item $prefix; string to prefix C<$err> with.
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 propagate-error
+
+If C<$dest> is C<Nil>, free C<$src>; otherwise, moves C<$src> into * C<$dest>.
+The error variable C<$dest> points to must be C<Nil>.
+ C<$src> must be non-C<Nil>.
+
+Note that C<$src> is no longer valid after this call. If you want to keep using the same GError*, you need to set it to C<Nil>
+after calling this function on it.
+
+=begin code
+method propagate-error (  N-GObject $dest, N-GObject $src )
+=end code
+
+=item $dest; (transfer ownership: full) error return location
+=item $src; (transfer ownership: full) error to move into the return location
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 propagate-prefixed-error
+
+If C<$dest> is C<Nil>, free C<$src>; otherwise, moves C<$src> into * C<$dest>.
+* C<$dest> must be C<Nil>. After the move, add a prefix as with g_prefix_error().
+
+=begin code
+method propagate-prefixed-error (  N-GObject $dest, N-GObject $src, Str $format, … )
+=end code
+
+=item $dest; error return location
+=item $src; error to move into the return location
+=item $format; printf()-style format string.
+=item …; arguments to C<$format>. Note that each argument must be specified as a pair of a type and its value!
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-error
+
+Does nothing if C<$err> is C<Nil>; if C<$err> is non-C<Nil>, then * C<$err>
+must be C<Nil>. A new GError is created and assigned to * C<$err>.
+
+=begin code
+method set-error (  N-GObject $err, UInt $domain, Int() $code, Str $format, … )
+=end code
+
+=item $err; (transfer ownership: full) a return location for a GError
+=item $domain; error domain.
+=item $code; error code.
+=item $format; printf()-style format.
+=item …; args for C<$format>. Note that each argument must be specified as a pair of a type and its value!
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-error-literal
+
+Does nothing if C<$err> is C<Nil>; if C<$err> is non-C<Nil>, then * C<$err>
+must be C<Nil>. A new GError is created and assigned to * C<$err>.
+Unlike g_set_error(), C<$message> is not a printf()-style format string.
+Use this function if C<$message> contains text you don't have control over,
+that could include printf() escape sequences.
+
+=begin code
+method set-error-literal (  N-GObject $err, UInt $domain, Int() $code, Str $message )
+=end code
+
+=item $err; (transfer ownership: full) a return location for a GError
+=item $domain; error domain.
+=item $code; error code.
+=item $message; error message.
+
+
+=end pod
