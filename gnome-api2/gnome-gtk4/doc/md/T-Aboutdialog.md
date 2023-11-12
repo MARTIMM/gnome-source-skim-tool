@@ -14,6 +14,16 @@ Project Description
 Gnome::Gtk4::T-Aboutdialog
 ==========================
 
+Class initialization
+====================
+
+new
+---
+
+Initialization of a type class is simple.
+
+    method new ( )
+
 Enumerations
 ============
 
