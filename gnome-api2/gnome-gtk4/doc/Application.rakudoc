@@ -1,0 +1,526 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Gtk4
+ =item B<Project description:> Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
+ =item B<Project version:> 0.1.7
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/application.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Application> is a high-level API for writing applications.
+
+It supports many aspects of writing a GTK application in a convenient
+fashion, without enforcing a one-size-fits-all model.
+
+Currently, B<Gnome::Gtk4::Application> handles GTK initialization, application
+uniqueness, session management, provides some basic scriptability and
+desktop shell integration by exporting actions and menus and manages a
+list of toplevel windows whose life-cycle is automatically tied to the
+life-cycle of your application.
+
+While B<Gnome::Gtk4::Application> works fine with plain [class C<$Gtk>.Window]s, it is
+recommended to use it together with [class C<$Gtk>.ApplicationWindow].
+
+=head2 Automatic resources
+
+B<Gnome::Gtk4::Application> will automatically load menus from the I<GtkBuilder>
+resource located at "gtk/menus.ui", relative to the application's
+resource base path (see [method C<$Gio>.Application.set_resource_base_path]).
+The menu with the ID "menubar" is taken as the application's
+menubar. Additional menus (most interesting submenus) can be named
+and accessed via C<.get-menu-by-id()> which allows for
+dynamic population of a part of the menu structure.
+
+It is also possible to provide the menubar manually using
+C<.set-menubar()>.
+
+B<Gnome::Gtk4::Application> will also automatically setup an icon search path for
+the default icon theme by appending "icons" to the resource base
+path. This allows your application to easily store its icons as
+resources. See C<.add-resource-path() defined in IconTheme> for more
+information.
+
+If there is a resource located at I<gtk/help-overlay.ui> which
+defines a [class C<$Gtk>.ShortcutsWindow] with ID I<help_overlay> then
+B<Gnome::Gtk4::Application> associates an instance of this shortcuts window with
+each [class C<$Gtk>.ApplicationWindow] and sets up the keyboard accelerator
+<kbd>Control</kbd>+<kbd>?</kbd> to open it. To create a menu item that
+displays the shortcuts window, associate the item with the action
+I<win.show-help-overlay>.
+
+=head2 A simple application
+
+[A simple example](https://gitlab.gnome.org/GNOME/gtk/tree/main/examples/bp/bloatpad.c)
+is available in the GTK source code repository
+
+B<Gnome::Gtk4::Application> optionally registers with a session manager of the
+users session (if you set the I<register-session>
+property) and offers various functionality related to the session
+life-cycle.
+
+An application can block various ways to end the session with
+the C<.inhibit()> function. Typical use cases for
+this kind of inhibiting are long-running, uninterruptible operations,
+such as burning a CD or performing a disk backup. The session
+manager may not honor the inhibitor, but it can be expected to
+inform the user about the negative consequences of ending the
+session while inhibitors are present.
+
+=head2 See Also
+
+[HowDoI: Using GtkApplication](https://wiki.gnome.org/HowDoI/GtkApplication),
+[Getting Started with GTK: Basics](getting_started.html#basics)
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-GObject :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-application
+
+Creates a new B<Gnome::Gtk4::Application> instance.
+
+When using B<Gnome::Gtk4::Application>, it is not necessary to call C<.init()>
+manually. It is called as soon as the application gets registered as the primary instance.
+
+Concretely, C<.init()> is called in the default handler for the I<GApplication::startup> signal. Therefore, B<Gnome::Gtk4::Application> subclasses should always chain up in their I<GApplication::startup> handler before using any GTK API.
+
+Note that commandline arguments are not passed to C<.init()>.
+
+If I<application_id> is not %NULL, then it must be valid. See C<g_application_id_is_valid()>.
+
+If no application ID is given then some features (most notably application uniqueness) will be disabled.
+
+=begin code
+method new-application (
+  --> Gnome::Gtk4::Application
+)
+=end code
+
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-window
+
+Adds a window to I<application>.
+
+This call can only happen after the I<application> has started;
+typically, you should add new application windows in response to the emission of the I<GApplication::activate> signal.
+
+This call is equivalent to setting the I<application defined in Window>
+property of I<window> to I<application>.
+
+Normally, the connection between the application and the window will remain until the window is destroyed, but you can explicitly remove it with C<.remove-window()>.
+
+GTK will keep the I<application> running as long as it has any windows.
+
+=begin code
+method add-window (  N-GObject() $window )
+=end code
+
+=item $window; a I<GtkWindow>.
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-accels-for-action
+
+Gets the accelerators that are currently associated with the given action.
+
+=begin code
+method get-accels-for-action (  Str $detailed-action-name --> Array[Str] )
+=end code
+
+=item $detailed-action-name; a detailed action name, specifying an action
+ and target to obtain accelerators for.
+
+
+Return value; 
+ accelerators for I<detailed_action_name>. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-actions-for-accel
+
+Returns the list of actions (possibly empty) that `accel` maps to.
+
+Each item in the list is a detailed action name in the usual form.
+
+This might be useful to discover if an accel already exists in order to prevent installation of a conflicting accelerator (from an accelerator editor or a plugin system, for example). Note that having more than one action per accelerator may not be a bad thing and might make sense in cases where the actions never appear in the same context.
+
+In case there are no actions for a given accelerator, an empty array is returned. undefined is never returned.
+
+It is a programmer error to pass an invalid accelerator string.
+
+If you are unsure, check it with C<.accelerator-parse()> first.
+
+=begin code
+method get-actions-for-accel (  Str $accel --> Array[Str] )
+=end code
+
+=item $accel; an accelerator that can be parsed by C<.accelerator-parse()>.
+
+
+Return value; a %NULL-terminated array of actions for I<accel>. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active-window
+
+Gets the “active” window for the application.
+
+The active window is the one that was most recently focused (within the application). This window may not have the focus at the moment if another application has it — this is just the most recently-focused window within this application.
+
+=begin code
+method get-active-window ( --> N-GObject() )
+=end code
+
+
+
+Return value; the active window. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-menu-by-id
+
+Gets a menu from automatically loaded resources.
+
+See [the section on Automatic resources](class.Application.html#automatic-resources)
+for more information.
+
+=begin code
+method get-menu-by-id (  Str $id --> N-GObject() )
+=end code
+
+=item $id; the id of the menu to look up.
+
+
+Return value; Gets the menu with the
+ given id from the automatically loaded resources. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-menubar
+
+Returns the menu model that has been set with C<.set-menubar()>.
+
+=begin code
+method get-menubar ( --> N-GObject() )
+=end code
+
+
+
+Return value; the menubar for windows of I<application>. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-window-by-id
+
+Returns the [class C<$Gtk>.ApplicationWindow] with the given ID.
+
+The ID of a B<Gnome::Gtk4::Application>Window can be retrieved with C<.get-id() defined in ApplicationWindow>.
+
+=begin code
+method get-window-by-id (  UInt() $id --> N-GObject() )
+=end code
+
+=item $id; an identifier number.
+
+
+Return value; the window for the given I<id>. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-windows
+
+Gets a list of the [class C<$Gtk>.Window] instances associated with I<application>.
+
+The list is sorted by most recently focused window, such that the first element is the currently focused window. (Useful for choosing a parent for a transient window.)
+
+The list that is returned should not be modified in any way. It will only remain valid until the next focus change or window creation or deletion.
+
+=begin code
+method get-windows ( --> N-List() )
+=end code
+
+
+
+Return value; a I<GList> of I<GtkWindow>
+ instances. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 inhibit
+
+Inform the session manager that certain types of actions should be inhibited.
+
+This is not guaranteed to work on all platforms and for all types of actions.
+
+Applications should invoke this method when they begin an operation that should not be interrupted, such as creating a CD or DVD. The types of actions that may be blocked are specified by the I<flags>
+parameter. When the application completes the operation it should call C<.uninhibit()> to remove the inhibitor. Note that an application can have multiple inhibitors, and all of them must be individually removed. Inhibitors are also cleared when the application exits.
+
+Applications should not expect that they will always be able to block the action. In most cases, users will be given the option to force the action to take place.
+
+The I<reason> message should be short and to the point.
+
+If I<window> is given, the session manager may point the user to this window to find out more about why the action is inhibited.
+
+=begin code
+method inhibit (  N-GObject() $window, UInt $flags, Str $reason --> UInt() )
+=end code
+
+=item $window; a I<GtkWindow>.
+=item $flags; what types of actions should be inhibited. A bitmap.
+=item $reason; a short, human-readable string that explains
+ why these operations are inhibited.
+
+
+Return value; A non-zero cookie that is used to uniquely identify this
+ request. It should be used as an argument to C<.uninhibit()>
+ in order to remove the request. If the platform does not support
+ inhibiting or the request failed for some reason, 0 is returned.. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 list-action-descriptions
+
+Lists the detailed action names which have associated accelerators.
+
+See C<.set-accels-for-action()>.
+
+=begin code
+method list-action-descriptions ( --> Array[Str] )
+=end code
+
+
+
+Return value; the detailed action names. 
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-window
+
+Remove a window from I<window>.
+
+If I<window> belongs to I<application> then this call is equivalent to setting the I<application defined in Window> property of I<window> to undefined.
+
+The application may stop running as a result of a call to this function, if I<window> was the last window of the I<application>.
+
+=begin code
+method remove-window (  N-GObject() $window )
+=end code
+
+=item $window; a I<GtkWindow>.
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-accels-for-action
+
+Sets zero or more keyboard accelerators that will trigger the given action.
+
+The first item in I<accels> will be the primary accelerator, which may be displayed in the UI.
+
+To remove all accelerators for an action, use an empty, zero-terminated array for I<accels>.
+
+For the I<detailed_action_name>, see C<g_action_parse_detailed_name()> and C<g_action_print_detailed_name()>.
+
+=begin code
+method set-accels-for-action (  Str $detailed-action-name, Array[Str] $accels )
+=end code
+
+=item $detailed-action-name; a detailed action name, specifying an action
+ and target to associate accelerators with.
+=item $accels; a list of accelerators in the format
+ understood by C<.accelerator-parse()>.
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-menubar
+
+Sets or unsets the menubar for windows of I<application>.
+
+This is a menubar in the traditional sense.
+
+This can only be done in the primary instance of the application,
+after it has been registered. I<GApplication::startup> is a good place to call this.
+
+Depending on the desktop environment, this may appear at the top of each window, or at the top of the screen. In some environments, if both the application menu and the menubar are set, the application menu will be presented as if it were the first item of the menubar.
+Other environments treat the two as completely separate — for example,
+the application menu may be rendered by the desktop shell while the menubar (if set) remains in each individual window.
+
+Use the base I<GActionMap> interface to add actions, to respond to the user selecting these menu items.
+
+=begin code
+method set-menubar (  N-GObject() $menubar )
+=end code
+
+=item $menubar; a I<GMenuModel>.
+
+
+=end pod
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 uninhibit
+
+Removes an inhibitor that has been previously established.
+
+See C<.inhibit()>.
+
+Inhibitors are also cleared when the application exits.
+
+=begin code
+method uninhibit (  UInt() $cookie )
+=end code
+
+=item $cookie; a cookie that was returned by C<.inhibit()>.
+
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 query-end
+
+Emitted when the session manager is about to end the session.
+
+This signal is only emitted if I<register-session>
+is C<True>. Applications can connect to this signal and call C<.inhibit()> with I<GTK_APPLICATION_INHIBIT_LOGOUT>
+to delay the end of the session until state has been saved.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::Application() :$_native-object,
+  Gnome::Gtk4::Application :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 window-added
+
+Emitted when a [class C<$Gtk>.Window] is added to I<application> through C<.add-window()>.
+
+=begin code
+method handler (
+  N-GObject $window,
+  Int :$_handle_id,
+  Gnome::Gtk4::Application() :$_native-object,
+  Gnome::Gtk4::Application :$_widget,
+  *%user-options
+)
+=end code
+
+=item $window; the newly-added [class C<$Gtk>.Window].
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 window-removed
+
+Emitted when a [class C<$Gtk>.Window] is removed from I<application>.
+
+This can happen as a side-effect of the window being destroyed or explicitly through C<.remove-window()>.
+
+=begin code
+method handler (
+  N-GObject $window,
+  Int :$_handle_id,
+  Gnome::Gtk4::Application() :$_native-object,
+  Gnome::Gtk4::Application :$_widget,
+  *%user-options
+)
+=end code
+
+=item $window; the [class C<$Gtk>.Window] that is being removed.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=end pod
+
