@@ -1186,7 +1186,6 @@ method !modify-v4examples ( Str $text is copy --> Str ) {
   $text
 }
 
-
 #-------------------------------------------------------------------------------
 # Convert '::sig-name'
 method !modify-signals ( Str $text is copy, Bool :$version4 --> Str ) {
@@ -1440,11 +1439,12 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
     }
 
     # Variable argument lists
-    when '…' {
-note "$?LINE $parameter<raku-type> $parameter<name> $parameter<doc>";
+    when '' and $parameter<name> ~~ / \… / {
       my $doc = $parameter<doc>;
       $doc ~~ s/ ','? \s* 'undefined-terminated' //;
-      $doc ~= '. Note that each argument is a pair of type and its value!';
+      $doc ~= '. Note that each argument must be specified as a pair of a type and its value!';
+      $result<raku-list> = ", …";
+      $result<items-doc> = "=item $parameter<name>; $doc\n";
     }
 
     default {
@@ -1468,7 +1468,7 @@ note "$?LINE $parameter<raku-type> $parameter<name> $parameter<doc>";
 NOTE For now, skip property documentation
 
 #-------------------------------------------------------------------------------
-method gobject-value-type( Str $ctype is copy --> Str ) {
+method gobject-value-type ( Str $ctype is copy --> Str ) {
 
   my $g-type = '';
 
