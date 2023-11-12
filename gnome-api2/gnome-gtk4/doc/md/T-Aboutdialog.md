@@ -68,10 +68,10 @@ A convenience function for showing an application’s about dialog.
 
 The constructed dialog is associated with the parent window and reused for future invocations of this function.
 
-    method show-about-dialog (  N-GObject() $parent, Str $first-property-name,  $… )
+    method show-about-dialog (  N-GObject() $parent, Str $first-property-name, … )
 
   * $parent; the parent top-level window.
 
   * $first-property-name; the name of the first property.
 
-  * $…; value of first property, followed by more pairs of property name and value, undefined-terminated.
+  * …; value of first property, followed by more pairs of property name and value. Note that each argument must be specified as a pair of a type and its value!
