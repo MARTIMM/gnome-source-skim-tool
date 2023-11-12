@@ -131,7 +131,7 @@ method generate-doc ( ) {
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my $data = $!filedata{$gir-type}.values[0];
-note "$?LINE $gir-type, ", $data.gist;
+#note "$?LINE $gir-type, ", $data.gist;
     next unless ?$data<type-name>;
 
     $*gnome-class = $data<type-name>;
@@ -145,7 +145,7 @@ note "$?LINE $gir-type, ", $data.gist;
     $class-name = $data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
-note "$?LINE $filename";
+#note "$?LINE $filename";
 
     given $gir-type {
       when 'constant' {

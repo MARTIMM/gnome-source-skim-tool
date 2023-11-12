@@ -2438,7 +2438,7 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 
 #-------------------------------------------------------------------------------
 method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
-note "$?LINE $filename";
+note "\n$?LINE $filename";
 
   my Bool $save-it;
 
@@ -2486,7 +2486,7 @@ note "$?LINE $filename";
     say "\nFile $filename.IO.basename() not yet saved,",
       " Write(w), skip(s)";
     my Str $a = prompt "[w,s] s is default> ";
-    $save-it = False unless $a.lc eq 'w';
+    $save-it = $a.lc eq 'w';
   }
 
   if $save-it {
@@ -2499,7 +2499,7 @@ note "$?LINE $filename";
       my Str $md = pod2markdown($pod);
 
       my Str $md-dir = $*work-data<result-docs> ~ 'md/';
-      mkdir $md-dir, 0o655 unless $md-dir.IO.e;
+      mkdir $md-dir, 0o755 unless $md-dir.IO.e;
       my Str $md-filename = $md-dir ~ $filename.IO.basename;
       $md-filename ~~ s/ '.rakudoc' /.md/;
       $md-filename.IO.spurt($md);
