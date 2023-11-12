@@ -870,7 +870,7 @@ method document-bitfield ( @bitfield-names --> Str ) {
 
     my Str $bitfield-doc =
       ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
-    $doc ~= self!cleanup(self!modify-text($bitfield-doc));
+    $doc ~= self!cleanup(self!modify-text($bitfield-doc)) ~ "\n";
    
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
