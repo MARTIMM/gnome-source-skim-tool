@@ -121,6 +121,7 @@ method generate-doc ( ) {
   }
 
 #  my Bool $first = True;
+  my Hash $types-doc = %();
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
     next if $gir-type ~~ any(<class interface record union>);
@@ -154,7 +155,8 @@ note "$?LINE $filename";
           @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
         }
 
-        $c ~= $!grd.document-constants(@constants);
+        #$c ~= $!grd.document-constants(@constants);
+        $types-doc<constant> = $!grd.document-constants(@constants);
       }
 
       # Only for documentation
@@ -166,7 +168,8 @@ note "$?LINE $filename";
           @enum-names.push: $k;
         }
 
-        $c ~= $!grd.document-enumerations(@enum-names);
+        #$c ~= 
+        $types-doc<enumeration> = $!grd.document-enumerations(@enum-names);
       }
 
       when 'bitfield' {
@@ -175,7 +178,8 @@ note "$?LINE $filename";
           @bitfield-names.push: $k;
         }
 
-        $c ~= $!grd.document-bitfield(@bitfield-names);
+        #$c ~= $!grd.document-bitfield(@bitfield-names);
+        $types-doc<bitfield> = $!grd.document-enumerations(@bitfield-names);
       }
 
       #when 'callback' { }
@@ -195,12 +199,13 @@ note "$?LINE $filename";
 #        my Hash $hms = $!mod.get-standalone-functions($function-names);
 #        $function-hash = $!mod.generate-functions($hms);
 
-        $c ~= $!grd.document-standalone-functions(@function-names);
+        #$c ~= $!grd.document-standalone-functions(@function-names);
+        $types-doc<function> =
+          $!grd.document-standalone-functions(@function-names);
       }
 
       #when 'alias' { }
       #when 'function-macro' { }
-
     }
   }
 
@@ -208,9 +213,13 @@ note "$?LINE $filename";
 #note "$?LINE $class-name, $filename";
 
     note "Document init" if $*verbose;
-    my Str $doc = $!grd.start-document;
-    $doc ~= "=head1 $class-name\n\n";
-    $doc ~= $c;
+    my Str $doc = [~] $!grd.start-document,
+      "=head1 $class-name\n\n",
+      $types-doc<constant> // '',
+      $types-doc<enumeration> // '',
+      $types-doc<bitfield> // '',
+      $types-doc<function> // '';
+
 
 
 #`{{
