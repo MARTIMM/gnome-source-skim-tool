@@ -14,8 +14,18 @@ use Pod::To::Markdown;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
 
+has Array $!protected-files;
+
 #-------------------------------------------------------------------------------
-submethod BUILD ( ) { }
+submethod BUILD ( ) {
+  # Load list of protected files. These are files which are changed by hand
+  # after generating and thus don't want those be reset by an
+  # accidental overwrite action.
+  my Hash $h = load-yaml((SKIMTOOLROOT ~ 'protected-files.yaml').IO.slurp);
+
+  # Select part of current requested package
+  $!protected-files = $h{$*gnome-package.Str} // %();
+}
 
 #-------------------------------------------------------------------------------
 method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
@@ -2417,7 +2427,7 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
   my $fname = $object-map-path ~ 'repo-object-map.yaml';
   if $fname.IO.r {
     note "Load object map for $map" if $*verbose;
-    load-yaml($fname.IO.slurp)
+    load-yaml($fname.IO.slurp);
   }
 
   else {
@@ -2430,16 +2440,28 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
 note "$?LINE $filename";
 
-  my Bool $save-it = True;
+  my Bool $save-it;
 
   # Ask to write a new file(w), overwrite original file, or save a new version
   # aside files or skip saving.
   if $filename.IO.e {
-    say "\nFile $filename.IO.basename() found,",
-     " Overwrite(o), new version(v) or skip(s)";
-    my Str $a = prompt "[o,v,s] s is default> ";
+    my Str $basename = $filename.IO.basename();
+    my Bool $protect = $!protected-files.first($basename).Bool;
+    my Str $a;
+    if $protect {
+      say "\nFile $basename found, new version(v) or skip(s)";
+       $a = prompt "[v,s] s is default> ";
+    }
+
+    else {
+      say "\nFile $basename found, Overwrite(o), new version(v) or skip(s)";
+      $a = prompt "[o,v,s] s is default> ";
+    }
+
     given $a.lc {
-      when 'o' { }
+      when 'o' {
+        $save-it = !$protect and True;
+      }
 
       when 'v' {
         my $f = $filename;
@@ -2449,6 +2471,8 @@ note "$?LINE $filename";
           $v++;
           $filename = "$f;$v";
         }
+        
+        $save-it = True;
       }
 
       # when 's'
@@ -2477,7 +2501,7 @@ note "$?LINE $filename";
       my Str $md-dir = $*work-data<result-docs> ~ 'md/';
       mkdir $md-dir, 0o655 unless $md-dir.IO.e;
       my Str $md-filename = $md-dir ~ $filename.IO.basename;
-      $md-filename ~~ s/ '.rakudoc' $/.md/;
+      $md-filename ~~ s/ '.rakudoc' /.md/;
       $md-filename.IO.spurt($md);
       $*saved-file-summary.push: $md-filename.IO.basename;
     }
