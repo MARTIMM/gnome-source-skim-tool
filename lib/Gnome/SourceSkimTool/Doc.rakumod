@@ -182,12 +182,10 @@ method document-build ( XML::Element $element --> Str ) {
       Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
 
         multi method new \( Str :\$build-id! )
-      
-      =end pod
-
       EOBUILD
   }
 
+  $doc ~= "\n=end pod\n\n";
   $doc
 }
 
@@ -839,7 +837,53 @@ method document-enumerations ( @enum-names --> Str ) {
 
 #-------------------------------------------------------------------------------
 method document-bitfield ( @bitfield-names --> Str ) {
-  ''
+
+  # Return empty string if no bitfields found.
+  return '' unless ?@bitfield-names;
+
+  # Open bitfields file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-bitfield.gir';
+  my XML::XPath $xpath .= new(:$file);
+
+  my Str $doc = qq:to/EOBITF/;
+    =begin pod
+    =head1 Bitfields
+
+    EOBITF
+
+  # For each of the found names
+  for @bitfield-names.sort -> $bitfield-name {
+    $doc ~= qq:to/EOBITF/;
+    =head2 $bitfield-name
+
+    EOBITF
+
+    # Must have a name to search using the @name attribute on an element
+    my Str $prefix = $*work-data<name-prefix>.tc;
+    my Str $name = $bitfield-name;
+    $name ~~ s/^ $prefix //;
+ 
+    # Get the XML element of the bitfield data
+    my XML::Element $e = $xpath.find(
+      '//bitfield[@name="' ~ $name ~ '"]', :!to-list
+    );
+
+    my Str $bitfield-doc =
+      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+    $doc ~= self!cleanup(self!modify-text($bitfield-doc));
+   
+    my @members = $xpath.find( 'member', :start($e), :to-list);
+    for @members -> $m {
+      $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
+      my Str $bitfield-member-doc =
+        ($xpath.find( 'doc/text()', :start($m), :!to-list) // '').Str;
+      $doc ~= self!cleanup(self!modify-text($bitfield-member-doc)) ~ "\n";
+    }
+  }
+
+  $doc ~= "=end pod\n\n";
+
+  $doc
 }
 
 #-------------------------------------------------------------------------------

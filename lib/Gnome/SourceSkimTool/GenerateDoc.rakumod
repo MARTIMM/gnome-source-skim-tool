@@ -179,7 +179,7 @@ note "$?LINE $filename";
         }
 
         #$c ~= $!grd.document-bitfield(@bitfield-names);
-        $types-doc<bitfield> = $!grd.document-enumerations(@bitfield-names);
+        $types-doc<bitfield> = $!grd.document-bitfield(@bitfield-names);
       }
 
       #when 'callback' { }
@@ -214,7 +214,7 @@ note "$?LINE $filename";
 
     note "Document init" if $*verbose;
     my Str $doc = $!grd.start-document;
-    $doc ~= qq:to/EODOC/;
+    $doc ~= qq:to/EODOC/ if ?$types-doc<function>;
       {pod-header('Class Initialization')}
         =begin pod
         =head1 $class-name
