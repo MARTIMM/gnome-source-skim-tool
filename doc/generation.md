@@ -82,8 +82,8 @@ All routines available in a class, role or as standalone functions are generated
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-label => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor),:returns(N-GObject), :parameters([ Str])),
+  new-label => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :type(Constructor),:returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
   get-angle => %( :returns(gdouble)),
@@ -193,7 +193,7 @@ method new-window ( *@arguments ) {
   self.bless(
     :new-window(
       @arguments,
-      %( :returns(N-GObject), :is-symbol<gtk_window_new> )
+      %( :returns(N-Object), :is-symbol<gtk_window_new> )
     )
   );
 }
