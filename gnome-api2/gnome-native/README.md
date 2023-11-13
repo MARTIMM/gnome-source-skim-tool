@@ -28,9 +28,9 @@ This package holds the native object description as well as the interface descri
 * [ 🔗 Issues](https://github.com/MARTIMM/gnome-gtk3/issues)
 
 # Installation
-Do not install this package on its own. Instead install `Gnome::Gtk3`.
+Do not install this package on its own. Instead install `Gnome::Gtk4` newest api.
 
-`zef install Gnome::Gtk3`
+`zef install Gnome::Gtk4:api<2>`
 
 
 # Author

@@ -20,15 +20,9 @@
   Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
   Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
 
-* TODO better BUILD generation. Find a way to use new* native subs directly.
-* TODO Generate doc
-
 * TODO Find out if :api<2> is a good enough separation from the old packages
   * See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
   * https://docs.raku.org/language/compilation#$*REPO
-
-* TODO investigate using constructors directly instead of using BUILD with options
-* TODO Generate META6 files of api2 projects
 
 * TODO Change all :isnew and :realname into :is-symbol. Add :is-symbol to all routines. Note the gnome name in :is-symbol. Then no prefix is needed and converting dashes.
 
@@ -64,7 +58,7 @@ find . -name '*.raku*' | xargs wc -l
 * Code is split into more separate files.
   * **Gnome::\<package>::\<class>**. Class names are as before.
   * **Gnome::\<package>::R-\<role>**. Name of roles are changed but is not a problem because they cannot be used as a class.
-  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**. The object **N-Object** found in `Gnome::N` is widely used and was name N-Object in the first project.
+  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**. The object **N-Object** found in `Gnome::N` is widely used and was name N-GObject in the first project.
   * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
 * In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. There is no pixbuf package for version 4. There it is solved differently.
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk4`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
@@ -81,7 +75,7 @@ find . -name '*.raku*' | xargs wc -l
 
 * 2023-10-22 0.11.6
   * Added more modules from Glib, GObject, Gio and Gtk4.
-  * Native structures names are changed a small bit; N-GError becomes **N-Error** and N-GtkRequisition becomes **N-Requisition**. The only structure unchanged for now is **N-Object**.
+  * Native structures names are changed a small bit; N-GError becomes **N-Error** and N-GtkRequisition becomes **N-Requisition**. The only structure unchanged for now is **N-GObject**.
   * Added a META6.json generator using **META6**.
   * Changed **Gnome::Gio::File** from interface into class. Also the functions found in File to create the object are transformed into constructors. This is accomplished by changing the `C-File.gir` XML elements. To prevent overwriting, the skimming process does not overwrite the previously created gir files.
   * 'g_variant_new_variant' gave a clash 'g_variant_new' created by the generator because the latter is translated in `new-variant` while the first one got the same name. The latter is now translated into `new-variant-with-variant`. The trick is done by adding a key in the $methods Hash stating the real name.
@@ -186,7 +180,7 @@ find . -name '*.raku*' | xargs wc -l
     The tests show that normal runtimes are not differing much. But when everyhing needs to be recompiled, the newer modules compile much faster.
     I must make a note here. Removing the `.precompile` directories in the old Gtk library, involves more compiling for other modules needed as a side effect instead of only the Window, Bin, Container, Widget and Buildable modules. Its size after running is 16.2 Mb over 66 files and 29 sub folders(~ 245Kb/file). The newer .precomp files are 16.3 Kb over 5 files and 3 sub folders(~3kb/file). That's quite a difference. If I take this difference in files into account, about 66/5, and the increase in time, less than a sec., it would become 10 sec. at most.
     When the project evolves, these tests are repeated to see if this is really true.
-  * Record and Union structures are generated in separate files. This means that there are more modules than in the original project. E,g. the original **Gnome::Gdk3::Events** have all event structures gathered in one file. The filenames will be something like `N-Record-name.rakumod` for each `N-Record-name` type. The same goes for unions. In a way this is the same for the `N-Object` stored in `N-Object.rakumod` in the **Gnome::N** package.
+  * Record and Union structures are generated in separate files. This means that there are more modules than in the original project. E,g. the original **Gnome::Gdk3::Events** have all event structures gathered in one file. The filenames will be something like `N-Record-name.rakumod` for each `N-Record-name` type. The same goes for unions. In a way this is the same for the `N-GObject` stored in `N-GObject.rakumod` in the **Gnome::N** package.
 
 * 2023-06-19 0.8.3
   * Add module **Gnome::SourceSkimTool::File** to scan through data using a filename defined in field `class-file` in the `repo-object-map.yaml`. This may remove options -c, -i and -r.
