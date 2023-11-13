@@ -34,8 +34,6 @@
 
 * TODO Check if failing COERCE has something to do with skipping Any class in TopLevelClassSupport. If so, insert a simplyfied Any (MyAny).
 
-* TODO Make a protected files yaml file. This can be used to prevent overwriting the generated sources.
-
 ### Testing command with timing -o for dump to file
 * With some options
 ```
@@ -57,7 +55,7 @@ find . -name '*.raku*' | xargs wc -l
 ```
 
 ### List of backward compatibility breaks 😭 😭
-* Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages.
+* Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages if they are still installed.
 * Instanciating a class or record is done using positional arguments instead of named arguments. The names of these methods will not be `new()` anymore but something like `new-*()`. E.g. `new-label($text)` or `new-grid()`.
 * The `new()` call is only used for specific work. I.e.
   * Providing a native object from elsewhere with `:$native-object`.
@@ -66,15 +64,18 @@ find . -name '*.raku*' | xargs wc -l
 * Code is split into more separate files.
   * **Gnome::\<package>::\<class>**. Class names are as before.
   * **Gnome::\<package>::R-\<role>**. Name of roles are changed but is not a problem because they cannot be used as a class.
-  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**.
+  * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**. The object **N-Object** found in `Gnome::N` is widely used and was name N-GObject in the first project.
   * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
 * In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. There is no pixbuf package for version 4. There it is solved differently.
-* New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
+* New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk4`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 
 
 
 
 # Release notes
+* 2023-11-13 0.12.1
+  * Made a protected files yaml file. This is used to prevent overwriting the generated sources after modifications by hand. Most are changed documentation and test files because generating things can only go so far.
+
 * 2023-10-30 0.12.0
   * Testing done of current implementation using a Hash with the native function information versus a method coded implementation. The latter is only marginally faster while having much more code for the methods would mean longer compile-times. This means that I will continue using a Hash to describe the native function and relying on the FALLBACK mechanism.
 
