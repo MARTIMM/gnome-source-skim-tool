@@ -12,7 +12,7 @@ use Gnome::GObject::Object:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -58,16 +58,16 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-shortcut => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ N-GObject, N-GObject])),
-  #new-with-arguments => %( :type(Constructor), :returns(N-GObject), :variable-list, :parameters([ N-GObject, N-GObject, Str])),
+  new-shortcut => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ N-Object, N-Object])),
+  #new-with-arguments => %( :type(Constructor), :returns(N-Object), :variable-list, :parameters([ N-Object, N-Object, Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-action => %( :returns(N-GObject)),
+  get-action => %( :returns(N-Object)),
   get-arguments => %( :returns(N-Variant)),
-  get-trigger => %( :returns(N-GObject)),
-  set-action => %( :parameters([N-GObject])),
+  get-trigger => %( :returns(N-Object)),
+  set-action => %( :parameters([N-Object])),
   set-arguments => %( :parameters([N-Variant])),
-  set-trigger => %( :parameters([N-GObject])),
+  set-trigger => %( :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------

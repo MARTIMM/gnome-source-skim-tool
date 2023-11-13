@@ -11,7 +11,7 @@ use NativeCall;
 
 
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::N-LayoutIter:api<2>;
@@ -47,9 +47,9 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $layoutiter {
-    my N-GObject $ink-rect;
+    my N-Object $ink-rect;
     my Array[Int] $y0;
-    my N-GObject $logical-rect;
+    my N-Object $logical-rect;
     my Array[Int] $y1;
 
 

@@ -12,7 +12,7 @@ use NativeCall;
 
 use Gnome::Gio::MenuItem:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -30,10 +30,10 @@ my Gnome::Gio::MenuItem $menuitem;
 subtest 'ISA test', {
   given $menuitem {
     my Int() $item-index;
-    my N-GObject() $submenu;
-    my N-GObject() $section;
+    my N-Object() $submenu;
+    my N-Object() $section;
     my Str $label;
-    my N-GObject() $model;
+    my N-Object() $model;
     my Str $detailed-action;
 
 #`{{
@@ -78,18 +78,18 @@ unless %*ENV<raku_test_all>:exists {
 subtest 'Method tests', {
   with $menuitem {
     my Str $attribute;
-    my N-GObject $value;
+    my N-Object $value;
     my Str $detailed-action;
     my Str $link;
     my Str $label;
-    my N-GObject $expected-type;
-    my N-GObject $target-value;
+    my N-Object $expected-type;
+    my N-Object $target-value;
     my Str $format-string;
-    my N-GObject() $model;
-    my N-GObject() $submenu;
+    my N-Object() $model;
+    my N-Object() $submenu;
     my Str $action;
-    my N-GObject() $section;
-    my N-GObject() $icon;
+    my N-Object() $section;
+    my N-Object() $icon;
 
 
 #`{{

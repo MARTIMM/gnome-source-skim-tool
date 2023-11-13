@@ -13,7 +13,7 @@ use Gnome::GObject::Object:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -60,7 +60,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-notification => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str])),
+  new-notification => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
   add-button => %( :parameters([Str, Str])),
@@ -71,7 +71,7 @@ my Hash $methods = %(
   set-default-action => %( :parameters([Str])),
   #set-default-action-and-target => %(:variable-list,  :parameters([Str, Str])),
   set-default-action-and-target-value => %( :parameters([Str, N-Variant])),
-  set-icon => %( :parameters([N-GObject])),
+  set-icon => %( :parameters([N-Object])),
   #set-priority => %( :parameters([GEnum])),
   set-title => %( :parameters([Str])),
 );

@@ -14,7 +14,7 @@ use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -72,14 +72,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-shortcutcontroller => %( :type(Constructor), :isnew, :returns(N-GObject), ),
-  new-for-model => %( :type(Constructor), :returns(N-GObject), :parameters([ N-GObject])),
+  new-shortcutcontroller => %( :type(Constructor), :isnew, :returns(N-Object), ),
+  new-for-model => %( :type(Constructor), :returns(N-Object), :parameters([ N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  add-shortcut => %( :parameters([N-GObject])),
+  add-shortcut => %( :parameters([N-Object])),
   #get-mnemonics-modifiers => %( :returns(GFlag), :cnv-return(GdkModifierType )),
   get-scope => %( :returns(GEnum), :cnv-return(GtkShortcutScope)),
-  remove-shortcut => %( :parameters([N-GObject])),
+  remove-shortcut => %( :parameters([N-Object])),
   #set-mnemonics-modifiers => %( :parameters([GFlag])),
   set-scope => %( :parameters([GEnum])),
 );

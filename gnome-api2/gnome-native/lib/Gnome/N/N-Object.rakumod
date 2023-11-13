@@ -9,16 +9,16 @@ use Gnome::N::X;
 # in one of those module it can create circular dependencies
 #
 =begin pod
-=head2 class N-GObject
+=head2 class N-Object
 
 Class at the top of many food chains. This native object is stored here to prevent circular dependencies.
 
-Previously I thought this would be an object from everything GObject in glib and child classes. Now, I will use it for everything opaque and call it a I<Native Gnome Object>. This object is always stored in the B<Gnome::N::TopLevelClassSupport>. It is created in a C<.BUILD()> submethod or imported using C<:native-object> or C<:build-id> named argument to a C<.new()> method. There are other objects which are not so opaque like B<N-GError> and B<N-GdkRGBA>. These objects are defined in their proper places. So, in short, every standalone class has its own native object (or even none like B<Gnome::Glib::Quark>), and every class inheriting from B<Gnome::N::TopLevelClassSupport>, directly or indirectly, has this opaque object B<N-GObject>.
+Previously I thought this would be an object from everything GObject in glib and child classes. Now, I will use it for everything opaque and call it a I<Native Gnome Object>. This object is always stored in the B<Gnome::N::TopLevelClassSupport>. It is created in a C<.BUILD()> submethod or imported using C<:native-object> or C<:build-id> named argument to a C<.new()> method. There are other objects which are not so opaque like B<N-GError> and B<N-GdkRGBA>. These objects are defined in their proper places. So, in short, every standalone class has its own native object (or even none like B<Gnome::Glib::Quark>), and every class inheriting from B<Gnome::N::TopLevelClassSupport>, directly or indirectly, has this opaque object B<N-Object>.
 
 =end pod
 
-#TT:1:N-GObject:
-unit class N-GObject is repr('CPointer') is export;
+#TT:1:N-Object:
+unit class N-Object is repr('CPointer') is export;
 
 #-------------------------------------------------------------------------------
 #tm:4:CALL-ME:
@@ -30,13 +30,13 @@ Wrap this native object in a Raku object given by the C<$rk-type> or C<$rk-type-
 Example where the native object is a B<GtkWindow> type. The Raku type would then be B<Gnome::Gtk3::Window>.
 
   my Gnome::Gtk3::Window $w .= new;
-  $w.set-title('N-GObject coercion');
-  my N-GObject() $no = $w;
+  $w.set-title('N-Object coercion');
+  my N-Object() $no = $w;
 
   # CALL-ME is used here. There are 3 ways to use it.
-  say $no(Gnome::Gtk3::Window).get-title;     # N-GObject coercion
-  say $no('Gnome::Gtk3::Window').get-title;   # N-GObject coercion
-  say $no().get-title;                        # N-GObject coercion
+  say $no(Gnome::Gtk3::Window).get-title;     # N-Object coercion
+  say $no('Gnome::Gtk3::Window').get-title;   # N-Object coercion
+  say $no().get-title;                        # N-Object coercion
 
 In the last example, an exeption is thrown when the native object is not defined because there will be no way to know to which class to convert to. The other types will convert but the objects will be invalid.
 
@@ -89,7 +89,7 @@ method _wrap-native-type ( Str:D $type where ?$type, Any $no --> Any ) {
 
   else {
     if ?$no {
-      note "Coercing N-GObject to a valid $type type" if $Gnome::N::x-debug;
+      note "Coercing N-Object to a valid $type type" if $Gnome::N::x-debug;
       ::($type).new(:native-object($no));
     }
 
@@ -97,16 +97,16 @@ method _wrap-native-type ( Str:D $type where ?$type, Any $no --> Any ) {
       if $Gnome::N::x-debug && $type ~~ any(
         <Gnome::Glib::List::N-GList Gnome::Glib::SList::N-GSList>
       ) {
-        note "Coercing N-GObject to a valid $type type"
+        note "Coercing N-Object to a valid $type type"
           if $Gnome::N::x-debug;
       }
 
       else {
-        note "Coercing N-GObject to an invalid $type type"
+        note "Coercing N-Object to an invalid $type type"
           if $Gnome::N::x-debug;
       }
 
-      ::($type).new(:native-object(N-GObject));
+      ::($type).new(:native-object(N-Object));
     }
   }
 }
@@ -114,10 +114,10 @@ method _wrap-native-type ( Str:D $type where ?$type, Any $no --> Any ) {
 #-------------------------------------------------------------------------------
 #tm:4:_wrap-native-type-from-no:
 # no doc, same routine as in TopLevelClassSupport
-method _wrap-native-type-from-no ( N-GObject $no --> Any ) {
+method _wrap-native-type-from-no ( N-Object $no --> Any ) {
   my Str $type;
   $type = ?$no ?? _name_from_instance($no) !! '';
-  return N-GObject unless ( ?$type and $type ne '<NULL-class>');
+  return N-Object unless ( ?$type and $type ne '<NULL-class>');
 
   given $type {
     when /^ Gtk / { $type ~~ s/^ Gtk/Gtk3::/; }
@@ -150,14 +150,14 @@ method _wrap-native-type-from-no ( N-GObject $no --> Any ) {
 }
 
 #-------------------------------------------------------------------------------
-method COERCE ( Mu $any --> N-GObject ) {
-  nativecast( N-GObject, $any)
+method COERCE ( Mu $any --> N-Object ) {
+  nativecast( N-Object, $any)
 }
 
 #-------------------------------------------------------------------------------
 #--[ some necessary native subroutines ]----------------------------------------
 #-------------------------------------------------------------------------------
-sub _name_from_instance ( N-GObject $instance --> Str )
+sub _name_from_instance ( N-Object $instance --> Str )
   is native(&gobject-lib)
   is symbol('g_type_name_from_instance')
   { * }
@@ -183,7 +183,7 @@ Method to wrap a native object into a Raku object
 
 Example;
 =begin code
-  my N-GObject $no = …;
+  my N-Object $no = …;
   my Gnome::Gtk3::Window() $w = $no;
 =end code
 
@@ -193,7 +193,7 @@ Example;
 
 =end pod
 method COERCE( $no --> Any ) {
-note 'N-GObject COERCE: ', $no;
-  note "Coercing from N-GObject to ", self.^name if $Gnome::N::x-debug;
+note 'N-Object COERCE: ', $no;
+  note "Coercing from N-Object to ", self.^name if $Gnome::N::x-debug;
   self._wrap-native-type( self.^name, $no)
 }

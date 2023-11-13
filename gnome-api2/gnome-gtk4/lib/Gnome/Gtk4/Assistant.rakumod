@@ -12,7 +12,7 @@ use Gnome::Gtk4::T-Assistant:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -69,31 +69,31 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-assistant => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+  new-assistant => %( :type(Constructor), :isnew, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-action-widget => %( :parameters([N-GObject])),
-  append-page => %( :returns(gint), :parameters([N-GObject])),
+  add-action-widget => %( :parameters([N-Object])),
+  append-page => %( :returns(gint), :parameters([N-Object])),
   commit => %(),
   get-current-page => %( :returns(gint)),
   get-n-pages => %( :returns(gint)),
-  get-nth-page => %( :returns(N-GObject), :parameters([gint])),
-  get-page => %( :returns(N-GObject), :parameters([N-GObject])),
-  get-page-complete => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
-  get-page-title => %( :returns(Str), :parameters([N-GObject])),
-  get-page-type => %( :returns(GEnum), :cnv-return(GtkAssistantPageType), :parameters([N-GObject])),
-  get-pages => %( :returns(N-GObject)),
-  insert-page => %( :returns(gint), :parameters([N-GObject, gint])),
+  get-nth-page => %( :returns(N-Object), :parameters([gint])),
+  get-page => %( :returns(N-Object), :parameters([N-Object])),
+  get-page-complete => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  get-page-title => %( :returns(Str), :parameters([N-Object])),
+  get-page-type => %( :returns(GEnum), :cnv-return(GtkAssistantPageType), :parameters([N-Object])),
+  get-pages => %( :returns(N-Object)),
+  insert-page => %( :returns(gint), :parameters([N-Object, gint])),
   next-page => %(),
-  prepend-page => %( :returns(gint), :parameters([N-GObject])),
+  prepend-page => %( :returns(gint), :parameters([N-Object])),
   previous-page => %(),
-  remove-action-widget => %( :parameters([N-GObject])),
+  remove-action-widget => %( :parameters([N-Object])),
   remove-page => %( :parameters([gint])),
   set-current-page => %( :parameters([gint])),
   #set-forward-page-func => %( :parameters([:( gint $current-page, gpointer $data --> gint ), gpointer, ])),
-  set-page-complete => %( :parameters([N-GObject, gboolean])),
-  set-page-title => %( :parameters([N-GObject, Str])),
-  set-page-type => %( :parameters([N-GObject, GEnum])),
+  set-page-complete => %( :parameters([N-Object, gboolean])),
+  set-page-title => %( :parameters([N-Object, Str])),
+  set-page-type => %( :parameters([N-Object, GEnum])),
   update-buttons-state => %(),
 );
 

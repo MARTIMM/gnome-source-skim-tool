@@ -12,7 +12,7 @@ use Gnome::Gtk4::T-Dialog:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -69,17 +69,17 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-dialog => %( :type(Constructor), :isnew, :returns(N-GObject), ),
-  new-with-buttons => %( :type(Constructor), :returns(N-GObject), :variable-list, :parameters([ Str, N-GObject, GFlag, Str])),
+  new-dialog => %( :type(Constructor), :isnew, :returns(N-Object), ),
+  new-with-buttons => %( :type(Constructor), :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GFlag, Str])),
 
   #--[Methods]------------------------------------------------------------------
-  add-action-widget => %( :parameters([N-GObject, gint])),
-  add-button => %( :returns(N-GObject), :parameters([Str, gint])),
+  add-action-widget => %( :parameters([N-Object, gint])),
+  add-button => %( :returns(N-Object), :parameters([Str, gint])),
   #add-buttons => %(:variable-list,  :parameters([Str])),
-  get-content-area => %( :returns(N-GObject)),
-  get-header-bar => %( :returns(N-GObject)),
-  get-response-for-widget => %( :returns(gint), :parameters([N-GObject])),
-  get-widget-for-response => %( :returns(N-GObject), :parameters([gint])),
+  get-content-area => %( :returns(N-Object)),
+  get-header-bar => %( :returns(N-Object)),
+  get-response-for-widget => %( :returns(gint), :parameters([N-Object])),
+  get-widget-for-response => %( :returns(N-Object), :parameters([gint])),
   response => %( :parameters([gint])),
   set-default-response => %( :parameters([gint])),
   set-response-sensitive => %( :parameters([gint, gboolean])),

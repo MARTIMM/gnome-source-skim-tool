@@ -11,7 +11,7 @@ use NativeCall;
 #use Gnome::Gio::N-ActionEntry:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -29,9 +29,9 @@ unit role Gnome::Gio::R-ActionMap:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  add-action => %( :parameters([N-GObject])),
+  add-action => %( :parameters([N-Object])),
   #add-action-entries => %( :parameters([N-ActionEntry , gint, gpointer])),
-  lookup-action => %( :returns(N-GObject), :parameters([Str])),
+  lookup-action => %( :returns(N-Object), :parameters([Str])),
   remove-action => %( :parameters([Str])),
 );
 

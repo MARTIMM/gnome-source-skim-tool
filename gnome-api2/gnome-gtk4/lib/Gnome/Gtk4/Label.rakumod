@@ -12,7 +12,7 @@ use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-AttrList:api<2>;
@@ -72,22 +72,22 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-label => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
+  new-label => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
   #get-attributes => %( :returns(N-AttrList )),
   get-current-uri => %( :returns(Str)),
   get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode )),
-  get-extra-menu => %( :returns(N-GObject)),
+  get-extra-menu => %( :returns(N-Object)),
   get-justify => %( :returns(GEnum), :cnv-return(GtkJustification)),
   get-label => %( :returns(Str)),
-  get-layout => %( :returns(N-GObject)),
+  get-layout => %( :returns(N-Object)),
   get-layout-offsets => %( :parameters([gint-ptr, gint-ptr])),
   get-lines => %( :returns(gint)),
   get-max-width-chars => %( :returns(gint)),
   get-mnemonic-keyval => %( :returns(guint)),
-  get-mnemonic-widget => %( :returns(N-GObject)),
+  get-mnemonic-widget => %( :returns(N-Object)),
   get-natural-wrap-mode => %( :returns(GEnum), :cnv-return(GtkNaturalWrapMode)),
   get-selectable => %( :returns(gboolean), :cnv-return(Bool)),
   get-selection-bounds => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, gint-ptr])),
@@ -103,14 +103,14 @@ my Hash $methods = %(
   select-region => %( :parameters([gint, gint])),
   #set-attributes => %( :parameters([N-AttrList ])),
   set-ellipsize => %( :parameters([GEnum])),
-  set-extra-menu => %( :parameters([N-GObject])),
+  set-extra-menu => %( :parameters([N-Object])),
   set-justify => %( :parameters([GEnum])),
   set-label => %( :parameters([Str])),
   set-lines => %( :parameters([gint])),
   set-markup => %( :parameters([Str])),
   set-markup-with-mnemonic => %( :parameters([Str])),
   set-max-width-chars => %( :parameters([gint])),
-  set-mnemonic-widget => %( :parameters([N-GObject])),
+  set-mnemonic-widget => %( :parameters([N-Object])),
   set-natural-wrap-mode => %( :parameters([GEnum])),
   set-selectable => %( :parameters([gboolean])),
   set-single-line-mode => %( :parameters([gboolean])),

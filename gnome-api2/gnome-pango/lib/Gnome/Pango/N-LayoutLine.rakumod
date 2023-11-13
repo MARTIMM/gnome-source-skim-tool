@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::Glib::N-SList:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -21,7 +21,7 @@ use Gnome::N::X:api<2>;
 
 unit class N-LayoutLine:auth<github:MARTIMM>:api<2> is export is repr('CStruct');
 
-has N-GObject $.layout;
+has N-Object $.layout;
 has gint $.start-index;
 has gint $.length;
 has N-SList $.runs;
@@ -34,7 +34,7 @@ submethod BUILD (
 }
 
 submethod TWEAK (
-  N-GObject :$layout, 
+  N-Object :$layout, 
 ) {
   $!layout := $layout if ?$layout;
 }

@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gio::MenuModel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -58,22 +58,22 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-menu => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+  new-menu => %( :type(Constructor), :isnew, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
   append => %( :parameters([Str, Str])),
-  append-item => %( :parameters([N-GObject])),
-  append-section => %( :parameters([Str, N-GObject])),
-  append-submenu => %( :parameters([Str, N-GObject])),
+  append-item => %( :parameters([N-Object])),
+  append-section => %( :parameters([Str, N-Object])),
+  append-submenu => %( :parameters([Str, N-Object])),
   freeze => %(),
   insert => %( :parameters([gint, Str, Str])),
-  insert-item => %( :parameters([gint, N-GObject])),
-  insert-section => %( :parameters([gint, Str, N-GObject])),
-  insert-submenu => %( :parameters([gint, Str, N-GObject])),
+  insert-item => %( :parameters([gint, N-Object])),
+  insert-section => %( :parameters([gint, Str, N-Object])),
+  insert-submenu => %( :parameters([gint, Str, N-Object])),
   prepend => %( :parameters([Str, Str])),
-  prepend-item => %( :parameters([N-GObject])),
-  prepend-section => %( :parameters([Str, N-GObject])),
-  prepend-submenu => %( :parameters([Str, N-GObject])),
+  prepend-item => %( :parameters([N-Object])),
+  prepend-section => %( :parameters([Str, N-Object])),
+  prepend-submenu => %( :parameters([Str, N-Object])),
   remove => %( :parameters([gint])),
   remove-all => %(),
 );

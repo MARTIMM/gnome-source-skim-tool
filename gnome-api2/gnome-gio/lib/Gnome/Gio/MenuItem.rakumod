@@ -13,7 +13,7 @@ use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::N-VariantType:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -60,25 +60,25 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-menuitem => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str, Str])),
-  new-from-model => %( :type(Constructor), :returns(N-GObject), :parameters([ N-GObject, gint])),
-  new-section => %( :type(Constructor), :returns(N-GObject), :parameters([ Str, N-GObject])),
-  new-submenu => %( :type(Constructor), :returns(N-GObject), :parameters([ Str, N-GObject])),
+  new-menuitem => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str, Str])),
+  new-from-model => %( :type(Constructor), :returns(N-Object), :parameters([ N-Object, gint])),
+  new-section => %( :type(Constructor), :returns(N-Object), :parameters([ Str, N-Object])),
+  new-submenu => %( :type(Constructor), :returns(N-Object), :parameters([ Str, N-Object])),
 
   #--[Methods]------------------------------------------------------------------
   #get-attribute => %(:variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
   get-attribute-value => %( :returns(N-Variant), :parameters([Str, N-VariantType])),
-  get-link => %( :returns(N-GObject), :parameters([Str])),
+  get-link => %( :returns(N-Object), :parameters([Str])),
   #set-action-and-target => %(:variable-list,  :parameters([Str, Str])),
   set-action-and-target-value => %( :parameters([Str, N-Variant])),
   #set-attribute => %(:variable-list,  :parameters([Str, Str])),
   set-attribute-value => %( :parameters([Str, N-Variant])),
   set-detailed-action => %( :parameters([Str])),
-  set-icon => %( :parameters([N-GObject])),
+  set-icon => %( :parameters([N-Object])),
   set-label => %( :parameters([Str])),
-  set-link => %( :parameters([Str, N-GObject])),
-  set-section => %( :parameters([N-GObject])),
-  set-submenu => %( :parameters([N-GObject])),
+  set-link => %( :parameters([Str, N-Object])),
+  set-section => %( :parameters([N-Object])),
+  set-submenu => %( :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------

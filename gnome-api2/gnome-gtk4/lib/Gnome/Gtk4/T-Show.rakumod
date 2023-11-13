@@ -8,7 +8,7 @@ use NativeCall;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -49,9 +49,9 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  show-uri => %( :type(Function),  :parameters([ N-GObject, Str, guint32])),
-  #show-uri-full => %( :type(Function),  :parameters([ N-GObject, Str, guint32, N-GObject, , gpointer])),
-  show-uri-full-finish => %( :type(Function),  :returns(gboolean), :parameters([ N-GObject, N-GObject])),
+  show-uri => %( :type(Function),  :parameters([ N-Object, Str, guint32])),
+  #show-uri-full => %( :type(Function),  :parameters([ N-Object, Str, guint32, N-Object, , gpointer])),
+  show-uri-full-finish => %( :type(Function),  :returns(gboolean), :parameters([ N-Object, N-Object])),
 
 );
 

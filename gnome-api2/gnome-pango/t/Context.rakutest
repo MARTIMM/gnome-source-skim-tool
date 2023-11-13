@@ -11,7 +11,7 @@ use NativeCall;
 
 
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::Context:api<2>;
@@ -51,14 +51,14 @@ unless %*ENV<raku_test_all>:exists {
 subtest 'Method tests', {
   with $context {
     my PangoDirection $direction;
-    my N-GObject() $font-map;
-    my N-GObject() $families;
+    my N-Object() $font-map;
+    my N-Object() $families;
     my Array[Int] $n-families;
     my PangoGravityHint $hint;
-    my N-GObject $language;
-    my N-GObject $desc;
+    my N-Object $language;
+    my N-Object $desc;
     my PangoGravity $gravity;
-    my N-GObject $matrix;
+    my N-Object $matrix;
     my Bool() $round-positions;
 
 

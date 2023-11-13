@@ -1,10 +1,10 @@
 
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
 
-my N-GObject(Mu) $no;
+my N-Object(Mu) $no;
 my Gnome::Gtk4::Button(Mu) ( $b1, $b2);
 
 #Gnome::N::debug(:on);

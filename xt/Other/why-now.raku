@@ -5,7 +5,7 @@ use lib 'gnome-api2/gnome-native/lib', 'gnome-api2/gnome-gobject/lib',
   'gnome-api2/gnome-gtk4/lib';
 
 use NativeCall;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::GObject::Object;
 
@@ -17,7 +17,7 @@ Gnome::Gtk4::Label.gtk-initialize;
 
 #exit;
 
-my N-GObject $native-object;
+my N-Object $native-object;
 my Gnome::Gtk4::Label $label;
 
 note "$?LINE";
@@ -30,12 +30,12 @@ my Str $library = 'gtk-4';
 
 note "$?LINE";
 #my @parameterList = (Parameter.new(type => gchar-ptr));
-#my $returns = N-GObject;
+#my $returns = N-Object;
 #my Signature $signature .= new( :params(|@parameterList), :$returns);
 #note "$?LINE $routine-name, $signature.gist()";
 
 my Callable $f = nativecast(
-  :( Str --> N-GObject), cglobal( $library, 'gtk_label_new', gpointer)
+  :( Str --> N-Object), cglobal( $library, 'gtk_label_new', gpointer)
 #  $signature, cglobal( $library, 'gtk_label_new', Pointer)
 );
 note "$?LINE $f.gist()";
@@ -48,7 +48,7 @@ note $label.gist;
 note "$?LINE";
 
 
-sub new-label ( Str --> N-GObject )
+sub new-label ( Str --> N-Object )
   is native('gtk-4')
   is symbol('gtk_label_new')
   { * }

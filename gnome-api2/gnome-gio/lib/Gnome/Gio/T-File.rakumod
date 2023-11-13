@@ -9,7 +9,7 @@ use NativeCall;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -50,12 +50,12 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  file-new-for-commandline-arg => %( :type(Function),  :returns(N-GObject), :parameters([Str])),
-  file-new-for-commandline-arg-and-cwd => %( :type(Function),  :returns(N-GObject), :parameters([ Str, Str])),
-  file-new-for-path => %( :type(Function),  :returns(N-GObject), :parameters([Str])),
-  file-new-for-uri => %( :type(Function),  :returns(N-GObject), :parameters([Str])),
-  file-new-tmp => %( :type(Function),  :returns(N-GObject), :parameters([ Str, CArray[N-GObject]])),
-  file-parse-name => %( :type(Function),  :returns(N-GObject), :parameters([Str])),
+  file-new-for-commandline-arg => %( :type(Function),  :returns(N-Object), :parameters([Str])),
+  file-new-for-commandline-arg-and-cwd => %( :type(Function),  :returns(N-Object), :parameters([ Str, Str])),
+  file-new-for-path => %( :type(Function),  :returns(N-Object), :parameters([Str])),
+  file-new-for-uri => %( :type(Function),  :returns(N-Object), :parameters([Str])),
+  file-new-tmp => %( :type(Function),  :returns(N-Object), :parameters([ Str, CArray[N-Object]])),
+  file-parse-name => %( :type(Function),  :returns(N-Object), :parameters([Str])),
 
 );
 

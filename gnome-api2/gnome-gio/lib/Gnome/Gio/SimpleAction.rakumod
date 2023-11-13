@@ -14,7 +14,7 @@ use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::N-VariantType:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -74,8 +74,8 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-simpleaction => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str, N-VariantType])),
-  new-stateful => %( :type(Constructor), :returns(N-GObject), :parameters([ Str, N-VariantType, N-Variant])),
+  new-simpleaction => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str, N-VariantType])),
+  new-stateful => %( :type(Constructor), :returns(N-Object), :parameters([ Str, N-VariantType, N-Variant])),
 
   #--[Methods]------------------------------------------------------------------
   set-enabled => %( :parameters([gboolean])),

@@ -37,7 +37,7 @@
 <h2 id="new"><a class="u" href="#___top" title="go to top of document">new</a></h2>
 <p>Please note that this class is mostly not instantiated directly but is used indirectly when child classes are instantiated.</p>
 <h3 id="multi_method_new_(_:$native-object!_)"><a class="u" href="#___top" title="go to top of document">multi method new ( :$native-object! )</a></h3>
-<p>Create a Raku object using a native object from elsewhere. $native-object can be a N-GObject or a Raku object like <code>Gnome::Gtk3::Button</code>.</p>
+<p>Create a Raku object using a native object from elsewhere. $native-object can be a N-Object or a Raku object like <code>Gnome::Gtk3::Button</code>.</p>
 <pre class="pod-block-code"># Some set of radio buttons grouped together
 my Gnome::Gtk3::RadioButton $rb1 .= new(:label(&#39;Download everything&#39;));
 my Gnome::Gtk3::RadioButton $rb2 .= new(
@@ -92,13 +92,13 @@ loop ( Int $i = 0; $i &lt; $rb-list.g_slist_length; $i++ ) {
 <h2 id="_wrap-native-type"><a class="u" href="#___top" title="go to top of document">_wrap-native-type</a></h2>
 <p>Used by many classes to create a Raku instance with the native object wrapped in</p>
 <pre class="pod-block-code">method _wrap-native-type (
-  Str:D $type where ?$type, N-GObject:D $no
+  Str:D $type where ?$type, N-Object:D $no
   --&gt; Any
 )</pre>
 <h2 id="_wrap-native-type-from-no"><a class="u" href="#___top" title="go to top of document">_wrap-native-type-from-no</a></h2>
 <p>As with <code>_wrap-native-type()</code> this method is used by many classes to create a Raku instance with the native object wrapped in.</p>
 <pre class="pod-block-code">method _wrap-native-type-from-no (
-  N-GObject $no, Str:D $match = &#39;&#39;, Str:D $replace = &#39;&#39;, :child-type?
+  N-Object $no, Str:D $match = &#39;&#39;, Str:D $replace = &#39;&#39;, :child-type?
   --&gt; Any
 ) {</pre>
 

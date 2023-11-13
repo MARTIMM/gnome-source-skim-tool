@@ -1,7 +1,7 @@
 
 use NativeCall;
 
-use Gnome::N::N-GObject;
+use Gnome::N::N-Object;
 use Gnome::N::NativeLib;
 use Gnome::N::GlibToRakuTypes;
 #use Gnome::N::Gir;
@@ -62,7 +62,7 @@ my Hash $methods = %(
   new => %(                 # We know to prefix 'gtk_window_' in this module
     :type(Constructor),     # Type of routine
     :parameters([GEnum]),   # Parameter types
-    :returns(N-GObject),    # Return type if any,
+    :returns(N-Object),    # Return type if any,
   ),
 
   get_default_size => %(
@@ -294,7 +294,7 @@ method native-function (
     when Function { }
     #when Method { }
     default {
-      @parameterList.push: Parameter.new(type => N-GObject);
+      @parameterList.push: Parameter.new(type => N-Object);
     }
   }
 
@@ -367,8 +367,8 @@ method convert-args ( $v, $p ) {
       $c = $v.value;
     }
 
-    when N-GObject {
-      my N-GObject() $no = $v;
+    when N-Object {
+      my N-Object() $no = $v;
       $c = $no;
     }
 
@@ -433,7 +433,7 @@ method convert-return ( $v, $p ) {
 
 
   my $e = CArray[N-GError].new(N-GError);
-  my N-GObject $typelib = g_irepository_require(
+  my N-Object $typelib = g_irepository_require(
     $!repository, $!name-space, $!version, 0, $e
   );
 
@@ -454,7 +454,7 @@ method convert-return ( $v, $p ) {
 
 
 note $?LINE;
-  my N-GObject $function-info = g_object_info_find_method(
+  my N-Object $function-info = g_object_info_find_method(
     $!object-info, $name
   );
 
@@ -471,7 +471,7 @@ note "function: ",
 
 
 #-------------------------------------------------------------------------------
-sub _gtk_window_new ( GEnum $type --> N-GObject )
+sub _gtk_window_new ( GEnum $type --> N-Object )
   is native(&gtk-lib)
   is symbol('gtk_window_new')
   { * }

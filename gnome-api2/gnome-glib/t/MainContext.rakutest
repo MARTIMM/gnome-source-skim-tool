@@ -14,7 +14,7 @@ use Gnome::Glib::N-MainContext:api<2>;
 #use Gnome::Glib::N-PollFD:api<2>;
 use Gnome::Glib::T-MainContext:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -63,8 +63,8 @@ subtest 'Method tests', {
     sub function ( gpointer $user-data --> gboolean ) {}
     my Int() $max-priority;
     my UInt() $source-id;
-    my N-GObject $fds;
-    my N-GObject $fd;
+    my N-Object $fds;
+    my N-Object $fd;
     my Array[Int] $timeout;
     my gpointer $data;
     my Int() $n-fds;
@@ -72,7 +72,7 @@ subtest 'Method tests', {
     my gpointer $user-data;
     sub notify ( gpointer $data ) {}
 #    sub func ( N-PollFD  $ufds, guint $nfsd, gint $timeout --> gint )  {}
-    my N-GObject $funcs;
+    my N-Object $funcs;
     my Bool() $may-block;
 
 

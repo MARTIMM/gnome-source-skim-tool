@@ -166,7 +166,7 @@ method document-build ( XML::Element $element --> Str ) {
 
     Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
-      multi method new \( N-GObject :\$native-object! )
+      multi method new \( N-Object :\$native-object! )
 
     EOBUILD
 
@@ -1452,7 +1452,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
   my Hash $result = %();
 
   given my $xtype = $parameter<raku-type> {
-    when 'N-GObject' {
+    when 'N-Object' {
       $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "

@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -57,13 +57,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-applicationwindow => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ N-GObject])),
+  new-applicationwindow => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  get-help-overlay => %( :returns(N-GObject)),
+  get-help-overlay => %( :returns(N-Object)),
   get-id => %( :returns(guint)),
   get-show-menubar => %( :returns(gboolean), :cnv-return(Bool)),
-  set-help-overlay => %( :parameters([N-GObject])),
+  set-help-overlay => %( :parameters([N-Object])),
   set-show-menubar => %( :parameters([gboolean])),
 );
 

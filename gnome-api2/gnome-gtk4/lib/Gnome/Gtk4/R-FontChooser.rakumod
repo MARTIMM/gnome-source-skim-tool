@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::T-Fontchooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 #use Gnome::Pango::N-FontDescription:api<2>;
@@ -32,19 +32,19 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-font => %( :returns(Str)),
   #get-font-desc => %( :returns(N-FontDescription )),
-  get-font-face => %( :returns(N-GObject)),
-  get-font-family => %( :returns(N-GObject)),
+  get-font-face => %( :returns(N-Object)),
+  get-font-family => %( :returns(N-Object)),
   get-font-features => %( :returns(Str)),
-  get-font-map => %( :returns(N-GObject)),
+  get-font-map => %( :returns(N-Object)),
   get-font-size => %( :returns(gint)),
   get-language => %( :returns(Str)),
   get-level => %( :returns(GFlag), :cnv-return(GtkFontChooserLevel)),
   get-preview-text => %( :returns(Str)),
   get-show-preview-entry => %( :returns(gboolean), :cnv-return(Bool)),
-  #set-filter-func => %( :parameters([:( N-GObject $family, N-GObject $face, gpointer $data --> gboolean ), gpointer, ])),
+  #set-filter-func => %( :parameters([:( N-Object $family, N-Object $face, gpointer $data --> gboolean ), gpointer, ])),
   set-font => %( :parameters([Str])),
   #set-font-desc => %( :parameters([N-FontDescription ])),
-  set-font-map => %( :parameters([N-GObject])),
+  set-font-map => %( :parameters([N-Object])),
   set-language => %( :parameters([Str])),
   set-level => %( :parameters([GFlag])),
   set-preview-text => %( :parameters([Str])),

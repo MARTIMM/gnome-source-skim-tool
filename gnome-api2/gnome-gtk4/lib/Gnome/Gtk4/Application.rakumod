@@ -14,7 +14,7 @@ use Gnome::Glib::N-List:api<2>;
 use Gnome::Gtk4::T-Application:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -71,22 +71,22 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-application => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str, GFlag])),
+  new-application => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str, GFlag])),
 
   #--[Methods]------------------------------------------------------------------
-  add-window => %( :parameters([N-GObject])),
+  add-window => %( :parameters([N-Object])),
   get-accels-for-action => %( :returns(gchar-pptr), :parameters([Str])),
   get-actions-for-accel => %( :returns(gchar-pptr), :parameters([Str])),
-  get-active-window => %( :returns(N-GObject)),
-  get-menu-by-id => %( :returns(N-GObject), :parameters([Str])),
-  get-menubar => %( :returns(N-GObject)),
-  get-window-by-id => %( :returns(N-GObject), :parameters([guint])),
+  get-active-window => %( :returns(N-Object)),
+  get-menu-by-id => %( :returns(N-Object), :parameters([Str])),
+  get-menubar => %( :returns(N-Object)),
+  get-window-by-id => %( :returns(N-Object), :parameters([guint])),
   get-windows => %( :returns(N-List)),
-  inhibit => %( :returns(guint), :parameters([N-GObject, GFlag, Str])),
+  inhibit => %( :returns(guint), :parameters([N-Object, GFlag, Str])),
   list-action-descriptions => %( :returns(gchar-pptr)),
-  remove-window => %( :parameters([N-GObject])),
+  remove-window => %( :parameters([N-Object])),
   set-accels-for-action => %( :parameters([Str, gchar-pptr])),
-  set-menubar => %( :parameters([N-GObject])),
+  set-menubar => %( :parameters([N-Object])),
   uninhibit => %( :parameters([guint])),
 );
 

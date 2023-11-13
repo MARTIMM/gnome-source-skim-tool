@@ -13,7 +13,7 @@ use Gnome::Gio::R-ActionGroup:api<2>;
 use Gnome::Gio::R-ActionMap:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -71,7 +71,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-simpleactiongroup => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+  new-simpleactiongroup => %( :type(Constructor), :isnew, :returns(N-Object), ),
 );
 
 #-------------------------------------------------------------------------------

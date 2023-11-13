@@ -495,7 +495,7 @@ method !get-constructor-data (
   $option-name = '' if $option-name ~~ m/^ \s* $/;
 }}
 
-  # Find return value; constructors should return a native N-GObject while
+  # Find return value; constructors should return a native N-Object while
   # the gnome might say e.g. gtkwidget 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
@@ -537,7 +537,7 @@ method !get-constructor-data (
           $option-name ~= (?$option-name ?? '-' !! '') ~ 'number';
         }
 
-        when 'N-GObject' {
+        when 'N-Object' {
           $option-name ~= (?$option-name ?? '-' !! '') ~ 'object';
         }
 
@@ -1393,7 +1393,7 @@ method generate-structure (
   my $temp-external-modules = $*external-modules;
   $*external-modules = %(
     :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
-    'Gnome::N::N-GObject' => EMTInApi2,
+    'Gnome::N::N-Object' => EMTInApi2,
     'Gnome::N::GlibToRakuTypes' => EMTInApi2,
   );
 
@@ -1449,7 +1449,7 @@ method generate-structure (
           $code ~= "has $rnt0 \$.$field-name;\n";
         }
 
-        if $raku-type eq 'N-GObject' {
+        if $raku-type eq 'N-Object' {
           $tweak-pars ~= "$raku-type :\$$field-name, ";
           $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
         }
@@ -1554,7 +1554,7 @@ method generate-union (
   my $temp-external-modules = $*external-modules;
   $*external-modules = %(
     :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
-    'Gnome::N::N-GObject' => EMTInApi2,
+    'Gnome::N::N-Object' => EMTInApi2,
     'Gnome::N::GlibToRakuTypes' => EMTInApi2,
   );
 
@@ -1609,7 +1609,7 @@ method generate-union (
           $code ~= "HAS $rnt0 \$.$field-name;\n";
         }
 
-        if $raku-type eq 'N-GObject' {
+        if $raku-type eq 'N-Object' {
           $tweak-pars ~= "$raku-type :\$$field-name, ";
           $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
         }
@@ -2055,9 +2055,9 @@ method convert-ntype (
     when /g? size '*'/        { $raku-type = 'CArray[gsize]'; }
     when /g? double '*'/      { $raku-type = 'CArray[gdouble]'; }
     when /g? pointer '*'/     { $raku-type = 'CArray[gpointer]'; }
-    when /:i g? object '*'/   { $raku-type = 'N-GObject'; }
-#    when /:i g? pixbuf '*'/   { $raku-type = 'N-GObject'; }
-#    when /:i g? error '*'/    { $raku-type = 'N-GObject'; }
+    when /:i g? object '*'/   { $raku-type = 'N-Object'; }
+#    when /:i g? pixbuf '*'/   { $raku-type = 'N-Object'; }
+#    when /:i g? error '*'/    { $raku-type = 'N-Object'; }
     when /:i g? quark /       { $raku-type = 'GQuark'; }
 
     when any(
@@ -2096,12 +2096,12 @@ method convert-ntype (
 #note "  $?LINE $is-pointer, $ctype, $h.gist";
       given $h<gir-type> // '-' {
         when 'class' {
-          $raku-type = 'N-GObject';
+          $raku-type = 'N-Object';
           $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
         when 'interface' {
-          $raku-type = 'N-GObject';
+          $raku-type = 'N-Object';
           $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
@@ -2116,7 +2116,7 @@ method convert-ntype (
 #NOTE changed somewhere? add-import creates cyclic dependency -> make it an Object;
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<class-name>);
-#          $raku-type = 'N-GObject';
+#          $raku-type = 'N-Object';
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
@@ -2179,8 +2179,8 @@ method convert-rtype (
     when /g? uint \d* '*'/      { $raku-type = 'Array[UInt]'; }
     when /g? size '*'/          { $raku-type = 'Array[gsize]'; }
 #    when /:i g? error '*'/      { $raku-type = 'Array[N-Error]'; }
-#    when /:i g? pixbuf '*'/     { $raku-type = 'N-GObject'; }
-#    when /:i g? error '*'/      { $raku-type = 'N-GObject'; }
+#    when /:i g? pixbuf '*'/     { $raku-type = 'N-Object'; }
+#    when /:i g? error '*'/      { $raku-type = 'N-Object'; }
     when /g? pointer '*'/       { $raku-type = 'Array'; }
 
     # Other packages like those from Cairo or Pango might not have
@@ -2238,12 +2238,12 @@ method convert-rtype (
       my Hash $h = self.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
-          $raku-type = 'N-GObject';
+          $raku-type = 'N-Object';
           $raku-type ~= '()' unless $return-type;
         }
 
         when 'interface' {
-          $raku-type = 'N-GObject';
+          $raku-type = 'N-Object';
           $raku-type ~= '()' unless $return-type;          
         }
 
@@ -2251,13 +2251,13 @@ method convert-rtype (
 #note "$?LINE record $orig-ctype $h.gist()";
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
-          $raku-type = 'N-GObject';
+          $raku-type = 'N-Object';
         }
 
         when 'union' {
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
-          $raku-type = 'N-GObject';
+          $raku-type = 'N-Object';
         }
 
         when 'enumeration' {
@@ -2690,7 +2690,7 @@ method make-build-submethod (
         elsif \%options\<native-object>:exists \{ \}$b-id-str
 
         else \{
-          my N-GObject\(\) \$no;
+          my N-Object\(\) \$no;
     EOBUILD
 
   my Bool $simple-func-new = False;

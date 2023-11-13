@@ -13,7 +13,7 @@ use Test;
 use Gnome::Gio::Notification:api<2>;
 #use Gnome::Gio::T-NotificationPriority:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -60,10 +60,10 @@ subtest 'Method tests', {
     my Str $body;
     my Str $label;
     my Str $target-format;
-    my N-GObject() $icon;
+    my N-Object() $icon;
     my Str $action;
 #    my GNotificationPriority  $priority;
-    my N-GObject $target;
+    my N-Object $target;
 
 
 #`{{

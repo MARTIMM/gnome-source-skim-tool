@@ -3,7 +3,7 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::N::N-GObject;
+use Gnome::N::N-Object;
 use Gnome::N::NativeLib;
 #use Gnome::N::TopLevelClassSupport;
 use Gnome::N::GlibToRakuTypes;
@@ -137,7 +137,7 @@ method !native-function ( Str $name, @parameters, Hash $routine --> Callable ) {
     when Function { }
     #when Method { }
     default {
-      @parameterList.push: Parameter.new(type => N-GObject);
+      @parameterList.push: Parameter.new(type => N-Object);
     }
   }
 
@@ -204,8 +204,8 @@ method !convert-args ( $v, $p ) {
       $c = CArray[N-GError].new(N-GError);
     }
 
-    when N-GObject {
-      my N-GObject() $no = $v;
+    when N-Object {
+      my N-Object() $no = $v;
       $c = $no;
     }
 

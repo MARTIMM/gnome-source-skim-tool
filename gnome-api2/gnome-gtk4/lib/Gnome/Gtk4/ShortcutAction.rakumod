@@ -14,7 +14,7 @@ use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Gtk4::T-Shortcutaction:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -60,10 +60,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  parse-string => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
+  parse-string => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  activate => %( :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, N-GObject, N-Variant])),
+  activate => %( :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, N-Object, N-Variant])),
   #print => %( :parameters([N-String ])),
   to-string => %( :returns(Str)),
 );

@@ -55,7 +55,7 @@ Formats a string according to C<$format> and prefix it to an existing error mess
 If * C<$err> is C<Nil> (ie: an error variable is present but there is no error condition) then also do nothing.
 
 =begin code
-method prefix-error (  N-GObject $err, Str $format, … )
+method prefix-error (  N-Object $err, Str $format, … )
 =end code
 
 =item $err; (transfer ownership: full) a return location for a GError
@@ -71,7 +71,7 @@ method prefix-error (  N-GObject $err, Str $format, … )
 Prefixes C<$prefix> to an existing error message. If C<$err> or * C<$err> is C<Nil> (i.e.: no error variable) then do nothing.
 
 =begin code
-method prefix-error-literal (  N-GObject $err, Str $prefix )
+method prefix-error-literal (  N-Object $err, Str $prefix )
 =end code
 
 =item $err; a return location for a GError, or C<Nil>
@@ -91,7 +91,7 @@ Note that C<$src> is no longer valid after this call. If you want to keep using 
 after calling this function on it.
 
 =begin code
-method propagate-error (  N-GObject $dest, N-GObject $src )
+method propagate-error (  N-Object $dest, N-Object $src )
 =end code
 
 =item $dest; (transfer ownership: full) error return location
@@ -107,7 +107,7 @@ If C<$dest> is C<Nil>, free C<$src>; otherwise, moves C<$src> into * C<$dest>.
 * C<$dest> must be C<Nil>. After the move, add a prefix as with g_prefix_error().
 
 =begin code
-method propagate-prefixed-error (  N-GObject $dest, N-GObject $src, Str $format, … )
+method propagate-prefixed-error (  N-Object $dest, N-Object $src, Str $format, … )
 =end code
 
 =item $dest; error return location
@@ -125,7 +125,7 @@ Does nothing if C<$err> is C<Nil>; if C<$err> is non-C<Nil>, then * C<$err>
 must be C<Nil>. A new GError is created and assigned to * C<$err>.
 
 =begin code
-method set-error (  N-GObject $err, UInt $domain, Int() $code, Str $format, … )
+method set-error (  N-Object $err, UInt $domain, Int() $code, Str $format, … )
 =end code
 
 =item $err; (transfer ownership: full) a return location for a GError
@@ -147,7 +147,7 @@ Use this function if C<$message> contains text you don't have control over,
 that could include printf() escape sequences.
 
 =begin code
-method set-error-literal (  N-GObject $err, UInt $domain, Int() $code, Str $message )
+method set-error-literal (  N-Object $err, UInt $domain, Int() $code, Str $message )
 =end code
 
 =item $err; (transfer ownership: full) a return location for a GError

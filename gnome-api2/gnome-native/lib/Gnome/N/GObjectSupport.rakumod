@@ -5,7 +5,7 @@ use NativeCall;
 
 use Gnome::N::X;
 use Gnome::N::NativeLib;
-use Gnome::N::N-GObject;
+use Gnome::N::N-Object;
 use Gnome::N::TopLevelClassSupport;
 use Gnome::N::GlibToRakuTypes;
 
@@ -26,7 +26,7 @@ method _set-native-object ( $n-native-object ) {
 }
 
 #-------------------------------------------------------------------------------
-method native-object-ref ( $n-native-object --> N-GObject ) {
+method native-object-ref ( $n-native-object --> N-Object ) {
   _g_object_ref($n-native-object)
 }
 
@@ -217,7 +217,7 @@ method register-signal (
     %named-args<_widget> = $current-object;
     %named-args<_handler-id> = $handler-id;
 
-    sub w0 ( N-GObject $w, gpointer $d ) is export {
+    sub w0 ( N-Object $w, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
@@ -239,7 +239,7 @@ method register-signal (
       $retval
     }
 
-    sub w1( N-GObject $w, $h0, gpointer $d ) is export {
+    sub w1( N-Object $w, $h0, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
@@ -261,7 +261,7 @@ method register-signal (
       $retval
     }
 
-    sub w2( N-GObject $w, $h0, $h1, gpointer $d ) is export {
+    sub w2( N-Object $w, $h0, $h1, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
@@ -284,7 +284,7 @@ method register-signal (
       $retval
     }
 
-    sub w3( N-GObject $w, $h0, $h1, $h2, gpointer $d ) is export {
+    sub w3( N-Object $w, $h0, $h1, $h2, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
@@ -306,7 +306,7 @@ method register-signal (
       $retval
     }
 
-    sub w4( N-GObject $w, $h0, $h1, $h2, $h3, gpointer $d ) is export {
+    sub w4( N-Object $w, $h0, $h1, $h2, $h3, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
@@ -329,7 +329,7 @@ method register-signal (
     }
 
     sub w5(
-      N-GObject $w, $h0, $h1, $h2, $h3, $h4, gpointer $d
+      N-Object $w, $h0, $h1, $h2, $h3, $h4, gpointer $d
     ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
@@ -353,7 +353,7 @@ method register-signal (
     }
 
     sub w6(
-      N-GObject $w, $h0, $h1, $h2, $h3, $h4, $h5, gpointer $d
+      N-Object $w, $h0, $h1, $h2, $h3, $h4, $h5, gpointer $d
     ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
@@ -398,7 +398,7 @@ method register-signal (
 # sub with conversion of user callback. $user-handler is used to get the types
 # from, while the $provided-handler is an intermediate between native and user.
 method _convert_g_signal_connect_object (
-  N-GObject $instance, Str $detailed-signal,
+  N-Object $instance, Str $detailed-signal,
   Callable $user-handler, Callable $provided-handler
   --> gulong
 ) {
@@ -406,7 +406,7 @@ method _convert_g_signal_connect_object (
   # create callback handlers signature using the users callback.
   # first argument is always a native widget.
   my @sub-parameter-list = (
-    Parameter.new(type => N-GObject),     # object which received the signal
+    Parameter.new(type => N-Object),     # object which received the signal
   );
 
   # then process all parameters of the callback. Skip the first which is the
@@ -453,7 +453,7 @@ method _convert_g_signal_connect_object (
 
   # create parameter list for call to g_signal_connect_object
   my @parameterList = (
-    Parameter.new(type => N-GObject),     # $instance
+    Parameter.new(type => N-Object),     # $instance
     Parameter.new(type => Str),           # $detailed-signal
     Parameter.new(                        # wrapper around $user-handler
       :type(Callable),
@@ -502,7 +502,7 @@ method !convert-type ( $type, Bool :$type-only = False --> Any ) {
     when Int { $converted-type = gint; }
     when Num { $converted-type = gfloat; }
     when Rat { $converted-type = gdouble; }
-    when /^ Gnome '::' / { $converted-type = N-GObject; }
+    when /^ Gnome '::' / { $converted-type = N-Object; }
     default { $converted-type = $type; }
   }
 
@@ -525,12 +525,12 @@ method !convert-type ( $type, Bool :$type-only = False --> Any ) {
 
 Increases the reference count of this object and returns the same object.
 
-  method g_object_ref ( --> N-GObject )
+  method g_object_ref ( --> N-Object )
 
 =end pod
 }}
 
-sub _g_object_ref ( N-GObject $object --> N-GObject )
+sub _g_object_ref ( N-Object $object --> N-Object )
   is native(&gobject-lib)
   is symbol('g_object_ref')
   { * }
@@ -547,18 +547,18 @@ When the object has a floating reference because it is not added to a container 
 
   method g_object_unref ( )
 
-=item N-GObject $object; a native I<GObject>.
+=item N-Object $object; a native I<GObject>.
 
 =end pod
 
-sub g_object_unref ( N-GObject $object is copy ) {
+sub g_object_unref ( N-Object $object is copy ) {
 
   $object = g_object_ref_sink($object) if g_object_is_floating($object);
   _g_object_unref($object)
 }
 }}
 
-sub _g_object_unref ( N-GObject $object )
+sub _g_object_unref ( N-Object $object )
   is native(&gobject-lib)
   is symbol('g_object_unref')
   { * }

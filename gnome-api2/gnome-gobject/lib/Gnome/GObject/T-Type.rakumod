@@ -9,7 +9,7 @@ use NativeCall;
 
 #use Gnome::N::X;
 use Gnome::N::NativeLib;
-use Gnome::N::N-GObject;
+use Gnome::N::N-Object;
 use Gnome::N::GlibToRakuTypes;
 
 #-------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ method get-parameter( UInt $type, :$otype --> Parameter ) {
 #    when G_TYPE_POINTER { $p .= new(type => ); }
 #    when G_TYPE_PARAM { $p .= new(type => ); }
 #    when G_TYPE_VARIANT {$p .= new(type => ); }
-#    when N-GObject {
+#    when N-Object {
 #      $p .= new(type => G_TYPE_OBJECT);
 #    }
 
@@ -227,7 +227,7 @@ method add-class-private ( UInt $private_size ) {
 }
 
 sub g_type_add_class_private (
-  N-GObject $class_type, gsize $private_size
+  N-Object $class_type, gsize $private_size
 ) is native(&gobject-lib)
   { * }
 
@@ -251,7 +251,7 @@ method add-instance-private ( UInt $private_size --> Int ) {
 }
 
 sub g_type_add_instance_private (
-  N-GObject $class_type, gsize $private_size --> gint
+  N-Object $class_type, gsize $private_size --> gint
 ) is native(&gobject-lib)
   { * }
 
@@ -289,15 +289,15 @@ sub g_type_add_interface_check (
 
 Adds the dynamic I<interface-type> to I<instantiable-type>. The information contained in the B<Gnome::GObject::TypePlugin> structure pointed to by I<plugin> is used to manage the relationship.
 
-  method add-interface-dynamic ( N-GObject $interface_type, N-GObject $plugin )
+  method add-interface-dynamic ( N-Object $interface_type, N-Object $plugin )
 
-=item N-GObject $interface_type; B<Gnome::GObject::Type> value of an interface type
-=item N-GObject $plugin; B<Gnome::GObject::TypePlugin> structure to retrieve the B<Gnome::GObject::InterfaceInfo> from
+=item N-Object $interface_type; B<Gnome::GObject::Type> value of an interface type
+=item N-Object $plugin; B<Gnome::GObject::TypePlugin> structure to retrieve the B<Gnome::GObject::InterfaceInfo> from
 =end pod
 
 method add-interface-dynamic ( $interface_type is copy, $plugin is copy ) {
-  $interface_type .= _get-native-object-no-reffing unless $interface_type ~~ N-GObject;
-  $plugin .= _get-native-object-no-reffing unless $plugin ~~ N-GObject;
+  $interface_type .= _get-native-object-no-reffing unless $interface_type ~~ N-Object;
+  $plugin .= _get-native-object-no-reffing unless $plugin ~~ N-Object;
 
   g_type_add_interface_dynamic(
     self._get-native-object-no-reffing, $interface_type, $plugin
@@ -305,7 +305,7 @@ method add-interface-dynamic ( $interface_type is copy, $plugin is copy ) {
 }
 
 sub g_type_add_interface_dynamic (
-  N-GObject $instance_type, N-GObject $interface_type, N-GObject $plugin
+  N-Object $instance_type, N-Object $interface_type, N-Object $plugin
 ) is native(&gobject-lib)
   { * }
 
@@ -316,14 +316,14 @@ sub g_type_add_interface_dynamic (
 
 Adds the static I<interface-type> to I<instantiable-type>. The information contained in the B<Gnome::GObject::InterfaceInfo> structure pointed to by I<info> is used to manage the relationship.
 
-  method add-interface-static ( N-GObject $interface_type, GInterfaceInfo $info )
+  method add-interface-static ( N-Object $interface_type, GInterfaceInfo $info )
 
-=item N-GObject $interface_type; B<Gnome::GObject::Type> value of an interface type
+=item N-Object $interface_type; B<Gnome::GObject::Type> value of an interface type
 =item GInterfaceInfo $info; B<Gnome::GObject::InterfaceInfo> structure for this (I<instance-type>, I<interface-type>) combination
 =end pod
 
 method add-interface-static ( $interface_type is copy, GInterfaceInfo $info ) {
-  $interface_type .= _get-native-object-no-reffing unless $interface_type ~~ N-GObject;
+  $interface_type .= _get-native-object-no-reffing unless $interface_type ~~ N-Object;
 
   g_type_add_interface_static(
     self._get-native-object-no-reffing, $interface_type, $info
@@ -331,7 +331,7 @@ method add-interface-static ( $interface_type is copy, GInterfaceInfo $info ) {
 }
 
 sub g_type_add_interface_static (
-  N-GObject $instance_type, N-GObject $interface_type, GInterfaceInfo $info
+  N-Object $instance_type, N-Object $interface_type, GInterfaceInfo $info
 ) is native(&gobject-lib)
   { * }
 
@@ -342,14 +342,14 @@ sub g_type_add_interface_static (
 
 
 
-  method check-class-cast ( GTypeClass $g_class, N-GObject $is_a_type --> GTypeClass )
+  method check-class-cast ( GTypeClass $g_class, N-Object $is_a_type --> GTypeClass )
 
 =item GTypeClass $g_class;
-=item N-GObject $is_a_type;
+=item N-Object $is_a_type;
 =end pod
 
 method check-class-cast ( GTypeClass $g_class, $is_a_type is copy --> GTypeClass ) {
-  $is_a_type .= _get-native-object-no-reffing unless $is_a_type ~~ N-GObject;
+  $is_a_type .= _get-native-object-no-reffing unless $is_a_type ~~ N-Object;
 
   g_type_check_class_cast(
     self._get-native-object-no-reffing, $g_class, $is_a_type
@@ -357,7 +357,7 @@ method check-class-cast ( GTypeClass $g_class, $is_a_type is copy --> GTypeClass
 }
 
 sub g_type_check_class_cast (
-  GTypeClass $g_class, N-GObject $is_a_type --> GTypeClass
+  GTypeClass $g_class, N-Object $is_a_type --> GTypeClass
 ) is native(&gobject-lib)
   { * }
 
@@ -368,14 +368,14 @@ sub g_type_check_class_cast (
 
 
 
-  method check-class-is-a ( GTypeClass $g_class, N-GObject $is_a_type --> Bool )
+  method check-class-is-a ( GTypeClass $g_class, N-Object $is_a_type --> Bool )
 
 =item GTypeClass $g_class;
-=item N-GObject $is_a_type;
+=item N-Object $is_a_type;
 =end pod
 
 method check-class-is-a ( GTypeClass $g_class, $is_a_type is copy --> Bool ) {
-  $is_a_type .= _get-native-object-no-reffing unless $is_a_type ~~ N-GObject;
+  $is_a_type .= _get-native-object-no-reffing unless $is_a_type ~~ N-Object;
 
   g_type_check_class_is_a(
     self._get-native-object-no-reffing, $g_class, $is_a_type
@@ -383,7 +383,7 @@ method check-class-is-a ( GTypeClass $g_class, $is_a_type is copy --> Bool ) {
 }
 
 sub g_type_check_class_is_a (
-  GTypeClass $g_class, N-GObject $is_a_type --> gboolean
+  GTypeClass $g_class, N-Object $is_a_type --> gboolean
 ) is native(&gobject-lib)
   { * }
 
@@ -424,22 +424,22 @@ Checks that instance is an instance of the type identified by g_type and issues 
 No warning will be issued if instance is NULL, and NULL will be returned.
 
   method check-instance-cast (
-    N-GObject $instance, UInt $iface_type --> N-GObject
+    N-Object $instance, UInt $iface_type --> N-Object
   )
 
-=item N-GObject $instance;
+=item N-Object $instance;
 =item UInt $iface_type;
 =end pod
 
 method check-instance-cast (
-  $instance is copy, UInt $iface_gtype --> N-GObject
+  $instance is copy, UInt $iface_gtype --> N-Object
 ) {
-  $instance .= _get-native-object-no-reffing unless $instance ~~ N-GObject;
+  $instance .= _get-native-object-no-reffing unless $instance ~~ N-Object;
   g_type_check_instance_cast( $instance, $iface_gtype)
 }
 
 sub g_type_check_instance_cast (
-  N-GObject $instance, GType $iface_type --> N-GObject
+  N-Object $instance, GType $iface_type --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -451,22 +451,22 @@ sub g_type_check_instance_cast (
 Check if an instance is of type C<$iface-gtype>. Returns True if it is.
 
   method check-instance-is-a (
-    N-GObject $instance, UInt $iface_gtype --> Bool
+    N-Object $instance, UInt $iface_gtype --> Bool
   )
 
-=item N-GObject $instance;
+=item N-Object $instance;
 =item UInt $iface_type;
 =end pod
 
 method check-instance-is-a (
   $instance is copy, UInt $iface_gtype --> Bool
 ) {
-  $instance .= _get-native-object-no-reffing unless $instance ~~ N-GObject;
+  $instance .= _get-native-object-no-reffing unless $instance ~~ N-Object;
   g_type_check_instance_is_a( $instance, $iface_gtype).Bool
 }
 
 sub g_type_check_instance_is_a (
-  N-GObject $instance, GType $iface_gtype --> gboolean
+  N-Object $instance, GType $iface_gtype --> gboolean
 ) is native(&gobject-lib)
   { * }
 
@@ -478,14 +478,14 @@ sub g_type_check_instance_is_a (
 
 
 
-  method check-instance-is-fundamentally-a ( GTypeInstance $instance, N-GObject $fundamental_type --> Bool )
+  method check-instance-is-fundamentally-a ( GTypeInstance $instance, N-Object $fundamental_type --> Bool )
 
 =item GTypeInstance $instance;
-=item N-GObject $fundamental_type;
+=item N-Object $fundamental_type;
 =end pod
 
 method check-instance-is-fundamentally-a ( GTypeInstance $instance, $fundamental_type is copy --> Bool ) {
-  $fundamental_type .= _get-native-object-no-reffing unless $fundamental_type ~~ N-GObject;
+  $fundamental_type .= _get-native-object-no-reffing unless $fundamental_type ~~ N-Object;
 
   g_type_check_instance_is_fundamentally_a(
     self._get-native-object-no-reffing, $instance, $fundamental_type
@@ -493,7 +493,7 @@ method check-instance-is-fundamentally-a ( GTypeInstance $instance, $fundamental
 }
 
 sub g_type_check_instance_is_fundamentally_a (
-  GTypeInstance $instance, N-GObject $fundamental_type --> gboolean
+  GTypeInstance $instance, N-Object $fundamental_type --> gboolean
 ) is native(&gobject-lib)
   { * }
 
@@ -504,13 +504,13 @@ sub g_type_check_instance_is_fundamentally_a (
 
 
 
-  method check-value ( N-GObject $value --> Bool )
+  method check-value ( N-Object $value --> Bool )
 
-=item N-GObject $value;
+=item N-Object $value;
 =end pod
 
 method check-value ( $value is copy --> Bool ) {
-  $value .= _get-native-object-no-reffing unless $value ~~ N-GObject;
+  $value .= _get-native-object-no-reffing unless $value ~~ N-Object;
 
   g_type_check_value(
     self._get-native-object-no-reffing, $value
@@ -518,7 +518,7 @@ method check-value ( $value is copy --> Bool ) {
 }
 
 sub g_type_check_value (
-  N-GObject $value --> gboolean
+  N-Object $value --> gboolean
 ) is native(&gobject-lib)
   { * }
 
@@ -529,15 +529,15 @@ sub g_type_check_value (
 
 
 
-  method check-value-holds ( N-GObject $value, N-GObject $type --> Bool )
+  method check-value-holds ( N-Object $value, N-Object $type --> Bool )
 
-=item N-GObject $value;
-=item N-GObject $type;
+=item N-Object $value;
+=item N-Object $type;
 =end pod
 
 method check-value-holds ( $value is copy, $type is copy --> Bool ) {
-  $value .= _get-native-object-no-reffing unless $value ~~ N-GObject;
-  $type .= _get-native-object-no-reffing unless $type ~~ N-GObject;
+  $value .= _get-native-object-no-reffing unless $value ~~ N-Object;
+  $type .= _get-native-object-no-reffing unless $type ~~ N-Object;
 
   g_type_check_value_holds(
     self._get-native-object-no-reffing, $value, $type
@@ -545,7 +545,7 @@ method check-value-holds ( $value is copy, $type is copy --> Bool ) {
 }
 
 sub g_type_check_value_holds (
-  N-GObject $value, N-GObject $type --> gboolean
+  N-Object $value, N-Object $type --> gboolean
 ) is native(&gobject-lib)
   { * }
 
@@ -558,12 +558,12 @@ Return a newly allocated and 0-terminated array of type IDs, listing the child t
 
 Returns: (array length=n-children) : Newly allocated and 0-terminated array of child types, free with C<g-free()>
 
-  method children ( guInt-ptr $n_children --> N-GObject )
+  method children ( guInt-ptr $n_children --> N-Object )
 
 =item guInt-ptr $n_children; location to store the length of the returned array, or C<undefined>
 =end pod
 
-method children ( guInt-ptr $n_children --> N-GObject ) {
+method children ( guInt-ptr $n_children --> N-Object ) {
 
   g_type_children(
     self._get-native-object-no-reffing, $n_children
@@ -571,7 +571,7 @@ method children ( guInt-ptr $n_children --> N-GObject ) {
 }
 
 sub g_type_children (
-  N-GObject $type, gugint-ptr $n_children --> N-GObject
+  N-Object $type, gugint-ptr $n_children --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -637,14 +637,14 @@ sub g_type_class_get_instance_private_offset (
 
 
 
-  method class-get-private ( GTypeClass $klass, N-GObject $private_type --> Pointer )
+  method class-get-private ( GTypeClass $klass, N-Object $private_type --> Pointer )
 
 =item GTypeClass $klass;
-=item N-GObject $private_type;
+=item N-Object $private_type;
 =end pod
 
 method class-get-private ( GTypeClass $klass, $private_type is copy --> Pointer ) {
-  $private_type .= _get-native-object-no-reffing unless $private_type ~~ N-GObject;
+  $private_type .= _get-native-object-no-reffing unless $private_type ~~ N-Object;
 
   g_type_class_get_private(
     self._get-native-object-no-reffing, $klass, $private_type
@@ -652,7 +652,7 @@ method class-get-private ( GTypeClass $klass, $private_type is copy --> Pointer 
 }
 
 sub g_type_class_get_private (
-  GTypeClass $klass, N-GObject $private_type --> gpointer
+  GTypeClass $klass, N-Object $private_type --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -677,7 +677,7 @@ method class-peek ( --> Pointer ) {
 }
 
 sub g_type_class_peek (
-  N-GObject $type --> gpointer
+  N-Object $type --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -730,7 +730,7 @@ method class-peek-static ( --> Pointer ) {
 }
 
 sub g_type_class_peek_static (
-  N-GObject $type --> gpointer
+  N-Object $type --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -755,7 +755,7 @@ method class-ref ( --> Pointer ) {
 }
 
 sub g_type_class_ref (
-  N-GObject $type --> gpointer
+  N-Object $type --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -832,7 +832,7 @@ method create-instance ( --> GTypeInstance ) {
 }
 
 sub g_type_create_instance (
-  N-GObject $type --> GTypeInstance
+  N-Object $type --> GTypeInstance
 ) is native(&gobject-lib)
   { * }
 
@@ -857,7 +857,7 @@ method default-interface-peek ( --> Pointer ) {
 }
 
 sub g_type_default_interface_peek (
-  N-GObject $g_type --> gpointer
+  N-Object $g_type --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -884,7 +884,7 @@ method default-interface-ref ( --> Pointer ) {
 }
 
 sub g_type_default_interface_ref (
-  N-GObject $g_type --> gpointer
+  N-Object $g_type --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -957,7 +957,7 @@ method ensure ( ) {
 }
 
 sub g_type_ensure (
-  N-GObject $type
+  N-Object $type
 ) is native(&gobject-lib)
   { * }
 
@@ -1021,11 +1021,11 @@ Internal function, used to extract the fundamental type ID portion. Use C<G-TYPE
 
 Returns: fundamental type ID
 
-  method fundamental ( --> N-GObject )
+  method fundamental ( --> N-Object )
 
 =end pod
 
-method fundamental ( --> N-GObject ) {
+method fundamental ( --> N-Object ) {
 
   g_type_fundamental(
     self._get-native-object-no-reffing,
@@ -1033,7 +1033,7 @@ method fundamental ( --> N-GObject ) {
 }
 
 sub g_type_fundamental (
-  N-GObject $type_id --> N-GObject
+  N-Object $type_id --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1046,11 +1046,11 @@ Returns the next free fundamental type id which can be used to register a new fu
 
 Returns: the next available fundamental type ID to be registered, or 0 if the type system ran out of fundamental type IDs
 
-  method fundamental-next ( --> N-GObject )
+  method fundamental-next ( --> N-Object )
 
 =end pod
 
-method fundamental-next ( --> N-GObject ) {
+method fundamental-next ( --> N-Object ) {
 
   g_type_fundamental_next(
     self._get-native-object-no-reffing,
@@ -1058,7 +1058,7 @@ method fundamental-next ( --> N-GObject ) {
 }
 
 sub g_type_fundamental_next (
-   --> N-GObject
+   --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1083,7 +1083,7 @@ method get-instance-count ( --> Int ) {
 }
 
 sub g_type_get_instance_count (
-  N-GObject $type --> int
+  N-Object $type --> int
 ) is native(&gobject-lib)
   { * }
 
@@ -1096,11 +1096,11 @@ Returns the B<Gnome::GObject::TypePlugin> structure for I<type>.
 
 Returns: the corresponding plugin if I<type> is a dynamic type, C<undefined> otherwise
 
-  method get-plugin ( --> N-GObject )
+  method get-plugin ( --> N-Object )
 
 =end pod
 
-method get-plugin ( --> N-GObject ) {
+method get-plugin ( --> N-Object ) {
 
   g_type_get_plugin(
     self._get-native-object-no-reffing,
@@ -1108,7 +1108,7 @@ method get-plugin ( --> N-GObject ) {
 }
 
 sub g_type_get_plugin (
-  N-GObject $type --> N-GObject
+  N-Object $type --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1136,7 +1136,7 @@ method get-qdata ( UInt $quark --> Pointer ) {
 }
 
 sub g_type_get_qdata (
-  N-GObject $type, GQuark $quark --> gpointer
+  N-Object $type, GQuark $quark --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -1193,14 +1193,14 @@ sub g_gtype_get_type (  --> GType )
 
 
 
-  method instance-get-private ( GTypeInstance $instance, N-GObject $private_type --> Pointer )
+  method instance-get-private ( GTypeInstance $instance, N-Object $private_type --> Pointer )
 
 =item GTypeInstance $instance;
-=item N-GObject $private_type;
+=item N-Object $private_type;
 =end pod
 
 method instance-get-private ( GTypeInstance $instance, $private_type is copy --> Pointer ) {
-  $private_type .= _get-native-object-no-reffing unless $private_type ~~ N-GObject;
+  $private_type .= _get-native-object-no-reffing unless $private_type ~~ N-Object;
 
   g_type_instance_get_private(
     self._get-native-object-no-reffing, $instance, $private_type
@@ -1208,7 +1208,7 @@ method instance-get-private ( GTypeInstance $instance, $private_type is copy -->
 }
 
 sub g_type_instance_get_private (
-  GTypeInstance $instance, N-GObject $private_type --> gpointer
+  GTypeInstance $instance, N-Object $private_type --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -1219,13 +1219,13 @@ sub g_type_instance_get_private (
 
 Adds I<prerequisite-type> to the list of prerequisites of I<interface-type>. This means that any type implementing I<interface-type> must also implement I<prerequisite-type>. Prerequisites can be thought of as an alternative to interface derivation (which GType doesn't support). An interface can have at most one instantiatable prerequisite type.
 
-  method interface-add-prerequisite ( N-GObject $prerequisite_type )
+  method interface-add-prerequisite ( N-Object $prerequisite_type )
 
-=item N-GObject $prerequisite_type; B<Gnome::GObject::Type> value of an interface or instantiatable type
+=item N-Object $prerequisite_type; B<Gnome::GObject::Type> value of an interface or instantiatable type
 =end pod
 
 method interface-add-prerequisite ( $prerequisite_type is copy ) {
-  $prerequisite_type .= _get-native-object-no-reffing unless $prerequisite_type ~~ N-GObject;
+  $prerequisite_type .= _get-native-object-no-reffing unless $prerequisite_type ~~ N-Object;
 
   g_type_interface_add_prerequisite(
     self._get-native-object-no-reffing, $prerequisite_type
@@ -1233,7 +1233,7 @@ method interface-add-prerequisite ( $prerequisite_type is copy ) {
 }
 
 sub g_type_interface_add_prerequisite (
-  N-GObject $interface_type, N-GObject $prerequisite_type
+  N-Object $interface_type, N-Object $prerequisite_type
 ) is native(&gobject-lib)
   { * }
 
@@ -1246,13 +1246,13 @@ Returns the B<Gnome::GObject::TypePlugin> structure for the dynamic interface I<
 
 Returns: the B<Gnome::GObject::TypePlugin> for the dynamic interface I<interface-type> of I<instance-type>
 
-  method interface-get-plugin ( N-GObject $interface_type --> N-GObject )
+  method interface-get-plugin ( N-Object $interface_type --> N-Object )
 
-=item N-GObject $interface_type; B<Gnome::GObject::Type> of an interface type
+=item N-Object $interface_type; B<Gnome::GObject::Type> of an interface type
 =end pod
 
-method interface-get-plugin ( $interface_type is copy --> N-GObject ) {
-  $interface_type .= _get-native-object-no-reffing unless $interface_type ~~ N-GObject;
+method interface-get-plugin ( $interface_type is copy --> N-Object ) {
+  $interface_type .= _get-native-object-no-reffing unless $interface_type ~~ N-Object;
 
   g_type_interface_get_plugin(
     self._get-native-object-no-reffing, $interface_type
@@ -1260,7 +1260,7 @@ method interface-get-plugin ( $interface_type is copy --> N-GObject ) {
 }
 
 sub g_type_interface_get_plugin (
-  N-GObject $instance_type, N-GObject $interface_type --> N-GObject
+  N-Object $instance_type, N-Object $interface_type --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1273,14 +1273,14 @@ Returns the B<Gnome::GObject::TypeInterface> structure of an interface to which 
 
 Returns: (type GObject.TypeInterface) : the B<Gnome::GObject::TypeInterface> structure of I<iface-type> if implemented by I<instance-class>, C<undefined> otherwise
 
-  method interface-peek ( Pointer $instance_class, N-GObject $iface_type --> Pointer )
+  method interface-peek ( Pointer $instance_class, N-Object $iface_type --> Pointer )
 
 =item Pointer $instance_class; (type GObject.TypeClass): a B<Gnome::GObject::TypeClass> structure
-=item N-GObject $iface_type; an interface ID which this class conforms to
+=item N-Object $iface_type; an interface ID which this class conforms to
 =end pod
 
 method interface-peek ( Pointer $instance_class, $iface_type is copy --> Pointer ) {
-  $iface_type .= _get-native-object-no-reffing unless $iface_type ~~ N-GObject;
+  $iface_type .= _get-native-object-no-reffing unless $iface_type ~~ N-Object;
 
   g_type_interface_peek(
     self._get-native-object-no-reffing, $instance_class, $iface_type
@@ -1288,7 +1288,7 @@ method interface-peek ( Pointer $instance_class, $iface_type is copy --> Pointer
 }
 
 sub g_type_interface_peek (
-  gpointer $instance_class, N-GObject $iface_type --> gpointer
+  gpointer $instance_class, N-Object $iface_type --> gpointer
 ) is native(&gobject-lib)
   { * }
 
@@ -1327,12 +1327,12 @@ Returns the prerequisites of an interfaces type.
 
 Returns: (array length=n-prerequisites) : a newly-allocated zero-terminated array of B<Gnome::GObject::Type> containing the prerequisites of I<interface-type>
 
-  method interface-prerequisites ( guInt-ptr $n_prerequisites --> N-GObject )
+  method interface-prerequisites ( guInt-ptr $n_prerequisites --> N-Object )
 
 =item guInt-ptr $n_prerequisites; location to return the number of prerequisites, or C<undefined>
 =end pod
 
-method interface-prerequisites ( guInt-ptr $n_prerequisites --> N-GObject ) {
+method interface-prerequisites ( guInt-ptr $n_prerequisites --> N-Object ) {
 
   g_type_interface_prerequisites(
     self._get-native-object-no-reffing, $n_prerequisites
@@ -1340,7 +1340,7 @@ method interface-prerequisites ( guInt-ptr $n_prerequisites --> N-GObject ) {
 }
 
 sub g_type_interface_prerequisites (
-  N-GObject $interface_type, gugint-ptr $n_prerequisites --> N-GObject
+  N-Object $interface_type, gugint-ptr $n_prerequisites --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1353,12 +1353,12 @@ Return a newly allocated and 0-terminated array of type IDs, listing the interfa
 
 Returns: (array length=n-interfaces) : Newly allocated and 0-terminated array of interface types, free with C<g-free()>
 
-  method interfaces ( guInt-ptr $n_interfaces --> N-GObject )
+  method interfaces ( guInt-ptr $n_interfaces --> N-Object )
 
 =item guInt-ptr $n_interfaces; location to store the length of the returned array, or C<undefined>
 =end pod
 
-method interfaces ( guInt-ptr $n_interfaces --> N-GObject ) {
+method interfaces ( guInt-ptr $n_interfaces --> N-Object ) {
 
   g_type_interfaces(
     self._get-native-object-no-reffing, $n_interfaces
@@ -1366,7 +1366,7 @@ method interfaces ( guInt-ptr $n_interfaces --> N-GObject ) {
 }
 
 sub g_type_interfaces (
-  N-GObject $type, gugint-ptr $n_interfaces --> N-GObject
+  N-Object $type, gugint-ptr $n_interfaces --> N-Object
 ) is native(&gobject-lib)
   { * }
 }}
@@ -1449,17 +1449,17 @@ sub g_type_name_from_class (
 
 Get name of type from the instance.
 
-  method name-from-instance ( N-GObject $instance --> Str )
+  method name-from-instance ( N-Object $instance --> Str )
 
-=item N-GObject $instance;
+=item N-Object $instance;
 =end pod
 
-method name-from-instance ( N-GObject $instance --> Str ) {
+method name-from-instance ( N-Object $instance --> Str ) {
   g_type_name_from_instance($instance)
 }
 
 sub g_type_name_from_instance (
-  N-GObject $instance --> gchar-ptr
+  N-Object $instance --> gchar-ptr
 ) is native(&gobject-lib)
   { * }
 
@@ -1473,13 +1473,13 @@ Given a I<leaf-type> and a I<root-type> which is contained in its anchestry, ret
 
 Returns: immediate child of I<root-type> and anchestor of I<leaf-type>
 
-  method next-base ( N-GObject $root_type --> N-GObject )
+  method next-base ( N-Object $root_type --> N-Object )
 
-=item N-GObject $root_type; immediate parent of the returned type
+=item N-Object $root_type; immediate parent of the returned type
 =end pod
 
-method next-base ( $root_type is copy --> N-GObject ) {
-  $root_type .= _get-native-object-no-reffing unless $root_type ~~ N-GObject;
+method next-base ( $root_type is copy --> N-Object ) {
+  $root_type .= _get-native-object-no-reffing unless $root_type ~~ N-Object;
 
   g_type_next_base(
     self._get-native-object-no-reffing, $root_type
@@ -1487,7 +1487,7 @@ method next-base ( $root_type is copy --> N-GObject ) {
 }
 
 sub g_type_next_base (
-  N-GObject $leaf_type, N-GObject $root_type --> N-GObject
+  N-Object $leaf_type, N-Object $root_type --> N-Object
 ) is native(&gobject-lib)
   { * }
 }}
@@ -1569,15 +1569,15 @@ Registers I<type-name> as the name of a new dynamic type derived from I<parent-t
 
 Returns: the new type identifier or B<Gnome::GObject::-TYPE-INVALID> if registration failed
 
-  method register-dynamic ( Str $type_name, N-GObject $plugin, GTypeFlags $flags --> N-GObject )
+  method register-dynamic ( Str $type_name, N-Object $plugin, GTypeFlags $flags --> N-Object )
 
 =item Str $type_name; 0-terminated string used as the name of the new type
-=item N-GObject $plugin; B<Gnome::GObject::TypePlugin> structure to retrieve the B<Gnome::GObject::TypeInfo> from
+=item N-Object $plugin; B<Gnome::GObject::TypePlugin> structure to retrieve the B<Gnome::GObject::TypeInfo> from
 =item GTypeFlags $flags; bitwise combination of B<Gnome::GObject::TypeFlags> values
 =end pod
 
-method register-dynamic ( Str $type_name, $plugin is copy, GTypeFlags $flags --> N-GObject ) {
-  $plugin .= _get-native-object-no-reffing unless $plugin ~~ N-GObject;
+method register-dynamic ( Str $type_name, $plugin is copy, GTypeFlags $flags --> N-Object ) {
+  $plugin .= _get-native-object-no-reffing unless $plugin ~~ N-Object;
 
   g_type_register_dynamic(
     self._get-native-object-no-reffing, $type_name, $plugin, $flags
@@ -1585,7 +1585,7 @@ method register-dynamic ( Str $type_name, $plugin is copy, GTypeFlags $flags -->
 }
 
 sub g_type_register_dynamic (
-  N-GObject $parent_type, gchar-ptr $type_name, N-GObject $plugin, GTypeFlags $flags --> N-GObject
+  N-Object $parent_type, gchar-ptr $type_name, N-Object $plugin, GTypeFlags $flags --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1598,7 +1598,7 @@ Registers I<type-id> as the predefined identifier and I<type-name> as the name o
 
 Returns: the predefined type identifier
 
-  method register-fundamental ( Str $type_name, GTypeInfo $info, GTypeFundamentalInfo $finfo, GTypeFlags $flags --> N-GObject )
+  method register-fundamental ( Str $type_name, GTypeInfo $info, GTypeFundamentalInfo $finfo, GTypeFlags $flags --> N-Object )
 
 =item Str $type_name; 0-terminated string used as the name of the new type
 =item GTypeInfo $info; B<Gnome::GObject::TypeInfo> structure for this type
@@ -1606,7 +1606,7 @@ Returns: the predefined type identifier
 =item GTypeFlags $flags; bitwise combination of B<Gnome::GObject::TypeFlags> values
 =end pod
 
-method register-fundamental ( Str $type_name, GTypeInfo $info, GTypeFundamentalInfo $finfo, GTypeFlags $flags --> N-GObject ) {
+method register-fundamental ( Str $type_name, GTypeInfo $info, GTypeFundamentalInfo $finfo, GTypeFlags $flags --> N-Object ) {
 
   g_type_register_fundamental(
     self._get-native-object-no-reffing, $type_name, $info, $finfo, $flags
@@ -1614,7 +1614,7 @@ method register-fundamental ( Str $type_name, GTypeInfo $info, GTypeFundamentalI
 }
 
 sub g_type_register_fundamental (
-  N-GObject $type_id, gchar-ptr $type_name, GTypeInfo $info, GTypeFundamentalInfo $finfo, GTypeFlags $flags --> N-GObject
+  N-Object $type_id, gchar-ptr $type_name, GTypeInfo $info, GTypeFundamentalInfo $finfo, GTypeFlags $flags --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1627,14 +1627,14 @@ Registers I<type-name> as the name of a new static type derived from I<parent-ty
 
 Returns: the new type identifier
 
-  method register-static ( Str $type_name, GTypeInfo $info, GTypeFlags $flags --> N-GObject )
+  method register-static ( Str $type_name, GTypeInfo $info, GTypeFlags $flags --> N-Object )
 
 =item Str $type_name; 0-terminated string used as the name of the new type
 =item GTypeInfo $info; B<Gnome::GObject::TypeInfo> structure for this type
 =item GTypeFlags $flags; bitwise combination of B<Gnome::GObject::TypeFlags> values
 =end pod
 
-method register-static ( Str $type_name, GTypeInfo $info, GTypeFlags $flags --> N-GObject ) {
+method register-static ( Str $type_name, GTypeInfo $info, GTypeFlags $flags --> N-Object ) {
 
   g_type_register_static(
     self._get-native-object-no-reffing, $type_name, $info, $flags
@@ -1642,7 +1642,7 @@ method register-static ( Str $type_name, GTypeInfo $info, GTypeFlags $flags --> 
 }
 
 sub g_type_register_static (
-  N-GObject $parent_type, gchar-ptr $type_name, GTypeInfo $info, GTypeFlags $flags --> N-GObject
+  N-Object $parent_type, gchar-ptr $type_name, GTypeInfo $info, GTypeFlags $flags --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1655,7 +1655,7 @@ Registers I<type-name> as the name of a new static type derived from I<parent-ty
 
 Returns: the new type identifier
 
-  method register-static-simple ( Str $type_name, UInt $class_size, GClassInitFunc $class_init, UInt $instance_size, GInstanceInitFunc $instance_init, GTypeFlags $flags --> N-GObject )
+  method register-static-simple ( Str $type_name, UInt $class_size, GClassInitFunc $class_init, UInt $instance_size, GInstanceInitFunc $instance_init, GTypeFlags $flags --> N-Object )
 
 =item Str $type_name; 0-terminated string used as the name of the new type
 =item UInt $class_size; size of the class structure (see B<Gnome::GObject::TypeInfo>)
@@ -1665,7 +1665,7 @@ Returns: the new type identifier
 =item GTypeFlags $flags; bitwise combination of B<Gnome::GObject::TypeFlags> values
 =end pod
 
-method register-static-simple ( Str $type_name, UInt $class_size, GClassInitFunc $class_init, UInt $instance_size, GInstanceInitFunc $instance_init, GTypeFlags $flags --> N-GObject ) {
+method register-static-simple ( Str $type_name, UInt $class_size, GClassInitFunc $class_init, UInt $instance_size, GInstanceInitFunc $instance_init, GTypeFlags $flags --> N-Object ) {
 
   g_type_register_static_simple(
     self._get-native-object-no-reffing, $type_name, $class_size, $class_init, $instance_size, $instance_init, $flags
@@ -1673,7 +1673,7 @@ method register-static-simple ( Str $type_name, UInt $class_size, GClassInitFunc
 }
 
 sub g_type_register_static_simple (
-  N-GObject $parent_type, gchar-ptr $type_name, guint $class_size, GClassInitFunc $class_init, guint $instance_size, GInstanceInitFunc $instance_init, GTypeFlags $flags --> N-GObject
+  N-Object $parent_type, gchar-ptr $type_name, guint $class_size, GClassInitFunc $class_init, guint $instance_size, GInstanceInitFunc $instance_init, GTypeFlags $flags --> N-Object
 ) is native(&gobject-lib)
   { * }
 
@@ -1748,7 +1748,7 @@ method set-qdata ( UInt $quark, Pointer $data ) {
 }
 
 sub g_type_set_qdata (
-  N-GObject $type, GQuark $quark, gpointer $data
+  N-Object $type, GQuark $quark, gpointer $data
 ) is native(&gobject-lib)
   { * }
 
@@ -1775,7 +1775,7 @@ method value-table-peek ( --> GTypeValueTable ) {
 }
 
 sub g_type_value_table_peek (
-  N-GObject $type --> GTypeValueTable
+  N-Object $type --> GTypeValueTable
 ) is native(&gobject-lib)
   { * }
 }}
@@ -1970,16 +1970,16 @@ No warning will be issued if instance is NULL, and NULL will be returned.
 This macro should only be used in type implementations.
 
   method g_type_check_instance_cast (
-    N-GObject $instance, UInt $iface_type
-    --> N-GObject
+    N-Object $instance, UInt $iface_type
+    --> N-Object
   )
 
-=item N-GObject $instance;
+=item N-Object $instance;
 =item UInt $iface_type;
 
 =end pod
 
-sub g_type_check_instance_cast ( N-GObject $instance, GType $iface_type --> N-GObject )
+sub g_type_check_instance_cast ( N-Object $instance, GType $iface_type --> N-Object )
   is native(&gobject-lib)
   { * }
 
@@ -1989,16 +1989,16 @@ sub g_type_check_instance_cast ( N-GObject $instance, GType $iface_type --> N-GO
 =head2 [[g_] type_] check_instance_is_a
 
   method g_type_check_instance_is_a (
-    N-GObject $instance, UInt $iface_type --> Int
+    N-Object $instance, UInt $iface_type --> Int
   )
 
-=item N-GObject $instance; the native object to check.
+=item N-Object $instance; the native object to check.
 =item UInt $iface_type; the gtype the instance is inheriting from.
 
 =end pod
 
 sub g_type_check_instance_is_a (
-  N-GObject $instance, GType $iface_type --> int32
+  N-Object $instance, GType $iface_type --> int32
 ) is native(&gobject-lib)
   { * }
 
@@ -2009,7 +2009,7 @@ sub g_type_check_instance_is_a (
 
 Get name of type from the instance.
 
-  method g_type_name_from_instance ( N-GObject $instance --> Str  )
+  method g_type_name_from_instance ( N-Object $instance --> Str  )
 
 =item int32 $instance;
 
@@ -2017,7 +2017,7 @@ Returns the name of the instance.
 
 =end pod
 
-sub g_type_name_from_instance ( N-GObject $instance --> Str )
+sub g_type_name_from_instance ( N-Object $instance --> Str )
   is native(&gobject-lib)
   { * }
 
@@ -2128,13 +2128,13 @@ sub g_type_check_class_is_a ( int32 $g_class, int32 $is_a_type --> int32 )
 
 Checks if value has been initialized to hold values of type g_type.
 
-  method g_type_check_value ( N-GObject $value --> Int  )
+  method g_type_check_value ( N-Object $value --> Int  )
 
-=item N-GObject $value;
+=item N-Object $value;
 
 =end pod
 
-sub g_type_check_value ( N-GObject $value --> int32 )
+sub g_type_check_value ( N-Object $value --> int32 )
   is native(&gobject-lib)
   { * }
 }}
@@ -2147,14 +2147,14 @@ sub g_type_check_value ( N-GObject $value --> int32 )
 
 
 
-  method g_type_check_value_holds ( N-GObject $value, int32 $type --> Int  )
+  method g_type_check_value_holds ( N-Object $value, int32 $type --> Int  )
 
-=item N-GObject $value;
+=item N-Object $value;
 =item int32 $type;
 
 =end pod
 
-sub g_type_check_value_holds ( N-GObject $value, int32 $type --> int32 )
+sub g_type_check_value_holds ( N-Object $value, int32 $type --> int32 )
   is native(&gobject-lib)
   { * }
 }}

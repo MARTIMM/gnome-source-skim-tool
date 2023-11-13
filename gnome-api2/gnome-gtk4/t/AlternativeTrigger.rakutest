@@ -12,7 +12,7 @@ use Test;
 
 use Gnome::Gtk4::AlternativeTrigger:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -29,8 +29,8 @@ my Gnome::Gtk4::AlternativeTrigger $alternativetrigger;
 
 subtest 'ISA test', {
   given $alternativetrigger {
-    my N-GObject() $first;
-    my N-GObject() $second;
+    my N-Object() $first;
+    my N-Object() $second;
 
 #`{{
     #TC:0:new-alternativetrigger()

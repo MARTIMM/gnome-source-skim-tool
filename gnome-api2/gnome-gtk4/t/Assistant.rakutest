@@ -13,7 +13,7 @@ use NativeCall;
 use Gnome::Gtk4::Assistant:api<2>;
 use Gnome::Gtk4::T-Assistant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -56,12 +56,12 @@ subtest 'Method tests', {
     my gpointer $data;
     my Int() $page-num;
     sub page-func ( gint $current-page, gpointer $data --> gint ) {}
-    my N-GObject() $page;
+    my N-Object() $page;
     my  $destroy;
     my Str $title;
     my Bool() $complete;
     my Int() $position;
-    my N-GObject() $child;
+    my N-Object() $child;
 
 
 #`{{

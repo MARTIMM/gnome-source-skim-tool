@@ -12,7 +12,7 @@ use Test;
 
 use Gnome::Gtk4::T-Aboutdialog:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -67,7 +67,7 @@ my Gnome::Gtk4::T-Aboutdialog $aboutdialog .= new;
 subtest 'Function tests', {
   with $aboutdialog {
     my Str $first-property-name;
-    my N-GObject $parent;
+    my N-Object $parent;
 
 
 #`{{

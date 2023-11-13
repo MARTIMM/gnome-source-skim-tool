@@ -13,7 +13,7 @@ use NativeCall;
 #use Gnome::Gdk4::T-Events:api<2>;
 use Gnome::Gtk4::ShortcutTrigger:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -52,11 +52,11 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $shortcuttrigger {
-    my N-GObject() $display;
+    my N-Object() $display;
     my gpointer $trigger2;
-    my N-GObject $string;
+    my N-Object $string;
     my Bool() $enable-mnemonics;
-    my N-GObject() $event;
+    my N-Object() $event;
 
 
 #`{{

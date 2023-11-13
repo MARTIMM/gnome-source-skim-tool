@@ -14,7 +14,7 @@ use NativeCall;
 use Gnome::Glib::VariantType:api<2>;
 use Gnome::Glib::N-VariantType:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -32,11 +32,11 @@ my N-VariantType $n-varianttype;
 
 subtest 'ISA test', {
   given $varianttype {
-    my N-GObject $items;
-    my N-GObject $element;
-    my N-GObject $key;
+    my N-Object $items;
+    my N-Object $element;
+    my N-Object $key;
     my Int() $length;
-    my N-GObject $value;
+    my N-Object $value;
     my Str $type-string;
 
     #TC:1:new-varianttype()
@@ -85,7 +85,7 @@ unless %*ENV<raku_test_all>:exists {
 subtest 'Method tests', {
   with $varianttype {
     my gpointer $type2;
-    my N-GObject $supertype;
+    my N-Object $supertype;
 
 #`{{
     #TM:0:copy()

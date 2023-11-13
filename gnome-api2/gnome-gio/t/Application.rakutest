@@ -14,7 +14,7 @@ use Gnome::Gio::T-Ioenums:api<2>;
 #use Gnome::Glib::T-GOptionEntry:api<2>;
 #use Gnome::Glib::T-Option:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -55,24 +55,24 @@ unless %*ENV<raku_test_all>:exists {
 subtest 'Method tests', {
   with $application {
     my Str $application-id;
-    my N-GObject $entries;
+    my N-Object $entries;
     my Str $parameter-string;
 #    my GOptionArg  $arg;
     my gpointer $object;
 #    my GOptionFlags  $flags;
     my Int() $short-name;
-    my N-GObject $group;
+    my N-Object $group;
     my Str $summary;
     my Str $id;
-    my N-GObject() $files;
+    my N-Object() $files;
     my Int() $argc;
     my Str $description;
     my Array[Str] $argv;
     my Int() $n-files;
     my Str $hint;
     my UInt() $inactivity-timeout;
-    my N-GObject() $cancellable;
-    my N-GObject() $notification;
+    my N-Object() $cancellable;
+    my N-Object() $notification;
     my Str $property;
     my Str $arg-description;
     my Str $long-name;

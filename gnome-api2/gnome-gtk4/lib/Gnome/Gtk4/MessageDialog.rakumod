@@ -14,7 +14,7 @@ use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::T-Messagedialog:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -60,13 +60,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-messagedialog => %( :type(Constructor), :isnew, :returns(N-GObject), :variable-list, :parameters([ N-GObject, GFlag, GEnum, GEnum, Str])),
-  new-with-markup => %( :type(Constructor), :returns(N-GObject), :variable-list, :parameters([ N-GObject, GFlag, GEnum, GEnum, Str])),
+  new-messagedialog => %( :type(Constructor), :isnew, :returns(N-Object), :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
+  new-with-markup => %( :type(Constructor), :returns(N-Object), :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
 
   #--[Methods]------------------------------------------------------------------
   #format-secondary-markup => %(:variable-list,  :parameters([Str])),
   #format-secondary-text => %(:variable-list,  :parameters([Str])),
-  get-message-area => %( :returns(N-GObject)),
+  get-message-area => %( :returns(N-Object)),
   set-markup => %( :parameters([Str])),
 );
 

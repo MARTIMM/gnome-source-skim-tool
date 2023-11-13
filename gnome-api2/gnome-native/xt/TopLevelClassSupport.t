@@ -29,7 +29,7 @@ The user cannot use options from the classes in between because those will creat
 use NativeCall;
 
 use Gnome::N::NativeLib;
-use Gnome::N::N-GObject;
+use Gnome::N::N-Object;
 use Gnome::N::TopLevelClassSupport;
 
 #use Gnome::N::X;
@@ -37,15 +37,15 @@ use Gnome::N::TopLevelClassSupport;
 
 #-----------------------------------------------------------------------------
 # native subs
-sub gtk_label_new ( Str $str --> N-GObject )
+sub gtk_label_new ( Str $str --> N-Object )
   is native(&gtk-lib)
   { * }
 
-sub gtk_label_set_text ( N-GObject $label, Str $str )
+sub gtk_label_set_text ( N-Object $label, Str $str )
   is native(&gtk-lib)
   { * }
 
-sub gtk_label_get_text ( N-GObject $label --> Str )
+sub gtk_label_get_text ( N-Object $label --> Str )
   is native(&gtk-lib)
   { * }
 
@@ -71,7 +71,7 @@ class Label is Gnome::N::TopLevelClassSupport {
     elsif self.^name eq 'Label' or %options<Label> {
 
       if ? %options<text> {
-        my N-GObject $no = gtk_label_new(%options<text>);
+        my N-Object $no = gtk_label_new(%options<text>);
         self.set-native-object($no);
       }
     }
@@ -109,7 +109,7 @@ class Label is Gnome::N::TopLevelClassSupport {
 
   #-----------------------------------------------------------------------------
   # this must go into direct children of TopLevelClassSupport
-  method native-object-ref ( N-GObject $no is copy --> N-GObject ) {
+  method native-object-ref ( N-Object $no is copy --> N-Object ) {
     if !g_object_is_floating($no) and self.is-valid {
       ok 1, "ref +++ $no";
       $no = g_object_ref($no);
@@ -120,7 +120,7 @@ class Label is Gnome::N::TopLevelClassSupport {
 
   #-----------------------------------------------------------------------------
   # this must go into direct children of TopLevelClassSupport
-  method native-object-unref ( N-GObject $no ) {
+  method native-object-unref ( N-Object $no ) {
     unless g_object_is_floating($no) {
       ok 1, "ref --- $no";
       g_object_unref($no);
@@ -208,7 +208,7 @@ my Int $label-gtype;
 subtest 'Label tests', {
 
   my Label $l1 .= new(:text<test-text>);
-  my N-GObject $no = $l1._get-native-object;
+  my N-Object $no = $l1._get-native-object;
   ok $no.defined, 'Label ._get-native-object()';
   my Label $l1a .= new(:native-object($no));
   is $l1.get-text, 'test-text', 'Label .new(:native-object) .get-text()';
@@ -238,7 +238,7 @@ subtest 'Label tests', {
   is $l2.get-text, 'test-text', 'Label .new(:native-object) .get-text()';
 
   $no = $l1._get-native-object;
-  isa-ok $no, N-GObject, '._get-native-object()';
+  isa-ok $no, N-Object, '._get-native-object()';
   $l2 .= new( :native-object($no));
   is $l2.get-text, 'test-text', 'Label .new(:native-object) .get-text()';
   $l2.clear-object;
@@ -284,7 +284,7 @@ subtest 'Reference tests', {
   is g_type_get_instance_count($label-gtype), 0, 'refcount 0';
   ok g_object_is_floating($l1._get-native-object), 'object floats';
 
-  my N-GObject $w = gtk_window_new(0);
+  my N-Object $w = gtk_window_new(0);
   my $no = $l1._get-native-object;
   gtk_container_add( $w, $no);
 #TODO is still 0, why?
@@ -303,25 +303,25 @@ sub g_type_get_instance_count ( int32 $type --> int32 )
   is native(&gobject-lib)
   { * }
 
-sub g_object_ref ( N-GObject $object --> N-GObject )
+sub g_object_ref ( N-Object $object --> N-Object )
   is native(&gobject-lib)
   { * }
 
-sub g_object_unref ( N-GObject $object )
+sub g_object_unref ( N-Object $object )
   is native(&gobject-lib)
   { * }
 
-sub g_object_is_floating ( N-GObject $object )
+sub g_object_is_floating ( N-Object $object )
   returns int32
   is native(&gobject-lib)
   { * }
 
 #`{{
-#sub g_clear_object ( CArray[CArray[N-GObject]] $object_ptr )
+#sub g_clear_object ( CArray[CArray[N-Object]] $object_ptr )
 #  is native(&gobject-lib)
 #  { * }
 
-#sub g_clear_object ( CArray[N-GObject] $object_ptr )
+#sub g_clear_object ( CArray[N-Object] $object_ptr )
 #  is native(&gobject-lib)
 #  { * }
 
@@ -331,11 +331,11 @@ sub g_clear_object ( Pointer $object_ptr )
 }}
 
 sub gtk_window_new ( int32 $type )
-  returns N-GObject
+  returns N-Object
   is native(&gtk-lib)
   { * }
 
-sub gtk_container_add ( N-GObject $container, N-GObject $widget )
+sub gtk_container_add ( N-Object $container, N-Object $widget )
   is native(&gtk-lib)
   { * }
 

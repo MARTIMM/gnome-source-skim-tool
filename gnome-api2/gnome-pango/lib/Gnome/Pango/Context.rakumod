@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-FontDescription:api<2>;
@@ -64,14 +64,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-context => %( :type(Constructor), :isnew, :returns(N-GObject) ),
+  new-context => %( :type(Constructor), :isnew, :returns(N-Object) ),
 
   #--[Methods]------------------------------------------------------------------
   changed => %(),
   get-base-dir => %( :returns(GEnum), :cnv-return(PangoDirection)),
   get-base-gravity => %( :returns(GEnum), :cnv-return(PangoGravity)),
   #get-font-description => %( :returns(N-FontDescription )),
-  get-font-map => %( :returns(N-GObject)),
+  get-font-map => %( :returns(N-Object)),
   get-gravity => %( :returns(GEnum), :cnv-return(PangoGravity)),
   get-gravity-hint => %( :returns(GEnum), :cnv-return(PangoGravityHint)),
   #get-language => %( :returns(N-Language )),
@@ -79,13 +79,13 @@ my Hash $methods = %(
   #get-metrics => %( :returns(N-FontMetrics ), :parameters([N-FontDescription , N-Language ])),
   get-round-glyph-positions => %( :returns(gboolean), :cnv-return(Bool)),
   get-serial => %( :returns(guint)),
-  list-families => %( :parameters([CArray[N-GObject], gint-ptr])),
-  #load-font => %( :returns(N-GObject), :parameters([N-FontDescription ])),
-  #load-fontset => %( :returns(N-GObject), :parameters([N-FontDescription , N-Language ])),
+  list-families => %( :parameters([CArray[N-Object], gint-ptr])),
+  #load-font => %( :returns(N-Object), :parameters([N-FontDescription ])),
+  #load-fontset => %( :returns(N-Object), :parameters([N-FontDescription , N-Language ])),
   set-base-dir => %( :parameters([GEnum])),
   set-base-gravity => %( :parameters([GEnum])),
   #set-font-description => %( :parameters([N-FontDescription ])),
-  set-font-map => %( :parameters([N-GObject])),
+  set-font-map => %( :parameters([N-Object])),
   set-gravity-hint => %( :parameters([GEnum])),
   #set-language => %( :parameters([N-Language ])),
   #set-matrix => %( :parameters([N-Matrix ])),

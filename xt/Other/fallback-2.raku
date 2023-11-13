@@ -136,7 +136,7 @@ my Hash $methods = %(
   new => %(                 # We know to prefix 'gtk_window_' in this module
     :type(Constructor),     # Type of routine
     :parameters([GEnum]),   # Parameter types
-    :returns(N-GObject),    # Return type if any,
+    :returns(N-Object),    # Return type if any,
   ),
 
   get_default_size => %(

@@ -13,7 +13,7 @@ use NativeCall;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Gtk4::CallbackAction:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -31,7 +31,7 @@ my Gnome::Gtk4::CallbackAction $callbackaction;
 subtest 'ISA test', {
   given $callbackaction {
     my  $destroy;
-    sub callback ( N-GObject $widget, N-Variant $args, gpointer $user-data --> gboolean ) {}
+    sub callback ( N-Object $widget, N-Variant $args, gpointer $user-data --> gboolean ) {}
     my gpointer $data;
 
 #`{{

@@ -12,7 +12,7 @@ use Test;
 
 use Gnome::Gtk4::T-Show:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -25,15 +25,15 @@ subtest 'Function tests', {
     my  $callback;
     my gpointer $user-data;
     my guint32 $timestamp;
-    my N-GObject $result;
-    my N-GObject $parent;
-    my N-GObject $cancellable;
+    my N-Object $result;
+    my N-Object $parent;
+    my N-Object $cancellable;
     my Str $uri;
 
 
     #TM:1:show-uri()
     $timestamp = now.Int;
-    lives-ok { .show-uri( N-GObject, 'https://google.com', $timestamp) }, '.show-uri()';
+    lives-ok { .show-uri( N-Object, 'https://google.com', $timestamp) }, '.show-uri()';
 
 #`{{
     #TM:0:show-uri-full()

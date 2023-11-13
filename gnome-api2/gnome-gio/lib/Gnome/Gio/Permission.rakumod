@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -58,16 +58,16 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  acquire => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
-  #acquire-async => %( :parameters([N-GObject, :( N-GObject, N-GObject, gpointer ), gpointer])),
-  acquire-finish => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
+  acquire => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  #acquire-async => %( :parameters([N-Object, :( N-Object, N-Object, gpointer ), gpointer])),
+  acquire-finish => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   get-allowed => %( :returns(gboolean), :cnv-return(Bool)),
   get-can-acquire => %( :returns(gboolean), :cnv-return(Bool)),
   get-can-release => %( :returns(gboolean), :cnv-return(Bool)),
   impl-update => %( :parameters([gboolean, gboolean, gboolean])),
-  release => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
-  #release-async => %( :parameters([N-GObject, :( N-GObject, N-GObject, gpointer ), gpointer])),
-  release-finish => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
+  release => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  #release-async => %( :parameters([N-Object, :( N-Object, N-Object, gpointer ), gpointer])),
+  release-finish => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------

@@ -16,7 +16,7 @@ use Gnome::Glib::Variant:api<2>;
 use Gnome::Glib::VariantType:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -67,9 +67,9 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $simpleaction {
-    my N-GObject $state-hint;
+    my N-Object $state-hint;
     my Bool() $enabled;
-    my N-GObject $value;
+    my N-Object $value;
 
 
 #`{{

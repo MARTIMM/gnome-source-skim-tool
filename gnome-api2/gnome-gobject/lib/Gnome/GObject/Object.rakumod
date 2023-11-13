@@ -14,7 +14,7 @@ use Gnome::GObject::N-Value:api<2>;
 use Gnome::N::GObjectSupport:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
@@ -90,15 +90,15 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-object => %( :type(Constructor), :isnew, :returns(gpointer), :variable-list, :parameters([ GType, Str])),
-  #new-valist => %( :type(Constructor), :returns(N-GObject), :parameters([ GType, Str, ])),
-  new-with-properties => %( :type(Constructor), :returns(N-GObject), :parameters([ GType, guint, gchar-pptr, N-Value ])),
+  #new-valist => %( :type(Constructor), :returns(N-Object), :parameters([ GType, Str, ])),
+  new-with-properties => %( :type(Constructor), :returns(N-Object), :parameters([ GType, guint, gchar-pptr, N-Value ])),
 
   #--[Methods]------------------------------------------------------------------
-  add-toggle-ref => %( :parameters([:( gpointer $data, N-GObject $object, gboolean $is-last-ref ), gpointer])),
+  add-toggle-ref => %( :parameters([:( gpointer $data, N-Object $object, gboolean $is-last-ref ), gpointer])),
   add-weak-pointer => %( :parameters([CArray[gpointer]])),
-  #bind-property => %( :returns(N-GObject), :parameters([Str, gpointer, Str, GFlag])),
-  #bind-property-full => %( :returns(N-GObject), :parameters([Str, gpointer, Str, GFlag, :( N-GObject $binding, N-Value  $from-value, N-Value  $to-value, gpointer $user-data --> gboolean ) , :( N-GObject $binding, N-Value  $from-value, N-Value  $to-value, gpointer $user-data --> gboolean ) , gpointer, ])),
-  #bind-property-with-closures => %( :returns(N-GObject), :parameters([Str, gpointer, Str, GFlag, N-Closure , N-Closure ])),
+  #bind-property => %( :returns(N-Object), :parameters([Str, gpointer, Str, GFlag])),
+  #bind-property-full => %( :returns(N-Object), :parameters([Str, gpointer, Str, GFlag, :( N-Object $binding, N-Value  $from-value, N-Value  $to-value, gpointer $user-data --> gboolean ) , :( N-Object $binding, N-Value  $from-value, N-Value  $to-value, gpointer $user-data --> gboolean ) , gpointer, ])),
+  #bind-property-with-closures => %( :returns(N-Object), :parameters([Str, gpointer, Str, GFlag, N-Closure , N-Closure ])),
   connect => %(:variable-list,  :returns(gpointer), :parameters([Str])),
   disconnect => %(:variable-list,  :parameters([Str])),
   #dup-data => %( :returns(gpointer), :parameters([Str, , gpointer])),
@@ -113,10 +113,10 @@ my Hash $methods = %(
   getv => %( :parameters([guint, gchar-pptr, N-Value ])),
   is-floating => %( :returns(gboolean), :cnv-return(Bool)),
   notify => %( :parameters([Str])),
-  notify-by-pspec => %( :parameters([N-GObject])),
+  notify-by-pspec => %( :parameters([N-Object])),
   ref => %( :returns(gpointer)),
   ref-sink => %( :returns(gpointer)),
-  remove-toggle-ref => %( :parameters([:( gpointer $data, N-GObject $object, gboolean $is-last-ref ), gpointer])),
+  remove-toggle-ref => %( :parameters([:( gpointer $data, N-Object $object, gboolean $is-last-ref ), gpointer])),
   remove-weak-pointer => %( :parameters([CArray[gpointer]])),
   #replace-data => %( :returns(gboolean), :cnv-return(Bool), :parameters([Str, gpointer, gpointer, , ])),
   #replace-qdata => %( :returns(gboolean), :cnv-return(Bool), :parameters([GQuark, gpointer, gpointer, , ])),
@@ -135,14 +135,14 @@ my Hash $methods = %(
   thaw-notify => %(),
   unref => %(),
   #watch-closure => %( :parameters([N-Closure ])),
-  weak-ref => %( :parameters([:( gpointer $data, N-GObject $where-the-object-was ), gpointer])),
-  weak-unref => %( :parameters([:( gpointer $data, N-GObject $where-the-object-was ), gpointer])),
+  weak-ref => %( :parameters([:( gpointer $data, N-Object $where-the-object-was ), gpointer])),
+  weak-unref => %( :parameters([:( gpointer $data, N-Object $where-the-object-was ), gpointer])),
 
   #--[Functions]----------------------------------------------------------------
   compat-control => %( :type(Function),  :returns(gsize), :parameters([ gsize, gpointer])),
-  interface-find-property => %( :type(Function),  :returns(N-GObject), :parameters([ gpointer, Str])),
-  interface-install-property => %( :type(Function),  :parameters([ gpointer, N-GObject])),
-  interface-list-properties => %( :type(Function),  :returns(CArray[N-GObject]), :parameters([ gpointer, gint-ptr])),
+  interface-find-property => %( :type(Function),  :returns(N-Object), :parameters([ gpointer, Str])),
+  interface-install-property => %( :type(Function),  :parameters([ gpointer, N-Object])),
+  interface-list-properties => %( :type(Function),  :returns(CArray[N-Object]), :parameters([ gpointer, gint-ptr])),
 );
 
 #-------------------------------------------------------------------------------

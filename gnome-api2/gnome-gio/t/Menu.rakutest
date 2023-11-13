@@ -12,7 +12,7 @@ use Test;
 
 use Gnome::Gio::Menu:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -52,11 +52,11 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $menu {
-    my N-GObject() $section;
-    my N-GObject() $submenu;
+    my N-Object() $section;
+    my N-Object() $submenu;
     my Str $label;
     my Str $detailed-action;
-    my N-GObject() $item;
+    my N-Object() $item;
     my Int() $position;
 
 

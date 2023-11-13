@@ -12,7 +12,7 @@ use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::Value:api<2>;
 use Gnome::GObject::T-Type:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -42,7 +42,7 @@ subtest 'Method tests', {
 
   my UInt() $v-flags;
   my gpointer $v-object;
-  my N-GObject $variant;
+  my N-Object $variant;
   my UInt() $v-uint;
   my UInt() $v-uchar;
   my Bool() $v-boolean;
@@ -54,8 +54,8 @@ subtest 'Method tests', {
   my UInt() $v-ulong;
   my Int() $v-enum;
   my Int() $v-int;
-  my N-GObject() $param;
-  my N-GObject $dest-value;
+  my N-Object() $param;
+  my N-Object $dest-value;
   my gpointer $v-boxed;
   my GType $v-gtype;
   my gpointer $v-pointer;

@@ -13,7 +13,7 @@ use NativeCall;
 use Gnome::Gtk4::AboutDialog:api<2>;
 use Gnome::Gtk4::T-Aboutdialog:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -53,7 +53,7 @@ subtest 'Method tests', {
     my Str $version;
     my Str $comments;
     my Str $copyright;
-    my N-GObject() $logo;
+    my N-Object() $logo;
     my Bool() $wrap-license;
     my Str $website;
     my Str $system-information;

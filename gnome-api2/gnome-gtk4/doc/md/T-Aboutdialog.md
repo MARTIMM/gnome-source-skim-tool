@@ -78,7 +78,7 @@ A convenience function for showing an application’s about dialog.
 
 The constructed dialog is associated with the parent window and reused for future invocations of this function.
 
-    method show-about-dialog (  N-GObject() $parent, Str $first-property-name, … )
+    method show-about-dialog (  N-Object() $parent, Str $first-property-name, … )
 
   * $parent; the parent top-level window.
 

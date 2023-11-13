@@ -13,7 +13,7 @@ use Gnome::GObject::Object:api<2>;
 use Gnome::Glib::N-SList:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-AttrList:api<2>;
@@ -69,18 +69,18 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-layout => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ N-GObject])),
+  new-layout => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ N-Object])),
 
   #--[Methods]------------------------------------------------------------------
   context-changed => %(),
-  copy => %( :returns(N-GObject)),
+  copy => %( :returns(N-Object)),
   get-alignment => %( :returns(GEnum), :cnv-return(PangoAlignment)),
   #get-attributes => %( :returns(N-AttrList )),
   get-auto-dir => %( :returns(gboolean), :cnv-return(Bool)),
   get-baseline => %( :returns(gint)),
   #get-caret-pos => %( :parameters([gint, N-Rectangle , N-Rectangle ])),
   get-character-count => %( :returns(gint)),
-  get-context => %( :returns(N-GObject)),
+  get-context => %( :returns(N-Object)),
   #get-cursor-pos => %( :parameters([gint, N-Rectangle , N-Rectangle ])),
   #get-direction => %( :returns(GEnum), :cnv-return(PangoDirection ), :parameters([gint])),
   get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
@@ -138,7 +138,7 @@ my Hash $methods = %(
   xy-to-index => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint, gint-ptr, gint-ptr])),
 
   #--[Functions]----------------------------------------------------------------
-  #deserialize => %( :type(Function),  :returns(N-GObject), :parameters([UInt])),
+  #deserialize => %( :type(Function),  :returns(N-Object), :parameters([UInt])),
 );
 
 #-------------------------------------------------------------------------------

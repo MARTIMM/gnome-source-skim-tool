@@ -4,7 +4,7 @@ use v6.d;
 use NativeCall;
 use fatal;
 
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::X:api<2>;
@@ -193,7 +193,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
 #-------------------------------------------------------------------------------
 # Call for methods
 multi method call-native-sub (
-  Str $name, @arguments, Hash $methods, N-GObject $native-object
+  Str $name, @arguments, Hash $methods, N-Object $native-object
   --> Any
 ) {
 #say Backtrace.new.nice;
@@ -276,7 +276,7 @@ my Hash $function-addresses = %();
 # Call for methods from interfaces
 multi method call-native-sub (
   Str $name, @arguments, Hash $methods,
-  N-GObject $native-object, Str $sub-prefix
+  N-Object $native-object, Str $sub-prefix
   --> Any
 ) {
 #say Backtrace.new.nice;
@@ -361,7 +361,7 @@ method object-call (
 #note "$?LINE $name @arguments.gist()";
 #note "$?LINE $!library, $!sub-prefix";
 
-  my N-GObject $native-object = $raku-object.get-native-object-no-reffing;
+  my N-Object $native-object = $raku-object.get-native-object-no-reffing;
 
   # Set False, is set in native-parameters() as a side effect
   $!pointers-in-args = False;
@@ -535,7 +535,7 @@ multi method native-parameters (
 # as its first argument
 multi method native-parameters (
   Array $arguments, Array $parameters, Hash $routine,
-  N-GObject $native-object, Bool $variable-list = False
+  N-Object $native-object, Bool $variable-list = False
   --> Array
 ) {
   my Array $native-args = [$native-object];
@@ -567,7 +567,7 @@ method !native-function (
     when Function { }
     #when Method { }
     default {
-      @parameterList.push: Parameter.new(type => N-GObject);
+      @parameterList.push: Parameter.new(type => N-Object);
     }
   }
 
@@ -628,7 +628,7 @@ method get-native-function ( Hash $routine, Array $parameters --> Callable ) {
     when Function { }
     #when Method { }
     default {
-      @parameterList.push: Parameter.new(type => N-GObject);
+      @parameterList.push: Parameter.new(type => N-Object);
     }
   }
 
@@ -726,7 +726,7 @@ method !convert-args ( Mu $v, $p ) {
 
 #note "$?LINE $p.^name(), $v.gist(), ", $v.^mro;
   if $v.can('get-native-object-no-reffing') {
-    my N-GObject $no = $v.get-native-object-no-reffing;
+    my N-Object $no = $v.get-native-object-no-reffing;
     $c = $no;
   }
 
@@ -748,8 +748,8 @@ method !convert-args ( Mu $v, $p ) {
       }
 
 #`{{
-      when N-GObject {
-        my N-GObject $no = $v.get-native-object-no-reffing;
+      when N-Object {
+        my N-Object $no = $v.get-native-object-no-reffing;
         $c = $no;
       }
       when Signature {
@@ -911,7 +911,7 @@ method touch-elems ( $a ) {
 #-------------------------------------------------------------------------------
 multi method native-parameters (
   Array $arguments, Array $parameters, Hash $routine,
-  N-GObject:D $native-object, Bool :$variable-list
+  N-Object:D $native-object, Bool :$variable-list
   --> Array
 ) {
   my Array $native-args = [];

@@ -190,7 +190,7 @@ method make-function-test (
       when 'Str' { $assign-list ~= "'text';\n"; }
       when 'Num' { $assign-list ~= "42.42;\n"; $test-type ~= '-approx'; }
       when 'Bool' { $assign-list ~= "True;\n"; }
-      when 'N-GObject' { $assign-list ~= "…;\n"; }
+      when 'N-Object' { $assign-list ~= "…;\n"; }
       when / ':' / {
         my ( $type, $enum ) = .split(':');
         $assign-list ~= "…;\n" if ?$enum;

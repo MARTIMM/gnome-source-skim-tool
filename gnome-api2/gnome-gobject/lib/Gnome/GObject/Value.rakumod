@@ -12,7 +12,7 @@ use Gnome::GObject::N-Value:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
@@ -72,7 +72,7 @@ my Hash $methods = %(
   copy => %( :parameters([N-Value])),
   dup-boxed => %( :returns(gpointer)),
   dup-object => %( :returns(gpointer)),
-  dup-param => %( :returns(N-GObject)),
+  dup-param => %( :returns(N-Object)),
   dup-string => %( :returns(Str)),
   dup-variant => %( :returns(N-Variant)),
   fits-pointer => %( :returns(gboolean), :cnv-return(Bool)),
@@ -87,7 +87,7 @@ my Hash $methods = %(
   get-int64 => %( :returns(gint64)),
   get-long => %( :returns(glong)),
   get-object => %( :returns(gpointer)),
-  get-param => %( :returns(N-GObject)),
+  get-param => %( :returns(N-Object)),
   get-pointer => %( :returns(gpointer)),
   get-schar => %( :returns(gint8)),
   get-string => %( :returns(Str)),
@@ -113,7 +113,7 @@ my Hash $methods = %(
   set-interned-string => %( :parameters([Str])),
   set-long => %( :parameters([glong])),
   set-object => %( :parameters([gpointer])),
-  set-param => %( :parameters([N-GObject])),
+  set-param => %( :parameters([N-Object])),
   set-pointer => %( :parameters([gpointer])),
   set-schar => %( :parameters([gint8])),
   set-static-boxed => %( :parameters([gpointer])),
@@ -126,7 +126,7 @@ my Hash $methods = %(
   set-variant => %( :parameters([N-Variant])),
   take-boxed => %( :parameters([gpointer])),
   take-object => %( :parameters([gpointer])),
-  take-param => %( :parameters([N-GObject])),
+  take-param => %( :parameters([N-Object])),
   take-string => %( :parameters([Str])),
   take-variant => %( :parameters([N-Variant])),
   transform => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Value])),

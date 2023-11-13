@@ -12,7 +12,7 @@ use Gnome::Gtk4::R-Actionable:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -91,18 +91,18 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-button => %( :type(Constructor), :isnew, :returns(N-GObject), ),
-  new-from-icon-name => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
-  new-with-label => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
+  new-button => %( :type(Constructor), :isnew, :returns(N-Object), ),
+  new-from-icon-name => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  new-with-label => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %( :returns(N-GObject)),
+  get-child => %( :returns(N-Object)),
   get-has-frame => %( :returns(gboolean), :cnv-return(Bool)),
   get-icon-name => %( :returns(Str)),
   get-label => %( :returns(Str)),
   get-use-underline => %( :returns(gboolean), :cnv-return(Bool)),
-  set-child => %( :parameters([N-GObject])),
+  set-child => %( :parameters([N-Object])),
   set-has-frame => %( :parameters([gboolean])),
   set-icon-name => %( :parameters([Str])),
   set-label => %( :parameters([Str])),
@@ -159,7 +159,7 @@ method M-new-button ( *@arguments ) {
     :new-button(
       @arguments,
       %( :parameters([Str]),
-         :returns(N-GObject),
+         :returns(N-Object),
          :is-symbol<gtk_button_new>
       )
     )
@@ -188,7 +188,7 @@ method new-with-label ( *@arguments ) {
     :new-with-label(
       @arguments,
       %( :parameters([Str]),
-         :returns(N-GObject),
+         :returns(N-Object),
          :is-symbol<gtk_button_new_with_label>
       )
     )

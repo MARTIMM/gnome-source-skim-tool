@@ -5,7 +5,7 @@ use NativeCall;
 
 use Gnome::N::X;
 use Gnome::N::NativeLib;
-use Gnome::N::N-GObject;
+use Gnome::N::N-Object;
 #use Gnome::N::TopLevelClassSupport;
 use Gnome::N::GlibToRakuTypes;
 
@@ -253,7 +253,7 @@ method register-signal (
     %named-args<_widget> = $current-object;
     %named-args<_handler-id> = $handler-id;
 
-    sub w0 ( N-GObject $w, gpointer $d ) is export {
+    sub w0 ( N-Object $w, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       note "\nw0, $handler-name for $signal-name: %named-args.gist()"
@@ -275,7 +275,7 @@ method register-signal (
       $retval
     }
 
-    sub w1( N-GObject $w, $h0, gpointer $d ) is export {
+    sub w1( N-Object $w, $h0, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       note "\nw1, $handler-name for $signal-name: $h0, %named-args.gist()"
@@ -297,7 +297,7 @@ method register-signal (
       $retval
     }
 
-    sub w2( N-GObject $w, $h0, $h1, gpointer $d ) is export {
+    sub w2( N-Object $w, $h0, $h1, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       note "\nw2, $handler-name for $signal-name: $h0, $h1, %named-args.gist()"
@@ -320,7 +320,7 @@ method register-signal (
       $retval
     }
 
-    sub w3( N-GObject $w, $h0, $h1, $h2, gpointer $d ) is export {
+    sub w3( N-Object $w, $h0, $h1, $h2, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       note "\nw3, $handler-name for $signal-name: $h0, $h1, $h2, %named-args.gist()" if $Gnome::N::x-debug;
@@ -342,7 +342,7 @@ method register-signal (
       $retval
     }
 
-    sub w4( N-GObject $w, $h0, $h1, $h2, $h3, gpointer $d ) is export {
+    sub w4( N-Object $w, $h0, $h1, $h2, $h3, gpointer $d ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       note "\nw4, $handler-name for $signal-name: $h0, $h1, $h2, $h3, %named-args.gist()" if $Gnome::N::x-debug;
@@ -365,7 +365,7 @@ method register-signal (
     }
 
     sub w5(
-      N-GObject $w, $h0, $h1, $h2, $h3, $h4, gpointer $d
+      N-Object $w, $h0, $h1, $h2, $h3, $h4, gpointer $d
     ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 
@@ -389,7 +389,7 @@ method register-signal (
     }
 
     sub w6(
-      N-GObject $w, $h0, $h1, $h2, $h3, $h4, $h5, gpointer $d
+      N-Object $w, $h0, $h1, $h2, $h3, $h4, $h5, gpointer $d
     ) is export {
       CATCH { default { .message.note; .backtrace.concise.note } }
 

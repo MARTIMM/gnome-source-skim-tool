@@ -14,7 +14,7 @@ submethod BUILD ( ) {
   if $*generate-code {
     $*external-modules = %(
       :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
-      'Gnome::N::N-GObject' => EMTInApi2,
+      'Gnome::N::N-Object' => EMTInApi2,
       'Gnome::N::GlibToRakuTypes' => EMTInApi2,
     );
   }
@@ -23,7 +23,7 @@ submethod BUILD ( ) {
     $*external-modules = %(
       :Test(EMTRakudo), :NativeCall(EMTRakudo),
       'Gnome::N::NativeLib' => EMTInApi2,
-      'Gnome::N::N-GObject' => EMTInApi2,
+      'Gnome::N::N-Object' => EMTInApi2,
       'Gnome::N::GlibToRakuTypes' => EMTInApi2,
       'Gnome::N::X' => EMTInApi2,
     );

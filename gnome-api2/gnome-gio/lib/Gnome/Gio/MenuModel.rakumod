@@ -13,7 +13,7 @@ use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::N-VariantType:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -72,12 +72,12 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   #get-item-attribute => %(:variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, Str, Str])),
   get-item-attribute-value => %( :returns(N-Variant), :parameters([gint, Str, N-VariantType])),
-  get-item-link => %( :returns(N-GObject), :parameters([gint, Str])),
+  get-item-link => %( :returns(N-Object), :parameters([gint, Str])),
   get-n-items => %( :returns(gint)),
   is-mutable => %( :returns(gboolean), :cnv-return(Bool)),
   items-changed => %( :parameters([gint, gint, gint])),
-  iterate-item-attributes => %( :returns(N-GObject), :parameters([gint])),
-  iterate-item-links => %( :returns(N-GObject), :parameters([gint])),
+  iterate-item-attributes => %( :returns(N-Object), :parameters([gint])),
+  iterate-item-links => %( :returns(N-Object), :parameters([gint])),
 );
 
 #-------------------------------------------------------------------------------

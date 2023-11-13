@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::T-Filechooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -30,29 +30,29 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   add-choice => %( :parameters([Str, Str, gchar-pptr, gchar-pptr])),
-  add-filter => %( :parameters([N-GObject])),
-  add-shortcut-folder => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
+  add-filter => %( :parameters([N-Object])),
+  add-shortcut-folder => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   get-action => %( :returns(GEnum), :cnv-return(GtkFileChooserAction)),
   get-choice => %( :returns(Str), :parameters([Str])),
   get-create-folders => %( :returns(gboolean), :cnv-return(Bool)),
-  get-current-folder => %( :returns(N-GObject)),
+  get-current-folder => %( :returns(N-Object)),
   get-current-name => %( :returns(Str)),
-  get-file => %( :returns(N-GObject)),
-  get-files => %( :returns(N-GObject)),
-  get-filter => %( :returns(N-GObject)),
-  get-filters => %( :returns(N-GObject)),
+  get-file => %( :returns(N-Object)),
+  get-files => %( :returns(N-Object)),
+  get-filter => %( :returns(N-Object)),
+  get-filters => %( :returns(N-Object)),
   get-select-multiple => %( :returns(gboolean), :cnv-return(Bool)),
-  get-shortcut-folders => %( :returns(N-GObject)),
+  get-shortcut-folders => %( :returns(N-Object)),
   remove-choice => %( :parameters([Str])),
-  remove-filter => %( :parameters([N-GObject])),
-  remove-shortcut-folder => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
+  remove-filter => %( :parameters([N-Object])),
+  remove-shortcut-folder => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   set-action => %( :parameters([GEnum])),
   set-choice => %( :parameters([Str, Str])),
   set-create-folders => %( :parameters([gboolean])),
-  set-current-folder => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
+  set-current-folder => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   set-current-name => %( :parameters([Str])),
-  set-file => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
-  set-filter => %( :parameters([N-GObject])),
+  set-file => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  set-filter => %( :parameters([N-Object])),
   set-select-multiple => %( :parameters([gboolean])),
 );
 

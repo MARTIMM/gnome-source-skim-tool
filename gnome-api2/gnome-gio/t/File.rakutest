@@ -13,7 +13,7 @@ use NativeCall;
 use Gnome::Gio::File:api<2>;
 use Gnome::Gio::T-Ioenums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -34,7 +34,7 @@ subtest 'ISA test', {
     my Str $uri;
     my Str $path;
     my Str $cwd;
-    my N-GObject() $iostream;
+    my N-Object() $iostream;
     my Str $first-element;
     my Str $tmpl;
     my Str $parse-name;
@@ -93,41 +93,41 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $file {
-    my N-GObject() $result;
-    my N-GObject() $start-operation;
+    my N-Object() $result;
+    my N-Object() $start-operation;
     my Int() $io-priority;
     my Str $uri-scheme;
     my UInt $flags;
-    my N-GObject() $info;
+    my N-Object() $info;
     my Array[Int] $num-dirs;
     my gpointer $progress-data;
     my Array[Str] $etag-out;
     sub progress-callback (  $current-num-bytes,  $total-num-bytes, gpointer $user-data ) {}
-    my N-GObject() $res;
+    my N-Object() $res;
     my Str $symlink-value;
-    my N-GObject() $mount-operation;
+    my N-Object() $mount-operation;
     my Array[Str] $new-etag;
     my gpointer $progress-callback-data;
-    my N-GObject() $file2;
+    my N-Object() $file2;
     my Str $name;
-    my N-GObject() $prefix;
+    my N-Object() $prefix;
     my gpointer $user-data;
-    my N-GObject() $descendant;
-    my N-GObject() $destination;
+    my N-Object() $descendant;
+    my N-Object() $destination;
     my Str $attribute;
     my Str $attributes;
-    my N-GObject() $parent;
+    my N-Object() $parent;
     my GFileAttributeType $type;
     my gpointer $value-p;
     my UInt() $value;
     my Bool() $make-backup;
     my Int() $length;
-    my N-GObject $contents;
+    my N-Object $contents;
     sub read-more-callback ( Str $file-contents,  $file-size, gpointer $callback-data --> gboolean ) {}
-    my N-GObject() $cancellable;
+    my N-Object() $cancellable;
     my Str $relative-path;
     my Array[Int] $num-files;
-    sub callback ( N-GObject $source-object, N-GObject $res, gpointer $user-data ) {}
+    sub callback ( N-Object $source-object, N-Object $res, gpointer $user-data ) {}
     my Array[Int] $disk-usage;
     my Str $display-name;
     my Str $etag;

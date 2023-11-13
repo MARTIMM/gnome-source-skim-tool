@@ -12,7 +12,7 @@ use NativeCall;
 
 use Gnome::Glib::Variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -32,29 +32,29 @@ subtest 'ISA test', {
     my Int() $length;
     my gpointer $data;
     my  $app;
-    my N-GObject $children;
-    my N-GObject $child-type;
+    my N-Object $children;
+    my N-Object $child-type;
     my Str $format;
     my Array[Str] $strv;
-    my N-GObject $bytes;
+    my N-Object $bytes;
     my Str $format-string;
     my gpointer $user-data;
     my gpointer $elements;
-    my N-GObject $child;
+    my N-Object $child;
     my Str $signature;
     my Array[Str] $endptr;
     my Str $string;
-    my N-GObject $type;
+    my N-Object $type;
     my Int() $n-elements;
     my Int() $size;
-    my N-GObject $element-type;
+    my N-Object $element-type;
     my $value;
     my Int() $n-children;
     my Bool() $trusted;
     sub notify ( gpointer $data ) {}
     my Str $object-path;
     my Int() $element-size;
-    my N-GObject $key;
+    my N-Object $key;
 
     #TC:0:new-variant()
     $format-string = 'i';
@@ -261,10 +261,10 @@ subtest 'Method tests', {
     my Int() $index;
     my Array[gsize] $n-elements;
     my Bool() $copy-only;
-    my N-GObject $type;
+    my N-Object $type;
     my gpointer $two;
-    my N-GObject $expected-type;
-    my N-GObject $string;
+    my N-Object $expected-type;
+    my N-Object $string;
 
 
 #`{{
@@ -438,11 +438,11 @@ subtest 'Method tests', {
 subtest 'Function tests', {
   with $variant {
     my Str $limit;
-    my N-GObject $type;
+    my N-Object $type;
     my Str $string;
     my Array[Str] $endptr;
     my Str $source-str;
-    my N-GObject $error;
+    my N-Object $error;
     my Str $text;
 
 

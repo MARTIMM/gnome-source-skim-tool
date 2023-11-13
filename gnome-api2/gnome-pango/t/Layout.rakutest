@@ -11,7 +11,7 @@ use Test;
 
 
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::Layout:api<2>;
@@ -53,26 +53,26 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $layout {
-    my N-GObject $ink-rect;
+    my N-Object $ink-rect;
     my Bool() $justify;
     my PangoEllipsizeMode $ellipsize;
     my Bool() $strong;
-    my N-GObject $desc;
+    my N-Object $desc;
     my Str $markup;
-    my N-GObject $attrs;
+    my N-Object $attrs;
     my Int() $x;
-    my N-GObject $tabs;
+    my N-Object $tabs;
     my Int() $indent;
-    my N-GObject $strong-pos;
+    my N-Object $strong-pos;
     my PangoWrapMode $wrap;
     my PangoAlignment $alignment;
     my Int() $width;
-    my N-GObject $logical-rect;
+    my N-Object $logical-rect;
     my Num() $factor;
     my Array[Int] $line;
     my Array[Int] $x-pos;
     my Int() $old-index;
-    my N-GObject $pos;
+    my N-Object $pos;
     my Int() $length;
     my Bool() $auto-dir;
     my Str $accel-char;
@@ -85,7 +85,7 @@ subtest 'Method tests', {
     my Array[Int] $n-attrs;
     my UInt $flags;
     my UInt() $accel-marker;
-    my N-GObject $weak-pos;
+    my N-Object $weak-pos;
     my Int() $spacing;
     my Bool() $setting;
     my Str $text;

@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -28,7 +28,7 @@ unit role Gnome::Gtk4::R-AppChooser:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-app-info => %( :returns(N-GObject)),
+  get-app-info => %( :returns(N-Object)),
   get-content-type => %( :returns(Str)),
   refresh => %(),
 );

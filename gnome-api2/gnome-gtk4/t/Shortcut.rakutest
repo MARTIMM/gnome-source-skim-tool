@@ -12,7 +12,7 @@ use NativeCall;
 
 use Gnome::Gtk4::Shortcut:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -29,9 +29,9 @@ my Gnome::Gtk4::Shortcut $shortcut;
 
 subtest 'ISA test', {
   given $shortcut {
-    my N-GObject() $trigger;
+    my N-Object() $trigger;
     my Str $format-string;
-    my N-GObject() $action;
+    my N-Object() $action;
 
 #`{{
     #TC:0:new-shortcut()
@@ -63,9 +63,9 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $shortcut {
-    my N-GObject() $trigger;
-    my N-GObject $args;
-    my N-GObject() $action;
+    my N-Object() $trigger;
+    my N-Object $args;
+    my N-Object() $action;
 
 
 #`{{

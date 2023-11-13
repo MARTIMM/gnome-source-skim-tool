@@ -17,7 +17,7 @@ use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Glib::N-List;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -65,7 +65,7 @@ subtest 'Method tests', {
   with $shortcutcontroller {
     my UInt $modifiers;
     my GtkShortcutScope $scope;
-    my N-GObject() $shortcut;
+    my N-Object() $shortcut;
 
 
 #`{{

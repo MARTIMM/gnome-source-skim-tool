@@ -13,7 +13,7 @@ use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -85,23 +85,23 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-grid => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+  new-grid => %( :type(Constructor), :isnew, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  attach => %( :parameters([N-GObject, gint, gint, gint, gint])),
-  attach-next-to => %( :parameters([N-GObject, N-GObject, GEnum, gint, gint])),
+  attach => %( :parameters([N-Object, gint, gint, gint, gint])),
+  attach-next-to => %( :parameters([N-Object, N-Object, GEnum, gint, gint])),
   get-baseline-row => %( :returns(gint)),
-  get-child-at => %( :returns(N-GObject), :parameters([gint, gint])),
+  get-child-at => %( :returns(N-Object), :parameters([gint, gint])),
   get-column-homogeneous => %( :returns(gboolean), :cnv-return(Bool)),
   get-column-spacing => %( :returns(guint)),
   get-row-baseline-position => %( :returns(GEnum), :cnv-return(GtkBaselinePosition), :parameters([gint])),
   get-row-homogeneous => %( :returns(gboolean), :cnv-return(Bool)),
   get-row-spacing => %( :returns(guint)),
   insert-column => %( :parameters([gint])),
-  insert-next-to => %( :parameters([N-GObject, GEnum])),
+  insert-next-to => %( :parameters([N-Object, GEnum])),
   insert-row => %( :parameters([gint])),
-  query-child => %( :parameters([N-GObject, gint-ptr, gint-ptr, gint-ptr, gint-ptr])),
-  remove => %( :parameters([N-GObject])),
+  query-child => %( :parameters([N-Object, gint-ptr, gint-ptr, gint-ptr, gint-ptr])),
+  remove => %( :parameters([N-Object])),
   remove-column => %( :parameters([gint])),
   remove-row => %( :parameters([gint])),
   set-baseline-row => %( :parameters([gint])),
@@ -159,7 +159,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
 method new-grid ( *@arguments ) {
   self.bless(
     :new-grid(
-      @arguments, %( :returns(N-GObject), :is-symbol<gtk_grid_new> )
+      @arguments, %( :returns(N-Object), :is-symbol<gtk_grid_new> )
     )
   );
 }
@@ -168,7 +168,7 @@ method new-grid ( *@arguments ) {
 method attach ( *@arguments ) {
   self.object-call(
     @arguments,
-    %( :parameters([N-GObject, gint, gint, gint, gint]),
+    %( :parameters([N-Object, gint, gint, gint, gint]),
        :is-symbol<gtk_grid_attach>
     )
   );

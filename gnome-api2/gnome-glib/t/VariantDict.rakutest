@@ -12,7 +12,7 @@ use Test;
 
 use Gnome::Glib::N-VariantDict:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -29,7 +29,7 @@ my N-VariantDict $variantdict;
 
 subtest 'ISA test', {
   given $variantdict {
-    my N-GObject $from-asv;
+    my N-Object $from-asv;
 
 #`{{
     #TC:0:new-variantdict()
@@ -53,11 +53,11 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $variantdict {
-    my N-GObject $value;
+    my N-Object $value;
     my Str $key;
     my Str $format-string;
-    my N-GObject $expected-type;
-    my N-GObject $from-asv;
+    my N-Object $expected-type;
+    my N-Object $from-asv;
 
 
 #`{{

@@ -41,7 +41,7 @@ Formats a string according to `$format` and prefix it to an existing error messa
 
 If * `$err` is `Nil` (ie: an error variable is present but there is no error condition) then also do nothing.
 
-    method prefix-error (  N-GObject $err, Str $format, … )
+    method prefix-error (  N-Object $err, Str $format, … )
 
   * $err; (transfer ownership: full) a return location for a GError
 
@@ -54,7 +54,7 @@ prefix-error-literal
 
 Prefixes `$prefix` to an existing error message. If `$err` or * `$err` is `Nil` (i.e.: no error variable) then do nothing.
 
-    method prefix-error-literal (  N-GObject $err, Str $prefix )
+    method prefix-error-literal (  N-Object $err, Str $prefix )
 
   * $err; a return location for a GError, or `Nil`
 
@@ -67,7 +67,7 @@ If `$dest` is `Nil`, free `$src`; otherwise, moves `$src` into * `$dest`. The er
 
 Note that `$src` is no longer valid after this call. If you want to keep using the same GError*, you need to set it to `Nil` after calling this function on it.
 
-    method propagate-error (  N-GObject $dest, N-GObject $src )
+    method propagate-error (  N-Object $dest, N-Object $src )
 
   * $dest; (transfer ownership: full) error return location
 
@@ -78,7 +78,7 @@ propagate-prefixed-error
 
 If `$dest` is `Nil`, free `$src`; otherwise, moves `$src` into * `$dest`. * `$dest` must be `Nil`. After the move, add a prefix as with g_prefix_error().
 
-    method propagate-prefixed-error (  N-GObject $dest, N-GObject $src, Str $format, … )
+    method propagate-prefixed-error (  N-Object $dest, N-Object $src, Str $format, … )
 
   * $dest; error return location
 
@@ -93,7 +93,7 @@ set-error
 
 Does nothing if `$err` is `Nil`; if `$err` is non-`Nil`, then * `$err` must be `Nil`. A new GError is created and assigned to * `$err`.
 
-    method set-error (  N-GObject $err, UInt $domain, Int() $code, Str $format, … )
+    method set-error (  N-Object $err, UInt $domain, Int() $code, Str $format, … )
 
   * $err; (transfer ownership: full) a return location for a GError
 
@@ -110,7 +110,7 @@ set-error-literal
 
 Does nothing if `$err` is `Nil`; if `$err` is non-`Nil`, then * `$err` must be `Nil`. A new GError is created and assigned to * `$err`. Unlike g_set_error(), `$message` is not a printf()-style format string. Use this function if `$message` contains text you don't have control over, that could include printf() escape sequences.
 
-    method set-error-literal (  N-GObject $err, UInt $domain, Int() $code, Str $message )
+    method set-error-literal (  N-Object $err, UInt $domain, Int() $code, Str $message )
 
   * $err; (transfer ownership: full) a return location for a GError
 

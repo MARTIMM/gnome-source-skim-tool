@@ -60,7 +60,7 @@ new
 
 Create an object using a native object from elsewhere. See also **Gnome::N::TopLevelSupportClass**.
 
-    multi method new ( N-GObject :$native-object! )
+    multi method new ( N-Object :$native-object! )
 
 ### :build-id
 
@@ -124,7 +124,7 @@ Note that you shouldn't assume the window is definitely fullscreen afterward, or
 
 You can track the result of this operation via the [property `$Gdk`.Toplevel:state] property, or by listening to notifications of the *fullscreened* property.
 
-    method fullscreen-on-monitor (  N-GObject() $monitor )
+    method fullscreen-on-monitor (  N-Object() $monitor )
 
   * $monitor; which monitor to go fullscreen on.
 
@@ -133,7 +133,7 @@ get-application
 
 Gets the *GtkApplication* associated with the window.
 
-    method get-application ( --> N-GObject() )
+    method get-application ( --> N-Object() )
 
 Return value; a *GtkApplication*. 
 
@@ -142,7 +142,7 @@ get-child
 
 Gets the child widget of `$window`.
 
-    method get-child ( --> N-GObject() )
+    method get-child ( --> N-Object() )
 
 Return value; the child widget of `$window`. 
 
@@ -173,7 +173,7 @@ get-default-widget
 
 Returns the default widget for `$window`.
 
-    method get-default-widget ( --> N-GObject() )
+    method get-default-widget ( --> N-Object() )
 
 Return value; the default widget. 
 
@@ -202,7 +202,7 @@ Retrieves the current focused widget within the window.
 
 Note that this is the widget that would have the focus if the toplevel window focused; if the toplevel window is not focused then *gtk_widget_has_focus (widget)* will not be %TRUE for the widget.
 
-    method get-focus ( --> N-GObject() )
+    method get-focus ( --> N-Object() )
 
 Return value; the currently focused widget. 
 
@@ -222,7 +222,7 @@ Returns the group for `$window`.
 
 If the window has no group, then the default group is returned.
 
-    method get-group ( --> N-GObject() )
+    method get-group ( --> N-Object() )
 
 Return value; the **Gnome::Gtk4::Window**Group for a window or the default group. 
 
@@ -294,7 +294,7 @@ get-titlebar
 
 Returns the custom titlebar that has been set with gtk_window_set_titlebar().
 
-    method get-titlebar ( --> N-GObject() )
+    method get-titlebar ( --> N-Object() )
 
 Return value; the custom titlebar. 
 
@@ -303,7 +303,7 @@ get-transient-for
 
 Fetches the transient parent for this window.
 
-    method get-transient-for ( --> N-GObject() )
+    method get-transient-for ( --> N-Object() )
 
 Return value; the transient parent for this window. 
 
@@ -418,7 +418,7 @@ Normally, the connection between the application and the window will remain unti
 
 This is equivalent to calling `.remove-window() defined in Application` and/or `.add-window() defined in Application` on the old/new applications as relevant.
 
-    method set-application (  N-GObject() $application )
+    method set-application (  N-Object() $application )
 
   * $application; a *GtkApplication*, or %NULL to unset.
 
@@ -427,7 +427,7 @@ set-child
 
 Sets the child widget of `$window`.
 
-    method set-child (  N-GObject() $child )
+    method set-child (  N-Object() $child )
 
   * $child; the child widget.
 
@@ -472,7 +472,7 @@ Sets the default widget.
 
 The default widget is the widget that is activated when the user presses Enter in a dialog (for example).
 
-    method set-default-widget (  N-GObject() $default-widget )
+    method set-default-widget (  N-Object() $default-widget )
 
   * $default-widget; widget to be the default to unset the default widget for the toplevel.
 
@@ -507,7 +507,7 @@ Sets the *GdkDisplay* where the `$window` is displayed.
 
 If the window is already mapped, it will be unmapped, and then remapped on the new display.
 
-    method set-display (  N-GObject() $display )
+    method set-display (  N-Object() $display )
 
   * $display; a *GdkDisplay*.
 
@@ -518,7 +518,7 @@ Sets the focus widget.
 
 If `$focus` is not the current focus widget, and is focusable, sets it as the focus widget for the window. If `$focus` is %NULL, unsets the focus widget for this window. To set the focus to a particular widget in the toplevel, it is usually more convenient to use `.grab-focus() defined in Widget` instead of this function.
 
-    method set-focus (  N-GObject() $focus )
+    method set-focus (  N-Object() $focus )
 
   * $focus; widget to be the new focus widget, or %NULL to unset any focus widget for the toplevel window..
 
@@ -630,7 +630,7 @@ A typical widget used here is [class `$Gtk`.HeaderBar], as it provides various f
 
 If you set a custom titlebar, GTK will do its best to convince the window manager not to put its own titlebar on the window. Depending on the system, this function may not work for a window that is already visible, so you set the titlebar before calling `.show() defined in Widget`.
 
-    method set-titlebar (  N-GObject() $titlebar )
+    method set-titlebar (  N-Object() $titlebar )
 
   * $titlebar; the widget to use as titlebar.
 
@@ -643,7 +643,7 @@ Passing %NULL for `$parent` unsets the current transient window.
 
 On Windows, this function puts the child window on top of the parent, much as the window manager would have done on X.
 
-    method set-transient-for (  N-GObject() $parent )
+    method set-transient-for (  N-Object() $parent )
 
   * $parent; parent window.
 

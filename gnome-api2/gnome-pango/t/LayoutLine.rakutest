@@ -11,7 +11,7 @@ use Test;
 
 
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::N-LayoutLine:api<2>;
@@ -50,8 +50,8 @@ subtest 'Method tests', {
   with $layoutline {
     my Array[Int] $trailing;
     my Int() $start-index;
-    my N-GObject $ink-rect;
-    my N-GObject $logical-rect;
+    my N-Object $ink-rect;
+    my N-Object $logical-rect;
     my Array[Int] $height;
     my Array[Int] $n-ranges;
     my Array[Int] $ranges;

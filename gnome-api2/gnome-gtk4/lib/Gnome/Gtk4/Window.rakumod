@@ -15,7 +15,7 @@ use Gnome::Gtk4::R-ShortcutManager:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -95,23 +95,23 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-window => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+  new-window => %( :type(Constructor), :isnew, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
   close => %(),
   destroy => %(),
   fullscreen => %(),
-  fullscreen-on-monitor => %( :parameters([N-GObject])),
-  get-application => %( :returns(N-GObject)),
-  get-child => %( :returns(N-GObject)),
+  fullscreen-on-monitor => %( :parameters([N-Object])),
+  get-application => %( :returns(N-Object)),
+  get-child => %( :returns(N-Object)),
   get-decorated => %( :returns(gboolean), :cnv-return(Bool)),
   get-default-size => %( :parameters([gint-ptr, gint-ptr])),
-  get-default-widget => %( :returns(N-GObject)),
+  get-default-widget => %( :returns(N-Object)),
   get-deletable => %( :returns(gboolean), :cnv-return(Bool)),
   get-destroy-with-parent => %( :returns(gboolean), :cnv-return(Bool)),
-  get-focus => %( :returns(N-GObject)),
+  get-focus => %( :returns(N-Object)),
   get-focus-visible => %( :returns(gboolean), :cnv-return(Bool)),
-  get-group => %( :returns(N-GObject)),
+  get-group => %( :returns(N-Object)),
   get-handle-menubar-accel => %( :returns(gboolean), :cnv-return(Bool)),
   get-hide-on-close => %( :returns(gboolean), :cnv-return(Bool)),
   get-icon-name => %( :returns(Str)),
@@ -119,8 +119,8 @@ my Hash $methods = %(
   get-modal => %( :returns(gboolean), :cnv-return(Bool)),
   get-resizable => %( :returns(gboolean), :cnv-return(Bool)),
   get-title => %( :returns(Str)),
-  get-titlebar => %( :returns(N-GObject)),
-  get-transient-for => %( :returns(N-GObject)),
+  get-titlebar => %( :returns(N-Object)),
+  get-transient-for => %( :returns(N-Object)),
   has-group => %( :returns(gboolean), :cnv-return(Bool)),
   is-active => %( :returns(gboolean), :cnv-return(Bool)),
   is-fullscreen => %( :returns(gboolean), :cnv-return(Bool)),
@@ -129,15 +129,15 @@ my Hash $methods = %(
   minimize => %(),
   present => %(),
   present-with-time => %( :parameters([guint32])),
-  set-application => %( :parameters([N-GObject])),
-  set-child => %( :parameters([N-GObject])),
+  set-application => %( :parameters([N-Object])),
+  set-child => %( :parameters([N-Object])),
   set-decorated => %( :parameters([gboolean])),
   set-default-size => %( :parameters([gint, gint])),
-  set-default-widget => %( :parameters([N-GObject])),
+  set-default-widget => %( :parameters([N-Object])),
   set-deletable => %( :parameters([gboolean])),
   set-destroy-with-parent => %( :parameters([gboolean])),
-  set-display => %( :parameters([N-GObject])),
-  set-focus => %( :parameters([N-GObject])),
+  set-display => %( :parameters([N-Object])),
+  set-focus => %( :parameters([N-Object])),
   set-focus-visible => %( :parameters([gboolean])),
   set-handle-menubar-accel => %( :parameters([gboolean])),
   set-hide-on-close => %( :parameters([gboolean])),
@@ -147,15 +147,15 @@ my Hash $methods = %(
   set-resizable => %( :parameters([gboolean])),
   set-startup-id => %( :parameters([Str])),
   set-title => %( :parameters([Str])),
-  set-titlebar => %( :parameters([N-GObject])),
-  set-transient-for => %( :parameters([N-GObject])),
+  set-titlebar => %( :parameters([N-Object])),
+  set-transient-for => %( :parameters([N-Object])),
   unfullscreen => %(),
   unmaximize => %(),
   unminimize => %(),
 
   #--[Functions]----------------------------------------------------------------
   get-default-icon-name => %( :type(Function), :returns(Str)),
-  get-toplevels => %( :type(Function),  :returns(N-GObject)),
+  get-toplevels => %( :type(Function),  :returns(N-Object)),
   list-toplevels => %( :type(Function),  :returns(N-List)),
   set-auto-startup-notification => %( :type(Function),  :parameters([gboolean])),
   set-default-icon-name => %( :type(Function),  :parameters([Str])),
@@ -222,7 +222,7 @@ method new-window ( *@arguments ) {
   self.bless(
     :new-window(
       @arguments,
-      %( :returns(N-GObject), :is-symbol<gtk_window_new> )
+      %( :returns(N-Object), :is-symbol<gtk_window_new> )
     )
   );
 }
@@ -238,7 +238,7 @@ method get-title ( *@arguments ) {
 #-------------------------------------------------------------------------------
 method set-child ( *@arguments ) {
   self.object-call(
-    @arguments, %( :parameters([N-GObject]), :is-symbol<gtk_window_set_child>)
+    @arguments, %( :parameters([N-Object]), :is-symbol<gtk_window_set_child>)
   );
 }
 

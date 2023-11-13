@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::ShortcutAction:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -57,7 +57,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-signalaction => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str])),
+  new-signalaction => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
   get-signal-name => %( :returns(Str)),

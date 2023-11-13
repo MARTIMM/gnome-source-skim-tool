@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -59,8 +59,8 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   get-name => %( :returns(Str)),
-  get-next => %( :returns(gboolean), :cnv-return(Bool), :parameters([gchar-pptr, CArray[N-GObject]])),
-  get-value => %( :returns(N-GObject)),
+  get-next => %( :returns(gboolean), :cnv-return(Bool), :parameters([gchar-pptr, CArray[N-Object]])),
+  get-value => %( :returns(N-Object)),
   next => %( :returns(gboolean), :cnv-return(Bool)),
 );
 

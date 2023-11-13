@@ -65,7 +65,7 @@ new
 
 Create an object using a native object from elsewhere. See also **Gnome::N::TopLevelSupportClass**.
 
-    multi method new ( N-GObject :$native-object! )
+    multi method new ( N-Object :$native-object! )
 
 ### :build-id
 
@@ -164,7 +164,7 @@ get-logo
 
 Returns the paintable displayed as logo in the about dialog.
 
-    method get-logo ( --> N-GObject() )
+    method get-logo ( --> N-Object() )
 
 Return value; the paintable displayed as logo or undefined if the logo is unset or has been set via `.set_logo_icon_name()`. 
 
@@ -316,7 +316,7 @@ set-logo
 
 Sets the logo in the about dialog.
 
-    method set-logo (  N-GObject() $logo )
+    method set-logo (  N-Object() $logo )
 
   * $logo; a *GdkPaintable*.
 

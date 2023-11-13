@@ -59,7 +59,7 @@ new
 
 Create an object using a native object from elsewhere. See also **Gnome::N::TopLevelSupportClass**.
 
-    multi method new ( N-GObject :$native-object! )
+    multi method new ( N-Object :$native-object! )
 
 new-application
 ---------------
@@ -96,7 +96,7 @@ Normally, the connection between the application and the window will remain unti
 
 GTK will keep the *application* running as long as it has any windows.
 
-    method add-window (  N-GObject() $window )
+    method add-window (  N-Object() $window )
 
   * $window; a *GtkWindow*.
 
@@ -139,7 +139,7 @@ Gets the “active” window for the application.
 
 The active window is the one that was most recently focused (within the application). This window may not have the focus at the moment if another application has it — this is just the most recently-focused window within this application.
 
-    method get-active-window ( --> N-GObject() )
+    method get-active-window ( --> N-Object() )
 
 Return value; the active window. 
 
@@ -150,7 +150,7 @@ Gets a menu from automatically loaded resources.
 
 See [the section on Automatic resources](class.Application.html#automatic-resources) for more information.
 
-    method get-menu-by-id (  Str $id --> N-GObject() )
+    method get-menu-by-id (  Str $id --> N-Object() )
 
   * $id; the id of the menu to look up.
 
@@ -161,7 +161,7 @@ get-menubar
 
 Returns the menu model that has been set with `.set-menubar()`.
 
-    method get-menubar ( --> N-GObject() )
+    method get-menubar ( --> N-Object() )
 
 Return value; the menubar for windows of *application*. 
 
@@ -172,7 +172,7 @@ Returns the [class `$Gtk`.ApplicationWindow] with the given ID.
 
 The ID of a **Gnome::Gtk4::Application**Window can be retrieved with `.get-id() defined in ApplicationWindow`.
 
-    method get-window-by-id (  UInt() $id --> N-GObject() )
+    method get-window-by-id (  UInt() $id --> N-Object() )
 
   * $id; an identifier number.
 
@@ -206,7 +206,7 @@ The *reason* message should be short and to the point.
 
 If *window* is given, the session manager may point the user to this window to find out more about why the action is inhibited.
 
-    method inhibit (  N-GObject() $window, UInt $flags, Str $reason --> UInt() )
+    method inhibit (  N-Object() $window, UInt $flags, Str $reason --> UInt() )
 
   * $window; a *GtkWindow*.
 
@@ -236,7 +236,7 @@ If *window* belongs to *application* then this call is equivalent to setting the
 
 The application may stop running as a result of a call to this function, if *window* was the last window of the *application*.
 
-    method remove-window (  N-GObject() $window )
+    method remove-window (  N-Object() $window )
 
   * $window; a *GtkWindow*.
 
@@ -270,7 +270,7 @@ Depending on the desktop environment, this may appear at the top of each window,
 
 Use the base *GActionMap* interface to add actions, to respond to the user selecting these menu items.
 
-    method set-menubar (  N-GObject() $menubar )
+    method set-menubar (  N-Object() $menubar )
 
   * $menubar; a *GMenuModel*.
 
@@ -316,7 +316,7 @@ This signal is only emitted if *register-session* is `True`. Applications can co
 Emitted when a [class `$Gtk`.Window] is added to *application* through `.add-window()`.
 
     method handler (
-      N-GObject $window,
+      N-Object $window,
       Int :$_handle_id,
       Gnome::Gtk4::Application() :$_native-object,
       Gnome::Gtk4::Application :$_widget,
@@ -340,7 +340,7 @@ Emitted when a [class `$Gtk`.Window] is removed from *application*.
 This can happen as a side-effect of the window being destroyed or explicitly through `.remove-window()`.
 
     method handler (
-      N-GObject $window,
+      N-Object $window,
       Int :$_handle_id,
       Gnome::Gtk4::Application() :$_native-object,
       Gnome::Gtk4::Application :$_widget,

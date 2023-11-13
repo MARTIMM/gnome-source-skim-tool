@@ -12,7 +12,7 @@ use Gnome::Gtk4::T-Aboutdialog:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -68,7 +68,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-aboutdialog => %( :type(Constructor), :isnew, :returns(N-GObject), ),
+  new-aboutdialog => %( :type(Constructor), :isnew, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
   add-credit-section => %( :parameters([Str, gchar-pptr])),
@@ -79,7 +79,7 @@ my Hash $methods = %(
   get-documenters => %( :returns(gchar-pptr)),
   get-license => %( :returns(Str)),
   get-license-type => %( :returns(GEnum), :cnv-return(GtkLicense)),
-  get-logo => %( :returns(N-GObject)),
+  get-logo => %( :returns(N-Object)),
   get-logo-icon-name => %( :returns(Str)),
   get-program-name => %( :returns(Str)),
   get-system-information => %( :returns(Str)),
@@ -95,7 +95,7 @@ my Hash $methods = %(
   set-documenters => %( :parameters([gchar-pptr])),
   set-license => %( :parameters([Str])),
   set-license-type => %( :parameters([GEnum])),
-  set-logo => %( :parameters([N-GObject])),
+  set-logo => %( :parameters([N-Object])),
   set-logo-icon-name => %( :parameters([Str])),
   set-program-name => %( :parameters([Str])),
   set-system-information => %( :parameters([Str])),

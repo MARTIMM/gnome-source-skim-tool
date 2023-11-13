@@ -14,7 +14,7 @@ use Gnome::Glib::Error;
 use Gnome::Gio::SimplePermission:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -51,8 +51,8 @@ subtest 'Method tests', {
     my gpointer $user-data;
     my Bool() $allowed = True;
     my Bool() $can-release;
-    my N-GObject() $result;
-    my N-GObject() $cancellable;
+    my N-Object() $result;
+    my N-Object() $cancellable;
     my Bool() $can-acquire;
 
     my List $r;

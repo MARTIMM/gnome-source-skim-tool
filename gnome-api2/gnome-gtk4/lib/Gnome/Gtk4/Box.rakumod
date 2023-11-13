@@ -13,7 +13,7 @@ use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -71,17 +71,17 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-box => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ GEnum, gint])),
+  new-box => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ GEnum, gint])),
 
   #--[Methods]------------------------------------------------------------------
-  append => %( :parameters([N-GObject])),
+  append => %( :parameters([N-Object])),
   get-baseline-position => %( :returns(GEnum), :cnv-return(GtkBaselinePosition)),
   get-homogeneous => %( :returns(gboolean), :cnv-return(Bool)),
   get-spacing => %( :returns(gint)),
-  insert-child-after => %( :parameters([N-GObject, N-GObject])),
-  prepend => %( :parameters([N-GObject])),
-  remove => %( :parameters([N-GObject])),
-  reorder-child-after => %( :parameters([N-GObject, N-GObject])),
+  insert-child-after => %( :parameters([N-Object, N-Object])),
+  prepend => %( :parameters([N-Object])),
+  remove => %( :parameters([N-Object])),
+  reorder-child-after => %( :parameters([N-Object, N-Object])),
   set-baseline-position => %( :parameters([GEnum])),
   set-homogeneous => %( :parameters([gboolean])),
   set-spacing => %( :parameters([gint])),

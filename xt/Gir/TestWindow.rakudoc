@@ -141,7 +141,7 @@ To delete a B<Gnome::Gtk3::Window>, call gtk_widget_destroy().
 
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
-  multi method new ( N-GObject :$native-object! )
+  multi method new ( N-Object :$native-object! )
 
 
 =head3 :build-id
@@ -168,7 +168,7 @@ Activates the default widget for the window, unless the current focused widget h
 
 =begin code
 method activate-default (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -186,7 +186,7 @@ Activates the current focused widget within the window.
 
 =begin code
 method activate-focus (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -205,7 +205,7 @@ however in some cases it may be useful to call this directly when overriding the
 
 =begin code
 method activate-key (
-  N-GObject() $window,  $event  --> Bool()
+  N-Object() $window,  $event  --> Bool()
 )
 =end code
 
@@ -224,7 +224,7 @@ Associate C<$accel_group> with C<$window>, such that calling C<accel-groups-acti
 
 =begin code
 method add-accel-group (
-  N-GObject() $window, N-GObject() $accel-group
+  N-Object() $window, N-Object() $accel-group
 )
 =end code
 
@@ -241,7 +241,7 @@ Adds a mnemonic to this window.
 
 =begin code
 method add-mnemonic (
-  N-GObject() $window, UInt() $keyval, N-GObject() $target
+  N-Object() $window, UInt() $keyval, N-Object() $target
 )
 =end code
 
@@ -260,7 +260,7 @@ potentially not all that well, depending on the windowing system.
 
 =begin code
 method begin-move-drag (
-  N-GObject() $window, Int() $button, Int() $root-x, Int() $root-y, UInt() $timestamp
+  N-Object() $window, Int() $button, Int() $root-x, Int() $root-y, UInt() $timestamp
 )
 =end code
 
@@ -281,7 +281,7 @@ potentially not all that well, depending on the windowing system.
 
 =begin code
 method begin-resize-drag (
-  N-GObject() $window, GdkWindowEdge() $edge, Int() $button, Int() $root-x, Int() $root-y, UInt() $timestamp
+  N-Object() $window, GdkWindowEdge() $edge, Int() $button, Int() $root-x, Int() $root-y, UInt() $timestamp
 )
 =end code
 
@@ -304,7 +304,7 @@ This function can be used with close buttons in custom titlebars.
 
 =begin code
 method close (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -322,7 +322,7 @@ You can track iconification via the “window-state-event” signal on B<Gnome::
 
 =begin code
 method deiconify (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -341,7 +341,7 @@ You can track the fullscreen state via the “window-state-event” signal on B<
 
 =begin code
 method fullscreen (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -359,7 +359,7 @@ You can track the fullscreen state via the "window-state-event" signal on B<Gnom
 
 =begin code
 method fullscreen-on-monitor (
-  N-GObject() $window, N-GObject() $screen, Int() $monitor
+  N-Object() $window, N-Object() $screen, Int() $monitor
 )
 =end code
 
@@ -377,7 +377,7 @@ Gets the value set by C<.set-accept-focus()>.
 
 =begin code
 method get-accept-focus (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -395,7 +395,7 @@ Gets the B<Gnome::Gtk3::Application> associated with the window (if any).
 
 =begin code
 method get-application (
-  N-GObject() $window  --> N-GObject
+  N-Object() $window  --> N-Object
 )
 =end code
 
@@ -413,7 +413,7 @@ Fetches the attach widget for this window. See C<.set-attached-to()>.
 
 =begin code
 method get-attached-to (
-  N-GObject() $window  --> N-GObject
+  N-Object() $window  --> N-Object
 )
 =end code
 
@@ -431,7 +431,7 @@ Returns whether the window has been set to have decorations such as a title bar 
 
 =begin code
 method get-decorated (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -449,7 +449,7 @@ Gets the default size of the window. A value of -1 for the width or height indic
 
 =begin code
 method get-default-size (
-  N-GObject() $window, Array[Int] $width, Array[Int] $height
+  N-Object() $window, Array[Int] $width, Array[Int] $height
 )
 =end code
 
@@ -467,7 +467,7 @@ Returns the default widget for C<$window>. See C<.set-default()> for more detail
 
 =begin code
 method get-default-widget (
-  N-GObject() $window  --> N-GObject
+  N-Object() $window  --> N-Object
 )
 =end code
 
@@ -486,7 +486,7 @@ Returns whether the window has been set to have a close button via C<.set-deleta
 
 =begin code
 method get-deletable (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -504,7 +504,7 @@ Returns whether the window will be destroyed with its transient parent. See gtk_
 
 =begin code
 method get-destroy-with-parent (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -523,7 +523,7 @@ Note that this is the widget that would have the focus if the toplevel window fo
 
 =begin code
 method get-focus (
-  N-GObject() $window  --> N-GObject
+  N-Object() $window  --> N-Object
 )
 =end code
 
@@ -542,7 +542,7 @@ Gets the value set by C<.set-focus-on-map()>.
 
 =begin code
 method get-focus-on-map (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -560,7 +560,7 @@ Gets the value of the I<property focus-visible> property.
 
 =begin code
 method get-focus-visible (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -579,7 +579,7 @@ Gets the value set by C<.set-gravity()>.
 
 =begin code
 method get-gravity (
-  N-GObject() $window  --> GdkGravity()
+  N-Object() $window  --> GdkGravity()
 )
 =end code
 
@@ -597,7 +597,7 @@ Returns the group for C<$window> or the default group, if C<$window> is C<Nil> o
 
 =begin code
 method get-group (
-  N-GObject() $window  --> N-GObject
+  N-Object() $window  --> N-Object
 )
 =end code
 
@@ -615,7 +615,7 @@ Returns whether the window has requested to have its titlebar hidden when maximi
 
 =begin code
 method get-hide-titlebar-when-maximized (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -634,7 +634,7 @@ Gets the value set by C<.set-icon()> (or if you've called C<.set-icon-list()>, g
 
 =begin code
 method get-icon (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -651,7 +651,7 @@ The list is copied, but the reference count on each member won’t be incremente
 
 =begin code
 method get-icon-list (
-  N-GObject() $window  --> N-GList
+  N-Object() $window  --> N-GList
 )
 =end code
 
@@ -670,7 +670,7 @@ see C<.set-icon-name()>.
 
 =begin code
 method get-icon-name (
-  N-GObject() $window  --> Str
+  N-Object() $window  --> Str
 )
 =end code
 
@@ -688,7 +688,7 @@ Returns the mnemonic modifier for this window. See C<.set-mnemonic-modifier()>.
 
 =begin code
 method get-mnemonic-modifier (
-  N-GObject() $window  --> UInt
+  N-Object() $window  --> UInt
 )
 =end code
 
@@ -707,7 +707,7 @@ Gets the value of the I<property mnemonics-visible> property.
 
 =begin code
 method get-mnemonics-visible (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -725,7 +725,7 @@ Returns whether the window is modal. See C<.set-modal()>.
 
 =begin code
 method get-modal (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -757,7 +757,7 @@ In practice, saving the window position should not be left to applications, as t
 
 =begin code
 method get-position (
-  N-GObject() $window, Array[Int] $root-x, Array[Int] $root-y
+  N-Object() $window, Array[Int] $root-x, Array[Int] $root-y
 )
 =end code
 
@@ -777,7 +777,7 @@ Gets the value set by C<.set-resizable()>.
 
 =begin code
 method get-resizable (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -795,7 +795,7 @@ Returns the role of the window. See C<.set-role()> for further explanation.
 
 =begin code
 method get-role (
-  N-GObject() $window  --> Str
+  N-Object() $window  --> Str
 )
 =end code
 
@@ -813,7 +813,7 @@ Returns the B<Gnome::Gdk3::Screen> associated with C<$window>.
 
 =begin code
 method get-screen (
-  N-GObject() $window  --> N-GObject
+  N-Object() $window  --> N-Object
 )
 =end code
 
@@ -877,7 +877,7 @@ see: C<.set-position()>.
 
 =begin code
 method get-size (
-  N-GObject() $window, Array[Int] $width, Array[Int] $height
+  N-Object() $window, Array[Int] $width, Array[Int] $height
 )
 =end code
 
@@ -895,7 +895,7 @@ Gets the value set by C<.set-skip-pager-hint()>.
 
 =begin code
 method get-skip-pager-hint (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -913,7 +913,7 @@ Gets the value set by C<.set-skip-taskbar-hint()>
 
 =begin code
 method get-skip-taskbar-hint (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -931,7 +931,7 @@ Retrieves the title of the window. See C<.set-title()>.
 
 =begin code
 method get-title (
-  N-GObject() $window  --> Str
+  N-Object() $window  --> Str
 )
 =end code
 
@@ -949,7 +949,7 @@ Returns the custom titlebar that has been set with C<.set-titlebar()>.
 
 =begin code
 method get-titlebar (
-  N-GObject() $window  --> N-GObject
+  N-Object() $window  --> N-Object
 )
 =end code
 
@@ -967,7 +967,7 @@ Fetches the transient parent for this window. See C<.set-transient-for()>.
 
 =begin code
 method get-transient-for (
-  N-GObject() $window  --> N-GObject
+  N-Object() $window  --> N-Object
 )
 =end code
 
@@ -985,7 +985,7 @@ Gets the type hint for this window. See C<.set-type-hint()>.
 
 =begin code
 method get-type-hint (
-  N-GObject() $window  --> GdkWindowTypeHint()
+  N-Object() $window  --> GdkWindowTypeHint()
 )
 =end code
 
@@ -1003,7 +1003,7 @@ Gets the value set by C<.set-urgency-hint()>
 
 =begin code
 method get-urgency-hint (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -1021,7 +1021,7 @@ Gets the type of the window. See C<GtkWindowType enumeration>.
 
 =begin code
 method get-window-type (
-  N-GObject() $window  --> GtkWindowType()
+  N-Object() $window  --> GtkWindowType()
 )
 =end code
 
@@ -1039,7 +1039,7 @@ Returns whether C<$window> has an explicit window group.
 
 =begin code
 method has-group (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -1061,7 +1061,7 @@ but for embedded windows, like B<Gnome::Gtk3::Plug>, the results will differ.
 
 =begin code
 method has-toplevel-focus (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -1085,7 +1085,7 @@ You can track iconification via the “window-state-event” signal on B<Gnome::
 
 =begin code
 method iconify (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -1105,7 +1105,7 @@ See C<.has-toplevel-focus()>
 
 =begin code
 method is-active (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -1125,7 +1125,7 @@ Note that since maximization is ultimately handled by the window manager and hap
 
 =begin code
 method is-maximized (
-  N-GObject() $window  --> Bool()
+  N-Object() $window  --> Bool()
 )
 =end code
 
@@ -1149,7 +1149,7 @@ You can track maximization via the “window-state-event” signal on B<Gnome::G
 
 =begin code
 method maximize (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -1165,7 +1165,7 @@ Activates the targets associated with the mnemonic.
 
 =begin code
 method mnemonic-activate (
-  N-GObject() $window, UInt() $keyval, UInt() $modifier  --> Bool()
+  N-Object() $window, UInt() $keyval, UInt() $modifier  --> Bool()
 )
 =end code
 
@@ -1200,7 +1200,7 @@ The C<.get-position()> documentation may also be relevant.
 
 =begin code
 method move (
-  N-GObject() $window, Int() $x, Int() $y
+  N-Object() $window, Int() $x, Int() $y
 )
 =end code
 
@@ -1218,7 +1218,7 @@ Presents a window to the user. This function should not be used as when it is ca
 
 =begin code
 method present (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -1242,7 +1242,7 @@ Presents a window to the user in response to a user interaction. The timestamp s
 
 =begin code
 method present-with-time (
-  N-GObject() $window, UInt() $timestamp
+  N-Object() $window, UInt() $timestamp
 )
 =end code
 
@@ -1262,7 +1262,7 @@ however in some cases it may be useful to call this directly when overriding the
 
 =begin code
 method propagate-key-event (
-  N-GObject() $window,  $event  --> Bool()
+  N-Object() $window,  $event  --> Bool()
 )
 =end code
 
@@ -1281,7 +1281,7 @@ Reverses the effects of C<.add-accel-group()>.
 
 =begin code
 method remove-accel-group (
-  N-GObject() $window, N-GObject() $accel-group
+  N-Object() $window, N-Object() $accel-group
 )
 =end code
 
@@ -1298,7 +1298,7 @@ Removes a mnemonic from this window.
 
 =begin code
 method remove-mnemonic (
-  N-GObject() $window, UInt() $keyval, N-GObject() $target
+  N-Object() $window, UInt() $keyval, N-Object() $target
 )
 =end code
 
@@ -1325,7 +1325,7 @@ For example, if new widgets are added after the B<Gnome::Gtk3::Window> configura
 
 =begin code
 method resize (
-  N-GObject() $window, Int() $width, Int() $height
+  N-Object() $window, Int() $width, Int() $height
 )
 =end code
 
@@ -1343,7 +1343,7 @@ Windows may set a hint asking the desktop environment not to receive the input f
 
 =begin code
 method set-accept-focus (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1366,7 +1366,7 @@ This is equivalent to calling gtk_application_remove_window() and/or gtk_applica
 
 =begin code
 method set-application (
-  N-GObject() $window, N-GObject() $application
+  N-Object() $window, N-Object() $application
 )
 =end code
 
@@ -1389,7 +1389,7 @@ Passing C<Nil> for C<$attach_widget> detaches the window.
 
 =begin code
 method set-attached-to (
-  N-GObject() $window, N-GObject() $attach-widget
+  N-Object() $window, N-Object() $attach-widget
 )
 =end code
 
@@ -1409,7 +1409,7 @@ On Windows, this function always works, since there’s no window manager policy
 
 =begin code
 method set-decorated (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1426,7 +1426,7 @@ The default widget is the widget that’s activated when the user presses Enter 
 
 =begin code
 method set-default (
-  N-GObject() $window, N-GObject() $default-widget
+  N-Object() $window, N-Object() $default-widget
 )
 =end code
 
@@ -1460,7 +1460,7 @@ note that the appropriate size to save is the one returned by C<.get-size()>. Us
 
 =begin code
 method set-default-size (
-  N-GObject() $window, Int() $width, Int() $height
+  N-Object() $window, Int() $width, Int() $height
 )
 =end code
 
@@ -1481,7 +1481,7 @@ On Windows, this function always works, since there’s no window manager policy
 
 =begin code
 method set-deletable (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1499,7 +1499,7 @@ will also destroy C<$window> itself. This is useful for dialogs that shouldn’t
 
 =begin code
 method set-destroy-with-parent (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1516,7 +1516,7 @@ If C<$focus> is not the current focus widget, and is focusable, sets it as the f
 
 =begin code
 method set-focus (
-  N-GObject() $window, N-GObject() $focus
+  N-Object() $window, N-Object() $focus
 )
 =end code
 
@@ -1534,7 +1534,7 @@ Windows may set a hint asking the desktop environment not to receive the input f
 
 =begin code
 method set-focus-on-map (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1551,7 +1551,7 @@ Sets the I<property focus-visible> property.
 
 =begin code
 method set-focus-visible (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1568,7 +1568,7 @@ This function sets up hints about how a window can be resized by the user. You c
 
 =begin code
 method set-geometry-hints (
-  N-GObject() $window, N-GObject() $geometry-widget,  $geometry, UInt() $geom-mask
+  N-Object() $window, N-Object() $geometry-widget,  $geometry, UInt() $geom-mask
 )
 =end code
 
@@ -1591,7 +1591,7 @@ The default window gravity is GDK_GRAVITY_NORTH_WEST which will typically “do 
 
 =begin code
 method set-gravity (
-  N-GObject() $window, GdkGravity() $gravity
+  N-Object() $window, GdkGravity() $gravity
 )
 =end code
 
@@ -1610,7 +1610,7 @@ This function is only exported for the benefit of language bindings which may ne
 
 =begin code
 method set-has-user-ref-count (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1630,7 +1630,7 @@ Note that custom titlebars set with C<.set-titlebar()> are not affected by this.
 
 =begin code
 method set-hide-titlebar-when-maximized (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1656,7 +1656,7 @@ See also C<.set-default-icon-list()> to set the icon for all windows in your app
 
 =begin code
 method set-icon (
-  N-GObject() $window,  $icon
+  N-Object() $window,  $icon
 )
 =end code
 
@@ -1677,7 +1677,7 @@ with a pixbuf created by loading the image from C<$filename>.
 
 =begin code
 method set-icon-from-file (
-  N-GObject() $window, Str $filename  --> Bool()
+  N-Object() $window, Str $filename  --> Bool()
 )
 =end code
 
@@ -1707,7 +1707,7 @@ Note that transient windows (those who have been set transient for another windo
 
 =begin code
 method set-icon-list (
-  N-GObject() $window, N-GList() $list
+  N-Object() $window, N-GList() $list
 )
 =end code
 
@@ -1728,7 +1728,7 @@ Note that this has nothing to do with the WM_ICON_NAME property which is mention
 
 =begin code
 method set-icon-name (
-  N-GObject() $window, Str $name
+  N-Object() $window, Str $name
 )
 =end code
 
@@ -1756,7 +1756,7 @@ the above state is mainly meant for user preferences and should not be used by a
 
 =begin code
 method set-keep-above (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1784,7 +1784,7 @@ the above state is mainly meant for user preferences and should not be used by a
 
 =begin code
 method set-keep-below (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1801,7 +1801,7 @@ Sets the mnemonic modifier for this window.
 
 =begin code
 method set-mnemonic-modifier (
-  N-GObject() $window, UInt() $modifier
+  N-Object() $window, UInt() $modifier
 )
 =end code
 
@@ -1819,7 +1819,7 @@ Sets the I<property mnemonics-visible> property.
 
 =begin code
 method set-mnemonics-visible (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1836,7 +1836,7 @@ Sets a window modal or non-modal. Modal windows prevent interaction with other w
 
 =begin code
 method set-modal (
-  N-GObject() $window, Bool() $modal
+  N-Object() $window, Bool() $modal
 )
 =end code
 
@@ -1853,7 +1853,7 @@ Sets a position constraint for this window. If the old or new constraint is %GTK
 
 =begin code
 method set-position (
-  N-GObject() $window, GtkWindowPosition() $position
+  N-Object() $window, GtkWindowPosition() $position
 )
 =end code
 
@@ -1870,7 +1870,7 @@ Sets whether the user can resize a window. Windows are user resizable by default
 
 =begin code
 method set-resizable (
-  N-GObject() $window, Bool() $resizable
+  N-Object() $window, Bool() $resizable
 )
 =end code
 
@@ -1891,7 +1891,7 @@ If a window already has a unique title, you don’t need to set the role, since 
 
 =begin code
 method set-role (
-  N-GObject() $window, Str $role
+  N-Object() $window, Str $role
 )
 =end code
 
@@ -1908,7 +1908,7 @@ Sets the B<Gnome::Gdk3::Screen> where the C<$window> is displayed; if the window
 
 =begin code
 method set-screen (
-  N-GObject() $window, N-GObject() $screen
+  N-Object() $window, N-Object() $screen
 )
 =end code
 
@@ -1926,7 +1926,7 @@ Windows may set a hint asking the desktop environment not to display the window 
 
 =begin code
 method set-skip-pager-hint (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1943,7 +1943,7 @@ Windows may set a hint asking the desktop environment not to display the window 
 
 =begin code
 method set-skip-taskbar-hint (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -1962,7 +1962,7 @@ This function is only useful on X11, not with other GTK+ targets.
 
 =begin code
 method set-startup-id (
-  N-GObject() $window, Str $startup-id
+  N-Object() $window, Str $startup-id
 )
 =end code
 
@@ -1980,7 +1980,7 @@ so exactly how the title appears to users may vary according to a user’s exact
 
 =begin code
 method set-title (
-  N-GObject() $window, Str $title
+  N-Object() $window, Str $title
 )
 =end code
 
@@ -2002,7 +2002,7 @@ Depending on the system, this function may not work for a window that is already
 
 =begin code
 method set-titlebar (
-  N-GObject() $window, N-GObject() $titlebar
+  N-Object() $window, N-Object() $titlebar
 )
 =end code
 
@@ -2026,7 +2026,7 @@ much as the window manager would have done on X.
 
 =begin code
 method set-transient-for (
-  N-GObject() $window, N-GObject() $parent
+  N-Object() $window, N-Object() $parent
 )
 =end code
 
@@ -2048,7 +2048,7 @@ will sometimes call C<.set-type-hint()> on your behalf.
 
 =begin code
 method set-type-hint (
-  N-GObject() $window, GdkWindowTypeHint() $hint
+  N-Object() $window, GdkWindowTypeHint() $hint
 )
 =end code
 
@@ -2065,7 +2065,7 @@ Windows may set a hint asking the desktop environment to draw the users attentio
 
 =begin code
 method set-urgency-hint (
-  N-GObject() $window, Bool() $setting
+  N-Object() $window, Bool() $setting
 )
 =end code
 
@@ -2086,7 +2086,7 @@ You can track stickiness via the “window-state-event” signal on B<Gnome::Gtk
 
 =begin code
 method stick (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -2104,7 +2104,7 @@ You can track the fullscreen state via the “window-state-event” signal on B<
 
 =begin code
 method unfullscreen (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -2124,7 +2124,7 @@ You can track maximization via the “window-state-event” signal on B<Gnome::G
 
 =begin code
 method unmaximize (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -2143,7 +2143,7 @@ You can track stickiness via the “window-state-event” signal on B<Gnome::Gtk
 
 =begin code
 method unstick (
-  N-GObject() $window
+  N-Object() $window
 )
 =end code
 
@@ -2425,7 +2425,7 @@ This signal is emitted whenever the currently focused widget in this window chan
 
 =begin code
 method handler (
-  N-GObject() $widget,
+  N-Object() $widget,
   Int :$_handle_id,
   Gnome::Gtk3::Window() :$_native-object,
   Gnome::Gtk3::Window :$_widget,
@@ -2476,7 +2476,7 @@ for a way to keep it alive without windows).
 Normally, the connection between the application and the window will remain until the window is destroyed, but you can explicitly remove it by setting the I<property application> property to C<Nil>.
 
 =item B<Gnome::GObject::Value> for this property is .
-=item The native type is N-GObject.
+=item The native type is N-Object.
 =item Property is readable and writable
 =item Getter method is C<.get-application()>
 =item Setter method is C<.set-application()>
@@ -2491,7 +2491,7 @@ See C<.set-attached-to()>.
 Examples of places where specifying this relation is useful are for instance a B<Gnome::Gtk3::Menu> created by a B<Gnome::Gtk3::ComboBox>, a completion popup window created by B<Gnome::Gtk3::Entry> or a typeahead search entry created by B<Gnome::Gtk3::TreeView>.
 
 =item B<Gnome::GObject::Value> for this property is .
-=item The native type is N-GObject.
+=item The native type is N-Object.
 =item Property is readable and writable
 =item Getter method is C<.get-attached-to()>
 =item Setter method is C<.set-attached-to()>
@@ -2717,7 +2717,7 @@ There is no documentation for this property
 There is no documentation for this property
 
 =item B<Gnome::GObject::Value> for this property is .
-=item The native type is N-GObject.
+=item The native type is N-Object.
 =item Property is readable and writable
 =item Getter method is C<.get-screen()>
 =item Setter method is C<.set-screen()>
@@ -2777,7 +2777,7 @@ There is no documentation for this property
 The transient parent of the window. See C<.set-transient-for()> for more details about transient windows.
 
 =item B<Gnome::GObject::Value> for this property is .
-=item The native type is N-GObject.
+=item The native type is N-Object.
 =item Property is readable and writable
 =item Getter method is C<.get-transient-for()>
 =item Setter method is C<.set-transient-for()>

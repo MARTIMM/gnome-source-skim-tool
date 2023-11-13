@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -67,14 +67,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-togglebutton => %( :type(Constructor), :isnew, :returns(N-GObject), ),
-  new-with-label => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
+  new-togglebutton => %( :type(Constructor), :isnew, :returns(N-Object), ),
+  new-with-label => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
   get-active => %( :returns(gboolean), :cnv-return(Bool)),
   set-active => %( :parameters([gboolean])),
-  set-group => %( :parameters([N-GObject])),
+  set-group => %( :parameters([N-Object])),
   toggled => %(),
 );
 

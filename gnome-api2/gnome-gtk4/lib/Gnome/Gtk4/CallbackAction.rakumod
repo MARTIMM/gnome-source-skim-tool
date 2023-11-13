@@ -12,7 +12,7 @@ use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Gtk4::ShortcutAction:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -58,7 +58,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-callbackaction => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ :( N-GObject $widget, N-GObject $variant, gpointer $data), gpointer, :(gpointer $data)])),
+  new-callbackaction => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ :( N-Object $widget, N-Object $variant, gpointer $data), gpointer, :(gpointer $data)])),
 );
 
 #-------------------------------------------------------------------------------

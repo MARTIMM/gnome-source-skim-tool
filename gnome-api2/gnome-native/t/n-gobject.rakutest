@@ -2,12 +2,12 @@ use v6.d;
 use NativeCall;
 use Test;
 
-use Gnome::N::N-GObject;
+use Gnome::N::N-Object;
 
 #-------------------------------------------------------------------------------
 subtest 'native object', {
-  my N-GObject $n .= new;
-  isa-ok $n, N-GObject;
+  my N-Object $n .= new;
+  isa-ok $n, N-Object;
 }
 
 #-------------------------------------------------------------------------------

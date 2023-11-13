@@ -26,7 +26,7 @@ use NativeCall;
 
 use Gnome::N::X;
 use Gnome::N::NativeLib;
-use Gnome::N::N-GObject;
+use Gnome::N::N-Object;
 use Gnome::N::GlibToRakuTypes;
 
 #-------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ Create an empty object
 
 =head3 :native-object
 
-Create a Raku object using a native object from elsewhere. $native-object can be a N-GObject or a Raku object like C< Gnome::Gtk3::Button>.
+Create a Raku object using a native object from elsewhere. $native-object can be a N-Object or a Raku object like C< Gnome::Gtk3::Button>.
 
   method new ( :$native-object! )
 
@@ -100,7 +100,7 @@ Create a Raku object using a native object from elsewhere. $native-object can be
   loop ( Int $i = 0; $i < $rb-list.g_slist_length; $i++ ) {
     # Get button from the list
     my Gnome::Gtk3::RadioButton $rb .= new(
-      :native-object(native-cast( N-GObject, $rb-list.nth($i)))
+      :native-object(native-cast( N-Object, $rb-list.nth($i)))
     );
 
     # If radio button is selected (=active) ...
@@ -121,7 +121,7 @@ submethod BUILD ( *%options ) {
   if ? %options<native-object> {
 
     # check if Raku object was provided instead of native object
-    my N-GObject() $no = %options<native-object>;
+    my N-Object() $no = %options<native-object>;
     if ?$no and $no.^can('_get-native-object') {
       # reference counting done automatically if needed
       # by the same child class where import is requested.
@@ -133,7 +133,7 @@ submethod BUILD ( *%options ) {
       <Gnome::Glib::List::N-GList Gnome::Glib::SList::N-GSList>
     ) {
       note "native object is a list or slist" if $Gnome::N::x-debug;
-      # no need to set '$no = N-GObject' because $!n-native-object is undefined
+      # no need to set '$no = N-Object' because $!n-native-object is undefined
     }
 
     else {
@@ -256,7 +256,7 @@ method FALLBACK-ORIGINAL (
   my Mu $g-object-cast;
 
   #TODO Not all classes have $!gtk-class-* defined so we need to test it
-  if $!n-native-object ~~ N-GObject and
+  if $!n-native-object ~~ N-Object and
      ? $!class-gtype and ?$!class-name and ?$!class-name-of-sub and
      $!class-name ne $!class-name-of-sub {
 
@@ -275,30 +275,30 @@ method FALLBACK-ORIGINAL (
 }
 
 #-------------------------------------------------------------------------------
-#TM:1:N-GObject:
+#TM:1:N-Object:
 =begin pod
-=head2 N-GObject
+=head2 N-Object
 
 Method to get the native object wrapped in the Raku objects.
 
 Example where the native object is retrieved from a B<Gnome::Gtk3::Window> object.
 =begin code
   my Gnome::Gtk3::Window $w;
-  my N-GObject() $no = $w;
+  my N-Object() $no = $w;
 =end code
 
 =begin code
-  method N-GObject ( --> N-GObject )
+  method N-Object ( --> N-Object )
 =end code
 
 =end pod
 
-method N-GObject ( --> N-GObject ) {
-  note "Coercing to N-GObject from ", self.^name if $Gnome::N::x-debug;
+method N-Object ( --> N-Object ) {
+  note "Coercing to N-Object from ", self.^name if $Gnome::N::x-debug;
   my $o = self.get-native-object();
 
-  #TODO; temporary to force return a N-GObject. e.g. N-GFile, N-GList etc.
-  nativecast( N-GObject, ?$o ?? $o !! N-GObject)
+  #TODO; temporary to force return a N-Object. e.g. N-GFile, N-GList etc.
+  nativecast( N-Object, ?$o ?? $o !! N-Object)
 }
 
 #-------------------------------------------------------------------------------
@@ -310,7 +310,7 @@ Method to wrap a native object into a Raku object
 
 Example;
 =begin code
-  my N-GObject $no = …;
+  my N-Object $no = …;
   my Gnome::Gtk3::Window() $w = $no;
 =end code
 
@@ -320,7 +320,7 @@ Example;
 
 =end pod
 method COERCE ( Mu $no --> Mu ) {
-  note "Coercing from N-GObject to ", self.^name if $Gnome::N::x-debug;
+  note "Coercing from N-Object to ", self.^name if $Gnome::N::x-debug;
   self._wrap-native-type( self.^name, $no)
 }
 
@@ -431,13 +431,13 @@ method clear-object ( ) {
 
   if $!is-valid {
     self.native-object-unref($!n-native-object)
-      if $!n-native-object.defined and $!n-native-object.^name eq 'Gnome::N::N-GObject';
+      if $!n-native-object.defined and $!n-native-object.^name eq 'Gnome::N::N-Object';
 
     # Always True for Lists
     $!is-valid = $!n-native-object.^name ~~ any(
         <Gnome::Glib::List::N-GList Gnome::Glib::SList::N-GSList>
       ) ?? True !! False;
-    $!n-native-object = N-GObject;
+    $!n-native-object = N-Object;
   }
 
   note 'Object cleared' if $Gnome::N::x-debug;
@@ -734,7 +734,7 @@ method _wrap-native-type ( Str:D $type where ?$type, Mu $no --> Mu ) {
     }
 
     else {
-      ::($type).new(:native-object(N-GObject));
+      ::($type).new(:native-object(N-Object));
     }
   }
 }
@@ -746,7 +746,7 @@ method _wrap-native-type ( Str:D $type where ?$type, Mu $no --> Mu ) {
 As with C<_wrap-native-type()> this method is used by many classes to create a Raku instance with the native object wrapped in.
 
   method _wrap-native-type-from-no (
-    N-GObject $no, Str:D $match = '', Str:D $replace = '', :child-type?
+    N-Object $no, Str:D $match = '', Str:D $replace = '', :child-type?
     --> Any
   ) {
 
@@ -766,7 +766,7 @@ As with C<_wrap-native-type()> this method is used by many classes to create a R
 
 #tm:4:_wrap-native-type-from-no:
 method _wrap-native-type-from-no (
-  N-GObject $no, Str:D $match = '', Str:D $replace = '', *%options
+  N-Object $no, Str:D $match = '', Str:D $replace = '', *%options
   --> Mu
 ) {
   my Str $type;
@@ -784,7 +784,7 @@ method _wrap-native-type-from-no (
 
   else {
     $type = ?$no ?? _name_from_instance($no) !! '';
-    return N-GObject unless ( ?$type and $type ne '<NULL-class>');
+    return N-Object unless ( ?$type and $type ne '<NULL-class>');
 
     if ?$match {
       $type ~~ s/$match/$replace/;
@@ -835,7 +835,7 @@ method _wrap-native-type-from-no (
 }
 
 #-------------------------------------------------------------------------------
-method _get_no_type_info (  N-GObject:D $no, Str :$check --> List ) {
+method _get_no_type_info (  N-Object:D $no, Str :$check --> List ) {
   ( my Str $no-type-name = _name_from_instance($no),
     ? $check
       ?? (? _check_instance_is_a( $no, _from_name($check))
@@ -920,7 +920,7 @@ method _set_invalid ( ) {
 #      <Gnome::Glib::List::N-GList Gnome::Glib::SList::N-GSList>
 #    ) ?? True !! False;
 #
-#  $!n-native-object = N-GObject;
+#  $!n-native-object = N-Object;
 }
 
 #-------------------------------------------------------------------------------
@@ -934,18 +934,18 @@ sub _from_name ( Str $name --> GType )
   { * }
 
 sub _check_instance_cast (
-  N-GObject $instance, GType $iface_type --> N-GObject
+  N-Object $instance, GType $iface_type --> N-Object
 ) is native(&gobject-lib)
   is symbol('g_type_check_instance_cast')
   { * }
 
-sub _name_from_instance ( N-GObject $instance --> Str )
+sub _name_from_instance ( N-Object $instance --> Str )
   is native(&gobject-lib)
   is symbol('g_type_name_from_instance')
   { * }
 
 sub _check_instance_is_a (
-  N-GObject $instance, GType $iface_type --> gboolean
+  N-Object $instance, GType $iface_type --> gboolean
 ) is native(&gobject-lib)
   is symbol('g_type_check_instance_is_a')
   { * }
@@ -1139,7 +1139,7 @@ method !native-function (
 
   # Create list of parameter types and start with inserting fixed arguments
   my @parameterList = ();
-  @parameterList.push: Parameter.new(type => N-GObject) if $has-n-object;
+  @parameterList.push: Parameter.new(type => N-Object) if $has-n-object;
 
   for @$parameters -> $p {
     if $p.^name() eq 'Signature' {
@@ -1182,7 +1182,7 @@ method !convert-args ( Mu $v, $p ) {
 
 #note "$?LINE $p.^name(), $v.gist(), ", $v.^mro;
   if $v.can('get-native-object-no-reffing') {
-    my N-GObject $no = $v.get-native-object-no-reffing;
+    my N-Object $no = $v.get-native-object-no-reffing;
     $c = $no;
   }
 
@@ -1204,8 +1204,8 @@ method !convert-args ( Mu $v, $p ) {
 #      }
 
 #`{{
-      when N-GObject {
-        my N-GObject $no = $v.get-native-object-no-reffing;
+      when N-Object {
+        my N-Object $no = $v.get-native-object-no-reffing;
         $c = $no;
       }
       when Signature {
@@ -1348,7 +1348,7 @@ sub _name ( GType $type --> Str )
   is symbol('g_type_name')
   { * }
 
-sub _path_to_string ( N-GObject $path --> Str )
+sub _path_to_string ( N-Object $path --> Str )
   is native(&gtk-lib)
   is symbol('gtk_widget_path_to_string')
   { * }
@@ -1356,14 +1356,14 @@ sub _path_to_string ( N-GObject $path --> Str )
 # These subs belong to Gnome::Gtk3::Widget but is needed here. To avoid
 # circular dependencies, the subs are redeclared here for this purpose
 sub _get_path (
-  N-GObject $widget --> N-GObject
+  N-Object $widget --> N-Object
 ) is native(&gtk-lib)
   is symbol('gtk_widget_get_path')
   { * }
 
 # These subs belong to Gnome::Gtk3::WidgetPath but is needed here. To avoid
 # circular dependencies, the subs are redeclared here for this purpose
-sub _iter_get_name ( N-GObject $path, int32 $pos --> Str )
+sub _iter_get_name ( N-Object $path, int32 $pos --> Str )
   is native(&gtk-lib)
   is symbol('gtk_widget_path_iter_get_name')
   { * }

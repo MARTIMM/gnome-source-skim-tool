@@ -13,7 +13,7 @@ use Gnome::Gtk4::T-Filechooser:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -75,7 +75,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-filechooserwidget => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ GEnum])),
+  new-filechooserwidget => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ GEnum])),
 );
 
 #-------------------------------------------------------------------------------

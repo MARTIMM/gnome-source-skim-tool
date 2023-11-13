@@ -13,7 +13,7 @@ use Gnome::GObject::Object:api<2>;
 #use Gnome::Glib::N-String:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -59,17 +59,17 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  parse-string => %( :type(Constructor), :returns(N-GObject), :parameters([ Str])),
+  parse-string => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
   compare => %( :returns(gint), :parameters([gpointer])),
   equal => %( :returns(gboolean), :cnv-return(Bool), :parameters([gpointer])),
   hash => %( :returns(guint)),
   #print => %( :parameters([N-String ])),
-  #print-label => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject, N-String ])),
-  to-label => %( :returns(Str), :parameters([N-GObject])),
+  #print-label => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-String ])),
+  to-label => %( :returns(Str), :parameters([N-Object])),
   to-string => %( :returns(Str)),
-  #trigger => %( :returns(GEnum), :cnv-return(GdkKeyMatch ), :parameters([N-GObject, gboolean])),
+  #trigger => %( :returns(GEnum), :cnv-return(GdkKeyMatch ), :parameters([N-Object, gboolean])),
 );
 
 #-------------------------------------------------------------------------------

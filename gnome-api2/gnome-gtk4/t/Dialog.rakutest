@@ -15,7 +15,7 @@ use Gnome::Gtk4::T-Dialog:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -33,7 +33,7 @@ my Gnome::Gtk4::Dialog $dialog;
 subtest 'ISA test', {
   given $dialog {
     my Gnome::Gtk4::Window $parent;
-    #my N-GObject() $parent;
+    #my N-Object() $parent;
     my Str $title;
     my UInt $flags;
 
@@ -69,12 +69,12 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $dialog {
-    my N-GObject() $widget;
+    my N-Object() $widget;
     my Bool() $setting;
     my Str $first-button-text;
     my Str $button-text;
     my Int() $response-id;
-    my N-GObject() $child;
+    my N-Object() $child;
 
 
 #`{{

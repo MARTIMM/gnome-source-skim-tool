@@ -18,7 +18,7 @@ use Gnome::Gio::R-ActionMap:api<2>;
 #use Gnome::Glib::T-OptionEntry:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -81,7 +81,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-application => %( :type(Constructor), :isnew, :returns(N-GObject), :parameters([ Str, GFlag])),
+  new-application => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str, GFlag])),
 
   #--[Methods]------------------------------------------------------------------
   activate => %(),
@@ -90,7 +90,7 @@ my Hash $methods = %(
   #add-option-group => %( :parameters([N-OptionGroup ])),
   bind-busy-property => %( :parameters([gpointer, Str])),
   get-application-id => %( :returns(Str)),
-  get-dbus-connection => %( :returns(N-GObject)),
+  get-dbus-connection => %( :returns(N-Object)),
   get-dbus-object-path => %( :returns(Str)),
   #get-flags => %( :returns(GFlag), :cnv-return(GApplicationFlags )),
   get-inactivity-timeout => %( :returns(guint)),
@@ -100,12 +100,12 @@ my Hash $methods = %(
   get-resource-base-path => %( :returns(Str)),
   hold => %(),
   mark-busy => %(),
-  open => %( :parameters([CArray[N-GObject], gint, Str])),
+  open => %( :parameters([CArray[N-Object], gint, Str])),
   quit => %(),
-  register => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-GObject])),
+  register => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   release => %(),
   run => %( :returns(gint), :parameters([gint, gchar-pptr])),
-  send-notification => %( :parameters([Str, N-GObject])),
+  send-notification => %( :parameters([Str, N-Object])),
   set-application-id => %( :parameters([Str])),
   set-default => %(),
   #set-flags => %( :parameters([GFlag])),
@@ -119,7 +119,7 @@ my Hash $methods = %(
   withdraw-notification => %( :parameters([Str])),
 
   #--[Functions]----------------------------------------------------------------
-  get-default => %( :type(Function),  :returns(N-GObject)),
+  get-default => %( :type(Function),  :returns(N-Object)),
   id-is-valid => %( :type(Function),  :returns(gboolean), :parameters([Str])),
 );
 

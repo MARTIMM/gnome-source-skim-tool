@@ -12,7 +12,7 @@ use NativeCall;
 
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -49,23 +49,23 @@ unless %*ENV<raku_test_all>:exists {
 subtest 'Method tests', {
   with $window {
     my UInt() $timestamp;
-    my N-GObject() $application;
+    my N-Object() $application;
     my Str $title;
-    my N-GObject() $parent;
-    my N-GObject() $focus;
-    my N-GObject() $display;
+    my N-Object() $parent;
+    my N-Object() $focus;
+    my N-Object() $display;
     my Int() $width;
     my Int() $height;
     my Bool() $handle-menubar-accel;
     my Str $name;
-    my N-GObject() $child;
-    my N-GObject() $default-widget;
+    my N-Object() $child;
+    my N-Object() $default-widget;
     my Bool() $resizable;
-    my N-GObject() $titlebar;
+    my N-Object() $titlebar;
     my Bool() $modal;
     my Bool() $setting;
     my Str $startup-id;
-    my N-GObject() $monitor;
+    my N-Object() $monitor;
 
 
 #`{{

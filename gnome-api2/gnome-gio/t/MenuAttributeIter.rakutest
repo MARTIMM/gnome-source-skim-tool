@@ -12,7 +12,7 @@ use Test;
 
 use Gnome::Gio::MenuAttributeIter:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
-use Gnome::N::N-GObject:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
@@ -48,7 +48,7 @@ unless %*ENV<raku_test_all>:exists {
 subtest 'Method tests', {
   with $menuattributeiter {
     my Array[Str] $out-name;
-    my N-GObject $value;
+    my N-Object $value;
 
 
 #`{{
