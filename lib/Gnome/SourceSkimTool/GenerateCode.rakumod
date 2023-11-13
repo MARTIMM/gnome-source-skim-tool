@@ -119,6 +119,7 @@ method generate-code ( ) {
   }
 
 #  my Bool $first = True;
+  my Hash $types-code = %();
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
     next if $gir-type ~~ any(<class interface record union>);
@@ -152,11 +153,9 @@ method generate-code ( ) {
         for $!filedata<constant>.kv -> $k, $v {
           my Str $name = $k; # $t-prep.drop-prefix( $k, :constant);
           @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
-  #        $filename = $v<type-name> unless ?$filename;
-  #        $class-name = $v<class-name> unless ?$class-name;
         }
 
-        $c ~= $!mod.generate-constants(@constants);
+        $types-code<constant> = $!mod.generate-constants(@constants);
       }
 
       # Only for documentation
@@ -166,22 +165,18 @@ method generate-code ( ) {
         my Array $enum-names = [];
         for $!filedata<enumeration>.kv -> $k, $v {
           $enum-names.push: $k;
-  #        $filename = $v<type-name> unless ?$filename;
-  #        $class-name = $v<class-name> unless ?$class-name;
         }
 
-        $c ~= $!mod.generate-enumerations-code($enum-names);
+        $types-code<enumeration> = $!mod.generate-enumerations-code($enum-names);
       }
 
       when 'bitfield' {
         my Array $bitfield-names = [];
         for $!filedata<bitfield>.kv -> $k, $v {
           $bitfield-names.push: $k;
-  #        $filename = $v<type-name> unless ?$filename;
-  #        $class-name = $v<class-name> unless ?$class-name;
         }
 
-        $c ~= $!mod.generate-bitfield-code($bitfield-names);
+        $types-code<bitfield> = $!mod.generate-bitfield-code($bitfield-names);
       }
 
       #when 'callback' { }
@@ -191,17 +186,10 @@ method generate-code ( ) {
         my Array $function-names = [];
         for $!filedata<function>.kv -> $k, $v {
           $function-names.push: $v<function-name>;
-  #        $filename = $v<type-name> unless ?$filename;
-  #        $class-name = $v<class-name> unless ?$class-name;
         }
 
-#        my Str $package-name = (S/ \d+ $// with $*gnome-package.Str).lc;
-#        $*work-data<sub-prefix> = $package-name ~~ any(<glib gio>)
-#                                  ?? 'g_' !! $package-name ~ '_';
-#note "$?LINE f $package-name $*work-data<sub-prefix>";
-
         my Hash $hms = $!mod.get-standalone-functions($function-names);
-        $function-hash = $!mod.generate-functions($hms);
+        $types-code<function> = $!mod.generate-functions($hms);
       }
 
       #when 'alias' { }
@@ -209,10 +197,8 @@ method generate-code ( ) {
     }
   }
 
-#TL:1:$*work-data<raku-class-name>:
-#note "$?LINE $class-name, $filename";
-
   if ?$class-name and ?$filename {
+#note "$?LINE $class-name, $filename";
 #    mkdir $filename.IO.dirname, 0o750 unless $filename.IO.dirname.IO ~~ :e;
 
     my Str $code = qq:to/RAKUMOD/;
@@ -236,6 +222,8 @@ method generate-code ( ) {
           \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\("$*work-data<name-prefix>_"\)\);
         }
 
+        RAKUMOD
+#`{{
         # Next two methods need checks for proper referencing or cleanup 
         method native-object-ref \( \$n-native-object ) \{
           \$n-native-object
@@ -244,15 +232,23 @@ method generate-code ( ) {
         method native-object-unref \( \$n-native-object ) \{
         #  self._fallback-v2\( 'free', my Bool \$x);
         \}
+}}
+    }
 
-        my Hash \$methods = \%\(
-          $function-hash
-        );
+    $code ~= [~] $types-code<constant> // '',
+                 $types-code<enumeration> // '',
+                 $types-code<bitfield> // '';
 
-        RAKUMOD
-
+    if $has-functions {
       $!mod.add-import('NativeCall');
       $!mod.add-import('Gnome::N::NativeLib');
+
+      $code ~= qq:to/RAKUMOD/;
+        {pod-header('Standalone functions')}
+        my Hash \$methods = \%\(
+          $types-code<function>
+        );
+        RAKUMOD
 
       $code ~= q:to/RAKUMOD/;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
@@ -269,9 +265,9 @@ method generate-code ( ) {
           }
         }
         RAKUMOD
-    }
 
-    $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
+      $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
+    }
 
 #    $filename = $*work-data<result-mods> ~ $filename ~ '.rakumod';
     $!mod.save-file( $filename, $code, "types module");

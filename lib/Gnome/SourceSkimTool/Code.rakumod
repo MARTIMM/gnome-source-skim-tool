@@ -99,8 +99,8 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-# This setup is for more simple structures like records, functions,
-# enumerations, etc. There is no need for inheritence, BUILD, signals or
+# This setup is for types like standalone functions, bitfield, constants and
+# enumerations. There is no need for inheritence, BUILD, signals or
 # properties.
 method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
 
@@ -112,18 +112,17 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
     __MODULE__IMPORTS__
     RAKUMOD
 
-    self.add-import('Gnome::N::TopLevelClassSupport');
+#    self.add-import('Gnome::N::TopLevelClassSupport');
     self.add-import('Gnome::N::GnomeRoutineCaller');
   }
 
   $code ~= qq:to/RAKUMOD/;
-
     {pod-header('Class Declaration');}
     unit class $class-name\:auth<github:MARTIMM>:api<2>;
     RAKUMOD
 
-  $code ~= "also is Gnome::N::TopLevelClassSupport;\n" if $has-functions;
-  $code ~= "\n";
+#  $code ~= "also is Gnome::N::TopLevelClassSupport;\n" if $has-functions;
+#  $code ~= "\n";
 
   $code
 }
@@ -1884,7 +1883,7 @@ method !get-method-data (
   my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
-#note "$?LINE    $return-raku-type" if $missing-type;
+note "$?LINE rv: $return-raku-type, $missing-type";
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
   my @parameters = ();
@@ -1899,7 +1898,7 @@ method !get-method-data (
     my Str ( $type, $raku-type) = self.get-type( $p, :$user-side);
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
     $raku-type ~~ s/ _UA_ $//;
-#note "$?LINE $raku-type, $missing-type";
+note "$?LINE p: $raku-type, $missing-type";
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = self.cleanup-id($attribs<name>);
 
@@ -1993,8 +1992,8 @@ method get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
   # With variable argument lists, the name is '…'. It would not have a type
   # so return something to prevent it marked as a missing type
   return ('…', '…')
-    if $e.attribs<name>:exists and $e.attribs<name> eq '…';
-#note "$?LINE $e";
+    if $e.attribs<name>:exists and $e.attribs<name> eq '...';
+#note "$?LINE {$e.attribs<name> // '-'}";
 
   my Str ( $ctype, $raku-type) = '' xx 2;
   for $e.nodes -> $n {
@@ -2019,9 +2018,7 @@ method get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
       }
     }
   }
-
-#my $name = $e.attribs()<name> // '-';
-#note "$?LINE $name, $user-side, $ctype, $raku-type";
+note "$?LINE {$e.attribs()<name> // '-'}, $user-side, $ctype, $raku-type";
 
   ( $ctype, $raku-type)
 }
@@ -2152,7 +2149,7 @@ method convert-ntype (
     }
   }
 
-#note "  $?LINE $ctype, $raku-type";
+note "\n$?LINE $ctype, $raku-type";
   $raku-type
 }
 
