@@ -669,24 +669,33 @@ submethod DESTROY ( ) {
 }}
 
 #-------------------------------------------------------------------------------
+# Final change will that $routine<realname> and $routine<isnew> are changed to
+# $routine<is-symbol> holding the full native name. All entries will have
+# this field eventually. After all changes, this method may also dissappear.
+
 method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
   my Str $routine-name;
 
   if $routine<isnew>:exists {
     $routine-name = 'new';
+    $routine-name = ($sub-prefix // $!sub-prefix) ~ $routine-name;
+  }
+
+  elsif $routine<is-symbol>:exists {
+    $routine-name = $routine<is-symbol>;
   }
 
   elsif $routine<realname>:exists {
     $routine-name = $routine<realname>;
     $routine-name ~~ s:g/ '-' /_/;
+    $routine-name = ($sub-prefix // $!sub-prefix) ~ $routine-name;
   }
 
   else {
     $routine-name = $name;
     $routine-name ~~ s:g/ '-' /_/;
+    $routine-name = ($sub-prefix // $!sub-prefix) ~ $routine-name;
   }
-
-  $routine-name = ($sub-prefix // $!sub-prefix) ~ $routine-name;
 
 #note "$?LINE $name, {$sub-prefix//'-'}, $routine-name, $routine.gist()";
   $routine-name

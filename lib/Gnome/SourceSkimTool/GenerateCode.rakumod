@@ -77,7 +77,6 @@ method generate-code ( ) {
         $*gnome-class = $record-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        # Generate a structure into a 'package-path/N-*.rakumod' file
         $!mod.generate-structure(
           |$!mod.init-xpath(
             'record',
@@ -88,7 +87,7 @@ method generate-code ( ) {
 
         say "\nGenerate Raku record ", $*work-data<raku-class-name>;
 
-        # Generate class methods etc into a 'raku-package/*.rakumod' file
+        # Generate a structure into a 'package-path/N-*.rakumod' file
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
         $raku-module.generate-code;
@@ -189,7 +188,7 @@ method generate-code ( ) {
         }
 
         my Hash $hms = $!mod.get-standalone-functions($function-names);
-        $types-code<function> = $!mod.generate-functions($hms);
+        $types-code<function> = $!mod.generate-functions( $hms, :standalone);
       }
 
       #when 'alias' { }

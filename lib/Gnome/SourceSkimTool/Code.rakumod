@@ -112,7 +112,7 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
     __MODULE__IMPORTS__
     RAKUMOD
 
-#    self.add-import('Gnome::N::TopLevelClassSupport');
+    self.add-import('Gnome::N::TopLevelClassSupport');
     self.add-import('Gnome::N::GnomeRoutineCaller');
   }
 
@@ -121,7 +121,7 @@ method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
     unit class $class-name\:auth<github:MARTIMM>:api<2>;
     RAKUMOD
 
-#  $code ~= "also is Gnome::N::TopLevelClassSupport;\n" if $has-functions;
+  $code ~= "also is Gnome::N::TopLevelClassSupport;\n" if $has-functions;
 #  $code ~= "\n";
 
   $code
@@ -137,7 +137,7 @@ method generate-callables (
   my Str $c;
 
   my Hash $hcs =
-    self.get-native-subs( $element, $xpath, :routine-name<constructor>);
+    self.get-native-subs( $element, $xpath, :routine-type<constructor>);
   # Generate constructors
   $code ~= self!generate-constructors($hcs) if ?$hcs;
   note "Generate constructors" if $*verbose and ?$code;
@@ -653,19 +653,26 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     # and only once per function.
     #$function-name ~~ s:g/ '_' /-/;
     
-    my Str $isnew = '';
-    if $function-name eq 'new' {
-      my Str $gname = $*work-data<gnome-name>;
-      my Str $prefix = $*work-data<name-prefix>;
-      $gname ~~ s:i/^ $prefix //;
-      $function-name ~= '-' ~ $gname.lc;
+    # Set the full native subroutine name
+    my Str $sub-prefix = $*work-data<sub-prefix>;
+    my Str $is-symbol = $sub-prefix ~ $function-name;
+    $is-symbol ~~ s:g/ '-' /_/;
+    $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
 
-      $isnew = ':isnew, ';
+#note "$?LINE $function-name";
+    # Change the name of 'new' into 'new-<classname.lc>'. E.g. new-button.
+    if $function-name eq 'new' {
+      my Str $name-prefix = $*work-data<name-prefix>;
+      my Str $gname = $*work-data<gnome-name>;
+      $gname ~~ s:i/^ $name-prefix //;
+      $function-name ~= '-' ~ $gname.lc;
     }
+
+
 
     my $xtype = $curr-function<return-raku-type>;
     $code ~= [~] '  ', $temp-inhibit, $function-name,
-                ' => %( :type(Constructor), ', $isnew,
+                ' => %( :type(Constructor), ', $is-symbol,
                 ':returns(', $xtype, '), ',
                 $variable-list, $parameters, "),\n";
 
@@ -683,7 +690,6 @@ method get-native-subs (
   --> Hash
 ) {
   my Hash $hms = %();
-
   my @subs = $xpath.find( $routine-type, :start($element), :to-list);
 
   for @subs -> $native-sub {
@@ -693,7 +699,6 @@ method get-native-subs (
 
     my ( $function-name, %h) =
       self!get-method-data( $native-sub, :$xpath, :$user-side);
-
     # Function names which are returned emptied, are assumably internal
     next unless ?$function-name and ?%h;
 
@@ -742,7 +747,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
 #  my Str $ctype = $element.attribs<c:type>;
 #  my Hash $h = self.search-name($ctype);
 #  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
-  my Str $symbol-prefix = $*work-data<sub-prefix>;
+#  my Str $symbol-prefix = $*work-data<sub-prefix>;
 #  my Str $pattern = '';
   my Str $temp-inhibit = '';
   my Str $variable-list = '';
@@ -752,7 +757,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     {SEPARATOR( 'Methods', 2);}
     EOSUB
 
-  for $hcs.keys.sort -> $function-name is copy {
+  for $hcs.keys.sort -> $function-name {
     my Str $cnv-return = '';
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
@@ -858,7 +863,13 @@ method !generate-methods ( Hash $hcs --> Str ) {
 #note "$?LINE $returns";
 #note "$?LINE $par-list";
 
-    $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %(',
+    # Set the full native subroutine name
+    my Str $sub-prefix = $*work-data<sub-prefix>;
+    my Str $is-symbol = $sub-prefix ~ $function-name;
+    $is-symbol ~~ s:g/ '-' /_/;
+    $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
+
+    $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %(', $is-symbol,
              $variable-list, $returns, $cnv-return, $par-list, "),\n";
 
     # drop last comma from arg list
@@ -869,7 +880,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method generate-functions ( Hash $hcs --> Str ) {
+method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
 
   return '' unless ?$hcs;
 
@@ -884,7 +895,7 @@ method generate-functions ( Hash $hcs --> Str ) {
     {SEPARATOR( 'Functions', 2);}
     EOSUB
 
-  for $hcs.keys.sort -> $function-name is copy {
+  for $hcs.keys.sort -> $function-name {
     my Str $cnv-return = '';
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
@@ -1044,9 +1055,16 @@ method generate-functions ( Hash $hcs --> Str ) {
     }
 
 #note "$?LINE $function-name, {$returns//'-'}, {$par-list//'-'}";
-#TM:0:$function-name
+    
+    # Set the full native subroutine name
+    my Str $sub-prefix = $standalone ?? "$*work-data<name-prefix>_"
+                                     !! $*work-data<sub-prefix>;
+    my Str $is-symbol = $sub-prefix ~ $function-name;
+    $is-symbol ~~ s:g/ '-' /_/;
+    $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
+
     $code ~= [~] '  ', $temp-inhibit, $function-name,
-             ' => %( :type(Function), ', $variable-list, $returns,
+             ' => %( :type(Function), ', $is-symbol, $variable-list, $returns,
              $par-list, "),\n";
 
     # drop last comma from arg list
@@ -1883,7 +1901,7 @@ method !get-method-data (
   my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
-note "$?LINE rv: $return-raku-type, $missing-type";
+#note "$?LINE rv: $return-raku-type, $missing-type";
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
   my @parameters = ();
@@ -1898,7 +1916,7 @@ note "$?LINE rv: $return-raku-type, $missing-type";
     my Str ( $type, $raku-type) = self.get-type( $p, :$user-side);
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
     $raku-type ~~ s/ _UA_ $//;
-note "$?LINE p: $raku-type, $missing-type";
+#note "$?LINE p: $raku-type, $missing-type";
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = self.cleanup-id($attribs<name>);
 
@@ -2018,7 +2036,7 @@ method get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
       }
     }
   }
-note "$?LINE {$e.attribs()<name> // '-'}, $user-side, $ctype, $raku-type";
+#note "$?LINE {$e.attribs()<name> // '-'}, $user-side, $ctype, $raku-type";
 
   ( $ctype, $raku-type)
 }
@@ -2149,7 +2167,7 @@ method convert-ntype (
     }
   }
 
-note "\n$?LINE $ctype, $raku-type";
+#note "\n$?LINE $ctype, $raku-type";
   $raku-type
 }
 
