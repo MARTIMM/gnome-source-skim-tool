@@ -270,7 +270,10 @@ method generate-test ( ) {
   my Str $code = $!tst.prepare-test($raku-class);
 
   # Get constructors if there are any and make tests for them
-  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+#  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+  my Hash $hcs = $!mod.get-native-subs(
+    $element, $!xpath, :user-side, :routine-type<constructor>
+  );
   $code ~= $!tst.generate-init-tests(
     $test-variable, 'Class init tests', $hcs, :test-class($raku-class)
   );
@@ -278,12 +281,18 @@ method generate-test ( ) {
   $code ~= $!tst.generate-test-separator;
 
   # Get methods if there are any and make tests for them
-  $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
+#  $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
+  $hcs = $!mod.get-native-subs(
+    $element, $!xpath, :user-side, :routine-type<method>
+  );
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
 
   # Get functions if there are any and make tests for them.
   # Likely the only type of subs in a record module
-  $hcs = $!mod.get-functions( $element, $!xpath, :user-side);
+#  $hcs = $!mod.get-functions( $element, $!xpath, :user-side);
+  $hcs = $!mod.get-native-subs(
+    $element, $!xpath, :user-side, :routine-type<function>
+  );
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable, :!ismethod);
 
   # End the tests and subsitute all necessary modules to import
