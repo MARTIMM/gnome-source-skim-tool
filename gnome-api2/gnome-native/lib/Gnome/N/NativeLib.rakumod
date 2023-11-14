@@ -3,7 +3,7 @@ use v6.d;
 
 
 #-------------------------------------------------------------------------------
-unit module Gnome::N::NativeLib:auth<github:MARTIMM>;
+unit module Gnome::N::NativeLib:auth<github:MARTIMM>:api<2>;
 
 #-------------------------------------------------------------------------------
 #Note; Libraries for Gsk4 and Gdk4 are in that of Gtk4.
