@@ -14,7 +14,7 @@ use Pod::To::Markdown;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
 
-has Array $!protected-files;
+has Hash $!protected-files;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
@@ -200,7 +200,7 @@ method generate-callables (
 
       $c ~= qq:to/RAKUMOD/;
               my Gnome::N::GnomeRoutineCaller \$routine-caller .= new\(
-                :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>
+                :library\('$*work-data<library>'\)
               \);
 
         RAKUMOD
@@ -300,7 +300,7 @@ method make-build-submethod (
     submethod BUILD \( *\%options \) \{
     $gtk-init-code[1]$signal-admin
       # Initialize helper
-      \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
+      \$\!routine-caller .= new\(:library\('$*work-data<library>'\)\);
 
     EOBUILD
 
@@ -2461,7 +2461,19 @@ note "\n$?LINE $filename";
   # aside files or skip saving.
   if $filename.IO.e {
     my Str $basename = $filename.IO.basename();
-    my Bool $protect = $!protected-files.first($basename).Bool;
+    my Bool $protect = False;
+    if $*generate-code {
+      $protect = $!protected-files<c>.first($basename).Bool;
+    }
+
+    elsif $*generate-doc {
+      $protect = $!protected-files<d>.first($basename).Bool;
+    }
+
+    elsif $*generate-test {
+      $protect = $!protected-files<t>.first($basename).Bool;
+    }
+
     my Str $a;
     if $protect {
       say "\nFile $basename found, new version(v) or skip(s)";
@@ -2673,7 +2685,7 @@ method make-build-submethod (
     submethod BUILD \( *\%options \) \{
     $init-gtk$signal-admin
       # Initialize helper
-      \$\!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\<$*work-data<sub-prefix>\>);
+      \$\!routine-caller .= new\(:library\('$*work-data<library>'\)\);
 
     EOBUILD
 #---

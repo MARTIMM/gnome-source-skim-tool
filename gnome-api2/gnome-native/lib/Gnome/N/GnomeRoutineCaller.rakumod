@@ -45,14 +45,14 @@ enum RoutineType is export (
 
 has Bool $!pointers-in-args;
 has Str $!library is required;
-has Str $!sub-prefix is required;
+has Str $!sub-prefix;
 
 # Check on native library initialization.
 my Bool $gui-initialized = False;
 my Bool $may-not-initialize-gui = False;
 
 #-------------------------------------------------------------------------------
-submethod BUILD ( Str :$!library, Str :$!sub-prefix ) {
+submethod BUILD ( Str :$!library, Str :$!sub-prefix = '' ) {
 
   # check GTK+ init except when GtkApplication / GApplication is used
   $may-not-initialize-gui = [or]
@@ -123,7 +123,7 @@ sub _init_check_v4 ( --> gboolean )
 multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
 #say Backtrace.new.nice;
 #note "$?LINE $name @arguments.gist()";
-#note "$?LINE $!library, $!sub-prefix";
+#note "$?LINE $!library";
 
   # Set False. Var is set in native-parameters() as a side effect
   $!pointers-in-args = False;
@@ -198,7 +198,7 @@ multi method call-native-sub (
 ) {
 #say Backtrace.new.nice;
 #note "$?LINE $name @arguments.gist()";
-#note "$?LINE $!library, $!sub-prefix";
+#note "$?LINE $!library";
 
   # Set False, is set in native-parameters() as a side effect
   $!pointers-in-args = False;
@@ -281,7 +281,7 @@ multi method call-native-sub (
 ) {
 #say Backtrace.new.nice;
 #note "$?LINE $name @arguments.gist()";
-#note "$?LINE $!library, $!sub-prefix, $sub-prefix";
+#note "$?LINE $!library, $sub-prefix";
 
   # Set False, is set in native-parameters() as a side effect
   $!pointers-in-args = False;
@@ -359,7 +359,7 @@ method object-call (
 ) {
 #say Backtrace.new.nice;
 #note "$?LINE $name @arguments.gist()";
-#note "$?LINE $!library, $!sub-prefix";
+#note "$?LINE $!library";
 
   my N-Object $native-object = $raku-object.get-native-object-no-reffing;
 
@@ -439,7 +439,7 @@ method object-call (
 method objectless-call ( Str $name, Hash $routine, @arguments ) {
 #say Backtrace.new.nice;
 #note "$?LINE $name @arguments.gist()";
-#note "$?LINE $!library, $!sub-prefix";
+#note "$?LINE $!library";
 
   # Set False. Var is set in native-parameters() as a side effect
   $!pointers-in-args = False;
