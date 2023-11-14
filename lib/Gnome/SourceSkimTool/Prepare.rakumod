@@ -1,7 +1,7 @@
 
 use v6.d;
 
-use Gnome::N::NativeLib;
+use Gnome::N::NativeLib; #:api<2>
 use Gnome::SourceSkimTool::ConstEnumType;
 #use Gnome::SourceSkimTool::SkimGirSource;
 
