@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Glib error
+# Command to generate: generate.raku -v -c Glib error
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -67,18 +67,18 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-error => %( :type(Constructor), :isnew, :returns(N-Error), :variable-list, :parameters([ GQuark, gint, Str])),
-  new-literal => %( :type(Constructor), :returns(N-Error), :parameters([ GQuark, gint, Str])),
-  #new-valist => %( :type(Constructor), :returns(N-Error), :parameters([ GQuark, gint, Str, ])),
+  new-error => %( :type(Constructor), :is-symbol<g_error_new>, :returns(N-Error), :variable-list, :parameters([ GQuark, gint, Str])),
+  new-literal => %( :type(Constructor), :is-symbol<g_error_new_literal>, :returns(N-Error), :parameters([ GQuark, gint, Str])),
+  #new-valist => %( :type(Constructor), :is-symbol<g_error_new_valist>, :returns(N-Error), :parameters([ GQuark, gint, Str, ])),
 
   #--[Methods]------------------------------------------------------------------
-  copy => %( :returns(N-Error)),
-  free => %(),
-  matches => %( :returns(gboolean), :cnv-return(Bool), :parameters([GQuark, gint])),
+  copy => %(:is-symbol<g_error_copy>,  :returns(N-Error)),
+  free => %(:is-symbol<g_error_free>, ),
+  matches => %(:is-symbol<g_error_matches>,  :returns(gboolean), :cnv-return(Bool), :parameters([GQuark, gint])),
 
   #--[Functions]----------------------------------------------------------------
-  domain-register => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, :( N-Error $error ), :( N-Error $src-error, N-Error $dest-error ), :( N-Error $error )])),
-  domain-register-static => %( :type(Function),  :returns(GQuark), :parameters([ Str, gsize, :( N-Error $error ), :( N-Error $src-error, N-Error $dest-error ), :( N-Error $error )])),
+  domain-register => %( :type(Function), :is-symbol<g_error_domain_register>,  :returns(GQuark), :parameters([ Str, gsize, :( N-Error $error ), :( N-Error $src-error, N-Error $dest-error ), :( N-Error $error )])),
+  domain-register-static => %( :type(Function), :is-symbol<g_error_domain_register_static>,  :returns(GQuark), :parameters([ Str, gsize, :( N-Error $error ), :( N-Error $src-error, N-Error $dest-error ), :( N-Error $error )])),
 );
 
 #-------------------------------------------------------------------------------

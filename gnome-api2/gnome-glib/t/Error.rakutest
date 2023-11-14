@@ -60,20 +60,6 @@ subtest 'ISA test', {
   #ok $error.is-valid, '.new( :valist(…), :code(…), :format(…), :args(…))';
 
 #`{{
-    #TC:0:new-error()
-    $domain = '…';
-    $code = -42;
-    $format = 'text';
-    $error .= new-error( $domain, $code, $format);
-    ok .is-valid, '.new-error( $domain, $code, $format)';
-
-    #TC:0:new-literal()
-    $domain = '…';
-    $code = -42;
-    $message = 'text';
-    $error .= new-literal( $domain, $code, $message);
-    ok .is-valid, '.new-literal( $domain, $code, $message)';
-
     #TC:0:new-valist()
     $domain = '…';
     $code = -42;

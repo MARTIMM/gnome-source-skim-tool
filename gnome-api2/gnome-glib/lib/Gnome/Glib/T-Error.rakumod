@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Glib error
+# Command to generate: generate.raku -v -c Glib error
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -13,8 +13,6 @@ use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
-use Gnome::N::X:api<2>;
-
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
@@ -22,7 +20,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Glib::T-Error:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -40,28 +37,22 @@ submethod BUILD ( ) {
   $!routine-caller .= new( :library(glib-lib()), :sub-prefix("g_"));
 }
 
-# Next two methods need checks for proper referencing or cleanup 
-method native-object-ref ( $n-native-object ) {
-  $n-native-object
-}
-
-method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
-}
+#-------------------------------------------------------------------------------
+#--[Standalone functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  clear-error => %( :type(Function), ),
-  prefix-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-Error], Str])),
-  prefix-error-literal => %( :type(Function),  :parameters([ CArray[N-Error], Str])),
-  propagate-error => %( :type(Function),  :parameters([ CArray[N-Error], N-Error])),
-  propagate-prefixed-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-Error], N-Error, Str])),
-  set-error => %( :type(Function), :variable-list,  :parameters([ CArray[N-Error], GQuark, gint, Str])),
-  set-error-literal => %( :type(Function),  :parameters([ CArray[N-Error], GQuark, gint, Str])),
+  clear-error => %( :type(Function), :is-symbol<g_clear_error>, ),
+  prefix-error => %( :type(Function), :is-symbol<g_prefix_error>, :variable-list,  :parameters([ CArray[N-Error], Str])),
+  prefix-error-literal => %( :type(Function), :is-symbol<g_prefix_error_literal>,  :parameters([ CArray[N-Error], Str])),
+  propagate-error => %( :type(Function), :is-symbol<g_propagate_error>,  :parameters([ CArray[N-Error], N-Error])),
+  propagate-prefixed-error => %( :type(Function), :is-symbol<g_propagate_prefixed_error>, :variable-list,  :parameters([ CArray[N-Error], N-Error, Str])),
+  set-error => %( :type(Function), :is-symbol<g_set_error>, :variable-list,  :parameters([ CArray[N-Error], GQuark, gint, Str])),
+  set-error-literal => %( :type(Function), :is-symbol<g_set_error_literal>,  :parameters([ CArray[N-Error], GQuark, gint, Str])),
 
 );
-
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   if $methods{$name}:exists {
