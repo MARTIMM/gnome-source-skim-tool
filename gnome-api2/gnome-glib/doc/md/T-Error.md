@@ -5,7 +5,7 @@ Project Description
 
   * **Project description:** Modules for package Gnome::Glib:api<2>. The language binding to GNOME's lowest level library
 
-  * **Project version:** 0.1.3
+  * **Project version:** 0.1.5
 
   * **Rakudo version:** 6.d, 2023.10.67.g.688.b.625.ac
 

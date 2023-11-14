@@ -83,36 +83,36 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
+
+  my GQuark $domain = 45444;
+  my Int $code = 1012342;
+  my Str $message = 'my error';
+
+  $error .= new-error( $domain, $code, $message);
+
   with $error {
-    my Int() $code;
-    my UInt $domain;
 
-
-#`{{
-    #TM:0:matches()
+    #TM:1:matches()
     ok .matches( $domain, $code), '.matches()';
 
-    #TM:0:free()
-    ok .free(), '.free()';
+    #TM:1:copy()
+    my N-Error $e = .copy();
+    is $e.domain, $domain, '.copy()';
 
-    #TM:0:copy()
-    ok .copy(), '.copy()';
-
-}}
+    #TM:1:free()
+    .free;
+    nok .matches( $domain, $code), '.free()';
   }
 };
 
 #-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# set environment variable 'raku-test-all' if rest must be tested too.
-unless %*ENV<raku_test_all>:exists {
-  done-testing;
-  exit;
-}
+done-testing;
+
+=finish
+
 
 #-------------------------------------------------------------------------------
-subtest 'Method tests', {
+subtest 'Function tests', {
   with $error {
     my Int() $error-type-private-size;
     sub error-type-copy ( N-Error $src-error, N-Error $dest-error ) {}
@@ -130,9 +130,3 @@ subtest 'Method tests', {
 }}
   }
 };
-
-#-------------------------------------------------------------------------------
-done-testing;
-
-=finish
-

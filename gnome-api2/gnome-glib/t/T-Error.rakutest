@@ -78,10 +78,10 @@ subtest 'Method tests', {
 
     #TM:0:prefix-error()
     ok .prefix-error( $err, $format), '.prefix-error()';
-
-    #TM:0:clear-error()
-    ok .clear-error(), '.clear-error()';
 }}
+
+    #TM:1:clear-error()
+    lives-ok { .clear-error(); }, '.clear-error()';
   }
 };
 
