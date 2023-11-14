@@ -218,7 +218,7 @@ method generate-code ( ) {
         {pod-header('BUILD submethod')}
         submethod BUILD ( ) \{
           # Initialize helper
-          \$!routine-caller .= new\( :library\($*work-data<library>\), :sub-prefix\("$*work-data<name-prefix>_"\)\);
+          \$!routine-caller .= new\(:library\('$*work-data<library>'\)\);
         }
 
         RAKUMOD
