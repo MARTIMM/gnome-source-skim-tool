@@ -101,7 +101,7 @@ subtest 'Method tests', {
 
     #TM:1:free()
     .free;
-    nok .matches( $domain, $code), '.free()';
+    ok !.matches( $domain, $code), '.free()';
   }
 };
 

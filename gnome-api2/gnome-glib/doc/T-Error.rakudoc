@@ -37,15 +37,16 @@
 =head2 clear-error
 
 If C<$err> is undefined, the function does nothing. Otherwise,
-calls C<.free()> on C<$err> and sets C<$err> to C<Nil>.
+calls C<.free()> on C<$err[0]> and sets C<$err[0]> to C<Nil>.
 
 =begin code
-method clear-error (  )
+method clear-error ( CArray[N-Error] $err )
 =end code
 
-
+=item $err; (transfer ownership: full) pointer to N-Error.
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 prefix-error
@@ -55,15 +56,25 @@ Formats a string according to C<$format> and prefix it to an existing error mess
 If * C<$err> is C<Nil> (ie: an error variable is present but there is no error condition) then also do nothing.
 
 =begin code
-method prefix-error (  N-Object $err, Str $format, … )
+method prefix-error ( CArray[N-Error] $err, Str $format, … )
 =end code
 
-=item $err; (transfer ownership: full) a return location for a GError
+=item $err; (transfer ownership: full) a return location for a GError.
 =item $format; printf()-style format string.
 =item …; arguments to C<$format>. Note that each argument must be specified as a pair of a type and its value!
 
+=head3 Example code;
+
+  my $e = CArray[N-Error].new(N-Error);
+  my $domain = 87600;
+  my$code = 7;
+  $format = 'my %dnd error';
+  $l = .set-error( $e, $domain, $code, ", I did warn ye!");
+  $l = .prefix-error( $e, $format, gint32, 2), '.prefix-error()';
+  is $l[0].message, sprintf( $format ~ ", I did warn ye!", 2), '.prefix-error() with added gint32';
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 prefix-error-literal
@@ -71,14 +82,14 @@ method prefix-error (  N-Object $err, Str $format, … )
 Prefixes C<$prefix> to an existing error message. If C<$err> or * C<$err> is C<Nil> (i.e.: no error variable) then do nothing.
 
 =begin code
-method prefix-error-literal (  N-Object $err, Str $prefix )
+method prefix-error-literal (  CArray[N-Error] $err, Str $prefix )
 =end code
 
-=item $err; a return location for a GError, or C<Nil>
+=item $err; a return location for a GError, or C<Nil>.
 =item $prefix; string to prefix C<$err> with.
 
-
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 propagate-error
@@ -91,14 +102,14 @@ Note that C<$src> is no longer valid after this call. If you want to keep using 
 after calling this function on it.
 
 =begin code
-method propagate-error (  N-Object $dest, N-Object $src )
+method propagate-error (  CArray[N-Error] $dest, CArray[N-Error] $src )
 =end code
 
-=item $dest; (transfer ownership: full) error return location
-=item $src; (transfer ownership: full) error to move into the return location
-
+=item $dest; (transfer ownership: full) error return location.
+=item $src; (transfer ownership: full) error to move into the return location.
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 propagate-prefixed-error
@@ -107,16 +118,16 @@ If C<$dest> is C<Nil>, free C<$src>; otherwise, moves C<$src> into * C<$dest>.
 * C<$dest> must be C<Nil>. After the move, add a prefix as with g_prefix_error().
 
 =begin code
-method propagate-prefixed-error (  N-Object $dest, N-Object $src, Str $format, … )
+method propagate-prefixed-error (  CArray[N-Error] $dest, CArray[N-Error] $src, Str $format, … )
 =end code
 
-=item $dest; error return location
-=item $src; error to move into the return location
+=item $dest; error return location.
+=item $src; error to move into the return location.
 =item $format; printf()-style format string.
 =item …; arguments to C<$format>. Note that each argument must be specified as a pair of a type and its value!
 
-
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-error
@@ -125,17 +136,17 @@ Does nothing if C<$err> is C<Nil>; if C<$err> is non-C<Nil>, then * C<$err>
 must be C<Nil>. A new GError is created and assigned to * C<$err>.
 
 =begin code
-method set-error (  N-Object $err, UInt $domain, Int() $code, Str $format, … )
+method set-error (  CArray[N-Error] $err, UInt $domain, Int() $code, Str $format, … )
 =end code
 
-=item $err; (transfer ownership: full) a return location for a GError
+=item $err; (transfer ownership: full) a return location for a GError.
 =item $domain; error domain.
 =item $code; error code.
 =item $format; printf()-style format.
 =item …; args for C<$format>. Note that each argument must be specified as a pair of a type and its value!
 
-
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-error-literal
@@ -147,13 +158,13 @@ Use this function if C<$message> contains text you don't have control over,
 that could include printf() escape sequences.
 
 =begin code
-method set-error-literal (  N-Object $err, UInt $domain, Int() $code, Str $message )
+method set-error-literal (  CArray[N-Error] $err, UInt $domain, Int() $code, Str $message )
 =end code
 
-=item $err; (transfer ownership: full) a return location for a GError
+=item $err; (transfer ownership: full) a return location for a GError.
 =item $domain; error domain.
 =item $code; error code.
 =item $message; error message.
 
-
 =end pod
+
