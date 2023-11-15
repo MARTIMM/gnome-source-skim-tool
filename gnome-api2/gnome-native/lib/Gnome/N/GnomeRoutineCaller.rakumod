@@ -589,7 +589,7 @@ method !native-function (
     if $routine<variable-list>:exists;
 
   # Create return type
-  my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer;
+  my $returns = $routine<returns>:exists ?? $routine<returns> !! Pointer[void];
 
   # Create signature
   my Signature $signature .= new( :params(|@parameterList), :$returns);
