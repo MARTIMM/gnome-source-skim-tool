@@ -67,6 +67,9 @@ find . -name '*.raku*' | xargs wc -l
 
 
 # Release notes
+* 2023-11-15 0.12.2
+  * Found a bug in glib-2.0.gir file. Missing issue filed as `g_clear_error in glib gir file is missing a parameter #103`.
+
 * 2023-11-13 0.12.1
   * Made a protected files yaml file. This is used to prevent overwriting the generated sources after modifications by hand. Most are changed documentation and test files because generating things can only go so far.
 
