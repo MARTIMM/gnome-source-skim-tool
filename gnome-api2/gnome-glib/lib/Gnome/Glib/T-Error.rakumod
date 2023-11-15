@@ -44,7 +44,7 @@ submethod BUILD ( ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  clear-error => %( :type(Function), :is-symbol<g_clear_error>, ),
+  clear-error => %( :type(Function), :is-symbol<g_clear_error>,  :parameters([ CArray[N-Error]])),
   prefix-error => %( :type(Function), :is-symbol<g_prefix_error>, :variable-list,  :parameters([ CArray[N-Error], Str])),
   prefix-error-literal => %( :type(Function), :is-symbol<g_prefix_error_literal>,  :parameters([ CArray[N-Error], Str])),
   propagate-error => %( :type(Function), :is-symbol<g_propagate_error>,  :parameters([ CArray[N-Error], N-Error])),
