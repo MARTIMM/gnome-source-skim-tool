@@ -1,7 +1,7 @@
 Glib:
   c:
-  - N-List.rakumod
-  - T-Error.rakumod
+  - N-List.rakumod            # simplyfied
+  - T-Error.rakumod           # bug in g_clear_error()
   d:
   - T-Error.rakudoc
   t:
@@ -12,3 +12,9 @@ Glib:
 Gtk4:
   d:
   - AboutDialog.rakudoc
+
+SkimToolData:
+  Gio:
+  - C-File.gir                # File made as a class, not as an interface
+  Glib:
+  - repo-function.gir         # (not changed), bugs in g_clear_error()
