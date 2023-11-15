@@ -2247,7 +2247,7 @@ method convert-rtype (
 
     default {
       # remove any pointer marks because objects are provided by pointer
-#      my Bool $is-pointer = $ctype ~~ m/ '*' / ?? True !! False;
+      my Bool $is-pointer = $ctype ~~ m/ '*' / ?? True !! False;
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = self.search-name($ctype);
@@ -2266,13 +2266,24 @@ method convert-rtype (
 #note "$?LINE record $orig-ctype $h.gist()";
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
-          $raku-type = 'N-Object';
+#          $raku-type = 'N-Object';
+          $raku-type = "$h<record-class>";
+          $raku-type = "CArray[$raku-type]" if $is-pointer;
+          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
         }
 
         when 'union' {
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
-          $raku-type = 'N-Object';
+#          $raku-type = 'N-Object';
+          $raku-type = "$h<record-class>";
+          $raku-type = "CArray[$raku-type]" if $is-pointer;
+          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+        }
+
+        when 'constant' {
+          $raku-type = "$ctype";
+          $raku-type = "CArray[$raku-type]" if $is-pointer;
         }
 
         when 'enumeration' {

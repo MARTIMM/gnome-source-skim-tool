@@ -249,6 +249,7 @@ method document-constructors (
 
       $items-doc
       =end pod
+
       EOSUB
   }
 
@@ -358,9 +359,9 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
       method $native-sub \( $raku-list \)
       =end code
 
-      $items-doc
-      $returns-doc
+      $items-doc$returns-doc
       =end pod
+
       EOSUB
   }
 
