@@ -72,6 +72,7 @@ method generate-doc ( ) {
         $raku-module.generate-code;
       }
     }
+}}
 
     when 'record' {
       for $!filedata<record>.keys -> $record-name {
@@ -96,6 +97,7 @@ method generate-doc ( ) {
       }
     }
 
+#`{{
     when 'union' {
       for $!filedata<union>.keys -> $union-name {
         $*gnome-class = $union-name;
