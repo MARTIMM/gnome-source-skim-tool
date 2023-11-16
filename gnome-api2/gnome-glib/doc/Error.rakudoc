@@ -1,0 +1,206 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Glib
+ =item B<Project description:> Modules for package Gnome::Glib:api<2>. The language binding to GNOME's lowest level library
+ =item B<Project version:> 0.1.5
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/error.png)
+
+=head1 Description
+
+The `GError` structure contains information about
+an error that has occurred.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-error
+
+Creates a new GError with the given C<$domain> and C<$code>,
+and a message formatted with C<$format>.
+
+=begin code
+method new-error ( --> Gnome::Glib::Error)
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-literal
+
+Creates a new GError; unlike C<.new-error()>, C<$message> is not a printf()-style format string. Use this function if C<$message> contains text you don't have control over,
+that could include printf() escape sequences.
+
+=begin code
+method new-literal ( --> Gnome::Glib::Error)
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-valist
+
+Creates a new GError with the given C<$domain> and C<$code>,
+and a message formatted with C<$format>.
+
+=begin code
+method new-valist ( --> Gnome::Glib::Error)
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Makes a copy of C<$error>.
+
+=begin code
+method copy (--> CArray[N-Error] )
+=end code
+
+
+Return value; a new GError. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees a GError and associated resources.
+
+=begin code
+method free ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 matches
+
+Returns C<True> if C<$error> matches C<$domain> and C<$code>, C<False>
+otherwise. In particular, when C<$error> is C<Nil>, C<False> will be returned.
+
+If C<$domain> contains a `FAILED` (or otherwise generic) error code,
+you should generally not check for it explicitly, but should instead treat any not-explicitly-recognized error code as being equivalent to the `FAILED` code. This way, if the domain is extended in the future to provide a more specific error code for a certain case, your code will still work.
+
+=begin code
+method matches ( UInt $domain, Int() $code --> Bool() )
+=end code
+
+=item $domain; an error domain.
+=item $code; an error code.
+
+Return value; whether C<$error> has C<$domain> and C<$code>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 domain-register
+
+This function registers an extended GError domain. C<$error_type_name> will be duplicated. Otherwise does the same as C<.domain-register-static()>.
+
+=begin code
+method domain-register ( Str $error-type-name, Int() $error-type-private-size --> UInt )
+=end code
+
+=item $error-type-name; string to create a GQuark from.
+=item $error-type-private-size; size of the private error data in bytes.
+=item $error-type-init; function initializing fields of the private error data.=item $error-type-copy; function copying fields of the private error data.=item $error-type-clear; function freeing fields of the private error data.
+Return value; GQuark representing the error domain. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 domain-register-static
+
+This function registers an extended GError domain.
+ C<$error_type_name> should not be freed. C<$error_type_private_size> must be greater than 0.
+ C<$error_type_init> receives an initialized GError and should then initialize the private data.
+ C<$error_type_copy> is a function that receives both original and a copy GError and should copy the fields of the private error data. The standard GError fields are already handled.
+ C<$error_type_clear> receives the pointer to the error, and it should free the fields of the private error data. It should not free the struct itself though.
+
+Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it already takes care of passing valid information to this function.
+
+=begin code
+method domain-register-static ( Str $error-type-name, Int() $error-type-private-size --> UInt )
+=end code
+
+=item $error-type-name; static string to create a GQuark from.
+=item $error-type-private-size; size of the private error data in bytes.
+=item $error-type-init; function initializing fields of the private error data.=item $error-type-copy; function copying fields of the private error data.=item $error-type-clear; function freeing fields of the private error data.
+Return value; GQuark representing the error domain. 
+
+
+=end pod
+
