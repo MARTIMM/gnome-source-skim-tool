@@ -74,6 +74,8 @@ method generate-doc ( ) {
 #  my Hash $hcs =
 #    $!grd.get-native-subs( $element, $!xpath, :routine-type<constructor>);
   $doc ~= $!grd.document-build($element);
+
+  note "Document constructors" if $*verbose;
   $doc ~= $!grd.document-constructors( $element, $!xpath);
 #  $doc ~= $!grd.document-native-subs(
 #    $element, $!xpath, :routine-type<constructor>

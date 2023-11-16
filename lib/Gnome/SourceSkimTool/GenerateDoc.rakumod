@@ -90,10 +90,9 @@ method generate-doc ( ) {
 
         say "\nGenerate documentation for Raku record ", $*work-data<raku-class-name>;
 
-        # Generate class methods etc into a 'raku-package/*.rakumod' file
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
-        $raku-module.generate-code;
+        $raku-module.generate-doc;
       }
     }
 
