@@ -242,9 +242,7 @@ method document-constructors (
       $method-doc
 
       =begin code
-      method $method-name \(
-       $raku-list --> $*work-data<raku-class-name>
-      \)
+      method $method-name \($raku-list --> $*work-data<raku-class-name>\)
       =end code
 
       $items-doc
@@ -356,7 +354,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
       $native-sub-doc
 
       =begin code
-      method $native-sub \( $raku-list \)
+      method $native-sub \($raku-list \)
       =end code
 
       $items-doc$returns-doc
@@ -1486,7 +1484,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
     when '' and $parameter<name> ~~ / \… / {
       my $doc = $parameter<doc>;
       $doc ~~ s/ ','? \s* 'undefined-terminated' //;
-      $doc ~= '. Note that each argument must be specified as a pair of a type and its value!';
+      $doc ~= '. Note that each argument must be specified as a type followed by its value!';
       $result<raku-list> = ", …";
       $result<items-doc> = "=item $parameter<name>; $doc\n";
     }
