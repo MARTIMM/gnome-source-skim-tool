@@ -81,9 +81,9 @@ subtest 'Method tests', {
     $e = CArray[N-Error].new(N-Error);
     $domain = 87600;
     $code = 7;
-    $format = 'my %dnd error';
+    $format = 'your %dnd error';
     $l = .set-error( $e, $domain, $code, ", I did warn ye!");
-    $l = .prefix-error( $e, $format, gint32, 2), '.prefix-error()';
+    $l = .prefix-error( $e, $format, gint32, 2);
     is $l[0].message, sprintf( $format ~ ", I did warn ye!", 2), '.prefix-error() with added gint32';
 
     #TM:1:clear-error()

@@ -49,24 +49,31 @@ If * `$err` is `Nil` (ie: an error variable is present but there is no error con
 
   * $format; printf()-style format string.
 
-  * …; arguments to `$format`. Note that each argument must be specified as a pair of a type and its value!
+  * …; arguments to `$format`. Note that each argument must be specified as a type followed by its value!
 
 ### Example code;
 
+    my Gnome::Glib::T-Error $t-error .= new;
     my $e = CArray[N-Error].new(N-Error);
     my $domain = 87600;
-    my$code = 7;
-    $format = 'my %dnd error';
-    $l = .set-error( $e, $domain, $code, ", I did warn ye!");
-    $l = .prefix-error( $e, $format, gint32, 2), '.prefix-error()';
-    is $l[0].message, sprintf( $format ~ ", I did warn ye!", 2), '.prefix-error() with added gint32';
+    my $code = 7;
+    my $format = 'your %dnd error';
+    $l = $t-error.set-error( $e, $domain, $code, ", I did warn ye!");
+    $l = $t-error.prefix-error( $e, $format, gint32, 2);
+    note $l[0].message;   # "your 2nd error, I did warn ye!"
+
+Note the use of the extra argument for the format specified as a type `gint32` and a value `2`.
+
+Note that formatted strings are available in Raku and that above example can be done simpler with the `sprinf()` function of Raku.
+
+    $l = $t-error.prefix-error( $e, sprinf( $format, 2));
 
 prefix-error-literal
 --------------------
 
 Prefixes `$prefix` to an existing error message. If `$err` or * `$err` is `Nil` (i.e.: no error variable) then do nothing.
 
-    method prefix-error-literal (  CArray[N-Error] $err, Str $prefix )
+    method prefix-error-literal ( CArray[N-Error] $err, Str $prefix )
 
   * $err; a return location for a GError, or `Nil`.
 
@@ -79,7 +86,7 @@ If `$dest` is `Nil`, free `$src`; otherwise, moves `$src` into * `$dest`. The er
 
 Note that `$src` is no longer valid after this call. If you want to keep using the same GError*, you need to set it to `Nil` after calling this function on it.
 
-    method propagate-error (  CArray[N-Error] $dest, CArray[N-Error] $src )
+    method propagate-error ( CArray[N-Error] $dest, CArray[N-Error] $src )
 
   * $dest; (transfer ownership: full) error return location.
 
@@ -90,7 +97,9 @@ propagate-prefixed-error
 
 If `$dest` is `Nil`, free `$src`; otherwise, moves `$src` into * `$dest`. * `$dest` must be `Nil`. After the move, add a prefix as with g_prefix_error().
 
-    method propagate-prefixed-error (  CArray[N-Error] $dest, CArray[N-Error] $src, Str $format, … )
+    method propagate-prefixed-error (
+      CArray[N-Error] $dest, CArray[N-Error] $src, Str $format, …
+    )
 
   * $dest; error return location.
 
@@ -98,14 +107,16 @@ If `$dest` is `Nil`, free `$src`; otherwise, moves `$src` into * `$dest`. * `$de
 
   * $format; printf()-style format string.
 
-  * …; arguments to `$format`. Note that each argument must be specified as a pair of a type and its value!
+  * …; arguments to `$format`. Note that each argument must be specified as a type followed by its value!
 
 set-error
 ---------
 
 Does nothing if `$err` is `Nil`; if `$err` is non-`Nil`, then * `$err` must be `Nil`. A new GError is created and assigned to * `$err`.
 
-    method set-error (  CArray[N-Error] $err, UInt $domain, Int() $code, Str $format, … )
+    method set-error (
+      CArray[N-Error] $err, UInt $domain, Int() $code, Str $format, …
+    )
 
   * $err; (transfer ownership: full) a return location for a GError.
 
@@ -115,14 +126,16 @@ Does nothing if `$err` is `Nil`; if `$err` is non-`Nil`, then * `$err` must be `
 
   * $format; printf()-style format.
 
-  * …; args for `$format`. Note that each argument must be specified as a pair of a type and its value!
+  * …; args for `$format`. Note that each argument must be specified as a type followed by its value!
 
 set-error-literal
 -----------------
 
 Does nothing if `$err` is `Nil`; if `$err` is non-`Nil`, then * `$err` must be `Nil`. A new GError is created and assigned to * `$err`. Unlike g_set_error(), `$message` is not a printf()-style format string. Use this function if `$message` contains text you don't have control over, that could include printf() escape sequences.
 
-    method set-error-literal (  CArray[N-Error] $err, UInt $domain, Int() $code, Str $message )
+    method set-error-literal (
+      CArray[N-Error] $err, UInt $domain, Int() $code, Str $message
+    )
 
   * $err; (transfer ownership: full) a return location for a GError.
 

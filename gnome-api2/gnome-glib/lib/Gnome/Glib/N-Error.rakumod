@@ -25,8 +25,12 @@ has gint $.code;
 has Str $.message;
 
 submethod BUILD (
-  GQuark :$!domain, gint :$!code, Str :$!message, 
+  GQuark :$!domain, gint :$!code
 ) {
+}
+
+submethod TWEAK ( Str :$message ) {
+  $!message := $message;
 }
 
 method COERCE ( $no --> N-Error ) {
