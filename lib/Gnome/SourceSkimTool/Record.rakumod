@@ -20,7 +20,6 @@ has XML::XPath $!xpath;
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
-  $!grd .= new;
   $!mod .= new;
 
   # load data for this module
@@ -147,7 +146,9 @@ method generate-code ( ) {
 
 #-------------------------------------------------------------------------------
 method generate-doc ( ) {
-#`{{
+
+  $!grd .= new;
+
   my XML::Element $element = $!xpath.find('//record');
   die "//record not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
@@ -230,10 +231,14 @@ method generate-doc ( ) {
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
   note "Save module";
-  $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;
-  note "Save pod doc";
-  $*work-data<raku-module-doc-file>.IO.spurt($module-doc) if $*generate-doc;
-}}
+#  $*work-data<raku-module-file>.IO.spurt($module-code) if $*generate-code;
+#  $*work-data<raku-module-doc-file>.IO.spurt($module-doc) if $*generate-doc;
+  
+  note "Save record documentation";
+  my Str $ctype = $*work-data<gnome-name>;
+  my Str $prefix = $*work-data<name-prefix>;
+  $ctype ~~ s:i/^ $prefix //;
+  my Str $fname = "$*work-data<result-docs>/$ctype.rakumod";
 }
 
 #-------------------------------------------------------------------------------
