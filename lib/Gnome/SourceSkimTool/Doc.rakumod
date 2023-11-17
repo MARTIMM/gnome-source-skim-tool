@@ -308,6 +308,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
       }
 
       $result = self!get-types( $parameter, @rv-list);
+#note "$?LINE \n$parameter.gist()\n$result.gist()" if $native-sub eq 'domain-register';
       $raku-list ~= $result<raku-list> // '';
       $items-doc ~= $result<items-doc> // '';
       $returns-doc ~= $result<returns-doc> // '';
@@ -1452,7 +1453,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
   given my $xtype = $parameter<raku-type> {
     when 'N-Object' {
-      $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
+      $result<raku-list> = ", $xtype \$$parameter<name>";
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
@@ -1462,7 +1463,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
     }
 
     when 'CArray[Str]' {
-      $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
+      $result<raku-list> = ", $xtype \$$parameter<name>";
 
       $a-count++;
 
@@ -1474,10 +1475,18 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
     when 'CArray[gint]' {
       @rv-list.push: "\$$parameter<name>";
-      $result<raku-list> = ", $parameter<raku-type> \$$parameter<name>";
+      $result<raku-list> = ", $xtype \$$parameter<name>";
       $result<rv-list> = "\$$parameter<name>";
       $result<returns-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
       $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+    }
+
+    # Callback function spec
+    when / ':(' / {
+      my $doc = $parameter<doc>;
+      $doc ~= '. Tthe function must be specified with following signature; C<' ~ $xtype ~ '>.';
+      $result<raku-list> = ", \&$parameter<name>";
+      $result<items-doc> = "=item \&$parameter<name>; $doc\n";
     }
 
     # Variable argument lists
@@ -1495,7 +1504,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
           $parameter<transfer-ownership> ne 'none';
 
       my Str ( $l, $d ) = self.check-special(
-        $parameter<raku-type>, $parameter<name>,
+        $xtype, $parameter<name>,
         "=item \$$parameter<name>; $own$parameter<doc>."
       );
       $result<raku-list> = $l;
