@@ -16,7 +16,19 @@ Project Description
 Description
 ===========
 
-The `GError` structure contains information about an error that has occurred.
+The `N-Error` structure contains information about an error that has occurred.
+
+Example
+-------
+
+    my GQuark $domain = 45444;
+    my Int $code = 1012342;
+    my Str $message = 'my error';
+
+    $error .= new-error( $domain, $code, $message);
+    note $error.matches( $domain, $code), '.matches()';   # True
+    $error.free;
+    note $error.matches( $domain, $code);                 # False
 
 Class initialization
 ====================
@@ -91,15 +103,25 @@ Functions
 domain-register
 ---------------
 
-This function registers an extended GError domain. `$error_type_name` will be duplicated. Otherwise does the same as `.domain-register-static()`.
+This function registers an extended Error domain. `$error_type_name` will be duplicated. Otherwise does the same as `.domain-register-static()`.
 
-    method domain-register ( Str $error-type-name, Int() $error-type-private-size --> UInt )
+    method domain-register (
+      Str $error-type-name, Int() $error-type-private-size,
+      &error-type-init, &error-type-copy, &error-type-clear
+      --> UInt
+    )
 
   * $error-type-name; string to create a GQuark from.
 
   * $error-type-private-size; size of the private error data in bytes.
 
-  * $error-type-init; function initializing fields of the private error data.=item $error-type-copy; function copying fields of the private error data.=item $error-type-clear; function freeing fields of the private error data. Return value; GQuark representing the error domain. 
+  * &error-type-init; function initializing fields of the private error data. Tthe function must be specified with following signature; `:( N-Error $error )`.
+
+  * &error-type-copy; function copying fields of the private error data. Tthe function must be specified with following signature; `:( N-Error $src-error, N-Error $dest-error )`.
+
+  * &error-type-clear; function freeing fields of the private error data. Tthe function must be specified with following signature; `:( N-Error $error )`.
+
+Return value; GQuark representing the error domain. 
 
 domain-register-static
 ----------------------
@@ -108,10 +130,21 @@ This function registers an extended GError domain. `$error_type_name` should not
 
 Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it already takes care of passing valid information to this function.
 
-    method domain-register-static ( Str $error-type-name, Int() $error-type-private-size --> UInt )
+    method domain-register-static (
+      Str $error-type-name, Int() $error-type-private-size,
+      &error-type-init, &error-type-copy, &error-type-clear
+      --> UInt
+    )
 
   * $error-type-name; static string to create a GQuark from.
 
   * $error-type-private-size; size of the private error data in bytes.
 
-  * $error-type-init; function initializing fields of the private error data.=item $error-type-copy; function copying fields of the private error data.=item $error-type-clear; function freeing fields of the private error data. Return value; GQuark representing the error domain. 
+  * &error-type-init; function initializing fields of the private error data. Tthe function must be specified with following signature; `:( N-Error $error )`.
+
+  * &error-type-copy; function copying fields of the private error data. Tthe function must be specified with following signature; `:( N-Error $src-error, N-Error $dest-error )`.
+
+  * &error-type-clear; function freeing fields of the private error data. Tthe function must be specified with following signature; `:( N-Error $error )`.
+
+Return value; GQuark representing the error domain. 
+

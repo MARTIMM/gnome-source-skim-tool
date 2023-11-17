@@ -20,18 +20,22 @@
 
 =head1 Description
 
-The `GError` structure contains information about
-an error that has occurred.
+The `N-Error` structure contains information about an error that has occurred.
 =begin comment
 =head2 Uml Diagram
 ![](plantuml/….svg)
 =end comment
 
-=begin comment
 =head2 Example
-  … text …
-  … example code …
-=end comment
+
+  my GQuark $domain = 45444;
+  my Int $code = 1012342;
+  my Str $message = 'my error';
+
+  $error .= new-error( $domain, $code, $message);
+  note $error.matches( $domain, $code), '.matches()';   # True
+  $error.free;
+  note $error.matches( $domain, $code);                 # False
 
 =end pod
 
@@ -50,7 +54,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -64,20 +67,17 @@ and a message formatted with C<$format>.
 method new-error ( --> Gnome::Glib::Error)
 =end code
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-literal
 
-Creates a new GError; unlike C<.new-error()>, C<$message> is not a printf()-style format string. Use this function if C<$message> contains text you don't have control over,
-that could include printf() escape sequences.
+Creates a new GError; unlike C<.new-error()>, C<$message> is not a printf()-style format string. Use this function if C<$message> contains text you don't have control over, that could include printf() escape sequences.
 
 =begin code
 method new-literal ( --> Gnome::Glib::Error)
 =end code
-
 
 =end pod
 
@@ -91,7 +91,6 @@ and a message formatted with C<$format>.
 =begin code
 method new-valist ( --> Gnome::Glib::Error)
 =end code
-
 
 =end pod
 
@@ -113,9 +112,7 @@ Makes a copy of C<$error>.
 method copy (--> CArray[N-Error] )
 =end code
 
-
 Return value; a new GError. 
-
 
 =end pod
 
@@ -128,7 +125,6 @@ Frees a GError and associated resources.
 =begin code
 method free ( )
 =end code
-
 
 =end pod
 
@@ -151,7 +147,6 @@ method matches ( UInt $domain, Int() $code --> Bool() )
 
 Return value; whether C<$error> has C<$domain> and C<$code>. 
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -166,17 +161,23 @@ Return value; whether C<$error> has C<$domain> and C<$code>.
 =begin pod
 =head2 domain-register
 
-This function registers an extended GError domain. C<$error_type_name> will be duplicated. Otherwise does the same as C<.domain-register-static()>.
+This function registers an extended Error domain. C<$error_type_name> will be duplicated. Otherwise does the same as C<.domain-register-static()>.
 
 =begin code
-method domain-register ( Str $error-type-name, Int() $error-type-private-size --> UInt )
+method domain-register (
+  Str $error-type-name, Int() $error-type-private-size,
+  &error-type-init, &error-type-copy, &error-type-clear
+  --> UInt
+)
 =end code
 
 =item $error-type-name; string to create a GQuark from.
 =item $error-type-private-size; size of the private error data in bytes.
-=item $error-type-init; function initializing fields of the private error data.=item $error-type-copy; function copying fields of the private error data.=item $error-type-clear; function freeing fields of the private error data.
-Return value; GQuark representing the error domain. 
+=item &error-type-init; function initializing fields of the private error data. Tthe function must be specified with following signature; C<:( N-Error $error )>.
+=item &error-type-copy; function copying fields of the private error data. Tthe function must be specified with following signature; C<:( N-Error $src-error, N-Error $dest-error )>.
+=item &error-type-clear; function freeing fields of the private error data. Tthe function must be specified with following signature; C<:( N-Error $error )>.
 
+Return value; GQuark representing the error domain. 
 
 =end pod
 
@@ -193,14 +194,20 @@ This function registers an extended GError domain.
 Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it already takes care of passing valid information to this function.
 
 =begin code
-method domain-register-static ( Str $error-type-name, Int() $error-type-private-size --> UInt )
+method domain-register-static (
+  Str $error-type-name, Int() $error-type-private-size,
+  &error-type-init, &error-type-copy, &error-type-clear
+  --> UInt
+)
 =end code
 
 =item $error-type-name; static string to create a GQuark from.
 =item $error-type-private-size; size of the private error data in bytes.
-=item $error-type-init; function initializing fields of the private error data.=item $error-type-copy; function copying fields of the private error data.=item $error-type-clear; function freeing fields of the private error data.
-Return value; GQuark representing the error domain. 
+=item &error-type-init; function initializing fields of the private error data. Tthe function must be specified with following signature; C<:( N-Error $error )>.
+=item &error-type-copy; function copying fields of the private error data. Tthe function must be specified with following signature; C<:( N-Error $src-error, N-Error $dest-error )>.
+=item &error-type-clear; function freeing fields of the private error data. Tthe function must be specified with following signature; C<:( N-Error $error )>.
 
+Return value; GQuark representing the error domain. 
 
 =end pod
 
