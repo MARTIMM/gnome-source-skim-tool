@@ -413,11 +413,12 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Str $function-doc = self!cleanup($s);
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+  my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>//'';
   my Str ( $rv-doc, $rv-type, $return-raku-type) =
     self.get-doc-type( $rvalue, :$xpath, :user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
+  $return-raku-type ~~ s/ '()' //;
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -1012,7 +1013,7 @@ method !modify-text ( Str $text is copy --> Str ) {
 
   # Subtitute the examples back into the text before we can finally modify it
   for $examples.keys -> $ex-key {
-    my Str $t = $examples{$ex-key};
+    my Str $t = self!modify-xml($examples{$ex-key});
     if $version4 {
       $t = self!modify-v4examples($t);
     }
@@ -1220,6 +1221,7 @@ method !modify-v4examples ( Str $text is copy --> Str ) {
     $text ~~ s/ '  ```' (\w+)?
               /=begin comment \nFollowing example code is in $0\n/;
   }
+
   else {
     $text ~~ s/ '  ```' /=begin comment\n/;
   }
@@ -1403,15 +1405,15 @@ method !modify-rest ( Str $text is copy --> Str ) {
 method !modify-examples ( Str $text is copy --> Str ) {
 
   $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="xml"' \s* '-->' 
-              /=begin comment\nFollowing text is XML\n= begin code\n/;
+              /=begin comment\n/;
 
   $text ~~ s:g/^^ '|[<!-- language="plain" -->'
-              /=begin comment\n= begin code/;
+              /=begin comment\n/;
 
   $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="C"' \s* '-->' 
-              /=begin comment\n= begin code/;
+              /=begin comment\n/;
 
-  $text ~~ s:g/^^ ']|' /= end code\n=end comment\n/;
+  $text ~~ s:g/^^ ']|' /=end comment\n/;
 
   $text
 }
