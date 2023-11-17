@@ -40,7 +40,7 @@ new
 
 Create an object using a native object from elsewhere. See also **Gnome::N::TopLevelSupportClass**.
 
-    multi method new ( N-Object :$native-object! )
+    multi method new ( N-Error :$native-object! )
 
 new-error
 ---------

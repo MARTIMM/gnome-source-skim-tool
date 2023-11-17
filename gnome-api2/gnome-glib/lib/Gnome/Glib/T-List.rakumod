@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Glib list
+# Command to generate: generate.raku -v -c -d Glib list
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -34,7 +34,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( ) {
   # Initialize helper
-  $!routine-caller .= new( :library(glib-lib()), :sub-prefix("g_"));
+  $!routine-caller .= new(:library('libglib-2.0.so.0'));
 }
 
 #-------------------------------------------------------------------------------
