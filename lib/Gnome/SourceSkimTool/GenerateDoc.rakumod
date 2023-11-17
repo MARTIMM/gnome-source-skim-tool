@@ -78,7 +78,7 @@ method generate-doc ( ) {
       for $!filedata<record>.keys -> $record-name {
         $*gnome-class = $record-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
+#`{{
         # Generate a structure into a 'package-path/N-*.rakumod' file
         $!mod.generate-structure(
           |$!mod.init-xpath(
@@ -87,7 +87,7 @@ method generate-doc ( ) {
 #            'gir-record-file'
           )
         );
-
+}}
         say "\nGenerate documentation for Raku record ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Record');
