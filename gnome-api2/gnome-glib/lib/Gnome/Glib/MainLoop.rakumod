@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Glib main
+# Command to generate: generate.raku -d -c -t Glib main
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(glib-lib()), :sub-prefix<g_main_loop_>);
+  $!routine-caller .= new(:library('libglib-2.0.so.0'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Glib::MainLoop' {
@@ -68,15 +68,15 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-mainloop => %( :type(Constructor), :isnew, :returns(N-MainLoop), :parameters([ N-MainContext, gboolean])),
+  new-mainloop => %( :type(Constructor), :is-symbol<g_main_loop_new>, :returns(N-MainLoop), :parameters([ N-MainContext, gboolean])),
 
   #--[Methods]------------------------------------------------------------------
-  get-context => %( :returns(N-MainContext)),
-  is-running => %( :returns(gboolean), :cnv-return(Bool)),
-  quit => %(),
-  ref => %( :returns(N-MainLoop)),
-  run => %(),
-  unref => %(),
+  get-context => %(:is-symbol<g_main_loop_get_context>,  :returns(N-MainContext)),
+  is-running => %(:is-symbol<g_main_loop_is_running>,  :returns(gboolean), :cnv-return(Bool)),
+  quit => %(:is-symbol<g_main_loop_quit>, ),
+  ref => %(:is-symbol<g_main_loop_ref>,  :returns(N-MainLoop)),
+  run => %(:is-symbol<g_main_loop_run>, ),
+  unref => %(:is-symbol<g_main_loop_unref>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(glib-lib()), :sub-prefix<g_main_loop_>
+        :library('libglib-2.0.so.0')
       );
 
       # Check the function name. 

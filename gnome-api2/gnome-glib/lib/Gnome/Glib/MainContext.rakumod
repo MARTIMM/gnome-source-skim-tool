@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Glib main
+# Command to generate: generate.raku -d -c -t Glib main
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ use Gnome::Glib::N-MainContext:api<2>;
 #use Gnome::Glib::N-PollFD:api<2>;
 #use Gnome::Glib::N-Source:api<2>;
 #use Gnome::Glib::N-SourceFuncs:api<2>;
-use Gnome::Glib::T-MainContext:api<2>;
+#use Gnome::Glib::T-Main:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -42,7 +42,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(glib-lib()), :sub-prefix<g_main_context_>);
+  $!routine-caller .= new(:library('libglib-2.0.so.0'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Glib::MainContext' {
@@ -71,38 +71,38 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-maincontext => %( :type(Constructor), :isnew, :returns(N-MainContext), ),
-  new_with_flags => %( :type(Constructor), :returns(N-MainContext), :parameters([ GFlag])),
+  new-maincontext => %( :type(Constructor), :is-symbol<g_main_context_new>, :returns(N-MainContext), ),
+  #new-with-flags => %( :type(Constructor), :is-symbol<g_main_context_new_with_flags>, :returns(N-MainContext), :parameters([ GFlag])),
 
   #--[Methods]------------------------------------------------------------------
-  acquire => %( :returns(gboolean), :cnv-return(Bool)),
-  #add-poll => %( :parameters([N-PollFD , gint])),
-  #check => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint, N-PollFD , gint])),
-  dispatch => %(),
-  #find-source-by-funcs-user-data => %( :returns(N-Source ), :parameters([N-SourceFuncs , gpointer])),
-  #find-source-by-id => %( :returns(N-Source ), :parameters([guint])),
-  #find-source-by-user-data => %( :returns(N-Source ), :parameters([gpointer])),
-  #get-poll-func => %( :returns(), :cnv-return(( N-PollFD , guint, gint --> gint ) )),
-  invoke => %( :parameters([:( gpointer --> gboolean ), gpointer])),
-  invoke-full => %( :parameters([gint, :( gpointer --> gboolean ), gpointer, :( gpointer )])),
-  is-owner => %( :returns(gboolean), :cnv-return(Bool)),
-  iteration => %( :returns(gboolean), :cnv-return(Bool), :parameters([gboolean])),
-  pending => %( :returns(gboolean), :cnv-return(Bool)),
-  pop-thread-default => %(),
-  prepare => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr])),
-  push-thread-default => %(),
-  #query => %( :returns(gint), :parameters([gint, gint-ptr, N-PollFD , gint])),
-  ref => %( :returns(N-MainContext)),
-  release => %(),
-  #remove-poll => %( :parameters([N-PollFD ])),
-  #set-poll-func => %( :parameters([:( N-PollFD , guint, gint --> gint ) ])),
-  unref => %(),
-  wakeup => %(),
+  acquire => %(:is-symbol<g_main_context_acquire>,  :returns(gboolean), :cnv-return(Bool)),
+  #add-poll => %(:is-symbol<g_main_context_add_poll>,  :parameters([N-PollFD , gint])),
+  #check => %(:is-symbol<g_main_context_check>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, N-PollFD , gint])),
+  dispatch => %(:is-symbol<g_main_context_dispatch>, ),
+  #find-source-by-funcs-user-data => %(:is-symbol<g_main_context_find_source_by_funcs_user_data>,  :returns(N-Source ), :parameters([N-SourceFuncs , gpointer])),
+  #find-source-by-id => %(:is-symbol<g_main_context_find_source_by_id>,  :returns(N-Source ), :parameters([guint])),
+  #find-source-by-user-data => %(:is-symbol<g_main_context_find_source_by_user_data>,  :returns(N-Source ), :parameters([gpointer])),
+  #get-poll-func => %(:is-symbol<g_main_context_get_poll_func>,  :returns(), :cnv-return(( N-PollFD  $ufds, guint $nfsd, gint $timeout --> gint ) )),
+  invoke => %(:is-symbol<g_main_context_invoke>,  :parameters([:( gpointer $user-data --> gboolean ), gpointer])),
+  invoke-full => %(:is-symbol<g_main_context_invoke_full>,  :parameters([gint, :( gpointer $user-data --> gboolean ), gpointer, :( gpointer $data )])),
+  is-owner => %(:is-symbol<g_main_context_is_owner>,  :returns(gboolean), :cnv-return(Bool)),
+  iteration => %(:is-symbol<g_main_context_iteration>,  :returns(gboolean), :cnv-return(Bool), :parameters([gboolean])),
+  pending => %(:is-symbol<g_main_context_pending>,  :returns(gboolean), :cnv-return(Bool)),
+  pop-thread-default => %(:is-symbol<g_main_context_pop_thread_default>, ),
+  prepare => %(:is-symbol<g_main_context_prepare>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr])),
+  push-thread-default => %(:is-symbol<g_main_context_push_thread_default>, ),
+  #query => %(:is-symbol<g_main_context_query>,  :returns(gint), :parameters([gint, gint-ptr, N-PollFD , gint])),
+  ref => %(:is-symbol<g_main_context_ref>,  :returns(N-MainContext)),
+  release => %(:is-symbol<g_main_context_release>, ),
+  #remove-poll => %(:is-symbol<g_main_context_remove_poll>,  :parameters([N-PollFD ])),
+  #set-poll-func => %(:is-symbol<g_main_context_set_poll_func>,  :parameters([:( N-PollFD  $ufds, guint $nfsd, gint $timeout --> gint ) ])),
+  unref => %(:is-symbol<g_main_context_unref>, ),
+  wakeup => %(:is-symbol<g_main_context_wakeup>, ),
 
   #--[Functions]----------------------------------------------------------------
-  default => %( :type(Function),  :returns(N-MainContext)),
-  get-thread-default => %( :type(Function),  :returns(N-MainContext)),
-  ref-thread-default => %( :type(Function),  :returns(N-MainContext)),
+  default => %( :type(Function), :is-symbol<g_main_context_default>,  :returns(N-MainContext)),
+  get-thread-default => %( :type(Function), :is-symbol<g_main_context_get_thread_default>,  :returns(N-MainContext)),
+  ref-thread-default => %( :type(Function), :is-symbol<g_main_context_ref_thread_default>,  :returns(N-MainContext)),
 );
 
 #-------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(glib-lib()), :sub-prefix<g_main_context_>
+        :library('libglib-2.0.so.0')
       );
 
       # Check the function name. 
