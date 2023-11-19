@@ -488,7 +488,7 @@ method check-special (
     }
 
     else {
-      $list = ?$name ?? ", UInt \$$name" !! UInt;
+      $list = ?$name ?? ', UInt $' ~ $name !! 'UInt';
       $doc ~= " A bitmap.\n"; 
     }
   }
