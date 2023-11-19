@@ -1,0 +1,168 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Glib
+ =item B<Project description:> Modules for package Gnome::Glib:api<2>. The language binding to GNOME's lowest level library
+ =item B<Project version:> 0.1.5
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/mainloop.png)
+
+=head1 Description
+
+The `GMainLoop` struct is an opaque data type
+representing the main event loop of a GLib or GTK+ application.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-mainloop
+
+Creates a new GMainLoop structure.
+
+=begin code
+method new-mainloop ( --> Gnome::Glib::MainLoop)
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-context
+
+Returns the GMainContext of C<$loop>.
+
+=begin code
+method get-context (--> CArray[N-MainContext] )
+=end code
+
+
+Return value; the GMainContext of C<$loop>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-running
+
+Checks to see if the main loop is currently being run via C<.run()>.
+
+=begin code
+method is-running (--> Bool )
+=end code
+
+
+Return value; C<True> if the mainloop is currently being run.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 quit
+
+Stops a GMainLoop from running. Any calls to C<.run()>
+for the loop will return.
+
+Note that sources that have already been dispatched when C<.quit()> is called will still be executed.
+
+=begin code
+method quit ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Increases the reference count on a GMainLoop object by one.
+
+=begin code
+method ref (--> CArray[N-MainLoop] )
+=end code
+
+
+Return value;  C<$loop>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 run
+
+Runs a main loop until C<.quit()> is called on the loop.
+If this is called for the thread of the loop's GMainContext,
+it will process events from the loop, otherwise it will simply wait.
+
+=begin code
+method run ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Decreases the reference count on a GMainLoop object by one. If the result is zero, free the loop and free all associated memory.
+
+=begin code
+method unref ( )
+=end code
+
+
+=end pod
+
