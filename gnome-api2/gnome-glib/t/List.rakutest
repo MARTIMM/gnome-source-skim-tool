@@ -23,13 +23,6 @@ use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 my Gnome::Glib::List $list .= new;
 
-# Helpers to get data in and out
-sub pack ( Int $n --> gpointer ) {
-  my $o = CArray[gint].new;
-  $o[0] = $n;
-  nativecast( gpointer, $o)
-}
-
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -56,15 +49,20 @@ unless %*ENV<raku_test_all>:exists {
     my Int() $position;
     my N-List $N-List;
 
-    $data = pack(10);
+    $data = Pointer[gint].new(101);
 
     #TM:1:append
     for ^10 -> $i {
-      $N-List = .append( $N-List, pack($i));
+      $N-List = .append( $N-List, Pointer[int].new($i));
     }
-    #TM:1:length
-    is .length($N-List), 10, '.append()';
 
+    #TM:1:length
+    is .length($N-List), 10, '.length() / .append()';
+
+    #TB:1:last()
+    #TB:1:position()
+    my N-List $l = .last($N-List);
+    is .position( $N-List, $l), 9, '.last() / .position()';
 
 #`{{
     #TB:0:sort-with-data()
@@ -92,24 +90,21 @@ unless %*ENV<raku_test_all>:exists {
     is .length($N-List), 11, '.prepend()';
 
 #`{{
-    #TB:0:position()
-    ok .position( $llink), '.position()';
-
     #TB:0:nth-prev()
     ok .nth-prev( $n), '.nth-prev()';
 
     #TB:0:nth-data()
-    ok .nth-data( $n), '.nth-data()';
+    note .nth-data( $N-List, 5).gist;
+    my Pointer[int] $p = nativecast( Pointer[int], .nth-data( $N-List, 5));
+    note $p.gist();
+    is $p[0], 5, '.nth-data()';
+}}
 
-    #TB:0:nth()
-    ok .nth( $n), '.nth()';
+    #TB:1:nth()
+    $l = .nth( $N-List, 5);
+    is .position( $N-List, $l), 5, '.nth()';
 
-    #TB:0:length()
-    ok .length(), '.length()';
-
-    #TB:0:last()
-    ok .last(), '.last()';
-
+#`{{
     #TB:0:insert-sorted-with-data()
     ok .insert-sorted-with-data( $data, $func, $user-data), '.insert-sorted-with-data()';
 
@@ -123,7 +118,7 @@ unless %*ENV<raku_test_all>:exists {
     ok .insert-before( $sibling, $data), '.insert-before()';
 }}
 
-    $data = pack(10);
+    $data = Pointer[gint].new(102);
 
     #TB:1:insert()
     $N-List = .insert( $N-List, $data, 0);
@@ -166,9 +161,6 @@ unless %*ENV<raku_test_all>:exists {
 
     #TB:0:concat()
     ok .concat( $list2), '.concat()';
-
-    #TB:0:append()
-    ok .append( $data), '.append()';
 
     #TB:0:alloc()
     ok .alloc(), '.alloc()';
