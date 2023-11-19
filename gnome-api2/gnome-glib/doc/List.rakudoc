@@ -16,7 +16,7 @@
 
 =begin pod
 
-![](images/list.png)
+=comment ![](images/list.png)
 
 =head1 Description
 
@@ -27,6 +27,16 @@ The N-List struct is used for each element in a doubly-linked list.
 =end comment
 
 =head2 Example
+
+  my Gnome::Glib::List $list .= new;
+  for ^10 -> $i {
+    $N-List = $list.append( $N-List, Pointer[int].new($i));
+  }
+
+  note $list.length($N-List);                # 10
+
+
+Please note that data needs to be kept alive in Raku across function calls to prevent cleaning up by the garbage collection process. That said, this List class is only useful for Raku developers when list data is returned from other objects. An example of that is the method C<.get-windows()> defined in B<Gnome::Gtk4::Application>.
 
 =end pod
 
@@ -63,7 +73,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 Allocates space for one N-List element. It is called by C<.append()>, C<.prepend()>, C<.insert()> and C<.insert-sorted()> and so is rarely used on its own.
 
 =begin code
-method alloc (--> N-List )
+method alloc ( --> N-List )
 =end code
 
 

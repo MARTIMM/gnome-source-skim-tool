@@ -11,8 +11,6 @@ Project Description
 
   * **Author:** Marcel Timmerman
 
-![](images/list.png)
-
 Description
 ===========
 
@@ -20,6 +18,15 @@ The N-List struct is used for each element in a doubly-linked list.
 
 Example
 -------
+
+    my Gnome::Glib::List $list .= new;
+    for ^10 -> $i {
+      $N-List = $list.append( $N-List, Pointer[int].new($i));
+    }
+
+    note $list.length($N-List);                # 10
+
+Please note that data needs to be kept alive in Raku across function calls to prevent cleaning up by the garbage collection process. That said, this List class is only useful for Raku developers when list data is returned from other objects. An example of that is the method `.get-windows()` defined in **Gnome::Gtk4::Application**.
 
 Class initialization
 ====================
@@ -41,7 +48,7 @@ alloc
 
 Allocates space for one N-List element. It is called by `.append()`, `.prepend()`, `.insert()` and `.insert-sorted()` and so is rarely used on its own.
 
-    method alloc (--> N-List )
+    method alloc ( --> N-List )
 
 Return value; a pointer to the newly-allocated N-List element. 
 
@@ -54,7 +61,7 @@ Note that the return value is the new start of the list, if `$list` was empty; m
 
 `.append()` has to traverse the entire list to find the end, which is inefficient when adding multiple elements. A common idiom to avoid the inefficiency is to use `.prepend()` and reverse the list with `.reverse()` when all elements have been added.
 
-    method append ( N-List() $list, gpointer $data --> N-List() )
+    method append ( N-List() $list, gpointer $data --> N-List )
 
   * $list; a pointer to a N-List.
 
@@ -69,7 +76,7 @@ Adds the second N-List onto the end of the first N-List. Note that the elements 
 
 This function is for example used to move an element in the list. The following example moves an element to the top of the list:
 
-    method concat ( N-List() $list1, N-List() $list2 --> N-List() )
+    method concat ( N-List() $list1, N-List() $list2 --> N-List )
 
   * $list1; a N-List, this must point to the top of the list.
 
@@ -84,7 +91,7 @@ Copies a N-List.
 
 Note that this is a "shallow" copy. If the list elements consist of pointers to data, the pointers are copied but the actual data is not. See `.copy-deep()` if you need to copy the data as well.
 
-    method copy ( N-List() $list --> N-List() )
+    method copy ( N-List() $list --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -101,7 +108,7 @@ For instance, if `$list` holds a list of GObjects, you can do:
 
 And, to entirely free the new list, you could do:
 
-    method copy-deep ( N-List() $list, &func, gpointer $user-data --> N-List() )
+    method copy-deep ( N-List() $list, &func, gpointer $user-data --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -116,7 +123,7 @@ delete-link
 
 Removes the node link_ from the list and frees it. Compare this to `.remove-link()` which removes the node without freeing it.
 
-    method delete-link ( N-List() $list, N-List() $link --> N-List() )
+    method delete-link ( N-List() $list, N-List() $link --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -129,7 +136,7 @@ find
 
 Finds the element in a N-List which contains the given data.
 
-    method find ( N-List() $list, gpointer $data --> N-List() )
+    method find ( N-List() $list, gpointer $data --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -142,7 +149,7 @@ find-custom
 
 Finds an element in a N-List, using a supplied function to find the desired element. It iterates over the list, calling the given function which should return 0 when the desired element is found. The function takes two #gconstpointer arguments, the N-List element's data as the first argument and the given user data.
 
-    method find-custom ( N-List() $list, gpointer $data, &func --> N-List() )
+    method find-custom ( N-List() $list, gpointer $data, &func --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -157,7 +164,7 @@ first
 
 Gets the first element in a N-List.
 
-    method first ( N-List() $list --> N-List() )
+    method first ( N-List() $list --> N-List )
 
   * $list; any N-List element.
 
@@ -220,7 +227,7 @@ index
 
 Gets the position of the element containing the given data (starting from 0).
 
-    method index ( N-List() $list, gpointer $data --> Int() )
+    method index ( N-List() $list, gpointer $data --> Int )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -233,7 +240,7 @@ insert
 
 Inserts a new element into the list at the given position.
 
-    method insert ( N-List() $list, gpointer $data, Int() $position --> N-List() )
+    method insert ( N-List() $list, gpointer $data, Int() $position --> N-List )
 
   * $list; a pointer to a N-List, this must point to the top of the list.
 
@@ -248,7 +255,7 @@ insert-before
 
 Inserts a new element into the list before the given position.
 
-    method insert-before ( N-List() $list, N-List() $sibling, gpointer $data --> N-List() )
+    method insert-before ( N-List() $list, N-List() $sibling, gpointer $data --> N-List )
 
   * $list; a pointer to a N-List, this must point to the top of the list.
 
@@ -263,7 +270,7 @@ insert-before-link
 
 Inserts `$link_` into the list before the given position.
 
-    method insert-before-link ( N-List() $list, N-List() $sibling, N-List() $link --> N-List() )
+    method insert-before-link ( N-List() $list, N-List() $sibling, N-List() $link --> N-List )
 
   * $list; a pointer to a N-List, this must point to the top of the list.
 
@@ -280,7 +287,7 @@ Inserts a new element into the list, using the given comparison function to dete
 
 If you are adding many new elements to a list, and the number of new elements is much larger than the length of the list, use `.prepend()` to add the new items and sort the list afterwards with `.sort()`.
 
-    method insert-sorted ( N-List() $list, gpointer $data, &func --> N-List() )
+    method insert-sorted ( N-List() $list, gpointer $data, &func --> N-List )
 
   * $list; a pointer to a N-List, this must point to the top of the already sorted list.
 
@@ -297,7 +304,7 @@ Inserts a new element into the list, using the given comparison function to dete
 
 If you are adding many new elements to a list, and the number of new elements is much larger than the length of the list, use `.prepend()` to add the new items and sort the list afterwards with `.sort()`.
 
-    method insert-sorted-with-data ( N-List() $list, gpointer $data, &func, gpointer $user-data --> N-List() )
+    method insert-sorted-with-data ( N-List() $list, gpointer $data, &func, gpointer $user-data --> N-List )
 
   * $list; a pointer to a N-List, this must point to the top of the already sorted list.
 
@@ -314,7 +321,7 @@ last
 
 Gets the last element in a N-List.
 
-    method last ( N-List() $list --> N-List() )
+    method last ( N-List() $list --> N-List )
 
   * $list; any N-List element.
 
@@ -327,7 +334,7 @@ Gets the number of elements in a N-List.
 
 This function iterates over the whole list to count its elements. Use a GQueue instead of a N-List if you regularly need the number of items. To check whether the list is non-empty, it is faster to check `$list` against `Nil`.
 
-    method length ( N-List() $list --> UInt() )
+    method length ( N-List() $list --> UInt )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -340,7 +347,7 @@ Gets the element at the given position in a N-List.
 
 This iterates over the list until it reaches the `$n`-th position. If you intend to iterate over every element, it is better to use a for-loop as described in the N-List introduction.
 
-    method nth ( N-List() $list, UInt() $n --> N-List() )
+    method nth ( N-List() $list, UInt() $n --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -368,7 +375,7 @@ nth-prev
 
 Gets the element `$n` places before `$list`.
 
-    method nth-prev ( N-List() $list, UInt() $n --> N-List() )
+    method nth-prev ( N-List() $list, UInt() $n --> N-List )
 
   * $list; a N-List.
 
@@ -381,7 +388,7 @@ position
 
 Gets the position of the given element in the N-List (starting from 0).
 
-    method position ( N-List() $list, N-List() $llink --> Int() )
+    method position ( N-List() $list, N-List() $llink --> Int )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -398,7 +405,7 @@ Note that the return value is the new start of the list, which will have changed
 
 Do not use this function to prepend a new element to a different element than the start of the list. Use `.insert-before()` instead.
 
-    method prepend ( N-List() $list, gpointer $data --> N-List() )
+    method prepend ( N-List() $list, gpointer $data --> N-List )
 
   * $list; a pointer to a N-List, this must point to the top of the list.
 
@@ -411,7 +418,7 @@ remove
 
 Removes an element from a N-List. If two elements contain the same data, only the first is removed. If none of the elements contain the data, the N-List is unchanged.
 
-    method remove ( N-List() $list, gpointer $data --> N-List() )
+    method remove ( N-List() $list, gpointer $data --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -424,7 +431,7 @@ remove-all
 
 Removes all list nodes with data equal to `$data`. Returns the new head of the list. Contrast with `.remove()` which removes only the first node matching the given data.
 
-    method remove-all ( N-List() $list, gpointer $data --> N-List() )
+    method remove-all ( N-List() $list, gpointer $data --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -439,7 +446,7 @@ Removes an element from a N-List, without freeing the element. The removed eleme
 
 This function is for example used to move an element in the list (see the example for `.concat()`) or to remove an element in the list before freeing its data:
 
-    method remove-link ( N-List() $list, N-List() $llink --> N-List() )
+    method remove-link ( N-List() $list, N-List() $llink --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -452,7 +459,7 @@ reverse
 
 Reverses a N-List. It simply switches the next and prev pointers of each element.
 
-    method reverse ( N-List() $list --> N-List() )
+    method reverse ( N-List() $list --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -463,7 +470,7 @@ sort
 
 Sorts a N-List using the given comparison function. The algorithm used is a stable sort.
 
-    method sort ( N-List() $list, &compare-func --> N-List() )
+    method sort ( N-List() $list, &compare-func --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -476,7 +483,7 @@ sort-with-data
 
 Like `.sort()`, but the comparison function accepts a user data argument.
 
-    method sort-with-data ( N-List() $list, &compare-func, gpointer $user-data --> N-List() )
+    method sort-with-data ( N-List() $list, &compare-func, gpointer $user-data --> N-List )
 
   * $list; a N-List, this must point to the top of the list.
 
