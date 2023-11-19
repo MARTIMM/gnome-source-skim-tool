@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t Glib main record
+# Command to generate: generate.raku -v -d -t Glib main
 use v6.d;
 
 #TL:1:Gnome::Glib::N-MainContext:
@@ -6,13 +6,15 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
 use Gnome::Glib::N-MainContext:api<2>;
 #use Gnome::Glib::N-PollFD:api<2>;
-use Gnome::Glib::T-MainContext:api<2>;
+#use Gnome::Glib::N-Source:api<2>;
+#use Gnome::Glib::N-SourceFuncs:api<2>;
+#use Gnome::Glib::T-Main:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -31,7 +33,7 @@ my N-MainContext $maincontext;
 
 subtest 'ISA test', {
   given $maincontext {
-    my GMainContextFlags $flags;
+    my UInt $flags;
 
 #`{{
     #TC:0:new-maincontext()
@@ -40,7 +42,7 @@ subtest 'ISA test', {
     ok .is-valid, '.new-maincontext()';
 
     #TC:0:new-with-flags()
-    $flags = …;  # an enum or fla
+    $flags = …;
     $maincontext .= new-with-flags( $flags);
     ok .is-valid, '.new-with-flags( $flags)';
 
@@ -60,119 +62,110 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $maincontext {
-    sub function ( gpointer $user-data --> gboolean ) {}
-    my Int() $max-priority;
-    my UInt() $source-id;
-    my N-Object $fds;
-    my N-Object $fd;
+    my gpointer $user-data;
     my Array[Int] $timeout;
     my gpointer $data;
-    my Int() $n-fds;
-    my Int() $priority;
-    my gpointer $user-data;
-    sub notify ( gpointer $data ) {}
+#    my CArray[N-SourceFuncs]  $funcs;
 #    sub func ( N-PollFD  $ufds, guint $nfsd, gint $timeout --> gint )  {}
-    my N-Object $funcs;
+    my UInt() $source-id;
+    my Array[Int] $priority;
+    sub function ( gpointer $user-data --> gboolean ) {}
     my Bool() $may-block;
+    my Int() $max-priority;
+#    my CArray[N-PollFD]  $fds;
+    my Int() $n-fds;
+    sub notify ( gpointer $data ) {}
+#    my CArray[N-PollFD]  $fd;
 
 
 #`{{
-    #TM:0:wakeup()
-    ok .wakeup(), '.wakeup()';
-
-    #TM:0:unref()
-    ok .unref(), '.unref()';
-
-    #TM:0:set-poll-func()
-    $func =
-    .set-poll-func( $func);
-    #TM:0:get-poll-func()
-    is .get-poll-func(),  $func, '.set-poll-func() / .get-poll-func()';
-
-    #TM:0:remove-poll()
-    ok .remove-poll( $fd), '.remove-poll()';
-
-    #TM:0:release()
-    ok .release(), '.release()';
-
-    #TM:0:ref()
-    ok .ref(), '.ref()';
-
-    #TM:0:query()
-    ok .query( $max-priority, $timeout, $fds, $n-fds), '.query()';
-
-    #TM:0:push-thread-default()
-    ok .push-thread-default(), '.push-thread-default()';
-
-    #TM:0:prepare()
-    ok .prepare( $priority), '.prepare()';
-
-    #TM:0:pop-thread-default()
-    ok .pop-thread-default(), '.pop-thread-default()';
-
-    #TM:0:pending()
-    ok .pending(), '.pending()';
-
-    #TM:0:iteration()
-    ok .iteration( $may-block), '.iteration()';
-
-    #TM:0:is-owner()
-    ok .is-owner(), '.is-owner()';
-
-    #TM:0:invoke-full()
-    ok .invoke-full( $priority, $function, $data, $notify), '.invoke-full()';
-
-    #TM:0:invoke()
-    ok .invoke( $function, $data), '.invoke()';
-
-    #TM:0:find-source-by-user-data()
-    ok .find-source-by-user-data( $user-data), '.find-source-by-user-data()';
-
-    #TM:0:find-source-by-id()
-    ok .find-source-by-id( $source-id), '.find-source-by-id()';
-
-    #TM:0:find-source-by-funcs-user-data()
-    ok .find-source-by-funcs-user-data( $funcs, $user-data), '.find-source-by-funcs-user-data()';
-
-    #TM:0:dispatch()
-    ok .dispatch(), '.dispatch()';
-
-    #TM:0:check()
-    ok .check( $max-priority, $fds, $n-fds), '.check()';
+    #TM:0:acquire()
+    ok .acquire(), '.acquire()';
 
     #TM:0:add-poll()
     ok .add-poll( $fd, $priority), '.add-poll()';
 
-    #TM:0:acquire()
-    ok .acquire(), '.acquire()';
+    #TM:0:check()
+    ok .check( $max-priority, $fds, $n-fds), '.check()';
+
+    #TM:0:dispatch()
+    ok .dispatch(), '.dispatch()';
+
+    #TM:0:find-source-by-funcs-user-data()
+    ok .find-source-by-funcs-user-data( $funcs, $user-data), '.find-source-by-funcs-user-data()';
+
+    #TM:0:find-source-by-id()
+    ok .find-source-by-id( $source-id), '.find-source-by-id()';
+
+    #TM:0:find-source-by-user-data()
+    ok .find-source-by-user-data( $user-data), '.find-source-by-user-data()';
+
+    #TM:0:invoke()
+    ok .invoke( $function, $data), '.invoke()';
+
+    #TM:0:invoke-full()
+    ok .invoke-full( $priority, $function, $data, $notify), '.invoke-full()';
+
+    #TM:0:is-owner()
+    ok .is-owner(), '.is-owner()';
+
+    #TM:0:iteration()
+    ok .iteration( $may-block), '.iteration()';
+
+    #TM:0:pending()
+    ok .pending(), '.pending()';
+
+    #TM:0:pop-thread-default()
+    ok .pop-thread-default(), '.pop-thread-default()';
+
+    #TM:0:prepare()
+    ok .prepare( $priority), '.prepare()';
+
+    #TM:0:push-thread-default()
+    ok .push-thread-default(), '.push-thread-default()';
+
+    #TM:0:query()
+    ok .query( $max-priority, $timeout, $fds, $n-fds), '.query()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:release()
+    ok .release(), '.release()';
+
+    #TM:0:remove-poll()
+    ok .remove-poll( $fd), '.remove-poll()';
+
+    #TM:0:set-poll-func()
+    $func = …;
+    .set-poll-func( $func);
+    #TM:0:get-poll-func()
+    is .get-poll-func(),  $func, '.set-poll-func() / .get-poll-func()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+    #TM:0:wakeup()
+    ok .wakeup(), '.wakeup()';
 
 }}
   }
 };
 
 #-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# set environment variable 'raku-test-all' if rest must be tested too.
-unless %*ENV<raku_test_all>:exists {
-  done-testing;
-  exit;
-}
-
-#-------------------------------------------------------------------------------
-subtest 'Method tests', {
+subtest 'Function tests', {
   with $maincontext {
 
 
 #`{{
-    #TM:0:ref-thread-default()
-    ok .ref-thread-default(), '.ref-thread-default()';
+    #TM:0:default()
+    ok .default(), '.default()';
 
     #TM:0:get-thread-default()
      .get-thread-default(), '…', '.get-thread-default()';
 
-    #TM:0:default()
-    ok .default(), '.default()';
+    #TM:0:ref-thread-default()
+    ok .ref-thread-default(), '.ref-thread-default()';
 
 }}
   }

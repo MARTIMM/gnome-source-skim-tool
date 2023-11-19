@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -t Glib main record
+# Command to generate: generate.raku -v -d -t Glib main
 use v6.d;
 
 #TL:1:Gnome::Glib::N-MainLoop:
@@ -30,8 +30,8 @@ my N-MainLoop $mainloop;
 
 subtest 'ISA test', {
   given $mainloop {
+    my CArray[N-MainContext] $context;
     my Bool() $is-running;
-    my N-MainContext $context;
 
 #`{{
     #TC:0:new-mainloop()
@@ -59,39 +59,30 @@ subtest 'Method tests', {
 
 
 #`{{
-    #TM:0:unref()
-    ok .unref(), '.unref()';
-
-    #TM:0:run()
-    ok .run(), '.run()';
-
-    #TM:0:ref()
-    ok .ref(), '.ref()';
-
-    #TM:0:quit()
-    ok .quit(), '.quit()';
+    #TM:0:get-context()
+     .get-context(), '…', '.get-context()';
 
     #TM:0:is-running()
     ok .is-running(), '.is-running()';
 
-    #TM:0:get-context()
-     .get-context(), '…', '.get-context()';
+    #TM:0:quit()
+    ok .quit(), '.quit()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:run()
+    ok .run(), '.run()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
 
 }}
   }
 };
 
 #-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-# set environment variable 'raku-test-all' if rest must be tested too.
-unless %*ENV<raku_test_all>:exists {
-  done-testing;
-  exit;
-}
-
-#-------------------------------------------------------------------------------
-subtest 'Method tests', {
+subtest 'Function tests', {
   with $mainloop {
 
 
