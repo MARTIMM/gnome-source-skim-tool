@@ -288,8 +288,6 @@ method make-build-submethod (
       EOBUILD
   }
 
-  my List $gtk-init-code = self.get-gtk-init;
-
   # Generate code for signal admin and init of callable helper
   my Str $code = qq:to/EOBUILD/;
     {pod-header('BUILD variables');}
@@ -407,41 +405,6 @@ method get-signal-admin (
   }
 
   $signal-admin;
-}
-
-#-------------------------------------------------------------------------------
-method get-gtk-init ( --> List ) {
-  my Str $code = '';
-  my Str $init-gtk = '';
-
-  if $*work-data<raku-class-name> eq 'Gnome::GObject::Object' {
-    $code ~= q:to/EOBUILD/;
-
-      # Check on native library initialization.
-      my Bool $gui-initialized = False;
-      my Bool $may-not-initialize-gui = False;
-      EOBUILD
-
-    # Check for initialization of Gtk libraries, but check for
-    # certain conditions.
-    $init-gtk ~= q:to/EOBUILD/;
-
-        # check GTK+ init except when GtkApplication / GApplication is used
-        $may-not-initialize-gui = [or]
-          $may-not-initialize-gui,
-          $gui-initialized,
-          # Check for Application from Gio. That one inherits from Object.
-          # Application from Gtk3 inherits from Gio, so this test is always ok.
-          ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
-
-        self.gtk-initialize unless $may-not-initialize-gui or $gui-initialized;
-
-        # What ever happens, init is done in (G/Gtk)Application or just here
-        $gui-initialized = True;
-      EOBUILD
-  }
-
-  ( $code, $init-gtk)
 }
 
 #`{{

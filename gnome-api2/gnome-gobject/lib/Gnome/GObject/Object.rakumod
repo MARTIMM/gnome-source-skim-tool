@@ -26,7 +26,6 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GObject::Object:auth<github:MARTIMM>:api<2>;
-#also is ;
 also is Gnome::N::TopLevelClassSupport;
 also does Gnome::N::GObjectSupport;
 
@@ -40,28 +39,11 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 # Add signal registration helper
 my Bool $signals-added = False;
 
-# Check on native library initialization.
-my Bool $gui-initialized = False;
-my Bool $may-not-initialize-gui = False;
-
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
-
-  # check GTK+ init except when GtkApplication / GApplication is used
-  $may-not-initialize-gui = [or]
-    $may-not-initialize-gui,
-    $gui-initialized,
-    # Check for Application from Gio. That one inherits from Object.
-    # Application from Gtk3 inherits from Gio, so this test is always ok.
-    ?(self.^mro[0..*-3].gist ~~ m/'(Application) (Object)'/);
-
-  self.gtk-initialize unless $may-not-initialize-gui or $gui-initialized;
-
-  # What ever happens, init is done in (G/Gtk)Application or just here
-  $gui-initialized = True;
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
