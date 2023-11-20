@@ -1,0 +1,506 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Pango
+ =item B<Project description:> Modules for package Gnome::Pango:api<2>. The language binding to Pango: Internationalized text layout and rendering
+ =item B<Project version:> 0.1.2
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/context.png)
+
+=head1 Description
+
+A `PangoContext` stores global information used to control the
+itemization process.
+
+The information stored by `PangoContext` includes the fontmap used
+to look up fonts, and default values such as the default language,
+default gravity, or default font.
+
+To obtain a `PangoContext`, use [method C<$Pango>.FontMap.create_context].
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-context
+
+Creates a new `PangoContext` initialized to default values.
+
+This function is not particularly useful as it should always be followed by a [method C<$Pango>.Context.set_font_map] call, and the function [method C<$Pango>.FontMap.create_context] does these two steps together and hence users are recommended to use that.
+
+If you are using Pango as part of a higher-level system,
+that system may have it's own way of create a `PangoContext`.
+For instance, the GTK toolkit has, among others,
+`gtk_widget_get_pango_context()`. Use those instead.
+
+=begin code
+method new-context ( --> Gnome::Pango::Context )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 changed
+
+Forces a change in the context, which will cause any `PangoLayout`
+using this context to re-layout.
+
+This function is only useful when implementing a new backend for Pango, something applications won't do. Backends should call this function if they have attached extra data to the context and such data is changed.
+
+=begin code
+method changed ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-base-dir
+
+Retrieves the base direction for the context.
+
+See [method C<$Pango>.Context.set_base_dir].
+
+=begin code
+method get-base-dir (--> PangoDirection )
+=end code
+
+
+Return value; the base direction for the context..  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-base-gravity
+
+Retrieves the base gravity for the context.
+
+See [method C<$Pango>.Context.set_base_gravity].
+
+=begin code
+method get-base-gravity (--> PangoGravity )
+=end code
+
+
+Return value; the base gravity for the context..  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-description
+
+Retrieve the default font description for the context.
+
+=begin code
+method get-font-description (--> CArray[N-FontDescription]  )
+=end code
+
+
+Return value; a pointer to the context's default font
+ description. This value must not be modified or freed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-map
+
+Gets the `PangoFontMap` used to look up fonts for this context.
+
+=begin code
+method get-font-map (--> N-Object )
+=end code
+
+
+Return value; the font map for the.
+ `PangoContext` This value is owned by Pango and should not be
+ unreferenced.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-gravity
+
+Retrieves the gravity for the context.
+
+This is similar to [method C<$Pango>.Context.get_base_gravity],
+except for when the base gravity is %PANGO_GRAVITY_AUTO for which [func C<$Pango>.C<Gravity enumeration>.get_for_matrix] is used to return the gravity from the current context matrix.
+
+=begin code
+method get-gravity (--> PangoGravity )
+=end code
+
+
+Return value; the resolved gravity for the context..  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-gravity-hint
+
+Retrieves the gravity hint for the context.
+
+See [method C<$Pango>.Context.set_gravity_hint] for details.
+
+=begin code
+method get-gravity-hint (--> PangoGravityHint )
+=end code
+
+
+Return value; the gravity hint for the context..  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-language
+
+Retrieves the global language tag for the context.
+
+=begin code
+method get-language (--> CArray[N-Language]  )
+=end code
+
+
+Return value; the global language tag.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-matrix
+
+Gets the transformation matrix that will be applied when rendering with this context.
+
+See [method C<$Pango>.Context.set_matrix].
+
+=begin code
+method get-matrix (--> CArray[N-Matrix]  )
+=end code
+
+
+Return value; the matrix, or C<Nil> if no
+ matrix has been set (which is the same as the identity matrix).
+ The returned matrix is owned by Pango and must not be modified
+ or freed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-metrics
+
+Get overall metric information for a particular font description.
+
+Since the metrics may be substantially different for different scripts,
+a language tag can be provided to indicate that the metrics should be retrieved that correspond to the script(s) used by that language.
+
+The `PangoFontDescription` is interpreted in the same way as by [func C<$itemize>],
+and the family name may be a comma separated list of names. If characters from multiple of these families would be used to render the string, then the returned fonts would be a composite of the metrics for the fonts loaded for the individual families.
+
+=begin code
+method get-metrics ( CArray[N-FontDescription]  $desc, CArray[N-Language]  $language --> CArray[N-FontMetrics]  )
+=end code
+
+=item $desc; a `PangoFontDescription` structure. C<Nil> means that the
+ font description from the context will be used..
+=item $language; language tag used to determine which script to get
+ the metrics for. C<Nil> means that the language tag from the context
+ will be used. If no language tag is set on the context, metrics
+ for the default language (as determined by [func C<$Pango>.Language.get_default]
+ will be returned..
+
+Return value; a `PangoFontMetrics` object. The caller must call
+ [method C<$Pango>.FontMetrics.unref] when finished using the object.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-round-glyph-positions
+
+Returns whether font rendering with this context should round glyph positions and widths.
+
+=begin code
+method get-round-glyph-positions (--> Bool )
+=end code
+
+
+Return value; No documentation about its value and use. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-serial
+
+Returns the current serial number of C<$context>.
+
+The serial number is initialized to an small number larger than zero when a new context is created and is increased whenever the context is changed using any of the setter functions, or the `PangoFontMap` it uses to find fonts has changed. The serial may wrap, but will never have the value 0. Since it can wrap, never compare it with "less than",
+always use "not equals".
+
+This can be used to automatically detect changes to a `PangoContext`,
+and is only useful when implementing objects that need update when their
+`PangoContext` changes, like `PangoLayout`.
+
+=begin code
+method get-serial (--> UInt )
+=end code
+
+
+Return value; The current serial number of C<$context>.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 list-families
+
+List all families for a context.
+
+=begin code
+method list-families ( N-Object() $families, Array[Int] $n-families )
+=end code
+
+=item $families; (transfer ownership: container) location
+ to store a pointer to an array of `PangoFontFamily`. This array should
+ be freed with g_free()..
+=item $n-families; (transfer ownership: full) location to store the number of elements in C<$descs>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 load-font
+
+Loads the font in one of the fontmaps in the context that is the closest match for C<$desc>.
+
+=begin code
+method load-font ( CArray[N-FontDescription]  $desc --> N-Object )
+=end code
+
+=item $desc; a `PangoFontDescription` describing the font to load.
+
+Return value; the newly allocated `PangoFont`
+ that was loaded, or C<Nil> if no font matched.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 load-fontset
+
+Load a set of fonts in the context that can be used to render a font matching C<$desc>.
+
+=begin code
+method load-fontset ( CArray[N-FontDescription]  $desc, CArray[N-Language]  $language --> N-Object )
+=end code
+
+=item $desc; a `PangoFontDescription` describing the fonts to load.
+=item $language; a `PangoLanguage` the fonts will be used for.
+
+Return value; the newly allocated
+ `PangoFontset` loaded, or C<Nil> if no font matched.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-base-dir
+
+Sets the base direction for the context.
+
+The base direction is used in applying the Unicode bidirectional algorithm; if the C<$direction> is %PANGO_DIRECTION_LTR or
+%PANGO_DIRECTION_RTL, then the value will be used as the paragraph direction in the Unicode bidirectional algorithm. A value of
+%PANGO_DIRECTION_WEAK_LTR or %PANGO_DIRECTION_WEAK_RTL is used only for paragraphs that do not contain any strong characters themselves.
+
+=begin code
+method set-base-dir ( PangoDirection $direction )
+=end code
+
+=item $direction; the new base direction. An enumeration.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-base-gravity
+
+Sets the base gravity for the context.
+
+The base gravity is used in laying vertical text out.
+
+=begin code
+method set-base-gravity ( PangoGravity $gravity )
+=end code
+
+=item $gravity; the new base gravity. An enumeration.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-font-description
+
+Set the default font description for the context
+
+=begin code
+method set-font-description ( CArray[N-FontDescription]  $desc )
+=end code
+
+=item $desc; the new pango font description.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-font-map
+
+Sets the font map to be searched when fonts are looked-up in this context.
+
+This is only for internal use by Pango backends, a `PangoContext`
+obtained via one of the recommended methods should already have a suitable font map.
+
+=begin code
+method set-font-map ( N-Object() $font-map )
+=end code
+
+=item $font-map; the `PangoFontMap` to set..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-gravity-hint
+
+Sets the gravity hint for the context.
+
+The gravity hint is used in laying vertical text out, and is only relevant if gravity of the context as returned by
+[method C<$Pango>.Context.get_gravity] is set to %PANGO_GRAVITY_EAST or %PANGO_GRAVITY_WEST.
+
+=begin code
+method set-gravity-hint ( PangoGravityHint $hint )
+=end code
+
+=item $hint; the new gravity hint. An enumeration.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-language
+
+Sets the global language tag for the context.
+
+The default language for the locale of the running process can be found using [func C<$Pango>.Language.get_default].
+
+=begin code
+method set-language ( CArray[N-Language]  $language )
+=end code
+
+=item $language; the new language tag..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-matrix
+
+Sets the transformation matrix that will be applied when rendering with this context.
+
+Note that reported metrics are in the user space coordinates before the application of the matrix, not device-space coordinates after the application of the matrix. So, they don't scale with the matrix, though they may change slightly for different matrices, depending on how the text is fit to the pixel grid.
+
+=begin code
+method set-matrix ( CArray[N-Matrix]  $matrix )
+=end code
+
+=item $matrix; a `PangoMatrix`, or C<Nil> to unset any existing matrix. (No matrix set is the same as setting the identity matrix.).
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-round-glyph-positions
+
+Sets whether font rendering with this context should round glyph positions and widths to integral positions,
+in device units.
+
+This is useful when the renderer can't handle subpixel positioning of glyphs.
+
+The default value is to round glyph positions, to remain compatible with previous Pango behavior.
+
+=begin code
+method set-round-glyph-positions ( Bool() $round-positions )
+=end code
+
+=item $round-positions; whether to round glyph positions.
+
+=end pod
+

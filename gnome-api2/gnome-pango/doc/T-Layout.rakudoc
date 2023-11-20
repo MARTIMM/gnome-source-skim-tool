@@ -1,0 +1,72 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Pango
+ =item B<Project description:> Modules for package Gnome::Pango:api<2>. The language binding to Pango: Internationalized text layout and rendering
+ =item B<Project version:> 0.1.2
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+=begin pod
+=head1 Enumerations
+
+=head2 PangoAlignment
+
+`C<PangoAlignment enumeration>` describes how to align the lines of a `PangoLayout`
+within the available space.
+
+If the `PangoLayout` is set to justify using [method C<$Pango>.Layout.set_justify],
+this only affects partial lines.
+
+See [method C<$Pango>.Layout.set_auto_dir] for how text direction affects the interpretation of `C<PangoAlignment enumeration>` values.=item C<PANGO_ALIGN_LEFT>; Put all available space on the right
+=item C<PANGO_ALIGN_CENTER>; Center the line within the available space
+=item C<PANGO_ALIGN_RIGHT>; Put all available space on the left
+=head2 PangoEllipsizeMode
+
+`C<PangoEllipsizeMode enumeration>` describes what sort of ellipsization should be applied to text.
+
+In the ellipsization process characters are removed from the text in order to make it fit to a given width and replaced with an ellipsis.=item C<PANGO_ELLIPSIZE_NONE>; No ellipsization
+=item C<PANGO_ELLIPSIZE_START>; Omit characters at the start of the text
+=item C<PANGO_ELLIPSIZE_MIDDLE>; Omit characters in the middle of the text
+=item C<PANGO_ELLIPSIZE_END>; Omit characters at the end of the text
+=head2 PangoLayoutDeserializeError
+
+Errors that can be returned by [func C<$Pango>.Layout.deserialize].=item C<PANGO_LAYOUT_DESERIALIZE_INVALID>; Unspecified error
+=item C<PANGO_LAYOUT_DESERIALIZE_INVALID_VALUE>; A JSon value could not be
+ interpreted
+=item C<PANGO_LAYOUT_DESERIALIZE_MISSING_VALUE>; A required JSon member was
+ not found
+=head2 PangoWrapMode
+
+`C<PangoWrapMode enumeration>` describes how to wrap the lines of a `PangoLayout`
+to the desired width.
+
+For C<$PANGO_WRAP_WORD>, Pango uses break opportunities that are determined by the Unicode line breaking algorithm. For C<$PANGO_WRAP_CHAR>, Pango allows breaking at grapheme boundaries that are determined by the Unicode text segmentation algorithm.=item C<PANGO_WRAP_WORD>; wrap lines at word boundaries.
+=item C<PANGO_WRAP_CHAR>; wrap lines at character boundaries.
+=item C<PANGO_WRAP_WORD_CHAR>; wrap lines at word boundaries, but fall back to
+ character boundaries if there is not enough space for a full word.
+=end pod
+
+=begin pod
+=head1 Bitfields
+
+=head2 PangoLayoutDeserializeFlags
+
+Flags that influence the behavior of [func C<$Pango>.Layout.deserialize].
+
+New members may be added to this enumeration over time.
+=item C<PANGO_LAYOUT_DESERIALIZE_DEFAULT>; Default behavior
+=item C<PANGO_LAYOUT_DESERIALIZE_CONTEXT>; Apply context information
+ from the serialization to the `PangoContext`
+=head2 PangoLayoutSerializeFlags
+
+Flags that influence the behavior of [method C<$Pango>.Layout.serialize].
+
+New members may be added to this enumeration over time.
+=item C<PANGO_LAYOUT_SERIALIZE_DEFAULT>; Default behavior
+=item C<PANGO_LAYOUT_SERIALIZE_CONTEXT>; Include context information
+=item C<PANGO_LAYOUT_SERIALIZE_OUTPUT>; Include information about the formatted output
+=end pod
+

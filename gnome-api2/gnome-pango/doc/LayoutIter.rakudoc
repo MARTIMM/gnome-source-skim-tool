@@ -1,0 +1,442 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Pango
+ =item B<Project description:> Modules for package Gnome::Pango:api<2>. The language binding to Pango: Internationalized text layout and rendering
+ =item B<Project version:> 0.1.2
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/layoutiter.png)
+
+=head1 Description
+
+A `PangoLayoutIter` can be used to iterate over the visual
+extents of a `PangoLayout`.
+
+To obtain a `PangoLayoutIter`, use [method C<$Pango>.Layout.get_iter].
+
+The `PangoLayoutIter` structure is opaque, and has no user-visible fields.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 at-last-line
+
+Determines whether C<$iter> is on the last line of the layout.
+
+=begin code
+method at-last-line (--> Bool )
+=end code
+
+
+Return value; C<True> if C<$iter> is on the last line. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Copies a `PangoLayoutIter`.
+
+=begin code
+method copy (--> CArray[N-LayoutIter] )
+=end code
+
+
+Return value; the newly allocated `PangoLayoutIter`. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees an iterator that's no longer in use.
+
+=begin code
+method free ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-baseline
+
+Gets the Y position of the current line's baseline, in layout coordinates.
+
+Layout coordinates have the origin at the top left of the entire layout.
+
+=begin code
+method get-baseline (--> Int )
+=end code
+
+
+Return value; baseline of current line. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-char-extents
+
+Gets the extents of the current character, in layout coordinates.
+
+Layout coordinates have the origin at the top left of the entire layout.
+
+Only logical extents can sensibly be obtained for characters;
+ink extents make sense only down to the level of clusters.
+
+=begin code
+method get-char-extents ( CArray[N-Rectangle]  $logical-rect )
+=end code
+
+=item $logical-rect; rectangle to fill with
+ logical extents.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cluster-extents
+
+Gets the extents of the current cluster, in layout coordinates.
+
+Layout coordinates have the origin at the top left of the entire layout.
+
+=begin code
+method get-cluster-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
+=end code
+
+=item $ink-rect; rectangle to fill with ink extents.
+=item $logical-rect; rectangle to fill with logical extents.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-index
+
+Gets the current byte index.
+
+Note that iterating forward by char moves in visual order,
+not logical order, so indexes may not be sequential. Also,
+the index may be equal to the length of the text in the layout, if on the C<Nil> run (see [method C<$Pango>.LayoutIter.get_run]).
+
+=begin code
+method get-index (--> Int )
+=end code
+
+
+Return value; current byte index. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-layout
+
+Gets the layout associated with a `PangoLayoutIter`.
+
+=begin code
+method get-layout (--> N-Object )
+=end code
+
+
+Return value; the layout associated with C<$iter>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-layout-extents
+
+Obtains the extents of the `PangoLayout` being iterated over.
+
+=begin code
+method get-layout-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
+=end code
+
+=item $ink-rect; rectangle to fill with ink extents.
+=item $logical-rect; rectangle to fill with logical extents.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-line
+
+Gets the current line.
+
+Use the faster [method C<$Pango>.LayoutIter.get_line_readonly] if you do not plan to modify the contents of the line (glyphs,
+glyph widths, etc.).
+
+=begin code
+method get-line (--> CArray[N-LayoutLine] )
+=end code
+
+
+Return value; the current line. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-line-extents
+
+Obtains the extents of the current line.
+
+Extents are in layout coordinates (origin is the top-left corner of the entire `PangoLayout`). Thus the extents returned by this function will be the same width/height but not at the same x/y as the extents returned from [method C<$Pango>.LayoutLine.get_extents].
+
+=begin code
+method get-line-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
+=end code
+
+=item $ink-rect; rectangle to fill with ink extents.
+=item $logical-rect; rectangle to fill with logical extents.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-line-readonly
+
+Gets the current line for read-only access.
+
+This is a faster alternative to [method C<$Pango>.LayoutIter.get_line],
+but the user is not expected to modify the contents of the line
+(glyphs, glyph widths, etc.).
+
+=begin code
+method get-line-readonly (--> CArray[N-LayoutLine] )
+=end code
+
+
+Return value; the current line, that should not be
+ modified. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-line-yrange
+
+Divides the vertical space in the `PangoLayout` being iterated over between the lines in the layout, and returns the space belonging to the current line.
+
+A line's range includes the line's logical extents. plus half of the spacing above and below the line, if [method C<$Pango>.Layout.set_spacing]
+has been called to set layout spacing. The Y positions are in layout coordinates (origin at top left of the entire layout).
+
+Note: Since 1.44, Pango uses line heights for placing lines, and there may be gaps between the ranges returned by this function.
+
+=begin code
+method get-line-yrange ( Array[Int] $y0, Array[Int] $y1 )
+=end code
+
+=item $y0; (transfer ownership: full) start of line.
+=item $y1; (transfer ownership: full) end of line.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-run
+
+Gets the current run.
+
+When iterating by run, at the end of each line, there's a position with a C<Nil> run, so this function can return C<Nil>. The C<Nil> run at the end of each line ensures that all lines have at least one run,
+even lines consisting of only a newline.
+
+Use the faster [method C<$Pango>.LayoutIter.get_run_readonly] if you do not plan to modify the contents of the run (glyphs, glyph widths, etc.).
+
+=begin code
+method get-run ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-run-baseline
+
+Gets the Y position of the current run's baseline, in layout coordinates.
+
+Layout coordinates have the origin at the top left of the entire layout.
+
+The run baseline can be different from the line baseline, for example due to superscript or subscript positioning.
+
+=begin code
+method get-run-baseline (--> Int )
+=end code
+
+
+Return value; No documentation about its value and use. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-run-extents
+
+Gets the extents of the current run in layout coordinates.
+
+Layout coordinates have the origin at the top left of the entire layout.
+
+=begin code
+method get-run-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
+=end code
+
+=item $ink-rect; rectangle to fill with ink extents.
+=item $logical-rect; rectangle to fill with logical extents.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-run-readonly
+
+Gets the current run for read-only access.
+
+When iterating by run, at the end of each line, there's a position with a C<Nil> run, so this function can return C<Nil>. The C<Nil> run at the end of each line ensures that all lines have at least one run,
+even lines consisting of only a newline.
+
+This is a faster alternative to [method C<$Pango>.LayoutIter.get_run],
+but the user is not expected to modify the contents of the run (glyphs,
+glyph widths, etc.).
+
+=begin code
+method get-run-readonly ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next-char
+
+Moves C<$iter> forward to the next character in visual order.
+
+If C<$iter> was already at the end of the layout, returns C<False>.
+
+=begin code
+method next-char (--> Bool )
+=end code
+
+
+Return value; whether motion was possible. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next-cluster
+
+Moves C<$iter> forward to the next cluster in visual order.
+
+If C<$iter> was already at the end of the layout, returns C<False>.
+
+=begin code
+method next-cluster (--> Bool )
+=end code
+
+
+Return value; whether motion was possible. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next-line
+
+Moves C<$iter> forward to the start of the next line.
+
+If C<$iter> is already on the last line, returns C<False>.
+
+=begin code
+method next-line (--> Bool )
+=end code
+
+
+Return value; whether motion was possible. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next-run
+
+Moves C<$iter> forward to the next run in visual order.
+
+If C<$iter> was already at the end of the layout, returns C<False>.
+
+=begin code
+method next-run (--> Bool )
+=end code
+
+
+Return value; whether motion was possible. 
+
+
+=end pod
+

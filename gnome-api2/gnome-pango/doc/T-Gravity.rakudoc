@@ -1,0 +1,160 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Pango
+ =item B<Project description:> Modules for package Gnome::Pango:api<2>. The language binding to Pango: Internationalized text layout and rendering
+ =item B<Project version:> 0.1.2
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+  =begin pod
+  =head1 Gnome::Pango::T-Gravity
+  =head1 Class initialization
+
+  =head2 new
+
+  Initialization of a type class is simple.
+
+    method new ( )
+
+  =end pod
+=begin pod
+=head1 Enumerations
+
+=head2 PangoGravity
+
+`C<PangoC<Gravity enumeration> enumeration>` represents the orientation of glyphs in a segment of text.
+
+This is useful when rendering vertical text layouts. In those situations,
+the layout is rotated using a non-identity [struct C<$Pango>.Matrix], and then glyph orientation is controlled using `C<PangoC<Gravity enumeration> enumeration>`.
+
+Not every value in this enumeration makes sense for every usage of
+`C<PangoC<Gravity enumeration> enumeration>`; for example, %PANGO_GRAVITY_AUTO only can be passed to
+[method C<$Pango>.Context.set_base_gravity] and can only be returned by
+[method C<$Pango>.Context.get_base_gravity].
+
+See also: [enum C<$Pango>.C<Gravity enumeration>Hint]=item C<PANGO_GRAVITY_SOUTH>; Glyphs stand upright (default) <img align="right" valign="center" src="m-south.png">
+=item C<PANGO_GRAVITY_EAST>; Glyphs are rotated 90 degrees counter-clockwise. <img align="right" valign="center" src="m-east.png">
+=item C<PANGO_GRAVITY_NORTH>; Glyphs are upside-down. <img align="right" valign="cener" src="m-north.png">
+=item C<PANGO_GRAVITY_WEST>; Glyphs are rotated 90 degrees clockwise. <img align="right" valign="center" src="m-west.png">
+=item C<PANGO_GRAVITY_AUTO>; C<Gravity enumeration> is resolved from the context matrix
+=head2 PangoGravityHint
+
+`C<PangoC<C<Gravity enumeration>Hint enumeration> enumeration>` defines how horizontal scripts should behave in a vertical context.
+
+That is, English excerpts in a vertical paragraph for example.
+
+See also [enum C<$Pango>.C<Gravity enumeration>]=item C<PANGO_GRAVITY_HINT_NATURAL>; scripts will take their natural gravity based
+ on the base gravity and the script. This is the default.
+=item C<PANGO_GRAVITY_HINT_STRONG>; always use the base gravity set, regardless of
+ the script.
+=item C<PANGO_GRAVITY_HINT_LINE>; for scripts not in their natural direction (eg.
+ Latin in East gravity), choose per-script gravity such that every script
+ respects the line progression. This means, Latin and Arabic will take
+ opposite gravities and both flow top-to-bottom for example.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 gravity-get-for-matrix
+
+Finds the gravity that best matches the rotation component in a `PangoMatrix`.
+
+=begin code
+method gravity-get-for-matrix ( CArray[N-Matrix]  $matrix --> PangoGravity )
+=end code
+
+=item $matrix; a `PangoMatrix`.
+
+Return value; the gravity of C<$matrix>, which will never be
+%PANGO_GRAVITY_AUTO, or %PANGO_GRAVITY_SOUTH if C<$matrix> is C<Nil>.  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 gravity-get-for-script
+
+Returns the gravity to use in laying out a `PangoItem`.
+
+The gravity is determined based on the script, base gravity, and hint.
+
+If C<$base_gravity> is %PANGO_GRAVITY_AUTO, it is first replaced with the preferred gravity of C<$script>. To get the preferred gravity of a script,
+pass %PANGO_GRAVITY_AUTO and %PANGO_GRAVITY_HINT_STRONG in.
+
+=begin code
+method gravity-get-for-script ( PangoScript  $script, PangoGravity $base-gravity, PangoGravityHint $hint --> PangoGravity )
+=end code
+
+=item $script; `C<PangoScript enumeration>` to query. An enumeration.
+=item $base-gravity; base gravity of the paragraph. An enumeration.
+=item $hint; orientation hint. An enumeration.
+
+Return value; resolved gravity suitable to use for a run of text with C<$script>.  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 gravity-get-for-script-and-width
+
+Returns the gravity to use in laying out a single character or `PangoItem`.
+
+The gravity is determined based on the script, East Asian width,
+base gravity, and hint,
+
+This function is similar to [func C<$Pango>.C<Gravity enumeration>.get_for_script] except that this function makes a distinction between narrow/half-width and wide/full-width characters also. Wide/full-width characters always stand *upright*, that is, they always take the base gravity,
+whereas narrow/full-width characters are always rotated in vertical context.
+
+If C<$base_gravity> is %PANGO_GRAVITY_AUTO, it is first replaced with the preferred gravity of C<$script>.
+
+=begin code
+method gravity-get-for-script-and-width ( PangoScript  $script, Bool() $wide, PangoGravity $base-gravity, PangoGravityHint $hint --> PangoGravity )
+=end code
+
+=item $script; `C<PangoScript enumeration>` to query. An enumeration.
+=item $wide; C<True> for wide characters as returned by g_unichar_iswide().
+=item $base-gravity; base gravity of the paragraph. An enumeration.
+=item $hint; orientation hint. An enumeration.
+
+Return value; resolved gravity suitable to use for a run of text with C<$script> and C<$wide>..  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 gravity-to-rotation
+
+Converts a `C<PangoC<Gravity enumeration> enumeration>` value to its natural rotation in radians.
+
+Note that [method C<$Pango>.Matrix.rotate] takes angle in degrees, not radians.
+So, to call [method C<$Pango>.Matrix,rotate] with the output of this function you should multiply it by (180. / G_PI).
+
+=begin code
+method gravity-to-rotation ( PangoGravity $gravity --> Num )
+=end code
+
+=item $gravity; gravity to query, should not be %PANGO_GRAVITY_AUTO. An enumeration.
+
+Return value; the rotation value corresponding to C<$gravity>.. 
+
+
+=end pod
+
