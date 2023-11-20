@@ -1,7 +1,7 @@
-# Command to generate: generate.raku -t -c Glib slist
+# Command to generate: generate.raku -v -d -t Glib slist
 use v6.d;
 
-#TL:1:Gnome::Glib::T-SList:
+#TL:1:Gnome::Glib::T-Slist:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -11,8 +11,7 @@ use Test;
 
 
 use Gnome::Glib::N-SList:api<2>;
-use Gnome::Glib::SList:api<2>;
-use Gnome::Glib::T-SList:api<2>;
+use Gnome::Glib::T-Slist:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -21,12 +20,12 @@ use Gnome::N::X:api<2>;
 
 
 
-my Gnome::Glib::T-SList $slist .= new;
+my Gnome::Glib::T-Slist $slist .= new;
 #-------------------------------------------------------------------------------
-subtest 'Method tests', {
+subtest 'Function tests', {
   with $slist {
+    sub destroy ( gpointer $data ) {}
     my CArray[N-SList] $slist-ptr;
-#    my Callable $handler ( gpointer )  $destroy;
 
 
 #`{{
