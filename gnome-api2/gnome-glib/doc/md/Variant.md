@@ -141,7 +141,11 @@ The first character of the format string must not be '*' '?' '@' or 'r'; in esse
 
 Note that the arguments must be of the correct width for their types specified in `$format_string`. This can be achieved by casting them. See the GVariant varargs documentation.
 
-    method new-variant ( --> Gnome::Glib::Variant)
+    method new-variant ( Str $format-string, … --> Gnome::Glib::Variant)
+
+  * $format-string; a GVariant format string.
+
+  * …; arguments, as per `$format_string`. Note that each argument must be specified as a type followed by its value!
 
 new-array
 ---------
@@ -154,21 +158,31 @@ All items in the array must have the same type, which must be the same as `$chil
 
 If the `$children` are floating references (see `.ref-sink()`), the new instance takes ownership of them as if via `.ref-sink()`.
 
-    method new-array ( --> Gnome::Glib::Variant)
+    method new-array ( CArray[N-VariantType] $child-type, CArray[N-Variant] $children, Int() $n-children --> Gnome::Glib::Variant)
+
+  * $child-type; the element type of the new array.
+
+  * $children; an array of GVariant pointers, the children.
+
+  * $n-children; the length of `$children`.
 
 new-boolean
 -----------
 
 Creates a new boolean GVariant instance -- either `True` or `False`.
 
-    method new-boolean ( --> Gnome::Glib::Variant)
+    method new-boolean ( Bool() $value --> Gnome::Glib::Variant)
+
+  * $value; a `gboolean` value.
 
 new-byte
 --------
 
 Creates a new byte GVariant instance.
 
-    method new-byte ( --> Gnome::Glib::Variant)
+    method new-byte ( UInt() $value --> Gnome::Glib::Variant)
+
+  * $value; a `guint8` value.
 
 new-bytestring
 --------------
@@ -177,7 +191,9 @@ Creates an array-of-bytes GVariant with the contents of `$string`. This function
 
 The nul terminator character at the end of the string is stored in the array.
 
-    method new-bytestring ( --> Gnome::Glib::Variant)
+    method new-bytestring ( Str $string --> Gnome::Glib::Variant)
+
+  * $string; a normal nul-terminated string in no particular encoding.
 
 new-bytestring-array
 --------------------
@@ -186,7 +202,14 @@ Constructs an array of bytestring GVariant from the given array of strings.
 
 If `$length` is -1 then `$strv` is `Nil`-terminated.
 
-    method new-bytestring-array ( --> Gnome::Glib::Variant)
+    method new-bytestring-array (
+      Array[Str] $strv, Int() $length
+      --> Gnome::Glib::Variant
+    )
+
+  * $strv; an array of strings.
+
+  * $length; the length of `$strv`, or -1.
 
 new-dict-entry
 --------------
@@ -195,21 +218,43 @@ Creates a new dictionary entry GVariant. `$key` and `$value` must be non-`Nil`. 
 
 If the `$key` or `$value` are floating references (see `.ref-sink()`), the new instance takes ownership of them as if via `.ref-sink()`.
 
-    method new-dict-entry ( --> Gnome::Glib::Variant)
+    method new-dict-entry (
+      CArray[N-Variant] $key, CArray[N-Variant] $value
+      --> Gnome::Glib::Variant
+    )
+
+  * $key; a basic GVariant, the key.
+
+  * $value; a GVariant, the value.
 
 new-double
 ----------
 
 Creates a new double GVariant instance.
 
-    method new-double ( --> Gnome::Glib::Variant)
+    method new-double ( Num() $value --> Gnome::Glib::Variant)
+
+  * $value; a `gdouble` floating point value.
 
 new-fixed-array
 ---------------
 
 Constructs a new array GVariant instance, where the elements are of `$element_type` type. `$elements` must be an array with fixed-sized elements. Numeric types are fixed-size as are tuples containing only other fixed-sized types. `$element_size` must be the size of a single element in the array. For example, if calling this function for an array of 32-bit integers, you might say sizeof(gint32). This value isn't used except for the purpose of a double-check that the form of the serialized data matches the caller's expectation. `$n_elements` must be the length of the `$elements` array.
 
-    method new-fixed-array ( --> Gnome::Glib::Variant)
+    method new-fixed-array (
+      CArray[N-VariantType] $element-type,
+      gpointer $elements, Int() $n-elements,
+      Int() $element-size
+      --> Gnome::Glib::Variant
+    )
+
+  * $element-type; the GVariantType of each element.
+
+  * $elements; a pointer to the fixed array of contiguous elements.
+
+  * $n-elements; the number of elements.
+
+  * $element-size; the size of each element.
 
 new-from-bytes
 --------------
@@ -220,7 +265,17 @@ A reference is taken on `$bytes`.
 
 The data in `$bytes` must be aligned appropriately for the `$type` being loaded. Otherwise this function will internally create a copy of the memory (since GLib 2.60) or (in older versions) fail and exit the process.
 
-    method new-from-bytes ( --> Gnome::Glib::Variant)
+    method new-from-bytes (
+      CArray[N-VariantType] $type,
+      CArray[N-Bytes] $bytes, Bool() $trusted
+      --> Gnome::Glib::Variant
+    )
+
+  * $type; a GVariantType.
+
+  * $bytes; a GBytes.
+
+  * $trusted; if the contents of `$bytes` are trusted.
 
 new-from-data
 -------------
@@ -233,7 +288,24 @@ If `$data` was not stored in this machine's native endianness, any multi-byte nu
 
 Note: `$data` must be backed by memory that is aligned appropriately for the `$type` being loaded. Otherwise this function will internally create a copy of the memory (since GLib 2.60) or (in older versions) fail and exit the process.
 
-    method new-from-data ( --> Gnome::Glib::Variant)
+    method new-from-data (
+      CArray[N-VariantType] $type, gpointer $data,
+      Int() $size, Bool() $trusted, &notify,
+      gpointer $user-data
+      --> Gnome::Glib::Variant
+    )
+
+  * $type; a definite GVariantType.
+
+  * $data; the serialized data.
+
+  * $size; the size of `$data`.
+
+  * $trusted; `True` if `$data` is definitely in normal form.
+
+  * &notify; function to call when `$data` is no longer needed. Tthe function must be specified with following signature; `:( gpointer $data )`.
+
+  * $user-data; data for `$notify`.
 
 new-handle
 ----------
@@ -242,28 +314,36 @@ Creates a new handle GVariant instance.
 
 By convention, handles are indexes into an array of file descriptors that are sent alongside a D-Bus message. If you're not interacting with D-Bus, you probably don't need them.
 
-    method new-handle ( --> Gnome::Glib::Variant)
+    method new-handle ( Int() $value --> Gnome::Glib::Variant)
+
+  * $value; a `gint32` value.
 
 new-int16
 ---------
 
 Creates a new int16 GVariant instance.
 
-    method new-int16 ( --> Gnome::Glib::Variant)
+    method new-int16 ( Int() $value --> Gnome::Glib::Variant)
+
+  * $value; a `gint16` value.
 
 new-int32
 ---------
 
 Creates a new int32 GVariant instance.
 
-    method new-int32 ( --> Gnome::Glib::Variant)
+    method new-int32 ( Int() $value --> Gnome::Glib::Variant)
+
+  * $value; a `gint32` value.
 
 new-int64
 ---------
 
 Creates a new int64 GVariant instance.
 
-    method new-int64 ( --> Gnome::Glib::Variant)
+    method new-int64 ( Int() $value --> Gnome::Glib::Variant)
+
+  * $value; a `gint64` value.
 
 new-maybe
 ---------
@@ -274,25 +354,24 @@ At least one of `$child_type` and `$child` must be non-`Nil`. If `$child_type` i
 
 If `$child` is a floating reference (see `.ref-sink()`), the new instance takes ownership of `$child`.
 
-    method new-maybe ( --> Gnome::Glib::Variant)
+    method new-maybe (
+      CArray[N-VariantType] $child-type,
+      CArray[N-Variant] $child
+      --> Gnome::Glib::Variant
+    )
+
+  * $child-type; the GVariantType of the child, or `Nil`.
+
+  * $child; the child value, or `Nil`.
 
 new-object-path
 ---------------
 
 Creates a D-Bus object path GVariant with the contents of `$string`. `$string` must be a valid D-Bus object path. Use `.is-object-path()` if you're not sure.
 
-    method new-object-path ( --> Gnome::Glib::Variant)
+    method new-object-path ( Str $object-path --> Gnome::Glib::Variant)
 
-new-objv
---------
-
-Constructs an array of object paths GVariant from the given array of strings.
-
-Each string must be a valid GVariant object path; see `.is-object-path()`.
-
-If `$length` is -1 then `$strv` is `Nil`-terminated.
-
-    method new-objv ( --> Gnome::Glib::Variant)
+  * $object-path; a normal C nul-terminated string.
 
 new-parsed
 ----------
@@ -301,15 +380,15 @@ Parses `$format` and returns the result. `$format` must be a text format GVarian
 
 Note that the arguments must be of the correct width for their types specified in `$format`. This can be achieved by casting them. See the GVariant varargs documentation.
 
-Consider this simple example:
-
-In the example, the variable argument parameters are collected and filled in as if they were part of the original string to produce the result of
-
 This function is intended only to be used with `$format` as a string literal. Any parse error is fatal to the calling process. If you want to parse data from untrusted sources, use `.parse()`.
 
 You may not use this function to return, unmodified, a single GVariant pointer from the argument list. ie: `$format` may not solely be anything along the lines of "%*", "%?", "\%r", or anything starting with "%@".
 
-    method new-parsed ( --> Gnome::Glib::Variant)
+    method new-parsed ( Str $format, … --> Gnome::Glib::Variant)
+
+  * $format; a text format GVariant.
+
+  * …; arguments as per `$format`. Note that each argument must be specified as a type followed by its value!
 
 new-parsed-va
 -------------
@@ -324,7 +403,11 @@ Note that the arguments in `$app` must be of the correct width for their types s
 
 In order to behave correctly in all cases it is necessary for the calling function to `.ref-sink()` the return result before returning control to the user that originally provided the pointer. At this point, the caller will have their own full reference to the result. This can also be done by adding the result to a container, or by passing it to another `.new-variant()` call.
 
-    method new-parsed-va ( --> Gnome::Glib::Variant)
+    method new-parsed-va ( Str $format, … --> Gnome::Glib::Variant)
+
+  * $format; a text format GVariant.
+
+  * app; a pointer to a `va_list`. Note that each argument must be specified as a type followed by its value!
 
 new-printf
 ----------
@@ -333,21 +416,29 @@ Creates a string-type GVariant using printf formatting.
 
 This is similar to calling g_strdup_printf() and then `.new-string()` but it saves a temporary variable and an unnecessary copy.
 
-    method new-printf ( --> Gnome::Glib::Variant)
+    method new-printf ( Str $format-string, … --> Gnome::Glib::Variant)
+
+  * $format-string; a printf-style format string.
+
+  * …; arguments for `$format_string`. Note that each argument must be specified as a type followed by its value!
 
 new-signature
 -------------
 
 Creates a D-Bus type signature GVariant with the contents of `$string`. `$string` must be a valid D-Bus type signature. Use `.is-signature()` if you're not sure.
 
-    method new-signature ( --> Gnome::Glib::Variant)
+    method new-signature ( Str $signature --> Gnome::Glib::Variant)
+
+  * $signature; a normal C nul-terminated string.
 
 new-string
 ----------
 
 Creates a string GVariant with the contents of `$string`. `$string` must be valid UTF-8, and must not be `Nil`. To encode potentially-`Nil` strings, use `.new-variant()` with `ms` as the format string.
 
-    method new-string ( --> Gnome::Glib::Variant)
+    method new-string ( Str $string --> Gnome::Glib::Variant)
+
+  * $string; a normal UTF-8 nul-terminated string.
 
 new-strv
 --------
@@ -356,7 +447,11 @@ Constructs an array of strings GVariant from the given array of strings.
 
 If `$length` is -1 then `$strv` is `Nil`-terminated.
 
-    method new-strv ( --> Gnome::Glib::Variant)
+    method new-strv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant)
+
+  * $strv; an array of strings.
+
+  * $length; the length of `$strv`, or -1.
 
 new-take-string
 ---------------
@@ -367,7 +462,9 @@ This function consumes `$string`. g_free() will be called on `$string` when it i
 
 You must not modify or access `$string` in any other way after passing it to this function. It is even possible that `$string` is immediately freed.
 
-    method new-take-string ( --> Gnome::Glib::Variant)
+    method new-take-string ( Str $string --> Gnome::Glib::Variant)
+
+  * $string; a normal UTF-8 nul-terminated string.
 
 new-tuple
 ---------
@@ -378,45 +475,41 @@ If `$n_children` is 0 then the unit tuple is constructed.
 
 If the `$children` are floating references (see `.ref-sink()`), the new instance takes ownership of them as if via `.ref-sink()`.
 
-    method new-tuple ( --> Gnome::Glib::Variant)
+    method new-tuple (
+      CArray[N-Variant] $children, Int() $n-children
+      --> Gnome::Glib::Variant
+    )
+
+  * $children; the items to make the tuple out of.
+
+  * $n-children; the length of `$children`.
 
 new-uint16
 ----------
 
 Creates a new uint16 GVariant instance.
 
-    method new-uint16 ( --> Gnome::Glib::Variant)
+    method new-uint16 ( UInt() $value --> Gnome::Glib::Variant)
+
+  * $value; a `guint16` value.
 
 new-uint32
 ----------
 
 Creates a new uint32 GVariant instance.
 
-    method new-uint32 ( --> Gnome::Glib::Variant)
+    method new-uint32 ( UInt() $value --> Gnome::Glib::Variant)
+
+  * $value; a `guint32` value.
 
 new-uint64
 ----------
 
 Creates a new uint64 GVariant instance.
 
-    method new-uint64 ( --> Gnome::Glib::Variant)
+    method new-uint64 ( UInt() $value --> Gnome::Glib::Variant)
 
-new-va
-------
-
-This function is intended to be used by libraries based on GVariant that want to provide `.new-variant()`-like functionality to their users.
-
-The API is more general than `.new-variant()` to allow a wider range of possible uses. `$format_string` must still point to a valid format string, but it only needs to be nul-terminated if `$endptr` is `Nil`. If `$endptr` is non-`Nil` then it is updated to point to the first character past the end of the format string. `$app` is a pointer to a #va_list. The arguments, according to `$format_string`, are collected from this #va_list and the list is left pointing to the argument following the last.
-
-Note that the arguments in `$app` must be of the correct width for their types specified in `$format_string` when collected into the #va_list. See the GVariant varargs documentation.
-
-These two generalisations allow mixing of multiple calls to `.new-va()` and `.get-va()` within a single actual varargs call by the user.
-
-The return value will be floating if it was a newly created GVariant instance (for example, if the format string was "(ii)"). In the case that the format_string was '*', '?', 'r', or a format starting with '@' then the collected GVariant pointer will be returned unmodified, without adding any additional references.
-
-In order to behave correctly in all cases it is necessary for the calling function to `.ref-sink()` the return result before returning control to the user that originally provided the pointer. At this point, the caller will have their own full reference to the result. This can also be done by adding the result to a container, or by passing it to another `.new-variant()` call.
-
-    method new-va ( --> Gnome::Glib::Variant)
+  * $value; a `guint64` value.
 
 new-variant-with-variant
 ------------------------
@@ -425,7 +518,11 @@ Boxes `$value`. The result is a GVariant instance representing a variant contain
 
 If `$child` is a floating reference (see `.ref-sink()`), the new instance takes ownership of `$child`.
 
-    method new-variant-with-variant ( --> Gnome::Glib::Variant )
+    method new-variant-with-variant (
+      CArray[N-Variant] $value --> Gnome::Glib::Variant
+    )
+
+  * $value; a GVariant instance.
 
 Methods
 =======

@@ -323,9 +323,11 @@ new_variant = g_variant_new ("(t^as)",
 
 
 =begin code
-method new-variant ( --> Gnome::Glib::Variant)
+method new-variant ( Str $format-string, … --> Gnome::Glib::Variant)
 =end code
 
+=item $format-string; a GVariant format string.
+=item …; arguments, as per C<$format_string>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
 
@@ -343,9 +345,13 @@ All items in the array must have the same type, which must be the same as C<$chi
 If the C<$children> are floating references (see C<.ref-sink()>), the new instance takes ownership of them as if via C<.ref-sink()>.
 
 =begin code
-method new-array ( --> Gnome::Glib::Variant)
+method new-array ( CArray[N-VariantType] $child-type, CArray[N-Variant] $children, Int() $n-children --> Gnome::Glib::Variant)
 =end code
 
+=item $child-type; the element type of the new array.
+=item $children; an array of
+ GVariant pointers, the children.
+=item $n-children; the length of C<$children>.
 
 =end pod
 
@@ -356,8 +362,10 @@ method new-array ( --> Gnome::Glib::Variant)
 Creates a new boolean GVariant instance -- either C<True> or C<False>.
 
 =begin code
-method new-boolean ( --> Gnome::Glib::Variant)
+method new-boolean ( Bool() $value --> Gnome::Glib::Variant)
 =end code
+
+=item $value; a C<gboolean> value.
 
 
 =end pod
@@ -369,9 +377,10 @@ method new-boolean ( --> Gnome::Glib::Variant)
 Creates a new byte GVariant instance.
 
 =begin code
-method new-byte ( --> Gnome::Glib::Variant)
+method new-byte ( UInt() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<guint8> value.
 
 =end pod
 
@@ -385,9 +394,11 @@ This function is just like C<.new-string()> except that the string need not be v
 The nul terminator character at the end of the string is stored in the array.
 
 =begin code
-method new-bytestring ( --> Gnome::Glib::Variant)
+method new-bytestring ( Str $string --> Gnome::Glib::Variant)
 =end code
 
+=item $string; a normal
+ nul-terminated string in no particular encoding.
 
 =end pod
 
@@ -400,9 +411,14 @@ Constructs an array of bytestring GVariant from the given array of strings.
 If C<$length> is -1 then C<$strv> is C<Nil>-terminated.
 
 =begin code
-method new-bytestring-array ( --> Gnome::Glib::Variant)
+method new-bytestring-array (
+  Array[Str] $strv, Int() $length
+  --> Gnome::Glib::Variant
+)
 =end code
 
+=item $strv; an array of strings.
+=item $length; the length of C<$strv>, or -1.
 
 =end pod
 
@@ -416,8 +432,14 @@ If the C<$key> or C<$value> are floating references (see C<.ref-sink()>),
 the new instance takes ownership of them as if via C<.ref-sink()>.
 
 =begin code
-method new-dict-entry ( --> Gnome::Glib::Variant)
+method new-dict-entry (
+  CArray[N-Variant] $key, CArray[N-Variant] $value
+  --> Gnome::Glib::Variant
+)
 =end code
+
+=item $key; a basic GVariant, the key.
+=item $value; a GVariant, the value.
 
 
 =end pod
@@ -429,9 +451,10 @@ method new-dict-entry ( --> Gnome::Glib::Variant)
 Creates a new double GVariant instance.
 
 =begin code
-method new-double ( --> Gnome::Glib::Variant)
+method new-double ( Num() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<gdouble> floating point value.
 
 =end pod
 
@@ -447,9 +470,18 @@ you might say sizeof(gint32). This value isn't used except for the purpose of a 
  C<$n_elements> must be the length of the C<$elements> array.
 
 =begin code
-method new-fixed-array ( --> Gnome::Glib::Variant)
+method new-fixed-array (
+  CArray[N-VariantType] $element-type,
+  gpointer $elements, Int() $n-elements,
+  Int() $element-size
+  --> Gnome::Glib::Variant
+)
 =end code
 
+=item $element-type; the GVariantType of each element.
+=item $elements; a pointer to the fixed array of contiguous elements.
+=item $n-elements; the number of elements.
+=item $element-size; the size of each element.
 
 =end pod
 
@@ -465,9 +497,16 @@ The data in C<$bytes> must be aligned appropriately for the C<$type> being loade
 Otherwise this function will internally create a copy of the memory (since GLib 2.60) or (in older versions) fail and exit the process.
 
 =begin code
-method new-from-bytes ( --> Gnome::Glib::Variant)
+method new-from-bytes (
+  CArray[N-VariantType] $type,
+  CArray[N-Bytes] $bytes, Bool() $trusted
+  --> Gnome::Glib::Variant
+)
 =end code
 
+=item $type; a GVariantType.
+=item $bytes; a GBytes.
+=item $trusted; if the contents of C<$bytes> are trusted.
 
 =end pod
 
@@ -488,9 +527,20 @@ If C<$data> was not stored in this machine's native endianness, any multi-byte n
 Note: C<$data> must be backed by memory that is aligned appropriately for the C<$type> being loaded. Otherwise this function will internally create a copy of the memory (since GLib 2.60) or (in older versions) fail and exit the process.
 
 =begin code
-method new-from-data ( --> Gnome::Glib::Variant)
+method new-from-data (
+  CArray[N-VariantType] $type, gpointer $data,
+  Int() $size, Bool() $trusted, &notify,
+  gpointer $user-data
+  --> Gnome::Glib::Variant
+)
 =end code
 
+=item $type; a definite GVariantType.
+=item $data; the serialized data.
+=item $size; the size of C<$data>.
+=item $trusted; C<True> if C<$data> is definitely in normal form.
+=item &notify; function to call when C<$data> is no longer needed. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+=item $user-data; data for C<$notify>.
 
 =end pod
 
@@ -503,9 +553,10 @@ Creates a new handle GVariant instance.
 By convention, handles are indexes into an array of file descriptors that are sent alongside a D-Bus message. If you're not interacting with D-Bus, you probably don't need them.
 
 =begin code
-method new-handle ( --> Gnome::Glib::Variant)
+method new-handle ( Int() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<gint32> value.
 
 =end pod
 
@@ -516,9 +567,10 @@ method new-handle ( --> Gnome::Glib::Variant)
 Creates a new int16 GVariant instance.
 
 =begin code
-method new-int16 ( --> Gnome::Glib::Variant)
+method new-int16 ( Int() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<gint16> value.
 
 =end pod
 
@@ -529,9 +581,10 @@ method new-int16 ( --> Gnome::Glib::Variant)
 Creates a new int32 GVariant instance.
 
 =begin code
-method new-int32 ( --> Gnome::Glib::Variant)
+method new-int32 ( Int() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<gint32> value.
 
 =end pod
 
@@ -542,9 +595,10 @@ method new-int32 ( --> Gnome::Glib::Variant)
 Creates a new int64 GVariant instance.
 
 =begin code
-method new-int64 ( --> Gnome::Glib::Variant)
+method new-int64 ( Int() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<gint64> value.
 
 =end pod
 
@@ -561,9 +615,15 @@ If they are both non-C<Nil> then C<$child_type> must be the type of C<$child>.
 If C<$child> is a floating reference (see C<.ref-sink()>), the new instance takes ownership of C<$child>.
 
 =begin code
-method new-maybe ( --> Gnome::Glib::Variant)
+method new-maybe (
+  CArray[N-VariantType] $child-type,
+  CArray[N-Variant] $child
+  --> Gnome::Glib::Variant
+)
 =end code
 
+=item $child-type; the GVariantType of the child, or C<Nil>.
+=item $child; the child value, or C<Nil>.
 
 =end pod
 
@@ -574,12 +634,14 @@ method new-maybe ( --> Gnome::Glib::Variant)
 Creates a D-Bus object path GVariant with the contents of C<$string>. C<$string> must be a valid D-Bus object path. Use C<.is-object-path()> if you're not sure.
 
 =begin code
-method new-object-path ( --> Gnome::Glib::Variant)
+method new-object-path ( Str $object-path --> Gnome::Glib::Variant)
 =end code
 
+=item $object-path; a normal C nul-terminated string.
 
 =end pod
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-objv
@@ -591,11 +653,14 @@ Each string must be a valid GVariant object path; see C<.is-object-path()>.
 If C<$length> is -1 then C<$strv> is C<Nil>-terminated.
 
 =begin code
-method new-objv ( --> Gnome::Glib::Variant)
+method new-objv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant)
 =end code
 
+=item $strv; an array of strings.
+=item $length; the length of C<$strv>, or -1.
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -606,14 +671,14 @@ Parses C<$format> and returns the result.
 
 Note that the arguments must be of the correct width for their types specified in C<$format>. This can be achieved by casting them. See the GVariant varargs documentation.
 
-Consider this simple example:
 =begin comment
+Consider this simple example:
 
  g_variant_new_parsed ("[('one', 1), ('two', %i), (%s, 3)]", 2, "three");
 =end comment
 
-In the example, the variable argument parameters are collected and filled in as if they were part of the original string to produce the result of
 =begin comment
+In the example, the variable argument parameters are collected and filled in as if they were part of the original string to produce the result of
 
 [('one', 1), ('two', 2), ('three', 3)]
 =end comment
@@ -623,9 +688,11 @@ This function is intended only to be used with C<$format> as a string literal. A
 You may not use this function to return, unmodified, a single GVariant pointer from the argument list. ie: C<$format> may not solely be anything along the lines of "%*", "%?", "\%r", or anything starting with "%@".
 
 =begin code
-method new-parsed ( --> Gnome::Glib::Variant)
+method new-parsed ( Str $format, … --> Gnome::Glib::Variant)
 =end code
 
+=item $format; a text format GVariant.
+=item …; arguments as per C<$format>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
 
@@ -646,9 +713,11 @@ At this point, the caller will have their own full reference to the result. This
 or by passing it to another C<.new-variant()> call.
 
 =begin code
-method new-parsed-va ( --> Gnome::Glib::Variant)
+method new-parsed-va ( Str $format, … --> Gnome::Glib::Variant)
 =end code
 
+=item $format; a text format GVariant.
+=item app; a pointer to a C<va_list>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
 
@@ -661,9 +730,11 @@ Creates a string-type GVariant using printf formatting.
 This is similar to calling g_strdup_printf() and then C<.new-string()> but it saves a temporary variable and an unnecessary copy.
 
 =begin code
-method new-printf ( --> Gnome::Glib::Variant)
+method new-printf ( Str $format-string, … --> Gnome::Glib::Variant)
 =end code
 
+=item $format-string; a printf-style format string.
+=item …; arguments for C<$format_string>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
 
@@ -674,8 +745,10 @@ method new-printf ( --> Gnome::Glib::Variant)
 Creates a D-Bus type signature GVariant with the contents of C<$string>. C<$string> must be a valid D-Bus type signature. Use C<.is-signature()> if you're not sure.
 
 =begin code
-method new-signature ( --> Gnome::Glib::Variant)
+method new-signature ( Str $signature --> Gnome::Glib::Variant)
 =end code
+
+=item $signature; a normal C nul-terminated string.
 
 
 =end pod
@@ -688,9 +761,10 @@ Creates a string GVariant with the contents of C<$string>.
  C<$string> must be valid UTF-8, and must not be C<Nil>. To encode potentially-C<Nil> strings, use C<.new-variant()> with `ms` as the format string.
 
 =begin code
-method new-string ( --> Gnome::Glib::Variant)
+method new-string ( Str $string --> Gnome::Glib::Variant)
 =end code
 
+=item $string; a normal UTF-8 nul-terminated string.
 
 =end pod
 
@@ -703,9 +777,11 @@ Constructs an array of strings GVariant from the given array of strings.
 If C<$length> is -1 then C<$strv> is C<Nil>-terminated.
 
 =begin code
-method new-strv ( --> Gnome::Glib::Variant)
+method new-strv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant)
 =end code
 
+=item $strv; an array of strings.
+=item $length; the length of C<$strv>, or -1.
 
 =end pod
 
@@ -722,9 +798,10 @@ when it is no longer required.
 You must not modify or access C<$string> in any other way after passing it to this function. It is even possible that C<$string> is immediately freed.
 
 =begin code
-method new-take-string ( --> Gnome::Glib::Variant)
+method new-take-string ( Str $string --> Gnome::Glib::Variant)
 =end code
 
+=item $string; a normal UTF-8 nul-terminated string.
 
 =end pod
 
@@ -739,9 +816,14 @@ If C<$n_children> is 0 then the unit tuple is constructed.
 If the C<$children> are floating references (see C<.ref-sink()>), the new instance takes ownership of them as if via C<.ref-sink()>.
 
 =begin code
-method new-tuple ( --> Gnome::Glib::Variant)
+method new-tuple (
+  CArray[N-Variant] $children, Int() $n-children
+  --> Gnome::Glib::Variant
+)
 =end code
 
+=item $children; the items to make the tuple out of.
+=item $n-children; the length of C<$children>.
 
 =end pod
 
@@ -752,9 +834,10 @@ method new-tuple ( --> Gnome::Glib::Variant)
 Creates a new uint16 GVariant instance.
 
 =begin code
-method new-uint16 ( --> Gnome::Glib::Variant)
+method new-uint16 ( UInt() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<guint16> value.
 
 =end pod
 
@@ -765,9 +848,10 @@ method new-uint16 ( --> Gnome::Glib::Variant)
 Creates a new uint32 GVariant instance.
 
 =begin code
-method new-uint32 ( --> Gnome::Glib::Variant)
+method new-uint32 ( UInt() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<guint32> value.
 
 =end pod
 
@@ -778,12 +862,14 @@ method new-uint32 ( --> Gnome::Glib::Variant)
 Creates a new uint64 GVariant instance.
 
 =begin code
-method new-uint64 ( --> Gnome::Glib::Variant)
+method new-uint64 ( UInt() $value --> Gnome::Glib::Variant)
 =end code
 
+=item $value; a C<guint64> value.
 
 =end pod
 
+#`{{
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-va
@@ -808,11 +894,18 @@ At this point, the caller will have their own full reference to the result. This
 or by passing it to another C<.new-variant()> call.
 
 =begin code
-method new-va ( --> Gnome::Glib::Variant)
+method new-va (
+  Str $format-string, Array[Str] $endptr, … --> Gnome::Glib::Variant
+)
 =end code
 
+=item $format-string; a string that is prefixed with a format string.
+=item $endptr; location to store the end pointer,
+ or C<Nil>.
+=item app; a pointer to a C<va_list>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -823,9 +916,12 @@ Boxes C<$value>. The result is a GVariant instance representing a variant contai
 If C<$child> is a floating reference (see C<.ref-sink()>), the new instance takes ownership of C<$child>.
 
 =begin code
-method new-variant-with-variant ( --> Gnome::Glib::Variant )
+method new-variant-with-variant (
+  CArray[N-Variant] $value --> Gnome::Glib::Variant
+)
 =end code
 
+=item $value; a GVariant instance.
 
 =end pod
 
