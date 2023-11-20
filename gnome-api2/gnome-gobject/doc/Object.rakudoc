@@ -1,0 +1,1295 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::GObject
+ =item B<Project description:> Modules for package Gnome::GObject:api<2>. The language binding to GNOME's lower level object library
+ =item B<Project version:> 0.1.2
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/object.png)
+
+=head1 Description
+
+The base object type.
+
+=begin comment
+All the fields in the `GObject` structure are private to the implementation
+and should never be accessed directly.
+
+Since GLib 2.72, all GObjects are guaranteed to be aligned to at least the
+alignment of the largest basic GLib type (typically this is C<guint64> or
+C<gdouble>). If you need larger alignment for an element in a GObject, you
+should allocate it on the heap (aligned), or arrange for your GObject to be
+appropriately padded. This guarantee applies to the GObject (or derived)
+struct, the GObjectClass (or derived) struct, and any private data allocated
+by G_ADD_PRIVATE().
+=end comment
+
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-object
+
+Creates a new instance of a GObject subtype and sets its properties.
+
+Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
+which are not explicitly specified are set to their default values. Any private data for the object is guaranteed to be initialized with zeros, as per g_type_create_instance().
+
+Note that in C, small integer types in variable argument lists are promoted up to C<gint> or C<guint> as appropriate, and read back accordingly. C<gint> is 32 bits on every platform on which GLib is currently supported. This means that you can use C expressions of type C<gint> with C<.new-object()> and properties of type C<gint> or C<guint> or smaller. Specifically, you can use integer literals with these property types.
+
+When using property types of C<gint64> or C<guint64>, you must ensure that the value that you provide is 64 bit. This means that you should use a cast or make use of the %G_GINT64_CONSTANT or %G_GUINT64_CONSTANT macros.
+
+Similarly, C<gfloat> is promoted to C<gdouble>, so you must ensure that the value you provide is a C<gdouble>, even for a property of type C<gfloat>.
+
+Since GLib 2.72, all GObjects are guaranteed to be aligned to at least the alignment of the largest basic GLib type (typically this is C<guint64> or C<gdouble>). If you need larger alignment for an element in a GObject, you should allocate it on the heap (aligned), or arrange for your GObject to be appropriately padded.
+
+=begin code
+method new-object ( GType $object-type, Str $first-property-name, … --> Gnome::GObject::Object )
+=end code
+
+=item $object-type; the type id of the GObject subtype to instantiate.
+=item $first-property-name; the name of the first property.
+=item …; the value of the first property, followed optionally by more
+ name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-valist
+
+Creates a new instance of a GObject subtype and sets its properties.
+
+Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
+which are not explicitly specified are set to their default values.
+
+=begin code
+method new-valist ( GType $object-type, Str $first-property-name, … --> Gnome::GObject::Object )
+=end code
+
+=item $object-type; the type id of the GObject subtype to instantiate.
+=item $first-property-name; the name of the first property.
+=item var-args; the value of the first property, followed optionally by more
+ name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-properties
+
+Creates a new instance of a GObject subtype and sets its properties using the provided arrays. Both arrays must have exactly C<$n_properties> elements,
+and the names and values correspond by index.
+
+Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
+which are not explicitly specified are set to their default values.
+
+=begin code
+method new-with-properties ( GType $object-type, UInt() $n-properties, Array[Str] $names, CArray[N-Value] $values --> Gnome::GObject::Object )
+=end code
+
+=item $object-type; the object type to instantiate.
+=item $n-properties; the number of properties.
+=item $names; the names of each property to be set.
+=item $values; the values of each property to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-toggle-ref
+
+Increases the reference count of the object by one and sets a callback to be called when all other references to the object are dropped, or when this is already the last reference to the object and another reference is established.
+
+This functionality is intended for binding C<$object> to a proxy object managed by another memory manager. This is done with two paired references: the strong reference added by C<.add-toggle-ref()> and a reverse reference to the proxy object which is either a strong reference or weak reference.
+
+The setup is that when there are no other references to C<$object>,
+only a weak reference is held in the reverse direction from C<$object>
+to the proxy object, but when there are other references held to C<$object>, a strong reference is held. The C<$notify> callback is called when the reference from C<$object> to the proxy object should be
+"toggled" from strong to weak ( C<$is_last_ref> true) or weak to strong
+( C<$is_last_ref> false).
+
+Since a (normal) reference must be held to the object before calling C<.add-toggle-ref()>, the initial state of the reverse link is always strong.
+
+Multiple toggle references may be added to the same gobject,
+however if there are multiple toggle references to an object, none of them will ever be notified until all but one are removed. For this reason, you should only ever use a toggle reference if there is important state in the proxy object.
+
+=begin code
+method add-toggle-ref ( &notify, gpointer $data )
+=end code
+
+=item &notify; a function to call when this reference is the
+ last reference to the object, or is no longer
+ the last reference.. Tthe function must be specified with following signature; C<:( gpointer $data, N-Object $object, gboolean $is-last-ref )>.
+=item $data; data to pass to C<$notify>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-weak-pointer
+
+Adds a weak reference from weak_pointer to C<$object> to indicate that the pointer located at C<$weak_pointer_location> is only valid during the lifetime of C<$object>. When the C<$object> is finalized, C<$weak_pointer> will be set to C<Nil>.
+
+Note that as with C<.weak-ref()>, the weak references created by this method are not thread-safe: they cannot safely be used in one thread if the object's last C<.unref()> might happen in another thread. Use GWeakRef if thread-safety is required.
+
+=begin code
+method add-weak-pointer ( Array $weak-pointer-location )
+=end code
+
+=item $weak-pointer-location; (transfer ownership: full) The memory address
+ of a pointer..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 bind-property
+
+Creates a binding between C<$source_property> on C<$source> and C<$target_property>
+on C<$target>.
+
+Whenever the C<$source_property> is changed the C<$target_property> is updated using the same value. For instance:
+
+=begin comment
+
+ g_object_bind_property (action, "active", widget, "sensitive", 0);
+=end comment
+
+Will result in the "sensitive" property of the widget GObject instance to be updated with the same value of the "active" property of the action GObject instance.
+
+If C<$flags> contains %G_BINDING_BIDIRECTIONAL then the binding will be mutual:
+if C<$target_property> on C<$target> changes then the C<$source_property> on C<$source>
+will be updated as well.
+
+The binding will automatically be removed when either the C<$source> or the C<$target> instances are finalized. To remove the binding without affecting the C<$source> and the C<$target> you can just call C<.unref()> on the returned GBinding instance.
+
+Removing the binding by calling C<.unref()> on it must only be done if the binding, C<$source> and C<$target> are only used from a single thread and it is clear that both C<$source> and C<$target> outlive the binding. Especially it is not safe to rely on this if the binding, C<$source> or C<$target> can be finalized from different threads. Keep another reference to the binding and use g_binding_unbind() instead to be on the safe side.
+
+A GObject can have multiple bindings.
+
+=begin code
+method bind-property ( Str $source-property, gpointer $target, Str $target-property, UInt $flags --> N-Object )
+=end code
+
+=item $source-property; the property on C<$source> to bind.
+=item $target; the target GObject.
+=item $target-property; the property on C<$target> to bind.
+=item $flags; flags to pass to GBinding. A bitmap.
+
+Return value; the GBinding instance representing the
+ binding between the two GObject instances. The binding is released
+ whenever the GBinding reference count reaches zero.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 bind-property-full
+
+Complete version of C<.bind-property()>.
+
+Creates a binding between C<$source_property> on C<$source> and C<$target_property>
+on C<$target>, allowing you to set the transformation functions to be used by the binding.
+
+If C<$flags> contains %G_BINDING_BIDIRECTIONAL then the binding will be mutual:
+if C<$target_property> on C<$target> changes then the C<$source_property> on C<$source>
+will be updated as well. The C<$transform_from> function is only used in case of bidirectional bindings, otherwise it will be ignored
+
+The binding will automatically be removed when either the C<$source> or the C<$target> instances are finalized. This will release the reference that is being held on the GBinding instance; if you want to hold on to the GBinding instance, you will need to hold a reference to it.
+
+To remove the binding, call g_binding_unbind().
+
+A GObject can have multiple bindings.
+
+The same C<$user_data> parameter will be used for both C<$transform_to>
+and C<$transform_from> transformation functions; the C<$notify> function will be called once, when the binding is removed. If you need different data for each transformation function, please use C<.bind-property-with-closures()> instead.
+
+=begin code
+method bind-property-full ( Str $source-property, gpointer $target, Str $target-property, UInt $flags, &transform-to, &transform-from, gpointer $user-data, … --> N-Object )
+=end code
+
+=item $source-property; the property on C<$source> to bind.
+=item $target; the target GObject.
+=item $target-property; the property on C<$target> to bind.
+=item $flags; flags to pass to GBinding. A bitmap.
+=item &transform-to; the transformation function
+ from the C<$source> to the C<$target>, or C<Nil> to use the default. Tthe function must be specified with following signature; C<:( N-Object $binding, N-Value $from-value, N-Value $to-value, gpointer $user-data --> gboolean )>.
+=item &transform-from; the transformation function
+ from the C<$target> to the C<$source>, or C<Nil> to use the default. Tthe function must be specified with following signature; C<:( N-Object $binding, N-Value $from-value, N-Value $to-value, gpointer $user-data --> gboolean )>.
+=item $user-data; custom data to be passed to the transformation functions,
+ or C<Nil>.
+=item notify; a function to call when disposing the binding, to free
+ resources used by the transformation functions, or C<Nil> if not required. Note that each argument must be specified as a type followed by its value!
+
+Return value; the GBinding instance representing the
+ binding between the two GObject instances. The binding is released
+ whenever the GBinding reference count reaches zero.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 bind-property-with-closures
+
+Creates a binding between C<$source_property> on C<$source> and C<$target_property>
+on C<$target>, allowing you to set the transformation functions to be used by the binding.
+
+This function is the language bindings friendly version of C<.bind-property-full()>, using GClosures instead of function pointers.
+
+=begin code
+method bind-property-with-closures ( Str $source-property, gpointer $target, Str $target-property, UInt $flags, CArray[N-Closure]  $transform-to, CArray[N-Closure]  $transform-from --> N-Object )
+=end code
+
+=item $source-property; the property on C<$source> to bind.
+=item $target; the target GObject.
+=item $target-property; the property on C<$target> to bind.
+=item $flags; flags to pass to GBinding. A bitmap.
+=item $transform-to; a GClosure wrapping the transformation function
+ from the C<$source> to the C<$target>, or C<Nil> to use the default.
+=item $transform-from; a GClosure wrapping the transformation function
+ from the C<$target> to the C<$source>, or C<Nil> to use the default.
+
+Return value; the GBinding instance representing the
+ binding between the two GObject instances. The binding is released
+ whenever the GBinding reference count reaches zero.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 connect
+
+A convenience function to connect multiple signals at once.
+
+The signal specs expected by this function have the form
+"I<signal_name defined in modifier>", where modifier can be one of the following:
+- signal: equivalent to g_signal_connect_data (..., NULL, 0)
+- object-signal, object_signal: equivalent to g_signal_connect_object (..., 0)
+- swapped-signal, swapped_signal: equivalent to g_signal_connect_data (..., NULL, G_CONNECT_SWAPPED)
+- swapped_object_signal, swapped-object-signal: equivalent to g_signal_connect_object (..., G_CONNECT_SWAPPED)
+- signal_after, signal-after: equivalent to g_signal_connect_data (..., NULL, G_CONNECT_AFTER)
+- object_signal_after, object-signal-after: equivalent to g_signal_connect_object (..., G_CONNECT_AFTER)
+- swapped_signal_after, swapped-signal-after: equivalent to g_signal_connect_data (..., NULL, G_CONNECT_SWAPPED | G_CONNECT_AFTER)
+- swapped_object_signal_after, swapped-object-signal-after: equivalent to g_signal_connect_object (..., G_CONNECT_SWAPPED | G_CONNECT_AFTER)
+
+=begin comment
+
+ menu->toplevel = g_object_connect (g_object_new (GTK_TYPE_WINDOW,
+						 "type", GTK_WINDOW_POPUP,
+						 "child", menu,
+						 NULL),
+				 "signal::event", gtk_menu_window_event, menu,
+				 "signal::size_request", gtk_menu_window_size_request, menu,
+				 "signal::destroy", gtk_widget_destroyed, &menu->toplevel,
+				 NULL);
+=end comment
+
+
+=begin code
+method connect ( Str $signal-spec, … --> gpointer )
+=end code
+
+=item $signal-spec; the spec for the first signal.
+=item …; GCallback for the first signal, followed by data for the
+ first signal, followed optionally by more signal
+ spec/callback/data triples, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
+
+Return value;  C<$object>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 disconnect
+
+A convenience function to disconnect multiple signals at once.
+
+The signal specs expected by this function have the form
+"any_signal", which means to disconnect any signal with matching callback and data, or "I<signal_name defined in any_signal>", which only disconnects the signal named "signal_name".
+
+=begin code
+method disconnect ( Str $signal-spec, … )
+=end code
+
+=item $signal-spec; the spec for the first signal.
+=item …; GCallback for the first signal, followed by data for the first signal,
+ followed optionally by more signal spec/callback/data triples,
+ followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dup-data
+
+This is a variant of C<.get-data()> which returns a 'duplicate' of the value. C<$dup_func> defines the meaning of 'duplicate' in this context, it could e.g.
+take a reference on a ref-counted object.
+
+If the C<$key> is not set on the object then C<$dup_func>
+will be called with a C<Nil> argument.
+
+Note that C<$dup_func> is called while user data of C<$object>
+is locked.
+
+This function can be useful to avoid races when multiple threads are using object data on the same key on the same object.
+
+=begin code
+method dup-data ( Str $key, …, gpointer $user-data --> gpointer )
+=end code
+
+=item $key; a string, naming the user data pointer.
+=item dup-func; function to dup the value. Note that each argument must be specified as a type followed by its value!
+=item $user-data; passed as user_data to C<$dup_func>.
+
+Return value; the result of calling C<$dup_func> on the value
+ associated with C<$key> on C<$object>, or C<Nil> if not set.
+ If C<$dup_func> is C<Nil>, the value is returned
+ unmodified.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dup-qdata
+
+This is a variant of C<.get-qdata()> which returns a 'duplicate' of the value. C<$dup_func> defines the meaning of 'duplicate' in this context, it could e.g.
+take a reference on a ref-counted object.
+
+If the C<$quark> is not set on the object then C<$dup_func>
+will be called with a C<Nil> argument.
+
+Note that C<$dup_func> is called while user data of C<$object>
+is locked.
+
+This function can be useful to avoid races when multiple threads are using object data on the same key on the same object.
+
+=begin code
+method dup-qdata ( UInt $quark, …, gpointer $user-data --> gpointer )
+=end code
+
+=item $quark; a GQuark, naming the user data pointer.
+=item dup-func; function to dup the value. Note that each argument must be specified as a type followed by its value!
+=item $user-data; passed as user_data to C<$dup_func>.
+
+Return value; the result of calling C<$dup_func> on the value
+ associated with C<$quark> on C<$object>, or C<Nil> if not set.
+ If C<$dup_func> is C<Nil>, the value is returned
+ unmodified.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 force-floating
+
+This function is intended for GObject implementations to re-enforce a floating object reference. Doing this is seldom required: all GInitiallyUnowneds are created with a floating reference which usually just needs to be sunken by calling C<.ref-sink()>.
+
+=begin code
+method force-floating ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 freeze-notify
+
+Increases the freeze count on C<$object>. If the freeze count is non-zero, the emission of "notify" signals on C<$object> is stopped. The signals are queued until the freeze count is decreased to zero. Duplicate notifications are squashed so that at most one I<notify> signal is emitted for each property modified while the object is frozen.
+
+This is necessary for accessors that modify multiple properties to prevent premature notification while the object is still being modified.
+
+=begin code
+method freeze-notify ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get
+
+Gets properties of an object.
+
+In general, a copy is made of the property contents and the caller is responsible for freeing the memory in the appropriate manner for the type, for instance by calling g_free() or C<.unref()>.
+
+Here is an example of using C<.get()> to get the contents of three properties: an integer, a string and an object:
+=begin comment
+
+ gint intval;
+ guint64 uint64val;
+ gchar *strval;
+ GObject *objval;
+
+ g_object_get (my_object,
+ "int-property", &intval,
+ "uint64-property", &uint64val,
+ "str-property", &strval,
+ "obj-property", &objval,
+ NULL);
+
+ // Do something with intval, uint64val, strval, objval
+
+ g_free (strval);
+ g_object_unref (objval);
+=end comment
+
+
+=begin code
+method get ( Str $first-property-name, … )
+=end code
+
+=item $first-property-name; name of the first property to get.
+=item …; return location for the first property, followed optionally by more
+ name/return location pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-data
+
+Gets a named field from the objects table of associations (see C<.set-data()>).
+
+=begin code
+method get-data ( Str $key --> gpointer )
+=end code
+
+=item $key; name of the key for that association.
+
+Return value; the data if found,
+ or C<Nil> if no such data exists.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-property
+
+Gets a property of an object.
+
+The C<$value> can be:
+
+ - an empty GValue initialized by %G_VALUE_INIT, which will be
+ automatically initialized with the expected type of the property
+ (since GLib 2.60)
+ - a GValue initialized with the expected type of the property
+ - a GValue initialized with a type to which the expected type
+ of the property can be transformed
+
+In general, a copy is made of the property contents and the caller is responsible for freeing the memory by calling g_value_unset().
+
+Note that C<.get-property()> is really intended for language bindings, C<.get()> is much more convenient for C programming.
+
+=begin code
+method get-property ( Str $property-name, CArray[N-Value] $value )
+=end code
+
+=item $property-name; the name of the property to get.
+=item $value; return location for the property value.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-qdata
+
+This function gets back user data pointers stored via C<.set-qdata()>.
+
+=begin code
+method get-qdata ( UInt $quark --> gpointer )
+=end code
+
+=item $quark; A GQuark, naming the user data pointer.
+
+Return value; The user data pointer set, or C<Nil>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-valist
+
+Gets properties of an object.
+
+In general, a copy is made of the property contents and the caller is responsible for freeing the memory in the appropriate manner for the type, for instance by calling g_free() or C<.unref()>.
+
+See C<.get()>.
+
+=begin code
+method get-valist ( Str $first-property-name, … )
+=end code
+
+=item $first-property-name; name of the first property to get.
+=item var-args; return location for the first property, followed optionally by more
+ name/return location pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 getv
+
+Gets C<$n_properties> properties for an C<$object>.
+Obtained properties will be set to C<$values>. All properties must be valid.
+Warnings will be emitted and undefined behaviour may result if invalid properties are passed in.
+
+=begin code
+method getv ( UInt() $n-properties, Array[Str] $names, CArray[N-Value] $values )
+=end code
+
+=item $n-properties; the number of properties.
+=item $names; the names of each property to get.
+=item $values; the values of each property to get.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-floating
+
+Checks whether C<$object> has a floating reference.
+
+=begin code
+method is-floating (--> Bool )
+=end code
+
+
+Return value; C<True> if C<$object> has a floating reference. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 notify
+
+Emits a "notify" signal for the property C<$property_name> on C<$object>.
+
+When possible, eg. when signaling a property change from within the class that registered the property, you should use C<.notify-by-pspec()>
+instead.
+
+Note that emission of the notify signal may be blocked with C<.freeze-notify()>. In this case, the signal emissions are queued and will be emitted (in reverse order) when C<.thaw-notify()> is called.
+
+=begin code
+method notify ( Str $property-name )
+=end code
+
+=item $property-name; the name of a property installed on the class of C<$object>..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 notify-by-pspec
+
+Emits a "notify" signal for the property specified by C<$pspec> on C<$object>.
+
+This function omits the property name lookup, hence it is faster than C<.notify()>.
+
+One way to avoid using C<.notify()> from within the class that registered the properties, and using C<.notify-by-pspec()>
+instead, is to store the GParamSpec used with C<.class-install-property()> inside a static array, e.g.:
+
+=begin comment
+
+ enum
+ {
+ PROP_0,
+ PROP_FOO,
+ PROP_LAST
+ };
+
+ static GParamSpec *properties[PROP_LAST];
+
+ static void
+ my_object_class_init (MyObjectClass *klass)
+ {
+ properties[PROP_FOO] = g_param_spec_int ("foo", "Foo", "The foo",
+ 0, 100,
+ 50,
+ G_PARAM_READWRITE);
+ g_object_class_install_property (gobject_class,
+ PROP_FOO,
+ properties[PROP_FOO]);
+ }
+=end comment
+
+and then notify a change on the "foo" property with:
+
+=begin comment
+
+ g_object_notify_by_pspec (self, properties[PROP_FOO]);
+=end comment
+
+
+=begin code
+method notify-by-pspec ( N-Object() $pspec )
+=end code
+
+=item $pspec; the GParamSpec of a property installed on the class of C<$object>..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Increases the reference count of C<$object>.
+
+Since GLib 2.56, if `GLIB_VERSION_MAX_ALLOWED` is 2.56 or greater, the type of C<$object> will be propagated to the return type (using the GCC typeof()
+extension), so any casting the caller needs to do on the return type must be explicit.
+
+=begin code
+method ref (--> gpointer )
+=end code
+
+
+Return value; the same C<$object>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref-sink
+
+Increase the reference count of C<$object>, and possibly remove the floating reference, if C<$object> has a floating reference.
+
+In other words, if the object is floating, then this call "assumes ownership" of the floating reference, converting it to a normal reference by clearing the floating flag while leaving the reference count unchanged. If the object is not floating, then this call adds a new normal reference increasing the reference count by one.
+
+Since GLib 2.56, the type of C<$object> will be propagated to the return type under the same conditions as for C<.ref()>.
+
+=begin code
+method ref-sink (--> gpointer )
+=end code
+
+
+Return value;  C<$object>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-toggle-ref
+
+Removes a reference added with C<.add-toggle-ref()>. The reference count of the object is decreased by one.
+
+=begin code
+method remove-toggle-ref ( &notify, gpointer $data )
+=end code
+
+=item &notify; a function to call when this reference is the
+ last reference to the object, or is no longer
+ the last reference.. Tthe function must be specified with following signature; C<:( gpointer $data, N-Object $object, gboolean $is-last-ref )>.
+=item $data; data to pass to C<$notify>, or C<Nil> to
+ match any toggle refs with the C<$notify> argument..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-weak-pointer
+
+Removes a weak reference from C<$object> that was previously added using C<.add-weak-pointer()>. The C<$weak_pointer_location> has to match the one used with C<.add-weak-pointer()>.
+
+=begin code
+method remove-weak-pointer ( Array $weak-pointer-location )
+=end code
+
+=item $weak-pointer-location; (transfer ownership: full) The memory address
+ of a pointer..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 replace-data
+
+Compares the user data for the key C<$key> on C<$object> with C<$oldval>, and if they are the same, replaces C<$oldval> with C<$newval>.
+
+This is like a typical atomic compare-and-exchange operation, for user data on an object.
+
+If the previous value was replaced then ownership of the old value ( C<$oldval>) is passed to the caller, including the registered destroy notify for it (passed out in C<$old_destroy>).
+It’s up to the caller to free this as needed, which may or may not include using C<$old_destroy> as sometimes replacement should not destroy the object in the normal way.
+
+See C<.set-data()> for guidance on using a small, bounded set of values for C<$key>.
+
+=begin code
+method replace-data ( Str $key, gpointer $oldval, gpointer $newval, …, … --> Bool )
+=end code
+
+=item $key; a string, naming the user data pointer.
+=item $oldval; the old value to compare against.
+=item $newval; the new value.
+=item destroy; a destroy notify for the new value. Note that each argument must be specified as a type followed by its value!
+=item old-destroy; destroy notify for the existing value. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if the existing value for C<$key> was replaced
+ by C<$newval>, C<False> otherwise.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 replace-qdata
+
+Compares the user data for the key C<$quark> on C<$object> with C<$oldval>, and if they are the same, replaces C<$oldval> with C<$newval>.
+
+This is like a typical atomic compare-and-exchange operation, for user data on an object.
+
+If the previous value was replaced then ownership of the old value ( C<$oldval>) is passed to the caller, including the registered destroy notify for it (passed out in C<$old_destroy>).
+It’s up to the caller to free this as needed, which may or may not include using C<$old_destroy> as sometimes replacement should not destroy the object in the normal way.
+
+=begin code
+method replace-qdata ( UInt $quark, gpointer $oldval, gpointer $newval, …, … --> Bool )
+=end code
+
+=item $quark; a GQuark, naming the user data pointer.
+=item $oldval; the old value to compare against.
+=item $newval; the new value.
+=item destroy; a destroy notify for the new value. Note that each argument must be specified as a type followed by its value!
+=item old-destroy; destroy notify for the existing value. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if the existing value for C<$quark> was replaced
+ by C<$newval>, C<False> otherwise.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 run-dispose
+
+Releases all references to other objects. This can be used to break reference cycles.
+
+This function should only be called from object system implementations.
+
+=begin code
+method run-dispose ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set
+
+Sets properties on an object.
+
+The same caveats about passing integer literals as varargs apply as with C<.new-object()>. In particular, any integer literals set as the values for properties of type C<gint64> or C<guint64> must be 64 bits wide, using the
+%G_GINT64_CONSTANT or %G_GUINT64_CONSTANT macros.
+
+Note that the "notify" signals are queued and only emitted (in reverse order) after all properties have been set. See C<.freeze-notify()>.
+
+=begin code
+method set ( Str $first-property-name, … )
+=end code
+
+=item $first-property-name; name of the first property to set.
+=item …; value for the first property, followed optionally by more
+ name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-data
+
+Each object carries around a table of associations from strings to pointers. This function lets you set an association.
+
+If the object already had an association with that name,
+the old association will be destroyed.
+
+Internally, the C<$key> is converted to a GQuark using g_quark_from_string().
+This means a copy of C<$key> is kept permanently (even after C<$object> has been finalized) — so it is recommended to only use a small, bounded set of values for C<$key> in your program, to avoid the GQuark storage growing unbounded.
+
+=begin code
+method set-data ( Str $key, gpointer $data )
+=end code
+
+=item $key; name of the key.
+=item $data; data to associate with that key.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-data-full
+
+Like C<.set-data()> except it adds notification for when the association is destroyed, either by setting it to a different value or when the object is destroyed.
+
+Note that the C<$destroy> callback is not called if C<$data> is C<Nil>.
+
+=begin code
+method set-data-full ( Str $key, gpointer $data, … )
+=end code
+
+=item $key; name of the key.
+=item $data; data to associate with that key.
+=item destroy; function to call when the association is destroyed. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-property
+
+Sets a property on an object.
+
+=begin code
+method set-property ( Str $property-name, CArray[N-Value] $value )
+=end code
+
+=item $property-name; the name of the property to set.
+=item $value; the value.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-qdata
+
+This sets an opaque, named pointer on an object.
+The name is specified through a GQuark (retrieved e.g. via g_quark_from_static_string()), and the pointer can be gotten back from the C<$object> with C<.get-qdata()>
+until the C<$object> is finalized.
+Setting a previously set user data pointer, overrides (frees)
+the old pointer set, using C<NULL> as pointer essentially removes the data stored.
+
+=begin code
+method set-qdata ( UInt $quark, gpointer $data )
+=end code
+
+=item $quark; A GQuark, naming the user data pointer.
+=item $data; An opaque user data pointer.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-qdata-full
+
+This function works like C<.set-qdata()>, but in addition,
+a void (*destroy) (gpointer) function may be specified which is called with C<$data> as argument when the C<$object> is finalized, or the data is being overwritten by a call to C<.set-qdata()>
+with the same C<$quark>.
+
+=begin code
+method set-qdata-full ( UInt $quark, gpointer $data, … )
+=end code
+
+=item $quark; A GQuark, naming the user data pointer.
+=item $data; An opaque user data pointer.
+=item destroy; Function to invoke with C<$data> as argument, when C<$data>
+ needs to be freed. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-valist
+
+Sets properties on an object.
+
+=begin code
+method set-valist ( Str $first-property-name, … )
+=end code
+
+=item $first-property-name; name of the first property to set.
+=item var-args; value for the first property, followed optionally by more
+ name/value pairs, followed by C<Nil>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 setv
+
+Sets C<$n_properties> properties for an C<$object>.
+Properties to be set will be taken from C<$values>. All properties must be valid. Warnings will be emitted and undefined behaviour may result if invalid properties are passed in.
+
+=begin code
+method setv ( UInt() $n-properties, Array[Str] $names, CArray[N-Value] $values )
+=end code
+
+=item $n-properties; the number of properties.
+=item $names; the names of each property to be set.
+=item $values; the values of each property to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 steal-data
+
+Remove a specified datum from the object's data associations,
+without invoking the association's destroy handler.
+
+=begin code
+method steal-data ( Str $key --> gpointer )
+=end code
+
+=item $key; name of the key.
+
+Return value; the data if found, or C<Nil>
+ if no such data exists.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 steal-qdata
+
+This function gets back user data pointers stored via C<.set-qdata()> and removes the C<$data> from object without invoking its destroy() function (if any was set).
+Usually, calling this function is only required to update user data pointers with a destroy notifier, for example:
+=begin comment
+
+void object_add_to_user_list (GObject *object,
+ const gchar *new_string)
+{
+ // the quark, naming the object data
+ GQuark quark_string_list = g_quark_from_static_string ("my-string-list");
+ // retrieve the old string list
+ GList *list = g_object_steal_qdata (object, quark_string_list);
+
+ // prepend new string
+ list = g_list_prepend (list, g_strdup (new_string));
+ // this changed 'list', so we need to set it again
+ g_object_set_qdata_full (object, quark_string_list, list, free_string_list);
+}
+static void free_string_list (gpointer data)
+{
+ GList *node, *list = data;
+
+ for (node = list; node; node = node->next)
+ g_free (node->data);
+ g_list_free (list);
+}
+=end comment
+
+Using C<.get-qdata()> in the above example, instead of C<.steal-qdata()> would have left the destroy function set,
+and thus the partial string list would have been freed upon C<.set-qdata-full()>.
+
+=begin code
+method steal-qdata ( UInt $quark --> gpointer )
+=end code
+
+=item $quark; A GQuark, naming the user data pointer.
+
+Return value; The user data pointer set, or C<Nil>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 take-ref
+
+If C<$object> is floating, sink it. Otherwise, do nothing.
+
+In other words, this function will convert a floating reference (if present) into a full reference.
+
+Typically you want to use C<.ref-sink()> in order to automatically do the correct thing with respect to floating or non-floating references, but there is one specific scenario where this function is helpful.
+
+The situation where this function is helpful is when creating an API that allows the user to provide a callback function that returns a GObject. We certainly want to allow the user the flexibility to return a non-floating reference from this callback (for the case where the object that is being returned already exists).
+
+At the same time, the API style of some popular GObject-based libraries (such as Gtk) make it likely that for newly-created GObject instances, the user can be saved some typing if they are allowed to return a floating reference.
+
+Using this function on the return value of the user's callback allows the user to do whichever is more convenient for them. The caller will alway receives exactly one full reference to the value: either the one that was returned in the first place, or a floating reference that has been converted to a full reference.
+
+This function has an odd interaction when combined with C<.ref-sink()> running at the same time in another thread on the same GObject instance. If C<.ref-sink()> runs first then the result will be that the floating reference is converted to a hard reference. If C<.take-ref()> runs first then the result will be that the floating reference is converted to a hard reference and an additional reference on top of that one is added. It is best to avoid this situation.
+
+=begin code
+method take-ref (--> gpointer )
+=end code
+
+
+Return value;  C<$object>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 thaw-notify
+
+Reverts the effect of a previous call to C<.freeze-notify()>. The freeze count is decreased on C<$object>
+and when it reaches zero, queued "notify" signals are emitted.
+
+Duplicate notifications for each property are squashed so that at most one I<notify> signal is emitted for each property, in the reverse order in which they have been queued.
+
+It is an error to call this function when the freeze count is zero.
+
+=begin code
+method thaw-notify ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Decreases the reference count of C<$object>. When its reference count drops to 0, the object is finalized (i.e. its memory is freed).
+
+If the pointer to the GObject may be reused in future (for example, if it is an instance variable of another object), it is recommended to clear the pointer to C<Nil> rather than retain a dangling pointer to a potentially invalid GObject instance. Use g_clear_object() for this.
+
+=begin code
+method unref ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 watch-closure
+
+This function essentially limits the life time of the C<$closure> to the life time of the object. That is, when the object is finalized,
+the C<$closure> is invalidated by calling g_closure_invalidate() on it, in order to prevent invocations of the closure with a finalized
+(nonexisting) object. Also, C<.ref()> and C<.unref()> are added as marshal guards to the C<$closure>, to ensure that an extra reference count is held on C<$object> during invocation of the C<$closure>. Usually, this function will be called on closures that use this C<$object> as closure data.
+
+=begin code
+method watch-closure ( CArray[N-Closure]  $closure )
+=end code
+
+=item $closure; GClosure to watch.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 weak-ref
+
+Adds a weak reference callback to an object. Weak references are used for notification when an object is disposed. They are called
+"weak references" because they allow you to safely hold a pointer to an object without calling C<.ref()> (C<.ref()> adds a strong reference, that is, forces the object to stay alive).
+
+Note that the weak references created by this method are not thread-safe: they cannot safely be used in one thread if the object's last C<.unref()> might happen in another thread.
+Use GWeakRef if thread-safety is required.
+
+=begin code
+method weak-ref ( &notify, gpointer $data )
+=end code
+
+=item &notify; callback to invoke before the object is freed. Tthe function must be specified with following signature; C<:( gpointer $data, N-Object $where-the-object-was )>.
+=item $data; extra data to pass to notify.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 weak-unref
+
+Removes a weak reference callback to an object.
+
+=begin code
+method weak-unref ( &notify, gpointer $data )
+=end code
+
+=item &notify; callback to search for. Tthe function must be specified with following signature; C<:( gpointer $data, N-Object $where-the-object-was )>.
+=item $data; data to search for.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compat-control
+
+No documentation of method.
+
+
+=begin code
+method compat-control ( Int() $what, gpointer $data --> Int )
+=end code
+
+=item $what; .
+=item $data; .
+
+Return value; No documentation about its value and use. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 interface-find-property
+
+Find the GParamSpec with the given name for an interface. Generally, the interface vtable passed in as C<$g_iface>
+will be the default vtable from g_type_default_interface_ref(), or,
+if you know the interface has already been loaded,
+g_type_default_interface_peek().
+
+=begin code
+method interface-find-property ( gpointer $g-iface, Str $property-name --> N-Object )
+=end code
+
+=item $g-iface; any interface vtable for the
+ interface, or the default vtable for the interface.
+=item $property-name; name of a property to look up..
+
+Return value; the GParamSpec for the property of the
+ interface with the name C<$property_name>, or C<Nil> if no
+ such property exists.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 interface-install-property
+
+Add a property to an interface; this is only useful for interfaces that are added to GObject-derived types. Adding a property to an interface forces all objects classes with that interface to have a compatible property. The compatible property could be a newly created GParamSpec, but normally C<.class-override-property()> will be used so that the object class only needs to provide an implementation and inherits the property description, default value, bounds, and so forth from the interface property.
+
+This function is meant to be called from the interface's default vtable initialization function (the C<$class_init> member of GTypeInfo.) It must not be called after after C<$class_init> has been called for any object types implementing this interface.
+
+If C<$pspec> is a floating reference, it will be consumed.
+
+=begin code
+method interface-install-property ( gpointer $g-iface, N-Object() $pspec )
+=end code
+
+=item $g-iface; any interface vtable for the
+ interface, or the default
+ vtable for the interface..
+=item $pspec; the GParamSpec for the new property.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 interface-list-properties
+
+Lists the properties of an interface.Generally, the interface vtable passed in as C<$g_iface> will be the default vtable from g_type_default_interface_ref(), or, if you know the interface has already been loaded, g_type_default_interface_peek().
+
+=begin code
+method interface-list-properties ( gpointer $g-iface, Array[Int] $n-properties-p --> N-Object )
+=end code
+
+=item $g-iface; any interface vtable for the
+ interface, or the default vtable for the interface.
+=item $n-properties-p; (transfer ownership: full) location to store number of properties returned..
+
+Return value; a
+ pointer to an array of pointers to GParamSpec
+ structures. The paramspecs are owned by GLib, but the
+ array should be freed with g_free() when you are done with
+ it.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 notify
+
+The notify signal is emitted on an object when one of its properties has its value set through C<.set-property()>, C<.set()>, et al.
+
+Note that getting this signal doesn’t itself guarantee that the value of the property has actually changed. When it is emitted is determined by the derived GObject class. If the implementor did not create the property with
+%G_PARAM_EXPLICIT_NOTIFY, then any call to C<.set-property()> results in I<notify> being emitted, even if the new value is the same as the old.
+If they did pass %G_PARAM_EXPLICIT_NOTIFY, then this signal is emitted only when they explicitly call C<.notify()> or C<.notify-by-pspec()>,
+and common practice is to do that only when the value has actually changed.
+
+This signal is typically used to obtain change notification for a single property, by specifying the property name as a detail in the g_signal_connect() call, like this:
+
+=begin comment
+
+g_signal_connect (text_view->buffer, "notify::paste-target-list",
+ G_CALLBACK (gtk_text_view_target_list_notify),
+ text_view)
+=end comment
+
+It is important to note that you must use canonical parameter names as detail strings for the notify signal.
+
+=begin code
+method handler (
+   $pspec,
+  Int :$_handle_id,
+  Gnome::GObject::Object() :$_native-object,
+  Gnome::GObject::Object :$_widget,
+  *%user-options
+)
+=end code
+
+=item $pspec; the GParamSpec of the property which changed..
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=end pod
+

@@ -1,0 +1,1101 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::GObject
+ =item B<Project description:> Modules for package Gnome::GObject:api<2>. The language binding to GNOME's lower level object library
+ =item B<Project version:> 0.1.2
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/value.png)
+
+=head1 Description
+
+An opaque structure used to hold different types of values.
+
+The data within the structure has protected scope: it is accessible only
+to functions within a GTypeValueTable structure, or implementations of
+the g_value_*() API. That is, code portions which implement new fundamental
+types.
+
+GValue users cannot make any assumptions about how data is stored
+within the 2 element C<$data> union, and the C<$g_type> member should
+only be accessed through the G_VALUE_TYPE() macro.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Copies the value of C<$src_value> into C<$dest_value>.
+
+=begin code
+method copy ( CArray[N-Value] $dest-value )
+=end code
+
+=item $dest-value; An initialized GValue structure of the same type as C<$src_value>..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dup-boxed
+
+Get the contents of a %G_TYPE_BOXED derived GValue. Upon getting,
+the boxed value is duplicated and needs to be later freed with g_boxed_free(), e.g. like: g_boxed_free (G_VALUE_TYPE ( C<$value>),
+return_value);
+
+=begin code
+method dup-boxed (--> gpointer )
+=end code
+
+
+Return value; boxed contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dup-object
+
+Get the contents of a %G_TYPE_OBJECT derived GValue, increasing its reference count. If the contents of the GValue are C<Nil>, then C<Nil> will be returned.
+
+=begin code
+method dup-object (--> gpointer )
+=end code
+
+
+Return value; object content of C<$value>,
+ should be unreferenced when no longer needed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dup-param
+
+Get the contents of a %G_TYPE_PARAM GValue, increasing its reference count.
+
+=begin code
+method dup-param (--> N-Object )
+=end code
+
+
+Return value; GParamSpec content of C<$value>, should be
+ unreferenced when no longer needed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dup-string
+
+Get a copy the contents of a %G_TYPE_STRING GValue.
+
+=begin code
+method dup-string (--> Str )
+=end code
+
+
+Return value; a newly allocated copy of the string content of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dup-variant
+
+Get the contents of a variant GValue, increasing its refcount. The returned GVariant is never floating.
+
+=begin code
+method dup-variant (--> CArray[N-Variant] )
+=end code
+
+
+Return value; variant contents of C<$value> (may be C<Nil>);
+ should be unreffed using g_variant_unref() when no longer needed. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 fits-pointer
+
+Determines if C<$value> will fit inside the size of a pointer value.
+This is an internal function introduced mainly for C marshallers.
+
+=begin code
+method fits-pointer (--> Bool )
+=end code
+
+
+Return value; C<True> if C<$value> will fit inside a pointer value.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-boolean
+
+Get the contents of a %G_TYPE_BOOLEAN GValue.
+
+=begin code
+method get-boolean (--> Bool )
+=end code
+
+
+Return value; boolean contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-boxed
+
+Get the contents of a %G_TYPE_BOXED derived GValue.
+
+=begin code
+method get-boxed (--> gpointer )
+=end code
+
+
+Return value; boxed contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-double
+
+Get the contents of a %G_TYPE_DOUBLE GValue.
+
+=begin code
+method get-double (--> Num )
+=end code
+
+
+Return value; double contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enum
+
+Get the contents of a %G_TYPE_ENUM GValue.
+
+=begin code
+method get-enum (--> Int )
+=end code
+
+
+Return value; enum contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-flags
+
+Get the contents of a %G_TYPE_FLAGS GValue.
+
+=begin code
+method get-flags (--> UInt )
+=end code
+
+
+Return value; flags contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-float
+
+Get the contents of a %G_TYPE_FLOAT GValue.
+
+=begin code
+method get-float (--> Num )
+=end code
+
+
+Return value; float contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-gtype
+
+Get the contents of a %G_TYPE_GTYPE GValue.
+
+=begin code
+method get-gtype (--> GType )
+=end code
+
+
+Return value; the GType stored in C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-int
+
+Get the contents of a %G_TYPE_INT GValue.
+
+=begin code
+method get-int (--> Int )
+=end code
+
+
+Return value; integer contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-int64
+
+Get the contents of a %G_TYPE_INT64 GValue.
+
+=begin code
+method get-int64 (--> Int )
+=end code
+
+
+Return value; 64bit integer contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-long
+
+Get the contents of a %G_TYPE_LONG GValue.
+
+=begin code
+method get-long (--> Int )
+=end code
+
+
+Return value; long integer contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-object
+
+Get the contents of a %G_TYPE_OBJECT derived GValue.
+
+=begin code
+method get-object (--> gpointer )
+=end code
+
+
+Return value; object contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-param
+
+Get the contents of a %G_TYPE_PARAM GValue.
+
+=begin code
+method get-param (--> N-Object )
+=end code
+
+
+Return value; GParamSpec content of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pointer
+
+Get the contents of a pointer GValue.
+
+=begin code
+method get-pointer (--> gpointer )
+=end code
+
+
+Return value; pointer contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-schar
+
+Get the contents of a %G_TYPE_CHAR GValue.
+
+=begin code
+method get-schar (--> Int )
+=end code
+
+
+Return value; signed 8 bit integer contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-string
+
+Get the contents of a %G_TYPE_STRING GValue.
+
+=begin code
+method get-string (--> Str )
+=end code
+
+
+Return value; string content of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-uchar
+
+Get the contents of a %G_TYPE_UCHAR GValue.
+
+=begin code
+method get-uchar (--> UInt )
+=end code
+
+
+Return value; unsigned character contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-uint
+
+Get the contents of a %G_TYPE_UINT GValue.
+
+=begin code
+method get-uint (--> UInt )
+=end code
+
+
+Return value; unsigned integer contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-uint64
+
+Get the contents of a %G_TYPE_UINT64 GValue.
+
+=begin code
+method get-uint64 (--> UInt )
+=end code
+
+
+Return value; unsigned 64bit integer contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-ulong
+
+Get the contents of a %G_TYPE_ULONG GValue.
+
+=begin code
+method get-ulong (--> UInt )
+=end code
+
+
+Return value; unsigned long integer contents of C<$value>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-variant
+
+Get the contents of a variant GValue.
+
+=begin code
+method get-variant (--> CArray[N-Variant] )
+=end code
+
+
+Return value; variant contents of C<$value> (may be C<Nil>). 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes C<$value> with the default value of C<$type>.
+
+=begin code
+method init ( GType $g-type --> CArray[N-Value] )
+=end code
+
+=item $g-type; Type the GValue should hold values of..
+
+Return value; the GValue structure that has been passed in. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-instance
+
+Initializes and sets C<$value> from an instantiatable type via the value_table's collect_value() function.
+
+Note: The C<$value> will be initialised with the exact type of C<$instance>. If you wish to set the C<$value>'s type to a different GType
+(such as a parent class GType), you need to manually call C<.init()> and C<.set-instance()>.
+
+=begin code
+method init-from-instance ( gpointer $instance )
+=end code
+
+=item $instance; the instance.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 peek-pointer
+
+Returns the value contents as pointer. This function asserts that C<.fits-pointer()> returned C<True> for the passed in value.
+This is an internal function introduced mainly for C marshallers.
+
+=begin code
+method peek-pointer (--> gpointer )
+=end code
+
+
+Return value; the value contents as pointer. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 reset
+
+Clears the current value in C<$value> and resets it to the default value
+(as if the value had just been initialized).
+
+=begin code
+method reset (--> CArray[N-Value] )
+=end code
+
+
+Return value; the GValue structure that has been passed in. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-boolean
+
+Set the contents of a %G_TYPE_BOOLEAN GValue to C<$v_boolean>.
+
+=begin code
+method set-boolean ( Bool() $v-boolean )
+=end code
+
+=item $v-boolean; boolean value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-boxed
+
+Set the contents of a %G_TYPE_BOXED derived GValue to C<$v_boxed>.
+
+=begin code
+method set-boxed ( gpointer $v-boxed )
+=end code
+
+=item $v-boxed; boxed value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-double
+
+Set the contents of a %G_TYPE_DOUBLE GValue to C<$v_double>.
+
+=begin code
+method set-double ( Num() $v-double )
+=end code
+
+=item $v-double; double value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enum
+
+Set the contents of a %G_TYPE_ENUM GValue to C<$v_enum>.
+
+=begin code
+method set-enum ( Int() $v-enum )
+=end code
+
+=item $v-enum; enum value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-flags
+
+Set the contents of a %G_TYPE_FLAGS GValue to C<$v_flags>.
+
+=begin code
+method set-flags ( UInt() $v-flags )
+=end code
+
+=item $v-flags; flags value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-float
+
+Set the contents of a %G_TYPE_FLOAT GValue to C<$v_float>.
+
+=begin code
+method set-float ( Num() $v-float )
+=end code
+
+=item $v-float; float value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-gtype
+
+Set the contents of a %G_TYPE_GTYPE GValue to C<$v_gtype>.
+
+=begin code
+method set-gtype ( GType $v-gtype )
+=end code
+
+=item $v-gtype; GType to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-instance
+
+Sets C<$value> from an instantiatable type via the value_table's collect_value() function.
+
+=begin code
+method set-instance ( gpointer $instance )
+=end code
+
+=item $instance; the instance.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-int
+
+Set the contents of a %G_TYPE_INT GValue to C<$v_int>.
+
+=begin code
+method set-int ( Int() $v-int )
+=end code
+
+=item $v-int; integer value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-int64
+
+Set the contents of a %G_TYPE_INT64 GValue to C<$v_int64>.
+
+=begin code
+method set-int64 ( Int() $v-int64 )
+=end code
+
+=item $v-int64; 64bit integer value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-interned-string
+
+Set the contents of a %G_TYPE_STRING GValue to C<$v_string>. The string is assumed to be static and interned (canonical, for example from g_intern_string()), and is thus not duplicated when setting the GValue.
+
+=begin code
+method set-interned-string ( Str $v-string )
+=end code
+
+=item $v-string; static string to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-long
+
+Set the contents of a %G_TYPE_LONG GValue to C<$v_long>.
+
+=begin code
+method set-long ( Int() $v-long )
+=end code
+
+=item $v-long; long integer value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-object
+
+Set the contents of a %G_TYPE_OBJECT derived GValue to C<$v_object>.
+
+C<.set-object()> increases the reference count of C<$v_object>
+(the GValue holds a reference to C<$v_object>). If you do not wish to increase the reference count of the object (i.e. you wish to pass your current reference to the GValue because you no longer need it), use C<.take-object()> instead.
+
+It is important that your GValue holds a reference to C<$v_object> (either its own, or one it has taken) to ensure that the object won't be destroyed while the GValue still exists).
+
+=begin code
+method set-object ( gpointer $v-object )
+=end code
+
+=item $v-object; object value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-param
+
+Set the contents of a %G_TYPE_PARAM GValue to C<$param>.
+
+=begin code
+method set-param ( N-Object() $param )
+=end code
+
+=item $param; the GParamSpec to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pointer
+
+Set the contents of a pointer GValue to C<$v_pointer>.
+
+=begin code
+method set-pointer ( gpointer $v-pointer )
+=end code
+
+=item $v-pointer; pointer value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-schar
+
+Set the contents of a %G_TYPE_CHAR GValue to C<$v_char>.
+
+=begin code
+method set-schar ( Int() $v-char )
+=end code
+
+=item $v-char; signed 8 bit integer to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-static-boxed
+
+Set the contents of a %G_TYPE_BOXED derived GValue to C<$v_boxed>.
+
+The boxed value is assumed to be static, and is thus not duplicated when setting the GValue.
+
+=begin code
+method set-static-boxed ( gpointer $v-boxed )
+=end code
+
+=item $v-boxed; static boxed value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-static-string
+
+Set the contents of a %G_TYPE_STRING GValue to C<$v_string>.
+The string is assumed to be static, and is thus not duplicated when setting the GValue.
+
+If the the string is a canonical string, using C<.set-interned-string()>
+is more appropriate.
+
+=begin code
+method set-static-string ( Str $v-string )
+=end code
+
+=item $v-string; static string to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-string
+
+Set the contents of a %G_TYPE_STRING GValue to a copy of C<$v_string>.
+
+=begin code
+method set-string ( Str $v-string )
+=end code
+
+=item $v-string; caller-owned string to be duplicated for the GValue.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-uchar
+
+Set the contents of a %G_TYPE_UCHAR GValue to C<$v_uchar>.
+
+=begin code
+method set-uchar ( UInt() $v-uchar )
+=end code
+
+=item $v-uchar; unsigned character value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-uint
+
+Set the contents of a %G_TYPE_UINT GValue to C<$v_uint>.
+
+=begin code
+method set-uint ( UInt() $v-uint )
+=end code
+
+=item $v-uint; unsigned integer value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-uint64
+
+Set the contents of a %G_TYPE_UINT64 GValue to C<$v_uint64>.
+
+=begin code
+method set-uint64 ( UInt() $v-uint64 )
+=end code
+
+=item $v-uint64; unsigned 64bit integer value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-ulong
+
+Set the contents of a %G_TYPE_ULONG GValue to C<$v_ulong>.
+
+=begin code
+method set-ulong ( UInt() $v-ulong )
+=end code
+
+=item $v-ulong; unsigned long integer value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-variant
+
+Set the contents of a variant GValue to C<$variant>.
+If the variant is floating, it is consumed.
+
+=begin code
+method set-variant ( CArray[N-Variant] $variant )
+=end code
+
+=item $variant; a GVariant, or C<Nil>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 take-boxed
+
+Sets the contents of a %G_TYPE_BOXED derived GValue to C<$v_boxed>
+and takes over the ownership of the caller’s reference to C<$v_boxed>;
+the caller doesn’t have to unref it any more.
+
+=begin code
+method take-boxed ( gpointer $v-boxed )
+=end code
+
+=item $v-boxed; duplicated unowned boxed value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 take-object
+
+Sets the contents of a %G_TYPE_OBJECT derived GValue to C<$v_object>
+and takes over the ownership of the caller’s reference to C<$v_object>;
+the caller doesn’t have to unref it any more (i.e. the reference count of the object is not increased).
+
+If you want the GValue to hold its own reference to C<$v_object>, use C<.set-object()> instead.
+
+=begin code
+method take-object ( gpointer $v-object )
+=end code
+
+=item $v-object; object value to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 take-param
+
+Sets the contents of a %G_TYPE_PARAM GValue to C<$param> and takes over the ownership of the caller’s reference to C<$param>; the caller doesn’t have to unref it any more.
+
+=begin code
+method take-param ( N-Object() $param )
+=end code
+
+=item $param; the GParamSpec to be set.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 take-string
+
+Sets the contents of a %G_TYPE_STRING GValue to C<$v_string>.
+
+=begin code
+method take-string ( Str $v-string )
+=end code
+
+=item $v-string; string to take ownership of.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 take-variant
+
+Set the contents of a variant GValue to C<$variant>, and takes over the ownership of the caller's reference to C<$variant>;
+the caller doesn't have to unref it any more (i.e. the reference count of the variant is not increased).
+
+If C<$variant> was floating then its floating reference is converted to a hard reference.
+
+If you want the GValue to hold its own reference to C<$variant>, use C<.set-variant()> instead.
+
+This is an internal function introduced mainly for C marshallers.
+
+=begin code
+method take-variant ( CArray[N-Variant] $variant )
+=end code
+
+=item $variant; (transfer ownership: full) a GVariant, or C<Nil>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 transform
+
+Tries to cast the contents of C<$src_value> into a type appropriate to store in C<$dest_value>, e.g. to transform a %G_TYPE_INT value into a %G_TYPE_FLOAT value. Performing transformations between value types might incur precision lossage. Especially transformations into strings might reveal seemingly arbitrary results and shouldn't be relied upon for production code (such as rcfile value or object property serialization).
+
+=begin code
+method transform ( CArray[N-Value] $dest-value --> Bool )
+=end code
+
+=item $dest-value; Target value..
+
+Return value; Whether a transformation rule was found and could be applied.
+ Upon failing transformations, C<$dest_value> is left untouched.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unset
+
+Clears the current value in C<$value> (if any) and "unsets" the type,
+this releases all resources associated with this GValue. An unset value is the same as an uninitialized (zero-filled) GValue structure.
+
+=begin code
+method unset ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 register-transform-func
+
+Registers a value transformation function for use in C<.transform()>.
+A previously registered transformation function for C<$src_type> and C<$dest_type>
+will be replaced.
+
+=begin code
+method register-transform-func ( GType $src-type, GType $dest-type, &transform-func )
+=end code
+
+=item $src-type; Source type..
+=item $dest-type; Target type..
+=item &transform-func; a function which transforms values of type C<$src_type>
+ into value of type C<$dest_type>. Tthe function must be specified with following signature; C<:( N-Value $src-value, N-Value $dest-value )>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 type-compatible
+
+Returns whether a GValue of type C<$src_type> can be copied into a GValue of type C<$dest_type>.
+
+=begin code
+method type-compatible ( GType $src-type, GType $dest-type --> Bool )
+=end code
+
+=item $src-type; source type to be copied..
+=item $dest-type; destination type for copying..
+
+Return value; C<True> if C<.copy()> is possible with C<$src_type> and C<$dest_type>.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 type-transformable
+
+Check whether C<.transform()> is able to transform values of type C<$src_type> into values of type C<$dest_type>. Note that for the types to be transformable, they must be compatible or a transformation function must be registered.
+
+=begin code
+method type-transformable ( GType $src-type, GType $dest-type --> Bool )
+=end code
+
+=item $src-type; Source type..
+=item $dest-type; Target type..
+
+Return value; C<True> if the transformation is possible, C<False> otherwise.. 
+
+
+=end pod
+
