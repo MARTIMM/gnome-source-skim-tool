@@ -218,7 +218,7 @@ method document-constructors (
 
     my Hash $result;
     for @($curr-function<parameters>) -> $parameter {
-      self!get-types( $parameter, @);
+      $result = self!get-types( $parameter, @);
       $raku-list ~= $result<raku-list> // '';
       $items-doc ~= $result<items-doc> // '';
     }
@@ -242,7 +242,7 @@ method document-constructors (
       $method-doc
 
       =begin code
-      method $method-name \($raku-list --> $*work-data<raku-class-name>\)
+      method $method-name \($raku-list --> $*work-data<raku-class-name> \)
       =end code
 
       $items-doc
@@ -1396,6 +1396,9 @@ method !modify-rest ( Str $text is copy --> Str ) {
 
   # sections
   $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
+
+  # types
+  $text ~~ s:g/ '#' (\w+) /C<$0>/;
 
   $text
 }
