@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Pango Layout
+# Command to generate: generate.raku -v -d -c Pango layout
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -40,14 +40,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(pango-lib()), :sub-prefix<pango_layout_iter_>);
+  $!routine-caller .= new(:library('libpango-1.0.so.0'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Pango::LayoutIter' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('PangoLayoutIter');
@@ -70,27 +69,27 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  at-last-line => %( :returns(gboolean), :cnv-return(Bool)),
-  copy => %( :returns(N-LayoutIter)),
-  free => %(),
-  get-baseline => %( :returns(gint)),
-  #get-char-extents => %( :parameters([N-Rectangle ])),
-  #get-cluster-extents => %( :parameters([N-Rectangle , N-Rectangle ])),
-  get-index => %( :returns(gint)),
-  get-layout => %( :returns(N-Object)),
-  #get-layout-extents => %( :parameters([N-Rectangle , N-Rectangle ])),
-  get-line => %( :returns(N-LayoutLine)),
-  #get-line-extents => %( :parameters([N-Rectangle , N-Rectangle ])),
-  get-line-readonly => %( :returns(N-LayoutLine)),
-  get-line-yrange => %( :parameters([gint-ptr, gint-ptr])),
-  #get-run => %(),
-  get-run-baseline => %( :returns(gint)),
-  #get-run-extents => %( :parameters([N-Rectangle , N-Rectangle ])),
-  #get-run-readonly => %(),
-  next-char => %( :returns(gboolean), :cnv-return(Bool)),
-  next-cluster => %( :returns(gboolean), :cnv-return(Bool)),
-  next-line => %( :returns(gboolean), :cnv-return(Bool)),
-  next-run => %( :returns(gboolean), :cnv-return(Bool)),
+  at-last-line => %(:is-symbol<pango_layout_iter_at_last_line>,  :returns(gboolean), :cnv-return(Bool)),
+  copy => %(:is-symbol<pango_layout_iter_copy>,  :returns(N-LayoutIter)),
+  free => %(:is-symbol<pango_layout_iter_free>, ),
+  get-baseline => %(:is-symbol<pango_layout_iter_get_baseline>,  :returns(gint)),
+  #get-char-extents => %(:is-symbol<pango_layout_iter_get_char_extents>,  :parameters([N-Rectangle ])),
+  #get-cluster-extents => %(:is-symbol<pango_layout_iter_get_cluster_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  get-index => %(:is-symbol<pango_layout_iter_get_index>,  :returns(gint)),
+  get-layout => %(:is-symbol<pango_layout_iter_get_layout>,  :returns(N-Object)),
+  #get-layout-extents => %(:is-symbol<pango_layout_iter_get_layout_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  get-line => %(:is-symbol<pango_layout_iter_get_line>,  :returns(N-LayoutLine)),
+  #get-line-extents => %(:is-symbol<pango_layout_iter_get_line_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  get-line-readonly => %(:is-symbol<pango_layout_iter_get_line_readonly>,  :returns(N-LayoutLine)),
+  get-line-yrange => %(:is-symbol<pango_layout_iter_get_line_yrange>,  :parameters([gint-ptr, gint-ptr])),
+  #get-run => %(:is-symbol<pango_layout_iter_get_run>, ),
+  get-run-baseline => %(:is-symbol<pango_layout_iter_get_run_baseline>,  :returns(gint)),
+  #get-run-extents => %(:is-symbol<pango_layout_iter_get_run_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  #get-run-readonly => %(:is-symbol<pango_layout_iter_get_run_readonly>, ),
+  next-char => %(:is-symbol<pango_layout_iter_next_char>,  :returns(gboolean), :cnv-return(Bool)),
+  next-cluster => %(:is-symbol<pango_layout_iter_next_cluster>,  :returns(gboolean), :cnv-return(Bool)),
+  next-line => %(:is-symbol<pango_layout_iter_next_line>,  :returns(gboolean), :cnv-return(Bool)),
+  next-run => %(:is-symbol<pango_layout_iter_next_run>,  :returns(gboolean), :cnv-return(Bool)),
 );
 
 #-------------------------------------------------------------------------------
@@ -100,7 +99,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(pango-lib()), :sub-prefix<pango_layout_iter_>
+        :library('libpango-1.0.so.0')
       );
 
       # Check the function name. 

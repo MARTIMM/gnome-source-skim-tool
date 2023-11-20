@@ -1,12 +1,10 @@
-# Command to generate: generate.raku -c -t Pango Layout
+# Command to generate: generate.raku -v -d -c Pango layout
 use v6.d;
-
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Pango::T-Layout:auth<github:MARTIMM>:api<2>;
-
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -36,5 +34,4 @@ enum PangoLayoutDeserializeFlags is export (
 enum PangoLayoutSerializeFlags is export (
   :PANGO_LAYOUT_SERIALIZE_DEFAULT(0), :PANGO_LAYOUT_SERIALIZE_CONTEXT(1), :PANGO_LAYOUT_SERIALIZE_OUTPUT(2)
 );
-
 

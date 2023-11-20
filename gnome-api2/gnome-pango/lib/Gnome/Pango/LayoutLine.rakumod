@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Pango Layout
+# Command to generate: generate.raku -v -d -c Pango layout
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::N-LayoutLine:api<2>;
 #use Gnome::Pango::N-Rectangle:api<2>;
-#use Gnome::Pango::T-Direction:api<2>;
+use Gnome::Pango::T-Direction:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -40,14 +40,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(pango-lib()), :sub-prefix<pango_layout_line_>);
+  $!routine-caller .= new(:library('libpango-1.0.so.0'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Pango::LayoutLine' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('PangoLayoutLine');
@@ -70,18 +69,18 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  #get-extents => %( :parameters([N-Rectangle , N-Rectangle ])),
-  get-height => %( :parameters([gint-ptr])),
-  get-length => %( :returns(gint)),
-  #get-pixel-extents => %( :parameters([N-Rectangle , N-Rectangle ])),
-  #get-resolved-direction => %( :returns(GEnum), :cnv-return(PangoDirection )),
-  get-start-index => %( :returns(gint)),
-  get-x-ranges => %( :parameters([gint, gint, gint-ptr, gint-ptr])),
-  index-to-x => %( :parameters([gint, gboolean, gint-ptr])),
-  is-paragraph-start => %( :returns(gboolean), :cnv-return(Bool)),
-  ref => %( :returns(N-LayoutLine)),
-  unref => %(),
-  x-to-index => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint-ptr, gint-ptr])),
+  #get-extents => %(:is-symbol<pango_layout_line_get_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  get-height => %(:is-symbol<pango_layout_line_get_height>,  :parameters([gint-ptr])),
+  get-length => %(:is-symbol<pango_layout_line_get_length>,  :returns(gint)),
+  #get-pixel-extents => %(:is-symbol<pango_layout_line_get_pixel_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  get-resolved-direction => %(:is-symbol<pango_layout_line_get_resolved_direction>,  :returns(GEnum), :cnv-return(PangoDirection)),
+  get-start-index => %(:is-symbol<pango_layout_line_get_start_index>,  :returns(gint)),
+  get-x-ranges => %(:is-symbol<pango_layout_line_get_x_ranges>,  :parameters([gint, gint, gint-ptr, gint-ptr])),
+  index-to-x => %(:is-symbol<pango_layout_line_index_to_x>,  :parameters([gint, gboolean, gint-ptr])),
+  is-paragraph-start => %(:is-symbol<pango_layout_line_is_paragraph_start>,  :returns(gboolean), :cnv-return(Bool)),
+  ref => %(:is-symbol<pango_layout_line_ref>,  :returns(N-LayoutLine)),
+  unref => %(:is-symbol<pango_layout_line_unref>, ),
+  x-to-index => %(:is-symbol<pango_layout_line_x_to_index>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint-ptr, gint-ptr])),
 );
 
 #-------------------------------------------------------------------------------
@@ -91,7 +90,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(pango-lib()), :sub-prefix<pango_layout_line_>
+        :library('libpango-1.0.so.0')
       );
 
       # Check the function name. 

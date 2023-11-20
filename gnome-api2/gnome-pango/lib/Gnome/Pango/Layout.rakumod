@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Pango Layout
+# Command to generate: generate.raku -v -d -c Pango layout
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ use Gnome::Pango::N-LayoutLine:api<2>;
 #use Gnome::Pango::N-LogAttr:api<2>;
 #use Gnome::Pango::N-Rectangle:api<2>;
 #use Gnome::Pango::N-TabArray:api<2>;
-#use Gnome::Pango::T-Direction:api<2>;
+use Gnome::Pango::T-Direction:api<2>;
 use Gnome::Pango::T-Layout:api<2>;
 
 
@@ -48,14 +48,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(pango-lib()), :sub-prefix<pango_layout_>);
+  $!routine-caller .= new(:library('libpango-1.0.so.0'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Pango::Layout' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('PangoLayout');
@@ -69,76 +68,76 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-layout => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ N-Object])),
+  new-layout => %( :type(Constructor), :is-symbol<pango_layout_new>, :returns(N-Object), :parameters([ N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  context-changed => %(),
-  copy => %( :returns(N-Object)),
-  get-alignment => %( :returns(GEnum), :cnv-return(PangoAlignment)),
-  #get-attributes => %( :returns(N-AttrList )),
-  get-auto-dir => %( :returns(gboolean), :cnv-return(Bool)),
-  get-baseline => %( :returns(gint)),
-  #get-caret-pos => %( :parameters([gint, N-Rectangle , N-Rectangle ])),
-  get-character-count => %( :returns(gint)),
-  get-context => %( :returns(N-Object)),
-  #get-cursor-pos => %( :parameters([gint, N-Rectangle , N-Rectangle ])),
-  #get-direction => %( :returns(GEnum), :cnv-return(PangoDirection ), :parameters([gint])),
-  get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
-  #get-extents => %( :parameters([N-Rectangle , N-Rectangle ])),
-  #get-font-description => %( :returns(N-FontDescription )),
-  get-height => %( :returns(gint)),
-  get-indent => %( :returns(gint)),
-  get-iter => %( :returns(N-LayoutIter)),
-  get-justify => %( :returns(gboolean), :cnv-return(Bool)),
-  get-justify-last-line => %( :returns(gboolean), :cnv-return(Bool)),
-  get-line => %( :returns(N-LayoutLine), :parameters([gint])),
-  get-line-count => %( :returns(gint)),
-  get-line-readonly => %( :returns(N-LayoutLine), :parameters([gint])),
-  get-line-spacing => %( :returns(gfloat)),
-  get-lines => %( :returns(N-SList)),
-  get-lines-readonly => %( :returns(N-SList)),
-  #get-log-attrs => %( :parameters([CArray[N-LogAttr] , gint-ptr])),
-  #get-log-attrs-readonly => %( :returns(N-LogAttr ), :parameters([gint-ptr])),
-  #get-pixel-extents => %( :parameters([N-Rectangle , N-Rectangle ])),
-  get-pixel-size => %( :parameters([gint-ptr, gint-ptr])),
-  get-serial => %( :returns(guint)),
-  get-single-paragraph-mode => %( :returns(gboolean), :cnv-return(Bool)),
-  get-size => %( :parameters([gint-ptr, gint-ptr])),
-  get-spacing => %( :returns(gint)),
-  #get-tabs => %( :returns(N-TabArray )),
-  get-text => %( :returns(Str)),
-  get-unknown-glyphs-count => %( :returns(gint)),
-  get-width => %( :returns(gint)),
-  get-wrap => %( :returns(GEnum), :cnv-return(PangoWrapMode)),
-  index-to-line-x => %( :parameters([gint, gboolean, gint-ptr, gint-ptr])),
-  #index-to-pos => %( :parameters([gint, N-Rectangle ])),
-  is-ellipsized => %( :returns(gboolean), :cnv-return(Bool)),
-  is-wrapped => %( :returns(gboolean), :cnv-return(Bool)),
-  move-cursor-visually => %( :parameters([gboolean, gint, gint, gint, gint-ptr, gint-ptr])),
-  #serialize => %( :returns(N-Bytes ), :parameters([GFlag])),
-  set-alignment => %( :parameters([GEnum])),
-  #set-attributes => %( :parameters([N-AttrList ])),
-  set-auto-dir => %( :parameters([gboolean])),
-  set-ellipsize => %( :parameters([GEnum])),
-  #set-font-description => %( :parameters([N-FontDescription ])),
-  set-height => %( :parameters([gint])),
-  set-indent => %( :parameters([gint])),
-  set-justify => %( :parameters([gboolean])),
-  set-justify-last-line => %( :parameters([gboolean])),
-  set-line-spacing => %( :parameters([gfloat])),
-  set-markup => %( :parameters([Str, gint])),
-  set-markup-with-accel => %( :parameters([Str, gint, gunichar, Str])),
-  set-single-paragraph-mode => %( :parameters([gboolean])),
-  set-spacing => %( :parameters([gint])),
-  #set-tabs => %( :parameters([N-TabArray ])),
-  set-text => %( :parameters([Str, gint])),
-  set-width => %( :parameters([gint])),
-  set-wrap => %( :parameters([GEnum])),
-  write-to-file => %( :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, Str])),
-  xy-to-index => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint, gint-ptr, gint-ptr])),
+  context-changed => %(:is-symbol<pango_layout_context_changed>, ),
+  copy => %(:is-symbol<pango_layout_copy>,  :returns(N-Object)),
+  get-alignment => %(:is-symbol<pango_layout_get_alignment>,  :returns(GEnum), :cnv-return(PangoAlignment)),
+  #get-attributes => %(:is-symbol<pango_layout_get_attributes>,  :returns(N-AttrList )),
+  get-auto-dir => %(:is-symbol<pango_layout_get_auto_dir>,  :returns(gboolean), :cnv-return(Bool)),
+  get-baseline => %(:is-symbol<pango_layout_get_baseline>,  :returns(gint)),
+  #get-caret-pos => %(:is-symbol<pango_layout_get_caret_pos>,  :parameters([gint, N-Rectangle , N-Rectangle ])),
+  get-character-count => %(:is-symbol<pango_layout_get_character_count>,  :returns(gint)),
+  get-context => %(:is-symbol<pango_layout_get_context>,  :returns(N-Object)),
+  #get-cursor-pos => %(:is-symbol<pango_layout_get_cursor_pos>,  :parameters([gint, N-Rectangle , N-Rectangle ])),
+  get-direction => %(:is-symbol<pango_layout_get_direction>,  :returns(GEnum), :cnv-return(PangoDirection), :parameters([gint])),
+  get-ellipsize => %(:is-symbol<pango_layout_get_ellipsize>,  :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
+  #get-extents => %(:is-symbol<pango_layout_get_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  #get-font-description => %(:is-symbol<pango_layout_get_font_description>,  :returns(N-FontDescription )),
+  get-height => %(:is-symbol<pango_layout_get_height>,  :returns(gint)),
+  get-indent => %(:is-symbol<pango_layout_get_indent>,  :returns(gint)),
+  get-iter => %(:is-symbol<pango_layout_get_iter>,  :returns(N-LayoutIter)),
+  get-justify => %(:is-symbol<pango_layout_get_justify>,  :returns(gboolean), :cnv-return(Bool)),
+  get-justify-last-line => %(:is-symbol<pango_layout_get_justify_last_line>,  :returns(gboolean), :cnv-return(Bool)),
+  get-line => %(:is-symbol<pango_layout_get_line>,  :returns(N-LayoutLine), :parameters([gint])),
+  get-line-count => %(:is-symbol<pango_layout_get_line_count>,  :returns(gint)),
+  get-line-readonly => %(:is-symbol<pango_layout_get_line_readonly>,  :returns(N-LayoutLine), :parameters([gint])),
+  get-line-spacing => %(:is-symbol<pango_layout_get_line_spacing>,  :returns(gfloat)),
+  get-lines => %(:is-symbol<pango_layout_get_lines>,  :returns(N-SList)),
+  get-lines-readonly => %(:is-symbol<pango_layout_get_lines_readonly>,  :returns(N-SList)),
+  #get-log-attrs => %(:is-symbol<pango_layout_get_log_attrs>,  :parameters([CArray[N-LogAttr] , gint-ptr])),
+  #get-log-attrs-readonly => %(:is-symbol<pango_layout_get_log_attrs_readonly>,  :returns(N-LogAttr ), :parameters([gint-ptr])),
+  #get-pixel-extents => %(:is-symbol<pango_layout_get_pixel_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  get-pixel-size => %(:is-symbol<pango_layout_get_pixel_size>,  :parameters([gint-ptr, gint-ptr])),
+  get-serial => %(:is-symbol<pango_layout_get_serial>,  :returns(guint)),
+  get-single-paragraph-mode => %(:is-symbol<pango_layout_get_single_paragraph_mode>,  :returns(gboolean), :cnv-return(Bool)),
+  get-size => %(:is-symbol<pango_layout_get_size>,  :parameters([gint-ptr, gint-ptr])),
+  get-spacing => %(:is-symbol<pango_layout_get_spacing>,  :returns(gint)),
+  #get-tabs => %(:is-symbol<pango_layout_get_tabs>,  :returns(N-TabArray )),
+  get-text => %(:is-symbol<pango_layout_get_text>,  :returns(Str)),
+  get-unknown-glyphs-count => %(:is-symbol<pango_layout_get_unknown_glyphs_count>,  :returns(gint)),
+  get-width => %(:is-symbol<pango_layout_get_width>,  :returns(gint)),
+  get-wrap => %(:is-symbol<pango_layout_get_wrap>,  :returns(GEnum), :cnv-return(PangoWrapMode)),
+  index-to-line-x => %(:is-symbol<pango_layout_index_to_line_x>,  :parameters([gint, gboolean, gint-ptr, gint-ptr])),
+  #index-to-pos => %(:is-symbol<pango_layout_index_to_pos>,  :parameters([gint, N-Rectangle ])),
+  is-ellipsized => %(:is-symbol<pango_layout_is_ellipsized>,  :returns(gboolean), :cnv-return(Bool)),
+  is-wrapped => %(:is-symbol<pango_layout_is_wrapped>,  :returns(gboolean), :cnv-return(Bool)),
+  move-cursor-visually => %(:is-symbol<pango_layout_move_cursor_visually>,  :parameters([gboolean, gint, gint, gint, gint-ptr, gint-ptr])),
+  #serialize => %(:is-symbol<pango_layout_serialize>,  :returns(N-Bytes ), :parameters([GFlag])),
+  set-alignment => %(:is-symbol<pango_layout_set_alignment>,  :parameters([GEnum])),
+  #set-attributes => %(:is-symbol<pango_layout_set_attributes>,  :parameters([N-AttrList ])),
+  set-auto-dir => %(:is-symbol<pango_layout_set_auto_dir>,  :parameters([gboolean])),
+  set-ellipsize => %(:is-symbol<pango_layout_set_ellipsize>,  :parameters([GEnum])),
+  #set-font-description => %(:is-symbol<pango_layout_set_font_description>,  :parameters([N-FontDescription ])),
+  set-height => %(:is-symbol<pango_layout_set_height>,  :parameters([gint])),
+  set-indent => %(:is-symbol<pango_layout_set_indent>,  :parameters([gint])),
+  set-justify => %(:is-symbol<pango_layout_set_justify>,  :parameters([gboolean])),
+  set-justify-last-line => %(:is-symbol<pango_layout_set_justify_last_line>,  :parameters([gboolean])),
+  set-line-spacing => %(:is-symbol<pango_layout_set_line_spacing>,  :parameters([gfloat])),
+  set-markup => %(:is-symbol<pango_layout_set_markup>,  :parameters([Str, gint])),
+  set-markup-with-accel => %(:is-symbol<pango_layout_set_markup_with_accel>,  :parameters([Str, gint, gunichar, Str])),
+  set-single-paragraph-mode => %(:is-symbol<pango_layout_set_single_paragraph_mode>,  :parameters([gboolean])),
+  set-spacing => %(:is-symbol<pango_layout_set_spacing>,  :parameters([gint])),
+  #set-tabs => %(:is-symbol<pango_layout_set_tabs>,  :parameters([N-TabArray ])),
+  set-text => %(:is-symbol<pango_layout_set_text>,  :parameters([Str, gint])),
+  set-width => %(:is-symbol<pango_layout_set_width>,  :parameters([gint])),
+  set-wrap => %(:is-symbol<pango_layout_set_wrap>,  :parameters([GEnum])),
+  write-to-file => %(:is-symbol<pango_layout_write_to_file>,  :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, Str])),
+  xy-to-index => %(:is-symbol<pango_layout_xy_to_index>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint, gint-ptr, gint-ptr])),
 
   #--[Functions]----------------------------------------------------------------
-  #deserialize => %( :type(Function),  :returns(N-Object), :parameters([UInt])),
+  #deserialize => %( :type(Function), :is-symbol<pango_layout_deserialize>,  :returns(N-Object), :parameters([UInt])),
 );
 
 #-------------------------------------------------------------------------------
@@ -148,7 +147,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(pango-lib()), :sub-prefix<pango_layout_>
+        :library('libpango-1.0.so.0')
       );
 
       # Check the function name. 
