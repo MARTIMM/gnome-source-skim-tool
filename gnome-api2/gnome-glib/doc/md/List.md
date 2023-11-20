@@ -104,11 +104,9 @@ Makes a full (deep) copy of a N-List.
 
 In contrast with `.copy()`, this function uses `$func` to make a copy of each list element, in addition to copying the list container itself. `$func`, as a GCopyFunc, takes two arguments, the data to be copied and a `$user_data` pointer. On common processor architectures, it's safe to pass `Nil` as `$user_data` if the copy function takes only one argument. You may get compiler warnings from this though if compiling with GCC’s `-Wcast-function-type` warning.
 
-For instance, if `$list` holds a list of GObjects, you can do:
-
-And, to entirely free the new list, you could do:
-
-    method copy-deep ( N-List() $list, &func, gpointer $user-data --> N-List )
+    method copy-deep (
+      N-List() $list, &func, gpointer $user-data --> N-List
+    )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -123,7 +121,9 @@ delete-link
 
 Removes the node link_ from the list and frees it. Compare this to `.remove-link()` which removes the node without freeing it.
 
-    method delete-link ( N-List() $list, N-List() $link --> N-List )
+    method delete-link (
+      N-List() $list, N-List() $link --> N-List
+    )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -149,7 +149,9 @@ find-custom
 
 Finds an element in a N-List, using a supplied function to find the desired element. It iterates over the list, calling the given function which should return 0 when the desired element is found. The function takes two #gconstpointer arguments, the N-List element's data as the first argument and the given user data.
 
-    method find-custom ( N-List() $list, gpointer $data, &func --> N-List )
+    method find-custom (
+      N-List() $list, gpointer $data, &func --> N-List
+    )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -240,7 +242,9 @@ insert
 
 Inserts a new element into the list at the given position.
 
-    method insert ( N-List() $list, gpointer $data, Int() $position --> N-List )
+    method insert (
+      N-List() $list, gpointer $data, Int() $position --> N-List
+    )
 
   * $list; a pointer to a N-List, this must point to the top of the list.
 
@@ -255,7 +259,10 @@ insert-before
 
 Inserts a new element into the list before the given position.
 
-    method insert-before ( N-List() $list, N-List() $sibling, gpointer $data --> N-List )
+    method insert-before (
+      N-List() $list, N-List() $sibling, gpointer $data
+      --> N-List
+    )
 
   * $list; a pointer to a N-List, this must point to the top of the list.
 
@@ -270,7 +277,10 @@ insert-before-link
 
 Inserts `$link_` into the list before the given position.
 
-    method insert-before-link ( N-List() $list, N-List() $sibling, N-List() $link --> N-List )
+    method insert-before-link (
+      N-List() $list, N-List() $sibling, N-List() $link
+      --> N-List
+    )
 
   * $list; a pointer to a N-List, this must point to the top of the list.
 
@@ -287,13 +297,15 @@ Inserts a new element into the list, using the given comparison function to dete
 
 If you are adding many new elements to a list, and the number of new elements is much larger than the length of the list, use `.prepend()` to add the new items and sort the list afterwards with `.sort()`.
 
-    method insert-sorted ( N-List() $list, gpointer $data, &func --> N-List )
+    method insert-sorted (
+      N-List() $list, gpointer $data, &func --> N-List
+    )
 
   * $list; a pointer to a N-List, this must point to the top of the already sorted list.
 
   * $data; the data for the new element.
 
-  * &func; the function to compare elements in the list. It should return a number > 0 if the first parameter comes after the second parameter in the sort order.. Tthe function must be specified with following signature; `:( gpointer $a, gpointer $b --` gint )>.
+  * &func; the function to compare elements in the list. It should return a number > 0 if the first parameter comes after the second parameter in the sort order. Tthe function must be specified with following signature; `:( gpointer $a, gpointer $b --` gint )>.
 
 Return value; the (possibly changed) start of the N-List. 
 
@@ -304,7 +316,11 @@ Inserts a new element into the list, using the given comparison function to dete
 
 If you are adding many new elements to a list, and the number of new elements is much larger than the length of the list, use `.prepend()` to add the new items and sort the list afterwards with `.sort()`.
 
-    method insert-sorted-with-data ( N-List() $list, gpointer $data, &func, gpointer $user-data --> N-List )
+    method insert-sorted-with-data (
+      N-List() $list, gpointer $data, &func,
+      gpointer $user-data
+      --> N-List
+    )
 
   * $list; a pointer to a N-List, this must point to the top of the already sorted list.
 
@@ -431,7 +447,9 @@ remove-all
 
 Removes all list nodes with data equal to `$data`. Returns the new head of the list. Contrast with `.remove()` which removes only the first node matching the given data.
 
-    method remove-all ( N-List() $list, gpointer $data --> N-List )
+    method remove-all (
+      N-List() $list, gpointer $data --> N-List
+    )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -444,9 +462,11 @@ remove-link
 
 Removes an element from a N-List, without freeing the element. The removed element's prev and next links are set to `Nil`, so that it becomes a self-contained list with one element.
 
-This function is for example used to move an element in the list (see the example for `.concat()`) or to remove an element in the list before freeing its data:
+This function is for example used to move an element in the list.
 
-    method remove-link ( N-List() $list, N-List() $llink --> N-List )
+    method remove-link (
+      N-List() $list, N-List() $llink --> N-List
+    )
 
   * $list; a N-List, this must point to the top of the list.
 
@@ -483,7 +503,10 @@ sort-with-data
 
 Like `.sort()`, but the comparison function accepts a user data argument.
 
-    method sort-with-data ( N-List() $list, &compare-func, gpointer $user-data --> N-List )
+    method sort-with-data (
+      N-List() $list, &compare-func, gpointer $user-data
+      --> N-List 
+    )
 
   * $list; a N-List, this must point to the top of the list.
 
