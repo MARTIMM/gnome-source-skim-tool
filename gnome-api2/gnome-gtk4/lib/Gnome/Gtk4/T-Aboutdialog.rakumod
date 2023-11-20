@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gtk4 aboutdialog function enumeration
+# Command to generate: generate.raku -v -c Gtk4 aboutdialog
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -11,12 +11,14 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::T-Aboutdialog:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -31,7 +33,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( ) {
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix("gtk_"));
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 }
 
 #-------------------------------------------------------------------------------
@@ -48,7 +50,7 @@ enum GtkLicense is export <
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  show-about-dialog => %( :type(Function), :variable-list,  :parameters([ N-Object, Str])),
+  show-about-dialog => %( :type(Function), :is-symbol<gtk_show_about_dialog>, :variable-list,  :parameters([ N-Object, Str])),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

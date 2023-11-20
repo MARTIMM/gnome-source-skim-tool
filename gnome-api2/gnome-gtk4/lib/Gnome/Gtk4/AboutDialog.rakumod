@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 AboutDialog
+# Command to generate: generate.raku -v -c Gtk4 aboutdialog
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_about_dialog_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::AboutDialog' {
@@ -68,42 +68,42 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-aboutdialog => %( :type(Constructor), :isnew, :returns(N-Object), ),
+  new-aboutdialog => %( :type(Constructor), :is-symbol<gtk_about_dialog_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-credit-section => %( :parameters([Str, gchar-pptr])),
-  get-artists => %( :returns(gchar-pptr)),
-  get-authors => %( :returns(gchar-pptr)),
-  get-comments => %( :returns(Str)),
-  get-copyright => %( :returns(Str)),
-  get-documenters => %( :returns(gchar-pptr)),
-  get-license => %( :returns(Str)),
-  get-license-type => %( :returns(GEnum), :cnv-return(GtkLicense)),
-  get-logo => %( :returns(N-Object)),
-  get-logo-icon-name => %( :returns(Str)),
-  get-program-name => %( :returns(Str)),
-  get-system-information => %( :returns(Str)),
-  get-translator-credits => %( :returns(Str)),
-  get-version => %( :returns(Str)),
-  get-website => %( :returns(Str)),
-  get-website-label => %( :returns(Str)),
-  get-wrap-license => %( :returns(gboolean), :cnv-return(Bool)),
-  set-artists => %( :parameters([gchar-pptr])),
-  set-authors => %( :parameters([gchar-pptr])),
-  set-comments => %( :parameters([Str])),
-  set-copyright => %( :parameters([Str])),
-  set-documenters => %( :parameters([gchar-pptr])),
-  set-license => %( :parameters([Str])),
-  set-license-type => %( :parameters([GEnum])),
-  set-logo => %( :parameters([N-Object])),
-  set-logo-icon-name => %( :parameters([Str])),
-  set-program-name => %( :parameters([Str])),
-  set-system-information => %( :parameters([Str])),
-  set-translator-credits => %( :parameters([Str])),
-  set-version => %( :parameters([Str])),
-  set-website => %( :parameters([Str])),
-  set-website-label => %( :parameters([Str])),
-  set-wrap-license => %( :parameters([gboolean])),
+  add-credit-section => %(:is-symbol<gtk_about_dialog_add_credit_section>,  :parameters([Str, gchar-pptr])),
+  get-artists => %(:is-symbol<gtk_about_dialog_get_artists>,  :returns(gchar-pptr)),
+  get-authors => %(:is-symbol<gtk_about_dialog_get_authors>,  :returns(gchar-pptr)),
+  get-comments => %(:is-symbol<gtk_about_dialog_get_comments>,  :returns(Str)),
+  get-copyright => %(:is-symbol<gtk_about_dialog_get_copyright>,  :returns(Str)),
+  get-documenters => %(:is-symbol<gtk_about_dialog_get_documenters>,  :returns(gchar-pptr)),
+  get-license => %(:is-symbol<gtk_about_dialog_get_license>,  :returns(Str)),
+  get-license-type => %(:is-symbol<gtk_about_dialog_get_license_type>,  :returns(GEnum), :cnv-return(GtkLicense)),
+  get-logo => %(:is-symbol<gtk_about_dialog_get_logo>,  :returns(N-Object)),
+  get-logo-icon-name => %(:is-symbol<gtk_about_dialog_get_logo_icon_name>,  :returns(Str)),
+  get-program-name => %(:is-symbol<gtk_about_dialog_get_program_name>,  :returns(Str)),
+  get-system-information => %(:is-symbol<gtk_about_dialog_get_system_information>,  :returns(Str)),
+  get-translator-credits => %(:is-symbol<gtk_about_dialog_get_translator_credits>,  :returns(Str)),
+  get-version => %(:is-symbol<gtk_about_dialog_get_version>,  :returns(Str)),
+  get-website => %(:is-symbol<gtk_about_dialog_get_website>,  :returns(Str)),
+  get-website-label => %(:is-symbol<gtk_about_dialog_get_website_label>,  :returns(Str)),
+  get-wrap-license => %(:is-symbol<gtk_about_dialog_get_wrap_license>,  :returns(gboolean), :cnv-return(Bool)),
+  set-artists => %(:is-symbol<gtk_about_dialog_set_artists>,  :parameters([gchar-pptr])),
+  set-authors => %(:is-symbol<gtk_about_dialog_set_authors>,  :parameters([gchar-pptr])),
+  set-comments => %(:is-symbol<gtk_about_dialog_set_comments>,  :parameters([Str])),
+  set-copyright => %(:is-symbol<gtk_about_dialog_set_copyright>,  :parameters([Str])),
+  set-documenters => %(:is-symbol<gtk_about_dialog_set_documenters>,  :parameters([gchar-pptr])),
+  set-license => %(:is-symbol<gtk_about_dialog_set_license>,  :parameters([Str])),
+  set-license-type => %(:is-symbol<gtk_about_dialog_set_license_type>,  :parameters([GEnum])),
+  set-logo => %(:is-symbol<gtk_about_dialog_set_logo>,  :parameters([N-Object])),
+  set-logo-icon-name => %(:is-symbol<gtk_about_dialog_set_logo_icon_name>,  :parameters([Str])),
+  set-program-name => %(:is-symbol<gtk_about_dialog_set_program_name>,  :parameters([Str])),
+  set-system-information => %(:is-symbol<gtk_about_dialog_set_system_information>,  :parameters([Str])),
+  set-translator-credits => %(:is-symbol<gtk_about_dialog_set_translator_credits>,  :parameters([Str])),
+  set-version => %(:is-symbol<gtk_about_dialog_set_version>,  :parameters([Str])),
+  set-website => %(:is-symbol<gtk_about_dialog_set_website>,  :parameters([Str])),
+  set-website-label => %(:is-symbol<gtk_about_dialog_set_website_label>,  :parameters([Str])),
+  set-wrap-license => %(:is-symbol<gtk_about_dialog_set_wrap_license>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_about_dialog_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
