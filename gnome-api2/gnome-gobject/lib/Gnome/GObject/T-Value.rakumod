@@ -1,16 +1,13 @@
-# Command to generate: generate.raku -c GObject value
+# Command to generate: generate.raku -v -d -c GObject value
 use v6.d;
-
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GObject::T-Value:auth<github:MARTIMM>:api<2>;
-
 #-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
-constant VALUE_INTERNED_STRING is export = 268435456;
-constant VALUE_NOCOPY_CONTENTS is export = 134217728;
-
+constant G_VALUE_INTERNED_STRING is export = 268435456;
+constant G_VALUE_NOCOPY_CONTENTS is export = 134217728;
 
