@@ -1223,6 +1223,7 @@ method !modify-v4examples ( Str $text is copy --> Str ) {
   }
 
   else {
+    # Only first ```
     $text ~~ s/ '  ```' /=begin comment\n/;
   }
 
@@ -1412,6 +1413,9 @@ method !modify-examples ( Str $text is copy --> Str ) {
 
   $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="C"' \s* '-->' 
               /=begin comment\n/;
+
+  # Only literal text
+  $text ~~ s:g/^^ '|[' /=begin comment\n/;
 
   $text ~~ s:g/^^ ']|' /=end comment\n/;
 
