@@ -114,18 +114,21 @@ subtest 'Method tests', {
 }}
 
 
-    #TM:0:is-array()
-    $element = $varianttype.get-native-object;  # a native object
+    #TM:1:is-array()
+    my $element = $varianttype.get-native-object;  # a native object
     $varianttype .= new-array($element);
     ok .is-array(), '.is-array()';
 
-    $type-string = 'b';
+    #TM:1:is-container()
+    ok .is-container(), '.is-container()';
+
+    my Str $type-string = 'b';
     $varianttype .= new-varianttype($type-string);
-    #TM:0:is-basic()
+    #TM:1:is-basic()
     ok .is-basic(), '.is-basic()';
 
-    #TM:0:is-container()
-    ok .is-container(), '.is-container()';
+
+#`{{
 
     #TM:0:is-definite()
     ok .is-definite(), '.is-definite()';

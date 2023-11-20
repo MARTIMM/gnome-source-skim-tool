@@ -11,6 +11,8 @@ use NativeCall;
 
 
 use Gnome::Glib::Variant:api<2>;
+use Gnome::Glib::VariantType:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -438,9 +440,9 @@ subtest 'Method tests', {
 subtest 'Function tests', {
   with $variant {
     my Str $limit;
-    my N-Object $type;
+    my Gnome::Glib::VariantType $varianttype;
     my Str $string;
-    my Array[Str] $endptr;
+    my Pointer[Str] $endptr;
     my Str $source-str;
     my N-Object $error;
     my Str $text;
@@ -452,10 +454,32 @@ subtest 'Function tests', {
 
     #TM:0:is-signature()
     ok .is-signature( $string), '.is-signature()';
+}}
 
-    #TM:0:parse()
-    ok .parse( $type, $text, $limit, $endptr), '.parse()';
+    #TM:1:parse()
+    my Str $type-string = 'u';
+    $varianttype .= new-varianttype($type-string);
+    $text = '10';
+#    $limit = Str;
+#    $endptr = Pointer[Str].new;
+    my Gnome::Glib::Variant $v .= new(
+      :native-object(.parse( $varianttype, $text, Str, Pointer))
+    );
+    is $v.get-uint32, 10, '.parse()';
+    $v.clear-object;
 
+#`{{
+    $text = '100 en verder niets';
+    #$endptr = Pointer[Str].new;#($text;
+    $endptr = nativecast( Pointer[Str], CArray[Str].new($text));
+    $v .= new(
+      :native-object(.parse( $varianttype, $text, $limit, $endptr))
+    );
+    is $v.get-uint32, 100, '.parse()';
+    note nativecast( CArray[Str], $endptr)[0];
+}}
+
+#`{{
     #TM:0:parse-error-print-context()
     ok .parse-error-print-context( $error, $source-str), '.parse-error-print-context()';
 
