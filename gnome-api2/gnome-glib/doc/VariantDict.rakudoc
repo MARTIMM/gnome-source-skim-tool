@@ -1,0 +1,378 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Glib
+ =item B<Project description:> Modules for package Gnome::Glib:api<2>. The language binding to GNOME's lowest level library
+ =item B<Project version:> 0.1.5
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/variantdict.png)
+
+=head1 Description
+
+GVariantDict is a mutable interface to GVariant dictionaries.
+
+It can be used for doing a sequence of dictionary lookups in an
+efficient way on an existing GVariant dictionary or it can be used
+to construct new dictionaries with a hashtable-like interface.  It
+can also be used for taking existing dictionaries and modifying them
+in order to create new ones.
+
+GVariantDict can only be used with %G_VARIANT_TYPE_VARDICT
+dictionaries.
+
+It is possible to use GVariantDict allocated on the stack or on the
+heap.  When using a stack-allocated GVariantDict, you begin with a
+call to C<.init()> and free the resources with a call to
+C<.clear()>.
+
+Heap-allocated GVariantDict follows normal refcounting rules: you
+allocate it with C<.new-variantdict()> and use C<.ref()>
+and C<.unref()>.
+
+C<.end()> is used to convert the GVariantDict back into a
+dictionary-type GVariant.  When used with stack-allocated instances,
+this also implicitly frees all associated memory, but for
+heap-allocated instances, you must still call C<.unref()>
+afterwards.
+
+You will typically want to use a heap-allocated GVariantDict when
+you expose it as part of an API.  For most other uses, the
+stack-allocated form will be more convenient.
+
+Consider the following two examples that do the same thing in each
+style: take an existing dictionary and look up the "count" uint32
+key, adding 1 to it if it is found, or returning an error if the
+key is not found.  Each returns the new dictionary as a floating
+GVariant.
+
+## Using a stack-allocated GVariantDict
+
+=begin comment
+
+  GVariant *
+  add_to_count (GVariant  *orig,
+                GError   **error)
+  {
+    GVariantDict dict;
+    guint32 count;
+
+    g_variant_dict_init (&dict, orig);
+    if (!g_variant_dict_lookup (&dict, "count", "u", &count))
+      {
+        g_set_error (...);
+        g_variant_dict_clear (&dict);
+        return NULL;
+      }
+
+    g_variant_dict_insert (&dict, "count", "u", count + 1);
+
+    return g_variant_dict_end (&dict);
+  }
+=end comment
+
+
+## Using heap-allocated GVariantDict
+
+=begin comment
+
+  GVariant *
+  add_to_count (GVariant  *orig,
+                GError   **error)
+  {
+    GVariantDict *dict;
+    GVariant *result;
+    guint32 count;
+
+    dict = g_variant_dict_new (orig);
+
+    if (g_variant_dict_lookup (dict, "count", "u", &count))
+      {
+        g_variant_dict_insert (dict, "count", "u", count + 1);
+        result = g_variant_dict_end (dict);
+      }
+    else
+      {
+        g_set_error (...);
+        result = NULL;
+      }
+
+    g_variant_dict_unref (dict);
+
+    return result;
+  }
+=end comment
+
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-variantdict
+
+Allocates and initialises a new GVariantDict.
+
+You should call C<.unref()> on the return value when it is no longer needed. The memory will not be automatically freed by any other call.
+
+In some cases it may be easier to place a GVariantDict directly on the stack of the calling function and initialise it with C<.init()>. This is particularly useful when you are using GVariantDict to construct a GVariant.
+
+=begin code
+method new-variantdict ( --> Gnome::Glib::VariantDict)
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear
+
+Releases all memory associated with a GVariantDict without freeing the GVariantDict structure itself.
+
+It typically only makes sense to do this on a stack-allocated GVariantDict if you want to abort building the value part-way through. This function need not be called if you call C<.end()> and it also doesn't need to be called on dicts allocated with g_variant_dict_new (see C<.unref()> for that).
+
+It is valid to call this function on either an initialised GVariantDict or one that was previously cleared by an earlier call to C<.clear()> but it is not valid to call this function on uninitialised memory.
+
+=begin code
+method clear ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains
+
+Checks if C<$key> exists in C<$dict>.
+
+=begin code
+method contains ( Str $key --> Bool )
+=end code
+
+=item $key; the key to look up in the dictionary.
+
+Return value; C<True> if C<$key> is in C<$dict>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 end
+
+Returns the current value of C<$dict> as a GVariant of type
+%G_VARIANT_TYPE_VARDICT, clearing it in the process.
+
+It is not permissible to use C<$dict> in any way after this call except for reference counting operations (in the case of a heap-allocated GVariantDict) or by reinitialising it with C<.init()> (in the case of stack-allocated).
+
+=begin code
+method end (--> CArray[N-Variant] )
+=end code
+
+
+Return value; a new, floating, GVariant. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initialises a GVariantDict structure.
+
+If C<$from_asv> is given, it is used to initialise the dictionary.
+
+This function completely ignores the previous contents of C<$dict>. On one hand this means that it is valid to pass in completely uninitialised memory. On the other hand, this means that if you are initialising over top of an existing GVariantDict you need to first call C<.clear()> in order to avoid leaking memory.
+
+You must not call C<.ref()> or C<.unref()> on a GVariantDict that was initialised with this function. If you ever pass a reference to a GVariantDict outside of the control of your own code then you should assume that the person receiving that reference may try to use reference counting; you should use C<.new-variantdict()> instead of this function.
+
+=begin code
+method init ( CArray[N-Variant] $from-asv )
+=end code
+
+=item $from-asv; the initial value for C<$dict>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+Inserts a value into a GVariantDict.
+
+This call is a convenience wrapper that is exactly equivalent to calling g_variant_new() followed by C<.insert-value()>.
+
+=begin code
+method insert ( Str $key, Str $format-string, … )
+=end code
+
+=item $key; the key to insert a value for.
+=item $format-string; a GVariant varargs format string.
+=item …; arguments, as per C<$format_string>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-value
+
+Inserts (or replaces) a key in a GVariantDict.
+ C<$value> is consumed if it is floating.
+
+=begin code
+method insert-value ( Str $key, CArray[N-Variant] $value )
+=end code
+
+=item $key; the key to insert a value for.
+=item $value; the value to insert.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 lookup
+
+Looks up a value in a GVariantDict.
+
+This function is a wrapper around C<.lookup-value()> and g_variant_get(). In the case that C<Nil> would have been returned,
+this function returns C<False>. Otherwise, it unpacks the returned value and returns C<True>.
+ C<$format_string> determines the C types that are used for unpacking the values and also determines if the values are copied or borrowed, see the section on GVariant format strings.
+
+=begin code
+method lookup ( Str $key, Str $format-string, … --> Bool )
+=end code
+
+=item $key; the key to look up in the dictionary.
+=item $format-string; a GVariant format string.
+=item …; the arguments to unpack the value into. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if a value was unpacked. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 lookup-value
+
+Looks up a value in a GVariantDict.
+
+If C<$key> is not found in C<$dictionary>, C<Nil> is returned.
+
+The C<$expected_type> string specifies what type of value is expected.
+If the value associated with C<$key> has a different type then C<Nil> is returned.
+
+If the key is found and the value has the correct type, it is returned. If C<$expected_type> was specified then any non-C<Nil> return value will have this type.
+
+=begin code
+method lookup-value ( Str $key, CArray[N-VariantType] $expected-type --> CArray[N-Variant] )
+=end code
+
+=item $key; the key to look up in the dictionary.
+=item $expected-type; a GVariantType, or C<Nil>.
+
+Return value; the value of the dictionary key, or C<Nil>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Increases the reference count on C<$dict>.
+
+Don't call this on stack-allocated GVariantDict instances or bad things will happen.
+
+=begin code
+method ref (--> CArray[N-VariantDict] )
+=end code
+
+
+Return value; a new reference to C<$dict>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes a key and its associated value from a GVariantDict.
+
+=begin code
+method remove ( Str $key --> Bool )
+=end code
+
+=item $key; the key to remove.
+
+Return value; C<True> if the key was found and removed. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Decreases the reference count on C<$dict>.
+
+In the event that there are no more references, releases all memory associated with the GVariantDict.
+
+Don't call this on stack-allocated GVariantDict instances or bad things will happen.
+
+=begin code
+method unref ( )
+=end code
+
+
+=end pod
+

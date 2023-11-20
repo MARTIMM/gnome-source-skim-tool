@@ -1,0 +1,37 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Glib
+ =item B<Project description:> Modules for package Gnome::Glib:api<2>. The language binding to GNOME's lowest level library
+ =item B<Project version:> 0.1.5
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+=begin pod
+=head1 Enumerations
+
+=head2 GVariantParseError
+
+Error codes returned by parsing text-format GVariants.=item C<G_VARIANT_PARSE_ERROR_FAILED>; generic error (unused)
+=item C<G_VARIANT_PARSE_ERROR_BASIC_TYPE_EXPECTED>; a non-basic GVariantType was given where a basic type was expected
+=item C<G_VARIANT_PARSE_ERROR_CANNOT_INFER_TYPE>; cannot infer the GVariantType
+=item C<G_VARIANT_PARSE_ERROR_DEFINITE_TYPE_EXPECTED>; an indefinite GVariantType was given where a definite type was expected
+=item C<G_VARIANT_PARSE_ERROR_INPUT_NOT_AT_END>; extra data after parsing finished
+=item C<G_VARIANT_PARSE_ERROR_INVALID_CHARACTER>; invalid character in number or unicode escape
+=item C<G_VARIANT_PARSE_ERROR_INVALID_FORMAT_STRING>; not a valid GVariant format string
+=item C<G_VARIANT_PARSE_ERROR_INVALID_OBJECT_PATH>; not a valid object path
+=item C<G_VARIANT_PARSE_ERROR_INVALID_SIGNATURE>; not a valid type signature
+=item C<G_VARIANT_PARSE_ERROR_INVALID_TYPE_STRING>; not a valid GVariant type string
+=item C<G_VARIANT_PARSE_ERROR_NO_COMMON_TYPE>; could not find a common type for array entries
+=item C<G_VARIANT_PARSE_ERROR_NUMBER_OUT_OF_RANGE>; the numerical value is out of range of the given type
+=item C<G_VARIANT_PARSE_ERROR_NUMBER_TOO_BIG>; the numerical value is out of range for any type
+=item C<G_VARIANT_PARSE_ERROR_TYPE_ERROR>; cannot parse as variant of the specified type
+=item C<G_VARIANT_PARSE_ERROR_UNEXPECTED_TOKEN>; an unexpected token was encountered
+=item C<G_VARIANT_PARSE_ERROR_UNKNOWN_KEYWORD>; an unknown keyword was encountered
+=item C<G_VARIANT_PARSE_ERROR_UNTERMINATED_STRING_CONSTANT>; unterminated string constant
+=item C<G_VARIANT_PARSE_ERROR_VALUE_EXPECTED>; no value given
+=item C<G_VARIANT_PARSE_ERROR_RECURSION>; variant was too deeply nested; GVariant is only guaranteed to handle nesting up to 64 levels (Since: 2.64)
+=end pod
+
