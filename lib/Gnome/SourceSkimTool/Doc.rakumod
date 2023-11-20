@@ -966,7 +966,7 @@ method !modify-text ( Str $text is copy --> Str ) {
   #   @parameter, e.g. @orientable and @section.
   #   Sometimes the prefix is missing e.g. [method@CssSection.get_parent]
 
-  my Bool $version4 = ($*gnome-package.Str ~~ / 4 /).Bool;
+  my Bool $version4 = ($*gnome-package.Str ~~ / 4 || Pango /).Bool;
 
   # Do not modify text whithin example code. C code is to be changed
   # later anyway and on other places like in XML examples it must be kept as is.
