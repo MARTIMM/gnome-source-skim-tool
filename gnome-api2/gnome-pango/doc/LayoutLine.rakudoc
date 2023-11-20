@@ -20,12 +20,12 @@
 
 =head1 Description
 
-A `PangoLayoutLine` represents one of the lines resulting from laying
-out a paragraph via `PangoLayout`.
+A B<Gnome::Pango::LayoutLine> represents one of the lines resulting from laying
+out a paragraph via I<PangoLayout>.
 
-`PangoLayoutLine` structures are obtained by calling
-[method C<$Pango>.Layout.get_line] and are only valid until the text,
-attributes, or settings of the parent `PangoLayout` are modified.
+B<Gnome::Pango::LayoutLine> structures are obtained by calling
+C<.get-line() defined in Layout> and are only valid until the text,
+attributes, or settings of the parent I<PangoLayout> are modified.
 =begin comment
 =head2 Uml Diagram
 ![](plantuml/….svg)
@@ -71,7 +71,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 Computes the logical and ink extents of a layout line.
 
-See [method C<$Pango>.Font.get_glyph_extents] for details about the interpretation of the rectangles.
+See C<.get-glyph-extents() defined in Font> for details about the interpretation of the rectangles.
 
 =begin code
 method get-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
@@ -90,9 +90,7 @@ method get-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logic
 
 Computes the height of the line, as the maximum of the heights of fonts used in this line.
 
-Note that the actual baseline-to-baseline distance between lines of text is influenced by other factors, such as
-[method C<$Pango>.Layout.set_spacing] and
-[method C<$Pango>.Layout.set_line_spacing].
+Note that the actual baseline-to-baseline distance between lines of text is influenced by other factors, such as C<.set-spacing() defined in Layout> and C<.set-line-spacing() defined in Layout>.
 
 =begin code
 method get-height ( Array[Int] $height )
@@ -124,7 +122,7 @@ Return value; the length of the line.
 
 Computes the logical and ink extents of C<$layout_line> in device units.
 
-This function just calls [method C<$Pango>.LayoutLine.get_extents] followed by two [func C<$extents_to_pixels>] calls, rounding C<$ink_rect> and C<$logical_rect>
+This function just calls C<.get-extents()> followed by two [func C<$extents_to_pixels>] calls, rounding C<$ink_rect> and C<$logical_rect>
 such that the rounded rectangles fully contain the unrounded one (that is,
 passes them as first argument to [func C<$extents_to_pixels>]).
 
@@ -193,8 +191,8 @@ method get-x-ranges ( Int() $start-index, Int() $end-index, Array[Int] $ranges, 
  it will end at the trailing edge of the last character..
 =item $ranges; (transfer ownership: full) location to
  store a pointer to an array of ranges. The array will be of length
- `2*n_ranges`, with each range starting at `(*ranges)[2*n]` and of
- width `(*ranges)[2*n + 1] - (*ranges)[2*n]`. This array must be freed
+ I<2*n_ranges>, with each range starting at I<(*ranges)[2*n]> and of
+ width I<(*ranges)[2*n + 1] - (*ranges)[2*n]>. This array must be freed
  with g_free(). The coordinates are relative to the layout and are in
  Pango units..
 =item $n-ranges; (transfer ownership: full) The number of ranges stored in C<$ranges>.
@@ -230,7 +228,7 @@ method is-paragraph-start (--> Bool )
 =end code
 
 
-Return value; C<True> if this is the first line. 
+Return value; %TRUE if this is the first line. 
 
 
 =end pod
@@ -239,7 +237,7 @@ Return value; C<True> if this is the first line.
 =begin pod
 =head2 ref
 
-Increase the reference count of a `PangoLayoutLine` by one.
+Increase the reference count of a B<Gnome::Pango::LayoutLine> by one.
 
 =begin code
 method ref (--> CArray[N-LayoutLine] )
@@ -255,7 +253,7 @@ Return value; the line passed in..
 =begin pod
 =head2 unref
 
-Decrease the reference count of a `PangoLayoutLine` by one.
+Decrease the reference count of a B<Gnome::Pango::LayoutLine> by one.
 
 If the result is zero, the line and all associated memory will be freed.
 
@@ -286,7 +284,7 @@ method x-to-index ( Int() $x-pos, Array[Int] $index, Array[Int] $trailing --> Bo
  grapheme the user clicked. It will either be zero, or the number of
  characters in the grapheme. 0 represents the leading edge of the grapheme..
 
-Return value; C<False> if C<$x_pos> was outside the line, C<True> if inside. 
+Return value; %FALSE if C<$x_pos> was outside the line, %TRUE if inside. 
 
 
 =end pod

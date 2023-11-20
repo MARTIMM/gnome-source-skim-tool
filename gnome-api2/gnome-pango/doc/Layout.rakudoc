@@ -20,17 +20,17 @@
 
 =head1 Description
 
-A `PangoLayout` structure represents an entire paragraph of text.
+A B<Gnome::Pango::Layout> structure represents an entire paragraph of text.
 
 While complete access to the layout capabilities of Pango is provided
 using the detailed interfaces for itemization and shaping, using
 that functionality directly involves writing a fairly large amount
-of code. `PangoLayout` provides a high-level driver for formatting
+of code. B<Gnome::Pango::Layout> provides a high-level driver for formatting
 entire paragraphs of text at once. This includes paragraph-level
 functionality such as line breaking, justification, alignment and
 ellipsization.
 
-A `PangoLayout` is initialized with a `PangoContext`, UTF-8 string
+A B<Gnome::Pango::Layout> is initialized with a I<PangoContext>, UTF-8 string
 and set of attributes for that string. Once that is done, the set of
 formatted lines can be extracted from the object, the layout can be
 rendered, and conversion between logical character positions within
@@ -38,7 +38,7 @@ the layout's text, and the physical position of the resulting glyphs
 can be made.
 
 There are a number of parameters to adjust the formatting of a
-`PangoLayout`. The following image shows adjustable parameters
+B<Gnome::Pango::Layout>. The following image shows adjustable parameters
 (on the left) and font metrics (on the right):
 
 <picture>
@@ -57,7 +57,7 @@ justification on the layout of text:
 
 
 It is possible, as well, to ignore the 2-D setup,
-and simply treat the results of a `PangoLayout` as a list of lines.
+and simply treat the results of a B<Gnome::Pango::Layout> as a list of lines.
 =begin comment
 =head2 Uml Diagram
 ![](plantuml/….svg)
@@ -93,13 +93,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 new-layout
 
-Create a new `PangoLayout` object with attributes initialized to default values for a particular `PangoContext`.
+Create a new B<Gnome::Pango::Layout> object with attributes initialized to default values for a particular I<PangoContext>.
 
 =begin code
 method new-layout ( N-Object() $context --> Gnome::Pango::Layout )
 =end code
 
-=item $context; a `PangoContext`.
+=item $context; a I<PangoContext>.
 
 =end pod
 
@@ -115,7 +115,7 @@ method new-layout ( N-Object() $context --> Gnome::Pango::Layout )
 =begin pod
 =head2 context-changed
 
-Forces recomputation of any state in the `PangoLayout` that might depend on the layout's context.
+Forces recomputation of any state in the B<Gnome::Pango::Layout> that might depend on the layout's context.
 
 This function should be called if you make changes to the context subsequent to creating the layout.
 
@@ -139,7 +139,7 @@ method copy (--> N-Object )
 =end code
 
 
-Return value; the newly allocated `PangoLayout`. 
+Return value; the newly allocated B<Gnome::Pango::Layout>. 
 
 
 =end pod
@@ -171,7 +171,7 @@ method get-attributes (--> CArray[N-AttrList]  )
 =end code
 
 
-Return value; a `PangoAttrList`. 
+Return value; a I<PangoAttrList>. 
 
 
 =end pod
@@ -182,15 +182,15 @@ Return value; a `PangoAttrList`.
 
 Gets whether to calculate the base direction for the layout according to its contents.
 
-See [method C<$Pango>.Layout.set_auto_dir].
+See C<.set-auto-dir()>.
 
 =begin code
 method get-auto-dir (--> Bool )
 =end code
 
 
-Return value; C<True> if the bidirectional base direction
- is computed from the layout's contents, C<False> otherwise. 
+Return value; %TRUE if the bidirectional base direction
+ is computed from the layout's contents, %FALSE otherwise. 
 
 
 =end pod
@@ -217,7 +217,7 @@ Return value; baseline of first line, from top of C<$layout>.
 
 Given an index within a layout, determines the positions that of the strong and weak cursors if the insertion point is at that index.
 
-This is a variant of [method C<$Pango>.Layout.get_cursor_pos] that applies font metric information about caret slope and offset to the positions it returns.
+This is a variant of C<.get-cursor-pos()> that applies font metric information about caret slope and offset to the positions it returns.
 
 <picture>
  <source srcset="caret-metrics-dark.png" media="(prefers-color-scheme: dark)">
@@ -255,14 +255,14 @@ Return value; the number of Unicode characters
 =begin pod
 =head2 get-context
 
-Retrieves the `PangoContext` used for this layout.
+Retrieves the I<PangoContext> used for this layout.
 
 =begin code
 method get-context (--> N-Object )
 =end code
 
 
-Return value; the `PangoContext` for the layout. 
+Return value; the I<PangoContext> for the layout. 
 
 
 =end pod
@@ -326,9 +326,9 @@ Return value; the text direction at C<$index>.  An enumeration.
 
 Gets the type of ellipsization being performed for C<$layout>.
 
-See [method C<$Pango>.Layout.set_ellipsize].
+See C<.set-ellipsize()>.
 
-Use [method C<$Pango>.Layout.is_ellipsized] to query whether any paragraphs were actually ellipsized.
+Use C<.is-ellipsized() defined in Layout> to query whether any paragraphs were actually ellipsized.
 
 =begin code
 method get-ellipsize (--> PangoEllipsizeMode )
@@ -373,7 +373,7 @@ method get-font-description (--> CArray[N-FontDescription]  )
 
 
 Return value; a pointer to the
- layout's font description, or C<Nil> if the font description
+ layout's font description, or %NULL if the font description
  from the layout's context is inherited.. 
 
 
@@ -385,7 +385,7 @@ Return value; a pointer to the
 
 Gets the height of layout used for ellipsization.
 
-See [method C<$Pango>.Layout.set_height] for details.
+See C<.set-height()> for details.
 
 =begin code
 method get-height (--> Int )
@@ -427,7 +427,7 @@ method get-iter (--> CArray[N-LayoutIter] )
 =end code
 
 
-Return value; the new `PangoLayoutIter`. 
+Return value; the new B<Gnome::Pango::Layout>Iter. 
 
 
 =end pod
@@ -468,21 +468,21 @@ Return value; the justify value.
 =begin pod
 =head2 get-line
 
-Retrieves a particular line from a `PangoLayout`.
+Retrieves a particular line from a B<Gnome::Pango::Layout>.
 
-Use the faster [method C<$Pango>.Layout.get_line_readonly] if you do not plan to modify the contents of the line (glyphs, glyph widths, etc.).
+Use the faster C<.get-line-readonly()> if you do not plan to modify the contents of the line (glyphs, glyph widths, etc.).
 
 =begin code
 method get-line ( Int() $line --> CArray[N-LayoutLine] )
 =end code
 
 =item $line; the index of a line, which must be between 0 and
- `pango_layout_get_line_count(layout) - 1`, inclusive..
+ I<pango_layout_get_line_count(layout) - 1>, inclusive..
 
-Return value; the requested `PangoLayoutLine`,
- or C<Nil> if the index is out of range. This layout line can be ref'ed
+Return value; the requested B<Gnome::Pango::Layout>Line,
+ or %NULL if the index is out of range. This layout line can be ref'ed
  and retained, but will become invalid if changes are made to the
- `PangoLayout`.. 
+ B<Gnome::Pango::Layout>.. 
 
 
 =end pod
@@ -507,9 +507,9 @@ Return value; the line count.
 =begin pod
 =head2 get-line-readonly
 
-Retrieves a particular line from a `PangoLayout`.
+Retrieves a particular line from a B<Gnome::Pango::Layout>.
 
-This is a faster alternative to [method C<$Pango>.Layout.get_line],
+This is a faster alternative to C<.get-line()>,
 but the user is not expected to modify the contents of the line
 (glyphs, glyph widths, etc.).
 
@@ -518,12 +518,12 @@ method get-line-readonly ( Int() $line --> CArray[N-LayoutLine] )
 =end code
 
 =item $line; the index of a line, which must be between 0 and
- `pango_layout_get_line_count(layout) - 1`, inclusive..
+ I<pango_layout_get_line_count(layout) - 1>, inclusive..
 
-Return value; the requested `PangoLayoutLine`,
- or C<Nil> if the index is out of range. This layout line can be ref'ed
+Return value; the requested B<Gnome::Pango::Layout>Line,
+ or %NULL if the index is out of range. This layout line can be ref'ed
  and retained, but will become invalid if changes are made to the
- `PangoLayout`. No changes should be made to the line.. 
+ B<Gnome::Pango::Layout>. No changes should be made to the line.. 
 
 
 =end pod
@@ -534,7 +534,7 @@ Return value; the requested `PangoLayoutLine`,
 
 Gets the line spacing factor of C<$layout>.
 
-See [method C<$Pango>.Layout.set_line_spacing].
+See C<.set-line-spacing()>.
 
 =begin code
 method get-line-spacing (--> Num )
@@ -552,16 +552,16 @@ Return value; No documentation about its value and use.
 
 Returns the lines of the C<$layout> as a list.
 
-Use the faster [method C<$Pango>.Layout.get_lines_readonly] if you do not plan to modify the contents of the lines (glyphs, glyph widths, etc.).
+Use the faster C<.get-lines-readonly()> if you do not plan to modify the contents of the lines (glyphs, glyph widths, etc.).
 
 =begin code
 method get-lines (--> N-SList )
 =end code
 
 
-Return value; a `GSList`
+Return value; a I<GSList>
  containing the lines in the layout. This points to internal data of the
- `PangoLayout` and must be used with care. It will become invalid on any
+ B<Gnome::Pango::Layout> and must be used with care. It will become invalid on any
  change to the layout's text or properties.. 
 
 
@@ -573,7 +573,7 @@ Return value; a `GSList`
 
 Returns the lines of the C<$layout> as a list.
 
-This is a faster alternative to [method C<$Pango>.Layout.get_lines],
+This is a faster alternative to C<.get-lines()>,
 but the user is not expected to modify the contents of the lines
 (glyphs, glyph widths, etc.).
 
@@ -582,9 +582,9 @@ method get-lines-readonly (--> N-SList )
 =end code
 
 
-Return value; a `GSList`
+Return value; a I<GSList>
  containing the lines in the layout. This points to internal data of the
- `PangoLayout` and must be used with care. It will become invalid on any
+ B<Gnome::Pango::Layout> and must be used with care. It will become invalid on any
  change to the layout's text or properties. No changes should be made to
  the lines.. 
 
@@ -618,7 +618,7 @@ method get-log-attrs ( CArray[N-LogAttr]  $attrs, Array[Int] $n-attrs )
 
 Retrieves an array of logical attributes for each character in the C<$layout>.
 
-This is a faster alternative to [method C<$Pango>.Layout.get_log_attrs].
+This is a faster alternative to C<.get-log-attrs()>.
 The returned array is part of C<$layout> and must not be modified.
 Modifying the layout will invalidate the returned array.
 
@@ -642,9 +642,9 @@ Return value; an array of logical attributes.
 
 Computes the logical and ink extents of C<$layout> in device units.
 
-This function just calls [method C<$Pango>.Layout.get_extents] followed by two [func C<$extents_to_pixels>] calls, rounding C<$ink_rect> and C<$logical_rect>
+This function just calls C<.get-extents()> followed by two [func C<$extents_to_pixels>] calls, rounding C<$ink_rect> and C<$logical_rect>
 such that the rounded rectangles fully contain the unrounded one (that is,
-passes them as first argument to [func C<$Pango>.extents_to_pixels]).
+passes them as first argument to C<.extents-to-pixels()>).
 
 =begin code
 method get-pixel-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
@@ -661,9 +661,9 @@ method get-pixel-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  
 =begin pod
 =head2 get-pixel-size
 
-Determines the logical width and height of a `PangoLayout` in device units.
+Determines the logical width and height of a B<Gnome::Pango::Layout> in device units.
 
-[method C<$Pango>.Layout.get_size] returns the width and height scaled by %PANGO_SCALE. This is simply a convenience function around [method C<$Pango>.Layout.get_pixel_extents].
+C<.get-size()> returns the width and height scaled by %PANGO_SCALE. This is simply a convenience function around C<.get-pixel-extents()>.
 
 =begin code
 method get-pixel-size ( Array[Int] $width, Array[Int] $height )
@@ -680,13 +680,12 @@ method get-pixel-size ( Array[Int] $width, Array[Int] $height )
 
 Returns the current serial number of C<$layout>.
 
-The serial number is initialized to an small number larger than zero when a new layout is created and is increased whenever the layout is changed using any of the setter functions, or the `PangoContext` it uses has changed. The serial may wrap, but will never have the value 0.
+The serial number is initialized to an small number larger than zero when a new layout is created and is increased whenever the layout is changed using any of the setter functions, or the I<PangoContext> it uses has changed. The serial may wrap, but will never have the value 0.
 Since it can wrap, never compare it with "less than", always use "not equals".
 
-This can be used to automatically detect changes to a `PangoLayout`,
+This can be used to automatically detect changes to a B<Gnome::Pango::Layout>,
 and is useful for example to decide whether a layout needs redrawing.
-To force the serial to be increased, use
-[method C<$Pango>.Layout.context_changed].
+To force the serial to be increased, use C<.context-changed()>.
 
 =begin code
 method get-serial (--> UInt )
@@ -704,15 +703,15 @@ Return value; The current serial number of C<$layout>..
 
 Obtains whether C<$layout> is in single paragraph mode.
 
-See [method C<$Pango>.Layout.set_single_paragraph_mode].
+See C<.set-single-paragraph-mode()>.
 
 =begin code
 method get-single-paragraph-mode (--> Bool )
 =end code
 
 
-Return value; C<True> if the layout does not break paragraphs
- at paragraph separator characters, C<False> otherwise. 
+Return value; %TRUE if the layout does not break paragraphs
+ at paragraph separator characters, %FALSE otherwise. 
 
 
 =end pod
@@ -721,9 +720,9 @@ Return value; C<True> if the layout does not break paragraphs
 =begin pod
 =head2 get-size
 
-Determines the logical width and height of a `PangoLayout` in Pango units.
+Determines the logical width and height of a B<Gnome::Pango::Layout> in Pango units.
 
-This is simply a convenience function around [method C<$Pango>.Layout.get_extents].
+This is simply a convenience function around C<.get-extents()>.
 
 =begin code
 method get-size ( Array[Int] $width, Array[Int] $height )
@@ -754,11 +753,11 @@ Return value; the spacing in Pango units.
 =begin pod
 =head2 get-tabs
 
-Gets the current `PangoTabArray` used by this layout.
+Gets the current I<PangoTabArray> used by this layout.
 
-If no `PangoTabArray` has been set, then the default tabs are in use and C<Nil> is returned. Default tabs are every 8 spaces.
+If no I<PangoTabArray> has been set, then the default tabs are in use and %NULL is returned. Default tabs are every 8 spaces.
 
-The return value should be freed with [method C<$Pango>.TabArray.free].
+The return value should be freed with C<.free() defined in TabArray>.
 
 =begin code
 method get-tabs (--> CArray[N-TabArray]  )
@@ -810,7 +809,7 @@ Return value; The number of unknown glyphs in C<$layout>.
 =begin pod
 =head2 get-width
 
-Gets the width to which the lines of the `PangoLayout` should wrap.
+Gets the width to which the lines of the B<Gnome::Pango::Layout> should wrap.
 
 =begin code
 method get-width (--> Int )
@@ -828,7 +827,7 @@ Return value; the width in Pango units, or -1 if no width set..
 
 Gets the wrap mode for the layout.
 
-Use [method C<$Pango>.Layout.is_wrapped] to query whether any paragraphs were actually wrapped.
+Use C<.is-wrapped()> to query whether any paragraphs were actually wrapped.
 
 =begin code
 method get-wrap (--> PangoWrapMode )
@@ -867,9 +866,9 @@ method index-to-line-x ( Int() $index, Bool() $trailing, Array[Int] $line, Array
 =begin pod
 =head2 index-to-pos
 
-Converts from an index within a `PangoLayout` to the onscreen position corresponding to the grapheme at that index.
+Converts from an index within a B<Gnome::Pango::Layout> to the onscreen position corresponding to the grapheme at that index.
 
-The returns is represented as rectangle. Note that `pos->x` is always the leading edge of the grapheme and `pos->x + pos->width` the trailing edge of the grapheme. If the directionality of the grapheme is right-to-left, then `pos->width` will be negative.
+The returns is represented as rectangle. Note that I<pos->x> is always the leading edge of the grapheme and I<pos->x + pos->width> the trailing edge of the grapheme. If the directionality of the grapheme is right-to-left, then I<pos->width> will be negative.
 
 =begin code
 method index-to-pos ( Int() $index, CArray[N-Rectangle]  $pos )
@@ -886,7 +885,7 @@ method index-to-pos ( Int() $index, CArray[N-Rectangle]  $pos )
 
 Queries whether the layout had to ellipsize any paragraphs.
 
-This returns C<True> if the ellipsization mode for C<$layout>
+This returns %TRUE if the ellipsization mode for C<$layout>
 is not %PANGO_ELLIPSIZE_NONE, a positive width is set on C<$layout>,
 and there are paragraphs exceeding that width that have to be ellipsized.
 
@@ -895,8 +894,8 @@ method is-ellipsized (--> Bool )
 =end code
 
 
-Return value; C<True> if any paragraphs had to be ellipsized,
- C<False> otherwise. 
+Return value; %TRUE if any paragraphs had to be ellipsized,
+ %FALSE otherwise. 
 
 
 =end pod
@@ -907,7 +906,7 @@ Return value; C<True> if any paragraphs had to be ellipsized,
 
 Queries whether the layout had to wrap any paragraphs.
 
-This returns C<True> if a positive width is set on C<$layout>,
+This returns %TRUE if a positive width is set on C<$layout>,
 ellipsization mode of C<$layout> is set to %PANGO_ELLIPSIZE_NONE,
 and there are paragraphs exceeding the layout width that have to be wrapped.
 
@@ -916,7 +915,7 @@ method is-wrapped (--> Bool )
 =end code
 
 
-Return value; C<True> if any paragraphs had to be wrapped, C<False>
+Return value; %TRUE if any paragraphs had to be wrapped, %FALSE
  otherwise. 
 
 
@@ -964,9 +963,9 @@ method move-cursor-visually ( Bool() $strong, Int() $old-index, Int() $old-trail
 =begin pod
 =head2 serialize
 
-Serializes the C<$layout> for later deserialization via [func C<$Pango>.Layout.deserialize].
+Serializes the C<$layout> for later deserialization via C<.Layout.deserialize()>.
 
-There are no guarantees about the format of the output across different versions of Pango and [func C<$Pango>.Layout.deserialize] will reject data that it cannot parse.
+There are no guarantees about the format of the output across different versions of Pango and C<.Layout.deserialize()> will reject data that it cannot parse.
 
 The intended use of this function is testing, benchmarking and debugging.
 The format is not meant as a permanent storage format.
@@ -975,9 +974,9 @@ The format is not meant as a permanent storage format.
 method serialize ( UInt $flags --> CArray[N-Bytes]  )
 =end code
 
-=item $flags; `C<PangoLayoutSerializeFlags bitfield>`. A bitmap.
+=item $flags; B<Gnome::Pango::Layout>SerializeFlags. A bitmap.
 
-Return value; a `GBytes` containing the serialized form of C<$layout>. 
+Return value; a I<GBytes> containing the serialized form of C<$layout>. 
 
 
 =end pod
@@ -1010,7 +1009,7 @@ References C<$attrs>, so the caller can unref its reference.
 method set-attributes ( CArray[N-AttrList]  $attrs )
 =end code
 
-=item $attrs; a `PangoAttrList`.
+=item $attrs; a I<PangoAttrList>.
 
 =end pod
 
@@ -1023,8 +1022,7 @@ Sets whether to calculate the base direction for the layout according to its con
 When this flag is on (the default), then paragraphs in C<$layout> that begin with strong right-to-left characters (Arabic and Hebrew principally),
 will have right-to-left layout, paragraphs with letters from other scripts will have left-to-right layout. Paragraphs with only neutral characters get their direction from the surrounding paragraphs.
 
-When C<False>, the choice between left-to-right and right-to-left layout is done according to the base direction of the layout's
-`PangoContext`. (See [method C<$Pango>.Context.set_base_dir]).
+When %FALSE, the choice between left-to-right and right-to-left layout is done according to the base direction of the layout's I<PangoContext>. (See C<.set-base-dir() defined in Context>).
 
 When the auto-computed direction of a paragraph differs from the base direction of the context, the interpretation of
 %PANGO_ALIGN_LEFT and %PANGO_ALIGN_RIGHT are swapped.
@@ -1033,7 +1031,7 @@ When the auto-computed direction of a paragraph differs from the base direction 
 method set-auto-dir ( Bool() $auto-dir )
 =end code
 
-=item $auto-dir; if C<True>, compute the bidirectional base direction
+=item $auto-dir; if %TRUE, compute the bidirectional base direction
  from the layout's contents.
 
 =end pod
@@ -1044,14 +1042,13 @@ method set-auto-dir ( Bool() $auto-dir )
 
 Sets the type of ellipsization being performed for C<$layout>.
 
-Depending on the ellipsization mode C<$ellipsize> text is removed from the start, middle, or end of text so they fit within the width and height of layout set with
-[method C<$Pango>.Layout.set_width] and [method C<$Pango>.Layout.set_height].
+Depending on the ellipsization mode C<$ellipsize> text is removed from the start, middle, or end of text so they fit within the width and height of layout set with C<.set-width()> and C<.set-height()>.
 
 If the layout contains characters such as newlines that force it to be layed out in multiple paragraphs, then whether each paragraph is ellipsized separately or the entire layout is ellipsized as a whole depends on the set height of the layout.
 
 The default value is %PANGO_ELLIPSIZE_NONE.
 
-See [method C<$Pango>.Layout.set_height] for details.
+See C<.set-height()> for details.
 
 =begin code
 method set-ellipsize ( PangoEllipsizeMode $ellipsize )
@@ -1073,7 +1070,7 @@ If no font description is set on the layout, the font description from the layou
 method set-font-description ( CArray[N-FontDescription]  $desc )
 =end code
 
-=item $desc; the new `PangoFontDescription`
+=item $desc; the new I<PangoFontDescription>
  to unset the current font description.
 
 =end pod
@@ -1082,7 +1079,7 @@ method set-font-description ( CArray[N-FontDescription]  $desc )
 =begin pod
 =head2 set-height
 
-Sets the height to which the `PangoLayout` should be ellipsized at.
+Sets the height to which the B<Gnome::Pango::Layout> should be ellipsized at.
 
 There are two different behaviors, based on whether C<$height> is positive or negative.
 
@@ -1144,9 +1141,9 @@ Note that this setting is not implemented and so is ignored in Pango older than 
 Note that tabs and justification conflict with each other:
 Justification will move content away from its tab-aligned positions.
 
-The default value is C<False>.
+The default value is %FALSE.
 
-Also see [method C<$Pango>.Layout.set_justify_last_line].
+Also see C<.set-justify-last-line()>.
 
 =begin code
 method set-justify ( Bool() $justify )
@@ -1162,9 +1159,9 @@ method set-justify ( Bool() $justify )
 
 Sets whether the last line should be stretched to fill the entire width of the layout.
 
-This only has an effect if [method C<$Pango>.Layout.set_justify] has been called as well.
+This only has an effect if C<.set-justify()> has been called as well.
 
-The default value is C<False>.
+The default value is %FALSE.
 
 =begin code
 method set-justify-last-line ( Bool() $justify )
@@ -1187,11 +1184,11 @@ If C<$factor> is non-zero, lines are placed so that
  baseline2 = baseline1 + factor * height2
 
 where height2 is the line height of the second line
-(as determined by the font(s)). In this case, the spacing set with [method C<$Pango>.Layout.set_spacing] is ignored.
+(as determined by the font(s)). In this case, the spacing set with C<.set-spacing()> is ignored.
 
 If C<$factor> is zero (the default), spacing is applied as before.
 
-Note: for semantics that are closer to the CSS line-height property, see [func C<$Pango>.attr_line_height_new].
+Note: for semantics that are closer to the CSS line-height property, see C<.attr-line-height-new()>.
 
 =begin code
 method set-line-spacing ( Num() $factor )
@@ -1211,7 +1208,7 @@ See [Pango Markup](pango_markup.html)).
 
 Replaces the current text and attribute list.
 
-This is the same as [method C<$Pango>.Layout.set_markup_with_accel],
+This is the same as C<.set-markup-with-accel()>,
 but the markup text isn't scanned for accelerators.
 
 =begin code
@@ -1220,7 +1217,7 @@ method set-markup ( Str $markup, Int() $length )
 
 =item $markup; marked-up text.
 =item $length; length of marked-up text in bytes, or -1 if C<$markup> is
- `NUL`-terminated.
+ I<NUL>-terminated.
 
 =end pod
 
@@ -1245,7 +1242,7 @@ method set-markup-with-accel ( Str $markup, Int() $length, UInt() $accel-marker,
 
 =item $markup; marked-up text (see [Pango Markup](pango_markup.html)).
 =item $length; length of marked-up text in bytes, or -1 if C<$markup> is
- `NUL`-terminated.
+ I<NUL>-terminated.
 =item $accel-marker; marker for accelerators in the text.
 =item $accel-char; (transfer ownership: full) return location
  for first located accelerator.
@@ -1258,10 +1255,10 @@ method set-markup-with-accel ( Str $markup, Int() $length, UInt() $accel-marker,
 
 Sets the single paragraph mode of C<$layout>.
 
-If C<$setting> is C<True>, do not treat newlines and similar characters as paragraph separators; instead, keep all text in a single paragraph,
+If C<$setting> is %TRUE, do not treat newlines and similar characters as paragraph separators; instead, keep all text in a single paragraph,
 and display a glyph for paragraph separator characters. Used when you want to allow editing of newlines on a single text line.
 
-The default value is C<False>.
+The default value is %FALSE.
 
 =begin code
 method set-single-paragraph-mode ( Bool() $setting )
@@ -1283,10 +1280,10 @@ When placing lines with spacing, Pango arranges things so that
 
 The default value is 0.
 
-Note: Since 1.44, Pango is using the line height (as determined by the font) for placing lines when the line spacing factor is set to a non-zero value with [method C<$Pango>.Layout.set_line_spacing].
+Note: Since 1.44, Pango is using the line height (as determined by the font) for placing lines when the line spacing factor is set to a non-zero value with C<.set-line-spacing()>.
 In that case, the C<$spacing> set with this function is ignored.
 
-Note: for semantics that are closer to the CSS line-height property, see [func C<$Pango>.attr_line_height_new].
+Note: for semantics that are closer to the CSS line-height property, see C<.attr-line-height-new()>.
 
 =begin code
 method set-spacing ( Int() $spacing )
@@ -1302,9 +1299,9 @@ method set-spacing ( Int() $spacing )
 
 Sets the tabs to use for C<$layout>, overriding the default tabs.
 
-`PangoLayout` will place content at the next tab position whenever it meets a Tab character (U+0009).
+B<Gnome::Pango::Layout> will place content at the next tab position whenever it meets a Tab character (U+0009).
 
-By default, tabs are every 8 spaces. If C<$tabs> is C<Nil>, the default tabs are reinstated. C<$tabs> is copied into the layout;
+By default, tabs are every 8 spaces. If C<$tabs> is %NULL, the default tabs are reinstated. C<$tabs> is copied into the layout;
 you must free your copy of C<$tabs> yourself.
 
 Note that tabs and justification conflict with each other:
@@ -1315,7 +1312,7 @@ Justification will move content away from its tab-aligned positions. The same is
 method set-tabs ( CArray[N-TabArray]  $tabs )
 =end code
 
-=item $tabs; a `PangoTabArray`.
+=item $tabs; a I<PangoTabArray>.
 
 =end pod
 
@@ -1327,8 +1324,7 @@ Sets the text of the layout.
 
 This function validates C<$text> and renders invalid UTF-8 with a placeholder glyph.
 
-Note that if you have used [method C<$Pango>.Layout.set_markup] or
-[method C<$Pango>.Layout.set_markup_with_accel] on C<$layout> before, you may want to call [method C<$Pango>.Layout.set_attributes] to clear the attributes set on the layout from the markup as this function does not clear attributes.
+Note that if you have used C<.set-markup()> or C<.set-attributes()> on C<$layout> before, you may want to call C<.set-attributes()> to clear the attributes set on the layout from the markup as this function does not clear attributes.
 
 =begin code
 method set-text ( Str $text, Int() $length )
@@ -1346,7 +1342,7 @@ method set-text ( Str $text, Int() $length )
 =begin pod
 =head2 set-width
 
-Sets the width to which the lines of the `PangoLayout` should wrap or ellipsized.
+Sets the width to which the lines of the B<Gnome::Pango::Layout> should wrap or ellipsized.
 
 The default value is -1: no width set.
 
@@ -1365,7 +1361,7 @@ method set-width ( Int() $width )
 
 Sets the wrap mode.
 
-The wrap mode only has effect if a width is set on the layout with [method C<$Pango>.Layout.set_width]. To turn off wrapping,
+The wrap mode only has effect if a width is set on the layout with C<.set-width()>. To turn off wrapping,
 set the width to -1.
 
 The default value is %PANGO_WRAP_WORD.
@@ -1384,7 +1380,7 @@ method set-wrap ( PangoWrapMode $wrap )
 
 A convenience method to serialize a layout to a file.
 
-It is equivalent to calling [method C<$Pango>.Layout.serialize]
+It is equivalent to calling C<.serialize()>
 followed by [func C<$GLib>.file_set_contents].
 
 See those two functions for details on the arguments.
@@ -1395,10 +1391,10 @@ It is mostly intended for use inside a debugger to quickly dump a layout to a fi
 method write-to-file ( UInt $flags, Str $filename --> Bool )
 =end code
 
-=item $flags; `C<PangoLayoutSerializeFlags bitfield>`. A bitmap.
+=item $flags; B<Gnome::Pango::Layout>SerializeFlags. A bitmap.
 =item $filename; the file to save it to.
 
-Return value; C<True> if saving was successful. 
+Return value; %TRUE if saving was successful. 
 
 
 =end pod
@@ -1409,7 +1405,8 @@ Return value; C<True> if saving was successful.
 
 Converts from X and Y position within a layout to the byte index to the character at that logical position.
 
-If the Y position is not inside the layout, the closest position is chosen (the position will be clamped inside the layout). If the X position is not within the layout, then the start or the end of the line is chosen as described for [method C<$Pango>.LayoutLine.x_to_index]. If either the X or Y positions were not inside the layout, then the function returns C<False>; on an exact hit, it returns C<True>.
+If the Y position is not inside the layout, the closest position is chosen (the position will be clamped inside the layout). If the X position is not within the layout, then the start or the end of the line is chosen as described for C<.x-to-index() defined in LayoutLine>. If either the X or Y positions were not inside the layout, then the function returns
+%FALSE; on an exact hit, it returns %TRUE.
 
 =begin code
 method xy-to-index ( Int() $x, Int() $y, Array[Int] $index, Array[Int] $trailing --> Bool )
@@ -1423,7 +1420,7 @@ method xy-to-index ( Int() $x, Int() $y, Array[Int] $index, Array[Int] $trailing
  number of characters in the grapheme. 0 represents the leading edge
  of the grapheme..
 
-Return value; C<True> if the coordinates were inside text, C<False> otherwise. 
+Return value; %TRUE if the coordinates were inside text, %FALSE otherwise. 
 
 
 =end pod
@@ -1440,7 +1437,7 @@ Return value; C<True> if the coordinates were inside text, C<False> otherwise.
 =begin pod
 =head2 deserialize
 
-Loads data previously created via [method C<$Pango>.Layout.serialize].
+Loads data previously created via C<.serialize()>.
 
 For a discussion of the supported format, see that function.
 
@@ -1450,11 +1447,11 @@ Note: to verify that the returned layout is identical to the one that was serial
 method deserialize ( N-Object() $context, CArray[N-Bytes]  $bytes, UInt $flags --> N-Object )
 =end code
 
-=item $context; a `PangoContext`.
+=item $context; a I<PangoContext>.
 =item $bytes; the bytes containing the data.
-=item $flags; `C<PangoLayoutDeserializeFlags bitfield>`. A bitmap.
+=item $flags; B<Gnome::Pango::Layout>DeserializeFlags. A bitmap.
 
-Return value; a new `PangoLayout`. 
+Return value; a new B<Gnome::Pango::Layout>. 
 
 
 =end pod

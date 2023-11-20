@@ -16,11 +16,11 @@ Project Description
 Description
 ===========
 
-A `PangoLayoutIter` can be used to iterate over the visual extents of a `PangoLayout`.
+A **Gnome::Pango::LayoutIter** can be used to iterate over the visual extents of a *PangoLayout*.
 
-To obtain a `PangoLayoutIter`, use [method `$Pango`.Layout.get_iter].
+To obtain a **Gnome::Pango::LayoutIter**, use `.get-iter() defined in Layout`.
 
-The `PangoLayoutIter` structure is opaque, and has no user-visible fields.
+The **Gnome::Pango::LayoutIter** structure is opaque, and has no user-visible fields.
 
 Class initialization
 ====================
@@ -44,16 +44,16 @@ Determines whether `$iter` is on the last line of the layout.
 
     method at-last-line (--> Bool )
 
-Return value; `True` if `$iter` is on the last line. 
+Return value; %TRUE if `$iter` is on the last line. 
 
 copy
 ----
 
-Copies a `PangoLayoutIter`.
+Copies a **Gnome::Pango::LayoutIter**.
 
     method copy (--> CArray[N-LayoutIter] )
 
-Return value; the newly allocated `PangoLayoutIter`. 
+Return value; the newly allocated **Gnome::Pango::LayoutIter**. 
 
 free
 ----
@@ -104,7 +104,7 @@ get-index
 
 Gets the current byte index.
 
-Note that iterating forward by char moves in visual order, not logical order, so indexes may not be sequential. Also, the index may be equal to the length of the text in the layout, if on the `Nil` run (see [method `$Pango`.LayoutIter.get_run]).
+Note that iterating forward by char moves in visual order, not logical order, so indexes may not be sequential. Also, the index may be equal to the length of the text in the layout, if on the %NULL run (see `.get-run()`).
 
     method get-index (--> Int )
 
@@ -113,7 +113,7 @@ Return value; current byte index.
 get-layout
 ----------
 
-Gets the layout associated with a `PangoLayoutIter`.
+Gets the layout associated with a **Gnome::Pango::LayoutIter**.
 
     method get-layout (--> N-Object )
 
@@ -122,7 +122,7 @@ Return value; the layout associated with `$iter`.
 get-layout-extents
 ------------------
 
-Obtains the extents of the `PangoLayout` being iterated over.
+Obtains the extents of the *PangoLayout* being iterated over.
 
     method get-layout-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
 
@@ -135,7 +135,7 @@ get-line
 
 Gets the current line.
 
-Use the faster [method `$Pango`.LayoutIter.get_line_readonly] if you do not plan to modify the contents of the line (glyphs, glyph widths, etc.).
+Use the faster `.get-line-readonly()` if you do not plan to modify the contents of the line (glyphs, glyph widths, etc.).
 
     method get-line (--> CArray[N-LayoutLine] )
 
@@ -146,7 +146,7 @@ get-line-extents
 
 Obtains the extents of the current line.
 
-Extents are in layout coordinates (origin is the top-left corner of the entire `PangoLayout`). Thus the extents returned by this function will be the same width/height but not at the same x/y as the extents returned from [method `$Pango`.LayoutLine.get_extents].
+Extents are in layout coordinates (origin is the top-left corner of the entire *PangoLayout*). Thus the extents returned by this function will be the same width/height but not at the same x/y as the extents returned from `.get-extents() defined in LayoutLine`.
 
     method get-line-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
 
@@ -159,7 +159,7 @@ get-line-readonly
 
 Gets the current line for read-only access.
 
-This is a faster alternative to [method `$Pango`.LayoutIter.get_line], but the user is not expected to modify the contents of the line (glyphs, glyph widths, etc.).
+This is a faster alternative to `.get-line()`, but the user is not expected to modify the contents of the line (glyphs, glyph widths, etc.).
 
     method get-line-readonly (--> CArray[N-LayoutLine] )
 
@@ -168,9 +168,9 @@ Return value; the current line, that should not be modified.
 get-line-yrange
 ---------------
 
-Divides the vertical space in the `PangoLayout` being iterated over between the lines in the layout, and returns the space belonging to the current line.
+Divides the vertical space in the *PangoLayout* being iterated over between the lines in the layout, and returns the space belonging to the current line.
 
-A line's range includes the line's logical extents. plus half of the spacing above and below the line, if [method `$Pango`.Layout.set_spacing] has been called to set layout spacing. The Y positions are in layout coordinates (origin at top left of the entire layout).
+A line's range includes the line's logical extents. plus half of the spacing above and below the line, if `.set-spacing() defined in Layout` has been called to set layout spacing. The Y positions are in layout coordinates (origin at top left of the entire layout).
 
 Note: Since 1.44, Pango uses line heights for placing lines, and there may be gaps between the ranges returned by this function.
 
@@ -185,9 +185,9 @@ get-run
 
 Gets the current run.
 
-When iterating by run, at the end of each line, there's a position with a `Nil` run, so this function can return `Nil`. The `Nil` run at the end of each line ensures that all lines have at least one run, even lines consisting of only a newline.
+When iterating by run, at the end of each line, there's a position with a %NULL run, so this function can return %NULL. The %NULL run at the end of each line ensures that all lines have at least one run, even lines consisting of only a newline.
 
-Use the faster [method `$Pango`.LayoutIter.get_run_readonly] if you do not plan to modify the contents of the run (glyphs, glyph widths, etc.).
+Use the faster `.get-run-readonly()` if you do not plan to modify the contents of the run (glyphs, glyph widths, etc.).
 
     method get-run ( )
 
@@ -222,9 +222,9 @@ get-run-readonly
 
 Gets the current run for read-only access.
 
-When iterating by run, at the end of each line, there's a position with a `Nil` run, so this function can return `Nil`. The `Nil` run at the end of each line ensures that all lines have at least one run, even lines consisting of only a newline.
+When iterating by run, at the end of each line, there's a position with a %NULL run, so this function can return %NULL. The %NULL run at the end of each line ensures that all lines have at least one run, even lines consisting of only a newline.
 
-This is a faster alternative to [method `$Pango`.LayoutIter.get_run], but the user is not expected to modify the contents of the run (glyphs, glyph widths, etc.).
+This is a faster alternative to `.get-run()`, but the user is not expected to modify the contents of the run (glyphs, glyph widths, etc.).
 
     method get-run-readonly ( )
 
@@ -233,7 +233,7 @@ next-char
 
 Moves `$iter` forward to the next character in visual order.
 
-If `$iter` was already at the end of the layout, returns `False`.
+If `$iter` was already at the end of the layout, returns %FALSE.
 
     method next-char (--> Bool )
 
@@ -244,7 +244,7 @@ next-cluster
 
 Moves `$iter` forward to the next cluster in visual order.
 
-If `$iter` was already at the end of the layout, returns `False`.
+If `$iter` was already at the end of the layout, returns %FALSE.
 
     method next-cluster (--> Bool )
 
@@ -255,7 +255,7 @@ next-line
 
 Moves `$iter` forward to the start of the next line.
 
-If `$iter` is already on the last line, returns `False`.
+If `$iter` is already on the last line, returns %FALSE.
 
     method next-line (--> Bool )
 
@@ -266,7 +266,7 @@ next-run
 
 Moves `$iter` forward to the next run in visual order.
 
-If `$iter` was already at the end of the layout, returns `False`.
+If `$iter` was already at the end of the layout, returns %FALSE.
 
     method next-run (--> Bool )
 

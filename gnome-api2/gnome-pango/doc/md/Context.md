@@ -16,11 +16,11 @@ Project Description
 Description
 ===========
 
-A `PangoContext` stores global information used to control the itemization process.
+A **Gnome::Pango::Context** stores global information used to control the itemization process.
 
-The information stored by `PangoContext` includes the fontmap used to look up fonts, and default values such as the default language, default gravity, or default font.
+The information stored by **Gnome::Pango::Context** includes the fontmap used to look up fonts, and default values such as the default language, default gravity, or default font.
 
-To obtain a `PangoContext`, use [method `$Pango`.FontMap.create_context].
+To obtain a **Gnome::Pango::Context**, use `.create-context() defined in FontMap`.
 
 Class initialization
 ====================
@@ -37,11 +37,11 @@ Create an object using a native object from elsewhere. See also **Gnome::N::TopL
 new-context
 -----------
 
-Creates a new `PangoContext` initialized to default values.
+Creates a new **Gnome::Pango::Context** initialized to default values.
 
-This function is not particularly useful as it should always be followed by a [method `$Pango`.Context.set_font_map] call, and the function [method `$Pango`.FontMap.create_context] does these two steps together and hence users are recommended to use that.
+This function is not particularly useful as it should always be followed by a `.set-font-map()` call, and the function `.create-context() defined in FontMap` does these two steps together and hence users are recommended to use that.
 
-If you are using Pango as part of a higher-level system, that system may have it's own way of create a `PangoContext`. For instance, the GTK toolkit has, among others, `gtk_widget_get_pango_context()`. Use those instead.
+If you are using Pango as part of a higher-level system, that system may have it's own way of create a **Gnome::Pango::Context**. For instance, the GTK toolkit has, among others, `gtk_widget_get_pango_context()`. Use those instead.
 
     method new-context ( --> Gnome::Pango::Context )
 
@@ -51,7 +51,7 @@ Methods
 changed
 -------
 
-Forces a change in the context, which will cause any `PangoLayout` using this context to re-layout.
+Forces a change in the context, which will cause any *PangoLayout* using this context to re-layout.
 
 This function is only useful when implementing a new backend for Pango, something applications won't do. Backends should call this function if they have attached extra data to the context and such data is changed.
 
@@ -62,7 +62,7 @@ get-base-dir
 
 Retrieves the base direction for the context.
 
-See [method `$Pango`.Context.set_base_dir].
+See `.set-base-dir()`.
 
     method get-base-dir (--> PangoDirection )
 
@@ -73,7 +73,7 @@ get-base-gravity
 
 Retrieves the base gravity for the context.
 
-See [method `$Pango`.Context.set_base_gravity].
+See `.set-base-gravity()`.
 
     method get-base-gravity (--> PangoGravity )
 
@@ -91,18 +91,18 @@ Return value; a pointer to the context's default font description. This value mu
 get-font-map
 ------------
 
-Gets the `PangoFontMap` used to look up fonts for this context.
+Gets the *PangoFontMap* used to look up fonts for this context.
 
     method get-font-map (--> N-Object )
 
-Return value; the font map for the. `PangoContext` This value is owned by Pango and should not be unreferenced.. 
+Return value; the font map for the. **Gnome::Pango::Context** This value is owned by Pango and should not be unreferenced.. 
 
 get-gravity
 -----------
 
 Retrieves the gravity for the context.
 
-This is similar to [method `$Pango`.Context.get_base_gravity], except for when the base gravity is %PANGO_GRAVITY_AUTO for which [func `$Pango`.`Gravity enumeration`.get_for_matrix] is used to return the gravity from the current context matrix.
+This is similar to `.get-base-gravity()`, except for when the base gravity is %PANGO_GRAVITY_AUTO for which `.Gravity.get-for-matrix()` is used to return the gravity from the current context matrix.
 
     method get-gravity (--> PangoGravity )
 
@@ -113,7 +113,7 @@ get-gravity-hint
 
 Retrieves the gravity hint for the context.
 
-See [method `$Pango`.Context.set_gravity_hint] for details.
+See `.set-gravity-hint()` for details.
 
     method get-gravity-hint (--> PangoGravityHint )
 
@@ -133,11 +133,11 @@ get-matrix
 
 Gets the transformation matrix that will be applied when rendering with this context.
 
-See [method `$Pango`.Context.set_matrix].
+See `.set-matrix()`.
 
     method get-matrix (--> CArray[N-Matrix]  )
 
-Return value; the matrix, or `Nil` if no matrix has been set (which is the same as the identity matrix). The returned matrix is owned by Pango and must not be modified or freed.. 
+Return value; the matrix, or %NULL if no matrix has been set (which is the same as the identity matrix). The returned matrix is owned by Pango and must not be modified or freed.. 
 
 get-metrics
 -----------
@@ -146,15 +146,15 @@ Get overall metric information for a particular font description.
 
 Since the metrics may be substantially different for different scripts, a language tag can be provided to indicate that the metrics should be retrieved that correspond to the script(s) used by that language.
 
-The `PangoFontDescription` is interpreted in the same way as by [func `$itemize`], and the family name may be a comma separated list of names. If characters from multiple of these families would be used to render the string, then the returned fonts would be a composite of the metrics for the fonts loaded for the individual families.
+The *PangoFontDescription* is interpreted in the same way as by [func `$itemize`], and the family name may be a comma separated list of names. If characters from multiple of these families would be used to render the string, then the returned fonts would be a composite of the metrics for the fonts loaded for the individual families.
 
     method get-metrics ( CArray[N-FontDescription]  $desc, CArray[N-Language]  $language --> CArray[N-FontMetrics]  )
 
-  * $desc; a `PangoFontDescription` structure. `Nil` means that the font description from the context will be used..
+  * $desc; a *PangoFontDescription* structure. %NULL means that the font description from the context will be used..
 
-  * $language; language tag used to determine which script to get the metrics for. `Nil` means that the language tag from the context will be used. If no language tag is set on the context, metrics for the default language (as determined by [func `$Pango`.Language.get_default] will be returned..
+  * $language; language tag used to determine which script to get the metrics for. %NULL means that the language tag from the context will be used. If no language tag is set on the context, metrics for the default language (as determined by `.Language.get-default()` will be returned..
 
-Return value; a `PangoFontMetrics` object. The caller must call [method `$Pango`.FontMetrics.unref] when finished using the object.. 
+Return value; a *PangoFontMetrics* object. The caller must call `.unref() defined in FontMetrics` when finished using the object.. 
 
 get-round-glyph-positions
 -------------------------
@@ -170,9 +170,9 @@ get-serial
 
 Returns the current serial number of `$context`.
 
-The serial number is initialized to an small number larger than zero when a new context is created and is increased whenever the context is changed using any of the setter functions, or the `PangoFontMap` it uses to find fonts has changed. The serial may wrap, but will never have the value 0. Since it can wrap, never compare it with "less than", always use "not equals".
+The serial number is initialized to an small number larger than zero when a new context is created and is increased whenever the context is changed using any of the setter functions, or the *PangoFontMap* it uses to find fonts has changed. The serial may wrap, but will never have the value 0. Since it can wrap, never compare it with "less than", always use "not equals".
 
-This can be used to automatically detect changes to a `PangoContext`, and is only useful when implementing objects that need update when their `PangoContext` changes, like `PangoLayout`.
+This can be used to automatically detect changes to a **Gnome::Pango::Context**, and is only useful when implementing objects that need update when their **Gnome::Pango::Context** changes, like *PangoLayout*.
 
     method get-serial (--> UInt )
 
@@ -185,7 +185,7 @@ List all families for a context.
 
     method list-families ( N-Object() $families, Array[Int] $n-families )
 
-  * $families; (transfer ownership: container) location to store a pointer to an array of `PangoFontFamily`. This array should be freed with g_free()..
+  * $families; (transfer ownership: container) location to store a pointer to an array of *PangoFontFamily*. This array should be freed with g_free()..
 
   * $n-families; (transfer ownership: full) location to store the number of elements in `$descs`.
 
@@ -196,9 +196,9 @@ Loads the font in one of the fontmaps in the context that is the closest match f
 
     method load-font ( CArray[N-FontDescription]  $desc --> N-Object )
 
-  * $desc; a `PangoFontDescription` describing the font to load.
+  * $desc; a *PangoFontDescription* describing the font to load.
 
-Return value; the newly allocated `PangoFont` that was loaded, or `Nil` if no font matched.. 
+Return value; the newly allocated *PangoFont* that was loaded, or %NULL if no font matched.. 
 
 load-fontset
 ------------
@@ -207,11 +207,11 @@ Load a set of fonts in the context that can be used to render a font matching `$
 
     method load-fontset ( CArray[N-FontDescription]  $desc, CArray[N-Language]  $language --> N-Object )
 
-  * $desc; a `PangoFontDescription` describing the fonts to load.
+  * $desc; a *PangoFontDescription* describing the fonts to load.
 
-  * $language; a `PangoLanguage` the fonts will be used for.
+  * $language; a *PangoLanguage* the fonts will be used for.
 
-Return value; the newly allocated `PangoFontset` loaded, or `Nil` if no font matched.. 
+Return value; the newly allocated *PangoFontset* loaded, or %NULL if no font matched.. 
 
 set-base-dir
 ------------
@@ -249,18 +249,18 @@ set-font-map
 
 Sets the font map to be searched when fonts are looked-up in this context.
 
-This is only for internal use by Pango backends, a `PangoContext` obtained via one of the recommended methods should already have a suitable font map.
+This is only for internal use by Pango backends, a **Gnome::Pango::Context** obtained via one of the recommended methods should already have a suitable font map.
 
     method set-font-map ( N-Object() $font-map )
 
-  * $font-map; the `PangoFontMap` to set..
+  * $font-map; the *PangoFontMap* to set..
 
 set-gravity-hint
 ----------------
 
 Sets the gravity hint for the context.
 
-The gravity hint is used in laying vertical text out, and is only relevant if gravity of the context as returned by [method `$Pango`.Context.get_gravity] is set to %PANGO_GRAVITY_EAST or %PANGO_GRAVITY_WEST.
+The gravity hint is used in laying vertical text out, and is only relevant if gravity of the context as returned by `.get-gravity()` is set to %PANGO_GRAVITY_EAST or %PANGO_GRAVITY_WEST.
 
     method set-gravity-hint ( PangoGravityHint $hint )
 
@@ -271,7 +271,7 @@ set-language
 
 Sets the global language tag for the context.
 
-The default language for the locale of the running process can be found using [func `$Pango`.Language.get_default].
+The default language for the locale of the running process can be found using `.Language.get-default()`.
 
     method set-language ( CArray[N-Language]  $language )
 
@@ -286,7 +286,7 @@ Note that reported metrics are in the user space coordinates before the applicat
 
     method set-matrix ( CArray[N-Matrix]  $matrix )
 
-  * $matrix; a `PangoMatrix`, or `Nil` to unset any existing matrix. (No matrix set is the same as setting the identity matrix.).
+  * $matrix; a *PangoMatrix*, or %NULL to unset any existing matrix. (No matrix set is the same as setting the identity matrix.).
 
 set-round-glyph-positions
 -------------------------
