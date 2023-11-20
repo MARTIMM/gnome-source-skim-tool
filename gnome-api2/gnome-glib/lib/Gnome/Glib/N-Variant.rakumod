@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Glib variant
+# Command to generate: generate.raku -v -c Glib variant
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
