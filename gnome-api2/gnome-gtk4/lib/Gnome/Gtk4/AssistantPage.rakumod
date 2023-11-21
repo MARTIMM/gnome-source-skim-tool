@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 assistant
+# Command to generate: generate.raku -v -d -c Gtk4 assistant
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_assistant_page_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::AssistantPage' {
@@ -57,7 +57,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %( :returns(N-Object)),
+  get-child => %(:is-symbol<gtk_assistant_page_get_child>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_assistant_page_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
