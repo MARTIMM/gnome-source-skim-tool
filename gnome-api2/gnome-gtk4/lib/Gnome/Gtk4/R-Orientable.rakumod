@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 orientable
+# Command to generate: generate.raku -v -d -c Gtk4 orientable
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -29,8 +29,8 @@ unit role Gnome::Gtk4::R-Orientable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-orientation => %( :returns(GEnum), :cnv-return(GtkOrientation)),
-  set-orientation => %( :parameters([GEnum])),
+  get-orientation => %(:is-symbol<gtk_orientable_get_orientation>,  :returns(GEnum), :cnv-return(GtkOrientation)),
+  set-orientation => %(:is-symbol<gtk_orientable_set_orientation>,  :parameters([GEnum])),
 );
 
 #-------------------------------------------------------------------------------
