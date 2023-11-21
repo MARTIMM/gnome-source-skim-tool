@@ -59,7 +59,7 @@ method generate-doc ( ) {
       }
     }
 
-#`{{
+
     when 'interface' {
      for $!filedata<interface>.keys -> $interface-name {
         $*gnome-class = $!filedata<interface>{$interface-name}<gnome-name>;
@@ -69,10 +69,9 @@ method generate-doc ( ) {
 
         require ::('Gnome::SourceSkimTool::Interface');
         my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
-        $raku-module.generate-code;
+        $raku-module.generate-doc;
       }
     }
-}}
 
     when 'record' {
       for $!filedata<record>.keys -> $record-name {

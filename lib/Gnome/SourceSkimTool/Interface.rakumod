@@ -60,7 +60,47 @@ method generate-code ( ) {
 #-------------------------------------------------------------------------------
 method generate-doc ( ) {
 
-#  $!grd .= new;
+  $!grd .= new;
+
+  my XML::Element $element = $!xpath.find('//interface');
+  die "//class not found in $*work-data<gir-interface-file> for $*work-data<raku-class-name>" unless ?$element;
+
+  note "Document init" if $*verbose;
+  my Str $doc = $!grd.start-document;
+
+  note "Document module description" if $*verbose;
+  $doc ~= $!grd.get-description( $element, $!xpath);
+
+#  note "Document BUILD submethod" if $*verbose;
+#  my Hash $hcs =
+#    $!grd.get-native-subs( $element, $!xpath, :routine-type<constructor>);
+#  $doc ~= $!grd.document-build($element);
+
+#  note "Document constructors" if $*verbose;
+#  $doc ~= $!grd.document-constructors( $element, $!xpath);
+#  $doc ~= $!grd.document-native-subs(
+#    $element, $!xpath, :routine-type<constructor>
+#  );
+
+  note "Document methods" if $*verbose;
+  $doc ~= $!grd.document-native-subs( $element, $!xpath, :routine-type<method>);
+
+  note "Document functions" if $*verbose;
+  $doc ~= $!grd.document-native-subs(
+    $element, $!xpath, :routine-type<function>
+  );
+
+  note "Document signals" if $*verbose;
+  my Hash $sig-info = $!grd.document-signals( $element, $!xpath);
+  $doc ~= $sig-info<doc>;
+
+#NOTE For now, skip property documentation
+#  note "Generate module properties doc" if $*verbose;  
+#  $doc ~= $!grd.document-properties( $element, $!xpath);
+
+#  note "Save pod doc";
+  my Str $fname = $*work-data<result-docs> ~ $*gnome-class ~ '.rakudoc';
+  $!mod.save-file( $fname, $doc, "interface documentation");
 }
 
 #-------------------------------------------------------------------------------
