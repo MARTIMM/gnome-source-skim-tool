@@ -318,6 +318,8 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
     if ?$xtype and $xtype ne 'void' {
 
       my Str ( $l, $d ) = self.check-special( $xtype, '', '');
+      # Drop coercion mark from return value
+      $l ~~ s/ '()' //;
 
       $raku-list ~= " --> $l";
       $own = '';
@@ -1156,8 +1158,20 @@ method !modify-v4rest ( Str $text is copy --> Str ) {
   $text ~~ s:g/ '`' TRUE '`' /C<True>/;
   $text ~~ s:g/ '`' FALSE '`' /C<False>/;
 
-  $text ~~ s:g/ '`' NULL '`' '-' terminated \s (\w+) \s array /$0 array/;
-  $text ~~ s:g/ '`' NULL '`' /undefined/;
+  if $text ~~ / '`NULL`' / {
+    $text ~~ s:g/ '`NULL`-terminated' \s* (\w+) \s* array /$0 array/;
+    $text ~~ s:g/ '`NULL`-terminated' \s* array \s* of (\w+) /$0 array/;
+    $text ~~ s:g/ not \s '`NULL`' /defined/;
+    $text ~~ s:g/ '`NULL`' /undefined/;
+  }
+
+  # Older methods shines through
+  if $text ~~ / '%NULL' / {
+    $text ~~ s:g/ \% NULL \- terminated \s* (\w+) \s* array /$0 array/;
+    $text ~~ s:g/ \% NULL \- terminated \s* array \s* of \s* (\w+) /$0 array/;
+    $text ~~ s:g/ not \s* \% NULL /defined/;
+    $text ~~ s:g/ \% NULL /undefined/;
+  }
 
   # Markdown backtick changes
   while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
