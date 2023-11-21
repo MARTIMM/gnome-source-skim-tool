@@ -1,0 +1,172 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Gtk4
+ =item B<Project description:> Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
+ =item B<Project version:> 0.1.9
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/shortcutaction.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ShortcutAction> encodes an action that can be triggered by a
+keyboard shortcut.
+
+B<Gnome::Gtk4::ShortcutAction>s contain functions that allow easy presentation
+to end users as well as being printed for debugging.
+
+All B<Gnome::Gtk4::ShortcutAction>s are immutable, you can only specify their
+properties during construction. If you want to change a action, you
+have to replace it with a new one. If you need to pass arguments to
+an action, these are specified by the higher-level I<GtkShortcut> object.
+
+To activate a B<Gnome::Gtk4::ShortcutAction> manually, C<.activate()>
+can be called.
+
+GTK provides various actions:
+
+ - [class C<$Gtk>.MnemonicAction]: a shortcut action that calls
+   gtk_widget_mnemonic_activate()
+ - [class C<$Gtk>.CallbackAction]: a shortcut action that invokes
+   a given callback
+ - [class C<$Gtk>.SignalAction]: a shortcut action that emits a
+   given signal
+ - [class C<$Gtk>.ActivateAction]: a shortcut action that calls
+   gtk_widget_activate()
+ - [class C<$Gtk>.NamedAction]: a shortcut action that calls
+   gtk_widget_activate_action()
+ - [class C<$Gtk>.NothingAction]: a shortcut action that does nothing
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 parse-string
+
+Tries to parse the given string into an action.
+
+On success, the parsed action is returned. When parsing failed, undefined is returned.
+
+The accepted strings are:
+
+- I<nothing>, for I<GtkNothingAction>
+- I<activate>, for I<GtkActivateAction>
+- I<mnemonic-activate>, for I<GtkMnemonicAction>
+- I<action(NAME)>, for a I<GtkNamedAction> for the action named I<NAME>
+- I<signal(NAME)>, for a I<GtkSignalAction> for the signal I<NAME>
+
+=begin code
+method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction )
+=end code
+
+=item $string; the string to parse.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 activate
+
+Activates the action on the C<$widget> with the given C<$args>.
+
+Note that some actions ignore the passed in C<$flags>, C<$widget> or C<$args>.
+
+Activation of an action can fail for various reasons. If the action is not supported by the C<$widget>, if the C<$args> don't match the action or if the activation otherwise had no effect, %FALSE will be returned.
+
+=begin code
+method activate ( UInt $flags, N-Object() $widget, CArray[N-Variant] $args --> Bool )
+=end code
+
+=item $flags; flags to activate with. A bitmap.
+=item $widget; Target of the activation.
+=item $args; arguments to pass.
+
+Return value; %TRUE if this action was activated successfully. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 print
+
+Prints the given action into a string for the developer.
+
+This is meant for debugging and logging.
+
+The form of the representation may change at any time and is not guaranteed to stay identical.
+
+=begin code
+method print ( CArray[N-String]  $string )
+=end code
+
+=item $string; a I<GString> to print into.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-string
+
+Prints the given action into a human-readable string.
+
+This is a small wrapper around C<.print()>
+to help when debugging.
+
+=begin code
+method to-string (--> Str )
+=end code
+
+
+Return value; a new string. 
+
+
+=end pod
+
