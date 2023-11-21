@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 filechooserwidget
+# Command to generate: generate.raku -v -d -c Gtk4 filechooserwidget
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -44,8 +44,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<up-folder home-folder search-shortcut desktop-folder location-toggle-popup places-shortcut location-popup-on-paste recent-shortcut show-hidden down-folder>,
-      :w1<location-popup quick-bookmark>,
+      :w0<show-hidden down-folder recent-shortcut desktop-folder places-shortcut home-folder location-toggle-popup up-folder location-popup-on-paste search-shortcut>,
+      :w1<quick-bookmark location-popup>,
     );
 
     # Signals from interfaces
@@ -55,7 +55,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_file_chooser_widget_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::FileChooserWidget' {
@@ -75,7 +75,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-filechooserwidget => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ GEnum])),
+  new-filechooserwidget => %( :type(Constructor), :is-symbol<gtk_file_chooser_widget_new>, :returns(N-Object), :parameters([ GEnum])),
 );
 
 #-------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_file_chooser_widget_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
