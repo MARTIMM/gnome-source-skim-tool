@@ -1,0 +1,109 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Gtk4
+ =item B<Project description:> Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
+ =item B<Project version:> 0.1.9
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/keyvaltrigger.png)
+
+=head1 Description
+
+A I<GtkShortcutTrigger> that triggers when a specific keyval and modifiers are pressed.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-keyvaltrigger
+
+Creates a I<GtkShortcutTrigger> that will trigger whenever the key with the given C<$keyval> and C<$modifiers> is pressed.
+
+=begin code
+method new-keyvaltrigger ( UInt() $keyval, UInt $modifiers --> Gnome::Gtk4::KeyvalTrigger )
+=end code
+
+=item $keyval; The keyval to trigger for.
+=item $modifiers; the modifiers that need to be present. A bitmap.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-keyval
+
+Gets the keyval that must be pressed to succeed triggering C<$self>.
+
+=begin code
+method get-keyval (--> UInt )
+=end code
+
+
+Return value; the keyval. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-modifiers
+
+Gets the modifiers that must be present to succeed triggering C<$self>.
+
+=begin code
+method get-modifiers (--> UInt )
+=end code
+
+
+Return value; the modifiers.  A bitmap.
+
+
+=end pod
+
