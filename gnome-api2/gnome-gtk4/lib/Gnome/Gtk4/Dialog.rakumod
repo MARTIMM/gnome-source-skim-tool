@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 Dialog
+# Command to generate: generate.raku -v -d -c Gtk4 dialog
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_dialog_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Dialog' {
@@ -69,20 +69,20 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-dialog => %( :type(Constructor), :isnew, :returns(N-Object), ),
-  new-with-buttons => %( :type(Constructor), :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GFlag, Str])),
+  new-dialog => %( :type(Constructor), :is-symbol<gtk_dialog_new>, :returns(N-Object), ),
+  new-with-buttons => %( :type(Constructor), :is-symbol<gtk_dialog_new_with_buttons>, :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GFlag, Str])),
 
   #--[Methods]------------------------------------------------------------------
-  add-action-widget => %( :parameters([N-Object, gint])),
-  add-button => %( :returns(N-Object), :parameters([Str, gint])),
-  #add-buttons => %(:variable-list,  :parameters([Str])),
-  get-content-area => %( :returns(N-Object)),
-  get-header-bar => %( :returns(N-Object)),
-  get-response-for-widget => %( :returns(gint), :parameters([N-Object])),
-  get-widget-for-response => %( :returns(N-Object), :parameters([gint])),
-  response => %( :parameters([gint])),
-  set-default-response => %( :parameters([gint])),
-  set-response-sensitive => %( :parameters([gint, gboolean])),
+  add-action-widget => %(:is-symbol<gtk_dialog_add_action_widget>,  :parameters([N-Object, gint])),
+  add-button => %(:is-symbol<gtk_dialog_add_button>,  :returns(N-Object), :parameters([Str, gint])),
+  add-buttons => %(:is-symbol<gtk_dialog_add_buttons>, :variable-list,  :parameters([Str])),
+  get-content-area => %(:is-symbol<gtk_dialog_get_content_area>,  :returns(N-Object)),
+  get-header-bar => %(:is-symbol<gtk_dialog_get_header_bar>,  :returns(N-Object)),
+  get-response-for-widget => %(:is-symbol<gtk_dialog_get_response_for_widget>,  :returns(gint), :parameters([N-Object])),
+  get-widget-for-response => %(:is-symbol<gtk_dialog_get_widget_for_response>,  :returns(N-Object), :parameters([gint])),
+  response => %(:is-symbol<gtk_dialog_response>,  :parameters([gint])),
+  set-default-response => %(:is-symbol<gtk_dialog_set_default_response>,  :parameters([gint])),
+  set-response-sensitive => %(:is-symbol<gtk_dialog_set_response_sensitive>,  :parameters([gint, gboolean])),
 );
 
 #-------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_dialog_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 

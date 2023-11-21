@@ -1,12 +1,10 @@
-# Command to generate: generate.raku -c -t Gtk4 Dialog
+# Command to generate: generate.raku -v -d -c Gtk4 dialog
 use v6.d;
-
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::T-Dialog:auth<github:MARTIMM>:api<2>;
-
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -20,5 +18,4 @@ enum GtkResponseType is export <
 enum GtkDialogFlags is export (
   :GTK_DIALOG_MODAL(1), :GTK_DIALOG_DESTROY_WITH_PARENT(2), :GTK_DIALOG_USE_HEADER_BAR(4)
 );
-
 
