@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 applicationwindow
+# Command to generate: generate.raku -v -d -c Gtk4 applicationwindow
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_application_window_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::ApplicationWindow' {
@@ -57,14 +57,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-applicationwindow => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ N-Object])),
+  new-applicationwindow => %( :type(Constructor), :is-symbol<gtk_application_window_new>, :returns(N-Object), :parameters([ N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  get-help-overlay => %( :returns(N-Object)),
-  get-id => %( :returns(guint)),
-  get-show-menubar => %( :returns(gboolean), :cnv-return(Bool)),
-  set-help-overlay => %( :parameters([N-Object])),
-  set-show-menubar => %( :parameters([gboolean])),
+  get-help-overlay => %(:is-symbol<gtk_application_window_get_help_overlay>,  :returns(N-Object)),
+  get-id => %(:is-symbol<gtk_application_window_get_id>,  :returns(guint)),
+  get-show-menubar => %(:is-symbol<gtk_application_window_get_show_menubar>,  :returns(gboolean), :cnv-return(Bool)),
+  set-help-overlay => %(:is-symbol<gtk_application_window_set_help_overlay>,  :parameters([N-Object])),
+  set-show-menubar => %(:is-symbol<gtk_application_window_set_show_menubar>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_application_window_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
