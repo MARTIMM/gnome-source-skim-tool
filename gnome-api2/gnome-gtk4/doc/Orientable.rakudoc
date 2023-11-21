@@ -1,0 +1,77 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Gtk4
+ =item B<Project description:> Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
+ =item B<Project version:> 0.1.9
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/orientable.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::Orientable> interface is implemented by all widgets that can be
+oriented horizontally or vertically.
+
+B<Gnome::Gtk4::Orientable> is more flexible in that it allows the orientation to be
+changed at runtime, allowing the widgets to “flip”.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-orientation
+
+Retrieves the orientation of the C<$orientable>.
+
+=begin code
+method get-orientation (--> GtkOrientation )
+=end code
+
+
+Return value; the orientation of the C<$orientable>.  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-orientation
+
+Sets the orientation of the C<$orientable>.
+
+=begin code
+method set-orientation ( GtkOrientation $orientation )
+=end code
+
+=item $orientation; the orientable’s new orientation. An enumeration.
+
+=end pod
+
