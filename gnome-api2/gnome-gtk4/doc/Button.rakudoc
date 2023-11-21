@@ -1,0 +1,379 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Gtk4
+ =item B<Project description:> Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
+ =item B<Project version:> 0.1.9
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/button.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::Button> widget is generally used to trigger a callback function that is
+called when the button is pressed.
+
+![An example GtkButton](button.png)
+
+The B<Gnome::Gtk4::Button> widget can hold any valid child widget. That is, it can hold
+almost any other standard I<GtkWidget>. The most commonly used child is the
+I<GtkLabel>.
+
+=head1 CSS nodes
+
+B<Gnome::Gtk4::Button> has a single CSS node with name button. The node will get the
+style classes .image-button or .text-button, if the content is just an
+image or label, respectively. It may also receive the .flat style class.
+When activating a button via the keyboard, the button will temporarily
+gain the .keyboard-activating style class.
+
+Other style classes that are commonly used with B<Gnome::Gtk4::Button> include
+.suggested-action and .destructive-action. In special cases, buttons
+can be made round by adding the .circular style class.
+
+Button-like widgets like [class C<$Gtk>.ToggleButton], [class C<$Gtk>.MenuButton],
+[class C<$Gtk>.VolumeButton], [class C<$Gtk>.LockButton], [class C<$Gtk>.ColorButton]
+or [class C<$Gtk>.FontButton] use style classes such as .toggle, .popup, .scale,
+.lock, .color on the button node to differentiate themselves from a plain
+B<Gnome::Gtk4::Button>.
+
+=head1 Accessibility
+
+B<Gnome::Gtk4::Button> uses the %GTK_ACCESSIBLE_ROLE_BUTTON role.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-button
+
+Creates a new B<Gnome::Gtk4::Button> widget.
+
+To add a child widget to the button, use C<.set-child()>.
+
+=begin code
+method new-button ( --> Gnome::Gtk4::Button )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-icon-name
+
+Creates a new button containing an icon from the current icon theme.
+
+If the icon name isn’t known, a “broken image” icon will be displayed instead. If the current icon theme is changed, the icon will be updated appropriately.
+
+=begin code
+method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Button )
+=end code
+
+=item $icon-name; an icon name.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-label
+
+Creates a B<Gnome::Gtk4::Button> widget with a I<GtkLabel> child.
+
+=begin code
+method new-with-label ( Str $label --> Gnome::Gtk4::Button )
+=end code
+
+=item $label; The text you want the I<GtkLabel> to hold.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-mnemonic
+
+Creates a new B<Gnome::Gtk4::Button> containing a label.
+
+If characters in C<$label> are preceded by an underscore, they are underlined.
+If you need a literal underscore character in a label, use “__” (two underscores). The first underlined character represents a keyboard accelerator called a mnemonic. Pressing Alt and that key activates the button.
+
+=begin code
+method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Button )
+=end code
+
+=item $label; The text of the button, with an underscore in front of the
+ mnemonic character.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$button>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+
+Return value; the child widget of C<$button>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-frame
+
+Returns whether the button has a frame.
+
+=begin code
+method get-has-frame (--> Bool )
+=end code
+
+
+Return value; %TRUE if the button has a frame. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-name
+
+Returns the icon name of the button.
+
+If the icon name has not been set with C<.set-icon-name()>
+the return value will be undefined. This will be the case if you create an empty button with [ctor C<$Gtk>.Button.new] to use as a container.
+
+=begin code
+method get-icon-name (--> Str )
+=end code
+
+
+Return value; The icon name set via C<.set-icon-name()>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-label
+
+Fetches the text from the label of the button.
+
+If the label text has not been set with C<.set-label()>
+the return value will be undefined. This will be the case if you create an empty button with [ctor C<$Gtk>.Button.new] to use as a container.
+
+=begin code
+method get-label (--> Str )
+=end code
+
+
+Return value; The text of the label widget. This string is owned by the widget and must not be modified or freed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-use-underline
+
+gets whether underlines are interpreted as mnemonics.
+
+See C<.set-use-underline()>.
+
+=begin code
+method get-use-underline (--> Bool )
+=end code
+
+
+Return value; %TRUE if an embedded underline in the button label
+ indicates the mnemonic accelerator keys.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child widget of C<$button>.
+
+Note that by using this API, you take full responsibility for setting up the proper accessibility label and description information for C<$button>.
+Most likely, you'll either set the accessibility label or description for C<$button> explicitly, or you'll set a labelled-by or described-by relations from C<$child> to C<$button>.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; the child widget.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-has-frame
+
+Sets the style of the button.
+
+Buttons can has a flat appearance or have a frame drawn around them.
+
+=begin code
+method set-has-frame ( Bool() $has-frame )
+=end code
+
+=item $has-frame; whether the button should have a visible frame.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-icon-name
+
+Adds a I<GtkImage> with the given icon name as a child.
+
+If C<$button> already contains a child widget, that child widget will be removed and replaced with the image.
+
+=begin code
+method set-icon-name ( Str $icon-name )
+=end code
+
+=item $icon-name; An icon name.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label
+
+Sets the text of the label of the button to C<$label>.
+
+This will also clear any previously set labels.
+
+=begin code
+method set-label ( Str $label )
+=end code
+
+=item $label; a string.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-use-underline
+
+Sets whether to use underlines as mnemonics.
+
+If true, an underline in the text of the button label indicates the next character should be used for the mnemonic accelerator key.
+
+=begin code
+method set-use-underline ( Bool() $use-underline )
+=end code
+
+=item $use-underline; %TRUE if underlines in the text indicate mnemonics.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted to animate press then release.
+
+This is an action signal. Applications should never connect to this signal, but use the I<clicked> signal.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::Button() :$_native-object,
+  Gnome::Gtk4::Button :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 clicked
+
+Emitted when the button has been activated (pressed and released).
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::Button() :$_native-object,
+  Gnome::Gtk4::Button :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=end pod
+
