@@ -1,17 +1,14 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutaction
+# Command to generate: generate.raku -v -d -c Gtk4 shortcutaction
 use v6.d;
-
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::T-Shortcutaction:auth<github:MARTIMM>:api<2>;
-
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 enum GtkShortcutActionFlags is export (
   :GTK_SHORTCUT_ACTION_EXCLUSIVE(1)
 );
-
 

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutaction
+# Command to generate: generate.raku -v -d -c Gtk4 shortcutaction
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_signal_action_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::SignalAction' {
@@ -57,10 +57,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-signalaction => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
+  new-signalaction => %( :type(Constructor), :is-symbol<gtk_signal_action_new>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-signal-name => %( :returns(Str)),
+  get-signal-name => %(:is-symbol<gtk_signal_action_get_signal_name>,  :returns(Str)),
 );
 
 #-------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_signal_action_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 

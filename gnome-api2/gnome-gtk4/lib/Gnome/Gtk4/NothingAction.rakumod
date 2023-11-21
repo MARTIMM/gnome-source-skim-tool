@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutaction
+# Command to generate: generate.raku -v -d -c Gtk4 shortcutaction
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_nothing_action_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::NothingAction' {
@@ -57,7 +57,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Functions]----------------------------------------------------------------
-  get => %( :type(Function),  :returns(N-Object)),
+  get => %( :type(Function), :is-symbol<gtk_nothing_action_get>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_nothing_action_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 

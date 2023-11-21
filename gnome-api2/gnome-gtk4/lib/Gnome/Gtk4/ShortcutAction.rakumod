@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutaction
+# Command to generate: generate.raku -v -d -c Gtk4 shortcutaction
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_shortcut_action_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::ShortcutAction' {
@@ -60,12 +60,12 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  parse-string => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  parse-string => %( :type(Constructor), :is-symbol<gtk_shortcut_action_parse_string>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  activate => %( :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, N-Object, N-Variant])),
-  #print => %( :parameters([N-String ])),
-  to-string => %( :returns(Str)),
+  activate => %(:is-symbol<gtk_shortcut_action_activate>,  :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, N-Object, N-Variant])),
+  #print => %(:is-symbol<gtk_shortcut_action_print>,  :parameters([N-String ])),
+  to-string => %(:is-symbol<gtk_shortcut_action_to_string>,  :returns(Str)),
 );
 
 #-------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_shortcut_action_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
