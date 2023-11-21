@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 application
+# Command to generate: generate.raku -v -c -d Gtk4 application
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_application_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Application' {
@@ -71,23 +71,23 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-application => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str, GFlag])),
+  new-application => %( :type(Constructor), :is-symbol<gtk_application_new>, :returns(N-Object), :parameters([ Str, GFlag])),
 
   #--[Methods]------------------------------------------------------------------
-  add-window => %( :parameters([N-Object])),
-  get-accels-for-action => %( :returns(gchar-pptr), :parameters([Str])),
-  get-actions-for-accel => %( :returns(gchar-pptr), :parameters([Str])),
-  get-active-window => %( :returns(N-Object)),
-  get-menu-by-id => %( :returns(N-Object), :parameters([Str])),
-  get-menubar => %( :returns(N-Object)),
-  get-window-by-id => %( :returns(N-Object), :parameters([guint])),
-  get-windows => %( :returns(N-List)),
-  inhibit => %( :returns(guint), :parameters([N-Object, GFlag, Str])),
-  list-action-descriptions => %( :returns(gchar-pptr)),
-  remove-window => %( :parameters([N-Object])),
-  set-accels-for-action => %( :parameters([Str, gchar-pptr])),
-  set-menubar => %( :parameters([N-Object])),
-  uninhibit => %( :parameters([guint])),
+  add-window => %(:is-symbol<gtk_application_add_window>,  :parameters([N-Object])),
+  get-accels-for-action => %(:is-symbol<gtk_application_get_accels_for_action>,  :returns(gchar-pptr), :parameters([Str])),
+  get-actions-for-accel => %(:is-symbol<gtk_application_get_actions_for_accel>,  :returns(gchar-pptr), :parameters([Str])),
+  get-active-window => %(:is-symbol<gtk_application_get_active_window>,  :returns(N-Object)),
+  get-menu-by-id => %(:is-symbol<gtk_application_get_menu_by_id>,  :returns(N-Object), :parameters([Str])),
+  get-menubar => %(:is-symbol<gtk_application_get_menubar>,  :returns(N-Object)),
+  get-window-by-id => %(:is-symbol<gtk_application_get_window_by_id>,  :returns(N-Object), :parameters([guint])),
+  get-windows => %(:is-symbol<gtk_application_get_windows>,  :returns(N-List)),
+  inhibit => %(:is-symbol<gtk_application_inhibit>,  :returns(guint), :parameters([N-Object, GFlag, Str])),
+  list-action-descriptions => %(:is-symbol<gtk_application_list_action_descriptions>,  :returns(gchar-pptr)),
+  remove-window => %(:is-symbol<gtk_application_remove_window>,  :parameters([N-Object])),
+  set-accels-for-action => %(:is-symbol<gtk_application_set_accels_for_action>,  :parameters([Str, gchar-pptr])),
+  set-menubar => %(:is-symbol<gtk_application_set_menubar>,  :parameters([N-Object])),
+  uninhibit => %(:is-symbol<gtk_application_uninhibit>,  :parameters([guint])),
 );
 
 #-------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_application_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
