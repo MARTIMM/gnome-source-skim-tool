@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 checkbutton
+# Command to generate: generate.raku -v -d -c Gtk4 checkbutton
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_check_button_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::CheckButton' {
@@ -73,20 +73,20 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-checkbutton => %( :type(Constructor), :isnew, :returns(N-Object), ),
-  new-with-label => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  new-checkbutton => %( :type(Constructor), :is-symbol<gtk_check_button_new>, :returns(N-Object), ),
+  new-with-label => %( :type(Constructor), :is-symbol<gtk_check_button_new_with_label>, :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_check_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %( :returns(gboolean), :cnv-return(Bool)),
-  get-inconsistent => %( :returns(gboolean), :cnv-return(Bool)),
-  get-label => %( :returns(Str)),
-  get-use-underline => %( :returns(gboolean), :cnv-return(Bool)),
-  set-active => %( :parameters([gboolean])),
-  set-group => %( :parameters([N-Object])),
-  set-inconsistent => %( :parameters([gboolean])),
-  set-label => %( :parameters([Str])),
-  set-use-underline => %( :parameters([gboolean])),
+  get-active => %(:is-symbol<gtk_check_button_get_active>,  :returns(gboolean), :cnv-return(Bool)),
+  get-inconsistent => %(:is-symbol<gtk_check_button_get_inconsistent>,  :returns(gboolean), :cnv-return(Bool)),
+  get-label => %(:is-symbol<gtk_check_button_get_label>,  :returns(Str)),
+  get-use-underline => %(:is-symbol<gtk_check_button_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
+  set-active => %(:is-symbol<gtk_check_button_set_active>,  :parameters([gboolean])),
+  set-group => %(:is-symbol<gtk_check_button_set_group>,  :parameters([N-Object])),
+  set-inconsistent => %(:is-symbol<gtk_check_button_set_inconsistent>,  :parameters([gboolean])),
+  set-label => %(:is-symbol<gtk_check_button_set_label>,  :parameters([Str])),
+  set-use-underline => %(:is-symbol<gtk_check_button_set_use_underline>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_check_button_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 

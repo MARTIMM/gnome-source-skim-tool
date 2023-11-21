@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 button
+# Command to generate: generate.raku -v -d -c Gtk4 Button
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<clicked activate>,
+      :w0<activate clicked>,
     );
 
     # Signals from interfaces
@@ -53,28 +53,10 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-#  self.set-library(gtk4-lib());
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_button_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Button' {
-#`{{
-    my $no;
-    if %options<new-button>:exists {
-      $no = self.objectless-call(
-        %options<new-button>[0].List, %options<new-button>[1]
-      );
-    }
-     
-    elsif %options<new-with-label>:exists {
-      $no = self.objectless-call(
-        %options<new-with-label>[0].List, %options<new-with-label>[1]
-      );
-    }
-
-    self._set-native-object($no);
-}}
-
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
@@ -91,22 +73,22 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-button => %( :type(Constructor), :isnew, :returns(N-Object), ),
-  new-from-icon-name => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
-  new-with-label => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  new-button => %( :type(Constructor), :is-symbol<gtk_button_new>, :returns(N-Object), ),
+  new-from-icon-name => %( :type(Constructor), :is-symbol<gtk_button_new_from_icon_name>, :returns(N-Object), :parameters([ Str])),
+  new-with-label => %( :type(Constructor), :is-symbol<gtk_button_new_with_label>, :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-child => %( :returns(N-Object)),
-  get-has-frame => %( :returns(gboolean), :cnv-return(Bool)),
-  get-icon-name => %( :returns(Str)),
-  get-label => %( :returns(Str)),
-  get-use-underline => %( :returns(gboolean), :cnv-return(Bool)),
-  set-child => %( :parameters([N-Object])),
-  set-has-frame => %( :parameters([gboolean])),
-  set-icon-name => %( :parameters([Str])),
-  set-label => %( :parameters([Str])),
-  set-use-underline => %( :parameters([gboolean])),
+  get-child => %(:is-symbol<gtk_button_get_child>,  :returns(N-Object)),
+  get-has-frame => %(:is-symbol<gtk_button_get_has_frame>,  :returns(gboolean), :cnv-return(Bool)),
+  get-icon-name => %(:is-symbol<gtk_button_get_icon_name>,  :returns(Str)),
+  get-label => %(:is-symbol<gtk_button_get_label>,  :returns(Str)),
+  get-use-underline => %(:is-symbol<gtk_button_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
+  set-child => %(:is-symbol<gtk_button_set_child>,  :parameters([N-Object])),
+  set-has-frame => %(:is-symbol<gtk_button_set_has_frame>,  :parameters([gboolean])),
+  set-icon-name => %(:is-symbol<gtk_button_set_icon_name>,  :parameters([Str])),
+  set-label => %(:is-symbol<gtk_button_set_label>,  :parameters([Str])),
+  set-use-underline => %(:is-symbol<gtk_button_set_use_underline>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------
@@ -116,7 +98,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_button_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
@@ -149,48 +131,4 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
 
     callsame;
   }
-}
-
-=finish
-#-------------------------------------------------------------------------------
-# for tests rename
-method M-new-button ( *@arguments ) {
-  self.bless(
-    :new-button(
-      @arguments,
-      %( :parameters([Str]),
-         :returns(N-Object),
-         :is-symbol<gtk_button_new>
-      )
-    )
-  );
-}
-
-#-------------------------------------------------------------------------------
-# methods
-method M-get-label ( *@arguments ) {
-  self.object-call(
-    @arguments, %( :returns(Str), :is-symbol<gtk_button_get_label>),
-  );
-}
-
-#-------------------------------------------------------------------------------
-# methods
-method M-set-label ( *@arguments ) {
-  self.object-call(
-    @arguments, %( :parameters([Str]), :is-symbol<gtk_button_set_label>),
-  );
-}
-
-#-------------------------------------------------------------------------------
-method new-with-label ( *@arguments ) {
-  self.bless(
-    :new-with-label(
-      @arguments,
-      %( :parameters([Str]),
-         :returns(N-Object),
-         :is-symbol<gtk_button_new_with_label>
-      )
-    )
-  );
 }
