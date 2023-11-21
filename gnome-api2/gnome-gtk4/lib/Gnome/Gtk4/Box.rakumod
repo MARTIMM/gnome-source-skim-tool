@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 box
+# Command to generate: generate.raku -v -d -c Gtk4 box
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_box_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Box' {
@@ -71,20 +71,20 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-box => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ GEnum, gint])),
+  new-box => %( :type(Constructor), :is-symbol<gtk_box_new>, :returns(N-Object), :parameters([ GEnum, gint])),
 
   #--[Methods]------------------------------------------------------------------
-  append => %( :parameters([N-Object])),
-  get-baseline-position => %( :returns(GEnum), :cnv-return(GtkBaselinePosition)),
-  get-homogeneous => %( :returns(gboolean), :cnv-return(Bool)),
-  get-spacing => %( :returns(gint)),
-  insert-child-after => %( :parameters([N-Object, N-Object])),
-  prepend => %( :parameters([N-Object])),
-  remove => %( :parameters([N-Object])),
-  reorder-child-after => %( :parameters([N-Object, N-Object])),
-  set-baseline-position => %( :parameters([GEnum])),
-  set-homogeneous => %( :parameters([gboolean])),
-  set-spacing => %( :parameters([gint])),
+  append => %(:is-symbol<gtk_box_append>,  :parameters([N-Object])),
+  get-baseline-position => %(:is-symbol<gtk_box_get_baseline_position>,  :returns(GEnum), :cnv-return(GtkBaselinePosition)),
+  get-homogeneous => %(:is-symbol<gtk_box_get_homogeneous>,  :returns(gboolean), :cnv-return(Bool)),
+  get-spacing => %(:is-symbol<gtk_box_get_spacing>,  :returns(gint)),
+  insert-child-after => %(:is-symbol<gtk_box_insert_child_after>,  :parameters([N-Object, N-Object])),
+  prepend => %(:is-symbol<gtk_box_prepend>,  :parameters([N-Object])),
+  remove => %(:is-symbol<gtk_box_remove>,  :parameters([N-Object])),
+  reorder-child-after => %(:is-symbol<gtk_box_reorder_child_after>,  :parameters([N-Object, N-Object])),
+  set-baseline-position => %(:is-symbol<gtk_box_set_baseline_position>,  :parameters([GEnum])),
+  set-homogeneous => %(:is-symbol<gtk_box_set_homogeneous>,  :parameters([gboolean])),
+  set-spacing => %(:is-symbol<gtk_box_set_spacing>,  :parameters([gint])),
 );
 
 #-------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_box_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
