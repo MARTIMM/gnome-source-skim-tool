@@ -1,0 +1,402 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Gtk4
+ =item B<Project description:> Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
+ =item B<Project version:> 0.1.9
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/filechooserwidget.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::FileChooserWidget> is a widget for choosing files.
+
+It exposes the [iface C<$Gtk>.FileChooser] interface, and you should
+use the methods of this interface to interact with the
+widget.
+
+=head1 CSS nodes
+
+B<Gnome::Gtk4::FileChooserWidget> has a single CSS node with name filechooser.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-filechooserwidget
+
+Creates a new B<Gnome::Gtk4::FileChooserWidget>.
+
+This is a file chooser widget that can be embedded in custom windows, and it is the same widget that is used by I<GtkFileChooserDialog>.
+
+=begin code
+method new-filechooserwidget ( GtkFileChooserAction $action --> Gnome::Gtk4::FileChooserWidget )
+=end code
+
+=item $action; Open or save mode for the widget. An enumeration.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 desktop-folder
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser show the user's Desktop folder in the file list.
+
+The default binding for this signal is <kbd>Alt</kbd>-<kbd>D</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 down-folder
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser go to a child of the current folder in the file hierarchy. The subfolder that will be used is displayed in the path bar widget of the file chooser.
+For example, if the path bar is showing "/foo/bar/baz", with bar currently displayed, then this will cause the file chooser to switch to the "baz" subfolder.
+
+The default binding for this signal is <kbd>Alt</kbd>-<kbd>Down</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 home-folder
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser show the user's home folder in the file list.
+
+The default binding for this signal is <kbd>Alt</kbd>-<kbd>Home</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 location-popup
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser show a "Location" prompt which the user can use to manually type the name of the file he wishes to select.
+
+The default bindings for this signal are <kbd>Control</kbd>-<kbd>L</kbd>
+with a C<$path> string of "" (the empty string). It is also bound to
+<kbd>/</kbd> with a C<$path> string of "I</>" (a slash): this lets you type I</> and immediately type a path name. On Unix systems, this is bound to <kbd>~</kbd> (tilde) with a C<$path> string of "~" itself for access to home directories.
+
+=begin code
+method handler (
+  Str $path,
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $path; a string that gets put in the text entry for the file name.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 location-popup-on-paste
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser show a "Location" prompt when the user pastes into a B<Gnome::Gtk4::FileChooserWidget>.
+
+The default binding for this signal is <kbd>Control</kbd>-<kbd>V</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 location-toggle-popup
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to toggle the visibility of a "Location" prompt which the user can use to manually type the name of the file he wishes to select.
+
+The default binding for this signal is <kbd>Control</kbd>-<kbd>L</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 places-shortcut
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to move the focus to the places sidebar.
+
+The default binding for this signal is <kbd>Alt</kbd>-<kbd>P</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 quick-bookmark
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser switch to the bookmark specified in the C<$bookmark_index> parameter. For example, if you have three bookmarks, you can pass 0, 1, 2 to this signal to switch to each of them, respectively.
+
+The default binding for this signal is <kbd>Alt</kbd>-<kbd>1</kbd>,
+<kbd>Alt</kbd>-<kbd>2</kbd>, etc. until <kbd>Alt</kbd>-<kbd>0</kbd>.
+Note that in the default binding, that <kbd>Alt</kbd>-<kbd>1</kbd> is actually defined to switch to the bookmark at index 0, and so on successively.
+
+=begin code
+method handler (
+  gint $bookmark-index,
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $bookmark-index; the number of the bookmark to switch to.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 recent-shortcut
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser show the Recent location.
+
+The default binding for this signal is <kbd>Alt</kbd>-<kbd>R</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 search-shortcut
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser show the search entry.
+
+The default binding for this signal is <kbd>Alt</kbd>-<kbd>S</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 show-hidden
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser display hidden files.
+
+The default binding for this signal is <kbd>Control</kbd>-<kbd>H</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 up-folder
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This is used to make the file chooser go to the parent of the current folder in the file hierarchy.
+
+The default binding for this signal is <kbd>Alt</kbd>-<kbd>Up</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::FileChooserWidget() :$_native-object,
+  Gnome::Gtk4::FileChooserWidget :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=end pod
+
