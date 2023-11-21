@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 colorchooserwidget
+# Command to generate: generate.raku -v -d -c Gtk4 colorchooserwidget
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_color_chooser_widget_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::ColorChooserWidget' {
@@ -70,7 +70,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-colorchooserwidget => %( :type(Constructor), :isnew, :returns(N-Object), ),
+  new-colorchooserwidget => %( :type(Constructor), :is-symbol<gtk_color_chooser_widget_new>, :returns(N-Object), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_color_chooser_widget_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
