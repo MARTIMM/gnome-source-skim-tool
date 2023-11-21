@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 appchooserwidget
+# Command to generate: generate.raku -v -d -c Gtk4 appchooserwidget
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_app_chooser_widget_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::AppChooserWidget' {
@@ -73,21 +73,21 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-appchooserwidget => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
+  new-appchooserwidget => %( :type(Constructor), :is-symbol<gtk_app_chooser_widget_new>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-default-text => %( :returns(Str)),
-  get-show-all => %( :returns(gboolean), :cnv-return(Bool)),
-  get-show-default => %( :returns(gboolean), :cnv-return(Bool)),
-  get-show-fallback => %( :returns(gboolean), :cnv-return(Bool)),
-  get-show-other => %( :returns(gboolean), :cnv-return(Bool)),
-  get-show-recommended => %( :returns(gboolean), :cnv-return(Bool)),
-  set-default-text => %( :parameters([Str])),
-  set-show-all => %( :parameters([gboolean])),
-  set-show-default => %( :parameters([gboolean])),
-  set-show-fallback => %( :parameters([gboolean])),
-  set-show-other => %( :parameters([gboolean])),
-  set-show-recommended => %( :parameters([gboolean])),
+  get-default-text => %(:is-symbol<gtk_app_chooser_widget_get_default_text>,  :returns(Str)),
+  get-show-all => %(:is-symbol<gtk_app_chooser_widget_get_show_all>,  :returns(gboolean), :cnv-return(Bool)),
+  get-show-default => %(:is-symbol<gtk_app_chooser_widget_get_show_default>,  :returns(gboolean), :cnv-return(Bool)),
+  get-show-fallback => %(:is-symbol<gtk_app_chooser_widget_get_show_fallback>,  :returns(gboolean), :cnv-return(Bool)),
+  get-show-other => %(:is-symbol<gtk_app_chooser_widget_get_show_other>,  :returns(gboolean), :cnv-return(Bool)),
+  get-show-recommended => %(:is-symbol<gtk_app_chooser_widget_get_show_recommended>,  :returns(gboolean), :cnv-return(Bool)),
+  set-default-text => %(:is-symbol<gtk_app_chooser_widget_set_default_text>,  :parameters([Str])),
+  set-show-all => %(:is-symbol<gtk_app_chooser_widget_set_show_all>,  :parameters([gboolean])),
+  set-show-default => %(:is-symbol<gtk_app_chooser_widget_set_show_default>,  :parameters([gboolean])),
+  set-show-fallback => %(:is-symbol<gtk_app_chooser_widget_set_show_fallback>,  :parameters([gboolean])),
+  set-show-other => %(:is-symbol<gtk_app_chooser_widget_set_show_other>,  :parameters([gboolean])),
+  set-show-recommended => %(:is-symbol<gtk_app_chooser_widget_set_show_recommended>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_app_chooser_widget_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
