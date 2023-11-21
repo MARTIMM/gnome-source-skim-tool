@@ -293,10 +293,10 @@ method make-build-submethod (
     {pod-header('BUILD variables');}
     # Define callable helper
     has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
-    $c$gtk-init-code[0]
+    $c
     {pod-header('BUILD submethod');}
     submethod BUILD \( *\%options \) \{
-    $gtk-init-code[1]$signal-admin
+    $signal-admin
       # Initialize helper
       \$\!routine-caller .= new\(:library\('$*work-data<library>'\)\);
 
