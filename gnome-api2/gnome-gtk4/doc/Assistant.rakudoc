@@ -1,0 +1,628 @@
+ use v6.d;
+
+ =begin pod
+ =head2 Project Description
+ =item B<Distribution:> Gnome::Gtk4
+ =item B<Project description:> Modules for package Gnome::Gtk4:api<2>. The language binding to GNOME’s user interface toolkit version 4
+ =item B<Project version:> 0.1.9
+ =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
+ =item B<Author:> Marcel Timmerman
+ =end pod
+
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+
+![](images/assistant.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Assistant> is used to represent a complex as a series of steps.
+
+![An example GtkAssistant](assistant.png)
+
+Each step consists of one or more pages. B<Gnome::Gtk4::Assistant> guides the user
+through the pages, and controls the page flow to collect the data needed
+for the operation.
+
+B<Gnome::Gtk4::Assistant> handles which buttons to show and to make sensitive based
+on page sequence knowledge and the C<GtkAssistantPageType> enumeration of each
+page in addition to state information like the *completed* and *committed*
+page statuses.
+
+If you have a case that doesn’t quite fit in B<Gnome::Gtk4::Assistant>s way of
+handling buttons, you can use the %GTK_ASSISTANT_PAGE_CUSTOM page
+type and handle buttons yourself.
+
+B<Gnome::Gtk4::Assistant> maintains a B<Gnome::Gtk4::Assistant>Page object for each added
+child, which holds additional per-child properties. You
+obtain the B<Gnome::Gtk4::Assistant>Page for a child with C<.get-page()>.
+
+=head1 GtkAssistant as GtkBuildable
+
+The B<Gnome::Gtk4::Assistant> implementation of the I<GtkBuildable> interface
+exposes the C<$action_area> as internal children with the name
+“action_area”.
+
+To add pages to an assistant in I<GtkBuilder>, simply add it as a
+child to the B<Gnome::Gtk4::Assistant> object. If you need to set per-object
+properties, create a B<Gnome::Gtk4::Assistant>Page object explicitly, and
+set the child widget as a property on it.
+
+=head1 CSS nodes
+
+B<Gnome::Gtk4::Assistant> has a single CSS node with the name window and style
+class .assistant.
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-assistant
+
+Creates a new B<Gnome::Gtk4::Assistant>.
+
+=begin code
+method new-assistant ( --> Gnome::Gtk4::Assistant )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-action-widget
+
+Adds a widget to the action area of a B<Gnome::Gtk4::Assistant>.
+
+=begin code
+method add-action-widget ( N-Object() $child )
+=end code
+
+=item $child; a I<GtkWidget>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-page
+
+Appends a page to the C<$assistant>.
+
+=begin code
+method append-page ( N-Object() $page --> Int )
+=end code
+
+=item $page; a I<GtkWidget>.
+
+Return value; the index (starting at 0) of the inserted page. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 commit
+
+Erases the visited page history.
+
+GTK will then hide the back button on the current page,
+and removes the cancel button from subsequent pages.
+
+Use this when the information provided up to the current page is hereafter deemed permanent and cannot be modified or undone. For example, showing a progress page to track a long-running, unreversible operation after the user has clicked apply on a confirmation page.
+
+=begin code
+method commit ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-page
+
+Returns the page number of the current page.
+
+=begin code
+method get-current-page (--> Int )
+=end code
+
+
+Return value; The index (starting from 0) of the current
+ page in the C<$assistant>, or -1 if the C<$assistant> has no pages,
+ or no current page. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-pages
+
+Returns the number of pages in the C<$assistant>
+
+=begin code
+method get-n-pages (--> Int )
+=end code
+
+
+Return value; the number of pages in the C<$assistant>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-nth-page
+
+Returns the child widget contained in page number C<$page_num>.
+
+=begin code
+method get-nth-page ( Int() $page-num --> N-Object )
+=end code
+
+=item $page-num; the index of a page in the C<$assistant>,
+ or -1 to get the last page.
+
+Return value; the child widget, or undefined
+ if C<$page_num> is out of bounds. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page
+
+Returns the B<Gnome::Gtk4::Assistant>Page object for C<$child>.
+
+=begin code
+method get-page ( N-Object() $child --> N-Object )
+=end code
+
+=item $child; a child of C<$assistant>.
+
+Return value; the B<Gnome::Gtk4::Assistant>Page for C<$child>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page-complete
+
+Gets whether C<$page> is complete.
+
+=begin code
+method get-page-complete ( N-Object() $page --> Bool )
+=end code
+
+=item $page; a page of C<$assistant>.
+
+Return value; %TRUE if C<$page> is complete.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page-title
+
+Gets the title for C<$page>.
+
+=begin code
+method get-page-title ( N-Object() $page --> Str )
+=end code
+
+=item $page; a page of C<$assistant>.
+
+Return value; the title for C<$page>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page-type
+
+Gets the page type of C<$page>.
+
+=begin code
+method get-page-type ( N-Object() $page --> GtkAssistantPageType )
+=end code
+
+=item $page; a page of C<$assistant>.
+
+Return value; the page type of C<$page>.  An enumeration.
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pages
+
+Gets a list model of the assistant pages.
+
+=begin code
+method get-pages (--> N-List )
+=end code
+
+
+Return value; A list model of the pages.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-page
+
+Inserts a page in the C<$assistant> at a given position.
+
+=begin code
+method insert-page ( N-Object() $page, Int() $position --> Int )
+=end code
+
+=item $page; a I<GtkWidget>.
+=item $position; the index (starting at 0) at which to insert the page,
+ or -1 to append the page to the C<$assistant>.
+
+Return value; the index (starting from 0) of the inserted page. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next-page
+
+Navigate to the next page.
+
+It is a programming error to call this function when there is no next page.
+
+This function is for use when creating pages of the
+%GTK_ASSISTANT_PAGE_CUSTOM type.
+
+=begin code
+method next-page ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-page
+
+Prepends a page to the C<$assistant>.
+
+=begin code
+method prepend-page ( N-Object() $page --> Int )
+=end code
+
+=item $page; a I<GtkWidget>.
+
+Return value; the index (starting at 0) of the inserted page. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 previous-page
+
+Navigate to the previous visited page.
+
+It is a programming error to call this function when no previous page is available.
+
+This function is for use when creating pages of the
+%GTK_ASSISTANT_PAGE_CUSTOM type.
+
+=begin code
+method previous-page ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-action-widget
+
+Removes a widget from the action area of a B<Gnome::Gtk4::Assistant>.
+
+=begin code
+method remove-action-widget ( N-Object() $child )
+=end code
+
+=item $child; a I<GtkWidget>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-page
+
+Removes the C<$page_num>’s page from C<$assistant>.
+
+=begin code
+method remove-page ( Int() $page-num )
+=end code
+
+=item $page-num; the index of a page in the C<$assistant>,
+ or -1 to remove the last page.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-current-page
+
+Switches the page to C<$page_num>.
+
+Note that this will only be necessary in custom buttons,
+as the C<$assistant> flow can be set with gtk_assistant_set_forward_page_func().
+
+=begin code
+method set-current-page ( Int() $page-num )
+=end code
+
+=item $page-num; index of the page to switch to, starting from 0.
+ If negative, the last page will be used. If greater
+ than the number of pages in the C<$assistant>, nothing
+ will be done..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-forward-page-func
+
+Sets the page forwarding function to be C<$page_func>.
+
+This function will be used to determine what will be the next page when the user presses the forward button.
+Setting C<$page_func> to undefined will make the assistant to use the default forward function, which just goes to the next visible page.
+
+=begin code
+method set-forward-page-func ( &page-func, gpointer $data, … )
+=end code
+
+=item &page-func; the `GtkAssistantPageFunc`, or undefined
+ to use the default one. Tthe function must be specified with following signature; C<:( gint $current-page, gpointer $data --> gint )>.
+=item $data; user data for C<$page_func>.
+=item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-page-complete
+
+Sets whether C<$page> contents are complete.
+
+This will make C<$assistant> update the buttons state to be able to continue the task.
+
+=begin code
+method set-page-complete ( N-Object() $page, Bool() $complete )
+=end code
+
+=item $page; a page of C<$assistant>.
+=item $complete; the completeness status of the page.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-page-title
+
+Sets a title for C<$page>.
+
+The title is displayed in the header area of the assistant when C<$page> is the current page.
+
+=begin code
+method set-page-title ( N-Object() $page, Str $title )
+=end code
+
+=item $page; a page of C<$assistant>.
+=item $title; the new title for C<$page>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-page-type
+
+Sets the page type for C<$page>.
+
+The page type determines the page behavior in the C<$assistant>.
+
+=begin code
+method set-page-type ( N-Object() $page, GtkAssistantPageType $type )
+=end code
+
+=item $page; a page of C<$assistant>.
+=item $type; the new type for C<$page>. An enumeration.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 update-buttons-state
+
+Forces C<$assistant> to recompute the buttons state.
+
+GTK automatically takes care of this in most situations,
+e.g. when the user goes to a different page, or when the visibility or completeness of a page changes.
+
+One situation where it can be necessary to call this function is when changing a value on the current page affects the future page flow of the assistant.
+
+=begin code
+method update-buttons-state ( )
+=end code
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 apply
+
+Emitted when the apply button is clicked.
+
+The default behavior of the B<Gnome::Gtk4::Assistant> is to switch to the page after the current page, unless the current page is the last one.
+
+A handler for the ::apply signal should carry out the actions for which the wizard has collected data. If the action takes a long time to complete, you might consider putting a page of type
+%GTK_ASSISTANT_PAGE_PROGRESS after the confirmation page and handle this operation within the I<prepare> signal of the progress page.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::Assistant() :$_native-object,
+  Gnome::Gtk4::Assistant :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 cancel
+
+Emitted when then the cancel button is clicked.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::Assistant() :$_native-object,
+  Gnome::Gtk4::Assistant :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 close
+
+Emitted either when the close button of a summary page is clicked,
+or when the apply button in the last page in the flow (of type
+%GTK_ASSISTANT_PAGE_CONFIRM) is clicked.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::Assistant() :$_native-object,
+  Gnome::Gtk4::Assistant :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 escape
+
+The action signal for the Escape binding.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  Gnome::Gtk4::Assistant() :$_native-object,
+  Gnome::Gtk4::Assistant :$_widget,
+  *%user-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=comment -----------------------------------------------------------------------
+=head3 prepare
+
+Emitted when a new page is set as the assistant's current page,
+before making the new page visible.
+
+A handler for this signal can do any preparations which are necessary before showing C<$page>.
+
+=begin code
+method handler (
+  N-Object $page,
+  Int :$_handle_id,
+  Gnome::Gtk4::Assistant() :$_native-object,
+  Gnome::Gtk4::Assistant :$_widget,
+  *%user-options
+)
+=end code
+
+=item $page; the current page.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=end pod
+
