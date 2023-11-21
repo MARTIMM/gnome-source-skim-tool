@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcuttrigger
+# Command to generate: generate.raku -v -d -c Gtk4 shortcuttrigger
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_shortcut_trigger_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::ShortcutTrigger' {
@@ -59,17 +59,17 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  parse-string => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  parse-string => %( :type(Constructor), :is-symbol<gtk_shortcut_trigger_parse_string>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  compare => %( :returns(gint), :parameters([gpointer])),
-  equal => %( :returns(gboolean), :cnv-return(Bool), :parameters([gpointer])),
-  hash => %( :returns(guint)),
-  #print => %( :parameters([N-String ])),
-  #print-label => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-String ])),
-  to-label => %( :returns(Str), :parameters([N-Object])),
-  to-string => %( :returns(Str)),
-  #trigger => %( :returns(GEnum), :cnv-return(GdkKeyMatch ), :parameters([N-Object, gboolean])),
+  compare => %(:is-symbol<gtk_shortcut_trigger_compare>,  :returns(gint), :parameters([gpointer])),
+  equal => %(:is-symbol<gtk_shortcut_trigger_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([gpointer])),
+  hash => %(:is-symbol<gtk_shortcut_trigger_hash>,  :returns(guint)),
+  #print => %(:is-symbol<gtk_shortcut_trigger_print>,  :parameters([N-String ])),
+  #print-label => %(:is-symbol<gtk_shortcut_trigger_print_label>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-String ])),
+  to-label => %(:is-symbol<gtk_shortcut_trigger_to_label>,  :returns(Str), :parameters([N-Object])),
+  to-string => %(:is-symbol<gtk_shortcut_trigger_to_string>,  :returns(Str)),
+  #trigger => %(:is-symbol<gtk_shortcut_trigger_trigger>,  :returns(GEnum), :cnv-return(GdkKeyMatch ), :parameters([N-Object, gboolean])),
 );
 
 #-------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_shortcut_trigger_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 

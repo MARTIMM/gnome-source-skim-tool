@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcuttrigger
+# Command to generate: generate.raku -v -d -c Gtk4 shortcuttrigger
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_alternative_trigger_>);
+  $!routine-caller .= new(:library('libgtk-4.so.1'));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::AlternativeTrigger' {
@@ -57,11 +57,11 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-alternativetrigger => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ N-Object, N-Object])),
+  new-alternativetrigger => %( :type(Constructor), :is-symbol<gtk_alternative_trigger_new>, :returns(N-Object), :parameters([ N-Object, N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  get-first => %( :returns(N-Object)),
-  get-second => %( :returns(N-Object)),
+  get-first => %(:is-symbol<gtk_alternative_trigger_get_first>,  :returns(N-Object)),
+  get-second => %(:is-symbol<gtk_alternative_trigger_get_second>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_alternative_trigger_>
+        :library('libgtk-4.so.1')
       );
 
       # Check the function name. 
