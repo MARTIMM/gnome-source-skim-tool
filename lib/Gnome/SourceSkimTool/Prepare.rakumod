@@ -391,6 +391,8 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
     }
   }
 
+  $work-data<raku-name> = $*gnome-class ?? "$*gnome-class" !! '';
+
   mkdir $work-data<result-mods>, 0o700 unless $work-data<result-mods>.IO.e;
   mkdir $work-data<result-tests>, 0o700 unless $work-data<result-tests>.IO.e;
   mkdir $work-data<result-docs>, 0o700 unless $work-data<result-docs>.IO.e;
