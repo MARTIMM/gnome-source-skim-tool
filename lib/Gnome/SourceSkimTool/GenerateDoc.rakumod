@@ -152,8 +152,8 @@ method generate-doc ( ) {
       when 'constant' {
         my @constants = ();
         for $!filedata<constant>.kv -> $k, $v {
-          my Str $name = $k; # $t-prep.drop-prefix( $k, :constant);
-          @constants.push: ( $name, $v<constant-type>, $v<constant-value>);
+#          my Str $name = $k; # $t-prep.drop-prefix( $k, :constant);
+          @constants.push: $k; #( $name, $v<constant-type>, $v<constant-value>);
         }
 
         $types-doc<constant> = $!grd.document-constants(@constants);
@@ -199,23 +199,20 @@ method generate-doc ( ) {
   }
 
   if ?$class-name and ?$filename {
-#note "$?LINE $class-name, $filename";
-
     note "Document init" if $*verbose;
-    my Str $doc = $!grd.start-document;
+    my Str $doc = $!grd.start-document('T-');
     $doc ~= qq:to/EODOC/ if ?$types-doc<function>;
       {pod-header('Class Initialization')}
-        =begin pod
-        =head1 $class-name
-        =head1 Class initialization
+      =begin pod
+      =head1 Class initialization
 
-        =head2 new
+      =head2 new
 
-        Initialization of a type class is simple.
+      Initialization of a type class is simple.
 
-          method new ( )
+        method new ( )
 
-        =end pod
+      =end pod
       EODOC
 
     $doc ~= [~] $types-doc<constant> // '',
