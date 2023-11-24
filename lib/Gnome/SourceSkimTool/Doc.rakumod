@@ -20,7 +20,7 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method start-document ( --> Str ) {
+method start-document ( Str $type-letter = '' --> Str ) {
 #`{{
   my Str $name = '';
   my Str $author = '';
@@ -57,7 +57,17 @@ method start-document ( --> Str ) {
     RAKUDOC
 }}
 
-  "use v6.d;\n\n=begin pod\n=head1 $*work-data<raku-class-name>\n=end pod\n"
+  my Str $class-name;
+  if ?$type-letter {
+    $class-name = $*work-data<raku-package> ~ '::' ~
+                  $type-letter ~ $*work-data<raku-name>;
+  }
+
+  else {
+    $class-name = $*work-data<raku-class-name>;
+  }
+
+  "use v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
 }
 
 #-------------------------------------------------------------------------------
@@ -787,7 +797,46 @@ note "$?LINE $property-name, $type, $raku-type, $g-type";
 
 #-------------------------------------------------------------------------------
 method document-constants ( @constants --> Str ) {
-  ''
+
+  # Return empty string if no constants found.
+  return '' unless ?@constants;
+
+  # Open constants file for xpath
+  my Str $file = $*work-data<gir-module-path> ~ 'repo-constant.gir';
+  my XML::XPath $xpath .= new(:$file);
+
+  my Str $doc = qq:to/EOENUM/;
+
+    =begin pod
+    =head1 Constants
+    EOENUM
+
+  # For each of the found names
+  for @constants.sort -> $constant {
+    $doc ~= qq:to/EOENUM/;
+
+    =head2 $constant
+
+    EOENUM
+
+    # Must have a name to search using the @name attribute on an element
+    my Str $prefix = $*work-data<name-prefix>.uc;
+    my Str $name = $constant;
+    $name ~~ s/^ $prefix '_' //;
+
+    # Get the XML element of the constant data
+    my XML::Element $e = $xpath.find(
+      '//constant[@name="' ~ $name ~ '"]', :!to-list
+    );
+
+    my Str $constant-doc =
+      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+    $doc ~= self!cleanup(self!modify-text($constant-doc)) ~ "\n";
+  }
+
+  $doc ~= "=end pod\n\n";
+
+  $doc
 }
 
 #-------------------------------------------------------------------------------
@@ -814,7 +863,7 @@ method document-enumerations ( @enum-names --> Str ) {
     EOENUM
 
     # Must have a name to search using the @name attribute on an element
-    my Str $prefix = $*work-data<name-prefix>.tc;
+    my Str $prefix = $*work-data<name-prefix>.uc;
     my Str $name = $enum-name;
     $name ~~ s/^ $prefix //;
  
@@ -865,7 +914,7 @@ method document-bitfield ( @bitfield-names --> Str ) {
     EOBITF
 
     # Must have a name to search using the @name attribute on an element
-    my Str $prefix = $*work-data<name-prefix>.tc;
+    my Str $prefix = $*work-data<name-prefix>.uc;
     my Str $name = $bitfield-name;
     $name ~~ s/^ $prefix //;
  
@@ -1294,23 +1343,18 @@ method !modify-properties ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 method !modify-functions ( Str $text is copy --> Str ) {
 
-  my Str $prefix = $*work-data<name-prefix>.tc;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s/^ $prefix //;
-
   my Str $sub-prefix = $*work-data<sub-prefix>;
-  $gname .= lc;
+  my Str $raku-name = $*work-data<raku-name>.lc;
 
   # When a local function has '_new' at the end in the text, convert it into
   # a different name. E.g. 'gtk_label_new()' becomes '.new-label()'
-  $text ~~ s:g/ $sub-prefix new '()' /C<.new-$gname\(\)>/;
+  $text ~~ s:g/ $sub-prefix new '()' /C<.new-$raku-name\(\)>/;
 #              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
 
   # Other functions local to this module, remove the sub-prefix and place
   # a '.' at front. E.g in module Label and package Gtk3 converting
-  # 'gtk_label_set-line-wrap()' becomes '.set-line-wrap()'.
-  $text ~~ s:g/ $sub-prefix (\w+) '()' 
-              /C<.{S:g/'_'/-/ with $0}\(\)>/;
+  # 'gtk_label_set_line_wrap()' becomes '.set-line-wrap()'.
+  $text ~~ s:g/ $sub-prefix (\w+) '()' /C<.{S:g/'_'/-/ with $0}\(\)>/;
 
   # Functions not local to this module
   my Regex $r = / $<function-name> = [
