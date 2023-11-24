@@ -21,7 +21,7 @@ submethod BUILD ( ) {
 
 #-------------------------------------------------------------------------------
 method start-document ( --> Str ) {
-
+#`{{
   my Str $name = '';
   my Str $author = '';
   my Version $version = v0.1.0;
@@ -55,6 +55,9 @@ method start-document ( --> Str ) {
     =end pod
 
    RAKUDOC
+}}
+
+  "=begin pod\n=head1 $*work-data<raku-class-name>\n=end pod\n"
 }
 
 #-------------------------------------------------------------------------------
