@@ -54,10 +54,10 @@ method start-document ( --> Str ) {
     =item B<Author:> $author
     =end pod
 
-   RAKUDOC
+    RAKUDOC
 }}
 
-  "=begin pod\n=head1 $*work-data<raku-class-name>\n=end pod\n"
+  "use v6.d;\n\n=begin pod\n=head1 $*work-data<raku-class-name>\n=end pod\n"
 }
 
 #-------------------------------------------------------------------------------
