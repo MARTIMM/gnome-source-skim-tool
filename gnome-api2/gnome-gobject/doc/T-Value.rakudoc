@@ -1,11 +1,18 @@
- use v6.d;
+use v6.d;
 
- =begin pod
- =head2 Project Description
- =item B<Distribution:> Gnome::GObject
- =item B<Project description:> Modules for package Gnome::GObject:api<2>. The language binding to GNOME's lower level object library
- =item B<Project version:> 0.1.2
- =item B<Rakudo version:> 6.d, 2023.10.67.g.688.b.625.ac
- =item B<Author:> Marcel Timmerman
- =end pod
+=begin pod
+=head1 Gnome::GObject::T-Value
+=end pod
+
+=begin pod
+=head1 Constants
+
+=head2 G_VALUE_INTERNED_STRING
+
+For string values, indicates that the string contained is canonical and will exist for the duration of the process. See C<.set-interned-string()>.
+
+=head2 G_VALUE_NOCOPY_CONTENTS
+
+If passed to G_VALUE_COLLECT(), allocated data won't be copied but used verbatim. This does not affect ref-counted types like objects. This does not affect usage of C<.copy()>, the data will be copied if it is not ref-counted.
+=end pod
 
