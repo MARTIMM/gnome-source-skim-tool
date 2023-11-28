@@ -57,16 +57,8 @@ method start-document ( Str $type-letter = '' --> Str ) {
     RAKUDOC
 }}
 
-  my Str $class-name;
-  if ?$type-letter {
-    $class-name = $*work-data<raku-package> ~ '::' ~
-                  $type-letter ~ $*work-data<raku-name>;
-  }
-
-  else {
-    $class-name = $*work-data<raku-class-name>;
-  }
-
+  my Str $class-name =
+    $!mod.set-object-name( $type-letter, :name-type(ClassnameType));
   "use v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
 }
 
@@ -1169,8 +1161,8 @@ method !modify-v4properties ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-# Convert [class@Gtk.Entry]
-
+# Convert classes [class@Gtk.Entry]
+# and interfaces [iface@Gtk.TreeSortable]
 method !modify-v4classes ( Str $text is copy --> Str ) {
 
   my Str $package = $*gnome-package.Str;
