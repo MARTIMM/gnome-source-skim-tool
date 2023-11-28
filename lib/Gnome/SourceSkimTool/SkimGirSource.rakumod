@@ -24,14 +24,11 @@ submethod BUILD ( ) {
   # the sections like :function are arrays of XML::Element's
   $!other = %(
     :function([]),
-#    :record([]),
-#    :union([]),
     :callback([]),
     :bitfield([]),
     :enumeration([]),
     :constant([]),
     :docsection([]),
-#    :interface([]),
   );
 
   $!fname-class = %();
@@ -41,26 +38,24 @@ submethod BUILD ( ) {
 
 #-------------------------------------------------------------------------------
 method get-classes-from-gir ( ) {
-  #my @r = ($!xp.find( '//class[@name="Label"]/doc', :to-list));
-  #note @r[0].Str;
 
-  # make start of xml by taking the <package> and <namespace> elements.
+  # Make start of xml by taking the <package> and <namespace> elements.
   # some gir files mention two packages. we take only one
   my XML::Element $e = $!xp.find( '/repository/package', :to-list)[0];
   my Str $xml-namespace = "  $e.Str()\n      <namespace\n";
 
-  # get info from namespace
+  # Get info from namespace
   $e = $!xp.find( '/repository/namespace');
   my $attribs = $e.attribs;
   my Str $namespace-name = $attribs<name>;
   my Str $symbol-prefix = $attribs<c:symbol-prefixes>;
 
-  # glib strays of from standard, must correct it. Gio and GObject are correct
+  # Glib strays of from standard, must correct it. Gio and GObject are correct
   $symbol-prefix ~~ s/^ g \. .* /g/;
 
   my Str $id-prefix = $attribs<c:identifier-prefixes>;
 
-  # and add attributes to the xml start
+  # Add attributes to the xml start
   for $attribs.kv -> $k, $v {
     $xml-namespace ~= "            $k=\"$v\"\n";
   }
@@ -82,7 +77,7 @@ method get-classes-from-gir ( ) {
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
     given $element-name {
 
-      # save the class info in separate gir files
+      # Save the class info in separate gir files
       when 'class' {
         my $name = $attrs<name>;
 
@@ -108,6 +103,7 @@ method get-classes-from-gir ( ) {
             $xml ~~ s/ '<interface ' /\<class /;
             $xml ~~ s/ '</interface>' /\<\/class\>/;
           }
+
           note "Save class $name" if $*verbose;
           $xml-file.IO.spurt($xml);
         }
@@ -122,7 +118,6 @@ method get-classes-from-gir ( ) {
       # Records are structures in C. There are fields for the structure,
       # constructors, methods and functions.
       when 'record' {
-#        $!other<record>.push: $element;
         my $name = $attrs<c:type>;
 
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
@@ -160,7 +155,6 @@ method get-classes-from-gir ( ) {
       }
 
       when 'union' {
-#        $!other<union>.push: $element;
         my $name = $attrs<c:type>;
 
         if ?$name {
@@ -231,45 +225,39 @@ method get-classes-from-gir ( ) {
     }
   }
 
-  # Before we save the map find out which classes are at the bottom (≡ leaf)
-  # Also we want to know which classes will be inheritable. It is now decided to
-  # only have decendents from GtkWidget be able to inherit.
+  # Before we save the map find out which classes will be inheritable. It is
+  # now decided to only have decendents from GtkWidget be able to inherit.
+  #
   # The classes which implement a role (a C-interface) must be checked if the
   # parent has also the same role. Only the top most class can implement this
   # role in Raku. All decendents will have access to the methods and signals
   # defined in that role.
   for $!map.keys -> $entry-name {
+    next unless $!map{$entry-name}<gir-type>:exists;
 
-    # Skip all other types
-    next unless $!map{$entry-name}<gir-type>:exists
-         and $!map{$entry-name}<gir-type> eq 'class';
+    # A type name is the bare name of an object without any prefixes of gnome.
+    # Those are found on class, interface, record and union. The rest of the
+    # gir types must read it from the filename map created above while
+    # processing the XML. There are situations where there are only simple
+    # types defined in the sources and a name must be created from the source
+    # filename with its first letter uppercased.
+    my Str $type-name =
+      $!fname-class{$!map{$entry-name}<source-filename>} //
+      $!map{$entry-name}<source-filename>.tc;
 
-    $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
-    self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
+    if $!map{$entry-name}<gir-type> ~~ any(
+         <function constant enumeration bitfield docsection callback>
+       ) {
+      $!map{$entry-name}<type-name> = $type-name;
+      $!map{$entry-name}<type-letter> = 'T';
+    }
 
-# No leaf testing. casting is not needed
-#    # If there is a leaf and is False, then all parents are already set False
-#    next if $!map{$entry-name}<leaf>:exists and ! $!map{$entry-name}<leaf>;
-#
-#    # Assume we are at the end, so leaf is True
-#    $!map{$entry-name}<leaf> = True;
-#
-#    sub set-parent-leaf-false ( Str $parent = '' ) {
-#      return unless ?$parent;
-#
-#      if $!map{$parent}<leaf>:exists and $!map{$parent}<leaf> {
-##note "$parent leaf set False";
-#        $!map{$parent}<leaf> = False;
-#        set-parent-leaf-false($!map{$parent}<parent-gnome-name>);
-#      }
-#
-#      elsif $!map{$parent}<leaf>:!exists {
-##note "$parent leaf set False (<leaf> created";
-#        $!map{$parent}<leaf> = False;
-#      }
-#    }
-#
-#    set-parent-leaf-false($!map{$entry-name}<parent-gnome-name>);
+    elsif $!map{$entry-name}<gir-type> eq 'class' {
+      $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
+      self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
+    }
+
+    # else {} ignore rest
   }
 
   self!save-other($xml-namespace);
@@ -286,12 +274,7 @@ method !set-real-role-user( Str $entry-name ) {
 
   # Check all roles for this class
   for @($!map{$entry-name}<roles>) -> $role-class-name {
-#    my Str $role-name = S:g/ '::' \w+ // with $role-class-name;
-#    my Hash $role-h = $!mod.search-name($role-name);
-
-    # Never implement deprecated roles
     self!check-parent-role( $entry-name, $role-class-name);
-#      unless ?$role-h<deprecated>;
   }
 }
 
@@ -362,12 +345,8 @@ method !map-element (
   Str $symbol-prefix is copy, Str $id-prefix
   --> Bool
 ) {
-#  my Str $map-name = S/ \d+ $// with $*gnome-package.Str;
   my Bool $deprecated = False;
-  my Str (
-    $source-filename, $module-filename, $structure-filename,
-    $class-name, $gnome-name, $structure-name,
-  );
+  my Str ( $source-filename, $class-name, $gnome-name);
 
   # Get attribute hash
   my Hash $attrs = $element.attribs;
@@ -382,7 +361,6 @@ method !map-element (
                   $attrs<name> // ''          # Doc sections
                   ;
   # Return when an element ends in specific words. Most of those are records.
-note
   return True if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
 
   # Check for this id. If undefined make some noise and return
@@ -394,7 +372,6 @@ note
   $gnome-name = $ctype;
   $symbol-prefix = [~] $symbol-prefix, '_', $attrs<c:symbol-prefix> // '', '_';
   $symbol-prefix ~~ s/^ 'g,glib' /g/;
-#note "$?LINE $symbol-prefix";
 
   # Gather data depending on the tag type
   my Str $element-name = self.test-for-oddities( $element.name, $attrs);
@@ -402,18 +379,20 @@ note
     when 'class' {
       $source-filename = self!get-source-file($element);
       $deprecated = ($source-filename eq 'deprecated');
+
+      # Version 3 has the deprecated class between Widget and several other
+      # classes. Keep it in. The generator will then substitute the Misc class
+      # with the Widget class.
       return $deprecated if ( $deprecated and $attrs<name> ne 'Misc' );
 
       $class-name = $*work-data<raku-package> ~ '::' ~ $attrs<name>;
-      $module-filename = "$*work-data<result-mods>$attrs<name>.rakumod";
       self!map-class-to-fname( $source-filename, $attrs<name>);
 
       my @roles = ();
       for $!xp.find( 'implements', :start($element), :to-list) -> $ie {
         # Roles with a dot in the name come from other packages
-        # snd must be implemented there.
+        # and must be implemented there.
         my Str $role-name = $ie.attribs<name>;
-#note "$?LINE $map-name, $role-name";
         unless $role-name ~~ m/ '.' / {
           @roles.push: $*work-data<raku-package> ~ '::R-' ~ $role-name; #"$map-name$role-name";
         }
@@ -422,15 +401,14 @@ note
       my Str ( $parent-gnome-name, $parent-raku-name ) =
          self!set-names($attrs<parent> // '');
 
-#note "\n$?LINE {$element.attribs()<name>}, $module-filename";
-
       $!map{$ctype} = %(
         :gir-type<class>,
 
         :$source-filename,
-        :$module-filename,
         :$class-name,
         :$gnome-name,
+        :type-name($attrs<name>),
+        :type-letter(''),
 
         :$parent-raku-name, :$parent-gnome-name, :@roles,
         :$symbol-prefix,
@@ -446,16 +424,16 @@ note
       my Str $np = $*work-data<name-prefix>;
 
       $class-name = $*work-data<raku-package> ~ '::R-' ~ $attrs<name>;
-      $module-filename = "$*work-data<result-mods>R-$attrs<name>.rakumod";
-      self!map-class-to-fname( $source-filename, '::R-' ~ $attrs<name>);
+      self!map-class-to-fname( $source-filename, $attrs<name>);
 
       $!map{$ctype} = %(
         :gir-type<interface>,
 
         :$source-filename,
-        :$module-filename,
         :$class-name,
         :$gnome-name,
+        :type-name($attrs<name>),
+        :type-letter(''),
 
         :$symbol-prefix,
       );
@@ -467,35 +445,21 @@ note
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-
-#      my Str $np = $*work-data<name-prefix>;
-#      my Str $record-prefix = 'N-';
-#      $class-name ~~ s:i/^ $np //;
-#      my Str $container-class = $attrs<name>;
       my Str $record-class = "N-$ctype";
       my Str $name-prefix = $*work-data<name-prefix>;
       $record-class ~~ s:i/ 'N-' $name-prefix /N-/;
       $class-name = [~] $*work-data<raku-package>, '::', $record-class;
-      self!map-class-to-fname( $source-filename, $ctype);
-
-#      $module-filename = "$*work-data<result-mods>$attrs<name>.rakumod";
-#      $structure-name = "$*work-data<raku-package>::N-$ctype";
-#      $structure-name = [~] $*work-data<raku-package>, '::', $container-class,
-#                        '::', $record-prefix, ;
-#      $structure-filename = [~] $*work-data<result-mods>, '/', $container-class,
-#                                '/', $record-class, '.rakumod';
+      self!map-class-to-fname( $source-filename, $attrs<name>);
 
       $!map{$ctype} = %(
         :gir-type<record>,
 
         :$source-filename,
-#        :$module-filename,
         :$class-name,
-        :$gnome-name,
-#        :$structure-name,
-#        :$structure-filename,
-#        :$container-class,
         :$record-class,
+        :$gnome-name,
+        :type-name($attrs<name>),
+        :type-letter('N'),
 
         :$symbol-prefix,
       );
@@ -506,36 +470,21 @@ note
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-#      my Str $np = $*work-data<name-prefix>;
-#      $class-name = $ctype;
-#      $class-name ~~ s:i/^ $np //;
-#      $class-name = $*work-data<raku-package> ~ '::' ~ $class-name;
-#      my Str $container-class = $source-filename.tc;
-#      my Str $union-class = "N-$ctype";
-#      $class-name = [~] $*work-data<raku-package>, '::', $container-class;
       my Str $union-class = "N-$ctype";
       my Str $name-prefix = $*work-data<name-prefix>;
       $union-class ~~ s:i/ 'N-' $name-prefix /N-/;
       $class-name = [~] $*work-data<raku-package>, '::', $union-class;
-      self!map-class-to-fname( $source-filename, $ctype);
-
-#      $module-filename = "$*work-data<result-mods>$attrs<name>.rakumod";
-#      $structure-name = "$*work-data<raku-package>::N-$ctype";
-#      $structure-filename = "$*work-data<result-mods>N-$ctype.rakumod";
-#      $structure-filename = [~] $*work-data<result-mods>, '/', $container-class,
-#                                '/', $union-class, '.rakumod';
+      self!map-class-to-fname( $source-filename, $attrs<name>);
 
       $!map{$ctype} = %(
         :gir-type<union>,
 
         :$source-filename,
-#        :$module-filename,
         :$class-name,
-        :$gnome-name,
-#        :$structure-name,
-#        :$structure-filename,
-#        :$container-class,
         :$union-class,
+        :$gnome-name,
+        :type-name($attrs<name>),
+        :type-letter('N'),
 
         :$symbol-prefix,
       );
@@ -549,23 +498,14 @@ note
       return $deprecated if $deprecated;
 
       my Str $type-name = 'T-' ~ $source-filename.tc;
-#      my Str $name-prefix = $*work-data<name-prefix>;
-#      my Str $type-name = $gnome-name;
-#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-#      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
-#      my Str $type-name =
-#         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
-#      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
       my Str $function-name = $attrs<name>;
-#      $function-name ~~ s:g/ '_' /-/;
 
       $!map{$ctype} = %(
         :gir-type<function>,
 
         :$source-filename,
-#        :$module-filename,
         :$class-name,
         :$type-name,
         :$gnome-name,
@@ -589,20 +529,12 @@ note
       }
 
       my Str $type-name = 'T-' ~ $source-filename.tc;
-#      my Str $type-name = $gnome-name;
-#      my Str $name-prefix = $*work-data<name-prefix>;
-#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-#      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
-#      my Str $type-name =
-#         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
-#      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
       $!map{$ctype} = %(
         :gir-type<constant>,
 
         :$source-filename,
-#        :$module-filename,
         :$class-name,
         :$type-name,
         :$gnome-name,
@@ -618,20 +550,12 @@ note
       return $deprecated if $deprecated;
 
       my Str $type-name = 'T-' ~ $source-filename.tc;
-#      my Str $type-name = $gnome-name;
-#      my Str $name-prefix = $*work-data<name-prefix>;
-#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-#      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
-#      my Str $type-name =
-#         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
-#      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
       $!map{$ctype} = %(
         :gir-type<enumeration>,
 
         :$source-filename,
-#        :$module-filename,
         :$class-name,
         :$type-name,
         :$gnome-name,
@@ -644,20 +568,12 @@ note
       return $deprecated if $deprecated;
 
       my Str $type-name = 'T-' ~ $source-filename.tc;
-#      my Str $type-name = $gnome-name;
-#      my Str $name-prefix = $*work-data<name-prefix>;
-#      $type-name = 'T-' ~ ($!fname-class{$source-filename} // $type-name);
-#      $type-name ~~ s:i/ 'T-' $name-prefix /T-/;
-#      my Str $type-name =
-#         'T-' ~ ($!fname-class{$source-filename} // $source-filename.tc);
-#      $module-filename = "$*work-data<result-mods>$type-name.rakumod";
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
 
       $!map{$ctype} = %(
         :gir-type<bitfield>,
 
         :$source-filename,
-#        :$module-filename,
         :$class-name,
         :$type-name,
         :$gnome-name,
@@ -669,17 +585,10 @@ note
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-#      $class-name = $source-filename.tc;
-#      $class-name = $*work-data<raku-package> ~ '::T-' ~ $class-name;
-
-      $module-filename = "$*work-data<result-mods>D-$attrs<name>.rakumod";
-
       $!map{$attrs<name>} = %(
         :gir-type<docsection>,
 
         :$source-filename,
-        :$module-filename,
-#        :$class-name,
         :$gnome-name,
       );
     }
@@ -728,16 +637,9 @@ note
     when 'function-macro' { }
 
     default {
-      print 'Missed an element type: ', .note;
+      print 'Unprocessed element type: ', $_;
     }
   }
-
-#`{{
-note "$?LINE $ctype, $attrs.gist()" if $ctype = 'record';
-  $!map{$ctype}<deprecated> = True
-    if $attrs<deprecated>:exists and $attrs<deprecated> == 1;
-  }
-}}
 
   $deprecated
 }
@@ -882,8 +784,6 @@ method !set-names ( Str $naked-gnome-name is copy  --> List ) {
     }
   }
 
-#note "$?LINE $naked-gnome-name, $gnome-name, $raku-name";
-
   ( $gnome-name, $raku-name)
 }
 
@@ -905,10 +805,7 @@ method load-gir-file ( ) {
 method load-map (
   $object-map-path, Str :$repo-file = 'repo-object-map.yaml' --> Hash
 ) {
-
-#  my $fname = $*work-data<gir-module-path> ~ 'repo-object-map.yaml';
   my $fname = $object-map-path ~ $repo-file;
-#  note "Load object map from '$fname'" if $*verbose;
   if $fname.IO.r {
     load-yaml($fname.IO.slurp)
   }
