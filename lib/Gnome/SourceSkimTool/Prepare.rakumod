@@ -173,11 +173,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
   with $source {
     when Gtk3 {
       $work-data = %(
-#TODO take gtk3-lib, first update Gnome::N
-        :library(gtk-lib()),
+        :library<gtk3-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gtk3/'),
         :raku-package<Gnome::Gtk3>,
-#TODO needed?
         :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Gtk-3.0.gir'),
         :name-prefix<gtk>,
@@ -189,7 +187,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Gdk3 {
       $work-data = %(
-        :library(gdk-lib()),
+        :library<gdk-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gdk3/'),
         :raku-package<Gnome::Gdk3>,
         :gnome-name($*gnome-class ?? "Gdk$*gnome-class" !! ''),
@@ -203,7 +201,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when GdkPixbuf {
       $work-data = %(
-        :library(gdk-pixbuf-lib()),
+        :library<gdk-pixbuf-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'GdkPixbuf/'),
         :raku-package<Gnome::Gdk3>,
         :gnome-name($*gnome-class ?? "GdkPixbuf$*gnome-class" !! ''),
@@ -217,7 +215,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when GdkPixdata {
       $work-data = %(
-        :library(gdk-pixbuf-lib()),
+        :library<gdk-pixbuf-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'GdkPixdata/'),
         :raku-package<Gnome::Gdk3>,
         :gnome-name($*gnome-class ?? "GdkPixdata$*gnome-class" !! ''),
@@ -231,7 +229,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Gtk4 {
       $work-data = %(
-        :library(gtk4-lib()),
+        :library<gtk4-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gtk4/'),
         :raku-package<Gnome::Gtk4>,
         :gnome-name($*gnome-class ?? "Gtk$*gnome-class" !! ''),
@@ -245,7 +243,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Gdk4 {
       $work-data = %(
-        :library(gtk4-lib()),
+        :library<gtk4-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gdk4/'),
         :raku-package<Gnome::Gdk4>,
         :gnome-name($*gnome-class ?? "Gdk$*gnome-class" !! ''),
@@ -259,7 +257,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Gsk4 {
       $work-data = %(
-        :library(gtk4-lib()),
+        :library<gtk4-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gsk4/'),
         :raku-package<Gnome::Gsk4>,
         :gnome-name($*gnome-class ?? "Gsk$*gnome-class" !! ''),
@@ -273,7 +271,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Glib {
       $work-data = %(
-        :library(glib-lib()),
+        :library<glib-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Glib/'),
         :raku-package<Gnome::Glib>,
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
@@ -287,7 +285,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Gio {
       $work-data = %(
-        :library(gio-lib()),
+        :library<gio-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Gio/'),
         :raku-package<Gnome::Gio>,
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
@@ -301,7 +299,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when GObject {
       $work-data = %(
-        :library(gobject-lib()),
+        :library<gobject-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'GObject/'),
         :raku-package<Gnome::GObject>,
         :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
@@ -315,7 +313,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Cairo {
       $work-data = %(
-        :library(cairo-lib()),
+        :library<cairo-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Cairo/'),
         :raku-package<Gnome::Cairo>,
         :gnome-name($*gnome-class ?? "Cairo$*gnome-class" !! ''),
@@ -329,7 +327,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Atk {
       $work-data = %(
-        :library(atk-lib()),
+        :library<atk-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Atk/'),
         :raku-package<Gnome::Atk>,
         :gnome-name($*gnome-class ?? "Atk$*gnome-class" !! ''),
@@ -343,7 +341,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 
     when Pango {
       $work-data = %(
-        :library(pango-lib()),
+        :library<pango-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'Pango/'),
         :raku-package<Gnome::Pango>,
         :gnome-name($*gnome-class ?? "Pango$*gnome-class" !! ''),
@@ -358,7 +356,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
 #`{{
     when PangoCairo {
       $work-data = %(
-        :library(pango-lib()),
+        :library<pango-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'PangoCairo/'),
         :raku-package<Gnome::PangoCairo>,
         :gnome-name($*gnome-class ?? "PangoCairo$*gnome-class" !! ''),
