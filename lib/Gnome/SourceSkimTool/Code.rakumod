@@ -79,18 +79,20 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
     RAKUMOD
 
+#      unit role $h<class-name>:auth<github:MARTIMM>:api<2>;
   if $is-role {
     $code ~= qq:to/RAKUMOD/;
       {pod-header('Role Declaration');}
-      unit role $h<class-name>:auth<github:MARTIMM>:api<2>;
+      unit role { self.set-object-name( $h, :name-type(ClassnameType)) }:auth<github:MARTIMM>:api<2>;
       RAKUMOD
   }
 
   # Classes, records and unions
   else {
+#      unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
     $code ~= qq:to/RAKUMOD/;
       {pod-header('Class Declaration');}
-      unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
+      unit class { self.set-object-name( $h, :name-type(ClassnameType)) }:auth<github:MARTIMM>:api<2>;
       $also
       RAKUMOD
   }
@@ -200,7 +202,7 @@ method generate-callables (
 
       $c ~= qq:to/RAKUMOD/;
               my Gnome::N::GnomeRoutineCaller \$routine-caller .= new\(
-                :library\('$*work-data<library>'\)
+                :library\($*work-data<library>\)
               \);
 
         RAKUMOD
@@ -298,7 +300,7 @@ method make-build-submethod (
     submethod BUILD \( *\%options \) \{
     $signal-admin
       # Initialize helper
-      \$\!routine-caller .= new\(:library\('$*work-data<library>'\)\);
+      \$\!routine-caller .= new\(:library\($*work-data<library>\)\);
 
     EOBUILD
 
@@ -1368,65 +1370,71 @@ method generate-constants ( @constants --> Str ) {
 #-------------------------------------------------------------------------------
 method generate-structure (
   XML::XPath $xpath, XML::Element $element, Bool :$user-side = False
+  --> Str
 ) {
-
+#`{{
   my $temp-external-modules = $*external-modules;
   $*external-modules = %(
     :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
     'Gnome::N::N-Object' => EMTInApi2,
     'Gnome::N::GlibToRakuTypes' => EMTInApi2,
   );
+}}
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = self.search-name($name);
-  my Str $class-name = $h0<class-name>;
-#  my Str $parent-class-name = $*work-data<raku-package> ~ '::' ~
-#                              $h0<container-class>;
+#  my Str $class-name = $h0<class-name>;
+  my Str $class-name = self.set-object-name( $h0, :name-type(ClassnameType));
   my Str $record-class = $h0<record-class>;
 
-#TT:1:$class-name:
+#`{{
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
     use v6.d;
     RAKUMOD
+}}
+
+  my $code = '';
 
   my @fields = $xpath.find( 'field', :start($element), :to-list);
   if ?@fields {
     my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
 
+#`{{
     $code ~= qq:to/EOREC/;
 
       {pod-header('Module Imports')}
       __MODULE__IMPORTS__
+      EOREC
+}}
+
+    $code ~= qq:to/EOREC/;
 
       {pod-header('Record Structure')}
-      unit class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct');
+      class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct') \{
 
       EOREC
 
     for @fields -> $field {
       my $field-name = self.cleanup-id($field.attribs<name>);
-#note "$?LINE $field-name";
       my Str ( $type, $raku-type, $raku-rtype) =
         self.get-type( $field, :$user-side);
 
-      #$field-name ~~ s:g/ '_' /-/;
       if ?$type {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
         my Str ( $rnt0, $rnt1) = $raku-type.split(':');
-#note "\n$?LINE $raku-type, $raku-rtype, $rnt0, {$rnt1//'-'}\n$field.attribs()gist()" if $class-name eq 'N-ClosureNotifyData';
         if ?$rnt1 {
-          $code ~= "has $rnt0 \$.$field-name;           # $rnt1\n";
+          $code ~= "  has $rnt0 \$.$field-name;           # $rnt1\n";
         }
 
         #NOTE raku cannot handle this in native structures.
         # Must become a pointer
         elsif $rnt0 ~~ m/ Callable / {
-          $code ~= "has gpointer \$.$field-name;\n";
+          $code ~= "  has gpointer \$.$field-name;\n";
         }
 
         else {
-          $code ~= "has $rnt0 \$.$field-name;\n";
+          $code ~= "  has $rnt0 \$.$field-name;\n";
         }
 
         if $raku-type eq 'N-Object' {
@@ -1474,34 +1482,35 @@ TODO can we have callback fields in a structure?
     if ?$build-pars {
       $code ~= qq:to/EOREC/;
 
-      submethod BUILD \(
-        $build-pars
-      \) \{
-      $build-ass\}
+        submethod BUILD \(
+          $build-pars
+        \) \{
+        $build-ass\}
       EOREC
     }
 
     if ?$tweak-pars {
       $code ~= qq:to/EOREC/;
 
-      submethod TWEAK \(
-        $tweak-pars
-      \) \{
-      $tweak-ass\}
+        submethod TWEAK \(
+          $tweak-pars
+        \) \{
+        $tweak-ass\}
       EOREC
     }
 
     $code ~= qq:to/EOREC/;
 
-    method COERCE \( \$no --> $record-class \) \{
-      note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
-      nativecast\( $record-class, \$no\)
+      method COERCE \( \$no --> $record-class \) \{
+        note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+        nativecast\( $record-class, \$no\)
+      \}
     \}
+
     EOREC
 
-#    $code ~= "\n\n";
     self.add-import('Gnome::N::X');
-    $code = self.substitute-MODULE-IMPORTS( $code, $class-name, $class-name);
+#    $code = self.substitute-MODULE-IMPORTS( $code, $class-name, $class-name);
   }
 
   else {
@@ -1509,21 +1518,25 @@ TODO can we have callback fields in a structure?
     $code ~= qq:to/EOREC/;
       {pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
-      unit class $record-class is export is repr\('CPointer');
+      class $record-class is export is repr\('CPointer') { }
 
       EOREC
   }
 
+#`{{
   # Reset to original and add this structure
   $*external-modules = $temp-external-modules;
   self.add-import($class-name);
-
-#  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
-#  mkdir $cdir, 0o700 unless $cdir.IO.e;
-#  my Str $fname = [~] $cdir, '/', $h0<record-class>, '.rakumod';
-  my Str $fname =
-     [~] $*work-data<result-mods>, '/', $h0<record-class>, '.rakumod';
+}}
+#`{{
+  my Str $fname = [~] $*work-data<result-mods>, '/',
+                      self.set-object-name( $h0, :name-type(FilenameType)),
+                      '.rakumod';
+#     [~] $*work-data<result-mods>, '/', $h0<record-class>, '.rakumod';
   self.save-file( $fname, $code, "record structure");
+}}
+
+  $code
 }
 
 #-------------------------------------------------------------------------------
@@ -1540,25 +1553,16 @@ method generate-union (
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = self.search-name($name);
-  my Str $class-name = $h0<class-name>;
+#  my Str $class-name = $h0<class-name>;
+  my Str $class-name = self.set-object-name( $h0, :name-type(ClassnameType));
   my Str $union-class = $h0<union-class>;
 
-#TT:1:$class-name:
   my Str $code = qq:to/RAKUMOD/;
     # Command to generate: $*command-line
     use v6.d;
     RAKUMOD
 
-#`{{
-    {pod-header('Module Imports')}
-    __MODULE__IMPORTS__
-
-    {pod-header('Union Structure')}
-    unit class $class-name\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
-}}
-
   my @fields = $xpath.find( 'field', :start($element), :to-list);
-#  return '' unless ?@fields;
   if ?@fields {
     my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
 
@@ -1656,12 +1660,10 @@ method generate-union (
   $*external-modules = $temp-external-modules;
   self.add-import($class-name ~ '::' ~ $union-class);
 
-
-#  my Str $cdir = "$*work-data<result-mods>$h0<container-class>";
-#  mkdir $cdir, 0o700 unless $cdir.IO.e;
-#  my Str $fname = [~] $cdir, '/', $h0<union-class>, '.rakumod';
-  my Str $fname =
-     [~] $*work-data<result-mods>, '/', $h0<union-class>, '.rakumod';
+  my Str $fname = [~] $*work-data<result-mods>, '/',
+                      self.set-object-name( $h0, :name-type(FilenameType)),
+                      '.rakumod';
+#     [~] $*work-data<result-mods>, '/', $h0<union-class>, '.rakumod';
   self.save-file( $fname, $code, "union structure");
 }
 
@@ -1803,7 +1805,7 @@ method add-import ( Str $import --> Bool ) {
 method substitute-MODULE-IMPORTS ( Str $code is copy, *@exclasses --> Str ) {
   note "Set modules to import" if $*verbose;
 
-  # any does not support slurpy args
+  # any() does not support slurpy args
   my @exceptclasses := @exclasses;
 
   my $import = '';
@@ -1819,7 +1821,9 @@ method substitute-MODULE-IMPORTS ( Str $code is copy, *@exclasses --> Str ) {
 
   $import ~= "\n";
 
+#note "\n$?LINE ex: @exceptclasses.join(', ')";
   for $*external-modules.keys.sort -> $m {
+#note " $?LINE use $m, $*external-modules{$m}";
     if $*external-modules{$m} ~~ EMTNotImplemented {
       $import ~= "#use $m\:api\<2\>;\n";
     }
@@ -2286,6 +2290,89 @@ method convert-rtype (
 }
 
 #-------------------------------------------------------------------------------
+#`{{
+multi method set-object-name (
+  Str $type-letter = '', ObjectNameType :$name-type = ClassnameType
+  --> Str
+) {
+  my Str $object-name;
+  given $name-type {
+    when ClassnameType {
+      if ?$type-letter {
+        $object-name = $*work-data<raku-package> ~ '::' ~
+                      $type-letter ~ '-' ~ $*work-data<raku-name>;
+      }
+
+      else {
+        $object-name = $*work-data<raku-class-name>;
+      }
+    }
+
+    when FilenameType {
+      if ?$type-letter {
+        $object-name = $type-letter ~ '-' ~ $*work-data<raku-name>;
+      }
+
+      else {
+        $object-name = $*work-data<raku-name>;
+      }
+    }
+  }
+
+  $object-name
+}
+
+#-----
+}}
+method set-object-name (
+  Hash $object-map-entry, ObjectNameType :$name-type = ClassnameType,
+  --> Str
+) {
+  my Str $object-name;
+  my Str $type-letter = $object-map-entry<type-letter> // '';
+
+  given $name-type {
+    when ClassnameType {
+      if ?$type-letter {
+        $object-name = $*work-data<raku-package> ~ '::' ~
+                       $type-letter ~ '-' ~ $object-map-entry<type-name>;
+      }
+
+      else {
+        $object-name = $*work-data<raku-package> ~ '::' ~
+                       $object-map-entry<type-name>;
+      }
+    }
+
+    when any(
+      FilenameType, FilenameCodeType, FilenameDocType, FilenameTestType
+    ) {
+      if ?$type-letter {
+        $object-name = $type-letter ~ '-' ~ $object-map-entry<type-name>;
+      }
+
+      else {
+        $object-name = $object-map-entry<type-name>;
+      }
+
+      when FilenameCodeType {
+        $object-name = [~] $*work-data<result-mods>, $object-name, '.rakumod';
+      }
+
+      when FilenameDocType {
+        $object-name = [~] $*work-data<result-docs>, $object-name, '.rakudoc';
+      }
+
+      when FilenameTestType {
+        $object-name = [~] $*work-data<result-tests>, $object-name, '.rakutest';
+      }
+    }
+  }
+
+  $object-name
+}
+
+#-------------------------------------------------------------------------------
 method search-name ( Str $name is copy --> Hash ) {
 
   self.check-search-list;
@@ -2472,7 +2559,7 @@ note "\n$?LINE $filename";
           $v++;
           $filename = "$f;$v";
         }
-        
+
         $save-it = True;
       }
 

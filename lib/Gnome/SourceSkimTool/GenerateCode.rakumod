@@ -51,7 +51,7 @@ method generate-code ( ) {
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        say "\nGenerate Raku class ", $*work-data<raku-class-name>;
+        say "\nGenerate class ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Class');
         my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
@@ -64,7 +64,7 @@ method generate-code ( ) {
         $*gnome-class = $!filedata<interface>{$interface-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-        say "\nGenerate Raku role ", $*work-data<raku-class-name>;
+        say "\nGenerate role ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Interface');
         my $raku-module = ::('Gnome::SourceSkimTool::Interface').new;
@@ -76,7 +76,10 @@ method generate-code ( ) {
       for $!filedata<record>.keys -> $record-name {
         $*gnome-class = $record-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
+#`{{
+        say "\nGenerate record structure", $*work-data<raku-class-name>;
 
+        # Generate a structure into a 'package-path/N-*.rakumod' file
         $!mod.generate-structure(
           |$!mod.init-xpath(
             'record',
@@ -84,10 +87,10 @@ method generate-code ( ) {
 #            'gir-record-file'
           )
         );
+}}
+        say "Generate record ", $*work-data<raku-class-name>;
 
-        say "\nGenerate Raku record ", $*work-data<raku-class-name>;
-
-        # Generate a structure into a 'package-path/N-*.rakumod' file
+        # Generate code using the structure into a 'package-path/*.rakumod' file
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
         $raku-module.generate-code;
@@ -98,7 +101,7 @@ method generate-code ( ) {
       for $!filedata<union>.keys -> $union-name {
         $*gnome-class = $union-name;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
+#`{{
         # Generate a union into a 'package-path/N-*.rakumod' file
         $!mod.generate-union(
           |$!mod.init-xpath(
@@ -107,8 +110,8 @@ method generate-code ( ) {
 #            'gir-union-file'
           )
         );
-
-        say "\nGenerate Raku union ", $*work-data<raku-class-name>;
+}}
+        say "\nGenerate union ", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Union');
         my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
@@ -128,7 +131,7 @@ method generate-code ( ) {
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
-    my $data = $!filedata{$gir-type}.values[0];
+    my Hash $data = $!filedata{$gir-type}.values[0];
 #note "$?LINE $gir-type, ", $data.gist;
     next unless ?$data<type-name>;
 
@@ -136,11 +139,13 @@ method generate-code ( ) {
     $t-prep .= new unless ?$t-prep;
 #      $t-prep.display-hash( $*work-data, :label('type file data'));
 
-    my Str $type-name = $data<type-name>;
+#    my Str $type-name = $data<type-name>;
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
-    $filename = [~] $*work-data<result-mods>, $type-name, '.rakumod';
-    $class-name = $data<class-name>;
+#    $filename = [~] $*work-data<result-mods>, $type-name, '.rakumod';
+    $filename = $!mod.set-object-name( $data, :name-type(FilenameCodeType))
+      unless ?$filename;
+    $class-name = $!mod.set-object-name($data);      #$data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
@@ -218,7 +223,7 @@ method generate-code ( ) {
         {pod-header('BUILD submethod')}
         submethod BUILD ( ) \{
           # Initialize helper
-          \$!routine-caller .= new\(:library\('$*work-data<library>'\)\);
+          \$!routine-caller .= new\(:library\($*work-data<library>\)\);
         }
 
         RAKUMOD

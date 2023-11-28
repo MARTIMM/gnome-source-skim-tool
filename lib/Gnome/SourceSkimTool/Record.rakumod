@@ -32,8 +32,12 @@ submethod BUILD ( ) {
 # In a <record> there might be constructors, methods, functions or fields
 method generate-code ( ) {
 
+  my Str $class-name = $!mod.set-object-name(
+    %( :type-name($*work-data<raku-name>), :type-letter<N>)
+  );
+
   my XML::Element $element = $!xpath.find('//namespace/record');
-  die "//record elements not found in gir-record-file for $*work-data<raku-class-name>" unless ?$element;
+  die "//record elements not found in gir-record-file for $class-name" unless ?$element;
 
   my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
   if ?$callable-code {
@@ -58,12 +62,14 @@ method generate-code ( ) {
     note "Set class unit" if $*verbose;
     $code ~= $!mod.set-unit($element);
 
-  #  note "Generate enumerations and bitmasks";
-  #  $code ~= $!mod.generate-enumerations-code;
-  #  $code ~= $!mod.generate-bitfield-code;
-
-    # Generate record structure. Structures are stored in separate files.
-#    $!mod.generate-structure( $element, $!xpath);
+    # Generate a structure into a 'package-path/N-*.rakumod' file
+    say "\nGenerate record structure: ", $*work-data<raku-class-name>
+      if $*verbose;
+    $code ~= $!mod.generate-structure(
+      |$!mod.init-xpath(
+        'record', "$*work-data<gir-module-path>R-$*gnome-class.gir"
+      )
+    );
 
     # Make a BUILD submethod
     note "Generate BUILD submethod" if $*verbose;  
@@ -121,16 +127,16 @@ method generate-code ( ) {
       RAKUMOD
   }}
 
-    $code = $!mod.substitute-MODULE-IMPORTS(
-      $code, $*work-data<raku-class-name>
-    );
+    $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
-    my Str $ctype = $*work-data<gnome-name>;
-    my Str $prefix = $*work-data<name-prefix>;
-    $ctype ~~ s:i/^ $prefix //;
+#    my Str $ctype = $*work-data<gnome-name>;
+#    my Str $prefix = $*work-data<name-prefix>;
+#    $ctype ~~ s:i/^ $prefix //;
 #    my Hash $h = $!mod.search-name($ctype);
 #note "$?LINE $h.gist()";
-    my Str $fname = "$*work-data<result-mods>/$ctype.rakumod";
+    my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
+    my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameCodeType));
+#    my Str $fname = "$*work-data<result-mods>/$ctype.rakumod";
     $!mod.save-file( $fname, $code, "record module");
   }
 
@@ -172,27 +178,29 @@ method generate-doc ( ) {
     $element, $!xpath, :routine-type<function>
   );
 
-  note "Save record documentation";
-  my Str $ctype = $*work-data<gnome-name>;
-  my Str $prefix = $*work-data<name-prefix>;
-  $ctype ~~ s:i/^ $prefix //;
-  my Str $fname = "$*work-data<result-docs>/$ctype.rakudoc";
+#  note "Save record documentation";
+#  my Str $ctype = $*work-data<gnome-name>;
+#  my Str $prefix = $*work-data<name-prefix>;
+#  $ctype ~~ s:i/^ $prefix //;
+  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
+  my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameDocType));
+#  my Str $fname = "$*work-data<result-docs>/$ctype.rakudoc";
   $!mod.save-file( $fname, $doc, "record documentation");
 }
 
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
 
-  my Str $ctype = $*work-data<gnome-name>;
+#  my Str $ctype = $*work-data<gnome-name>;
   my Str $prefix = $*work-data<name-prefix>;
-  $ctype ~~ s:i/^ $prefix //;
-  my Str $fname = "$*work-data<result-tests>/$ctype.rakutest";
+#  $ctype ~~ s:i/^ $prefix //;
+#  my Str $fname = "$*work-data<result-tests>/$ctype.rakutest";
 
   $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//namespace/record');
 
-  $ctype = $element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!mod.search-name($ctype);
 
   # Get name of test variable holding this record object
@@ -201,7 +209,9 @@ method generate-test ( ) {
   $test-variable = '$' ~ $test-variable;
 
   # Import the record structure
-  my Str $raku-class-struct = $h<class-name>;
+#  my Str $raku-class-struct = $h<class-name>;
+  my Str $raku-class-struct =
+    $!mod.set-object-name( $h, :name-type(ClassnameType));
   $!mod.add-import($raku-class-struct);
 
   # Import the module to be tested. Drop the 'N- <prefix>' to get the
@@ -243,5 +253,7 @@ method generate-test ( ) {
   $code ~= $!tst.generate-test-end;
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
+#  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
+  my Str $fname = $!mod.set-object-name( $h, :name-type(FilenameTestType));
   $!mod.save-file( $fname, $code, "record tests");
 }

@@ -67,6 +67,10 @@ enum ExternalModuleType is export <
   EMTRakudo EMTNotImplemented EMTInApi1 EMTInApi2
 >;
 
+# Used to get proper name strings from a word.
+enum ObjectNameType is export <
+  FilenameType FilenameCodeType FilenameDocType FilenameTestType ClassnameType
+>;
 
 #-------------------------------------------------------------------------------
 sub pod-header (
