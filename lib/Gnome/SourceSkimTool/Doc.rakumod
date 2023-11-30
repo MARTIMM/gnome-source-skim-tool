@@ -375,6 +375,240 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
+method document-structure (
+  XML::Element $element, XML::XPath $xpath --> Str
+) {
+  return '';
+#`{{
+  my $temp-external-modules = $*external-modules;
+  $*external-modules = %(
+    :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
+    'Gnome::N::N-Object' => EMTInApi2,
+    'Gnome::N::GlibToRakuTypes' => EMTInApi2,
+  );
+}}
+
+  my Str $name = $*work-data<gnome-name>;
+  my Hash $h0 = self.search-name($name);
+#  my Str $class-name = $h0<class-name>;
+  my Str $class-name = self.set-object-name( $h0, :name-type(ClassnameType));
+  my Str $record-class = $h0<record-class>;
+
+  my Str $doc = '';
+#`{{
+  my Str $code = qq:to/RAKUMOD/;
+    # Command to generate: $*command-line
+    use v6.d;
+    RAKUMOD
+}}
+
+  my $code = '';
+
+  my @fields = $xpath.find( 'field', :start($element), :to-list);
+  if ?@fields {
+    my Str ( $tweak-pars, $build-pars, $tweak-ass, $build-ass) = '' xx 4;
+
+#`{{
+    $code ~= qq:to/EOREC/;
+
+      {pod-header('Module Imports')}
+      __MODULE__IMPORTS__
+      EOREC
+}}
+
+    $code ~= qq:to/EOREC/;
+
+      {pod-header('Record Structure')}
+      class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct') \{
+
+      EOREC
+
+    for @fields -> $field {
+      my $field-name = self.cleanup-id($field.attribs<name>);
+      my Str ( $type, $raku-type, $raku-rtype) =
+        self.get-type( $field, :$user-side);
+
+      if ?$type {
+        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+        my Str ( $rnt0, $rnt1) = $raku-type.split(':');
+        if ?$rnt1 {
+          $code ~= "  has $rnt0 \$.$field-name;           # $rnt1\n";
+        }
+
+        #NOTE raku cannot handle this in native structures.
+        # Must become a pointer
+        elsif $rnt0 ~~ m/ Callable / {
+          $code ~= "  has gpointer \$.$field-name;\n";
+        }
+
+        else {
+          $code ~= "  has $rnt0 \$.$field-name;\n";
+        }
+
+        if $raku-type eq 'N-Object' {
+          $tweak-pars ~= "$raku-type :\$$field-name, ";
+          $tweak-ass ~= "  \$!$field-name := \$$field-name if ?\$$field-name;\n";
+        }
+
+        else {
+          if $rnt0 eq 'GEnum' {
+            $build-pars ~= "$rnt0 :\$$field-name, ";
+            $build-ass ~= "  \$!$field-name = \$$field-name.value if ?\$$field-name;\n";
+          }
+
+          elsif $rnt0 ~~ m/ Callable / {
+            $build-pars ~= "gpointer :\$.$field-name;\n";
+          }
+
+          else {
+            $build-pars ~= "$rnt0 :\$\!$field-name, ";
+          }
+        }
+      }
+
+#`{{
+TODO can we have callback fields in a structure?
+      # no type found, is it a callback spec?
+      else {
+        my XML::Element $cb-element =
+          $xpath.find( 'callback', :start($field), :!to-list);
+        if ?$cb-element {
+          my %h = self!get-callback-data( $cb-element, :$xpath);
+          my Str $c = self.generate-callback(%h);
+          $code ~= "has $c \$.$field-name;\n";
+
+          $code ~= "  has gpointer \$.$field-name;\n";
+          $build-pars ~= "gpointer :\$\!$field-name, ";
+        }
+      }
+}}
+      else {
+        $code ~= "has \$.$field-name;\n";
+      }
+    }
+
+    if ?$build-pars {
+      $code ~= qq:to/EOREC/;
+
+        submethod BUILD \(
+          $build-pars
+        \) \{
+        $build-ass\}
+      EOREC
+    }
+
+    if ?$tweak-pars {
+      $code ~= qq:to/EOREC/;
+
+        submethod TWEAK \(
+          $tweak-pars
+        \) \{
+        $tweak-ass\}
+      EOREC
+    }
+
+    $code ~= qq:to/EOREC/;
+
+      method COERCE \( \$no --> $record-class \) \{
+        note "Coercing from \{\$no.^name\} to ", self.^name if \$Gnome::N::x-debug;
+        nativecast\( $record-class, \$no\)
+      \}
+    \}
+
+    EOREC
+
+    self.add-import('Gnome::N::X');
+#    $code = self.substitute-MODULE-IMPORTS( $code, $class-name, $class-name);
+  }
+
+  else {
+    # Generate structure as a pointer when no fields are documented
+    $code ~= qq:to/EOREC/;
+      {pod-header('Record Structure')}
+      # This is an opaque type of which fields are not available.
+      class $record-class is export is repr\('CPointer') { }
+
+      EOREC
+  }
+
+#`{{
+  # Reset to original and add this structure
+  $*external-modules = $temp-external-modules;
+  self.add-import($class-name);
+}}
+#`{{
+  my Str $fname = [~] $*work-data<result-mods>, '/',
+                      self.set-object-name( $h0, :name-type(FilenameType)),
+                      '.rakumod';
+#     [~] $*work-data<result-mods>, '/', $h0<record-class>, '.rakumod';
+  self.save-file( $fname, $code, "record structure");
+}}
+
+  $code
+
+#`{{
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!mod.search-name($ctype);
+
+  # Get all methods in this class
+  my Hash $hcs =
+    self.get-native-subs( $element, $xpath, :routine-type<constructor>);
+  return '' unless ?$hcs;
+
+  my Str $doc = '';
+
+  for $hcs.keys.sort -> $method-name is copy {
+    my Hash $curr-function := $hcs{$method-name};
+
+    $method-name = $!mod.cleanup-id($method-name);
+#note "$?LINE $method-name, $hcs.gist()";
+
+    my Str $method-doc = $curr-function<function-doc>;
+    $method-doc = "No documentation of method.\n" unless ?$method-doc;
+
+    # Get parameter lists
+    my Str ( $raku-list, $items-doc) =  '' xx 5;
+
+    my Hash $result;
+    for @($curr-function<parameters>) -> $parameter {
+      $result = self!get-types( $parameter, @);
+      $raku-list ~= $result<raku-list> // '';
+      $items-doc ~= $result<items-doc> // '';
+    }
+
+    # Change constructor name if it is only 'new'
+    if $method-name eq 'new' {
+      my Str $gname = $*work-data<gnome-name>;
+      my Str $prefix = $*work-data<name-prefix>;
+      $gname ~~ s:i/^ $prefix //;
+      $method-name ~= '-' ~ $gname.lc;
+    }
+
+    # remove first comma
+    $raku-list ~~ s/^ . //;
+
+    $doc ~= qq:to/EOSUB/;
+      {HLSEPARATOR}
+      =begin pod
+      =head2 $method-name
+
+      $method-doc
+
+      =begin code
+      method $method-name \($raku-list --> $*work-data<raku-class-name> \)
+      =end code
+
+      $items-doc
+      =end pod
+
+      EOSUB
+  }
+
+  $doc
+}}
+}
+
+#-------------------------------------------------------------------------------
 method get-native-subs (
   XML::Element $element, XML::XPath $xpath,
   Bool :$user-side = False, Str :$routine-type = 'method'
