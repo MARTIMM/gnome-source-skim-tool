@@ -43,6 +43,7 @@ submethod BUILD ( ) {
   @*map-search-list = ();
 
   # Remove package prefix if there is any attached to the gnome class
+  # $*gnome-class is set before init of Prepare
   $*gnome-class = self.drop-prefix($*gnome-class);
   $*work-data = self.prepare-work-data($*gnome-package);
 
@@ -54,13 +55,20 @@ submethod BUILD ( ) {
   # Add/modify some more global work data
   if ?$*gnome-class {
 
-#TODO needed??
     $*work-data<raku-class-name> =
       $*work-data<raku-package> ~ "::$*gnome-class";
 
-    my Str $c = $*gnome-class;
-    $c ~~ s/^ (.) /$0.lc()/;
-    $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+    my Str $c;
+    # Exceptions (as always >sic<)
+    if $*gnome-class ~~ / SList / {
+      $c = $*gnome-class.lc;
+    }
+
+    else {
+      $c ~~ s/^ (.) /$0.lc()/;
+      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+    }
+
     $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
 
 #TODO direct from $*gnome-class? Gir filenames must be changed!

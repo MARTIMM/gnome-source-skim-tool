@@ -13,9 +13,9 @@ This project is about the skimming of the `Gnome Introspection Repository` or `G
 
 The program takes a name which is originally the C-source filename (`\*.h` and `\*.c`). Together with the package name it searches through the `repo-object-map.yaml` file to search for all gir types defined originally in that source.
 
-It will then set out to create code (and/or doc or tests depending on options) for the found gnome types `class`, `interface`, `record` or `union`, and saves each in a separate file. Interfaces (which become Raku roles) are prefixed with a `R-` and records and unions with a `N-`.
+It will then set out to create code (and/or doc or tests depending on options) for the found gnome types `class`, `interface`, `record` or `union`, and saves each in a separate file. Interfaces (which become Raku roles) are prefixed with `R-` and records and unions with `N-`.
 
-After that, it looks for the simpler types; `constant`, `enumeration`, `bitfield` and `function` not found within a class. These are gathered in a single file having a `T-` prefix.
+After that, it looks for the simpler types; `constant`, `enumeration`, `bitfield` and `function` not found within a class. These are gathered in a single file having a `T-` prefix. The documentation will also show `docsection` pages and add info about callback routines the use is to specify.
 
 Note that the `R-` and `T-` prefixes aren't used in the older package versions. This is not a problem for the roles because they can not be used directly as a class. The `T-` is new in `:api<2>` and breaks compatibility. E.g. enumerations were mostly provided with the class but not always because there is also a huge enums module. The developer now needs to explicitly import the file if the enumeration is needed.
 
@@ -82,19 +82,19 @@ All routines available in a class, role or as standalone functions are generated
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-label => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor),:returns(N-Object), :parameters([ Str])),
+  new-label => %( :is-symbol<gtk_label_new>, :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :is-symbol<gtk_label_new_with_mnemonic>, :type(Constructor),:returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-angle => %( :returns(gdouble)),
-  get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
-  get-justify => %( :returns(GEnum), :cnv-return(GtkJustification)),
+  get-angle => %( :is-symbol<gtk_label_get_angle>, :returns(gdouble)),
+  get-ellipsize => %( :is-symbol<gtk_label_get_elipsize>, :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
+  get-justify => %( :is-symbol<gtk_label_get_justify>, :returns(GEnum), :cnv-return(GtkJustification)),
 …
-  set-justify => %( :parameters([GEnum])),
-  set-label => %( :parameters([Str])),
-  set-line-wrap => %( :parameters([gboolean])),
-  set-line-wrap-mode => %( :parameters([GEnum])),
-  set-lines => %( :parameters([gint])),
+  set-justify => %( :is-symbol<gtk_label_set_justify>, :parameters([GEnum])),
+  set-label => %( :is-symbol<gtk_label_set_label>, :parameters([Str])),
+  set-line-wrap => %( :is-symbol<gtk_label_set_line_wrap>, :parameters([gboolean])),
+  set-line-wrap-mode => %( :is-symbol<gtk_label_set_line_wrap_mode>, :parameters([GEnum])),
+  set-lines => %( :is-symbol<gtk_label_set_lines>, :parameters([gint])),
 …
 ```
 
@@ -105,8 +105,7 @@ The key of the `$methods` hash is the name of the function as the developer uses
 * **returns**; A type of the return value if there is any.
 * **type-name**; An enumeration type. When a return type is a `GEnum` (an enumeration) the number is translated into the enum name.
 * **variable-list**; A boolean value which says that the argument list is longer than provided in the parameters array. The user must provide the type and value for the rest of the arguments.
-* **isnew**; A boolean value to show that the real name is `new`.
-* **realname**; A string with the realname of a constructor, method or function. The field will probably replace `isnew` because it has the same kind of use. Later on I thought that **is-symbol** might be a better idea.
+* **is-symbol**; A string with the native name of a constructor, method or function.
 
 
 ### Types of argument lists
