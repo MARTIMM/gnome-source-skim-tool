@@ -11,7 +11,7 @@ use Test;
 
 
 use Gnome::Glib::N-SList:api<2>;
-use Gnome::Glib::SList:api<2>;
+use Gnome::Glib::T-SList:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -23,12 +23,13 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Glib::SList $slist .= new;
+my Gnome::Glib::N-SList $slist .= new;
 
 # Helpers to get data in and out
+my @keep = ();
 sub pack ( Int $n --> gpointer ) {
-  my $o = CArray[gint].new;
-  $o[0] = $n;
+  my $o = CArray[gint].new($n);
+  @keep.push($o);
   nativecast( gpointer, $o)
 }
 
@@ -57,14 +58,15 @@ subtest 'Method tests', {
     sub compare-func ( gpointer $a, gpointer $b --> gint ) {}
 
     my N-SList $n-gspos;
-    my N-SList $n-gsl;
+    my N-SList $N-SList;
+    my N-SList $l;
 
     #TM:1:append
     for ^10 -> $i {
-      $n-gsl = .append( $n-gsl, pack($i));
+      $N-SList = .append( $N-SList, pack($i));
     }
     #TM:1:length
-    is .length($n-gsl), 10, '.append()';
+    is .length($N-SList), 10, '.append()';
 
 #`{{
     #TM:0:sort-with-data()
@@ -87,16 +89,20 @@ subtest 'Method tests', {
 }}
 
     #TM:1:prepend()
-    $n-gsl = .prepend( $n-gsl, $data = pack(100));
-    is .length($n-gsl), 11, '.prepend()';
+    $N-SList = .prepend( $N-SList, $data = pack(100));
+    is .length($N-SList), 11, '.prepend()';
+
+    #TM:1:position()
+    $n = 5;
+    $l = .nth( $N-SList, $n);
+    is .position( $N-SList, $l), $n, '.position()';
+
+    #TM:1:nth-data()
+    my Pointer[gint32] $p =
+      nativecast( Pointer[gint32], .nth-data( $N-SList, $n));
+    is $p.deref, 4, '.nth-data()';
 
 #`{{
-    #TM:0:position()
-    ok .position( $llink), '.position()';
-
-    #TM:0:nth-data()
-    ok .nth-data( $n), '.nth-data()';
-
     #TM:0:nth()
     ok .nth( $n), '.nth()';
 
@@ -118,7 +124,7 @@ subtest 'Method tests', {
 
     #TM:1:index()
     # $data is prepended => position is 0
-    $position = .index( $n-gsl, $data);
+    $position = .index( $N-SList, $data);
     is $position, 0, '.index()';
 
 

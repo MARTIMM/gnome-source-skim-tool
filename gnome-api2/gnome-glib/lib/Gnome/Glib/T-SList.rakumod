@@ -34,7 +34,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( ) {
   # Initialize helper
-  $!routine-caller .= new(:library('glib-lib()'));
+  $!routine-caller .= new(:library(glib-lib()));
 }
 
 #-------------------------------------------------------------------------------
