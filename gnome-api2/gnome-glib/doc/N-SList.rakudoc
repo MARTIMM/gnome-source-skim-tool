@@ -1,4 +1,4 @@
- use v6.d;
+use v6.d;
 
 =begin pod
 =head1 Gnome::Glib::SList
@@ -14,12 +14,10 @@
 
 =head1 Description
 
-The GSList struct is used for each element in the singly-linked
+The B<N-SList> struct is used for each element in the singly-linked
 list.
-=begin comment
-=head2 Uml Diagram
-![](plantuml/….svg)
-=end comment
+
+Note that this class is mainly used to get the data from a list returned by e.g. a widget. Raku has smart types to the work much easier.
 
 =begin comment
 =head2 Example
@@ -28,6 +26,25 @@ list.
 =end comment
 
 =end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-SList
+
+  class N-SList:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gpointer $.data;
+    has N-SList $.next;
+  }
+
+=item data; holds the element's data, which can be a pointer to any kind of data, or any integer value using the Type Conversion Macros
+=item next; contains the link to the next element in the list.
+
+=end pod
+
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
@@ -59,14 +76,14 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 alloc
 
-Allocates space for one GSList element. It is called by the g_slist_append(), g_slist_prepend(), g_slist_insert() and g_slist_insert_sorted() functions and so is rarely used on its own.
+Allocates space for one B<N-SList> element. It is called by the C<.append()>, C<.prepend()>, C<.insert()> and C<.insert-sorted()> functions and so is rarely used on its own.
 
 =begin code
-method alloc (--> N-SList )
+method alloc ( --> N-SList )
 =end code
 
 
-Return value; a pointer to the newly-allocated GSList element.. 
+Return value; a pointer to the newly-allocated B<N-SList> element.. 
 
 
 =end pod
@@ -79,7 +96,7 @@ Adds a new element on to the end of the list.
 
 The return value is the new start of the list, which may have changed, so make sure you store the new value.
 
-Note that g_slist_append() has to traverse the entire list to find the end, which is inefficient when adding multiple elements. A common idiom to avoid the inefficiency is to prepend the elements and reverse the list when all elements have been added.
+Note that C<.append()> has to traverse the entire list to find the end, which is inefficient when adding multiple elements. A common idiom to avoid the inefficiency is to prepend the elements and reverse the list when all elements have been added.
 
 =begin comment
 
@@ -97,13 +114,13 @@ number_list = g_slist_append (number_list, GINT_TO_POINTER (14));
 
 
 =begin code
-method append ( N-SList() $list, gpointer $data --> N-SList )
+method append ( N-SList $list, gpointer $data --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; the data for the new element.
 
-Return value; the new start of the GSList. 
+Return value; the new start of the B<N-SList>. 
 
 
 =end pod
@@ -112,18 +129,18 @@ Return value; the new start of the GSList.
 =begin pod
 =head2 concat
 
-Adds the second GSList onto the end of the first GSList.
-Note that the elements of the second GSList are not copied.
+Adds the second B<N-SList> onto the end of the first B<N-SList>.
+Note that the elements of the second B<N-SList> are not copied.
 They are used directly.
 
 =begin code
-method concat ( N-SList() $list1, N-SList() $list2 --> N-SList )
+method concat ( N-SList $list1, N-SList $list2 --> N-SList )
 =end code
 
-=item $list1; a GSList.
-=item $list2; the GSList to add to the end of the first GSList.
+=item $list1; a B<N-SList>.
+=item $list2; the B<N-SList> to add to the end of the first B<N-SList>.
 
-Return value; the start of the new GSList. 
+Return value; the start of the new B<N-SList>. 
 
 
 =end pod
@@ -132,15 +149,15 @@ Return value; the start of the new GSList.
 =begin pod
 =head2 copy
 
-Copies a GSList.
+Copies a B<N-SList>.
 
-Note that this is a "shallow" copy. If the list elements consist of pointers to data, the pointers are copied but the actual data isn't. See g_slist_copy_deep() if you need to copy the data as well.
+Note that this is a "shallow" copy. If the list elements consist of pointers to data, the pointers are copied but the actual data isn't. See C<.copy-deep()> if you need to copy the data as well.
 
 =begin code
-method copy ( N-SList() $list --> N-SList )
+method copy ( N-SList $list --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 
 Return value; a copy of C<$list>. 
 
@@ -151,10 +168,10 @@ Return value; a copy of C<$list>.
 =begin pod
 =head2 copy-deep
 
-Makes a full (deep) copy of a GSList.
+Makes a full (deep) copy of a B<N-SList>.
 
-In contrast with g_slist_copy(), this function uses C<$func> to make a copy of each list element, in addition to copying the list container itself.
- C<$func>, as a GCopyFunc, takes two arguments, the data to be copied and a C<$user_data> pointer. On common processor architectures, it's safe to pass C<Nil> as C<$user_data> if the copy function takes only one argument. You may get compiler warnings from this though if compiling with GCC’s
+In contrast with C<.copy()>, this function uses C<$func> to make a copy of each list element, in addition to copying the list container itself.
+ C<$func>, as a B<Gnome::Glib::T-DoubleIEEE754>, takes two arguments, the data to be copied and a C<$user_data> pointer. On common processor architectures, it's safe to pass C<Nil> as C<$user_data> if the copy function takes only one argument. You may get compiler warnings from this though if compiling with GCC’s
 `-Wcast-function-type` warning.
 
 For instance, if C<$list> holds a list of GObjects, you can do:
@@ -171,16 +188,14 @@ g_slist_free_full (another_list, g_object_unref);
 
 
 =begin code
-method copy-deep (
-  N-SList() $list, &func, gpointer $user-data --> N-SList
-)
+method copy-deep ( N-SList $list, &func, gpointer $user-data --> N-SList )
 =end code
 
-=item $list; a GSList.
-=item &func; a copy function used to copy every element in the list. Tthe function must be specified with following signature; C<:( gpointer $src, gpointer $data --> gpointer )>.
-=item $user-data; user data passed to the copy function C<$func>, or #NULL.
+=item $list; a B<N-SList>.
+=item &func; a copy function used to copy every element in the list. Tthe function must be specified with following signature; C<:( gpointer $src, gpointer $user-data --> gpointer )>.
+=item $user-data; user data passed to the copy function C<$func>, or C<NULL>.
 
-Return value; a full copy of C<$list>, use g_slist_free_full() to free it. 
+Return value; a full copy of C<$list>, use C<.free-full()> to free it. 
 
 
 =end pod
@@ -190,17 +205,15 @@ Return value; a full copy of C<$list>, use g_slist_free_full() to free it.
 =head2 delete-link
 
 Removes the node link_ from the list and frees it.
-Compare this to g_slist_remove_link() which removes the node without freeing it.
+Compare this to C<.remove-link()> which removes the node without freeing it.
 
-Removing arbitrary nodes from a singly-linked list requires time that is proportional to the length of the list (ie. O(n)). If you find yourself using g_slist_delete_link() frequently, you should consider a different data structure, such as the doubly-linked GList.
+Removing arbitrary nodes from a singly-linked list requires time that is proportional to the length of the list (ie. O(n)). If you find yourself using C<.delete-link()> frequently, you should consider a different data structure, such as the doubly-linked B<Gnome::Glib::N-List>.
 
 =begin code
-method delete-link (
-  N-SList() $list, N-SList() $link --> N-SList
-)
+method delete-link ( N-SList $list, N-SList $link --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $link; node to delete.
 
 Return value; the new head of C<$list>. 
@@ -212,16 +225,16 @@ Return value; the new head of C<$list>.
 =begin pod
 =head2 find
 
-Finds the element in a GSList which contains the given data.
+Finds the element in a B<N-SList> which contains the given data.
 
 =begin code
-method find ( N-SList() $list, gpointer $data --> N-SList )
+method find ( N-SList $list, gpointer $data --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; the element data to find.
 
-Return value; the found GSList element,
+Return value; the found B<N-SList> element,
  or C<Nil> if it is not found. 
 
 
@@ -231,21 +244,19 @@ Return value; the found GSList element,
 =begin pod
 =head2 find-custom
 
-Finds an element in a GSList, using a supplied function to find the desired element. It iterates over the list, calling the given function which should return 0 when the desired element is found. The function takes two #gconstpointer arguments,
-the GSList element's data as the first argument and the given user data.
+Finds an element in a B<N-SList>, using a supplied function to find the desired element. It iterates over the list, calling the given function which should return 0 when the desired element is found. The function takes two C<gconstpointer> arguments,
+the B<N-SList> element's data as the first argument and the given user data.
 
 =begin code
-method find-custom (
-  N-SList() $list, gpointer $data, &func --> N-SList
-)
+method find-custom ( N-SList $list, gpointer $data, &func --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; user data passed to the function.
 =item &func; the function to call for each element.
  It should return 0 when the desired element is found. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b --> gint )>.
 
-Return value; the found GSList element, or C<Nil> if it is not found. 
+Return value; the found B<N-SList> element, or C<Nil> if it is not found. 
 
 
 =end pod
@@ -254,15 +265,15 @@ Return value; the found GSList element, or C<Nil> if it is not found.
 =begin pod
 =head2 foreach
 
-Calls a function for each element of a GSList.
+Calls a function for each element of a B<N-SList>.
 
 It is safe for C<$func> to remove the element from C<$list>, but it must not modify any part of the list after that element.
 
 =begin code
-method foreach ( N-SList() $list, &func, gpointer $user-data )
+method foreach ( N-SList $list, &func, gpointer $user-data )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item &func; the function to call with each element's data. Tthe function must be specified with following signature; C<:( gpointer $data, gpointer $user-data )>.
 =item $user-data; user data to pass to the function.
 
@@ -272,11 +283,11 @@ method foreach ( N-SList() $list, &func, gpointer $user-data )
 =begin pod
 =head2 free
 
-Frees all of the memory used by a GSList.
+Frees all of the memory used by a B<N-SList>.
 The freed elements are returned to the slice allocator.
 
 If list elements contain dynamically-allocated memory,
-you should either use g_slist_free_full() or free them manually first.
+you should either use C<.free-full()> or free them manually first.
 
 It can be combined with g_steal_pointer() to ensure the list head pointer is not left dangling:
 =begin comment
@@ -287,10 +298,10 @@ g_slist_free (g_steal_pointer (&list_of_borrowed_things));
 
 
 =begin code
-method free ( N-SList() $list )
+method free ( N-SList $list )
 =end code
 
-=item $list; the first link of a GSList.
+=item $list; the first link of a B<N-SList>.
 
 =end pod
 
@@ -298,7 +309,7 @@ method free ( N-SList() $list )
 =begin pod
 =head2 free-full
 
-Convenience method, which frees all the memory used by a GSList, and calls the specified destroy function on every element's data.
+Convenience method, which frees all the memory used by a B<N-SList>, and calls the specified destroy function on every element's data.
  C<$free_func> must not modify the list (eg, by removing the freed element from it).
 
 It can be combined with g_steal_pointer() to ensure the list head pointer is not left dangling ­— this also has the nice property that the head pointer is cleared before any of the list elements are freed, to prevent double frees from C<$free_func>:
@@ -310,10 +321,10 @@ g_slist_free_full (g_steal_pointer (&list_of_owned_things), g_object_unref);
 
 
 =begin code
-method free-full ( N-SList() $list, &free-func )
+method free-full ( N-SList $list, &free-func )
 =end code
 
-=item $list; the first link of a GSList.
+=item $list; the first link of a B<N-SList>.
 =item &free-func; the function to be called to free each element's data. Tthe function must be specified with following signature; C<:( gpointer $data )>.
 
 =end pod
@@ -322,14 +333,14 @@ method free-full ( N-SList() $list, &free-func )
 =begin pod
 =head2 free-one
 
-Frees one GSList element.
-It is usually used after g_slist_remove_link().
+Frees one B<N-SList> element.
+It is usually used after C<.remove-link()>.
 
 =begin code
-method free-one ( N-SList() $list )
+method free-one ( N-SList $list )
 =end code
 
-=item $list; a GSList element.
+=item $list; a B<N-SList> element.
 
 =end pod
 
@@ -340,10 +351,10 @@ method free-one ( N-SList() $list )
 Gets the position of the element containing the given data (starting from 0).
 
 =begin code
-method index ( N-SList() $list, gpointer $data --> Int )
+method index ( N-SList $list, gpointer $data --> Int )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; the data to find.
 
 Return value; the index of the element containing the data,
@@ -359,19 +370,17 @@ Return value; the index of the element containing the data,
 Inserts a new element into the list at the given position.
 
 =begin code
-method insert (
-  N-SList() $list, gpointer $data, Int() $position --> N-SList
-)
+method insert ( N-SList $list, gpointer $data, Int() $position --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; the data for the new element.
 =item $position; the position to insert the element.
  If this is negative, or is larger than the number
  of elements in the list, the new element is added on
  to the end of the list..
 
-Return value; the new start of the GSList. 
+Return value; the new start of the B<N-SList>. 
 
 
 =end pod
@@ -383,13 +392,10 @@ Return value; the new start of the GSList.
 Inserts a node before C<$sibling> containing C<$data>.
 
 =begin code
-method insert-before (
-  N-SList() $slist, N-SList() $sibling, gpointer $data
-  --> N-SList
-)
+method insert-before ( N-SList $slist, N-SList $sibling, gpointer $data --> N-SList )
 =end code
 
-=item $slist; a GSList.
+=item $slist; a B<N-SList>.
 =item $sibling; node to insert C<$data> before.
 =item $data; data to put in the newly-inserted node.
 
@@ -405,18 +411,16 @@ Return value; the new head of the list..
 Inserts a new element into the list, using the given comparison function to determine its position.
 
 =begin code
-method insert-sorted (
-  N-SList() $list, gpointer $data, &func --> N-SList
-)
+method insert-sorted ( N-SList $list, gpointer $data, &func --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; the data for the new element.
 =item &func; the function to compare elements in the list.
  It should return a number > 0 if the first parameter
  comes after the second parameter in the sort order.. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b --> gint )>.
 
-Return value; the new start of the GSList. 
+Return value; the new start of the B<N-SList>. 
 
 
 =end pod
@@ -428,21 +432,17 @@ Return value; the new start of the GSList.
 Inserts a new element into the list, using the given comparison function to determine its position.
 
 =begin code
-method insert-sorted-with-data (
-  N-SList() $list, gpointer $data, &func,
-  gpointer $user-data
-  --> N-SList
-)
+method insert-sorted-with-data ( N-SList $list, gpointer $data, &func, gpointer $user-data --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; the data for the new element.
 =item &func; the function to compare elements in the list.
  It should return a number > 0 if the first parameter
  comes after the second parameter in the sort order.. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b, gpointer $user-data --> gint )>.
 =item $user-data; data to pass to comparison function.
 
-Return value; the new start of the GSList. 
+Return value; the new start of the B<N-SList>. 
 
 
 =end pod
@@ -451,18 +451,18 @@ Return value; the new start of the GSList.
 =begin pod
 =head2 last
 
-Gets the last element in a GSList.
+Gets the last element in a B<N-SList>.
 
 This function iterates over the whole list.
 
 =begin code
-method last ( N-SList() $list --> N-SList )
+method last ( N-SList $list --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 
-Return value; the last element in the GSList,
- or C<Nil> if the GSList has no elements. 
+Return value; the last element in the B<N-SList>,
+ or C<Nil> if the B<N-SList> has no elements. 
 
 
 =end pod
@@ -471,17 +471,17 @@ Return value; the last element in the GSList,
 =begin pod
 =head2 length
 
-Gets the number of elements in a GSList.
+Gets the number of elements in a B<N-SList>.
 
 This function iterates over the whole list to count its elements. To check whether the list is non-empty, it is faster to check C<$list> against C<Nil>.
 
 =begin code
-method length ( N-SList() $list --> UInt )
+method length ( N-SList $list --> UInt )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 
-Return value; the number of elements in the GSList. 
+Return value; the number of elements in the B<N-SList>. 
 
 
 =end pod
@@ -490,17 +490,17 @@ Return value; the number of elements in the GSList.
 =begin pod
 =head2 nth
 
-Gets the element at the given position in a GSList.
+Gets the element at the given position in a B<N-SList>.
 
 =begin code
-method nth ( N-SList() $list, UInt() $n --> N-SList )
+method nth ( N-SList $list, UInt() $n --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $n; the position of the element, counting from 0.
 
 Return value; the element, or C<Nil> if the position is off
- the end of the GSList. 
+ the end of the B<N-SList>. 
 
 
 =end pod
@@ -512,14 +512,14 @@ Return value; the element, or C<Nil> if the position is off
 Gets the data of the element at the given position.
 
 =begin code
-method nth-data ( N-SList() $list, UInt() $n --> gpointer )
+method nth-data ( N-SList $list, UInt() $n --> gpointer )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $n; the position of the element.
 
 Return value; the element's data, or C<Nil> if the position
- is off the end of the GSList. 
+ is off the end of the B<N-SList>. 
 
 
 =end pod
@@ -528,16 +528,16 @@ Return value; the element's data, or C<Nil> if the position
 =begin pod
 =head2 position
 
-Gets the position of the given element in the GSList (starting from 0).
+Gets the position of the given element in the B<N-SList> (starting from 0).
 
 =begin code
-method position ( N-SList() $list, N-SList() $llink --> Int )
+method position ( N-SList $list, N-SList $llink --> Int )
 =end code
 
-=item $list; a GSList.
-=item $llink; an element in the GSList.
+=item $list; a B<N-SList>.
+=item $llink; an element in the B<N-SList>.
 
-Return value; the position of the element in the GSList,
+Return value; the position of the element in the B<N-SList>,
  or -1 if the element is not found. 
 
 
@@ -561,13 +561,13 @@ list = g_slist_prepend (list, "first");
 
 
 =begin code
-method prepend ( N-SList() $list, gpointer $data --> N-SList )
+method prepend ( N-SList $list, gpointer $data --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; the data for the new element.
 
-Return value; the new start of the GSList. 
+Return value; the new start of the B<N-SList>. 
 
 
 =end pod
@@ -576,18 +576,18 @@ Return value; the new start of the GSList.
 =begin pod
 =head2 remove
 
-Removes an element from a GSList.
+Removes an element from a B<N-SList>.
 If two elements contain the same data, only the first is removed.
-If none of the elements contain the data, the GSList is unchanged.
+If none of the elements contain the data, the B<N-SList> is unchanged.
 
 =begin code
-method remove ( N-SList() $list, gpointer $data --> N-SList )
+method remove ( N-SList $list, gpointer $data --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; the data of the element to remove.
 
-Return value; the new start of the GSList. 
+Return value; the new start of the B<N-SList>. 
 
 
 =end pod
@@ -597,15 +597,13 @@ Return value; the new start of the GSList.
 =head2 remove-all
 
 Removes all list nodes with data equal to C<$data>.
-Returns the new head of the list. Contrast with g_slist_remove() which removes only the first node matching the given data.
+Returns the new head of the list. Contrast with C<.remove()> which removes only the first node matching the given data.
 
 =begin code
-method remove-all (
-  N-SList() $list, gpointer $data --> N-SList
-)
+method remove-all ( N-SList $list, gpointer $data --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item $data; data to remove.
 
 Return value; new head of C<$list>. 
@@ -617,23 +615,21 @@ Return value; new head of C<$list>.
 =begin pod
 =head2 remove-link
 
-Removes an element from a GSList, without freeing the element. The removed element's next link is set to C<Nil>, so that it becomes a self-contained list with one element.
+Removes an element from a B<N-SList>, without freeing the element. The removed element's next link is set to C<Nil>, so that it becomes a self-contained list with one element.
 
 Removing arbitrary nodes from a singly-linked list requires time that is proportional to the length of the list
-(ie. O(n)). If you find yourself using g_slist_remove_link()
+(ie. O(n)). If you find yourself using C<.remove-link()>
 frequently, you should consider a different data structure,
-such as the doubly-linked GList.
+such as the doubly-linked B<Gnome::Glib::N-List>.
 
 =begin code
-method remove-link (
-  N-SList() $list, N-SList() $link --> N-SList
-)
+method remove-link ( N-SList $list, N-SList $link --> N-SList )
 =end code
 
-=item $list; a GSList.
-=item $link; an element in the GSList.
+=item $list; a B<N-SList>.
+=item $link; an element in the B<N-SList>.
 
-Return value; the new start of the GSList, without the element. 
+Return value; the new start of the B<N-SList>, without the element. 
 
 
 =end pod
@@ -642,15 +638,15 @@ Return value; the new start of the GSList, without the element.
 =begin pod
 =head2 reverse
 
-Reverses a GSList.
+Reverses a B<N-SList>.
 
 =begin code
-method reverse ( N-SList() $list --> N-SList )
+method reverse ( N-SList $list --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 
-Return value; the start of the reversed GSList. 
+Return value; the start of the reversed B<N-SList>. 
 
 
 =end pod
@@ -659,20 +655,20 @@ Return value; the start of the reversed GSList.
 =begin pod
 =head2 sort
 
-Sorts a GSList using the given comparison function. The algorithm used is a stable sort.
+Sorts a B<N-SList> using the given comparison function. The algorithm used is a stable sort.
 
 =begin code
-method sort ( N-SList() $list, &compare-func --> N-SList )
+method sort ( N-SList $list, &compare-func --> N-SList )
 =end code
 
-=item $list; a GSList.
-=item &compare-func; the comparison function used to sort the GSList.
- This function is passed the data from 2 elements of the GSList
+=item $list; a B<N-SList>.
+=item &compare-func; the comparison function used to sort the B<N-SList>.
+ This function is passed the data from 2 elements of the B<N-SList>
  and should return 0 if they are equal, a negative value if the
  first element comes before the second, or a positive value if
  the first element comes after the second.. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b --> gint )>.
 
-Return value; the start of the sorted GSList. 
+Return value; the start of the sorted B<N-SList>. 
 
 
 =end pod
@@ -681,16 +677,13 @@ Return value; the start of the sorted GSList.
 =begin pod
 =head2 sort-with-data
 
-Like g_slist_sort(), but the sort function accepts a user data argument.
+Like C<.sort()>, but the sort function accepts a user data argument.
 
 =begin code
-method sort-with-data (
-  N-SList() $list, &compare-func, gpointer $user-data
-  --> N-SList
-)
+method sort-with-data ( N-SList $list, &compare-func, gpointer $user-data --> N-SList )
 =end code
 
-=item $list; a GSList.
+=item $list; a B<N-SList>.
 =item &compare-func; comparison function. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b, gpointer $user-data --> gint )>.
 =item $user-data; data to pass to comparison function.
 
