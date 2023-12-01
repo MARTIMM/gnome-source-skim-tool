@@ -142,8 +142,15 @@ method generate-doc ( ) {
     my Str $type-name = $data<type-name>;
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
-    $filename = [~] $*work-data<result-docs>, $type-name, '.rakudoc';
-    $class-name = $data<class-name>;
+#    $filename = [~] $*work-data<result-docs>, $type-name, '.rakudoc';
+    $filename = $!mod.set-object-name(
+      %( :type-name($*work-data<raku-name>), :type-letter<T>),
+      :name-type(FilenameDocType)
+    );
+    $class-name = $!mod.set-object-name(
+      %( :type-name($*work-data<raku-name>), :type-letter<T>)
+    );
+    #$data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
 #note "$?LINE $filename";
@@ -200,7 +207,7 @@ method generate-doc ( ) {
 
   if ?$class-name and ?$filename {
     note "Document init" if $*verbose;
-    my Str $doc = $!grd.start-document('T-');
+    my Str $doc = $!grd.start-document('T');
     $doc ~= qq:to/EODOC/ if ?$types-doc<function>;
       {pod-header('Class Initialization')}
       =begin pod
