@@ -42,8 +42,6 @@ method generate-code ( ) {
   my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
   if ?$callable-code {
 
-#  my ( $doc, $code);
-#TL:1:$*work-data<raku-class-name>:
     my Str $code = qq:to/RAKUMOD/;
       # Command to generate: $*command-line
       use v6.d;
@@ -161,15 +159,20 @@ method generate-doc ( ) {
   note "Document init" if $*verbose;
   my Str $doc = $!grd.start-document;
 
+
   note "Document module description" if $*verbose;
   $doc ~= $!grd.get-description( $element, $!xpath);
+
+  note "Document structure" if $*verbose;
+  $doc ~= $!grd.document-structure( $element, $!xpath);
 
   note "Document BUILD submethod" if $*verbose;
   $doc ~= $!grd.document-build($element);
 
+ 
   note "Document constructors" if $*verbose;
   $doc ~= $!grd.document-constructors( $element, $!xpath);
-  
+ 
   note "Document methods" if $*verbose;
   $doc ~= $!grd.document-native-subs( $element, $!xpath, :routine-type<method>);
 
