@@ -1417,8 +1417,7 @@ method generate-structure (
 
     for @fields -> $field {
       my $field-name = self.cleanup-id($field.attribs<name>);
-      my Str ( $type, $raku-type, $raku-rtype) =
-        self.get-type( $field, :$user-side);
+      my Str ( $type, $raku-type) = self.get-type( $field, :$user-side);
 
       if ?$type {
         # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
@@ -1475,7 +1474,7 @@ TODO can we have callback fields in a structure?
       }
 }}
       else {
-        $code ~= "has \$.$field-name;\n";
+        $code ~= "  has \$.$field-name;\n";
       }
     }
 
@@ -1518,7 +1517,7 @@ TODO can we have callback fields in a structure?
     $code ~= qq:to/EOREC/;
       {pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
-      class $record-class is export is repr\('CPointer') { }
+      class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CPointer') \{ \}
 
       EOREC
   }
