@@ -54,7 +54,7 @@ If * C<$err> is C<Nil> (ie: an error variable is present but there is no error c
 method prefix-error ( CArray[N-Error] $err, Str $format, … )
 =end code
 
-=item $err; (transfer ownership: full) a return location for a GError.
+=item $err; (transfer ownership: full) a return location for a B<N-Error>.
 =item $format; printf()-style format string.
 =item …; arguments to C<$format>. Note that each argument must be specified as a type followed by its value!
 
@@ -87,7 +87,7 @@ Prefixes C<$prefix> to an existing error message. If C<$err> or * C<$err> is C<N
 method prefix-error-literal ( CArray[N-Error] $err, Str $prefix )
 =end code
 
-=item $err; a return location for a GError, or C<Nil>.
+=item $err; a return location for a B<N-Error>, or C<Nil>.
 =item $prefix; string to prefix C<$err> with.
 
 =end pod
@@ -100,7 +100,7 @@ If C<$dest> is C<Nil>, free C<$src>; otherwise, moves C<$src> into * C<$dest>.
 The error variable C<$dest> points to must be C<Nil>.
  C<$src> must be non-C<Nil>.
 
-Note that C<$src> is no longer valid after this call. If you want to keep using the same GError*, you need to set it to C<Nil>
+Note that C<$src> is no longer valid after this call. If you want to keep using the same B<N-Error>*, you need to set it to C<Nil>
 after calling this function on it.
 
 =begin code
@@ -137,7 +137,7 @@ method propagate-prefixed-error (
 =head2 set-error
 
 Does nothing if C<$err> is C<Nil>; if C<$err> is non-C<Nil>, then * C<$err>
-must be C<Nil>. A new GError is created and assigned to * C<$err>.
+must be C<Nil>. A new B<N-Error> is created and assigned to * C<$err>.
 
 =begin code
 method set-error (
@@ -145,7 +145,7 @@ method set-error (
 )
 =end code
 
-=item $err; (transfer ownership: full) a return location for a GError.
+=item $err; (transfer ownership: full) a return location for a B<N-Error>.
 =item $domain; error domain.
 =item $code; error code.
 =item $format; printf()-style format.
@@ -158,7 +158,7 @@ method set-error (
 =head2 set-error-literal
 
 Does nothing if C<$err> is C<Nil>; if C<$err> is non-C<Nil>, then * C<$err>
-must be C<Nil>. A new GError is created and assigned to * C<$err>.
+must be C<Nil>. A new B<N-Error> is created and assigned to * C<$err>.
 Unlike g_set_error(), C<$message> is not a printf()-style format string.
 Use this function if C<$message> contains text you don't have control over,
 that could include printf() escape sequences.
@@ -169,7 +169,7 @@ method set-error-literal (
 )
 =end code
 
-=item $err; (transfer ownership: full) a return location for a GError.
+=item $err; (transfer ownership: full) a return location for a B<N-Error>.
 =item $domain; error domain.
 =item $code; error code.
 =item $message; error message.
