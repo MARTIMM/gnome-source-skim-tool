@@ -624,7 +624,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     $is-symbol ~~ s:g/ '-' /_/;
     $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
 
-#note "$?LINE $function-name";
+#note "$?LINE $function-name, $is-symbol";
     # Change the name of 'new' into 'new-<classname.lc>'. E.g. new-button.
     if $function-name eq 'new' {
       my Str $name-prefix = $*work-data<name-prefix>;
@@ -1749,23 +1749,26 @@ method cleanup-id ( $id is copy, Bool :$is-function = False --> Str ) {
     $id ~~ s/^ $sub-prefix //;
   }
 
-  # Drop the last underscore if there, its ugly 😎.
+  # Drop the last underscore of variable if there is one, it's ugly 😎.
   $id ~~ s/ '_' $//;
 
   # Cleanup the name, convert _ to - and ending numbers in words
   $id ~~ s:g/ '_' /-/;
-  $id ~~ s/ '-' (\d+) $/-{cnv-to-word($0)}/;
+#  $id ~~ s/ '-' (\d+) $/-{cnv-to-word($0)}/;
+  $id ~~ s/ '-' (\d+) $/$0/;
   $id ~~ s/ '...' /…/;
 
   $id
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 # simple converter to convert last digit of function name into a word.
 # It is never a big number (assumably)
 sub cnv-to-word ( $i --> Str ) {
   <zero one two three>[$i.Int]
 }
+}}
 
 #-------------------------------------------------------------------------------
 method add-import ( Str $import --> Bool ) {

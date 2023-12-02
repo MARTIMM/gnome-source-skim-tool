@@ -60,16 +60,15 @@ submethod BUILD ( ) {
 
     my Str $c;
     # Exceptions (as always >sic<)
-    if $*gnome-class ~~ / SList / {
-      $c = $*gnome-class.lc;
-    }
-
-    else {
+    $c = $*gnome-class.lc;
+    unless $*gnome-class ~~ / SList / {
       $c ~~ s/^ (.) /$0.lc()/;
       $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
     }
 
     $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
+
+#note "$?LINE sub-prefix $c $*work-data<sub-prefix>";
 
 #TODO direct from $*gnome-class? Gir filenames must be changed!
 # type prefix: none for class, R- for interfaces, N- for records and unions
