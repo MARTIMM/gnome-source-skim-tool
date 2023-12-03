@@ -1,0 +1,851 @@
+use v6.d;
+
+=begin pod
+=head1 Gnome::Glib::T-MainContext
+=end pod
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple.
+
+  method new ( )
+
+=end pod
+
+=begin pod
+=head1 Constants
+
+=head2 G_PRIORITY_DEFAULT
+
+Use this for default priority event sources.
+
+In GLib this priority is used when adding timeout functions with g_timeout_add(). In GDK this priority is used for events from the X server.
+
+=head2 G_PRIORITY_DEFAULT_IDLE
+
+Use this for default priority idle functions.
+
+In GLib this priority is used when adding idle functions with g_idle_add().
+
+=head2 G_PRIORITY_HIGH
+
+Use this for high priority event sources.
+
+It is not used within GLib or GTK+.
+
+=head2 G_PRIORITY_HIGH_IDLE
+
+Use this for high priority idle functions.
+
+GTK+ uses %B<Gnome::Glib::T-MainContext> + 10 for resizing operations,
+and %B<Gnome::Glib::T-MainContext> + 20 for redrawing operations. (This is done to ensure that any pending resizes are processed before any pending redraws, so that widgets are not redrawn twice unnecessarily.)
+
+=head2 G_PRIORITY_LOW
+
+Use this for very low priority background tasks.
+
+It is not used within GLib or GTK+.
+
+=head2 G_SOURCE_CONTINUE
+
+Use this macro as the return value of a B<Gnome::Glib::T-MainContext> to leave the B<Gnome::Glib::N-Source> in the main loop.
+
+=head2 G_SOURCE_REMOVE
+
+Use this macro as the return value of a B<Gnome::Glib::T-MainContext> to remove the B<Gnome::Glib::N-Source> from the main loop.
+=end pod
+
+=begin pod
+=head1 Bitfields
+
+=head2 GMainContextFlags
+
+Flags to pass to g_main_context_new_with_flags() which affect the behaviour of a B<Gnome::Glib::N-MainContext>.
+=item C<G_MAIN_CONTEXT_FLAGS_NONE>; Default behaviour.
+=item C<G_MAIN_CONTEXT_FLAGS_OWNERLESS_POLLING>; Assume that polling for events will free the thread to process other jobs. That's useful if you're using
+`g_main_context_{prepare,query,check,dispatch}` to integrate B<Gnome::Glib::N-MainContext> in other event loops.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 child-watch-add
+
+Sets a function to be called when the child indicated by C<$pid>
+exits, at a default priority, %B<Gnome::Glib::T-MainContext>.
+
+If you obtain C<$pid> from g_spawn_async() or g_spawn_async_with_pipes()
+you will need to pass %G_SPAWN_DO_NOT_REAP_CHILD as flag to the spawn function for the child watching to work.
+
+Note that on platforms where GPid must be explicitly closed
+(see g_spawn_close_pid()) C<$pid> must not be closed while the source is still active. Typically, you will want to call g_spawn_close_pid() in the callback function for the source.
+
+GLib supports only a single callback per process id.
+On POSIX platforms, the same restrictions mentioned for g_child_watch_source_new() apply to this function.
+
+This internally creates a main loop source using g_child_watch_source_new() and attaches it to the main loop context using g_source_attach(). You can do these steps manually if you need greater control.
+
+=begin code
+method child-watch-add ( …, &function, gpointer $data --> UInt )
+=end code
+
+=item pid; process id to watch. On POSIX the positive pid of a child
+ process. On Windows a handle for a process (which doesn't have
+ to be a child).. Note that each argument must be specified as a type followed by its value!
+=item &function; function to call. Tthe function must be specified with following signature; C<:(  $pid, gint $wait-status, gpointer $user-data )>.
+=item $data; data to pass to C<$function>.
+
+Return value; the ID (greater than 0) of the event source.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 child-watch-add-full
+
+Sets a function to be called when the child indicated by C<$pid>
+exits, at the priority C<$priority>.
+
+If you obtain C<$pid> from g_spawn_async() or g_spawn_async_with_pipes()
+you will need to pass %G_SPAWN_DO_NOT_REAP_CHILD as flag to the spawn function for the child watching to work.
+
+In many programs, you will want to call g_spawn_check_wait_status()
+in the callback to determine whether or not the child exited successfully.
+
+Also, note that on platforms where GPid must be explicitly closed
+(see g_spawn_close_pid()) C<$pid> must not be closed while the source is still active. Typically, you should invoke g_spawn_close_pid()
+in the callback function for the source.
+
+GLib supports only a single callback per process id.
+On POSIX platforms, the same restrictions mentioned for g_child_watch_source_new() apply to this function.
+
+This internally creates a main loop source using g_child_watch_source_new() and attaches it to the main loop context using g_source_attach(). You can do these steps manually if you need greater control.
+
+=begin code
+method child-watch-add-full ( Int() $priority, …, &function, gpointer $data, &notify --> UInt )
+=end code
+
+=item $priority; the priority of the idle source. Typically this will be in the
+ range between %B<Gnome::Glib::T-MainContext> and %B<Gnome::Glib::T-MainContext>..
+=item pid; process to watch. On POSIX the positive pid of a child process. On Windows a handle for a process (which doesn't have to be a child).. Note that each argument must be specified as a type followed by its value!
+=item &function; function to call. Tthe function must be specified with following signature; C<:(  $pid, gint $wait-status, gpointer $user-data )>.
+=item $data; data to pass to C<$function>.
+=item &notify; function to call when the idle is removed, or C<Nil>. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+Return value; the ID (greater than 0) of the event source.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 child-watch-source-new
+
+Creates a new child_watch source.
+
+The source will not initially be associated with any B<Gnome::Glib::N-MainContext>
+and must be added to one with g_source_attach() before it will be executed.
+
+Note that child watch sources can only be used in conjunction with
+`g_spawn...` when the %G_SPAWN_DO_NOT_REAP_CHILD flag is used.
+
+Note that on platforms where GPid must be explicitly closed
+(see g_spawn_close_pid()) C<$pid> must not be closed while the source is still active. Typically, you will want to call g_spawn_close_pid() in the callback function for the source.
+
+On POSIX platforms, the following restrictions apply to this API due to limitations in POSIX process interfaces:
+
+* C<$pid> must be a child of this process
+* C<$pid> must be positive
+* the application must not call `waitpid` with a non-positive
+ first argument, for instance in another thread
+* the application must not wait for C<$pid> to exit by any other
+ mechanism, including `waitpid(pid, ...)` or a second child-watch
+ source for the same C<$pid>
+* the application must not ignore `SIGCHLD`
+
+If any of those conditions are not met, this and related APIs will not work correctly. This can often be diagnosed via a GLib warning stating that `ECHILD` was received by `waitpid`.
+
+Calling `waitpid` for specific processes other than C<$pid> remains a valid thing to do.
+
+=begin code
+method child-watch-source-new ( … --> CArray[N-Source]  )
+=end code
+
+=item pid; process to watch. On POSIX the positive pid of a child process. On Windows a handle for a process (which doesn't have to be a child).. Note that each argument must be specified as a type followed by its value!
+
+Return value; the newly-created child watch source. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-handle-id
+
+Clears a numeric handler, such as a B<Gnome::Glib::N-Source> ID.
+ C<$tag_ptr> must be a valid pointer to the variable holding the handler.
+
+If the ID is zero then this function does nothing.
+Otherwise, clear_func() is called with the ID as a parameter, and the tag is set to zero.
+
+A macro is also included that allows this function to be used without pointer casts.
+
+=begin code
+method clear-handle-id ( Array[Int] $tag-ptr, &clear-func )
+=end code
+
+=item $tag-ptr; a pointer to the handler ID.
+=item &clear-func; the function to call to clear the handler. Tthe function must be specified with following signature; C<:( guint $handle-id )>.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-time
+
+Equivalent to the UNIX gettimeofday() function, but portable.
+
+You may find g_get_real_time() to be more convenient.
+
+=begin code
+method get-current-time ( CArray[N-TimeVal]  $result )
+=end code
+
+=item $result; B<Gnome::Glib::N-TimeVal> structure in which to store current time..
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-monotonic-time
+
+Queries the system monotonic time.
+
+The monotonic clock will always increase and doesn't suffer discontinuities when the user (or NTP) changes the system time. It may or may not continue to tick during times where the machine is suspended.
+
+We try to use the clock that corresponds as closely as possible to the passage of time as measured by system calls such as poll() but it may not always be possible to do this.
+
+=begin code
+method get-monotonic-time (--> Int )
+=end code
+
+
+Return value; the monotonic time, in microseconds. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-real-time
+
+Queries the system wall-clock time.
+
+This call is functionally equivalent to g_get_current_time() except that the return value is often more convenient than dealing with a B<Gnome::Glib::N-TimeVal>.
+
+You should only use this call if you are actually interested in the real wall-clock time. g_get_monotonic_time() is probably more useful for measuring intervals.
+
+=begin code
+method get-real-time (--> Int )
+=end code
+
+
+Return value; the number of microseconds since January 1, 1970 UTC.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 idle-add
+
+Adds a function to be called whenever there are no higher priority events pending to the default main loop. The function is given the default idle priority, %B<Gnome::Glib::T-MainContext>. If the function returns C<False> it is automatically removed from the list of event sources and will not be called again.
+
+See memory management of sources for details on how to handle the return value and memory management of C<$data>.
+
+This internally creates a main loop source using g_idle_source_new()
+and attaches it to the global B<Gnome::Glib::N-MainContext> using g_source_attach(), so the callback will be invoked in whichever thread is running that main context. You can do these steps manually if you need greater control or to use a custom main context.
+
+=begin code
+method idle-add ( &function, gpointer $data --> UInt )
+=end code
+
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data --> gboolean )>.
+=item $data; data to pass to C<$function>..
+
+Return value; the ID (greater than 0) of the event source.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 idle-add-full
+
+Adds a function to be called whenever there are no higher priority events pending.
+
+If the function returns %B<Gnome::Glib::T-MainContext> or C<False> it is automatically removed from the list of event sources and will not be called again.
+
+See memory management of sources for details on how to handle the return value and memory management of C<$data>.
+
+This internally creates a main loop source using g_idle_source_new()
+and attaches it to the global B<Gnome::Glib::N-MainContext> using g_source_attach(), so the callback will be invoked in whichever thread is running that main context. You can do these steps manually if you need greater control or to use a custom main context.
+
+=begin code
+method idle-add-full ( Int() $priority, &function, gpointer $data, &notify --> UInt )
+=end code
+
+=item $priority; the priority of the idle source. Typically this will be in the
+ range between %B<Gnome::Glib::T-MainContext> and %B<Gnome::Glib::T-MainContext>..
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data --> gboolean )>.
+=item $data; data to pass to C<$function>.
+=item &notify; function to call when the idle is removed, or C<Nil>. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+Return value; the ID (greater than 0) of the event source.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 idle-add-once
+
+Adds a function to be called whenever there are no higher priority events pending to the default main loop. The function is given the default idle priority, %B<Gnome::Glib::T-MainContext>.
+
+The function will only be called once and then the source will be automatically removed from the main context.
+
+This function otherwise behaves like g_idle_add().
+
+=begin code
+method idle-add-once ( &function, gpointer $data --> UInt )
+=end code
+
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data )>.
+=item $data; data to pass to C<$function>.
+
+Return value; the ID (greater than 0) of the event source. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 idle-remove-by-data
+
+Removes the idle function with the given data.
+
+=begin code
+method idle-remove-by-data ( gpointer $data --> Bool )
+=end code
+
+=item $data; the data for the idle source's callback..
+
+Return value; C<True> if an idle source was found and removed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 idle-source-new
+
+Creates a new idle source.
+
+The source will not initially be associated with any B<Gnome::Glib::N-MainContext>
+and must be added to one with g_source_attach() before it will be executed. Note that the default priority for idle sources is
+%B<Gnome::Glib::T-MainContext>, as compared to other sources which have a default priority of %B<Gnome::Glib::T-MainContext>.
+
+=begin code
+method idle-source-new (--> CArray[N-Source]  )
+=end code
+
+
+Return value; the newly-created idle source. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 main-context-default
+
+Returns the global default main context. This is the main context used for main loop functions when a main loop is not explicitly specified, and corresponds to the "main" main loop. See also g_main_context_get_thread_default().
+
+=begin code
+method main-context-default (--> CArray[N-MainContext] )
+=end code
+
+
+Return value; the global default main context.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 main-context-get-thread-default
+
+Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread. Asynchronous operations that want to be able to be run in contexts other than the default one should call this method or g_main_context_ref_thread_default() to get a B<Gnome::Glib::N-MainContext> to add their GSources to. (Note that even in single-threaded programs applications may sometimes want to temporarily push a non-default context, so it is not safe to assume that this will always return C<Nil> if you are running in the default thread.)
+
+If you need to hold a reference on the context, use g_main_context_ref_thread_default() instead.
+
+=begin code
+method main-context-get-thread-default (--> CArray[N-MainContext] )
+=end code
+
+
+Return value; the thread-default B<Gnome::Glib::N-MainContext>, or C<Nil> if the thread-default context is the global default context.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 main-context-ref-thread-default
+
+Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread, as with g_main_context_get_thread_default(), but also adds a reference to it with g_main_context_ref(). In addition, unlike g_main_context_get_thread_default(), if the thread-default context is the global default context, this will return that B<Gnome::Glib::N-MainContext>
+(with a ref added to it) rather than returning C<Nil>.
+
+=begin code
+method main-context-ref-thread-default (--> CArray[N-MainContext] )
+=end code
+
+
+Return value; the thread-default B<Gnome::Glib::N-MainContext>. Unref
+ with g_main_context_unref() when you are done with it.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 main-current-source
+
+Returns the currently firing source for this thread.
+
+=begin code
+method main-current-source (--> CArray[N-Source]  )
+=end code
+
+
+Return value; The currently firing source or C<Nil>.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 main-depth
+
+Returns the depth of the stack of calls to g_main_context_dispatch() on any B<Gnome::Glib::N-MainContext> in the current thread.
+ That is, when called from the toplevel, it gives 0. When called from within a callback from g_main_context_iteration()
+(or g_main_loop_run(), etc.) it returns 1. When called from within a callback to a recursive call to g_main_context_iteration(),
+it returns 2. And so forth.
+
+This function is useful in a situation like the following:
+Imagine an extremely simple "garbage collected" system.
+
+=begin comment
+
+static GList *free_list;
+
+gpointer allocate_memory (gsize size)
+{
+ gpointer result = g_malloc (size);
+ free_list = g_list_prepend (free_list, result);
+ return result;
+}
+
+void free_allocated_memory (void)
+{
+ GList *l;
+ for (l = free_list; l; l = l->next);
+ g_free (l->data);
+ g_list_free (free_list);
+ free_list = NULL;
+ }
+
+[...]
+
+while (TRUE);
+ {
+ g_main_context_iteration (NULL, TRUE);
+ free_allocated_memory();
+ }
+=end comment
+
+This works from an application, however, if you want to do the same thing from a library, it gets more difficult, since you no longer control the main loop. You might think you can simply use an idle function to make the call to free_allocated_memory(), but that doesn't work, since the idle function could be called from a recursive callback. This can be fixed by using g_main_depth()
+
+=begin comment
+
+gpointer allocate_memory (gsize size)
+{
+ FreeListBlock *block = g_new (FreeListBlock, 1);
+ block->mem = g_malloc (size);
+ block->depth = g_main_depth ();
+ free_list = g_list_prepend (free_list, block);
+ return block->mem;
+}
+
+void free_allocated_memory (void)
+{
+ GList *l;
+ 
+ int depth = g_main_depth ();
+ for (l = free_list; l; );
+ {
+ GList *next = l->next;
+ FreeListBlock *block = l->data;
+ if (block->depth > depth)
+ {
+ g_free (block->mem);
+ g_free (block);
+ free_list = g_list_delete_link (free_list, l);
+ }
+ 
+ l = next;
+ }
+ }
+=end comment
+
+There is a temptation to use g_main_depth() to solve problems with reentrancy. For instance, while waiting for data to be received from the network in response to a menu item,
+the menu item might be selected again. It might seem that one could make the menu item's callback return immediately and do nothing if g_main_depth() returns a value greater than 1.
+However, this should be avoided since the user then sees selecting the menu item do nothing. Furthermore, you'll find yourself adding these checks all over your code, since there are doubtless many,
+many things that the user could do. Instead, you can use the following techniques:
+
+1. Use gtk_widget_set_sensitive() or modal dialogs to prevent
+ the user from interacting with elements while the main
+ loop is recursing.
+
+2. Avoid main loop recursion in situations where you can't handle
+ arbitrary callbacks. Instead, structure your code so that you
+ simply return to the main loop and then get called again when
+ there is more work to do.
+
+=begin code
+method main-depth (--> Int )
+=end code
+
+
+Return value; The main loop recursion level in the current thread. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 source-remove
+
+Removes the source with the given ID from the default main context. You must use g_source_destroy() for sources added to a non-default main context.
+
+The ID of a B<Gnome::Glib::N-Source> is given by g_source_get_id(), or will be returned by the functions g_source_attach(), g_idle_add(),
+g_idle_add_full(), g_timeout_add(), g_timeout_add_full(),
+g_child_watch_add(), g_child_watch_add_full(), g_io_add_watch(), and g_io_add_watch_full().
+
+It is a programmer error to attempt to remove a non-existent source.
+
+More specifically: source IDs can be reissued after a source has been destroyed and therefore it is never valid to use this function with a source ID which may have already been removed. An example is when scheduling an idle to run in another thread with g_idle_add(): the idle may already have run and been removed by the time this function is called on its (now invalid) source ID. This source ID may have been reissued, leading to the operation being performed against the wrong source.
+
+=begin code
+method source-remove ( UInt() $tag --> Bool )
+=end code
+
+=item $tag; the ID of the source to remove..
+
+Return value; C<True> if the source was found and removed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 source-remove-by-funcs-user-data
+
+Removes a source from the default main loop context given the source functions and user data. If multiple sources exist with the same source functions and user data, only one will be destroyed.
+
+=begin code
+method source-remove-by-funcs-user-data ( CArray[N-SourceFuncs]  $funcs, gpointer $user-data --> Bool )
+=end code
+
+=item $funcs; The C<$source_funcs> passed to g_source_new().
+=item $user-data; the user data for the callback.
+
+Return value; C<True> if a source was found and removed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 source-remove-by-user-data
+
+Removes a source from the default main loop context given the user data for the callback. If multiple sources exist with the same user data, only one will be destroyed.
+
+=begin code
+method source-remove-by-user-data ( gpointer $user-data --> Bool )
+=end code
+
+=item $user-data; the user_data for the callback..
+
+Return value; C<True> if a source was found and removed.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 source-set-name-by-id
+
+Sets the name of a source using its ID.
+
+This is a convenience utility to set source names from the return value of g_idle_add(), g_timeout_add(), etc.
+
+It is a programmer error to attempt to set the name of a non-existent source.
+
+More specifically: source IDs can be reissued after a source has been destroyed and therefore it is never valid to use this function with a source ID which may have already been removed. An example is when scheduling an idle to run in another thread with g_idle_add(): the idle may already have run and been removed by the time this function is called on its (now invalid) source ID. This source ID may have been reissued, leading to the operation being performed against the wrong source.
+
+=begin code
+method source-set-name-by-id ( UInt() $tag, Str $name )
+=end code
+
+=item $tag; a B<Gnome::Glib::N-Source> ID.
+=item $name; debug name for the source.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 timeout-add
+
+Sets a function to be called at regular intervals, with the default priority, %B<Gnome::Glib::T-MainContext>.
+
+The given C<$function> is called repeatedly until it returns %B<Gnome::Glib::T-MainContext>
+or C<False>, at which point the timeout is automatically destroyed and the function will not be called again. The first call to the function will be at the end of the first C<$interval>.
+
+Note that timeout functions may be delayed, due to the processing of other event sources. Thus they should not be relied on for precise timing.
+After each call to the timeout function, the time of the next timeout is recalculated based on the current time and the given interval
+(it does not try to 'catch up' time lost in delays).
+
+See memory management of sources for details on how to handle the return value and memory management of C<$data>.
+
+If you want to have a timer in the "seconds" range and do not care about the exact time of the first call of the timer, use the g_timeout_add_seconds() function; this function allows for more optimizations and more efficient system power usage.
+
+This internally creates a main loop source using g_timeout_source_new()
+and attaches it to the global B<Gnome::Glib::N-MainContext> using g_source_attach(), so the callback will be invoked in whichever thread is running that main context. You can do these steps manually if you need greater control or to use a custom main context.
+
+It is safe to call this function from any thread.
+
+The interval given is in terms of monotonic time, not wall clock time. See g_get_monotonic_time().
+
+=begin code
+method timeout-add ( UInt() $interval, &function, gpointer $data --> UInt )
+=end code
+
+=item $interval; the time between calls to the function, in milliseconds
+ (1/1000ths of a second).
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data --> gboolean )>.
+=item $data; data to pass to C<$function>.
+
+Return value; the ID (greater than 0) of the event source.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 timeout-add-full
+
+Sets a function to be called at regular intervals, with the given priority. The function is called repeatedly until it returns C<False>, at which point the timeout is automatically destroyed and the function will not be called again. The C<$notify> function is called when the timeout is destroyed. The first call to the function will be at the end of the first C<$interval>.
+
+Note that timeout functions may be delayed, due to the processing of other event sources. Thus they should not be relied on for precise timing.
+After each call to the timeout function, the time of the next timeout is recalculated based on the current time and the given interval
+(it does not try to 'catch up' time lost in delays).
+
+See memory management of sources for details on how to handle the return value and memory management of C<$data>.
+
+This internally creates a main loop source using g_timeout_source_new()
+and attaches it to the global B<Gnome::Glib::N-MainContext> using g_source_attach(), so the callback will be invoked in whichever thread is running that main context. You can do these steps manually if you need greater control or to use a custom main context.
+
+The interval given is in terms of monotonic time, not wall clock time.
+See g_get_monotonic_time().
+
+=begin code
+method timeout-add-full ( Int() $priority, UInt() $interval, &function, gpointer $data, &notify --> UInt )
+=end code
+
+=item $priority; the priority of the timeout source. Typically this will be in
+ the range between %B<Gnome::Glib::T-MainContext> and %B<Gnome::Glib::T-MainContext>..
+=item $interval; the time between calls to the function, in milliseconds
+ (1/1000ths of a second).
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data --> gboolean )>.
+=item $data; data to pass to C<$function>.
+=item &notify; function to call when the timeout is removed, or C<Nil>. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+Return value; the ID (greater than 0) of the event source.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 timeout-add-once
+
+Sets a function to be called after C<$interval> milliseconds have elapsed,
+with the default priority, %B<Gnome::Glib::T-MainContext>.
+
+The given C<$function> is called once and then the source will be automatically removed from the main context.
+
+This function otherwise behaves like g_timeout_add().
+
+=begin code
+method timeout-add-once ( UInt() $interval, &function, gpointer $data --> UInt )
+=end code
+
+=item $interval; the time after which the function will be called, in
+ milliseconds (1/1000ths of a second).
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data )>.
+=item $data; data to pass to C<$function>.
+
+Return value; the ID (greater than 0) of the event source. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 timeout-add-seconds
+
+Sets a function to be called at regular intervals with the default priority, %B<Gnome::Glib::T-MainContext>.
+
+The function is called repeatedly until it returns %B<Gnome::Glib::T-MainContext>
+or C<False>, at which point the timeout is automatically destroyed and the function will not be called again.
+
+This internally creates a main loop source using g_timeout_source_new_seconds() and attaches it to the main loop context using g_source_attach(). You can do these steps manually if you need greater control. Also see g_timeout_add_seconds_full().
+
+It is safe to call this function from any thread.
+
+Note that the first call of the timer may not be precise for timeouts of one second. If you need finer precision and have such a timeout,
+you may want to use g_timeout_add() instead.
+
+See memory management of sources for details on how to handle the return value and memory management of C<$data>.
+
+The interval given is in terms of monotonic time, not wall clock time. See g_get_monotonic_time().
+
+=begin code
+method timeout-add-seconds ( UInt() $interval, &function, gpointer $data --> UInt )
+=end code
+
+=item $interval; the time between calls to the function, in seconds.
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data --> gboolean )>.
+=item $data; data to pass to C<$function>.
+
+Return value; the ID (greater than 0) of the event source.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 timeout-add-seconds-full
+
+Sets a function to be called at regular intervals, with C<$priority>.
+
+The function is called repeatedly until it returns %B<Gnome::Glib::T-MainContext>
+or C<False>, at which point the timeout is automatically destroyed and the function will not be called again.
+
+Unlike g_timeout_add(), this function operates at whole second granularity.
+The initial starting point of the timer is determined by the implementation and the implementation is expected to group multiple timers together so that they fire all at the same time. To allow this grouping, the C<$interval> to the first timer is rounded and can deviate up to one second from the specified interval. Subsequent timer iterations will generally run at the specified interval.
+
+Note that timeout functions may be delayed, due to the processing of other event sources. Thus they should not be relied on for precise timing.
+After each call to the timeout function, the time of the next timeout is recalculated based on the current time and the given C<$interval>
+
+See memory management of sources for details on how to handle the return value and memory management of C<$data>.
+
+If you want timing more precise than whole seconds, use g_timeout_add()
+instead.
+
+The grouping of timers to fire at the same time results in a more power and CPU efficient behavior so if your timer is in multiples of seconds and you don't require the first timer exactly one second from now, the use of g_timeout_add_seconds() is preferred over g_timeout_add().
+
+This internally creates a main loop source using g_timeout_source_new_seconds() and attaches it to the main loop context using g_source_attach(). You can do these steps manually if you need greater control.
+
+It is safe to call this function from any thread.
+
+The interval given is in terms of monotonic time, not wall clock time. See g_get_monotonic_time().
+
+=begin code
+method timeout-add-seconds-full ( Int() $priority, UInt() $interval, &function, gpointer $data, &notify --> UInt )
+=end code
+
+=item $priority; the priority of the timeout source. Typically this will be in
+ the range between %B<Gnome::Glib::T-MainContext> and %B<Gnome::Glib::T-MainContext>..
+=item $interval; the time between calls to the function, in seconds.
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data --> gboolean )>.
+=item $data; data to pass to C<$function>.
+=item &notify; function to call when the timeout is removed, or C<Nil>. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+Return value; the ID (greater than 0) of the event source.. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 timeout-source-new
+
+Creates a new timeout source.
+
+The source will not initially be associated with any B<Gnome::Glib::N-MainContext>
+and must be added to one with g_source_attach() before it will be executed.
+
+The interval given is in terms of monotonic time, not wall clock time. See g_get_monotonic_time().
+
+=begin code
+method timeout-source-new ( UInt() $interval --> CArray[N-Source]  )
+=end code
+
+=item $interval; the timeout interval in milliseconds..
+
+Return value; the newly-created timeout source. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 timeout-source-new-seconds
+
+Creates a new timeout source.
+
+The source will not initially be associated with any B<Gnome::Glib::N-MainContext>
+and must be added to one with g_source_attach() before it will be executed.
+
+The scheduling granularity/accuracy of this timeout source will be in seconds.
+
+The interval given is in terms of monotonic time, not wall clock time.
+See g_get_monotonic_time().
+
+=begin code
+method timeout-source-new-seconds ( UInt() $interval --> CArray[N-Source]  )
+=end code
+
+=item $interval; the timeout interval in seconds.
+
+Return value; the newly-created timeout source. 
+
+
+=end pod
+

@@ -1,7 +1,7 @@
- use v6.d;
+use v6.d;
 
 =begin pod
-=head1 Gnome::Glib::Loop
+=head1 Gnome::Glib::MainLoop
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -14,13 +14,8 @@
 
 =head1 Description
 
-The `GMainLoop` struct is an opaque data type
+The `B<Gnome::Glib::N-MainLoop>` struct is an opaque data type
 representing the main event loop of a GLib or GTK+ application.
-=begin comment
-=head2 Uml Diagram
-![](plantuml/….svg)
-=end comment
-
 =begin comment
 =head2 Example
   … text …
@@ -28,6 +23,19 @@ representing the main event loop of a GLib or GTK+ application.
 =end comment
 
 =end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-MainLoop
+
+This is an opaque type of which fields are not available.
+
+  class N-MainLoop:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
@@ -51,12 +59,14 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 new-mainloop
 
-Creates a new GMainLoop structure.
+Creates a new B<Gnome::Glib::N-MainLoop> structure.
 
 =begin code
-method new-mainloop ( --> Gnome::Glib::MainLoop)
+method new-mainloop ( CArray[N-MainContext] $context, Bool() $is-running --> Gnome::Glib::MainLoop )
 =end code
 
+=item $context; a B<Gnome::Glib::N-MainContext> (if C<Nil>, the default context will be used)..
+=item $is-running; set to C<True> to indicate that the loop is running. This is not very important since calling g_main_loop_run() will set this to C<True> anyway..
 
 =end pod
 
@@ -72,14 +82,14 @@ method new-mainloop ( --> Gnome::Glib::MainLoop)
 =begin pod
 =head2 get-context
 
-Returns the GMainContext of C<$loop>.
+Returns the B<Gnome::Glib::N-MainContext> of C<$loop>.
 
 =begin code
 method get-context (--> CArray[N-MainContext] )
 =end code
 
 
-Return value; the GMainContext of C<$loop>. 
+Return value; the B<Gnome::Glib::N-MainContext> of C<$loop>. 
 
 
 =end pod
@@ -88,7 +98,7 @@ Return value; the GMainContext of C<$loop>.
 =begin pod
 =head2 is-running
 
-Checks to see if the main loop is currently being run via C<.run()>.
+Checks to see if the main loop is currently being run via g_main_loop_run().
 
 =begin code
 method is-running (--> Bool )
@@ -104,10 +114,10 @@ Return value; C<True> if the mainloop is currently being run..
 =begin pod
 =head2 quit
 
-Stops a GMainLoop from running. Any calls to C<.run()>
+Stops a B<Gnome::Glib::N-MainLoop> from running. Any calls to g_main_loop_run()
 for the loop will return.
 
-Note that sources that have already been dispatched when C<.quit()> is called will still be executed.
+Note that sources that have already been dispatched when g_main_loop_quit() is called will still be executed.
 
 =begin code
 method quit ( )
@@ -120,7 +130,7 @@ method quit ( )
 =begin pod
 =head2 ref
 
-Increases the reference count on a GMainLoop object by one.
+Increases the reference count on a B<Gnome::Glib::N-MainLoop> object by one.
 
 =begin code
 method ref (--> CArray[N-MainLoop] )
@@ -136,8 +146,8 @@ Return value;  C<$loop>.
 =begin pod
 =head2 run
 
-Runs a main loop until C<.quit()> is called on the loop.
-If this is called for the thread of the loop's GMainContext,
+Runs a main loop until g_main_loop_quit() is called on the loop.
+If this is called for the thread of the loop's B<Gnome::Glib::N-MainContext>,
 it will process events from the loop, otherwise it will simply wait.
 
 =begin code
@@ -151,7 +161,7 @@ method run ( )
 =begin pod
 =head2 unref
 
-Decreases the reference count on a GMainLoop object by one. If the result is zero, free the loop and free all associated memory.
+Decreases the reference count on a B<Gnome::Glib::N-MainLoop> object by one. If the result is zero, free the loop and free all associated memory.
 
 =begin code
 method unref ( )
