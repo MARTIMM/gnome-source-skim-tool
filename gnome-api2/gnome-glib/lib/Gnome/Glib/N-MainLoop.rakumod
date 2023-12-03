@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v Glib main -c
+# Package: Glib, C-Source: main
 use v6.d;
 
 #-------------------------------------------------------------------------------

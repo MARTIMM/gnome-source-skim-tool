@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v Glib main -c
+# Package: Glib, C-Source: main
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -44,11 +44,11 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 constant G_PRIORITY_LOW is export = 300;
 constant G_PRIORITY_HIGH_IDLE is export = 100;
+constant G_PRIORITY_DEFAULT is export = 0;
+constant G_SOURCE_CONTINUE is export = true;
+constant G_PRIORITY_HIGH is export = -100;
 constant G_PRIORITY_DEFAULT_IDLE is export = 200;
 constant G_SOURCE_REMOVE is export = false;
-constant G_SOURCE_CONTINUE is export = true;
-constant G_PRIORITY_DEFAULT is export = 0;
-constant G_PRIORITY_HIGH is export = -100;
 
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
