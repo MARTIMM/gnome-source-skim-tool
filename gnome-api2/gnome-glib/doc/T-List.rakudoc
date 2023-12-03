@@ -1,9 +1,8 @@
- use v6.d;
+use v6.d;
 
 =begin pod
 =head1 Gnome::Glib::T-List
 =end pod
-
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -30,15 +29,15 @@ Initialization of a type class is simple.
 =begin pod
 =head2 clear-list
 
-Clears a pointer to a GList, freeing it and, optionally, freeing its elements using C<$destroy>.
- C<$list_ptr> must be a valid pointer. If C<$list_ptr> points to a null GList, this does nothing.
+Clears a pointer to a B<N-List>, freeing it and, optionally, freeing its elements using C<$destroy>.
+ C<$list_ptr> must be a valid pointer. If C<$list_ptr> points to a null B<N-List>, this does nothing.
 
 =begin code
-method clear-list ( N-List() $list-ptr, &destroy )
+method clear-list ( CArray[N-List] $list-ptr, &destroy )
 =end code
 
-=item $list-ptr; a GList return location.
-=item &destroy; the function to pass to C<.free-full()> or C<Nil> to not free elements. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+=item $list-ptr; a pointer to a B<N-List>.
+=item &destroy; the function to pass to C<.free-full() in Gnome::Glib::N-List> or C<Nil> to not free elements. Tthe function must be specified with following signature; C<:( gpointer $data )>.
 
 =end pod
 

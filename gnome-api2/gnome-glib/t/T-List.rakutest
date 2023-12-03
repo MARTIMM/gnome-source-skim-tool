@@ -9,8 +9,6 @@ use v6.d;
 use NativeCall;
 use Test;
 
-
-use Gnome::Glib::List:api<2>;
 use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-List:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -18,78 +16,40 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
-my Gnome::Glib::List $list .= new;
-
-#-------------------------------------------------------------------------------
-# Fill list
-sub fill-list ( --> N-List ) {
-#  say "\nFill list with numbers";
-
-  my N-List $n-glist .= new;
-  for 2..12 -> $i {
-    my gpointer $data = pack($i);
-#    note "Data inserted: ", unpack($data);
-    $n-glist = $list.append( $n-glist, $data);
-  }
-  
-  $n-glist
-}
+#my Gnome::Glib::N-List $n-list .= new;
 
 #-------------------------------------------------------------------------------
 # Pack and store data to prevent garbage collecting
-my Hash $saved-data = %();
+my @keep = ();
 sub pack ( Int $n --> gpointer ) {
-  my $o = CArray[gint].new;
-  $o[0] = $n;
-  my gpointer $data = nativecast( gpointer, $o);
-
-  $saved-data{$n} = $o;
-  $data
+  my $o = CArray[gint].new($n);
+  @keep.push: $o;
+  nativecast( gpointer, $o)
 }
 
-sub unpack ( gpointer $p --> Int ) {
-  my $o = nativecast( CArray[gint], $p);
-  $o[0]
-}
 
 my Str $destroyed = '';
-sub destroy ( gpointer $p ) {
-  $destroyed ~= unpack($p);
+sub destroy ( gpointer $np ) {
+  my Pointer[gint] $p = nativecast( Pointer[gint], $np);
+#note "$?LINE $p.deref()";
+  $destroyed ~= $p.deref.Str;
 }
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   my Gnome::Glib::T-List $t-list .= new;
+  my Gnome::Glib::N-List $n-list .= new;
+  my N-List $N-List;
 
   #TB:1:clear-list()
-  my N-List $n-glist = fill-list();
-  my $list-ptr = CArray[N-List].new($n-glist);
-  $t-list.clear-list( $list-ptr, &destroy);
-  is $destroyed, '23456789101112', '.clear-list()';
-};
-
-
-done-testing;
-=finish
-#-------------------------------------------------------------------------------
-subtest 'Method tests', {
-  with $list {
-    sub destroy ( gpointer ) {
-    }
-    my CArray[N-List] $list-ptr;
-
-
-#`{{
-    #TM:0:clear-list()
-    ok .clear-list( $list-ptr, $destroy), '.clear-list()';
-
-}}
+  for ^10 -> $i {
+    $N-List = $n-list.append( $N-List, pack($i));
   }
+
+  my $list-ptr = CArray[N-List].new($N-List);
+  $t-list.clear-list( $list-ptr, &destroy);
+  is $destroyed, '0123456789', '.clear-list()';
 };
 
-
-
-#-------------------------------------------------------------------------------
 done-testing;
 =finish
-
