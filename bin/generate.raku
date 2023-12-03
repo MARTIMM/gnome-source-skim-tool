@@ -3,6 +3,7 @@
 use Gnome::SourceSkimTool::ConstEnumType;
 #use Gnome::SourceSkimTool::Prepare;
 use YAMLish;
+use Getopt::Long;
 
 #-------------------------------------------------------------------------------
 my SkimSource $*gnome-package;
@@ -25,7 +26,7 @@ my Str $*record-code = '';
 my Hash $*external-modules = %();
 my @*map-search-list;
 
-my $*command-line = $*PROGRAM-NAME.IO.basename ~ ' ' ~ @*ARGS.join(' ');
+my $*command-line;
 my @*gir-type-select;
 
 my Hash $*lib-content-list-file = load-yaml(lib-content-list-file.IO.slurp);
@@ -33,77 +34,85 @@ my Hash $*lib-content-list-file = load-yaml(lib-content-list-file.IO.slurp);
 my Array $*saved-file-summary = [];
 
 #-------------------------------------------------------------------------------
-sub MAIN (
-  Str:D $gnome-package, Str $filename? is copy, *@types,
-  Bool :$v = False,
-  Bool :$c = False, Bool :$d = False, Bool :$t = False,
-  Bool :$help = False,
-) {
+my Capture $options = get-options(<h v c d t>);
+my Str ( $gnome-package, $filename, *@types) = @*ARGS;
+my Hash $o = $options.Hash;
 
-  if $help {
-    USAGE;
-    exit(0);
-  }
+my Bool ( $v, $h, $c, $d, $t );
+$v = ?$o<v>;
+$h = ?$o<h>;
+$c = ?$o<c>;
+$d = ?$o<d>;
+$t = ?$o<t>;
 
-  try {
-    $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
-    CATCH {
-      default {
-        USAGE;
-        exit(1);
-      }
+
+if $h {
+  USAGE;
+  exit(0);
+}
+
+try {
+  $*gnome-package = SkimSource(SkimSource.enums{$gnome-package});
+  CATCH {
+    default {
+      USAGE;
+      exit(1);
     }
   }
+}
 
-  $*verbose = $v;
+$*command-line = "# Package: $*gnome-package.Str(), C-Source: $filename";
+$*verbose = $v;
 
 #  $*generate-code = $c;
 #  $*generate-doc = $d;
 #  $*generate-test = $t;
 
-  @*gir-type-select = @types // ();
+@*gir-type-select = @types // ();
 
 
-  # Get data using filename
-  $filename .= lc;
+# Get data using filename
+$filename .= lc;
 #  my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
-  # Generate library code
-  if $c {
-    say "\nGenerate code";
-    $*generate-code = True;
-    require ::('Gnome::SourceSkimTool::GenerateCode');
-    my $raku-module =
-        ::('Gnome::SourceSkimTool::GenerateCode').new(:$filename);
-    $raku-module.generate-code;
-    $*generate-code = False;
-  }
-
-  # Generate documentation
-  if $d {
-    say "\nGenerate documentation";
-    $*generate-doc = True;
-    require ::('Gnome::SourceSkimTool::GenerateDoc');
-    my $raku-module = ::('Gnome::SourceSkimTool::GenerateDoc').new(:$filename);
-    $raku-module.generate-doc;
-    $*generate-doc = False;
-  }
-
-  # Generate test code
-  if $t {
-    say "\nGenerate tests";
-    $*generate-test = True;
-
-    require ::('Gnome::SourceSkimTool::GenerateTest');
-    my $raku-module =
-        ::('Gnome::SourceSkimTool::GenerateTest').new(:$filename);
-    $raku-module.generate-test;
-
-    $*generate-test = False;
-  }
-
-  say "\n\nSummary of saved files\n  ", $*saved-file-summary.join("\n  ");
+# Generate library code
+if $c {
+  say "\nGenerate code";
+  $*generate-code = True;
+  require ::('Gnome::SourceSkimTool::GenerateCode');
+  my $raku-module =
+      ::('Gnome::SourceSkimTool::GenerateCode').new(:$filename);
+  $raku-module.generate-code;
+  $*generate-code = False;
 }
+
+# Generate documentation
+if $d {
+  say "\nGenerate documentation";
+  $*generate-doc = True;
+  require ::('Gnome::SourceSkimTool::GenerateDoc');
+  my $raku-module = ::('Gnome::SourceSkimTool::GenerateDoc').new(:$filename);
+  $raku-module.generate-doc;
+  $*generate-doc = False;
+}
+
+# Generate test code
+if $t {
+  say "\nGenerate tests";
+  $*generate-test = True;
+
+  require ::('Gnome::SourceSkimTool::GenerateTest');
+  my $raku-module =
+      ::('Gnome::SourceSkimTool::GenerateTest').new(:$filename);
+  $raku-module.generate-test;
+
+  $*generate-test = False;
+}
+
+say "\n\nSummary of saved files\n  ", $*saved-file-summary.join("\n  ");
+
+
+exit(0);
 
 #-------------------------------------------------------------------------------
 sub USAGE ( ) {
@@ -134,7 +143,7 @@ sub USAGE ( ) {
               'N-GValue.rakudoc' and 'Value.rakudoc' in the 'gnome-gobject/doc'
               tree to document the modules 'T-Value.rakumod' and
               'Value.rakumod' respectively.
-      help    Show this info. (or any other non existant option ;-)
+      h       Show this info. (or any other non existant option ;-)
       t       Generate a test file for all gir-types found in the
               file. The file 'aboutdialog' in 'Gtk3' generates files
               'AboutDialog.rakutest' and 'T-AboutDialog.rakutest' in the
@@ -161,5 +170,10 @@ sub USAGE ( ) {
                 There are a few more but not yet processed. Name those you want
                 to process. This is only needed for testing because in some
                 cases you may miss out info in certain cases.
+
+  Example
+    generate.raku -v Glib main -cd
+    generate.raku Gtk4 aboutdialog -t
+
   EOHELP
 }
