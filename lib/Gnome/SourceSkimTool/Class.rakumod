@@ -35,7 +35,7 @@ method generate-code ( ) {
   die "//class not found in $*work-data<gir-class-file> for $*work-data<raku-class-name>" unless ?$element;
 
   my Str $code = qq:to/RAKUMOD/;
-    # Command to generate: $*command-line
+    $*command-line
     use v6.d;
     RAKUMOD
 

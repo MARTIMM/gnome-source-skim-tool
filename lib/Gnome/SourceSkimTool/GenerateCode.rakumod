@@ -206,7 +206,7 @@ method generate-code ( ) {
 #    mkdir $filename.IO.dirname, 0o750 unless $filename.IO.dirname.IO ~~ :e;
 
     my Str $code = qq:to/RAKUMOD/;
-      # Command to generate: $*command-line
+      $*command-line
       use v6.d;
       RAKUMOD
 

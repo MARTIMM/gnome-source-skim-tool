@@ -1557,7 +1557,7 @@ method generate-union (
   my Str $union-class = $h0<union-class>;
 
   my Str $code = qq:to/RAKUMOD/;
-    # Command to generate: $*command-line
+    $*command-line
     use v6.d;
     RAKUMOD
 

@@ -41,7 +41,7 @@ method generate-code ( ) {
 
 #TL:1:$*work-data<raku-class-name>:
     my Str $code = qq:to/RAKUMOD/;
-      # Command to generate: $*command-line
+      $*command-line
       use v6.d;
       RAKUMOD
 

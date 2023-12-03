@@ -43,7 +43,7 @@ method generate-code ( ) {
   if ?$callable-code {
 
     my Str $code = qq:to/RAKUMOD/;
-      # Command to generate: $*command-line
+      $*command-line
       use v6.d;
       RAKUMOD
 

@@ -60,7 +60,7 @@ method start-document ( Str $type-letter = '' --> Str ) {
   my Str $class-name = $!mod.set-object-name(
     %( :$type-letter, :type-name($*work-data<raku-name>))
   );
-  "use v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
+  "$*command-line\nuse v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
 }
 
 #-------------------------------------------------------------------------------

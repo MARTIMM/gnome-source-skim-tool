@@ -31,7 +31,7 @@ submethod BUILD ( Str :$!filename ) {
 method prepare-test ( Str $class-name --> Str ) {
 
   my Str $code = qq:to/RAKUMOD/;
-    # Command to generate: $*command-line
+    $*command-line
     use v6.d;
 
     #TL:1:$class-name:

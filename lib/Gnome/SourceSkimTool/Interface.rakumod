@@ -35,7 +35,7 @@ method generate-code ( ) {
   die "//interface not found in gir-interface-file for $*work-data<raku-class-name>" unless ?$element;
 
   my Str $code = qq:to/RAKUMOD/;
-    # Command to generate: $*command-line
+    $*command-line
     use v6.d;
     RAKUMOD
 
