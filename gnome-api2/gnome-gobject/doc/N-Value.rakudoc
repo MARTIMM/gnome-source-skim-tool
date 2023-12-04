@@ -1,3 +1,4 @@
+# Package: GObject, C-Source: value
 use v6.d;
 
 =begin pod
@@ -17,18 +18,13 @@ use v6.d;
 An opaque structure used to hold different types of values.
 
 The data within the structure has protected scope: it is accessible only
-to functions within a GTypeValueTable structure, or implementations of
+to functions within a B<Gnome::GObject::N-TypeValueTable> structure, or implementations of
 the g_value_*() API. That is, code portions which implement new fundamental
 types.
 
-GValue users cannot make any assumptions about how data is stored
+B<Gnome::GObject::N-Value> users cannot make any assumptions about how data is stored
 within the 2 element C<$data> union, and the C<$g_type> member should
 only be accessed through the G_VALUE_TYPE() macro.
-=begin comment
-=head2 Uml Diagram
-![](plantuml/….svg)
-=end comment
-
 =begin comment
 =head2 Example
   … text …
@@ -36,6 +32,25 @@ only be accessed through the G_VALUE_TYPE() macro.
 =end comment
 
 =end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Value
+
+  class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has GType $.g-type;
+    has gchar-pptr $.data;
+  }
+
+=item g-type; 
+=item data; 
+
+=end pod
+
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
@@ -73,7 +88,7 @@ Copies the value of C<$src_value> into C<$dest_value>.
 method copy ( CArray[N-Value] $dest-value )
 =end code
 
-=item $dest-value; An initialized GValue structure of the same type as C<$src_value>..
+=item $dest-value; An initialized B<Gnome::GObject::N-Value> structure of the same type as C<$src_value>..
 
 =end pod
 
@@ -81,7 +96,7 @@ method copy ( CArray[N-Value] $dest-value )
 =begin pod
 =head2 dup-boxed
 
-Get the contents of a %G_TYPE_BOXED derived GValue. Upon getting,
+Get the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value>. Upon getting,
 the boxed value is duplicated and needs to be later freed with g_boxed_free(), e.g. like: g_boxed_free (G_VALUE_TYPE ( C<$value>),
 return_value);
 
@@ -99,7 +114,7 @@ Return value; boxed contents of C<$value>.
 =begin pod
 =head2 dup-object
 
-Get the contents of a %G_TYPE_OBJECT derived GValue, increasing its reference count. If the contents of the GValue are C<Nil>, then C<Nil> will be returned.
+Get the contents of a %G_TYPE_OBJECT derived B<Gnome::GObject::N-Value>, increasing its reference count. If the contents of the B<Gnome::GObject::N-Value> are C<Nil>, then C<Nil> will be returned.
 
 =begin code
 method dup-object (--> gpointer )
@@ -116,14 +131,14 @@ Return value; object content of C<$value>,
 =begin pod
 =head2 dup-param
 
-Get the contents of a %G_TYPE_PARAM GValue, increasing its reference count.
+Get the contents of a %G_TYPE_PARAM B<Gnome::GObject::N-Value>, increasing its reference count.
 
 =begin code
 method dup-param (--> N-Object )
 =end code
 
 
-Return value; GParamSpec content of C<$value>, should be
+Return value; B<Gnome::GObject::ParamSpec> content of C<$value>, should be
  unreferenced when no longer needed.. 
 
 
@@ -133,7 +148,7 @@ Return value; GParamSpec content of C<$value>, should be
 =begin pod
 =head2 dup-string
 
-Get a copy the contents of a %G_TYPE_STRING GValue.
+Get a copy the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value>.
 
 =begin code
 method dup-string (--> Str )
@@ -149,7 +164,7 @@ Return value; a newly allocated copy of the string content of C<$value>.
 =begin pod
 =head2 dup-variant
 
-Get the contents of a variant GValue, increasing its refcount. The returned GVariant is never floating.
+Get the contents of a variant B<Gnome::GObject::N-Value>, increasing its refcount. The returned B<Gnome::GObject::N-Variant> is never floating.
 
 =begin code
 method dup-variant (--> CArray[N-Variant] )
@@ -183,7 +198,7 @@ Return value; C<True> if C<$value> will fit inside a pointer value..
 =begin pod
 =head2 get-boolean
 
-Get the contents of a %G_TYPE_BOOLEAN GValue.
+Get the contents of a %G_TYPE_BOOLEAN B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-boolean (--> Bool )
@@ -199,7 +214,7 @@ Return value; boolean contents of C<$value>.
 =begin pod
 =head2 get-boxed
 
-Get the contents of a %G_TYPE_BOXED derived GValue.
+Get the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-boxed (--> gpointer )
@@ -215,7 +230,7 @@ Return value; boxed contents of C<$value>.
 =begin pod
 =head2 get-double
 
-Get the contents of a %G_TYPE_DOUBLE GValue.
+Get the contents of a %G_TYPE_DOUBLE B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-double (--> Num )
@@ -231,7 +246,7 @@ Return value; double contents of C<$value>.
 =begin pod
 =head2 get-enum
 
-Get the contents of a %G_TYPE_ENUM GValue.
+Get the contents of a %G_TYPE_ENUM B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-enum (--> Int )
@@ -247,7 +262,7 @@ Return value; enum contents of C<$value>.
 =begin pod
 =head2 get-flags
 
-Get the contents of a %G_TYPE_FLAGS GValue.
+Get the contents of a %G_TYPE_FLAGS B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-flags (--> UInt )
@@ -263,7 +278,7 @@ Return value; flags contents of C<$value>.
 =begin pod
 =head2 get-float
 
-Get the contents of a %G_TYPE_FLOAT GValue.
+Get the contents of a %G_TYPE_FLOAT B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-float (--> Num )
@@ -279,7 +294,7 @@ Return value; float contents of C<$value>.
 =begin pod
 =head2 get-gtype
 
-Get the contents of a %G_TYPE_GTYPE GValue.
+Get the contents of a %G_TYPE_GTYPE B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-gtype (--> GType )
@@ -295,7 +310,7 @@ Return value; the GType stored in C<$value>.
 =begin pod
 =head2 get-int
 
-Get the contents of a %G_TYPE_INT GValue.
+Get the contents of a %G_TYPE_INT B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-int (--> Int )
@@ -311,7 +326,7 @@ Return value; integer contents of C<$value>.
 =begin pod
 =head2 get-int64
 
-Get the contents of a %G_TYPE_INT64 GValue.
+Get the contents of a %G_TYPE_INT64 B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-int64 (--> Int )
@@ -327,7 +342,7 @@ Return value; 64bit integer contents of C<$value>.
 =begin pod
 =head2 get-long
 
-Get the contents of a %G_TYPE_LONG GValue.
+Get the contents of a %G_TYPE_LONG B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-long (--> Int )
@@ -343,7 +358,7 @@ Return value; long integer contents of C<$value>.
 =begin pod
 =head2 get-object
 
-Get the contents of a %G_TYPE_OBJECT derived GValue.
+Get the contents of a %G_TYPE_OBJECT derived B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-object (--> gpointer )
@@ -359,14 +374,14 @@ Return value; object contents of C<$value>.
 =begin pod
 =head2 get-param
 
-Get the contents of a %G_TYPE_PARAM GValue.
+Get the contents of a %G_TYPE_PARAM B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-param (--> N-Object )
 =end code
 
 
-Return value; GParamSpec content of C<$value>. 
+Return value; B<Gnome::GObject::ParamSpec> content of C<$value>. 
 
 
 =end pod
@@ -375,7 +390,7 @@ Return value; GParamSpec content of C<$value>.
 =begin pod
 =head2 get-pointer
 
-Get the contents of a pointer GValue.
+Get the contents of a pointer B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-pointer (--> gpointer )
@@ -391,7 +406,7 @@ Return value; pointer contents of C<$value>.
 =begin pod
 =head2 get-schar
 
-Get the contents of a %G_TYPE_CHAR GValue.
+Get the contents of a %G_TYPE_CHAR B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-schar (--> Int )
@@ -407,7 +422,7 @@ Return value; signed 8 bit integer contents of C<$value>.
 =begin pod
 =head2 get-string
 
-Get the contents of a %G_TYPE_STRING GValue.
+Get the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-string (--> Str )
@@ -423,7 +438,7 @@ Return value; string content of C<$value>.
 =begin pod
 =head2 get-uchar
 
-Get the contents of a %G_TYPE_UCHAR GValue.
+Get the contents of a %G_TYPE_UCHAR B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-uchar (--> UInt )
@@ -439,7 +454,7 @@ Return value; unsigned character contents of C<$value>.
 =begin pod
 =head2 get-uint
 
-Get the contents of a %G_TYPE_UINT GValue.
+Get the contents of a %G_TYPE_UINT B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-uint (--> UInt )
@@ -455,7 +470,7 @@ Return value; unsigned integer contents of C<$value>.
 =begin pod
 =head2 get-uint64
 
-Get the contents of a %G_TYPE_UINT64 GValue.
+Get the contents of a %G_TYPE_UINT64 B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-uint64 (--> UInt )
@@ -471,7 +486,7 @@ Return value; unsigned 64bit integer contents of C<$value>.
 =begin pod
 =head2 get-ulong
 
-Get the contents of a %G_TYPE_ULONG GValue.
+Get the contents of a %G_TYPE_ULONG B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-ulong (--> UInt )
@@ -487,7 +502,7 @@ Return value; unsigned long integer contents of C<$value>.
 =begin pod
 =head2 get-variant
 
-Get the contents of a variant GValue.
+Get the contents of a variant B<Gnome::GObject::N-Value>.
 
 =begin code
 method get-variant (--> CArray[N-Variant] )
@@ -509,9 +524,9 @@ Initializes C<$value> with the default value of C<$type>.
 method init ( GType $g-type --> CArray[N-Value] )
 =end code
 
-=item $g-type; Type the GValue should hold values of..
+=item $g-type; Type the B<Gnome::GObject::N-Value> should hold values of..
 
-Return value; the GValue structure that has been passed in. 
+Return value; the B<Gnome::GObject::N-Value> structure that has been passed in. 
 
 
 =end pod
@@ -562,7 +577,7 @@ method reset (--> CArray[N-Value] )
 =end code
 
 
-Return value; the GValue structure that has been passed in. 
+Return value; the B<Gnome::GObject::N-Value> structure that has been passed in. 
 
 
 =end pod
@@ -571,7 +586,7 @@ Return value; the GValue structure that has been passed in.
 =begin pod
 =head2 set-boolean
 
-Set the contents of a %G_TYPE_BOOLEAN GValue to C<$v_boolean>.
+Set the contents of a %G_TYPE_BOOLEAN B<Gnome::GObject::N-Value> to C<$v_boolean>.
 
 =begin code
 method set-boolean ( Bool() $v-boolean )
@@ -585,7 +600,7 @@ method set-boolean ( Bool() $v-boolean )
 =begin pod
 =head2 set-boxed
 
-Set the contents of a %G_TYPE_BOXED derived GValue to C<$v_boxed>.
+Set the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value> to C<$v_boxed>.
 
 =begin code
 method set-boxed ( gpointer $v-boxed )
@@ -599,7 +614,7 @@ method set-boxed ( gpointer $v-boxed )
 =begin pod
 =head2 set-double
 
-Set the contents of a %G_TYPE_DOUBLE GValue to C<$v_double>.
+Set the contents of a %G_TYPE_DOUBLE B<Gnome::GObject::N-Value> to C<$v_double>.
 
 =begin code
 method set-double ( Num() $v-double )
@@ -613,7 +628,7 @@ method set-double ( Num() $v-double )
 =begin pod
 =head2 set-enum
 
-Set the contents of a %G_TYPE_ENUM GValue to C<$v_enum>.
+Set the contents of a %G_TYPE_ENUM B<Gnome::GObject::N-Value> to C<$v_enum>.
 
 =begin code
 method set-enum ( Int() $v-enum )
@@ -627,7 +642,7 @@ method set-enum ( Int() $v-enum )
 =begin pod
 =head2 set-flags
 
-Set the contents of a %G_TYPE_FLAGS GValue to C<$v_flags>.
+Set the contents of a %G_TYPE_FLAGS B<Gnome::GObject::N-Value> to C<$v_flags>.
 
 =begin code
 method set-flags ( UInt() $v-flags )
@@ -641,7 +656,7 @@ method set-flags ( UInt() $v-flags )
 =begin pod
 =head2 set-float
 
-Set the contents of a %G_TYPE_FLOAT GValue to C<$v_float>.
+Set the contents of a %G_TYPE_FLOAT B<Gnome::GObject::N-Value> to C<$v_float>.
 
 =begin code
 method set-float ( Num() $v-float )
@@ -655,7 +670,7 @@ method set-float ( Num() $v-float )
 =begin pod
 =head2 set-gtype
 
-Set the contents of a %G_TYPE_GTYPE GValue to C<$v_gtype>.
+Set the contents of a %G_TYPE_GTYPE B<Gnome::GObject::N-Value> to C<$v_gtype>.
 
 =begin code
 method set-gtype ( GType $v-gtype )
@@ -683,7 +698,7 @@ method set-instance ( gpointer $instance )
 =begin pod
 =head2 set-int
 
-Set the contents of a %G_TYPE_INT GValue to C<$v_int>.
+Set the contents of a %G_TYPE_INT B<Gnome::GObject::N-Value> to C<$v_int>.
 
 =begin code
 method set-int ( Int() $v-int )
@@ -697,7 +712,7 @@ method set-int ( Int() $v-int )
 =begin pod
 =head2 set-int64
 
-Set the contents of a %G_TYPE_INT64 GValue to C<$v_int64>.
+Set the contents of a %G_TYPE_INT64 B<Gnome::GObject::N-Value> to C<$v_int64>.
 
 =begin code
 method set-int64 ( Int() $v-int64 )
@@ -711,7 +726,7 @@ method set-int64 ( Int() $v-int64 )
 =begin pod
 =head2 set-interned-string
 
-Set the contents of a %G_TYPE_STRING GValue to C<$v_string>. The string is assumed to be static and interned (canonical, for example from g_intern_string()), and is thus not duplicated when setting the GValue.
+Set the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value> to C<$v_string>. The string is assumed to be static and interned (canonical, for example from g_intern_string()), and is thus not duplicated when setting the B<Gnome::GObject::N-Value>.
 
 =begin code
 method set-interned-string ( Str $v-string )
@@ -725,7 +740,7 @@ method set-interned-string ( Str $v-string )
 =begin pod
 =head2 set-long
 
-Set the contents of a %G_TYPE_LONG GValue to C<$v_long>.
+Set the contents of a %G_TYPE_LONG B<Gnome::GObject::N-Value> to C<$v_long>.
 
 =begin code
 method set-long ( Int() $v-long )
@@ -739,12 +754,12 @@ method set-long ( Int() $v-long )
 =begin pod
 =head2 set-object
 
-Set the contents of a %G_TYPE_OBJECT derived GValue to C<$v_object>.
+Set the contents of a %G_TYPE_OBJECT derived B<Gnome::GObject::N-Value> to C<$v_object>.
 
 C<.set-object()> increases the reference count of C<$v_object>
-(the GValue holds a reference to C<$v_object>). If you do not wish to increase the reference count of the object (i.e. you wish to pass your current reference to the GValue because you no longer need it), use C<.take-object()> instead.
+(the B<Gnome::GObject::N-Value> holds a reference to C<$v_object>). If you do not wish to increase the reference count of the object (i.e. you wish to pass your current reference to the B<Gnome::GObject::N-Value> because you no longer need it), use C<.take-object()> instead.
 
-It is important that your GValue holds a reference to C<$v_object> (either its own, or one it has taken) to ensure that the object won't be destroyed while the GValue still exists).
+It is important that your B<Gnome::GObject::N-Value> holds a reference to C<$v_object> (either its own, or one it has taken) to ensure that the object won't be destroyed while the B<Gnome::GObject::N-Value> still exists).
 
 =begin code
 method set-object ( gpointer $v-object )
@@ -758,13 +773,13 @@ method set-object ( gpointer $v-object )
 =begin pod
 =head2 set-param
 
-Set the contents of a %G_TYPE_PARAM GValue to C<$param>.
+Set the contents of a %G_TYPE_PARAM B<Gnome::GObject::N-Value> to C<$param>.
 
 =begin code
 method set-param ( N-Object() $param )
 =end code
 
-=item $param; the GParamSpec to be set.
+=item $param; the B<Gnome::GObject::ParamSpec> to be set.
 
 =end pod
 
@@ -772,7 +787,7 @@ method set-param ( N-Object() $param )
 =begin pod
 =head2 set-pointer
 
-Set the contents of a pointer GValue to C<$v_pointer>.
+Set the contents of a pointer B<Gnome::GObject::N-Value> to C<$v_pointer>.
 
 =begin code
 method set-pointer ( gpointer $v-pointer )
@@ -786,7 +801,7 @@ method set-pointer ( gpointer $v-pointer )
 =begin pod
 =head2 set-schar
 
-Set the contents of a %G_TYPE_CHAR GValue to C<$v_char>.
+Set the contents of a %G_TYPE_CHAR B<Gnome::GObject::N-Value> to C<$v_char>.
 
 =begin code
 method set-schar ( Int() $v-char )
@@ -800,9 +815,9 @@ method set-schar ( Int() $v-char )
 =begin pod
 =head2 set-static-boxed
 
-Set the contents of a %G_TYPE_BOXED derived GValue to C<$v_boxed>.
+Set the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value> to C<$v_boxed>.
 
-The boxed value is assumed to be static, and is thus not duplicated when setting the GValue.
+The boxed value is assumed to be static, and is thus not duplicated when setting the B<Gnome::GObject::N-Value>.
 
 =begin code
 method set-static-boxed ( gpointer $v-boxed )
@@ -816,8 +831,8 @@ method set-static-boxed ( gpointer $v-boxed )
 =begin pod
 =head2 set-static-string
 
-Set the contents of a %G_TYPE_STRING GValue to C<$v_string>.
-The string is assumed to be static, and is thus not duplicated when setting the GValue.
+Set the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value> to C<$v_string>.
+The string is assumed to be static, and is thus not duplicated when setting the B<Gnome::GObject::N-Value>.
 
 If the the string is a canonical string, using C<.set-interned-string()>
 is more appropriate.
@@ -834,13 +849,13 @@ method set-static-string ( Str $v-string )
 =begin pod
 =head2 set-string
 
-Set the contents of a %G_TYPE_STRING GValue to a copy of C<$v_string>.
+Set the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value> to a copy of C<$v_string>.
 
 =begin code
 method set-string ( Str $v-string )
 =end code
 
-=item $v-string; caller-owned string to be duplicated for the GValue.
+=item $v-string; caller-owned string to be duplicated for the B<Gnome::GObject::N-Value>.
 
 =end pod
 
@@ -848,7 +863,7 @@ method set-string ( Str $v-string )
 =begin pod
 =head2 set-uchar
 
-Set the contents of a %G_TYPE_UCHAR GValue to C<$v_uchar>.
+Set the contents of a %G_TYPE_UCHAR B<Gnome::GObject::N-Value> to C<$v_uchar>.
 
 =begin code
 method set-uchar ( UInt() $v-uchar )
@@ -862,7 +877,7 @@ method set-uchar ( UInt() $v-uchar )
 =begin pod
 =head2 set-uint
 
-Set the contents of a %G_TYPE_UINT GValue to C<$v_uint>.
+Set the contents of a %G_TYPE_UINT B<Gnome::GObject::N-Value> to C<$v_uint>.
 
 =begin code
 method set-uint ( UInt() $v-uint )
@@ -876,7 +891,7 @@ method set-uint ( UInt() $v-uint )
 =begin pod
 =head2 set-uint64
 
-Set the contents of a %G_TYPE_UINT64 GValue to C<$v_uint64>.
+Set the contents of a %G_TYPE_UINT64 B<Gnome::GObject::N-Value> to C<$v_uint64>.
 
 =begin code
 method set-uint64 ( UInt() $v-uint64 )
@@ -890,7 +905,7 @@ method set-uint64 ( UInt() $v-uint64 )
 =begin pod
 =head2 set-ulong
 
-Set the contents of a %G_TYPE_ULONG GValue to C<$v_ulong>.
+Set the contents of a %G_TYPE_ULONG B<Gnome::GObject::N-Value> to C<$v_ulong>.
 
 =begin code
 method set-ulong ( UInt() $v-ulong )
@@ -904,14 +919,14 @@ method set-ulong ( UInt() $v-ulong )
 =begin pod
 =head2 set-variant
 
-Set the contents of a variant GValue to C<$variant>.
+Set the contents of a variant B<Gnome::GObject::N-Value> to C<$variant>.
 If the variant is floating, it is consumed.
 
 =begin code
 method set-variant ( CArray[N-Variant] $variant )
 =end code
 
-=item $variant; a GVariant, or C<Nil>.
+=item $variant; a B<Gnome::GObject::N-Variant>, or C<Nil>.
 
 =end pod
 
@@ -919,7 +934,7 @@ method set-variant ( CArray[N-Variant] $variant )
 =begin pod
 =head2 take-boxed
 
-Sets the contents of a %G_TYPE_BOXED derived GValue to C<$v_boxed>
+Sets the contents of a %G_TYPE_BOXED derived B<Gnome::GObject::N-Value> to C<$v_boxed>
 and takes over the ownership of the caller’s reference to C<$v_boxed>;
 the caller doesn’t have to unref it any more.
 
@@ -935,11 +950,11 @@ method take-boxed ( gpointer $v-boxed )
 =begin pod
 =head2 take-object
 
-Sets the contents of a %G_TYPE_OBJECT derived GValue to C<$v_object>
+Sets the contents of a %G_TYPE_OBJECT derived B<Gnome::GObject::N-Value> to C<$v_object>
 and takes over the ownership of the caller’s reference to C<$v_object>;
 the caller doesn’t have to unref it any more (i.e. the reference count of the object is not increased).
 
-If you want the GValue to hold its own reference to C<$v_object>, use C<.set-object()> instead.
+If you want the B<Gnome::GObject::N-Value> to hold its own reference to C<$v_object>, use C<.set-object()> instead.
 
 =begin code
 method take-object ( gpointer $v-object )
@@ -953,13 +968,13 @@ method take-object ( gpointer $v-object )
 =begin pod
 =head2 take-param
 
-Sets the contents of a %G_TYPE_PARAM GValue to C<$param> and takes over the ownership of the caller’s reference to C<$param>; the caller doesn’t have to unref it any more.
+Sets the contents of a %G_TYPE_PARAM B<Gnome::GObject::N-Value> to C<$param> and takes over the ownership of the caller’s reference to C<$param>; the caller doesn’t have to unref it any more.
 
 =begin code
 method take-param ( N-Object() $param )
 =end code
 
-=item $param; the GParamSpec to be set.
+=item $param; the B<Gnome::GObject::ParamSpec> to be set.
 
 =end pod
 
@@ -967,7 +982,7 @@ method take-param ( N-Object() $param )
 =begin pod
 =head2 take-string
 
-Sets the contents of a %G_TYPE_STRING GValue to C<$v_string>.
+Sets the contents of a %G_TYPE_STRING B<Gnome::GObject::N-Value> to C<$v_string>.
 
 =begin code
 method take-string ( Str $v-string )
@@ -981,12 +996,12 @@ method take-string ( Str $v-string )
 =begin pod
 =head2 take-variant
 
-Set the contents of a variant GValue to C<$variant>, and takes over the ownership of the caller's reference to C<$variant>;
+Set the contents of a variant B<Gnome::GObject::N-Value> to C<$variant>, and takes over the ownership of the caller's reference to C<$variant>;
 the caller doesn't have to unref it any more (i.e. the reference count of the variant is not increased).
 
 If C<$variant> was floating then its floating reference is converted to a hard reference.
 
-If you want the GValue to hold its own reference to C<$variant>, use C<.set-variant()> instead.
+If you want the B<Gnome::GObject::N-Value> to hold its own reference to C<$variant>, use C<.set-variant()> instead.
 
 This is an internal function introduced mainly for C marshallers.
 
@@ -994,7 +1009,7 @@ This is an internal function introduced mainly for C marshallers.
 method take-variant ( CArray[N-Variant] $variant )
 =end code
 
-=item $variant; (transfer ownership: full) a GVariant, or C<Nil>.
+=item $variant; (transfer ownership: full) a B<Gnome::GObject::N-Variant>, or C<Nil>.
 
 =end pod
 
@@ -1021,7 +1036,8 @@ Return value; Whether a transformation rule was found and could be applied.
 =head2 unset
 
 Clears the current value in C<$value> (if any) and "unsets" the type,
-this releases all resources associated with this GValue. An unset value is the same as an uninitialized (zero-filled) GValue structure.
+this releases all resources associated with this B<Gnome::GObject::N-Value>. An unset value is the same as an uninitialized (zero-filled) B<Gnome::GObject::N-Value>
+structure.
 
 =begin code
 method unset ( )
@@ -1061,7 +1077,7 @@ method register-transform-func ( GType $src-type, GType $dest-type, &transform-f
 =begin pod
 =head2 type-compatible
 
-Returns whether a GValue of type C<$src_type> can be copied into a GValue of type C<$dest_type>.
+Returns whether a B<Gnome::GObject::N-Value> of type C<$src_type> can be copied into a B<Gnome::GObject::N-Value> of type C<$dest_type>.
 
 =begin code
 method type-compatible ( GType $src-type, GType $dest-type --> Bool )

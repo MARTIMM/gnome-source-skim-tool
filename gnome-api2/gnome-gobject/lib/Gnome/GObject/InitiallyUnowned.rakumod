@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t GObject object
+# Package: GObject, C-Source: object
 use v6.d;
 
 #-------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c GObject object
+# Package: GObject, C-Source: object
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -26,6 +26,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::GObject::Object:auth<github:MARTIMM>:api<2>;
+#also is ;
 also is Gnome::N::TopLevelClassSupport;
 also does Gnome::N::GObjectSupport;
 
@@ -53,7 +54,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new(:library('libgobject-2.0.so.0'));
+  $!routine-caller .= new(:library(gobject-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::GObject::Object' {
@@ -145,7 +146,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library('libgobject-2.0.so.0')
+        :library(gobject-lib())
       );
 
       # Check the function name. 
