@@ -10,8 +10,9 @@ use Test;
 use NativeCall;
 
 
-use Gnome::Glib::Variant:api<2>;
-use Gnome::Glib::VariantType:api<2>;
+use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::Glib::N-Error:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -23,7 +24,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Glib::Variant $variant;
+my Gnome::Glib::N-Variant $variant;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
@@ -233,7 +234,7 @@ subtest 'ISA test', {
 
     #TC:1:new-variant-with-variant()
     $format-string = 'i';
-    $value = Gnome::Glib::Variant.new-variant( $format-string, gint32, 40);
+    $value = Gnome::Glib::N-Variant.new-variant( $format-string, gint32, 40);
     $variant .= new-variant-with-variant($value);
     ok .is-valid, '.new-variant-with-variant($value)';
 
@@ -440,7 +441,7 @@ subtest 'Method tests', {
 subtest 'Function tests', {
   with $variant {
     my Str $limit;
-    my Gnome::Glib::VariantType $varianttype;
+    my Gnome::Glib::N-VariantType $varianttype;
     my Str $string;
     my Pointer[Str] $endptr;
     my Str $source-str;
@@ -462,9 +463,9 @@ subtest 'Function tests', {
     $text = '10';
 #    $limit = Str;
 #    $endptr = Pointer[Str].new;
-    my Gnome::Glib::Variant $v .= new(
-      :native-object(.parse( $varianttype, $text, Str, Pointer))
-    );
+    my List $r = .parse( $varianttype, $text, Str, Pointer, Pointer);
+#note "$?LINE $r.gist()";
+    my Gnome::Glib::N-Variant $v .= new(:native-object($r[0]));
     is $v.get-uint32, 10, '.parse()';
     $v.clear-object;
 

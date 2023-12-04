@@ -1,24 +1,24 @@
 Glib:
   c:
-  - T-Error.rakumod           # bug in g_clear_error()
-  - Variant.rakumod           # modified sub new-variant-with-variant
+  - N-Variant.rakumod           # modified sub new-variant-with-variant
+  - T-Error.rakumod             # bug in g_clear_error()
   d:
-  - N-List.rakudoc            # modified class names
-  - N-Error.rakudoc           # modified class names
-  - N-SList.rakudoc           # modified class names
-  - T-Error.rakudoc           # bug in g_clear_error()
-  - T-List.rakudoc            # modified class names
-  - Variant.rakudoc
+  - N-List.rakudoc              # modified class names
+  - N-Error.rakudoc             # modified class names
+  - N-SList.rakudoc             # modified class names
+  - N-Variant.rakudoc           # modified sub new-variant-with-variant
+  - T-Error.rakudoc             # bug in g_clear_error()
+  - T-List.rakudoc              # modified class names
   t:
   - N-Error.rakutest
   - N-List.rakutest
+  - N-Variant.rakutest
   - T-Error.rakutest
   - T-List.rakutest
-  - Variant.rakutest
 
 GObject:
   c:
-  - N-Value.rakumod           # modified
+  - N-Value.rakumod             # modified
   d:
   - initiallyunowned.rakudoc
   - Object.rakudoc
@@ -38,6 +38,6 @@ Gtk4:
 
 SkimToolData:
   Gio:
-  - C-File.gir                # File made as a class, not as an interface
+  - C-File.gir                  # File made as a class, not as an interface
   Glib:
-  - repo-function.gir         # (not changed), bugs in g_clear_error()
+  - repo-function.gir           # (not changed), bugs in g_clear_error()

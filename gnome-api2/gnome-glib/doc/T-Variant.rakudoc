@@ -1,24 +1,38 @@
- use v6.d;
+# Package: Glib, C-Source: variant
+use v6.d;
 
 =begin pod
 =head1 Gnome::Glib::T-Variant
 =end pod
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
 
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple.
+
+  method new ( )
+
+=end pod
 =begin pod
 =head1 Enumerations
 
 =head2 GVariantParseError
 
 Error codes returned by parsing text-format GVariants.=item C<G_VARIANT_PARSE_ERROR_FAILED>; generic error (unused)
-=item C<G_VARIANT_PARSE_ERROR_BASIC_TYPE_EXPECTED>; a non-basic GVariantType was given where a basic type was expected
-=item C<G_VARIANT_PARSE_ERROR_CANNOT_INFER_TYPE>; cannot infer the GVariantType
-=item C<G_VARIANT_PARSE_ERROR_DEFINITE_TYPE_EXPECTED>; an indefinite GVariantType was given where a definite type was expected
+=item C<G_VARIANT_PARSE_ERROR_BASIC_TYPE_EXPECTED>; a non-basic B<Gnome::Glib::N-VariantType> was given where a basic type was expected
+=item C<G_VARIANT_PARSE_ERROR_CANNOT_INFER_TYPE>; cannot infer the B<Gnome::Glib::N-VariantType>
+=item C<G_VARIANT_PARSE_ERROR_DEFINITE_TYPE_EXPECTED>; an indefinite B<Gnome::Glib::N-VariantType> was given where a definite type was expected
 =item C<G_VARIANT_PARSE_ERROR_INPUT_NOT_AT_END>; extra data after parsing finished
 =item C<G_VARIANT_PARSE_ERROR_INVALID_CHARACTER>; invalid character in number or unicode escape
-=item C<G_VARIANT_PARSE_ERROR_INVALID_FORMAT_STRING>; not a valid GVariant format string
+=item C<G_VARIANT_PARSE_ERROR_INVALID_FORMAT_STRING>; not a valid B<Gnome::Glib::N-Variant> format string
 =item C<G_VARIANT_PARSE_ERROR_INVALID_OBJECT_PATH>; not a valid object path
 =item C<G_VARIANT_PARSE_ERROR_INVALID_SIGNATURE>; not a valid type signature
-=item C<G_VARIANT_PARSE_ERROR_INVALID_TYPE_STRING>; not a valid GVariant type string
+=item C<G_VARIANT_PARSE_ERROR_INVALID_TYPE_STRING>; not a valid B<Gnome::Glib::N-Variant> type string
 =item C<G_VARIANT_PARSE_ERROR_NO_COMMON_TYPE>; could not find a common type for array entries
 =item C<G_VARIANT_PARSE_ERROR_NUMBER_OUT_OF_RANGE>; the numerical value is out of range of the given type
 =item C<G_VARIANT_PARSE_ERROR_NUMBER_TOO_BIG>; the numerical value is out of range for any type
@@ -27,6 +41,137 @@ Error codes returned by parsing text-format GVariants.=item C<G_VARIANT_PARSE_ER
 =item C<G_VARIANT_PARSE_ERROR_UNKNOWN_KEYWORD>; an unknown keyword was encountered
 =item C<G_VARIANT_PARSE_ERROR_UNTERMINATED_STRING_CONSTANT>; unterminated string constant
 =item C<G_VARIANT_PARSE_ERROR_VALUE_EXPECTED>; no value given
-=item C<G_VARIANT_PARSE_ERROR_RECURSION>; variant was too deeply nested; GVariant is only guaranteed to handle nesting up to 64 levels (Since: 2.64)
+=item C<G_VARIANT_PARSE_ERROR_RECURSION>; variant was too deeply nested; B<Gnome::Glib::N-Variant> is only guaranteed to handle nesting up to 64 levels (Since: 2.64)
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 variant-is-object-path
+
+Determines if a given string is a valid D-Bus object path. You should ensure that a string is a valid D-Bus object path before passing it to C<.new-object-path()>.
+
+A valid object path starts with `/` followed by zero or more sequences of characters separated by `/` characters. Each sequence must contain only the characters `[A-Z][a-z][0-9]_`. No sequence
+(including the one following the final `/` character) may be empty.
+
+=begin code
+method variant-is-object-path ( Str $string --> Bool )
+=end code
+
+=item $string; a normal C nul-terminated string.
+
+Return value; C<True> if C<$string> is a D-Bus object path. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 variant-is-signature
+
+Determines if a given string is a valid D-Bus type signature. You should ensure that a string is a valid D-Bus type signature before passing it to C<.new-signature()>.
+
+D-Bus type signatures consist of zero or more definite B<Gnome::Glib::N-VariantType>
+strings in sequence.
+
+=begin code
+method variant-is-signature ( Str $string --> Bool )
+=end code
+
+=item $string; a normal C nul-terminated string.
+
+Return value; C<True> if C<$string> is a D-Bus type signature. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 variant-parse
+
+Parses a B<Gnome::Glib::N-Variant> from a text representation.
+
+A single B<Gnome::Glib::N-Variant> is parsed from the content of C<$text>.
+
+The format is described here.
+
+The memory at C<$limit> will never be accessed and the parser behaves as if the character at C<$limit> is the nul terminator. This has the effect of bounding C<$text>.
+
+If C<$endptr> is non-C<Nil> then C<$text> is permitted to contain data following the value that this function parses and C<$endptr> will be updated to point to the first character past the end of the text parsed by this function. If C<$endptr> is C<Nil> and there is extra data then an error is returned.
+
+If C<$type> is non-C<Nil> then the value will be parsed to have that type. This may result in additional parse errors (in the case that the parsed value doesn't fit the type) but may also result in fewer errors (in the case that the type would have been ambiguous, such as with empty arrays).
+
+In the event that the parsing is successful, the resulting B<Gnome::Glib::N-Variant>
+is returned. It is never floating, and must be freed with C<.unref()>.
+
+In case of any error, C<Nil> will be returned. If C<$error> is non-C<Nil>
+then it will be set to reflect the error that occurred.
+
+Officially, the language understood by the parser is "any string produced by C<.print()>".
+
+There may be implementation specific restrictions on deeply nested values,
+which would result in a %G_VARIANT_PARSE_ERROR_RECURSION error. B<Gnome::Glib::N-Variant> is guaranteed to handle nesting up to at least 64 levels.
+
+=begin code
+method variant-parse ( CArray[N-VariantType] $type, Str $text, Str $limit, Array[Str] $endptr --> CArray[N-Variant] )
+=end code
+
+=item $type; a B<Gnome::Glib::N-VariantType>, or C<Nil>.
+=item $text; a string containing a B<Gnome::Glib::N-Variant> in text form.
+=item $limit; a pointer to the end of C<$text>, or C<Nil>.
+=item $endptr; a location to store the end pointer, or C<Nil>.
+
+Return value; a non-floating reference to a B<Gnome::Glib::N-Variant>, or C<Nil>. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 variant-parse-error-print-context
+
+Pretty-prints a message showing the context of a B<Gnome::Glib::N-Variant> parse error within the string for which parsing was attempted.
+
+The resulting string is suitable for output to the console or other monospace media where newlines are treated in the usual way.
+
+The message will typically look something like one of the following:
+
+=begin comment
+
+unterminated string constant:
+ (1, 2, 3, 'abc
+ ^^^^
+=end comment
+
+or
+
+=begin comment
+
+unable to find a common type:
+ [1, 2, 3, 'str']
+ ^ ^^^^^
+=end comment
+
+The format of the message may change in a future version.
+ C<$error> must have come from a failed attempt to C<.parse()> and C<$source_str> must be exactly the same string that caused the error.
+If C<$source_str> was not nul-terminated when you passed it to C<.parse()> then you must add nul termination before using this function.
+
+=begin code
+method variant-parse-error-print-context ( CArray[N-Error] $error, Str $source-str --> Str )
+=end code
+
+=item $error; a B<Gnome::Glib::N-Error> from the C<GVariantParseError enumeration> domain.
+=item $source-str; the string that was given to the parser.
+
+Return value; the printed message. 
+
+
 =end pod
 
