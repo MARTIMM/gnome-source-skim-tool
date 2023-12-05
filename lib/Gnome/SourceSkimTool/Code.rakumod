@@ -1774,6 +1774,9 @@ sub cnv-to-word ( $i --> Str ) {
 method add-import ( Str $import --> Bool ) {
   my Bool $available = False;
 
+#note "\n$?LINE $import";
+#note Backtrace.new.nice if $import ~~ m:i/filechooser/;
+
 #if $import eq 'Gnome::GObject::N-GValue::N-GValue' {
 #  say Backtrace.new.nice;
 #  exit;
@@ -2093,7 +2096,9 @@ method convert-ntype (
 #NOTE changed somewhere? add-import creates cyclic dependency -> make it an Object;
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
-          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+          my $class-name =
+            self.set-object-name( $h, :name-type(ClassnameType));
+          $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
         when 'union' {
@@ -2103,7 +2108,9 @@ method convert-ntype (
 #          $raku-type = 'N-Object';
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
-          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+          my $class-name =
+            self.set-object-name( $h, :name-type(ClassnameType));
+          $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
         when 'constant' {
@@ -2113,12 +2120,16 @@ method convert-ntype (
 
         when 'enumeration' {
           $raku-type = "GEnum:$ctype";
-          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+          my $class-name =
+            self.set-object-name( $h, :name-type(ClassnameType));
+          $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
         when 'bitfield' {
           $raku-type = "GFlag:$ctype";
-          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+          my $class-name =
+            self.set-object-name( $h, :name-type(ClassnameType));
+          $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
 #        when 'alias' { $raku-type = $h<class-name>; }
