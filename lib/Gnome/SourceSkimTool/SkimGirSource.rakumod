@@ -433,7 +433,7 @@ method !map-element (
         :$class-name,
         :$gnome-name,
         :type-name($attrs<name>),
-        :type-letter(''),
+        :type-letter('R'),
 
         :$symbol-prefix,
       );
