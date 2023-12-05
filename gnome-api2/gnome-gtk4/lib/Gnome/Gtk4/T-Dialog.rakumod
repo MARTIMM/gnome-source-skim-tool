@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Gtk4 dialog
+# Package: Gtk4, C-Source: dialog
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
