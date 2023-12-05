@@ -1775,7 +1775,7 @@ method add-import ( Str $import --> Bool ) {
   my Bool $available = False;
 
 #note "\n$?LINE $import";
-#note Backtrace.new.nice if $import ~~ m:i/filechooser/;
+#note Backtrace.new.nice if $import ~~ m:i/layout/;
 
 #if $import eq 'Gnome::GObject::N-GValue::N-GValue' {
 #  say Backtrace.new.nice;
@@ -2249,7 +2249,9 @@ method convert-rtype (
 #          $raku-type = 'N-Object';
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
-          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+          my $class-name =
+            self.set-object-name( $h, :name-type(ClassnameType));
+          $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
         when 'union' {
@@ -2258,7 +2260,9 @@ method convert-rtype (
 #          $raku-type = 'N-Object';
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
-          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+          my $class-name =
+            self.set-object-name( $h, :name-type(ClassnameType));
+          $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
         when 'constant' {
@@ -2272,14 +2276,18 @@ method convert-rtype (
           # enumerations are mentioned without it
 #          $raku-type = $h<class-name> ~ '()';
           $raku-type = "GEnum:$ctype";
-          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+          my $class-name =
+            self.set-object-name( $h, :name-type(ClassnameType));
+          $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
         when 'bitfield' {
 #          $raku-type = 'UInt';
 #          $raku-type ~= '()' unless $return-type;
           $raku-type = "UInt:$ctype";
-          $raku-type ~= ' _UA_' unless self.add-import($h<class-name>);
+          my $class-name =
+            self.set-object-name( $h, :name-type(ClassnameType));
+          $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
         when 'alias' { }
@@ -2527,7 +2535,7 @@ method load-map ( Str $map, Str $object-map-path --> Hash ) {
 
 #-------------------------------------------------------------------------------
 method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
-note "\n$?LINE $filename";
+#note "\n$?LINE $filename";
 
   my Bool $save-it;
 
@@ -2535,17 +2543,23 @@ note "\n$?LINE $filename";
   # aside files or skip saving.
   if $filename.IO.e {
     my Str $basename = $filename.IO.basename();
+
+    # The check is done on filename without extension.
+    my Str $checkfname = $basename;
+    $checkfname ~~ s/ '.' <-[.]>+ $//;
+#note "$?LINE $basename, $checkfname";
+
     my Bool $protect = False;
     if $*generate-code {
-      $protect = $!protected-files<c>.first($basename).Bool;
+      $protect = $!protected-files<c>.first($checkfname).Bool;
     }
 
     elsif $*generate-doc {
-      $protect = $!protected-files<d>.first($basename).Bool;
+      $protect = $!protected-files<d>.first($checkfname).Bool;
     }
 
     elsif $*generate-test {
-      $protect = $!protected-files<t>.first($basename).Bool;
+      $protect = $!protected-files<t>.first($checkfname).Bool;
     }
 
     my Str $a;

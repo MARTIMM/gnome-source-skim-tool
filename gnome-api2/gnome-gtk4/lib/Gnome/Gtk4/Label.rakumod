@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 label
+# Package: Gtk4, C-Source: label
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,15 +8,15 @@ use v6.d;
 use NativeCall;
 
 
+#use Gnome::Gtk4::N-AttrList:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
+#use Gnome::Gtk4::T-Layout:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
-#use Gnome::Pango::N-AttrList:api<2>;
-use Gnome::Pango::T-Layout:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate-current-link copy-clipboard>,
+      :w0<copy-clipboard activate-current-link>,
       :w1<activate-link>,
       :w3<move-cursor>,
     );
@@ -52,7 +52,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_label_>);
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Label' {
@@ -72,57 +72,57 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-label => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  new-label => %( :type(Constructor), :is-symbol<gtk_label_new>, :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_label_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  #get-attributes => %( :returns(N-AttrList )),
-  get-current-uri => %( :returns(Str)),
-  get-ellipsize => %( :returns(GEnum), :cnv-return(PangoEllipsizeMode )),
-  get-extra-menu => %( :returns(N-Object)),
-  get-justify => %( :returns(GEnum), :cnv-return(GtkJustification)),
-  get-label => %( :returns(Str)),
-  get-layout => %( :returns(N-Object)),
-  get-layout-offsets => %( :parameters([gint-ptr, gint-ptr])),
-  get-lines => %( :returns(gint)),
-  get-max-width-chars => %( :returns(gint)),
-  get-mnemonic-keyval => %( :returns(guint)),
-  get-mnemonic-widget => %( :returns(N-Object)),
-  get-natural-wrap-mode => %( :returns(GEnum), :cnv-return(GtkNaturalWrapMode)),
-  get-selectable => %( :returns(gboolean), :cnv-return(Bool)),
-  get-selection-bounds => %( :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, gint-ptr])),
-  get-single-line-mode => %( :returns(gboolean), :cnv-return(Bool)),
-  get-text => %( :returns(Str)),
-  get-use-markup => %( :returns(gboolean), :cnv-return(Bool)),
-  get-use-underline => %( :returns(gboolean), :cnv-return(Bool)),
-  get-width-chars => %( :returns(gint)),
-  get-wrap => %( :returns(gboolean), :cnv-return(Bool)),
-  #get-wrap-mode => %( :returns(GEnum), :cnv-return(PangoWrapMode )),
-  get-xalign => %( :returns(gfloat)),
-  get-yalign => %( :returns(gfloat)),
-  select-region => %( :parameters([gint, gint])),
-  #set-attributes => %( :parameters([N-AttrList ])),
-  set-ellipsize => %( :parameters([GEnum])),
-  set-extra-menu => %( :parameters([N-Object])),
-  set-justify => %( :parameters([GEnum])),
-  set-label => %( :parameters([Str])),
-  set-lines => %( :parameters([gint])),
-  set-markup => %( :parameters([Str])),
-  set-markup-with-mnemonic => %( :parameters([Str])),
-  set-max-width-chars => %( :parameters([gint])),
-  set-mnemonic-widget => %( :parameters([N-Object])),
-  set-natural-wrap-mode => %( :parameters([GEnum])),
-  set-selectable => %( :parameters([gboolean])),
-  set-single-line-mode => %( :parameters([gboolean])),
-  set-text => %( :parameters([Str])),
-  set-text-with-mnemonic => %( :parameters([Str])),
-  set-use-markup => %( :parameters([gboolean])),
-  set-use-underline => %( :parameters([gboolean])),
-  set-width-chars => %( :parameters([gint])),
-  set-wrap => %( :parameters([gboolean])),
-  #set-wrap-mode => %( :parameters([GEnum])),
-  set-xalign => %( :parameters([gfloat])),
-  set-yalign => %( :parameters([gfloat])),
+  #get-attributes => %(:is-symbol<gtk_label_get_attributes>,  :returns(N-AttrList )),
+  get-current-uri => %(:is-symbol<gtk_label_get_current_uri>,  :returns(Str)),
+  #get-ellipsize => %(:is-symbol<gtk_label_get_ellipsize>,  :returns(GEnum), :cnv-return(PangoEllipsizeMode )),
+  get-extra-menu => %(:is-symbol<gtk_label_get_extra_menu>,  :returns(N-Object)),
+  get-justify => %(:is-symbol<gtk_label_get_justify>,  :returns(GEnum), :cnv-return(GtkJustification)),
+  get-label => %(:is-symbol<gtk_label_get_label>,  :returns(Str)),
+  get-layout => %(:is-symbol<gtk_label_get_layout>,  :returns(N-Object)),
+  get-layout-offsets => %(:is-symbol<gtk_label_get_layout_offsets>,  :parameters([gint-ptr, gint-ptr])),
+  get-lines => %(:is-symbol<gtk_label_get_lines>,  :returns(gint)),
+  get-max-width-chars => %(:is-symbol<gtk_label_get_max_width_chars>,  :returns(gint)),
+  get-mnemonic-keyval => %(:is-symbol<gtk_label_get_mnemonic_keyval>,  :returns(guint)),
+  get-mnemonic-widget => %(:is-symbol<gtk_label_get_mnemonic_widget>,  :returns(N-Object)),
+  get-natural-wrap-mode => %(:is-symbol<gtk_label_get_natural_wrap_mode>,  :returns(GEnum), :cnv-return(GtkNaturalWrapMode)),
+  get-selectable => %(:is-symbol<gtk_label_get_selectable>,  :returns(gboolean), :cnv-return(Bool)),
+  get-selection-bounds => %(:is-symbol<gtk_label_get_selection_bounds>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr, gint-ptr])),
+  get-single-line-mode => %(:is-symbol<gtk_label_get_single_line_mode>,  :returns(gboolean), :cnv-return(Bool)),
+  get-text => %(:is-symbol<gtk_label_get_text>,  :returns(Str)),
+  get-use-markup => %(:is-symbol<gtk_label_get_use_markup>,  :returns(gboolean), :cnv-return(Bool)),
+  get-use-underline => %(:is-symbol<gtk_label_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
+  get-width-chars => %(:is-symbol<gtk_label_get_width_chars>,  :returns(gint)),
+  get-wrap => %(:is-symbol<gtk_label_get_wrap>,  :returns(gboolean), :cnv-return(Bool)),
+  #get-wrap-mode => %(:is-symbol<gtk_label_get_wrap_mode>,  :returns(GEnum), :cnv-return(PangoWrapMode )),
+  get-xalign => %(:is-symbol<gtk_label_get_xalign>,  :returns(gfloat)),
+  get-yalign => %(:is-symbol<gtk_label_get_yalign>,  :returns(gfloat)),
+  select-region => %(:is-symbol<gtk_label_select_region>,  :parameters([gint, gint])),
+  #set-attributes => %(:is-symbol<gtk_label_set_attributes>,  :parameters([N-AttrList ])),
+  #set-ellipsize => %(:is-symbol<gtk_label_set_ellipsize>,  :parameters([GEnum])),
+  set-extra-menu => %(:is-symbol<gtk_label_set_extra_menu>,  :parameters([N-Object])),
+  set-justify => %(:is-symbol<gtk_label_set_justify>,  :parameters([GEnum])),
+  set-label => %(:is-symbol<gtk_label_set_label>,  :parameters([Str])),
+  set-lines => %(:is-symbol<gtk_label_set_lines>,  :parameters([gint])),
+  set-markup => %(:is-symbol<gtk_label_set_markup>,  :parameters([Str])),
+  set-markup-with-mnemonic => %(:is-symbol<gtk_label_set_markup_with_mnemonic>,  :parameters([Str])),
+  set-max-width-chars => %(:is-symbol<gtk_label_set_max_width_chars>,  :parameters([gint])),
+  set-mnemonic-widget => %(:is-symbol<gtk_label_set_mnemonic_widget>,  :parameters([N-Object])),
+  set-natural-wrap-mode => %(:is-symbol<gtk_label_set_natural_wrap_mode>,  :parameters([GEnum])),
+  set-selectable => %(:is-symbol<gtk_label_set_selectable>,  :parameters([gboolean])),
+  set-single-line-mode => %(:is-symbol<gtk_label_set_single_line_mode>,  :parameters([gboolean])),
+  set-text => %(:is-symbol<gtk_label_set_text>,  :parameters([Str])),
+  set-text-with-mnemonic => %(:is-symbol<gtk_label_set_text_with_mnemonic>,  :parameters([Str])),
+  set-use-markup => %(:is-symbol<gtk_label_set_use_markup>,  :parameters([gboolean])),
+  set-use-underline => %(:is-symbol<gtk_label_set_use_underline>,  :parameters([gboolean])),
+  set-width-chars => %(:is-symbol<gtk_label_set_width_chars>,  :parameters([gint])),
+  set-wrap => %(:is-symbol<gtk_label_set_wrap>,  :parameters([gboolean])),
+  #set-wrap-mode => %(:is-symbol<gtk_label_set_wrap_mode>,  :parameters([GEnum])),
+  set-xalign => %(:is-symbol<gtk_label_set_xalign>,  :parameters([gfloat])),
+  set-yalign => %(:is-symbol<gtk_label_set_yalign>,  :parameters([gfloat])),
 );
 
 #-------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_label_>
+        :library(gtk4-lib())
       );
 
       # Check the function name. 
