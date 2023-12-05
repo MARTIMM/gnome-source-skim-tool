@@ -220,8 +220,8 @@ method generate-test ( ) {
   # Import the module to be tested. Drop the 'N- <prefix>' to get the
   # class name of the tested module.
   my Str $raku-class = $raku-class-struct;
-  $raku-class ~~ s:i/ '::N-' $prefix /::/;
-  $!mod.add-import($raku-class);
+#  $raku-class ~~ s:i/ '::N-' $prefix /::/;
+#  $!mod.add-import($raku-class);
 
   # Set up start of test code
   my Str $code = $!tst.prepare-test($raku-class);

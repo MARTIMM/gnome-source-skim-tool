@@ -258,8 +258,8 @@ method generate-test ( ) {
   my Str $raku-class-struct = $h<class-name>;
   $!mod.add-import($raku-class-struct);
   my Str $raku-class = $raku-class-struct;
-  $raku-class ~~ s:i/ '::N-' $prefix /::/;
-  $!mod.add-import($raku-class);
+#  $raku-class ~~ s:i/ '::N-' $prefix /::/;
+#  $!mod.add-import($raku-class);
   my Str $code = $!tst.prepare-test($raku-class);
 
   my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
