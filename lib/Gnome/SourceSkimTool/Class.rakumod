@@ -113,14 +113,22 @@ method generate-test ( ) {
 
   my Str $code = $!tst.prepare-test($*work-data<raku-class-name>);
 
-  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+#  my Hash $hcs = $!mod.get-constructors( $element, $!xpath, :user-side);
+  my Hash $hcs =
+    $!mod.get-native-subs( $element, $!xpath, :routine-type<constructor>);
   $code ~= $!tst.generate-init-tests( $test-variable, 'Class init tests', $hcs);
 
   $code ~= $!tst.generate-test-separator;
   $code ~= $!tst.generate-inheritance-tests( $element, $test-variable);
 
-  $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
+  $hcs = $!mod.get-native-subs( $element, $!xpath, :routine-type<method>);
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
+
+  $hcs = $!mod.get-native-subs(
+    $element, $!xpath, :user-side, :routine-type<function>
+  );
+  $code ~= $!tst.generate-method-tests( $hcs, $test-variable, :!ismethod);
+
   $code ~= $!tst.generate-test-end;
   $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS($code);

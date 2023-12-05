@@ -53,7 +53,9 @@ method generate-code ( ) {
 
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
-  my Str $fname = "$*work-data<result-mods>R-$*gnome-class.rakumod";
+  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
+  my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameCodeType));
+#  my Str $fname = "$*work-data<result-mods>R-$*gnome-class.rakumod";
   $!mod.save-file( $fname, $code, "interface module");
 }
 
@@ -99,13 +101,15 @@ method generate-doc ( ) {
 #  $doc ~= $!grd.document-properties( $element, $!xpath);
 
 #  note "Save pod doc";
-  my Str $fname = $*work-data<result-docs> ~ $*gnome-class ~ '.rakudoc';
+
+  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
+  my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameDocType));
+#  my Str $fname = $*work-data<result-docs> ~ $*gnome-class ~ '.rakudoc';
   $!mod.save-file( $fname, $doc, "interface documentation");
 }
 
 #-------------------------------------------------------------------------------
 method generate-test ( ) {
-  my Str $fname = "$*work-data<result-tests>R-$*gnome-class.rakutest";
 
   $!tst .= new;
 
@@ -121,11 +125,16 @@ method generate-test ( ) {
 
   $code ~= $!tst.generate-test-separator;
 
-  my Hash $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
+  my Hash $hcs =
+    $!mod.get-native-subs( $element, $!xpath, :routine-type<method>);
+#  my Hash $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
   $code ~= $!tst.generate-test-end;
   $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
+  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
+  my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameTestType));
+#  my Str $fname = "$*work-data<result-tests>R-$*gnome-class.rakutest";
   $!mod.save-file( $fname, $code, "interface tests");
 }
