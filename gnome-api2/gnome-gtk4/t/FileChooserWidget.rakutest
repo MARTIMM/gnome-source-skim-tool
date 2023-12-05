@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 filechooserwidget
+# Package: Gtk4, C-Source: filechooserWidget
 use v6.d;
 
 #TL:1:Gnome::Gtk4::FileChooserWidget:
@@ -11,7 +11,7 @@ use Test;
 
 
 use Gnome::Gtk4::FileChooserWidget:api<2>;
-use Gnome::Gtk4::T-Filechooser:api<2>;
+use Gnome::Gtk4::T-FileChooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -30,12 +30,44 @@ my Gnome::Gtk4::FileChooserWidget $filechooserwidget;
 
 subtest 'ISA test', {
   given $filechooserwidget {
-    my GtkFileChooserAction $action;
+    my GtkFileChooserAction  $action;
 
-    #TC:1:new-filechooserwidget()
-    $action = GTK_FILE_CHOOSER_ACTION_OPEN;
-    $filechooserwidget .= new-filechooserwidget($action);
-    ok .is-valid, '.new-filechooserwidget($action)';
+#`{{
+    #TC:0:new-filechooserwidget()
+    $action = …;
+    $filechooserwidget .= new-filechooserwidget( $action);
+    ok .is-valid, '.new-filechooserwidget( $action)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $filechooserwidget {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $filechooserwidget {
+
+
+#`{{
+}}
   }
 };
 

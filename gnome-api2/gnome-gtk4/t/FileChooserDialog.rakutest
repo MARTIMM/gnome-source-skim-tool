@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 filechooserdialog
+# Package: Gtk4, C-Source: filechooserDialog
 use v6.d;
 
 #TL:1:Gnome::Gtk4::FileChooserDialog:
@@ -11,10 +11,7 @@ use Test;
 
 
 use Gnome::Gtk4::FileChooserDialog:api<2>;
-use Gnome::Gtk4::T-Filechooser:api<2>;
-use Gnome::Gtk4::T-Dialog:api<2>;
-use Gnome::Gtk4::Window:api<2>;
-
+use Gnome::Gtk4::T-FileChooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -33,21 +30,50 @@ my Gnome::Gtk4::FileChooserDialog $filechooserdialog;
 
 subtest 'ISA test', {
   given $filechooserdialog {
-    my Gnome::Gtk4::Window $parent;
     my Str $first-button-text;
+    my N-Object $parent;
     my Str $title;
     my GtkFileChooserAction $action;
 
-    #TC:1:new-filechooserdialog()
-    $title = 'Zoek je bestand!';
-    $parent .= new-window;
-    $action = GTK_FILE_CHOOSER_ACTION_OPEN;
-    $first-button-text = 'Open';
-    $filechooserdialog .= new-filechooserdialog(
-      $title, $parent, $action, $first-button-text, GEnum, GTK_RESPONSE_ACCEPT,
-      Str, 'Cancel', GEnum, GTK_RESPONSE_CANCEL
-    );
-    ok .is-valid, '.new-filechooserdialog( $title, $parent, $action, $first-button-text, "…")';
+#`{{
+    #TC:0:new-filechooserdialog()
+    $title = 'text';
+    $parent = …;
+    $action = …;
+    $first-button-text = 'text';
+    $filechooserdialog .= new-filechooserdialog( $title, $parent, $action, $first-button-text);
+    ok .is-valid, '.new-filechooserdialog( $title, $parent, $action, $first-button-text)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $filechooserdialog {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $filechooserdialog {
+
+
+#`{{
+}}
   }
 };
 

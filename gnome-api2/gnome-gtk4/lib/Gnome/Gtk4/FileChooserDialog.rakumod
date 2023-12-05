@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Gtk4 filechooserdialog
+# Package: Gtk4, C-Source: filechooserDialog
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::Gtk4::Dialog:api<2>;
 use Gnome::Gtk4::R-FileChooser:api<2>;
-use Gnome::Gtk4::T-Filechooser:api<2>;
+#use Gnome::Gtk4::T-FileChooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -51,7 +51,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new(:library('libgtk-4.so.1'));
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::FileChooserDialog' {
@@ -71,7 +71,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-filechooserdialog => %( :type(Constructor), :is-symbol<gtk_file_chooser_dialog_new>, :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GEnum, Str])),
+  #new-filechooserdialog => %( :type(Constructor), :is-symbol<gtk_file_chooser_dialog_new>, :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GEnum, Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library('libgtk-4.so.1')
+        :library(gtk4-lib())
       );
 
       # Check the function name. 

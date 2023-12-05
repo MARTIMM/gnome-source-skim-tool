@@ -1,0 +1,205 @@
+# Package: Gtk4, C-Source: filechooser
+use v6.d;
+
+#TL:1:Gnome::Gtk4::R-FileChooser:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::Gtk4::FileChooser:api<2>;
+use Gnome::Gtk4::T-FileChooser:api<2>;
+use Gnome::Gtk4::FileChooserDialog:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+my Gnome::Gtk4::FileChooserDialog $filechooser .= new;
+subtest 'Method tests', {
+  with $filechooser {
+    my N-Object $file;
+    my Str $id;
+    my gchar-pptr $options;
+    my gchar-pptr $option-labels;
+    my gboolean $select-multiple;
+    my N-Object $folder;
+    my gboolean $create-folders;
+    my GtkFileChooserAction  $action;
+    my Str $name;
+    my Str $label;
+    my Str $option;
+    my N-Object $filter;
+
+
+#`{{
+    #TM:0:add-choice()
+    ok .add-choice( $id, $label, $options, $option-labels), '.add-choice()';
+
+    #TM:0:add-filter()
+    ok .add-filter( $filter), '.add-filter()';
+
+    #TM:0:add-shortcut-folder()
+    ok .add-shortcut-folder( $folder), '.add-shortcut-folder()';
+
+    #TM:0:get-files()
+     .get-files(), '…', '.get-files()';
+
+    #TM:0:get-filters()
+     .get-filters(), '…', '.get-filters()';
+
+    #TM:0:get-shortcut-folders()
+     .get-shortcut-folders(), '…', '.get-shortcut-folders()';
+
+    #TM:0:remove-choice()
+    ok .remove-choice( $id), '.remove-choice()';
+
+    #TM:0:remove-filter()
+    ok .remove-filter( $filter), '.remove-filter()';
+
+    #TM:0:remove-shortcut-folder()
+    ok .remove-shortcut-folder( $folder), '.remove-shortcut-folder()';
+
+    #TM:0:set-action()
+    $action = …;
+    .set-action( $action);
+    #TM:0:get-action()
+    is .get-action(),  $action, '.set-action() / .get-action()';
+
+    #TM:0:set-choice()
+    $id = 'text';
+    $option = 'text';
+    .set-choice( $id, $option);
+    #TM:0:get-choice()
+    is .get-choice(),  $id, $option, '.set-choice() / .get-choice()';
+
+    #TM:0:set-create-folders()
+    $create-folders = '…';
+    .set-create-folders( $create-folders);
+    #TM:0:get-create-folders()
+    is .get-create-folders(),  $create-folders, '.set-create-folders() / .get-create-folders()';
+
+    #TM:0:set-current-folder()
+    $file = …;
+    .set-current-folder( $file);
+    #TM:0:get-current-folder()
+    is .get-current-folder(),  $file, '.set-current-folder() / .get-current-folder()';
+
+    #TM:0:set-current-name()
+    $name = 'text';
+    .set-current-name( $name);
+    #TM:0:get-current-name()
+    is .get-current-name(),  $name, '.set-current-name() / .get-current-name()';
+
+    #TM:0:set-file()
+    $file = …;
+    .set-file( $file);
+    #TM:0:get-file()
+    is .get-file(),  $file, '.set-file() / .get-file()';
+
+    #TM:0:set-filter()
+    $filter = …;
+    .set-filter( $filter);
+    #TM:0:get-filter()
+    is .get-filter(),  $filter, '.set-filter() / .get-filter()';
+
+    #TM:0:set-select-multiple()
+    $select-multiple = '…';
+    .set-select-multiple( $select-multiple);
+    #TM:0:get-select-multiple()
+    is .get-select-multiple(),  $select-multiple, '.set-select-multiple() / .get-select-multiple()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::FileChooser() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::FileChooser;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::FileChooser :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::FileChooser $filechooser .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $filechooser.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
