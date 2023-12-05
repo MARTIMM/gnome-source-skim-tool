@@ -215,7 +215,7 @@ method generate-doc ( ) {
 
       =head2 new
 
-      Initialization of a type class is simple.
+      Initialization of a type class is simple and only needed when the standalone functions are used.
 
         method new ( )
 
