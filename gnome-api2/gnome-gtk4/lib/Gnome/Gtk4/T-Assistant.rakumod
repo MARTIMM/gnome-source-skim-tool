@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Gtk4 assistant
+# Package: Gtk4, C-Source: assistant
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
