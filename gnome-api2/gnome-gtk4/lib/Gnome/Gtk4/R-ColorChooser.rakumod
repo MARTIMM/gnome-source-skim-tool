@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 colorchooser
+# Package: Gtk4, C-Source: colorchooser
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -30,11 +30,11 @@ unit role Gnome::Gtk4::R-ColorChooser:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  #add-palette => %( :parameters([GEnum, gint, gint, N-RGBA ])),
-  #get-rgba => %( :parameters([N-RGBA ])),
-  get-use-alpha => %( :returns(gboolean), :cnv-return(Bool)),
-  #set-rgba => %( :parameters([N-RGBA ])),
-  set-use-alpha => %( :parameters([gboolean])),
+  #add-palette => %(:is-symbol<gtk_color_chooser_add_palette>,  :parameters([GEnum, gint, gint, N-RGBA ])),
+  #get-rgba => %(:is-symbol<gtk_color_chooser_get_rgba>,  :parameters([N-RGBA ])),
+  get-use-alpha => %(:is-symbol<gtk_color_chooser_get_use_alpha>,  :returns(gboolean), :cnv-return(Bool)),
+  #set-rgba => %(:is-symbol<gtk_color_chooser_set_rgba>,  :parameters([N-RGBA ])),
+  set-use-alpha => %(:is-symbol<gtk_color_chooser_set_use_alpha>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------

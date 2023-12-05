@@ -1,0 +1,164 @@
+# Package: Gtk4, C-Source: colorchooser
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::ColorChooser
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Description
+
+B<Gnome::Gtk4::ColorChooser> is an interface that is implemented by widgets
+for choosing colors.
+
+Depending on the situation, colors may be allowed to have alpha (translucency).
+
+In GTK, the main widgets that implement this interface are
+[class C<$Gtk>.ColorChooserWidget], [class C<$Gtk>.ColorChooserDialog] and
+[class C<$Gtk>.ColorButton].
+=begin comment
+=head2 Uml Diagram
+![](plantuml/….svg)
+=end comment
+
+=begin comment
+=head2 Example
+  … text …
+  … example code …
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-palette
+
+Adds a palette to the color chooser.
+
+If C<$orientation> is horizontal, the colors are grouped in rows,
+with C<$colors_per_line> colors in each row. If C<$horizontal> is %FALSE,
+the colors are grouped in columns instead.
+
+The default color palette of [class C<$Gtk>.ColorChooserWidget] has 45 colors, organized in columns of 5 colors (this includes some grays).
+
+The layout of the color chooser widget works best when the palettes have 9-10 columns.
+
+Calling this function for the first time has the side effect of removing the default color palette from the color chooser.
+
+If C<$colors> is undefined, removes all previously added palettes.
+
+=begin code
+method add-palette ( GtkOrientation $orientation, Int() $colors-per-line, Int() $n-colors, CArray[N-RGBA]  $colors )
+=end code
+
+=item $orientation; %GTK_ORIENTATION_HORIZONTAL if the palette should
+ be displayed in rows, %GTK_ORIENTATION_VERTICAL for columns. An enumeration.
+=item $colors-per-line; the number of colors to show in each row/column.
+=item $n-colors; the total number of elements in C<$colors>.
+=item $colors; the colors of the palette.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-rgba
+
+Gets the currently-selected color.
+
+=begin code
+method get-rgba ( CArray[N-RGBA]  $color )
+=end code
+
+=item $color; a I<GdkRGBA> to fill in with the current color.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-use-alpha
+
+Returns whether the color chooser shows the alpha channel.
+
+=begin code
+method get-use-alpha (--> Bool )
+=end code
+
+
+Return value; %TRUE if the color chooser uses the alpha channel,
+ %FALSE if not. 
+
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-rgba
+
+Sets the color.
+
+=begin code
+method set-rgba ( CArray[N-RGBA]  $color )
+=end code
+
+=item $color; the new color.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-use-alpha
+
+Sets whether or not the color chooser should use the alpha channel.
+
+=begin code
+method set-use-alpha ( Bool() $use-alpha )
+=end code
+
+=item $use-alpha; %TRUE if color chooser should use alpha channel, %FALSE if not.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 color-activated
+
+Emitted when a color is activated from the color chooser.
+
+This usually happens when the user clicks a color swatch,
+or a color is selected and the user presses one of the keys Space, Shift+Space, Return or Enter.
+
+=begin code
+method handler (
+   $color,
+  Int :$_handle_id,
+  Gnome::Gtk4::ColorChooser() :$_native-object,
+  Gnome::Gtk4::ColorChooser :$_widget,
+  *%user-options
+)
+=end code
+
+=item $color; the color.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=end pod
+
