@@ -361,6 +361,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
       =begin pod
+
       =head2 $native-sub
 
       $native-sub-doc
@@ -952,6 +953,7 @@ method document-enumerations ( @enum-names --> Str ) {
   # For each of the found names
   for @enum-names.sort -> $enum-name {
     $doc ~= qq:to/EOENUM/;
+
     =head2 $enum-name
 
     EOENUM
@@ -970,7 +972,8 @@ method document-enumerations ( @enum-names --> Str ) {
     my Str $enum-doc =
       ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
     $doc ~= self!cleanup(self!modify-text($enum-doc));
-   
+    $doc ~= "\n";
+
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
@@ -1004,6 +1007,7 @@ method document-bitfield ( @bitfield-names --> Str ) {
   # For each of the found names
   for @bitfield-names.sort -> $bitfield-name {
     $doc ~= qq:to/EOBITF/;
+
     =head2 $bitfield-name
 
     EOBITF
@@ -1021,7 +1025,8 @@ method document-bitfield ( @bitfield-names --> Str ) {
     my Str $bitfield-doc =
       ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
     $doc ~= self!cleanup(self!modify-text($bitfield-doc)) ~ "\n";
-   
+    $doc ~= "\n";
+
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
