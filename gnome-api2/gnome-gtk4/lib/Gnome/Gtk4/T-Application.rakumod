@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -d Gtk4 application
+# Package: Gtk4, C-Source: application
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -d Gtk4 application
+# Package: Gtk4, C-Source: application
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new(:library('libgtk-4.so.1'));
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Application' {
@@ -97,7 +97,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library('libgtk-4.so.1')
+        :library(gtk4-lib())
       );
 
       # Check the function name. 
