@@ -959,8 +959,9 @@ method document-enumerations ( @enum-names --> Str ) {
     # Must have a name to search using the @name attribute on an element
     my Str $prefix = $*work-data<name-prefix>.uc;
     my Str $name = $enum-name;
-    $name ~~ s/^ $prefix //;
- 
+    $name ~~ s:i/^ $prefix //;
+#note "$?LINE $prefix, $name";
+
     # Get the XML element of the enum data
     my XML::Element $e = $xpath.find(
       '//enumeration[@name="' ~ $name ~ '"]', :!to-list
@@ -1010,7 +1011,7 @@ method document-bitfield ( @bitfield-names --> Str ) {
     # Must have a name to search using the @name attribute on an element
     my Str $prefix = $*work-data<name-prefix>.uc;
     my Str $name = $bitfield-name;
-    $name ~~ s/^ $prefix //;
+    $name ~~ s:i/^ $prefix //;
  
     # Get the XML element of the bitfield data
     my XML::Element $e = $xpath.find(
