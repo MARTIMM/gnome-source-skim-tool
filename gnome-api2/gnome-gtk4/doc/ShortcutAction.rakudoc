@@ -1,3 +1,4 @@
+# Package: Gtk4, C-Source: shortcutaction
 use v6.d;
 
 =begin pod
@@ -9,8 +10,6 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-
-![](images/shortcutaction.png)
 
 =head1 Description
 
@@ -30,17 +29,18 @@ can be called.
 
 GTK provides various actions:
 
- - [class C<$Gtk>.MnemonicAction]: a shortcut action that calls
+=item [class C<$Gtk>.MnemonicAction]: a shortcut action that calls
    gtk_widget_mnemonic_activate()
- - [class C<$Gtk>.CallbackAction]: a shortcut action that invokes
+=item [class C<$Gtk>.CallbackAction]: a shortcut action that invokes
    a given callback
- - [class C<$Gtk>.SignalAction]: a shortcut action that emits a
+=item [class C<$Gtk>.SignalAction]: a shortcut action that emits a
    given signal
- - [class C<$Gtk>.ActivateAction]: a shortcut action that calls
+=item [class C<$Gtk>.ActivateAction]: a shortcut action that calls
    gtk_widget_activate()
- - [class C<$Gtk>.NamedAction]: a shortcut action that calls
+=item [class C<$Gtk>.NamedAction]: a shortcut action that calls
    gtk_widget_activate_action()
- - [class C<$Gtk>.NothingAction]: a shortcut action that does nothing
+=item [class C<$Gtk>.NothingAction]: a shortcut action that does nothing
+
 =begin comment
 =head2 Uml Diagram
 ![](plantuml/….svg)
@@ -82,11 +82,11 @@ On success, the parsed action is returned. When parsing failed, undefined is ret
 
 The accepted strings are:
 
-- I<nothing>, for I<GtkNothingAction>
-- I<activate>, for I<GtkActivateAction>
-- I<mnemonic-activate>, for I<GtkMnemonicAction>
-- I<action(NAME)>, for a I<GtkNamedAction> for the action named I<NAME>
-- I<signal(NAME)>, for a I<GtkSignalAction> for the signal I<NAME>
+=item I<nothing>, for I<GtkNothingAction>
+=item I<activate>, for I<GtkActivateAction>
+=item I<mnemonic-activate>, for I<GtkMnemonicAction>
+=item I<action(NAME)>, for a I<GtkNamedAction> for the action named I<NAME>
+=item I<signal(NAME)>, for a I<GtkSignalAction> for the signal I<NAME>
 
 =begin code
 method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction )
@@ -115,7 +115,9 @@ Note that some actions ignore the passed in C<$flags>, C<$widget> or C<$args>.
 Activation of an action can fail for various reasons. If the action is not supported by the C<$widget>, if the C<$args> don't match the action or if the activation otherwise had no effect, %FALSE will be returned.
 
 =begin code
-method activate ( UInt $flags, N-Object() $widget, CArray[N-Variant] $args --> Bool )
+method activate (
+  UInt $flags, N-Object() $widget, CArray[N-Variant] $args --> Bool
+)
 =end code
 
 =item $flags; flags to activate with. A bitmap.
