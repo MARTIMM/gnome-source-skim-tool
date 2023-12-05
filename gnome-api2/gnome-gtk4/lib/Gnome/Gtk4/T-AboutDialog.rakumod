@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gtk4 aboutdialog
+# Package: Gtk4, C-Source: aboutdialog
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -7,6 +7,7 @@ use v6.d;
 use NativeCall;
 
 
+#use Gnome::Gtk4::T-AboutDialog:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -17,7 +18,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::T-Aboutdialog:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::T-AboutDialog:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -33,7 +34,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( ) {
   # Initialize helper
-  $!routine-caller .= new(:library('libgtk-4.so.1'));
+  $!routine-caller .= new(:library(gtk4-lib()));
 }
 
 #-------------------------------------------------------------------------------
