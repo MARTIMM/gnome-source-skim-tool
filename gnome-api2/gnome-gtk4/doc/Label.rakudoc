@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::Label
+=head1 ::Label
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -257,6 +257,7 @@ method new-label ( Str $str --> Gnome::Gtk4::Label )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-mnemonic
@@ -278,6 +279,7 @@ method new-with-mnemonic ( Str $str --> Gnome::Gtk4::Label )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -287,6 +289,7 @@ method new-with-mnemonic ( Str $str --> Gnome::Gtk4::Label )
 =end pod
 
 #-------------------------------------------------------------------------------
+#`{{
 =begin pod
 
 =head2 get-attributes
@@ -304,6 +307,7 @@ Return value; the attribute list.
 
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -327,6 +331,7 @@ Return value; the currently active URI.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -345,6 +350,7 @@ Return value; I<PangoEllipsizeMode>.  An enumeration.
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -365,6 +371,7 @@ Return value; the menu model.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -383,6 +390,7 @@ Return value; I<GtkJustification>.  An enumeration.
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -404,6 +412,7 @@ Return value; the text of the label widget. This string is
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -423,6 +432,7 @@ Return value; the [class C<$Pango>.Layout] for this label.
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -444,6 +454,7 @@ method get-layout-offsets ( Array[Int] $x, Array[Int] $y )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -462,6 +473,7 @@ Return value; The number of lines.
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -482,6 +494,7 @@ Return value; the maximum width of the label in characters..
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -500,6 +513,7 @@ Return value; GDK keyval usable for accelerators, or I<GDK_KEY_VoidSymbol>.
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -521,6 +535,7 @@ Return value; the target of the label’s mnemonic,
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -540,6 +555,7 @@ Return value; the natural line wrap mode.  An enumeration.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -556,6 +572,7 @@ Return value; %TRUE if the user can copy text from the label.
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -576,6 +593,7 @@ Return value; %TRUE if selection is non-empty.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -592,6 +610,7 @@ Return value; %TRUE when the label is in single line mode..
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -613,6 +632,7 @@ Return value; the text in the label widget. This is the internal
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -631,6 +651,7 @@ Return value; %TRUE if the label’s text will be parsed for markup..
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -652,6 +673,7 @@ Return value; %TRUE whether an embedded underline in the label indicates
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -670,6 +692,7 @@ Return value; the width of the label in characters..
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -690,6 +713,7 @@ Return value; %TRUE if the lines of the label are automatically wrapped..
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -708,6 +732,7 @@ Return value; the line wrap mode.  An enumeration.
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -728,6 +753,7 @@ Return value; the xalign property.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -746,6 +772,7 @@ Return value; the yalign property.
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -766,7 +793,9 @@ method select-region ( Int() $start-offset, Int() $end-offset )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
+#`{{
 =begin pod
 
 =head2 set-attributes
@@ -783,6 +812,7 @@ method set-attributes ( CArray[N-AttrList]  $attrs )
 =item $attrs; a [struct C<$Pango>.AttrList].
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -801,6 +831,7 @@ method set-ellipsize ( PangoEllipsizeMode $mode )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -815,6 +846,7 @@ method set-extra-menu ( N-Object() $model )
 =item $model; a I<GMenuModel>.
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -834,6 +866,7 @@ method set-justify ( GtkJustification $jtype )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -852,6 +885,7 @@ method set-label ( Str $str )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -869,6 +903,7 @@ method set-lines ( Int() $lines )
 =item $lines; the desired number of lines, or -1.
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -910,6 +945,7 @@ method set-markup ( Str $str )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -931,6 +967,7 @@ method set-markup-with-mnemonic ( Str $str )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -945,6 +982,7 @@ method set-max-width-chars ( Int() $n-chars )
 =item $n-chars; the new desired maximum width, in characters..
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -970,6 +1008,7 @@ method set-mnemonic-widget ( N-Object() $widget )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -987,6 +1026,7 @@ method set-natural-wrap-mode ( GtkNaturalWrapMode $wrap-mode )
 =item $wrap-mode; the line wrapping mode. An enumeration.
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -1006,6 +1046,7 @@ method set-selectable ( Bool() $setting )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -1020,6 +1061,7 @@ method set-single-line-mode ( Bool() $single-line-mode )
 =item $single-line-mode; %TRUE if the label should be in single line mode.
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -1045,6 +1087,7 @@ method set-text ( Str $str )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -1063,6 +1106,7 @@ method set-text-with-mnemonic ( Str $str )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -1080,6 +1124,7 @@ method set-use-markup ( Bool() $setting )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -1095,6 +1140,7 @@ method set-use-underline ( Bool() $setting )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -1109,6 +1155,7 @@ method set-width-chars ( Int() $n-chars )
 =item $n-chars; the new desired width, in characters..
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -1131,6 +1178,7 @@ method set-wrap ( Bool() $wrap )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -1151,6 +1199,7 @@ method set-wrap-mode ( PangoWrapMode $wrap-mode )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -1168,6 +1217,7 @@ method set-xalign ( Num() $xalign )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
 
@@ -1184,6 +1234,7 @@ method set-yalign ( Num() $yalign )
 =item $yalign; the new yalign value, between 0 and 1.
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
