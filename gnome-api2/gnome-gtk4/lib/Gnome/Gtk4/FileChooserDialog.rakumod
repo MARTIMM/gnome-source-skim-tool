@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::Gtk4::Dialog:api<2>;
 use Gnome::Gtk4::R-FileChooser:api<2>;
-#use Gnome::Gtk4::T-FileChooser:api<2>;
+use Gnome::Gtk4::T-FileChooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -71,7 +71,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-filechooserdialog => %( :type(Constructor), :is-symbol<gtk_file_chooser_dialog_new>, :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GEnum, Str])),
+  new-filechooserdialog => %( :type(Constructor), :is-symbol<gtk_file_chooser_dialog_new>, :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GEnum, Str])),
 );
 
 #-------------------------------------------------------------------------------
