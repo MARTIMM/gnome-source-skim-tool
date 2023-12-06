@@ -8,15 +8,15 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Gtk4::N-AttrList:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
-#use Gnome::Gtk4::T-Layout:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+#use Gnome::Pango::N-AttrList:api<2>;
+use Gnome::Pango::T-Layout:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   #get-attributes => %(:is-symbol<gtk_label_get_attributes>,  :returns(N-AttrList )),
   get-current-uri => %(:is-symbol<gtk_label_get_current_uri>,  :returns(Str)),
-  #get-ellipsize => %(:is-symbol<gtk_label_get_ellipsize>,  :returns(GEnum), :cnv-return(PangoEllipsizeMode )),
+  get-ellipsize => %(:is-symbol<gtk_label_get_ellipsize>,  :returns(GEnum), :cnv-return(PangoEllipsizeMode)),
   get-extra-menu => %(:is-symbol<gtk_label_get_extra_menu>,  :returns(N-Object)),
   get-justify => %(:is-symbol<gtk_label_get_justify>,  :returns(GEnum), :cnv-return(GtkJustification)),
   get-label => %(:is-symbol<gtk_label_get_label>,  :returns(Str)),
@@ -97,12 +97,12 @@ my Hash $methods = %(
   get-use-underline => %(:is-symbol<gtk_label_get_use_underline>,  :returns(gboolean), :cnv-return(Bool)),
   get-width-chars => %(:is-symbol<gtk_label_get_width_chars>,  :returns(gint)),
   get-wrap => %(:is-symbol<gtk_label_get_wrap>,  :returns(gboolean), :cnv-return(Bool)),
-  #get-wrap-mode => %(:is-symbol<gtk_label_get_wrap_mode>,  :returns(GEnum), :cnv-return(PangoWrapMode )),
+  get-wrap-mode => %(:is-symbol<gtk_label_get_wrap_mode>,  :returns(GEnum), :cnv-return(PangoWrapMode)),
   get-xalign => %(:is-symbol<gtk_label_get_xalign>,  :returns(gfloat)),
   get-yalign => %(:is-symbol<gtk_label_get_yalign>,  :returns(gfloat)),
   select-region => %(:is-symbol<gtk_label_select_region>,  :parameters([gint, gint])),
   #set-attributes => %(:is-symbol<gtk_label_set_attributes>,  :parameters([N-AttrList ])),
-  #set-ellipsize => %(:is-symbol<gtk_label_set_ellipsize>,  :parameters([GEnum])),
+  set-ellipsize => %(:is-symbol<gtk_label_set_ellipsize>,  :parameters([GEnum])),
   set-extra-menu => %(:is-symbol<gtk_label_set_extra_menu>,  :parameters([N-Object])),
   set-justify => %(:is-symbol<gtk_label_set_justify>,  :parameters([GEnum])),
   set-label => %(:is-symbol<gtk_label_set_label>,  :parameters([Str])),
@@ -120,7 +120,7 @@ my Hash $methods = %(
   set-use-underline => %(:is-symbol<gtk_label_set_use_underline>,  :parameters([gboolean])),
   set-width-chars => %(:is-symbol<gtk_label_set_width_chars>,  :parameters([gint])),
   set-wrap => %(:is-symbol<gtk_label_set_wrap>,  :parameters([gboolean])),
-  #set-wrap-mode => %(:is-symbol<gtk_label_set_wrap_mode>,  :parameters([GEnum])),
+  set-wrap-mode => %(:is-symbol<gtk_label_set_wrap_mode>,  :parameters([GEnum])),
   set-xalign => %(:is-symbol<gtk_label_set_xalign>,  :parameters([gfloat])),
   set-yalign => %(:is-symbol<gtk_label_set_yalign>,  :parameters([gfloat])),
 );
