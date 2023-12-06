@@ -1195,6 +1195,7 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
 
     $name ~~ s/^ $package //;
 }}
+#note "$?LINE $prefix, $enum-name, $name";
 
     # Get the XML element of the enum data
     my XML::Element $e = $xpath.find(
@@ -2009,6 +2010,7 @@ method get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
     }
   }
 #note "$?LINE {$e.attribs()<name> // '-'}, $user-side, $ctype, $raku-type";
+#note Backtrace.new.nice if $ctype ~~ m:i/pango/;
 
   ( $ctype, $raku-type)
 }
@@ -2355,12 +2357,13 @@ method set-object-name (
   given $name-type {
     when ClassnameType {
       if ?$type-letter {
-        $object-name = $*work-data<raku-package> ~ '::' ~
+#        $object-name = $*work-data<raku-package> ~ '::' ~
+        $object-name = $object-map-entry<package-name> ~ '::' ~
                        $type-letter ~ '-' ~ $object-map-entry<type-name>;
       }
 
       else {
-        $object-name = $*work-data<raku-package> ~ '::' ~
+        $object-name = $object-map-entry<package-name> ~ '::' ~
                        $object-map-entry<type-name>;
       }
     }
@@ -2398,8 +2401,8 @@ method search-name ( Str $name is copy --> Hash ) {
 
   self.check-search-list;
 
+  my Str $raku-package = $*work-data<raku-package>;
   if $name ~~ m/ '::' / {
-    my Str $raku-package = $*work-data<raku-package>;
     $name ~~ s/^ $raku-package '::' //;
     $name ~~ s/^ [<[NTR]> '-']? //;
   }
@@ -2409,7 +2412,7 @@ method search-name ( Str $name is copy --> Hash ) {
     self.check-map($map-name);
 
 #note "Search for $name in map $map-name" if $*verbose;
-#say "$?LINE: search $name, $map-name" if $name ~~ m:i/ orientable /;
+#note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pango /;
 
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists
@@ -2420,6 +2423,15 @@ method search-name ( Str $name is copy --> Hash ) {
     # Get the Hash from the object maps
     $h = $*object-maps{$map-name}{$name}
          // $*object-maps{$map-name}{$map-name ~ $name};
+    if $map-name ~~ /G [d || s || t] k $/ and $raku-package ~~ /$<v>=[\d+] $/ {
+      $h<package-name> = "Gnome\:\:$map-name" ~ $<v>.Str;
+    }
+
+    else {
+      $h<package-name> = "Gnome\:\:$map-name";
+    }
+
+#note "$?LINE $map-name, $raku-package, $h<package-name>";
 
     # Add package name to this hash
 #    $h<raku-package> = $*other-work-data{$map-name}<raku-package>;
