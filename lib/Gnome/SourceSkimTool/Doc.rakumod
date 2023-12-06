@@ -244,7 +244,7 @@ method document-constructors (
     $raku-list ~~ s/^ . //;
 
     $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
+      {HLSEPARATOR}{$curr-function<missing-type> ?? "\n#`\{\{" !! ''}
       =begin pod
       =head2 $method-name
 
@@ -256,6 +256,7 @@ method document-constructors (
 
       $items-doc
       =end pod
+      {$curr-function<missing-type> ?? "\}\}" !! ''}
 
       EOSUB
   }
@@ -358,8 +359,9 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
     # remove first comma
     $raku-list ~~ s/^ . //;
 
+#note "$?LINE $curr-function<missing-type>, {$curr-function<missing-type> ?? "\n#`\{\{\n" !! ''}";
     $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}
+      {HLSEPARATOR}{$curr-function<missing-type> ?? "\n#`\{\{" !! ''}
       =begin pod
 
       =head2 $native-sub
@@ -372,6 +374,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 
       $items-doc$returns-doc
       =end pod
+      {$curr-function<missing-type> ?? "\}\}" !! ''}
 
       EOSUB
   }
@@ -568,6 +571,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
     @parameters.push: $ph;
   }
 
+#note "$?LINE $function-name, $missing-type";
   ( $function-name, %(
       :$function-doc, :@parameters, :$missing-type,
       :$rv-doc, :$rv-type, :$return-raku-type,
