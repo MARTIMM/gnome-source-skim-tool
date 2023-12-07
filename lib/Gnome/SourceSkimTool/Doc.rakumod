@@ -72,36 +72,35 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Hash $h = $!mod.search-name($ctype);
   my Str $class-name = $!mod.set-object-name($h);
 
-  my Str $doc = qq:to/RAKUDOC/;
-    $*command-line
-    use v6.d;
-
-    =begin pod
-    =head1 $class-name
-
-    =head1 Description
-
-    RAKUDOC
-
-  $doc ~= $xpath.find( 'doc/text()', :start($element)).Str;
+  my Str $doc = $xpath.find( 'doc/text()', :start($element)).Str;
   $doc ~= self!modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
 
   my Str $widget-picture = '';
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
-    unless $*gnome-package ~~ any( Gtk3, Gtk4);
+    if $*gnome-package ~~ any( Gtk3, Gtk4);
 
 
-  #??$doc ~= self!set-declaration;
-  $doc ~= self!set-uml;
+#  $doc ~= self!set-declaration;
+#  $doc ~= self!set-uml;
 #NOTE still needed?
 #  $doc ~= self!set-inherit-example($element);
-  $doc ~= self!set-example;
+#  $doc ~= self!set-example;
 
   qq:to/RAKUDOC/;
+    $*command-line
+    use v6.d;
 
     {pod-header('Class Description')}
     =begin pod
-    $widget-picture$doc
+    =head1 $class-name
+    $widget-picture
+    =head1 Description
+
+    $doc
+
+    {self!set-uml if $*gnome-package ~~ any( Gtk3, Gtk4, Gio) }
+    {self!set-example}
+
     =end pod
     RAKUDOC
 }

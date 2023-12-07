@@ -161,7 +161,7 @@ method generate-doc ( ) {
 
 
   note "Document module description" if $*verbose;
-  $doc ~= $!grd.get-description( $element, $!xpath);
+  my Str $doc ~= $!grd.get-description( $element, $!xpath);
 
   note "Document structure" if $*verbose;
   $doc ~= $!grd.document-structure( $element, $!xpath);

@@ -71,7 +71,7 @@ method generate-doc ( ) {
 #  my Str $doc = $!grd.start-document;
 
   note "Document module description" if $*verbose;
-  $doc ~= $!grd.get-description( $element, $!xpath);
+  my Str $doc ~= $!grd.get-description( $element, $!xpath);
 
 #  note "Document BUILD submethod" if $*verbose;
 #  my Hash $hcs =

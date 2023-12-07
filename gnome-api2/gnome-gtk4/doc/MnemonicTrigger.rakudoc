@@ -1,31 +1,41 @@
 # Package: Gtk4, C-Source: shortcuttrigger
 use v6.d;
 
-=begin pod
-=head1 Gnome::Gtk4::MnemonicTrigger
-=end pod
-
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::MnemonicTrigger
+
+
+![](images/mnemonictrigger.png)
+
+
+
 =head1 Description
 
-A I<GtkShortcutTrigger> that triggers when a specific mnemonic is pressed.
+A `GtkShortcutTrigger` that triggers when a specific mnemonic is pressed.
+
+Mnemonics require a *mnemonic modifier* (typically &lt;kbd&gt;Alt&lt;/kbd&gt;) to be
+pressed together with the mnemonic key.A I<GtkShortcutTrigger> that triggers when a specific mnemonic is pressed.
 
 Mnemonics require a *mnemonic modifier* (typically <kbd>Alt</kbd>) to be
 pressed together with the mnemonic key.
+
+
 =begin comment
 =head2 Uml Diagram
 ![](plantuml/….svg)
 =end comment
+
 
 =begin comment
 =head2 Example
   … text …
   … example code …
 =end comment
+
 
 =end pod
 
@@ -63,6 +73,7 @@ method new-mnemonictrigger ( UInt() $keyval --> Gnome::Gtk4::MnemonicTrigger )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -73,6 +84,7 @@ method new-mnemonictrigger ( UInt() $keyval --> Gnome::Gtk4::MnemonicTrigger )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-keyval
 
 Gets the keyval that must be pressed to succeed triggering C<$self>.
@@ -86,4 +98,5 @@ Return value; the keyval.
 
 
 =end pod
+
 

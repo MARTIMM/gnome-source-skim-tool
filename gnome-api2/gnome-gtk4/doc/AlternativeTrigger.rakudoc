@@ -1,32 +1,41 @@
 # Package: Gtk4, C-Source: shortcuttrigger
 use v6.d;
 
-=begin pod
-=head1 Gnome::Gtk4::AlternativeTrigger
-=end pod
-
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::AlternativeTrigger
+
+![](images/alternativetrigger.png)
+
+
 =head1 Description
 
-A I<GtkShortcutTrigger> that combines two triggers.
+A `GtkShortcutTrigger` that combines two triggers.
+
+The `GtkAlternativeTrigger` triggers when either of two trigger.
+
+This can be cascaded to combine more than two triggers.A B<Gnome::Gtk4::ShortcutTrigger> that combines two triggers.
 
 The B<Gnome::Gtk4::AlternativeTrigger> triggers when either of two trigger.
 
 This can be cascaded to combine more than two triggers.
+
+
 =begin comment
 =head2 Uml Diagram
 ![](plantuml/….svg)
 =end comment
+
 
 =begin comment
 =head2 Example
   … text …
   … example code …
 =end comment
+
 
 =end pod
 
@@ -52,7 +61,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 new-alternativetrigger
 
-Creates a I<GtkShortcutTrigger> that will trigger whenever either of the two given triggers gets triggered.
+Creates a B<Gnome::Gtk4::ShortcutTrigger> that will trigger whenever either of the two given triggers gets triggered.
 
 Note that nesting is allowed, so if you want more than two alternative, create a new alternative trigger for each option.
 
@@ -65,6 +74,7 @@ method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome:
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -75,6 +85,7 @@ method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome:
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-first
 
 Gets the first of the two alternative triggers that may trigger C<$self>.
@@ -91,8 +102,10 @@ Return value; the first alternative trigger.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-second
 
 Gets the second of the two alternative triggers that may trigger C<$self>.
@@ -108,4 +121,5 @@ Return value; the second alternative trigger.
 
 
 =end pod
+
 

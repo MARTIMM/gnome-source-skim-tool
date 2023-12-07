@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Gdk4::T-Enums:api<2>;
+use Gnome::Gdk4::T-Enums:api<2>;
 use Gnome::Gtk4::ShortcutTrigger:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -58,11 +58,11 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-keyvaltrigger => %( :type(Constructor), :is-symbol<gtk_keyval_trigger_new>, :returns(N-Object), :parameters([ guint, GFlag])),
+  new-keyvaltrigger => %( :type(Constructor), :is-symbol<gtk_keyval_trigger_new>, :returns(N-Object), :parameters([ guint, GFlag])),
 
   #--[Methods]------------------------------------------------------------------
   get-keyval => %(:is-symbol<gtk_keyval_trigger_get_keyval>,  :returns(guint)),
-  #get-modifiers => %(:is-symbol<gtk_keyval_trigger_get_modifiers>,  :returns(GFlag), :cnv-return(GdkModifierType )),
+  get-modifiers => %(:is-symbol<gtk_keyval_trigger_get_modifiers>,  :returns(GFlag), :cnv-return(GdkModifierType)),
 );
 
 #-------------------------------------------------------------------------------

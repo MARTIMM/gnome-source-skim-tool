@@ -9,7 +9,7 @@ use NativeCall;
 
 
 use Gnome::GObject::Object:api<2>;
-#use Gnome::Gdk4::T-Events:api<2>;
+#use Gnome::Gdk4::T-ButtonEvent:api<2>;
 #use Gnome::Glib::N-String:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
