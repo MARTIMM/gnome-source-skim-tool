@@ -11,6 +11,8 @@ use META6;
 my Str $api2 = $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
 
 check-modules( 'Gtk4', "$api2/gnome-gtk4/lib");
+check-modules( "$api2/gnome-gdk4/lib");
+check-modules( "$api2/gnome-gsk4/lib");
 
 check-modules( 'Glib', "$api2/gnome-glib/lib");
 check-modules( 'Gio', "$api2/gnome-gio/lib");
@@ -26,8 +28,6 @@ check-modules( "$api2/gnome-cairo/lib");
 check-modules( "$api2/gnome-gtk3/lib");
 check-modules( "$api2/gnome-gdk3/lib");
 
-check-modules( "$api2/gnome-gdk4/lib");
-check-modules( "$api2/gnome-gsk4/lib");
 
 check-modules( "$api2/gnome-atk/lib");
 }}
