@@ -73,7 +73,9 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Str $class-name = $!mod.set-object-name($h);
 
   my Str $doc = qq:to/RAKUDOC/;
-    $*command-line\nuse v6.d;
+    $*command-line
+    use v6.d;
+
     =begin pod
     =head1 $class-name
 

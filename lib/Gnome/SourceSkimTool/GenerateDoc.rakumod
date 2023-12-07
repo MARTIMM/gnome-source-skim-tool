@@ -132,26 +132,29 @@ method generate-doc ( ) {
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my Hash $data = $!filedata{$gir-type}.values[0];
-note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
 
     next unless ?$data<type-name>;
-    $data<package-name> = $*work-data<raku-package>;
 
     $*gnome-class = $data<type-name>;
     $t-prep .= new unless ?$t-prep;
-#      $t-prep.display-hash( $*work-data, :label('type file data'));
 
-    my Str $type-name = $data<type-name>;
+    $data<package-name> = $*work-data<raku-package>;
+$t-prep.display-hash( $data, :label('type file data'));
+#note "$?LINE $gir-type, $*work-data<raku-package>";
+
+#    my Str $type-name = $data<type-name>;
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
 #    $filename = [~] $*work-data<result-docs>, $type-name, '.rakudoc';
-    $filename = $!mod.set-object-name(
-      %( :type-name($*work-data<raku-name>), :type-letter<T>),
-      :name-type(FilenameDocType)
-    );
-    $class-name = $!mod.set-object-name(
-      %( :type-name($*work-data<raku-name>), :type-letter<T>)
-    );
+#    $filename = $!mod.set-object-name(
+#      %( :type-name($*work-data<raku-name>), :type-letter<T>),
+#      :name-type(FilenameDocType)
+#    );
+    $filename = $!mod.set-object-name( $data, :name-type(FilenameDocType));
+    $class-name = $!mod.set-object-name($data);
+#    $class-name = $!mod.set-object-name(
+#      %( :type-name($*work-data<raku-name>), :type-letter<T>)
+#    );
     #$data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
@@ -209,8 +212,22 @@ note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
 
   if ?$class-name and ?$filename {
     note "Document init" if $*verbose;
-    my Str $doc = $!grd.start-document('T');
+#    my Str $doc = $!grd.start-document('T');
+    my Str $doc = qq:to/EODOC/;
+      $*command-line
+      use v6.d;
+
+      =begin pod
+      =head1 $class-name
+      =end pod
+      
+      EODOC
+
     $doc ~= qq:to/EODOC/ if ?$types-doc<function>;
+      =begin pod
+      =head1 $class-name
+      =end pod
+
       {pod-header('Class Initialization')}
       =begin pod
       =head1 Class initialization

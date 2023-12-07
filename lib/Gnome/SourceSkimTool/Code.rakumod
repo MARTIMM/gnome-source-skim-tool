@@ -2357,7 +2357,7 @@ method set-object-name (
   given $name-type {
     when ClassnameType {
 note "$?LINE $object-map-entry.gist()";
-say Backtrace.new.nice if $object-map-entry<gnome-name> eq 'GdkModifierType';
+say Backtrace.new.nice if $object-map-entry<package-name>:!exists;
 
       if ?$type-letter {
 #        $object-name = $*work-data<raku-package> ~ '::' ~

@@ -149,7 +149,7 @@ note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
     next unless ?$data<type-name>;
     $data<package-name> = $*work-data<raku-package>;
 
-    my Str $type-name = $data<type-name>;
+#    my Str $type-name = $data<type-name>;
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
 #    $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
