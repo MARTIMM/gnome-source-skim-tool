@@ -1299,6 +1299,14 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
   $text ~~ s:g/ '[' class '@' $prefix '.' $gname ']'
               /B<Gnome\:\:$package\:\:$gname>/;
 
+  # Gnome seems to use markdown directly too: `GtkShortcutTrigger`
+  while $text ~~ m:c/'`' $<cname> = [<-[`]>+] '`'/ {
+    my Str $cname = $/<cname>.Str;
+    my Hash $h = $!mod.search-name($cname);
+    my Str $classname = $!mod.set-object-name($h);
+    $text ~~ s/'`' $cname '`'/B<$classname>/;
+  }
+
   $text
 }
 
