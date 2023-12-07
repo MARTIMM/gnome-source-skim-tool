@@ -143,16 +143,20 @@ method generate-test ( ) {
 
     once $t-prep .= new;
 
-    my $data = $!filedata{$gir-type}.values[0];
-#note "$?LINE $gir-type, ", $data.gist;
+    my Hash $data = $!filedata{$gir-type}.values[0];
+note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
+
     next unless ?$data<type-name>;
+    $data<package-name> = $*work-data<raku-package>;
 
     my Str $type-name = $data<type-name>;
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
-    $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
-    $class-name = $data<class-name>;
+#    $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
+#    $class-name = $data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
+    $filename = $!mod.set-object-name( $data, :name-type(FilenameTestType));
+    $class-name = $!mod.set-object-name($data);
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
 

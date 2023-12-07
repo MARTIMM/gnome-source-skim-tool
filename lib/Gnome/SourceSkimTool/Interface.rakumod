@@ -67,8 +67,8 @@ method generate-doc ( ) {
   my XML::Element $element = $!xpath.find('//interface');
   die "//class not found in $*work-data<gir-interface-file> for $*work-data<raku-class-name>" unless ?$element;
 
-  note "Document init" if $*verbose;
-  my Str $doc = $!grd.start-document;
+#  note "Document init" if $*verbose;
+#  my Str $doc = $!grd.start-document;
 
   note "Document module description" if $*verbose;
   $doc ~= $!grd.get-description( $element, $!xpath);

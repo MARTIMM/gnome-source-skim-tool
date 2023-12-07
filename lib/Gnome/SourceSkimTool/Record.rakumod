@@ -156,8 +156,8 @@ method generate-doc ( ) {
   my XML::Element $element = $!xpath.find('//namespace/record');
   die "//record not found in gir-record-file for $*work-data<raku-class-name>" unless ?$element;
 
-  note "Document init" if $*verbose;
-  my Str $doc = $!grd.start-document;
+#  note "Document init" if $*verbose;
+#  my Str $doc = $!grd.start-document;
 
 
   note "Document module description" if $*verbose;

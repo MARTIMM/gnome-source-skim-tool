@@ -2356,6 +2356,9 @@ method set-object-name (
 
   given $name-type {
     when ClassnameType {
+note "$?LINE $object-map-entry.gist()";
+say Backtrace.new.nice if $object-map-entry<gnome-name> eq 'GdkModifierType';
+
       if ?$type-letter {
 #        $object-name = $*work-data<raku-package> ~ '::' ~
         $object-name = $object-map-entry<package-name> ~ '::' ~
@@ -2412,7 +2415,7 @@ method search-name ( Str $name is copy --> Hash ) {
     self.check-map($map-name);
 
 #note "Search for $name in map $map-name" if $*verbose;
-#note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pango /;
+note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pango /;
 
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists
@@ -2431,14 +2434,15 @@ method search-name ( Str $name is copy --> Hash ) {
       $h<package-name> = "Gnome\:\:$map-name";
     }
 
-#note "$?LINE $map-name, $raku-package, $h<package-name>";
+note "$?LINE $map-name, $raku-package, $h<package-name>";
 
     # Add package name to this hash
 #    $h<raku-package> = $*other-work-data{$map-name}<raku-package>;
     last;
   }
 
-#say Backtrace.new.nice if $name eq 'GdkPixbufPixbuf';
+#note "$?LINE $h.gist()";
+#say Backtrace.new.nice if $name eq 'Enums';
 
   $h
 }

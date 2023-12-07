@@ -20,6 +20,7 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
+#`{{
 method start-document ( Str $type-letter = '' --> Str ) {
 #`{{
   my Str $name = '';
@@ -62,20 +63,31 @@ method start-document ( Str $type-letter = '' --> Str ) {
   );
   "$*command-line\nuse v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
 }
+}}
 
 #-------------------------------------------------------------------------------
 # Get the description at the start of a class, record or union.
 method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
-  my Str $doc = "=head1 Description\n\n";
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!mod.search-name($ctype);
+  my Str $class-name = $!mod.set-object-name($h);
 
-  #$doc ~= $xpath.find( 'doc/text()', :start($element)).Str;
+  my Str $doc = qq:to/RAKUDOC/;
+    $*command-line\nuse v6.d;
+    =begin pod
+    =head1 $class-name
+
+    =head1 Description
+
+    RAKUDOC
+
+  $doc ~= $xpath.find( 'doc/text()', :start($element)).Str;
+  $doc ~= self!modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
+
   my Str $widget-picture = '';
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
     unless $*gnome-package ~~ any( Gtk3, Gtk4);
-#  my Str $ctype = $element.attribs<c:type>;
-#  my Hash $h = $!mod.search-name($ctype);
 
-  $doc ~= self!modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
 
   #??$doc ~= self!set-declaration;
   $doc ~= self!set-uml;

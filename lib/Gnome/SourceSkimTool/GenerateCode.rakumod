@@ -132,8 +132,11 @@ method generate-code ( ) {
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
     my Hash $data = $!filedata{$gir-type}.values[0];
-#note "$?LINE $gir-type, ", $data.gist;
+note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
+
     next unless ?$data<type-name>;
+#    $data = $!mod.search-name($data<type-name>);
+    $data<package-name> = $*work-data<raku-package>;
 
     $*gnome-class = $data<type-name>;
     $t-prep .= new unless ?$t-prep;
