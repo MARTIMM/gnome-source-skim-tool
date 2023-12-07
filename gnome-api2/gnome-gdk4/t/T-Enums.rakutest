@@ -6,17 +6,101 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
-#use Gnome::Gdk4::T-Enums:api<2>;
+use Gnome::Gdk4::T-Enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
 
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GdkAxisFlags
+subtest 'GdkAxisFlags', {
+  is GDK_AXIS_FLAG_X.value, 2, 'bitfield GDK_AXIS_FLAG_X = 2';
+
+  is GDK_AXIS_FLAG_Y.value, 4, 'bitfield GDK_AXIS_FLAG_Y = 4';
+
+  is GDK_AXIS_FLAG_DELTA_X.value, 8, 'bitfield GDK_AXIS_FLAG_DELTA_X = 8';
+
+  is GDK_AXIS_FLAG_DELTA_Y.value, 16, 'bitfield GDK_AXIS_FLAG_DELTA_Y = 16';
+
+  is GDK_AXIS_FLAG_PRESSURE.value, 32, 'bitfield GDK_AXIS_FLAG_PRESSURE = 32';
+
+  is GDK_AXIS_FLAG_XTILT.value, 64, 'bitfield GDK_AXIS_FLAG_XTILT = 64';
+
+  is GDK_AXIS_FLAG_YTILT.value, 128, 'bitfield GDK_AXIS_FLAG_YTILT = 128';
+
+  is GDK_AXIS_FLAG_WHEEL.value, 256, 'bitfield GDK_AXIS_FLAG_WHEEL = 256';
+
+  is GDK_AXIS_FLAG_DISTANCE.value, 512, 'bitfield GDK_AXIS_FLAG_DISTANCE = 512';
+
+  is GDK_AXIS_FLAG_ROTATION.value, 1024, 'bitfield GDK_AXIS_FLAG_ROTATION = 1024';
+
+  is GDK_AXIS_FLAG_SLIDER.value, 2048, 'bitfield GDK_AXIS_FLAG_SLIDER = 2048';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GdkDragAction
+subtest 'GdkDragAction', {
+  is GDK_ACTION_COPY.value, 1, 'bitfield GDK_ACTION_COPY = 1';
+
+  is GDK_ACTION_MOVE.value, 2, 'bitfield GDK_ACTION_MOVE = 2';
+
+  is GDK_ACTION_LINK.value, 4, 'bitfield GDK_ACTION_LINK = 4';
+
+  is GDK_ACTION_ASK.value, 8, 'bitfield GDK_ACTION_ASK = 8';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GdkModifierType
+subtest 'GdkModifierType', {
+  is GDK_SHIFT_MASK.value, 1, 'bitfield GDK_SHIFT_MASK = 1';
+
+  is GDK_LOCK_MASK.value, 2, 'bitfield GDK_LOCK_MASK = 2';
+
+  is GDK_CONTROL_MASK.value, 4, 'bitfield GDK_CONTROL_MASK = 4';
+
+  is GDK_ALT_MASK.value, 8, 'bitfield GDK_ALT_MASK = 8';
+
+  is GDK_BUTTON1_MASK.value, 256, 'bitfield GDK_BUTTON1_MASK = 256';
+
+  is GDK_BUTTON2_MASK.value, 512, 'bitfield GDK_BUTTON2_MASK = 512';
+
+  is GDK_BUTTON3_MASK.value, 1024, 'bitfield GDK_BUTTON3_MASK = 1024';
+
+  is GDK_BUTTON4_MASK.value, 2048, 'bitfield GDK_BUTTON4_MASK = 2048';
+
+  is GDK_BUTTON5_MASK.value, 4096, 'bitfield GDK_BUTTON5_MASK = 4096';
+
+  is GDK_SUPER_MASK.value, 67108864, 'bitfield GDK_SUPER_MASK = 67108864';
+
+  is GDK_HYPER_MASK.value, 134217728, 'bitfield GDK_HYPER_MASK = 134217728';
+
+  is GDK_META_MASK.value, 268435456, 'bitfield GDK_META_MASK = 268435456';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GDK_ACTION_ALL
+is GDK_ACTION_ALL, 7, "constant GDK_ACTION_ALL = 7";
+
+#TE:1:GDK_MODIFIER_MASK
+is GDK_MODIFIER_MASK, 469769999, "constant GDK_MODIFIER_MASK = 469769999";
+
+};
 
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
@@ -140,90 +224,6 @@ subtest 'GdkVulkanError', {
   is GDK_VULKAN_ERROR_UNSUPPORTED.value, 0, 'enum GDK_VULKAN_ERROR_UNSUPPORTED = 0';
 
   is GDK_VULKAN_ERROR_NOT_AVAILABLE.value, 1, 'enum GDK_VULKAN_ERROR_NOT_AVAILABLE = 1';
-
-};
-
-#-------------------------------------------------------------------------------
-#--[Bitfields]------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#TE:1:GdkAxisFlags
-subtest 'GdkAxisFlags', {
-  is GDK_AXIS_FLAG_X.value, 2, 'bitfield GDK_AXIS_FLAG_X = 2';
-
-  is GDK_AXIS_FLAG_Y.value, 4, 'bitfield GDK_AXIS_FLAG_Y = 4';
-
-  is GDK_AXIS_FLAG_DELTA_X.value, 8, 'bitfield GDK_AXIS_FLAG_DELTA_X = 8';
-
-  is GDK_AXIS_FLAG_DELTA_Y.value, 16, 'bitfield GDK_AXIS_FLAG_DELTA_Y = 16';
-
-  is GDK_AXIS_FLAG_PRESSURE.value, 32, 'bitfield GDK_AXIS_FLAG_PRESSURE = 32';
-
-  is GDK_AXIS_FLAG_XTILT.value, 64, 'bitfield GDK_AXIS_FLAG_XTILT = 64';
-
-  is GDK_AXIS_FLAG_YTILT.value, 128, 'bitfield GDK_AXIS_FLAG_YTILT = 128';
-
-  is GDK_AXIS_FLAG_WHEEL.value, 256, 'bitfield GDK_AXIS_FLAG_WHEEL = 256';
-
-  is GDK_AXIS_FLAG_DISTANCE.value, 512, 'bitfield GDK_AXIS_FLAG_DISTANCE = 512';
-
-  is GDK_AXIS_FLAG_ROTATION.value, 1024, 'bitfield GDK_AXIS_FLAG_ROTATION = 1024';
-
-  is GDK_AXIS_FLAG_SLIDER.value, 2048, 'bitfield GDK_AXIS_FLAG_SLIDER = 2048';
-
-};
-
-#-------------------------------------------------------------------------------
-#TE:1:GdkDragAction
-subtest 'GdkDragAction', {
-  is GDK_ACTION_COPY.value, 1, 'bitfield GDK_ACTION_COPY = 1';
-
-  is GDK_ACTION_MOVE.value, 2, 'bitfield GDK_ACTION_MOVE = 2';
-
-  is GDK_ACTION_LINK.value, 4, 'bitfield GDK_ACTION_LINK = 4';
-
-  is GDK_ACTION_ASK.value, 8, 'bitfield GDK_ACTION_ASK = 8';
-
-};
-
-#-------------------------------------------------------------------------------
-#TE:1:GdkModifierType
-subtest 'GdkModifierType', {
-  is GDK_SHIFT_MASK.value, 1, 'bitfield GDK_SHIFT_MASK = 1';
-
-  is GDK_LOCK_MASK.value, 2, 'bitfield GDK_LOCK_MASK = 2';
-
-  is GDK_CONTROL_MASK.value, 4, 'bitfield GDK_CONTROL_MASK = 4';
-
-  is GDK_ALT_MASK.value, 8, 'bitfield GDK_ALT_MASK = 8';
-
-  is GDK_BUTTON1_MASK.value, 256, 'bitfield GDK_BUTTON1_MASK = 256';
-
-  is GDK_BUTTON2_MASK.value, 512, 'bitfield GDK_BUTTON2_MASK = 512';
-
-  is GDK_BUTTON3_MASK.value, 1024, 'bitfield GDK_BUTTON3_MASK = 1024';
-
-  is GDK_BUTTON4_MASK.value, 2048, 'bitfield GDK_BUTTON4_MASK = 2048';
-
-  is GDK_BUTTON5_MASK.value, 4096, 'bitfield GDK_BUTTON5_MASK = 4096';
-
-  is GDK_SUPER_MASK.value, 67108864, 'bitfield GDK_SUPER_MASK = 67108864';
-
-  is GDK_HYPER_MASK.value, 134217728, 'bitfield GDK_HYPER_MASK = 134217728';
-
-  is GDK_META_MASK.value, 268435456, 'bitfield GDK_META_MASK = 268435456';
-
-};
-
-#-------------------------------------------------------------------------------
-#--[Constants]------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-subtest 'constants', {
-#TE:1:GDK_MODIFIER_MASK
-is GDK_MODIFIER_MASK, 469769999, "constant GDK_MODIFIER_MASK = 469769999";
-
-#TE:1:GDK_ACTION_ALL
-is GDK_ACTION_ALL, 7, "constant GDK_ACTION_ALL = 7";
 
 };
 
