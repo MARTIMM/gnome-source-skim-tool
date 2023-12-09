@@ -67,6 +67,10 @@ find . -name '*.raku*' | xargs wc -l
 
 
 # Release notes
+* 2023-12-09 0.12.4
+  * Many bug fixes in doc generation
+  * Add callback info to types document
+
 * 2023-11-29 0.12.3
   * Skim results in repo-object.yaml files is changed to copy with misnaming the type result files and classes in some situations. E.g. `T-Aboutdialog` must be `T-AboutDialog`.
   * A records/union code is now stored together with its structure like in the older implementation. However, it is kept primitive. Also the name is prefixed with a 'N-' like its structure to show that it is different from a normal class.
