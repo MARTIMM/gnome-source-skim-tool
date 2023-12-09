@@ -1,21 +1,22 @@
-# Package: Gtk4, C-Source: label
+# Package: Gtk4, C-Source: Label
 use v6.d;
-
-=begin pod
-=head1 ::Label
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::Label
+
+![](images/label.png)
+
+
 =head1 Description
 
 The B<Gnome::Gtk4::Label> widget displays a small amount of text.
 
 As the name implies, most labels are used to label another widget
-such as a [class C<$Button>].
+such as a B<Gnome::Gtk4::Button>.
 
 ![An example GtkLabel](label.png)
 
@@ -80,9 +81,9 @@ to the functions [ctor C<$Gtk>.Label.new_with_mnemonic] or
 C<.set-text-with-mnemonic()>.
 
 Mnemonics automatically activate any activatable widget the label is
-inside, such as a [class C<$Gtk>.Button]; if the label is not inside the
+inside, such as a B<Gnome::Gtk4::Button>; if the label is not inside the
 mnemonic’s target widget, you have to tell the label about the target
-using [class C<$Gtk>.Label.set_mnemonic_widget]. Here’s a simple example where
+using B<Gnome::Gtk4::Label.set_mnemonic_widget>. Here’s a simple example where
 the label is inside a button:
 
 =begin comment 
@@ -97,39 +98,7 @@ Following example code is in c
 There’s a convenience function to create buttons with a mnemonic label
 already inside:
 
-=begin comment 
-Following example code is in c
-
-  // Pressing Alt+H will activate this button
-  GtkWidget *button = gtk_button_new_with_mnemonic ("_Hello");
-=end comment
-
-To create a mnemonic for a widget alongside the label, such as a
-[class C<$Gtk>.Entry], you have to point the label at the entry with
-C<.set-mnemonic-widget()>:
-
-=begin comment 
-Following example code is in c
-
-  // Pressing Alt+H will focus the entry
-  GtkWidget *entry = gtk_entry_new ();
-  GtkWidget *label = gtk_label_new_with_mnemonic ("_Hello");
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
-=end comment
-
-=head1 Markup (styled text)
-
-To make it easy to format text in a label (changing colors,
-fonts, etc.), label text can be provided in a simple
-markup format:
-
-Here’s how to create a label with a small font:
-=begin comment 
-Following example code is in c
-
-  GtkWidget *label = gtk_label_new (NULL);
-  gtk_label_set_markup (GTK_LABEL (label), "<small>Small text</small>");
-=end comment
+U<a>
 
 (See the Pango manual for complete documentation] of available
 tags, [func C<$Pango>.parse_markup])
@@ -204,16 +173,20 @@ Following example code is in c
 It is possible to implement custom handling for links and their tooltips
 with the I<activate-link> signal and the
 C<.get-current-uri()> function.
+
+
 =begin comment
 =head2 Uml Diagram
 ![](plantuml/….svg)
 =end comment
+
 
 =begin comment
 =head2 Example
   … text …
   … example code …
 =end comment
+
 
 =end pod
 
@@ -428,7 +401,7 @@ method get-layout (--> N-Object )
 =end code
 
 
-Return value; the [class C<$Pango>.Layout] for this label. 
+Return value; the B<Gnome::Pango::Layout> for this label. 
 
 
 =end pod
@@ -441,7 +414,7 @@ Return value; the [class C<$Pango>.Layout] for this label.
 
 Obtains the coordinates where the label will draw its I<PangoLayout>.
 
-The coordinates are useful to convert mouse events into coordinates inside the [class C<$Pango>.Layout], e.g. to take some action if some part of the label is clicked. Remember when using the [class C<$Pango>.Layout]
+The coordinates are useful to convert mouse events into coordinates inside the B<Gnome::Pango::Layout>, e.g. to take some action if some part of the label is clicked. Remember when using the B<Gnome::Pango::Layout>
 functions you need to convert to and from pixels using PANGO_PIXELS()
 or [const C<$Pango>.SCALE].
 
@@ -994,8 +967,7 @@ Associate the label with its mnemonic target.
 If the label has been set so that it has a mnemonic key (using i.e. C<.set-markup-with-mnemonic()>,
 C<.set-text-with-mnemonic() defined in Label>,
 [ctor C<$Gtk>.Label.new_with_mnemonic]
-or the I<use_underline> property) the label can be associated with a widget that is the target of the mnemonic. When the label is inside a widget (like a [class C<$Gtk>.Button] or a
-[class C<$Gtk>.Notebook] tab) it is automatically associated with the correct widget, but sometimes (i.e. when the target is a [class C<$Gtk>.Entry] next to the label) you need to set it explicitly using this function.
+or the I<use_underline> property) the label can be associated with a widget that is the target of the mnemonic. When the label is inside a widget (like a B<Gnome::Gtk4::Button> or a B<Gnome::Gtk4::Notebook> tab) it is automatically associated with the correct widget, but sometimes (i.e. when the target is a B<Gnome::Gtk4::Entry> next to the label) you need to set it explicitly using this function.
 
 The target widget will be accelerated by emitting the
 [signal C<$GtkWidget>::mnemonic-activate] signal on it. The default handler for this signal will activate the widget if there are no mnemonic collisions and toggle focus between the colliding widgets otherwise.
@@ -1004,7 +976,7 @@ The target widget will be accelerated by emitting the
 method set-mnemonic-widget ( N-Object() $widget )
 =end code
 
-=item $widget; the target `GtkWidget`, or undefined to unset.
+=item $widget; the target B<Gnome::Gtk4::Widget>, or undefined to unset.
 
 =end pod
 
@@ -1258,14 +1230,14 @@ The default bindings for this signal are all forms of the Enter key.
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Label() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Label :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
@@ -1281,7 +1253,7 @@ which is to call gtk_show_uri().
 method handler (
   Str $uri,
   Int :$_handle_id,
-  Gnome::Gtk4::Label() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Label :$_widget,
   *%user-options
   --> gboolean
@@ -1290,7 +1262,7 @@ method handler (
 
 =item $uri; the URI that is activated.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
@@ -1308,14 +1280,14 @@ The default binding for this signal is Ctrl-c.
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Label() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Label :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
@@ -1343,7 +1315,7 @@ method handler (
   gint $count,
   gboolean $extend-selection,
   Int :$_handle_id,
-  Gnome::Gtk4::Label() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Label :$_widget,
   *%user-options
 )
@@ -1353,7 +1325,7 @@ method handler (
 =item $count; the number of C<$step> units to move.
 =item $extend-selection; %TRUE if the move should extend the selection.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 

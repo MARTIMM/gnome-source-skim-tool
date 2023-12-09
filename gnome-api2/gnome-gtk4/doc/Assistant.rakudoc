@@ -1,15 +1,16 @@
-# Package: Gtk4, C-Source: assistant
+# Package: Gtk4, C-Source: Assistant
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::Assistant
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::Assistant
+
+![](images/assistant.png)
+
+
 =head1 Description
 
 B<Gnome::Gtk4::Assistant> is used to represent a complex as a series of steps.
@@ -48,16 +49,20 @@ set the child widget as a property on it.
 
 B<Gnome::Gtk4::Assistant> has a single CSS node with the name window and style
 class .assistant.
+
+
 =begin comment
 =head2 Uml Diagram
 ![](plantuml/….svg)
 =end comment
+
 
 =begin comment
 =head2 Example
   … text …
   … example code …
 =end comment
+
 
 =end pod
 
@@ -98,6 +103,7 @@ method new-assistant ( --> Gnome::Gtk4::Assistant )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -108,6 +114,7 @@ method new-assistant ( --> Gnome::Gtk4::Assistant )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 add-action-widget
 
 Adds a widget to the action area of a B<Gnome::Gtk4::Assistant>.
@@ -120,8 +127,10 @@ method add-action-widget ( N-Object() $child )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 append-page
 
 Appends a page to the C<$assistant>.
@@ -137,8 +146,10 @@ Return value; the index (starting at 0) of the inserted page.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 commit
 
 Erases the visited page history.
@@ -155,8 +166,10 @@ method commit ( )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-current-page
 
 Returns the page number of the current page.
@@ -173,8 +186,10 @@ Return value; The index (starting from 0) of the current
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-n-pages
 
 Returns the number of pages in the C<$assistant>
@@ -189,8 +204,10 @@ Return value; the number of pages in the C<$assistant>.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-nth-page
 
 Returns the child widget contained in page number C<$page_num>.
@@ -208,8 +225,10 @@ Return value; the child widget, or undefined
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-page
 
 Returns the B<Gnome::Gtk4::Assistant>Page object for C<$child>.
@@ -225,8 +244,10 @@ Return value; the B<Gnome::Gtk4::Assistant>Page for C<$child>.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-page-complete
 
 Gets whether C<$page> is complete.
@@ -242,8 +263,10 @@ Return value; %TRUE if C<$page> is complete..
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-page-title
 
 Gets the title for C<$page>.
@@ -259,8 +282,10 @@ Return value; the title for C<$page>.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-page-type
 
 Gets the page type of C<$page>.
@@ -276,8 +301,10 @@ Return value; the page type of C<$page>.  An enumeration.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-pages
 
 Gets a list model of the assistant pages.
@@ -292,8 +319,10 @@ Return value; A list model of the pages..
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 insert-page
 
 Inserts a page in the C<$assistant> at a given position.
@@ -311,8 +340,10 @@ Return value; the index (starting from 0) of the inserted page.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 next-page
 
 Navigate to the next page.
@@ -329,8 +360,10 @@ method next-page ( )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 prepend-page
 
 Prepends a page to the C<$assistant>.
@@ -346,8 +379,10 @@ Return value; the index (starting at 0) of the inserted page.
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 previous-page
 
 Navigate to the previous visited page.
@@ -364,8 +399,10 @@ method previous-page ( )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 remove-action-widget
 
 Removes a widget from the action area of a B<Gnome::Gtk4::Assistant>.
@@ -378,8 +415,10 @@ method remove-action-widget ( N-Object() $child )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 remove-page
 
 Removes the C<$page_num>’s page from C<$assistant>.
@@ -393,8 +432,10 @@ method remove-page ( Int() $page-num )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-current-page
 
 Switches the page to C<$page_num>.
@@ -413,8 +454,11 @@ method set-current-page ( Int() $page-num )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
+#`{{
 =begin pod
+
 =head2 set-forward-page-func
 
 Sets the page forwarding function to be C<$page_func>.
@@ -426,15 +470,17 @@ Setting C<$page_func> to undefined will make the assistant to use the default fo
 method set-forward-page-func ( &page-func, gpointer $data, … )
 =end code
 
-=item &page-func; the `GtkAssistantPageFunc`, or undefined
- to use the default one. Tthe function must be specified with following signature; C<:( gint $current-page, gpointer $data --> gint )>.
+=item &page-func; the B<Gnome::Gtk4::T-Assistant>, or undefined
+ to use the default one. Tthe function must be specified with following signature; C<AssistantPageFunc=:( gint $current-page, gpointer $data --> gint )>.
 =item $data; user data for C<$page_func>.
 =item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
 
 =end pod
+}}
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-page-complete
 
 Sets whether C<$page> contents are complete.
@@ -450,8 +496,10 @@ method set-page-complete ( N-Object() $page, Bool() $complete )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-page-title
 
 Sets a title for C<$page>.
@@ -467,8 +515,10 @@ method set-page-title ( N-Object() $page, Str $title )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-page-type
 
 Sets the page type for C<$page>.
@@ -484,8 +534,10 @@ method set-page-type ( N-Object() $page, GtkAssistantPageType $type )
 
 =end pod
 
+
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 update-buttons-state
 
 Forces C<$assistant> to recompute the buttons state.
@@ -501,6 +553,7 @@ method update-buttons-state ( )
 
 
 =end pod
+
 
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
@@ -522,14 +575,14 @@ A handler for the ::apply signal should carry out the actions for which the wiza
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Assistant() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
@@ -541,14 +594,14 @@ Emitted when then the cancel button is clicked.
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Assistant() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
@@ -562,14 +615,14 @@ or when the apply button in the last page in the flow (of type
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Assistant() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
@@ -581,14 +634,14 @@ The action signal for the Escape binding.
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Assistant() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
   *%user-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
@@ -604,7 +657,7 @@ A handler for this signal can do any preparations which are necessary before sho
 method handler (
   N-Object $page,
   Int :$_handle_id,
-  Gnome::Gtk4::Assistant() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Assistant :$_widget,
   *%user-options
 )
@@ -612,7 +665,7 @@ method handler (
 
 =item $page; the current page.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Assistant> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
