@@ -1118,6 +1118,10 @@ method get-callback-function ( Str $function-name --> Hash ) {
   return %() if $element.attribs<deprecated>:exists and
                 $element.attribs<deprecated> eq '1';
 
+#  my Hash $h = self!get-callback-data( $element, :$xpath);
+#  $h<function-name> = $function-name;
+#  $h
+
   self!get-callback-data( $element, :$xpath)
 }
 
@@ -1152,6 +1156,7 @@ method generate-callback ( Hash $cb-data --> Str ) {
     $returns = $rnt0;
   }
 
+#  my $code = [~] $cb-data<function-name>, '=:(', $par-list, ?$returns ?? " --> $returns \)" !! ' )';
   my $code = [~] ':(', $par-list, ?$returns ?? " --> $returns \)" !! ' )';
   $code ~= ' _UA_' unless $available;
 
@@ -1949,20 +1954,21 @@ method !get-callback-data (
     :start($e), :to-list
   );
 
-  my Bool $variable-list = False;
+#  my Bool $variable-list = False;
   for @prmtrs -> $p {
 
     my Str ( $type, $raku-type) = self.get-type( $p, :$user-side);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = self.cleanup-id($attribs<name>);
 
+#`{{
     # When '…', there will be no type for that parameter. It means that
     # a variable argument list is used ending in a Nil.
     if $parameter-name eq '…' {
       $type = $raku-type = '…';
       $variable-list = True;
     }
-
+}}
     my Hash $ph = %( :name($parameter-name), :$type, :$raku-type);
 
     $ph<allow-none> = $attribs<allow-none>.Bool;
@@ -1972,9 +1978,8 @@ method !get-callback-data (
     @parameters.push: $ph;
   }
 
-  %(
-    :@parameters, :$variable-list, :$rv-type, :$return-raku-type,
-  )
+#  %( :@parameters, :$variable-list, :$rv-type, :$return-raku-type )
+  %( :@parameters, :$rv-type, :$return-raku-type )
 }
 
 #-------------------------------------------------------------------------------
@@ -2356,8 +2361,8 @@ method set-object-name (
 
   given $name-type {
     when ClassnameType {
-note "$?LINE $object-map-entry.gist()";
-say Backtrace.new.nice if $object-map-entry<package-name>:!exists;
+#note "$?LINE $object-map-entry.gist()";
+#say Backtrace.new.nice if $object-map-entry<package-name>:!exists;
 
       if ?$type-letter {
 #        $object-name = $*work-data<raku-package> ~ '::' ~
@@ -2415,7 +2420,7 @@ method search-name ( Str $name is copy --> Hash ) {
     self.check-map($map-name);
 
 #note "Search for $name in map $map-name" if $*verbose;
-note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pango /;
+#note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pango /;
 
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists
@@ -2434,7 +2439,7 @@ note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pango /;
       $h<package-name> = "Gnome\:\:$map-name";
     }
 
-note "$?LINE $map-name, $raku-package, $h<package-name>";
+#note "$?LINE $map-name, $raku-package, $h<package-name>";
 
     # Add package name to this hash
 #    $h<raku-package> = $*other-work-data{$map-name}<raku-package>;

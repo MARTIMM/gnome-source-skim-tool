@@ -72,8 +72,8 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Hash $h = $!mod.search-name($ctype);
   my Str $class-name = $!mod.set-object-name($h);
 
-  my Str $doc = $xpath.find( 'doc/text()', :start($element)).Str;
-  $doc ~= self!modify-text( $xpath.find( 'doc/text()', :start($element)).Str);
+  my Str $doc =
+    self!modify-text($xpath.find( 'doc/text()', :start($element)).Str);
 
   my Str $widget-picture = '';
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
@@ -457,7 +457,7 @@ method document-structure (
       }
 
       my Str ( $d-item, $, $) =
-        self.get-doc-type( $field, :$xpath, :!user-side);
+        self.get-doc-type( $field, $xpath, :!user-side);
 #      $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
 #      $raku-type ~~ s/ _UA_ $//;
       $item-doc ~= "=item $field-name; $d-item";
@@ -534,14 +534,15 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 
   my Bool $missing-type = False;
 
-  my Str $edoc = ($xpath.find( 'doc/text()', :start($e)) // '').Str;
-  my Str $s = self!modify-text($edoc);
-  my Str $function-doc = self!cleanup($s);
+  my Str $s =
+  my Str $function-doc = self!cleanup(
+    self!modify-text($xpath.find( 'doc/text()', :start($e)).Str // '')
+  );
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>//'';
   my Str ( $rv-doc, $rv-type, $return-raku-type) =
-    self.get-doc-type( $rvalue, :$xpath, :user-side);
+    self.get-doc-type( $rvalue, $xpath, :user-side);
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
   $return-raku-type ~~ s/ '()' //;
@@ -556,7 +557,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 
   for @prmtrs -> $p {
     my Str ( $doc, $type, $raku-type) =
-      self.get-doc-type( $p, :$xpath, :user-side);
+      self.get-doc-type( $p, $xpath, :user-side);
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
     $raku-type ~~ s/ _UA_ $//;
 
@@ -631,7 +632,7 @@ method check-special (
 #-------------------------------------------------------------------------------
 #TODO copied. Make this method search for documentation only
 method get-doc-type (
-  XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False
+  XML::Element $e, XML::XPath $xpath, Bool :$user-side = False
   --> List
 ) {
 
@@ -646,7 +647,7 @@ method get-doc-type (
     with $n.name {
       when 'doc' {
         $doc = self!cleanup(
-          self!modify-text(($xpath.find( 'text()', :start($n)) // '').Str)
+          self!modify-text($xpath.find( 'text()', :start($n)).Str // '')
         );
       }
 
@@ -687,7 +688,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     # Signal documentation
     my Str $signal-name = $attribs<name>;
     my Str $sdoc = self!cleanup(
-      self!modify-text(($xpath.find( 'doc/text()', :start($si)) // '').Str)
+      self!modify-text($xpath.find( 'doc/text()', :start($si)).Str // '')
     );
     my Hash $curr-signal := $signals{$signal-name} = %(:$sdoc,);
 
@@ -696,7 +697,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
     $curr-signal<transfer-ownership> = $rvalue.attribs<transfer-ownership>;
 
     my Str ( $rv-doc, $rv-type, $return-ntype) =
-       self.get-doc-type( $rvalue, :$xpath, :!user-side);
+       self.get-doc-type( $rvalue, $xpath, :!user-side);
     $curr-signal<rv-doc> = $rv-doc;
     $curr-signal<rv-type> = $rv-type;
     $curr-signal<return-ntype> = $return-ntype;
@@ -709,7 +710,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
       my $pname = $!mod.cleanup-id($attribs<name>);
       my $transfer-ownership = $attribs<transfer-ownership>;
       my Str ( $pdoc, $type, $raku-type) =
-        self.get-doc-type( $parameter, :$xpath, :!user-side);
+        self.get-doc-type( $parameter, $xpath, :!user-side);
       $curr-signal<parameters>.push: %(
         :$pname, :$pdoc, :$type, :$raku-type, :$transfer-ownership
       );
@@ -764,9 +765,10 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
         $rv-method = "\n  --> $curr-signal<return-ntype>";
       }
 
+#$*work-data<raku-class-name>\(\) :\$_native-object,
       $doc ~= qq:to/EOSIG/;
           Int :\$_handle_id,
-          $*work-data<raku-class-name>\(\) :\$_native-object,
+          N-GObject :\$_native-object,
           $*work-data<raku-class-name> :\$_widget,
           *\%user-options$rv-method
         )
@@ -782,11 +784,11 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
         $doc ~= "=item \$$parameter<pname>; $own$parameter<pdoc>.\n";
       }
 
-      $doc ~= q:to/EOSIG/;
-        =item $_handle_id; The registered event handler id.
-        =item $_native-object; The native object provided by the Raku object which registered this event.
-        =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-        =item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+      $doc ~= qq:to/EOSIG/;
+        =item \$_handle_id; The registered event handler id.
+        =item \$_native-object; The native object provided by the Raku object which registered this event. This a native B<$*work-data<raku-class-name>> object.
+        =item \$_widget; The object which registered the signal. User code may have left the object going out of scope.
+        =item \%user-options; A list of named arguments provided at the C<.register-signal\()> method from B<Gnome::GObject::Object>.
         EOSIG
       $doc ~= $returns-doc;
 
@@ -841,7 +843,7 @@ method document-properties (
     my Str $transfer-ownership = $attribs<transfer-ownership>;
 
     my Str ( $pdoc, $type, $raku-type) =
-      self.get-doc-type( $pi, :$xpath, :!user-side);
+      self.get-doc-type( $pi, $xpath, :!user-side);
     my Str $g-type = self.gobject-value-type($raku-type);
 note "$?LINE $property-name, $type, $raku-type, $g-type";
     $properties{$property-name} = %(
@@ -919,6 +921,7 @@ method document-constants ( @constants --> Str ) {
 
   my Str $doc = qq:to/EOENUM/;
 
+    {pod-header('Constants')}
     =begin pod
     =head1 Constants
     EOENUM
@@ -941,9 +944,10 @@ method document-constants ( @constants --> Str ) {
       '//constant[@name="' ~ $name ~ '"]', :!to-list
     );
 
-    my Str $constant-doc =
-      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
-    $doc ~= self!cleanup(self!modify-text($constant-doc)) ~ "\n";
+    $doc ~= self!cleanup(
+      self!modify-text(
+        ($xpath.find( 'doc/text()', :start($e), :!to-list).Str // '')
+    )) ~ "\n";
   }
 
   $doc ~= "=end pod\n\n";
@@ -962,6 +966,7 @@ method document-enumerations ( @enum-names --> Str ) {
   my XML::XPath $xpath .= new(:$file);
 
   my Str $doc = qq:to/EOENUM/;
+    {pod-header('Enumerations')}
     =begin pod
     =head1 Enumerations
 
@@ -986,17 +991,16 @@ method document-enumerations ( @enum-names --> Str ) {
       '//enumeration[@name="' ~ $name ~ '"]', :!to-list
     );
 
-    my Str $enum-doc =
-      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
-    $doc ~= self!cleanup(self!modify-text($enum-doc));
-    $doc ~= "\n";
+    $doc ~= self!cleanup(self!modify-text(
+      $xpath.find( 'doc/text()', :start($e), :!to-list).Str // ''
+    )) ~ "\n";
 
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
-      my Str $enum-member-doc =
-        ($xpath.find( 'doc/text()', :start($m), :!to-list) // '').Str;
-      $doc ~= self!cleanup(self!modify-text($enum-member-doc)) ~ "\n";
+      $doc ~= self!cleanup(self!modify-text(
+        $xpath.find( 'doc/text()', :start($m), :!to-list).Str // ''
+      )) ~ "\n";
     }
   }
 
@@ -1016,6 +1020,7 @@ method document-bitfield ( @bitfield-names --> Str ) {
   my XML::XPath $xpath .= new(:$file);
 
   my Str $doc = qq:to/EOBITF/;
+    {pod-header('Bitfields')}
     =begin pod
     =head1 Bitfields
 
@@ -1040,16 +1045,16 @@ method document-bitfield ( @bitfield-names --> Str ) {
     );
 
     my Str $bitfield-doc =
-      ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
+      $xpath.find( 'doc/text()', :start($e), :!to-list).Str // '';
     $doc ~= self!cleanup(self!modify-text($bitfield-doc)) ~ "\n";
     $doc ~= "\n";
 
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
-      my Str $bitfield-member-doc =
-        ($xpath.find( 'doc/text()', :start($m), :!to-list) // '').Str;
-      $doc ~= self!cleanup(self!modify-text($bitfield-member-doc)) ~ "\n";
+      $doc ~= self!cleanup(self!modify-text(
+        $xpath.find( 'doc/text()', :start($m), :!to-list).Str // ''
+      )) ~ "\n";
     }
   }
 
@@ -1107,9 +1112,143 @@ method document-standalone-functions ( @function-names --> Str ) {
 }
 
 
+#-------------------------------------------------------------------------------
+# Get a callback function pattern. This is used as a type in function arguments
+# and other places
+method document-callback ( @callbacks --> Str ) {
+  my Str $doc = qq:to/EOCB/;
+    {pod-header('Callback Functions')}
+    =begin pod
+    =head1 Callback Functions
+    EOCB
+
+  for @callbacks -> $callback-name is copy {
+    my $prefix = $*work-data<name-prefix>;
+    $callback-name ~~ s:i/^ $prefix //;
+
+    my Str $file = $*work-data<gir-module-path> ~ 'repo-callback.gir';
+    my XML::XPath $xpath .= new(:$file);
+    my XML::Element $element =
+      $xpath.find( '//callback[@name="' ~ $callback-name ~ '"]', :!to-list);
+
+    # Skip empty elements
+    next unless ?$element;
+
+    $doc ~= self!document-cb(
+      $callback-name,
+      self!get-callback-data( $element, :$xpath)
+    );
+  }
+
+  $doc ~= "=end pod\n";
+
+  $doc
+}
+
+#-------------------------------------------------------------------------------
+# A simplified method
+method !get-callback-data (
+  XML::Element $e, XML::XPath :$xpath --> Hash
+) {
+#  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
+  #my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>;
+  my Str ( $rv-doc, $rv-type, $return-raku-type)
+    = self.get-doc-type( $e, $xpath, :user-side);
+
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
+  my @parameters = ();
+  my @prmtrs = $xpath.find( 'parameters/parameter', :start($e), :to-list);
+
+#  my Bool $variable-list = False;
+  for @prmtrs -> $p {
+    my Str ( $pdoc, $type, $raku-type) =
+      self.get-doc-type( $p, $xpath, :user-side);
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = $!mod.cleanup-id($attribs<name>);
+
+#`{{
+    # When '…', there will be no type for that parameter. It means that
+    # a variable argument list is used ending in a Nil.
+    if $parameter-name eq '…' {
+      $type = $raku-type = '…';
+      $variable-list = True;
+    }
+}}
+    my Hash $ph = %( :name($parameter-name), :$type, :$raku-type);
+    $ph<allow-none> = $attribs<allow-none>.Bool;
+    $ph<nullable> = $attribs<nullable>.Bool;
+    $ph<is-instance> = False;
+    $ph<pdoc> = $pdoc;
+
+    @parameters.push: $ph;
+  }
+
+#  %( :@parameters, :$variable-list, :$rv-type, :$return-raku-type)
+  %( :@parameters, $rv-doc, :$rv-type, :$return-raku-type)
+}
+
+#-------------------------------------------------------------------------------
+method !document-cb ( Str $callback-name, Hash $cb-data --> Str ) {
+  return '' unless ?$cb-data;
+
+  my Str $items = '';
+
+  my Str $doc = qq:to/EOCB/;
+    =head2 $callback-name
+
+    EOCB
+
+#  my Bool $available = True;
+  my Str $par-list = '';
+  for @($cb-data<parameters>) -> $parameter {
+    my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
+#`{{
+    if $rnt0 ~~ / _UA_ $/ {
+      $available = False;
+      $rnt0 ~~ s/ _UA_ $//;
+    }
+}}
+    my Str $parameter-name = $parameter<name>;
+    $parameter-name ~~ s/ '-' $//;
+    $par-list ~= ", $rnt0 \$$parameter-name";
+
+    $items ~= "=item $parameter-name; $parameter<pdoc>\n";
+  }
+
+  # Remove first comma and space when there is only one parameter
+  $par-list ~~ s/^ . //;
+
+  my Str $returns = '';
+  my $xtype = $cb-data<return-raku-type>;
+  my ( $rnt0, $rnt1) = $xtype.split(':');
+  if ?$rnt0 and $rnt0 ne 'void' {
+#`{{
+    if $rnt0 ~~ / _UA_ $/ {
+      $available = False;
+      $rnt0 ~~ s/ _UA_ $//;
+    }
+}}
+    $returns = $rnt0;
+  }
+
+  $doc ~= qq:to/EOCB/;
+    =head3 Signature
+    =begin code
+    :\( $par-list {?$returns ?? " --> $returns \)" !! ' )'}
+    =end code
+
+    $items
+    EOCB
+
+  $doc
+}
+
 
 #-------------------------------------------------------------------------------
 method !modify-text ( Str $text is copy --> Str ) {
+
+  return '' unless ?$text;
 
   # Gtk version 4 docs have specifications which differ from previous versions.
   # It uses a spec like e.g. '[enum@Gtk.License]'. GtkLicense is defined with
@@ -1137,7 +1276,7 @@ method !modify-text ( Str $text is copy --> Str ) {
   #   @parameter, e.g. @orientable and @section.
   #   Sometimes the prefix is missing e.g. [method@CssSection.get_parent]
 
-  my Bool $version4 = ($*gnome-package.Str ~~ / 4 || Pango /).Bool;
+  my Bool $version4 = ($*gnome-package.Str ~~ m/ 4 || Pango /).Bool;
 
   # Do not modify text whithin example code. C code is to be changed
   # later anyway and on other places like in XML examples it must be kept as is.
@@ -1147,11 +1286,23 @@ method !modify-text ( Str $text is copy --> Str ) {
   # Some types are better specified in version 4 and can be translated better.
   # Properties are not documented but can be referenced from other docs.
   if $version4 {
-    while $text ~~ m/ $<example> = [ '```' .*? '```' ] / {
-      my Str $example = $<example>.Str;
+# Seem needed here to ignore error: `Use of Nil in string context`
+CONTROL {
+  when CX::Warn {
+    .resume if .message ~~ m/ 'Use of Nil in string context' /;
+    note .gist;
+    exit;
+    #`{{note .gist; note $text; exit;}}
+    #.resume;
+  }
+}
+    $text ~~ m/ ( '```' <-[\`]>+ '```' ) /;
+    while my Str $example = $/[0].Str {
       my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
       $examples{$ex-key} = $example;
       $text ~~ s/ $example /$ex-key/;
+
+      $text ~~ m:c/ $<example> = [ '```' <-[\`]>+  '```' ] /;
     }
 
     $text = self!modify-v4signals($text);
@@ -1195,7 +1346,6 @@ method !modify-text ( Str $text is copy --> Str ) {
 
     $text ~~ s/ $ex-key /$t/;
   }
-
 
   $text
 }
@@ -1286,18 +1436,39 @@ method !modify-v4properties ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-# Convert classes [class@Gtk.Entry]
+# Convert classes [class@Gtk.Entry] also found [class@Button]
 # and interfaces [iface@Gtk.TreeSortable]
 method !modify-v4classes ( Str $text is copy --> Str ) {
 
-  my Str $package = $*gnome-package.Str;
-  my Str $prefix = $*work-data<name-prefix>.tc;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s/^ $prefix //;
+  my Str $package;
+  my Str $prefix;
+  my Str $gname;
 
-  # Classes
-  $text ~~ s:g/ '[' class '@' $prefix '.' $gname ']'
+  # [class@Gtk.Entry]
+  $text ~~ m/ '[class@' $<prefix> = [<-[\.\]]>+] '.' $<gname> = [<-[\]]>+] ']' /;
+  while $/.Bool {
+    $prefix = $/<prefix>.Str;
+    $gname = $/<gname>.Str;
+    $package = $prefix;
+    $package ~= '4' if $prefix ~~ any(<Gtk Gsk Gdk>);
+    $text ~~ s/ '[class@' $prefix '.' $gname ']'
               /B<Gnome\:\:$package\:\:$gname>/;
+    $text ~~ m:c/ '[class@' $<prefix> = <-[\.]>+ '.' $<gname> = <-[\]]>+ ']' /;
+  }
+
+  # [class@Button]
+  $text ~~ m/ '[class@' $<gname> = [<-[\]]>+] ']' /;
+  while $/.Bool {
+    $gname = $/<gname>.Str;
+    $package = $*gnome-package.Str;
+note "$?LINE $gname, $package";
+
+    # substitute
+    $text ~~ s/ '[class@' $gname ']' /B<Gnome\:\:$package\:\:$gname>/;
+
+    # next
+    $text ~~ m:c/ '[class@' $<gname> = <-[\]]>+ ']' /;
+  }
 
   # Gnome seems to use markdown directly too: `GtkShortcutTrigger`
   while $text ~~ m:c/'`' $<cname> = [<-[`]>+] '`'/ {
@@ -1643,7 +1814,7 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
   my Str $own = '';
-  my Int $a-count = 0;
+#  my Int $a-count = 0;
   my Hash $result = %();
 
   given my $xtype = $parameter<raku-type> {
@@ -1654,34 +1825,56 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
 
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+      $result<items-doc> = self!cleanup(self!modify-text(
+        "=item \$$parameter<name>; $own$parameter<doc>\n";
+      ));
     }
 
     when 'CArray[Str]' {
       $result<raku-list> = ", $xtype \$$parameter<name>";
 
-      $a-count++;
+  #    $a-count++;
 
       $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $result<items-doc> = self!cleanup(self!modify-text(
+        "=item \$$parameter<name>; $own$parameter<doc>\n"
+      ));
     }
 
     when 'CArray[gint]' {
       @rv-list.push: "\$$parameter<name>";
       $result<raku-list> = ", $xtype \$$parameter<name>";
       $result<rv-list> = "\$$parameter<name>";
-      $result<returns-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
-      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+
+      $own = "\(transfer ownership: $parameter<transfer-ownership>\) "
+        if ?$parameter<transfer-ownership> and
+          $parameter<transfer-ownership> ne 'none';
+
+      $result<returns-doc> = self!cleanup(self!modify-text(
+        "=item \$$parameter<name>; $own$parameter<doc>\n"
+      ));
+      $result<items-doc> = self!cleanup(self!modify-text(
+        "=item \$$parameter<name>; $own$parameter<doc>\n"
+      ));
     }
 
     # Callback function spec
     when / ':(' / {
       my $doc = $parameter<doc>;
+
+#      # Get function name and remove from string
+#      $xtype ~~ m/ $<func-name> = <[\w-]>+ '=:(' /;
+#      my Str $func-name = $/<func-name>.Str;
+#      $xtype ~~ s/ $func-name '=' //;
+
       $doc ~= '. Tthe function must be specified with following signature; C<' ~ $xtype ~ '>.';
       $result<raku-list> = ", \&$parameter<name>";
-      $result<items-doc> = "=item \&$parameter<name>; $doc\n";
+      $result<items-doc> = self!cleanup(self!modify-text(
+        "=item \&$parameter<name>; $doc\n"
+      ));
     }
 
     # Variable argument lists
@@ -1690,7 +1883,9 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
       $doc ~~ s/ ','? \s* 'undefined-terminated' //;
       $doc ~= '. Note that each argument must be specified as a type followed by its value!';
       $result<raku-list> = ", …";
-      $result<items-doc> = "=item $parameter<name>; $doc\n";
+      $result<items-doc> = self!cleanup(self!modify-text(
+        "=item $parameter<name>; $doc\n"
+      ));
     }
 
     default {
@@ -1703,11 +1898,11 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         "=item \$$parameter<name>; $own$parameter<doc>."
       );
       $result<raku-list> = $l;
-      $result<items-doc> = $d;
+      $result<items-doc> = self!cleanup(self!modify-text($d));
     }
   }
 
-  $result  
+  $result
 }
 
 #`{{

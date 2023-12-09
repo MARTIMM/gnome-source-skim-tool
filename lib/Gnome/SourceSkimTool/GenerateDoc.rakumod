@@ -125,7 +125,7 @@ method generate-doc ( ) {
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
     next if $gir-type ~~ any(<class interface record union>);
-    next if $gir-type ~~ any(<callback alias function-macro>);
+    next if $gir-type ~~ any(<alias function-macro>);
 
     # Test if gir-type is selected Skip a key if not mentioned on the
     # commandline or just do it when there is no preference
@@ -192,7 +192,16 @@ $t-prep.display-hash( $data, :label('type file data'));
         $types-doc<bitfield> = $!grd.document-bitfield(@bitfield-names);
       }
 
-      #when 'callback' { }
+      when 'callback' {
+        my @callbacks = ();
+        for $!filedata<callback>.kv -> $k, $v {
+          @callbacks.push: $k;
+        }
+
+note "$?LINE ", @callbacks.gist;
+        $types-doc<callback> = $!grd.document-callback(@callbacks);
+note "$?LINE ", $types-doc<callback>;
+      }
 
       when 'function' {
         $has-functions = True;
@@ -241,10 +250,11 @@ $t-prep.display-hash( $data, :label('type file data'));
       =end pod
       EODOC
 
-    $doc ~= [~] $types-doc<constant> // '',
-                $types-doc<enumeration> // '',
-                $types-doc<bitfield> // '',
-                $types-doc<function> // '';
+    $doc ~= [~] ($types-doc<constant> // ''),
+                ($types-doc<enumeration> // ''),
+                ($types-doc<bitfield> // ''),
+                ($types-doc<callback> // ''),
+                ($types-doc<function> // '');
 
 
 
