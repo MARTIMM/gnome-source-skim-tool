@@ -51,7 +51,7 @@ method get-classes-from-gir ( ) {
   my Str $symbol-prefix = $attribs<c:symbol-prefixes>;
 
   # Glib strays of from standard, must correct it. Gio and GObject are correct
-  $symbol-prefix ~~ s/^ g \. .* /g/;
+  $symbol-prefix ~~ s/^ g <[.,]> .* /g/;
 
   my Str $id-prefix = $attribs<c:identifier-prefixes>;
 
