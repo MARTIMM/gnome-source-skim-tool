@@ -3,67 +3,25 @@ use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
+use Gnome::SourceSkimTool::DocText;
 
 use XML;
 use XML::XPath;
 use META6;
+#use YAMLish;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Doc:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Code $!mod;
+has Gnome::SourceSkimTool::DocText $!dtxt;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
   $!mod .= new;
+  $!dtxt .= new;
 }
-
-#-------------------------------------------------------------------------------
-#`{{
-method start-document ( Str $type-letter = '' --> Str ) {
-#`{{
-  my Str $name = '';
-  my Str $author = '';
-  my Version $version = v0.1.0;
-  my Str $title = '';
-  my Str $subtitle = '';
-  my Str $raku-version = "$*RAKU.version(), $*RAKU.compiler.version()";
-
-  my META6 $meta;
-  my Str $meta-file = [~] './gnome-api2/gnome-', $*gnome-package.Str.lc,
-                          '/META6.json';
-  if $meta-file.IO.e {
-    $meta .= new(:file($meta-file));
-
-    $name = $meta<name>;
-    $author = $meta<author>;
-    $version = $meta<version>;
-    $title = $*work-data<raku-class-name>;
-    $subtitle = $meta<description>;
-  }
-
-  qq:to/RAKUDOC/;
-    use v6.d;
-
-    =begin pod
-    =head2 Project Description
-    =item B<Distribution:> $name
-    =item B<Project description:> $subtitle
-    =item B<Project version:> $version.Str()
-    =item B<Rakudo version:> $raku-version
-    =item B<Author:> $author
-    =end pod
-
-    RAKUDOC
-}}
-
-  my Str $class-name = $!mod.set-object-name(
-    %( :$type-letter, :type-name($*work-data<raku-name>))
-  );
-  "$*command-line\nuse v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
-}
-}}
 
 #-------------------------------------------------------------------------------
 # Get the description at the start of a class, record or union.
@@ -73,7 +31,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Str $class-name = $!mod.set-object-name($h);
 
   my Str $doc =
-    self!modify-text($xpath.find( 'doc/text()', :start($element)).Str);
+    $!dtxt.modify-text($xpath.find( 'doc/text()', :start($element)).Str);
 
   my Str $widget-picture = '';
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
@@ -119,43 +77,6 @@ method !set-uml ( --> Str ) {
     EOEX
   $doc
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method !set-inherit-example ( XML::Element $element --> Str ) {
-
-  my Str $doc = '';
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
-
-  if $h<inheritable> {
-    # Code like {'...'} is inserted here and there to prevent interpretation
-    $doc = qq:to/EOINHERIT/;
-
-      =head2 Inheriting this class
-
-      Inheriting is done in a special way in that it needs a call from new\() to get the native object created by the class you are inheriting from.
-
-        use $*work-data<raku-class-name>;
-
-        unit class MyGuiClass;
-        also is $*work-data<raku-class-name>;
-
-        submethod new \( \|c ) \{
-          # let the {$*work-data<raku-class-name>} class process the options
-          self\.bless\( :{$element.attribs<c:type>}, \|c);
-        \}
-
-        submethod BUILD \( ... ) \{
-          ...
-        \}
-
-      EOINHERIT
-  }
-
-  $doc
-}
-}}
 
 #-------------------------------------------------------------------------------
 method !set-example ( --> Str ) {
@@ -535,8 +456,8 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   my Bool $missing-type = False;
 
   my Str $s =
-  my Str $function-doc = self!cleanup(
-    self!modify-text($xpath.find( 'doc/text()', :start($e)).Str // '')
+  my Str $function-doc = $!dtxt.cleanup(
+    $!dtxt.modify-text($xpath.find( 'doc/text()', :start($e)).Str // '')
   );
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
@@ -596,13 +517,10 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 
 #-------------------------------------------------------------------------------
 # Check on GEnum, GFlag, or callback and change doc
-
-method check-special (
-  Str $type, Str $name, Str $doc is copy --> List
-) {
+method check-special ( Str $type, Str $name, Str $doc is copy --> List ) {
   my Str $list = '';
   
-  # Test for callback signature
+  # Test for callback signature to not get it be seen as a GEnum or GFlag.
   if $type ~~ m/^ ':(' / {
 
   }
@@ -612,18 +530,18 @@ method check-special (
     my ( $t0, $t1) = $type.split(':');
     if $t0 eq 'GEnum' {
       $list = ?$name ?? ", $t1 \$$name" !! $t1;
-      $doc ~= " An enumeration.\n"; 
+#      $doc ~= " An enumeration.\n"; 
     }
 
-    else {
+    else { # GFlag
       $list = ?$name ?? ', UInt $' ~ $name !! 'UInt';
-      $doc ~= " A bitmap.\n"; 
+#      $doc ~= " A bitmap.\n"; 
     }
   }
 
   else {
     $list = ?$name ?? ", $type \$$name" !! $type;
-    $doc ~= "\n"; 
+#    $doc ~= "\n"; 
   }
 
   ( $list, $doc)
@@ -646,8 +564,8 @@ method get-doc-type (
 
     with $n.name {
       when 'doc' {
-        $doc = self!cleanup(
-          self!modify-text($xpath.find( 'text()', :start($n)).Str // '')
+        $doc = $!dtxt.cleanup(
+          $!dtxt.modify-text($xpath.find( 'text()', :start($n)).Str // '')
         );
       }
 
@@ -687,8 +605,8 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
     # Signal documentation
     my Str $signal-name = $attribs<name>;
-    my Str $sdoc = self!cleanup(
-      self!modify-text($xpath.find( 'doc/text()', :start($si)).Str // '')
+    my Str $sdoc = $!dtxt.cleanup(
+      $!dtxt.modify-text($xpath.find( 'doc/text()', :start($si)).Str // '')
     );
     my Hash $curr-signal := $signals{$signal-name} = %(:$sdoc,);
 
@@ -807,108 +725,6 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   $sig-info
 }
 
-#`{{
-NOTE For now, skip property documentation
-
-#-------------------------------------------------------------------------------
-method document-properties (
-  XML::Element $element, XML::XPath $xpath --> Str
-) {
-  my Str $doc = '';
-
-  my @property-info = $xpath.find( 'property', :start($element), :to-list);
-
-  my Hash $properties = %();
-  for @property-info -> $pi {
-    my Hash $attribs = $pi.attribs;
-    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
-
-    # Property documentation
-    my Str $property-name = $attribs<name>;
-    my Bool $writable = $attribs<writable>.Bool;
-
-    my Str ( $pgetter, $psetter);
-    if $attribs<getter>:exists {
-      $pgetter = $attribs<getter>;
-      $pgetter ~~ s:g/ '_' /-/;
-      $pgetter = "C<.$pgetter\()>";
-    }
-
-    if $attribs<setter>:exists {
-      $psetter = $attribs<setter>;
-      $psetter ~~ s:g/ '_' /-/;
-      $psetter = "C<.$psetter\()>";
-    }
-
-    my Str $transfer-ownership = $attribs<transfer-ownership>;
-
-    my Str ( $pdoc, $type, $raku-type) =
-      self.get-doc-type( $pi, $xpath, :!user-side);
-    my Str $g-type = self.gobject-value-type($raku-type);
-note "$?LINE $property-name, $type, $raku-type, $g-type";
-    $properties{$property-name} = %(
-      :$pdoc, :$writable, :$type, :$raku-type, :$g-type,
-      :$pgetter, :$psetter, :$transfer-ownership
-    );
-  }
-
-  return '' unless $properties.keys.elems;
-
-  $doc ~= qq:to/EOSIG/;
-
-    {pod-header('Property Documentation')}
-    =begin pod
-    =head1 Properties
-
-    Please note that this information is not really necessary to use or know
-    about because there are routines to get or set its value for many of
-    those properties.
-    EOSIG
-
-  for $properties.keys.sort -> $property-name {
-    my Hash $curr-property := $properties{$property-name};
-#      =comment #TP:0:$property-name:
-    $doc ~= qq:to/EOSIG/;
-
-      {HLPODSEPARATOR}
-      =head3 $property-name
-      EOSIG
-
-#say "$?LINE props $property-name: $curr-property.gist()";
-
-    if $curr-property<pdoc> ~~ m/^ \s* $/ {
-      $doc ~= "\nThere is no documentation for this property\n\n";
-    }
-
-    else {
-      $doc ~= "\n$curr-property<pdoc>\n\n";
-    }
-
-    $doc ~= "=item B<Gnome::GObject::Value> for this property is $curr-property<g-type>.\n";
-
-    $doc ~= "=item The native type is $curr-property<raku-type>.\n";
-
-    if $curr-property<writable> {
-      $doc ~= "=item Property is readable and writable\n";
-    }
-
-    else {
-      $doc ~= "=item Property is readonly\n";
-    }
-
-    $doc ~= "=item Getter method is $curr-property<pgetter>\n"
-      if ?$curr-property<pgetter>;
-
-    $doc ~= "=item Setter method is $curr-property<psetter>\n"
-      if ?$curr-property<psetter>;
-  }
-
-  $doc ~= "\n=end pod\n\n";
-
-  $doc
-}
-}}
-
 #-------------------------------------------------------------------------------
 method document-constants ( @constants --> Str ) {
 
@@ -944,8 +760,8 @@ method document-constants ( @constants --> Str ) {
       '//constant[@name="' ~ $name ~ '"]', :!to-list
     );
 
-    $doc ~= self!cleanup(
-      self!modify-text(
+    $doc ~= $!dtxt.cleanup(
+      $!dtxt.modify-text(
         ($xpath.find( 'doc/text()', :start($e), :!to-list).Str // '')
     )) ~ "\n";
   }
@@ -991,14 +807,14 @@ method document-enumerations ( @enum-names --> Str ) {
       '//enumeration[@name="' ~ $name ~ '"]', :!to-list
     );
 
-    $doc ~= self!cleanup(self!modify-text(
+    $doc ~= $!dtxt.cleanup($!dtxt.modify-text(
       $xpath.find( 'doc/text()', :start($e), :!to-list).Str // ''
     )) ~ "\n";
 
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
-      $doc ~= self!cleanup(self!modify-text(
+      $doc ~= $!dtxt.cleanup($!dtxt.modify-text(
         $xpath.find( 'doc/text()', :start($m), :!to-list).Str // ''
       )) ~ "\n";
     }
@@ -1046,13 +862,13 @@ method document-bitfield ( @bitfield-names --> Str ) {
 
     my Str $bitfield-doc =
       $xpath.find( 'doc/text()', :start($e), :!to-list).Str // '';
-    $doc ~= self!cleanup(self!modify-text($bitfield-doc)) ~ "\n";
+    $doc ~= $!dtxt.cleanup($!dtxt.modify-text($bitfield-doc)) ~ "\n";
     $doc ~= "\n";
 
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
-      $doc ~= self!cleanup(self!modify-text(
+      $doc ~= $!dtxt.cleanup($!dtxt.modify-text(
         $xpath.find( 'doc/text()', :start($m), :!to-list).Str // ''
       )) ~ "\n";
     }
@@ -1246,571 +1062,6 @@ method !document-cb ( Str $callback-name, Hash $cb-data --> Str ) {
 
 
 #-------------------------------------------------------------------------------
-method !modify-text ( Str $text is copy --> Str ) {
-
-  return '' unless ?$text;
-
-  # Gtk version 4 docs have specifications which differ from previous versions.
-  # It uses a spec like e.g. '[enum@Gtk.License]'. GtkLicense is defined with
-  # AboutDialog and stored in T-AboutDialog.rakumod. Types being enum, method,
-  # property, etc.
-  #
-  # So taking the format like [type @ prefix . name1 c2 name2]
-  # Where prefix is only Gtk, Gdk, or Gsk because those are of version 4
-
-  #   type      name1            c2 name2
-  # --------------------------------------------------
-  #   enum      enum name
-  #   struct    structure name
-  #   class     class name
-  #   func      function name
-  #   method    class name       .  function name
-  #   signal    class name       :: signal name
-  #   property  class name       :  property name
-  
-  #   iface     interface name
-
-
-  # Then there is;
-  #   `prefix classname`, e.g. `GtkCssSection` (with backticks)
-  #   @parameter, e.g. @orientable and @section.
-  #   Sometimes the prefix is missing e.g. [method@CssSection.get_parent]
-
-  my Bool $version4 = ($*gnome-package.Str ~~ m/ 4 || Pango /).Bool;
-
-  # Do not modify text whithin example code. C code is to be changed
-  # later anyway and on other places like in XML examples it must be kept as is.
-  my Int $ex-counter = 0;
-  my Hash $examples = %();
-
-  # Some types are better specified in version 4 and can be translated better.
-  # Properties are not documented but can be referenced from other docs.
-  if $version4 {
-# Seem needed here to ignore error: `Use of Nil in string context`
-CONTROL {
-  when CX::Warn {
-    .resume if .message ~~ m/ 'Use of Nil in string context' /;
-    note .gist;
-    exit;
-    #`{{note .gist; note $text; exit;}}
-    #.resume;
-  }
-}
-    $text ~~ m/ ( '```' <-[\`]>+ '```' ) /;
-    while my Str $example = $/[0].Str {
-      my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
-      $examples{$ex-key} = $example;
-      $text ~~ s/ $example /$ex-key/;
-
-      $text ~~ m:c/ $<example> = [ '```' <-[\`]>+  '```' ] /;
-    }
-
-    $text = self!modify-v4signals($text);
-    $text = self!modify-v4methods($text);
-    $text = self!modify-v4functions($text);
-    $text = self!modify-v4properties($text);
-    $text = self!modify-v4classes($text);
-    $text = self!modify-v4enum($text);
-    $text = self!modify-v4rest($text);
-  }
-
-  else {
-    while $text ~~ m/ $<example> = [ '|[' .*? ']|' ] / {
-      my Str $example = $<example>.Str;
-      my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
-      $examples{$ex-key} = $example;
-      $text ~~ s/ $example /$ex-key/;
-    }
-
-    $text = self!modify-signals($text);
-    $text = self!modify-functions($text);
-    $text = self!modify-properties($text);
-    $text = self!modify-classes($text);
-    $text = self!modify-rest($text);
-  }
-
-  $text = self!modify-variables( $text, :$version4);
-  $text = self!modify-markdown-links($text);
-  $text = self!modify-xml($text);
-
-  # Subtitute the examples back into the text before we can finally modify it
-  for $examples.keys -> $ex-key {
-    my Str $t = self!modify-xml($examples{$ex-key});
-    if $version4 {
-      $t = self!modify-v4examples($t);
-    }
-
-    else {
-      $t = self!modify-examples($t);
-    }
-
-    $text ~~ s/ $ex-key /$t/;
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert [signal@Gtk.AboutDialog::activate-link]
-
-method !modify-v4signals ( Str $text is copy, Bool :$version4 --> Str ) {
-
-  my Str $prefix = $*work-data<name-prefix>.tc;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s/^ $prefix //;
-
-  # Signals within same module/class
-  $text ~~ s:g/ '[' signal '@' $prefix '.' $gname '::' (<-[\]]>+) ']'
-              /I<$0>/;
-
-  # Signals defined elsewhere
-  $text ~~ s:g/ '[' signal '@' $prefix '.' (<-[\.]>+) '::' (<-[\]]>+) ']'
-              /I<$1 defined in $0>/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert [method@Gtk.AboutDialog.set_logo]
-
-method !modify-v4methods ( Str $text is copy --> Str ) {
-
-  my Str $prefix = $*work-data<name-prefix>.tc;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s/^ $prefix //;
-
-  # Methods within same module/class
-  while $text ~~ m:c/ '[method@' $prefix ".$gname." $<func> = <-[\]]>+ ']' / {
-    my Str $func = $/<func>.Str;
-    $func ~~ s:g/ '_' /-/;
-    $text ~~ s/ '[method@' $prefix ".$gname." <-[\]]>+ ']' /C<.$func\(\)>/;
-  }
-
-  # Methods defined elsewhere
-  while $text ~~ m:c/ '[method@' $prefix '.' $<class> = <-[\.]>+ 
-                                         '.' $<func> = <-[\]]>+ ']' / {
-    my Str $class = $/<class>.Str;
-    my Str $func = $/<func>.Str;
-    $func ~~ s:g/ '_' /-/;
-    $text ~~ s/ '[method@' $prefix '.' <-[\.]>+ '.' <-[\]]>+ ']'
-              /C<.$func\(\) defined in $class>/;
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert [func@Gtk.show_uri]
-
-method !modify-v4functions ( Str $text is copy --> Str ) {
-  my Str $prefix = $*work-data<name-prefix>.tc;
-
-  # Functions
-  while $text ~~ m:c/ '[func@' $prefix '.' $<func> = <-[\]]>+ ']' / {
-    my Str $func = $/<func>.Str;
-    $func ~~ s:g/ '_' /-/;
-    $text ~~ s/ '[func@' $prefix '.' <-[\]]>+ ']' /C<.$func\(\)>/;
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert [property@Gtk.AboutDialog:system-information]
-
-method !modify-v4properties ( Str $text is copy --> Str ) {
-
-  my Str $prefix = $*work-data<name-prefix>.tc;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s/^ $prefix //;
-
-  # Properties within same module/class
-  $text ~~ s:g/ '[' property '@' $prefix '.' $gname ':' (<-[\]]>+) ']'
-              /I<$0>/;
-
-  # Properties defined elsewhere
-  $text ~~ s:g/ '[' property '@' $prefix '.' (<-[\.]>+) ':' (<-[\]]>+) ']'
-              /I<$1 defined in $0>/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert classes [class@Gtk.Entry] also found [class@Button]
-# and interfaces [iface@Gtk.TreeSortable]
-method !modify-v4classes ( Str $text is copy --> Str ) {
-
-  my Str $package;
-  my Str $prefix;
-  my Str $gname;
-
-  # [class@Gtk.Entry]
-  $text ~~ m/ '[class@' $<prefix> = [<-[\.\]]>+] '.' $<gname> = [<-[\]]>+] ']' /;
-  while $/.Bool {
-    $prefix = $/<prefix>.Str;
-    $gname = $/<gname>.Str;
-    $package = $prefix;
-    $package ~= '4' if $prefix ~~ any(<Gtk Gsk Gdk>);
-    $text ~~ s/ '[class@' $prefix '.' $gname ']'
-              /B<Gnome\:\:$package\:\:$gname>/;
-    $text ~~ m:c/ '[class@' $<prefix> = <-[\.]>+ '.' $<gname> = <-[\]]>+ ']' /;
-  }
-
-  # [class@Button]
-  $text ~~ m/ '[class@' $<gname> = [<-[\]]>+] ']' /;
-  while $/.Bool {
-    $gname = $/<gname>.Str;
-    $package = $*gnome-package.Str;
-note "$?LINE $gname, $package";
-
-    # substitute
-    $text ~~ s/ '[class@' $gname ']' /B<Gnome\:\:$package\:\:$gname>/;
-
-    # next
-    $text ~~ m:c/ '[class@' $<gname> = <-[\]]>+ ']' /;
-  }
-
-  # Gnome seems to use markdown directly too: `GtkShortcutTrigger`
-  while $text ~~ m:c/'`' $<cname> = [<-[`]>+] '`'/ {
-    my Str $cname = $/<cname>.Str;
-    my Hash $h = $!mod.search-name($cname);
-    my Str $classname = $!mod.set-object-name($h);
-    $text ~~ s/'`' $cname '`'/B<$classname>/;
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert [enum@Gtk.Overflow]
-
-method !modify-v4enum ( Str $text is copy --> Str ) {
-
-  my Str $package = $*gnome-package.Str;
-  my Str $prefix = $*work-data<name-prefix>.tc;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s/^ $prefix //;
-
-  # Enums within same module/class
-  $text ~~ s:g/ '[' enum '@' $prefix '.' (<-[\.]>+) ']' /C<$prefix$0> enumeration/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify rest
-
-method !modify-v4rest ( Str $text is copy --> Str ) {
-
-  # Literals changes
-  $text ~~ s:g/ '`' TRUE '`' /C<True>/;
-  $text ~~ s:g/ '`' FALSE '`' /C<False>/;
-
-  if $text ~~ / '`NULL`' / {
-    $text ~~ s:g/ '`NULL`-terminated' \s* (\w+) \s* array /$0 array/;
-    $text ~~ s:g/ '`NULL`-terminated' \s* array \s* of (\w+) /$0 array/;
-    $text ~~ s:g/ not \s '`NULL`' /defined/;
-    $text ~~ s:g/ '`NULL`' /undefined/;
-  }
-
-  # Older methods shines through
-  if $text ~~ / '%NULL' / {
-    $text ~~ s:g/ \% NULL \- terminated \s* (\w+) \s* array /$0 array/;
-    $text ~~ s:g/ \% NULL \- terminated \s* array \s* of \s* (\w+) /$0 array/;
-    $text ~~ s:g/ not \s* \% NULL /defined/;
-    $text ~~ s:g/ \% NULL /undefined/;
-  }
-
-  # Markdown backtick changes
-  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
-    my Str $word = self!modify-word($/<word>.Str);
-    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
-  }
-
-  # Markdown Sections
-  $text ~~ s:g/^^ '###' \s+ (\w) /=head3 $0/;
-  $text ~~ s:g/^^ '##' \s+ (\w) /=head2 $0/;
-  $text ~~ s:g/^^ '#' \s+ (\w) /=head1 $0/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !modify-word ( Str $text is copy --> Str ) {
-
-  my Str $gname = $*work-data<gnome-name>;
-  my Str $rname = $*work-data<raku-class-name>;
-  given $text {
-
-    # Class names
-    when / $gname / {
-      $text ~~ s/ $gname /B<$rname>/;
-    }
-
-#    # Email, replace AT-sign
-#    when / '@' / {
-#      $text ~~ s/ '@' /\\x0040/;
-#      $text = "I<$text>";
-#    }
-
-    # Functions
-    when / '()' $/ {
-      $text = "C<$text>";
-    }
-
-    # Links
-    when / '&lt;' .*? '&gt;' / {
-      $text ~~ s/ '&lt;' (.*?) '&gt;' /U<$0>/;
-    }
-
-    default {
-      $text = "I<$text>";
-    }
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert ``` … ``` marks. Must be processed at the end because other
-# modifications may change this code example
-method !modify-v4examples ( Str $text is copy --> Str ) {
-
-  # Indent first
-  $text ~~ s:g/^^/  /;
-
-  if $text ~~ m/ '  ```' \w+ / {
-    $text ~~ s/ '  ```' (\w+)?
-              /=begin comment \nFollowing example code is in $0\n/;
-  }
-
-  else {
-    # Only first ```
-    $text ~~ s/ '  ```' /=begin comment\n/;
-  }
-
-  $text ~~ s/'  ```' /=end comment/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert '::sig-name'
-method !modify-signals ( Str $text is copy, Bool :$version4 --> Str ) {
-
-  my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#'? $<cname> = [\w+]? '::' $<signal-name> = [<[-\w]>+] /;
-  while $text ~~ $r {
-    my Str $signal-name = $<signal-name>.Str;
-    my Str $cname = ($<cname>//'').Str;
-    if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#'? $cname '::' $signal-name /I<$signal-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $cname'::' $signal-name /I<$signal-name defined in $cname>/;
-    }
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Convert ':prop-name'
-method !modify-properties ( Str $text is copy --> Str ) {
-
-  my Str $section-prefix-name = $*work-data<gnome-name>;
-  my Regex $r = / '#'? $<cname> = [\w+]? ':' $<pname> = [<[-\w]>+] /;
-  while $text ~~ $r {
-    my Str $pname = $<pname>.Str;
-    my Str $cname = ($<cname>//'').Str;
-    if !$cname or $cname eq $section-prefix-name {
-      $text ~~ s:g/ '#'? $cname ':' $pname /I<property $pname>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $cname':' $pname /I<property $pname defined in $cname>/;
-    }
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !modify-functions ( Str $text is copy --> Str ) {
-
-  my Str $sub-prefix = $*work-data<sub-prefix>;
-  my Str $raku-name = $*work-data<raku-name>.lc;
-
-  # When a local function has '_new' at the end in the text, convert it into
-  # a different name. E.g. 'gtk_label_new()' becomes '.new-label()'
-  $text ~~ s:g/ $sub-prefix new '()' /C<.new-$raku-name\(\)>/;
-#              /C<.new(:\${ S:g/'_'/-/ with $0 })>/;
-
-  # Other functions local to this module, remove the sub-prefix and place
-  # a '.' at front. E.g in module Label and package Gtk3 converting
-  # 'gtk_label_set_line_wrap()' becomes '.set-line-wrap()'.
-  $text ~~ s:g/ $sub-prefix (\w+) '()' /C<.{S:g/'_'/-/ with $0}\(\)>/;
-
-  # Functions not local to this module
-  my Regex $r = / $<function-name> = [
-                    <!after "\x200B">
-                    [ atk || gtk || gdk || gsk ||
-                      pangocairo || pango || cairo || g
-                    ]
-                    '_' \w*?
-                  ] '()'
-                /;
-
-  while $text ~~ $r {
-    my Str $function-name = $<function-name>.Str;
-    my Hash $h = $!mod.search-name($function-name);
-    my Str $package-name = $h<raku-package> // '';
-    my Str $raku-name = $h<rname> // '';
-    
-    if ?$raku-name {
-      $text ~~ s:g/ $function-name\(\) 
-                  /C<\x200B$raku-name\(\) function from $package-name>/;
-    }
-
-    else {
-      $text ~~ s:g/ $function-name\(\) /\x200B$function-name\(\)/;
-    }
-  }
-
-  # After all work remove the zero width space marker
-  $text ~~ s:g/ \x200B //;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !modify-variables ( Str $text is copy, Bool :$version4 --> Str ) {
-
-  $text ~~ s:g/ \s? '@' (\w+) / C<\$$0>/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !modify-markdown-links ( Str $text is copy --> Str ) {
-  $text ~~ s:g/ \s '[' ( <-[\]]>+ ) '][' <-[\]]>+ ']' / $0/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !modify-classes ( Str $text is copy, Bool :$version4 --> Str ) {
-
-  # When classnames are found (or not) a zero width space is inserted just
-  # before the word to prevent finding this word (or part of it again when not
-  # substituted. See also https://invisible-characters.com/.
-  my Regex $r = / '#'? $<class-name> = [
-                     <!after ["\x200B" || '::']>
-                     [ Atk || Gtk || Gdk || Gsk ||
-                       PangoCairo || Pango || Cairo || G
-                     ]
-                     \w+
-                  ]
-                /;
-
-  while $text ~~ $r {
-    my Str $class-name = $<class-name>.Str;
-    my Hash $h = $!mod.search-name($class-name);
-
-    if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
-      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name enumeration>/;
-    }
-    
-    elsif ?$h<gir-type> and $h<gir-type> eq 'bitfield' {
-      $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name bitfield>/;
-    }
-    
-    elsif ?$h<type-name> {
-      my Str $name = $!mod.set-object-name($h);
-      $text ~~ s:g/ '#'? $class-name /B<\x200B$name>/;
-    }
-
-    else {
-      $text ~~ s:g/ '#'? $class-name /\x200B$class-name/;
-    }
-  }
-
-  # After all work remove the zero width space marker
-  $text ~~ s:g/ \x200B //;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify rest
-method !modify-rest ( Str $text is copy --> Str ) {
-
-  # variable changes
-  $text ~~ s:g/ '%' TRUE /C<True>/;
-  $text ~~ s:g/ '%' FALSE /C<False>/;
-  $text ~~ s:g/ '%' NULL /C<Nil>/;
-
-  # sections
-  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
-
-  # types
-  $text ~~ s:g/ '#' (\w+) /C<$0>/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# convert |[ … ]| marks. Must be processed at the end because other
-# modifications may depend on those marks
-method !modify-examples ( Str $text is copy --> Str ) {
-
-  $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="xml"' \s* '-->' 
-              /=begin comment\n/;
-
-  $text ~~ s:g/^^ '|[<!-- language="plain" -->'
-              /=begin comment\n/;
-
-  $text ~~ s:g/^^ '|[' \s* '<!--' \s* 'language="C"' \s* '-->' 
-              /=begin comment\n/;
-
-  # Only literal text
-  $text ~~ s:g/^^ '|[' /=begin comment\n/;
-
-  $text ~~ s:g/^^ ']|' /=end comment\n/;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-# Modify xml remnants
-method !modify-xml ( Str $text is copy --> Str ) {
-  
-  # xml escapes
-  $text ~~ s:g/ '&lt;' /</;
-  $text ~~ s:g/ '&gt;' />/;
-  $text ~~ s:g/ '&amp;' /\&/;
-  $text ~~ s:g/ [ '&#160;' || '&nbsp;' ] / /;
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
-method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
-#  $text = self.scan-for-unresolved-items($text);
-  $text ~~ s:g/ ' '+ / /;
-  $text ~~ s:g/ <|w> \n <|w> / /;
-  $text ~~ s:g/ \n ** 3..* /\n\n/;
-
-  if $trim {
-    $text ~~ s/^ \s+ //;
-    $text ~~ s/ \s+ $//;
-  }
-
-  $text
-}
-
-#-------------------------------------------------------------------------------
 method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
   my Str $own = '';
@@ -1825,7 +1076,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
 
-      $result<items-doc> = self!cleanup(self!modify-text(
+      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
         "=item \$$parameter<name>; $own$parameter<doc>\n";
       ));
     }
@@ -1839,7 +1090,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
 
-      $result<items-doc> = self!cleanup(self!modify-text(
+      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
         "=item \$$parameter<name>; $own$parameter<doc>\n"
       ));
     }
@@ -1853,10 +1104,10 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
 
-      $result<returns-doc> = self!cleanup(self!modify-text(
+      $result<returns-doc> = $!dtxt.cleanup($!dtxt.modify-text(
         "=item \$$parameter<name>; $own$parameter<doc>\n"
       ));
-      $result<items-doc> = self!cleanup(self!modify-text(
+      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
         "=item \$$parameter<name>; $own$parameter<doc>\n"
       ));
     }
@@ -1872,7 +1123,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
       $doc ~= '. Tthe function must be specified with following signature; C<' ~ $xtype ~ '>.';
       $result<raku-list> = ", \&$parameter<name>";
-      $result<items-doc> = self!cleanup(self!modify-text(
+      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
         "=item \&$parameter<name>; $doc\n"
       ));
     }
@@ -1883,7 +1134,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
       $doc ~~ s/ ','? \s* 'undefined-terminated' //;
       $doc ~= '. Note that each argument must be specified as a type followed by its value!';
       $result<raku-list> = ", …";
-      $result<items-doc> = self!cleanup(self!modify-text(
+      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
         "=item $parameter<name>; $doc\n"
       ));
     }
@@ -1898,14 +1149,213 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         "=item \$$parameter<name>; $own$parameter<doc>."
       );
       $result<raku-list> = $l;
-      $result<items-doc> = self!cleanup(self!modify-text($d));
+      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text($d));
     }
   }
 
   $result
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
+
+
+#-------------------------------------------------------------------------------
+method start-document ( Str $type-letter = '' --> Str ) {
 #`{{
+  my Str $name = '';
+  my Str $author = '';
+  my Version $version = v0.1.0;
+  my Str $title = '';
+  my Str $subtitle = '';
+  my Str $raku-version = "$*RAKU.version(), $*RAKU.compiler.version()";
+
+  my META6 $meta;
+  my Str $meta-file = [~] './gnome-api2/gnome-', $*gnome-package.Str.lc,
+                          '/META6.json';
+  if $meta-file.IO.e {
+    $meta .= new(:file($meta-file));
+
+    $name = $meta<name>;
+    $author = $meta<author>;
+    $version = $meta<version>;
+    $title = $*work-data<raku-class-name>;
+    $subtitle = $meta<description>;
+  }
+
+  qq:to/RAKUDOC/;
+    use v6.d;
+
+    =begin pod
+    =head2 Project Description
+    =item B<Distribution:> $name
+    =item B<Project description:> $subtitle
+    =item B<Project version:> $version.Str()
+    =item B<Rakudo version:> $raku-version
+    =item B<Author:> $author
+    =end pod
+
+    RAKUDOC
+}}
+
+  my Str $class-name = $!mod.set-object-name(
+    %( :$type-letter, :type-name($*work-data<raku-name>))
+  );
+  "$*command-line\nuse v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
+}
+
+#-------------------------------------------------------------------------------
+method !set-inherit-example ( XML::Element $element --> Str ) {
+
+  my Str $doc = '';
+  my Str $ctype = $element.attribs<c:type>;
+  my Hash $h = $!mod.search-name($ctype);
+
+  if $h<inheritable> {
+    # Code like {'...'} is inserted here and there to prevent interpretation
+    $doc = qq:to/EOINHERIT/;
+
+      =head2 Inheriting this class
+
+      Inheriting is done in a special way in that it needs a call from new\() to get the native object created by the class you are inheriting from.
+
+        use $*work-data<raku-class-name>;
+
+        unit class MyGuiClass;
+        also is $*work-data<raku-class-name>;
+
+        submethod new \( \|c ) \{
+          # let the {$*work-data<raku-class-name>} class process the options
+          self\.bless\( :{$element.attribs<c:type>}, \|c);
+        \}
+
+        submethod BUILD \( ... ) \{
+          ...
+        \}
+
+      EOINHERIT
+  }
+
+  $doc
+}
+
+
+
+#-------------------------------------------------------------------------------
+# NOTE For now, skip property documentation
+
+method document-properties (
+  XML::Element $element, XML::XPath $xpath --> Str
+) {
+  my Str $doc = '';
+
+  my @property-info = $xpath.find( 'property', :start($element), :to-list);
+
+  my Hash $properties = %();
+  for @property-info -> $pi {
+    my Hash $attribs = $pi.attribs;
+    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
+
+    # Property documentation
+    my Str $property-name = $attribs<name>;
+    my Bool $writable = $attribs<writable>.Bool;
+
+    my Str ( $pgetter, $psetter);
+    if $attribs<getter>:exists {
+      $pgetter = $attribs<getter>;
+      $pgetter ~~ s:g/ '_' /-/;
+      $pgetter = "C<.$pgetter\()>";
+    }
+
+    if $attribs<setter>:exists {
+      $psetter = $attribs<setter>;
+      $psetter ~~ s:g/ '_' /-/;
+      $psetter = "C<.$psetter\()>";
+    }
+
+    my Str $transfer-ownership = $attribs<transfer-ownership>;
+
+    my Str ( $pdoc, $type, $raku-type) =
+      self.get-doc-type( $pi, $xpath, :!user-side);
+    my Str $g-type = self.gobject-value-type($raku-type);
+note "$?LINE $property-name, $type, $raku-type, $g-type";
+    $properties{$property-name} = %(
+      :$pdoc, :$writable, :$type, :$raku-type, :$g-type,
+      :$pgetter, :$psetter, :$transfer-ownership
+    );
+  }
+
+  return '' unless $properties.keys.elems;
+
+  $doc ~= qq:to/EOSIG/;
+
+    {pod-header('Property Documentation')}
+    =begin pod
+    =head1 Properties
+
+    Please note that this information is not really necessary to use or know
+    about because there are routines to get or set its value for many of
+    those properties.
+    EOSIG
+
+  for $properties.keys.sort -> $property-name {
+    my Hash $curr-property := $properties{$property-name};
+#      =comment #TP:0:$property-name:
+    $doc ~= qq:to/EOSIG/;
+
+      {HLPODSEPARATOR}
+      =head3 $property-name
+      EOSIG
+
+#say "$?LINE props $property-name: $curr-property.gist()";
+
+    if $curr-property<pdoc> ~~ m/^ \s* $/ {
+      $doc ~= "\nThere is no documentation for this property\n\n";
+    }
+
+    else {
+      $doc ~= "\n$curr-property<pdoc>\n\n";
+    }
+
+    $doc ~= "=item B<Gnome::GObject::Value> for this property is $curr-property<g-type>.\n";
+
+    $doc ~= "=item The native type is $curr-property<raku-type>.\n";
+
+    if $curr-property<writable> {
+      $doc ~= "=item Property is readable and writable\n";
+    }
+
+    else {
+      $doc ~= "=item Property is readonly\n";
+    }
+
+    $doc ~= "=item Getter method is $curr-property<pgetter>\n"
+      if ?$curr-property<pgetter>;
+
+    $doc ~= "=item Setter method is $curr-property<psetter>\n"
+      if ?$curr-property<psetter>;
+  }
+
+  $doc ~= "\n=end pod\n\n";
+
+  $doc
+}
+
+
 NOTE For now, skip property documentation
 
 #-------------------------------------------------------------------------------
@@ -2036,4 +1486,4 @@ method gobject-value-type ( Str $ctype is copy --> Str ) {
   $g-type
 }
 
-}}
+
