@@ -30,19 +30,19 @@ If you have a case that doesn’t quite fit in B<Gnome::Gtk4::Assistant>s way of
 handling buttons, you can use the %GTK_ASSISTANT_PAGE_CUSTOM page
 type and handle buttons yourself.
 
-B<Gnome::Gtk4::Assistant> maintains a B<Gnome::Gtk4::Assistant>Page object for each added
+B<Gnome::Gtk4::Assistant> maintains a B<Gnome::Gtk4::AssistantPage> object for each added
 child, which holds additional per-child properties. You
-obtain the B<Gnome::Gtk4::Assistant>Page for a child with C<.get-page()>.
+obtain the B<Gnome::Gtk4::AssistantPage> for a child with C<.get-page()>.
 
 =head1 GtkAssistant as GtkBuildable
 
-The B<Gnome::Gtk4::Assistant> implementation of the I<GtkBuildable> interface
+The B<Gnome::Gtk4::Assistant> implementation of the B<Gnome::Gtk4::R-Buildable> interface
 exposes the C<$action_area> as internal children with the name
 “action_area”.
 
-To add pages to an assistant in I<GtkBuilder>, simply add it as a
+To add pages to an assistant in B<Gnome::Gtk4::Builder>, simply add it as a
 child to the B<Gnome::Gtk4::Assistant> object. If you need to set per-object
-properties, create a B<Gnome::Gtk4::Assistant>Page object explicitly, and
+properties, create a B<Gnome::Gtk4::AssistantPage> object explicitly, and
 set the child widget as a property on it.
 
 =head1 CSS nodes
@@ -123,7 +123,7 @@ Adds a widget to the action area of a B<Gnome::Gtk4::Assistant>.
 method add-action-widget ( N-Object() $child )
 =end code
 
-=item $child; a I<GtkWidget>.
+=item $child; a B<Gnome::Gtk4::Widget>.
 
 =end pod
 
@@ -139,7 +139,7 @@ Appends a page to the C<$assistant>.
 method append-page ( N-Object() $page --> Int )
 =end code
 
-=item $page; a I<GtkWidget>.
+=item $page; a B<Gnome::Gtk4::Widget>.
 
 Return value; the index (starting at 0) of the inserted page. 
 
@@ -231,7 +231,7 @@ Return value; the child widget, or undefined
 
 =head2 get-page
 
-Returns the B<Gnome::Gtk4::Assistant>Page object for C<$child>.
+Returns the B<Gnome::Gtk4::AssistantPage> object for C<$child>.
 
 =begin code
 method get-page ( N-Object() $child --> N-Object )
@@ -239,7 +239,7 @@ method get-page ( N-Object() $child --> N-Object )
 
 =item $child; a child of C<$assistant>.
 
-Return value; the B<Gnome::Gtk4::Assistant>Page for C<$child>. 
+Return value; the B<Gnome::Gtk4::AssistantPage> for C<$child>. 
 
 
 =end pod
@@ -331,7 +331,7 @@ Inserts a page in the C<$assistant> at a given position.
 method insert-page ( N-Object() $page, Int() $position --> Int )
 =end code
 
-=item $page; a I<GtkWidget>.
+=item $page; a B<Gnome::Gtk4::Widget>.
 =item $position; the index (starting at 0) at which to insert the page,
  or -1 to append the page to the C<$assistant>.
 
@@ -372,7 +372,7 @@ Prepends a page to the C<$assistant>.
 method prepend-page ( N-Object() $page --> Int )
 =end code
 
-=item $page; a I<GtkWidget>.
+=item $page; a B<Gnome::Gtk4::Widget>.
 
 Return value; the index (starting at 0) of the inserted page. 
 
@@ -411,7 +411,7 @@ Removes a widget from the action area of a B<Gnome::Gtk4::Assistant>.
 method remove-action-widget ( N-Object() $child )
 =end code
 
-=item $child; a I<GtkWidget>.
+=item $child; a B<Gnome::Gtk4::Widget>.
 
 =end pod
 
@@ -471,7 +471,7 @@ method set-forward-page-func ( &page-func, gpointer $data, … )
 =end code
 
 =item &page-func; the B<Gnome::Gtk4::T-Assistant>, or undefined
- to use the default one. Tthe function must be specified with following signature; C<AssistantPageFunc=:( gint $current-page, gpointer $data --> gint )>.
+ to use the default one. Tthe function must be specified with following signature; C<:( gint $current-page, gpointer $data --> gint )>.
 =item $data; user data for C<$page_func>.
 =item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
 
