@@ -67,6 +67,9 @@ find . -name '*.raku*' | xargs wc -l
 
 
 # Release notes
+* 2023-12-11 0.13.0
+  * Split Doc into two modules hope to reduce compilation time
+
 * 2023-12-09 0.12.4
   * Many bug fixes in doc generation
   * Add callback info to types document
