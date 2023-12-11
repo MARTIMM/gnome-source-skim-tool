@@ -2318,40 +2318,6 @@ method convert-rtype (
 }
 
 #-------------------------------------------------------------------------------
-#`{{
-multi method set-object-name (
-  Str $type-letter = '', ObjectNameType :$name-type = ClassnameType
-  --> Str
-) {
-  my Str $object-name;
-  given $name-type {
-    when ClassnameType {
-      if ?$type-letter {
-        $object-name = $*work-data<raku-package> ~ '::' ~
-                      $type-letter ~ '-' ~ $*work-data<raku-name>;
-      }
-
-      else {
-        $object-name = $*work-data<raku-class-name>;
-      }
-    }
-
-    when FilenameType {
-      if ?$type-letter {
-        $object-name = $type-letter ~ '-' ~ $*work-data<raku-name>;
-      }
-
-      else {
-        $object-name = $*work-data<raku-name>;
-      }
-    }
-  }
-
-  $object-name
-}
-
-#-----
-}}
 method set-object-name (
   Hash $object-map-entry, ObjectNameType :$name-type = ClassnameType,
   --> Str
@@ -2648,6 +2614,52 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+=finish
+
+#-------------------------------------------------------------------------------
+multi method set-object-name (
+  Str $type-letter = '', ObjectNameType :$name-type = ClassnameType
+  --> Str
+) {
+  my Str $object-name;
+  given $name-type {
+    when ClassnameType {
+      if ?$type-letter {
+        $object-name = $*work-data<raku-package> ~ '::' ~
+                      $type-letter ~ '-' ~ $*work-data<raku-name>;
+      }
+
+      else {
+        $object-name = $*work-data<raku-class-name>;
+      }
+    }
+
+    when FilenameType {
+      if ?$type-letter {
+        $object-name = $type-letter ~ '-' ~ $*work-data<raku-name>;
+      }
+
+      else {
+        $object-name = $*work-data<raku-name>;
+      }
+    }
+  }
+
+  $object-name
+}
 
 
 
