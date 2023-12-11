@@ -1,0 +1,57 @@
+---
+"____EXAMPLE____0": |
+  =begin code
+  label
+  ├── [selection]
+  ├── [link]
+  ┊
+  ╰── [link]
+  =end code
+
+"____EXAMPLE____1": |
+  =begin code
+  <object class="GtkLabel">
+    <attributes>
+      <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+      <attribute name="background" value="red" start="5" end="10"/>
+    </attributes>
+  </object>
+  =end code
+
+"____EXAMPLE____2": |
+  =begin code
+  # Pressing Alt+H will activate this button
+  my Gnome::Gtk4::Button $button .= new-button;
+  my Gnome::Gtk4::Label $label .= new-with-mnemonic("_Hello");
+  $button.set-child($label);
+  =end code
+
+"____EXAMPLE____3": |
+  =begin code
+  # Pressing Alt+H will activate this button
+  my Gnome::Gtk4::Button $button .= new_with_mnemonic("_Hello");
+  =end code
+
+"____EXAMPLE____4": |
+  =begin code
+  # Pressing Alt+H will focus the entry
+  my Gnome::Gtk4::Entry $entry .= new-entry;
+  my Gnome::Gtk4::Label $label .= new-with-mnemonic("_Hello");
+  $label.set-mnemonic-widget($entry);
+  =end comment
+
+"____EXAMPLE____5": |
+  =begin code
+  my Gnome::Gtk4::Label $label .= new-label(Str);
+  $label.set-markup("<small>Small text</small>");
+  =end code
+
+"____EXAMPLE____6": |
+  =begin code
+  my Str $text = [~] 'Go to the ',
+    '<a href="http://www.gtk.org" title="<i>Our</i> website">',
+    'GTK website', '</a>', ' for more...';
+  my Gnome::Gtk4::Label $label .= new-label(Str);
+  $label.set_markup($text);
+  =end code
+...
