@@ -1,6 +1,8 @@
 use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;
+use Gnome::SourceSkimTool::DocText;
+use Gnome::SourceSkimTool::Resolve;
 
 use XML;
 use XML::XPath;
@@ -15,6 +17,7 @@ use YAMLish;
 unit class Gnome::SourceSkimTool::Code:auth<github:MARTIMM>;
 
 has Hash $!protected-files;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
@@ -32,7 +35,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
   my Str $also = '';
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!solve.search-name($ctype);
 
   # Check for parent class. There are never more than one. When there is
   # none, pick TopLevelClassSupport
@@ -53,7 +56,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
       $available = self.add-import($role);
       $also ~= ($available ?? '' !! '#') ~ "also does $role;\n";
 #`{{ Simplified
-      my Hash $role-h = self.search-name($role);
+      my Hash $role-h = $!solve.search-name($role);
       if ?$role-h<class-name> {
         self.add-import($role-h<class-name>);
         $also ~= "also does $role-h<class-name>;\n";
@@ -83,7 +86,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   if $is-role {
     $code ~= qq:to/RAKUMOD/;
       {pod-header('Role Declaration');}
-      unit role { self.set-object-name( $h, :name-type(ClassnameType)) }:auth<github:MARTIMM>:api<2>;
+      unit role { $!solve.set-object-name( $h, :name-type(ClassnameType)) }:auth<github:MARTIMM>:api<2>;
       RAKUMOD
   }
 
@@ -92,7 +95,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 #      unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
     $code ~= qq:to/RAKUMOD/;
       {pod-header('Class Declaration');}
-      unit class { self.set-object-name( $h, :name-type(ClassnameType)) }:auth<github:MARTIMM>:api<2>;
+      unit class { $!solve.set-object-name( $h, :name-type(ClassnameType)) }:auth<github:MARTIMM>:api<2>;
       $also
       RAKUMOD
   }
@@ -233,7 +236,7 @@ method generate-callables (
 
       # When there are roles implemented, generate calls to the role's fallback
       my Str $ctype = $element.attribs<c:type>;
-      my Hash $h = self.search-name($ctype);
+      my Hash $h = $!solve.search-name($ctype);
       my Array $roles = $h<implement-roles>//[];
       if ?$roles {
         $c ~= [~] '    my $r;', "\n",
@@ -273,7 +276,7 @@ method make-build-submethod (
   XML::Element $element, XML::XPath $xpath --> Str
 ) {
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = self.search-name($ctype);
+  my Hash $h = $!solve.search-name($ctype);
 
   # Signal administration
   my Str $role-signals = self.get-role-signals($h);
@@ -353,7 +356,7 @@ method get-role-signals ( Hash $h --> Str ) {
 
     my Bool $available = self.add-import($role);
 
-    my Hash $role-h = self.search-name($role);
+    my Hash $role-h = $!solve.search-name($role);
     if ?$role-h {
 #note "$?LINE role $role, ", $role-h.gist;
       $role-signals ~= "#`\{\{\n" unless $available;
@@ -710,7 +713,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
   #return '' unless ?$hcs;
 
 #  my Str $ctype = $element.attribs<c:type>;
-#  my Hash $h = self.search-name($ctype);
+#  my Hash $h = $!solve.search-name($ctype);
 #  my Str $symbol-prefix = $h<symbol-prefix> // $h<c:symbol-prefix> // '';
 #  my Str $symbol-prefix = $*work-data<sub-prefix>;
 #  my Str $pattern = '';
@@ -1388,9 +1391,9 @@ method generate-structure (
 }}
 
   my Str $name = $*work-data<gnome-name>;
-  my Hash $h0 = self.search-name($name);
+  my Hash $h0 = $!solve.search-name($name);
 #  my Str $class-name = $h0<class-name>;
-  my Str $class-name = self.set-object-name( $h0, :name-type(ClassnameType));
+  my Str $class-name = $!solve.set-object-name( $h0, :name-type(ClassnameType));
   my Str $record-class = $h0<record-class>;
 
 #`{{
@@ -1535,7 +1538,7 @@ TODO can we have callback fields in a structure?
 }}
 #`{{
   my Str $fname = [~] $*work-data<result-mods>, '/',
-                      self.set-object-name( $h0, :name-type(FilenameType)),
+                      $!solve.set-object-name( $h0, :name-type(FilenameType)),
                       '.rakumod';
 #     [~] $*work-data<result-mods>, '/', $h0<record-class>, '.rakumod';
   self.save-file( $fname, $code, "record structure");
@@ -1557,9 +1560,9 @@ method generate-union (
   );
 
   my Str $name = $*work-data<gnome-name>;
-  my Hash $h0 = self.search-name($name);
+  my Hash $h0 = $!solve.search-name($name);
 #  my Str $class-name = $h0<class-name>;
-  my Str $class-name = self.set-object-name( $h0, :name-type(ClassnameType));
+  my Str $class-name = $!solve.set-object-name( $h0, :name-type(ClassnameType));
   my Str $union-class = $h0<union-class>;
 
   my Str $code = qq:to/RAKUMOD/;
@@ -1666,7 +1669,7 @@ method generate-union (
   self.add-import($class-name ~ '::' ~ $union-class);
 
   my Str $fname = [~] $*work-data<result-mods>, '/',
-                      self.set-object-name( $h0, :name-type(FilenameType)),
+                      $!solve.set-object-name( $h0, :name-type(FilenameType)),
                       '.rakumod';
 #     [~] $*work-data<result-mods>, '/', $h0<union-class>, '.rakumod';
   self.save-file( $fname, $code, "union structure");
@@ -1698,7 +1701,7 @@ method signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 #-------------------------------------------------------------------------------
 method generate-role-init ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #  my Str $ctype = $element.attribs<c:type>;
-#  my Hash $h = self.search-name($ctype);
+#  my Hash $h = $!solve.search-name($ctype);
 
   my Str $code = '';
 
@@ -2086,7 +2089,7 @@ method convert-ntype (
       my Bool $is-pointer = $ctype ~~ m/ '*' .*? '*' / ?? True !! False;
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = self.search-name($ctype);
+      my Hash $h = $!solve.search-name($ctype);
 #note "  $?LINE $is-pointer, $ctype, $h.gist";
       given $h<gir-type> // '-' {
         when 'class' {
@@ -2104,7 +2107,7 @@ method convert-ntype (
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           my $class-name =
-            self.set-object-name( $h, :name-type(ClassnameType));
+            $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
@@ -2116,7 +2119,7 @@ method convert-ntype (
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           my $class-name =
-            self.set-object-name( $h, :name-type(ClassnameType));
+            $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
@@ -2128,14 +2131,14 @@ method convert-ntype (
         when 'enumeration' {
           $raku-type = "GEnum:$ctype";
           my $class-name =
-            self.set-object-name( $h, :name-type(ClassnameType));
+            $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
         when 'bitfield' {
           $raku-type = "GFlag:$ctype";
           my $class-name =
-            self.set-object-name( $h, :name-type(ClassnameType));
+            $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
@@ -2237,7 +2240,7 @@ method convert-rtype (
       my Bool $is-pointer = $ctype ~~ m/ '*' / ?? True !! False;
       $ctype ~~ s:g/ '*' //;
 
-      my Hash $h = self.search-name($ctype);
+      my Hash $h = $!solve.search-name($ctype);
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-Object';
@@ -2257,7 +2260,7 @@ method convert-rtype (
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           my $class-name =
-            self.set-object-name( $h, :name-type(ClassnameType));
+            $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
@@ -2268,7 +2271,7 @@ method convert-rtype (
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           my $class-name =
-            self.set-object-name( $h, :name-type(ClassnameType));
+            $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
@@ -2284,7 +2287,7 @@ method convert-rtype (
 #          $raku-type = $h<class-name> ~ '()';
           $raku-type = "GEnum:$ctype";
           my $class-name =
-            self.set-object-name( $h, :name-type(ClassnameType));
+            $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
@@ -2293,7 +2296,7 @@ method convert-rtype (
 #          $raku-type ~= '()' unless $return-type;
           $raku-type = "UInt:$ctype";
           my $class-name =
-            self.set-object-name( $h, :name-type(ClassnameType));
+            $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
         }
 
@@ -2315,209 +2318,6 @@ method convert-rtype (
   }
 
   $raku-type
-}
-
-#-------------------------------------------------------------------------------
-method set-object-name (
-  Hash $object-map-entry, ObjectNameType :$name-type = ClassnameType,
-  --> Str
-) {
-  my Str $object-name;
-  my Str $type-letter = $object-map-entry<type-letter> // '';
-
-  given $name-type {
-    when ClassnameType {
-#note "$?LINE $object-map-entry.gist()";
-#say Backtrace.new.nice if $object-map-entry<package-name>:!exists;
-
-      if ?$type-letter {
-#        $object-name = $*work-data<raku-package> ~ '::' ~
-        $object-name = $object-map-entry<package-name> ~ '::' ~
-                       $type-letter ~ '-' ~ $object-map-entry<type-name>;
-      }
-
-      else {
-        $object-name = $object-map-entry<package-name> ~ '::' ~
-                       $object-map-entry<type-name>;
-      }
-    }
-
-    when any(
-      FilenameType, FilenameCodeType, FilenameDocType, FilenameTestType
-    ) {
-      if ?$type-letter {
-        $object-name = $type-letter ~ '-' ~ $object-map-entry<type-name>;
-      }
-
-      else {
-        $object-name = $object-map-entry<type-name>;
-      }
-
-      when FilenameCodeType {
-        $object-name = [~] $*work-data<result-mods>, $object-name, '.rakumod';
-      }
-
-      when FilenameDocType {
-        $object-name = [~] $*work-data<result-docs>, $object-name, '.rakudoc';
-      }
-
-      when FilenameTestType {
-        $object-name = [~] $*work-data<result-tests>, $object-name, '.rakutest';
-      }
-    }
-  }
-
-  $object-name
-}
-
-#-------------------------------------------------------------------------------
-method search-name ( Str $name is copy --> Hash ) {
-
-  self.check-search-list;
-
-  my Str $raku-package = $*work-data<raku-package>;
-  if $name ~~ m/ '::' / {
-    $name ~~ s/^ $raku-package '::' //;
-    $name ~~ s/^ [<[NTR]> '-']? //;
-  }
-
-  my Hash $h = %();
-  for @*map-search-list -> $map-name {
-    self.check-map($map-name);
-
-#note "Search for $name in map $map-name" if $*verbose;
-#note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pango /;
-
-    # It is possible that not all hashes are loaded
-    next unless $*object-maps{$map-name}:exists
-            and ( $*object-maps{$map-name}{$name}:exists 
-                  or $*object-maps{$map-name}{$map-name ~ $name}:exists
-                );
-
-    # Get the Hash from the object maps
-    $h = $*object-maps{$map-name}{$name}
-         // $*object-maps{$map-name}{$map-name ~ $name};
-    if $map-name ~~ /G [d || s || t] k $/ and $raku-package ~~ /$<v>=[\d+] $/ {
-      $h<package-name> = "Gnome\:\:$map-name" ~ $<v>.Str;
-    }
-
-    else {
-      $h<package-name> = "Gnome\:\:$map-name";
-    }
-
-#note "$?LINE $map-name, $raku-package, $h<package-name>";
-
-    # Add package name to this hash
-#    $h<raku-package> = $*other-work-data{$map-name}<raku-package>;
-    last;
-  }
-
-#note "$?LINE $h.gist()";
-#say Backtrace.new.nice if $name eq 'Enums';
-
-  $h
-}
-
-#-------------------------------------------------------------------------------
-# Search for names of specific type in object maps 
-method search-entries ( Str $entry-name, Str $value --> Hash ) {
-
-  self.check-search-list;
-
-  my Hash $h = %();
-  for @*map-search-list -> $map-name {
-    self.check-map($map-name);
-
-#    note "Search for entries in map $map-name where field $entry-name ≡? $value"
-#      if $*verbose;
-    # It is possible that not all hashes are loaded
-    next unless $*object-maps{$map-name}:exists;
-
-    for $*object-maps{$map-name}.kv -> $name, $value-hash {
-      next unless $value-hash{$entry-name}:exists;
-
-      next unless $value-hash{$entry-name} eq $value;
-      $h{$name} = $value-hash;
-
-      # Add package name to this hash
-#      $h{$name}<raku-package> = $*other-work-data{$map-name}<raku-package>;
-    }
-
-    last if ?$h;
-  }
-
-#say "$?LINE: search entries for $entry-name -> $h.gist()";
-
-  $h
-}
-
-#-------------------------------------------------------------------------------
-method check-search-list ( ) {
-  unless ?@*map-search-list {
-    my Str $package = $*gnome-package.Str;
-
-    # Gtk version 3 and 4 depend on these at least
-    @*map-search-list = <Gtk Gdk Atk Gio Cairo PangoCairo Pango>
-      if $package ~~ m/^ Gtk /;
-
-    # Add Gsk when processing Gtk version 4
-    @*map-search-list.push: 'Gsk' if $package eq 'Gtk4';
-
-    # Add Pixbuf when processing Gtk version 3
-    @*map-search-list.push: 'GdkPixbuf' if $package eq 'Gtk3';
-
-    # Only process these when gdk version 3
-    @*map-search-list = <Gdk GdkPixbuf Cairo> if $package eq 'Gdk3';
-
-    # Only process this when gdk version 4
-    @*map-search-list = <Gdk Cairo> if $package eq 'Gdk4';
-
-    # Some lesser packages
-    @*map-search-list = <Pango Cairo PangoCairo>
-      if $package ~~ m/ Pango || Cairo /;
-
-    @*map-search-list = 'Gio' if $package eq 'Gio';
-
-    # And always add the following
-    @*map-search-list.push: 'Glib', 'GObject';
-  }  
-}
-
-#-------------------------------------------------------------------------------
-method check-map ( Str $map ) {
-  unless $*object-maps{$map}:exists {
-    my Str $package = $*gnome-package.Str;
-    my Str $module-path;
-
-    if $package ~~ m/ '3' $/ and $map ~~ any(<Gtk Gdk>) {
-      $module-path = SKIMTOOLDATA ~ $map ~ '3/';
-    }
-
-    elsif $package ~~ m/ '4' $/ and $map ~~ any(<Gtk Gdk Gsk>) {
-      $module-path = SKIMTOOLDATA ~ $map ~ '4/';
-    }
-
-    else {
-      $module-path = SKIMTOOLDATA ~ $map ~ '/';
-    }
-
-    $*object-maps{$map} = self.load-map( $map, $module-path);
-  }
-}
-
-#-------------------------------------------------------------------------------
-method load-map ( Str $map, Str $object-map-path --> Hash ) {
-
-  my $fname = $object-map-path ~ 'repo-object-map.yaml';
-  if $fname.IO.r {
-    note "Load object map for $map" if $*verbose;
-    load-yaml($fname.IO.slurp);
-  }
-
-  else {
-    note "File object map '$fname' not found";
-    %()
-  }
 }
 
 #-------------------------------------------------------------------------------
@@ -2592,8 +2392,14 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
   }
 
   if $save-it {
+    if $*generate-doc {
+      my Gnome::SourceSkimTool::DocText $dtxt .= new;
+      $content = $dtxt.cleanup($dtxt.modify-text($content));
+    }
+
     $filename.IO.spurt($content);
     $*saved-file-summary.push: $filename.IO.basename;
+  }
 
 #`{{
     if $*generate-doc {
@@ -2609,7 +2415,6 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
       $*saved-file-summary.push: $md-filename.IO.basename;
     }
 }}
-  }
 }
 
 
