@@ -802,20 +802,6 @@ method load-gir-file ( ) {
 }
 
 #-------------------------------------------------------------------------------
-method load-map (
-  $object-map-path, Str :$repo-file = 'repo-object-map.yaml' --> Hash
-) {
-  my $fname = $object-map-path ~ $repo-file;
-  if $fname.IO.r {
-    load-yaml($fname.IO.slurp)
-  }
-
-  else {
-    %()
-  }
-}
-
-#-------------------------------------------------------------------------------
 method !map-class-to-fname ( $filename, $class-name ) {
   unless $!fname-class{$filename}:exists {
     $!fname-class{$filename} = $class-name;
@@ -857,5 +843,22 @@ method !save-other ( Str $xml-namespace ) {
       note "Save $section" if $*verbose;
       $xml-file.IO.spurt($content);
     }
+  }
+}
+
+
+
+=finish
+#-------------------------------------------------------------------------------
+method load-map (
+  $object-map-path, Str :$repo-file = 'repo-object-map.yaml' --> Hash
+) {
+  my $fname = $object-map-path ~ $repo-file;
+  if $fname.IO.r {
+    load-yaml($fname.IO.slurp)
+  }
+
+  else {
+    %()
   }
 }
