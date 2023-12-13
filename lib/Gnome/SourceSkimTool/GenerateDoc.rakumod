@@ -9,6 +9,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Prepare;
+use Gnome::SourceSkimTool::Resolve;
 
 
 #-------------------------------------------------------------------------------
@@ -16,6 +17,7 @@ unit class Gnome::SourceSkimTool::GenerateDoc:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Code $!mod;
 has Gnome::SourceSkimTool::Doc $!grd;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 has Str $!filename;
 has Hash $!filedata;
@@ -25,7 +27,7 @@ submethod BUILD ( Str :$!filename ) {
   $!mod .= new;
   $!grd .= new;
 
-  self!get-data-from-filename;
+  $!filedata = $!solve.new.get-data-from-filename($!filename);
 }
 
 #-------------------------------------------------------------------------------
@@ -48,10 +50,10 @@ method generate-doc ( ) {
 
     when 'class' {
       for $!filedata<class>.keys -> $class-name {
+        say "\nGenerate documentation for Raku class ", $*work-data<raku-class-name>;
+
         $*gnome-class = $!filedata<class>{$class-name}<gnome-name>;
         my Gnome::SourceSkimTool::Prepare $prepare .= new;
-
-        say "\nGenerate documentation for Raku class", $*work-data<raku-class-name>;
 
         require ::('Gnome::SourceSkimTool::Class');
         my $raku-module = ::('Gnome::SourceSkimTool::Class').new;
@@ -262,6 +264,9 @@ note "$?LINE ", $types-doc<callback>;
   }
 }
 
+
+
+=finish
 #-------------------------------------------------------------------------------
 # Fill the Hash $!filedata with data from a repo-object-map.yaml where the
 # 'source-filename' field of every object must match $filename. The data is

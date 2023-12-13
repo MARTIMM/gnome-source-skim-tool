@@ -3,23 +3,25 @@ use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
+use Gnome::SourceSkimTool::Resolve;
 use Gnome::SourceSkimTool::DocText;
 
 use XML;
 use XML::XPath;
 use META6;
-#use YAMLish;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Doc:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Code $!mod;
+has Gnome::SourceSkimTool::Resolve $!solve;
 has Gnome::SourceSkimTool::DocText $!dtxt;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
   $!mod .= new;
+  $!solve .= new;
   $!dtxt .= new;
 }
 
@@ -27,11 +29,11 @@ submethod BUILD ( ) {
 # Get the description at the start of a class, record or union.
 method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
-  my Str $class-name = $!mod.set-object-name($h);
+  my Hash $h = $!solve.search-name($ctype);
+  my Str $class-name = $!solve.set-object-name($h);
 
-  my Str $doc =
-    $!dtxt.modify-text($xpath.find( 'doc/text()', :start($element)).Str);
+  my Str $doc = $xpath.find( 'doc/text()', :start($element)).Str // '';
+#    $!dtxt.modify-text();
 
   my Str $widget-picture = '';
   $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
@@ -67,7 +69,16 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 method !set-uml ( --> Str ) {
   return '' unless $*gnome-package ~~ any( Gtk3, Gtk4, Gio);
 
-  # Using a markdown link not a Raku pod link
+  # Using a markdown link not a Raku pod link. Old pod does not know about image
+  # New pod does but is not yet ready.
+  # add-example-code() returns a key and is text to be returned
+  $!dtxt.add-example-code(q:to/EOEX/);
+    =head2 Uml Diagram
+    ![](plantuml/….svg)
+    EOEX
+}
+
+#`{{
   my Str $doc = q:to/EOEX/;
 
     =begin comment
@@ -76,10 +87,19 @@ method !set-uml ( --> Str ) {
     =end comment
     EOEX
   $doc
-}
+}}
 
 #-------------------------------------------------------------------------------
 method !set-example ( --> Str ) {
+  # add-example-code() returns a key and is text to be returned
+  $!dtxt.add-example-code(q:to/EOEX/);
+    =head2 Example
+      … text …
+      … example code …
+      EOEX
+}
+
+#`{{
   my Str $doc = q:to/EOEX/;
 
     =begin comment
@@ -89,7 +109,7 @@ method !set-example ( --> Str ) {
     =end comment
     EOEX
   $doc
-}
+}}
 
 #-------------------------------------------------------------------------------
 method document-build ( XML::Element $element --> Str ) {
@@ -116,7 +136,7 @@ method document-build ( XML::Element $element --> Str ) {
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
+  my Hash $h = $!solve.search-name($ctype);
   if $h<inheritable> {
     $doc ~= qq:to/EOBUILD/;
 
@@ -138,7 +158,7 @@ method document-constructors (
 ) {
 
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
+  my Hash $h = $!solve.search-name($ctype);
 
   # Get all methods in this class
   my Hash $hcs =
@@ -154,7 +174,8 @@ method document-constructors (
 #note "$?LINE $method-name, $hcs.gist()";
 
     my Str $method-doc = $curr-function<function-doc>;
-    $method-doc = "No documentation of method.\n" unless ?$method-doc;
+    $method-doc = "No documentation of method $method-name.\n"
+      unless ?$method-doc;
 
     # Get parameter lists
     my Str ( $raku-list, $items-doc) =  '' xx 5;
@@ -330,9 +351,9 @@ method document-structure (
 }}
 
   my Str $name = $*work-data<gnome-name>;
-  my Hash $h0 = $!mod.search-name($name);
+  my Hash $h0 = $!solve.search-name($name);
 #  my Str $class-name = $h0<class-name>;
-  my Str $class-name = $!mod.set-object-name( $h0, :name-type(ClassnameType));
+  my Str $class-name = $!solve.set-object-name( $h0, :name-type(ClassnameType));
   my Str $record-class = $h0<record-class>;
 
   my Str $doc = '';
@@ -455,10 +476,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 
   my Bool $missing-type = False;
 
-  my Str $s =
-  my Str $function-doc = $!dtxt.cleanup(
-    $!dtxt.modify-text($xpath.find( 'doc/text()', :start($e)).Str // '')
-  );
+  my Str $function-doc = $xpath.find( 'doc/text()', :start($e)).Str // '';
 
   my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
   my Str $rv-transfer-ownership = $rvalue.attribs<transfer-ownership>//'';
@@ -564,9 +582,7 @@ method get-doc-type (
 
     with $n.name {
       when 'doc' {
-        $doc = $!dtxt.cleanup(
-          $!dtxt.modify-text($xpath.find( 'text()', :start($n)).Str // '')
-        );
+        $doc = $xpath.find( 'text()', :start($n)).Str // '';
       }
 
       when 'type' {
@@ -605,9 +621,8 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
     # Signal documentation
     my Str $signal-name = $attribs<name>;
-    my Str $sdoc = $!dtxt.cleanup(
-      $!dtxt.modify-text($xpath.find( 'doc/text()', :start($si)).Str // '')
-    );
+    my Str $sdoc = $xpath.find( 'doc/text()', :start($si)).Str // '';
+
     my Hash $curr-signal := $signals{$signal-name} = %(:$sdoc,);
 
     # Return value info
@@ -760,10 +775,8 @@ method document-constants ( @constants --> Str ) {
       '//constant[@name="' ~ $name ~ '"]', :!to-list
     );
 
-    $doc ~= $!dtxt.cleanup(
-      $!dtxt.modify-text(
-        ($xpath.find( 'doc/text()', :start($e), :!to-list).Str // '')
-    )) ~ "\n";
+    $doc ~= $xpath.find( 'doc/text()', :start($e), :!to-list).Str // '';
+    $doc ~= "\n";
   }
 
   $doc ~= "=end pod\n\n";
@@ -807,16 +820,14 @@ method document-enumerations ( @enum-names --> Str ) {
       '//enumeration[@name="' ~ $name ~ '"]', :!to-list
     );
 
-    $doc ~= $!dtxt.cleanup($!dtxt.modify-text(
-      $xpath.find( 'doc/text()', :start($e), :!to-list).Str // ''
-    )) ~ "\n";
+    $doc ~= $xpath.find( 'doc/text()', :start($e), :!to-list).Str // '';
+    $doc ~= "\n";
 
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
-      $doc ~= $!dtxt.cleanup($!dtxt.modify-text(
-        $xpath.find( 'doc/text()', :start($m), :!to-list).Str // ''
-      )) ~ "\n";
+      $doc ~= $xpath.find( 'doc/text()', :start($m), :!to-list).Str // '';
+      $doc ~= "\n";
     }
   }
 
@@ -862,15 +873,14 @@ method document-bitfield ( @bitfield-names --> Str ) {
 
     my Str $bitfield-doc =
       $xpath.find( 'doc/text()', :start($e), :!to-list).Str // '';
-    $doc ~= $!dtxt.cleanup($!dtxt.modify-text($bitfield-doc)) ~ "\n";
+    $doc ~= $bitfield-doc ~ "\n";
     $doc ~= "\n";
 
     my @members = $xpath.find( 'member', :start($e), :to-list);
     for @members -> $m {
       $doc ~= '=item C<' ~ $m.attribs<c:identifier> ~ '>; ';
-      $doc ~= $!dtxt.cleanup($!dtxt.modify-text(
-        $xpath.find( 'doc/text()', :start($m), :!to-list).Str // ''
-      )) ~ "\n";
+      $doc ~= $xpath.find( 'doc/text()', :start($m), :!to-list).Str // '';
+      $doc ~= "\n";
     }
   }
 
@@ -1076,9 +1086,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
 
-      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
-        "=item \$$parameter<name>; $own$parameter<doc>\n";
-      ));
+      $result<items-doc> =  "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
     when 'CArray[Str]' {
@@ -1090,9 +1098,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
 
-      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
-        "=item \$$parameter<name>; $own$parameter<doc>\n"
-      ));
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
     when 'CArray[gint]' {
@@ -1104,12 +1110,8 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         if ?$parameter<transfer-ownership> and
           $parameter<transfer-ownership> ne 'none';
 
-      $result<returns-doc> = $!dtxt.cleanup($!dtxt.modify-text(
-        "=item \$$parameter<name>; $own$parameter<doc>\n"
-      ));
-      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
-        "=item \$$parameter<name>; $own$parameter<doc>\n"
-      ));
+      $result<returns-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
+      $result<items-doc> = "=item \$$parameter<name>; $own$parameter<doc>\n";
     }
 
     # Callback function spec
@@ -1123,9 +1125,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
       $doc ~= '. Tthe function must be specified with following signature; C<' ~ $xtype ~ '>.';
       $result<raku-list> = ", \&$parameter<name>";
-      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
-        "=item \&$parameter<name>; $doc\n"
-      ));
+      $result<items-doc> = "=item \&$parameter<name>; $doc\n";
     }
 
     # Variable argument lists
@@ -1134,9 +1134,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
       $doc ~~ s/ ','? \s* 'undefined-terminated' //;
       $doc ~= '. Note that each argument must be specified as a type followed by its value!';
       $result<raku-list> = ", …";
-      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text(
-        "=item $parameter<name>; $doc\n"
-      ));
+      $result<items-doc> = "=item $parameter<name>; $doc\n";
     }
 
     default {
@@ -1149,7 +1147,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
         "=item \$$parameter<name>; $own$parameter<doc>."
       );
       $result<raku-list> = $l;
-      $result<items-doc> = $!dtxt.cleanup($!dtxt.modify-text($d));
+      $result<items-doc> = $d;
     }
   }
 
@@ -1212,7 +1210,7 @@ method start-document ( Str $type-letter = '' --> Str ) {
     RAKUDOC
 }}
 
-  my Str $class-name = $!mod.set-object-name(
+  my Str $class-name = $!solve.set-object-name(
     %( :$type-letter, :type-name($*work-data<raku-name>))
   );
   "$*command-line\nuse v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
@@ -1223,7 +1221,7 @@ method !set-inherit-example ( XML::Element $element --> Str ) {
 
   my Str $doc = '';
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
+  my Hash $h = $!solve.search-name($ctype);
 
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
@@ -1474,7 +1472,7 @@ method gobject-value-type ( Str $ctype is copy --> Str ) {
     }
 
     default {
-      my Hash $h = $!mod.search-name($ctype);
+      my Hash $h = $!solve.search-name($ctype);
       if ?$h<gir-type> {
         $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
         $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';

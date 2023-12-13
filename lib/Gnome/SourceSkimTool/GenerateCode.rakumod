@@ -10,12 +10,14 @@ use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Prepare;
+use Gnome::SourceSkimTool::Resolve;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::GenerateCode:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Code $!mod;
 has Gnome::SourceSkimTool::Doc $!grd;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 has Str $!filename;
 has Hash $!filedata;
@@ -24,7 +26,7 @@ has Hash $!filedata;
 submethod BUILD ( Str :$!filename ) {
   $!mod .= new;
 
-  self!get-data-from-filename;
+  $!filedata = $!solve.new.get-data-from-filename($!filename);
 }
 
 #-------------------------------------------------------------------------------
@@ -281,6 +283,8 @@ method generate-code ( ) {
   }
 }
 
+
+=finish
 #-------------------------------------------------------------------------------
 # Fill the Hash $!filedata with data from a repo-object-map.yaml where the
 # 'source-filename' field of every object must match $filename. The data is

@@ -10,6 +10,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Test;
 use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::Code;
+use Gnome::SourceSkimTool::Resolve;
 
 #use XML;
 #use XML::XPath;
@@ -20,6 +21,7 @@ unit class Gnome::SourceSkimTool::GenerateTest:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Test $!tst;
 has Gnome::SourceSkimTool::Code $!mod;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 #has XML::XPath $!xpath;
 
@@ -31,7 +33,7 @@ submethod BUILD ( Str :$!filename ) {
   $!mod .= new;
   $!tst .= new;
 
-  self!get-data-from-filename;
+  $!filedata = $!solve.new.get-data-from-filename($!filename);
 }
 
 #-------------------------------------------------------------------------------
@@ -311,6 +313,8 @@ note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
   }
 }
 
+
+=finish
 #-------------------------------------------------------------------------------
 # Fill the Hash $!filedata with data from a repo-object-map.yaml where the
 # 'source-filename' field of every object must match $filename. The data is
