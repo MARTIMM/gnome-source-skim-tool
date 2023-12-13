@@ -2,25 +2,41 @@
 use v6.d;
 
 use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::Code;
+use Gnome::SourceSkimTool::Resolve;
 
 use YAMLish;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::DocText:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::Code $!mod;
+has Gnome::SourceSkimTool::Resolve $!solve;
+
+my Int $ex-counter = 0;
+my Hash $examples = %();
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
-  $!mod .= new;
+  $!solve .= new;
+}
+
+#-------------------------------------------------------------------------------
+method add-example-code ( Str $example --> Str ) {
+
+  my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
+
+  # Store example in hash
+  $examples{$ex-key} = qq:to/EOEX/;
+    =begin comment
+    $example
+    =end comment
+    EOEX
+
+  $ex-key
 }
 
 #-------------------------------------------------------------------------------
 method modify-text ( Str $text is copy --> Str ) {
-
-  return '' unless ?$text;
 
   # Gtk version 4 docs have specifications which differ from previous versions.
   # It uses a spec like e.g. '[enum@Gtk.License]'. GtkLicense is defined with
@@ -52,8 +68,8 @@ method modify-text ( Str $text is copy --> Str ) {
 
   # Do not modify text whithin example code. C code is to be changed
   # later anyway and on other places like in XML examples it must be kept as is.
-  my Int $ex-counter = 0;
-  my Hash $examples = %();
+#  my Int $ex-counter = 0;
+#  my Hash $examples = %();
 
   # Some types are better specified in version 4 and can be translated better.
   # Properties are not documented but can be referenced from other docs.
@@ -69,19 +85,14 @@ CONTROL {
   }
 }
 
+  say "Convert example code" if  $*verbose;
   # New type code section is using markdown; "``` code ```".
   my token new-type-code-section { <-[\`]>+ }
-  my regex new-code-regex { '```' <new-type-code-section> '```' }
+  my regex new-code-regex { '```' \w* \n <new-type-code-section> '```' }
   while $text ~~ / <new-code-regex> /  {
-    my Str $example = $/<new-code-regex><new-type-code-section>.Str;
-    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
-
-    # Store example in hash
-    $examples{$ex-key} = q:to/EOEX/;
-      =begin comment
-      $example;
-      =end comment
-      EOEX
+    my Str $ex-key = self.add-example-code(
+      $/<new-code-regex><new-type-code-section>.Str
+    );
 
     # Modify with an example key
     $text ~~ s/ <new-code-regex> /$ex-key/;
@@ -91,54 +102,65 @@ CONTROL {
   my token old-type-code-section { .*? }
   my regex old-code-regex { '|[' <old-type-code-section> ']|' }
   while $text ~~ / <old-code-regex> / {
-    my Str $example = $/<old-code-regex><old-type-code-section>.Str;
-    my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
-
-    # Store example in hash
-    $examples{$ex-key} = q:to/EOEX/;
-      =begin comment
-      $example;
-      =end comment
-      EOEX
+    my Str $ex-key = self.add-example-code(
+      $/<new-code-regex><new-type-code-section>.Str
+    );
 
     # Modify with an example key
     $text ~~ s/ <old-code-regex> /$ex-key/;
   }
 
+  say "Convert signal text" if  $*verbose;
   $text = self!modify-v4signals($text);
   $text = self!modify-signals($text);
 
-  $text = self!modify-v4methods($text);
-
-  $text = self!modify-v4functions($text);
-  $text = self!modify-functions($text);
-
+  say "Convert property text" if  $*verbose;
   $text = self!modify-v4properties($text);
 #  $text = self!modify-properties($text);
 
+  say "Convert constructors and methods text" if  $*verbose;
+  $text = self!modify-v4methods($text);
+
+  say "Convert functions text" if  $*verbose;
+  $text = self!modify-v4functions($text);
+  $text = self!modify-functions($text);
+
+  say "Convert enumerations text" if  $*verbose;
   $text = self!modify-v4enum($text);
 
-  # Classes can not be processed before signals and properties
+  say "Convert structure text" if  $*verbose;
+  $text = self!modify-v4structure($text);
+
+  say "Convert loose ends" if  $*verbose;
+#  $text = self!modify-v4rest($text);
+  $text = self!modify-rest($text);
+
+  # Classes can not be processed before signals, properties and other stuf
   # because of used '::' and ':'
+  say "Convert class text" if  $*verbose;
   $text = self!modify-v4classes($text);
   $text = self!modify-classes($text);
 
-  $text = self!modify-v4rest($text);
-  $text = self!modify-rest($text);
-
-
+  say "Convert variables text" if  $*verbose;
   $text = self!modify-variables($text);
+
+  say "Convert markdown text" if  $*verbose;
   $text = self!modify-markdown-links($text);
+
+  say "Convert XML text" if  $*verbose;
   $text = self!modify-xml($text);
 
   if ?$examples {
-    # Subtitute the examples back into the text before we can finally modify it
+    say "Insert saved example text" if $*verbose;
+
+    # Get examples from file if exists
     my $example-file = [~] $*work-data<result-code-sections>,
                           $*gnome-class, '.yaml';
     my Hash $external-examples = %();
-    $external-examples =
-      load-yaml($example-file.IO.slurp) if $example-file.IO.r;
+    $external-examples = load-yaml($example-file.IO.slurp)
+      if $example-file.IO.r;
 
+    # Subtitute the examples back into the text before we can finally modify it
     if ?$external-examples {
       for $examples.keys -> $ex-key {
         my Str $t = $external-examples{$ex-key};
@@ -204,8 +226,8 @@ method !modify-v4properties ( Str $text is copy --> Str ) {
     }
 
     else {
-      my Hash $h = $!mod.search-name("$package$class");
-      my Str $classname = $!mod.set-object-name($h);
+      my Hash $h = $!solve.search-name("$package$class");
+      my Str $classname = $!solve.set-object-name($h);
       $text ~~ s/ <prop-regex> /I<$propname defined in $classname>/;
     }
   }
@@ -250,8 +272,8 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     }
 
     else {
-      my Hash $h = $!mod.search-name($package ~ $class);
-      my $classname = $!mod.set-object-name($h);
+      my Hash $h = $!solve.search-name($package ~ $class);
+      my $classname = $!solve.set-object-name($h);
       $text ~~ s/ <mfunc-regex> /C<.$funcname\(\) in class $classname>/;
     }
   }
@@ -270,8 +292,8 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     }
 
     else {
-      my Hash $h = $!mod.search-name($package ~ $class);
-      my $classname = $!mod.set-object-name($h);
+      my Hash $h = $!solve.search-name($package ~ $class);
+      my $classname = $!solve.set-object-name($h);
       $text ~~ s/ <cfunc-regex> /C<.$funcname\(\) in class $classname>/;
     }
   }
@@ -328,11 +350,11 @@ method !modify-v4functions ( Str $text is copy --> Str ) {
 #note $/.gist;
     $package = $/<func-regex><package>.Str;
     $funcname = $/<func-regex><funcname>.Str;
-    my Hash $h = $!mod.search-name($funcname);
+    my Hash $h = $!solve.search-name($funcname);
     $funcname ~~ s:g/ '_' /-/;
 #note "$?LINE $funcname, $package";
     if ?$h {
-      my $classname = $!mod.set-object-name($h);
+      my $classname = $!solve.set-object-name($h);
       $text ~~ s/ <func-regex> /C<.$funcname\(\) in class $classname>/;
     }
 
@@ -390,90 +412,48 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
 
 #-------------------------------------------------------------------------------
 # Convert [enum@Gtk.Overflow]
-
 method !modify-v4enum ( Str $text is copy --> Str ) {
 
-  my Str $package = $*gnome-package.Str;
-  my Str $prefix = $*work-data<name-prefix>.tc;
-  my Str $gname = $*work-data<gnome-name>;
-  $gname ~~ s/^ $prefix //;
-
-  # Enums within same module/class
-  $text ~~ s:g/ '[' enum '@' $prefix '.' (<-[\.]>+) ']' /C<$prefix$0> enumeration/;
+  my token prefix { <-[\.\]]>+ }
+  my token enumname { <-[\]]>+ }
+  my regex enum { '[enum@' <prefix> '.' <enumname> ']' }
+  while $text ~~ m/ <enum> / {
+    my Str $prefix = $/<enum><prefix>.Str;
+    my Str $enumname = $/<enum><enumname>.Str;
+    my Hash $h = $!solve.search-name($prefix ~ $enumname);
+    if ?$h {
+      my $classname = $!solve.set-object-name($h);
+      $text ~~ s/ <enum> / C<enumeration $enumname from $classname> /;
+    }
+    
+    else {
+      $text ~~ s/ <enum> / C<enumeration $enumname> /;
+    }
+  }
 
   $text
 }
 
 #-------------------------------------------------------------------------------
-# Modify rest
+# Convert [struct@Pango.Attribute]
+method !modify-v4structure ( Str $text is copy --> Str ) {
 
-method !modify-v4rest ( Str $text is copy --> Str ) {
-
-  # Gnome seems to use markdown directly too to say it is a class like
-  # `GtkShortcutTrigger` or an enumeration like `PangoEllipsizeMode` and
-  # maybe more of that mumbo jumbo.
-  my token name { <-[`]>+ }
-  my regex name-regex { '`' <name> '`' }
-  while $text ~~ m/ <name-regex> / {
-    my Str $name = $/<name-regex><name>.Str;
-    my Hash $h = $!mod.search-name($name);
-    my Str $classname;
+  my token prefix { <-[\.\]]>+ }
+  my token structname { <-[\]]>+ }
+  my regex struct { '[struct@' <prefix> '.' <structname> ']' }
+  while $text ~~ m/ <struct> / {
+    my Str $prefix = $/<struct><prefix>.Str;
+    my Str $structname = $/<struct><structname>.Str;
+    my Hash $h = $!solve.search-name($prefix ~ $structname);
     if ?$h {
-      $classname = $!mod.set-object-name($h);
-      given $h<gir-type> {
-        when 'class' {
-          $text ~~ s/ <name-regex> /B<$classname>/;
-        }
-
-        when 'enumeration' {
-          $text ~~ s/ <name-regex> /C<enumeration $name defined in $classname>/;
-        }
-
-        when 'bitfield' {
-          $text ~~ s/ <name-regex> /C<bit field $name defined in $classname>/;
-        }
-
-        default {
-          $text ~~ s/ <name-regex> /U<$classname>/;
-        }
-      }
+      my $classname = $!solve.set-object-name($h);
+      $text ~~ s/ <struct> / B<$classname> /;
     }
     
     else {
-      $classname = $name;
-      $text ~~ s/ <name-regex> /B<$classname>/;
+      $text ~~ s/ <struct> / B<$structname> /;
     }
   }
-
-  # Literals changes
-  $text ~~ s:g/ '`' TRUE '`' /C<True>/;
-  $text ~~ s:g/ '`' FALSE '`' /C<False>/;
-
-  if $text ~~ / '`NULL`' / {
-    $text ~~ s:g/ '`NULL`-terminated' \s* (\w+) \s* array /$0 array/;
-    $text ~~ s:g/ '`NULL`-terminated' \s* array \s* of (\w+) /$0 array/;
-    $text ~~ s:g/ not \s '`NULL`' /defined/;
-    $text ~~ s:g/ '`NULL`' /undefined/;
-  }
-
-  # Older methods shines through
-  if $text ~~ / '%NULL' / {
-    $text ~~ s:g/ \% NULL \- terminated \s* (\w+) \s* array /$0 array/;
-    $text ~~ s:g/ \% NULL \- terminated \s* array \s* of \s* (\w+) /$0 array/;
-    $text ~~ s:g/ not \s* \% NULL /defined/;
-    $text ~~ s:g/ \% NULL /undefined/;
-  }
-
-  # Markdown backtick changes
-  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
-    my Str $word = self!modify-word($/<word>.Str);
-    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
-  }
-
-  # Markdown Sections
-  $text ~~ s:g/^^ '###' \s+ (\w) /=head3 $0/;
-  $text ~~ s:g/^^ '##' \s+ (\w) /=head2 $0/;
-  $text ~~ s:g/^^ '#' \s+ (\w) /=head1 $0/;
 
   $text
 }
@@ -516,10 +496,10 @@ method !modify-word ( Str $text is copy --> Str ) {
   $text
 }
 
-
 #-------------------------------------------------------------------------------
 # Convert '::sig-name'
 method !modify-signals ( Str $text is copy --> Str ) {
+return $text;
 
   my Str $gnome-name = $*work-data<gnome-name>;
   my token classname { [\w+] }
@@ -541,11 +521,11 @@ method !modify-signals ( Str $text is copy --> Str ) {
 #    }
 
     else {
-      my Hash $h = $!mod.search-name($classname);
+      my Hash $h = $!solve.search-name($classname);
 #note "$?LINE $classname, $h.gist()";
 #exit;
       if ?$h {
-        $classname = $!mod.set-object-name($h);
+        $classname = $!solve.set-object-name($h);
         $text ~~ s:g/ <signal> /I<$signal-name defined in $classname>/;
       }
 
@@ -573,9 +553,9 @@ note "$?LINE $/.gist()";
 
     my Str $classname;
     my Str $funcname = $/<func-regex><name>.Str;
-    my Hash $h = $!mod.search-name($funcname);
+    my Hash $h = $!solve.search-name($funcname);
     if ?$h {
-      $classname = $!mod.set-object-name($h);
+      $classname = $!solve.set-object-name($h);
 note "$?LINE $funcname, $classname, $h.gist()";
     }
 
@@ -618,7 +598,7 @@ note "$?LINE $funcname, $classname, $h.gist()";
 
   while $text ~~ $r {
     my Str $function-name = $<function-name>.Str;
-    my Hash $h = $!mod.search-name($function-name);
+    my Hash $h = $!solve.search-name($function-name);
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
     
@@ -657,6 +637,29 @@ method !modify-markdown-links ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 method !modify-classes ( Str $text is copy --> Str ) {
 
+# single letter is matched too easily with many words
+# | [ G <!before [ 'nome' | 'TK' ] > ]
+  my token package {
+    <!after ['Gnome::' | '%'] >
+    [ Atk | Gtk | Gdk | Gsk | PangoCairo | Pango | Cairo | G
+    ]
+  }
+
+  my token classname { <[a..zA..Z]>+ }
+  my regex class-regex { '#' <package> <classname> }
+
+  while $text ~~ m/ <class-regex> / {
+#note "$?LINE $/.gist()\n\n";
+    my Str $package = $/<class-regex><package>.Str;
+    my Str $classname = $/<class-regex><classname>.Str;
+
+    my Hash $h = $!solve.search-name($package ~ $classname);
+#note "$?LINE $h.gist()";
+    $classname = $!solve.set-object-name($h);
+    $text ~~ s/ <class-regex> /B<$classname>/;
+  }
+
+#`{{
   # When classnames are found (or not) a zero width space is inserted just
   # before the word to prevent finding this word (or part of it again when not
   # substituted. See also https://invisible-characters.com/.
@@ -670,8 +673,9 @@ method !modify-classes ( Str $text is copy --> Str ) {
                 /;
 
   while $text ~~ $r {
+enumeration
     my Str $class-name = $<class-name>.Str;
-    my Hash $h = $!mod.search-name($class-name);
+    my Hash $h = $!solve.search-name($class-name);
 
     if ?$h<gir-type> and $h<gir-type> eq 'enumeration' {
       $text ~~ s:g/ '#'? $class-name /C<\x200B$class-name enumeration>/;
@@ -682,7 +686,7 @@ method !modify-classes ( Str $text is copy --> Str ) {
     }
     
     elsif ?$h<type-name> {
-      my Str $name = $!mod.set-object-name($h);
+      my Str $name = $!solve.set-object-name($h);
       $text ~~ s:g/ '#'? $class-name /B<\x200B$name>/;
     }
 
@@ -693,6 +697,7 @@ method !modify-classes ( Str $text is copy --> Str ) {
 
   # After all work remove the zero width space marker
   $text ~~ s:g/ \x200B //;
+}}
 
   $text
 }
@@ -701,12 +706,77 @@ method !modify-classes ( Str $text is copy --> Str ) {
 # Modify rest
 method !modify-rest ( Str $text is copy --> Str ) {
 
-  # variable changes
+  # Gnome seems to use markdown directly too to say it is a class like
+  # `GtkShortcutTrigger` or an enumeration like `PangoEllipsizeMode` and
+  # maybe more of that mumbo jumbo.
+  my token name { <-[`]>+ }
+  my regex name-regex { '`' <name> '`' }
+  while $text ~~ m/ <name-regex> / {
+#note "$?LINE $/.gist()";
+    my Str $name = $/<name-regex><name>.Str;
+    my Hash $h = $!solve.search-name($name);
+#note "$?LINE $name, $h.gist()" if $name ~~ /Justification/;
+    if ?$h {
+      my Str $classname = $!solve.set-object-name($h);
+      given $h<gir-type> {
+        when 'class' {
+          $text ~~ s/ <name-regex> /B<$classname>/;
+        }
+
+        when 'enumeration' {
+          $text ~~ s/ <name-regex> /C<enumeration $name defined in $classname>/;
+        }
+
+        when 'bitfield' {
+          $text ~~ s/ <name-regex> /C<bit field $name defined in $classname>/;
+        }
+
+        default {
+          $text ~~ s/ <name-regex> /U<$classname>/;
+        }
+      }
+    }
+
+    else {
+      $text ~~ s/ <name-regex> /B<$name>/;
+    }
+  }
+
+  # New type literal changes
+  $text ~~ s:g/ '`' TRUE '`' /C<True>/;
+  $text ~~ s:g/ '`' FALSE '`' /C<False>/;
+
+  if $text ~~ / '`NULL`' / {
+    $text ~~ s:g/ '`NULL`-terminated' \s* (\w+) \s* array /$0 array/;
+    $text ~~ s:g/ '`NULL`-terminated' \s* array \s* of (\w+) /$0 array/;
+    $text ~~ s:g/ not \s '`NULL`' /defined/;
+    $text ~~ s:g/ '`NULL`' /undefined/;
+  }
+
+  # Markdown backtick changes
+  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
+    my Str $word = self!modify-word($/<word>.Str);
+    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
+  }
+
+  # Old type literal changes
   $text ~~ s:g/ '%' TRUE /C<True>/;
   $text ~~ s:g/ '%' FALSE /C<False>/;
-  $text ~~ s:g/ '%' NULL /C<Nil>/;
 
-  # sections
+  # Old type with '%' prefix
+  if $text ~~ / '%NULL' / {
+    $text ~~ s:g/ \% NULL \- terminated \s* (\w+) \s* array /$0 array/;
+    $text ~~ s:g/ \% NULL \- terminated \s* array \s* of \s* (\w+) /$0 array/;
+    $text ~~ s:g/ not \s* \% NULL /defined/;
+    $text ~~ s:g/ \% NULL /undefined/;
+  }
+
+  # Other types found like %GTK_ACCESSIBLE_ROLE_LABEL
+  $text ~~ s:g/ '%' (<alpha>+) <|w> /C<$0>/;
+
+  # Markdown Sections
+  $text ~~ s:g/^^ '###' \s+ (\w) /=head4 $0/;
+  $text ~~ s:g/^^ '##' \s+ (\w) /=head3 $0/;
   $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
 
   # types
@@ -813,6 +883,67 @@ method !modify-properties ( Str $text is copy --> Str ) {
     else {
       $text ~~ s:g/ '#'? $cname':' $pname /I<property $pname defined in $cname>/;
     }
+  }
+
+  $text
+}
+
+#-------------------------------------------------------------------------------
+# Modify rest
+method !modify-v4rest ( Str $text is copy --> Str ) {
+
+  # Gnome seems to use markdown directly too to say it is a class like
+  # `GtkShortcutTrigger` or an enumeration like `PangoEllipsizeMode` and
+  # maybe more of that mumbo jumbo.
+  my token name { <-[`]>+ }
+  my regex name-regex { '`' <name> '`' }
+  while $text ~~ m/ <name-regex> / {
+note "$?LINE $/.gist()";
+    my Str $name = $/<name-regex><name>.Str;
+    my Hash $h = $!solve.search-name($name);
+    my Str $classname;
+    if ?$h {
+      $classname = $!solve.set-object-name($h);
+      given $h<gir-type> {
+        when 'class' {
+          $text ~~ s/ <name-regex> /B<$classname>/;
+        }
+
+        when 'enumeration' {
+          $text ~~ s/ <name-regex> /C<enumeration $name defined in $classname>/;
+        }
+
+        when 'bitfield' {
+          $text ~~ s/ <name-regex> /C<bit field $name defined in $classname>/;
+        }
+
+        default {
+          $text ~~ s/ <name-regex> /U<$classname>/;
+        }
+      }
+    }
+
+    else {
+      $classname = $name;
+      $text ~~ s/ <name-regex> /B<$classname>/;
+    }
+  }
+
+  # Literals changes
+  $text ~~ s:g/ '`' TRUE '`' /C<True>/;
+  $text ~~ s:g/ '`' FALSE '`' /C<False>/;
+
+  if $text ~~ / '`NULL`' / {
+    $text ~~ s:g/ '`NULL`-terminated' \s* (\w+) \s* array /$0 array/;
+    $text ~~ s:g/ '`NULL`-terminated' \s* array \s* of (\w+) /$0 array/;
+    $text ~~ s:g/ not \s '`NULL`' /defined/;
+    $text ~~ s:g/ '`NULL`' /undefined/;
+  }
+
+  # Markdown backtick changes
+  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
+    my Str $word = self!modify-word($/<word>.Str);
+    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
   }
 
   $text
