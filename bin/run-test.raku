@@ -1,7 +1,10 @@
 #!/usr/bin/env raku
 
 use v6.d;
+use YAMLish;
+use Gnome::SourceSkimTool::Prepare;
 
+#-------------------------------------------------------------------------------
 #constant $API1MODS is export = '..';
 constant $API2MODS is export = 'gnome-api2';
 
@@ -17,11 +20,24 @@ my Hash $test-location = %(
 );
 
 #-------------------------------------------------------------------------------
-multi sub MAIN ( Str $l, Str $t, Bool :$c = False ) {
+multi sub MAIN ( Str $l, Str $t, Bool :$c = False, Bool :$y = False ) {
 
   my Str $test-file;
+  
+  # --y load documentation example yaml file to see if it can
+  # be loaded correctly
+  if $y {
+    $test-file = "$API2MODS/$test-location{$l}/doc/code-sections/$t.yaml";
+    my Hash $h = load-yaml($test-file.IO.slurp);
+    Gnome::SourceSkimTool::Prepare.display-hash(
+      $h, :label<List of example data>
+    );
+
+    exit(0);
+  }
+
   # --c compile module to see if there are problems when there is no test file
-  if $c {
+  elsif $c {
     $test-file = "$API2MODS/$test-location{$l}/lib/Gnome/$l/$t.rakumod";
   }
 
