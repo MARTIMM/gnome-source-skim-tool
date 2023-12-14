@@ -73,6 +73,7 @@ method !set-uml ( --> Str ) {
   # New pod does but is not yet ready.
   # add-example-code() returns a key and is text to be returned
   $!dtxt.add-example-code(q:to/EOEX/);
+
     =head2 Uml Diagram
     ![](plantuml/….svg)
     EOEX
@@ -92,11 +93,11 @@ method !set-uml ( --> Str ) {
 #-------------------------------------------------------------------------------
 method !set-example ( --> Str ) {
   # add-example-code() returns a key and is text to be returned
-  $!dtxt.add-example-code(q:to/EOEX/);
+  $!dtxt.add-example-code(qq:to/EOEX/);
+
     =head2 Example
-      … text …
-      … example code …
-      EOEX
+    # Example use of module $*work-data<raku-class-name>
+    EOEX
 }
 
 #`{{
@@ -198,12 +199,21 @@ method document-constructors (
     # remove first comma
     $raku-list ~~ s/^ . //;
 
+    # add-example-code() returns a key
+    my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
+
+      =head2 Example
+      # Example for $method-name
+      EOEX
+
     $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}{$curr-function<missing-type> ?? "\n#`\{\{" !! ''}
+      {HLSEPARATOR}
       =begin pod
+      {$curr-function<missing-type> ?? "This function is not yet available" !! ''}
       =head2 $method-name
 
       $method-doc
+      $ex-key
 
       =begin code
       method $method-name \($raku-list --> $*work-data<raku-class-name> \)
@@ -211,7 +221,6 @@ method document-constructors (
 
       $items-doc
       =end pod
-      {$curr-function<missing-type> ?? "\}\}" !! ''}
 
       EOSUB
   }
@@ -315,13 +324,22 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
     $raku-list ~~ s/^ . //;
 
 #note "$?LINE $curr-function<missing-type>, {$curr-function<missing-type> ?? "\n#`\{\{\n" !! ''}";
+    # add-example-code() returns a key
+    my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
+
+      =head2 Example
+      # Example for $native-sub
+      EOEX
+
     $doc ~= qq:to/EOSUB/;
-      {HLSEPARATOR}{$curr-function<missing-type> ?? "\n#`\{\{" !! ''}
+      {HLSEPARATOR}
       =begin pod
+      {$curr-function<missing-type> ?? "This function is not yet available" !! ''}
 
       =head2 $native-sub
 
       $native-sub-doc
+      $ex-key
 
       =begin code
       method $native-sub \($raku-list \)
@@ -329,7 +347,6 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 
       $items-doc$returns-doc
       =end pod
-      {$curr-function<missing-type> ?? "\}\}" !! ''}
 
       EOSUB
   }
@@ -660,12 +677,21 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
     for $signals.keys.sort -> $signal-name {
       my Hash $curr-signal := $signals{$signal-name};
+
+      # add-example-code() returns a key
+      my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
+
+        =head2 Example
+        # Example for signal $signal-name
+        EOEX
+
       $doc ~= qq:to/EOSIG/;
 
         {HLPODSEPARATOR}
         =head3 $signal-name
 
         $curr-signal<sdoc>
+        $ex-key
 
         =begin code
         method handler \(
@@ -1144,7 +1170,7 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 
       my Str ( $l, $d ) = self.check-special(
         $xtype, $parameter<name>,
-        "=item \$$parameter<name>; $own$parameter<doc>."
+        "=item \$$parameter<name>; $own$parameter<doc>.\n"
       );
       $result<raku-list> = $l;
       $result<items-doc> = $d;

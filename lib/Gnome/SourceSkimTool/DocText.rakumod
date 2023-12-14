@@ -23,7 +23,8 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 method add-example-code ( Str $example --> Str ) {
 
-  my Str $ex-key = '____EXAMPLE____' ~ $ex-counter++;
+  my Str $ex-key = '____EXAMPLE____' ~ $ex-counter.fmt('%03d');
+  $ex-counter++;
 
   # Store example in hash
   $examples{$ex-key} = qq:to/EOEX/;
@@ -499,39 +500,29 @@ method !modify-word ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 # Convert '::sig-name'
 method !modify-signals ( Str $text is copy --> Str ) {
-return $text;
 
   my Str $gnome-name = $*work-data<gnome-name>;
   my token classname { [\w+] }
   my token signal-name { <[-\w]>+ }
-  my regex signal { '#'? <classname>? '::' <signal-name> <!before '::'> }
+  my regex signal {
+    [ '#' <classname> '::' <signal-name> | \s '::' <signal-name> ]
+  }
+
   while $text ~~ m/ <signal> / {
 #note "$?LINE $/.gist()";
-    my Str $signal-name = $<signal><signal-name>.Str;
     my Str $classname = $<signal><classname>.Str // '';
-    if !$classname {
-      $text ~~ s/ <signal> /I<$signal-name>/;
+    my Str $signal-name = $<signal><signal-name>.Str;
+    if $classname eq $*work-data<gnome-name> {
+      $text ~~ s/ <signal> / I<$signal-name>/;
     }
 
-    elsif $classname eq $gnome-name {
-      $text ~~ s/ <signal> /I<$signal-name>/;
+    elsif $classname {
+      $text ~~ s/ <signal> 
+                / I<$signal-name defined in $*work-data<raku-class-name>>/;
     }
-
-#    if $classname eq 'Gnome' {
-#    }
 
     else {
-      my Hash $h = $!solve.search-name($classname);
-#note "$?LINE $classname, $h.gist()";
-#exit;
-      if ?$h {
-        $classname = $!solve.set-object-name($h);
-        $text ~~ s:g/ <signal> /I<$signal-name defined in $classname>/;
-      }
-
-      else {
-        $text ~~ s/ <signal> /I<$signal-name>/;
-      }
+      $text ~~ s/ <signal> / I<$signal-name>/;
     }
   }
 
@@ -541,13 +532,10 @@ return $text;
 #-------------------------------------------------------------------------------
 method !modify-functions ( Str $text is copy --> Str ) {
 
-  my Str $sub-prefix = $*work-data<sub-prefix>;
-  my Str $raku-name = $*work-data<raku-name>.lc;
-
 #`{{
-  my token name { \w+ }
+  my token name { <[\w\-]>+ }
   my token bracks { '()' }
-  my regex func-regex { <name> <bracks> }
+  my regex func-regex { <|w> <!after 'C<' > <name> <bracks> <|w> }
   while $text ~~ m/ <func-regex> / {
 note "$?LINE $/.gist()";
 
@@ -557,25 +545,19 @@ note "$?LINE $/.gist()";
     if ?$h {
       $classname = $!solve.set-object-name($h);
 note "$?LINE $funcname, $classname, $h.gist()";
+      $text ~~ s/ <func-regex> /C<$funcname\(\) defined in $classname>/;
     }
 
     else {
-      $classname = $funcname;
+      $text ~~ s/ <func-regex> /C<$funcname\(\)>/;
     }
-
-#`{{
-    if $funcname ~~ m/ new $/ {
-
-      $text ~~ s/ <func-regex> /C<
-    }
-
-    else {
-    }
-}}
   }
 }}
 
 ##`{{
+  my Str $sub-prefix = $*work-data<sub-prefix>;
+  my Str $raku-name = $*work-data<raku-name>.lc;
+
   # When a local function has '_new' at the end in the text, convert it into
   # a different name. E.g. 'gtk_label_new()' becomes '.new-label()'
   $text ~~ s:g/ $sub-prefix new '()' /C<.new-$raku-name\(\)>/;
@@ -601,7 +583,7 @@ note "$?LINE $funcname, $classname, $h.gist()";
     my Hash $h = $!solve.search-name($function-name);
     my Str $package-name = $h<raku-package> // '';
     my Str $raku-name = $h<rname> // '';
-    
+
     if ?$raku-name {
       $text ~~ s:g/ $function-name\(\) 
                   /C<\x200B$raku-name\(\) function from $package-name>/;
@@ -801,14 +783,14 @@ method !modify-xml ( Str $text is copy --> Str ) {
 #-------------------------------------------------------------------------------
 method cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 #  $text = self.scan-for-unresolved-items($text);
-  $text ~~ s:g/ ' '+ / /;
-  $text ~~ s:g/ <|w> \n <|w> / /;
+#  $text ~~ s:g/ ' '+ / /;              # wrong indenting
+#  $text ~~ s:g/ <|w> \n <|w> / /;      # wrong 
   $text ~~ s:g/ \n ** 3..* /\n\n/;
 
-  if $trim {
-    $text ~~ s/^ \s+ //;
-    $text ~~ s/ \s+ $//;
-  }
+#  if $trim {
+#    $text ~~ s:g/^^ \s+ //;             # wrong indenting
+#    $text ~~ s:g/ \s+ $$//;
+#  }
 
   $text
 }
