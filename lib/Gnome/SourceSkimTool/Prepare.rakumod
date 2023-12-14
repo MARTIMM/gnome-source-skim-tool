@@ -9,8 +9,6 @@ use Gnome::SourceSkimTool::ConstEnumType;
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::Prepare:auth<github:MARTIMM>;
 
-has Int $!indent-level;
-
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
@@ -452,49 +450,50 @@ method drop-prefix (
   $prefixed-name
 }
 
-#-------------------------------------------------------------------------------
-multi method display-hash ( $info, Str :$label ) {
 
-  $!indent-level = 0;
+#-------------------------------------------------------------------------------
+method display-hash ( $info, :label($label-list) ) {
+  my Str $label = $label-list ~~ List ?? $label-list.join(' ') !! $label-list;
+  display-hash-init( $info, :$label);
+}
+
+#-------------------------------------------------------------------------------
+sub display-hash-init ( $info, Str :$label ) {
+
+  my Int $indent-level = 0;
   say '';
 
   if $info ~~ Array {
-    self!dhash(%($info.kv));
+    display-hash-show( $indent-level, %($info.kv));
   }
 
   elsif ?$label {
-    self!dhash(%($label => $info));
+    display-hash-show( $indent-level, %($label => $info));
   }
 
   else {
-    self!dhash(%(:gen-item($info)));
+    display-hash-show( $indent-level, %(:gen-item($info)));
   }
 }
 
 #-------------------------------------------------------------------------------
-multi method display-hash ( $info, List :label($label-list) ) {
-  my Str $label = $label-list.join(' ');
-  self.display-hash( $info, :$label);
-}
-
-#-------------------------------------------------------------------------------
-method !dhash ( Hash $info ) {
+sub display-hash-show ( Int $indent-level is copy, Hash $info ) {
 
   for $info.keys.sort -> $k {
-#    say '' if $!indent-level == 0;
+#    say '' if $indent-level == 0;
     if $info{$k} ~~ Hash {
-      say '  ' x $!indent-level, $k, ':';
-      $!indent-level++;
-      self!dhash($info{$k});
-      $!indent-level--;
+      say '  ' x $indent-level, $k, ':';
+      $indent-level++;
+      display-hash-show( $indent-level, $info{$k});
+      $indent-level--;
     }
 
     elsif $info{$k} ~~ Array {
-      self!dhash(%($info.kv));
+      display-hash-show( $indent-level, %($info.kv));
     }
 
     else {
-      say '  ' x $!indent-level, $k, ': ', $info{$k}.gist;
+      say '  ' x $indent-level, $k, ': ', $info{$k}.gist;
     }
   }
 }
