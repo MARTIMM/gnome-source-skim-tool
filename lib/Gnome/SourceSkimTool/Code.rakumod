@@ -2394,7 +2394,7 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
   if $save-it {
     if $*generate-doc {
       my Gnome::SourceSkimTool::DocText $dtxt .= new;
-      $content = $dtxt.cleanup($dtxt.modify-text($content));
+      $content = $dtxt.modify-text( $filename.IO.basename, $content);
     }
 
     $filename.IO.spurt($content);

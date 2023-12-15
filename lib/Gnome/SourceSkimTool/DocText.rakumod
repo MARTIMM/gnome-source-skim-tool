@@ -11,11 +11,14 @@ unit class Gnome::SourceSkimTool::DocText:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Resolve $!solve;
 
-my Int $ex-counter = 0;
-my Hash $examples = %();
+my Int $ex-counter;
+my Hash $examples;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
+
+  $ex-counter = 0;
+  $examples = %();
 
   $!solve .= new;
 }
@@ -27,17 +30,20 @@ method add-example-code ( Str $example --> Str ) {
   $ex-counter++;
 
   # Store example in hash
-  $examples{$ex-key} = qq:to/EOEX/;
+  $examples{$ex-key} = Q:s:to/EOEX/;
     =begin comment
     $example
     =end comment
     EOEX
 
+#note "$?LINE $ex-key";#, $example, $examples{$ex-key}";
   $ex-key
 }
 
 #-------------------------------------------------------------------------------
-method modify-text ( Str $text is copy --> Str ) {
+method modify-text ( Str $file-basename, Str $text is copy --> Str ) {
+#  $ex-counter = 0;
+#  $examples = %();
 
   # Gtk version 4 docs have specifications which differ from previous versions.
   # It uses a spec like e.g. '[enum@Gtk.License]'. GtkLicense is defined with
@@ -155,16 +161,19 @@ CONTROL {
     say "Insert saved example text" if $*verbose;
 
     # Get examples from file if exists
-    my $example-file = [~] $*work-data<result-code-sections>,
-                          $*gnome-class, '.yaml';
+    my Str $example-file = $file-basename;
+    $example-file ~~ s/ \. <-[\.]>+ $/.yaml/;
+    $example-file = [~] $*work-data<result-code-sections>, $example-file;
     my Hash $external-examples = %();
     $external-examples = load-yaml($example-file.IO.slurp)
       if $example-file.IO.r;
 
-    # Subtitute the examples back into the text before we can finally modify it
+    # Substitute the examples back into the text before we can finally modify it
     if ?$external-examples {
+note "$?LINE $example-file, $examples.keys.elems()";
       for $examples.keys -> $ex-key {
         my Str $t = $external-examples{$ex-key};
+note "$?LINE $ex-key, ", ?$t;
         $text ~~ s/ $ex-key /$t/;
       }
     }
@@ -173,9 +182,6 @@ CONTROL {
       for $examples.keys -> $ex-key {
 
         my Str $t = self!modify-xml($examples{$ex-key});
-#          $t = self!modify-v4examples($t);
-#          $t = self!modify-examples($t);
-
         $text ~~ s/ $ex-key /$t/;
 
         $external-examples{$ex-key} = $t;
@@ -185,12 +191,11 @@ CONTROL {
     }
   }
 
-  $text
+  self!cleanup($text);
 }
 
 #-------------------------------------------------------------------------------
 # Convert [signal@Gtk.AboutDialog::activate-link]
-
 method !modify-v4signals ( Str $text is copy --> Str ) {
 
   my Str $prefix = $*work-data<name-prefix>.tc;
@@ -210,7 +215,6 @@ method !modify-v4signals ( Str $text is copy --> Str ) {
 
 #-------------------------------------------------------------------------------
 # Convert [property@Gtk.AboutDialog:system-information]
-
 method !modify-v4properties ( Str $text is copy --> Str ) {
   my token prelude { '[property@' }
   my token package { <-[\.\:\]]>+ }
@@ -337,7 +341,6 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 
 #-------------------------------------------------------------------------------
 # Convert [func@Gtk.show_uri]
-
 method !modify-v4functions ( Str $text is copy --> Str ) {
   my Str $funcname;
   my Str $package;
@@ -471,13 +474,13 @@ method !modify-word ( Str $text is copy --> Str ) {
     when / $gname / {
       $text ~~ s/ $gname /B<$rname>/;
     }
+}}
 
     # Email, replace AT-sign
-    when / '@' / {
+    when / <|w> '@' <|w> / {
       $text ~~ s/ '@' /\\x0040/;
       $text = "I<$text>";
     }
-}}
 
     # Functions
     when / '()' $/ {
@@ -688,16 +691,56 @@ enumeration
 # Modify rest
 method !modify-rest ( Str $text is copy --> Str ) {
 
+  # New type literal changes
+  $text ~~ s:g/ '`' TRUE '`' /C<True>/;
+  $text ~~ s:g/ '`' FALSE '`' /C<False>/;
+
+  if $text ~~ / '`NULL`' / {
+#note "$?LINE $text";
+    $text ~~ s:g/ '`NULL`-terminated' \s* (\w+) \s* array /$0 array/;
+    $text ~~ s:g/ '`NULL`-terminated' \s* array \s* of (\w+) /$0 array/;
+    $text ~~ s:g/ not \s '`NULL`' /defined/;
+    $text ~~ s:g/ '`NULL`' /undefined/;
+  }
+
+  # Markdown backtick changes
+  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
+    my Str $word = self!modify-word($/<word>.Str);
+    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
+  }
+
+  # Old type literal changes
+  $text ~~ s:g/ '%' TRUE /C<True>/;
+  $text ~~ s:g/ '%' FALSE /C<False>/;
+
+  # Old type with '%' prefix
+  if $text ~~ / '%NULL' / {
+#note "$?LINE $text";
+    $text ~~ s:g/ '%NULL-terminated' \s+ (\w+) \s+ array /$0 array/;
+    $text ~~ s:g/ '%NULL-terminated' \s+ array \s+ of \s+ (\w+) /$0 array/;
+    $text ~~ s:g/ not \s* '%NULL' /defined/;
+    $text ~~ s:g/ '%NULL' /undefined/;
+  }
+
+  # Other types found like %GTK_ACCESSIBLE_ROLE_LABEL
+  $text ~~ s:g/ '%' (<alpha>+) <|w> /C<$0>/;
+
+  # Markdown Sections
+  $text ~~ s:g/^^ '###' \s+ (\w) /=head4 $0/;
+  $text ~~ s:g/^^ '##' \s+ (\w) /=head3 $0/;
+  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
+
+
   # Gnome seems to use markdown directly too to say it is a class like
   # `GtkShortcutTrigger` or an enumeration like `PangoEllipsizeMode` and
   # maybe more of that mumbo jumbo.
   my token name { <-[`]>+ }
   my regex name-regex { '`' <name> '`' }
   while $text ~~ m/ <name-regex> / {
-#note "$?LINE $/.gist()";
+#note "$?LINE $/.gist()" if $text ~~ /NULL/;
     my Str $name = $/<name-regex><name>.Str;
     my Hash $h = $!solve.search-name($name);
-#note "$?LINE $name, $h.gist()" if $name ~~ /Justification/;
+#note "$?LINE $name, $h.gist()";
     if ?$h {
       my Str $classname = $!solve.set-object-name($h);
       given $h<gir-type> {
@@ -723,44 +766,6 @@ method !modify-rest ( Str $text is copy --> Str ) {
       $text ~~ s/ <name-regex> /B<$name>/;
     }
   }
-
-  # New type literal changes
-  $text ~~ s:g/ '`' TRUE '`' /C<True>/;
-  $text ~~ s:g/ '`' FALSE '`' /C<False>/;
-
-  if $text ~~ / '`NULL`' / {
-    $text ~~ s:g/ '`NULL`-terminated' \s* (\w+) \s* array /$0 array/;
-    $text ~~ s:g/ '`NULL`-terminated' \s* array \s* of (\w+) /$0 array/;
-    $text ~~ s:g/ not \s '`NULL`' /defined/;
-    $text ~~ s:g/ '`NULL`' /undefined/;
-  }
-
-  # Markdown backtick changes
-  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
-    my Str $word = self!modify-word($/<word>.Str);
-    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
-  }
-
-  # Old type literal changes
-  $text ~~ s:g/ '%' TRUE /C<True>/;
-  $text ~~ s:g/ '%' FALSE /C<False>/;
-
-  # Old type with '%' prefix
-  if $text ~~ / '%NULL' / {
-    $text ~~ s:g/ \% NULL \- terminated \s* (\w+) \s* array /$0 array/;
-    $text ~~ s:g/ \% NULL \- terminated \s* array \s* of \s* (\w+) /$0 array/;
-    $text ~~ s:g/ not \s* \% NULL /defined/;
-    $text ~~ s:g/ \% NULL /undefined/;
-  }
-
-  # Other types found like %GTK_ACCESSIBLE_ROLE_LABEL
-  $text ~~ s:g/ '%' (<alpha>+) <|w> /C<$0>/;
-
-  # Markdown Sections
-  $text ~~ s:g/^^ '###' \s+ (\w) /=head4 $0/;
-  $text ~~ s:g/^^ '##' \s+ (\w) /=head3 $0/;
-  $text ~~ s:g/^^ '#' \s+ (\w) /=head2 $0/;
-
   # types
   #$text ~~ s:g/ '#' (\w+) /C<$0>/;
 
@@ -781,7 +786,7 @@ method !modify-xml ( Str $text is copy --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
+method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 #  $text = self.scan-for-unresolved-items($text);
 #  $text ~~ s:g/ ' '+ / /;              # wrong indenting
 #  $text ~~ s:g/ <|w> \n <|w> / /;      # wrong 

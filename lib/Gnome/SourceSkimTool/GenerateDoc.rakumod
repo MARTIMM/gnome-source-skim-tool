@@ -11,7 +11,6 @@ use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Prepare;
 use Gnome::SourceSkimTool::Resolve;
 
-
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::GenerateDoc:auth<github:MARTIMM>;
 
@@ -60,7 +59,6 @@ method generate-doc ( ) {
         $raku-module.generate-doc;
       }
     }
-
 
     when 'interface' {
      for $!filedata<interface>.keys -> $interface-name {
@@ -148,13 +146,13 @@ $t-prep.display-hash( $data, :label('type file data'));
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
 #    $filename = [~] $*work-data<result-docs>, $type-name, '.rakudoc';
-#    $filename = $!mod.set-object-name(
+#    $filename = $!solve.set-object-name(
 #      %( :type-name($*work-data<raku-name>), :type-letter<T>),
 #      :name-type(FilenameDocType)
 #    );
-    $filename = $!mod.set-object-name( $data, :name-type(FilenameDocType));
-    $class-name = $!mod.set-object-name($data);
-#    $class-name = $!mod.set-object-name(
+    $filename = $!solve.set-object-name( $data, :name-type(FilenameDocType));
+    $class-name = $!solve.set-object-name($data);
+#    $class-name = $!solve.set-object-name(
 #      %( :type-name($*work-data<raku-name>), :type-letter<T>)
 #    );
     #$data<class-name>;
@@ -200,9 +198,9 @@ $t-prep.display-hash( $data, :label('type file data'));
           @callbacks.push: $k;
         }
 
-note "$?LINE ", @callbacks.gist;
+#note "$?LINE ", @callbacks.gist;
         $types-doc<callback> = $!grd.document-callback(@callbacks);
-note "$?LINE ", $types-doc<callback>;
+#note "$?LINE ", $types-doc<callback>;
       }
 
       when 'function' {
@@ -235,10 +233,6 @@ note "$?LINE ", $types-doc<callback>;
       EODOC
 
     $doc ~= qq:to/EODOC/ if ?$types-doc<function>;
-      =begin pod
-      =head1 $class-name
-      =end pod
-
       {pod-header('Class Initialization')}
       =begin pod
       =head1 Class initialization
@@ -259,7 +253,6 @@ note "$?LINE ", $types-doc<callback>;
                 ($types-doc<function> // '');
 
 
-
     $!mod.save-file( $filename, $doc, "types documentation");
   }
 }
@@ -274,8 +267,8 @@ note "$?LINE ", $types-doc<callback>;
 method !get-data-from-filename ( ) {
 
   my Str $package = S/ \d+ $// with $*gnome-package.Str;
-  $!mod.check-search-list;
-  $!mod.check-map($package);
+  $!solve.check-search-list;
+  $!solve.check-map($package);
   my Hash $h := $*object-maps{$package};
   $!filedata = %();
 

@@ -46,7 +46,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #  $doc ~= self!set-inherit-example($element);
 #  $doc ~= self!set-example;
 
-  qq:to/RAKUDOC/;
+  Q:s:h:c:to/RAKUDOC/;
     $*command-line
     use v6.d;
 
@@ -58,7 +58,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
     $doc
 
-    {self!set-uml if $*gnome-package ~~ any( Gtk3, Gtk4, Gio) }
+    {self!set-uml if $*gnome-package ~~ any( Gtk3, Gtk4, Gio)}
     {self!set-example}
 
     =end pod
@@ -93,7 +93,7 @@ method !set-uml ( --> Str ) {
 #-------------------------------------------------------------------------------
 method !set-example ( --> Str ) {
   # add-example-code() returns a key and is text to be returned
-  $!dtxt.add-example-code(qq:to/EOEX/);
+  $!dtxt.add-example-code(Q:s:h:to/EOEX/);
 
     =head2 Example
     # Example use of module $*work-data<raku-class-name>
@@ -114,7 +114,7 @@ method !set-example ( --> Str ) {
 
 #-------------------------------------------------------------------------------
 method document-build ( XML::Element $element --> Str ) {
-  my Str $doc = qq:to/EOBUILD/;
+  my Str $doc = Q:c:to/EOBUILD/;
 
     {pod-header('Class Initialization')}
     =begin pod
@@ -124,13 +124,13 @@ method document-build ( XML::Element $element --> Str ) {
     EOBUILD
 
   # Finish with standard options
-  $doc ~= qq:to/EOBUILD/;
+  $doc ~= Q:q:to/EOBUILD/;
 
     =head3 :native-object
 
     Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
-      multi method new \( N-Object :\$native-object! )
+      multi method new ( N-Object :$native-object! )
 
     EOBUILD
 
@@ -139,13 +139,13 @@ method document-build ( XML::Element $element --> Str ) {
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!solve.search-name($ctype);
   if $h<inheritable> {
-    $doc ~= qq:to/EOBUILD/;
+    $doc ~= Q:q:to/EOBUILD/;
 
       =head3 :build-id
 
       Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
 
-        multi method new \( Str :\$build-id! )
+        multi method new ( Str :$build-id! )
       EOBUILD
   }
 
@@ -200,23 +200,25 @@ method document-constructors (
     $raku-list ~~ s/^ . //;
 
     # add-example-code() returns a key
-    my Str $ex-key = $!dtxt.add-example-code(qq:to/EOEX/);
+    my Str $ex-key = $!dtxt.add-example-code(Q:s:to/EOEX/);
 
       =head2 Example
       # Example for $method-name
       EOEX
 
-    $doc ~= qq:to/EOSUB/;
+    $doc ~= Q:c:s:h:to/EOSUB/;
       {HLSEPARATOR}
       =begin pod
-      {$curr-function<missing-type> ?? "This function is not yet available" !! ''}
+      {$curr-function<missing-type> ?? "This function is not yet available"
+                                    !! ''
+      }
       =head2 $method-name
 
       $method-doc
       $ex-key
 
       =begin code
-      method $method-name \($raku-list --> $*work-data<raku-class-name> \)
+      method $method-name ($raku-list --> $*work-data<raku-class-name> \)
       =end code
 
       $items-doc
