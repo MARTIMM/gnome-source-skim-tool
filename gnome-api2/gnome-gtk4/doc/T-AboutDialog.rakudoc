@@ -1,9 +1,10 @@
-# Package: Gtk4, C-Source: aboutdialog
+=head2 Package: Gtk4, C-Source: AboutDialog
 use v6.d;
 
 =begin pod
 =head1 Gnome::Gtk4::T-AboutDialog
 =end pod
+
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -18,6 +19,10 @@ Initialization of a type class is simple and only needed when the standalone fun
   method new ( )
 
 =end pod
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 =begin pod
 =head1 Enumerations
 
@@ -25,9 +30,10 @@ Initialization of a type class is simple and only needed when the standalone fun
 
 The type of license for an application.
 
-This enumeration can be expanded at later date.=item C<GTK_LICENSE_UNKNOWN>; No license specified
+This enumeration can be expanded at later date.
+=item C<GTK_LICENSE_UNKNOWN>; No license specified
 =item C<GTK_LICENSE_CUSTOM>; A license text is going to be specified by the
- developer
+  developer
 =item C<GTK_LICENSE_GPL_2_0>; The GNU General Public License, version 2.0 or later
 =item C<GTK_LICENSE_GPL_3_0>; The GNU General Public License, version 3.0 or later
 =item C<GTK_LICENSE_LGPL_2_1>; The GNU Lesser General Public License, version 2.1 or later
@@ -56,11 +62,15 @@ This enumeration can be expanded at later date.=item C<GTK_LICENSE_UNKNOWN>; No 
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 show-about-dialog
 
 A convenience function for showing an application’s about dialog.
 
-The constructed dialog is associated with the parent window and reused for future invocations of this function.
+The constructed dialog is associated with the parent window and
+reused for future invocations of this function.
+____EXAMPLE____037
 
 =begin code
 method show-about-dialog ( N-Object() $parent, Str $first-property-name, … )
@@ -69,7 +79,7 @@ method show-about-dialog ( N-Object() $parent, Str $first-property-name, … )
 =item $parent; the parent top-level window.
 =item $first-property-name; the name of the first property.
 =item …; value of first property, followed by more pairs of property
- name and value. Note that each argument must be specified as a type followed by its value!
+  name and value, undefined-terminated. Note that each argument must be specified as a type followed by its value!
 
 =end pod
 
