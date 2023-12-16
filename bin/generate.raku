@@ -61,7 +61,8 @@ try {
   }
 }
 
-$*command-line = "# Package: $*gnome-package.Str(), C-Source: $filename";
+# Must use =comment because '#' is translated in =head2 later on
+$*command-line = "=comment Package: $*gnome-package.Str(), C-Source: $filename";
 $*verbose = $v;
 
 #  $*generate-code = $c;
