@@ -25,8 +25,9 @@ has Hash $!filedata;
 #-------------------------------------------------------------------------------
 submethod BUILD ( Str :$!filename ) {
   $!mod .= new;
+  $!solve .= new;
 
-  $!filedata = $!solve.new.get-data-from-filename($!filename);
+  $!filedata = $!solve.get-data-from-filename($!filename);
 }
 
 #-------------------------------------------------------------------------------
@@ -148,9 +149,9 @@ method generate-code ( ) {
 #    my Str $prefix = $*work-data<name-prefix>;
 #    $type-name ~~ s:i/^ 'T-' $prefix /T-/;
 #    $filename = [~] $*work-data<result-mods>, $type-name, '.rakumod';
-    $filename = $!mod.set-object-name( $data, :name-type(FilenameCodeType))
+    $filename =  $!solve.set-object-name( $data, :name-type(FilenameCodeType))
       unless ?$filename;
-    $class-name = $!mod.set-object-name($data);      #$data<class-name>;
+    $class-name =  $!solve.set-object-name($data);      #$data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";

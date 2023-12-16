@@ -33,7 +33,8 @@ submethod BUILD ( Str :$!filename ) {
   $!mod .= new;
   $!tst .= new;
 
-  $!filedata = $!solve.new.get-data-from-filename($!filename);
+  $!solve .= new;
+  $!filedata =  $!solve.get-data-from-filename($!filwename);
 }
 
 #-------------------------------------------------------------------------------
@@ -157,8 +158,8 @@ note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
 #    $filename = [~] $*work-data<result-tests>, $type-name, '.rakutest';
 #    $class-name = $data<class-name>;
 #    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
-    $filename = $!mod.set-object-name( $data, :name-type(FilenameTestType));
-    $class-name = $!mod.set-object-name($data);
+    $filename =  $!solve.set-object-name( $data, :name-type(FilenameTestType));
+    $class-name =  $!solve.set-object-name($data);
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
 
