@@ -1,14 +1,12 @@
+=comment Package: Gtk4, C-Source: appchooserwidget
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::AppChooserWidget
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::AppChooserWidget
 
 ![](images/appchooserwidget.png)
 
@@ -16,7 +14,7 @@ use v6.d;
 
 B<Gnome::Gtk4::AppChooserWidget> is a widget for selecting applications.
 
-It is the main building block for [class C<$Gtk>.AppChooserDialog].
+It is the main building block for B<Gnome::Gtk4::AppChooserDialog>.
 Most applications only need to use the latter; but you can use
 this widget as part of a larger widget if you have special needs.
 
@@ -27,25 +25,29 @@ I<show-recommended>,
 I<show-fallback>,
 I<show-other> and
 I<show-all> properties. See the
-[iface C<$Gtk>.AppChooser] documentation for more information about these
+B<Gnome::Gtk4::R-AppChooser> documentation for more information about these
 groups of applications.
 
 To keep track of the selected application, use the
 I<application-selected> and
 I<application-activated> signals.
 
-=head1 CSS nodes
+=head2 CSS nodes
 
 B<Gnome::Gtk4::AppChooserWidget> has a single CSS node with name appchooser.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::AppChooserWidget
+
 =end comment
 
 =end pod
@@ -65,7 +67,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =head3 :build-id
 
 Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
@@ -76,12 +77,20 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-appchooserwidget
 
-Creates a new B<Gnome::Gtk4::AppChooserWidget> for applications that can handle content of the given type.
+Creates a new B<Gnome::Gtk4::AppChooserWidget> for applications
+that can handle content of the given type.
+=begin comment
+
+=head2 Example
+# Example for new-appchooserwidget
+
+=end comment
 
 =begin code
-method new-appchooserwidget ( Str $content-type --> Gnome::Gtk4::AppChooserWidget )
+method new-appchooserwidget ( Str $content-type --> Gnome::Gtk4::AppChooserWidget \)
 =end code
 
 =item $content-type; the content type to show applications for.
@@ -98,105 +107,149 @@ method new-appchooserwidget ( Str $content-type --> Gnome::Gtk4::AppChooserWidge
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-default-text
 
-Returns the text that is shown if there are not applications that can handle the content type.
+Returns the text that is shown if there are not applications
+that can handle the content type.
+=begin comment
+
+=head2 Example
+# Example for get-default-text
+
+=end comment
 
 =begin code
 method get-default-text (--> Str )
 =end code
 
-
 Return value; the value of I<default-text>. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-show-all
 
-Gets whether the app chooser should show all applications in a flat list.
+Gets whether the app chooser should show all applications
+in a flat list.
+=begin comment
+
+=head2 Example
+# Example for get-show-all
+
+=end comment
 
 =begin code
 method get-show-all (--> Bool )
 =end code
 
-
 Return value; the value of I<show-all>. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-show-default
 
-Gets whether the app chooser should show the default handler for the content type in a separate section.
+Gets whether the app chooser should show the default handler
+for the content type in a separate section.
+=begin comment
+
+=head2 Example
+# Example for get-show-default
+
+=end comment
 
 =begin code
 method get-show-default (--> Bool )
 =end code
 
-
 Return value; the value of I<show-default>. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-show-fallback
 
-Gets whether the app chooser should show related applications for the content type in a separate section.
+Gets whether the app chooser should show related applications
+for the content type in a separate section.
+=begin comment
+
+=head2 Example
+# Example for get-show-fallback
+
+=end comment
 
 =begin code
 method get-show-fallback (--> Bool )
 =end code
 
-
 Return value; the value of I<show-fallback>. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-show-other
 
-Gets whether the app chooser should show applications which are unrelated to the content type.
+Gets whether the app chooser should show applications
+which are unrelated to the content type.
+=begin comment
+
+=head2 Example
+# Example for get-show-other
+
+=end comment
 
 =begin code
 method get-show-other (--> Bool )
 =end code
 
-
 Return value; the value of I<show-other>. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-show-recommended
 
-Gets whether the app chooser should show recommended applications for the content type in a separate section.
+Gets whether the app chooser should show recommended applications
+for the content type in a separate section.
+=begin comment
+
+=head2 Example
+# Example for get-show-recommended
+
+=end comment
 
 =begin code
 method get-show-recommended (--> Bool )
 =end code
 
-
 Return value; the value of I<show-recommended>. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-default-text
 
-Sets the text that is shown if there are not applications that can handle the content type.
+Sets the text that is shown if there are not applications
+that can handle the content type.
+=begin comment
+
+=head2 Example
+# Example for set-default-text
+
+=end comment
 
 =begin code
 method set-default-text ( Str $text )
@@ -208,9 +261,17 @@ method set-default-text ( Str $text )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-show-all
 
-Sets whether the app chooser should show all applications in a flat list.
+Sets whether the app chooser should show all applications
+in a flat list.
+=begin comment
+
+=head2 Example
+# Example for set-show-all
+
+=end comment
 
 =begin code
 method set-show-all ( Bool() $setting )
@@ -222,9 +283,17 @@ method set-show-all ( Bool() $setting )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-show-default
 
-Sets whether the app chooser should show the default handler for the content type in a separate section.
+Sets whether the app chooser should show the default handler
+for the content type in a separate section.
+=begin comment
+
+=head2 Example
+# Example for set-show-default
+
+=end comment
 
 =begin code
 method set-show-default ( Bool() $setting )
@@ -236,9 +305,17 @@ method set-show-default ( Bool() $setting )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-show-fallback
 
-Sets whether the app chooser should show related applications for the content type in a separate section.
+Sets whether the app chooser should show related applications
+for the content type in a separate section.
+=begin comment
+
+=head2 Example
+# Example for set-show-fallback
+
+=end comment
 
 =begin code
 method set-show-fallback ( Bool() $setting )
@@ -250,9 +327,17 @@ method set-show-fallback ( Bool() $setting )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-show-other
 
-Sets whether the app chooser should show applications which are unrelated to the content type.
+Sets whether the app chooser should show applications
+which are unrelated to the content type.
+=begin comment
+
+=head2 Example
+# Example for set-show-other
+
+=end comment
 
 =begin code
 method set-show-other ( Bool() $setting )
@@ -264,9 +349,17 @@ method set-show-other ( Bool() $setting )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-show-recommended
 
-Sets whether the app chooser should show recommended applications for the content type in a separate section.
+Sets whether the app chooser should show recommended applications
+for the content type in a separate section.
+=begin comment
+
+=head2 Example
+# Example for set-show-recommended
+
+=end comment
 
 =begin code
 method set-show-recommended ( Bool() $setting )
@@ -288,45 +381,58 @@ method set-show-recommended ( Bool() $setting )
 
 Emitted when an application item is activated from the widget's list.
 
-This usually happens when the user double clicks an item, or an item is selected and the user presses one of the keys Space, Shift+Space,
+This usually happens when the user double clicks an item, or an item
+is selected and the user presses one of the keys Space, Shift+Space,
 Return or Enter.
+=begin comment
+
+=head2 Example
+# Example for signal application-activated
+
+=end comment
 
 =begin code
 method handler (
    $application,
   Int :$_handle_id,
-  Gnome::Gtk4::AppChooserWidget() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::AppChooserWidget :$_widget,
-  *%user-options
+  *C<user>-options
 )
 =end code
 
-=item $application; the activated I<GAppInfo>.
+=item $application; the activated U<Gnome::Gio::R-AppInfo>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserWidget> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =comment -----------------------------------------------------------------------
 =head3 application-selected
 
 Emitted when an application item is selected from the widget's list.
+=begin comment
+
+=head2 Example
+# Example for signal application-selected
+
+=end comment
 
 =begin code
 method handler (
    $application,
   Int :$_handle_id,
-  Gnome::Gtk4::AppChooserWidget() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::AppChooserWidget :$_widget,
-  *%user-options
+  *C<user>-options
 )
 =end code
 
-=item $application; the selected I<GAppInfo>.
+=item $application; the selected U<Gnome::Gio::R-AppInfo>.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserWidget> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =end pod
 
