@@ -1,55 +1,57 @@
-# Package: Gtk4, C-Source: shortcutaction
+=comment Package: Gtk4, C-Source: shortcutaction
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::ShortcutAction
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::ShortcutAction
+
+![](images/shortcutaction.png)
 
 =head1 Description
 
 B<Gnome::Gtk4::ShortcutAction> encodes an action that can be triggered by a
 keyboard shortcut.
 
-B<Gnome::Gtk4::ShortcutAction>s contain functions that allow easy presentation
+B<GtkShortcutActions> contain functions that allow easy presentation
 to end users as well as being printed for debugging.
 
-All B<Gnome::Gtk4::ShortcutAction>s are immutable, you can only specify their
+All B<GtkShortcutActions> are immutable, you can only specify their
 properties during construction. If you want to change a action, you
 have to replace it with a new one. If you need to pass arguments to
-an action, these are specified by the higher-level I<GtkShortcut> object.
+an action, these are specified by the higher-level B<Gnome::Gtk4::Shortcut> object.
 
 To activate a B<Gnome::Gtk4::ShortcutAction> manually, C<.activate()>
 can be called.
 
 GTK provides various actions:
 
-=item [class C<$Gtk>.MnemonicAction]: a shortcut action that calls
+=item B<Gnome::Gtk4::MnemonicAction>: a shortcut action that calls
    gtk_widget_mnemonic_activate()
-=item [class C<$Gtk>.CallbackAction]: a shortcut action that invokes
+=item B<Gnome::Gtk4::CallbackAction>: a shortcut action that invokes
    a given callback
-=item [class C<$Gtk>.SignalAction]: a shortcut action that emits a
+=item B<Gnome::Gtk4::SignalAction>: a shortcut action that emits a
    given signal
-=item [class C<$Gtk>.ActivateAction]: a shortcut action that calls
+=item B<Gnome::Gtk4::ActivateAction>: a shortcut action that calls
    gtk_widget_activate()
-=item [class C<$Gtk>.NamedAction]: a shortcut action that calls
+=item B<Gnome::Gtk4::NamedAction>: a shortcut action that calls
    gtk_widget_activate_action()
-=item [class C<$Gtk>.NothingAction]: a shortcut action that does nothing
+=item B<Gnome::Gtk4::NothingAction>: a shortcut action that does nothing
 
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::ShortcutAction
+
 =end comment
 
 =end pod
@@ -69,27 +71,34 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 parse-string
 
 Tries to parse the given string into an action.
 
-On success, the parsed action is returned. When parsing failed, undefined is returned.
+On success, the parsed action is returned. When parsing
+failed, undefined is returned.
 
 The accepted strings are:
 
-=item I<nothing>, for I<GtkNothingAction>
-=item I<activate>, for I<GtkActivateAction>
-=item I<mnemonic-activate>, for I<GtkMnemonicAction>
-=item I<action(NAME)>, for a I<GtkNamedAction> for the action named I<NAME>
-=item I<signal(NAME)>, for a I<GtkSignalAction> for the signal I<NAME>
+=item B<nothing>, for B<Gnome::Gtk4::NothingAction>
+=item B<activate>, for B<Gnome::Gtk4::ActivateAction>
+=item B<mnemonic-activate>, for B<Gnome::Gtk4::MnemonicAction>
+=item B<action(NAME)>, for a B<Gnome::Gtk4::NamedAction> for the action named B<NAME>
+=item B<signal(NAME)>, for a B<Gnome::Gtk4::SignalAction> for the signal B<NAME>
+=begin comment
+
+=head2 Example
+# Example for parse-string
+
+=end comment
 
 =begin code
-method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction )
+method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction \)
 =end code
 
 =item $string; the string to parse.
@@ -106,65 +115,83 @@ method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 activate
 
 Activates the action on the C<$widget> with the given C<$args>.
 
 Note that some actions ignore the passed in C<$flags>, C<$widget> or C<$args>.
 
-Activation of an action can fail for various reasons. If the action is not supported by the C<$widget>, if the C<$args> don't match the action or if the activation otherwise had no effect, %FALSE will be returned.
+Activation of an action can fail for various reasons. If the action
+is not supported by the C<$widget>, if the C<$args> don't match the action
+or if the activation otherwise had no effect, C<False> will be returned.
+=begin comment
+
+=head2 Example
+# Example for activate
+
+=end comment
 
 =begin code
-method activate (
-  UInt $flags, N-Object() $widget, CArray[N-Variant] $args --> Bool
-)
+method activate ( UInt $flags, N-Object() $widget, CArray[N-Variant] $args --> Bool )
 =end code
 
-=item $flags; flags to activate with. A bitmap.
+=item $flags; flags to activate with.
 =item $widget; Target of the activation.
 =item $args; arguments to pass.
 
-Return value; %TRUE if this action was activated successfully. 
-
+Return value; C<True> if this action was activated successfully. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
-#`{{
 =begin pod
+This function is not yet available
+
 =head2 print
 
 Prints the given action into a string for the developer.
 
 This is meant for debugging and logging.
 
-The form of the representation may change at any time and is not guaranteed to stay identical.
+The form of the representation may change at any time and is
+not guaranteed to stay identical.
+=begin comment
+
+=head2 Example
+# Example for print
+
+=end comment
 
 =begin code
 method print ( CArray[N-String]  $string )
 =end code
 
-=item $string; a I<GString> to print into.
+=item $string; a U<Gnome::Glib::N-String> to print into.
 
 =end pod
-}}
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 to-string
 
 Prints the given action into a human-readable string.
 
 This is a small wrapper around C<.print()>
 to help when debugging.
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
 
 =begin code
 method to-string (--> Str )
 =end code
 
-
 Return value; a new string. 
-
 
 =end pod
 

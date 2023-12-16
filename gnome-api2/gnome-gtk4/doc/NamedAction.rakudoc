@@ -1,27 +1,31 @@
-# Package: Gtk4, C-Source: shortcutaction
+=comment Package: Gtk4, C-Source: shortcutaction
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::NamedAction
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::NamedAction
+
+![](images/namedaction.png)
+
 =head1 Description
 
-A I<GtkShortcutAction> that activates an action by name.
+A B<Gnome::Gtk4::ShortcutAction> that activates an action by name.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::NamedAction
+
 =end comment
 
 =end pod
@@ -41,21 +45,29 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-namedaction
 
-Creates an action that when activated, activates the named action on the widget.
+Creates an action that when activated, activates
+the named action on the widget.
 
 It also passes the given arguments to it.
 
-See C<.insert-action-group() defined in Widget> for how to add actions to widgets.
+See C<.insert-action-group() in class Gnome::Gtk4::Widget> for
+how to add actions to widgets.
+=begin comment
+
+=head2 Example
+# Example for new-namedaction
+
+=end comment
 
 =begin code
-method new-namedaction ( Str $name --> Gnome::Gtk4::NamedAction )
+method new-namedaction ( Str $name --> Gnome::Gtk4::NamedAction \)
 =end code
 
 =item $name; the detailed name of the action.
@@ -72,17 +84,22 @@ method new-namedaction ( Str $name --> Gnome::Gtk4::NamedAction )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-action-name
 
 Returns the name of the action that will be activated.
+=begin comment
+
+=head2 Example
+# Example for get-action-name
+
+=end comment
 
 =begin code
 method get-action-name (--> Str )
 =end code
 
-
 Return value; the name of the action to activate. 
-
 
 =end pod
 

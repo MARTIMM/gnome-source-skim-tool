@@ -1,9 +1,14 @@
-# Package: Gtk4, C-Source: shortcutaction
+=comment Package: Gtk4, C-Source: shortcutaction
 use v6.d;
 
 =begin pod
 =head1 Gnome::Gtk4::T-ActivateAction
 =end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 =begin pod
 =head1 Bitfields
 
@@ -12,8 +17,27 @@ use v6.d;
 List of flags that can be passed to action activation.
 
 More flags may be added in the future.
+
 =item C<GTK_SHORTCUT_ACTION_EXCLUSIVE>; The action is the only
- action that can be activated. If this flag is not set,
- a future activation may select a different action.
+  action that can be activated. If this flag is not set,
+  a future activation may select a different action.
 =end pod
 
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 ShortcutFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $widget, CArray[N-Variant] $args, gpointer $user-data  )
+=end code
+
+=item widget; The widget passed to the activation
+=item args; The arguments passed to the activation
+=item user-data; The user data provided when activating the action
+
+=end pod
