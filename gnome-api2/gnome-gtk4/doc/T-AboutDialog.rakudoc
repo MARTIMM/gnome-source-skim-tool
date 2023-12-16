@@ -1,4 +1,4 @@
-=head2 Package: Gtk4, C-Source: AboutDialog
+=comment Package: Gtk4, C-Source: AboutDialog
 use v6.d;
 
 =begin pod
@@ -70,7 +70,27 @@ A convenience function for showing an application’s about dialog.
 
 The constructed dialog is associated with the parent window and
 reused for future invocations of this function.
-____EXAMPLE____037
+=begin code
+use Gnome::Glib::Error:api<2>;
+use Gnome::Gio::File:api<2>;
+use Gnome::Gtk4::T-AboutDialog:api<2>;
+use Gnome::Gtk4::Window:api<2>;
+use Gnome::Gdk4::Texture:api<2>;
+
+my Gnome::Gtk4::Window $some-main-window .= new;
+
+my Gnome::Gio::File $logo-file .= new-for-path("./logo.png");
+my Gnome::Gdk4::Texture $example-logo = new-from-file( logo_file, GError);
+$logo-file.clear-object;
+
+my Gnome::Gtk4::T-AboutDialog $t-dialog .= new;
+$t-dialog.show-about-dialog (
+  $some-main-window, "program-name",
+  Str, "ExampleCode",
+  Str, "logo", Gnome::Gdk4::Texture, $example-logo,
+  Str, "title", Str, "About ExampleCode",
+);
+=end code
 
 =begin code
 method show-about-dialog ( N-Object() $parent, Str $first-property-name, … )

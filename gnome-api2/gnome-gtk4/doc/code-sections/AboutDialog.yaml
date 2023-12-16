@@ -48,25 +48,23 @@
 "____EXAMPLE____036": "=begin comment\n\n=head2 Example\n# Example for signal activate-link\n\n=end comment\n"
 
 "____EXAMPLE____037": |
-  use Gnome::Glib::Error:api<2>;
-  use Gnome::Gio::File:api<2>;
-  use Gnome::Gtk4::T-AboutDialog:api<2>;
-  use Gnome::Gtk4::Window:api<2>;
-  use Gnome::Gdk4::Texture:api<2>;
+  =begin code
+  use Gnome::Gtk3::Window;
+  use Gnome::Gtk3::AboutDialog;
+  use Gnome::Gtk3::T-AboutDialog;
 
-  my Gnome::Gtk4::Window $some-main-window .= new;
+  my Gnome::Gtk3::Window $window .= new-window;
 
-  my Gnome::Gio::File $logo-file .= new-for-path("./logo.png");
-  my Gnome::Gdk4::Texture $example-logo = new-from-file( logo_file, GError);
-  $logo-file.clear-object;
+  my Gnome::Gtk3::AboutDialog $about .= new-about-dialog;
+  $about.set-transient-for($window);
+  $about.set-version('0.21.4');
+  $about.set-license-type(GTK_LICENSE_ARTISTIC);
 
-  my Gnome::Gtk4::T-AboutDialog $t-dialog .= new;
-  $t-dialog.show-about-dialog (
-    $some-main-window, "program-name",
-    Str, "ExampleCode",
-    Str, "logo", Gnome::Gdk4::Texture, $example-logo,
-    Str, "title", Str, "About ExampleCode",
-  );
+  # Normally run() is started by a menu select or button click
+  $about.run;   # pplication stays here in separate main loop
+  $about.hide;  # application returns here when buttons
+                # on dialog are pressed
+  =end code
 
 "____EXAMPLE____038": |
   =begin comment
