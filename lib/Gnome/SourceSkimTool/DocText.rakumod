@@ -264,13 +264,14 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
 
   my Str ( $package, $class, $funcname);
 
-  my token mprelude { '[method@' }
   my token package { <-[\.\]]>+ }
   my token class { <-[\.\]]>+ }
   my token funcname { <-[\]]>+  }
-  my regex mfunc-regex { <mprelude> <package> '.' <class> '.' <funcname> ']' }
+  my regex mfunc-regex { '[method@' <package> '.' <class> '.' <funcname> ']' }
   while $text ~~ m/ <mfunc-regex> / {
+note "$?LINE $/.gist()";
     $package = $/<mfunc-regex><package>.Str;
+    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<mfunc-regex><class>.Str;
     $funcname = $/<mfunc-regex><funcname>.Str;
     $funcname ~~ s:g/ '_' /-/;
@@ -286,10 +287,11 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     }
   }
 
-  my token cprelude { '[ctor@' }
-  my regex cfunc-regex { <cprelude> <package> '.' <class> '.' <funcname> ']' }
+  my regex cfunc-regex { '[ctor@' <package> '.' <class> '.' <funcname> ']' }
   while $text ~~ m/ <cfunc-regex> / {
+note "$?LINE $/.gist()";
     $package = $/<cfunc-regex><package>.Str;
+    $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<cfunc-regex><class>.Str;
     $funcname = $/<cfunc-regex><funcname>.Str;
     $funcname ~~ s:g/ '_' /-/;
