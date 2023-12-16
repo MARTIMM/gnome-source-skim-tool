@@ -1,9 +1,14 @@
-# Package: Gtk4, C-Source: application
+=comment Package: Gtk4, C-Source: application
 use v6.d;
 
 =begin pod
 =head1 Gnome::Gtk4::T-Application
 =end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 =begin pod
 =head1 Bitfields
 
@@ -12,12 +17,13 @@ use v6.d;
 Types of user actions that may be blocked by B<Gnome::Gtk4::Application>.
 
 See C<.inhibit()>.
+
 =item C<GTK_APPLICATION_INHIBIT_LOGOUT>; Inhibit ending the user session
- by logging out or by shutting down the computer
+  by logging out or by shutting down the computer
 =item C<GTK_APPLICATION_INHIBIT_SWITCH>; Inhibit user switching
 =item C<GTK_APPLICATION_INHIBIT_SUSPEND>; Inhibit suspending the
- session or computer
+  session or computer
 =item C<GTK_APPLICATION_INHIBIT_IDLE>; Inhibit the session being
- marked as idle (and possibly locked)
+  marked as idle (and possibly locked)
 =end pod
 

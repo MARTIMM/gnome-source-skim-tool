@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: application
+=comment Package: Gtk4, C-Source: application
 use v6.d;
 
 #-------------------------------------------------------------------------------
