@@ -1,28 +1,31 @@
-# Package: Gtk4, C-Source: shortcuttrigger
+=comment Package: Gtk4, C-Source: shortcuttrigger
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::NeverTrigger
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::NeverTrigger
+
+![](images/nevertrigger.png)
 
 =head1 Description
 
 A B<Gnome::Gtk4::ShortcutTrigger> that never triggers.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::NeverTrigger
+
 =end comment
 
 =end pod
@@ -42,7 +45,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -55,20 +57,26 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get
 
 Gets the never trigger.
 
 This is a singleton for a trigger that never triggers.
-Use this trigger instead of undefined because it implements all virtual functions.
+Use this trigger instead of undefined because it implements
+all virtual functions.
+=begin comment
+
+=head2 Example
+# Example for get
+
+=end comment
 
 =begin code
 method get (--> N-Object )
 =end code
 
-
 Return value; The never trigger. 
-
 
 =end pod
 

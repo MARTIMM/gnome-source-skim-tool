@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: shortcuttrigger
+=comment Package: Gtk4, C-Source: shortcuttrigger
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,34 +8,28 @@ use v6.d;
 =begin pod
 =head1 Gnome::Gtk4::MnemonicTrigger
 
-
 ![](images/mnemonictrigger.png)
-
-
 
 =head1 Description
 
-A `GtkShortcutTrigger` that triggers when a specific mnemonic is pressed.
-
-Mnemonics require a *mnemonic modifier* (typically &lt;kbd&gt;Alt&lt;/kbd&gt;) to be
-pressed together with the mnemonic key.A I<GtkShortcutTrigger> that triggers when a specific mnemonic is pressed.
+A B<Gnome::Gtk4::ShortcutTrigger> that triggers when a specific mnemonic is pressed.
 
 Mnemonics require a *mnemonic modifier* (typically <kbd>Alt</kbd>) to be
 pressed together with the mnemonic key.
 
-
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
-=end comment
 
+=end comment
 
 =begin comment
-=head2 Example
-  … text …
-  … example code …
-=end comment
 
+=head2 Example
+# Example use of module Gnome::Gtk4::MnemonicTrigger
+
+=end comment
 
 =end pod
 
@@ -54,25 +48,32 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-mnemonictrigger
 
-Creates a I<GtkShortcutTrigger> that will trigger whenever the key with the given C<$keyval> is pressed and mnemonics have been activated.
+Creates a B<Gnome::Gtk4::ShortcutTrigger> that will trigger whenever the key with
+the given C<$keyval> is pressed and mnemonics have been activated.
 
-Mnemonics are activated by calling code when a key event with the right modifiers is detected.
+Mnemonics are activated by calling code when a key event with the right
+modifiers is detected.
+=begin comment
+
+=head2 Example
+# Example for new-mnemonictrigger
+
+=end comment
 
 =begin code
-method new-mnemonictrigger ( UInt() $keyval --> Gnome::Gtk4::MnemonicTrigger )
+method new-mnemonictrigger ( UInt() $keyval --> Gnome::Gtk4::MnemonicTrigger \)
 =end code
 
 =item $keyval; The keyval to trigger for.
 
 =end pod
-
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
@@ -88,15 +89,18 @@ method new-mnemonictrigger ( UInt() $keyval --> Gnome::Gtk4::MnemonicTrigger )
 =head2 get-keyval
 
 Gets the keyval that must be pressed to succeed triggering C<$self>.
+=begin comment
+
+=head2 Example
+# Example for get-keyval
+
+=end comment
 
 =begin code
 method get-keyval (--> UInt )
 =end code
 
-
 Return value; the keyval. 
 
-
 =end pod
-
 

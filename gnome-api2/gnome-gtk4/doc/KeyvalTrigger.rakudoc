@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: shortcuttrigger
+=comment Package: Gtk4, C-Source: shortcuttrigger
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -10,24 +10,23 @@ use v6.d;
 
 ![](images/keyvaltrigger.png)
 
-
 =head1 Description
 
-A B<Gnome::Gtk4::ShortcutTrigger> that triggers when a specific keyval and modifiers are pressed.A B<Gnome::Gtk4::ShortcutTrigger> that triggers when a specific keyval and modifiers are pressed.
-
+A B<Gnome::Gtk4::ShortcutTrigger> that triggers when a specific keyval and modifiers are pressed.
 
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
-=end comment
 
+=end comment
 
 =begin comment
-=head2 Example
-  … text …
-  … example code …
-=end comment
 
+=head2 Example
+# Example use of module Gnome::Gtk4::KeyvalTrigger
+
+=end comment
 
 =end pod
 
@@ -46,27 +45,30 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-keyvaltrigger
 
-Creates a B<Gnome::Gtk4::ShortcutTrigger> that will trigger whenever the key with the given C<$keyval> and C<$modifiers> is pressed.
+Creates a B<Gnome::Gtk4::ShortcutTrigger> that will trigger whenever
+the key with the given C<$keyval> and C<$modifiers> is pressed.
+=begin comment
+
+=head2 Example
+# Example for new-keyvaltrigger
+
+=end comment
 
 =begin code
-method new-keyvaltrigger (
-  UInt() $keyval, UInt $modifiers
-  --> Gnome::Gtk4::KeyvalTrigger
-)
+method new-keyvaltrigger ( UInt() $keyval, UInt $modifiers --> Gnome::Gtk4::KeyvalTrigger \)
 =end code
 
 =item $keyval; The keyval to trigger for.
-=item $modifiers; the modifiers that need to be present. A bitmap.
+=item $modifiers; the modifiers that need to be present.
 
 =end pod
-
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
@@ -81,34 +83,42 @@ method new-keyvaltrigger (
 
 =head2 get-keyval
 
-Gets the keyval that must be pressed to succeed triggering C<$self>.
+Gets the keyval that must be pressed to succeed
+triggering C<$self>.
+=begin comment
+
+=head2 Example
+# Example for get-keyval
+
+=end comment
 
 =begin code
-method get-keyval ( --> UInt )
+method get-keyval (--> UInt )
 =end code
-
 
 Return value; the keyval. 
 
-
 =end pod
-
 
 #-------------------------------------------------------------------------------
 =begin pod
 
 =head2 get-modifiers
 
-Gets the modifiers that must be present to succeed triggering C<$self>.
+Gets the modifiers that must be present to succeed
+triggering C<$self>.
+=begin comment
+
+=head2 Example
+# Example for get-modifiers
+
+=end comment
 
 =begin code
-method get-modifiers ( --> UInt )
+method get-modifiers (--> UInt )
 =end code
 
-
-Return value; the modifiers.  A bitmap.
-
+Return value; the modifiers. 
 
 =end pod
-
 

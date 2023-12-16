@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: shortcuttrigger
+=comment Package: Gtk4, C-Source: shortcuttrigger
 use v6.d;
 
 #-------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: shortcuttrigger
+=comment Package: Gtk4, C-Source: shortcuttrigger
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -10,44 +10,33 @@ use v6.d;
 
 ![](images/shortcuttrigger.png)
 
-
 =head1 Description
 
-B<Gnome::Gtk4::ShortcutTrigger> tracks how a `GtkShortcut` should be activated.
-
-To find out if a B<Gnome::Gtk4::ShortcutTrigger> triggers, you can call
-[method@Gtk.ShortcutTrigger.trigger] on a `GdkEvent`.
-
-B<Gnome::Gtk4::ShortcutTrigger>s contain functions that allow easy presentation
-to end users as well as being printed for debugging.
-
-All B<Gnome::Gtk4::ShortcutTrigger>s are immutable, you can only specify their
-properties during construction. If you want to change a trigger, you
-have to replace it with a new one.B<Gnome::Gtk4::ShortcutTrigger> tracks how a I<GtkShortcut> should be activated.
+B<Gnome::Gtk4::ShortcutTrigger> tracks how a B<Gnome::Gtk4::Shortcut> should be activated.
 
 To find out if a B<Gnome::Gtk4::ShortcutTrigger> triggers, you can call
 C<.trigger()> on a B<Gnome::Gdk4::Event>.
 
-B<::> contain functions that allow easy presentation
+B<GtkShortcutTriggers> contain functions that allow easy presentation
 to end users as well as being printed for debugging.
 
-All B<::> are immutable, you can only specify their
+All B<GtkShortcutTriggers> are immutable, you can only specify their
 properties during construction. If you want to change a trigger, you
 have to replace it with a new one.
 
-
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
-=end comment
 
+=end comment
 
 =begin comment
-=head2 Example
-  … text …
-  … example code …
-=end comment
 
+=head2 Example
+# Example use of module Gnome::Gtk4::ShortcutTrigger
+
+=end comment
 
 =end pod
 
@@ -66,11 +55,11 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 parse-string
 
 Tries to parse the given string into a trigger.
@@ -80,22 +69,29 @@ When parsing failed, undefined is returned.
 
 The accepted strings are:
 
- - B<::>, for B<Gnome::Gtk4::NeverTrigger>
- - a string parsed by gtk_accelerator_parse(), for a B<Gnome::Gtk4::KeyvalTrigger>, e.g. B<::>
- - underscore, followed by a single character, for B<Gnome::Gtk4::MnemonicTrigger>, e.g. B<::>
- - two valid trigger strings, separated by a B<::> character, for a
- B<Gnome::Gtk4::AlternativeTrigger>: B<::>
+=item B<never>, for B<Gnome::Gtk4::NeverTrigger>
+=item a string parsed by gtk_accelerator_parse(), for a B<Gnome::Gtk4::KeyvalTrigger>, e.g. B<<Control>C>
+=item underscore, followed by a single character, for B<Gnome::Gtk4::MnemonicTrigger>, e.g. B<_l>
+=item two valid trigger strings, separated by a B<|> character, for a
+    B<Gnome::Gtk4::AlternativeTrigger>: B<<Control>q|<Control>w>
 
-Note that you will have to escape the B<::> and B<::> characters when specifying triggers in XML files, such as GtkBuilder ui files. Use I<&lt;> instead of B<::> and B<::> instead of B<::>.
+Note that you will have to escape the B<<> and B<>> characters when specifying
+triggers in XML files, such as GtkBuilder ui files. Use B<&lt;> instead of
+B<<> and B<&gt;> instead of B<>>.
+=begin comment
+
+=head2 Example
+# Example for parse-string
+
+=end comment
 
 =begin code
-method parse-string ( Str $string --> Gnome::Gtk4::ShortcutTrigger )
+method parse-string ( Str $string --> Gnome::Gtk4::ShortcutTrigger \)
 =end code
 
 =item $string; the string to parse.
 
 =end pod
-
 
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
@@ -110,9 +106,16 @@ method parse-string ( Str $string --> Gnome::Gtk4::ShortcutTrigger )
 
 =head2 compare
 
-The types of C<$trigger1> and C<$trigger2> are B<::> only to allow use of this function as a B<Gnome::Glib::T-DoubleIEEE754>.
+The types of C<$trigger1> and C<$trigger2> are B<gconstpointer> only to allow
+use of this function as a U<Gnome::Glib::T-DoubleIEEE754>.
 
 They must each be a B<Gnome::Gtk4::ShortcutTrigger>.
+=begin comment
+
+=head2 Example
+# Example for compare
+
+=end comment
 
 =begin code
 method compare ( gpointer $trigger2 --> Int )
@@ -121,12 +124,10 @@ method compare ( gpointer $trigger2 --> Int )
 =item $trigger2; a B<Gnome::Gtk4::ShortcutTrigger>.
 
 Return value; An integer less than, equal to, or greater than zero if
- C<$trigger1> is found, respectively, to be less than, to match,
- or be greater than C<$trigger2>.. 
-
+  C<$trigger1> is found, respectively, to be less than, to match,
+  or be greater than C<$trigger2>.. 
 
 =end pod
-
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -135,7 +136,14 @@ Return value; An integer less than, equal to, or greater than zero if
 
 Checks if C<$trigger1> and C<$trigger2> trigger under the same conditions.
 
-The types of C<$one> and C<$two> are B<::> only to allow use of this function with B<Gnome::Glib::N-HashTable>. They must each be a B<Gnome::Gtk4::ShortcutTrigger>.
+The types of C<$one> and C<$two> are B<gconstpointer> only to allow use of this
+function with U<Gnome::Glib::N-HashTable>. They must each be a B<Gnome::Gtk4::ShortcutTrigger>.
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
 
 =begin code
 method equal ( gpointer $trigger2 --> Bool )
@@ -143,11 +151,9 @@ method equal ( gpointer $trigger2 --> Bool )
 
 =item $trigger2; a B<Gnome::Gtk4::ShortcutTrigger>.
 
-Return value; %TRUE if C<$trigger1> and C<$trigger2> are equal. 
-
+Return value; C<True> if C<$trigger1> and C<$trigger2> are equal. 
 
 =end pod
-
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -156,69 +162,90 @@ Return value; %TRUE if C<$trigger1> and C<$trigger2> are equal.
 
 Generates a hash value for a B<Gnome::Gtk4::ShortcutTrigger>.
 
-The output of this function is guaranteed to be the same for a given value only per-process. It may change between different processor architectures or even different versions of GTK. Do not use this function as a basis for building protocols or file formats.
+The output of this function is guaranteed to be the same for a given
+value only per-process. It may change between different processor
+architectures or even different versions of GTK. Do not use this
+function as a basis for building protocols or file formats.
 
-The types of C<$trigger> is I<gconstpointer> only to allow use of this function with I<GHashTable>. They must each be a B<Gnome::Gtk4::ShortcutTrigger>.
+The types of C<$trigger> is B<gconstpointer> only to allow use of this
+function with U<Gnome::Glib::N-HashTable>. They must each be a B<Gnome::Gtk4::ShortcutTrigger>.
+=begin comment
+
+=head2 Example
+# Example for hash
+
+=end comment
 
 =begin code
 method hash (--> UInt )
 =end code
 
-
 Return value; a hash value corresponding to C<$trigger>. 
-
 
 =end pod
 
-
 #-------------------------------------------------------------------------------
-#`{{
 =begin pod
+This function is not yet available
 
 =head2 print
 
 Prints the given trigger into a string for the developer.
 This is meant for debugging and logging.
 
-The form of the representation may change at any time and is not guaranteed to stay identical.
+The form of the representation may change at any time
+and is not guaranteed to stay identical.
+=begin comment
+
+=head2 Example
+# Example for print
+
+=end comment
 
 =begin code
 method print ( CArray[N-String]  $string )
 =end code
 
-=item $string; a B<Gnome::Glib::N-String> to print into.
+=item $string; a U<Gnome::Glib::N-String> to print into.
 
 =end pod
-}}
 
 #-------------------------------------------------------------------------------
-#`{{
 =begin pod
+This function is not yet available
 
 =head2 print-label
 
 Prints the given trigger into a string.
 
-This function is returning a translated string for presentation to end users for example in menu items or in help texts.
+This function is returning a translated string for presentation
+to end users for example in menu items or in help texts.
 
-The C<$display> in use may influence the resulting string in various forms, such as resolving hardware keycodes or by causing display-specific modifier names.
+The C<$display> in use may influence the resulting string in
+various forms, such as resolving hardware keycodes or by
+causing display-specific modifier names.
 
-The form of the representation may change at any time and is not guaranteed to stay identical.
+The form of the representation may change at any time and is
+not guaranteed to stay identical.
+=begin comment
+
+=head2 Example
+# Example for print-label
+
+=end comment
 
 =begin code
 method print-label ( N-Object() $display, CArray[N-String]  $string --> Bool )
 =end code
 
 =item $display; B<Gnome::Gdk4::Display> to print for.
-=item $string; a B<Gnome::Glib::N-String> to print into.
+=item $string; a U<Gnome::Glib::N-String> to print into.
 
-Return value; %TRUE if something was printed or %FALSE if the
- trigger did not have a textual representation suitable
- for end users.. 
-
+Return value; C<True> if something was printed or C<False> if the
+  trigger did not have a textual representation suitable
+  for end users.. 
 
 =end pod
-}}
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -227,11 +254,22 @@ Return value; %TRUE if something was printed or %FALSE if the
 
 Gets textual representation for the given trigger.
 
-This function is returning a translated string for presentation to end users for example in menu items or in help texts.
+This function is returning a translated string for
+presentation to end users for example in menu items
+or in help texts.
 
-The C<$display> in use may influence the resulting string in various forms, such as resolving hardware keycodes or by causing display-specific modifier names.
+The C<$display> in use may influence the resulting string in
+various forms, such as resolving hardware keycodes or by
+causing display-specific modifier names.
 
-The form of the representation may change at any time and is not guaranteed to stay identical.
+The form of the representation may change at any time and is
+not guaranteed to stay identical.
+=begin comment
+
+=head2 Example
+# Example for to-label
+
+=end comment
 
 =begin code
 method to-label ( N-Object() $display --> Str )
@@ -241,9 +279,7 @@ method to-label ( N-Object() $display --> Str )
 
 Return value; a new string. 
 
-
 =end pod
-
 
 #-------------------------------------------------------------------------------
 =begin pod
@@ -254,38 +290,45 @@ Prints the given trigger into a human-readable string.
 
 This is a small wrapper around C<.print()>
 to help when debugging.
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
 
 =begin code
 method to-string (--> Str )
 =end code
 
-
 Return value; a new string. 
-
 
 =end pod
 
-
 #-------------------------------------------------------------------------------
-#`{{
 =begin pod
+This function is not yet available
 
 =head2 trigger
 
 Checks if the given C<$event> triggers C<$self>.
+=begin comment
+
+=head2 Example
+# Example for trigger
+
+=end comment
 
 =begin code
 method trigger ( N-Object() $event, Bool() $enable-mnemonics --> GdkKeyMatch  )
 =end code
 
 =item $event; the event to check.
-=item $enable-mnemonics; %TRUE if mnemonics should trigger. Usually the
- value of this property is determined by checking that the passed
- in C<$event> is a Key event and has the right modifiers set..
+=item $enable-mnemonics; C<True> if mnemonics should trigger. Usually the
+  value of this property is determined by checking that the passed
+  in C<$event> is a Key event and has the right modifiers set..
 
-Return value; Whether the event triggered the shortcut.  An enumeration.
-
+Return value; Whether the event triggered the shortcut. 
 
 =end pod
-}}
 
