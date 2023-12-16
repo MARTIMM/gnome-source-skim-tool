@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: shortcutaction
+=comment Package: Gtk4, C-Source: shortcutaction
 use v6.d;
 
 #-------------------------------------------------------------------------------

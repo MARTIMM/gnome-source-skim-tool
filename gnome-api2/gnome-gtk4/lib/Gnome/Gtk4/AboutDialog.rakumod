@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: aboutdialog
+=comment Package: Gtk4, C-Source: AboutDialog
 use v6.d;
 
 #-------------------------------------------------------------------------------
