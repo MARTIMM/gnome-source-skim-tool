@@ -384,34 +384,38 @@ method !modify-v4functions ( Str $text is copy --> Str ) {
 # and interfaces [iface@Gtk.TreeSortable]
 method !modify-v4classes ( Str $text is copy --> Str ) {
 
-  my Str $package;
-  my Str $prefix;
-  my Str $gname;
-
   # [class@Gtk.Entry]
-  $text ~~ m/ '[class@' $<prefix> = [<-[\.\]]>+] '.' $<gname> = [<-[\]]>+] ']' /;
-  while $/.Bool {
-    $prefix = $/<prefix>.Str;
-    $gname = $/<gname>.Str;
-    $package = $prefix;
-    $package ~= '4' if $prefix ~~ any(<Gtk Gsk Gdk>);
-    $text ~~ s/ '[class@' $prefix '.' $gname ']'
-              /B<Gnome\:\:$package\:\:$gname>/;
-    $text ~~ m:c/ '[class@' $<prefix> = <-[\.]>+ '.' $<gname> = <-[\]]>+ ']' /;
+  my token prefix { <-[\.\]]>+ }
+  my token classname { <-[\]]>+ }
+  my regex class1 { '[class@' <prefix> '.' <classname> ']' }
+  while $text ~~ m/ <class1> / {
+    my Str $prefix = $/<class1><prefix>.Str;
+    my Str $classname = $/<class1><classname>.Str;
+    my Hash $h = $!solve.search-name($prefix ~ $classname);
+    $classname = $!solve.set-object-name($h);
+    $text ~~ s/ <class1> /B<$classname>/;
   }
 
   # [class@Button]
-  $text ~~ m/ '[class@' $<gname> = [<-[\]]>+] ']' /;
-  while $/.Bool {
-    $gname = $/<gname>.Str;
-    $package = $*gnome-package.Str;
+  my regex class2 { '[class@' <classname> ']' }
+  while $text ~~ m/ <class2> / {
+    my Str $prefix = $*gnome-package.Str;
+    $prefix ~~ s/ \d+ $//;
+    my Str $classname = $/<class2><classname>.Str;
+    my Hash $h = $!solve.search-name($prefix ~ $classname);
+    $classname = $!solve.set-object-name($h) if ?$h;
 #note "$?LINE $gname, $package";
+    $text ~~ s/ <class2> /B<$classname>/;
+  }
 
-    # substitute
-    $text ~~ s/ '[class@' $gname ']' /B<Gnome\:\:$package\:\:$gname>/;
-
-    # next
-    $text ~~ m:c/ '[class@' $<gname> = <-[\]]>+ ']' /;
+  # [iface@Gtk.Buildable]
+  my regex iface1 { '[iface@' <prefix> '.' <classname> ']' }
+  while $text ~~ m/ <iface1> / {
+    my Str $prefix = $/<iface1><prefix>.Str;
+    my Str $classname = $/<iface1><classname>.Str;
+    my Hash $h = $!solve.search-name($prefix ~ $classname);
+    $classname = $!solve.set-object-name($h);
+    $text ~~ s/ <iface1> /B<$classname>/;
   }
 
   $text
@@ -465,6 +469,7 @@ method !modify-v4structure ( Str $text is copy --> Str ) {
   $text
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 method !modify-word ( Str $text is copy --> Str ) {
 
@@ -502,6 +507,7 @@ method !modify-word ( Str $text is copy --> Str ) {
 
   $text
 }
+}}
 
 #-------------------------------------------------------------------------------
 # Convert '::sig-name'
@@ -706,12 +712,6 @@ method !modify-rest ( Str $text is copy --> Str ) {
     $text ~~ s:g/ '`NULL`' /undefined/;
   }
 
-  # Markdown backtick changes
-  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
-    my Str $word = self!modify-word($/<word>.Str);
-    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
-  }
-
   # Old type literal changes
   $text ~~ s:g/ '%' TRUE /C<True>/;
   $text ~~ s:g/ '%' FALSE /C<False>/;
@@ -772,6 +772,13 @@ method !modify-rest ( Str $text is copy --> Str ) {
   # types
   #$text ~~ s:g/ '#' (\w+) /C<$0>/;
 
+#`{{
+  # Markdown backtick changes
+  while $text ~~ m:c/ '`' $<word> = [<-[`]>+] '`' / {
+    my Str $word = self!modify-word($/<word>.Str);
+    $text ~~ s/ '`' <-[`]>+ '`' /$word/;
+  }
+}}
   $text
 }
 
@@ -795,6 +802,8 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 #  $text ~~ s:g/ <|w> \n <|w> / /;      # wrong 
   $text ~~ s:g/ \n ** 3..* /\n\n/;      # two newlines when there are 3 or more
   $text ~~ s:g/ '(' ' ' ** 3..* /( /;   # spacing at start of argument lists
+
+  $text ~~ s:g/^^ ' '* '-' ' '/=item /; # markdown 
 
 #  if $trim {
 #    $text ~~ s:g/^^ \s+ //;             # wrong indenting
