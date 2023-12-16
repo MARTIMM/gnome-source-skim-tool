@@ -11,16 +11,19 @@ unit class Gnome::SourceSkimTool::DocText:auth<github:MARTIMM>;
 
 has Gnome::SourceSkimTool::Resolve $!solve;
 
-my Int $ex-counter;
-my Hash $examples;
+my Int $ex-counter = 0;
+my Hash $examples = %();
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
 
+  $!solve .= new;
+}
+
+#-------------------------------------------------------------------------------
+method reset ( ) {
   $ex-counter = 0;
   $examples = %();
-
-  $!solve .= new;
 }
 
 #-------------------------------------------------------------------------------
@@ -170,10 +173,10 @@ CONTROL {
 
     # Substitute the examples back into the text before we can finally modify it
     if ?$external-examples {
-note "$?LINE $example-file, $examples.keys.elems()";
+#note "$?LINE $example-file, $examples.keys.elems()";
       for $examples.keys -> $ex-key {
         my Str $t = $external-examples{$ex-key};
-note "$?LINE $ex-key, ", ?$t;
+#note "$?LINE $ex-key, ", ?$t;
         $text ~~ s/ $ex-key /$t/;
       }
     }
@@ -790,7 +793,8 @@ method !cleanup ( Str $text is copy, Bool :$trim = False --> Str ) {
 #  $text = self.scan-for-unresolved-items($text);
 #  $text ~~ s:g/ ' '+ / /;              # wrong indenting
 #  $text ~~ s:g/ <|w> \n <|w> / /;      # wrong 
-  $text ~~ s:g/ \n ** 3..* /\n\n/;
+  $text ~~ s:g/ \n ** 3..* /\n\n/;      # two newlines when there are 3 or more
+  $text ~~ s:g/ '(' ' ' ** 3..* /( /;   # spacing at start of argument lists
 
 #  if $trim {
 #    $text ~~ s:g/^^ \s+ //;             # wrong indenting

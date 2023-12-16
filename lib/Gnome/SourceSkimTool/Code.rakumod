@@ -2391,15 +2391,18 @@ method save-file ( Str $filename is copy, Str $content is copy, Str $comment ) {
     $save-it = $a.lc eq 'w';
   }
 
+  my Gnome::SourceSkimTool::DocText $dtxt .= new;
   if $save-it {
     if $*generate-doc {
-      my Gnome::SourceSkimTool::DocText $dtxt .= new;
       $content = $dtxt.modify-text( $filename.IO.basename, $content);
     }
 
     $filename.IO.spurt($content);
     $*saved-file-summary.push: $filename.IO.basename;
   }
+
+  # Must reset before another module gets documented
+  $dtxt.reset;
 
 #`{{
     if $*generate-doc {
