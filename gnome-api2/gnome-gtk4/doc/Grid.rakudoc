@@ -1,15 +1,15 @@
-# Package: Gtk4, C-Source: grid
+=comment Package: Gtk4, C-Source: grid
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::Grid
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::Grid
+
+![](images/grid.png)
+
 =head1 Description
 
 B<Gnome::Gtk4::Grid> is a container which arranges its child widgets in
@@ -27,84 +27,87 @@ grid, use C<.remove()>.
 The behaviour of B<Gnome::Gtk4::Grid> when several children occupy the same grid
 cell is undefined.
 
-=head1 GtkGrid as GtkBuildable
+=head2 GtkGrid as GtkBuildable
 
-Every child in a B<Gnome::Gtk4::Grid> has access to a custom [iface C<$Gtk>.Buildable]
-element, called U<layout>. It can by used to specify a position in the
-grid and optionally spans. All properties that can be used in the U<layout>
-element are implemented by [class C<$Gtk>.GridLayoutChild].
+Every child in a B<Gnome::Gtk4::Grid> has access to a custom B<Gnome::Gtk4::R-Buildable>
+element, called B<<layout>>. It can by used to specify a position in the
+grid and optionally spans. All properties that can be used in the B<<layout>>
+element are implemented by B<Gnome::Gtk4::GridLayoutChild>.
 
-It is implemented by I<GtkWidget> using [class C<$Gtk>.LayoutManager].
+It is implemented by B<Gnome::Gtk4::Widget> using B<Gnome::Gtk4::LayoutManager>.
 
 To showcase it, here is a simple example:
 
-=begin comment 
-Following example code is in xml
+=begin comment
+<object class="GtkGrid" id="my_grid">
+  <child>
+    <object class="GtkButton" id="button1">
+      <property name="label">Button 1</property>
+      <layout>
+        <property name="column">0</property>
+        <property name="row">0</property>
+      </layout>
+    </object>
+  </child>
+  <child>
+    <object class="GtkButton" id="button2">
+      <property name="label">Button 2</property>
+      <layout>
+        <property name="column">1</property>
+        <property name="row">0</property>
+      </layout>
+    </object>
+  </child>
+  <child>
+    <object class="GtkButton" id="button3">
+      <property name="label">Button 3</property>
+      <layout>
+        <property name="column">2</property>
+        <property name="row">0</property>
+        <property name="row-span">2</property>
+      </layout>
+    </object>
+  </child>
+  <child>
+    <object class="GtkButton" id="button4">
+      <property name="label">Button 4</property>
+      <layout>
+        <property name="column">0</property>
+        <property name="row">1</property>
+        <property name="column-span">2</property>
+      </layout>
+    </object>
+  </child>
+</object>
 
-  <object class="GtkGrid" id="my_grid">
-    <child>
-      <object class="GtkButton" id="button1">
-        <property name="label">Button 1</property>
-        <layout>
-          <property name="column">0</property>
-          <property name="row">0</property>
-        </layout>
-      </object>
-    </child>
-    <child>
-      <object class="GtkButton" id="button2">
-        <property name="label">Button 2</property>
-        <layout>
-          <property name="column">1</property>
-          <property name="row">0</property>
-        </layout>
-      </object>
-    </child>
-    <child>
-      <object class="GtkButton" id="button3">
-        <property name="label">Button 3</property>
-        <layout>
-          <property name="column">2</property>
-          <property name="row">0</property>
-          <property name="row-span">2</property>
-        </layout>
-      </object>
-    </child>
-    <child>
-      <object class="GtkButton" id="button4">
-        <property name="label">Button 4</property>
-        <layout>
-          <property name="column">0</property>
-          <property name="row">1</property>
-          <property name="column-span">2</property>
-        </layout>
-      </object>
-    </child>
-  </object>
 =end comment
 
 It organizes the first two buttons side-by-side in one cell each.
 The third button is in the last column but spans across two rows.
-This is defined by the I<row-span> property. The last button is
+This is defined by the B<row-span> property. The last button is
 located in the second row and spans across two columns, which is
-defined by the I<column-span> property.
+defined by the B<column-span> property.
 
-=head1 CSS nodes
+=head2 CSS nodes
 
-B<Gnome::Gtk4::Grid> uses a single CSS node with name I<grid>.
+B<Gnome::Gtk4::Grid> uses a single CSS node with name B<grid>.
 
-=head1 Accessibility
+=head2 Accessibility
 
-B<Gnome::Gtk4::Grid> uses the %GTK_ACCESSIBLE_ROLE_GROUP role.
+B<Gnome::Gtk4::Grid> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::Grid
+
 =end comment
 
 =end pod
@@ -124,7 +127,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =head3 :build-id
 
 Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
@@ -140,9 +142,15 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 Creates a new grid widget.
 
 =begin code
-method new-grid ( --> Gnome::Gtk4::Grid )
+method new-grid ( --> Gnome::Gtk4::Grid \)
 =end code
 
+=begin comment
+
+=head2 Example
+# Example for new-grid
+
+=end comment
 
 =end pod
 
@@ -156,13 +164,13 @@ method new-grid ( --> Gnome::Gtk4::Grid )
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 attach
 
 Adds a widget to the grid.
 
 The position of C<$child> is determined by C<$column> and C<$row>.
-The number of “cells” that C<$child> will occupy is determined by C<$width> and C<$height>.
+The number of “cells” that C<$child> will occupy is determined
+by C<$width> and C<$height>.
 
 =begin code
 method attach ( N-Object() $child, Int() $column, Int() $row, Int() $width, Int() $height )
@@ -174,20 +182,27 @@ method attach ( N-Object() $child, Int() $column, Int() $row, Int() $width, Int(
 =item $width; the number of columns that C<$child> will span.
 =item $height; the number of rows that C<$child> will span.
 
+=begin comment
+
+=head2 Example
+# Example for attach
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 attach-next-to
 
 Adds a widget to the grid.
 
-The widget is placed next to C<$sibling>, on the side determined by C<$side>. When C<$sibling> is undefined, the widget is placed in row (for left or right placement) or column 0 (for top or bottom placement),
+The widget is placed next to C<$sibling>, on the side determined by C<$side>. When C<$sibling> is undefined, the widget is placed in row (for
+left or right placement) or column 0 (for top or bottom placement),
 at the end indicated by C<$side>.
 
-Attaching widgets labeled I< and
->, I<[2]>, I<[3]> with I< C<$sibling> == undefined> and I< C<$side> == %GTK_POS_LEFT> yields a layout of I<[3][2][1]>.
+Attaching widgets labeled B<[1]>, B<[2]>, B<[3]> with B< C<$sibling> == undefined> and
+B< C<$side> == C<GTK_POS_LEFT>> yields a layout of B<[3][2][1]>.
 
 =begin code
 method attach-next-to ( N-Object() $child, N-Object() $sibling, GtkPositionType $side, Int() $width, Int() $height )
@@ -195,16 +210,22 @@ method attach-next-to ( N-Object() $child, N-Object() $sibling, GtkPositionType 
 
 =item $child; the widget to add.
 =item $sibling; the child of C<$grid> that C<$child> will be placed
- next to, or undefined to place C<$child> at the beginning or end.
-=item $side; the side of C<$sibling> that C<$child> is positioned next to. An enumeration.
+  next to, or undefined to place C<$child> at the beginning or end.
+=item $side; the side of C<$sibling> that C<$child> is positioned next to.
 =item $width; the number of columns that C<$child> will span.
 =item $height; the number of rows that C<$child> will span.
+
+=begin comment
+
+=head2 Example
+# Example for attach-next-to
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-baseline-row
 
 Returns which row defines the global baseline of C<$grid>.
@@ -213,18 +234,23 @@ Returns which row defines the global baseline of C<$grid>.
 method get-baseline-row (--> Int )
 =end code
 
-
 Return value; the row index defining the global baseline. 
 
+=begin comment
+
+=head2 Example
+# Example for get-baseline-row
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-child-at
 
-Gets the child of C<$grid> whose area covers the grid cell at C<$column>, C<$row>.
+Gets the child of C<$grid> whose area covers the grid
+cell at C<$column>, C<$row>.
 
 =begin code
 method get-child-at ( Int() $column, Int() $row --> N-Object )
@@ -235,12 +261,17 @@ method get-child-at ( Int() $column, Int() $row --> N-Object )
 
 Return value; the child at the given position. 
 
+=begin comment
+
+=head2 Example
+# Example for get-child-at
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-column-homogeneous
 
 Returns whether all columns of C<$grid> have the same width.
@@ -249,15 +280,19 @@ Returns whether all columns of C<$grid> have the same width.
 method get-column-homogeneous (--> Bool )
 =end code
 
-
 Return value; whether all columns of C<$grid> have the same width.. 
 
+=begin comment
+
+=head2 Example
+# Example for get-column-homogeneous
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-column-spacing
 
 Returns the amount of space between the columns of C<$grid>.
@@ -266,15 +301,19 @@ Returns the amount of space between the columns of C<$grid>.
 method get-column-spacing (--> UInt )
 =end code
 
-
 Return value; the column spacing of C<$grid>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-column-spacing
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-row-baseline-position
 
 Returns the baseline position of C<$row>.
@@ -287,14 +326,19 @@ method get-row-baseline-position ( Int() $row --> GtkBaselinePosition )
 
 =item $row; a row index.
 
-Return value; the baseline position of C<$row>.  An enumeration.
+Return value; the baseline position of C<$row>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-row-baseline-position
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-row-homogeneous
 
 Returns whether all rows of C<$grid> have the same height.
@@ -303,15 +347,19 @@ Returns whether all rows of C<$grid> have the same height.
 method get-row-homogeneous (--> Bool )
 =end code
 
-
 Return value; whether all rows of C<$grid> have the same height.. 
 
+=begin comment
+
+=head2 Example
+# Example for get-row-homogeneous
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-row-spacing
 
 Returns the amount of space between the rows of C<$grid>.
@@ -320,20 +368,26 @@ Returns the amount of space between the rows of C<$grid>.
 method get-row-spacing (--> UInt )
 =end code
 
-
 Return value; the row spacing of C<$grid>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-row-spacing
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 insert-column
 
 Inserts a column at the specified position.
 
-Children which are attached at or to the right of this position are moved one column to the right. Children which span across this position are grown to span the new column.
+Children which are attached at or to the right of this position
+are moved one column to the right. Children which span across this
+position are grown to span the new column.
 
 =begin code
 method insert-column ( Int() $position )
@@ -341,17 +395,24 @@ method insert-column ( Int() $position )
 
 =item $position; the position to insert the column at.
 
+=begin comment
+
+=head2 Example
+# Example for insert-column
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 insert-next-to
 
 Inserts a row or column at the specified position.
 
-The new row or column is placed next to C<$sibling>, on the side determined by C<$side>. If C<$side> is %GTK_POS_TOP or %GTK_POS_BOTTOM,
-a row is inserted. If C<$side> is %GTK_POS_LEFT of %GTK_POS_RIGHT,
+The new row or column is placed next to C<$sibling>, on the side
+determined by C<$side>. If C<$side> is C<GTK_POS_TOP> or C<GTK_POS_BOTTOM>,
+a row is inserted. If C<$side> is C<GTK_POS_LEFT> of C<GTK_POS_RIGHT>,
 a column is inserted.
 
 =begin code
@@ -359,19 +420,27 @@ method insert-next-to ( N-Object() $sibling, GtkPositionType $side )
 =end code
 
 =item $sibling; the child of C<$grid> that the new row or column will be
- placed next to.
-=item $side; the side of C<$sibling> that C<$child> is positioned next to. An enumeration.
+  placed next to.
+=item $side; the side of C<$sibling> that C<$child> is positioned next to.
+
+=begin comment
+
+=head2 Example
+# Example for insert-next-to
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 insert-row
 
 Inserts a row at the specified position.
 
-Children which are attached at or below this position are moved one row down. Children which span across this position are grown to span the new row.
+Children which are attached at or below this position
+are moved one row down. Children which span across this
+position are grown to span the new row.
 
 =begin code
 method insert-row ( Int() $position )
@@ -379,11 +448,17 @@ method insert-row ( Int() $position )
 
 =item $position; the position to insert the row at.
 
+=begin comment
+
+=head2 Example
+# Example for insert-row
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 query-child
 
 Queries the attach points and spans of C<$child> inside the given B<Gnome::Gtk4::Grid>.
@@ -392,22 +467,29 @@ Queries the attach points and spans of C<$child> inside the given B<Gnome::Gtk4:
 method query-child ( N-Object() $child, Array[Int] $column, Array[Int] $row, Array[Int] $width, Array[Int] $height )
 =end code
 
-=item $child; a I<GtkWidget> child of C<$grid>.
+=item $child; a B<Gnome::Gtk4::Widget> child of C<$grid>.
 =item $column; (transfer ownership: full) the column used to attach the left side of C<$child>.
 =item $row; (transfer ownership: full) the row used to attach the top side of C<$child>.
 =item $width; (transfer ownership: full) the number of columns C<$child> spans.
 =item $height; (transfer ownership: full) the number of rows C<$child> spans.
 
+=begin comment
+
+=head2 Example
+# Example for query-child
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 remove
 
 Removes a child from C<$grid>.
 
-The child must have been added with C<.attach()> or C<.attach-next-to() defined in Grid>.
+The child must have been added with
+C<.attach()> or C<.attach-next-to()>.
 
 =begin code
 method remove ( N-Object() $child )
@@ -415,17 +497,25 @@ method remove ( N-Object() $child )
 
 =item $child; the child widget to remove.
 
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 remove-column
 
 Removes a column from the grid.
 
 Children that are placed in this column are removed,
-spanning children that overlap this column have their width reduced by one, and children after the column are moved to the left.
+spanning children that overlap this column have their
+width reduced by one, and children after the column
+are moved to the left.
 
 =begin code
 method remove-column ( Int() $position )
@@ -433,17 +523,25 @@ method remove-column ( Int() $position )
 
 =item $position; the position of the column to remove.
 
+=begin comment
+
+=head2 Example
+# Example for remove-column
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 remove-row
 
 Removes a row from the grid.
 
 Children that are placed in this row are removed,
-spanning children that overlap this row have their height reduced by one, and children below the row are moved up.
+spanning children that overlap this row have their
+height reduced by one, and children below the row
+are moved up.
 
 =begin code
 method remove-row ( Int() $position )
@@ -451,16 +549,24 @@ method remove-row ( Int() $position )
 
 =item $position; the position of the row to remove.
 
+=begin comment
+
+=head2 Example
+# Example for remove-row
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-baseline-row
 
 Sets which row defines the global baseline for the entire grid.
 
-Each row in the grid can have its own local baseline, but only one of those is global, meaning it will be the baseline in the parent of the C<$grid>.
+Each row in the grid can have its own local baseline, but only
+one of those is global, meaning it will be the baseline in the
+parent of the C<$grid>.
 
 =begin code
 method set-baseline-row ( Int() $row )
@@ -468,11 +574,17 @@ method set-baseline-row ( Int() $row )
 
 =item $row; the row index.
 
+=begin comment
+
+=head2 Example
+# Example for set-baseline-row
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-column-homogeneous
 
 Sets whether all columns of C<$grid> will have the same width.
@@ -481,13 +593,19 @@ Sets whether all columns of C<$grid> will have the same width.
 method set-column-homogeneous ( Bool() $homogeneous )
 =end code
 
-=item $homogeneous; %TRUE to make columns homogeneous.
+=item $homogeneous; C<True> to make columns homogeneous.
+
+=begin comment
+
+=head2 Example
+# Example for set-column-homogeneous
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-column-spacing
 
 Sets the amount of space between columns of C<$grid>.
@@ -498,29 +616,42 @@ method set-column-spacing ( UInt() $spacing )
 
 =item $spacing; the amount of space to insert between columns.
 
+=begin comment
+
+=head2 Example
+# Example for set-column-spacing
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-row-baseline-position
 
-Sets how the baseline should be positioned on C<$row> of the grid, in case that row is assigned more space than is requested.
+Sets how the baseline should be positioned on C<$row> of the
+grid, in case that row is assigned more space than is requested.
 
-The default baseline position is %GTK_BASELINE_POSITION_CENTER.
+The default baseline position is C<GTK_BASELINE_POSITION_CENTER>.
 
 =begin code
 method set-row-baseline-position ( Int() $row, GtkBaselinePosition $pos )
 =end code
 
 =item $row; a row index.
-=item $pos; a I<GtkBaselinePosition>. An enumeration.
+=item $pos; a C<enumeration GtkBaselinePosition defined in Gnome::Gtk4::T-Enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-baseline-position
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-row-homogeneous
 
 Sets whether all rows of C<$grid> will have the same height.
@@ -529,13 +660,19 @@ Sets whether all rows of C<$grid> will have the same height.
 method set-row-homogeneous ( Bool() $homogeneous )
 =end code
 
-=item $homogeneous; %TRUE to make rows homogeneous.
+=item $homogeneous; C<True> to make rows homogeneous.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-homogeneous
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-row-spacing
 
 Sets the amount of space between rows of C<$grid>.
@@ -545,6 +682,13 @@ method set-row-spacing ( UInt() $spacing )
 =end code
 
 =item $spacing; the amount of space to insert between rows.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-spacing
+
+=end comment
 
 =end pod
 

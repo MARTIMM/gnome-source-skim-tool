@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: grid
+=comment Package: Gtk4, C-Source: grid
 use v6.d;
 
 #-------------------------------------------------------------------------------
