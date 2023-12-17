@@ -1,0 +1,296 @@
+=comment Package: Gtk4, C-Source: shortcutcontroller
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ShortcutController
+
+![](images/shortcutcontroller.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ShortcutController> is an event controller that manages shortcuts.
+
+Most common shortcuts are using this controller implicitly, e.g. by
+adding a mnemonic underline to a B<Gnome::Gtk4::Label>, or by installing a key
+binding using C<.add-binding() in class Gnome::Gtk4::ShortcutController>, or by adding accelerators
+to global actions using C<.set-accels-for-action() in class Gnome::Gtk4::Application>.
+
+But it is possible to create your own shortcut controller, and add
+shortcuts to it.
+
+B<Gnome::Gtk4::ShortcutController> implements U<Gnome::Gio::R-ListModel> for querying the
+shortcuts that have been added to it.
+
+=head2 GtkShortcutController as a GtkBuildable
+
+B<GtkShortcutControllers> can be creates in ui files to set up
+shortcuts in the same place as the widgets.
+
+An example of a UI definition fragment with B<Gnome::Gtk4::ShortcutController>:
+=begin comment
+  <object class='GtkButton'>
+    <child>
+      <object class='GtkShortcutController'>
+        <property name='scope'>managed</property>
+        <child>
+          <object class='GtkShortcut'>
+            <property name='trigger'>&lt;Control&gt;k</property>
+            <property name='action'>activate</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+
+=end comment
+
+This example creates a B<Gnome::Gtk4::ActivateAction> for triggering the
+B<activate> signal of the B<Gnome::Gtk4::Button>. See C<.parse-string() in class Gnome::Gtk4::ShortcutAction>
+for the syntax for other kinds of B<Gnome::Gtk4::ShortcutAction>. See
+C<.parse-string() in class Gnome::Gtk4::ShortcutTrigger> to learn more about the syntax
+for triggers.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ShortcutController
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-shortcutcontroller
+
+Creates a new shortcut controller.
+
+=begin code
+method new-shortcutcontroller ( --> Gnome::Gtk4::ShortcutController \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-shortcutcontroller
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-model
+
+Creates a new shortcut controller that takes its shortcuts from
+the given list model.
+
+A controller created by this function does not let you add or
+remove individual shortcuts using the shortcut controller api,
+but you can change the contents of the model.
+
+=begin code
+method new-for-model ( N-List() $model --> Gnome::Gtk4::ShortcutController \)
+=end code
+
+=item $model; a U<Gnome::Gio::R-ListModel> containing shortcuts.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-shortcut
+
+Adds C<$shortcut> to the list of shortcuts handled by C<$self>.
+
+If this controller uses an external shortcut list, this
+function does nothing.
+
+=begin code
+method add-shortcut ( N-Object() $shortcut )
+=end code
+
+=item $shortcut; (transfer ownership: full) a B<Gnome::Gtk4::Shortcut>.
+
+=begin comment
+
+=head2 Example
+# Example for add-shortcut
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mnemonics-modifiers
+
+Gets the mnemonics modifiers for when this controller activates its shortcuts.
+
+=begin code
+method get-mnemonics-modifiers (--> UInt )
+=end code
+
+Return value; the controller's mnemonics modifiers. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mnemonics-modifiers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-scope
+
+Gets the scope for when this controller activates its shortcuts.
+
+See C<.set-scope()> for details.
+
+=begin code
+method get-scope (--> GtkShortcutScope )
+=end code
+
+Return value; the controller's scope. 
+
+=begin comment
+
+=head2 Example
+# Example for get-scope
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-shortcut
+
+Removes C<$shortcut> from the list of shortcuts handled by C<$self>.
+
+If C<$shortcut> had not been added to C<$controller> or this controller
+uses an external shortcut list, this function does nothing.
+
+=begin code
+method remove-shortcut ( N-Object() $shortcut )
+=end code
+
+=item $shortcut; a B<Gnome::Gtk4::Shortcut>.
+
+=begin comment
+
+=head2 Example
+# Example for remove-shortcut
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-mnemonics-modifiers
+
+Sets the controller to use the given modifier for mnemonics.
+
+The mnemonics modifiers determines which modifiers need to be pressed to allow
+activation of shortcuts with mnemonics triggers.
+
+GTK normally uses the Alt modifier for mnemonics, except in B<Gnome::Gtk4::PopoverMenu>s,
+where mnemonics can be triggered without any modifiers. It should be very
+rarely necessary to change this, and doing so is likely to interfere with
+other shortcuts.
+
+This value is only relevant for local shortcut controllers. Global and managed
+shortcut controllers will have their shortcuts activated from other places which
+have their own modifiers for activating mnemonics.
+
+=begin code
+method set-mnemonics-modifiers ( UInt $modifiers )
+=end code
+
+=item $modifiers; the new mnemonics_modifiers to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-mnemonics-modifiers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-scope
+
+Sets the controller to have the given C<$scope>.
+
+The scope allows shortcuts to be activated outside of the normal
+event propagation. In particular, it allows installing global
+keyboard shortcuts that can be activated even when a widget does
+not have focus.
+
+With C<GTK_SHORTCUT_SCOPE_LOCAL>, shortcuts will only be activated
+when the widget has focus.
+
+=begin code
+method set-scope ( GtkShortcutScope $scope )
+=end code
+
+=item $scope; the new scope to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-scope
+
+=end comment
+
+=end pod
+

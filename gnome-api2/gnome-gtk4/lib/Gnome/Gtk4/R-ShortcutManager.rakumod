@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutmanager
+=comment Package: Gtk4, C-Source: shortcutmanager
 use v6.d;
 
 #-------------------------------------------------------------------------------

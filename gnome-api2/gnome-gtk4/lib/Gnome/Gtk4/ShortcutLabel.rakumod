@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutlabel
+=comment Package: Gtk4, C-Source: shortcutlabel
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_shortcut_label_>);
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::ShortcutLabel' {
@@ -57,13 +57,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-shortcutlabel => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
+  new-shortcutlabel => %( :type(Constructor), :is-symbol<gtk_shortcut_label_new>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-accelerator => %( :returns(Str)),
-  get-disabled-text => %( :returns(Str)),
-  set-accelerator => %( :parameters([Str])),
-  set-disabled-text => %( :parameters([Str])),
+  get-accelerator => %(:is-symbol<gtk_shortcut_label_get_accelerator>,  :returns(Str)),
+  get-disabled-text => %(:is-symbol<gtk_shortcut_label_get_disabled_text>,  :returns(Str)),
+  set-accelerator => %(:is-symbol<gtk_shortcut_label_set_accelerator>,  :parameters([Str])),
+  set-disabled-text => %(:is-symbol<gtk_shortcut_label_set_disabled_text>,  :parameters([Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_shortcut_label_>
+        :library(gtk4-lib())
       );
 
       # Check the function name. 

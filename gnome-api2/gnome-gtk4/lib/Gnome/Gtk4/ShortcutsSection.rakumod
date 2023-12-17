@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutssection
+=comment Package: Gtk4, C-Source: shortcutssection
 use v6.d;
 
 #-------------------------------------------------------------------------------

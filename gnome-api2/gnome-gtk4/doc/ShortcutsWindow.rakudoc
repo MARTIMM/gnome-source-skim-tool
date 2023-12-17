@@ -1,0 +1,164 @@
+=comment Package: Gtk4, C-Source: shortcutswindow
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ShortcutsWindow
+
+![](images/shortcutswindow.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::ShortcutsWindow> shows information about the keyboard shortcuts
+and gestures of an application.
+
+The shortcuts can be grouped, and you can have multiple sections in this
+window, corresponding to the major modes of your application.
+
+Additionally, the shortcuts can be filtered by the current view, to avoid
+showing information that is not relevant in the current application context.
+
+The recommended way to construct a B<Gnome::Gtk4::ShortcutsWindow> is with
+B<Gnome::Gtk4::Builder>, by populating a B<Gnome::Gtk4::ShortcutsWindow> with one or
+more B<Gnome::Gtk4::ShortcutsSection> objects, which contain B<GtkShortcutsGroups>
+that in turn contain objects of class B<Gnome::Gtk4::ShortcutsShortcut>.
+
+=head2 A simple example:
+
+![](gedit-shortcuts.png)
+
+This example has as single section. As you can see, the shortcut groups
+are arranged in columns, and spread across several pages if there are too
+many to find on a single page.
+
+The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-gedit.ui).
+
+=head2 An example with multiple views:
+
+![](clocks-shortcuts.png)
+
+This example shows a B<Gnome::Gtk4::ShortcutsWindow> that has been configured to show only
+the shortcuts relevant to the "stopwatch" view.
+
+The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-clocks.ui).
+
+=head2 An example with multiple sections:
+
+![](builder-shortcuts.png)
+
+This example shows a B<Gnome::Gtk4::ShortcutsWindow> with two sections, "Editor Shortcuts"
+and "Terminal Shortcuts".
+
+The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-builder.ui).
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ShortcutsWindow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 close
+
+Emitted when the user uses a keybinding to close the window.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is the Escape key.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ShortcutsWindow :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ShortcutsWindow> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal close
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 search
+
+Emitted when the user uses a keybinding to start a search.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is Control-F.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ShortcutsWindow :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ShortcutsWindow> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal search
+
+=end comment
+
+=end pod
+

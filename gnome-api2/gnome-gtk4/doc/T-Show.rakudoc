@@ -1,0 +1,113 @@
+=comment Package: Gtk4, C-Source: show
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-Show
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 show-uri
+
+This function launches the default application for showing
+a given uri, or shows an error dialog if that fails.
+
+=begin code
+method show-uri ( N-Object() $parent, Str $uri, UInt() $timestamp )
+=end code
+
+=item $parent; parent window.
+=item $uri; the uri to show.
+=item $timestamp; timestamp from the event that triggered this call, or C<GDK_CURRENT_TIME>.
+
+=begin comment
+
+=head2 Example
+# Example for show-uri
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 show-uri-full
+This function is not yet available
+
+This function launches the default application for showing
+a given uri.
+
+The C<$callback> will be called when the launch is completed.
+It should call C<.uri-full-finish()> to obtain the result.
+
+This is the recommended call to be used as it passes information
+necessary for sandbox helpers to parent their dialogs properly.
+
+=begin code
+method show-uri-full ( N-Object() $parent, Str $uri, UInt() $timestamp, N-Object() $cancellable, …, gpointer $user-data )
+=end code
+
+=item $parent; parent window.
+=item $uri; the uri to show.
+=item $timestamp; timestamp from the event that triggered this call, or C<GDK_CURRENT_TIME>.
+=item $cancellable; a B<Gnome::Gio::Cancellable> to cancel the launch.
+=item callback; a callback to call when the action is complete. Note that each argument must be specified as a type followed by its value!
+=item $user-data; data to pass to C<$callback>.
+
+=begin comment
+
+=head2 Example
+# Example for show-uri-full
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 show-uri-full-finish
+
+Finishes the C<.uri()> call and returns the result
+of the operation.
+
+=begin code
+method show-uri-full-finish ( N-Object() $parent, N-Object() $result --> Bool )
+=end code
+
+=item $parent; the B<Gnome::Gtk4::Window> passed to C<.uri()>.
+=item $result; U<Gnome::Gio::R-AsyncResult> that was passed to C<$callback>.
+
+Return value; C<True> if the URI was shown successfully.
+  Otherwise, C<False> is returned and C<$error> is set. 
+
+=begin comment
+
+=head2 Example
+# Example for show-uri-full-finish
+
+=end comment
+
+=end pod
+

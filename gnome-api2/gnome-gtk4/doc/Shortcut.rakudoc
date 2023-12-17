@@ -1,0 +1,249 @@
+=comment Package: Gtk4, C-Source: shortcut
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Shortcut
+
+![](images/shortcut.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::Shortcut> describes a keyboard shortcut.
+
+It contains a description of how to trigger the shortcut via a
+B<Gnome::Gtk4::ShortcutTrigger> and a way to activate the shortcut
+on a widget via a B<Gnome::Gtk4::ShortcutAction>.
+
+The actual work is usually done via B<Gnome::Gtk4::ShortcutController>,
+which decides if and when to activate a shortcut. Using that controller
+directly however is rarely necessary as various higher level
+convenience APIs exist on B<Gnome::Gtk4::Widget>s that make it easier to use
+shortcuts in GTK.
+
+B<Gnome::Gtk4::Shortcut> does provide functionality to make it easy for users
+to work with shortcuts, either by providing informational strings
+for display purposes or by allowing shortcuts to be configured.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Shortcut
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-shortcut
+
+Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action>.
+
+=begin code
+method new-shortcut ( N-Object() $trigger, N-Object() $action --> Gnome::Gtk4::Shortcut \)
+=end code
+
+=item $trigger; (transfer ownership: full) The trigger that will trigger the shortcut.
+=item $action; (transfer ownership: full) The action that will be activated upon
+   triggering.
+
+=begin comment
+
+=head2 Example
+# Example for new-shortcut
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-arguments
+This function is not yet available
+
+Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action> with arguments given by C<$format_string>.
+
+=begin code
+method new-with-arguments ( N-Object() $trigger, N-Object() $action, Str $format-string, … --> Gnome::Gtk4::Shortcut \)
+=end code
+
+=item $trigger; (transfer ownership: full) The trigger that will trigger the shortcut.
+=item $action; (transfer ownership: full) The action that will be activated upon
+  triggering.
+=item $format-string; GVariant format string for arguments or undefined for
+  no arguments.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-with-arguments
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-action
+
+Gets the action that is activated by this shortcut.
+
+=begin code
+method get-action (--> N-Object )
+=end code
+
+Return value; the action. 
+
+=begin comment
+
+=head2 Example
+# Example for get-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-arguments
+
+Gets the arguments that are passed when activating the shortcut.
+
+=begin code
+method get-arguments (--> CArray[N-Variant] )
+=end code
+
+Return value; the arguments. 
+
+=begin comment
+
+=head2 Example
+# Example for get-arguments
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-trigger
+
+Gets the trigger used to trigger C<$self>.
+
+=begin code
+method get-trigger (--> N-Object )
+=end code
+
+Return value; the trigger used. 
+
+=begin comment
+
+=head2 Example
+# Example for get-trigger
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-action
+
+Sets the new action for C<$self> to be C<$action>.
+
+=begin code
+method set-action ( N-Object() $action )
+=end code
+
+=item $action; (transfer ownership: full) The new action.
+  If the C<$action> is undefined, the nothing action will be used..
+
+=begin comment
+
+=head2 Example
+# Example for set-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-arguments
+
+Sets the arguments to pass when activating the shortcut.
+
+=begin code
+method set-arguments ( CArray[N-Variant] $args )
+=end code
+
+=item $args; arguments to pass when activating C<$self>.
+
+=begin comment
+
+=head2 Example
+# Example for set-arguments
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-trigger
+
+Sets the new trigger for C<$self> to be C<$trigger>.
+
+=begin code
+method set-trigger ( N-Object() $trigger )
+=end code
+
+=item $trigger; (transfer ownership: full) The new trigger.
+  If the C<$trigger> is undefined, the never trigger will be used..
+
+=begin comment
+
+=head2 Example
+# Example for set-trigger
+
+=end comment
+
+=end pod
+

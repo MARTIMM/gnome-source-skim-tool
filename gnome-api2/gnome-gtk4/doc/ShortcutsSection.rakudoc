@@ -1,0 +1,105 @@
+=comment Package: Gtk4, C-Source: shortcutssection
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ShortcutsSection
+
+![](images/shortcutssection.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::ShortcutsSection> collects all the keyboard shortcuts and gestures
+for a major application mode.
+
+If your application needs multiple sections, you should give each
+section a unique I<section-name> and
+a I<title> that can be shown in the
+section selector of the B<Gnome::Gtk4::ShortcutsWindow>.
+
+The I<max-height> property can be used
+to influence how the groups in the section are distributed over pages
+and columns.
+
+This widget is only meant to be used with B<Gnome::Gtk4::ShortcutsWindow>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ShortcutsSection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 change-current-page
+
+=begin code
+method handler (
+  gint $object,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ShortcutsSection :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $object; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ShortcutsSection> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal change-current-page
+
+=end comment
+
+=end pod
+

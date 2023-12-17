@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutswindow
+=comment Package: Gtk4, C-Source: shortcutswindow
 use v6.d;
 
 #-------------------------------------------------------------------------------

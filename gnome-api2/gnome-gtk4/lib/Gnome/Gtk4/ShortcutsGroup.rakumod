@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutsgroup
+=comment Package: Gtk4, C-Source: shortcutsGroup
 use v6.d;
 
 #-------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcutcontroller
+=comment Package: Gtk4, C-Source: shortcutcontroller
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Gdk4::T-Enums:api<2>;
+use Gnome::Gdk4::T-Enums:api<2>;
 #use Gnome::Gtk4::EventController:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
@@ -52,7 +52,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_shortcut_controller_>);
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::ShortcutController' {
@@ -72,16 +72,16 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-shortcutcontroller => %( :type(Constructor), :isnew, :returns(N-Object), ),
-  new-for-model => %( :type(Constructor), :returns(N-Object), :parameters([ N-Object])),
+  new-shortcutcontroller => %( :type(Constructor), :is-symbol<gtk_shortcut_controller_new>, :returns(N-Object), ),
+  new-for-model => %( :type(Constructor), :is-symbol<gtk_shortcut_controller_new_for_model>, :returns(N-Object), :parameters([ N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  add-shortcut => %( :parameters([N-Object])),
-  #get-mnemonics-modifiers => %( :returns(GFlag), :cnv-return(GdkModifierType )),
-  get-scope => %( :returns(GEnum), :cnv-return(GtkShortcutScope)),
-  remove-shortcut => %( :parameters([N-Object])),
-  #set-mnemonics-modifiers => %( :parameters([GFlag])),
-  set-scope => %( :parameters([GEnum])),
+  add-shortcut => %(:is-symbol<gtk_shortcut_controller_add_shortcut>,  :parameters([N-Object])),
+  get-mnemonics-modifiers => %(:is-symbol<gtk_shortcut_controller_get_mnemonics_modifiers>,  :returns(GFlag), :cnv-return(GdkModifierType)),
+  get-scope => %(:is-symbol<gtk_shortcut_controller_get_scope>,  :returns(GEnum), :cnv-return(GtkShortcutScope)),
+  remove-shortcut => %(:is-symbol<gtk_shortcut_controller_remove_shortcut>,  :parameters([N-Object])),
+  set-mnemonics-modifiers => %(:is-symbol<gtk_shortcut_controller_set_mnemonics_modifiers>,  :parameters([GFlag])),
+  set-scope => %(:is-symbol<gtk_shortcut_controller_set_scope>,  :parameters([GEnum])),
 );
 
 #-------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_shortcut_controller_>
+        :library(gtk4-lib())
       );
 
       # Check the function name. 

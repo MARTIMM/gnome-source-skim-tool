@@ -1,0 +1,171 @@
+=comment Package: Gtk4, C-Source: shortcutlabel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ShortcutLabel
+
+![](images/shortcutlabel.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ShortcutLabel> displays a single keyboard shortcut or gesture.
+
+The main use case for B<Gnome::Gtk4::ShortcutLabel> is inside a B<Gnome::Gtk4::ShortcutsWindow>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ShortcutLabel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-shortcutlabel
+
+Creates a new B<Gnome::Gtk4::ShortcutLabel> with C<$accelerator> set.
+
+=begin code
+method new-shortcutlabel ( Str $accelerator --> Gnome::Gtk4::ShortcutLabel \)
+=end code
+
+=item $accelerator; the initial accelerator.
+
+=begin comment
+
+=head2 Example
+# Example for new-shortcutlabel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-accelerator
+
+Retrieves the current accelerator of C<$self>.
+
+=begin code
+method get-accelerator (--> Str )
+=end code
+
+Return value; the current accelerator.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-accelerator
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-disabled-text
+
+Retrieves the text that is displayed when no accelerator is set.
+
+=begin code
+method get-disabled-text (--> Str )
+=end code
+
+Return value; the current text displayed when no
+accelerator is set.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-disabled-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-accelerator
+
+Sets the accelerator to be displayed by C<$self>.
+
+=begin code
+method set-accelerator ( Str $accelerator )
+=end code
+
+=item $accelerator; the new accelerator.
+
+=begin comment
+
+=head2 Example
+# Example for set-accelerator
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-disabled-text
+
+Sets the text to be displayed by C<$self> when no accelerator is set.
+
+=begin code
+method set-disabled-text ( Str $disabled-text )
+=end code
+
+=item $disabled-text; the text to be displayed when no accelerator is set.
+
+=begin comment
+
+=head2 Example
+# Example for set-disabled-text
+
+=end comment
+
+=end pod
+

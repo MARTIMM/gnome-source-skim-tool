@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 shortcut
+=comment Package: Gtk4, C-Source: shortcut
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_shortcut_>);
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::Shortcut' {
@@ -58,16 +58,16 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-shortcut => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ N-Object, N-Object])),
-  #new-with-arguments => %( :type(Constructor), :returns(N-Object), :variable-list, :parameters([ N-Object, N-Object, Str])),
+  new-shortcut => %( :type(Constructor), :is-symbol<gtk_shortcut_new>, :returns(N-Object), :parameters([ N-Object, N-Object])),
+  new-with-arguments => %( :type(Constructor), :is-symbol<gtk_shortcut_new_with_arguments>, :returns(N-Object), :variable-list, :parameters([ N-Object, N-Object, Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-action => %( :returns(N-Object)),
-  get-arguments => %( :returns(N-Variant)),
-  get-trigger => %( :returns(N-Object)),
-  set-action => %( :parameters([N-Object])),
-  set-arguments => %( :parameters([N-Variant])),
-  set-trigger => %( :parameters([N-Object])),
+  get-action => %(:is-symbol<gtk_shortcut_get_action>,  :returns(N-Object)),
+  get-arguments => %(:is-symbol<gtk_shortcut_get_arguments>,  :returns(N-Variant)),
+  get-trigger => %(:is-symbol<gtk_shortcut_get_trigger>,  :returns(N-Object)),
+  set-action => %(:is-symbol<gtk_shortcut_set_action>,  :parameters([N-Object])),
+  set-arguments => %(:is-symbol<gtk_shortcut_set_arguments>,  :parameters([N-Variant])),
+  set-trigger => %(:is-symbol<gtk_shortcut_set_trigger>,  :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_shortcut_>
+        :library(gtk4-lib())
       );
 
       # Check the function name. 

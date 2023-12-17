@@ -1,0 +1,62 @@
+=comment Package: Gtk4, C-Source: shortcutsGroup
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ShortcutsGroup
+
+![](images/shortcutsgroup.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::ShortcutsGroup> represents a group of related keyboard shortcuts
+or gestures.
+
+The group has a title. It may optionally be associated with a view
+of the application, which can be used to show only relevant shortcuts
+depending on the application context.
+
+This widget is only meant to be used with B<Gnome::Gtk4::ShortcutsWindow>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ShortcutsGroup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
