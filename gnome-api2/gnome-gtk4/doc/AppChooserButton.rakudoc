@@ -1,0 +1,458 @@
+=comment Package: Gtk4, C-Source: appchooserbutton
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::AppChooserButton
+
+![](images/appchooserbutton.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::AppChooserButton> lets the user select an application.
+
+![An example GtkAppChooserButton](appchooserbutton.png)
+
+Initially, a B<Gnome::Gtk4::AppChooserButton> selects the first application
+in its list, which will either be the most-recently used application
+or, if I<show-default-item> is C<True>, the
+default application.
+
+The list of applications shown in a B<Gnome::Gtk4::AppChooserButton> includes
+the recommended applications for the given content type. When
+I<show-default-item> is set, the default
+application is also included. To let the user chooser other applications,
+you can set the I<show-dialog-item> property,
+which allows to open a full B<Gnome::Gtk4::AppChooserDialog>.
+
+It is possible to add custom items to the list, using
+C<.append-custom-item()>. These items cause
+the I<custom-item-activated> signal to be
+emitted when they are selected.
+
+To track changes in the selected application, use the
+I<changed> signal.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::AppChooserButton> has a single CSS node with the name “appchooserbutton”.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::AppChooserButton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-appchooserbutton
+
+Creates a new B<Gnome::Gtk4::AppChooserButton> for applications
+that can handle content of the given type.
+
+=begin code
+method new-appchooserbutton ( Str $content-type --> Gnome::Gtk4::AppChooserButton \)
+=end code
+
+=item $content-type; the content type to show applications for.
+
+=begin comment
+
+=head2 Example
+# Example for new-appchooserbutton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-custom-item
+
+Appends a custom item to the list of applications that is shown
+in the popup.
+
+The item name must be unique per-widget. Clients can use the
+provided name as a detail for the
+I<custom-item-activated> signal, to add a
+callback for the activation of a particular custom item in the list.
+
+See also C<.append-separator()>.
+
+=begin code
+method append-custom-item ( Str $name, Str $label, N-Object() $icon )
+=end code
+
+=item $name; the name of the custom item.
+=item $label; the label for the custom item.
+=item $icon; the icon for the custom item.
+
+=begin comment
+
+=head2 Example
+# Example for append-custom-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-separator
+
+Appends a separator to the list of applications that is shown
+in the popup.
+
+=begin code
+method append-separator ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for append-separator
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-heading
+
+Returns the text to display at the top of the dialog.
+
+=begin code
+method get-heading (--> Str )
+=end code
+
+Return value; the text to display at the top of the dialog,
+  or undefined, in which case a default text is displayed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-heading
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-modal
+
+Gets whether the dialog is modal.
+
+=begin code
+method get-modal (--> Bool )
+=end code
+
+Return value; C<True> if the dialog is modal. 
+
+=begin comment
+
+=head2 Example
+# Example for get-modal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-default-item
+
+Returns whether the dropdown menu should show the default
+application at the top.
+
+=begin code
+method get-show-default-item (--> Bool )
+=end code
+
+Return value; the value of I<show-default-item>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-default-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-dialog-item
+
+Returns whether the dropdown menu shows an item
+for a B<Gnome::Gtk4::AppChooserDialog>.
+
+=begin code
+method get-show-dialog-item (--> Bool )
+=end code
+
+Return value; the value of I<show-dialog-item>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-dialog-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-active-custom-item
+
+Selects a custom item.
+
+See C<.append-custom-item()>.
+
+Use C<.refresh() in class Gnome::Gtk4::R-AppChooser> to bring the selection
+to its initial state.
+
+=begin code
+method set-active-custom-item ( Str $name )
+=end code
+
+=item $name; the name of the custom item.
+
+=begin comment
+
+=head2 Example
+# Example for set-active-custom-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-heading
+
+Sets the text to display at the top of the dialog.
+
+If the heading is not set, the dialog displays a default text.
+
+=begin code
+method set-heading ( Str $heading )
+=end code
+
+=item $heading; a string containing Pango markup.
+
+=begin comment
+
+=head2 Example
+# Example for set-heading
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-modal
+
+Sets whether the dialog should be modal.
+
+=begin code
+method set-modal ( Bool() $modal )
+=end code
+
+=item $modal; C<True> to make the dialog modal.
+
+=begin comment
+
+=head2 Example
+# Example for set-modal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-default-item
+
+Sets whether the dropdown menu of this button should show the
+default application for the given content type at top.
+
+=begin code
+method set-show-default-item ( Bool() $setting )
+=end code
+
+=item $setting; the new value for I<show-default-item>.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-default-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-dialog-item
+
+Sets whether the dropdown menu of this button should show an
+entry to trigger a B<Gnome::Gtk4::AppChooserDialog>.
+
+=begin code
+method set-show-dialog-item ( Bool() $setting )
+=end code
+
+=item $setting; the new value for I<show-dialog-item>.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-dialog-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted to when the button is activated.
+
+The B<::activate> signal on B<Gnome::Gtk4::AppChooserButton> is an action signal and
+emitting it causes the button to pop up its dialog.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::AppChooserButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+Emitted when the active application changes.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::AppChooserButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 custom-item-activated
+
+Emitted when a custom item is activated.
+
+Use C<.append-custom-item()>,
+to add custom items.
+
+=begin code
+method handler (
+  Str $item-name,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::AppChooserButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $item-name; the name of the activated item.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::AppChooserButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal custom-item-activated
+
+=end comment
+
+=end pod
+
