@@ -1,33 +1,35 @@
- use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::Orientable
-=end pod
+=comment Package: Gtk4, C-Source: orientable
+use v6.d;
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::R-Orientable
 
 ![](images/orientable.png)
 
 =head1 Description
 
-The B<Gnome::Gtk4::Orientable> interface is implemented by all widgets that can be
+The U<Gnome::Gtk4::R-Orientable> interface is implemented by all widgets that can be
 oriented horizontally or vertically.
 
-B<Gnome::Gtk4::Orientable> is more flexible in that it allows the orientation to be
+U<Gnome::Gtk4::R-Orientable> is more flexible in that it allows the orientation to be
 changed at runtime, allowing the widgets to “flip”.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::Orientable
+
 =end comment
 
 =end pod
@@ -49,9 +51,14 @@ Retrieves the orientation of the C<$orientable>.
 method get-orientation (--> GtkOrientation )
 =end code
 
+Return value; the orientation of the C<$orientable>. 
 
-Return value; the orientation of the C<$orientable>.  An enumeration.
+=begin comment
 
+=head2 Example
+# Example for get-orientation
+
+=end comment
 
 =end pod
 
@@ -65,7 +72,14 @@ Sets the orientation of the C<$orientable>.
 method set-orientation ( GtkOrientation $orientation )
 =end code
 
-=item $orientation; the orientable’s new orientation. An enumeration.
+=item $orientation; the orientable’s new orientation.
+
+=begin comment
+
+=head2 Example
+# Example for set-orientation
+
+=end comment
 
 =end pod
 

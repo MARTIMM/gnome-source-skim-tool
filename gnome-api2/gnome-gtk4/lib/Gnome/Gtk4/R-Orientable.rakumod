@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Gtk4 orientable
+=comment Package: Gtk4, C-Source: orientable
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ method _fallback-v2 (
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'gtk_orientable_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }
