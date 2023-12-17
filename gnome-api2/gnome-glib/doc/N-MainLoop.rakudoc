@@ -1,26 +1,23 @@
-# Package: Glib, C-Source: main
+=comment Package: Glib, C-Source: main
 use v6.d;
-
-=begin pod
-=head1 Gnome::Glib::MainLoop
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
-
-![](images/mainloop.png)
+=head1 Gnome::Glib::N-MainLoop
 
 =head1 Description
 
-The `B<Gnome::Glib::N-MainLoop>` struct is an opaque data type
+The U<Gnome::Glib::N-MainLoop> struct is an opaque data type
 representing the main event loop of a GLib or GTK+ application.
+
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Glib::MainLoop
+
 =end comment
 
 =end pod
@@ -37,7 +34,6 @@ This is an opaque type of which fields are not available.
 
 =end pod
 
-
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -53,21 +49,29 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-mainloop
 
 Creates a new B<Gnome::Glib::N-MainLoop> structure.
+=begin comment
+
+=head2 Example
+# Example for new-mainloop
+
+=end comment
 
 =begin code
-method new-mainloop ( CArray[N-MainContext] $context, Bool() $is-running --> Gnome::Glib::MainLoop )
+method new-mainloop ( CArray[N-MainContext] $context, Bool() $is-running --> Gnome::Glib::MainLoop \)
 =end code
 
-=item $context; a B<Gnome::Glib::N-MainContext> (if C<Nil>, the default context will be used)..
-=item $is-running; set to C<True> to indicate that the loop is running. This is not very important since calling g_main_loop_run() will set this to C<True> anyway..
+=item $context; a B<Gnome::Glib::N-MainContext>  (if undefined, the default context will be used)..
+=item $is-running; set to C<True> to indicate that the loop is running. This
+is not very important since calling C<.run()> will set this to
+C<True> anyway..
 
 =end pod
 
@@ -81,93 +85,129 @@ method new-mainloop ( CArray[N-MainContext] $context, Bool() $is-running --> Gno
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-context
 
 Returns the B<Gnome::Glib::N-MainContext> of C<$loop>.
+=begin comment
+
+=head2 Example
+# Example for get-context
+
+=end comment
 
 =begin code
 method get-context (--> CArray[N-MainContext] )
 =end code
 
-
 Return value; the B<Gnome::Glib::N-MainContext> of C<$loop>. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 is-running
 
-Checks to see if the main loop is currently being run via g_main_loop_run().
+Checks to see if the main loop is currently being run via C<.run()>.
+=begin comment
+
+=head2 Example
+# Example for is-running
+
+=end comment
 
 =begin code
 method is-running (--> Bool )
 =end code
 
-
 Return value; C<True> if the mainloop is currently being run.. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 quit
 
-Stops a B<Gnome::Glib::N-MainLoop> from running. Any calls to g_main_loop_run()
+Stops a B<Gnome::Glib::N-MainLoop> from running. Any calls to C<.run()>
 for the loop will return.
 
-Note that sources that have already been dispatched when g_main_loop_quit() is called will still be executed.
+Note that sources that have already been dispatched when
+C<.quit()> is called will still be executed.
+=begin comment
+
+=head2 Example
+# Example for quit
+
+=end comment
 
 =begin code
 method quit ( )
 =end code
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 ref
 
 Increases the reference count on a B<Gnome::Glib::N-MainLoop> object by one.
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
 
 =begin code
 method ref (--> CArray[N-MainLoop] )
 =end code
 
-
-Return value;  C<$loop>. 
-
+Return value; C<$loop>. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 run
 
-Runs a main loop until g_main_loop_quit() is called on the loop.
+Runs a main loop until C<.quit()> is called on the loop.
 If this is called for the thread of the loop's B<Gnome::Glib::N-MainContext>,
-it will process events from the loop, otherwise it will simply wait.
+it will process events from the loop, otherwise it will
+simply wait.
+=begin comment
+
+=head2 Example
+# Example for run
+
+=end comment
 
 =begin code
 method run ( )
 =end code
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 unref
 
-Decreases the reference count on a B<Gnome::Glib::N-MainLoop> object by one. If the result is zero, free the loop and free all associated memory.
+Decreases the reference count on a B<Gnome::Glib::N-MainLoop> object by one. If
+the result is zero, free the loop and free all associated memory.
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
 
 =begin code
 method unref ( )
 =end code
-
 
 =end pod
 

@@ -1,26 +1,23 @@
-# Package: Glib, C-Source: main
+=comment Package: Glib, C-Source: main
 use v6.d;
-
-=begin pod
-=head1 Gnome::Glib::MainContext
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
-
-![](images/maincontext.png)
+=head1 Gnome::Glib::N-MainContext
 
 =head1 Description
 
-The `B<Gnome::Glib::N-MainContext>` struct is an opaque data
+The U<Gnome::Glib::N-MainContext> struct is an opaque data
 type representing a set of sources to be handled in a main loop.
+
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Glib::MainContext
+
 =end comment
 
 =end pod
@@ -37,7 +34,6 @@ This is an opaque type of which fields are not available.
 
 =end pod
 
-
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -53,34 +49,46 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-maincontext
 
 Creates a new B<Gnome::Glib::N-MainContext> structure.
+=begin comment
+
+=head2 Example
+# Example for new-maincontext
+
+=end comment
 
 =begin code
-method new-maincontext ( --> Gnome::Glib::MainContext )
+method new-maincontext ( --> Gnome::Glib::MainContext \)
 =end code
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-with-flags
 
 Creates a new B<Gnome::Glib::N-MainContext> structure.
+=begin comment
+
+=head2 Example
+# Example for new-with-flags
+
+=end comment
 
 =begin code
-method new-with-flags ( UInt $flags --> Gnome::Glib::MainContext )
+method new-with-flags ( UInt $flags --> Gnome::Glib::MainContext \)
 =end code
 
-=item $flags; a bitwise-OR combination of C<GMainContextFlags bitfield> flags that can only be
- set at creation time.. A bitmap.
+=item $flags; a bitwise-OR combination of B<Gnome::Glib::T-MainContext> flags that can only be
+        set at creation time..
 
 =end pod
 
@@ -94,52 +102,82 @@ method new-with-flags ( UInt $flags --> Gnome::Glib::MainContext )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 acquire
 
 Tries to become the owner of the specified context.
 If some other thread is the owner of the context,
-returns C<False> immediately. Ownership is properly recursive: the owner can require ownership again and will release ownership when g_main_context_release()
-is called as many times as g_main_context_acquire().
+returns C<False> immediately. Ownership is properly
+recursive: the owner can require ownership again
+and will release ownership when C<.release()>
+is called as many times as C<.acquire()>.
 
-You must be the owner of a context before you can call g_main_context_prepare(), g_main_context_query(),
-g_main_context_check(), g_main_context_dispatch().
+You must be the owner of a context before you
+can call C<.prepare()>, C<.query()>,
+C<.check()>, C<.dispatch()>.
+=begin comment
+
+=head2 Example
+# Example for acquire
+
+=end comment
 
 =begin code
 method acquire (--> Bool )
 =end code
 
-
 Return value; C<True> if the operation succeeded, and
- this thread is now the owner of C<$context>.. 
-
+  this thread is now the owner of C<$context>.. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 add-poll
 
-Adds a file descriptor to the set of file descriptors polled for this context. This will very seldom be used directly. Instead a typical event source will use g_source_add_unix_fd() instead.
+Adds a file descriptor to the set of file descriptors polled for
+this context. This will very seldom be used directly. Instead
+a typical event source will use g_source_add_unix_fd() instead.
+=begin comment
+
+=head2 Example
+# Example for add-poll
+
+=end comment
 
 =begin code
 method add-poll ( CArray[N-PollFD]  $fd, Int() $priority )
 =end code
 
 =item $fd; a B<Gnome::Glib::N-PollFD> structure holding information about a file
- descriptor to watch..
+     descriptor to watch..
 =item $priority; the priority for this file descriptor which should be
- the same as the priority used for g_source_attach() to ensure that the
- file descriptor is polled whenever the results may be needed..
+     the same as the priority used for g_source_attach() to ensure that the
+     file descriptor is polled whenever the results may be needed..
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 check
 
-Passes the results of polling back to the main loop. You should be careful to pass C<$fds> and its length C<$n_fds> as received from g_main_context_query(), as this functions relies on assumptions on how C<$fds> is filled.
+Passes the results of polling back to the main loop. You should be
+careful to pass C<$fds> and its length C<$n_fds> as received from
+C<.query()>, as this functions relies on assumptions
+on how C<$fds> is filled.
 
-You must have successfully acquired the context with g_main_context_acquire() before you may call this function.
+You must have successfully acquired the context with
+C<.acquire()> before you may call this function.
+=begin comment
+
+=head2 Example
+# Example for check
+
+=end comment
 
 =begin code
 method check ( Int() $max-priority, CArray[N-PollFD]  $fds, Int() $n-fds --> Bool )
@@ -147,35 +185,50 @@ method check ( Int() $max-priority, CArray[N-PollFD]  $fds, Int() $n-fds --> Boo
 
 =item $max-priority; the maximum numerical priority of sources to check.
 =item $fds; array of B<Gnome::Glib::N-PollFD>'s that was passed to
- the last call to g_main_context_query().
-=item $n-fds; return value of g_main_context_query().
+      the last call to C<.query()>.
+=item $n-fds; return value of C<.query()>.
 
 Return value; C<True> if some sources are ready to be dispatched.. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 dispatch
 
 Dispatches all pending sources.
 
-You must have successfully acquired the context with g_main_context_acquire() before you may call this function.
+You must have successfully acquired the context with
+C<.acquire()> before you may call this function.
+=begin comment
+
+=head2 Example
+# Example for dispatch
+
+=end comment
 
 =begin code
 method dispatch ( )
 =end code
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 find-source-by-funcs-user-data
 
-Finds a source with the given source functions and user data. If multiple sources exist with the same source function and user data,
+Finds a source with the given source functions and user data.  If
+multiple sources exist with the same source function and user data,
 the first one found will be returned.
+=begin comment
+
+=head2 Example
+# Example for find-source-by-funcs-user-data
+
+=end comment
 
 =begin code
 method find-source-by-funcs-user-data ( CArray[N-SourceFuncs]  $funcs, gpointer $user-data --> CArray[N-Source]  )
@@ -184,20 +237,34 @@ method find-source-by-funcs-user-data ( CArray[N-SourceFuncs]  $funcs, gpointer 
 =item $funcs; the C<$source_funcs> passed to g_source_new()..
 =item $user-data; the user data from the callback..
 
-Return value; the source, if one was found, otherwise C<Nil>. 
-
+Return value; the source, if one was found, otherwise undefined. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 find-source-by-id
 
 Finds a B<Gnome::Glib::N-Source> given a pair of context and ID.
 
 It is a programmer error to attempt to look up a non-existent source.
 
-More specifically: source IDs can be reissued after a source has been destroyed and therefore it is never valid to use this function with a source ID which may have already been removed. An example is when scheduling an idle to run in another thread with g_idle_add(): the idle may already have run and been removed by the time this function is called on its (now invalid) source ID. This source ID may have been reissued, leading to the operation being performed against the wrong source.
+More specifically: source IDs can be reissued after a source has been
+destroyed and therefore it is never valid to use this function with a
+source ID which may have already been removed.  An example is when
+scheduling an idle to run in another thread with g_idle_add(): the
+idle may already have run and been removed by the time this function
+is called on its (now invalid) source ID.  This source ID may have
+been reissued, leading to the operation being performed against the
+wrong source.
+=begin comment
+
+=head2 Example
+# Example for find-source-by-id
+
+=end comment
 
 =begin code
 method find-source-by-id ( UInt() $source-id --> CArray[N-Source]  )
@@ -207,14 +274,23 @@ method find-source-by-id ( UInt() $source-id --> CArray[N-Source]  )
 
 Return value; the B<Gnome::Glib::N-Source>. 
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 find-source-by-user-data
 
-Finds a source with the given user data for the callback. If multiple sources exist with the same user data, the first one found will be returned.
+Finds a source with the given user data for the callback.  If
+multiple sources exist with the same user data, the first
+one found will be returned.
+=begin comment
+
+=head2 Example
+# Example for find-source-by-user-data
+
+=end comment
 
 =begin code
 method find-source-by-user-data ( gpointer $user-data --> CArray[N-Source]  )
@@ -222,21 +298,27 @@ method find-source-by-user-data ( gpointer $user-data --> CArray[N-Source]  )
 
 =item $user-data; the user_data for the callback..
 
-Return value; the source, if one was found, otherwise C<Nil>. 
-
+Return value; the source, if one was found, otherwise undefined. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 get-poll-func
 
-Gets the poll function set by g_main_context_set_poll_func().
+Gets the poll function set by C<.set-poll-func()>.
+=begin comment
+
+=head2 Example
+# Example for get-poll-func
+
+=end comment
 
 =begin code
 method get-poll-func (-->  )
 =end code
-
 
 Return value; the poll function. 
 
@@ -244,18 +326,35 @@ Return value; the poll function.
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 invoke
 
-Invokes a function in such a way that C<$context> is owned during the invocation of C<$function>.
+Invokes a function in such a way that C<$context> is owned during the
+invocation of C<$function>.
 
-If C<$context> is C<Nil> then the global default main context — as returned by g_main_context_default() — is used.
+If C<$context> is undefined then the global default main context — as
+returned by C<.default()> — is used.
 
-If C<$context> is owned by the current thread, C<$function> is called directly. Otherwise, if C<$context> is the thread-default main context of the current thread and g_main_context_acquire() succeeds, then C<$function> is called and g_main_context_release() is called afterwards.
+If C<$context> is owned by the current thread, C<$function> is called
+directly.  Otherwise, if C<$context> is the thread-default main context
+of the current thread and C<.acquire()> succeeds, then C<$function> is called and C<.release()> is called
+afterwards.
 
-In any other case, an idle source is created to call C<$function> and that source is attached to C<$context> (presumably to be run in another thread). The idle source is attached with %B<Gnome::Glib::T-MainContext>
-priority. If you want a different priority, use g_main_context_invoke_full().
+In any other case, an idle source is created to call C<$function> and
+that source is attached to C<$context> (presumably to be run in another
+thread).  The idle source is attached with C<G_PRIORITY_DEFAULT>
+priority.  If you want a different priority, use
+C<.invoke-full()>.
 
-Note that, as with normal idle functions, C<$function> should probably return C<False>. If it returns C<True>, it will be continuously run in a loop (and may prevent this call from returning).
+Note that, as with normal idle functions, C<$function> should probably
+return C<False>.  If it returns C<True>, it will be continuously run in a
+loop (and may prevent this call from returning).
+=begin comment
+
+=head2 Example
+# Example for invoke
+
+=end comment
 
 =begin code
 method invoke ( &function, gpointer $data )
@@ -268,12 +367,23 @@ method invoke ( &function, gpointer $data )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 invoke-full
 
-Invokes a function in such a way that C<$context> is owned during the invocation of C<$function>.
+Invokes a function in such a way that C<$context> is owned during the
+invocation of C<$function>.
 
-This function is the same as g_main_context_invoke() except that it lets you specify the priority in case C<$function> ends up being scheduled as an idle and also lets you give a B<Gnome::Glib::T-DoubleIEEE754> for C<$data>.
- C<$notify> should not assume that it is called from any particular thread or with any particular context acquired.
+This function is the same as C<.invoke()> except that it
+lets you specify the priority in case C<$function> ends up being
+scheduled as an idle and also lets you give a B<Gnome::Glib::T-DoubleIEEE754> for C<$data>.
+ C<$notify> should not assume that it is called from any particular
+thread or with any particular context acquired.
+=begin comment
+
+=head2 Example
+# Example for invoke-full
+
+=end comment
 
 =begin code
 method invoke-full ( Int() $priority, &function, gpointer $data, &notify )
@@ -282,36 +392,57 @@ method invoke-full ( Int() $priority, &function, gpointer $data, &notify )
 =item $priority; the priority at which to run C<$function>.
 =item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data --> gboolean )>.
 =item $data; data to pass to C<$function>.
-=item &notify; a function to call when C<$data> is no longer in use, or C<Nil>.. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+=item &notify; a function to call when C<$data> is no longer in use, or undefined.. Tthe function must be specified with following signature; C<:( gpointer $data )>.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 is-owner
 
 Determines whether this thread holds the (recursive)
-ownership of this B<Gnome::Glib::N-MainContext>. This is useful to know before waiting on another thread that may be blocking to get ownership of C<$context>.
+ownership of this B<Gnome::Glib::N-MainContext>. This is useful to
+know before waiting on another thread that may be
+blocking to get ownership of C<$context>.
+=begin comment
+
+=head2 Example
+# Example for is-owner
+
+=end comment
 
 =begin code
 method is-owner (--> Bool )
 =end code
 
-
 Return value; C<True> if current thread is owner of C<$context>.. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 iteration
 
-Runs a single iteration for the given main loop. This involves checking to see if any event sources are ready to be processed,
-then if no events sources are ready and C<$may_block> is C<True>, waiting for a source to become ready, then dispatching the highest priority events sources that are ready. Otherwise, if C<$may_block> is C<False>
-sources are not waited to become ready, only those highest priority events sources will be dispatched (if any), that are ready at this given moment without further waiting.
+Runs a single iteration for the given main loop. This involves
+checking to see if any event sources are ready to be processed,
+then if no events sources are ready and C<$may_block> is C<True>, waiting
+for a source to become ready, then dispatching the highest priority
+events sources that are ready. Otherwise, if C<$may_block> is C<False>
+sources are not waited to become ready, only those highest priority
+events sources will be dispatched (if any), that are ready at this
+given moment without further waiting.
 
-Note that even when C<$may_block> is C<True>, it is still possible for g_main_context_iteration() to return C<False>, since the wait may be interrupted for other reasons than an event source becoming ready.
+Note that even when C<$may_block> is C<True>, it is still possible for
+C<.iteration()> to return C<False>, since the wait may
+be interrupted for other reasons than an event source becoming ready.
+=begin comment
+
+=head2 Example
+# Example for iteration
+
+=end comment
 
 =begin code
 method iteration ( Bool() $may-block --> Bool )
@@ -321,94 +452,153 @@ method iteration ( Bool() $may-block --> Bool )
 
 Return value; C<True> if events were dispatched.. 
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 pending
 
 Checks if any sources have pending events for the given context.
+=begin comment
+
+=head2 Example
+# Example for pending
+
+=end comment
 
 =begin code
 method pending (--> Bool )
 =end code
 
-
 Return value; C<True> if events are pending.. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 pop-thread-default
 
-Pops C<$context> off the thread-default context stack (verifying that it was on the top of the stack).
+Pops C<$context> off the thread-default context stack (verifying that
+it was on the top of the stack).
+=begin comment
+
+=head2 Example
+# Example for pop-thread-default
+
+=end comment
 
 =begin code
 method pop-thread-default ( )
 =end code
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 prepare
 
-Prepares to poll sources within a main loop. The resulting information for polling is determined by calling g_main_context_query ().
+Prepares to poll sources within a main loop. The resulting information
+for polling is determined by calling g_main_context_query ().
 
-You must have successfully acquired the context with g_main_context_acquire() before you may call this function.
+You must have successfully acquired the context with
+C<.acquire()> before you may call this function.
+=begin comment
+
+=head2 Example
+# Example for prepare
+
+=end comment
 
 =begin code
 method prepare ( Array[Int] $priority --> Bool )
 =end code
 
 =item $priority; (transfer ownership: full) location to store priority of highest priority
- source already ready..
+           source already ready..
 
 Return value; C<True> if some source is ready to be dispatched
- prior to polling.. 
-
+              prior to polling.. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 push-thread-default
 
-Acquires C<$context> and sets it as the thread-default context for the current thread. This will cause certain asynchronous operations
-(such as most gio-based I/O) which are started in this thread to run under C<$context> and deliver their results to its main loop, rather than running under the global default context in the main thread. Note that calling this function changes the context returned by g_main_context_get_thread_default(),
-not the one returned by g_main_context_default(), so it does not affect the context used by functions like g_idle_add().
+Acquires C<$context> and sets it as the thread-default context for the
+current thread. This will cause certain asynchronous operations
+(such as most gio-based I/O) which are
+started in this thread to run under C<$context> and deliver their
+results to its main loop, rather than running under the global
+default context in the main thread. Note that calling this function
+changes the context returned by C<.get-thread-default()>,
+not the one returned by C<.default()>, so it does not affect
+the context used by functions like g_idle_add().
 
-Normally you would call this function shortly after creating a new thread, passing it a B<Gnome::Glib::N-MainContext> which will be run by a B<Gnome::Glib::N-MainLoop> in that thread, to set a new default context for all async operations in that thread. In this case you may not need to ever call g_main_context_pop_thread_default(), assuming you want the new B<Gnome::Glib::N-MainContext> to be the default for the whole lifecycle of the thread.
+Normally you would call this function shortly after creating a new
+thread, passing it a B<Gnome::Glib::N-MainContext> which will be run by a
+B<Gnome::Glib::N-MainLoop> in that thread, to set a new default context for all
+async operations in that thread. In this case you may not need to
+ever call C<.pop-thread-default()>, assuming you want the
+new B<Gnome::Glib::N-MainContext> to be the default for the whole lifecycle of the
+thread.
 
 If you don't have control over how the new thread was created (e.g.
-in the new thread isn't newly created, or if the thread life cycle is managed by a B<Gnome::Glib::N-ThreadPool>), it is always suggested to wrap the logic that needs to use the new B<Gnome::Glib::N-MainContext> inside a g_main_context_push_thread_default() / g_main_context_pop_thread_default()
-pair, otherwise threads that are re-used will end up never explicitly releasing the B<Gnome::Glib::N-MainContext> reference they hold.
+in the new thread isn't newly created, or if the thread life
+cycle is managed by a B<Gnome::Glib::N-ThreadPool>), it is always suggested to wrap
+the logic that needs to use the new B<Gnome::Glib::N-MainContext> inside a
+C<.push-thread-default()> / C<.pop-thread-default()>
+pair, otherwise threads that are re-used will end up never explicitly
+releasing the B<Gnome::Glib::N-MainContext> reference they hold.
 
-In some cases you may want to schedule a single operation in a non-default context, or temporarily use a non-default context in the main thread. In that case, you can wrap the call to the asynchronous operation inside a g_main_context_push_thread_default() /
-g_main_context_pop_thread_default() pair, but it is up to you to ensure that no other asynchronous operations accidentally get started while the non-default context is active.
+In some cases you may want to schedule a single operation in a
+non-default context, or temporarily use a non-default context in
+the main thread. In that case, you can wrap the call to the
+asynchronous operation inside a
+C<.push-thread-default()> /
+C<.pop-thread-default()> pair, but it is up to you to
+ensure that no other asynchronous operations accidentally get
+started while the non-default context is active.
 
-Beware that libraries that predate this function may not correctly handle being used from a thread with a thread-default context. Eg,
+Beware that libraries that predate this function may not correctly
+handle being used from a thread with a thread-default context. Eg,
 see g_file_supports_thread_contexts().
+=begin comment
+
+=head2 Example
+# Example for push-thread-default
+
+=end comment
 
 =begin code
 method push-thread-default ( )
 =end code
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 query
 
-Determines information necessary to poll this main loop. You should be careful to pass the resulting C<$fds> array and its length C<$n_fds>
-as is when calling g_main_context_check(), as this function relies on assumptions made when the array is filled.
+Determines information necessary to poll this main loop. You should
+be careful to pass the resulting C<$fds> array and its length C<$n_fds>
+as is when calling C<.check()>, as this function relies
+on assumptions made when the array is filled.
 
-You must have successfully acquired the context with g_main_context_acquire() before you may call this function.
+You must have successfully acquired the context with
+C<.acquire()> before you may call this function.
+=begin comment
+
+=head2 Example
+# Example for query
+
+=end comment
 
 =begin code
 method query ( Int() $max-priority, Array[Int] $timeout, CArray[N-PollFD]  $fds, Int() $n-fds --> Int )
@@ -417,68 +607,100 @@ method query ( Int() $max-priority, Array[Int] $timeout, CArray[N-PollFD]  $fds,
 =item $max-priority; maximum priority source to check.
 =item $timeout; (transfer ownership: full) location to store timeout to be used in polling.
 =item $fds; location to
- store B<Gnome::Glib::N-PollFD> records that need to be polled..
+      store B<Gnome::Glib::N-PollFD> records that need to be polled..
 =item $n-fds; length of C<$fds>..
 
 Return value; the number of records actually stored in C<$fds>,
- or, if more than C<$n_fds> records need to be stored, the number
- of records that need to be stored.. 
-
+  or, if more than C<$n_fds> records need to be stored, the number
+  of records that need to be stored.. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 ref
 
 Increases the reference count on a B<Gnome::Glib::N-MainContext> object by one.
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
 
 =begin code
 method ref (--> CArray[N-MainContext] )
 =end code
 
-
 Return value; the C<$context> that was passed in (since 2.6). 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 release
 
-Releases ownership of a context previously acquired by this thread with g_main_context_acquire(). If the context was acquired multiple times, the ownership will be released only when g_main_context_release()
+Releases ownership of a context previously acquired by this thread
+with C<.acquire()>. If the context was acquired multiple
+times, the ownership will be released only when C<.release()>
 is called as many times as it was acquired.
+=begin comment
+
+=head2 Example
+# Example for release
+
+=end comment
 
 =begin code
 method release ( )
 =end code
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 remove-poll
 
-Removes file descriptor from the set of file descriptors to be polled for a particular context.
+Removes file descriptor from the set of file descriptors to be
+polled for a particular context.
+=begin comment
+
+=head2 Example
+# Example for remove-poll
+
+=end comment
 
 =begin code
 method remove-poll ( CArray[N-PollFD]  $fd )
 =end code
 
-=item $fd; a B<Gnome::Glib::N-PollFD> descriptor previously added with g_main_context_add_poll().
+=item $fd; a B<Gnome::Glib::N-PollFD> descriptor previously added with C<.add-poll()>.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+This function is not yet available
+
 =head2 set-poll-func
 
-Sets the function to use to handle polling of file descriptors. It will be used instead of the poll() system call
-(or GLib's replacement function, which is used where poll() isn't available).
+Sets the function to use to handle polling of file descriptors. It
+will be used instead of the poll() system call
+(or GLib's replacement function, which is used where
+poll() isn't available).
 
-This function could possibly be used to integrate the GLib event loop with an external event loop.
+This function could possibly be used to integrate the GLib event
+loop with an external event loop.
+=begin comment
+
+=head2 Example
+# Example for set-poll-func
+
+=end comment
 
 =begin code
 method set-poll-func ( &func )
@@ -490,53 +712,67 @@ method set-poll-func ( &func )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 unref
 
-Decreases the reference count on a B<Gnome::Glib::N-MainContext> object by one. If the result is zero, free the context and free all associated memory.
+Decreases the reference count on a B<Gnome::Glib::N-MainContext> object by one. If
+the result is zero, free the context and free all associated memory.
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
 
 =begin code
 method unref ( )
 =end code
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 wakeup
 
-If C<$context> is currently blocking in g_main_context_iteration()
-waiting for a source to become ready, cause it to stop blocking and return. Otherwise, cause the next invocation of g_main_context_iteration() to return without blocking.
+If C<$context> is currently blocking in C<.iteration()>
+waiting for a source to become ready, cause it to stop blocking
+and return.  Otherwise, cause the next invocation of
+C<.iteration()> to return without blocking.
 
-This API is useful for low-level control over B<Gnome::Glib::N-MainContext>; for example, integrating it with main loop implementations such as B<Gnome::Glib::N-MainLoop>.
+This API is useful for low-level control over B<Gnome::Glib::N-MainContext>; for
+example, integrating it with main loop implementations such as
+B<Gnome::Glib::N-MainLoop>.
 
-Another related use for this function is when implementing a main loop with a termination condition, computed from multiple threads:
+Another related use for this function is when implementing a main
+loop with a termination condition, computed from multiple threads:
 
-=begin comment
-
- #define NUM_TASKS 10
- static gint tasks_remaining = NUM_TASKS; // (atomic)
- ...
+|[<!-- language="C" -->
+  #define NUM_TASKS 10
+  static gint tasks_remaining = NUM_TASKS;  // (atomic)
+  ...
  
- while (g_atomic_int_get (&tasks_remaining) != 0)
- g_main_context_iteration (NULL, TRUE);
-=end comment
-
+  while (g_atomic_int_get (&tasks_remaining) != 0)
+    g_main_context_iteration (NULL, TRUE);
+]|
  
 Then in a thread:
+|[<!-- language="C" -->
+  perform_work();
+
+  if (g_atomic_int_dec_and_test (&tasks_remaining))
+    g_main_context_wakeup (NULL);
+]|
 =begin comment
 
- perform_work();
+=head2 Example
+# Example for wakeup
 
- if (g_atomic_int_dec_and_test (&tasks_remaining))
- g_main_context_wakeup (NULL);
 =end comment
-
 
 =begin code
 method wakeup ( )
 =end code
-
 
 =end pod
 
@@ -550,53 +786,84 @@ method wakeup ( )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 default
 
-Returns the global default main context. This is the main context used for main loop functions when a main loop is not explicitly specified, and corresponds to the "main" main loop. See also g_main_context_get_thread_default().
+Returns the global default main context. This is the main context
+used for main loop functions when a main loop is not explicitly
+specified, and corresponds to the "main" main loop. See also
+C<.get-thread-default()>.
+=begin comment
+
+=head2 Example
+# Example for default
+
+=end comment
 
 =begin code
 method default (--> CArray[N-MainContext] )
 =end code
 
-
 Return value; the global default main context.. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-thread-default
 
-Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread. Asynchronous operations that want to be able to be run in contexts other than the default one should call this method or g_main_context_ref_thread_default() to get a B<Gnome::Glib::N-MainContext> to add their GSources to. (Note that even in single-threaded programs applications may sometimes want to temporarily push a non-default context, so it is not safe to assume that this will always return C<Nil> if you are running in the default thread.)
+Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread. Asynchronous
+operations that want to be able to be run in contexts other than
+the default one should call this method or
+C<.ref-thread-default()> to get a B<Gnome::Glib::N-MainContext> to add
+their B<GSources> to. (Note that even in single-threaded
+programs applications may sometimes want to temporarily push a
+non-default context, so it is not safe to assume that this will
+always return undefined if you are running in the default thread.)
 
-If you need to hold a reference on the context, use g_main_context_ref_thread_default() instead.
+If you need to hold a reference on the context, use
+C<.ref-thread-default()> instead.
+=begin comment
+
+=head2 Example
+# Example for get-thread-default
+
+=end comment
 
 =begin code
 method get-thread-default (--> CArray[N-MainContext] )
 =end code
 
-
-Return value; the thread-default B<Gnome::Glib::N-MainContext>, or C<Nil> if the thread-default context is the global default context.. 
-
+Return value; the thread-default B<Gnome::Glib::N-MainContext>, or
+undefined if the thread-default context is the global default context.. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 ref-thread-default
 
-Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread, as with g_main_context_get_thread_default(), but also adds a reference to it with g_main_context_ref(). In addition, unlike g_main_context_get_thread_default(), if the thread-default context is the global default context, this will return that B<Gnome::Glib::N-MainContext>
-(with a ref added to it) rather than returning C<Nil>.
+Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread, as with
+C<.get-thread-default()>, but also adds a reference to
+it with C<.ref()>. In addition, unlike
+C<.get-thread-default()>, if the thread-default context
+is the global default context, this will return that B<Gnome::Glib::N-MainContext>
+(with a ref added to it) rather than returning undefined.
+=begin comment
+
+=head2 Example
+# Example for ref-thread-default
+
+=end comment
 
 =begin code
 method ref-thread-default (--> CArray[N-MainContext] )
 =end code
 
-
 Return value; the thread-default B<Gnome::Glib::N-MainContext>. Unref
- with g_main_context_unref() when you are done with it.. 
-
+    with C<.unref()> when you are done with it.. 
 
 =end pod
 

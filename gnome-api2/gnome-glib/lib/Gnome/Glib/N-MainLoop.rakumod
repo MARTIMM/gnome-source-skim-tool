@@ -1,4 +1,4 @@
-# Package: Glib, C-Source: main
+=comment Package: Glib, C-Source: main
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -74,15 +74,15 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-mainloop => %( :type(Constructor), :is-symbol<g_mainloop_new>, :returns(N-MainLoop), :parameters([ N-MainContext, gboolean])),
+  new-mainloop => %( :type(Constructor), :is-symbol<g_main_loop_new>, :returns(N-MainLoop), :parameters([ N-MainContext, gboolean])),
 
   #--[Methods]------------------------------------------------------------------
-  get-context => %(:is-symbol<g_mainloop_get_context>,  :returns(N-MainContext)),
-  is-running => %(:is-symbol<g_mainloop_is_running>,  :returns(gboolean), :cnv-return(Bool)),
-  quit => %(:is-symbol<g_mainloop_quit>, ),
-  ref => %(:is-symbol<g_mainloop_ref>,  :returns(N-MainLoop)),
-  run => %(:is-symbol<g_mainloop_run>, ),
-  unref => %(:is-symbol<g_mainloop_unref>, ),
+  get-context => %(:is-symbol<g_main_loop_get_context>,  :returns(N-MainContext)),
+  is-running => %(:is-symbol<g_main_loop_is_running>,  :returns(gboolean), :cnv-return(Bool)),
+  quit => %(:is-symbol<g_main_loop_quit>, ),
+  ref => %(:is-symbol<g_main_loop_ref>,  :returns(N-MainLoop)),
+  run => %(:is-symbol<g_main_loop_run>, ),
+  unref => %(:is-symbol<g_main_loop_unref>, ),
 );
 
 #-------------------------------------------------------------------------------

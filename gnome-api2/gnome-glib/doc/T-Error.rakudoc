@@ -18,7 +18,41 @@ Initialization of a type class is simple.
   method new ( )
 
 =end pod
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
 
+=begin pod
+=head1 Callback Functions
+=head2 ErrorInitFunc
+
+=head3 Signature
+=begin code
+:(  CArray[N-Error] $error  )
+=end code
+
+=item error; extended error
+
+=head2 ErrorCopyFunc
+
+=head3 Signature
+=begin code
+:(  CArray[N-Error] $src-error, CArray[N-Error] $dest-error  )
+=end code
+
+=item src-error; source extended error
+=item dest-error; destination extended error
+
+=head2 ErrorClearFunc
+
+=head3 Signature
+=begin code
+:(  CArray[N-Error] $error  )
+=end code
+
+=item error; extended error to clear
+
+=end pod
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -33,13 +67,18 @@ Initialization of a type class is simple.
 
 If C<$err> is undefined, the function does nothing. Otherwise,
 calls C<.free()> on C<$err[0]> and sets C<$err[0]> to C<Nil>.
-
-=begin code
 method clear-error ( CArray[N-Error] $err )
 =end code
 
 =item $err; (transfer ownership: full) pointer to N-Error.
 
+=begin comment
+
+=head2 Example
+# Example for clear-error
+
+
+=begin code
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -50,6 +89,7 @@ Formats a string according to C<$format> and prefix it to an existing error mess
 
 If * C<$err> is C<Nil> (ie: an error variable is present but there is no error condition) then also do nothing.
 
+
 =begin code
 method prefix-error ( CArray[N-Error] $err, Str $format, … )
 =end code
@@ -58,22 +98,26 @@ method prefix-error ( CArray[N-Error] $err, Str $format, … )
 =item $format; printf()-style format string.
 =item …; arguments to C<$format>. Note that each argument must be specified as a type followed by its value!
 
-=head3 Example code;
+=head2 Example
 
-  my Gnome::Glib::T-Error $t-error .= new;
-  my $e = CArray[N-Error].new(N-Error);
-  my $domain = 87600;
-  my $code = 7;
-  my $format = 'your %dnd error';
-  $l = $t-error.set-error( $e, $domain, $code, ", I did warn ye!");
-  $l = $t-error.prefix-error( $e, $format, gint32, 2);
-  note $l[0].message;   # "your 2nd error, I did warn ye!"
+=begin code
+my Gnome::Glib::T-Error $t-error .= new;
+my $e = CArray[N-Error].new(N-Error);
+my $domain = 87600;
+my $code = 7;
+my $format = 'your %dnd error';
+$l = $t-error.set-error( $e, $domain, $code, ", I did warn ye!");
+$l = $t-error.prefix-error( $e, $format, gint32, 2);
+note $l[0].message;   # "your 2nd error, I did warn ye!"
+=end code
 
 Note the use of the extra argument for the format specified as a type `gint32` and a value `2`.
 
 Note that formatted strings are available in Raku and that above example can be done simpler with the C<sprinf()> function of Raku.
 
-  $l = $t-error.prefix-error( $e, sprinf( $format, 2));
+=begin code
+$l = $t-error.prefix-error( $e, sprinf( $format, 2));
+=end code
 
 =end pod
 
@@ -81,7 +125,7 @@ Note that formatted strings are available in Raku and that above example can be 
 =begin pod
 =head2 prefix-error-literal
 
-Prefixes C<$prefix> to an existing error message. If C<$err> or * C<$err> is C<Nil> (i.e.: no error variable) then do nothing.
+Prefixes C<$prefix> to an existing error message. If C<$err> or * C<$err> is undefined (i.e.: no error variable) then do nothing.
 
 =begin code
 method prefix-error-literal ( CArray[N-Error] $err, Str $prefix )
@@ -90,6 +134,12 @@ method prefix-error-literal ( CArray[N-Error] $err, Str $prefix )
 =item $err; a return location for a B<N-Error>, or C<Nil>.
 =item $prefix; string to prefix C<$err> with.
 
+=begin comment
+
+=head2 Example
+# Example for prefix-error-literal
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -110,6 +160,12 @@ method propagate-error ( CArray[N-Error] $dest, CArray[N-Error] $src )
 =item $dest; (transfer ownership: full) error return location.
 =item $src; (transfer ownership: full) error to move into the return location.
 
+=begin comment
+
+=head2 Example
+# Example for propagate-error
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -130,6 +186,12 @@ method propagate-prefixed-error (
 =item $format; printf()-style format string.
 =item …; arguments to C<$format>. Note that each argument must be specified as a type followed by its value!
 
+=begin comment
+
+=head2 Example
+# Example for propagate-prefixed-error
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -151,6 +213,12 @@ method set-error (
 =item $format; printf()-style format.
 =item …; args for C<$format>. Note that each argument must be specified as a type followed by its value!
 
+=begin comment
+
+=head2 Example
+# Example for set-error
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -174,5 +242,11 @@ method set-error-literal (
 =item $code; error code.
 =item $message; error message.
 
+=begin comment
+
+=head2 Example
+# Example for set-error-literal
+
+=end comment
 =end pod
 

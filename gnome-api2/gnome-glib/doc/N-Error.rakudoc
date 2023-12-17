@@ -18,14 +18,16 @@ The `B<N-Error>` structure contains information about an error that has occurred
 
 =head2 Example
 
-  my GQuark $domain = 45444;
-  my Int $code = 1012342;
-  my Str $message = 'my error';
+=begin code
+my GQuark $domain = 45444;
+my Int $code = 1012342;
+my Str $message = 'my error';
 
-  my Gnome::Glib::N-Error $error .= new-error( $domain, $code, $message);
-  say $error.matches( $domain, $code), '.matches()';    # True
-  $error.free;
-  say $error.matches( $domain, $code);                  # False
+my Gnome::Glib::N-Error $error .= new-error( $domain, $code, $message);
+say $error.matches( $domain, $code), '.matches()';    # True
+$error.free;
+say $error.matches( $domain, $code);                  # False
+=end code
 
 =end pod
 
@@ -73,6 +75,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 Creates a new B<N-Error> with the given C<$domain> and C<$code>,
 and a message formatted with C<$format>.
+begin comment
 
 =begin code
 method new-error ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib::Error )
@@ -83,6 +86,11 @@ method new-error ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib::
 =item $format; printf()-style format for error message.
 =item …; parameters for message format. Note that each argument must be specified as a type followed by its value!
 
+
+=head2 Example
+# Example for new-error
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -100,11 +108,18 @@ method new-literal ( UInt $domain, Int() $code, Str $message --> Gnome::Glib::Er
 =item $code; error code.
 =item $message; error message.
 
+=begin comment
+
+=head2 Example
+# Example for new-literal
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-valist
+This function is not yet available
 
 Creates a new B<N-Error> with the given C<$domain> and C<$code>,
 and a message formatted with C<$format>.
@@ -118,6 +133,12 @@ method new-valist ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib:
 =item $format; printf()-style format for error message.
 =item args; C<va_list> of parameters for the message format. Note that each argument must be specified as a type followed by its value!
 
+=begin comment
+
+=head2 Example
+# Example for new-valist
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -141,7 +162,12 @@ method copy (--> CArray[N-Error] )
 
 Return value; a new B<N-Error>. 
 
+=begin comment
 
+=head2 Example
+# Example for copy
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -149,6 +175,12 @@ Return value; a new B<N-Error>.
 =head2 free
 
 Frees a B<N-Error> and associated resources.
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
 
 =begin code
 method free ( )
@@ -176,6 +208,12 @@ method matches ( UInt $domain, Int() $code --> Bool )
 
 Return value; whether C<$error> has C<$domain> and C<$code>. 
 
+=begin comment
+
+=head2 Example
+# Example for matches
+
+=end comment
 
 =end pod
 
@@ -193,6 +231,7 @@ Return value; whether C<$error> has C<$domain> and C<$code>.
 
 This function registers an extended B<N-Error> domain. C<$error_type_name> will be duplicated. Otherwise does the same as g_error_domain_register_static().
 
+
 =begin code
 method domain-register (
   Str $error-type-name, Int() $error-type-private-size,
@@ -209,6 +248,12 @@ method domain-register (
 
 Return value; GQuark representing the error domain. 
 
+=begin comment
+
+=head2 Example
+# Example for domain-register
+
+=end comment
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -240,5 +285,11 @@ method domain-register-static (
 Return value; GQuark representing the error domain. 
 
 
+=begin comment
+
+=head2 Example
+# Example for domain-register-static
+
+=end comment
 =end pod
 

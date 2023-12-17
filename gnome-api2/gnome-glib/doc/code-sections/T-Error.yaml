@@ -1,0 +1,31 @@
+---
+"____EXAMPLE____000": "=begin comment\n\n=head2 Example\n# Example for clear-error\n\n=end comment\n"
+
+"____EXAMPLE____001": |
+  =head2 Example
+
+  =begin code
+  my Gnome::Glib::T-Error $t-error .= new;
+  my $e = CArray[N-Error].new(N-Error);
+  my $domain = 87600;
+  my $code = 7;
+  my $format = 'your %dnd error';
+  $l = $t-error.set-error( $e, $domain, $code, ", I did warn ye!");
+  $l = $t-error.prefix-error( $e, $format, gint32, 2);
+  note $l[0].message;   # "your 2nd error, I did warn ye!"
+  =end code
+
+  Note the use of the extra argument for the format specified as a type `gint32` and a value `2`.
+
+  Note that formatted strings are available in Raku and that above example can be done simpler with the C<sprinf()> function of Raku.
+
+  =begin code
+  $l = $t-error.prefix-error( $e, sprinf( $format, 2));
+  =end code
+
+"____EXAMPLE____002": "=begin comment\n\n=head2 Example\n# Example for prefix-error-literal\n\n=end comment\n"
+"____EXAMPLE____003": "=begin comment\n\n=head2 Example\n# Example for propagate-error\n\n=end comment\n"
+"____EXAMPLE____004": "=begin comment\n\n=head2 Example\n# Example for propagate-prefixed-error\n\n=end comment\n"
+"____EXAMPLE____005": "=begin comment\n\n=head2 Example\n# Example for set-error\n\n=end comment\n"
+"____EXAMPLE____006": "=begin comment\n\n=head2 Example\n# Example for set-error-literal\n\n=end comment\n"
+...

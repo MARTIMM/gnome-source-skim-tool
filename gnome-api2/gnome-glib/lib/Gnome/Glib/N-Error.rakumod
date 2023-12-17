@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Glib error
+=comment Package: Glib, C-Source: error
 use v6.d;
 
 #-------------------------------------------------------------------------------
