@@ -187,7 +187,7 @@ method generate-callables (
           if \$methods\{\$name}:exists \{
             \$_fallback-v2-ok = True;
             return \$routine-caller.call-native-sub\(
-              \$name, \@arguments, \$methods, \$native-object, '$*work-data<sub-prefix>'
+              \$name, \@arguments, \$methods, \$native-object
             );
           }
         }
