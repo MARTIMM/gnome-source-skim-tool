@@ -1,0 +1,269 @@
+=comment Package: Gtk4, C-Source: linkbutton
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::LinkButton
+
+![](images/linkbutton.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::LinkButton> is a button with a hyperlink.
+
+![An example GtkLinkButton](link-button.png)
+
+It is useful to show quick links to resources.
+
+A link button is created by calling either C<.newlinkbutton()> or
+C<.new-with-label()>. If using the former, the URI you
+pass to the constructor is used as a label for the widget.
+
+The URI bound to a B<Gnome::Gtk4::LinkButton> can be set specifically using
+C<.set-uri()>.
+
+By default, B<Gnome::Gtk4::LinkButton> calls C<.show-uri()> when the button
+is clicked. This behaviour can be overridden by connecting to the
+I<activate-link> signal and returning C<True> from
+the signal handler.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::LinkButton> has a single CSS node with name button. To differentiate
+it from a plain B<Gnome::Gtk4::Button>, it gets the .link style class.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::LinkButton> uses the C<GTK_ACCESSIBLE_ROLE_LINK> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::LinkButton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-linkbutton
+
+Creates a new B<Gnome::Gtk4::LinkButton> with the URI as its text.
+
+=begin code
+method new-linkbutton ( Str $uri --> Gnome::Gtk4::LinkButton \)
+=end code
+
+=item $uri; a valid URI.
+
+=begin comment
+
+=head2 Example
+# Example for new-linkbutton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-label
+
+Creates a new B<Gnome::Gtk4::LinkButton> containing a label.
+
+=begin code
+method new-with-label ( Str $uri, Str $label --> Gnome::Gtk4::LinkButton \)
+=end code
+
+=item $uri; a valid URI.
+=item $label; the text of the button.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-uri
+
+Retrieves the URI of the B<Gnome::Gtk4::LinkButton>.
+
+=begin code
+method get-uri (--> Str )
+=end code
+
+Return value; a valid URI. The returned string is owned by the link button
+  and should not be modified or freed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-uri
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visited
+
+Retrieves the “visited” state of the B<Gnome::Gtk4::LinkButton>.
+
+The button becomes visited when it is clicked. If the URI
+is changed on the button, the “visited” state is unset again.
+
+The state may also be changed using C<.set-visited()>.
+
+=begin code
+method get-visited (--> Bool )
+=end code
+
+Return value; C<True> if the link has been visited, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visited
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-uri
+
+Sets C<$uri> as the URI where the B<Gnome::Gtk4::LinkButton> points.
+
+As a side-effect this unsets the “visited” state of the button.
+
+=begin code
+method set-uri ( Str $uri )
+=end code
+
+=item $uri; a valid URI.
+
+=begin comment
+
+=head2 Example
+# Example for set-uri
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-visited
+
+Sets the “visited” state of the B<Gnome::Gtk4::LinkButton>.
+
+See C<.get-visited()> for more details.
+
+=begin code
+method set-visited ( Bool() $visited )
+=end code
+
+=item $visited; the new “visited” state.
+
+=begin comment
+
+=head2 Example
+# Example for set-visited
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate-link
+
+Emitted each time the B<Gnome::Gtk4::LinkButton> is clicked.
+
+The default handler will call C<.show-uri()> with the URI
+stored inside the I<uri> property.
+
+To override the default behavior, you can connect to the I<activate-link> signal and stop the propagation of the signal
+by returning C<True> from your handler.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::LinkButton :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::LinkButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if the signal has been handled
+
+=begin comment
+
+=head2 Example
+# Example for signal activate-link
+
+=end comment
+
+=end pod
+

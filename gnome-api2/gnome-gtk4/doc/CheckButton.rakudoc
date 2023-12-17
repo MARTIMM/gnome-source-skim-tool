@@ -1,29 +1,29 @@
-# Package: Gtk4, C-Source: checkbutton
+=comment Package: Gtk4, C-Source: checkbutton
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::CheckButton
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::CheckButton
+
+![](images/checkbutton.png)
+
 =head1 Description
 
 A B<Gnome::Gtk4::CheckButton> places a label next to an indicator.
 
 ![Example GtkCheckButtons](check-button.png)
 
-A B<Gnome::Gtk4::CheckButton> is created by calling either [ctor C<$Gtk>.CheckButton.new]
-or [ctor C<$Gtk>.CheckButton.new_with_label].
+A B<Gnome::Gtk4::CheckButton> is created by calling either C<.newcheckbutton()>
+or C<.new-with-label()>.
 
 The state of a B<Gnome::Gtk4::CheckButton> can be set specifically using
 C<.set-active()>, and retrieved using
 C<.get-active()>.
 
-=head1 Inconsistent state
+=head2 Inconsistent state
 
 In addition to "on" and "off", check buttons can be an
 "in between" state that is neither on nor off. This can be used
@@ -34,7 +34,7 @@ and the current values in that range are inconsistent.
 To set a B<Gnome::Gtk4::CheckButton> to inconsistent state, use
 C<.set-inconsistent()>.
 
-=head1 Grouping
+=head2 Grouping
 
 Check buttons can be grouped together, to form mutually exclusive
 groups - only one of the buttons can be toggled at a time, and toggling
@@ -47,13 +47,13 @@ to as *radio buttons*.
 
 To add a B<Gnome::Gtk4::CheckButton> to a group, use C<.set-group()>.
 
-=head1 CSS nodes
+=head2 CSS nodes
 
 =begin comment
+checkbutton[.text-button]
+├── check
+╰── [label]
 
-  checkbutton[.text-button]
-  ├── check
-  ╰── [label]
 =end comment
 
 A B<Gnome::Gtk4::CheckButton> has a main node with name checkbutton. If the
@@ -61,18 +61,22 @@ I<label> property is set, it contains a label
 child. The indicator node is named check when no group is set, and
 radio if the checkbutton is grouped together with other checkbuttons.
 
-=head1 Accessibility
+=head2 Accessibility
 
-B<Gnome::Gtk4::CheckButton> uses the %GTK_ACCESSIBLE_ROLE_CHECKBOX role.
+B<Gnome::Gtk4::CheckButton> uses the C<GTK_ACCESSIBLE_ROLE_CHECKBOX> role.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::CheckButton
+
 =end comment
 
 =end pod
@@ -92,7 +96,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =head3 :build-id
 
 Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
@@ -108,9 +111,15 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 Creates a new B<Gnome::Gtk4::CheckButton>.
 
 =begin code
-method new-checkbutton ( --> Gnome::Gtk4::CheckButton )
+method new-checkbutton ( --> Gnome::Gtk4::CheckButton \)
 =end code
 
+=begin comment
+
+=head2 Example
+# Example for new-checkbutton
+
+=end comment
 
 =end pod
 
@@ -121,10 +130,17 @@ method new-checkbutton ( --> Gnome::Gtk4::CheckButton )
 Creates a new B<Gnome::Gtk4::CheckButton> with the given text.
 
 =begin code
-method new-with-label ( Str $label --> Gnome::Gtk4::CheckButton )
+method new-with-label ( Str $label --> Gnome::Gtk4::CheckButton \)
 =end code
 
 =item $label; the text for the check button..
+
+=begin comment
+
+=head2 Example
+# Example for new-with-label
+
+=end comment
 
 =end pod
 
@@ -135,11 +151,18 @@ method new-with-label ( Str $label --> Gnome::Gtk4::CheckButton )
 Creates a new B<Gnome::Gtk4::CheckButton> with the given text and a mnemonic.
 
 =begin code
-method new-with-mnemonic ( Str $label --> Gnome::Gtk4::CheckButton )
+method new-with-mnemonic ( Str $label --> Gnome::Gtk4::CheckButton \)
 =end code
 
 =item $label; The text of the button, with an underscore
- in front of the mnemonic character.
+  in front of the mnemonic character.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-mnemonic
+
+=end comment
 
 =end pod
 
@@ -161,9 +184,14 @@ Returns whether the check button is active.
 method get-active (--> Bool )
 =end code
 
-
 Return value; whether the check button is active. 
 
+=begin comment
+
+=head2 Example
+# Example for get-active
+
+=end comment
 
 =end pod
 
@@ -177,9 +205,14 @@ Returns whether the check button is in an inconsistent state.
 method get-inconsistent (--> Bool )
 =end code
 
+Return value; C<True> if C<$check_button> is currently in an inconsistent state. 
 
-Return value; %TRUE if C<$check_button> is currently in an inconsistent state. 
+=begin comment
 
+=head2 Example
+# Example for get-inconsistent
+
+=end comment
 
 =end pod
 
@@ -193,10 +226,15 @@ Returns the label of the check button.
 method get-label (--> Str )
 =end code
 
-
 Return value; The label C<$self> shows next
- to the indicator. If no label is shown, undefined will be returned.. 
+  to the indicator. If no label is shown, undefined will be returned.. 
 
+=begin comment
+
+=head2 Example
+# Example for get-label
+
+=end comment
 
 =end pod
 
@@ -210,11 +248,16 @@ Returns whether underlines in the label indicate mnemonics.
 method get-use-underline (--> Bool )
 =end code
 
-
 Return value; The value of the I<use-underline> property.
- See C<.set-use-underline()> for details on how to set
- a new value.. 
+  See C<.set-use-underline()> for details on how to set
+  a new value.. 
 
+=begin comment
+
+=head2 Example
+# Example for get-use-underline
+
+=end comment
 
 =end pod
 
@@ -230,6 +273,13 @@ method set-active ( Bool() $setting )
 
 =item $setting; the new value to set.
 
+=begin comment
+
+=head2 Example
+# Example for set-active
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -238,22 +288,33 @@ method set-active ( Bool() $setting )
 
 Adds C<$self> to the group of C<$group>.
 
-In a group of multiple check buttons, only one button can be active at a time. The behavior of a checkbutton in a group is also commonly known as a *radio button*.
+In a group of multiple check buttons, only one button can be active
+at a time. The behavior of a checkbutton in a group is also commonly
+known as a *radio button*.
 
-Setting the group of a check button also changes the css name of the indicator widget's CSS node to 'radio'.
+Setting the group of a check button also changes the css name of the
+indicator widget's CSS node to 'radio'.
 
 Setting up groups in a cycle leads to undefined behavior.
 
-Note that the same effect can be achieved via the [iface C<$Gtk>.Actionable]
+Note that the same effect can be achieved via the B<Gnome::Gtk4::R-Actionable>
 API, by using the same action with parameter type and state type 's'
-for all buttons in the group, and giving each button its own target value.
+for all buttons in the group, and giving each button its own target
+value.
 
 =begin code
 method set-group ( N-Object() $group )
 =end code
 
 =item $group; another B<Gnome::Gtk4::CheckButton> to
- form a group with.
+  form a group with.
+
+=begin comment
+
+=head2 Example
+# Example for set-group
+
+=end comment
 
 =end pod
 
@@ -263,13 +324,21 @@ method set-group ( N-Object() $group )
 
 Sets the B<Gnome::Gtk4::CheckButton> to inconsistent state.
 
-You shoud turn off the inconsistent state again if the user checks the check button. This has to be done manually.
+You shoud turn off the inconsistent state again if the user checks
+the check button. This has to be done manually.
 
 =begin code
 method set-inconsistent ( Bool() $inconsistent )
 =end code
 
-=item $inconsistent; %TRUE if state is inconsistent.
+=item $inconsistent; C<True> if state is inconsistent.
+
+=begin comment
+
+=head2 Example
+# Example for set-inconsistent
+
+=end comment
 
 =end pod
 
@@ -279,14 +348,23 @@ method set-inconsistent ( Bool() $inconsistent )
 
 Sets the text of C<$self>.
 
-If I<use-underline> is %TRUE, an underscore in C<$label> is interpreted as mnemonic indicator, see C<.set-use-underline()> for details on this behavior.
+If I<use-underline> is C<True>, an underscore
+in C<$label> is interpreted as mnemonic indicator, see
+C<.set-use-underline()> for details on this behavior.
 
 =begin code
 method set-label ( Str $label )
 =end code
 
 =item $label; The text shown next to the indicator, or undefined
- to show no text.
+  to show no text.
+
+=begin comment
+
+=head2 Example
+# Example for set-label
+
+=end comment
 
 =end pod
 
@@ -296,13 +374,22 @@ method set-label ( Str $label )
 
 Sets whether underlines in the label indicate mnemonics.
 
-If C<$setting> is %TRUE, an underscore character in C<$self>'s label indicates a mnemonic accelerator key. This behavior is similar to I<use-underline defined in Label>.
+If C<$setting> is C<True>, an underscore character in C<$self>'s label
+indicates a mnemonic accelerator key. This behavior is similar
+to I<use-underline defined in Gnome::Gtk4::Label>.
 
 =begin code
 method set-use-underline ( Bool() $setting )
 =end code
 
 =item $setting; the new value to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-use-underline
+
+=end comment
 
 =end pod
 
@@ -318,23 +405,32 @@ method set-use-underline ( Bool() $setting )
 
 Emitted to when the check button is activated.
 
-The I<::activate> signal on B<Gnome::Gtk4::CheckButton> is an action signal and emitting it causes the button to animate press then release.
+The B<::activate> signal on B<Gnome::Gtk4::CheckButton> is an action signal and
+emitting it causes the button to animate press then release.
 
-Applications should never connect to this signal, but use the I<toggled> signal.
+Applications should never connect to this signal, but use the
+I<toggled> signal.
 
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::CheckButton() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::CheckButton :$_widget,
-  *%user-options
+  *C<user>-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CheckButton> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 toggled
@@ -345,16 +441,23 @@ property changes.
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::CheckButton() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::CheckButton :$_widget,
-  *%user-options
+  *C<user>-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CheckButton> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggled
+
+=end comment
 
 =end pod
 

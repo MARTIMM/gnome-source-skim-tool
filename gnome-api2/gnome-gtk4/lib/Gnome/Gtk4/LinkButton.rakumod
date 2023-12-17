@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 linkbutton
+=comment Package: Gtk4, C-Source: linkbutton
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_link_button_>);
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::LinkButton' {
@@ -67,14 +67,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-linkbutton => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
-  new-with-label => %( :type(Constructor), :returns(N-Object), :parameters([ Str, Str])),
+  new-linkbutton => %( :type(Constructor), :is-symbol<gtk_link_button_new>, :returns(N-Object), :parameters([ Str])),
+  new-with-label => %( :type(Constructor), :is-symbol<gtk_link_button_new_with_label>, :returns(N-Object), :parameters([ Str, Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-uri => %( :returns(Str)),
-  get-visited => %( :returns(gboolean), :cnv-return(Bool)),
-  set-uri => %( :parameters([Str])),
-  set-visited => %( :parameters([gboolean])),
+  get-uri => %(:is-symbol<gtk_link_button_get_uri>,  :returns(Str)),
+  get-visited => %(:is-symbol<gtk_link_button_get_visited>,  :returns(gboolean), :cnv-return(Bool)),
+  set-uri => %(:is-symbol<gtk_link_button_set_uri>,  :parameters([Str])),
+  set-visited => %(:is-symbol<gtk_link_button_set_visited>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_link_button_>
+        :library(gtk4-lib())
       );
 
       # Check the function name. 

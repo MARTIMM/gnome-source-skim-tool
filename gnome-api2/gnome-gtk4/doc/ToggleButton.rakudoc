@@ -1,0 +1,340 @@
+=comment Package: Gtk4, C-Source: togglebutton
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ToggleButton
+
+![](images/togglebutton.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::ToggleButton> is a button which remains “pressed-in” when
+clicked.
+
+Clicking again will cause the toggle button to return to its normal state.
+
+A toggle button is created by calling either C<.newtogglebutton()> or
+C<.new-with-label()>. If using the former, it is advisable
+to pack a widget, (such as a B<Gnome::Gtk4::Label> and/or a B<Gnome::Gtk4::Image>), into the toggle
+button’s container. (See B<Gnome::Gtk4::Button> for more information).
+
+The state of a B<Gnome::Gtk4::ToggleButton> can be set specifically using
+C<.set-active()>, and retrieved using
+C<.get-active()>.
+
+To simply switch the state of a toggle button, use
+C<.toggled()>.
+
+=head3 Grouping
+
+Toggle buttons can be grouped together, to form mutually exclusive
+groups - only one of the buttons can be toggled at a time, and toggling
+another one will switch the currently toggled one off.
+
+To add a B<Gnome::Gtk4::ToggleButton> to a group, use C<.set-group()>.
+
+=head3 CSS nodes
+
+B<Gnome::Gtk4::ToggleButton> has a single CSS node with name button. To differentiate
+it from a plain B<Gnome::Gtk4::Button>, it gets the B<.toggle> style class.
+
+=head3 Creating two B<Gnome::Gtk4::ToggleButton> widgets.
+
+=begin comment
+static void
+output_state (GtkToggleButton *source,
+              gpointer         user_data)
+{
+  g_print ("Toggle button "%s" is active: %s",
+           gtk_button_get_label (GTK_BUTTON (source)),
+           gtk_toggle_button_get_active (source) ? "Yes" : "No");
+}
+
+static void
+make_toggles (void)
+{
+  GtkWidget *window, *toggle1, *toggle2;
+  GtkWidget *box;
+  const char *text;
+
+  window = gtk_window_new ();
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+
+  text = "Hi, I’m toggle button one";
+  toggle1 = gtk_toggle_button_new_with_label (text);
+
+  g_signal_connect (toggle1, "toggled",
+                    G_CALLBACK (output_state),
+                    NULL);
+  gtk_box_append (GTK_BOX (box), toggle1);
+
+  text = "Hi, I’m toggle button two";
+  toggle2 = gtk_toggle_button_new_with_label (text);
+  g_signal_connect (toggle2, "toggled",
+                    G_CALLBACK (output_state),
+                    NULL);
+  gtk_box_append (GTK_BOX (box), toggle2);
+
+  gtk_window_set_child (GTK_WINDOW (window), box);
+  gtk_widget_show (window);
+}
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ToggleButton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-togglebutton
+
+Creates a new toggle button.
+
+A widget should be packed into the button, as in C<.newtogglebutton() in class Gnome::Gtk4::Button>.
+
+=begin code
+method new-togglebutton ( --> Gnome::Gtk4::ToggleButton \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-togglebutton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-label
+
+Creates a new toggle button with a text label.
+
+=begin code
+method new-with-label ( Str $label --> Gnome::Gtk4::ToggleButton \)
+=end code
+
+=item $label; a string containing the message to be placed in the toggle button..
+
+=begin comment
+
+=head2 Example
+# Example for new-with-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-mnemonic
+
+Creates a new B<Gnome::Gtk4::ToggleButton> containing a label.
+
+The label will be created using C<.new-with-mnemonic() in class Gnome::Gtk4::Label>,
+so underscores in C<$label> indicate the mnemonic for the button.
+
+=begin code
+method new-with-mnemonic ( Str $label --> Gnome::Gtk4::ToggleButton \)
+=end code
+
+=item $label; the text of the button, with an underscore in front of the
+  mnemonic character.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-mnemonic
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active
+
+Queries a B<Gnome::Gtk4::ToggleButton> and returns its current state.
+
+Returns C<True> if the toggle button is pressed in and C<False>
+if it is raised.
+
+=begin code
+method get-active (--> Bool )
+=end code
+
+Return value; whether the button is pressed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-active
+
+Sets the status of the toggle button.
+
+Set to C<True> if you want the B<Gnome::Gtk4::ToggleButton> to be “pressed in”,
+and C<False> to raise it.
+
+If the status of the button changes, this action causes the
+[signal C<$GtkToggleButton>::toggled] signal to be emitted.
+
+=begin code
+method set-active ( Bool() $is-active )
+=end code
+
+=item $is-active; C<True> or C<False>..
+
+=begin comment
+
+=head2 Example
+# Example for set-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-group
+
+Adds C<$self> to the group of C<$group>.
+
+In a group of multiple toggle buttons, only one button can be active
+at a time.
+
+Setting up groups in a cycle leads to undefined behavior.
+
+Note that the same effect can be achieved via the B<Gnome::Gtk4::R-Actionable>
+API, by using the same action with parameter type and state type 's'
+for all buttons in the group, and giving each button its own target
+value.
+
+=begin code
+method set-group ( N-Object() $group )
+=end code
+
+=item $group; another B<Gnome::Gtk4::ToggleButton> to
+  form a group with.
+
+=begin comment
+
+=head2 Example
+# Example for set-group
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 toggled
+
+Emits the I<toggled> signal on the B<Gnome::Gtk4::ToggleButton>.
+
+There is no good reason for an application ever to call this function.
+
+=begin code
+method toggled ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for toggled
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 toggled
+
+Emitted whenever the B<Gnome::Gtk4::ToggleButton>'s state is changed.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ToggleButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ToggleButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggled
+
+=end comment
+
+=end pod
+

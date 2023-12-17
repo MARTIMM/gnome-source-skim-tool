@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 togglebutton
+=comment Package: Gtk4, C-Source: togglebutton
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_toggle_button_>);
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::ToggleButton' {
@@ -67,15 +67,15 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-togglebutton => %( :type(Constructor), :isnew, :returns(N-Object), ),
-  new-with-label => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
-  new-with-mnemonic => %( :type(Constructor), :returns(N-Object), :parameters([ Str])),
+  new-togglebutton => %( :type(Constructor), :is-symbol<gtk_toggle_button_new>, :returns(N-Object), ),
+  new-with-label => %( :type(Constructor), :is-symbol<gtk_toggle_button_new_with_label>, :returns(N-Object), :parameters([ Str])),
+  new-with-mnemonic => %( :type(Constructor), :is-symbol<gtk_toggle_button_new_with_mnemonic>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  get-active => %( :returns(gboolean), :cnv-return(Bool)),
-  set-active => %( :parameters([gboolean])),
-  set-group => %( :parameters([N-Object])),
-  toggled => %(),
+  get-active => %(:is-symbol<gtk_toggle_button_get_active>,  :returns(gboolean), :cnv-return(Bool)),
+  set-active => %(:is-symbol<gtk_toggle_button_set_active>,  :parameters([gboolean])),
+  set-group => %(:is-symbol<gtk_toggle_button_set_group>,  :parameters([N-Object])),
+  toggled => %(:is-symbol<gtk_toggle_button_toggled>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_toggle_button_>
+        :library(gtk4-lib())
       );
 
       # Check the function name. 

@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: checkbutton
+=comment Package: Gtk4, C-Source: checkbutton
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<activate toggled>,
+      :w0<toggled activate>,
     );
 
     # Signals from interfaces

@@ -1,0 +1,162 @@
+=comment Package: Gtk4, C-Source: lockbutton
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::LockButton
+
+![](images/lockbutton.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::LockButton> is a widget to obtain and revoke authorizations
+needed to operate the controls.
+
+![An example GtkLockButton](lock-button.png)
+
+It is typically used in preference dialogs or control panels.
+
+The required authorization is represented by a B<Gnome::Gio::Permission> object.
+Concrete implementations of B<Gnome::Gio::Permission> may use PolicyKit or some
+other authorization framework. To obtain a PolicyKit-based
+B<Gnome::Gio::Permission>, use B<polkit_permission_new()>.
+
+If the user is not currently allowed to perform the action, but can
+obtain the permission, the widget looks like this:
+
+![](lockbutton-locked.png)
+
+and the user can click the button to request the permission. Depending
+on the platform, this may pop up an authentication dialog or ask the user
+to authenticate in some other way. Once the user has obtained the permission,
+the widget changes to this:
+
+![](lockbutton-unlocked.png)
+
+and the permission can be dropped again by clicking the button. If the user
+is not able to obtain the permission at all, the widget looks like this:
+
+![](lockbutton-sorry.png)
+
+If the user has the permission and cannot drop it, the button is hidden.
+
+The text (and tooltips) that are shown in the various cases can be adjusted
+with the I<text-lock>,
+I<text-unlock>,
+I<tooltip-lock>,
+I<tooltip-unlock> and
+I<tooltip-not-authorized> properties.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::LockButton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-lockbutton
+
+Creates a new lock button which reflects the C<$permission>.
+
+=begin code
+method new-lockbutton ( N-Object() $permission --> Gnome::Gtk4::LockButton \)
+=end code
+
+=item $permission; a B<Gnome::Gio::Permission>.
+
+=begin comment
+
+=head2 Example
+# Example for new-lockbutton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-permission
+
+Obtains the B<Gnome::Gio::Permission> object that controls C<$button>.
+
+=begin code
+method get-permission (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gio::Permission> of C<$button>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-permission
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-permission
+
+Sets the B<Gnome::Gio::Permission> object that controls C<$button>.
+
+=begin code
+method set-permission ( N-Object() $permission )
+=end code
+
+=item $permission; a B<Gnome::Gio::Permission> object.
+
+=begin comment
+
+=head2 Example
+# Example for set-permission
+
+=end comment
+
+=end pod
+

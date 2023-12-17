@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 lockbutton
+=comment Package: Gtk4, C-Source: lockbutton
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_lock_button_>);
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::LockButton' {
@@ -57,11 +57,11 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-lockbutton => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ N-Object])),
+  new-lockbutton => %( :type(Constructor), :is-symbol<gtk_lock_button_new>, :returns(N-Object), :parameters([ N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  get-permission => %( :returns(N-Object)),
-  set-permission => %( :parameters([N-Object])),
+  get-permission => %(:is-symbol<gtk_lock_button_get_permission>,  :returns(N-Object)),
+  set-permission => %(:is-symbol<gtk_lock_button_set_permission>,  :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_lock_button_>
+        :library(gtk4-lib())
       );
 
       # Check the function name. 
