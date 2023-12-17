@@ -1,6 +1,6 @@
 
 
-use Gnome::Glib::MainLoop;
+use Gnome::Glib::N-MainLoop;
 
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::Gtk4::Window:api<2>;
@@ -15,7 +15,7 @@ constant \Window = Gnome::Gtk4::Window;
 constant \Button = Gnome::Gtk4::Button;
 
 
-my Gnome::Glib::MainLoop $main-loop .= new-mainloop;
+my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop;
 
 class SH {
   method stopit ( --> gboolean ) {
