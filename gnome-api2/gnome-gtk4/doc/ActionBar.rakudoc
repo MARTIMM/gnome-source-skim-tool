@@ -1,0 +1,267 @@
+=comment Package: Gtk4, C-Source: actionbar
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ActionBar
+
+![](images/actionbar.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ActionBar> is designed to present contextual actions.
+
+![An example GtkActionBar](action-bar.png)
+
+It is expected to be displayed below the content and expand
+horizontally to fill the area.
+
+It allows placing children at the start or the end. In addition, it
+contains an internal centered box which is centered with respect to
+the full width of the box, even if the children at either side take
+up different amounts of space.
+
+=head2 CSS nodes
+
+=begin comment
+actionbar
+╰── revealer
+    ╰── box
+        ├── box.start
+        │   ╰── [start children]
+        ├── [center widget]
+        ╰── box.end
+            ╰── [end children]
+
+=end comment
+
+A B<Gnome::Gtk4::ActionBar>'s CSS node is called B<actionbar>. It contains a B<revealer>
+subnode, which contains a B<box> subnode, which contains two B<box> subnodes at
+the start and end of the action bar, with B<start> and B<end style classes
+respectively, as well as a center node that represents the center child.
+
+Each of the boxes contains children packed for that side.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ActionBar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-actionbar
+
+Creates a new >GtkActionBarB< widget.
+
+=begin code
+method new-actionbar ( --> Gnome::Gtk4::ActionBar \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-actionbar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-center-widget
+
+Retrieves the center bar widget of the bar.
+
+=begin code
+method get-center-widget (--> N-Object )
+=end code
+
+Return value; the center >GtkWidgetB<. 
+
+=begin comment
+
+=head2 Example
+# Example for get-center-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-revealed
+
+Gets whether the contents of the action bar are revealed.
+
+=begin code
+method get-revealed (--> Bool )
+=end code
+
+Return value; the current value of the I<revealed>
+  property. 
+
+=begin comment
+
+=head2 Example
+# Example for get-revealed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-end
+
+Adds C<$child> to C<$action_bar>, packed with reference to the
+end of the C<$action_bar>.
+
+=begin code
+method pack-end ( N-Object() $child )
+=end code
+
+=item $child; the >GtkWidgetB< to be added to C<$action_bar>.
+
+=begin comment
+
+=head2 Example
+# Example for pack-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-start
+
+Adds C<$child> to C<$action_bar>, packed with reference to the
+start of the C<$action_bar>.
+
+=begin code
+method pack-start ( N-Object() $child )
+=end code
+
+=item $child; the >GtkWidgetB< to be added to C<$action_bar>.
+
+=begin comment
+
+=head2 Example
+# Example for pack-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes a child from C<$action_bar>.
+
+=begin code
+method remove ( N-Object() $child )
+=end code
+
+=item $child; the >GtkWidgetB< to be removed.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-center-widget
+
+Sets the center widget for the >GtkActionBar`.
+
+=begin code
+method set-center-widget ( N-Object() $center-widget )
+=end code
+
+=item $center-widget; a widget to use for the center.
+
+=begin comment
+
+=head2 Example
+# Example for set-center-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-revealed
+
+Reveals or conceals the content of the action bar.
+
+Note: this does not show or hide C<$action_bar> in the
+I<visible defined in Gnome::Gtk4::Widget> sense, so revealing has
+no effect if the action bar is hidden.
+
+=begin code
+method set-revealed ( Bool() $revealed )
+=end code
+
+=item $revealed; The new value of the property.
+
+=begin comment
+
+=head2 Example
+# Example for set-revealed
+
+=end comment
+
+=end pod
+
