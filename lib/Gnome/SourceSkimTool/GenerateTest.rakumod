@@ -34,7 +34,7 @@ submethod BUILD ( Str :$!filename ) {
   $!tst .= new;
 
   $!solve .= new;
-  $!filedata =  $!solve.get-data-from-filename($!filwename);
+  $!filedata =  $!solve.get-data-from-filename($!filename);
 }
 
 #-------------------------------------------------------------------------------

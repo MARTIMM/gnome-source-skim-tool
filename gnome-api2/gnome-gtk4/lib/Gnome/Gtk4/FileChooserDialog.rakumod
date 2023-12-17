@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: filechooserDialog
+=comment Package: Gtk4, C-Source: filechooserdialog
 use v6.d;
 
 #-------------------------------------------------------------------------------

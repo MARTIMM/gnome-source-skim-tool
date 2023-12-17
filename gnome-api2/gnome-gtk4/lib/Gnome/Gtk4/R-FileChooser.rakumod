@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: filechooser
+=comment Package: Gtk4, C-Source: filechooser
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Gtk4::T-FileChooser:api<2>;
+use Gnome::Gtk4::T-FileChooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -32,7 +32,7 @@ my Hash $methods = %(
   add-choice => %(:is-symbol<gtk_file_chooser_add_choice>,  :parameters([Str, Str, gchar-pptr, gchar-pptr])),
   add-filter => %(:is-symbol<gtk_file_chooser_add_filter>,  :parameters([N-Object])),
   add-shortcut-folder => %(:is-symbol<gtk_file_chooser_add_shortcut_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  #get-action => %(:is-symbol<gtk_file_chooser_get_action>,  :returns(GEnum), :cnv-return(GtkFileChooserAction )),
+  get-action => %(:is-symbol<gtk_file_chooser_get_action>,  :returns(GEnum), :cnv-return(GtkFileChooserAction)),
   get-choice => %(:is-symbol<gtk_file_chooser_get_choice>,  :returns(Str), :parameters([Str])),
   get-create-folders => %(:is-symbol<gtk_file_chooser_get_create_folders>,  :returns(gboolean), :cnv-return(Bool)),
   get-current-folder => %(:is-symbol<gtk_file_chooser_get_current_folder>,  :returns(N-Object)),
@@ -46,7 +46,7 @@ my Hash $methods = %(
   remove-choice => %(:is-symbol<gtk_file_chooser_remove_choice>,  :parameters([Str])),
   remove-filter => %(:is-symbol<gtk_file_chooser_remove_filter>,  :parameters([N-Object])),
   remove-shortcut-folder => %(:is-symbol<gtk_file_chooser_remove_shortcut_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  #set-action => %(:is-symbol<gtk_file_chooser_set_action>,  :parameters([GEnum])),
+  set-action => %(:is-symbol<gtk_file_chooser_set_action>,  :parameters([GEnum])),
   set-choice => %(:is-symbol<gtk_file_chooser_set_choice>,  :parameters([Str, Str])),
   set-create-folders => %(:is-symbol<gtk_file_chooser_set_create_folders>,  :parameters([gboolean])),
   set-current-folder => %(:is-symbol<gtk_file_chooser_set_current_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),

@@ -1,0 +1,189 @@
+=comment Package: Gtk4, C-Source: fontchooser
+use v6.d;
+
+#TL:1:Gnome::Gtk4::R-FontChooser:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::FontChooserWidget:api<2>;
+use Gnome::Gtk4::T-FontChooser:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+#use Gnome::Pango::N-FontDescription:api<2>;
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+my Gnome::Gtk4::FontChooserWidget $fontchooser .= new-fontchooserwidget;
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $fontchooser {
+    my Str $text;
+    my N-Object $fontmap;
+#    my N-FontDescription  $font-desc;
+    my  $destroy;
+    my gboolean $show-preview-entry;
+    sub filter ( N-Object $family, N-Object $face, gpointer $data --> gboolean ) {}
+    my gpointer $user-data;
+    my GFlag $level;
+    my Str $language;
+    my Str $fontname;
+
+
+#`{{
+    #TM:0:get-font-face()
+     .get-font-face(), '…', '.get-font-face()';
+
+    #TM:0:get-font-family()
+     .get-font-family(), '…', '.get-font-family()';
+
+    #TM:0:get-font-features()
+     .get-font-features(), '…', '.get-font-features()';
+
+    #TM:0:get-font-size()
+     .get-font-size(), '…', '.get-font-size()';
+
+    #TM:0:set-filter-func()
+    $filter = …;
+    $user-data = '…';
+    $destroy = '…';
+    .set-filter-func( $filter, $user-data, $destroy);
+    ok True, '.set-filter-func()';
+
+    #TM:0:set-font()
+    $fontname = 'text';
+    .set-font( $fontname);
+    #TM:0:get-font()
+    is .get-font(),  $fontname, '.set-font() / .get-font()';
+
+    #TM:0:set-font-desc()
+    $font-desc = '…';
+    .set-font-desc( $font-desc);
+    #TM:0:get-font-desc()
+    is .get-font-desc(),  $font-desc, '.set-font-desc() / .get-font-desc()';
+
+    #TM:0:set-font-map()
+    $fontmap = …;
+    .set-font-map( $fontmap);
+    #TM:0:get-font-map()
+    is .get-font-map(),  $fontmap, '.set-font-map() / .get-font-map()';
+
+    #TM:0:set-language()
+    $language = 'text';
+    .set-language( $language);
+    #TM:0:get-language()
+    is .get-language(),  $language, '.set-language() / .get-language()';
+
+    #TM:0:set-level()
+    $level = …;
+    .set-level( $level);
+    #TM:0:get-level()
+    is .get-level(),  $level, '.set-level() / .get-level()';
+
+    #TM:0:set-preview-text()
+    $text = 'text';
+    .set-preview-text( $text);
+    #TM:0:get-preview-text()
+    is .get-preview-text(),  $text, '.set-preview-text() / .get-preview-text()';
+
+    #TM:0:set-show-preview-entry()
+    $show-preview-entry = '…';
+    .set-show-preview-entry( $show-preview-entry);
+    #TM:0:get-show-preview-entry()
+    is .get-show-preview-entry(),  $show-preview-entry, '.set-show-preview-entry() / .get-show-preview-entry()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::FontChooser() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::FontChooser;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::FontChooser :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::FontChooser $fontchooser .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $fontchooser.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

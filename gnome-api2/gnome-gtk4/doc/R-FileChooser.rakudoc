@@ -1,49 +1,49 @@
-# Package: Gtk4, C-Source: filechooser
+=comment Package: Gtk4, C-Source: filechooser
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::FileChooser
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::R-FileChooser
+
+![](images/filechooser.png)
+
 =head1 Description
 
-B<Gnome::Gtk4::FileChooser> is an interface that can be implemented by file
+U<Gnome::Gtk4::R-FileChooser> is an interface that can be implemented by file
 selection widgets.
 
 In GTK, the main objects that implement this interface are
-[class C<$Gtk>.FileChooserWidget] and [class C<$Gtk>.FileChooserDialog].
+B<Gnome::Gtk4::FileChooserWidget> and B<Gnome::Gtk4::FileChooserDialog>.
 
-You do not need to write an object that implements the B<Gnome::Gtk4::FileChooser>
+You do not need to write an object that implements the U<Gnome::Gtk4::R-FileChooser>
 interface unless you are trying to adapt an existing file selector to
 expose a standard programming interface.
 
-B<Gnome::Gtk4::FileChooser> allows for shortcuts to various places in the filesystem.
+U<Gnome::Gtk4::R-FileChooser> allows for shortcuts to various places in the filesystem.
 In the default implementation these are displayed in the left pane. It
 may be a bit confusing at first that these shortcuts come from various
 sources and in various flavours, so lets explain the terminology here:
 
-- Bookmarks: are created by the user, by dragging folders from the
+=item Bookmarks: are created by the user, by dragging folders from the
   right pane to the left pane, or by using the “Add”. Bookmarks
   can be renamed and deleted by the user.
 
-- Shortcuts: can be provided by the application. For example, a Paint
+=item Shortcuts: can be provided by the application. For example, a Paint
   program may want to add a shortcut for a Clipart folder. Shortcuts
   cannot be modified by the user.
 
-- Volumes: are provided by the underlying filesystem abstraction. They are
+=item Volumes: are provided by the underlying filesystem abstraction. They are
   the “roots” of the filesystem.
 
-=head1 File Names and Encodings
+=head2 File Names and Encodings
 
-When the user is finished selecting files in a B<Gnome::Gtk4::FileChooser>, your
-program can get the selected filenames as I<GFile>s.
+When the user is finished selecting files in a U<Gnome::Gtk4::R-FileChooser>, your
+program can get the selected filenames as B<Gnome::Gio::File>s.
 
-=head1 Adding options
+=head2 Adding options
 
 You can add extra widgets to a file chooser to provide options
 that are not present in the default design, by using
@@ -52,15 +52,19 @@ a user visible label; additionally, each choice can have multiple
 options. If a choice has no option, it will be rendered as a
 check button with the given label; if a choice has options, it will
 be rendered as a combo box.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::FileChooser
+
 =end comment
 
 =end pod
@@ -79,8 +83,11 @@ be rendered as a combo box.
 Adds a 'choice' to the file chooser.
 
 This is typically implemented as a combobox or, for boolean choices,
-as a checkbutton. You can select a value using C<.set-choice()> before the dialog is shown,
-and you can obtain the user-selected value in the I<response defined in Dialog> signal handler using C<.get-choice()>.
+as a checkbutton. You can select a value using
+C<.set-choice()> before the dialog is shown,
+and you can obtain the user-selected value in the
+I<response defined in Dialog> signal handler using
+C<.get-choice()>.
 
 =begin code
 method add-choice ( Str $id, Str $label, Array[Str] $options, Array[Str] $option-labels )
@@ -91,6 +98,13 @@ method add-choice ( Str $id, Str $label, Array[Str] $options, Array[Str] $option
 =item $options; ids for the options of the choice, or undefined for a boolean choice.
 =item $option-labels; user-visible labels for the options, must be the same length as C<$options>.
 
+=begin comment
+
+=head2 Example
+# Example for add-choice
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -99,7 +113,8 @@ method add-choice ( Str $id, Str $label, Array[Str] $options, Array[Str] $option
 
 Adds C<$filter> to the list of filters that the user can select between.
 
-When a filter is selected, only files that are passed by that filter are displayed.
+When a filter is selected, only files that are passed by that
+filter are displayed.
 
 Note that the C<$chooser> takes ownership of the filter if it is floating,
 so you have to ref and sink it if you want to keep a reference.
@@ -108,7 +123,14 @@ so you have to ref and sink it if you want to keep a reference.
 method add-filter ( N-Object() $filter )
 =end code
 
-=item $filter; a I<GtkFileFilter>.
+=item $filter; a B<Gnome::Gtk4::FileFilter>.
+
+=begin comment
+
+=head2 Example
+# Example for add-filter
+
+=end comment
 
 =end pod
 
@@ -116,17 +138,24 @@ method add-filter ( N-Object() $filter )
 =begin pod
 =head2 add-shortcut-folder
 
-Adds a folder to be displayed with the shortcut folders in a file chooser.
+Adds a folder to be displayed with the shortcut folders
+in a file chooser.
 
 =begin code
 method add-shortcut-folder ( N-Object() $folder --> Bool )
 =end code
 
-=item $folder; a I<GFile> for the folder to add.
+=item $folder; a B<Gnome::Gio::File> for the folder to add.
 
-Return value; %TRUE if the folder could be added successfully,
- %FALSE otherwise.. 
+Return value; C<True> if the folder could be added successfully,
+  C<False> otherwise.. 
 
+=begin comment
+
+=head2 Example
+# Example for add-shortcut-folder
+
+=end comment
 
 =end pod
 
@@ -140,9 +169,14 @@ Gets the type of operation that the file chooser is performing.
 method get-action (--> GtkFileChooserAction )
 =end code
 
+Return value; the action that the file selector is performing. 
 
-Return value; the action that the file selector is performing.  An enumeration.
+=begin comment
 
+=head2 Example
+# Example for get-action
+
+=end comment
 
 =end pod
 
@@ -160,6 +194,12 @@ method get-choice ( Str $id --> Str )
 
 Return value; the ID of the currently selected option. 
 
+=begin comment
+
+=head2 Example
+# Example for get-choice
+
+=end comment
 
 =end pod
 
@@ -173,9 +213,14 @@ Gets whether file chooser will offer to create new folders.
 method get-create-folders (--> Bool )
 =end code
 
+Return value; C<True> if the Create Folder button should be displayed.. 
 
-Return value; %TRUE if the Create Folder button should be displayed.. 
+=begin comment
 
+=head2 Example
+# Example for get-create-folders
+
+=end comment
 
 =end pod
 
@@ -183,15 +228,20 @@ Return value; %TRUE if the Create Folder button should be displayed..
 =begin pod
 =head2 get-current-folder
 
-Gets the current folder of C<$chooser> as I<GFile>.
+Gets the current folder of C<$chooser> as B<Gnome::Gio::File>.
 
 =begin code
 method get-current-folder (--> N-Object )
 =end code
 
+Return value; the B<Gnome::Gio::File> for the current folder.. 
 
-Return value; the I<GFile> for the current folder.. 
+=begin comment
 
+=head2 Example
+# Example for get-current-folder
+
+=end comment
 
 =end pod
 
@@ -201,19 +251,25 @@ Return value; the I<GFile> for the current folder..
 
 Gets the current name in the file selector, as entered by the user.
 
-This is meant to be used in save dialogs, to get the currently typed filename when the file itself does not exist yet.
+This is meant to be used in save dialogs, to get the currently typed
+filename when the file itself does not exist yet.
 
 =begin code
 method get-current-name (--> Str )
 =end code
 
-
 Return value; The raw text from the file chooser’s “Name” entry. Free with
- g_free(). Note that this string is not a full pathname or URI; it is
- whatever the contents of the entry are. Note also that this string is
- in UTF-8 encoding, which is not necessarily the system’s encoding for
- filenames.. 
+  g_free(). Note that this string is not a full pathname or URI; it is
+  whatever the contents of the entry are. Note also that this string is
+  in UTF-8 encoding, which is not necessarily the system’s encoding for
+  filenames.. 
 
+=begin comment
+
+=head2 Example
+# Example for get-current-name
+
+=end comment
 
 =end pod
 
@@ -221,20 +277,28 @@ Return value; The raw text from the file chooser’s “Name” entry. Free with
 =begin pod
 =head2 get-file
 
-Gets the I<GFile> for the currently selected file in the file selector.
+Gets the B<Gnome::Gio::File> for the currently selected file in
+the file selector.
 
-If multiple files are selected, one of the files will be returned at random.
+If multiple files are selected, one of the files will be
+returned at random.
 
-If the file chooser is in folder mode, this function returns the selected folder.
+If the file chooser is in folder mode, this function returns
+the selected folder.
 
 =begin code
 method get-file (--> N-Object )
 =end code
 
+Return value; a selected B<Gnome::Gio::File>. You own the
+  returned file; use g_object_unref() to release it.. 
 
-Return value; a selected I<GFile>. You own the
- returned file; use g_object_unref() to release it.. 
+=begin comment
 
+=head2 Example
+# Example for get-file
+
+=end comment
 
 =end pod
 
@@ -242,17 +306,23 @@ Return value; a selected I<GFile>. You own the
 =begin pod
 =head2 get-files
 
-Lists all the selected files and subfolders in the current folder of C<$chooser> as I<GFile>.
+Lists all the selected files and subfolders in the current folder
+of C<$chooser> as B<Gnome::Gio::File>.
 
 =begin code
 method get-files (--> N-List )
 =end code
 
+Return value; a list model containing a B<Gnome::Gio::File> for each
+  selected file and subfolder in the current folder. Free the returned
+  list with g_object_unref().. 
 
-Return value; a list model containing a I<GFile> for each
- selected file and subfolder in the current folder. Free the returned
- list with g_object_unref().. 
+=begin comment
 
+=head2 Example
+# Example for get-files
+
+=end comment
 
 =end pod
 
@@ -266,9 +336,14 @@ Gets the current filter.
 method get-filter (--> N-Object )
 =end code
 
-
 Return value; the current filter. 
 
+=begin comment
+
+=head2 Example
+# Example for get-filter
+
+=end comment
 
 =end pod
 
@@ -278,7 +353,8 @@ Return value; the current filter.
 
 Gets the current set of user-selectable filters, as a list model.
 
-See C<.add-filter()> and C<.remove-filter() defined in FileChooser> for changing individual filters.
+See C<.add-filter()> and
+C<.remove-filter()> for changing individual filters.
 
 You should not modify the returned list model. Future changes to C<$chooser> may or may not affect the returned model.
 
@@ -286,10 +362,15 @@ You should not modify the returned list model. Future changes to C<$chooser> may
 method get-filters (--> N-List )
 =end code
 
+Return value; a U<Gnome::Gio::R-ListModel> containing the current set
+  of user-selectable filters.. 
 
-Return value; a I<GListModel> containing the current set
- of user-selectable filters.. 
+=begin comment
 
+=head2 Example
+# Example for get-filters
+
+=end comment
 
 =end pod
 
@@ -297,15 +378,21 @@ Return value; a I<GListModel> containing the current set
 =begin pod
 =head2 get-select-multiple
 
-Gets whether multiple files can be selected in the file chooser.
+Gets whether multiple files can be selected in the file
+chooser.
 
 =begin code
 method get-select-multiple (--> Bool )
 =end code
 
+Return value; C<True> if multiple files can be selected.. 
 
-Return value; %TRUE if multiple files can be selected.. 
+=begin comment
 
+=head2 Example
+# Example for get-select-multiple
+
+=end comment
 
 =end pod
 
@@ -321,9 +408,14 @@ You should not modify the returned list model. Future changes to C<$chooser> may
 method get-shortcut-folders (--> N-List )
 =end code
 
+Return value; A list model of B<Gnome::Gio::File>s. 
 
-Return value; A list model of I<GFile>s. 
+=begin comment
 
+=head2 Example
+# Example for get-shortcut-folders
+
+=end comment
 
 =end pod
 
@@ -331,13 +423,20 @@ Return value; A list model of I<GFile>s.
 =begin pod
 =head2 remove-choice
 
-Removes a 'choice' that has been added with gtk_file_chooser_add_choice().
+Removes a 'choice' that has been added with C<.add-choice()>.
 
 =begin code
 method remove-choice ( Str $id )
 =end code
 
 =item $id; the ID of the choice to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove-choice
+
+=end comment
 
 =end pod
 
@@ -351,7 +450,14 @@ Removes C<$filter> from the list of filters that the user can select between.
 method remove-filter ( N-Object() $filter )
 =end code
 
-=item $filter; a I<GtkFileFilter>.
+=item $filter; a B<Gnome::Gtk4::FileFilter>.
+
+=begin comment
+
+=head2 Example
+# Example for remove-filter
+
+=end comment
 
 =end pod
 
@@ -365,11 +471,17 @@ Removes a folder from the shortcut folders in a file chooser.
 method remove-shortcut-folder ( N-Object() $folder --> Bool )
 =end code
 
-=item $folder; a I<GFile> for the folder to remove.
+=item $folder; a B<Gnome::Gio::File> for the folder to remove.
 
-Return value; %TRUE if the folder could be removed successfully,
- %FALSE otherwise.. 
+Return value; C<True> if the folder could be removed successfully,
+  C<False> otherwise.. 
 
+=begin comment
+
+=head2 Example
+# Example for remove-shortcut-folder
+
+=end comment
 
 =end pod
 
@@ -381,13 +493,22 @@ Sets the type of operation that the chooser is performing.
 
 The user interface is adapted to suit the selected action.
 
-For example, an option to create a new folder might be shown if the action is %GTK_FILE_CHOOSER_ACTION_SAVE but not if the action is %GTK_FILE_CHOOSER_ACTION_OPEN.
+For example, an option to create a new folder might be shown
+if the action is C<GTK_FILE_CHOOSER_ACTION_SAVE> but not if the
+action is C<GTK_FILE_CHOOSER_ACTION_OPEN>.
 
 =begin code
 method set-action ( GtkFileChooserAction $action )
 =end code
 
-=item $action; the action that the file selector is performing. An enumeration.
+=item $action; the action that the file selector is performing.
+
+=begin comment
+
+=head2 Example
+# Example for set-action
+
+=end comment
 
 =end pod
 
@@ -395,7 +516,8 @@ method set-action ( GtkFileChooserAction $action )
 =begin pod
 =head2 set-choice
 
-Selects an option in a 'choice' that has been added with gtk_file_chooser_add_choice().
+Selects an option in a 'choice' that has been added with
+C<.add-choice()>.
 
 For a boolean choice, the possible options are "true" and "false".
 
@@ -406,6 +528,13 @@ method set-choice ( Str $id, Str $option )
 =item $id; the ID of the choice to set.
 =item $option; the ID of the option to select.
 
+=begin comment
+
+=head2 Example
+# Example for set-choice
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -415,13 +544,20 @@ method set-choice ( Str $id, Str $option )
 Sets whether file chooser will offer to create new folders.
 
 This is only relevant if the action is not set to be
-%GTK_FILE_CHOOSER_ACTION_OPEN.
+C<GTK_FILE_CHOOSER_ACTION_OPEN>.
 
 =begin code
 method set-create-folders ( Bool() $create-folders )
 =end code
 
-=item $create-folders; %TRUE if the Create Folder button should be displayed.
+=item $create-folders; C<True> if the Create Folder button should be displayed.
+
+=begin comment
+
+=head2 Example
+# Example for set-create-folders
+
+=end comment
 
 =end pod
 
@@ -429,17 +565,23 @@ method set-create-folders ( Bool() $create-folders )
 =begin pod
 =head2 set-current-folder
 
-Sets the current folder for C<$chooser> from a I<GFile>.
+Sets the current folder for C<$chooser> from a B<Gnome::Gio::File>.
 
 =begin code
 method set-current-folder ( N-Object() $file --> Bool )
 =end code
 
-=item $file; the I<GFile> for the new folder.
+=item $file; the B<Gnome::Gio::File> for the new folder.
 
-Return value; %TRUE if the folder could be changed successfully, %FALSE
- otherwise.. 
+Return value; C<True> if the folder could be changed successfully, C<False>
+  otherwise.. 
 
+=begin comment
+
+=head2 Example
+# Example for set-current-folder
+
+=end comment
 
 =end pod
 
@@ -447,20 +589,32 @@ Return value; %TRUE if the folder could be changed successfully, %FALSE
 =begin pod
 =head2 set-current-name
 
-Sets the current name in the file selector, as if entered by the user.
+Sets the current name in the file selector, as if entered
+by the user.
 
-Note that the name passed in here is a UTF-8 string rather than a filename. This function is meant for such uses as a suggested name in a “Save As...” dialog. You can pass
+Note that the name passed in here is a UTF-8 string rather
+than a filename. This function is meant for such uses as a
+suggested name in a “Save As...” dialog.  You can pass
 “Untitled.doc” or a similarly suitable suggestion for the C<$name>.
 
-If you want to preselect a particular existing file, you should use C<.set-file()> instead.
+If you want to preselect a particular existing file, you should
+use C<.set-file()> instead.
 
-Please see the documentation for those functions for an example of using C<.set-current-name()> as well.
+Please see the documentation for those functions for an example
+of using C<.set-current-name()> as well.
 
 =begin code
 method set-current-name ( Str $name )
 =end code
 
 =item $name; the filename to use, as a UTF-8 string.
+
+=begin comment
+
+=head2 Example
+# Example for set-current-name
+
+=end comment
 
 =end pod
 
@@ -470,51 +624,62 @@ method set-current-name ( Str $name )
 
 Sets C<$file> as the current filename for the file chooser.
 
-This includes changing to the file’s parent folder and actually selecting the file in list. If the C<$chooser> is in %GTK_FILE_CHOOSER_ACTION_SAVE mode,
+This includes changing to the file’s parent folder and actually selecting
+the file in list. If the C<$chooser> is in C<GTK_FILE_CHOOSER_ACTION_SAVE> mode,
 the file’s base name will also appear in the dialog’s file name entry.
 
-If the file name isn’t in the current folder of C<$chooser>, then the current folder of C<$chooser> will be changed to the folder containing C<$file>.
+If the file name isn’t in the current folder of C<$chooser>, then the current
+folder of C<$chooser> will be changed to the folder containing C<$file>.
 
-Note that the file must exist, or nothing will be done except for the directory change.
+Note that the file must exist, or nothing will be done except
+for the directory change.
 
-If you are implementing a save dialog, you should use this function if you already have a file name to which the user may save; for example,
-when the user opens an existing file and then does “Save As…”. If you don’t have a file name already — for example, if the user just created a new file and is saving it for the first time, do not call this function.
+If you are implementing a save dialog, you should use this function if
+you already have a file name to which the user may save; for example,
+when the user opens an existing file and then does “Save As…”. If you
+don’t have a file name already — for example, if the user just created
+a new file and is saving it for the first time, do not call this function.
 
 Instead, use something similar to this:
 
-=begin comment 
-Following example code is in c
+=begin comment
+static void
+prepare_file_chooser (GtkFileChooser *chooser,
+                      GFile          *existing_file)
+{
+  gboolean document_is_new = (existing_file == NULL);
 
- static void
- prepare_file_chooser (GtkFileChooser *chooser,
- GFile *existing_file)
- {
- gboolean document_is_new = (existing_file == NULL);
- 
- if (document_is_new)
- {
- GFile *default_file_for_saving = g_file_new_for_path ("./out.txt");
- // the user just created a new document
- gtk_file_chooser_set_current_folder (chooser, default_file_for_saving, NULL);
- gtk_file_chooser_set_current_name (chooser, "Untitled document");
- g_object_unref (default_file_for_saving);
- }
- else
- {
- // the user edited an existing document
- gtk_file_chooser_set_file (chooser, existing_file, NULL);
- }
- }
+  if (document_is_new)
+    {
+      GFile *default_file_for_saving = g_file_new_for_path ("./out.txt");
+      // the user just created a new document
+      gtk_file_chooser_set_current_folder (chooser, default_file_for_saving, NULL);
+      gtk_file_chooser_set_current_name (chooser, "Untitled document");
+      g_object_unref (default_file_for_saving);
+    }
+  else
+    {
+      // the user edited an existing document
+      gtk_file_chooser_set_file (chooser, existing_file, NULL);
+    }
+}
+
 =end comment
 
 =begin code
 method set-file ( N-Object() $file --> Bool )
 =end code
 
-=item $file; the I<GFile> to set as current.
+=item $file; the B<Gnome::Gio::File> to set as current.
 
 Return value; Not useful. 
 
+=begin comment
+
+=head2 Example
+# Example for set-file
+
+=end comment
 
 =end pod
 
@@ -525,15 +690,25 @@ Return value; Not useful.
 Sets the current filter.
 
 Only the files that pass the filter will be displayed.
-If the user-selectable list of filters is non-empty, then the filter should be one of the filters in that list.
+If the user-selectable list of filters is non-empty, then
+the filter should be one of the filters in that list.
 
-Setting the current filter when the list of filters is empty is useful if you want to restrict the displayed set of files without letting the user change it.
+Setting the current filter when the list of filters is
+empty is useful if you want to restrict the displayed
+set of files without letting the user change it.
 
 =begin code
 method set-filter ( N-Object() $filter )
 =end code
 
-=item $filter; a I<GtkFileFilter>.
+=item $filter; a B<Gnome::Gtk4::FileFilter>.
+
+=begin comment
+
+=head2 Example
+# Example for set-filter
+
+=end comment
 
 =end pod
 
@@ -544,14 +719,21 @@ method set-filter ( N-Object() $filter )
 Sets whether multiple files can be selected in the file chooser.
 
 This is only relevant if the action is set to be
-%GTK_FILE_CHOOSER_ACTION_OPEN or
-%GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER.
+C<GTK_FILE_CHOOSER_ACTION_OPEN> or
+C<GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER>.
 
 =begin code
 method set-select-multiple ( Bool() $select-multiple )
 =end code
 
-=item $select-multiple; %TRUE if multiple files can be selected..
+=item $select-multiple; C<True> if multiple files can be selected..
+
+=begin comment
+
+=head2 Example
+# Example for set-select-multiple
+
+=end comment
 
 =end pod
 

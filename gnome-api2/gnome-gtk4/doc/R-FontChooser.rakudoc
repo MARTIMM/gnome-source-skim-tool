@@ -1,0 +1,551 @@
+=comment Package: Gtk4, C-Source: fontchooser
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-FontChooser
+
+![](images/fontchooser.png)
+
+=head1 Description
+
+U<Gnome::Gtk4::R-FontChooser> is an interface that can be implemented by widgets
+for choosing fonts.
+
+In GTK, the main objects that implement this interface are
+B<Gnome::Gtk4::FontChooserWidget>, B<Gnome::Gtk4::FontChooserDialog> and
+B<Gnome::Gtk4::FontButton>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::FontChooser
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font
+
+Gets the currently-selected font name.
+
+Note that this can be a different string than what you set with
+C<.set-font()>, as the font chooser widget may
+normalize font names and thus return a string with a different
+structure. For example, “Helvetica Italic Bold 12” could be
+normalized to “Helvetica Bold Italic 12”.
+
+Use C<.equal() in class Gnome::Pango::N-FontDescription> if you want to compare two
+font descriptions.
+
+=begin code
+method get-font (--> Str )
+=end code
+
+Return value; A string with the name
+  of the current font. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-desc
+This function is not yet available
+
+Gets the currently-selected font.
+
+Note that this can be a different string than what you set with
+C<.set-font()>, as the font chooser widget may
+normalize font names and thus return a string with a different
+structure. For example, “Helvetica Italic Bold 12” could be
+normalized to “Helvetica Bold Italic 12”.
+
+Use C<.equal() in class Gnome::Pango::N-FontDescription> if you want to compare two
+font descriptions.
+
+=begin code
+method get-font-desc (--> CArray[N-FontDescription]  )
+=end code
+
+Return value; A U<Gnome::Pango::N-FontDescription> for the
+  current font. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font-desc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-face
+
+Gets the B<Gnome::Pango::FontFace> representing the selected font group
+details (i.e. family, slant, weight, width, etc).
+
+If the selected font is not installed, returns undefined.
+
+=begin code
+method get-font-face (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Pango::FontFace> representing the
+  selected font group details. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font-face
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-family
+
+Gets the B<Gnome::Pango::FontFamily> representing the selected font family.
+
+Font families are a collection of font faces.
+
+If the selected font is not installed, returns undefined.
+
+=begin code
+method get-font-family (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Pango::FontFamily> representing the
+  selected font family. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font-family
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-features
+
+Gets the currently-selected font features.
+
+=begin code
+method get-font-features (--> Str )
+=end code
+
+Return value; the currently selected font features. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font-features
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-map
+
+Gets the custom font map of this font chooser widget,
+or undefined if it does not have one.
+
+=begin code
+method get-font-map (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Pango::FontMap>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font-map
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-size
+
+The selected font size.
+
+=begin code
+method get-font-size (--> Int )
+=end code
+
+Return value; A n integer representing the selected font size,
+  or -1 if no font size is selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-language
+
+Gets the language that is used for font features.
+
+=begin code
+method get-language (--> Str )
+=end code
+
+Return value; the currently selected language. 
+
+=begin comment
+
+=head2 Example
+# Example for get-language
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-level
+This function is not yet available
+
+Returns the current level of granularity for selecting fonts.
+
+=begin code
+method get-level (--> UInt )
+=end code
+
+Return value; the current granularity level. 
+
+=begin comment
+
+=head2 Example
+# Example for get-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-preview-text
+
+Gets the text displayed in the preview area.
+
+=begin code
+method get-preview-text (--> Str )
+=end code
+
+Return value; the text displayed in the preview area. 
+
+=begin comment
+
+=head2 Example
+# Example for get-preview-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-preview-entry
+
+Returns whether the preview entry is shown or not.
+
+=begin code
+method get-show-preview-entry (--> Bool )
+=end code
+
+Return value; C<True> if the preview entry is shown or C<False> if it is hidden.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-preview-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-filter-func
+This function is not yet available
+
+Adds a filter function that decides which fonts to display
+in the font chooser.
+
+=begin code
+method set-filter-func ( &filter, gpointer $user-data, … )
+=end code
+
+=item &filter; a U<Gnome::Gtk4::T-FontChooser>. Tthe function must be specified with following signature; C<:( N-Object $family, N-Object $face, gpointer $data --> gboolean )>.
+=item $user-data; data to pass to C<$filter>.
+=item destroy; function to call to free C<$data> when it is no longer needed. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-filter-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-font
+
+Sets the currently-selected font.
+
+=begin code
+method set-font ( Str $fontname )
+=end code
+
+=item $fontname; a font name like “Helvetica 12” or “Times Bold 18”.
+
+=begin comment
+
+=head2 Example
+# Example for set-font
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-font-desc
+This function is not yet available
+
+Sets the currently-selected font from C<$font_desc>.
+
+=begin code
+method set-font-desc ( CArray[N-FontDescription]  $font-desc )
+=end code
+
+=item $font-desc; a U<Gnome::Pango::N-FontDescription>.
+
+=begin comment
+
+=head2 Example
+# Example for set-font-desc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-font-map
+
+Sets a custom font map to use for this font chooser widget.
+
+A custom font map can be used to present application-specific
+fonts instead of or in addition to the normal system fonts.
+
+=begin comment
+FcConfig *config;
+PangoFontMap *fontmap;
+
+config = FcInitLoadConfigAndFonts ();
+FcConfigAppFontAddFile (config, my_app_font_file);
+
+fontmap = pango_cairo_font_map_new_for_font_type (CAIRO_FONT_TYPE_FT);
+pango_fc_font_map_set_config (PANGO_FC_FONT_MAP (fontmap), config);
+
+gtk_font_chooser_set_font_map (font_chooser, fontmap);
+
+=end comment
+
+Note that other GTK widgets will only be able to use the
+application-specific font if it is present in the font map they use:
+
+=begin comment
+context = gtk_widget_get_pango_context (label);
+pango_context_set_font_map (context, fontmap);
+
+=end comment
+
+=begin code
+method set-font-map ( N-Object() $fontmap )
+=end code
+
+=item $fontmap; a B<Gnome::Pango::FontMap>.
+
+=begin comment
+
+=head2 Example
+# Example for set-font-map
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-language
+
+Sets the language to use for font features.
+
+=begin code
+method set-language ( Str $language )
+=end code
+
+=item $language; a language.
+
+=begin comment
+
+=head2 Example
+# Example for set-language
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-level
+This function is not yet available
+
+Sets the desired level of granularity for selecting fonts.
+
+=begin code
+method set-level ( UInt $level )
+=end code
+
+=item $level; the desired level of granularity.
+
+=begin comment
+
+=head2 Example
+# Example for set-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-preview-text
+
+Sets the text displayed in the preview area.
+
+The C<$text> is used to show how the selected font looks.
+
+=begin code
+method set-preview-text ( Str $text )
+=end code
+
+=item $text; the text to display in the preview area.
+
+=begin comment
+
+=head2 Example
+# Example for set-preview-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-preview-entry
+
+Shows or hides the editable preview entry.
+
+=begin code
+method set-show-preview-entry ( Bool() $show-preview-entry )
+=end code
+
+=item $show-preview-entry; whether to show the editable preview entry or not.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-preview-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 font-activated
+
+Emitted when a font is activated.
+
+This usually happens when the user double clicks an item,
+or an item is selected and the user presses one of the keys
+Space, Shift+Space, Return or Enter.
+
+=begin code
+method handler (
+  Str $fontname,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::FontChooser :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $fontname; the font name.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FontChooser> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal font-activated
+
+=end comment
+
+=end pod
+

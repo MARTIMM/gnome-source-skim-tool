@@ -1,0 +1,171 @@
+=comment Package: Gtk4, C-Source: appchooserdialog
+use v6.d;
+
+#TL:1:Gnome::Gtk4::AppChooserDialog:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::AppChooserDialog:api<2>;
+use Gnome::Gtk4::T-Dialog:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::AppChooserDialog $appchooserdialog;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $appchooserdialog {
+    my GFlag $flags;
+    my Str $content-type;
+    my N-Object $parent;
+    my N-Object $file;
+
+#`{{
+    #TC:0:new-appchooserdialog()
+    $parent = …;
+    $flags = …;
+    $file = …;
+    $appchooserdialog .= new-appchooserdialog( $parent, $flags, $file);
+    ok .is-valid, '.new-appchooserdialog( $parent, $flags, $file)';
+
+    #TC:0:new-for-content-type()
+    $parent = …;
+    $flags = …;
+    $content-type = 'text';
+    $appchooserdialog .= new-for-content-type( $parent, $flags, $content-type);
+    ok .is-valid, '.new-for-content-type( $parent, $flags, $content-type)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $appchooserdialog {
+    my Str $heading;
+
+
+#`{{
+    #TM:0:get-widget()
+     .get-widget(), '…', '.get-widget()';
+
+    #TM:0:set-heading()
+    $heading = 'text';
+    .set-heading( $heading);
+    #TM:0:get-heading()
+    is .get-heading(),  $heading, '.set-heading() / .get-heading()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $appchooserdialog {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::AppChooserDialog() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::AppChooserDialog;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::AppChooserDialog :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::AppChooserDialog $appchooserdialog .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $appchooserdialog.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

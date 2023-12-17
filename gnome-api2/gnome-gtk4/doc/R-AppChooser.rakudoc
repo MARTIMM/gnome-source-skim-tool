@@ -1,0 +1,120 @@
+=comment Package: Gtk4, C-Source: appchooser
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-AppChooser
+
+![](images/appchooser.png)
+
+=head1 Description
+
+U<Gnome::Gtk4::R-AppChooser> is an interface for widgets which allow the user to
+choose an application.
+
+The main objects that implement this interface are
+B<Gnome::Gtk4::AppChooserWidget>,
+B<Gnome::Gtk4::AppChooserDialog> and B<Gnome::Gtk4::AppChooserButton>.
+
+Applications are represented by GIO U<Gnome::Gio::R-AppInfo> objects here.
+GIO has a concept of recommended and fallback applications for a
+given content type. Recommended applications are those that claim
+to handle the content type itself, while fallback also includes
+applications that handle a more generic content type. GIO also
+knows the default and last-used application for a given content
+type. The B<Gnome::Gtk4::AppChooserWidget> provides detailed control over
+whether the shown list of applications should include default,
+recommended or fallback applications.
+
+To obtain the application that has been selected in a U<Gnome::Gtk4::R-AppChooser>,
+use C<.get-app-info()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::AppChooser
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-app-info
+
+Returns the currently selected application.
+
+=begin code
+method get-app-info (--> N-Object )
+=end code
+
+Return value; a U<Gnome::Gio::R-AppInfo> for the
+  currently selected application. 
+
+=begin comment
+
+=head2 Example
+# Example for get-app-info
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-content-type
+
+Returns the content type for which the U<Gnome::Gtk4::R-AppChooser>
+shows applications.
+
+=begin code
+method get-content-type (--> Str )
+=end code
+
+Return value; the content type of C<$self>. Free with g_free(). 
+
+=begin comment
+
+=head2 Example
+# Example for get-content-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 refresh
+
+Reloads the list of applications.
+
+=begin code
+method refresh ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for refresh
+
+=end comment
+
+=end pod
+

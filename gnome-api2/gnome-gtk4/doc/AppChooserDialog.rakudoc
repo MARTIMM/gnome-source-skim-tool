@@ -1,0 +1,190 @@
+=comment Package: Gtk4, C-Source: appchooserdialog
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::AppChooserDialog
+
+![](images/appchooserdialog.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::AppChooserDialog> shows a B<Gnome::Gtk4::AppChooserWidget> inside a B<Gnome::Gtk4::Dialog>.
+
+![An example GtkAppChooserDialog](appchooserdialog.png)
+
+Note that B<Gnome::Gtk4::AppChooserDialog> does not have any interesting methods
+of its own. Instead, you should get the embedded B<Gnome::Gtk4::AppChooserWidget>
+using C<.get-widget()> and call its methods if
+the generic B<Gnome::Gtk4::R-AppChooser> interface is not sufficient for
+your needs.
+
+To set the heading that is shown above the B<Gnome::Gtk4::AppChooserWidget>,
+use C<.set-heading()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::AppChooserDialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-appchooserdialog
+
+Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided B<Gnome::Gio::File>.
+
+The dialog will show applications that can open the file.
+
+=begin code
+method new-appchooserdialog ( N-Object() $parent, UInt $flags, N-Object() $file --> Gnome::Gtk4::AppChooserDialog \)
+=end code
+
+=item $parent; a B<Gnome::Gtk4::Window>.
+=item $flags; flags for this dialog.
+=item $file; a B<Gnome::Gio::File>.
+
+=begin comment
+
+=head2 Example
+# Example for new-appchooserdialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-content-type
+
+Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided content type.
+
+The dialog will show applications that can open the content type.
+
+=begin code
+method new-for-content-type ( N-Object() $parent, UInt $flags, Str $content-type --> Gnome::Gtk4::AppChooserDialog \)
+=end code
+
+=item $parent; a B<Gnome::Gtk4::Window>.
+=item $flags; flags for this dialog.
+=item $content-type; a content type string.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-content-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-heading
+
+Returns the text to display at the top of the dialog.
+
+=begin code
+method get-heading (--> Str )
+=end code
+
+Return value; the text to display at the top of the dialog,
+  or undefined, in which case a default text is displayed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-heading
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-widget
+
+Returns the B<Gnome::Gtk4::AppChooserWidget> of this dialog.
+
+=begin code
+method get-widget (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gtk4::AppChooserWidget> of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-heading
+
+Sets the text to display at the top of the dialog.
+
+If the heading is not set, the dialog displays a default text.
+
+=begin code
+method set-heading ( Str $heading )
+=end code
+
+=item $heading; a string containing Pango markup.
+
+=begin comment
+
+=head2 Example
+# Example for set-heading
+
+=end comment
+
+=end pod
+

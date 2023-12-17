@@ -1,9 +1,10 @@
-# Package: Gtk4, C-Source: filechooser
+=comment Package: Gtk4, C-Source: filechooser
 use v6.d;
 
 =begin pod
 =head1 Gnome::Gtk4::T-FileChooser
 =end pod
+
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -18,24 +19,30 @@ Initialization of a type class is simple and only needed when the standalone fun
   method new ( )
 
 =end pod
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 =begin pod
 =head1 Enumerations
 
 =head2 GtkFileChooserAction
 
-Describes whether a B<Gnome::Gtk4::FileChooser> is being used to open existing files or to save to a possibly new file.
-=item C<GTK_FILE_CHOOSER_ACTION_OPEN>; Indicates open mode. The file chooser
+Describes whether a U<Gnome::Gtk4::R-FileChooser> is being used to open existing files
+or to save to a possibly new file.
+=item C<GTK_FILE_CHOOSER_ACTION_OPEN>; Indicates open mode.  The file chooser
  will only let the user pick an existing file.
-=item C<GTK_FILE_CHOOSER_ACTION_SAVE>; Indicates save mode. The file chooser
+=item C<GTK_FILE_CHOOSER_ACTION_SAVE>; Indicates save mode.  The file chooser
  will let the user pick an existing file, or type in a new
  filename.
 =item C<GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER>; Indicates an Open mode for
- selecting folders. The file chooser will let the user pick an
+ selecting folders.  The file chooser will let the user pick an
  existing folder.
 
 =head2 GtkFileChooserError
 
-These identify the various errors that can occur while calling B<Gnome::Gtk4::FileChooser> functions.
+These identify the various errors that can occur while calling
+U<Gnome::Gtk4::R-FileChooser> functions.
 =item C<GTK_FILE_CHOOSER_ERROR_NONEXISTENT>; Indicates that a file does not exist.
 =item C<GTK_FILE_CHOOSER_ERROR_BAD_FILENAME>; Indicates a malformed filename.
 =item C<GTK_FILE_CHOOSER_ERROR_ALREADY_EXISTS>; Indicates a duplicate path (e.g. when
@@ -56,15 +63,20 @@ These identify the various errors that can occur while calling B<Gnome::Gtk4::Fi
 =begin pod
 =head2 file-chooser-error-quark
 
-Registers an error quark for B<Gnome::Gtk4::FileChooser> errors.
+Registers an error quark for U<Gnome::Gtk4::R-FileChooser> errors.
 
 =begin code
 method file-chooser-error-quark (--> UInt )
 =end code
 
+Return value; The error quark used for U<Gnome::Gtk4::R-FileChooser> errors.. 
 
-Return value; The error quark used for B<Gnome::Gtk4::FileChooser> errors.. 
+=begin comment
 
+=head2 Example
+# Example for file-chooser-error-quark
+
+=end comment
 
 =end pod
 

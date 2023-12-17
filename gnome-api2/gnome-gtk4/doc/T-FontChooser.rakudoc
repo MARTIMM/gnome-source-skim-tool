@@ -1,0 +1,47 @@
+=comment Package: Gtk4, C-Source: fontchooser
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-FontChooser
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GtkFontChooserLevel
+
+Specifies the granularity of font selection
+that is desired in a U<Gnome::Gtk4::R-FontChooser>.
+
+This enumeration may be extended in the future; applications should
+ignore unknown values.
+
+=item C<GTK_FONT_CHOOSER_LEVEL_FAMILY>; Allow selecting a font family
+=item C<GTK_FONT_CHOOSER_LEVEL_STYLE>; Allow selecting a specific font face
+=item C<GTK_FONT_CHOOSER_LEVEL_SIZE>; Allow selecting a specific font size
+=item C<GTK_FONT_CHOOSER_LEVEL_VARIATIONS>; Allow changing OpenType font variation axes
+=item C<GTK_FONT_CHOOSER_LEVEL_FEATURES>; Allow selecting specific OpenType font features
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 FontFilterFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $family, N-Object() $face, gpointer $data  )
+=end code
+
+=item family; a B<Gnome::Pango::FontFamily>
+=item face; a B<Gnome::Pango::FontFace> belonging to C<$family>
+=item data; user data passed to C<.set-filter-func()>
+
+=end pod

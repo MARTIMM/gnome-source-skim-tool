@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 appchooser
+=comment Package: Gtk4, C-Source: appchooser
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -28,9 +28,9 @@ unit role Gnome::Gtk4::R-AppChooser:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-app-info => %( :returns(N-Object)),
-  get-content-type => %( :returns(Str)),
-  refresh => %(),
+  get-app-info => %(:is-symbol<gtk_app_chooser_get_app_info>,  :returns(N-Object)),
+  get-content-type => %(:is-symbol<gtk_app_chooser_get_content_type>,  :returns(Str)),
+  refresh => %(:is-symbol<gtk_app_chooser_refresh>, ),
 );
 
 #-------------------------------------------------------------------------------

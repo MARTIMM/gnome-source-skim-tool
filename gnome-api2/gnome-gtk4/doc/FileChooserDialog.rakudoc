@@ -1,15 +1,15 @@
-# Package: Gtk4, C-Source: filechooserdialog
+=comment Package: Gtk4, C-Source: filechooserdialog
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::FileChooserDialog
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::FileChooserDialog
+
+![](images/filechooserdialog.png)
+
 =head1 Description
 
 B<Gnome::Gtk4::FileChooserDialog> is a dialog suitable for use with
@@ -17,145 +17,46 @@ B<Gnome::Gtk4::FileChooserDialog> is a dialog suitable for use with
 
 ![An example GtkFileChooserDialog](filechooser.png)
 
-This widget works by putting a [class C<$Gtk>.FileChooserWidget]
-inside a [class C<$Gtk>.Dialog]. It exposes the [iface C<$Gtk>.FileChooser]
-interface, so you can use all of the [iface C<$Gtk>.FileChooser] functions
-on the file chooser dialog as well as those for [class C<$Gtk>.Dialog].
+This widget works by putting a B<Gnome::Gtk4::FileChooserWidget>
+inside a B<Gnome::Gtk4::Dialog>. It exposes the B<Gnome::Gtk4::R-FileChooser>
+interface, so you can use all of the B<Gnome::Gtk4::R-FileChooser> functions
+on the file chooser dialog as well as those for B<Gnome::Gtk4::Dialog>.
 
 Note that B<Gnome::Gtk4::FileChooserDialog> does not have any methods of its
 own. Instead, you should use the functions that work on a
-[iface C<$Gtk>.FileChooser].
+B<Gnome::Gtk4::R-FileChooser>.
 
 If you want to integrate well with the platform you should use the
-[class C<$Gtk>.FileChooserNative] API, which will use a platform-specific
+B<Gnome::Gtk4::FileChooserNative> API, which will use a platform-specific
 dialog if available and fall back to B<Gnome::Gtk4::FileChooserDialog>
 otherwise.
 
-=head2 Typical usage
+=head3 Typical usage
 
 In the simplest of cases, you can the following code to use
 B<Gnome::Gtk4::FileChooserDialog> to select a file for opening:
 
-=begin comment 
-Following example code is in c
+=begin comment
+static void
+on_open_response (GtkDialog *dialog,
+                  int        response)
+{
+  if (response == GTK_RESPONSE_ACCEPT)
+    {
+      GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 
-  static void
-  on_open_response (GtkDialog *dialog,
-                    int        response)
-  {
-    if (response == GTK_RESPONSE_ACCEPT)
-      {
-        GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
-  
-        g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
-  
-        open_file (file);
-      }
-  
-    gtk_window_destroy (GTK_WINDOW (dialog));
-  }
-  
-    // ...
-    GtkWidget *dialog;
-    GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-  
-    dialog = gtk_file_chooser_dialog_new ("Open File",
-                                          parent_window,
-                                          action,
-                                          _("_Cancel"),
-                                          GTK_RESPONSE_CANCEL,
-                                          _("_Open"),
-                                          GTK_RESPONSE_ACCEPT,
-                                          NULL);
-  
-    gtk_widget_show (dialog);
-  
-    g_signal_connect (dialog, "response",
-                      G_CALLBACK (on_open_response),
-                      NULL);
-=end comment
+      g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
 
-To use a dialog for saving, you can use this:
+      open_file (file);
+    }
 
-=begin comment 
-Following example code is in c
+  gtk_window_destroy (GTK_WINDOW (dialog));
+}
 
-  static void
-  on_save_response (GtkDialog *dialog,
-                    int        response)
-  {
-    if (response == GTK_RESPONSE_ACCEPT)
-      {
-        GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
-  
-        g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
-  
-        save_to_file (file);
-      }
-  
-    gtk_window_destroy (GTK_WINDOW (dialog));
-  }
-  
-    // ...
-    GtkWidget *dialog;
-    GtkFileChooser *chooser;
-    GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
-  
-    dialog = gtk_file_chooser_dialog_new ("Save File",
-                                          parent_window,
-                                          action,
-                                          _("_Cancel"),
-                                          GTK_RESPONSE_CANCEL,
-                                          _("_Save"),
-                                          GTK_RESPONSE_ACCEPT,
-                                          NULL);
-    chooser = GTK_FILE_CHOOSER (dialog);
-  
-    if (user_edited_a_new_document)
-      gtk_file_chooser_set_current_name (chooser, _("Untitled document"));
-    else
-      gtk_file_chooser_set_file (chooser, existing_filename);
-  
-    gtk_widget_show (dialog);
-  
-    g_signal_connect (dialog, "response",
-                      G_CALLBACK (on_save_response),
-                      NULL);
-=end comment
-
-=head2 Setting up a file chooser dialog
-
-There are various cases in which you may need to use a B<Gnome::Gtk4::FileChooserDialog>:
-
-- To select a file for opening, use %GTK_FILE_CHOOSER_ACTION_OPEN.
-
-- To save a file for the first time, use %GTK_FILE_CHOOSER_ACTION_SAVE,
-  and suggest a name such as “Untitled” with
-  C<.set-current-name() defined in FileChooser>.
-
-- To save a file under a different name, use %GTK_FILE_CHOOSER_ACTION_SAVE,
-  and set the existing file with C<.set-file() defined in FileChooser>.
-
-- To choose a folder instead of a filem use %GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER.
-
-In general, you should only cause the file chooser to show a specific
-folder when it is appropriate to use C<.set-file() defined in FileChooser>,
-i.e. when you are doing a “Save As” command and you already have a file
-saved somewhere.
-
-=head2 Response Codes
-
-B<Gnome::Gtk4::FileChooserDialog> inherits from [class C<$Gtk>.Dialog], so buttons that
-go in its action area have response codes such as %GTK_RESPONSE_ACCEPT and
-%GTK_RESPONSE_CANCEL. For example, you could call
-[ctor C<$Gtk>.FileChooserDialog.new] as follows:
-
-=begin comment 
-Following example code is in c
-
+  // ...
   GtkWidget *dialog;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-  
+
   dialog = gtk_file_chooser_dialog_new ("Open File",
                                         parent_window,
                                         action,
@@ -164,19 +65,115 @@ Following example code is in c
                                         _("_Open"),
                                         GTK_RESPONSE_ACCEPT,
                                         NULL);
+
+  gtk_widget_show (dialog);
+
+  g_signal_connect (dialog, "response",
+                    G_CALLBACK (on_open_response),
+                    NULL);
+
+=end comment
+
+To use a dialog for saving, you can use this:
+
+=begin comment
+static void
+on_save_response (GtkDialog *dialog,
+                  int        response)
+{
+  if (response == GTK_RESPONSE_ACCEPT)
+    {
+      GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
+
+      g_autoptr(GFile) file = gtk_file_chooser_get_file (chooser);
+
+      save_to_file (file);
+    }
+
+  gtk_window_destroy (GTK_WINDOW (dialog));
+}
+
+  // ...
+  GtkWidget *dialog;
+  GtkFileChooser *chooser;
+  GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
+
+  dialog = gtk_file_chooser_dialog_new ("Save File",
+                                        parent_window,
+                                        action,
+                                        _("_Cancel"),
+                                        GTK_RESPONSE_CANCEL,
+                                        _("_Save"),
+                                        GTK_RESPONSE_ACCEPT,
+                                        NULL);
+  chooser = GTK_FILE_CHOOSER (dialog);
+
+  if (user_edited_a_new_document)
+    gtk_file_chooser_set_current_name (chooser, _("Untitled document"));
+  else
+    gtk_file_chooser_set_file (chooser, existing_filename);
+
+  gtk_widget_show (dialog);
+
+  g_signal_connect (dialog, "response",
+                    G_CALLBACK (on_save_response),
+                    NULL);
+
+=end comment
+
+=head3 Setting up a file chooser dialog
+
+There are various cases in which you may need to use a B<Gnome::Gtk4::FileChooserDialog>:
+
+=item To select a file for opening, use C<GTK_FILE_CHOOSER_ACTION_OPEN>.
+
+=item To save a file for the first time, use C<GTK_FILE_CHOOSER_ACTION_SAVE>,
+  and suggest a name such as “Untitled” with
+  C<.set-current-name() in class Gnome::Gtk4::R-FileChooser>.
+
+=item To save a file under a different name, use C<GTK_FILE_CHOOSER_ACTION_SAVE>,
+  and set the existing file with C<.set-file() in class Gnome::Gtk4::R-FileChooser>.
+
+=item To choose a folder instead of a filem use C<GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER>.
+
+In general, you should only cause the file chooser to show a specific
+folder when it is appropriate to use C<.set-file() in class Gnome::Gtk4::R-FileChooser>,
+i.e. when you are doing a “Save As” command and you already have a file
+saved somewhere.
+
+=head3 Response Codes
+
+B<Gnome::Gtk4::FileChooserDialog> inherits from B<Gnome::Gtk4::Dialog>, so buttons that
+go in its action area have response codes such as C<GTK_RESPONSE_ACCEPT> and
+C<GTK_RESPONSE_CANCEL>. For example, you could call
+C<.newfilechooserdialog()> as follows:
+
+=begin comment
+GtkWidget *dialog;
+GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+
+dialog = gtk_file_chooser_dialog_new ("Open File",
+                                      parent_window,
+                                      action,
+                                      _("_Cancel"),
+                                      GTK_RESPONSE_CANCEL,
+                                      _("_Open"),
+                                      GTK_RESPONSE_ACCEPT,
+                                      NULL);
+
 =end comment
 
 This will create buttons for “Cancel” and “Open” that use predefined
-response identifiers from C<GtkResponseType> enumeration.  For most dialog
+response identifiers from  C<enumeration ResponseType from Gnome::Gtk4::T-Dialog> .  For most dialog
 boxes you can use your own custom response codes rather than the
-ones in C<GtkResponseType> enumeration, but B<Gnome::Gtk4::FileChooserDialog> assumes that
+ones in  C<enumeration ResponseType from Gnome::Gtk4::T-Dialog> , but B<Gnome::Gtk4::FileChooserDialog> assumes that
 its “accept”-type action, e.g. an “Open” or “Save” button,
 will have one of the following response codes:
 
-- %GTK_RESPONSE_ACCEPT
-- %GTK_RESPONSE_OK
-- %GTK_RESPONSE_YES
-- %GTK_RESPONSE_APPLY
+=item C<GTK_RESPONSE_ACCEPT>
+=item C<GTK_RESPONSE_OK>
+=item C<GTK_RESPONSE_YES>
+=item C<GTK_RESPONSE_APPLY>
 
 This is because B<Gnome::Gtk4::FileChooserDialog> must intercept responses and switch
 to folders if appropriate, rather than letting the dialog terminate — the
@@ -185,15 +182,19 @@ be blocked if appropriate.
 
 To summarize, make sure you use a predefined response code
 when you use B<Gnome::Gtk4::FileChooserDialog> to ensure proper operation.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::FileChooserDialog
+
 =end comment
 
 =end pod
@@ -213,7 +214,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =head3 :build-id
 
 Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
@@ -225,20 +225,28 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-filechooserdialog
+This function is not yet available
 
 Creates a new B<Gnome::Gtk4::FileChooserDialog>.
 
-This function is analogous to [ctor C<$Gtk>.Dialog.new_with_buttons].
+This function is analogous to C<.new-with-buttons() in class Gnome::Gtk4::Dialog>.
 
 =begin code
-method new-filechooserdialog ( Str $title, N-Object() $parent, GtkFileChooserAction $action, Str $first-button-text, … --> Gnome::Gtk4::FileChooserDialog )
+method new-filechooserdialog ( Str $title, N-Object() $parent, GtkFileChooserAction $action, Str $first-button-text --> Gnome::Gtk4::FileChooserDialog \)
 =end code
 
 =item $title; Title of the dialog.
 =item $parent; Transient parent of the dialog.
-=item $action; Open or save mode for the dialog. An enumeration.
+=item $action; Open or save mode for the dialog.
 =item $first-button-text; text to go in the first button.
-=item …; response ID for the first button, then additional (button, id) pairs, ending with undefined. Note that each argument must be specified as a type followed by its value!
+=item $…; ….
+
+=begin comment
+
+=head2 Example
+# Example for new-filechooserdialog
+
+=end comment
 
 =end pod
 

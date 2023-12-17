@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: colorchooserwidget
+=comment Package: Gtk4, C-Source: colorchooserwidget
 use v6.d;
 
 #-------------------------------------------------------------------------------

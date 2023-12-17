@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: filechooserwidget
+=comment Package: Gtk4, C-Source: appchooserdialog
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,9 +8,9 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Gtk4::R-FileChooser:api<2>;
-use Gnome::Gtk4::T-FileChooser:api<2>;
-use Gnome::Gtk4::Widget:api<2>;
+use Gnome::Gtk4::Dialog:api<2>;
+use Gnome::Gtk4::R-AppChooser:api<2>;
+use Gnome::Gtk4::T-Dialog:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -22,9 +22,9 @@ use Gnome::N::X:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::FileChooserWidget:auth<github:MARTIMM>:api<2>;
-also is Gnome::Gtk4::Widget;
-also does Gnome::Gtk4::R-FileChooser;
+unit class Gnome::Gtk4::AppChooserDialog:auth<github:MARTIMM>:api<2>;
+also is Gnome::Gtk4::Dialog;
+also does Gnome::Gtk4::R-AppChooser;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -43,14 +43,10 @@ my Bool $signals-added = False;
 submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
-    self.add-signal-types( $?CLASS.^name,
-      :w0<search-shortcut recent-shortcut places-shortcut desktop-folder home-folder show-hidden down-folder up-folder location-toggle-popup location-popup-on-paste>,
-      :w1<quick-bookmark location-popup>,
-    );
-
+    
     # Signals from interfaces
-    self._add_gtk_file_chooser_signal_types($?CLASS.^name)
-      if self.^can('_add_gtk_file_chooser_signal_types');
+    self._add_gtk_app_chooser_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_app_chooser_signal_types');
     $signals-added = True;
   }
 
@@ -58,13 +54,13 @@ submethod BUILD ( *%options ) {
   $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
-  if self.^name eq 'Gnome::Gtk4::FileChooserWidget' {
+  if self.^name eq 'Gnome::Gtk4::AppChooserDialog' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
-    self._set-class-info('GtkFileChooserWidget');
+    self._set-class-info('GtkAppChooserDialog');
   }
 }
 
@@ -75,7 +71,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-filechooserwidget => %( :type(Constructor), :is-symbol<gtk_file_chooser_widget_new>, :returns(N-Object), :parameters([ GEnum])),
+  new-appchooserdialog => %( :type(Constructor), :is-symbol<gtk_app_chooser_dialog_new>, :returns(N-Object), :parameters([ N-Object, GFlag, N-Object])),
+  new-for-content-type => %( :type(Constructor), :is-symbol<gtk_app_chooser_dialog_new_for_content_type>, :returns(N-Object), :parameters([ N-Object, GFlag, Str])),
+
+  #--[Methods]------------------------------------------------------------------
+  get-heading => %(:is-symbol<gtk_app_chooser_dialog_get_heading>,  :returns(Str)),
+  get-widget => %(:is-symbol<gtk_app_chooser_dialog_get_widget>,  :returns(N-Object)),
+  set-heading => %(:is-symbol<gtk_app_chooser_dialog_set_heading>,  :parameters([Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -111,7 +113,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-    $r = self.Gnome::Gtk4::R-FileChooser::_fallback-v2(
+    $r = self.Gnome::Gtk4::R-AppChooser::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;

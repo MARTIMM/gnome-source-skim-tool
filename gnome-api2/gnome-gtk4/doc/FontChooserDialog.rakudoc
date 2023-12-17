@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: colorchooserdialog
+=comment Package: Gtk4, C-Source: fontchooserdialog
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,24 +6,26 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ColorChooserDialog
+=head1 Gnome::Gtk4::FontChooserDialog
 
-![](images/colorchooserdialog.png)
+![](images/fontchooserdialog.png)
 
 =head1 Description
 
-A dialog for choosing a color.
+The B<Gnome::Gtk4::FontChooserDialog> widget is a dialog for selecting a font.
 
-![An example GtkColorChooserDialog](colorchooser.png)
+![An example GtkFontChooserDialog](fontchooser.png)
 
-B<Gnome::Gtk4::ColorChooserDialog> implements the B<Gnome::Gtk4::R-ColorChooser> interface
+B<Gnome::Gtk4::FontChooserDialog> implements the B<Gnome::Gtk4::R-FontChooser> interface
 and does not provide much API of its own.
 
-To create a B<Gnome::Gtk4::ColorChooserDialog>, use C<.newcolorchooserdialog()>.
+To create a B<Gnome::Gtk4::FontChooserDialog>, use C<.newfontchooserdialog()>.
 
-To change the initially selected color, use
-C<.set-rgba() in class Gnome::Gtk4::R-ColorChooser>. To get the selected color use
-C<.get-rgba() in class Gnome::Gtk4::R-ColorChooser>.
+=head2 GtkFontChooserDialog as GtkBuildable
+
+The B<Gnome::Gtk4::FontChooserDialog> implementation of the U<Gnome::Gtk4::R-Buildable>
+interface exposes the buttons with the names “select_button”
+and “cancel_button”.
 
 =begin comment
 
@@ -35,7 +37,7 @@ C<.get-rgba() in class Gnome::Gtk4::R-ColorChooser>.
 =begin comment
 
 =head2 Example
-# Example use of module Gnome::Gtk4::ColorChooserDialog
+# Example use of module Gnome::Gtk4::FontChooserDialog
 
 =end comment
 
@@ -66,12 +68,12 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 
 #-------------------------------------------------------------------------------
 =begin pod
-=head2 new-colorchooserdialog
+=head2 new-fontchooserdialog
 
-Creates a new B<Gnome::Gtk4::ColorChooserDialog>.
+Creates a new B<Gnome::Gtk4::FontChooserDialog>.
 
 =begin code
-method new-colorchooserdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::ColorChooserDialog \)
+method new-fontchooserdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::FontChooserDialog \)
 =end code
 
 =item $title; Title of the dialog.
@@ -80,7 +82,7 @@ method new-colorchooserdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::
 =begin comment
 
 =head2 Example
-# Example for new-colorchooserdialog
+# Example for new-fontchooserdialog
 
 =end comment
 
