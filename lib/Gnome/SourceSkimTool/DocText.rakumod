@@ -401,12 +401,13 @@ method !modify-v4classes ( Str $text is copy --> Str ) {
   # [class@Button]
   my regex class2 { '[class@' <classname> ']' }
   while $text ~~ m/ <class2> / {
+#note "$?LINE $/.gist()";
+    my Str $classname = $/<class2><classname>.Str;
     my Str $prefix = $*gnome-package.Str;
     $prefix ~~ s/ \d+ $//;
-    my Str $classname = $/<class2><classname>.Str;
     my Hash $h = $!solve.search-name($prefix ~ $classname);
     $classname = $!solve.set-object-name($h) if ?$h;
-#note "$?LINE $gname, $package";
+#note "$?LINE $h.gist(), $prefix, $classname";
     $text ~~ s/ <class2> /B<$classname>/;
   }
 
