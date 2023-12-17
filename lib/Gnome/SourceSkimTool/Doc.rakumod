@@ -79,17 +79,6 @@ method !set-uml ( --> Str ) {
     EOEX
 }
 
-#`{{
-  my Str $doc = q:to/EOEX/;
-
-    =begin comment
-    =head2 Uml Diagram
-    ![](plantuml/….svg)
-    =end comment
-    EOEX
-  $doc
-}}
-
 #-------------------------------------------------------------------------------
 method !set-example ( --> Str ) {
   # add-example-code() returns a key and is text to be returned
@@ -99,18 +88,6 @@ method !set-example ( --> Str ) {
     # Example use of module $*work-data<raku-class-name>
     EOEX
 }
-
-#`{{
-  my Str $doc = q:to/EOEX/;
-
-    =begin comment
-    =head2 Example
-      … text …
-      … example code …
-    =end comment
-    EOEX
-  $doc
-}}
 
 #-------------------------------------------------------------------------------
 method document-build ( XML::Element $element --> Str ) {
@@ -593,7 +570,7 @@ method get-doc-type (
 
   # With variable argument lists, the name is '…'. It would not have a type
   # so return something to prevent it marked as a missing type
-  return ('…', '…') if $e.attribs<name>:exists and $e.attribs<name> eq '…';
+  return ('…', '…') if $e.attribs<name>:exists and $e.attribs<name> eq '...';
 
   my Str ( $doc, $ctype, $raku-type) = '' xx 5;
   for $e.nodes -> $n {
