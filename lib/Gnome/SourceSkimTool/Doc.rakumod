@@ -186,19 +186,20 @@ method document-constructors (
     $doc ~= Q:c:s:h:to/EOSUB/;
       {HLSEPARATOR}
       =begin pod
+      =head2 $method-name
       {$curr-function<missing-type> ?? "This function is not yet available"
                                     !! ''
       }
-      =head2 $method-name
 
       $method-doc
-      $ex-key
 
       =begin code
       method $method-name ($raku-list --> $*work-data<raku-class-name> \)
       =end code
 
       $items-doc
+
+      $ex-key
       =end pod
 
       EOSUB
@@ -313,18 +314,19 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
     $doc ~= qq:to/EOSUB/;
       {HLSEPARATOR}
       =begin pod
+      =head2 $native-sub
       {$curr-function<missing-type> ?? "This function is not yet available" !! ''}
 
-      =head2 $native-sub
 
       $native-sub-doc
-      $ex-key
 
       =begin code
       method $native-sub \($raku-list \)
       =end code
 
       $items-doc$returns-doc
+
+      $ex-key
       =end pod
 
       EOSUB
@@ -533,6 +535,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 # Check on GEnum, GFlag, or callback and change doc
 method check-special ( Str $type, Str $name, Str $doc is copy --> List ) {
   my Str $list = '';
+  return ( $list, $doc) unless ?$type;
   
   # Test for callback signature to not get it be seen as a GEnum or GFlag.
   if $type ~~ m/^ ':(' / {
@@ -670,7 +673,6 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
         =head3 $signal-name
 
         $curr-signal<sdoc>
-        $ex-key
 
         =begin code
         method handler \(
@@ -729,6 +731,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
         =item \%user-options; A list of named arguments provided at the C<.register-signal\()> method from B<Gnome::GObject::Object>.
         EOSIG
       $doc ~= $returns-doc;
+      $doc ~= "\n$ex-key\n";
 
 #`{{
       $doc ~= "Return value \(transfer ownership: $curr-signal<return-ntype> \($curr-signal<transfer-ownership>); $curr-signal<rv-doc>\n"
@@ -736,7 +739,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 }}
     }
 
-    $doc ~= "\n=end pod\n\n";
+    $doc ~= "=end pod\n\n";
   }
 
   $sig-info<doc> = $doc;
