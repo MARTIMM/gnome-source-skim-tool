@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: label
+=comment Package: Gtk4, C-Source: label
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<copy-clipboard activate-current-link>,
+      :w0<activate-current-link copy-clipboard>,
       :w1<activate-link>,
       :w3<move-cursor>,
     );
