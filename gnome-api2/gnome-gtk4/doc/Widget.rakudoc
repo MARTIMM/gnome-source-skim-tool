@@ -1,0 +1,5274 @@
+=comment Package: Gtk4, C-Source: widget
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Widget
+
+![](images/widget.png)
+
+=head1 Description
+
+The base class for all widgets.
+
+B<Gnome::Gtk4::Widget> is the base class all widgets in GTK derive from. It manages the
+widget lifecycle, layout, states and style.
+
+=head4 Height-for-width Geometry Management
+
+GTK uses a height-for-width (and width-for-height) geometry management
+system. Height-for-width means that a widget can change how much
+vertical space it needs, depending on the amount of horizontal space
+that it is given (and similar for width-for-height). The most common
+example is a label that reflows to fill up the available width, wraps
+to fewer lines, and therefore needs less height.
+
+Height-for-width geometry management is implemented in GTK by way
+of two virtual methods:
+
+=item [vfunc C<$Gtk>.Widget.get_request_mode]
+=item [vfunc C<$Gtk>.Widget.measure]
+
+There are some important things to keep in mind when implementing
+height-for-width and when using it in widget implementations.
+
+If you implement a direct B<Gnome::Gtk4::Widget> subclass that supports
+height-for-width or width-for-height geometry management for itself
+or its child widgets, the [vfunc C<$Gtk>.Widget.get_request_mode] virtual
+function must be implemented as well and return the widget's preferred
+request mode. The default implementation of this virtual function
+returns C<GTK_SIZE_REQUEST_CONSTANT_SIZE>, which means that the widget will
+only ever get -1 passed as the for_size value to its
+[vfunc C<$Gtk>.Widget.measure] implementation.
+
+The geometry management system will query a widget hierarchy in
+only one orientation at a time. When widgets are initially queried
+for their minimum sizes it is generally done in two initial passes
+in the  C<enumeration SizeRequestMode from Gnome::Gtk4::T-Enums>  chosen by the toplevel.
+
+For example, when queried in the normal C<GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH> mode:
+
+First, the default minimum and natural width for each widget
+in the interface will be computed using [id C<$gtk_widget_measure>] with an
+orientation of C<GTK_ORIENTATION_HORIZONTAL> and a for_size of -1.
+Because the preferred widths for each widget depend on the preferred
+widths of their children, this information propagates up the hierarchy,
+and finally a minimum and natural width is determined for the entire
+toplevel. Next, the toplevel will use the minimum width to query for the
+minimum height contextual to that width using [id C<$gtk_widget_measure>] with an
+orientation of C<GTK_ORIENTATION_VERTICAL> and a for_size of the just computed
+width. This will also be a highly recursive operation. The minimum height
+for the minimum width is normally used to set the minimum size constraint
+on the toplevel.
+
+After the toplevel window has initially requested its size in both
+dimensions it can go on to allocate itself a reasonable size (or a size
+previously specified with C<.set-default-size() in class Gnome::Gtk4::Window>). During the
+recursive allocation process it’s important to note that request cycles
+will be recursively executed while widgets allocate their children.
+Each widget, once allocated a size, will go on to first share the
+space in one orientation among its children and then request each child's
+height for its target allocated width or its width for allocated height,
+depending. In this way a B<Gnome::Gtk4::Widget> will typically be requested its size
+a number of times before actually being allocated a size. The size a
+widget is finally allocated can of course differ from the size it has
+requested. For this reason, B<Gnome::Gtk4::Widget> caches a  small number of results
+to avoid re-querying for the same sizes in one allocation cycle.
+
+If a widget does move content around to intelligently use up the
+allocated size then it must support the request in both
+C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-Enums>s even if the widget in question only
+trades sizes in a single orientation.
+
+For instance, a B<Gnome::Gtk4::Label> that does height-for-width word wrapping
+will not expect to have [vfunc C<$Gtk>.Widget.measure] with an orientation of
+C<GTK_ORIENTATION_VERTICAL> called because that call is specific to a
+width-for-height request. In this case the label must return the height
+required for its own minimum possible width. By following this rule any
+widget that handles height-for-width or width-for-height requests will
+always be allocated at least enough space to fit its own content.
+
+Here are some examples of how a C<GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH> widget
+generally deals with width-for-height requests:
+
+=begin comment
+static void
+foo_widget_measure (GtkWidget      *widget,
+                    GtkOrientation  orientation,
+                    int             for_size,
+                    int            *minimum_size,
+                    int            *natural_size,
+                    int            *minimum_baseline,
+                    int            *natural_baseline)
+{
+  if (orientation == GTK_ORIENTATION_HORIZONTAL)
+    {
+      // Calculate minimum and natural width
+    }
+  else // VERTICAL
+    {
+      if (i_am_in_height_for_width_mode)
+        {
+          int min_width, dummy;
+
+          // First, get the minimum width of our widget
+          GTK_WIDGET_GET_CLASS (widget)->measure (widget, GTK_ORIENTATION_HORIZONTAL, -1,
+                                                  &min_width, &dummy, &dummy, &dummy);
+
+          // Now use the minimum width to retrieve the minimum and natural height to display
+          // that width.
+          GTK_WIDGET_GET_CLASS (widget)->measure (widget, GTK_ORIENTATION_VERTICAL, min_width,
+                                                  minimum_size, natural_size, &dummy, &dummy);
+        }
+      else
+        {
+          // ... some widgets do both.
+        }
+    }
+}
+
+=end comment
+
+Often a widget needs to get its own request during size request or
+allocation. For example, when computing height it may need to also
+compute width. Or when deciding how to use an allocation, the widget
+may need to know its natural size. In these cases, the widget should
+be careful to call its virtual methods directly, like in the code
+example above.
+
+It will not work to use the wrapper function C<.measure()>
+inside your own [vfunc C<$Gtk>.Widget.size_allocate] implementation.
+These return a request adjusted by B<Gnome::Gtk4::SizeGroup>, the widget's
+align and expand flags, as well as its CSS style.
+
+If a widget used the wrappers inside its virtual method implementations,
+then the adjustments (such as widget margins) would be applied
+twice. GTK therefore does not allow this and will warn if you try
+to do it.
+
+Of course if you are getting the size request for another widget, such
+as a child widget, you must use [id C<$gtk_widget_measure>]; otherwise, you
+would not properly consider widget margins, B<Gnome::Gtk4::SizeGroup>, and
+so forth.
+
+GTK also supports baseline vertical alignment of widgets. This
+means that widgets are positioned such that the typographical baseline of
+widgets in the same row are aligned. This happens if a widget supports
+baselines, has a vertical alignment of C<GTK_ALIGN_BASELINE>, and is inside
+a widget that supports baselines and has a natural “row” that it aligns to
+the baseline, or a baseline assigned to it by the grandparent.
+
+Baseline alignment support for a widget is also done by the
+[vfunc C<$Gtk>.Widget.measure] virtual function. It allows you to report
+both a minimum and natural size.
+
+If a widget ends up baseline aligned it will be allocated all the space in
+the parent as if it was C<GTK_ALIGN_FILL>, but the selected baseline can be
+found via [id C<$gtk_widget_get_allocated_baseline>]. If the baseline has a
+value other than -1 you need to align the widget such that the baseline
+appears at the position.
+
+=head4 GtkWidget as GtkBuildable
+
+The B<Gnome::Gtk4::Widget> implementation of the U<Gnome::Gtk4::R-Buildable> interface
+supports various custom elements to specify additional aspects of widgets
+that are not directly expressed as properties.
+
+If the widget uses a B<Gnome::Gtk4::LayoutManager>, B<Gnome::Gtk4::Widget> supports
+a custom B<<layout>> element, used to define layout properties:
+
+=begin comment
+<object class="GtkGrid" id="my_grid">
+  <child>
+    <object class="GtkLabel" id="label1">
+      <property name="label">Description</property>
+      <layout>
+        <property name="column">0</property>
+        <property name="row">0</property>
+        <property name="row-span">1</property>
+        <property name="column-span">1</property>
+      </layout>
+    </object>
+  </child>
+  <child>
+    <object class="GtkEntry" id="description_entry">
+      <layout>
+        <property name="column">1</property>
+        <property name="row">0</property>
+        <property name="row-span">1</property>
+        <property name="column-span">1</property>
+      </layout>
+    </object>
+  </child>
+</object>
+
+=end comment
+
+B<Gnome::Gtk4::Widget> allows style information such as style classes to
+be associated with widgets, using the custom B<<style>> element:
+
+=begin comment
+<object class="GtkButton" id="button1">
+  <style>
+    <class name="my-special-button-class"/>
+    <class name="dark-button"/>
+  </style>
+</object>
+
+=end comment
+
+B<Gnome::Gtk4::Widget> allows defining accessibility information, such as properties,
+relations, and states, using the custom B<<accessibility>> element:
+
+=begin comment
+<object class="GtkButton" id="button1">
+  <accessibility>
+    <property name="label">Download</property>
+    <relation name="labelled-by">label1</relation>
+  </accessibility>
+</object>
+
+=end comment
+
+=head4 Building composite widgets from template XML
+
+B<GtkWidget >exposes some facilities to automate the procedure
+of creating composite widgets using "templates".
+
+To create composite widgets with B<Gnome::Gtk4::Builder> XML, one must associate
+the interface description with the widget class at class initialization
+time using C<.set-template() in class Gnome::Gtk4::Widget>.
+
+The interface description semantics expected in composite template descriptions
+is slightly different from regular B<Gnome::Gtk4::Builder> XML.
+
+Unlike regular interface descriptions, C<.set-template() in class Gnome::Gtk4::Widget> will
+expect a B<<template>> tag as a direct child of the toplevel B<<interface>>
+tag. The B<<template>> tag must specify the “class” attribute which must be
+the type name of the widget. Optionally, the “parent” attribute may be
+specified to specify the direct parent type of the widget type, this is
+ignored by B<Gnome::Gtk4::Builder> but required for UI design tools like
+[Glade](https://glade.gnome.org/) to introspect what kind of properties and
+internal children exist for a given type when the actual type does not exist.
+
+The XML which is contained inside the B<<template>> tag behaves as if it were
+added to the B<<object>> tag defining the widget itself. You may set properties
+on a widget by inserting B<<property>> tags into the B<<template>> tag, and also
+add B<<child>> tags to add children and extend a widget in the normal way you
+would with B<<object>> tags.
+
+Additionally, B<<object>> tags can also be added before and after the initial
+B<<template>> tag in the normal way, allowing one to define auxiliary objects
+which might be referenced by other widgets declared as children of the
+B<<template>> tag.
+
+An example of a template definition:
+
+=begin comment
+<interface>
+  <template class="FooWidget" parent="GtkBox">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">4</property>
+    <child>
+      <object class="GtkButton" id="hello_button">
+        <property name="label">Hello World</property>
+        <signal name="clicked" handler="hello_button_clicked" object="FooWidget" swapped="yes"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="goodbye_button">
+        <property name="label">Goodbye World</property>
+      </object>
+    </child>
+  </template>
+</interface>
+
+=end comment
+
+Typically, you'll place the template fragment into a file that is
+bundled with your project, using U<Gnome::Gio::N-Resource>. In order to load the
+template, you need to call C<.set-template-from-resource() in class Gnome::Gtk4::Widget>
+from the class initialization of your B<Gnome::Gtk4::Widget> type:
+
+=begin comment
+static void
+foo_widget_class_init (FooWidgetClass *klass)
+{
+  // ...
+
+  gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
+                                               "/com/example/ui/foowidget.ui");
+}
+
+=end comment
+
+You will also need to call C<.init-template()> from the
+instance initialization function:
+
+=begin comment
+static void
+foo_widget_init (FooWidget *self)
+{
+  // ...
+  gtk_widget_init_template (GTK_WIDGET (self));
+}
+
+=end comment
+
+You can access widgets defined in the template using the
+[id C<$gtk_widget_get_template_child>] function, but you will typically declare
+a pointer in the instance private data structure of your type using the same
+name as the widget in the template definition, and call
+C<.bind-template-child-full() in class Gnome::Gtk4::Widget> (or one of its wrapper macros
+C<.widget-class-bind-template-child()> and C<.widget-class-bind-template-child-private()>)
+with that name, e.g.
+
+=begin comment
+typedef struct {
+  GtkWidget *hello_button;
+  GtkWidget *goodbye_button;
+} FooWidgetPrivate;
+
+G_DEFINE_TYPE_WITH_PRIVATE (FooWidget, foo_widget, GTK_TYPE_BOX)
+
+static void
+foo_widget_class_init (FooWidgetClass *klass)
+{
+  // ...
+  gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
+                                               "/com/example/ui/foowidget.ui");
+  gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+                                                FooWidget, hello_button);
+  gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
+                                                FooWidget, goodbye_button);
+}
+
+static void
+foo_widget_init (FooWidget *widget)
+{
+
+}
+
+=end comment
+
+You can also use C<.bind-template-callback-full() in class Gnome::Gtk4::Widget> (or
+is wrapper macro C<.widget-class-bind-template-callback()>) to connect
+a signal callback defined in the template with a function visible in the
+scope of the class, e.g.
+
+=begin comment
+// the signal handler has the instance and user data swapped
+// because of the swapped="yes" attribute in the template XML
+static void
+hello_button_clicked (FooWidget *self,
+                      GtkButton *button)
+{
+  g_print ("Hello, world!\n");
+}
+
+static void
+foo_widget_class_init (FooWidgetClass *klass)
+{
+  // ...
+  gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
+                                               "/com/example/ui/foowidget.ui");
+  gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), hello_button_clicked);
+}
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 action-set-enabled
+
+Enable or disable an action installed with
+C<.class-install-action()>.
+
+=begin code
+method action-set-enabled ( Str $action-name, Bool() $enabled )
+=end code
+
+=item $action-name; action name, such as "clipboard.paste".
+=item $enabled; whether the action is now enabled.
+
+=begin comment
+
+=head2 Example
+# Example for action-set-enabled
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 activate
+
+For widgets that can be “activated” (buttons, menu items, etc.),
+this function activates them.
+
+The activation will emit the signal set using
+C<.set-activate-signal() in class Gnome::Gtk4::Widget> during class initialization.
+
+Activation is what happens when you press <kbd>Enter</kbd>
+on a widget during key navigation.
+
+If you wish to handle the activation keybinding yourself, it is
+recommended to use C<.add-shortcut() in class Gnome::Gtk4::Widget> with an action
+created with C<.newwidget() in class Gnome::Gtk4::SignalAction>.
+
+If C<$widget> isn't activatable, the function returns C<False>.
+
+=begin code
+method activate (--> Bool )
+=end code
+
+Return value; C<True> if the widget was activatable. 
+
+=begin comment
+
+=head2 Example
+# Example for activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 activate-action
+This function is not yet available
+
+Looks up the action in the action groups associated
+with C<$widget> and its ancestors, and activates it.
+
+This is a wrapper around C<.activate-action-variant()>
+that constructs the C<$args> variant according to C<$format_string>.
+
+=begin code
+method activate-action ( Str $name, Str $format-string, … --> Bool )
+=end code
+
+=item $name; the name of the action to activate.
+=item $format-string; GVariant format string for arguments or undefined
+  for no arguments.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if the action was activated, C<False> if the action
+  does not exist. 
+
+=begin comment
+
+=head2 Example
+# Example for activate-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 activate-action-variant
+
+Looks up the action in the action groups associated with C<$widget> and its ancestors, and activates it.
+
+If the action is in an action group added with
+C<.insert-action-group()>, the C<$name> is expected
+to be prefixed with the prefix that was used when the group was
+inserted.
+
+The arguments must match the actions expected parameter type,
+as returned by B<g_action_get_parameter_type()>.
+
+=begin code
+method activate-action-variant ( Str $name, CArray[N-Variant] $args --> Bool )
+=end code
+
+=item $name; the name of the action to activate.
+=item $args; parameters to use.
+
+Return value; C<True> if the action was activated, C<False> if the
+  action does not exist.. 
+
+=begin comment
+
+=head2 Example
+# Example for activate-action-variant
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 activate-default
+
+Activates the B<default.activate> action from C<$widget>.
+
+=begin code
+method activate-default ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for activate-default
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-controller
+
+Adds C<$controller> to C<$widget> so that it will receive events.
+
+You will usually want to call this function right after
+creating any kind of B<Gnome::Gtk4::EventController>.
+
+=begin code
+method add-controller ( N-Object() $controller )
+=end code
+
+=item $controller; (transfer ownership: full) a B<Gnome::Gtk4::EventController> that hasn't been
+  added to a widget yet.
+
+=begin comment
+
+=head2 Example
+# Example for add-controller
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-css-class
+
+Adds a style class to C<$widget>.
+
+After calling this function, the widgets style will match
+for C<$css_class>, according to CSS matching rules.
+
+Use C<.remove-css-class()> to remove the
+style again.
+
+=begin code
+method add-css-class ( Str $css-class )
+=end code
+
+=item $css-class; The style class to add to C<$widget>, without
+  the leading '.' used for notation of style classes.
+
+=begin comment
+
+=head2 Example
+# Example for add-css-class
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-mnemonic-label
+
+Adds a widget to the list of mnemonic labels for this widget.
+
+See C<.list-mnemonic-labels()>. Note the
+list of mnemonic labels for the widget is cleared when the
+widget is destroyed, so the caller must make sure to update
+its internal state at this point as well.
+
+=begin code
+method add-mnemonic-label ( N-Object() $label )
+=end code
+
+=item $label; a B<Gnome::Gtk4::Widget> that acts as a mnemonic label for C<$widget>.
+
+=begin comment
+
+=head2 Example
+# Example for add-mnemonic-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-tick-callback
+This function is not yet available
+
+Queues an animation frame update and adds a callback to be called
+before each frame.
+
+Until the tick callback is removed, it will be called frequently
+(usually at the frame rate of the output device or as quickly as
+the application can be repainted, whichever is slower). For this
+reason, is most suitable for handling graphics that change every
+frame or every few frames. The tick callback does not automatically
+imply a relayout or repaint. If you want a repaint or relayout, and
+aren’t changing widget properties that would trigger that (for example,
+changing the text of a B<Gnome::Gtk4::Label>), then you will have to call
+C<.queue-resize()> or C<.queue-draw()>
+yourself.
+
+C<.get-frame-time() in class Gnome::Gdk4::FrameClock> should generally be used
+for timing continuous animations and
+C<.get-predicted-presentation-time() in class Gnome::Gdk4::N-FrameTimings> if you are
+trying to display isolated frames at particular times.
+
+This is a more convenient alternative to connecting directly to the
+[signal C<$Gdk>.FrameClock::update] signal of B<Gnome::Gdk4::FrameClock>, since you
+don't have to worry about when a B<Gnome::Gdk4::FrameClock> is assigned to a widget.
+
+=begin code
+method add-tick-callback ( &callback, gpointer $user-data, … --> UInt )
+=end code
+
+=item &callback; function to call for updating animations. Tthe function must be specified with following signature; C<:( N-Object $widget, N-Object $frame-clock, gpointer $user-data --> gboolean )>.
+=item $user-data; data to pass to C<$callback>.
+=item notify; function to call to free C<$user_data> when the callback is removed.. Note that each argument must be specified as a type followed by its value!
+
+Return value; an id for the connection of this callback. Remove the callback
+  by passing the id returned from this function to
+  C<.remove-tick-callback()>. 
+
+=begin comment
+
+=head2 Example
+# Example for add-tick-callback
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 allocate
+This function is not yet available
+
+This function is only used by B<Gnome::Gtk4::Widget> subclasses, to
+assign a size, position and (optionally) baseline to their
+child widgets.
+
+In this function, the allocation and baseline may be adjusted.
+The given allocation will be forced to be bigger than the
+widget's minimum size, as well as at least 0×0 in size.
+
+For a version that does not take a transform, see
+C<.size-allocate()>.
+
+=begin code
+method allocate ( Int() $width, Int() $height, Int() $baseline, CArray[N-Transform]  $transform )
+=end code
+
+=item $width; New width of C<$widget>.
+=item $height; New height of C<$widget>.
+=item $baseline; New baseline of C<$widget>, or -1.
+=item $transform; (transfer ownership: full) Transformation to be applied to C<$widget>.
+
+=begin comment
+
+=head2 Example
+# Example for allocate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 child-focus
+
+Called by widgets as the user moves around the window using
+keyboard shortcuts.
+
+The C<$direction> argument indicates what kind of motion is taking place (up,
+down, left, right, tab forward, tab backward).
+
+This function calls the [vfunc C<$Gtk>.Widget.focus] virtual function; widgets
+can override the virtual function in order to implement appropriate focus
+behavior.
+
+The default B<focus()> virtual function for a widget should return C<True> if
+moving in C<$direction> left the focus on a focusable location inside that
+widget, and C<False> if moving in C<$direction> moved the focus outside the
+widget. When returning C<True>, widgets normallycall C<.grab-focus()>
+to place the focus accordingly; when returning C<False>, they don’t modify
+the current focus location.
+
+This function is used by custom widget implementations; if you're
+writing an app, you’d use C<.grab-focus()> to move
+the focus to a particular widget.
+
+=begin code
+method child-focus ( GtkDirectionType $direction --> Bool )
+=end code
+
+=item $direction; direction of focus movement.
+
+Return value; C<True> if focus ended up inside C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for child-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compute-bounds
+This function is not yet available
+
+Computes the bounds for C<$widget> in the coordinate space of C<$target>.
+
+FIXME: Explain what "bounds" are.
+
+If the operation is successful, C<True> is returned. If C<$widget> has no
+bounds or the bounds cannot be expressed in C<$target>'s coordinate space
+(for example if both widgets are in different windows), C<False> is
+returned and C<$bounds> is set to the zero rectangle.
+
+It is valid for C<$widget> and C<$target> to be the same widget.
+
+=begin code
+method compute-bounds ( N-Object() $target, … --> Bool )
+=end code
+
+=item $target; the B<Gnome::Gtk4::Widget>.
+=item out-bounds; the rectangle taking the bounds. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if the bounds could be computed. 
+
+=begin comment
+
+=head2 Example
+# Example for compute-bounds
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compute-expand
+
+Computes whether a container should give this widget
+extra space when possible.
+
+Containers should check this, rather than looking at
+C<.get-hexpand()> or C<.get-vexpand()>.
+
+This function already checks whether the widget is visible, so
+visibility does not need to be checked separately. Non-visible
+widgets are not expanded.
+
+The computed expand value uses either the expand setting explicitly
+set on the widget itself, or, if none has been explicitly set,
+the widget may expand if some of its children do.
+
+=begin code
+method compute-expand ( GtkOrientation $orientation --> Bool )
+=end code
+
+=item $orientation; expand direction.
+
+Return value; whether widget tree rooted here should be expanded. 
+
+=begin comment
+
+=head2 Example
+# Example for compute-expand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compute-point
+This function is not yet available
+
+Translates the given C<$point> in C<$widget>'s coordinates to coordinates
+relative to C<$target>’s coordinate system.
+
+In order to perform this operation, both widgets must share a
+common ancestor.
+
+=begin code
+method compute-point ( N-Object() $target, …, … --> Bool )
+=end code
+
+=item $target; the B<Gnome::Gtk4::Widget> to transform into.
+=item point; a point in C<$widget>'s coordinate system. Note that each argument must be specified as a type followed by its value!
+=item out-point; Set to the corresponding coordinates in
+  C<$target>'s coordinate system. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if the point could be determined, C<False> on failure.
+  In this case, 0 is stored in C<$out_point>.. 
+
+=begin comment
+
+=head2 Example
+# Example for compute-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compute-transform
+This function is not yet available
+
+Computes a matrix suitable to describe a transformation from C<$widget>'s coordinate system into C<$target>'s coordinate system.
+
+The transform can not be computed in certain cases, for example
+when C<$widget> and C<$target> do not share a common ancestor. In that
+case C<$out_transform> gets set to the identity matrix.
+
+=begin code
+method compute-transform ( N-Object() $target, … --> Bool )
+=end code
+
+=item $target; the target widget that the matrix will transform to.
+=item out-transform; location to
+  store the final transformation. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if the transform could be computed, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for compute-transform
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains
+
+Tests if the point at ( C<$x>, C<$y>) is contained in C<$widget>.
+
+The coordinates for ( C<$x>, C<$y>) must be in widget coordinates, so
+(0, 0) is assumed to be the top left of C<$widget>'s content area.
+
+=begin code
+method contains ( Num() $x, Num() $y --> Bool )
+=end code
+
+=item $x; X coordinate to test, relative to C<$widget>'s origin.
+=item $y; Y coordinate to test, relative to C<$widget>'s origin.
+
+Return value; C<True> if C<$widget> contains ( C<$x>, C<$y>).. 
+
+=begin comment
+
+=head2 Example
+# Example for contains
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-pango-context
+
+Creates a new B<Gnome::Pango::Context> with the appropriate font map,
+font options, font description, and base direction for drawing
+text for this widget.
+
+See also C<.get-pango-context()>.
+
+=begin code
+method create-pango-context (--> N-Object )
+=end code
+
+Return value; the new B<Gnome::Pango::Context>. 
+
+=begin comment
+
+=head2 Example
+# Example for create-pango-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-pango-layout
+
+Creates a new B<Gnome::Pango::Layout> with the appropriate font map,
+font description, and base direction for drawing text for
+this widget.
+
+If you keep a B<Gnome::Pango::Layout> created in this way around,
+you need to re-create it when the widget B<Gnome::Pango::Context>
+is replaced. This can be tracked by listening to changes
+of the I<root> property on the widget.
+
+=begin code
+method create-pango-layout ( Str $text --> N-Object )
+=end code
+
+=item $text; text to set on the layout.
+
+Return value; the new B<Gnome::Pango::Layout>. 
+
+=begin comment
+
+=head2 Example
+# Example for create-pango-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 drag-check-threshold
+
+Checks to see if a drag movement has passed the GTK drag threshold.
+
+=begin code
+method drag-check-threshold ( Int() $start-x, Int() $start-y, Int() $current-x, Int() $current-y --> Bool )
+=end code
+
+=item $start-x; X coordinate of start of drag.
+=item $start-y; Y coordinate of start of drag.
+=item $current-x; current X coordinate.
+=item $current-y; current Y coordinate.
+
+Return value; C<True> if the drag threshold has been passed.. 
+
+=begin comment
+
+=head2 Example
+# Example for drag-check-threshold
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 error-bell
+
+Notifies the user about an input-related error on this widget.
+
+If the I<gtk-error-bell defined in Gnome::Gtk4::Settings> setting is C<True>,
+it calls C<.beep() in class Gnome::Gdk4::Surface>, otherwise it does nothing.
+
+Note that the effect of C<.beep() in class Gnome::Gdk4::Surface> can be configured
+in many ways, depending on the windowing backend and the desktop
+environment or window manager that is used.
+
+=begin code
+method error-bell ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for error-bell
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-allocated-baseline
+
+Returns the baseline that has currently been allocated to C<$widget>.
+
+This function is intended to be used when implementing handlers
+for the B<Gnome::Gtk4::Widget>Class.snapshot() function, and when allocating
+child widgets in B<Gnome::Gtk4::Widget>Class.size_allocate().
+
+=begin code
+method get-allocated-baseline (--> Int )
+=end code
+
+Return value; the baseline of the C<$widget>, or -1 if none. 
+
+=begin comment
+
+=head2 Example
+# Example for get-allocated-baseline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-allocated-height
+
+Returns the height that has currently been allocated to C<$widget>.
+
+=begin code
+method get-allocated-height (--> Int )
+=end code
+
+Return value; the height of the C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-allocated-height
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-allocated-width
+
+Returns the width that has currently been allocated to C<$widget>.
+
+=begin code
+method get-allocated-width (--> Int )
+=end code
+
+Return value; the width of the C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-allocated-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-allocation
+This function is not yet available
+
+Retrieves the widget’s allocation.
+
+Note, when implementing a layout container: a widget’s allocation
+will be its “adjusted” allocation, that is, the widget’s parent
+typically calls C<.size-allocate()> with an allocation,
+and that allocation is then adjusted (to handle margin
+and alignment for example) before assignment to the widget.
+C<.get-allocation()> returns the adjusted allocation that
+was actually assigned to the widget. The adjusted allocation is
+guaranteed to be completely contained within the
+C<.size-allocate()> allocation, however.
+
+So a layout container is guaranteed that its children stay inside
+the assigned bounds, but not that they have exactly the bounds the
+container assigned.
+
+=begin code
+method get-allocation ( … )
+=end code
+
+=item allocation; a pointer to a U<Gnome::Gtk4::Widget> to copy to. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for get-allocation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-ancestor
+
+Gets the first ancestor of C<$widget> with type C<$widget_type>.
+
+For example, B<gtk_widget_get_ancestor (widget, GTK_TYPE_BOX)>
+gets the first B<Gnome::Gtk4::Box> that’s an ancestor of C<$widget>. No
+reference will be added to the returned widget; it should
+not be unreferenced.
+
+Note that unlike C<.is-ancestor()>, this function
+considers C<$widget> to be an ancestor of itself.
+
+=begin code
+method get-ancestor ( GType $widget-type --> N-Object )
+=end code
+
+=item $widget-type; ancestor type.
+
+Return value; the ancestor widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-ancestor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-can-focus
+
+Determines whether the input focus can enter C<$widget> or any
+of its children.
+
+See C<.set-focusable()>.
+
+=begin code
+method get-can-focus (--> Bool )
+=end code
+
+Return value; C<True> if the input focus can enter C<$widget>, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-can-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-can-target
+
+Queries whether C<$widget> can be the target of pointer events.
+
+=begin code
+method get-can-target (--> Bool )
+=end code
+
+Return value; C<True> if C<$widget> can receive pointer events. 
+
+=begin comment
+
+=head2 Example
+# Example for get-can-target
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-visible
+
+Gets the value set with C<.set-child-visible()>.
+
+If you feel a need to use this function, your code probably
+needs reorganization.
+
+This function is only useful for container implementations
+and should never be called by an application.
+
+=begin code
+method get-child-visible (--> Bool )
+=end code
+
+Return value; C<True> if the widget is mapped with the parent.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-clipboard
+
+Gets the clipboard object for C<$widget>.
+
+This is a utility function to get the clipboard object for the
+B<Gnome::Gdk4::Display> that C<$widget> is using.
+
+Note that this function always works, even when C<$widget> is not
+realized yet.
+
+=begin code
+method get-clipboard (--> N-Object )
+=end code
+
+Return value; the appropriate clipboard object. 
+
+=begin comment
+
+=head2 Example
+# Example for get-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-css-classes
+
+Returns the list of style classes applied to C<$widget>.
+
+=begin code
+method get-css-classes (--> Array[Str] )
+=end code
+
+Return value; a undefined-terminated list of
+  css classes currently applied to C<$widget>. The returned
+  list must freed using g_strfreev().. 
+
+=begin comment
+
+=head2 Example
+# Example for get-css-classes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-css-name
+
+Returns the CSS name that is used for C<$self>.
+
+=begin code
+method get-css-name (--> Str )
+=end code
+
+Return value; the CSS name. 
+
+=begin comment
+
+=head2 Example
+# Example for get-css-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cursor
+
+Queries the cursor set on C<$widget>.
+
+See C<.set-cursor()> for details.
+
+=begin code
+method get-cursor (--> N-Object )
+=end code
+
+Return value; the cursor
+  currently in use or undefined if the cursor is inherited. 
+
+=begin comment
+
+=head2 Example
+# Example for get-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-direction
+
+Gets the reading direction for a particular widget.
+
+See C<.set-direction()>.
+
+=begin code
+method get-direction (--> GtkTextDirection )
+=end code
+
+Return value; the reading direction for the widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-direction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-display
+
+Get the B<Gnome::Gdk4::Display> for the toplevel window associated with
+this widget.
+
+This function can only be called after the widget has been
+added to a widget hierarchy with a B<Gnome::Gtk4::Window> at the top.
+
+In general, you should only create display specific
+resources when a widget has been realized, and you should
+free those resources when the widget is unrealized.
+
+=begin code
+method get-display (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gdk4::Display> for the toplevel
+  for this widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-display
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-first-child
+
+Returns the widgets first child.
+
+This API is primarily meant for widget implementations.
+
+=begin code
+method get-first-child (--> N-Object )
+=end code
+
+Return value; The widget's first child. 
+
+=begin comment
+
+=head2 Example
+# Example for get-first-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-focus-child
+
+Returns the current focus child of C<$widget>.
+
+=begin code
+method get-focus-child (--> N-Object )
+=end code
+
+Return value; The current focus
+  child of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-focus-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-focus-on-click
+
+Returns whether the widget should grab focus when it is clicked
+with the mouse.
+
+See C<.set-focus-on-click()>.
+
+=begin code
+method get-focus-on-click (--> Bool )
+=end code
+
+Return value; C<True> if the widget should grab focus when it is
+  clicked with the mouse. 
+
+=begin comment
+
+=head2 Example
+# Example for get-focus-on-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-focusable
+
+Determines whether C<$widget> can own the input focus.
+
+See C<.set-focusable()>.
+
+=begin code
+method get-focusable (--> Bool )
+=end code
+
+Return value; C<True> if C<$widget> can own the input focus, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-focusable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-map
+
+Gets the font map of C<$widget>.
+
+See C<.set-font-map()>.
+
+=begin code
+method get-font-map (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Pango::FontMap>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font-map
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font-options
+This function is not yet available
+
+Returns the U<Gnome::Cairo::N-Context> of widget.
+
+Seee C<.set-font-options()>.
+
+=begin code
+method get-font-options (--> CArray[N-_font_options_t]  )
+=end code
+
+Return value; the U<Gnome::Cairo::N-Context>
+  of widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font-options
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-frame-clock
+
+Obtains the frame clock for a widget.
+
+The frame clock is a global “ticker” that can be used to drive
+animations and repaints. The most common reason to get the frame
+clock is to call C<.get-frame-time() in class Gnome::Gdk4::FrameClock>, in order
+to get a time to use for animating. For example you might record
+the start of the animation with an initial value from
+C<.get-frame-time() in class Gnome::Gdk4::FrameClock>, and then update the animation
+by calling C<.get-frame-time() in class Gnome::Gdk4::FrameClock> again during each repaint.
+
+C<.request-phase() in class Gnome::Gdk4::FrameClock> will result in a new frame on the
+clock, but won’t necessarily repaint any widgets. To repaint a
+widget, you have to use C<.queue-draw()> which invalidates
+the widget (thus scheduling it to receive a draw on the next
+frame). C<.queue-draw()> will also end up requesting a frame
+on the appropriate frame clock.
+
+A widget’s frame clock will not change while the widget is
+mapped. Reparenting a widget (which implies a temporary unmap) can
+change the widget’s frame clock.
+
+Unrealized widgets do not have a frame clock.
+
+=begin code
+method get-frame-clock (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gdk4::FrameClock>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-frame-clock
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-halign
+
+Gets the horizontal alignment of C<$widget>.
+
+For backwards compatibility reasons this method will never return
+C<GTK_ALIGN_BASELINE>, but instead it will convert it to
+C<GTK_ALIGN_FILL>. Baselines are not supported for horizontal
+alignment.
+
+=begin code
+method get-halign (--> GtkAlign )
+=end code
+
+Return value; the horizontal alignment of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-halign
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-tooltip
+
+Returns the current value of the B<has-tooltip> property.
+
+=begin code
+method get-has-tooltip (--> Bool )
+=end code
+
+Return value; current value of B<has-tooltip> on C<$widget>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-has-tooltip
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-height
+
+Returns the content height of the widget.
+
+This function returns the height passed to its
+size-allocate implementation, which is the height you
+should be using in [vfunc C<$Gtk>.Widget.snapshot].
+
+For pointer events, see C<.contains()>.
+
+=begin code
+method get-height (--> Int )
+=end code
+
+Return value; The height of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-height
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-hexpand
+
+Gets whether the widget would like any available extra horizontal
+space.
+
+When a user resizes a B<Gnome::Gtk4::Window>, widgets with expand=TRUE
+generally receive the extra space. For example, a list or
+scrollable area or document in your window would often be set to
+expand.
+
+Containers should use C<.compute-expand()> rather
+than this function, to see whether a widget, or any of its children,
+has the expand flag set. If any child of a widget wants to
+expand, the parent may ask to expand also.
+
+This function only looks at the widget’s own hexpand flag, rather
+than computing whether the entire widget tree rooted at this widget
+wants to expand.
+
+=begin code
+method get-hexpand (--> Bool )
+=end code
+
+Return value; whether hexpand flag is set. 
+
+=begin comment
+
+=head2 Example
+# Example for get-hexpand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-hexpand-set
+
+Gets whether C<.set-hexpand()> has been used
+to explicitly set the expand flag on this widget.
+
+If I<hexpand> property is set, then it
+overrides any computed expand value based on child widgets.
+If B<hexpand> is not set, then the expand value depends on
+whether any children of the widget would like to expand.
+
+There are few reasons to use this function, but it’s here
+for completeness and consistency.
+
+=begin code
+method get-hexpand-set (--> Bool )
+=end code
+
+Return value; whether hexpand has been explicitly set. 
+
+=begin comment
+
+=head2 Example
+# Example for get-hexpand-set
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-last-child
+
+Returns the widgets last child.
+
+This API is primarily meant for widget implementations.
+
+=begin code
+method get-last-child (--> N-Object )
+=end code
+
+Return value; The widget's last child. 
+
+=begin comment
+
+=head2 Example
+# Example for get-last-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-layout-manager
+
+Retrieves the layout manager used by C<$widget>.
+
+See C<.set-layout-manager()>.
+
+=begin code
+method get-layout-manager (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::LayoutManager>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-layout-manager
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mapped
+
+Whether the widget is mapped.
+
+=begin code
+method get-mapped (--> Bool )
+=end code
+
+Return value; C<True> if the widget is mapped, C<False> otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mapped
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-margin-bottom
+
+Gets the bottom margin of C<$widget>.
+
+=begin code
+method get-margin-bottom (--> Int )
+=end code
+
+Return value; The bottom margin of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-margin-bottom
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-margin-end
+
+Gets the end margin of C<$widget>.
+
+=begin code
+method get-margin-end (--> Int )
+=end code
+
+Return value; The end margin of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-margin-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-margin-start
+
+Gets the start margin of C<$widget>.
+
+=begin code
+method get-margin-start (--> Int )
+=end code
+
+Return value; The start margin of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-margin-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-margin-top
+
+Gets the top margin of C<$widget>.
+
+=begin code
+method get-margin-top (--> Int )
+=end code
+
+Return value; The top margin of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-margin-top
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-name
+
+Retrieves the name of a widget.
+
+See C<.set-name()> for the significance of widget names.
+
+=begin code
+method get-name (--> Str )
+=end code
+
+Return value; name of the widget. This string is owned by GTK and
+  should not be modified or freed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-native
+
+Returns the nearest U<Gnome::Gtk4::R-Native> ancestor of C<$widget>.
+
+This function will return undefined if the widget is not
+contained inside a widget tree with a native ancestor.
+
+U<Gnome::Gtk4::R-Native> widgets will return themselves here.
+
+=begin code
+method get-native (--> N-Object )
+=end code
+
+Return value; the U<Gnome::Gtk4::R-Native> ancestor of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-native
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-next-sibling
+
+Returns the widgets next sibling.
+
+This API is primarily meant for widget implementations.
+
+=begin code
+method get-next-sibling (--> N-Object )
+=end code
+
+Return value; The widget's next sibling. 
+
+=begin comment
+
+=head2 Example
+# Example for get-next-sibling
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-opacity
+
+#Fetches the requested opacity for this widget.
+
+See C<.set-opacity()>.
+
+=begin code
+method get-opacity (--> Num )
+=end code
+
+Return value; the requested opacity for this widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-opacity
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-overflow
+
+Returns the widgets overflow value.
+
+=begin code
+method get-overflow (--> GtkOverflow )
+=end code
+
+Return value; The widget's overflow.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-overflow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pango-context
+
+Gets a B<Gnome::Pango::Context> with the appropriate font map, font description,
+and base direction for this widget.
+
+Unlike the context returned by C<.create-pango-context()>,
+this context is owned by the widget (it can be used until the screen
+for the widget changes or the widget is removed from its toplevel),
+and will be updated to match any changes to the widget’s attributes.
+This can be tracked by listening to changes of the
+I<root> property on the widget.
+
+=begin code
+method get-pango-context (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Pango::Context> for the widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pango-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-parent
+
+Returns the parent widget of C<$widget>.
+
+=begin code
+method get-parent (--> N-Object )
+=end code
+
+Return value; the parent widget of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-parent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-preferred-size
+
+Retrieves the minimum and natural size of a widget, taking
+into account the widget’s preference for height-for-width management.
+
+This is used to retrieve a suitable size by container widgets which do
+not impose any restrictions on the child placement. It can be used
+to deduce toplevel window and menu sizes as well as child widgets in
+free-form containers such as B<Gnome::Gtk4::Fixed>.
+
+Handle with care. Note that the natural height of a height-for-width
+widget will generally be a smaller size than the minimum height, since
+the required height for the natural width is generally smaller than the
+required height for the minimum width.
+
+Use [id C<$gtk_widget_measure>] if you want to support baseline alignment.
+
+=begin code
+method get-preferred-size ( CArray[N-Requisition] $minimum-size, CArray[N-Requisition] $natural-size )
+=end code
+
+=item $minimum-size; location for storing the minimum size.
+=item $natural-size; location for storing the natural size.
+
+=begin comment
+
+=head2 Example
+# Example for get-preferred-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-prev-sibling
+
+Returns the widgets previous sibling.
+
+This API is primarily meant for widget implementations.
+
+=begin code
+method get-prev-sibling (--> N-Object )
+=end code
+
+Return value; The widget's previous sibling. 
+
+=begin comment
+
+=head2 Example
+# Example for get-prev-sibling
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-primary-clipboard
+
+Gets the primary clipboard of C<$widget>.
+
+This is a utility function to get the primary clipboard object
+for the B<Gnome::Gdk4::Display> that C<$widget> is using.
+
+Note that this function always works, even when C<$widget> is not
+realized yet.
+
+=begin code
+method get-primary-clipboard (--> N-Object )
+=end code
+
+Return value; the appropriate clipboard object. 
+
+=begin comment
+
+=head2 Example
+# Example for get-primary-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-realized
+
+Determines whether C<$widget> is realized.
+
+=begin code
+method get-realized (--> Bool )
+=end code
+
+Return value; C<True> if C<$widget> is realized, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-realized
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-receives-default
+
+Determines whether C<$widget> is always treated as the default widget
+within its toplevel when it has the focus, even if another widget
+is the default.
+
+See C<.set-receives-default()>.
+
+=begin code
+method get-receives-default (--> Bool )
+=end code
+
+Return value; C<True> if C<$widget> acts as the default widget when focused,
+  C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-receives-default
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-request-mode
+
+Gets whether the widget prefers a height-for-width layout
+or a width-for-height layout.
+
+Single-child widgets generally propagate the preference of
+their child, more complex widgets need to request something
+either in context of their children or in context of their
+allocation capabilities.
+
+=begin code
+method get-request-mode (--> GtkSizeRequestMode )
+=end code
+
+Return value; The C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-Enums> preferred by C<$widget>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-request-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-root
+
+Returns the U<Gnome::Gtk4::R-Root> widget of C<$widget>.
+
+This function will return undefined if the widget is not contained
+inside a widget tree with a root widget.
+
+U<Gnome::Gtk4::R-Root> widgets will return themselves here.
+
+=begin code
+method get-root (--> N-Object )
+=end code
+
+Return value; the root widget of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-root
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-scale-factor
+
+Retrieves the internal scale factor that maps from window
+coordinates to the actual device pixels.
+
+On traditional systems this is 1, on high density outputs,
+it can be a higher value (typically 2).
+
+See C<.get-scale-factor() in class Gnome::Gdk4::Surface>.
+
+=begin code
+method get-scale-factor (--> Int )
+=end code
+
+Return value; the scale factor for C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-scale-factor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-sensitive
+
+Returns the widget’s sensitivity.
+
+This function returns the value that has been set using
+C<.set-sensitive()>).
+
+The effective sensitivity of a widget is however determined
+by both its own and its parent widget’s sensitivity.
+See C<.is-sensitive()>.
+
+=begin code
+method get-sensitive (--> Bool )
+=end code
+
+Return value; C<True> if the widget is sensitive. 
+
+=begin comment
+
+=head2 Example
+# Example for get-sensitive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-settings
+
+Gets the settings object holding the settings used for this widget.
+
+Note that this function can only be called when the B<Gnome::Gtk4::Widget>
+is attached to a toplevel, since the settings object is specific
+to a particular B<Gnome::Gdk4::Display>. If you want to monitor the widget for
+changes in its settings, connect to the B<notify::display> signal.
+
+=begin code
+method get-settings (--> N-Object )
+=end code
+
+Return value; the relevant B<Gnome::Gtk4::Settings> object. 
+
+=begin comment
+
+=head2 Example
+# Example for get-settings
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-size
+
+Returns the content width or height of the widget.
+
+Which dimension is returned depends on C<$orientation>.
+
+This is equivalent to calling C<.get-width()>
+for C<GTK_ORIENTATION_HORIZONTAL> or C<.get-height()>
+for C<GTK_ORIENTATION_VERTICAL>, but can be used when
+writing orientation-independent code, such as when
+implementing B<Gnome::Gtk4::R-Orientable> widgets.
+
+=begin code
+method get-size ( GtkOrientation $orientation --> Int )
+=end code
+
+=item $orientation; the orientation to query.
+
+Return value; The size of C<$widget> in C<$orientation>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-size-request
+
+Gets the size request that was explicitly set for the widget using
+C<.set-size-request()>.
+
+A value of -1 stored in C<$width> or C<$height> indicates that that
+dimension has not been set explicitly and the natural requisition
+of the widget will be used instead. See
+C<.set-size-request()>. To get the size a widget will
+actually request, call C<.measure()> instead of
+this function.
+
+=begin code
+method get-size-request ( Array[Int] $width, Array[Int] $height )
+=end code
+
+=item $width; (transfer ownership: full) return location for width.
+=item $height; (transfer ownership: full) return location for height.
+
+=begin comment
+
+=head2 Example
+# Example for get-size-request
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-state-flags
+
+Returns the widget state as a flag set.
+
+It is worth mentioning that the effective C<GTK_STATE_FLAG_INSENSITIVE>
+state will be returned, that is, also based on parent insensitivity,
+even if C<$widget> itself is sensitive.
+
+Also note that if you are looking for a way to obtain the
+[flags C<$Gtk>.StateFlags] to pass to a B<Gnome::Gtk4::StyleContext>
+method, you should look at C<.get-state() in class Gnome::Gtk4::StyleContext>.
+
+=begin code
+method get-state-flags (--> UInt )
+=end code
+
+Return value; The state flags for widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-state-flags
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-style-context
+
+Returns the style context associated to C<$widget>.
+
+The returned object is guaranteed to be the same
+for the lifetime of C<$widget>.
+
+=begin code
+method get-style-context (--> N-Object )
+=end code
+
+Return value; the widgets B<Gnome::Gtk4::StyleContext>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-style-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-template-child
+
+Fetch an object build from the template XML for C<$widget_type> in
+this C<$widget> instance.
+
+This will only report children which were previously declared
+with C<.bind-template-child-full() in class Gnome::Gtk4::Widget> or one of its
+variants.
+
+This function is only meant to be called for code which is private
+to the C<$widget_type> which declared the child and is meant for language
+bindings which cannot easily make use of the GObject structure offsets.
+
+=begin code
+method get-template-child ( GType $widget-type, Str $name --> N-Object )
+=end code
+
+=item $widget-type; The U<Gnome::Glib::Widget> to get a template child for.
+=item $name; The “id” of the child defined in the template XML.
+
+Return value; The object built in the template XML with
+  the id C<$name>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-template-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tooltip-markup
+
+Gets the contents of the tooltip for C<$widget>.
+
+If the tooltip has not been set using
+C<.set-tooltip-markup()>, this
+function returns undefined.
+
+=begin code
+method get-tooltip-markup (--> Str )
+=end code
+
+Return value; the tooltip text. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tooltip-markup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tooltip-text
+
+Gets the contents of the tooltip for C<$widget>.
+
+If the C<$widget>'s tooltip was set using
+C<.set-tooltip-markup()>,
+this function will return the escaped text.
+
+=begin code
+method get-tooltip-text (--> Str )
+=end code
+
+Return value; the tooltip text. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tooltip-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-valign
+
+Gets the vertical alignment of C<$widget>.
+
+=begin code
+method get-valign (--> GtkAlign )
+=end code
+
+Return value; the vertical alignment of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-valign
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-vexpand
+
+Gets whether the widget would like any available extra vertical
+space.
+
+See C<.get-hexpand()> for more detail.
+
+=begin code
+method get-vexpand (--> Bool )
+=end code
+
+Return value; whether vexpand flag is set. 
+
+=begin comment
+
+=head2 Example
+# Example for get-vexpand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-vexpand-set
+
+Gets whether C<.set-vexpand()> has been used to
+explicitly set the expand flag on this widget.
+
+See C<.get-hexpand-set()> for more detail.
+
+=begin code
+method get-vexpand-set (--> Bool )
+=end code
+
+Return value; whether vexpand has been explicitly set. 
+
+=begin comment
+
+=head2 Example
+# Example for get-vexpand-set
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible
+
+Determines whether the widget is visible.
+
+If you want to take into account whether the widget’s
+parent is also marked as visible, use
+C<.is-visible()> instead.
+
+This function does not check if the widget is
+obscured in any way.
+
+See C<.set-visible()>.
+
+=begin code
+method get-visible (--> Bool )
+=end code
+
+Return value; C<True> if the widget is visible. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-width
+
+Returns the content width of the widget.
+
+This function returns the width passed to its
+size-allocate implementation, which is the width you
+should be using in [vfunc C<$Gtk>.Widget.snapshot].
+
+For pointer events, see C<.contains()>.
+
+=begin code
+method get-width (--> Int )
+=end code
+
+Return value; The width of C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 grab-focus
+
+Causes C<$widget> to have the keyboard focus for the B<Gnome::Gtk4::Window> it's inside.
+
+If C<$widget> is not focusable, or its [vfunc C<$Gtk>.Widget.grab_focus]
+implementation cannot transfer the focus to a descendant of C<$widget>
+that is focusable, it will not take focus and C<False> will be returned.
+
+Calling C<.grab-focus()> on an already focused widget
+is allowed, should not have an effect, and return C<True>.
+
+=begin code
+method grab-focus (--> Bool )
+=end code
+
+Return value; C<True> if focus is now inside C<$widget>.. 
+
+=begin comment
+
+=head2 Example
+# Example for grab-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 has-css-class
+
+Returns whether C<$css_class> is currently applied to C<$widget>.
+
+=begin code
+method has-css-class ( Str $css-class --> Bool )
+=end code
+
+=item $css-class; A style class, without the leading '.'
+  used for notation of style classes.
+
+Return value; C<True> if C<$css_class> is currently applied to C<$widget>,
+  C<False> otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for has-css-class
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 has-default
+
+Determines whether C<$widget> is the current default widget
+within its toplevel.
+
+=begin code
+method has-default (--> Bool )
+=end code
+
+Return value; C<True> if C<$widget> is the current default widget
+  within its toplevel, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for has-default
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 has-focus
+
+Determines if the widget has the global input focus.
+
+See C<.is-focus()> for the difference between
+having the global input focus, and only having the focus
+within a toplevel.
+
+=begin code
+method has-focus (--> Bool )
+=end code
+
+Return value; C<True> if the widget has the global input focus.. 
+
+=begin comment
+
+=head2 Example
+# Example for has-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 has-visible-focus
+
+Determines if the widget should show a visible indication that
+it has the global input focus.
+
+This is a convenience function that takes into account whether
+focus indication should currently be shown in the toplevel window
+of C<$widget>. See C<.get-focus-visible() in class Gnome::Gtk4::Window> for more
+information about focus indication.
+
+To find out if the widget has the global input focus, use
+C<.has-focus()>.
+
+=begin code
+method has-visible-focus (--> Bool )
+=end code
+
+Return value; C<True> if the widget should display a “focus rectangle”. 
+
+=begin comment
+
+=head2 Example
+# Example for has-visible-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 hide
+
+Reverses the effects of C<.show()>.
+
+This is causing the widget to be hidden (invisible to the user).
+
+=begin code
+method hide ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for hide
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 in-destruction
+
+Returns whether the widget is currently being destroyed.
+
+This information can sometimes be used to avoid doing
+unnecessary work.
+
+=begin code
+method in-destruction (--> Bool )
+=end code
+
+Return value; C<True> if C<$widget> is being destroyed. 
+
+=begin comment
+
+=head2 Example
+# Example for in-destruction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-template
+
+Creates and initializes child widgets defined in templates.
+
+This function must be called in the instance initializer
+for any class which assigned itself a template using
+C<.set-template() in class Gnome::Gtk4::Widget>.
+
+It is important to call this function in the instance initializer
+of a B<Gnome::Gtk4::Widget> subclass and not in B<GObject.constructed()> or
+B<GObject.constructor()> for two reasons:
+
+=item derived widgets will assume that the composite widgets
+   defined by its parent classes have been created in their
+   relative instance initializers
+=item when calling B<g_object_new()> on a widget with composite templates,
+   it’s important to build the composite widgets before the construct
+   properties are set. Properties passed to B<g_object_new()> should
+   take precedence over properties set in the private template XML
+
+A good rule of thumb is to call this function as the first thing in
+an instance initialization function.
+
+=begin code
+method init-template ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for init-template
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-action-group
+
+Inserts C<$group> into C<$widget>.
+
+Children of C<$widget> that implement B<Gnome::Gtk4::R-Actionable> can
+then be associated with actions in C<$group> by setting their
+“action-name” to C<$prefix>.B<action-name>.
+
+Note that inheritance is defined for individual actions. I.e.
+even if you insert a group with prefix C<$prefix>, actions with
+the same prefix will still be inherited from the parent, unless
+the group contains an action with the same name.
+
+If C<$group> is undefined, a previously inserted group for C<$name> is
+removed from C<$widget>.
+
+=begin code
+method insert-action-group ( Str $name, N-Object() $group )
+=end code
+
+=item $name; the prefix for actions in C<$group>.
+=item $group; a U<Gnome::Gio::R-ActionGroup>, or undefined to remove
+  the previously inserted group for C<$name>.
+
+=begin comment
+
+=head2 Example
+# Example for insert-action-group
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-after
+
+Inserts C<$widget> into the child widget list of C<$parent>.
+
+It will be placed after C<$previous_sibling>, or at the beginning if C<$previous_sibling> is undefined.
+
+After calling this function, B<gtk_widget_get_prev_sibling(widget)>
+will return C<$previous_sibling>.
+
+If C<$parent> is already set as the parent widget of C<$widget>, this
+function can also be used to reorder C<$widget> in the child widget
+list of C<$parent>.
+
+This API is primarily meant for widget implementations; if you are
+just using a widget, you *must* use its own API for adding children.
+
+=begin code
+method insert-after ( N-Object() $parent, N-Object() $previous-sibling )
+=end code
+
+=item $parent; the parent B<Gnome::Gtk4::Widget> to insert C<$widget> into.
+=item $previous-sibling; the new previous sibling of C<$widget>.
+
+=begin comment
+
+=head2 Example
+# Example for insert-after
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-before
+
+Inserts C<$widget> into the child widget list of C<$parent>.
+
+It will be placed before C<$next_sibling>, or at the end if C<$next_sibling> is undefined.
+
+After calling this function, B<gtk_widget_get_next_sibling(widget)>
+will return C<$next_sibling>.
+
+If C<$parent> is already set as the parent widget of C<$widget>, this function
+can also be used to reorder C<$widget> in the child widget list of C<$parent>.
+
+This API is primarily meant for widget implementations; if you are
+just using a widget, you *must* use its own API for adding children.
+
+=begin code
+method insert-before ( N-Object() $parent, N-Object() $next-sibling )
+=end code
+
+=item $parent; the parent B<Gnome::Gtk4::Widget> to insert C<$widget> into.
+=item $next-sibling; the new next sibling of C<$widget>.
+
+=begin comment
+
+=head2 Example
+# Example for insert-before
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-ancestor
+
+Determines whether C<$widget> is somewhere inside C<$ancestor>,
+possibly with intermediate containers.
+
+=begin code
+method is-ancestor ( N-Object() $ancestor --> Bool )
+=end code
+
+=item $ancestor; another B<Gnome::Gtk4::Widget>.
+
+Return value; C<True> if C<$ancestor> contains C<$widget> as a child,
+  grandchild, great grandchild, etc.. 
+
+=begin comment
+
+=head2 Example
+# Example for is-ancestor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-drawable
+
+Determines whether C<$widget> can be drawn to.
+
+A widget can be drawn if it is mapped and visible.
+
+=begin code
+method is-drawable (--> Bool )
+=end code
+
+Return value; C<True> if C<$widget> is drawable, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for is-drawable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-focus
+
+Determines if the widget is the focus widget within its
+toplevel.
+
+This does not mean that the I<has-focus>
+property is necessarily set; I<has-focus>
+will only be set if the toplevel widget additionally has the
+global input focus.
+
+=begin code
+method is-focus (--> Bool )
+=end code
+
+Return value; C<True> if the widget is the focus widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for is-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-sensitive
+
+Returns the widget’s effective sensitivity.
+
+This means it is sensitive itself and also its
+parent widget is sensitive.
+
+=begin code
+method is-sensitive (--> Bool )
+=end code
+
+Return value; C<True> if the widget is effectively sensitive. 
+
+=begin comment
+
+=head2 Example
+# Example for is-sensitive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-visible
+
+Determines whether the widget and all its parents are marked as
+visible.
+
+This function does not check if the widget is obscured in any way.
+
+See also C<.get-visible()> and
+C<.set-visible()>.
+
+=begin code
+method is-visible (--> Bool )
+=end code
+
+Return value; C<True> if the widget and all its parents are visible. 
+
+=begin comment
+
+=head2 Example
+# Example for is-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 keynav-failed
+
+Emits the B<::keynav-failed> signal on the widget.
+
+This function should be called whenever keyboard navigation
+within a single widget hits a boundary.
+
+The return value of this function should be interpreted
+in a way similar to the return value of
+C<.child-focus()>. When C<True> is returned,
+stay in the widget, the failed keyboard  navigation is OK
+and/or there is nowhere we can/should move the focus to.
+When C<False> is returned, the caller should continue with
+keyboard navigation outside the widget, e.g. by calling
+C<.child-focus()> on the widget’s toplevel.
+
+The default I<keynav-failed> handler returns
+C<False> for C<GTK_DIR_TAB_FORWARD> and C<GTK_DIR_TAB_BACKWARD>.
+For the other values of C<enumeration GtkDirectionType defined in Gnome::Gtk4::T-Enums> it returns C<True>.
+
+Whenever the default handler returns C<True>, it also calls
+C<.error-bell()> to notify the user of the
+failed keyboard navigation.
+
+A use case for providing an own implementation of I<keynav-failed>
+(either by connecting to it or by overriding it) would be a row of
+B<Gnome::Gtk4::Entry> widgets where the user should be able to navigate
+the entire row with the cursor keys, as e.g. known from user
+interfaces that require entering license keys.
+
+=begin code
+method keynav-failed ( GtkDirectionType $direction --> Bool )
+=end code
+
+=item $direction; direction of focus movement.
+
+Return value; C<True> if stopping keyboard navigation is fine, C<False>
+  if the emitting widget should try to handle the keyboard
+  navigation attempt in its parent container(s).. 
+
+=begin comment
+
+=head2 Example
+# Example for keynav-failed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 list-mnemonic-labels
+
+Returns the widgets for which this widget is the target of a
+mnemonic.
+
+Typically, these widgets will be labels. See, for example,
+C<.set-mnemonic-widget() in class Gnome::Gtk4::Label>.
+
+The widgets in the list are not individually referenced.
+If you want to iterate through the list and perform actions
+involving callbacks that might destroy the widgets, you
+must call B<g_list_foreach (result, (GFunc)g_object_ref, NULL)>
+first, and then unref all the widgets afterwards.
+
+=begin code
+method list-mnemonic-labels (--> N-List )
+=end code
+
+Return value; the list
+  of mnemonic labels; free this list with g_list_free() when you
+  are done with it.. 
+
+=begin comment
+
+=head2 Example
+# Example for list-mnemonic-labels
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 map
+
+Causes a widget to be mapped if it isn’t already.
+
+This function is only for use in widget implementations.
+
+=begin code
+method map ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for map
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 measure
+
+Measures C<$widget> in the orientation C<$orientation> and for the given C<$for_size>.
+
+As an example, if C<$orientation> is C<GTK_ORIENTATION_HORIZONTAL> and C<$for_size>
+is 300, this functions will compute the minimum and natural width of C<$widget>
+if it is allocated at a height of 300 pixels.
+
+See [GtkWidget’s geometry management section](class.Widget.html#height-for-width-geometry-management) for
+a more details on implementing B<GtkWidgetClass.measure()>.
+
+=begin code
+method measure ( GtkOrientation $orientation, Int() $for-size, Array[Int] $minimum, Array[Int] $natural, Array[Int] $minimum-baseline, Array[Int] $natural-baseline )
+=end code
+
+=item $orientation; the orientation to measure.
+=item $for-size; Size for the opposite of C<$orientation>, i.e.
+  if C<$orientation> is C<GTK_ORIENTATION_HORIZONTAL>, this is
+  the height the widget should be measured with. The C<GTK_ORIENTATION_VERTICAL>
+  case is analogous. This way, both height-for-width and width-for-height
+  requests can be implemented. If no size is known, -1 can be passed..
+=item $minimum; (transfer ownership: full) location to store the minimum size.
+=item $natural; (transfer ownership: full) location to store the natural size.
+=item $minimum-baseline; (transfer ownership: full) location to store the baseline
+  position for the minimum size, or -1 to report no baseline.
+=item $natural-baseline; (transfer ownership: full) location to store the baseline
+  position for the natural size, or -1 to report no baseline.
+
+=begin comment
+
+=head2 Example
+# Example for measure
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 mnemonic-activate
+
+Emits the I<mnemonic-activate> signal.
+
+See I<mnemonic-activate>.
+
+=begin code
+method mnemonic-activate ( Bool() $group-cycling --> Bool )
+=end code
+
+=item $group-cycling; C<True> if there are other widgets with the same mnemonic.
+
+Return value; C<True> if the signal has been handled. 
+
+=begin comment
+
+=head2 Example
+# Example for mnemonic-activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 observe-children
+
+Returns a U<Gnome::Gio::R-ListModel> to track the children of C<$widget>.
+
+Calling this function will enable extra internal bookkeeping
+to track children and emit signals on the returned listmodel.
+It may slow down operations a lot.
+
+Applications should try hard to avoid calling this function
+because of the slowdowns.
+
+=begin code
+method observe-children (--> N-List )
+=end code
+
+Return value; 
+  a U<Gnome::Gio::R-ListModel> tracking C<$widget>'s children. 
+
+=begin comment
+
+=head2 Example
+# Example for observe-children
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 observe-controllers
+
+Returns a U<Gnome::Gio::R-ListModel> to track the B<Gnome::Gtk4::EventController>s
+of C<$widget>.
+
+Calling this function will enable extra internal bookkeeping
+to track controllers and emit signals on the returned listmodel.
+It may slow down operations a lot.
+
+Applications should try hard to avoid calling this function
+because of the slowdowns.
+
+=begin code
+method observe-controllers (--> N-List )
+=end code
+
+Return value; 
+  a U<Gnome::Gio::R-ListModel> tracking C<$widget>'s controllers. 
+
+=begin comment
+
+=head2 Example
+# Example for observe-controllers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pick
+
+Finds the descendant of C<$widget> closest to the point ( C<$x>, C<$y>).
+
+The point must be given in widget coordinates, so (0, 0) is assumed
+to be the top left of C<$widget>'s content area.
+
+Usually widgets will return undefined if the given coordinate is not
+contained in C<$widget> checked via C<.contains()>.
+Otherwise they will recursively try to find a child that does
+not return undefined. Widgets are however free to customize their
+picking algorithm.
+
+This function is used on the toplevel to determine the widget
+below the mouse cursor for purposes of hover highlighting and
+delivering events.
+
+=begin code
+method pick ( Num() $x, Num() $y, UInt $flags --> N-Object )
+=end code
+
+=item $x; X coordinate to test, relative to C<$widget>'s origin.
+=item $y; Y coordinate to test, relative to C<$widget>'s origin.
+=item $flags; Flags to influence what is picked.
+
+Return value; The widget descendant at
+  the given point. 
+
+=begin comment
+
+=head2 Example
+# Example for pick
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 queue-allocate
+
+Flags the widget for a rerun of the [vfunc C<$Gtk>.Widget.size_allocate]
+function.
+
+Use this function instead of C<.queue-resize()>
+when the C<$widget>'s size request didn't change but it wants to
+reposition its contents.
+
+An example user of this function is C<.set-halign()>.
+
+This function is only for use in widget implementations.
+
+=begin code
+method queue-allocate ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for queue-allocate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 queue-draw
+
+Schedules this widget to be redrawn in the paint phase
+of the current or the next frame.
+
+This means C<$widget>'s [vfunc C<$Gtk>.Widget.snapshot]
+implementation will be called.
+
+=begin code
+method queue-draw ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for queue-draw
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 queue-resize
+
+Flags a widget to have its size renegotiated.
+
+This should be called when a widget for some reason has a new
+size request. For example, when you change the text in a
+B<Gnome::Gtk4::Label>, the label queues a resize to ensure there’s
+enough space for the new text.
+
+Note that you cannot call C<.queue-resize()> on a widget
+from inside its implementation of the [vfunc C<$Gtk>.Widget.size_allocate]
+virtual method. Calls to C<.queue-resize()> from inside
+[vfunc C<$Gtk>.Widget.size_allocate] will be silently ignored.
+
+This function is only for use in widget implementations.
+
+=begin code
+method queue-resize ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for queue-resize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 realize
+
+Creates the GDK resources associated with a widget.
+
+Normally realization happens implicitly; if you show a widget
+and all its parent containers, then the widget will be realized
+and mapped automatically.
+
+Realizing a widget requires all the widget’s parent widgets to be
+realized; calling this function realizes the widget’s parents
+in addition to C<$widget> itself. If a widget is not yet inside a
+toplevel window when you realize it, bad things will happen.
+
+This function is primarily used in widget implementations, and
+isn’t very useful otherwise. Many times when you think you might
+need it, a better approach is to connect to a signal that will be
+called after the widget is realized automatically, such as
+I<realize>.
+
+=begin code
+method realize ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for realize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-controller
+
+Removes C<$controller> from C<$widget>, so that it doesn't process
+events anymore.
+
+It should not be used again.
+
+Widgets will remove all event controllers automatically when they
+are destroyed, there is normally no need to call this function.
+
+=begin code
+method remove-controller ( N-Object() $controller )
+=end code
+
+=item $controller; a B<Gnome::Gtk4::EventController>.
+
+=begin comment
+
+=head2 Example
+# Example for remove-controller
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-css-class
+
+Removes a style from C<$widget>.
+
+After this, the style of C<$widget> will stop matching for C<$css_class>.
+
+=begin code
+method remove-css-class ( Str $css-class )
+=end code
+
+=item $css-class; The style class to remove from C<$widget>, without
+  the leading '.' used for notation of style classes.
+
+=begin comment
+
+=head2 Example
+# Example for remove-css-class
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-mnemonic-label
+
+Removes a widget from the list of mnemonic labels for this widget.
+
+See C<.list-mnemonic-labels()>. The widget must
+have previously been added to the list with
+C<.add-mnemonic-label()>.
+
+=begin code
+method remove-mnemonic-label ( N-Object() $label )
+=end code
+
+=item $label; a B<Gnome::Gtk4::Widget> that was previously set as a mnemonic
+  label for C<$widget> with C<.add-mnemonic-label()>.
+
+=begin comment
+
+=head2 Example
+# Example for remove-mnemonic-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-tick-callback
+
+Removes a tick callback previously registered with
+C<.add-tick-callback()>.
+
+=begin code
+method remove-tick-callback ( UInt() $id )
+=end code
+
+=item $id; an id returned by C<.add-tick-callback()>.
+
+=begin comment
+
+=head2 Example
+# Example for remove-tick-callback
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-can-focus
+
+Specifies whether the input focus can enter the widget
+or any of its children.
+
+Applications should set C<$can_focus> to C<False> to mark a
+widget as for pointer/touch use only.
+
+Note that having C<$can_focus> be C<True> is only one of the
+necessary conditions for being focusable. A widget must
+also be sensitive and focusable and not have an ancestor
+that is marked as not can-focus in order to receive input
+focus.
+
+See C<.grab-focus()> for actually setting
+the input focus on a widget.
+
+=begin code
+method set-can-focus ( Bool() $can-focus )
+=end code
+
+=item $can-focus; whether or not the input focus can enter
+  the widget or any of its children.
+
+=begin comment
+
+=head2 Example
+# Example for set-can-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-can-target
+
+Sets whether C<$widget> can be the target of pointer events.
+
+=begin code
+method set-can-target ( Bool() $can-target )
+=end code
+
+=item $can-target; whether this widget should be able to
+  receive pointer events.
+
+=begin comment
+
+=head2 Example
+# Example for set-can-target
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child-visible
+
+Sets whether C<$widget> should be mapped along with its parent.
+
+The child visibility can be set for widget before it is added
+to a container with C<.set-parent()>, to avoid
+mapping children unnecessary before immediately unmapping them.
+However it will be reset to its default state of C<True> when the
+widget is removed from a container.
+
+Note that changing the child visibility of a widget does not
+queue a resize on the widget. Most of the time, the size of
+a widget is computed from all visible children, whether or
+not they are mapped. If this is not the case, the container
+can queue a resize itself.
+
+This function is only useful for container implementations
+and should never be called by an application.
+
+=begin code
+method set-child-visible ( Bool() $child-visible )
+=end code
+
+=item $child-visible; if C<True>, C<$widget> should be mapped along
+  with its parent..
+
+=begin comment
+
+=head2 Example
+# Example for set-child-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-css-classes
+
+Clear all style classes applied to C<$widget>
+and replace them with C<$classes>.
+
+=begin code
+method set-css-classes ( Array[Str] $classes )
+=end code
+
+=item $classes; 
+  undefined-terminated list of style classes to apply to C<$widget>..
+
+=begin comment
+
+=head2 Example
+# Example for set-css-classes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cursor
+
+Sets the cursor to be shown when pointer devices point
+towards C<$widget>.
+
+If the C<$cursor> is NULL, C<$widget> will use the cursor
+inherited from the parent widget.
+
+=begin code
+method set-cursor ( N-Object() $cursor )
+=end code
+
+=item $cursor; the new cursor.
+
+=begin comment
+
+=head2 Example
+# Example for set-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cursor-from-name
+
+Sets a named cursor to be shown when pointer devices point
+towards C<$widget>.
+
+This is a utility function that creates a cursor via
+C<.new-from-name() in class Gnome::Gdk4::Cursor> and then sets it on C<$widget>
+with C<.set-cursor()>. See those functions for
+details.
+
+On top of that, this function allows C<$name> to be undefined, which
+will do the same as calling C<.set-cursor()>
+with a undefined cursor.
+
+=begin code
+method set-cursor-from-name ( Str $name )
+=end code
+
+=item $name; The name of the cursor.
+
+=begin comment
+
+=head2 Example
+# Example for set-cursor-from-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-direction
+
+Sets the reading direction on a particular widget.
+
+This direction controls the primary direction for widgets
+containing text, and also the direction in which the children
+of a container are packed. The ability to set the direction is
+present in order so that correct localization into languages with
+right-to-left reading directions can be done. Generally, applications
+will let the default reading direction present, except for containers
+where the containers are arranged in an order that is explicitly
+visual rather than logical (such as buttons for text justification).
+
+If the direction is set to C<GTK_TEXT_DIR_NONE>, then the value
+set by C<.Widget.set-default-direction()> will be used.
+
+=begin code
+method set-direction ( GtkTextDirection $dir )
+=end code
+
+=item $dir; the new direction.
+
+=begin comment
+
+=head2 Example
+# Example for set-direction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-focus-child
+
+Set C<$child> as the current focus child of C<$widget>.
+
+This function is only suitable for widget implementations.
+If you want a certain widget to get the input focus, call
+C<.grab-focus()> on it.
+
+=begin code
+method set-focus-child ( N-Object() $child )
+=end code
+
+=item $child; a direct child widget of C<$widget> or undefined
+  to unset the focus child of C<$widget>.
+
+=begin comment
+
+=head2 Example
+# Example for set-focus-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-focus-on-click
+
+Sets whether the widget should grab focus when it is clicked
+with the mouse.
+
+Making mouse clicks not grab focus is useful in places like
+toolbars where you don’t want the keyboard focus removed from
+the main area of the application.
+
+=begin code
+method set-focus-on-click ( Bool() $focus-on-click )
+=end code
+
+=item $focus-on-click; whether the widget should grab focus when clicked
+  with the mouse.
+
+=begin comment
+
+=head2 Example
+# Example for set-focus-on-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-focusable
+
+Specifies whether C<$widget> can own the input focus.
+
+Widget implementations should set C<$focusable> to C<True> in
+their init() function if they want to receive keyboard input.
+
+Note that having C<$focusable> be C<True> is only one of the
+necessary conditions for being focusable. A widget must
+also be sensitive and can-focus and not have an ancestor
+that is marked as not can-focus in order to receive input
+focus.
+
+See C<.grab-focus()> for actually setting
+the input focus on a widget.
+
+=begin code
+method set-focusable ( Bool() $focusable )
+=end code
+
+=item $focusable; whether or not C<$widget> can own the input focus.
+
+=begin comment
+
+=head2 Example
+# Example for set-focusable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-font-map
+
+Sets the font map to use for Pango rendering.
+
+The font map is the object that is used to look up fonts.
+Setting a custom font map can be useful in special situations,
+e.g. when you need to add application-specific fonts to the set
+of available fonts.
+
+When not set, the widget will inherit the font map from its parent.
+
+=begin code
+method set-font-map ( N-Object() $font-map )
+=end code
+
+=item $font-map; a B<Gnome::Pango::FontMap>, or undefined to unset any
+  previously set font map.
+
+=begin comment
+
+=head2 Example
+# Example for set-font-map
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-font-options
+This function is not yet available
+
+Sets the U<Gnome::Cairo::N-Context> used for Pango rendering
+in this widget.
+
+When not set, the default font options for the B<Gnome::Gdk4::Display>
+will be used.
+
+=begin code
+method set-font-options ( CArray[N-_font_options_t]  $options )
+=end code
+
+=item $options; a U<Gnome::Cairo::N-Context>
+  to unset any previously set default font options.
+
+=begin comment
+
+=head2 Example
+# Example for set-font-options
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-halign
+
+Sets the horizontal alignment of C<$widget>.
+
+=begin code
+method set-halign ( GtkAlign $align )
+=end code
+
+=item $align; the horizontal alignment.
+
+=begin comment
+
+=head2 Example
+# Example for set-halign
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-has-tooltip
+
+Sets the B<has-tooltip> property on C<$widget> to C<$has_tooltip>.
+
+=begin code
+method set-has-tooltip ( Bool() $has-tooltip )
+=end code
+
+=item $has-tooltip; whether or not C<$widget> has a tooltip..
+
+=begin comment
+
+=head2 Example
+# Example for set-has-tooltip
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hexpand
+
+Sets whether the widget would like any available extra horizontal
+space.
+
+When a user resizes a B<Gnome::Gtk4::Window>, widgets with expand=TRUE
+generally receive the extra space. For example, a list or
+scrollable area or document in your window would often be set to
+expand.
+
+Call this function to set the expand flag if you would like your
+widget to become larger horizontally when the window has extra
+room.
+
+By default, widgets automatically expand if any of their children
+want to expand. (To see if a widget will automatically expand given
+its current children and state, call C<.compute-expand()>.
+A container can decide how the expandability of children affects the
+expansion of the container by overriding the compute_expand virtual
+method on B<Gnome::Gtk4::Widget>.).
+
+Setting hexpand explicitly with this function will override the
+automatic expand behavior.
+
+This function forces the widget to expand or not to expand,
+regardless of children.  The override occurs because
+C<.set-hexpand()> sets the hexpand-set property (see
+C<.set-hexpand-set()>) which causes the widget’s hexpand
+value to be used, rather than looking at children and widget state.
+
+=begin code
+method set-hexpand ( Bool() $expand )
+=end code
+
+=item $expand; whether to expand.
+
+=begin comment
+
+=head2 Example
+# Example for set-hexpand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hexpand-set
+
+Sets whether the hexpand flag will be used.
+
+The I<hexpand-set> property will be set
+automatically when you call C<.set-hexpand()>
+to set hexpand, so the most likely reason to use this function
+would be to unset an explicit expand flag.
+
+If hexpand is set, then it overrides any computed
+expand value based on child widgets. If hexpand is not
+set, then the expand value depends on whether any
+children of the widget would like to expand.
+
+There are few reasons to use this function, but it’s here
+for completeness and consistency.
+
+=begin code
+method set-hexpand-set ( Bool() $set )
+=end code
+
+=item $set; value for hexpand-set property.
+
+=begin comment
+
+=head2 Example
+# Example for set-hexpand-set
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-layout-manager
+
+Sets the layout manager delegate instance that provides an
+implementation for measuring and allocating the children of C<$widget>.
+
+=begin code
+method set-layout-manager ( N-Object() $layout-manager )
+=end code
+
+=item $layout-manager; (transfer ownership: full) a B<Gnome::Gtk4::LayoutManager>.
+
+=begin comment
+
+=head2 Example
+# Example for set-layout-manager
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-margin-bottom
+
+Sets the bottom margin of C<$widget>.
+
+=begin code
+method set-margin-bottom ( Int() $margin )
+=end code
+
+=item $margin; the bottom margin.
+
+=begin comment
+
+=head2 Example
+# Example for set-margin-bottom
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-margin-end
+
+Sets the end margin of C<$widget>.
+
+=begin code
+method set-margin-end ( Int() $margin )
+=end code
+
+=item $margin; the end margin.
+
+=begin comment
+
+=head2 Example
+# Example for set-margin-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-margin-start
+
+Sets the start margin of C<$widget>.
+
+=begin code
+method set-margin-start ( Int() $margin )
+=end code
+
+=item $margin; the start margin.
+
+=begin comment
+
+=head2 Example
+# Example for set-margin-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-margin-top
+
+Sets the top margin of C<$widget>.
+
+=begin code
+method set-margin-top ( Int() $margin )
+=end code
+
+=item $margin; the top margin.
+
+=begin comment
+
+=head2 Example
+# Example for set-margin-top
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-name
+
+Sets a widgets name.
+
+Setting a name allows you to refer to the widget from a
+CSS file. You can apply a style to widgets with a particular name
+in the CSS file. See the documentation for the CSS syntax (on the
+same page as the docs for B<Gnome::Gtk4::StyleContext>.
+
+Note that the CSS syntax has certain special characters to delimit
+and represent elements in a selector (period, #, >, *...), so using
+these will make your widget impossible to match by name. Any combination
+of alphanumeric symbols, dashes and underscores will suffice.
+
+=begin code
+method set-name ( Str $name )
+=end code
+
+=item $name; name for the widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-opacity
+
+Request the C<$widget> to be rendered partially transparent.
+
+An opacity of 0 is fully transparent and an opacity of 1
+is fully opaque.
+
+Opacity works on both toplevel widgets and child widgets, although
+there are some limitations: For toplevel widgets, applying opacity
+depends on the capabilities of the windowing system. On X11, this
+has any effect only on X displays with a compositing manager,
+see gdk_display_is_composited(). On Windows and Wayland it should
+always work, although setting a window’s opacity after the window
+has been shown may cause some flicker.
+
+Note that the opacity is inherited through inclusion — if you set
+a toplevel to be partially translucent, all of its content will
+appear translucent, since it is ultimatively rendered on that
+toplevel. The opacity value itself is not inherited by child
+widgets (since that would make widgets deeper in the hierarchy
+progressively more translucent). As a consequence, B<Gnome::Gtk4::Popover>s
+and other B<Gnome::Gtk4::R-Native> widgets with their own surface will use their
+own opacity value, and thus by default appear non-translucent,
+even if they are attached to a toplevel that is translucent.
+
+=begin code
+method set-opacity ( Num() $opacity )
+=end code
+
+=item $opacity; desired opacity, between 0 and 1.
+
+=begin comment
+
+=head2 Example
+# Example for set-opacity
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-overflow
+
+Sets how C<$widget> treats content that is drawn outside the
+widget's content area.
+
+See the definition of  C<enumeration Overflow from Gnome::Gtk4::T-Enums>  for details.
+
+This setting is provided for widget implementations and
+should not be used by application code.
+
+The default value is C<GTK_OVERFLOW_VISIBLE>.
+
+=begin code
+method set-overflow ( GtkOverflow $overflow )
+=end code
+
+=item $overflow; desired overflow.
+
+=begin comment
+
+=head2 Example
+# Example for set-overflow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-parent
+
+Sets C<$parent> as the parent widget of C<$widget>.
+
+This takes care of details such as updating the state and style
+of the child to reflect its new location and resizing the parent.
+The opposite function is C<.unparent()>.
+
+This function is useful only when implementing subclasses of
+B<Gnome::Gtk4::Widget>.
+
+=begin code
+method set-parent ( N-Object() $parent )
+=end code
+
+=item $parent; parent widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-parent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-receives-default
+
+Specifies whether C<$widget> will be treated as the default
+widget within its toplevel when it has the focus, even if
+another widget is the default.
+
+=begin code
+method set-receives-default ( Bool() $receives-default )
+=end code
+
+=item $receives-default; whether or not C<$widget> can be a default widget..
+
+=begin comment
+
+=head2 Example
+# Example for set-receives-default
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sensitive
+
+Sets the sensitivity of a widget.
+
+A widget is sensitive if the user can interact with it.
+Insensitive widgets are “grayed out” and the user can’t
+interact with them. Insensitive widgets are known as
+“inactive”, “disabled”, or “ghosted” in some other toolkits.
+
+=begin code
+method set-sensitive ( Bool() $sensitive )
+=end code
+
+=item $sensitive; C<True> to make the widget sensitive.
+
+=begin comment
+
+=head2 Example
+# Example for set-sensitive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-size-request
+
+Sets the minimum size of a widget.
+
+That is, the widget’s size request will be at least C<$width>
+by C<$height>. You can use this function to force a widget to
+be larger than it normally would be.
+
+In most cases, C<.set-default-size() in class Gnome::Gtk4::Window> is a better
+choice for toplevel windows than this function; setting the default
+size will still allow users to shrink the window. Setting the size
+request will force them to leave the window at least as large as
+the size request.
+
+Note the inherent danger of setting any fixed size - themes,
+translations into other languages, different fonts, and user action
+can all change the appropriate size for a given widget. So, it's
+basically impossible to hardcode a size that will always be
+correct.
+
+The size request of a widget is the smallest size a widget can
+accept while still functioning well and drawing itself correctly.
+However in some strange cases a widget may be allocated less than
+its requested size, and in many cases a widget may be allocated more
+space than it requested.
+
+If the size request in a given direction is -1 (unset), then
+the “natural” size request of the widget will be used instead.
+
+The size request set here does not include any margin from the
+properties
+I<margin-start>,
+I<margin-end>,
+I<margin-top>, and
+I<margin-bottom>, but it does include pretty
+much all other padding or border properties set by any subclass
+of B<Gnome::Gtk4::Widget>.
+
+=begin code
+method set-size-request ( Int() $width, Int() $height )
+=end code
+
+=item $width; width C<$widget> should request, or -1 to unset.
+=item $height; height C<$widget> should request, or -1 to unset.
+
+=begin comment
+
+=head2 Example
+# Example for set-size-request
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-state-flags
+
+Turns on flag values in the current widget state.
+
+Typical widget states are insensitive, prelighted, etc.
+
+This function accepts the values C<GTK_STATE_FLAG_DIR_LTR> and
+C<GTK_STATE_FLAG_DIR_RTL> but ignores them. If you want to set
+the widget's direction, use C<.set-direction()>.
+
+This function is for use in widget implementations.
+
+=begin code
+method set-state-flags ( UInt $flags, Bool() $clear )
+=end code
+
+=item $flags; State flags to turn on.
+=item $clear; Whether to clear state before turning on C<$flags>.
+
+=begin comment
+
+=head2 Example
+# Example for set-state-flags
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tooltip-markup
+
+Sets C<$markup> as the contents of the tooltip, which is marked
+up with Pango markup.
+
+This function will take care of setting the
+I<has-tooltip> as a side effect, and of the
+default handler for the I<query-tooltip> signal.
+
+See also C<.set-markup() in class Gnome::Gtk4::Tooltip>.
+
+=begin code
+method set-tooltip-markup ( Str $markup )
+=end code
+
+=item $markup; the contents of the tooltip for C<$widget>.
+
+=begin comment
+
+=head2 Example
+# Example for set-tooltip-markup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tooltip-text
+
+Sets C<$text> as the contents of the tooltip.
+
+If C<$text> contains any markup, it will be escaped.
+
+This function will take care of setting
+I<has-tooltip> as a side effect,
+and of the default handler for the
+I<query-tooltip> signal.
+
+See also C<.set-text() in class Gnome::Gtk4::Tooltip>.
+
+=begin code
+method set-tooltip-text ( Str $text )
+=end code
+
+=item $text; the contents of the tooltip for C<$widget>.
+
+=begin comment
+
+=head2 Example
+# Example for set-tooltip-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-valign
+
+Sets the vertical alignment of C<$widget>.
+
+=begin code
+method set-valign ( GtkAlign $align )
+=end code
+
+=item $align; the vertical alignment.
+
+=begin comment
+
+=head2 Example
+# Example for set-valign
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vexpand
+
+Sets whether the widget would like any available extra vertical
+space.
+
+See C<.set-hexpand()> for more detail.
+
+=begin code
+method set-vexpand ( Bool() $expand )
+=end code
+
+=item $expand; whether to expand.
+
+=begin comment
+
+=head2 Example
+# Example for set-vexpand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vexpand-set
+
+Sets whether the vexpand flag will be used.
+
+See C<.set-hexpand-set()> for more detail.
+
+=begin code
+method set-vexpand-set ( Bool() $set )
+=end code
+
+=item $set; value for vexpand-set property.
+
+=begin comment
+
+=head2 Example
+# Example for set-vexpand-set
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-visible
+
+Sets the visibility state of C<$widget>.
+
+Note that setting this to C<True> doesn’t mean the widget is
+actually viewable, see C<.get-visible()>.
+
+This function simply calls C<.show()> or
+C<.hide()> but is nicer to use when the
+visibility of the widget depends on some condition.
+
+=begin code
+method set-visible ( Bool() $visible )
+=end code
+
+=item $visible; whether the widget should be shown or not.
+
+=begin comment
+
+=head2 Example
+# Example for set-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 should-layout
+
+Returns whether C<$widget> should contribute to
+the measuring and allocation of its parent.
+
+This is C<False> for invisible children, but also
+for children that have their own surface.
+
+=begin code
+method should-layout (--> Bool )
+=end code
+
+Return value; C<True> if child should be included in
+  measuring and allocating. 
+
+=begin comment
+
+=head2 Example
+# Example for should-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 show
+
+Flags a widget to be displayed.
+
+Any widget that isn’t shown will not appear on the screen.
+
+Remember that you have to show the containers containing a widget,
+in addition to the widget itself, before it will appear onscreen.
+
+When a toplevel container is shown, it is immediately realized and
+mapped; other shown widgets are realized and mapped when their
+toplevel container is realized and mapped.
+
+=begin code
+method show ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for show
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 size-allocate
+This function is not yet available
+
+Allocates widget with a transformation that translates
+the origin to the position in C<$allocation>.
+
+This is a simple form of C<.allocate()>.
+
+=begin code
+method size-allocate ( …, Int() $baseline )
+=end code
+
+=item allocation; position and size to be allocated to C<$widget>. Note that each argument must be specified as a type followed by its value!
+=item $baseline; The baseline of the child, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for size-allocate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 snapshot-child
+
+Snapshot the a child of C<$widget>.
+
+When a widget receives a call to the snapshot function,
+it must send synthetic [vfunc C<$Gtk>.Widget.snapshot] calls
+to all children. This function provides a convenient way
+of doing this. A widget, when it receives a call to its
+[vfunc C<$Gtk>.Widget.snapshot] function, calls
+C<.snapshot-child()> once for each child, passing in
+the C<$snapshot> the widget received.
+
+C<.snapshot-child()> takes care of translating the origin of C<$snapshot>, and deciding whether the child needs to be snapshot.
+
+This function does nothing for children that implement U<Gnome::Gtk4::R-Native>.
+
+=begin code
+method snapshot-child ( N-Object() $child, N-Object() $snapshot )
+=end code
+
+=item $child; a child of C<$widget>.
+=item $snapshot; B<Gnome::Gtk4::Snapshot> as passed to the widget. In particular, no
+  calls to gtk_snapshot_translate() or other transform calls should
+  have been made..
+
+=begin comment
+
+=head2 Example
+# Example for snapshot-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 translate-coordinates
+
+Translate coordinates relative to C<$src_widget>’s allocation
+to coordinates relative to C<$dest_widget>’s allocations.
+
+In order to perform this operation, both widget must share
+a common ancestor.
+
+=begin code
+method translate-coordinates ( N-Object() $dest-widget, Num() $src-x, Num() $src-y, Num() $dest-x, Num() $dest-y --> Bool )
+=end code
+
+=item $dest-widget; a B<Gnome::Gtk4::Widget>.
+=item $src-x; X position relative to C<$src_widget>.
+=item $src-y; Y position relative to C<$src_widget>.
+=item $dest-x; (transfer ownership: full) location to store X position relative to C<$dest_widget>.
+=item $dest-y; (transfer ownership: full) location to store Y position relative to C<$dest_widget>.
+
+Return value; C<False> if C<$src_widget> and C<$dest_widget> have no common
+  ancestor. In this case, 0 is stored in * C<$dest_x> and * C<$dest_y>.
+  Otherwise C<True>.. 
+
+=begin comment
+
+=head2 Example
+# Example for translate-coordinates
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 trigger-tooltip-query
+
+Triggers a tooltip query on the display where the toplevel
+of C<$widget> is located.
+
+=begin code
+method trigger-tooltip-query ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for trigger-tooltip-query
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unmap
+
+Causes a widget to be unmapped if it’s currently mapped.
+
+This function is only for use in widget implementations.
+
+=begin code
+method unmap ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unmap
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unparent
+
+Dissociate C<$widget> from its parent.
+
+This function is only for use in widget implementations,
+typically in dispose.
+
+=begin code
+method unparent ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unparent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unrealize
+
+Causes a widget to be unrealized (frees all GDK resources
+associated with the widget).
+
+This function is only useful in widget implementations.
+
+=begin code
+method unrealize ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unrealize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unset-state-flags
+
+Turns off flag values for the current widget state.
+
+See C<.set-state-flags()>.
+
+This function is for use in widget implementations.
+
+=begin code
+method unset-state-flags ( UInt $flags )
+=end code
+
+=item $flags; State flags to turn off.
+
+=begin comment
+
+=head2 Example
+# Example for unset-state-flags
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-default-direction
+
+Obtains the current default reading direction.
+
+See C<.Widget.set-default-direction()>.
+
+=begin code
+method get-default-direction (--> GtkTextDirection )
+=end code
+
+Return value; the current default direction.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-default-direction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-default-direction
+
+Sets the default reading direction for widgets.
+
+See C<.set-direction()>.
+
+=begin code
+method set-default-direction ( GtkTextDirection $dir )
+=end code
+
+=item $dir; the new default direction. This cannot be C<GTK_TEXT_DIR_NONE>..
+
+=begin comment
+
+=head2 Example
+# Example for set-default-direction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 destroy
+
+Signals that all holders of a reference to the widget should release
+the reference that they hold.
+
+May result in finalization of the widget if all references are released.
+
+This signal is not suitable for saving widget state.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal destroy
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 direction-changed
+
+Emitted when the text direction of a widget changes.
+
+=begin code
+method handler (
+   $previous-direction,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $previous-direction; the previous text direction of C<$widget>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal direction-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 hide
+
+Emitted when C<$widget> is hidden.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal hide
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 keynav-failed
+
+Emitted if keyboard navigation fails.
+
+See C<.keynav-failed()> for details.
+
+=begin code
+method handler (
+   $direction,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $direction; the direction of movement.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if stopping keyboard navigation is fine, C<False>
+  if the emitting widget should try to handle the keyboard
+  navigation attempt in its parent widget(s).
+
+=begin comment
+
+=head2 Example
+# Example for signal keynav-failed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 map
+
+Emitted when C<$widget> is going to be mapped.
+
+A widget is mapped when the widget is visible (which is controlled with
+I<visible>) and all its parents up to the toplevel widget
+are also visible.
+
+The I<map> signal can be used to determine whether a widget will be drawn,
+for instance it can resume an animation that was stopped during the
+emission of I<unmap>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal map
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 mnemonic-activate
+
+Emitted when a widget is activated via a mnemonic.
+
+The default handler for this signal activates C<$widget> if C<$group_cycling>
+is C<False>, or just makes C<$widget> grab focus if C<$group_cycling> is C<True>.
+
+=begin code
+method handler (
+  gboolean $group-cycling,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $group-cycling; C<True> if there are other widgets with the same mnemonic.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> to stop other handlers from being invoked for the event.
+C<False> to propagate the event further.
+
+=begin comment
+
+=head2 Example
+# Example for signal mnemonic-activate
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-focus
+
+Emitted when the focus is moved.
+
+=begin code
+method handler (
+   $direction,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $direction; the direction of the focus move.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-focus
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 query-tooltip
+
+Emitted when the widgets tooltip is about to be shown.
+
+This happens when the I<has-tooltip> property
+is C<True> and the hover timeout has expired with the cursor hovering
+"above" C<$widget>; or emitted when C<$widget> got focus in keyboard mode.
+
+Using the given coordinates, the signal handler should determine
+whether a tooltip should be shown for C<$widget>. If this is the case
+C<True> should be returned, C<False> otherwise.  Note that if C<$keyboard_mode> is C<True>, the values of C<$x> and C<$y> are undefined and
+should not be used.
+
+The signal handler is free to manipulate C<$tooltip> with the therefore
+destined function calls.
+
+=begin code
+method handler (
+  gint $x,
+  gint $y,
+  gboolean $keyboard-mode,
+  N-Object $tooltip,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $x; the x coordinate of the cursor position where the request has
+  been emitted, relative to C<$widget>'s left side.
+=item $y; the y coordinate of the cursor position where the request has
+  been emitted, relative to C<$widget>'s top.
+=item $keyboard-mode; C<True> if the tooltip was triggered using the keyboard.
+=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if C<$tooltip> should be shown right now, C<False> otherwise.
+
+=begin comment
+
+=head2 Example
+# Example for signal query-tooltip
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 realize
+
+Emitted when C<$widget> is associated with a B<Gnome::Gdk4::Surface>.
+
+This means that C<.realize()> has been called
+or the widget has been mapped (that is, it is going to be drawn).
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal realize
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 show
+
+Emitted when C<$widget> is shown.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal show
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 state-flags-changed
+
+Emitted when the widget state changes.
+
+See C<.get-state-flags()>.
+
+=begin code
+method handler (
+   $flags,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $flags; The previous state flags..
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal state-flags-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 unmap
+
+Emitted when C<$widget> is going to be unmapped.
+
+A widget is unmapped when either it or any of its parents up to the
+toplevel widget have been set as hidden.
+
+As I<unmap> indicates that a widget will not be shown any longer,
+it can be used to, for example, stop an animation on the widget.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal unmap
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 unrealize
+
+Emitted when the B<Gnome::Gdk4::Surface> associated with C<$widget> is destroyed.
+
+This means that C<.unrealize()> has been called
+or the widget has been unmapped (that is, it is going to be hidden).
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Widget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Widget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal unrealize
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,138 @@
+=comment Package: Gtk4, C-Source: widget
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::N-Requisition
+
+![](images/requisition.png)
+
+=head1 Description
+
+A U<Gnome::Gtk4::N-Requisition> represents the desired size of a widget. See
+[GtkWidget’s geometry management section](class.Widget.html#height-for-width-geometry-management) for
+more information.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Requisition
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Requisition
+
+  class N-Requisition:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gint $.width;
+    has gint $.height;
+  }
+
+=item width; the widget’s desired width
+=item height; the widget’s desired height
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-requisition
+
+Allocates a new U<Gnome::Gtk4::N-Requisition>.
+
+The struct is initialized to zero.
+
+=begin code
+method new-requisition ( --> Gnome::Gtk4::Requisition \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-requisition
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Copies a U<Gnome::Gtk4::N-Requisition>.
+
+=begin code
+method copy (--> CArray[N-Requisition] )
+=end code
+
+Return value; a copy of C<$requisition>. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees a U<Gnome::Gtk4::N-Requisition>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+

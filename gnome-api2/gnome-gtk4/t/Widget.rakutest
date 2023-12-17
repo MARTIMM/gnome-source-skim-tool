@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 widget
+=comment Package: Gtk4, C-Source: widget
 use v6.d;
 
 #TL:1:Gnome::Gtk4::Widget:
@@ -10,10 +10,13 @@ use NativeCall;
 use Test;
 
 
-use Gnome::Gtk4::T-Enums:api<2>;
-use Gnome::Gtk4::Window:api<2>;
+#use Gnome::Cairo::N-Context:api<2>;
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Glib::N-Variant:api<2>;
+#use Gnome::Gsk4::N-Transform:api<2>;
 use Gnome::Gtk4::N-Requisition:api<2>;
-
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -24,8 +27,19 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Gtk4::Window $window .= new-window;
-$window.set-title('Testing Widget');
+my Gnome::Gtk4::Widget $widget;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $widget {
+
+#`{{
+}}
+  }
+};
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -38,83 +52,83 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $window {
-    my GtkOrientation $orientation;
-    my N-Object() $ancestor;
-    my Int() $for-size;
-    my Bool() $clear;
-    my GType $widget-type;
-    my  $out-transform;
-    my Array[Str] $classes;
-    my N-Object() $snapshot;
-    my Bool() $set;
-    my Bool() $expand;
-    sub callback ( N-Object $widget, N-Object $frame-clock, gpointer $user-data --> gboolean ) {}
-    my N-Requisition $minimum-size;
-    my N-Object() $controller;
-    my GtkStateFlags $flags;
-    my  $src-y;
-    my N-Object() $cursor;
-    my Int() $start-y;
-    my Bool() $has-tooltip;
-    my Bool() $receives-default;
-    my Int() $width;
-    my  $out-point;
-    my N-Object $transform;
-    my N-Object $args;
-    my  $x;
-    my Bool() $enabled;
-    my Str $name;
-    my Str $markup;
-    my  $src-x;
-    my N-Object $options;
-    my Int() $baseline;
-    my GtkTextDirection $dir;
-    my N-Object() $parent;
-    my UInt() $id;
-    my Str $format-string;
-    my N-Object() $font-map;
-    my Bool() $group-cycling;
-    my Array[Int] $natural-baseline;
-    my  $out-bounds;
-    my N-Object() $dest-widget;
-    my Array[Int] $minimum-baseline;
-    my  $dest-y;
-    my Int() $start-x;
-    my Int() $margin;
-    my  $notify;
-    my N-Requisition $natural-size;
-    my Bool() $visible;
-    my Str $text;
-    my Bool() $focusable;
-    my GtkOverflow $overflow;
-    my N-Object() $child;
-    my Bool() $focus-on-click;
-    my Int() $current-x;
-    my Array[Int] $natural;
-    my Str $css-class;
-    my Bool() $sensitive;
-    my Array[Int] $minimum;
-    my Bool() $can-focus;
-    my Bool() $can-target;
-    my N-Object() $group;
-    my  $opacity;
-    my  $allocation;
-    my  $y;
-    my  $point;
-    my  $dest-x;
-    my N-Object() $next-sibling;
-    my N-Object() $previous-sibling;
-    my GtkAlign $align;
-    my gpointer $user-data;
-    my N-Object() $label;
-    my GtkDirectionType $direction;
-    my N-Object() $layout-manager;
+  with $widget {
     my Str $action-name;
-    my N-Object() $target;
-    my Int() $height;
-    my Int() $current-y;
-    my Bool() $child-visible;
+    my CArray[gdouble] $dest-y;
+    my N-Object $snapshot;
+    my gboolean $can-focus;
+    my N-Object $font-map;
+    my gint $current-x;
+    my gdouble $src-y;
+    my Str $name;
+    my gboolean $child-visible;
+    my gdouble $src-x;
+    my N-Object $next-sibling;
+    my Str $text;
+    my N-Object $ancestor;
+    my  $notify;
+    my N-Variant $args;
+    my Str $format-string;
+    my  $point;
+    my gint $start-y;
+    my N-Requisition $minimum-size;
+    my gint $width;
+    my  $out-bounds;
+    my gboolean $focus-on-click;
+    my CArray[gdouble] $dest-x;
+    my gint $start-x;
+    my gboolean $has-tooltip;
+    my gboolean $can-target;
+    my gint-ptr $minimum;
+    my GtkDirectionType $direction;
+    my gboolean $sensitive;
+    my Str $css-class;
+    my gint $baseline;
+    my gdouble $opacity;
+    my gchar-pptr $classes;
+    my GType $widget-type;
+    my N-Object $cursor;
+    my N-Object $dest-widget;
+    my gint-ptr $minimum-baseline;
+    my gboolean $enabled;
+    my gint $margin;
+    my GFlag $flags;
+    my gboolean $clear;
+    my gboolean $receives-default;
+    my gboolean $set;
+    my N-Requisition $natural-size;
+    my gboolean $focusable;
+    my gint-ptr $natural-baseline;
+    my Str $markup;
+    my  $out-transform;
+    my gint $for-size;
+    my N-Object $target;
+    my gboolean $expand;
+    my N-Object $controller;
+    my guint $id;
+    my gdouble $x;
+#    my N-_font_options_t  $options;
+    my gboolean $group-cycling;
+    sub callback ( N-Object $widget, N-Object $frame-clock, gpointer $user-data --> gboolean ) {}
+    my N-Object $child;
+    my  $allocation;
+    my N-Object $parent;
+    my GtkOrientation $orientation;
+    my gdouble $y;
+    my N-Object $label;
+#    my N-Transform  $transform;
+    my gint $current-y;
+    my N-Object $layout-manager;
+    my GtkAlign $align;
+    my N-Object $group;
+    my N-Object $previous-sibling;
+    my gint-ptr $natural;
+    my gpointer $user-data;
+    my  $out-point;
+    my GtkTextDirection $dir;
+    my gint $height;
+    my gboolean $visible;
+    my GtkOverflow $overflow;
 
 
 #`{{
@@ -213,12 +227,10 @@ subtest 'Method tests', {
 
     #TM:0:get-last-child()
      .get-last-child(), '…', '.get-last-child()';
-}}
 
-    #TM:1:get-mapped()
-    nok .get-mapped(), '.get-mapped()';
+    #TM:0:get-mapped()
+     .get-mapped(), '…', '.get-mapped()';
 
-#`{{
     #TM:0:get-native()
      .get-native(), '…', '.get-native()';
 
@@ -227,27 +239,19 @@ subtest 'Method tests', {
 
     #TM:0:get-pango-context()
      .get-pango-context(), '…', '.get-pango-context()';
-}}
 
-    #TM:1:get-preferred-size()
-    $minimum-size .= new;
-    $natural-size .= new;
-    .get-preferred-size( $minimum-size, $natural-size);
-   is $minimum-size.width, 0, '.get-preferred-size()';
-#note $natural-size.gist;
+    #TM:0:get-preferred-size()
+    is .get-preferred-size( $minimum-size, $natural-size), '…', '.get-preferred-size()';
 
-#`{{
     #TM:0:get-prev-sibling()
      .get-prev-sibling(), '…', '.get-prev-sibling()';
 
     #TM:0:get-primary-clipboard()
      .get-primary-clipboard(), '…', '.get-primary-clipboard()';
-}}
 
-    #TM:1:get-realized()
-    nok .get-realized(), '.get-realized()';
+    #TM:0:get-realized()
+     .get-realized(), '…', '.get-realized()';
 
-#`{{
     #TM:0:get-request-mode()
      .get-request-mode(), '…', '.get-request-mode()';
 
@@ -369,19 +373,19 @@ subtest 'Method tests', {
     ok .remove-tick-callback( $id), '.remove-tick-callback()';
 
     #TM:0:set-can-focus()
-    $can-focus = True;
+    $can-focus = '…';
     .set-can-focus( $can-focus);
     #TM:0:get-can-focus()
     is .get-can-focus(),  $can-focus, '.set-can-focus() / .get-can-focus()';
 
     #TM:0:set-can-target()
-    $can-target = True;
+    $can-target = '…';
     .set-can-target( $can-target);
     #TM:0:get-can-target()
     is .get-can-target(),  $can-target, '.set-can-target() / .get-can-target()';
 
     #TM:0:set-child-visible()
-    $child-visible = True;
+    $child-visible = '…';
     .set-child-visible( $child-visible);
     #TM:0:get-child-visible()
     is .get-child-visible(),  $child-visible, '.set-child-visible() / .get-child-visible()';
@@ -393,7 +397,7 @@ subtest 'Method tests', {
     is .get-css-classes(),  $classes, '.set-css-classes() / .get-css-classes()';
 
     #TM:0:set-cursor()
-    $cursor = …;  # a native object
+    $cursor = …;
     .set-cursor( $cursor);
     #TM:0:get-cursor()
     is .get-cursor(),  $cursor, '.set-cursor() / .get-cursor()';
@@ -404,91 +408,91 @@ subtest 'Method tests', {
     ok True, '.set-cursor-from-name()';
 
     #TM:0:set-direction()
-    $dir = …;  # an enum or fla
+    $dir = …;
     .set-direction( $dir);
     #TM:0:get-direction()
     is .get-direction(),  $dir, '.set-direction() / .get-direction()';
 
     #TM:0:set-focus-child()
-    $child = …;  # a native object
+    $child = …;
     .set-focus-child( $child);
     #TM:0:get-focus-child()
     is .get-focus-child(),  $child, '.set-focus-child() / .get-focus-child()';
 
     #TM:0:set-focus-on-click()
-    $focus-on-click = True;
+    $focus-on-click = '…';
     .set-focus-on-click( $focus-on-click);
     #TM:0:get-focus-on-click()
     is .get-focus-on-click(),  $focus-on-click, '.set-focus-on-click() / .get-focus-on-click()';
 
     #TM:0:set-focusable()
-    $focusable = True;
+    $focusable = '…';
     .set-focusable( $focusable);
     #TM:0:get-focusable()
     is .get-focusable(),  $focusable, '.set-focusable() / .get-focusable()';
 
     #TM:0:set-font-map()
-    $font-map = …;  # a native object
+    $font-map = …;
     .set-font-map( $font-map);
     #TM:0:get-font-map()
     is .get-font-map(),  $font-map, '.set-font-map() / .get-font-map()';
 
     #TM:0:set-font-options()
-    $options = …;  # a native object
+    $options = '…';
     .set-font-options( $options);
     #TM:0:get-font-options()
     is .get-font-options(),  $options, '.set-font-options() / .get-font-options()';
 
     #TM:0:set-halign()
-    $align = …;  # an enum or fla
+    $align = …;
     .set-halign( $align);
     #TM:0:get-halign()
     is .get-halign(),  $align, '.set-halign() / .get-halign()';
 
     #TM:0:set-has-tooltip()
-    $has-tooltip = True;
+    $has-tooltip = '…';
     .set-has-tooltip( $has-tooltip);
     #TM:0:get-has-tooltip()
     is .get-has-tooltip(),  $has-tooltip, '.set-has-tooltip() / .get-has-tooltip()';
 
     #TM:0:set-hexpand()
-    $expand = True;
+    $expand = '…';
     .set-hexpand( $expand);
     #TM:0:get-hexpand()
     is .get-hexpand(),  $expand, '.set-hexpand() / .get-hexpand()';
 
     #TM:0:set-hexpand-set()
-    $set = True;
+    $set = '…';
     .set-hexpand-set( $set);
     #TM:0:get-hexpand-set()
     is .get-hexpand-set(),  $set, '.set-hexpand-set() / .get-hexpand-set()';
 
     #TM:0:set-layout-manager()
-    $layout-manager = …;  # a native object
+    $layout-manager = …;
     .set-layout-manager( $layout-manager);
     #TM:0:get-layout-manager()
     is .get-layout-manager(),  $layout-manager, '.set-layout-manager() / .get-layout-manager()';
 
     #TM:0:set-margin-bottom()
-    $margin = -42;
+    $margin = '…';
     .set-margin-bottom( $margin);
     #TM:0:get-margin-bottom()
     is .get-margin-bottom(),  $margin, '.set-margin-bottom() / .get-margin-bottom()';
 
     #TM:0:set-margin-end()
-    $margin = -42;
+    $margin = '…';
     .set-margin-end( $margin);
     #TM:0:get-margin-end()
     is .get-margin-end(),  $margin, '.set-margin-end() / .get-margin-end()';
 
     #TM:0:set-margin-start()
-    $margin = -42;
+    $margin = '…';
     .set-margin-start( $margin);
     #TM:0:get-margin-start()
     is .get-margin-start(),  $margin, '.set-margin-start() / .get-margin-start()';
 
     #TM:0:set-margin-top()
-    $margin = -42;
+    $margin = '…';
     .set-margin-top( $margin);
     #TM:0:get-margin-top()
     is .get-margin-top(),  $margin, '.set-margin-top() / .get-margin-top()';
@@ -506,38 +510,39 @@ subtest 'Method tests', {
     is .get-opacity(),  $opacity, '.set-opacity() / .get-opacity()';
 
     #TM:0:set-overflow()
-    $overflow = …;  # an enum or fla
+    $overflow = …;
     .set-overflow( $overflow);
     #TM:0:get-overflow()
     is .get-overflow(),  $overflow, '.set-overflow() / .get-overflow()';
 
     #TM:0:set-parent()
-    $parent = …;  # a native object
+    $parent = …;
     .set-parent( $parent);
     #TM:0:get-parent()
     is .get-parent(),  $parent, '.set-parent() / .get-parent()';
 
     #TM:0:set-receives-default()
-    $receives-default = True;
+    $receives-default = '…';
     .set-receives-default( $receives-default);
     #TM:0:get-receives-default()
     is .get-receives-default(),  $receives-default, '.set-receives-default() / .get-receives-default()';
 
     #TM:0:set-sensitive()
-    $sensitive = True;
+    $sensitive = '…';
     .set-sensitive( $sensitive);
     #TM:0:get-sensitive()
     is .get-sensitive(),  $sensitive, '.set-sensitive() / .get-sensitive()';
 
     #TM:0:set-size-request()
-    $width = -42;
-    $height = -42;
+    $width = '…';
+    $height = '…';
     .set-size-request( $width, $height);
     #TM:0:get-size-request()
     is .get-size-request(),  $width, $height, '.set-size-request() / .get-size-request()';
 
     #TM:0:set-state-flags()
-    $flags = …;  # an enum or flag    $clear = True;
+    $flags = …;
+    $clear = '…';
     .set-state-flags( $flags, $clear);
     #TM:0:get-state-flags()
     is .get-state-flags(),  $flags, $clear, '.set-state-flags() / .get-state-flags()';
@@ -555,25 +560,25 @@ subtest 'Method tests', {
     is .get-tooltip-text(),  $text, '.set-tooltip-text() / .get-tooltip-text()';
 
     #TM:0:set-valign()
-    $align = …;  # an enum or fla
+    $align = …;
     .set-valign( $align);
     #TM:0:get-valign()
     is .get-valign(),  $align, '.set-valign() / .get-valign()';
 
     #TM:0:set-vexpand()
-    $expand = True;
+    $expand = '…';
     .set-vexpand( $expand);
     #TM:0:get-vexpand()
     is .get-vexpand(),  $expand, '.set-vexpand() / .get-vexpand()';
 
     #TM:0:set-vexpand-set()
-    $set = True;
+    $set = '…';
     .set-vexpand-set( $set);
     #TM:0:get-vexpand-set()
     is .get-vexpand-set(),  $set, '.set-vexpand-set() / .get-vexpand-set()';
 
     #TM:0:set-visible()
-    $visible = True;
+    $visible = '…';
     .set-visible( $visible);
     #TM:0:get-visible()
     is .get-visible(),  $visible, '.set-visible() / .get-visible()';
@@ -607,6 +612,23 @@ subtest 'Method tests', {
 
     #TM:0:unset-state-flags()
     ok .unset-state-flags( $flags), '.unset-state-flags()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $widget {
+    my GtkTextDirection $dir;
+
+
+#`{{
+    #TM:0:set-default-direction()
+    $dir = …;
+    .set-default-direction( $dir);
+    #TM:0:get-default-direction()
+    is .get-default-direction(),  $dir, '.set-default-direction() / .get-default-direction()';
 
 }}
   }
