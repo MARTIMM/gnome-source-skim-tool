@@ -496,6 +496,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
     my Str ( $doc, $type, $raku-type) =
       self.get-doc-type( $p, $xpath, :user-side);
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
+    $raku-type //= '';
     $raku-type ~~ s/ _UA_ $//;
 
     my Hash $attribs = $p.attribs;
