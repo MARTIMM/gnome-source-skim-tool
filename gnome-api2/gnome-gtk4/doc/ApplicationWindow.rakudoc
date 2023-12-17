@@ -1,36 +1,36 @@
-# Package: Gtk4, C-Source: applicationwindow
+=comment Package: Gtk4, C-Source: applicationwindow
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::ApplicationWindow
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::ApplicationWindow
+
+![](images/applicationwindow.png)
+
 =head1 Description
 
-B<Gnome::Gtk4::ApplicationWindow> is a I<GtkWindow> subclass that integrates with
-I<GtkApplication>.
+B<Gnome::Gtk4::ApplicationWindow> is a B<Gnome::Gtk4::Window> subclass that integrates with
+B<Gnome::Gtk4::Application>.
 
 Notably, B<Gnome::Gtk4::ApplicationWindow> can handle an application menubar.
 
-This class implements the I<GActionGroup> and I<GActionMap> interfaces,
+This class implements the U<Gnome::Gio::R-ActionGroup> and U<Gnome::Gio::R-ActionMap> interfaces,
 to let you add window-specific actions that will be exported by the
-associated [class C<$Gtk>.Application], together with its application-wide
+associated B<Gnome::Gtk4::Application>, together with its application-wide
 actions. Window-specific actions are prefixed with the “win.”
 prefix and application-wide actions are prefixed with the “app.”
 prefix. Actions must be addressed with the prefixed name when
-referring to them from a I<GMenuModel>.
+referring to them from a B<Gnome::Gio::MenuModel>.
 
 Note that widgets that are placed inside a B<Gnome::Gtk4::ApplicationWindow>
 can also activate these actions, if they implement the
-[iface C<$Gtk>.Actionable] interface.
+B<Gnome::Gtk4::R-Actionable> interface.
 
-The settings I<gtk-shell-shows-app-menu defined in Settings> and
-I<gtk-shell-shows-menubar defined in Settings> tell GTK whether the
+The settings I<gtk-shell-shows-app-menu defined in Gnome::Gtk4::Settings> and
+I<gtk-shell-shows-menubar defined in Gnome::Gtk4::Settings> tell GTK whether the
 desktop environment is showing the application menu and menubar
 models outside the application as part of the desktop shell.
 For instance, on OS X, both menus will be displayed remotely;
@@ -44,56 +44,56 @@ desktop environment does not display the application menu, then
 it will automatically be included in the menubar or in the windows
 client-side decorations.
 
-See [class C<$Gtk>.PopoverMenu] for information about the XML language
-used by I<GtkBuilder> for menu models.
+See B<Gnome::Gtk4::PopoverMenu> for information about the XML language
+used by B<Gnome::Gtk4::Builder> for menu models.
 
-See also: C<.set-menubar() defined in Application>.
+See also: C<.set-menubar() in class Gnome::Gtk4::Application>.
 
-=head2 A GtkApplicationWindow with a menubar
+=head3 A GtkApplicationWindow with a menubar
 
 The code sample below shows how to set up a B<Gnome::Gtk4::ApplicationWindow>
-with a menu bar defined on the [class C<$Gtk>.Application]:
+with a menu bar defined on the B<Gnome::Gtk4::Application>:
 
-=begin comment 
-Following example code is in c
+=begin code
+my Gnome::Gtk4::Application $app .= new-application( "org.gtk.test", 0);
+my Gnome::Gtk4::Builder $builder .= from-string( q:to/EOUI/, -1);
+  <interface>
+    <menu id='menubar'>
+      <submenu>
+        <attribute name='label' translatable='yes'>_Edit</attribute>
+        <item>
+          <attribute name='label' translatable='yes'>_Copy</attribute>
+          <attribute name='action'>win.copy</attribute>
+        </item>
+        <item>
+          <attribute name='label' translatable='yes'>_Paste</attribute>
+          <attribute name='action'>win.paste</attribute>
+        </item>
+      </submenu>
+    </menu>
+  </interface>
+  EOUI
 
-  GtkApplication *app = gtk_application_new ("org.gtk.test", 0);
-  
-  GtkBuilder *builder = gtk_builder_new_from_string (
-      "<interface>"
-      "  <menu id='menubar'>"
-      "    <submenu>"
-      "      <attribute name='label' translatable='yes'>_Edit</attribute>"
-      "      <item>"
-      "        <attribute name='label' translatable='yes'>_Copy</attribute>"
-      "        <attribute name='action'>win.copy</attribute>"
-      "      </item>"
-      "      <item>"
-      "        <attribute name='label' translatable='yes'>_Paste</attribute>"
-      "        <attribute name='action'>win.paste</attribute>"
-      "      </item>"
-      "    </submenu>"
-      "  </menu>"
-      "</interface>",
-      -1);
-  
-  GMenuModel *menubar = G_MENU_MODEL (gtk_builder_get_object (builder, "menubar"));
-  gtk_application_set_menubar (GTK_APPLICATION (app), menubar);
-  g_object_unref (builder);
-  
-  // ...
-  
-  GtkWidget *window = gtk_application_window_new (app);
-=end comment
+my Gnome::Gio::MenuModel $menubar = $builder.get-object("menubar);
+$app.set-menubar($menubar);
+$builder.clear-object
+
+# ...
+my Gnome::Gtk4::Widget $window .= new-application-window($app);
+=end code
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::ApplicationWindow
+
 =end comment
 
 =end pod
@@ -113,7 +113,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =head3 :build-id
 
 Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
@@ -124,15 +123,22 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-applicationwindow
 
 Creates a new B<Gnome::Gtk4::ApplicationWindow>.
+=begin comment
+
+=head2 Example
+# Example for new-applicationwindow
+
+=end comment
 
 =begin code
-method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::ApplicationWindow )
+method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::ApplicationWindow \)
 =end code
 
-=item $application; a I<GtkApplication>.
+=item $application; a B<Gnome::Gtk4::Application>.
 
 =end pod
 
@@ -146,80 +152,112 @@ method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::Applicat
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-help-overlay
 
-Gets the I<GtkShortcutsWindow> that is associated with C<$window>.
+Gets the B<Gnome::Gtk4::ShortcutsWindow> that is associated with C<$window>.
 
 See C<.set-help-overlay()>.
+=begin comment
+
+=head2 Example
+# Example for get-help-overlay
+
+=end comment
 
 =begin code
 method get-help-overlay (--> N-Object )
 =end code
 
-
 Return value; the help overlay associated
- with C<$window>. 
-
+  with C<$window>. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-id
 
 Returns the unique ID of the window.
 
- If the window has not yet been added to a I<GtkApplication>, returns I<0>.
+ If the window has not yet been added to a B<Gnome::Gtk4::Application>, returns B<0>.
+=begin comment
+
+=head2 Example
+# Example for get-id
+
+=end comment
 
 =begin code
 method get-id (--> UInt )
 =end code
 
-
-Return value; the unique ID for C<$window>, or I<0> if the window
- has not yet been added to a I<GtkApplication>. 
-
+Return value; the unique ID for C<$window>, or B<0> if the window
+  has not yet been added to a B<Gnome::Gtk4::Application>. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-show-menubar
 
-Returns whether the window will display a menubar for the app menu and menubar as needed.
+Returns whether the window will display a menubar for the app menu
+and menubar as needed.
+=begin comment
+
+=head2 Example
+# Example for get-show-menubar
+
+=end comment
 
 =begin code
 method get-show-menubar (--> Bool )
 =end code
 
-
-Return value; %TRUE if C<$window> will display a menubar when needed. 
-
+Return value; C<True> if C<$window> will display a menubar when needed. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-help-overlay
 
 Associates a shortcuts window with the application window.
 
-Additionally, sets up an action with the name I<win.show-help-overlay> to present it.
+Additionally, sets up an action with the name
+B<win.show-help-overlay> to present it.
  C<$window> takes responsibility for destroying C<$help_overlay>.
+=begin comment
+
+=head2 Example
+# Example for set-help-overlay
+
+=end comment
 
 =begin code
 method set-help-overlay ( N-Object() $help-overlay )
 =end code
 
-=item $help-overlay; a I<GtkShortcutsWindow>.
+=item $help-overlay; a B<Gnome::Gtk4::ShortcutsWindow>.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-show-menubar
 
-Sets whether the window will display a menubar for the app menu and menubar as needed.
+Sets whether the window will display a menubar for the app menu
+and menubar as needed.
+=begin comment
+
+=head2 Example
+# Example for set-show-menubar
+
+=end comment
 
 =begin code
 method set-show-menubar ( Bool() $show-menubar )

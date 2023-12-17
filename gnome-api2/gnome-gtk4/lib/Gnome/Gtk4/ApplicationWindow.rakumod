@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: applicationwindow
+=comment Package: Gtk4, C-Source: applicationwindow
 use v6.d;
 
 #-------------------------------------------------------------------------------
