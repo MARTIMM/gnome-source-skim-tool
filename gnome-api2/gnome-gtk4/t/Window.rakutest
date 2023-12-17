@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 window
+=comment Package: Gtk4, C-Source: window
 use v6.d;
 
 #TL:1:Gnome::Gtk4::Window:
@@ -6,8 +6,8 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
 use Gnome::Gtk4::Window:api<2>;
@@ -48,24 +48,24 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $window {
-    my UInt() $timestamp;
-    my N-Object() $application;
+    my gboolean $setting;
+    my N-Object $titlebar;
+    my gint $height;
+    my N-Object $display;
+    my N-Object $monitor;
     my Str $title;
-    my N-Object() $parent;
-    my N-Object() $focus;
-    my N-Object() $display;
-    my Int() $width;
-    my Int() $height;
-    my Bool() $handle-menubar-accel;
-    my Str $name;
-    my N-Object() $child;
-    my N-Object() $default-widget;
-    my Bool() $resizable;
-    my N-Object() $titlebar;
-    my Bool() $modal;
-    my Bool() $setting;
+    my guint32 $timestamp;
+    my gboolean $handle-menubar-accel;
+    my gboolean $modal;
+    my N-Object $child;
+    my gboolean $resizable;
     my Str $startup-id;
-    my N-Object() $monitor;
+    my N-Object $focus;
+    my N-Object $default-widget;
+    my Str $name;
+    my N-Object $parent;
+    my gint $width;
+    my N-Object $application;
 
 
 #`{{
@@ -109,73 +109,73 @@ subtest 'Method tests', {
     ok .present-with-time( $timestamp), '.present-with-time()';
 
     #TM:0:set-application()
-    $application = …;  # a native object
+    $application = …;
     .set-application( $application);
     #TM:0:get-application()
     is .get-application(),  $application, '.set-application() / .get-application()';
 
     #TM:0:set-child()
-    $child = …;  # a native object
+    $child = …;
     .set-child( $child);
     #TM:0:get-child()
     is .get-child(),  $child, '.set-child() / .get-child()';
 
     #TM:0:set-decorated()
-    $setting = True;
+    $setting = '…';
     .set-decorated( $setting);
     #TM:0:get-decorated()
     is .get-decorated(),  $setting, '.set-decorated() / .get-decorated()';
 
     #TM:0:set-default-size()
-    $width = -42;
-    $height = -42;
+    $width = '…';
+    $height = '…';
     .set-default-size( $width, $height);
     #TM:0:get-default-size()
     is .get-default-size(),  $width, $height, '.set-default-size() / .get-default-size()';
 
     #TM:0:set-default-widget()
-    $default-widget = …;  # a native object
+    $default-widget = …;
     .set-default-widget( $default-widget);
     #TM:0:get-default-widget()
     is .get-default-widget(),  $default-widget, '.set-default-widget() / .get-default-widget()';
 
     #TM:0:set-deletable()
-    $setting = True;
+    $setting = '…';
     .set-deletable( $setting);
     #TM:0:get-deletable()
     is .get-deletable(),  $setting, '.set-deletable() / .get-deletable()';
 
     #TM:0:set-destroy-with-parent()
-    $setting = True;
+    $setting = '…';
     .set-destroy-with-parent( $setting);
     #TM:0:get-destroy-with-parent()
     is .get-destroy-with-parent(),  $setting, '.set-destroy-with-parent() / .get-destroy-with-parent()';
 
     #TM:0:set-display()
-    $display = …;  # a native object
+    $display = …;
     .set-display( $display);
     ok True, '.set-display()';
 
     #TM:0:set-focus()
-    $focus = …;  # a native object
+    $focus = …;
     .set-focus( $focus);
     #TM:0:get-focus()
     is .get-focus(),  $focus, '.set-focus() / .get-focus()';
 
     #TM:0:set-focus-visible()
-    $setting = True;
+    $setting = '…';
     .set-focus-visible( $setting);
     #TM:0:get-focus-visible()
     is .get-focus-visible(),  $setting, '.set-focus-visible() / .get-focus-visible()';
 
     #TM:0:set-handle-menubar-accel()
-    $handle-menubar-accel = True;
+    $handle-menubar-accel = '…';
     .set-handle-menubar-accel( $handle-menubar-accel);
     #TM:0:get-handle-menubar-accel()
     is .get-handle-menubar-accel(),  $handle-menubar-accel, '.set-handle-menubar-accel() / .get-handle-menubar-accel()';
 
     #TM:0:set-hide-on-close()
-    $setting = True;
+    $setting = '…';
     .set-hide-on-close( $setting);
     #TM:0:get-hide-on-close()
     is .get-hide-on-close(),  $setting, '.set-hide-on-close() / .get-hide-on-close()';
@@ -187,19 +187,20 @@ subtest 'Method tests', {
     is .get-icon-name(),  $name, '.set-icon-name() / .get-icon-name()';
 
     #TM:0:set-mnemonics-visible()
-    $setting = True;
+    $setting = '…';
     .set-mnemonics-visible( $setting);
     #TM:0:get-mnemonics-visible()
     is .get-mnemonics-visible(),  $setting, '.set-mnemonics-visible() / .get-mnemonics-visible()';
+}}
 
-    #TM:0:set-modal()
-    $modal = True;
-    .set-modal( $modal);
-    #TM:0:get-modal()
-    is .get-modal(),  $modal, '.set-modal() / .get-modal()';
+    #TM:1:set-modal()
+    .set-modal(True);
+    #TM:1:get-modal()
+    ok .get-modal(), '.set-modal() / .get-modal()';
 
+#`{{
     #TM:0:set-resizable()
-    $resizable = True;
+    $resizable = '…';
     .set-resizable( $resizable);
     #TM:0:get-resizable()
     is .get-resizable(),  $resizable, '.set-resizable() / .get-resizable()';
@@ -212,20 +213,19 @@ subtest 'Method tests', {
 
     #TM:1:set-title()
     $title = 'text';
-    .set-title($title);
+    .set-title( $title);
     #TM:1:get-title()
     is .get-title(),  $title, '.set-title() / .get-title()';
 
 #`{{
-
     #TM:0:set-titlebar()
-    $titlebar = …;  # a native object
+    $titlebar = …;
     .set-titlebar( $titlebar);
     #TM:0:get-titlebar()
     is .get-titlebar(),  $titlebar, '.set-titlebar() / .get-titlebar()';
 
     #TM:0:set-transient-for()
-    $parent = …;  # a native object
+    $parent = …;
     .set-transient-for( $parent);
     #TM:0:get-transient-for()
     is .get-transient-for(),  $parent, '.set-transient-for() / .get-transient-for()';
@@ -246,12 +246,37 @@ subtest 'Method tests', {
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $window {
-    #TM:1:set-default-icon-name()
-    .set-default-icon-name('bookmarks');
-    #TM:1:get-default-icon-name()
-    is .get-default-icon-name, 'bookmarks', '.set-default-icon-name() / .get-default-icon-name()';
+    my Bool() $setting;
+    my Str $name;
+    my Bool() $enable;
+
+
+#`{{
+    #TM:0:get-toplevels()
+     .get-toplevels(), '…', '.get-toplevels()';
+
+    #TM:0:list-toplevels()
+    ok .list-toplevels(), '.list-toplevels()';
+
+    #TM:0:set-auto-startup-notification()
+    $setting = True;
+    .set-auto-startup-notification( $setting);
+    ok True, '.set-auto-startup-notification()';
+
+    #TM:0:set-default-icon-name()
+    $name = 'text';
+    .set-default-icon-name( $name);
+    #TM:0:get-default-icon-name()
+    is .get-default-icon-name(),  $name, '.set-default-icon-name() / .get-default-icon-name()';
+
+    #TM:0:set-interactive-debugging()
+    $enable = True;
+    .set-interactive-debugging( $enable);
+    ok True, '.set-interactive-debugging()';
+
+}}
   }
-}
+};
 
 #-------------------------------------------------------------------------------
 done-testing;
