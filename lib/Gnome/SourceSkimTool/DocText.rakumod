@@ -651,7 +651,7 @@ method !modify-classes ( Str $text is copy --> Str ) {
 
     my Hash $h = $!solve.search-name($package ~ $classname);
 #note "$?LINE $h.gist()";
-    $classname = $!solve.set-object-name($h);
+    $classname = ?$h ?? $!solve.set-object-name($h) !! $package ~ $classname;
     $text ~~ s/ <class-regex> /B<$classname>/;
   }
 
