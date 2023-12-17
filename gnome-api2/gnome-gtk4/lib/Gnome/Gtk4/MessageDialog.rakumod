@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gtk4 messagedialog
+=comment Package: Gtk4, C-Source: messagedialog
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::Dialog:api<2>;
 use Gnome::Gtk4::T-Dialog:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
-use Gnome::Gtk4::T-Messagedialog:api<2>;
+#use Gnome::Gtk4::T-MessageDialog:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -40,7 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gtk4-lib()), :sub-prefix<gtk_message_dialog_>);
+  $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gtk4::MessageDialog' {
@@ -60,14 +60,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-messagedialog => %( :type(Constructor), :isnew, :returns(N-Object), :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
-  new-with-markup => %( :type(Constructor), :returns(N-Object), :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
+  new-messagedialog => %( :type(Constructor), :is-symbol<gtk_message_dialog_new>, :returns(N-Object), :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
+  new-with-markup => %( :type(Constructor), :is-symbol<gtk_message_dialog_new_with_markup>, :returns(N-Object), :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
 
   #--[Methods]------------------------------------------------------------------
-  #format-secondary-markup => %(:variable-list,  :parameters([Str])),
-  #format-secondary-text => %(:variable-list,  :parameters([Str])),
-  get-message-area => %( :returns(N-Object)),
-  set-markup => %( :parameters([Str])),
+  format-secondary-markup => %(:is-symbol<gtk_message_dialog_format_secondary_markup>, :variable-list,  :parameters([Str])),
+  format-secondary-text => %(:is-symbol<gtk_message_dialog_format_secondary_text>, :variable-list,  :parameters([Str])),
+  get-message-area => %(:is-symbol<gtk_message_dialog_get_message_area>,  :returns(N-Object)),
+  set-markup => %(:is-symbol<gtk_message_dialog_set_markup>,  :parameters([Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gtk4-lib()), :sub-prefix<gtk_message_dialog_>
+        :library(gtk4-lib())
       );
 
       # Check the function name. 

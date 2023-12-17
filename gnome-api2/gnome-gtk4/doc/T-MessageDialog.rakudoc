@@ -1,0 +1,32 @@
+=comment Package: Gtk4, C-Source: messagedialog
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-MessageDialog
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkButtonsType
+
+Prebuilt sets of buttons for B<Gnome::Gtk4::Dialog>.
+
+If none of these choices are appropriate, simply use
+C<GTK_BUTTONS_NONE> and call C<.add-buttons() in class Gnome::Gtk4::Dialog>.
+
+> Please note that C<GTK_BUTTONS_OK>, C<GTK_BUTTONS_YES_NO>
+> and C<GTK_BUTTONS_OK_CANCEL> are discouraged by the
+> [GNOME Human Interface Guidelines](http://library.gnome.org/devel/hig-book/stable/).
+=item C<GTK_BUTTONS_NONE>; no buttons at all
+=item C<GTK_BUTTONS_OK>; an OK button
+=item C<GTK_BUTTONS_CLOSE>; a Close button
+=item C<GTK_BUTTONS_CANCEL>; a Cancel button
+=item C<GTK_BUTTONS_YES_NO>; Yes and No buttons
+=item C<GTK_BUTTONS_OK_CANCEL>; OK and Cancel buttons
+=end pod
+

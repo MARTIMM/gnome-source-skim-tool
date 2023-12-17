@@ -1,0 +1,316 @@
+=comment Package: Gtk4, C-Source: messagedialog
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::MessageDialog
+
+![](images/messagedialog.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::MessageDialog> presents a dialog with some message text.
+
+![An example GtkMessageDialog](messagedialog.png)
+
+It’s simply a convenience widget; you could construct the equivalent of
+B<Gnome::Gtk4::MessageDialog> from B<Gnome::Gtk4::Dialog> without too much effort, but
+B<Gnome::Gtk4::MessageDialog> saves typing.
+
+The easiest way to do a modal message dialog is to use the C<GTK_DIALOG_MODAL>
+flag, which will call C<.set-modal() in class Gnome::Gtk4::Window> internally. The dialog will
+prevent interaction with the parent window until it's hidden or destroyed.
+You can use the I<response defined in Dialog> signal to know when the user
+dismissed the dialog.
+
+An example for using a modal dialog:
+=begin comment
+GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL;
+dialog = gtk_message_dialog_new (parent_window,
+                                 flags,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_CLOSE,
+                                 "Error reading “%s”: %s",
+                                 filename,
+                                 g_strerror (errno));
+// Destroy the dialog when the user responds to it
+// (e.g. clicks a button)
+
+g_signal_connect (dialog, "response",
+                  G_CALLBACK (gtk_window_destroy),
+                  NULL);
+
+=end comment
+
+You might do a non-modal B<Gnome::Gtk4::MessageDialog> simply by omitting the
+C<GTK_DIALOG_MODAL> flag:
+
+=begin comment
+GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
+dialog = gtk_message_dialog_new (parent_window,
+                                 flags,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_CLOSE,
+                                 "Error reading “%s”: %s",
+                                 filename,
+                                 g_strerror (errno));
+
+// Destroy the dialog when the user responds to it
+// (e.g. clicks a button)
+g_signal_connect (dialog, "response",
+                  G_CALLBACK (gtk_window_destroy),
+                  NULL);
+
+=end comment
+
+=head2 GtkMessageDialog as GtkBuildable
+
+The B<Gnome::Gtk4::MessageDialog> implementation of the U<Gnome::Gtk4::R-Buildable> interface exposes
+the message area as an internal child with the name “message_area”.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::MessageDialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-messagedialog
+
+Creates a new message dialog.
+
+This is a simple dialog with some text the user may want to see.
+When the user clicks a button a “response” signal is emitted with
+response IDs from  C<enumeration ResponseType from Gnome::Gtk4::T-Dialog> . See B<Gnome::Gtk4::Dialog>
+for more details.
+
+=begin code
+method new-messagedialog ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType  $buttons, Str $message-format --> Gnome::Gtk4::MessageDialog \)
+=end code
+
+=item $parent; transient parent.
+=item $flags; flags.
+=item $type; type of message.
+=item $buttons; set of buttons to use.
+=item $message-format; printf()-style format string.
+=item $…; ….
+
+=begin comment
+
+=head2 Example
+# Example for new-messagedialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-markup
+
+Creates a new message dialog.
+
+This is a simple dialog with some text that is marked up with
+Pango markup. When the user clicks a button a “response” signal
+is emitted with response IDs from  C<enumeration ResponseType from Gnome::Gtk4::T-Dialog> . See
+B<Gnome::Gtk4::Dialog> for more details.
+
+Special XML characters in the printf() arguments passed to this
+function will automatically be escaped as necessary.
+(See g_markup_printf_escaped() for how this is implemented.)
+Usually this is what you want, but if you have an existing
+Pango markup string that you want to use literally as the
+label, then you need to use C<.set-markup()>
+instead, since you can’t pass the markup string either
+as the format (it might contain “%” characters) or as a string
+argument.
+
+=begin comment
+GtkWidget *dialog;
+GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
+dialog = gtk_message_dialog_new (parent_window,
+                                 flags,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_CLOSE,
+                                 NULL);
+gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog),
+                               markup);
+
+=end comment
+
+=begin code
+method new-with-markup ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType  $buttons, Str $message-format --> Gnome::Gtk4::MessageDialog \)
+=end code
+
+=item $parent; transient parent.
+=item $flags; flags.
+=item $type; type of message.
+=item $buttons; set of buttons to use.
+=item $message-format; printf()-style format string.
+=item $…; ….
+
+=begin comment
+
+=head2 Example
+# Example for new-with-markup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 format-secondary-markup
+This function is not yet available
+
+Sets the secondary text of the message dialog.
+
+The C<$message_format> is assumed to contain Pango markup.
+
+Due to an oversight, this function does not escape special
+XML characters like C<.new-with-markup()>
+does. Thus, if the arguments may contain special XML characters,
+you should use g_markup_printf_escaped() to escape it.
+
+=begin comment
+char *msg;
+
+msg = g_markup_printf_escaped (message_format, ...);
+gtk_message_dialog_format_secondary_markup (message_dialog,
+                                            "%s", msg);
+g_free (msg);
+
+=end comment
+
+=begin code
+method format-secondary-markup ( Str $message-format )
+=end code
+
+=item $message-format; printf()-style string with Pango markup.
+=item $…; ….
+
+=begin comment
+
+=head2 Example
+# Example for format-secondary-markup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 format-secondary-text
+This function is not yet available
+
+Sets the secondary text of the message dialog.
+
+=begin code
+method format-secondary-text ( Str $message-format )
+=end code
+
+=item $message-format; printf()-style format string.
+=item $…; ….
+
+=begin comment
+
+=head2 Example
+# Example for format-secondary-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-message-area
+
+Returns the message area of the dialog.
+
+This is the box where the dialog’s primary and secondary labels
+are packed. You can add your own extra content to that box and it
+will appear below those labels. See C<.get-content-area() in class Gnome::Gtk4::Dialog>
+for the corresponding function in the parent B<Gnome::Gtk4::Dialog>.
+
+=begin code
+method get-message-area (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Gtk4::Box> corresponding to the
+  “message area” in the C<$message_dialog>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-message-area
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-markup
+
+Sets the text of the message dialog.
+
+=begin code
+method set-markup ( Str $str )
+=end code
+
+=item $str; string with Pango markup.
+
+=begin comment
+
+=head2 Example
+# Example for set-markup
+
+=end comment
+
+=end pod
+
