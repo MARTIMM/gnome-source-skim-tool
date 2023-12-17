@@ -269,7 +269,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
   my token funcname { <-[\]]>+  }
   my regex mfunc-regex { '[method@' <package> '.' <class> '.' <funcname> ']' }
   while $text ~~ m/ <mfunc-regex> / {
-note "$?LINE $/.gist()";
+#note "$?LINE $/.gist()";
     $package = $/<mfunc-regex><package>.Str;
     $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<mfunc-regex><class>.Str;
@@ -289,7 +289,7 @@ note "$?LINE $/.gist()";
 
   my regex cfunc-regex { '[ctor@' <package> '.' <class> '.' <funcname> ']' }
   while $text ~~ m/ <cfunc-regex> / {
-note "$?LINE $/.gist()";
+#note "$?LINE $/.gist()";
     $package = $/<cfunc-regex><package>.Str;
     $package = 'G' if $package ~~ any(<Gio GObject Glib>);
     $class = $/<cfunc-regex><class>.Str;
