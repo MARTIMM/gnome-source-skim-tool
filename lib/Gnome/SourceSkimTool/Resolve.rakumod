@@ -16,6 +16,8 @@ method set-object-name (
 ) {
   my Str $object-name;
   my Str $type-letter = $object-map-entry<type-letter> // '';
+  $object-map-entry<package-name> //= $*work-data<raku-package>;
+  $object-map-entry<type-name> //= $*work-data<raku-name>;
 
   given $name-type {
     when ClassnameType {

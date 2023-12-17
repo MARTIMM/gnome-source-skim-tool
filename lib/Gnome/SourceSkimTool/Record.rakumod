@@ -3,6 +3,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Test;
+use Gnome::SourceSkimTool::Resolve;
 
 use XML;
 use XML::XPath;
@@ -14,6 +15,7 @@ unit class Gnome::SourceSkimTool::Record:auth<github:MARTIMM>;
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
 has Gnome::SourceSkimTool::Test $!tst;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 has XML::XPath $!xpath;
 
@@ -21,6 +23,7 @@ has XML::XPath $!xpath;
 submethod BUILD ( ) {
 
   $!mod .= new;
+  $!solve .= new;
 
   # load data for this module
   my Str $file = "$*work-data<gir-module-path>R-$*gnome-class.gir";
@@ -32,9 +35,8 @@ submethod BUILD ( ) {
 # In a <record> there might be constructors, methods, functions or fields
 method generate-code ( ) {
 
-  my Str $class-name = $!mod.set-object-name(
-    %( :type-name($*work-data<raku-name>), :type-letter<N>)
-  );
+  my Hash $h = $!solve.search-name($*work-data<gnome-name>);
+  my Str $class-name = $!solve.set-object-name($h);
 
   my XML::Element $element = $!xpath.find('//namespace/record');
   die "//record elements not found in gir-record-file for $class-name" unless ?$element;
@@ -127,25 +129,9 @@ method generate-code ( ) {
 
     $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
-#    my Str $ctype = $*work-data<gnome-name>;
-#    my Str $prefix = $*work-data<name-prefix>;
-#    $ctype ~~ s:i/^ $prefix //;
-#    my Hash $h = $!mod.search-name($ctype);
-#note "$?LINE $h.gist()";
-    my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
-    my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameCodeType));
-#    my Str $fname = "$*work-data<result-mods>/$ctype.rakumod";
+    my Str $fname = $!solve.set-object-name( $h, :name-type(FilenameCodeType));
     $!mod.save-file( $fname, $code, "record module");
   }
-
-#  else {
-#    my Str $fname = "$*work-data<result-mods>$*gnome-class.rakumod";
-#    note "Record module {$fname.IO.basename} is not saved due to lack of routines";
-#  }
-
-#  $*work-data<raku-module-file>.IO.spurt($code);
-#  note "Save pod doc";
-#  $*work-data<raku-module-doc-file>.IO.spurt($module-doc) if $*generate-doc;
 }
 
 #-------------------------------------------------------------------------------
@@ -181,13 +167,8 @@ method generate-doc ( ) {
     $element, $!xpath, :routine-type<function>
   );
 
-#  note "Save record documentation";
-#  my Str $ctype = $*work-data<gnome-name>;
-#  my Str $prefix = $*work-data<name-prefix>;
-#  $ctype ~~ s:i/^ $prefix //;
-  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
-  my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameDocType));
-#  my Str $fname = "$*work-data<result-docs>/$ctype.rakudoc";
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameDocType));
   $!mod.save-file( $fname, $doc, "record documentation");
 }
 
@@ -204,7 +185,7 @@ method generate-test ( ) {
   my XML::Element $element = $!xpath.find('//namespace/record');
 
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
+  my Hash $h = $!solve.search-name($ctype);
 
   # Get name of test variable holding this record object
   my Str $test-variable = $h<gnome-name>.lc;
@@ -214,7 +195,7 @@ method generate-test ( ) {
   # Import the record structure
 #  my Str $raku-class-struct = $h<class-name>;
   my Str $raku-class-struct =
-    $!mod.set-object-name( $h, :name-type(ClassnameType));
+    $!solve.set-object-name( $h, :name-type(ClassnameType));
   $!mod.add-import($raku-class-struct);
 
   # Import the module to be tested. Drop the 'N- <prefix>' to get the
@@ -256,7 +237,7 @@ method generate-test ( ) {
   $code ~= $!tst.generate-test-end;
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-#  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
-  my Str $fname = $!mod.set-object-name( $h, :name-type(FilenameTestType));
+#  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $fname = $!solve.set-object-name( $h, :name-type(FilenameTestType));
   $!mod.save-file( $fname, $code, "record tests");
 }

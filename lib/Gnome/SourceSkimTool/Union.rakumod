@@ -3,6 +3,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Test;
+use Gnome::SourceSkimTool::Resolve;
 
 use XML;
 use XML::XPath;
@@ -14,6 +15,7 @@ unit class Gnome::SourceSkimTool::Union:auth<github:MARTIMM>;
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
 has Gnome::SourceSkimTool::Test $!tst;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 has XML::XPath $!xpath;
 
@@ -22,6 +24,7 @@ submethod BUILD ( ) {
 
   $!grd .= new;
   $!mod .= new;
+  $!solve .= new;
 
   # load data for this module
   my Str $file = "$*work-data<gir-module-path>U-$*gnome-class.gir";
@@ -124,7 +127,7 @@ method generate-code ( ) {
     );
 
 #    my Str $ctype = $element.attribs<c:type>;
-#    my Hash $h = $!mod.search-name($ctype);
+#    my Hash $h = $!solve.search-name($ctype);
 
     my Str $ctype = $*work-data<gnome-name>;
     my Str $prefix = $*work-data<name-prefix>;
@@ -247,7 +250,7 @@ method generate-test ( ) {
   my XML::Element $element = $!xpath.find('//union');
 
   $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
+  my Hash $h = $!solve.search-name($ctype);
 
 #  my Str $class = 'N-' ~ $h<gnome-name>;
 #  my Str $test-variable = '$' ~ $class.lc;

@@ -3,6 +3,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Test;
+use Gnome::SourceSkimTool::Resolve;
 
 use XML;
 use XML::XPath;
@@ -14,6 +15,7 @@ unit class Gnome::SourceSkimTool::Interface:auth<github:MARTIMM>;
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
 has Gnome::SourceSkimTool::Test $!tst;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 has XML::XPath $!xpath;
 
@@ -21,6 +23,7 @@ has XML::XPath $!xpath;
 submethod BUILD ( ) {
 
   $!mod .= new;
+  $!solve .= new;
 
   # load data for this module
   my Str $file = "$*work-data<gir-module-path>I-$*gnome-class.gir";
@@ -53,8 +56,8 @@ method generate-code ( ) {
 
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
-  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
-  my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameCodeType));
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameCodeType));
 #  my Str $fname = "$*work-data<result-mods>R-$*gnome-class.rakumod";
   $!mod.save-file( $fname, $code, "interface module");
 }
@@ -102,8 +105,8 @@ method generate-doc ( ) {
 
 #  note "Save pod doc";
 
-  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
-  my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameDocType));
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameDocType));
 #  my Str $fname = $*work-data<result-docs> ~ $*gnome-class ~ '.rakudoc';
   $!mod.save-file( $fname, $doc, "interface documentation");
 }
@@ -118,7 +121,7 @@ method generate-test ( ) {
   $!mod.add-import($*work-data<raku-class-name>);
 
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!mod.search-name($ctype);
+  my Hash $h = $!solve.search-name($ctype);
   my Str $code = $!tst.prepare-test($h<class-name>);
 
 #TODO generate a variable in a class using this interface
@@ -133,8 +136,8 @@ method generate-test ( ) {
   $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-  my Hash $h0 = $!mod.search-name($*work-data<gnome-name>);
-  my Str $fname = $!mod.set-object-name( $h0, :name-type(FilenameTestType));
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameTestType));
 #  my Str $fname = "$*work-data<result-tests>R-$*gnome-class.rakutest";
   $!mod.save-file( $fname, $code, "interface tests");
 }
