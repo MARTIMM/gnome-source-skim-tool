@@ -1,15 +1,15 @@
-# Package: Gtk4, C-Source: box
+=comment Package: Gtk4, C-Source: box
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::Box
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::Box
+
+![](images/box.png)
+
 =head1 Description
 
 The B<Gnome::Gtk4::Box> widget arranges child widgets into a single row or column.
@@ -17,9 +17,9 @@ The B<Gnome::Gtk4::Box> widget arranges child widgets into a single row or colum
 ![An example GtkBox](box.png)
 
 Whether it is a row or column depends on the value of its
-I<orientation defined in Orientable> property. Within the other
+I<orientation defined in Gnome::Gtk4::R-Orientable> property. Within the other
 dimension, all children are allocated the same size. Of course, the
-I<halign defined in Widget> and I<valign defined in Widget> properties
+I<halign defined in Gnome::Gtk4::Widget> and I<valign defined in Gnome::Gtk4::Widget> properties
 can be used on the children to influence their allocation.
 
 Use repeated calls to C<.append()> to pack widgets into a
@@ -37,22 +37,26 @@ placed between all children in the B<Gnome::Gtk4::Box>. Note that spacing is add
 Use C<.reorder-child-after()> to move a child to a different
 place in the box.
 
-=head1 CSS nodes
+=head2 CSS nodes
 
 B<Gnome::Gtk4::Box> uses a single CSS node with name box.
 
-=head1 Accessibility
+=head2 Accessibility
 
-B<Gnome::Gtk4::Box> uses the %GTK_ACCESSIBLE_ROLE_GROUP role.
+B<Gnome::Gtk4::Box> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::Box
+
 =end comment
 
 =end pod
@@ -72,7 +76,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =head3 :build-id
 
 Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
@@ -83,15 +86,22 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 new-box
 
 Creates a new B<Gnome::Gtk4::Box>.
+=begin comment
+
+=head2 Example
+# Example for new-box
+
+=end comment
 
 =begin code
-method new-box ( GtkOrientation $orientation, Int() $spacing --> Gnome::Gtk4::Box )
+method new-box ( GtkOrientation $orientation, Int() $spacing --> Gnome::Gtk4::Box \)
 =end code
 
-=item $orientation; the box’s orientation. An enumeration.
+=item $orientation; the box’s orientation.
 =item $spacing; the number of pixels to place by default between children.
 
 =end pod
@@ -106,104 +116,151 @@ method new-box ( GtkOrientation $orientation, Int() $spacing --> Gnome::Gtk4::Bo
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 append
 
 Adds C<$child> as the last child to C<$box>.
+=begin comment
+
+=head2 Example
+# Example for append
+
+=end comment
 
 =begin code
 method append ( N-Object() $child )
 =end code
 
-=item $child; the I<GtkWidget> to append.
+=item $child; the B<Gnome::Gtk4::Widget> to append.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-baseline-position
 
-Gets the value set by gtk_box_set_baseline_position().
+Gets the value set by C<.set-baseline-position()>.
+=begin comment
+
+=head2 Example
+# Example for get-baseline-position
+
+=end comment
 
 =begin code
 method get-baseline-position (--> GtkBaselinePosition )
 =end code
 
-
-Return value; the baseline position.  An enumeration.
-
+Return value; the baseline position. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-homogeneous
 
-Returns whether the box is homogeneous (all children are the same size).
+Returns whether the box is homogeneous (all children are the
+same size).
+=begin comment
+
+=head2 Example
+# Example for get-homogeneous
+
+=end comment
 
 =begin code
 method get-homogeneous (--> Bool )
 =end code
 
-
-Return value; %TRUE if the box is homogeneous.. 
-
+Return value; C<True> if the box is homogeneous.. 
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 get-spacing
 
-Gets the value set by gtk_box_set_spacing().
+Gets the value set by C<.set-spacing()>.
+=begin comment
+
+=head2 Example
+# Example for get-spacing
+
+=end comment
 
 =begin code
 method get-spacing (--> Int )
 =end code
 
-
 Return value; spacing between children. 
-
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 insert-child-after
 
-Inserts C<$child> in the position after C<$sibling> in the list of C<$box> children.
+Inserts C<$child> in the position after C<$sibling> in the list
+of C<$box> children.
 
 If C<$sibling> is undefined, insert C<$child> at the first position.
+=begin comment
+
+=head2 Example
+# Example for insert-child-after
+
+=end comment
 
 =begin code
 method insert-child-after ( N-Object() $child, N-Object() $sibling )
 =end code
 
-=item $child; the I<GtkWidget> to insert.
+=item $child; the B<Gnome::Gtk4::Widget> to insert.
 =item $sibling; the sibling after which to insert C<$child>.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 prepend
 
 Adds C<$child> as the first child to C<$box>.
+=begin comment
+
+=head2 Example
+# Example for prepend
+
+=end comment
 
 =begin code
 method prepend ( N-Object() $child )
 =end code
 
-=item $child; the I<GtkWidget> to prepend.
+=item $child; the B<Gnome::Gtk4::Widget> to prepend.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 remove
 
 Removes a child widget from C<$box>.
 
-The child must have been added before with C<.append()>, C<.insert-child-after()>, or C<.insert-child-after()>.
+The child must have been added before with
+C<.append()>, C<.prepend()>, or
+C<.insert-child-after()>.
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
 
 =begin code
 method remove ( N-Object() $child )
@@ -215,57 +272,90 @@ method remove ( N-Object() $child )
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 reorder-child-after
 
-Moves C<$child> to the position after C<$sibling> in the list of C<$box> children.
+Moves C<$child> to the position after C<$sibling> in the list
+of C<$box> children.
 
 If C<$sibling> is undefined, move C<$child> to the first position.
+=begin comment
+
+=head2 Example
+# Example for reorder-child-after
+
+=end comment
 
 =begin code
 method reorder-child-after ( N-Object() $child, N-Object() $sibling )
 =end code
 
-=item $child; the I<GtkWidget> to move, must be a child of C<$box>.
+=item $child; the B<Gnome::Gtk4::Widget> to move, must be a child of C<$box>.
 =item $sibling; the sibling to move C<$child> after.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-baseline-position
 
 Sets the baseline position of a box.
 
-This affects only horizontal boxes with at least one baseline aligned child. If there is more vertical space available than requested, and the baseline is not allocated by the parent then C<$position> is used to allocate the baseline with respect to the extra space available.
+This affects only horizontal boxes with at least one baseline
+aligned child. If there is more vertical space available than
+requested, and the baseline is not allocated by the parent then C<$position> is used to allocate the baseline with respect to the
+extra space available.
+=begin comment
+
+=head2 Example
+# Example for set-baseline-position
+
+=end comment
 
 =begin code
 method set-baseline-position ( GtkBaselinePosition $position )
 =end code
 
-=item $position; a I<GtkBaselinePosition>. An enumeration.
+=item $position; a C<enumeration GtkBaselinePosition defined in Gnome::Gtk4::T-Enums>.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-homogeneous
 
-Sets whether or not all children of C<$box> are given equal space in the box.
+Sets whether or not all children of C<$box> are given equal space
+in the box.
+=begin comment
+
+=head2 Example
+# Example for set-homogeneous
+
+=end comment
 
 =begin code
 method set-homogeneous ( Bool() $homogeneous )
 =end code
 
-=item $homogeneous; a boolean value, %TRUE to create equal allotments,
- %FALSE for variable allotments.
+=item $homogeneous; a boolean value, C<True> to create equal allotments,
+  C<False> for variable allotments.
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+
 =head2 set-spacing
 
 Sets the number of pixels to place between children of C<$box>.
+=begin comment
+
+=head2 Example
+# Example for set-spacing
+
+=end comment
 
 =begin code
 method set-spacing ( Int() $spacing )

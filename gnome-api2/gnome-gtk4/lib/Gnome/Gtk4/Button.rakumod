@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: button
+=comment Package: Gtk4, C-Source: button
 use v6.d;
 
 #-------------------------------------------------------------------------------

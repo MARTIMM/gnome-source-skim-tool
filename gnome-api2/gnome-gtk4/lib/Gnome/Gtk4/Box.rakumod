@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: box
+=comment Package: Gtk4, C-Source: box
 use v6.d;
 
 #-------------------------------------------------------------------------------
