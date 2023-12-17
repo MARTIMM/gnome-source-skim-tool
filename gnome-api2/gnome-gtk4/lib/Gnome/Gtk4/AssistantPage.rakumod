@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: assistant
+=comment Package: Gtk4, C-Source: assistant
 use v6.d;
 
 #-------------------------------------------------------------------------------

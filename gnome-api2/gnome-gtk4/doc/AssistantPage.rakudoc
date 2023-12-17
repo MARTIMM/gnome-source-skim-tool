@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: Assistant
+=comment Package: Gtk4, C-Source: assistant
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -10,24 +10,23 @@ use v6.d;
 
 ![](images/assistantpage.png)
 
-
 =head1 Description
 
 B<Gnome::Gtk4::AssistantPage> is an auxiliary object used by B<Gnome::Gtk4::Assistant>.
 
-
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
-=end comment
 
+=end comment
 
 =begin comment
-=head2 Example
-  … text …
-  … example code …
-=end comment
 
+=head2 Example
+# Example use of module Gnome::Gtk4::AssistantPage
+
+=end comment
 
 =end pod
 
@@ -46,7 +45,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -63,15 +61,18 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =head2 get-child
 
 Returns the child to which C<$page> belongs.
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
 
 =begin code
 method get-child (--> N-Object )
 =end code
 
-
 Return value; the child to which C<$page> belongs. 
 
-
 =end pod
-
 

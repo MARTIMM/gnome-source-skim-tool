@@ -1,4 +1,4 @@
-# Package: Gtk4, C-Source: assistant
+=comment Package: Gtk4, C-Source: assistant
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<cancel close escape apply>,
+      :w0<cancel apply escape close>,
       :w1<prepare>,
     );
     $signals-added = True;
