@@ -1,0 +1,384 @@
+=comment Package: Gtk4, C-Source: cellview
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CellView
+
+![](images/cellview.png)
+
+=head1 Description
+
+A widget displaying a single row of a GtkTreeModel
+
+A B<Gnome::Gtk4::CellView> displays a single row of a U<Gnome::Gtk4::R-TreeModel> using a B<Gnome::Gtk4::CellArea>
+and B<Gnome::Gtk4::CellAreaContext>. A B<Gnome::Gtk4::CellAreaContext> can be provided to the
+B<Gnome::Gtk4::CellView> at construction time in order to keep the cellview in context
+of a group of cell views, this ensures that the renderers displayed will
+be properly aligned with each other (like the aligned cells in the menus
+of B<Gnome::Gtk4::ComboBox>).
+
+B<Gnome::Gtk4::CellView> is U<Gnome::Gtk4::R-Orientable> in order to decide in which orientation
+the underlying B<Gnome::Gtk4::CellAreaContext> should be allocated. Taking the B<Gnome::Gtk4::ComboBox>
+menu as an example, cellviews should be oriented horizontally if the menus are
+listed top-to-bottom and thus all share the same width but may have separate
+individual heights (left-to-right menus should be allocated vertically since
+they all share the same height but may have variable widths).
+
+=head2 CSS nodes
+
+GtkCellView has a single CSS node with name cellview.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellView
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cellview
+
+Creates a new B<Gnome::Gtk4::CellView> widget.
+
+=begin code
+method new-cellview ( --> Gnome::Gtk4::CellView \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cellview
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-context
+
+Creates a new B<Gnome::Gtk4::CellView> widget with a specific B<Gnome::Gtk4::CellArea>
+to layout cells and a specific B<Gnome::Gtk4::CellAreaContext>.
+
+Specifying the same context for a handful of cells lets
+the underlying area synchronize the geometry for those cells,
+in this way alignments with cellviews for other rows are
+possible.
+
+=begin code
+method new-with-context ( N-Object() $area, N-Object() $context --> Gnome::Gtk4::CellView \)
+=end code
+
+=item $area; the B<Gnome::Gtk4::CellArea> to layout cells.
+=item $context; the B<Gnome::Gtk4::CellAreaContext> in which to calculate cell geometry.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-markup
+
+Creates a new B<Gnome::Gtk4::CellView> widget, adds a B<Gnome::Gtk4::CellRendererText>
+to it, and makes it show C<$markup>. The text can be marked up with
+the [Pango text markup language](https://docs.gtk.org/Pango/pango_markup.html).
+
+=begin code
+method new-with-markup ( Str $markup --> Gnome::Gtk4::CellView \)
+=end code
+
+=item $markup; the text to display in the cell view.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-markup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-text
+
+Creates a new B<Gnome::Gtk4::CellView> widget, adds a B<Gnome::Gtk4::CellRendererText>
+to it, and makes it show C<$text>.
+
+=begin code
+method new-with-text ( Str $text --> Gnome::Gtk4::CellView \)
+=end code
+
+=item $text; the text to display in the cell view.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-texture
+
+Creates a new B<Gnome::Gtk4::CellView> widget, adds a B<Gnome::Gtk4::CellRendererPixbuf>
+to it, and makes it show C<$texture>.
+
+=begin code
+method new-with-texture ( N-Object() $texture --> Gnome::Gtk4::CellView \)
+=end code
+
+=item $texture; the image to display in the cell view.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-texture
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-displayed-row
+
+Returns a U<Gnome::Gtk4::N-TreePath> referring to the currently
+displayed row. If no row is currently displayed,
+undefined is returned.
+
+=begin code
+method get-displayed-row (--> CArray[N-TreePath] )
+=end code
+
+Return value; the currently displayed row. 
+
+=begin comment
+
+=head2 Example
+# Example for get-displayed-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-draw-sensitive
+
+Gets whether C<$cell_view> is configured to draw all of its
+cells in a sensitive state.
+
+=begin code
+method get-draw-sensitive (--> Bool )
+=end code
+
+Return value; whether C<$cell_view> draws all of its
+cells in a sensitive state. 
+
+=begin comment
+
+=head2 Example
+# Example for get-draw-sensitive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-fit-model
+
+Gets whether C<$cell_view> is configured to request space
+to fit the entire U<Gnome::Gtk4::R-TreeModel>.
+
+=begin code
+method get-fit-model (--> Bool )
+=end code
+
+Return value; whether C<$cell_view> requests space to fit
+the entire U<Gnome::Gtk4::R-TreeModel>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-fit-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Returns the model for C<$cell_view>. If no model is used undefined is
+returned.
+
+=begin code
+method get-model (--> N-Object )
+=end code
+
+Return value; a U<Gnome::Gtk4::R-TreeModel> used. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-displayed-row
+
+Sets the row of the model that is currently displayed
+by the B<Gnome::Gtk4::CellView>. If the path is unset, then the
+contents of the cellview “stick” at their last value;
+this is not normally a desired result, but may be
+a needed intermediate state if say, the model for
+the B<Gnome::Gtk4::CellView> becomes temporarily empty.
+
+=begin code
+method set-displayed-row ( CArray[N-TreePath] $path )
+=end code
+
+=item $path; a U<Gnome::Gtk4::N-TreePath> or undefined to unset..
+
+=begin comment
+
+=head2 Example
+# Example for set-displayed-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-draw-sensitive
+
+Sets whether C<$cell_view> should draw all of its
+cells in a sensitive state, this is used by B<Gnome::Gtk4::ComboBox> menus
+to ensure that rows with insensitive cells that contain
+children appear sensitive in the parent menu item.
+
+=begin code
+method set-draw-sensitive ( Bool() $draw-sensitive )
+=end code
+
+=item $draw-sensitive; whether to draw all cells in a sensitive state..
+
+=begin comment
+
+=head2 Example
+# Example for set-draw-sensitive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-fit-model
+
+Sets whether C<$cell_view> should request space to fit the entire U<Gnome::Gtk4::R-TreeModel>.
+
+This is used by B<Gnome::Gtk4::ComboBox> to ensure that the cell view displayed on
+the combo box’s button always gets enough space and does not resize
+when selection changes.
+
+=begin code
+method set-fit-model ( Bool() $fit-model )
+=end code
+
+=item $fit-model; whether C<$cell_view> should request space for the whole model..
+
+=begin comment
+
+=head2 Example
+# Example for set-fit-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model for C<$cell_view>.  If C<$cell_view> already has a model
+set, it will remove it before setting the new model.  If C<$model> is
+undefined, then it will unset the old model.
+
+=begin code
+method set-model ( N-Object() $model )
+=end code
+
+=item $model; a U<Gnome::Gtk4::R-TreeModel>.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+

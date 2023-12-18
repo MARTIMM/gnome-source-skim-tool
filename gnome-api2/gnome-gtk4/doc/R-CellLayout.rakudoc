@@ -1,0 +1,403 @@
+=comment Package: Gtk4, C-Source: celllayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-CellLayout
+
+![](images/celllayout.png)
+
+=head1 Description
+
+An interface for packing cells
+
+U<Gnome::Gtk4::R-CellLayout> is an interface to be implemented by all objects which
+want to provide a B<Gnome::Gtk4::TreeViewColumn> like API for packing cells,
+setting attributes and data funcs.
+
+One of the notable features provided by implementations of
+U<Gnome::Gtk4::R-CellLayout> are attributes. Attributes let you set the properties
+in flexible ways. They can just be set to constant values like regular
+properties. But they can also be mapped to a column of the underlying
+tree model with C<.set-attributes()>, which means that the value
+of the attribute can change from cell to cell as they are rendered by
+the cell renderer. Finally, it is possible to specify a function with
+C<.set-cell-data-func()> that is called to determine the
+value of the attribute for each cell that is rendered.
+
+=head2 GtkCellLayouts as GtkBuildable
+
+Implementations of GtkCellLayout which also implement the GtkBuildable
+interface (B<Gnome::Gtk4::CellView>, B<Gnome::Gtk4::IconView>, B<Gnome::Gtk4::ComboBox>,
+B<Gnome::Gtk4::EntryCompletion>, B<Gnome::Gtk4::TreeViewColumn>) accept B<Gnome::Gtk4::CellRenderer> objects
+as B<<child>> elements in UI definitions. They support a custom B<<attributes>>
+element for their children, which can contain multiple B<<attribute>>
+elements. Each B<<attribute>> element has a name attribute which specifies
+a property of the cell renderer; the content of the element is the
+attribute value.
+
+This is an example of a UI definition fragment specifying attributes:
+
+=begin comment
+<object class="GtkCellView">
+  <child>
+    <object class="GtkCellRendererText"/>
+    <attributes>
+      <attribute name="text">0</attribute>
+    </attributes>
+  </child>
+</object>
+
+=end comment
+
+Furthermore for implementations of U<Gnome::Gtk4::R-CellLayout> that use a B<Gnome::Gtk4::CellArea>
+to lay out cells (all U<Gnome::Gtk4::R-CellLayout>s in GTK use a B<Gnome::Gtk4::CellArea>)
+[cell properties](class.CellArea.html#cell-properties) can also be defined
+in the format by specifying the custom B<<cell-packing>> attribute which can
+contain multiple B<<property>> elements.
+
+Here is a UI definition fragment specifying cell properties:
+
+=begin comment
+<object class="GtkTreeViewColumn">
+  <child>
+    <object class="GtkCellRendererText"/>
+    <cell-packing>
+      <property name="align">True</property>
+      <property name="expand">False</property>
+    </cell-packing>
+  </child>
+</object>
+
+=end comment
+
+=head2 Subclassing GtkCellLayout implementations
+
+When subclassing a widget that implements U<Gnome::Gtk4::R-CellLayout> like
+B<Gnome::Gtk4::IconView> or B<Gnome::Gtk4::ComboBox>, there are some considerations related
+to the fact that these widgets internally use a B<Gnome::Gtk4::CellArea>.
+The cell area is exposed as a construct-only property by these
+widgets. This means that it is possible to e.g. do
+
+=begin comment
+GtkWIdget *combo =
+  g_object_new (GTK_TYPE_COMBO_BOX, "cell-area", my_cell_area, NULL);
+
+=end comment
+
+to use a custom cell area with a combo box. But construct properties
+are only initialized after instance B<init()>
+functions have run, which means that using functions which rely on
+the existence of the cell area in your subclass B<init()> function will
+cause the default cell area to be instantiated. In this case, a provided
+construct property value will be ignored (with a warning, to alert
+you to the problem).
+
+=begin comment
+static void
+my_combo_box_init (MyComboBox *b)
+{
+  GtkCellRenderer *cell;
+
+  cell = gtk_cell_renderer_pixbuf_new ();
+
+  // The following call causes the default cell area for combo boxes,
+  // a GtkCellAreaBox, to be instantiated
+  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (b), cell, FALSE);
+  ...
+}
+
+GtkWidget *
+my_combo_box_new (GtkCellArea *area)
+{
+  // This call is going to cause a warning about area being ignored
+  return g_object_new (MY_TYPE_COMBO_BOX, "cell-area", area, NULL);
+}
+
+=end comment
+
+If supporting alternative cell areas with your derived widget is
+not important, then this does not have to concern you. If you want
+to support alternative cell areas, you can do so by moving the
+problematic calls out of B<init()> and into a B<constructor()>
+for your class.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellLayout
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-attribute
+
+Adds an attribute mapping to the list in C<$cell_layout>.
+
+The C<$column> is the column of the model to get a value from, and the C<$attribute> is the property on C<$cell> to be set from that value. So for
+example if column 2 of the model contains strings, you could have the
+“text” attribute of a B<Gnome::Gtk4::CellRendererText> get its values from column 2.
+In this context "attribute" and "property" are used interchangeably.
+
+=begin code
+method add-attribute ( N-Object() $cell, Str $attribute, Int() $column )
+=end code
+
+=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $attribute; a property on the renderer.
+=item $column; the column position on the model to get the attribute from.
+
+=begin comment
+
+=head2 Example
+# Example for add-attribute
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear
+
+Unsets all the mappings on all renderers on C<$cell_layout> and
+removes all renderers from C<$cell_layout>.
+
+=begin code
+method clear ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for clear
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-attributes
+
+Clears all existing attributes previously set with
+C<.set-attributes()>.
+
+=begin code
+method clear-attributes ( N-Object() $cell )
+=end code
+
+=item $cell; a B<Gnome::Gtk4::CellRenderer> to clear the attribute mapping on.
+
+=begin comment
+
+=head2 Example
+# Example for clear-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-area
+
+Returns the underlying B<Gnome::Gtk4::CellArea> which might be C<$cell_layout>
+if called on a B<Gnome::Gtk4::CellArea> or might be undefined if no B<Gnome::Gtk4::CellArea>
+is used by C<$cell_layout>.
+
+=begin code
+method get-area (--> N-Object )
+=end code
+
+Return value; the cell area used by C<$cell_layout>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-area
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cells
+
+Returns the cell renderers which have been added to C<$cell_layout>.
+
+=begin code
+method get-cells (--> N-List )
+=end code
+
+Return value; 
+  a list of cell renderers. The list, but not the renderers has
+  been newly allocated and should be freed with g_list_free()
+  when no longer needed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-cells
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-end
+
+Adds the C<$cell> to the end of C<$cell_layout>. If C<$expand> is C<False>, then the C<$cell> is allocated no more space than it needs. Any unused space is
+divided evenly between cells for which C<$expand> is C<True>.
+
+Note that reusing the same cell renderer is not supported.
+
+=begin code
+method pack-end ( N-Object() $cell, Bool() $expand )
+=end code
+
+=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $expand; C<True> if C<$cell> is to be given extra space allocated to C<$cell_layout>.
+
+=begin comment
+
+=head2 Example
+# Example for pack-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-start
+
+Packs the C<$cell> into the beginning of C<$cell_layout>. If C<$expand> is C<False>,
+then the C<$cell> is allocated no more space than it needs. Any unused space
+is divided evenly between cells for which C<$expand> is C<True>.
+
+Note that reusing the same cell renderer is not supported.
+
+=begin code
+method pack-start ( N-Object() $cell, Bool() $expand )
+=end code
+
+=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $expand; C<True> if C<$cell> is to be given extra space allocated to C<$cell_layout>.
+
+=begin comment
+
+=head2 Example
+# Example for pack-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 reorder
+
+Re-inserts C<$cell> at C<$position>.
+
+Note that C<$cell> has already to be packed into C<$cell_layout>
+for this to function properly.
+
+=begin code
+method reorder ( N-Object() $cell, Int() $position )
+=end code
+
+=item $cell; a B<Gnome::Gtk4::CellRenderer> to reorder.
+=item $position; new position to insert C<$cell> at.
+
+=begin comment
+
+=head2 Example
+# Example for reorder
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-attributes
+This function is not yet available
+
+Sets the attributes in the parameter list as the attributes
+of C<$cell_layout>.
+
+See C<.add-attribute()> for more details.
+
+The attributes should be in attribute/column order, as in
+C<.add-attribute()>. All existing attributes are
+removed, and replaced with the new attributes.
+
+=begin code
+method set-attributes ( N-Object() $cell, … )
+=end code
+
+=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cell-data-func
+This function is not yet available
+
+Sets the U<Gnome::Gtk4::R-CellLayout>DataFunc to use for C<$cell_layout>.
+
+This function is used instead of the standard attributes mapping
+for setting the column value, and should set the value of C<$cell_layout>’s
+cell renderer(s) as appropriate.
+ C<$func> may be undefined to remove a previously set function.
+
+=begin code
+method set-cell-data-func ( N-Object() $cell, &func, gpointer $func-data, … )
+=end code
+
+=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item &func; the U<Gnome::Gtk4::R-CellLayout>DataFunc to use. Tthe function must be specified with following signature; C<:( N-Object $cell-layout, N-Object $cell, N-Object $tree-model, N-TreeIter $iter, gpointer $data )>.
+=item $func-data; user data for C<$func>.
+=item destroy; destroy notify for C<$func_data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-cell-data-func
+
+=end comment
+
+=end pod
+
