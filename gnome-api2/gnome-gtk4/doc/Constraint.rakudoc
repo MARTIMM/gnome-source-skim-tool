@@ -1,0 +1,370 @@
+=comment Package: Gtk4, C-Source: constraint
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Constraint
+
+![](images/constraint.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Constraint> describes a constraint between attributes of two widgets,
+ expressed as a linear equation.
+
+The typical equation for a constraint is:
+
+=begin comment
+  target.target_attr = source.source_attr × multiplier + constant
+
+=end comment
+
+Each B<Gnome::Gtk4::Constraint> is part of a system that will be solved by a
+B<Gnome::Gtk4::ConstraintLayout> in order to allocate and position each
+child widget or guide.
+
+The source and target, as well as their attributes, of a B<Gnome::Gtk4::Constraint>
+instance are immutable after creation.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Constraint
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-constraint
+
+Creates a new constraint representing a relation between a layout
+attribute on a source and a layout attribute on a target.
+
+=begin code
+method new-constraint ( gpointer $target, GtkConstraintAttribute $target-attribute, GtkConstraintRelation $relation, gpointer $source, GtkConstraintAttribute $source-attribute, Num() $multiplier, Num() $constant, Int() $strength --> Gnome::Gtk4::Constraint \)
+=end code
+
+=item $target; the target of the constraint.
+=item $target-attribute; the attribute of B<target> to be set.
+=item $relation; the relation equivalence between B<target_attribute> and B<source_attribute>.
+=item $source; the source of the constraint.
+=item $source-attribute; the attribute of B<source> to be read.
+=item $multiplier; a multiplication factor to be applied to B<source_attribute>.
+=item $constant; a constant factor to be added to B<source_attribute>.
+=item $strength; the strength of the constraint.
+
+=begin comment
+
+=head2 Example
+# Example for new-constraint
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-constant
+
+Creates a new constraint representing a relation between a layout
+attribute on a target and a constant value.
+
+=begin code
+method new-constant ( gpointer $target, GtkConstraintAttribute $target-attribute, GtkConstraintRelation $relation, Num() $constant, Int() $strength --> Gnome::Gtk4::Constraint \)
+=end code
+
+=item $target; a the target of the constraint.
+=item $target-attribute; the attribute of B<target> to be set.
+=item $relation; the relation equivalence between B<target_attribute> and B<constant>.
+=item $constant; a constant factor to be set on B<target_attribute>.
+=item $strength; the strength of the constraint.
+
+=begin comment
+
+=head2 Example
+# Example for new-constant
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-constant
+
+Retrieves the constant factor added to the source attributes' value.
+
+=begin code
+method get-constant (--> Num )
+=end code
+
+Return value; a constant factor. 
+
+=begin comment
+
+=head2 Example
+# Example for get-constant
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-multiplier
+
+Retrieves the multiplication factor applied to the source
+attribute's value.
+
+=begin code
+method get-multiplier (--> Num )
+=end code
+
+Return value; a multiplication factor. 
+
+=begin comment
+
+=head2 Example
+# Example for get-multiplier
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-relation
+
+The order relation between the terms of the constraint.
+
+=begin code
+method get-relation (--> GtkConstraintRelation )
+=end code
+
+Return value; a relation type. 
+
+=begin comment
+
+=head2 Example
+# Example for get-relation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-source
+
+Retrieves the B<Gnome::Gtk4::R-ConstraintTarget> used as the source for the
+constraint.
+
+If the source is set to undefined at creation, the constraint will use
+the widget using the B<Gnome::Gtk4::ConstraintLayout> as the source.
+
+=begin code
+method get-source (--> N-Object )
+=end code
+
+Return value; the source of the constraint. 
+
+=begin comment
+
+=head2 Example
+# Example for get-source
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-source-attribute
+
+Retrieves the attribute of the source to be read by the constraint.
+
+=begin code
+method get-source-attribute (--> GtkConstraintAttribute )
+=end code
+
+Return value; the source's attribute. 
+
+=begin comment
+
+=head2 Example
+# Example for get-source-attribute
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-strength
+
+Retrieves the strength of the constraint.
+
+=begin code
+method get-strength (--> Int )
+=end code
+
+Return value; the strength value. 
+
+=begin comment
+
+=head2 Example
+# Example for get-strength
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-target
+
+Retrieves the B<Gnome::Gtk4::R-ConstraintTarget> used as the target for
+the constraint.
+
+If the targe is set to undefined at creation, the constraint will use
+the widget using the B<Gnome::Gtk4::ConstraintLayout> as the target.
+
+=begin code
+method get-target (--> N-Object )
+=end code
+
+Return value; a U<Gnome::Gtk4::R-ConstraintTarget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-target
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-target-attribute
+
+Retrieves the attribute of the target to be set by the constraint.
+
+=begin code
+method get-target-attribute (--> GtkConstraintAttribute )
+=end code
+
+Return value; the target's attribute. 
+
+=begin comment
+
+=head2 Example
+# Example for get-target-attribute
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-attached
+
+Checks whether the constraint is attached to a B<Gnome::Gtk4::ConstraintLayout>,
+and it is contributing to the layout.
+
+=begin code
+method is-attached (--> Bool )
+=end code
+
+Return value; C<True> if the constraint is attached. 
+
+=begin comment
+
+=head2 Example
+# Example for is-attached
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-constant
+
+Checks whether the constraint describes a relation between an attribute
+on the I<target> and a constant value.
+
+=begin code
+method is-constant (--> Bool )
+=end code
+
+Return value; C<True> if the constraint is a constant relation. 
+
+=begin comment
+
+=head2 Example
+# Example for is-constant
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-required
+
+Checks whether the constraint is a required relation for solving the
+constraint layout.
+
+=begin code
+method is-required (--> Bool )
+=end code
+
+Return value; C<True> if the constraint is required. 
+
+=begin comment
+
+=head2 Example
+# Example for is-required
+
+=end comment
+
+=end pod
+
