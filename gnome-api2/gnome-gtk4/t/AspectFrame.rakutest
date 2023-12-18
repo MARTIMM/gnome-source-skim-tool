@@ -1,0 +1,190 @@
+=comment Package: Gtk4, C-Source: aspectframe
+use v6.d;
+
+#TL:1:Gnome::Gtk4::AspectFrame:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+use Gnome::Gtk4::AspectFrame:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::AspectFrame $aspectframe;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $aspectframe {
+    my Num() $xalign;
+    my Num() $yalign;
+    my Num() $ratio;
+    my gboolean $obey-child;
+
+    #TC:1:new-aspectframe()
+    $xalign = 0.1;
+    $yalign = 0.2;
+    $ratio = 0.8;
+    $obey-child = False;
+    $aspectframe .= new-aspectframe( $xalign, $yalign, $ratio, $obey-child);
+    ok .is-valid, '.new-aspectframe( $xalign, $yalign, $ratio, $obey-child)';
+note 'xalign: ', .get-xalign;
+note 'yalign: ', .get-yalign;
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $aspectframe {
+    my gboolean $obey-child;
+    my num32 $xalign;
+    my num32 $yalign;
+    my num32 $ratio;
+    my N-Object $child;
+
+#`{{
+    #TM:0:set-child()
+    $child = …;
+    .set-child( $child);
+    #TM:0:get-child()
+    is .get-child(),  $child, '.set-child() / .get-child()';
+
+    #TM:0:set-obey-child()
+    $obey-child = '…';
+    .set-obey-child( $obey-child);
+    #TM:0:get-obey-child()
+    is .get-obey-child(),  $obey-child, '.set-obey-child() / .get-obey-child()';
+
+    #TM:1:set-ratio()
+    $ratio = 1.0.Num;
+    .set-ratio($ratio);
+    #TM:1:get-ratio()
+    is-approx .get-ratio(), $ratio, '.set-ratio() / .get-ratio()';
+}}
+
+    #TM:1:set-xalign()
+    $xalign = 0.6.Num;
+    .set-xalign($xalign);
+#note 'xalign: ', .get-xalign;
+#note 'yalign: ', .get-yalign;
+    #TM:1:get-xalign()
+    is-approx .get-xalign(), $xalign, '.set-xalign() / .get-xalign()';
+
+    #TM:1:set-yalign()
+    $yalign = 0.4.Num;
+    .set-yalign($yalign);
+#note 'xalign: ', .get-xalign;
+#note 'yalign: ', .get-yalign;
+# Bug in version gtk 4.9.4
+#    #TM:0:get-yalign()
+#    is-approx .get-yalign(), $yalign, '.set-yalign() / .get-yalign()';
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $aspectframe {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::AspectFrame() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::AspectFrame;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::AspectFrame :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::AspectFrame $aspectframe .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $aspectframe.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
