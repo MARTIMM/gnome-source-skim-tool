@@ -549,6 +549,7 @@ multi method native-parameters (
   }
 
   $native-args.push: gpointer.new if $variable-list;
+#note "$?LINE {$native-args>>.gist()}";
 
   $native-args
 }
@@ -785,7 +786,7 @@ method !convert-args ( Mu $v, $p ) {
 multi method convert-return ( $v, Hash $routine ) {
   my $c;
   my $p = $routine<returns>;
-#note "$?LINE p = {$p.^name}, $p.gist()";
+#note "$?LINE p = {$p.^name}, $p.gist(), $v.gist()";
   # Use 'given' because $p is a type and is always undefined
   given $p {
     when GEnum {
