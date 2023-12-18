@@ -1,0 +1,541 @@
+=comment Package: Gtk4, C-Source: calendar
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Calendar
+
+![](images/calendar.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Calendar> is a widget that displays a Gregorian calendar, one month
+at a time.
+
+![An example GtkCalendar](calendar.png)
+
+A B<Gnome::Gtk4::Calendar> can be created with C<.newcalendar()>.
+
+The date that is currently displayed can be altered with
+C<.select-day()>.
+
+To place a visual marker on a particular day, use
+C<.mark-day()> and to remove the marker,
+C<.unmark-day()>. Alternative, all
+marks can be cleared with C<.clear-marks()>.
+
+The selected date can be retrieved from a B<Gnome::Gtk4::Calendar> using
+C<.get-date()>.
+
+Users should be aware that, although the Gregorian calendar is the
+legal calendar in most countries, it was adopted progressively
+between 1582 and 1929. Display before these dates is likely to be
+historically incorrect.
+
+=head2 CSS nodes
+
+=begin comment
+calendar.view
+├── header
+│   ├── button
+│   ├── stack.month
+│   ├── button
+│   ├── button
+│   ├── label.year
+│   ╰── button
+╰── grid
+    ╰── label[.day-name][.week-number][.day-number][.other-month][.today]
+
+=end comment
+
+B<Gnome::Gtk4::Calendar> has a main node with name calendar. It contains a subnode
+called header containing the widgets for switching between years and months.
+
+The grid subnode contains all day labels, including week numbers on the left
+(marked with the .week-number css class) and day names on top (marked with the
+.day-name css class).
+
+Day labels that belong to the previous or next month get the .other-month
+style class. The label of the current day get the .today style class.
+
+Marked day labels get the :selected state assigned.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Calendar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-calendar
+
+Creates a new calendar, with the current date being selected.
+
+=begin code
+method new-calendar ( --> Gnome::Gtk4::Calendar \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-calendar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-marks
+
+Remove all visual markers.
+
+=begin code
+method clear-marks ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for clear-marks
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-date
+This function is not yet available
+
+Returns a U<Gnome::Glib::N-DateTime> representing the shown
+year, month and the selected day.
+
+The returned date is in the local time zone.
+
+=begin code
+method get-date (--> CArray[N-DateTime]  )
+=end code
+
+Return value; the U<Gnome::Glib::N-Date> representing the shown date. 
+
+=begin comment
+
+=head2 Example
+# Example for get-date
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-day-is-marked
+
+Returns if the C<$day> of the C<$calendar> is already marked.
+
+=begin code
+method get-day-is-marked ( UInt() $day --> Bool )
+=end code
+
+=item $day; the day number between 1 and 31..
+
+Return value; whether the day is marked.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-day-is-marked
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-day-names
+
+Returns whether C<$self> is currently showing the names
+of the week days.
+
+This is the value of the I<show-day-names>
+property.
+
+=begin code
+method get-show-day-names (--> Bool )
+=end code
+
+Return value; Whether the calendar shows day names.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-day-names
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-heading
+
+Returns whether C<$self> is currently showing the heading.
+
+This is the value of the I<show-heading>
+property.
+
+=begin code
+method get-show-heading (--> Bool )
+=end code
+
+Return value; Whether the calendar is showing a heading.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-heading
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-week-numbers
+
+Returns whether C<$self> is showing week numbers right
+now.
+
+This is the value of the I<show-week-numbers>
+property.
+
+=begin code
+method get-show-week-numbers (--> Bool )
+=end code
+
+Return value; Whether the calendar is showing week numbers.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-week-numbers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 mark-day
+
+Places a visual marker on a particular day.
+
+=begin code
+method mark-day ( UInt() $day )
+=end code
+
+=item $day; the day number to mark between 1 and 31..
+
+=begin comment
+
+=head2 Example
+# Example for mark-day
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-day
+This function is not yet available
+
+Switches to C<$date>'s year and month and select its day.
+
+=begin code
+method select-day ( CArray[N-DateTime]  $date )
+=end code
+
+=item $date; a U<Gnome::Glib::N-DateTime> representing the day to select.
+
+=begin comment
+
+=head2 Example
+# Example for select-day
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-day-names
+
+Sets whether the calendar shows day names.
+
+=begin code
+method set-show-day-names ( Bool() $value )
+=end code
+
+=item $value; Whether to show day names above the day numbers.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-day-names
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-heading
+
+Sets whether the calendar should show a heading.
+
+The heading contains the current year and month as well as
+buttons for changing both.
+
+=begin code
+method set-show-heading ( Bool() $value )
+=end code
+
+=item $value; Whether to show the heading in the calendar.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-heading
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-week-numbers
+
+Sets whether week numbers are shown in the calendar.
+
+=begin code
+method set-show-week-numbers ( Bool() $value )
+=end code
+
+=item $value; whether to show week numbers on the left of the days.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-week-numbers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unmark-day
+
+Removes the visual marker from a particular day.
+
+=begin code
+method unmark-day ( UInt() $day )
+=end code
+
+=item $day; the day number to unmark between 1 and 31..
+
+=begin comment
+
+=head2 Example
+# Example for unmark-day
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 day-selected
+
+Emitted when the user selects a day.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Calendar :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Calendar> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal day-selected
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 next-month
+
+Emitted when the user switched to the next month.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Calendar :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Calendar> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal next-month
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 next-year
+
+Emitted when user switched to the next year.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Calendar :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Calendar> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal next-year
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 prev-month
+
+Emitted when the user switched to the previous month.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Calendar :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Calendar> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal prev-month
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 prev-year
+
+Emitted when user switched to the previous year.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Calendar :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Calendar> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal prev-year
+
+=end comment
+
+=end pod
+
