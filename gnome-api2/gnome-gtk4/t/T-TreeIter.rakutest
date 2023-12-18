@@ -1,0 +1,64 @@
+=comment Package: Gtk4, C-Source: treemodel
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-TreeIter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-TreeIter:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkTreeModelFlags
+subtest 'GtkTreeModelFlags', {
+  is GTK_TREE_MODEL_ITERS_PERSIST.value, 1, 'bitfield GTK_TREE_MODEL_ITERS_PERSIST = 1';
+
+  is GTK_TREE_MODEL_LIST_ONLY.value, 2, 'bitfield GTK_TREE_MODEL_LIST_ONLY = 2';
+
+};
+
+
+my Gnome::Gtk4::T-TreeIter $treemodel .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $treemodel {
+    my N-Object $proxy;
+    my N-TreeIter $iter;
+    my gint-ptr $new-order;
+    my N-TreePath $path;
+
+
+#`{{
+    #TM:0:tree-row-reference-deleted()
+    ok .tree-row-reference-deleted( $proxy, $path), '.tree-row-reference-deleted()';
+
+    #TM:0:tree-row-reference-inserted()
+    ok .tree-row-reference-inserted( $proxy, $path), '.tree-row-reference-inserted()';
+
+    #TM:0:tree-row-reference-reordered()
+    ok .tree-row-reference-reordered( $proxy, $path, $iter, $new-order), '.tree-row-reference-reordered()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

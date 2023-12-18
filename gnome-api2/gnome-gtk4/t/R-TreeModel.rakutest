@@ -1,0 +1,224 @@
+=comment Package: Gtk4, C-Source: treemodel
+use v6.d;
+
+#TL:1:Gnome::Gtk4::R-TreeModel:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+# load test
+use Test;
+use Gnome::Gtk4::R-TreeModel:api<2>;
+done-testing;
+exit;
+
+=finish
+
+use Test;
+use NativeCall;
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-TreeIter:api<2>;
+#use Gnome::Gtk4::TreeModel:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $treemodel {
+    my gint $index;
+    my Str $path-string;
+    my  $var-args;
+    my N-TreeIter $child;
+    my gint $n;
+    my N-Value $value;
+    my gint $length;
+    my gint-ptr $new-order;
+    my N-TreePath $root;
+    my N-TreeIter $iter;
+    my N-TreePath $path;
+    my N-TreeIter $parent;
+    my gint $column;
+    my gpointer $user-data;
+    sub func ( N-Object $model, N-TreePath $path, N-TreeIter $iter, gpointer $data --> gboolean ) {}
+
+
+#`{{
+    #TM:0:filter-new()
+    ok .filter-new( $root), '.filter-new()';
+
+    #TM:0:foreach()
+    ok .foreach( $func, $user-data), '.foreach()';
+
+    #TM:0:get()
+    is .get( $iter), '…', '.get()';
+
+    #TM:0:get-column-type()
+    is .get-column-type( $index), '…', '.get-column-type()';
+
+    #TM:0:get-flags()
+     .get-flags(), '…', '.get-flags()';
+
+    #TM:0:get-iter()
+    is .get-iter( $iter, $path), '…', '.get-iter()';
+
+    #TM:0:get-iter-first()
+    is .get-iter-first( $iter), '…', '.get-iter-first()';
+
+    #TM:0:get-iter-from-string()
+    is .get-iter-from-string( $iter, $path-string), '…', '.get-iter-from-string()';
+
+    #TM:0:get-n-columns()
+     .get-n-columns(), '…', '.get-n-columns()';
+
+    #TM:0:get-path()
+    is .get-path( $iter), '…', '.get-path()';
+
+    #TM:0:get-string-from-iter()
+    is .get-string-from-iter( $iter), '…', '.get-string-from-iter()';
+
+    #TM:0:get-valist()
+    is .get-valist( $iter, $var-args), '…', '.get-valist()';
+
+    #TM:0:get-value()
+    is .get-value( $iter, $column, $value), '…', '.get-value()';
+
+    #TM:0:iter-children()
+    ok .iter-children( $iter, $parent), '.iter-children()';
+
+    #TM:0:iter-has-child()
+    ok .iter-has-child( $iter), '.iter-has-child()';
+
+    #TM:0:iter-n-children()
+    ok .iter-n-children( $iter), '.iter-n-children()';
+
+    #TM:0:iter-next()
+    ok .iter-next( $iter), '.iter-next()';
+
+    #TM:0:iter-nth-child()
+    ok .iter-nth-child( $iter, $parent, $n), '.iter-nth-child()';
+
+    #TM:0:iter-parent()
+    ok .iter-parent( $iter, $child), '.iter-parent()';
+
+    #TM:0:iter-previous()
+    ok .iter-previous( $iter), '.iter-previous()';
+
+    #TM:0:ref-node()
+    ok .ref-node( $iter), '.ref-node()';
+
+    #TM:0:row-changed()
+    ok .row-changed( $path, $iter), '.row-changed()';
+
+    #TM:0:row-deleted()
+    ok .row-deleted( $path), '.row-deleted()';
+
+    #TM:0:row-has-child-toggled()
+    ok .row-has-child-toggled( $path, $iter), '.row-has-child-toggled()';
+
+    #TM:0:row-inserted()
+    ok .row-inserted( $path, $iter), '.row-inserted()';
+
+    #TM:0:rows-reordered()
+    ok .rows-reordered( $path, $iter, $new-order), '.rows-reordered()';
+
+    #TM:0:rows-reordered-with-length()
+    ok .rows-reordered-with-length( $path, $iter, $new-order, $length), '.rows-reordered-with-length()';
+
+    #TM:0:unref-node()
+    ok .unref-node( $iter), '.unref-node()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::TreeModel() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::TreeModel;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::TreeModel :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::TreeModel $treemodel .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $treemodel.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

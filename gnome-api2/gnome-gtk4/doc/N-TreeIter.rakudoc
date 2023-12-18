@@ -1,0 +1,130 @@
+=comment Package: Gtk4, C-Source: treemodel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::N-TreeIter
+
+![](images/treeiter.png)
+
+=head1 Description
+
+The U<Gnome::Gtk4::N-TreeIter> is the primary structure
+for accessing a U<Gnome::Gtk4::R-TreeModel>. Models are expected to put a unique
+integer in the C<$stamp> member, and put
+model-specific data in the three C<$user_data>
+members.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TreeIter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-TreeIter
+
+  class N-TreeIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gint $.stamp;
+    has gpointer $.user-data;
+    has gpointer $.user-data2;
+    has gpointer $.user-data3;
+  }
+
+=item stamp; a unique stamp to catch invalid iterators
+=item user-data; model-specific data
+=item user-data2; model-specific data
+=item user-data3; model-specific data
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Creates a dynamically allocated tree iterator as a copy of C<$iter>.
+
+This function is not intended for use in applications,
+because you can just copy the structs by value
+(B<GtkTreeIter new_iter = iter;>).
+You must free this iter with C<.free()>.
+
+=begin code
+method copy (--> CArray[N-TreeIter] )
+=end code
+
+Return value; a newly-allocated copy of C<$iter>. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees an iterator that has been allocated by C<.copy()>.
+
+This function is mainly used for language bindings.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+

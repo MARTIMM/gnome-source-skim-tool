@@ -1,0 +1,144 @@
+=comment Package: Gtk4, C-Source: treemodel
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-TreeIter
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GtkTreeModelFlags
+
+These flags indicate various properties of a U<Gnome::Gtk4::R-TreeModel>.
+
+They are returned by C<.get-flags() in class Gnome::Gtk4::R-TreeModel>, and must be
+static for the lifetime of the object. A more complete description
+of C<GTK_TREE_MODEL_ITERS_PERSIST> can be found in the overview of
+this section.
+
+=item C<GTK_TREE_MODEL_ITERS_PERSIST>; iterators survive all signals
+  emitted by the tree
+=item C<GTK_TREE_MODEL_LIST_ONLY>; the model is a list only, and never
+  has children
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 TreeModelForeachFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $model, CArray[N-TreePath] $path, CArray[N-TreeIter] $iter, gpointer $data  )
+=end code
+
+=item model; the U<Gnome::Gtk4::R-TreeModel> being iterated
+=item path; the current U<Gnome::Gtk4::N-TreePath>
+=item iter; the current U<Gnome::Gtk4::N-TreeIter>
+=item data; The user data passed to gtk_tree_model_foreach()
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 tree-row-reference-deleted
+
+Lets a set of row reference created by
+gtk_tree_row_reference_new_proxy() know that the
+model emitted the I<row-deleted> signal.
+
+=begin code
+method tree-row-reference-deleted ( N-Object() $proxy, CArray[N-TreePath] $path )
+=end code
+
+=item $proxy; a B<Gnome::GObject::Object>.
+=item $path; the path position that was deleted.
+
+=begin comment
+
+=head2 Example
+# Example for tree-row-reference-deleted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 tree-row-reference-inserted
+
+Lets a set of row reference created by
+gtk_tree_row_reference_new_proxy() know that the
+model emitted the I<row-inserted> signal.
+
+=begin code
+method tree-row-reference-inserted ( N-Object() $proxy, CArray[N-TreePath] $path )
+=end code
+
+=item $proxy; a B<Gnome::GObject::Object>.
+=item $path; the row position that was inserted.
+
+=begin comment
+
+=head2 Example
+# Example for tree-row-reference-inserted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 tree-row-reference-reordered
+
+Lets a set of row reference created by
+gtk_tree_row_reference_new_proxy() know that the
+model emitted the I<rows-reordered> signal.
+
+=begin code
+method tree-row-reference-reordered ( N-Object() $proxy, CArray[N-TreePath] $path, CArray[N-TreeIter] $iter, Array[Int] $new-order )
+=end code
+
+=item $proxy; a B<Gnome::GObject::Object>.
+=item $path; the parent path of the reordered signal.
+=item $iter; the iter pointing to the parent of the reordered.
+=item $new-order; the new order of rows.
+
+=begin comment
+
+=head2 Example
+# Example for tree-row-reference-reordered
+
+=end comment
+
+=end pod
+

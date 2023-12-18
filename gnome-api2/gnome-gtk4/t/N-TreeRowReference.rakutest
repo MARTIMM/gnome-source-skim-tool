@@ -1,0 +1,117 @@
+=comment Package: Gtk4, C-Source: treemodel
+use v6.d;
+
+#TL:1:Gnome::Gtk4::N-TreeRowReference:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::N-TreeRowReference:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-TreeRowReference $treerowreference;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $treerowreference {
+    my N-Object() $proxy;
+    my N-Object() $model;
+    my CArray[N-TreePath] $path;
+
+#`{{
+    #TC:0:new-treerowreference()
+    $model = …;
+    $path = '…';
+    $treerowreference .= new-treerowreference( $model, $path);
+    ok .is-valid, '.new-treerowreference( $model, $path)';
+
+    #TC:0:new-proxy()
+    $proxy = …;
+    $model = …;
+    $path = '…';
+    $treerowreference .= new-proxy( $proxy, $model, $path);
+    ok .is-valid, '.new-proxy( $proxy, $model, $path)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $treerowreference {
+
+
+#`{{
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-model()
+     .get-model(), '…', '.get-model()';
+
+    #TM:0:get-path()
+     .get-path(), '…', '.get-path()';
+
+    #TM:0:valid()
+    ok .valid(), '.valid()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $treerowreference {
+    my CArray[N-TreePath] $path;
+    my Array[Int] $new-order;
+    my N-Object() $proxy;
+    my CArray[N-TreeIter] $iter;
+
+
+#`{{
+    #TM:0:deleted()
+    ok .deleted( $proxy, $path), '.deleted()';
+
+    #TM:0:inserted()
+    ok .inserted( $proxy, $path), '.inserted()';
+
+    #TM:0:reordered()
+    ok .reordered( $proxy, $path, $iter, $new-order), '.reordered()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

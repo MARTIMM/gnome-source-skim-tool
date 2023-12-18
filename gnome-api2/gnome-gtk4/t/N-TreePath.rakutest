@@ -1,0 +1,151 @@
+=comment Package: Gtk4, C-Source: treemodel
+use v6.d;
+
+#TL:1:Gnome::Gtk4::N-TreePath:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-TreePath $treepath;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $treepath {
+    my Array[Int] $indices;
+    my Int() $length;
+    my Str $path;
+    my Int() $first-index;
+
+#`{{
+    #TC:0:new-treepath()
+
+    $treepath .= new-treepath();
+    ok .is-valid, '.new-treepath()';
+
+    #TC:0:new-first()
+
+    $treepath .= new-first();
+    ok .is-valid, '.new-first()';
+
+    #TC:0:new-from-indices()
+    $first-index = -42;
+    $treepath .= new-from-indices( $first-index);
+    ok .is-valid, '.new-from-indices( $first-index)';
+
+    #TC:0:new-from-indicesv()
+    $indices = '…';
+    $length = -42;
+    $treepath .= new-from-indicesv( $indices, $length);
+    ok .is-valid, '.new-from-indicesv( $indices, $length)';
+
+    #TC:0:new-from-string()
+    $path = 'text';
+    $treepath .= new-from-string( $path);
+    ok .is-valid, '.new-from-string( $path)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $treepath {
+    my CArray[N-TreePath] $descendant;
+    my CArray[N-TreePath] $b;
+    my Int() $index;
+    my Array[Int] $depth;
+    my CArray[N-TreePath] $ancestor;
+
+
+#`{{
+    #TM:0:append-index()
+    ok .append-index( $index), '.append-index()';
+
+    #TM:0:compare()
+    ok .compare( $b), '.compare()';
+
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:down()
+    ok .down(), '.down()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-depth()
+     .get-depth(), '…', '.get-depth()';
+
+    #TM:0:get-indices()
+     .get-indices(), '…', '.get-indices()';
+
+    #TM:0:get-indices-with-depth()
+    is .get-indices-with-depth( $depth), '…', '.get-indices-with-depth()';
+
+    #TM:0:is-ancestor()
+    ok .is-ancestor( $descendant), '.is-ancestor()';
+
+    #TM:0:is-descendant()
+    ok .is-descendant( $ancestor), '.is-descendant()';
+
+    #TM:0:next()
+    ok .next(), '.next()';
+
+    #TM:0:prepend-index()
+    ok .prepend-index( $index), '.prepend-index()';
+
+    #TM:0:prev()
+    ok .prev(), '.prev()';
+
+    #TM:0:to-string()
+    ok .to-string(), '.to-string()';
+
+    #TM:0:up()
+    ok .up(), '.up()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $treepath {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

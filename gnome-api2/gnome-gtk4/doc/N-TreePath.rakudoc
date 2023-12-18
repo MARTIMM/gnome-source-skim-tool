@@ -1,0 +1,524 @@
+=comment Package: Gtk4, C-Source: treemodel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::N-TreePath
+
+![](images/treepath.png)
+
+=head1 Description
+
+An opaque structure representing a path to a row in a model.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TreePath
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-TreePath
+
+This is an opaque type of which fields are not available.
+
+  class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-treepath
+
+Creates a new U<Gnome::Gtk4::N-TreePath>
+This refers to a row.
+
+=begin code
+method new-treepath ( --> Gnome::Gtk4::TreePath \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-treepath
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-first
+
+Creates a new U<Gnome::Gtk4::N-TreePath>.
+
+The string representation of this path is “0”.
+
+=begin code
+method new-first ( --> Gnome::Gtk4::TreePath \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-first
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-indices
+This function is not yet available
+
+Creates a new path with C<$first_index> and C<$varargs> as indices.
+
+=begin code
+method new-from-indices ( Int() $first-index, … --> Gnome::Gtk4::TreePath \)
+=end code
+
+=item $first-index; first integer.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-from-indices
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-indicesv
+
+Creates a new path with the given C<$indices> array of C<$length>.
+
+=begin code
+method new-from-indicesv ( Array[Int] $indices, Int() $length --> Gnome::Gtk4::TreePath \)
+=end code
+
+=item $indices; array of indices.
+=item $length; length of C<$indices> array.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-indicesv
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-string
+
+Creates a new U<Gnome::Gtk4::N-TreePath> initialized to C<$path>.
+ C<$path> is expected to be a colon separated list of numbers.
+For example, the string “10:4:0” would create a path of depth
+3 pointing to the 11th child of the root node, the 5th
+child of that 11th child, and the 1st child of that 5th child.
+If an invalid path string is passed in, undefined is returned.
+
+=begin code
+method new-from-string ( Str $path --> Gnome::Gtk4::TreePath \)
+=end code
+
+=item $path; The string representation of a path.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-string
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-index
+
+Appends a new index to a path.
+
+As a result, the depth of the path is increased.
+
+=begin code
+method append-index ( Int() $index )
+=end code
+
+=item $index; the index.
+
+=begin comment
+
+=head2 Example
+# Example for append-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compare
+
+Compares two paths.
+
+If C<$a> appears before C<$b> in a tree, then -1 is returned.
+If C<$b> appears before C<$a>, then 1 is returned.
+If the two nodes are equal, then 0 is returned.
+
+=begin code
+method compare ( CArray[N-TreePath] $b --> Int )
+=end code
+
+=item $b; a U<Gnome::Gtk4::N-TreePath> to compare with.
+
+Return value; the relative positions of C<$a> and C<$b>. 
+
+=begin comment
+
+=head2 Example
+# Example for compare
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Creates a new U<Gnome::Gtk4::N-TreePath> as a copy of C<$path>.
+
+=begin code
+method copy (--> CArray[N-TreePath] )
+=end code
+
+Return value; a new U<Gnome::Gtk4::N-TreePath>. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 down
+
+Moves C<$path> to point to the first child of the current path.
+
+=begin code
+method down ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for down
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees C<$path>. If C<$path> is undefined, it simply returns.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-depth
+
+Returns the current depth of C<$path>.
+
+=begin code
+method get-depth (--> Int )
+=end code
+
+Return value; The depth of C<$path>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-depth
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-indices
+
+Returns the current indices of C<$path>.
+
+This is an array of integers, each representing a node in a tree.
+This value should not be freed.
+
+The length of the array can be obtained with C<.get-depth()>.
+
+=begin code
+method get-indices (--> Array[Int] )
+=end code
+
+Return value; The current indices. 
+
+=begin comment
+
+=head2 Example
+# Example for get-indices
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-indices-with-depth
+
+Returns the current indices of C<$path>.
+
+This is an array of integers, each representing a node in a tree.
+It also returns the number of elements in the array.
+The array should not be freed.
+
+=begin code
+method get-indices-with-depth ( Array[Int] $depth --> Array[Int] )
+=end code
+
+=item $depth; (transfer ownership: full) return location for number of elements
+  returned in the integer array.
+
+Return value; The current
+  indices. 
+
+=begin comment
+
+=head2 Example
+# Example for get-indices-with-depth
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-ancestor
+
+Returns C<True> if C<$descendant> is a descendant of C<$path>.
+
+=begin code
+method is-ancestor ( CArray[N-TreePath] $descendant --> Bool )
+=end code
+
+=item $descendant; another U<Gnome::Gtk4::N-TreePath>.
+
+Return value; C<True> if C<$descendant> is contained inside C<$path>. 
+
+=begin comment
+
+=head2 Example
+# Example for is-ancestor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-descendant
+
+Returns C<True> if C<$path> is a descendant of C<$ancestor>.
+
+=begin code
+method is-descendant ( CArray[N-TreePath] $ancestor --> Bool )
+=end code
+
+=item $ancestor; another U<Gnome::Gtk4::N-TreePath>.
+
+Return value; C<True> if C<$ancestor> contains C<$path> somewhere below it. 
+
+=begin comment
+
+=head2 Example
+# Example for is-descendant
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next
+
+Moves the C<$path> to point to the next node at the current depth.
+
+=begin code
+method next ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for next
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-index
+
+Prepends a new index to a path.
+
+As a result, the depth of the path is increased.
+
+=begin code
+method prepend-index ( Int() $index )
+=end code
+
+=item $index; the index.
+
+=begin comment
+
+=head2 Example
+# Example for prepend-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prev
+
+Moves the C<$path> to point to the previous node at the
+current depth, if it exists.
+
+=begin code
+method prev (--> Bool )
+=end code
+
+Return value; C<True> if C<$path> has a previous node, and
+  the move was made. 
+
+=begin comment
+
+=head2 Example
+# Example for prev
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-string
+
+Generates a string representation of the path.
+
+This string is a “:” separated list of numbers.
+For example, “4:10:0:3” would be an acceptable
+return value for this string. If the path has
+depth 0, undefined is returned.
+
+=begin code
+method to-string (--> Str )
+=end code
+
+Return value; A newly-allocated string. 
+
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 up
+
+Moves the C<$path> to point to its parent node, if it has a parent.
+
+=begin code
+method up (--> Bool )
+=end code
+
+Return value; C<True> if C<$path> has a parent, and the move was made. 
+
+=begin comment
+
+=head2 Example
+# Example for up
+
+=end comment
+
+=end pod
+
