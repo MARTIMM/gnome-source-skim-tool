@@ -99,7 +99,7 @@ CONTROL {
   # New type code section is using markdown; "``` code ```".
   my token new-type-code-section { <-[\`]>+ }
   my regex new-code-regex { '```' \w* \n <new-type-code-section> '```' }
-  while $text ~~ / <new-code-regex> /  {
+  while $text ~~ m/ <new-code-regex> /  {
     my Str $ex-key = self.add-example-code(
       $/<new-code-regex><new-type-code-section>.Str
     );
@@ -109,11 +109,10 @@ CONTROL {
   }
 
   # Old type code section is using; "|[ code ]|".
-  my token old-type-code-section { .*? }
-  my regex old-code-regex { '|[' <old-type-code-section> ']|' }
-  while $text ~~ / <old-code-regex> / {
+  my regex old-code-regex { '|[' $<old-type-code-section> = [ .*? ] ']|' }
+  while $text ~~ m/ <old-code-regex> / {
     my Str $ex-key = self.add-example-code(
-      $/<new-code-regex><new-type-code-section>.Str
+      $/<old-code-regex><old-type-code-section>.Str
     );
 
     # Modify with an example key
