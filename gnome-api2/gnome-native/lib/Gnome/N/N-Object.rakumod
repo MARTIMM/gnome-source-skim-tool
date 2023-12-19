@@ -27,7 +27,7 @@ unit class N-Object is repr('CPointer') is export;
 
 Wrap this native object in a Raku object given by the C<$rk-type> or C<$rk-type-name> from the argument.
 
-Example where the native object is a B<GtkWindow> type. The Raku type would then be B<Gnome::Gtk3::Window>.
+Example where the native object is a B<GtkWindow> type. The Raku type would then be B<Gnome::Gtk3::Window> (or B<Gnome::Gtk4::Window:api<2>>).
 
   my Gnome::Gtk3::Window $w .= new;
   $w.set-title('N-Object coercion');
