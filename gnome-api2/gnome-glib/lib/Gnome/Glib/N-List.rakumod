@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Glib list
+=comment Package: Glib, C-Source: list
 use v6.d;
 
 #-------------------------------------------------------------------------------
