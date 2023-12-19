@@ -24,10 +24,10 @@ The B<Gnome::N::TopLevelClassSupport> is the class at the top of the food chain.
 #-------------------------------------------------------------------------------
 use NativeCall;
 
-use Gnome::N::X;
-use Gnome::N::NativeLib;
-use Gnome::N::N-Object;
-use Gnome::N::GlibToRakuTypes;
+use Gnome::N::X:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
 
 #-------------------------------------------------------------------------------
 unit class Gnome::N::TopLevelClassSupport;
