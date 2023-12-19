@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Glib slist
+=comment Package: Glib, C-Source: slist
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ my Hash $methods = %(
   foreach => %( :type(Function), :is-symbol<g_slist_foreach>,  :parameters([ N-SList, :( gpointer $data, gpointer $user-data ), gpointer])),
   free => %( :type(Function), :is-symbol<g_slist_free>,  :parameters([N-SList])),
   free-full => %( :type(Function), :is-symbol<g_slist_free_full>,  :parameters([ N-SList, :( gpointer $data )])),
-  free1 => %( :type(Function), :is-symbol<g_slist_free_1>,  :parameters([N-SList])),
+  free1 => %( :type(Function), :is-symbol<g_slist_free1>,  :parameters([N-SList])),
   index => %( :type(Function), :is-symbol<g_slist_index>,  :returns(gint), :parameters([ N-SList, gpointer])),
   insert => %( :type(Function), :is-symbol<g_slist_insert>,  :returns(N-SList), :parameters([ N-SList, gpointer, gint])),
   insert-before => %( :type(Function), :is-symbol<g_slist_insert_before>,  :returns(N-SList), :parameters([ N-SList, N-SList, gpointer])),

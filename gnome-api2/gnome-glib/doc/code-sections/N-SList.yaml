@@ -1,0 +1,45 @@
+---
+"____EXAMPLE____000": |
+  =begin comment
+  =head2 Example
+  Example use of module Gnome::Glib::SList
+  =end comment
+
+  Note that this class is mainly used to get the data from a list returned by e.g. a widget.
+
+"____EXAMPLE____001": "=begin comment\n\n=head2 Example\n# Example for alloc\n\n=end comment\n"
+"____EXAMPLE____002": "=begin comment\n\n=head2 Example\n# Example for append\n\n=end comment\n"
+"____EXAMPLE____003": "=begin comment\n\n=head2 Example\n# Example for concat\n\n=end comment\n"
+"____EXAMPLE____004": "=begin comment\n\n=head2 Example\n# Example for copy\n\n=end comment\n"
+"____EXAMPLE____005": "=begin comment\n\n=head2 Example\n# Example for copy-deep\n\n=end comment\n"
+"____EXAMPLE____006": "=begin comment\n\n=head2 Example\n# Example for delete-link\n\n=end comment\n"
+"____EXAMPLE____007": "=begin comment\n\n=head2 Example\n# Example for find\n\n=end comment\n"
+"____EXAMPLE____008": "=begin comment\n\n=head2 Example\n# Example for find-custom\n\n=end comment\n"
+"____EXAMPLE____009": "=begin comment\n\n=head2 Example\n# Example for foreach\n\n=end comment\n"
+"____EXAMPLE____010": "=begin comment\n\n=head2 Example\n# Example for free\n\n=end comment\n"
+"____EXAMPLE____011": "=begin comment\n\n=head2 Example\n# Example for free-full\n\n=end comment\n"
+"____EXAMPLE____012": "=begin comment\n\n=head2 Example\n# Example for free1\n\n=end comment\n"
+"____EXAMPLE____013": "=begin comment\n\n=head2 Example\n# Example for index\n\n=end comment\n"
+"____EXAMPLE____014": "=begin comment\n\n=head2 Example\n# Example for insert\n\n=end comment\n"
+"____EXAMPLE____015": "=begin comment\n\n=head2 Example\n# Example for insert-before\n\n=end comment\n"
+"____EXAMPLE____016": "=begin comment\n\n=head2 Example\n# Example for insert-sorted\n\n=end comment\n"
+"____EXAMPLE____017": "=begin comment\n\n=head2 Example\n# Example for insert-sorted-with-data\n\n=end comment\n"
+"____EXAMPLE____018": "=begin comment\n\n=head2 Example\n# Example for last\n\n=end comment\n"
+"____EXAMPLE____019": "=begin comment\n\n=head2 Example\n# Example for length\n\n=end comment\n"
+"____EXAMPLE____020": "=begin comment\n\n=head2 Example\n# Example for nth\n\n=end comment\n"
+"____EXAMPLE____021": "=begin comment\n\n=head2 Example\n# Example for nth-data\n\n=end comment\n"
+"____EXAMPLE____022": "=begin comment\n\n=head2 Example\n# Example for position\n\n=end comment\n"
+"____EXAMPLE____023": "=begin comment\n\n=head2 Example\n# Example for prepend\n\n=end comment\n"
+"____EXAMPLE____024": "=begin comment\n\n=head2 Example\n# Example for remove\n\n=end comment\n"
+"____EXAMPLE____025": "=begin comment\n\n=head2 Example\n# Example for remove-all\n\n=end comment\n"
+"____EXAMPLE____026": "=begin comment\n\n=head2 Example\n# Example for remove-link\n\n=end comment\n"
+"____EXAMPLE____027": "=begin comment\n\n=head2 Example\n# Example for reverse\n\n=end comment\n"
+"____EXAMPLE____028": "=begin comment\n\n=head2 Example\n# Example for sort\n\n=end comment\n"
+"____EXAMPLE____029": "=begin comment\n\n=head2 Example\n# Example for sort-with-data\n\n=end comment\n"
+"____EXAMPLE____030": "=begin comment\n<!-- language=\"C\" -->\n// Notice that these are initialized to the empty list.\nGSList *list = NULL, *number_list = NULL;\n\n// This is a list of strings.\nlist = g_slist_append (list, \"first\");\nlist = g_slist_append (list, \"second\");\n\n// This is a list of integers.\nnumber_list = g_slist_append (number_list, GINT_TO_POINTER (27));\nnumber_list = g_slist_append (number_list, GINT_TO_POINTER (14));\n\n=end comment\n"
+"____EXAMPLE____031": "=begin comment\n<!-- language=\"C\" -->\nanother_list = g_slist_copy_deep (list, (GCopyFunc) g_object_ref, NULL);\n\n=end comment\n"
+"____EXAMPLE____032": "=begin comment\n<!-- language=\"C\" -->\ng_slist_free_full (another_list, g_object_unref);\n\n=end comment\n"
+"____EXAMPLE____033": "=begin comment\n<!-- language=\"C\" -->\nGSList *list_of_borrowed_things = …;  /<!-- -->* (transfer container) *<!-- -->/\ng_slist_free (g_steal_pointer (&list_of_borrowed_things));\n\n=end comment\n"
+"____EXAMPLE____034": "=begin comment\n<!-- language=\"C\" -->\nGSList *list_of_owned_things = …;  /<!-- -->* (transfer full) (element-type GObject) *<!-- -->/\ng_slist_free_full (g_steal_pointer (&list_of_owned_things), g_object_unref);\n\n=end comment\n"
+"____EXAMPLE____035": "=begin comment\n<!-- language=\"C\" -->\n// Notice that it is initialized to the empty list.\nGSList *list = NULL;\nlist = g_slist_prepend (list, \"last\");\nlist = g_slist_prepend (list, \"first\");\n\n=end comment\n"
+...

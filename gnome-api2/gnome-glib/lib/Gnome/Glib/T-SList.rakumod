@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Glib slist
+=comment Package: Glib, C-Source: slist
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -6,8 +6,8 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Glib::N-SList:api<2>;
 
+use Gnome::Glib::N-SList:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
