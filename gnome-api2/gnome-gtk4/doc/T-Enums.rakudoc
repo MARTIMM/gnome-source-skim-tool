@@ -1,0 +1,1002 @@
+=comment Package: Gtk4, C-Source: enums
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-Enums
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constants
+
+=head2 GTK_ACCESSIBLE_VALUE_UNDEFINED
+
+An undefined value. The accessible attribute is either unset, or its
+value is undefined.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkAccessibleAutocomplete
+
+The possible values for the C<GTK_ACCESSIBLE_PROPERTY_AUTOCOMPLETE>
+accessible property.
+=item C<GTK_ACCESSIBLE_AUTOCOMPLETE_NONE>; Automatic suggestions are not displayed.
+=item C<GTK_ACCESSIBLE_AUTOCOMPLETE_INLINE>; When a user is providing input, text
+   suggesting one way to complete the provided input may be dynamically
+   inserted after the caret.
+=item C<GTK_ACCESSIBLE_AUTOCOMPLETE_LIST>; When a user is providing input, an element
+   containing a collection of values that could complete the provided input
+   may be displayed.
+=item C<GTK_ACCESSIBLE_AUTOCOMPLETE_BOTH>; When a user is providing input, an element
+   containing a collection of values that could complete the provided input
+   may be displayed. If displayed, one value in the collection is automatically
+   selected, and the text needed to complete the automatically selected value
+   appears after the caret in the input.
+
+=head2 GtkAccessibleInvalidState
+
+The possible values for the C<GTK_ACCESSIBLE_STATE_INVALID>
+accessible state.
+
+Note that the C<GTK_ACCESSIBLE_INVALID_FALSE> and
+C<GTK_ACCESSIBLE_INVALID_TRUE> have the same values
+as C<False> and C<True>.
+=item C<GTK_ACCESSIBLE_INVALID_FALSE>; There are no detected errors in the value
+=item C<GTK_ACCESSIBLE_INVALID_TRUE>; The value entered by the user has failed validation
+=item C<GTK_ACCESSIBLE_INVALID_GRAMMAR>; A grammatical error was detected
+=item C<GTK_ACCESSIBLE_INVALID_SPELLING>; A spelling error was detected
+
+=head2 GtkAccessibleProperty
+
+The possible accessible properties of a [iface C<$Accessible>].
+=item C<GTK_ACCESSIBLE_PROPERTY_AUTOCOMPLETE>; Indicates whether inputting text
+   could trigger display of one or more predictions of the user's intended
+   value for a combobox, searchbox, or textbox and specifies how predictions
+   would be presented if they were made. Value type: [enum C<$AccessibleAutocomplete>]
+=item C<GTK_ACCESSIBLE_PROPERTY_DESCRIPTION>; Defines a string value that describes
+   or annotates the current element. Value type: string
+=item C<GTK_ACCESSIBLE_PROPERTY_HAS_POPUP>; Indicates the availability and type of
+   interactive popup element, such as menu or dialog, that can be triggered
+   by an element.
+=item C<GTK_ACCESSIBLE_PROPERTY_KEY_SHORTCUTS>; Indicates keyboard shortcuts that an
+   author has implemented to activate or give focus to an element. Value type:
+   string
+=item C<GTK_ACCESSIBLE_PROPERTY_LABEL>; Defines a string value that labels the current
+   element. Value type: string
+=item C<GTK_ACCESSIBLE_PROPERTY_LEVEL>; Defines the hierarchical level of an element
+   within a structure. Value type: integer
+=item C<GTK_ACCESSIBLE_PROPERTY_MODAL>; Indicates whether an element is modal when
+   displayed. Value type: boolean
+=item C<GTK_ACCESSIBLE_PROPERTY_MULTI_LINE>; Indicates whether a text box accepts
+   multiple lines of input or only a single line. Value type: boolean
+=item C<GTK_ACCESSIBLE_PROPERTY_MULTI_SELECTABLE>; Indicates that the user may select
+   more than one item from the current selectable descendants. Value type:
+   boolean
+=item C<GTK_ACCESSIBLE_PROPERTY_ORIENTATION>; Indicates whether the element's
+   orientation is horizontal, vertical, or unknown/ambiguous. Value type:
+   [enum C<$Orientation>]
+=item C<GTK_ACCESSIBLE_PROPERTY_PLACEHOLDER>; Defines a short hint (a word or short
+   phrase) intended to aid the user with data entry when the control has no
+   value. A hint could be a sample value or a brief description of the expected
+   format. Value type: string
+=item C<GTK_ACCESSIBLE_PROPERTY_READ_ONLY>; Indicates that the element is not editable,
+   but is otherwise operable. Value type: boolean
+=item C<GTK_ACCESSIBLE_PROPERTY_REQUIRED>; Indicates that user input is required on
+   the element before a form may be submitted. Value type: boolean
+=item C<GTK_ACCESSIBLE_PROPERTY_ROLE_DESCRIPTION>; Defines a human-readable,
+   author-localized description for the role of an element. Value type: string
+=item C<GTK_ACCESSIBLE_PROPERTY_SORT>; Indicates if items in a table or grid are
+   sorted in ascending or descending order. Value type: [enum C<$AccessibleSort>]
+=item C<GTK_ACCESSIBLE_PROPERTY_VALUE_MAX>; Defines the maximum allowed value for a
+   range widget. Value type: double
+=item C<GTK_ACCESSIBLE_PROPERTY_VALUE_MIN>; Defines the minimum allowed value for a
+   range widget. Value type: double
+=item C<GTK_ACCESSIBLE_PROPERTY_VALUE_NOW>; Defines the current value for a range widget.
+   Value type: double
+=item C<GTK_ACCESSIBLE_PROPERTY_VALUE_TEXT>; Defines the human readable text alternative
+   of aria-valuenow for a range widget. Value type: string
+
+=head2 GtkAccessibleRelation
+
+The possible accessible relations of a [iface C<$Accessible>].
+
+Accessible relations can be references to other widgets,
+integers or strings.
+=item C<GTK_ACCESSIBLE_RELATION_ACTIVE_DESCENDANT>; Identifies the currently active
+   element when focus is on a composite widget, combobox, textbox, group,
+   or application. Value type: reference
+=item C<GTK_ACCESSIBLE_RELATION_COL_COUNT>; Defines the total number of columns
+   in a table, grid, or treegrid. Value type: integer
+=item C<GTK_ACCESSIBLE_RELATION_COL_INDEX>; Defines an element's column index or
+   position with respect to the total number of columns within a table,
+   grid, or treegrid. Value type: integer
+=item C<GTK_ACCESSIBLE_RELATION_COL_INDEX_TEXT>; Defines a human readable text
+  alternative of C<GTK_ACCESSIBLE_RELATION_COL_INDEX>. Value type: string
+=item C<GTK_ACCESSIBLE_RELATION_COL_SPAN>; Defines the number of columns spanned
+  by a cell or gridcell within a table, grid, or treegrid. Value type: integer
+=item C<GTK_ACCESSIBLE_RELATION_CONTROLS>; Identifies the element (or elements) whose
+   contents or presence are controlled by the current element. Value type: reference
+=item C<GTK_ACCESSIBLE_RELATION_DESCRIBED_BY>; Identifies the element (or elements)
+   that describes the object. Value type: reference
+=item C<GTK_ACCESSIBLE_RELATION_DETAILS>; Identifies the element (or elements) that
+   provide additional information related to the object. Value type: reference
+=item C<GTK_ACCESSIBLE_RELATION_ERROR_MESSAGE>; Identifies the element that provides
+   an error message for an object. Value type: reference
+=item C<GTK_ACCESSIBLE_RELATION_FLOW_TO>; Identifies the next element (or elements)
+   in an alternate reading order of content which, at the user's discretion,
+   allows assistive technology to override the general default of reading in
+   document source order. Value type: reference
+=item C<GTK_ACCESSIBLE_RELATION_LABELLED_BY>; Identifies the element (or elements)
+   that labels the current element. Value type: reference
+=item C<GTK_ACCESSIBLE_RELATION_OWNS>; Identifies an element (or elements) in order
+   to define a visual, functional, or contextual parent/child relationship
+   between elements where the widget hierarchy cannot be used to represent
+   the relationship. Value type: reference
+=item C<GTK_ACCESSIBLE_RELATION_POS_IN_SET>; Defines an element's number or position
+   in the current set of listitems or treeitems. Value type: integer
+=item C<GTK_ACCESSIBLE_RELATION_ROW_COUNT>; Defines the total number of rows in a table,
+   grid, or treegrid. Value type: integer
+=item C<GTK_ACCESSIBLE_RELATION_ROW_INDEX>; Defines an element's row index or position
+   with respect to the total number of rows within a table, grid, or treegrid.
+   Value type: integer
+=item C<GTK_ACCESSIBLE_RELATION_ROW_INDEX_TEXT>; Defines a human readable text
+   alternative of aria-rowindex. Value type: string
+=item C<GTK_ACCESSIBLE_RELATION_ROW_SPAN>; Defines the number of rows spanned by a
+   cell or gridcell within a table, grid, or treegrid. Value type: integer
+=item C<GTK_ACCESSIBLE_RELATION_SET_SIZE>; Defines the number of items in the current
+   set of listitems or treeitems. Value type: integer
+
+=head2 GtkAccessibleRole
+
+The accessible role for a [iface C<$Accessible>] implementation.
+
+Abstract roles are only used as part of the ontology; application
+developers must not use abstract roles in their code.
+=item C<GTK_ACCESSIBLE_ROLE_ALERT>; An element with important, and usually
+  time-sensitive, information
+=item C<GTK_ACCESSIBLE_ROLE_ALERT_DIALOG>; A type of dialog that contains an
+  alert message
+=item C<GTK_ACCESSIBLE_ROLE_BANNER>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_BUTTON>; An input element that allows for
+  user-triggered actions when clicked or pressed
+=item C<GTK_ACCESSIBLE_ROLE_CAPTION>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_CELL>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_CHECKBOX>; A checkable input element that has
+  three possible values: B<true>, B<false>, or B<mixed>
+=item C<GTK_ACCESSIBLE_ROLE_COLUMN_HEADER>; A header in a columned list.
+=item C<GTK_ACCESSIBLE_ROLE_COMBO_BOX>; An input that controls another element,
+  such as a list or a grid, that can dynamically pop up to help the user
+  set the value of the input
+=item C<GTK_ACCESSIBLE_ROLE_COMMAND>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_COMPOSITE>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_DIALOG>; A dialog is a window that is designed to interrupt
+   the current processing of an application in order to prompt the user to enter
+   information or require a response.
+=item C<GTK_ACCESSIBLE_ROLE_DOCUMENT>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_FEED>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_FORM>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_GENERIC>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_GRID>; A grid of items.
+=item C<GTK_ACCESSIBLE_ROLE_GRID_CELL>; An item in a grid or tree grid.
+=item C<GTK_ACCESSIBLE_ROLE_GROUP>; An element that groups multiple widgets. GTK uses
+  this role for various containers, like B<Gnome::Gtk4::Box>, B<Gnome::Gtk4::Viewport>, and B<Gnome::Gtk4::HeaderBar>.
+=item C<GTK_ACCESSIBLE_ROLE_HEADING>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_IMG>; An image.
+=item C<GTK_ACCESSIBLE_ROLE_INPUT>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_LABEL>; A visible name or caption for a user interface component.
+=item C<GTK_ACCESSIBLE_ROLE_LANDMARK>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_LEGEND>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_LINK>; A clickable link.
+=item C<GTK_ACCESSIBLE_ROLE_LIST>; A list of items.
+=item C<GTK_ACCESSIBLE_ROLE_LIST_BOX>; Unused.
+=item C<GTK_ACCESSIBLE_ROLE_LIST_ITEM>; An item in a list.
+=item C<GTK_ACCESSIBLE_ROLE_LOG>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_MAIN>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_MARQUEE>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_MATH>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_METER>; An element that represents a value within a known range.
+=item C<GTK_ACCESSIBLE_ROLE_MENU>; A menu.
+=item C<GTK_ACCESSIBLE_ROLE_MENU_BAR>; A menubar.
+=item C<GTK_ACCESSIBLE_ROLE_MENU_ITEM>; An item in a menu.
+=item C<GTK_ACCESSIBLE_ROLE_MENU_ITEM_CHECKBOX>; A check item in a menu.
+=item C<GTK_ACCESSIBLE_ROLE_MENU_ITEM_RADIO>; A radio item in a menu.
+=item C<GTK_ACCESSIBLE_ROLE_NAVIGATION>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_NONE>; An element that is not represented to accessibility technologies.
+=item C<GTK_ACCESSIBLE_ROLE_NOTE>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_OPTION>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_PRESENTATION>; An element that is not represented to accessibility technologies.
+=item C<GTK_ACCESSIBLE_ROLE_PROGRESS_BAR>; An element that displays the progress
+   status for tasks that take a long time.
+=item C<GTK_ACCESSIBLE_ROLE_RADIO>; A checkable input in a group of radio roles,
+   only one of which can be checked at a time.
+=item C<GTK_ACCESSIBLE_ROLE_RADIO_GROUP>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_RANGE>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_REGION>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_ROW>; A row in a columned list.
+=item C<GTK_ACCESSIBLE_ROLE_ROW_GROUP>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_ROW_HEADER>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_SCROLLBAR>; A graphical object that controls the scrolling
+   of content within a viewing area, regardless of whether the content is fully
+   displayed within the viewing area.
+=item C<GTK_ACCESSIBLE_ROLE_SEARCH>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_SEARCH_BOX>; A type of textbox intended for specifying
+   search criteria.
+=item C<GTK_ACCESSIBLE_ROLE_SECTION>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_SECTION_HEAD>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_SELECT>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_SEPARATOR>; A divider that separates and distinguishes
+   sections of content or groups of menuitems.
+=item C<GTK_ACCESSIBLE_ROLE_SLIDER>; A user input where the user selects a value
+   from within a given range.
+=item C<GTK_ACCESSIBLE_ROLE_SPIN_BUTTON>; A form of range that expects the user to
+   select from among discrete choices.
+=item C<GTK_ACCESSIBLE_ROLE_STATUS>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_STRUCTURE>; Abstract role.
+=item C<GTK_ACCESSIBLE_ROLE_SWITCH>; A type of checkbox that represents on/off values,
+   as opposed to checked/unchecked values.
+=item C<GTK_ACCESSIBLE_ROLE_TAB>; An item in a list of tab used for switching pages.
+=item C<GTK_ACCESSIBLE_ROLE_TABLE>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_TAB_LIST>; A list of tabs for switching pages.
+=item C<GTK_ACCESSIBLE_ROLE_TAB_PANEL>; A page in a notebook or stack.
+=item C<GTK_ACCESSIBLE_ROLE_TEXT_BOX>; A type of input that allows free-form text
+   as its value.
+=item C<GTK_ACCESSIBLE_ROLE_TIME>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_TIMER>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_TOOLBAR>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_TOOLTIP>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_TREE>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_TREE_GRID>; A treeview-like, columned list.
+=item C<GTK_ACCESSIBLE_ROLE_TREE_ITEM>; Unused
+=item C<GTK_ACCESSIBLE_ROLE_WIDGET>; An interactive component of a graphical user
+   interface. This is the role that GTK uses by default for widgets.
+=item C<GTK_ACCESSIBLE_ROLE_WINDOW>; An application window.
+
+=head2 GtkAccessibleSort
+
+The possible values for the C<GTK_ACCESSIBLE_PROPERTY_SORT>
+accessible property.
+=item C<GTK_ACCESSIBLE_SORT_NONE>; There is no defined sort applied to the column.
+=item C<GTK_ACCESSIBLE_SORT_ASCENDING>; Items are sorted in ascending order by this column.
+=item C<GTK_ACCESSIBLE_SORT_DESCENDING>; Items are sorted in descending order by this column.
+=item C<GTK_ACCESSIBLE_SORT_OTHER>; A sort algorithm other than ascending or
+   descending has been applied.
+
+=head2 GtkAccessibleState
+
+The possible accessible states of a [iface C<$Accessible>].
+=item C<GTK_ACCESSIBLE_STATE_BUSY>; A “busy” state. This state has boolean values
+=item C<GTK_ACCESSIBLE_STATE_CHECKED>; A “checked” state; indicates the current
+  state of a B<Gnome::Gtk4::CheckButton>. Value type: [enum C<$AccessibleTristate>]
+=item C<GTK_ACCESSIBLE_STATE_DISABLED>; A “disabled” state; corresponds to the
+  [property C<$Widget>:sensitive] property. It indicates a UI element
+  that is perceivable, but not editable or operable. Value type: boolean
+=item C<GTK_ACCESSIBLE_STATE_EXPANDED>; An “expanded” state; corresponds to the
+  [property C<$Expander>:expanded] property. Value type: boolean
+  or undefined
+=item C<GTK_ACCESSIBLE_STATE_HIDDEN>; A “hidden” state; corresponds to the
+  [property C<$Widget>:visible] property. You can use this state
+  explicitly on UI elements that should not be exposed to an assistive
+  technology. Value type: boolean
+  See also: C<GTK_ACCESSIBLE_STATE_DISABLED>
+=item C<GTK_ACCESSIBLE_STATE_INVALID>; An “invalid” state; set when a widget
+  is showing an error. Value type: [enum C<$AccessibleInvalidState>]
+=item C<GTK_ACCESSIBLE_STATE_PRESSED>; A “pressed” state; indicates the current
+  state of a B<Gnome::Gtk4::ToggleButton>. Value type: [enum C<$AccessibleTristate>]
+  enumeration
+=item C<GTK_ACCESSIBLE_STATE_SELECTED>; A “selected” state; set when a widget
+  is selected. Value type: boolean or undefined
+
+=head2 GtkAccessibleTristate
+
+The possible values for the C<GTK_ACCESSIBLE_STATE_PRESSED>
+accessible state.
+
+Note that the C<GTK_ACCESSIBLE_TRISTATE_FALSE> and
+C<GTK_ACCESSIBLE_TRISTATE_TRUE> have the same values
+as C<False> and C<True>.
+=item C<GTK_ACCESSIBLE_TRISTATE_FALSE>; The state is B<false>
+=item C<GTK_ACCESSIBLE_TRISTATE_TRUE>; The state is B<true>
+=item C<GTK_ACCESSIBLE_TRISTATE_MIXED>; The state is B<mixed>
+
+=head2 GtkAlign
+
+Controls how a widget deals with extra space in a single dimension.
+
+Alignment only matters if the widget receives a “too large” allocation,
+for example if you packed the widget with the I<hexpand defined in Gnome::Gtk4::Widget>
+property inside a B<Gnome::Gtk4::Box>, then the widget might get extra space.
+If you have for example a 16x16 icon inside a 32x32 space, the icon
+could be scaled and stretched, it could be centered, or it could be
+positioned to one side of the space.
+
+Note that in horizontal context C<GTK_ALIGN_START> and C<GTK_ALIGN_END>
+are interpreted relative to text direction.
+
+C<GTK_ALIGN_BASELINE> support is optional for containers and widgets, and
+it is only supported for vertical alignment.  When it's not supported by
+a child or a container it is treated as C<GTK_ALIGN_FILL>.
+=item C<GTK_ALIGN_FILL>; stretch to fill all space if possible, center if
+  no meaningful way to stretch
+=item C<GTK_ALIGN_START>; snap to left or top side, leaving space on right or bottom
+=item C<GTK_ALIGN_END>; snap to right or bottom side, leaving space on left or top
+=item C<GTK_ALIGN_CENTER>; center natural width of widget inside the allocation
+=item C<GTK_ALIGN_BASELINE>; align the widget according to the baseline.
+  See B<Gnome::Gtk4::Widget>.
+
+=head2 GtkArrowType
+
+Used to indicate the direction in which an arrow should point.
+=item C<GTK_ARROW_UP>; Represents an upward pointing arrow.
+=item C<GTK_ARROW_DOWN>; Represents a downward pointing arrow.
+=item C<GTK_ARROW_LEFT>; Represents a left pointing arrow.
+=item C<GTK_ARROW_RIGHT>; Represents a right pointing arrow.
+=item C<GTK_ARROW_NONE>; No arrow.
+
+=head2 GtkBaselinePosition
+
+Baseline position in a row of widgets.
+
+Whenever a container has some form of natural row it may align
+children in that row along a common typographical baseline. If
+the amount of vertical space in the row is taller than the total
+requested height of the baseline-aligned children then it can use a
+C<enumeration GtkBaselinePosition defined in Gnome::Gtk4::T-Enums> to select where to put the baseline inside the
+extra available space.
+=item C<GTK_BASELINE_POSITION_TOP>; Align the baseline at the top
+=item C<GTK_BASELINE_POSITION_CENTER>; Center the baseline
+=item C<GTK_BASELINE_POSITION_BOTTOM>; Align the baseline at the bottom
+
+=head2 GtkBorderStyle
+
+Describes how the border of a UI element should be rendered.
+=item C<GTK_BORDER_STYLE_NONE>; No visible border
+=item C<GTK_BORDER_STYLE_HIDDEN>; Same as C<GTK_BORDER_STYLE_NONE>
+=item C<GTK_BORDER_STYLE_SOLID>; A single line segment
+=item C<GTK_BORDER_STYLE_INSET>; Looks as if the content is sunken into the canvas
+=item C<GTK_BORDER_STYLE_OUTSET>; Looks as if the content is coming out of the canvas
+=item C<GTK_BORDER_STYLE_DOTTED>; A series of round dots
+=item C<GTK_BORDER_STYLE_DASHED>; A series of square-ended dashes
+=item C<GTK_BORDER_STYLE_DOUBLE>; Two parallel lines with some space between them
+=item C<GTK_BORDER_STYLE_GROOVE>; Looks as if it were carved in the canvas
+=item C<GTK_BORDER_STYLE_RIDGE>; Looks as if it were coming out of the canvas
+
+=head2 GtkConstraintAttribute
+
+The widget attributes that can be used when creating a B<Gnome::Gtk4::Constraint>.
+=item C<GTK_CONSTRAINT_ATTRIBUTE_NONE>; No attribute, used for constant
+  relations
+=item C<GTK_CONSTRAINT_ATTRIBUTE_LEFT>; The left edge of a widget, regardless of
+  text direction
+=item C<GTK_CONSTRAINT_ATTRIBUTE_RIGHT>; The right edge of a widget, regardless
+  of text direction
+=item C<GTK_CONSTRAINT_ATTRIBUTE_TOP>; The top edge of a widget
+=item C<GTK_CONSTRAINT_ATTRIBUTE_BOTTOM>; The bottom edge of a widget
+=item C<GTK_CONSTRAINT_ATTRIBUTE_START>; The leading edge of a widget, depending
+  on text direction; equivalent to C<GTK_CONSTRAINT_ATTRIBUTE_LEFT> for LTR
+  languages, and C<GTK_CONSTRAINT_ATTRIBUTE_RIGHT> for RTL ones
+=item C<GTK_CONSTRAINT_ATTRIBUTE_END>; The trailing edge of a widget, depending
+  on text direction; equivalent to C<GTK_CONSTRAINT_ATTRIBUTE_RIGHT> for LTR
+  languages, and C<GTK_CONSTRAINT_ATTRIBUTE_LEFT> for RTL ones
+=item C<GTK_CONSTRAINT_ATTRIBUTE_WIDTH>; The width of a widget
+=item C<GTK_CONSTRAINT_ATTRIBUTE_HEIGHT>; The height of a widget
+=item C<GTK_CONSTRAINT_ATTRIBUTE_CENTER_X>; The center of a widget, on the
+  horizontal axis
+=item C<GTK_CONSTRAINT_ATTRIBUTE_CENTER_Y>; The center of a widget, on the
+  vertical axis
+=item C<GTK_CONSTRAINT_ATTRIBUTE_BASELINE>; The baseline of a widget
+
+=head2 GtkConstraintRelation
+
+The relation between two terms of a constraint.
+=item C<GTK_CONSTRAINT_RELATION_LE>; Less than, or equal
+=item C<GTK_CONSTRAINT_RELATION_EQ>; Equal
+=item C<GTK_CONSTRAINT_RELATION_GE>; Greater than, or equal
+
+=head2 GtkConstraintStrength
+
+The strength of a constraint, expressed as a symbolic constant.
+
+The strength of a B<Gnome::Gtk4::Constraint> can be expressed with any positive
+integer; the values of this enumeration can be used for readability.
+=item C<GTK_CONSTRAINT_STRENGTH_REQUIRED>; The constraint is required towards solving the layout
+=item C<GTK_CONSTRAINT_STRENGTH_STRONG>; A strong constraint
+=item C<GTK_CONSTRAINT_STRENGTH_MEDIUM>; A medium constraint
+=item C<GTK_CONSTRAINT_STRENGTH_WEAK>; A weak constraint
+
+=head2 GtkConstraintVflParserError
+
+Domain for VFL parsing errors.
+=item C<GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_SYMBOL>; Invalid or unknown symbol
+=item C<GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_ATTRIBUTE>; Invalid or unknown attribute
+=item C<GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_VIEW>; Invalid or unknown view
+=item C<GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_METRIC>; Invalid or unknown metric
+=item C<GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_PRIORITY>; Invalid or unknown priority
+=item C<GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_RELATION>; Invalid or unknown relation
+
+=head2 GtkContentFit
+
+Controls how a content should be made to fit inside an allocation.
+=item C<GTK_CONTENT_FIT_FILL>; Make the content fill the entire allocation,
+  without taking its aspect ratio in consideration. The resulting
+  content will appear as stretched if its aspect ratio is different
+  from the allocation aspect ratio.
+=item C<GTK_CONTENT_FIT_CONTAIN>; Scale the content to fit the allocation,
+  while taking its aspect ratio in consideration. The resulting
+  content will appear as letterboxed if its aspect ratio is different
+  from the allocation aspect ratio.
+=item C<GTK_CONTENT_FIT_COVER>; Cover the entire allocation, while taking
+  the content aspect ratio in consideration. The resulting content
+  will appear as clipped if its aspect ratio is different from the
+  allocation aspect ratio.
+=item C<GTK_CONTENT_FIT_SCALE_DOWN>; The content is scaled down to fit the
+  allocation, if needed, otherwise its original size is used.
+
+=head2 GtkDeleteType
+
+Passed to various keybinding signals for deleting text.
+=item C<GTK_DELETE_CHARS>; Delete characters.
+=item C<GTK_DELETE_WORD_ENDS>; Delete only the portion of the word to the
+  left/right of cursor if we’re in the middle of a word.
+=item C<GTK_DELETE_WORDS>; Delete words.
+=item C<GTK_DELETE_DISPLAY_LINES>; Delete display-lines. Display-lines
+  refers to the visible lines, with respect to the current line
+  breaks. As opposed to paragraphs, which are defined by line
+  breaks in the input.
+=item C<GTK_DELETE_DISPLAY_LINE_ENDS>; Delete only the portion of the
+  display-line to the left/right of cursor.
+=item C<GTK_DELETE_PARAGRAPH_ENDS>; Delete to the end of the
+  paragraph. Like C-k in Emacs (or its reverse).
+=item C<GTK_DELETE_PARAGRAPHS>; Delete entire line. Like C-k in pico.
+=item C<GTK_DELETE_WHITESPACE>; Delete only whitespace. Like M-\ in Emacs.
+
+=head2 GtkDirectionType
+
+Focus movement types.
+=item C<GTK_DIR_TAB_FORWARD>; Move forward.
+=item C<GTK_DIR_TAB_BACKWARD>; Move backward.
+=item C<GTK_DIR_UP>; Move up.
+=item C<GTK_DIR_DOWN>; Move down.
+=item C<GTK_DIR_LEFT>; Move left.
+=item C<GTK_DIR_RIGHT>; Move right.
+
+=head2 GtkEventSequenceState
+
+Describes the state of a  B<Gnome::Gdk4::N-EventSequence>  in a B<Gnome::Gtk4::Gesture>.
+=item C<GTK_EVENT_SEQUENCE_NONE>; The sequence is handled, but not grabbed.
+=item C<GTK_EVENT_SEQUENCE_CLAIMED>; The sequence is handled and grabbed.
+=item C<GTK_EVENT_SEQUENCE_DENIED>; The sequence is denied.
+
+=head2 GtkIconSize
+
+Built-in icon sizes.
+
+Icon sizes default to being inherited. Where they cannot be
+inherited, text size is the default.
+
+All widgets which use C<enumeration GtkIconSize defined in Gnome::Gtk4::T-Enums> set the normal-icons or
+large-icons style classes correspondingly, and let themes
+determine the actual size to be used with the
+B<-gtk-icon-size> CSS property.
+=item C<GTK_ICON_SIZE_INHERIT>; Keep the size of the parent element
+=item C<GTK_ICON_SIZE_NORMAL>; Size similar to text size
+=item C<GTK_ICON_SIZE_LARGE>; Large size, for example in an icon view
+
+=head2 GtkInputPurpose
+
+Describes primary purpose of the input widget.
+
+This information is useful for on-screen keyboards and similar input
+methods to decide which keys should be presented to the user.
+
+Note that the purpose is not meant to impose a totally strict rule
+about allowed characters, and does not replace input validation.
+It is fine for an on-screen keyboard to let the user override the
+character set restriction that is expressed by the purpose. The
+application is expected to validate the entry contents, even if
+it specified a purpose.
+
+The difference between C<GTK_INPUT_PURPOSE_DIGITS> and
+C<GTK_INPUT_PURPOSE_NUMBER> is that the former accepts only digits
+while the latter also some punctuation (like commas or points, plus,
+minus) and “e” or “E” as in 3.14E+000.
+
+This enumeration may be extended in the future; input methods should
+interpret unknown values as “free form”.
+=item C<GTK_INPUT_PURPOSE_FREE_FORM>; Allow any character
+=item C<GTK_INPUT_PURPOSE_ALPHA>; Allow only alphabetic characters
+=item C<GTK_INPUT_PURPOSE_DIGITS>; Allow only digits
+=item C<GTK_INPUT_PURPOSE_NUMBER>; Edited field expects numbers
+=item C<GTK_INPUT_PURPOSE_PHONE>; Edited field expects phone number
+=item C<GTK_INPUT_PURPOSE_URL>; Edited field expects URL
+=item C<GTK_INPUT_PURPOSE_EMAIL>; Edited field expects email address
+=item C<GTK_INPUT_PURPOSE_NAME>; Edited field expects the name of a person
+=item C<GTK_INPUT_PURPOSE_PASSWORD>; Like C<GTK_INPUT_PURPOSE_FREE_FORM>, but characters are hidden
+=item C<GTK_INPUT_PURPOSE_PIN>; Like C<GTK_INPUT_PURPOSE_DIGITS>, but characters are hidden
+=item C<GTK_INPUT_PURPOSE_TERMINAL>; Allow any character, in addition to control codes
+
+=head2 GtkJustification
+
+Used for justifying the text inside a B<Gnome::Gtk4::Label> widget.
+=item C<GTK_JUSTIFY_LEFT>; The text is placed at the left edge of the label.
+=item C<GTK_JUSTIFY_RIGHT>; The text is placed at the right edge of the label.
+=item C<GTK_JUSTIFY_CENTER>; The text is placed in the center of the label.
+=item C<GTK_JUSTIFY_FILL>; The text is placed is distributed across the label.
+
+=head2 GtkLevelBarMode
+
+Describes how B<Gnome::Gtk4::LevelBar> contents should be rendered.
+
+Note that this enumeration could be extended with additional modes
+in the future.
+=item C<GTK_LEVEL_BAR_MODE_CONTINUOUS>; the bar has a continuous mode
+=item C<GTK_LEVEL_BAR_MODE_DISCRETE>; the bar has a discrete mode
+
+=head2 GtkMessageType
+
+The type of message being displayed in a B<Gnome::Gtk4::MessageDialog>.
+=item C<GTK_MESSAGE_INFO>; Informational message
+=item C<GTK_MESSAGE_WARNING>; Non-fatal warning message
+=item C<GTK_MESSAGE_QUESTION>; Question requiring a choice
+=item C<GTK_MESSAGE_ERROR>; Fatal error message
+=item C<GTK_MESSAGE_OTHER>; None of the above
+
+=head2 GtkMovementStep
+
+Passed as argument to various keybinding signals for moving the
+cursor position.
+=item C<GTK_MOVEMENT_LOGICAL_POSITIONS>; Move forward or back by graphemes
+=item C<GTK_MOVEMENT_VISUAL_POSITIONS>; Move left or right by graphemes
+=item C<GTK_MOVEMENT_WORDS>; Move forward or back by words
+=item C<GTK_MOVEMENT_DISPLAY_LINES>; Move up or down lines (wrapped lines)
+=item C<GTK_MOVEMENT_DISPLAY_LINE_ENDS>; Move to either end of a line
+=item C<GTK_MOVEMENT_PARAGRAPHS>; Move up or down paragraphs (newline-ended lines)
+=item C<GTK_MOVEMENT_PARAGRAPH_ENDS>; Move to either end of a paragraph
+=item C<GTK_MOVEMENT_PAGES>; Move by pages
+=item C<GTK_MOVEMENT_BUFFER_ENDS>; Move to ends of the buffer
+=item C<GTK_MOVEMENT_HORIZONTAL_PAGES>; Move horizontally by pages
+
+=head2 GtkNaturalWrapMode
+
+Options for selecting a different wrap mode for natural size
+requests.
+
+See for example the I<natural-wrap-mode defined in Gnome::Gtk4::Label> property.
+=item C<GTK_NATURAL_WRAP_INHERIT>; Inherit the minimum size request.
+  In particular, this should be used with C<PANGO_WRAP_CHAR>.
+=item C<GTK_NATURAL_WRAP_NONE>; Try not to wrap the text. This mode is the
+  closest to GTK3's behavior but can lead to a wide label leaving
+  lots of empty space below the text.
+=item C<GTK_NATURAL_WRAP_WORD>; Attempt to wrap at word boundaries. This
+  is useful in particular when using C<PANGO_WRAP_WORD_CHAR> as the
+  wrap mode.
+
+=head2 GtkNumberUpLayout
+
+Used to determine the layout of pages on a sheet when printing
+multiple pages per sheet.
+=item C<GTK_NUMBER_UP_LAYOUT_LEFT_TO_RIGHT_TOP_TO_BOTTOM>; ![](layout-lrtb.png)
+=item C<GTK_NUMBER_UP_LAYOUT_LEFT_TO_RIGHT_BOTTOM_TO_TOP>; ![](layout-lrbt.png)
+=item C<GTK_NUMBER_UP_LAYOUT_RIGHT_TO_LEFT_TOP_TO_BOTTOM>; ![](layout-rltb.png)
+=item C<GTK_NUMBER_UP_LAYOUT_RIGHT_TO_LEFT_BOTTOM_TO_TOP>; ![](layout-rlbt.png)
+=item C<GTK_NUMBER_UP_LAYOUT_TOP_TO_BOTTOM_LEFT_TO_RIGHT>; ![](layout-tblr.png)
+=item C<GTK_NUMBER_UP_LAYOUT_TOP_TO_BOTTOM_RIGHT_TO_LEFT>; ![](layout-tbrl.png)
+=item C<GTK_NUMBER_UP_LAYOUT_BOTTOM_TO_TOP_LEFT_TO_RIGHT>; ![](layout-btlr.png)
+=item C<GTK_NUMBER_UP_LAYOUT_BOTTOM_TO_TOP_RIGHT_TO_LEFT>; ![](layout-btrl.png)
+
+=head2 GtkOrdering
+
+Describes the way two values can be compared.
+
+These values can be used with a [callback C<$GLib>.CompareFunc]. However,
+a U<Gnome::Glib::T-DoubleIEEE754> is allowed to return any integer values.
+For converting such a value to a C<enumeration GtkOrdering defined in Gnome::Gtk4::T-Enums> value, use
+C<.Ordering.from-cmpfunc()>.
+=item C<GTK_ORDERING_SMALLER>; the first value is smaller than the second
+=item C<GTK_ORDERING_EQUAL>; the two values are equal
+=item C<GTK_ORDERING_LARGER>; the first value is larger than the second
+
+=head2 GtkOrientation
+
+Represents the orientation of widgets and other objects.
+
+Typical examples are B<Gnome::Gtk4::Box> or B<Gnome::Gtk4::GesturePan>.
+=item C<GTK_ORIENTATION_HORIZONTAL>; The element is in horizontal orientation.
+=item C<GTK_ORIENTATION_VERTICAL>; The element is in vertical orientation.
+
+=head2 GtkOverflow
+
+Defines how content overflowing a given area should be handled.
+
+This is used in C<.set-overflow() in class Gnome::Gtk4::Widget>. The
+I<overflow defined in Gnome::Gtk4::Widget> property is modeled after the
+CSS overflow property, but implements it only partially.
+=item C<GTK_OVERFLOW_VISIBLE>; No change is applied. Content is drawn at the specified
+  position.
+=item C<GTK_OVERFLOW_HIDDEN>; Content is clipped to the bounds of the area. Content
+  outside the area is not drawn and cannot be interacted with.
+
+=head2 GtkPackType
+
+Represents the packing location of a children in its parent.
+
+See B<Gnome::Gtk4::WindowControls> for example.
+=item C<GTK_PACK_START>; The child is packed into the start of the widget
+=item C<GTK_PACK_END>; The child is packed into the end of the widget
+
+=head2 GtkPageOrientation
+
+See also gtk_print_settings_set_orientation().
+=item C<GTK_PAGE_ORIENTATION_PORTRAIT>; Portrait mode.
+=item C<GTK_PAGE_ORIENTATION_LANDSCAPE>; Landscape mode.
+=item C<GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT>; Reverse portrait mode.
+=item C<GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE>; Reverse landscape mode.
+
+=head2 GtkPageSet
+
+See also gtk_print_job_set_page_set().
+=item C<GTK_PAGE_SET_ALL>; All pages.
+=item C<GTK_PAGE_SET_EVEN>; Even pages.
+=item C<GTK_PAGE_SET_ODD>; Odd pages.
+
+=head2 GtkPanDirection
+
+Describes the panning direction of a B<Gnome::Gtk4::GesturePan>.
+=item C<GTK_PAN_DIRECTION_LEFT>; panned towards the left
+=item C<GTK_PAN_DIRECTION_RIGHT>; panned towards the right
+=item C<GTK_PAN_DIRECTION_UP>; panned upwards
+=item C<GTK_PAN_DIRECTION_DOWN>; panned downwards
+
+=head2 GtkPositionType
+
+Describes which edge of a widget a certain feature is positioned at.
+
+For examples, see the tabs of a B<Gnome::Gtk4::Notebook>, or the label
+of a B<Gnome::Gtk4::Scale>.
+=item C<GTK_POS_LEFT>; The feature is at the left edge.
+=item C<GTK_POS_RIGHT>; The feature is at the right edge.
+=item C<GTK_POS_TOP>; The feature is at the top edge.
+=item C<GTK_POS_BOTTOM>; The feature is at the bottom edge.
+
+=head2 GtkPrintDuplex
+
+See also gtk_print_settings_set_duplex().
+=item C<GTK_PRINT_DUPLEX_SIMPLEX>; No duplex.
+=item C<GTK_PRINT_DUPLEX_HORIZONTAL>; Horizontal duplex.
+=item C<GTK_PRINT_DUPLEX_VERTICAL>; Vertical duplex.
+
+=head2 GtkPrintPages
+
+See also gtk_print_job_set_pages()
+=item C<GTK_PRINT_PAGES_ALL>; All pages.
+=item C<GTK_PRINT_PAGES_CURRENT>; Current page.
+=item C<GTK_PRINT_PAGES_RANGES>; Range of pages.
+=item C<GTK_PRINT_PAGES_SELECTION>; Selected pages.
+
+=head2 GtkPrintQuality
+
+See also gtk_print_settings_set_quality().
+=item C<GTK_PRINT_QUALITY_LOW>; Low quality.
+=item C<GTK_PRINT_QUALITY_NORMAL>; Normal quality.
+=item C<GTK_PRINT_QUALITY_HIGH>; High quality.
+=item C<GTK_PRINT_QUALITY_DRAFT>; Draft quality.
+
+=head2 GtkPropagationLimit
+
+Describes limits of a B<Gnome::Gtk4::EventController> for handling events
+targeting other widgets.
+=item C<GTK_LIMIT_NONE>; Events are handled regardless of what their
+  target is.
+=item C<GTK_LIMIT_SAME_NATIVE>; Events are only handled if their target
+  is in the same [iface C<$Native>] as the event controllers widget. Note
+  that some event types have two targets (origin and destination).
+
+=head2 GtkPropagationPhase
+
+Describes the stage at which events are fed into a B<Gnome::Gtk4::EventController>.
+=item C<GTK_PHASE_NONE>; Events are not delivered.
+=item C<GTK_PHASE_CAPTURE>; Events are delivered in the capture phase. The
+  capture phase happens before the bubble phase, runs from the toplevel down
+  to the event widget. This option should only be used on containers that
+  might possibly handle events before their children do.
+=item C<GTK_PHASE_BUBBLE>; Events are delivered in the bubble phase. The bubble
+  phase happens after the capture phase, and before the default handlers
+  are run. This phase runs from the event widget, up to the toplevel.
+=item C<GTK_PHASE_TARGET>; Events are delivered in the default widget event handlers,
+  note that widget implementations must chain up on button, motion, touch and
+  grab broken handlers for controllers in this phase to be run.
+
+=head2 GtkScrollStep
+
+Passed as argument to various keybinding signals.
+=item C<GTK_SCROLL_STEPS>; Scroll in steps.
+=item C<GTK_SCROLL_PAGES>; Scroll by pages.
+=item C<GTK_SCROLL_ENDS>; Scroll to ends.
+=item C<GTK_SCROLL_HORIZONTAL_STEPS>; Scroll in horizontal steps.
+=item C<GTK_SCROLL_HORIZONTAL_PAGES>; Scroll by horizontal pages.
+=item C<GTK_SCROLL_HORIZONTAL_ENDS>; Scroll to the horizontal ends.
+
+=head2 GtkScrollType
+
+Scrolling types.
+=item C<GTK_SCROLL_NONE>; No scrolling.
+=item C<GTK_SCROLL_JUMP>; Jump to new location.
+=item C<GTK_SCROLL_STEP_BACKWARD>; Step backward.
+=item C<GTK_SCROLL_STEP_FORWARD>; Step forward.
+=item C<GTK_SCROLL_PAGE_BACKWARD>; Page backward.
+=item C<GTK_SCROLL_PAGE_FORWARD>; Page forward.
+=item C<GTK_SCROLL_STEP_UP>; Step up.
+=item C<GTK_SCROLL_STEP_DOWN>; Step down.
+=item C<GTK_SCROLL_PAGE_UP>; Page up.
+=item C<GTK_SCROLL_PAGE_DOWN>; Page down.
+=item C<GTK_SCROLL_STEP_LEFT>; Step to the left.
+=item C<GTK_SCROLL_STEP_RIGHT>; Step to the right.
+=item C<GTK_SCROLL_PAGE_LEFT>; Page to the left.
+=item C<GTK_SCROLL_PAGE_RIGHT>; Page to the right.
+=item C<GTK_SCROLL_START>; Scroll to start.
+=item C<GTK_SCROLL_END>; Scroll to end.
+
+=head2 GtkScrollablePolicy
+
+Defines the policy to be used in a scrollable widget when updating
+the scrolled window adjustments in a given orientation.
+=item C<GTK_SCROLL_MINIMUM>; Scrollable adjustments are based on the minimum size
+=item C<GTK_SCROLL_NATURAL>; Scrollable adjustments are based on the natural size
+
+=head2 GtkSelectionMode
+
+Used to control what selections users are allowed to make.
+=item C<GTK_SELECTION_NONE>; No selection is possible.
+=item C<GTK_SELECTION_SINGLE>; Zero or one element may be selected.
+=item C<GTK_SELECTION_BROWSE>; Exactly one element is selected.
+  In some circumstances, such as initially or during a search
+  operation, it’s possible for no element to be selected with
+  C<GTK_SELECTION_BROWSE>. What is really enforced is that the user
+  can’t deselect a currently selected element except by selecting
+  another element.
+=item C<GTK_SELECTION_MULTIPLE>; Any number of elements may be selected.
+  The Ctrl key may be used to enlarge the selection, and Shift
+  key to select between the focus and the child pointed to.
+  Some widgets may also allow Click-drag to select a range of elements.
+
+=head2 GtkSensitivityType
+
+Determines how GTK handles the sensitivity of various controls,
+such as combo box buttons.
+=item C<GTK_SENSITIVITY_AUTO>; The control is made insensitive if no
+  action can be triggered
+=item C<GTK_SENSITIVITY_ON>; The control is always sensitive
+=item C<GTK_SENSITIVITY_OFF>; The control is always insensitive
+
+=head2 GtkShortcutScope
+
+Describes where B<Gnome::Gtk4::Shortcut>s added to a
+B<Gnome::Gtk4::ShortcutController> get handled.
+=item C<GTK_SHORTCUT_SCOPE_LOCAL>; Shortcuts are handled inside
+  the widget the controller belongs to.
+=item C<GTK_SHORTCUT_SCOPE_MANAGED>; Shortcuts are handled by
+  the first ancestor that is a [iface C<$ShortcutManager>]
+=item C<GTK_SHORTCUT_SCOPE_GLOBAL>; Shortcuts are handled by
+  the root widget.
+
+=head2 GtkSizeGroupMode
+
+The mode of the size group determines the directions in which the size
+group affects the requested sizes of its component widgets.
+=item C<GTK_SIZE_GROUP_NONE>; group has no effect
+=item C<GTK_SIZE_GROUP_HORIZONTAL>; group affects horizontal requisition
+=item C<GTK_SIZE_GROUP_VERTICAL>; group affects vertical requisition
+=item C<GTK_SIZE_GROUP_BOTH>; group affects both horizontal and vertical requisition
+
+=head2 GtkSizeRequestMode
+
+Specifies a preference for height-for-width or
+width-for-height geometry management.
+=item C<GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH>; Prefer height-for-width geometry management
+=item C<GTK_SIZE_REQUEST_WIDTH_FOR_HEIGHT>; Prefer width-for-height geometry management
+=item C<GTK_SIZE_REQUEST_CONSTANT_SIZE>; Don’t trade height-for-width or width-for-height
+
+=head2 GtkSortType
+
+Determines the direction of a sort.
+=item C<GTK_SORT_ASCENDING>; Sorting is in ascending order.
+=item C<GTK_SORT_DESCENDING>; Sorting is in descending order.
+
+=head2 GtkSymbolicColor
+
+The indexes of colors passed to symbolic color rendering, such as
+[vfunc C<$Gtk>.SymbolicPaintable.snapshot_symbolic].
+
+More values may be added over time.
+=item C<GTK_SYMBOLIC_COLOR_FOREGROUND>; The default foreground color
+=item C<GTK_SYMBOLIC_COLOR_ERROR>; Indication color for errors
+=item C<GTK_SYMBOLIC_COLOR_WARNING>; Indication color for warnings
+=item C<GTK_SYMBOLIC_COLOR_SUCCESS>; Indication color for success
+
+=head2 GtkSystemSetting
+
+Values that can be passed to the [vfunc C<$Gtk>.Widget.system_setting_changed]
+vfunc.
+
+The values indicate which system setting has changed.
+Widgets may need to drop caches, or react otherwise.
+
+Most of the values correspond to B<Gnome::Gtk4::Settings> properties.
+
+More values may be added over time.
+=item C<GTK_SYSTEM_SETTING_DPI>; the I<gtk-xft-dpi defined in Gnome::Gtk4::Settings> setting has changed
+=item C<GTK_SYSTEM_SETTING_FONT_NAME>; The I<gtk-font-name defined in Gnome::Gtk4::Settings> setting has changed
+=item C<GTK_SYSTEM_SETTING_FONT_CONFIG>; The font configuration has changed in a way that
+  requires text to be redrawn. This can be any of the
+  I<gtk-xft-antialias defined in Gnome::Gtk4::Settings>,
+  I<gtk-xft-hinting defined in Gnome::Gtk4::Settings>,
+  I<gtk-xft-hintstyle defined in Gnome::Gtk4::Settings>,
+  I<gtk-xft-rgba defined in Gnome::Gtk4::Settings> or
+  I<gtk-fontconfig-timestamp defined in Gnome::Gtk4::Settings> settings
+=item C<GTK_SYSTEM_SETTING_DISPLAY>; The display has changed
+=item C<GTK_SYSTEM_SETTING_ICON_THEME>; The icon theme has changed in a way that requires
+  icons to be looked up again
+
+=head2 GtkTextDirection
+
+Reading directions for text.
+=item C<GTK_TEXT_DIR_NONE>; No direction.
+=item C<GTK_TEXT_DIR_LTR>; Left to right text direction.
+=item C<GTK_TEXT_DIR_RTL>; Right to left text direction.
+
+=head2 GtkTreeViewGridLines
+
+Used to indicate which grid lines to draw in a tree view.
+=item C<GTK_TREE_VIEW_GRID_LINES_NONE>; No grid lines.
+=item C<GTK_TREE_VIEW_GRID_LINES_HORIZONTAL>; Horizontal grid lines.
+=item C<GTK_TREE_VIEW_GRID_LINES_VERTICAL>; Vertical grid lines.
+=item C<GTK_TREE_VIEW_GRID_LINES_BOTH>; Horizontal and vertical grid lines.
+
+=head2 GtkUnit
+
+See also gtk_print_settings_set_paper_width().
+=item C<GTK_UNIT_NONE>; No units.
+=item C<GTK_UNIT_POINTS>; Dimensions in points.
+=item C<GTK_UNIT_INCH>; Dimensions in inches.
+=item C<GTK_UNIT_MM>; Dimensions in millimeters
+
+=head2 GtkWrapMode
+
+Describes a type of line wrapping.
+=item C<GTK_WRAP_NONE>; do not wrap lines; just make the text area wider
+=item C<GTK_WRAP_CHAR>; wrap text, breaking lines anywhere the cursor can
+  appear (between characters, usually - if you want to be technical,
+  between graphemes, see pango_get_log_attrs())
+=item C<GTK_WRAP_WORD>; wrap text, breaking lines in between words
+=item C<GTK_WRAP_WORD_CHAR>; wrap text, breaking lines in between words, or if
+  that is not enough, also between graphemes
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GtkInputHints
+
+Describes hints that might be taken into account by input methods
+or applications.
+
+Note that input methods may already tailor their behaviour according
+to the [enum C<$InputPurpose>] of the entry.
+
+Some common sense is expected when using these flags - mixing
+C<GTK_INPUT_HINT_LOWERCASE> with any of the uppercase hints makes no sense.
+
+This enumeration may be extended in the future; input methods should
+ignore unknown values.
+
+=item C<GTK_INPUT_HINT_NONE>; No special behaviour suggested
+=item C<GTK_INPUT_HINT_SPELLCHECK>; Suggest checking for typos
+=item C<GTK_INPUT_HINT_NO_SPELLCHECK>; Suggest not checking for typos
+=item C<GTK_INPUT_HINT_WORD_COMPLETION>; Suggest word completion
+=item C<GTK_INPUT_HINT_LOWERCASE>; Suggest to convert all text to lowercase
+=item C<GTK_INPUT_HINT_UPPERCASE_CHARS>; Suggest to capitalize all text
+=item C<GTK_INPUT_HINT_UPPERCASE_WORDS>; Suggest to capitalize the first
+  character of each word
+=item C<GTK_INPUT_HINT_UPPERCASE_SENTENCES>; Suggest to capitalize the
+  first word of each sentence
+=item C<GTK_INPUT_HINT_INHIBIT_OSK>; Suggest to not show an onscreen keyboard
+  (e.g for a calculator that already has all the keys).
+=item C<GTK_INPUT_HINT_VERTICAL_WRITING>; The text is vertical
+=item C<GTK_INPUT_HINT_EMOJI>; Suggest offering Emoji support
+=item C<GTK_INPUT_HINT_NO_EMOJI>; Suggest not offering Emoji support
+=item C<GTK_INPUT_HINT_PRIVATE>; Request that the input method should not
+   update personalized data (like typing history)
+
+=head2 GtkPickFlags
+
+Flags that influence the behavior of [method C<$Widget>.pick].
+
+=item C<GTK_PICK_DEFAULT>; The default behavior, include widgets that are receiving events
+=item C<GTK_PICK_INSENSITIVE>; Include widgets that are insensitive
+=item C<GTK_PICK_NON_TARGETABLE>; Include widgets that are marked as non-targetable. See [property C<$Widget>:can-target]
+
+=head2 GtkStateFlags
+
+Describes a widget state.
+
+Widget states are used to match the widget against CSS pseudo-classes.
+Note that GTK extends the regular CSS classes and sometimes uses
+different names.
+
+=item C<GTK_STATE_FLAG_NORMAL>; State during normal operation
+=item C<GTK_STATE_FLAG_ACTIVE>; Widget is active
+=item C<GTK_STATE_FLAG_PRELIGHT>; Widget has a mouse pointer over it
+=item C<GTK_STATE_FLAG_SELECTED>; Widget is selected
+=item C<GTK_STATE_FLAG_INSENSITIVE>; Widget is insensitive
+=item C<GTK_STATE_FLAG_INCONSISTENT>; Widget is inconsistent
+=item C<GTK_STATE_FLAG_FOCUSED>; Widget has the keyboard focus
+=item C<GTK_STATE_FLAG_BACKDROP>; Widget is in a background toplevel window
+=item C<GTK_STATE_FLAG_DIR_LTR>; Widget is in left-to-right text direction
+=item C<GTK_STATE_FLAG_DIR_RTL>; Widget is in right-to-left text direction
+=item C<GTK_STATE_FLAG_LINK>; Widget is a link
+=item C<GTK_STATE_FLAG_VISITED>; The location the widget points to has already been visited
+=item C<GTK_STATE_FLAG_CHECKED>; Widget is checked
+=item C<GTK_STATE_FLAG_DROP_ACTIVE>; Widget is highlighted as a drop target for DND
+=item C<GTK_STATE_FLAG_FOCUS_VISIBLE>; Widget has the visible focus
+=item C<GTK_STATE_FLAG_FOCUS_WITHIN>; Widget contains the keyboard focus
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ordering-from-cmpfunc
+
+Converts the result of a U<Gnome::Glib::T-DoubleIEEE754> like strcmp() to a
+C<enumeration GtkOrdering defined in Gnome::Gtk4::T-Enums> value.
+
+=begin code
+method ordering-from-cmpfunc ( Int() $cmpfunc-result --> GtkOrdering )
+=end code
+
+=item $cmpfunc-result; Result of a comparison function.
+
+Return value; the corresponding C<enumeration GtkOrdering defined in Gnome::Gtk4::T-Enums>. 
+
+=begin comment
+
+=head2 Example
+# Example for ordering-from-cmpfunc
+
+=end comment
+
+=end pod
+

@@ -1,11 +1,45 @@
-# Command to generate: generate.raku -v -t -c Gtk4 enums
+=comment Package: Gtk4, C-Source: enums
 use v6.d;
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::T-Enums:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
+
+#-------------------------------------------------------------------------------
+#--[BUILD variables]------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+# Define helper
+has Gnome::N::GnomeRoutineCaller $!routine-caller;
+
+#-------------------------------------------------------------------------------
+#--[BUILD submethod]------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+submethod BUILD ( ) {
+  # Initialize helper
+  $!routine-caller .= new(:library(gtk4-lib()));
+}
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+constant GTK_ACCESSIBLE_VALUE_UNDEFINED is export = -1;
 
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
@@ -72,6 +106,10 @@ enum GtkConstraintStrength is export <
 
 enum GtkConstraintVflParserError is export <
   GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_SYMBOL GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_ATTRIBUTE GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_VIEW GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_METRIC GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_PRIORITY GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_RELATION 
+>;
+
+enum GtkContentFit is export <
+  GTK_CONTENT_FIT_FILL GTK_CONTENT_FIT_CONTAIN GTK_CONTENT_FIT_COVER GTK_CONTENT_FIT_SCALE_DOWN 
 >;
 
 enum GtkDeleteType is export <
@@ -231,11 +269,6 @@ enum GtkWrapMode is export <
 >;
 
 #-------------------------------------------------------------------------------
-#--[Constants]------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-constant GTK_ACCESSIBLE_VALUE_UNDEFINED is export = -1;
-
-#-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 enum GtkInputHints is export (
@@ -250,4 +283,26 @@ enum GtkStateFlags is export (
   :GTK_STATE_FLAG_NORMAL(0), :GTK_STATE_FLAG_ACTIVE(1), :GTK_STATE_FLAG_PRELIGHT(2), :GTK_STATE_FLAG_SELECTED(4), :GTK_STATE_FLAG_INSENSITIVE(8), :GTK_STATE_FLAG_INCONSISTENT(16), :GTK_STATE_FLAG_FOCUSED(32), :GTK_STATE_FLAG_BACKDROP(64), :GTK_STATE_FLAG_DIR_LTR(128), :GTK_STATE_FLAG_DIR_RTL(256), :GTK_STATE_FLAG_LINK(512), :GTK_STATE_FLAG_VISITED(1024), :GTK_STATE_FLAG_CHECKED(2048), :GTK_STATE_FLAG_DROP_ACTIVE(4096), :GTK_STATE_FLAG_FOCUS_VISIBLE(8192), :GTK_STATE_FLAG_FOCUS_WITHIN(16384)
 );
 
+#-------------------------------------------------------------------------------
+#--[Standalone functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
 
+my Hash $methods = %(
+  
+  #--[Functions]----------------------------------------------------------------
+  ordering-from-cmpfunc => %( :type(Function), :is-symbol<gtk_ordering_from_cmpfunc>,  :returns(GEnum) :parameters([gint])),
+
+);
+# This method is recognized in class Gnome::N::TopLevelClassSupport.
+method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+  if $methods{$name}:exists {
+    $_fallback-v2-ok = True;
+    return $!routine-caller.call-native-sub(
+      $name, @arguments, $methods
+    );
+  }
+
+  else {
+    callsame;
+  }
+}

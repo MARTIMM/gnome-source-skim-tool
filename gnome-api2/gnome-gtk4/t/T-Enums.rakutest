@@ -1,4 +1,5 @@
-# Command to generate: generate.raku -v -t Gtk4 enums
+=comment Package: Gtk4, C-Source: enums
+use v6.d;
 
 #TL:1:Gnome::Gtk4::T-Enums:
 #-------------------------------------------------------------------------------
@@ -96,6 +97,22 @@ subtest 'GtkStateFlags', {
 
   is GTK_STATE_FLAG_FOCUS_WITHIN.value, 16384, 'bitfield GTK_STATE_FLAG_FOCUS_WITHIN = 16384';
 
+};
+
+
+my Gnome::Gtk4::T-Enums $enums .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $enums {
+    my gint $cmpfunc-result;
+
+
+#`{{
+    #TM:0:ordering-from-cmpfunc()
+    ok .ordering-from-cmpfunc( $cmpfunc-result), '.ordering-from-cmpfunc()';
+
+}}
+  }
 };
 
 #-------------------------------------------------------------------------------
@@ -549,6 +566,19 @@ subtest 'GtkConstraintVflParserError', {
   is GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_PRIORITY.value, 4, 'enum GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_PRIORITY = 4';
 
   is GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_RELATION.value, 5, 'enum GTK_CONSTRAINT_VFL_PARSER_ERROR_INVALID_RELATION = 5';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkContentFit
+subtest 'GtkContentFit', {
+  is GTK_CONTENT_FIT_FILL.value, 0, 'enum GTK_CONTENT_FIT_FILL = 0';
+
+  is GTK_CONTENT_FIT_CONTAIN.value, 1, 'enum GTK_CONTENT_FIT_CONTAIN = 1';
+
+  is GTK_CONTENT_FIT_COVER.value, 2, 'enum GTK_CONTENT_FIT_COVER = 2';
+
+  is GTK_CONTENT_FIT_SCALE_DOWN.value, 3, 'enum GTK_CONTENT_FIT_SCALE_DOWN = 3';
 
 };
 
