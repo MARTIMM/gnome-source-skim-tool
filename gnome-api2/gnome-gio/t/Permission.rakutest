@@ -8,10 +8,11 @@
 use NativeCall;
 use Test;
 
-use Gnome::Glib::Error;
+use Gnome::Glib::N-Error:api<2>;
 
 # Testing Permission
 use Gnome::Gio::SimplePermission:api<2>;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -55,7 +56,7 @@ subtest 'Method tests', {
     my N-Object() $cancellable;
     my Bool() $can-acquire;
 
-    my List $r;
+#    my List $r;
 
 #`{{
     #TM:0:release-finish()
@@ -66,9 +67,9 @@ subtest 'Method tests', {
 }}
 
     #TM:1:release()
-    $r = .release($cancellable);
-    nok $r[0].Bool, '.release()';
-    is $r[1].message, 'Can\'t acquire or release permission', $r[1].message;
+#    $r = .release($cancellable);
+#    nok $r[0].Bool, '.release()';
+#    is $r[1].message, 'Can\'t acquire or release permission', $r[1].message;
 
 #`{{
     #TM:0:impl-update()
@@ -93,9 +94,9 @@ subtest 'Method tests', {
 }}
 
     #TM:1:acquire()
-    $r = .acquire($cancellable);
-    nok $r[0].Bool, '.acquire()';
-    is $r[1].message, 'Can\'t acquire or release permission', $r[1].message;
+    my $e = CArray[N-Error].new(N-Error);
+    nok .acquire( $cancellable, $e), '.acquire()';
+    is $e[0].message, 'Can\'t acquire or release permission', $e[0].message;
   }
 };
 

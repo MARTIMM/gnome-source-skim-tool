@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gio permission
+=comment Package: Gio, C-Source: permission
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,6 +8,7 @@ use v6.d;
 use NativeCall;
 
 
+use Gnome::Glib::N-Error:api<2>;
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -37,14 +38,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gio-lib()), :sub-prefix<g_permission_>);
+  $!routine-caller .= new(:library(gio-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gio::Permission' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GPermission');
@@ -58,16 +58,16 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  acquire => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  #acquire-async => %( :parameters([N-Object, :( N-Object, N-Object, gpointer ), gpointer])),
-  acquire-finish => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  get-allowed => %( :returns(gboolean), :cnv-return(Bool)),
-  get-can-acquire => %( :returns(gboolean), :cnv-return(Bool)),
-  get-can-release => %( :returns(gboolean), :cnv-return(Bool)),
-  impl-update => %( :parameters([gboolean, gboolean, gboolean])),
-  release => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  #release-async => %( :parameters([N-Object, :( N-Object, N-Object, gpointer ), gpointer])),
-  release-finish => %( :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  acquire => %(:is-symbol<g_permission_acquire>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])),
+  acquire-async => %(:is-symbol<g_permission_acquire_async>,  :parameters([N-Object, :( N-Object $source-object, N-Object $res, gpointer $user-data ), gpointer])),
+  acquire-finish => %(:is-symbol<g_permission_acquire_finish>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])),
+  get-allowed => %(:is-symbol<g_permission_get_allowed>,  :returns(gboolean), :cnv-return(Bool)),
+  get-can-acquire => %(:is-symbol<g_permission_get_can_acquire>,  :returns(gboolean), :cnv-return(Bool)),
+  get-can-release => %(:is-symbol<g_permission_get_can_release>,  :returns(gboolean), :cnv-return(Bool)),
+  impl-update => %(:is-symbol<g_permission_impl_update>,  :parameters([gboolean, gboolean, gboolean])),
+  release => %(:is-symbol<g_permission_release>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])),
+  release-async => %(:is-symbol<g_permission_release_async>,  :parameters([N-Object, :( N-Object $source-object, N-Object $res, gpointer $user-data ), gpointer])),
+  release-finish => %(:is-symbol<g_permission_release_finish>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])),
 );
 
 #-------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gio-lib()), :sub-prefix<g_permission_>
+        :library(gio-lib())
       );
 
       # Check the function name. 
@@ -86,6 +86,10 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
           $routine-caller.call-native-sub( $name, @arguments, $methods)
         )
       );
+    }
+
+    elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
+      return $!routine-caller.call-native-sub( $name, @arguments, $methods);
     }
 
     else {

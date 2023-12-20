@@ -42,10 +42,8 @@ subtest 'Method tests', {
     $code = 1012342;
     $message = 'my error';
 
-    my List $l = .set-error-literal( $e, $domain, $code, $message);
-    is $l[0].domain, 45444, '.set-error-literal()';
-    $n-error = $l[0];
-    is $n-error.domain, 45444, '.set-error-literal() from returned List';
+    .set-error-literal( $e, $domain, $code, $message);
+    is $e[0].domain, 45444, '.set-error-literal()';
 
     #TB:1:set-error()
     $e = CArray[N-Error].new(N-Error);
@@ -53,17 +51,17 @@ subtest 'Method tests', {
     $code = 7987;
     $format = 'my %dnd error';
 
-    $l = .set-error( $e, $domain, $code, $format, gint32, 2);
-    is $l[0].message, sprintf( $format, 2), '.set-error() with added gint32';
+    .set-error( $e, $domain, $code, $format, gint32, 2);
+    is $e[0].message, sprintf( $format, 2), '.set-error() with added gint32';
 
     $e = CArray[N-Error].new(N-Error);
-    $l = .set-error( $e, $domain, $code, $format, gint32, 3);
-    is $l[0].message, sprintf( $format, 3), '.set-error() with added gint32';
+    .set-error( $e, $domain, $code, $format, gint32, 3);
+    is $e[0].message, sprintf( $format, 3), '.set-error() with added gint32';
 
     $e = CArray[N-Error].new(N-Error);
     $format = 'illegal value %4.2f';
-    $l = .set-error( $e, $domain, $code, $format, gdouble, 32e-1);
-    is $l[0].message, sprintf( $format, 32e-1), '.set-error() with added gdouble';
+    .set-error( $e, $domain, $code, $format, gdouble, 32e-1);
+    is $e[0].message, sprintf( $format, 32e-1), '.set-error() with added gdouble';
 
 #`{{
 
@@ -82,9 +80,9 @@ subtest 'Method tests', {
     $domain = 87600;
     $code = 7;
     $format = 'your %dnd error';
-    $l = .set-error( $e, $domain, $code, ", I did warn ye!");
-    $l = .prefix-error( $e, $format, gint32, 2);
-    is $l[0].message, sprintf( $format ~ ", I did warn ye!", 2), '.prefix-error() with added gint32';
+    .set-error( $e, $domain, $code, ", I did warn ye!");
+    .prefix-error( $e, $format, gint32, 2);
+    is $e[0].message, sprintf( $format ~ ", I did warn ye!", 2), '.prefix-error() with added gint32';
 
     #TM:1:clear-error()
     lives-ok { .clear-error($e); }, '.clear-error()';
