@@ -8,7 +8,6 @@ Glib:
   - N-Error                 # modified record class names
   - N-SList                 # modified record class names
   - N-Variant               # modified sub new-variant-with-variant
-  - T-Error                 # bug in g_clear_error()
   - T-List                  # modified record class names
   t:
   - N-Error
@@ -23,6 +22,10 @@ GObject:
   d:
   - InitiallyUnowned
   - Object
+
+Gio:
+  t:
+  - Permission
 
 Gtk4:
   t:
@@ -53,6 +56,9 @@ SkimToolData:
   - C-File.gir                  # File made as a class, not as an interface
   Glib:
   - repo-function.gir           # (not changed), bugs in g_clear_error()
+  Glib:
+  - C-Permission.gir            # (not changed), bugs in g_permission_acquire()
+
   Gtk4:
   - C-AssistantPage.gir         # forgotten backtick
   - C-Label.gir                 # use of special markup wrong and some backticks
