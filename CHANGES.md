@@ -62,11 +62,14 @@ find . -name '*.raku*' | xargs wc -l
   * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
 * In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. There is no pixbuf package for version 4. There it is solved differently.
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk4`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
-
+* No lists are returned to read veriables set by the native routines.
 
 
 
 # Release notes
+* 2023-12-20 0.13.1
+  * GnomeRoutineCaller helpers will not return Lists anymore when there were any pointers (like CArray[]) where data is placed by called native routines. It was already needed to provide any pointers to the native routines.
+
 * 2023-12-11 0.13.0
   * Split Doc into two modules hope to reduce compilation time
   * Split Code into two module to solve circular dependency
