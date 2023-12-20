@@ -523,6 +523,19 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
     @parameters.push: $ph;
   }
 
+  # It is possible that there is a 'throws' option which, when 1, needs
+  # an extra argument to store an error object.
+  if $e.attribs<throws>:exists and $e.attribs<throws> eq '1' {
+    my Str $doc = q:to/EOERR/;
+      Error object. When defined, an error can be returned when there is one.
+      Use C<Pointer> when you want to ignore the error.
+      EOERR
+
+    @parameters.push: %(
+      :name<err>, :type<CArray[N-Error]>, :raku-type<CArray[N-Error]>, :$doc
+    );
+  }
+
 #note "$?LINE $function-name, $missing-type";
   ( $function-name, %(
       :$function-doc, :@parameters, :$missing-type,

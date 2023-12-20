@@ -412,151 +412,6 @@ method get-signal-admin (
   $signal-admin;
 }
 
-#`{{
-#-------------------------------------------------------------------------------
-method get-constructors (
-  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
-) {
-  my Hash $hcs = %();
-
-  my @constructors =
-    $xpath.find( 'constructor', :start($element), :to-list);
-
-  for @constructors -> $cn {
-    # Skip deprecated constructors
-    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
-
-    my ( $function-name, %h) =
-      self!get-constructor-data( $cn, :$xpath, :$user-side);
-    $hcs{$function-name} = %h;
-  }
-
-  $hcs
-}
-}}
-
-#`{{
-#-------------------------------------------------------------------------------
-method !get-constructor-data (
-  XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List ) {
-  my Bool $missing-type = False;
-  my Str $function-name =
-    self.cleanup-id( $e.attribs<c:identifier>, :is-function);
-
-#  my Str $sub-prefix = $*work-data<sub-prefix>;
-#  $function-name ~~ s/^ $sub-prefix //;
-
-#`{{
-  # Find suitable option names for the BUILD submethod.
-  # Constructors have '_new' in the name. To get a name for the build options
-  # remove the subroutine prefix and the 'new_' string from the subroutine
-  # name.
-  my Str $option-name = $function-name;
-  $option-name ~~ s/^ $sub-prefix new '_'? //;
-
-  # Remove any other prefix ending in '_'.
-  my Int $last-u = $option-name.rindex('_');
-  $option-name .= substr($last-u + 1) if $last-u.defined;
-
-  # When nothing is left, make it empty.
-  $option-name = '' if $option-name ~~ m/^ \s* $/;
-}}
-
-  # Find return value; constructors should return a native N-Object while
-  # the gnome might say e.g. gtkwidget 
-  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
-  my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
-  $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
-  $return-raku-type ~~ s/ _UA_ $//;
-
-  # Get all parameters. Mostly the instance parameters come first
-  # but I am not certain.
-  my @parameters = ();
-  my @prmtrs = $xpath.find(
-    'parameters/instance-parameter | parameters/parameter',
-    :start($e), :to-list
-  );
-
-  my Str ( $type, $raku-type);
-  my Bool $variable-list = False;
-#  my Bool $first = True;
-  for @prmtrs -> $p {
-
-#`{{
-    # Process first argument type to attach to option name
-    if $first {
-      # We need the native type to keep the $option-name the same in all cases
-      ( $type, $raku-type) = self.get-type( $p, :!user-side);
-      with $raku-type {
-        when 'Str' {
-          $option-name ~= (?$option-name ?? '-' !! '') ~ 'text';
-        }
-
-        when m/^ guint / {
-          $option-name ~= (?$option-name ?? '-' !! '') ~ 'uint';
-        }
-
-        when m/^ gint / {
-          $option-name ~= (?$option-name ?? '-' !! '') ~ 'int';
-        }
-
-        when any(<gdouble gfloat>) {
-          $option-name ~= (?$option-name ?? '-' !! '') ~ 'number';
-        }
-
-        when 'N-Object' {
-          $option-name ~= (?$option-name ?? '-' !! '') ~ 'object';
-        }
-
-        when 'GEnum' {
-          $option-name ~= (?$option-name ?? '-' !! '') ~ 'enum';
-        }
-
-        when 'GFlag' {
-          $option-name ~= (?$option-name ?? '-' !! '') ~ 'mask';
-        }
-      }
-
-#note "$?LINE get-constructor-data $user-side, $raku-type -> $option-name";
-      $first = False;
-    }
-
-    else {
-}}
-      ( $type, $raku-type) = self.get-type( $p, :$user-side);
-#    }
-
-    $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
-    $raku-type ~~ s/ _UA_ $//;
-
-    my Hash $attribs = $p.attribs;
-    my Str $parameter-name = self.cleanup-id($attribs<name>);
-
-    # When '…', there will be no type for that parameter. It means that
-    # a variable argument list is used ending in a Nil.
-    if $parameter-name eq '…' {
-      $type = $raku-type = '…';
-      $variable-list = True;
-    }
-
-    my Hash $ph = %( :name($parameter-name), :$type, :$raku-type);
-
-    $ph<allow-none> = $attribs<allow-none>.Bool;
-    $ph<nullable> = $attribs<nullable>.Bool;
-    $ph<is-instance> = False;
-
-    @parameters.push: $ph;
-  }
-
-  ( $function-name, %(
-      :@parameters, :$variable-list,
-#      :$option-name, :@parameters, :$variable-list,
-      :$rv-type, :$return-raku-type, :$missing-type
-    )
-  );
-}
-}}
-
 #-------------------------------------------------------------------------------
 method !generate-constructors ( Hash $hcs --> Str ) {
 
@@ -676,34 +531,6 @@ method get-native-subs (
 
   $hms
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method get-methods (
-  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
-) {
-  my Hash $hms = %();
-
-  my @methods = $xpath.find( 'method', :start($element), :to-list);
-
-  for @methods -> XML::Element $function {
-    # Skip deprecated methods
-    next if $function.attribs<deprecated>:exists and
-            $function.attribs<deprecated> eq '1';
-
-    my ( $function-name, %h) =
-      self!get-method-data( $function, :$xpath, :$user-side);
-
-    # Function names which are returned emptied, are assumably internal
-    next unless ?$function-name and ?%h;
-
-    # Add to hash with functionname as its
-    $hms{$function-name} = %h;
-  }
-
-  $hms
-}
-}}
 
 #-------------------------------------------------------------------------------
 method !generate-methods ( Hash $hcs --> Str ) {
@@ -1041,34 +868,6 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
 
   $code
 }
-
-#`{{
-#-------------------------------------------------------------------------------
-method get-functions (
-  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
-) {
-  my Hash $hms = %();
-
-  my @methods = $xpath.find( 'function', :start($element), :to-list);
-
-  for @methods -> $function {
-    # Skip deprecated methods
-    next if $function.attribs<deprecated>:exists and
-            $function.attribs<deprecated> eq '1';
-
-    my ( $function-name, %h) =
-      self!get-method-data( $function, :$xpath, :$user-side);
-
-    # Function names which are returned emptied, are assumably internal
-    next unless ?$function-name and ?%h;
-
-    # Add to hash with functionname as its
-    $hms{$function-name} = %h;
-  }
-
-  $hms
-}
-}}
 
 #-------------------------------------------------------------------------------
 method get-standalone-functions (
@@ -1929,6 +1728,16 @@ method !get-method-data (
 }}
     @parameters.push: $ph;
   }
+
+  # It is possible that there is a 'throws' option which, when 1, needs
+  # an extra argument to store an error object.
+  if $e.attribs<throws>:exists and $e.attribs<throws> eq '1' {
+    self.add-import('Gnome::Glib::N-Error');
+    @parameters.push: %(
+      :name<err>, :type<CArray[N-Error]>, :raku-type<CArray[N-Error]>,
+    );
+  }
+
 #note "  $?LINE $function-name, miss types: $missing-type";
 
   ( $function-name, %(
@@ -2469,7 +2278,198 @@ multi method set-object-name (
   $object-name
 }
 
+#-------------------------------------------------------------------------------
+method get-constructors (
+  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
+) {
+  my Hash $hcs = %();
 
+  my @constructors =
+    $xpath.find( 'constructor', :start($element), :to-list);
+
+  for @constructors -> $cn {
+    # Skip deprecated constructors
+    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) =
+      self!get-constructor-data( $cn, :$xpath, :$user-side);
+    $hcs{$function-name} = %h;
+  }
+
+  $hcs
+}
+
+#-------------------------------------------------------------------------------
+method !get-constructor-data (
+  XML::Element $e, XML::XPath :$xpath, Bool :$user-side = False --> List ) {
+  my Bool $missing-type = False;
+  my Str $function-name =
+    self.cleanup-id( $e.attribs<c:identifier>, :is-function);
+
+#  my Str $sub-prefix = $*work-data<sub-prefix>;
+#  $function-name ~~ s/^ $sub-prefix //;
+
+#`{{
+  # Find suitable option names for the BUILD submethod.
+  # Constructors have '_new' in the name. To get a name for the build options
+  # remove the subroutine prefix and the 'new_' string from the subroutine
+  # name.
+  my Str $option-name = $function-name;
+  $option-name ~~ s/^ $sub-prefix new '_'? //;
+
+  # Remove any other prefix ending in '_'.
+  my Int $last-u = $option-name.rindex('_');
+  $option-name .= substr($last-u + 1) if $last-u.defined;
+
+  # When nothing is left, make it empty.
+  $option-name = '' if $option-name ~~ m/^ \s* $/;
+}}
+
+  # Find return value; constructors should return a native N-Object while
+  # the gnome might say e.g. gtkwidget 
+  my XML::Element $rvalue = $xpath.find( 'return-value', :start($e));
+  my Str ( $rv-type, $return-raku-type) = self.get-type( $rvalue, :$user-side);
+  $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
+  $return-raku-type ~~ s/ _UA_ $//;
+
+  # Get all parameters. Mostly the instance parameters come first
+  # but I am not certain.
+  my @parameters = ();
+  my @prmtrs = $xpath.find(
+    'parameters/instance-parameter | parameters/parameter',
+    :start($e), :to-list
+  );
+
+  my Str ( $type, $raku-type);
+  my Bool $variable-list = False;
+#  my Bool $first = True;
+  for @prmtrs -> $p {
+
+#`{{
+    # Process first argument type to attach to option name
+    if $first {
+      # We need the native type to keep the $option-name the same in all cases
+      ( $type, $raku-type) = self.get-type( $p, :!user-side);
+      with $raku-type {
+        when 'Str' {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'text';
+        }
+
+        when m/^ guint / {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'uint';
+        }
+
+        when m/^ gint / {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'int';
+        }
+
+        when any(<gdouble gfloat>) {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'number';
+        }
+
+        when 'N-Object' {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'object';
+        }
+
+        when 'GEnum' {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'enum';
+        }
+
+        when 'GFlag' {
+          $option-name ~= (?$option-name ?? '-' !! '') ~ 'mask';
+        }
+      }
+
+#note "$?LINE get-constructor-data $user-side, $raku-type -> $option-name";
+      $first = False;
+    }
+
+    else {
+}}
+      ( $type, $raku-type) = self.get-type( $p, :$user-side);
+#    }
+
+    $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
+    $raku-type ~~ s/ _UA_ $//;
+
+    my Hash $attribs = $p.attribs;
+    my Str $parameter-name = self.cleanup-id($attribs<name>);
+
+    # When '…', there will be no type for that parameter. It means that
+    # a variable argument list is used ending in a Nil.
+    if $parameter-name eq '…' {
+      $type = $raku-type = '…';
+      $variable-list = True;
+    }
+
+    my Hash $ph = %( :name($parameter-name), :$type, :$raku-type);
+
+    $ph<allow-none> = $attribs<allow-none>.Bool;
+    $ph<nullable> = $attribs<nullable>.Bool;
+    $ph<is-instance> = False;
+
+    @parameters.push: $ph;
+  }
+
+  ( $function-name, %(
+      :@parameters, :$variable-list,
+#      :$option-name, :@parameters, :$variable-list,
+      :$rv-type, :$return-raku-type, :$missing-type
+    )
+  );
+}
+
+#-------------------------------------------------------------------------------
+method get-functions (
+  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
+) {
+  my Hash $hms = %();
+
+  my @methods = $xpath.find( 'function', :start($element), :to-list);
+
+  for @methods -> $function {
+    # Skip deprecated methods
+    next if $function.attribs<deprecated>:exists and
+            $function.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) =
+      self!get-method-data( $function, :$xpath, :$user-side);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
+
+#-------------------------------------------------------------------------------
+method get-methods (
+  XML::Element $element, XML::XPath $xpath, Bool :$user-side = False --> Hash
+) {
+  my Hash $hms = %();
+
+  my @methods = $xpath.find( 'method', :start($element), :to-list);
+
+  for @methods -> XML::Element $function {
+    # Skip deprecated methods
+    next if $function.attribs<deprecated>:exists and
+            $function.attribs<deprecated> eq '1';
+
+    my ( $function-name, %h) =
+      self!get-method-data( $function, :$xpath, :$user-side);
+
+    # Function names which are returned emptied, are assumably internal
+    next unless ?$function-name and ?%h;
+
+    # Add to hash with functionname as its
+    $hms{$function-name} = %h;
+  }
+
+  $hms
+}
 
 
 
