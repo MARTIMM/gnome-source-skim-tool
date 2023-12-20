@@ -11,7 +11,7 @@ use NativeCall;
 #use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
 #use Gnome::Glib::N-String:api<2>;
-#use Gnome::Glib::N-VariantIter:api<2>;
+use Gnome::Glib::N-VariantIter:api<2>;
 use Gnome::Glib::N-VariantType:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -154,7 +154,7 @@ my Hash $methods = %(
   is-floating => %(:is-symbol<g_variant_is_floating>,  :returns(gboolean), :cnv-return(Bool)),
   is-normal-form => %(:is-symbol<g_variant_is_normal_form>,  :returns(gboolean), :cnv-return(Bool)),
   is-of-type => %(:is-symbol<g_variant_is_of_type>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-VariantType])),
-  #iter-new => %(:is-symbol<g_variant_iter_new>,  :returns(N-VariantIter )),
+  iter-new => %(:is-symbol<g_variant_iter_new>,  :returns(N-VariantIter )),
   lookup => %(:is-symbol<g_variant_lookup>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
   lookup-value => %(:is-symbol<g_variant_lookup_value>,  :returns(N-Variant), :parameters([Str, N-VariantType])),
   n-children => %(:is-symbol<g_variant_n_children>,  :returns(gsize)),

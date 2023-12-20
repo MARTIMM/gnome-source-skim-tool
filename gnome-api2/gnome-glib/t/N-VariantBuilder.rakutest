@@ -1,0 +1,113 @@
+=comment Package: Glib, C-Source: variant
+use v6.d;
+
+#TL:1:Gnome::Glib::N-VariantBuilder:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-Variant:api<2>;
+#use Gnome::Glib::N-VariantBuilder:api<2>;
+use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-VariantBuilder $variantbuilder;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $variantbuilder {
+    my CArray[N-VariantType] $type;
+
+#`{{
+    #TC:0:new-variantbuilder()
+    $type = '…';
+    $variantbuilder .= new-variantbuilder( $type);
+    ok .is-valid, '.new-variantbuilder( $type)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $variantbuilder {
+    my Str $format;
+    my CArray[N-Variant] $value;
+    my Str $format-string;
+    my CArray[N-VariantType] $type;
+
+
+#`{{
+    #TM:0:add()
+    ok .add( $format-string), '.add()';
+
+    #TM:0:add-parsed()
+    ok .add-parsed( $format), '.add-parsed()';
+
+    #TM:0:add-value()
+    ok .add-value( $value), '.add-value()';
+
+    #TM:0:clear()
+    ok .clear(), '.clear()';
+
+    #TM:0:close()
+    ok .close(), '.close()';
+
+    #TM:0:end()
+    ok .end(), '.end()';
+
+    #TM:0:init()
+    ok .init( $type), '.init()';
+
+    #TM:0:open()
+    ok .open( $type), '.open()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $variantbuilder {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

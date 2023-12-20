@@ -1,0 +1,95 @@
+=comment Package: Glib, C-Source: variant
+use v6.d;
+
+#TL:1:Gnome::Glib::N-VariantIter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::N-VariantIter:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-VariantIter $variantiter;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $variantiter {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $variantiter {
+    my CArray[N-Variant] $value;
+    my Str $format-string;
+
+
+#`{{
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:init()
+    ok .init( $value), '.init()';
+
+    #TM:0:loop()
+    ok .loop( $format-string), '.loop()';
+
+    #TM:0:n-children()
+    ok .n-children(), '.n-children()';
+
+    #TM:0:next()
+    ok .next( $format-string), '.next()';
+
+    #TM:0:next-value()
+    ok .next-value(), '.next-value()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $variantiter {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

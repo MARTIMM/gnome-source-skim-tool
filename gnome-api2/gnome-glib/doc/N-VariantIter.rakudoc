@@ -1,0 +1,375 @@
+=comment Package: Glib, C-Source: variant
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Glib::N-VariantIter
+
+=head1 Description
+
+B<Gnome::Glib::N-VariantIter> is an opaque data structure and can only be accessed
+using the following functions.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Glib::VariantIter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-VariantIter
+
+  class N-VariantIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gchar-pptr $.x;
+  }
+
+=item x; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+This function is not yet available
+
+Creates a new heap-allocated B<Gnome::Glib::N-VariantIter> to iterate over the
+container that was being iterated over by C<$iter>.  Iteration begins on
+the new iterator from the current position of the old iterator but
+the two copies are independent past that point.
+
+Use C<.free()> to free the return value when you no longer
+need it.
+
+A reference is taken to the container that C<$iter> is iterating over
+and will be related only when C<.free()> is called.
+
+=begin code
+method copy (--> CArray[N-VariantIter]  )
+=end code
+
+Return value; a new heap-allocated B<Gnome::Glib::N-VariantIter>. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+This function is not yet available
+
+Frees a heap-allocated B<Gnome::Glib::N-VariantIter>.  Only call this function on
+iterators that were returned by C<.new-variantiter()> or
+C<.copy()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+This function is not yet available
+
+Initialises (without allocating) a B<Gnome::Glib::N-VariantIter>.  C<$iter> may be
+completely uninitialised prior to this call; its old value is
+ignored.
+
+The iterator remains valid for as long as C<$value> exists, and need not
+be freed in any way.
+
+=begin code
+method init ( CArray[N-Variant] $value --> Int )
+=end code
+
+=item $value; a container B<Gnome::Glib::N-Variant>.
+
+Return value; the number of items in C<$value>. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 loop
+This function is not yet available
+
+Gets the next item in the container and unpacks it into the variable
+argument list according to C<$format_string>, returning C<True>.
+
+If no more items remain then C<False> is returned.
+
+On the first call to this function, the pointers appearing on the
+variable argument list are assumed to point at uninitialised memory.
+On the second and later calls, it is assumed that the same pointers
+will be given and that they will point to the memory as set by the
+previous call to this function.  This allows the previous values to
+be freed, as appropriate.
+
+This function is intended to be used with a while loop as
+demonstrated in the following example.  This function can only be
+used when iterating over an array.  It is only valid to call this
+function with a string constant for the format string and the same
+string constant must be used each time.  Mixing calls to this
+function and C<.next()> or C<.next-value()> on
+the same iterator causes undefined behavior.
+
+If you break out of a such a while loop using C<.loop()> then
+you must free or unreference all the unpacked values as you would with
+g_variant_get(). Failure to do so will cause a memory leak.
+
+Here is an example for memory management with C<.loop()>:
+=begin comment
+<!-- language="C" -->
+  // Iterates a dictionary of type 'a{sv}'
+  void
+  iterate_dictionary (GVariant *dictionary)
+  {
+    GVariantIter iter;
+    GVariant *value;
+    gchar *key;
+
+    g_variant_iter_init (&iter, dictionary);
+    while (g_variant_iter_loop (&iter, "{sv}", &key, &value))
+      {
+        g_print ("Item '%s' has type '%s'\n", key,
+                 g_variant_get_type_string (value));
+
+        // no need to free 'key' and 'value' here
+        // unless breaking out of this loop
+      }
+  }
+
+=end comment
+
+For most cases you should use C<.next()>.
+
+This function is really only useful when unpacking into B<Gnome::Glib::N-Variant> or
+B<Gnome::Glib::N-VariantIter> in order to allow you to skip the call to
+g_variant_unref() or C<.free()>.
+
+For example, if you are only looping over simple integer and string
+types, C<.next()> is definitely preferred.  For string
+types, use the '&' prefix to avoid allocating any memory at all (and
+thereby avoiding the need to free anything as well).
+ C<$format_string> determines the C types that are used for unpacking
+the values and also determines if the values are copied or borrowed.
+
+See the section on GVariant format strings.
+
+=begin code
+method loop ( Str $format-string, … --> Bool )
+=end code
+
+=item $format-string; a GVariant format string.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if a value was unpacked, or C<False> if there was no
+         value. 
+
+=begin comment
+
+=head2 Example
+# Example for loop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 n-children
+This function is not yet available
+
+Queries the number of child items in the container that we are
+iterating over.  This is the total number of items -- not the number
+of items remaining.
+
+This function might be useful for preallocation of arrays.
+
+=begin code
+method n-children (--> Int )
+=end code
+
+Return value; the number of children in the container. 
+
+=begin comment
+
+=head2 Example
+# Example for n-children
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next
+This function is not yet available
+
+Gets the next item in the container and unpacks it into the variable
+argument list according to C<$format_string>, returning C<True>.
+
+If no more items remain then C<False> is returned.
+
+All of the pointers given on the variable arguments list of this
+function are assumed to point at uninitialised memory.  It is the
+responsibility of the caller to free all of the values returned by
+the unpacking process.
+
+Here is an example for memory management with C<.next()>:
+=begin comment
+<!-- language="C" -->
+  // Iterates a dictionary of type 'a{sv}'
+  void
+  iterate_dictionary (GVariant *dictionary)
+  {
+    GVariantIter iter;
+    GVariant *value;
+    gchar *key;
+
+    g_variant_iter_init (&iter, dictionary);
+    while (g_variant_iter_next (&iter, "{sv}", &key, &value))
+      {
+        g_print ("Item '%s' has type '%s'\n", key,
+                 g_variant_get_type_string (value));
+
+        // must free data for ourselves
+        g_variant_unref (value);
+        g_free (key);
+      }
+  }
+
+=end comment
+
+For a solution that is likely to be more convenient to C programmers
+when dealing with loops, see C<.loop()>.
+ C<$format_string> determines the C types that are used for unpacking
+the values and also determines if the values are copied or borrowed.
+
+See the section on GVariant format strings.
+
+=begin code
+method next ( Str $format-string, … --> Bool )
+=end code
+
+=item $format-string; a GVariant format string.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if a value was unpacked, or C<False> if there as no value. 
+
+=begin comment
+
+=head2 Example
+# Example for next
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next-value
+This function is not yet available
+
+Gets the next item in the container.  If no more items remain then
+undefined is returned.
+
+Use g_variant_unref() to drop your reference on the return value when
+you no longer need it.
+
+Here is an example for iterating with C<.next-value()>:
+=begin comment
+<!-- language="C" -->
+  // recursively iterate a container
+  void
+  iterate_container_recursive (GVariant *container)
+  {
+    GVariantIter iter;
+    GVariant *child;
+
+    g_variant_iter_init (&iter, container);
+    while ((child = g_variant_iter_next_value (&iter)))
+      {
+        g_print ("type '%s'\n", g_variant_get_type_string (child));
+
+        if (g_variant_is_container (child))
+          iterate_container_recursive (child);
+
+        g_variant_unref (child);
+      }
+  }
+
+=end comment
+
+=begin code
+method next-value (--> CArray[N-Variant] )
+=end code
+
+Return value; a B<Gnome::Glib::N-Variant>, or undefined. 
+
+=begin comment
+
+=head2 Example
+# Example for next-value
+
+=end comment
+
+=end pod
+

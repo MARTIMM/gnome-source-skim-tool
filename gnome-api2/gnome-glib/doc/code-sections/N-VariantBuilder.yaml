@@ -1,0 +1,17 @@
+---
+"____EXAMPLE____000": "=begin comment\n\n=head2 Example\n# Example use of module Gnome::Glib::VariantBuilder\n\n=end comment\n"
+"____EXAMPLE____001": "=begin comment\n\n=head2 Example\n# Example for new-variantbuilder\n\n=end comment\n"
+"____EXAMPLE____002": "=begin comment\n\n=head2 Example\n# Example for add\n\n=end comment\n"
+"____EXAMPLE____003": "=begin comment\n\n=head2 Example\n# Example for add-parsed\n\n=end comment\n"
+"____EXAMPLE____004": "=begin comment\n\n=head2 Example\n# Example for add-value\n\n=end comment\n"
+"____EXAMPLE____005": "=begin comment\n\n=head2 Example\n# Example for clear\n\n=end comment\n"
+"____EXAMPLE____006": "=begin comment\n\n=head2 Example\n# Example for close\n\n=end comment\n"
+"____EXAMPLE____007": "=begin comment\n\n=head2 Example\n# Example for end\n\n=end comment\n"
+"____EXAMPLE____008": "=begin comment\n\n=head2 Example\n# Example for init\n\n=end comment\n"
+"____EXAMPLE____009": "=begin comment\n\n=head2 Example\n# Example for open\n\n=end comment\n"
+"____EXAMPLE____010": "=begin comment\n\n=head2 Example\n# Example for ref\n\n=end comment\n"
+"____EXAMPLE____011": "=begin comment\n\n=head2 Example\n# Example for unref\n\n=end comment\n"
+"____EXAMPLE____012": "=begin comment\n<!-- language=\"C\" -->\nGVariant *\nmake_pointless_dictionary (void)\n{\n  GVariantBuilder builder;\n  int i;\n\n  g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);\n  for (i = 0; i < 16; i++)\n    {\n      gchar buf[3];\n\n      sprintf (buf, \"%d\", i);\n      g_variant_builder_add (&builder, \"{is}\", i, buf);\n    }\n\n  return g_variant_builder_end (&builder);\n}\n\n=end comment\n"
+"____EXAMPLE____013": "=begin comment\n<!-- language=\"C\" -->\nGVariant *\nmake_pointless_dictionary (void)\n{\n  GVariantBuilder builder;\n  int i;\n\n  g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);\n  g_variant_builder_add_parsed (&builder, \"{'width', <%i>}\", 600);\n  g_variant_builder_add_parsed (&builder, \"{'title', <%s>}\", \"foo\");\n  g_variant_builder_add_parsed (&builder, \"{'transparency', <0.5>}\");\n  return g_variant_builder_end (&builder);\n}\n\n=end comment\n"
+"____EXAMPLE____014": "=begin comment\n<!-- language=\"C\" -->\nGVariantBuilder builder;\nguint32 some_number = get_number ();\ng_autoptr (GHashTable) some_dict = get_dict ();\nGHashTableIter iter;\nconst gchar *key;\nconst GVariant *value;\ng_autoptr (GVariant) output = NULL;\n\ng_variant_builder_init (&builder, G_VARIANT_TYPE (\"(ua{sv})\"));\ng_variant_builder_add (&builder, \"u\", some_number);\ng_variant_builder_open (&builder, G_VARIANT_TYPE (\"a{sv}\"));\n\ng_hash_table_iter_init (&iter, some_dict);\nwhile (g_hash_table_iter_next (&iter, (gpointer *) &key, (gpointer *) &value))\n  {\n    g_variant_builder_open (&builder, G_VARIANT_TYPE (\"{sv}\"));\n    g_variant_builder_add (&builder, \"s\", key);\n    g_variant_builder_add (&builder, \"v\", value);\n    g_variant_builder_close (&builder);\n  }\n\ng_variant_builder_close (&builder);\n\noutput = g_variant_builder_end (&builder);\n\n=end comment\n"
+...

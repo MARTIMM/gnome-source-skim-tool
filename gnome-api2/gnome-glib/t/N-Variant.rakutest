@@ -11,7 +11,7 @@ use NativeCall;
 
 
 use Gnome::Glib::N-Variant:api<2>;
-use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::Glib::N-VariantIter:api<2>;
 use Gnome::Glib::N-Error:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -59,11 +59,21 @@ subtest 'ISA test', {
     my Int() $element-size;
     my N-Object $key;
 
-    #TC:0:new-variant()
+    #TC:1:new-variant()
     $format-string = 'i';
     $variant .= new-variant( $format-string, gint32, 40);
     ok .is-valid, '.new-variant($format-string)';
     is .get-int32, 40, '.get-int32()';
+    $variant.unref;
+
+    enum VFlags ( :AAA(1), :BBB(2), :CCC(4), :DDD(8));
+    my GFlag $some-flags = AAA +| DDD;
+    my $some-strings = CArray[Str].new( 'a', 'b', 'c', Str);
+    $variant .= new-variant(
+      '(t^as)', GFlag, $some-flags, CArray[Str], $some-strings
+    );
+    $variant.unref;
+
 
 #`{{
     #TC:0:new-array()
@@ -463,9 +473,9 @@ subtest 'Function tests', {
     $text = '10';
 #    $limit = Str;
 #    $endptr = Pointer[Str].new;
-    my List $r = .parse( $varianttype, $text, Str, Pointer, Pointer);
+    my N-Variant $nv = .parse( $varianttype, $text, Str, Pointer, Pointer);
 #note "$?LINE $r.gist()";
-    my Gnome::Glib::N-Variant $v .= new(:native-object($r[0]));
+    my Gnome::Glib::N-Variant $v .= new(:native-object($nv));
     is $v.get-uint32, 10, '.parse()';
     $v.clear-object;
 
