@@ -49,11 +49,11 @@ unless %*ENV<raku_test_all>:exists {
     my Int() $position;
     my N-List $N-List;
 
-    $data = Pointer[gint].new(101);
+    $data = .make-pointer( gint, 101);
 
     #TM:1:append
     for ^10 -> $i {
-      $N-List = .append( $N-List, Pointer[int].new($i));
+      $N-List = .append( $N-List, .make-pointer( gint, $i));
     }
 
     #TM:1:length
@@ -92,13 +92,11 @@ unless %*ENV<raku_test_all>:exists {
 #`{{
     #TB:0:nth-prev()
     ok .nth-prev( $n), '.nth-prev()';
-
-    #TB:0:nth-data()
-    note .nth-data( $N-List, 5).gist;
-    my Pointer[int] $p = nativecast( Pointer[int], .nth-data( $N-List, 5));
-    note $p.gist();
-    is $p[0], 5, '.nth-data()';
 }}
+
+    #TB:1:nth-data()
+    my Pointer[gint] $p = nativecast( Pointer[gint], .nth-data( $N-List, 5));
+    is $p.deref, 4, '.nth-data()';
 
     #TB:1:nth()
     $l = .nth( $N-List, 5);
@@ -118,7 +116,7 @@ unless %*ENV<raku_test_all>:exists {
     ok .insert-before( $sibling, $data), '.insert-before()';
 }}
 
-    $data = Pointer[gint].new(102);
+    $data = .make-pointer( gint, 102);
 
     #TB:1:insert()
     $N-List = .insert( $N-List, $data, 0);

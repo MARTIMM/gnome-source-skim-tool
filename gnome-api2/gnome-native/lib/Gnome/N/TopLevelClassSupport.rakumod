@@ -319,7 +319,8 @@ Example;
 =end code
 
 =end pod
-method COERCE ( Mu $no --> Mu ) {
+#method COERCE ( Mu $no --> Mu ) {
+method COERCE ( N-Object $no --> Mu ) {
   note "Coercing from N-Object to ", self.^name if $Gnome::N::x-debug;
   self._wrap-native-type( self.^name, $no)
 }
@@ -331,6 +332,12 @@ method CALL-ME( *@a, *%o ) {
   note 'opts: ', %o.gist;
 }
 }}
+
+#-------------------------------------------------------------------------------
+method make-pointer ( $type, $value ) {
+  my $array = CArray[$type].new($value);
+  nativecast( Pointer[$type], $array)
+}
 
 #-------------------------------------------------------------------------------
 #TM:1:get-class-gtype:
