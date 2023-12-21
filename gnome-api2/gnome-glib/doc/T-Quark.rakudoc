@@ -1,4 +1,5 @@
- use v6.d;
+=comment Package: Glib, C-Source: quark
+use v6.d;
 
 =begin pod
 =head1 Gnome::Glib::T-Quark
@@ -13,7 +14,7 @@
 
 =head2 new
 
-Initialization of a type class is simple.
+Initialization of a type class is simple and only needed when the standalone functions are used.
 
   method new ( )
 
@@ -30,10 +31,14 @@ Initialization of a type class is simple.
 =begin pod
 =head2 intern-static-string
 
-Returns a canonical representation for C<$string>. Interned strings can be compared for equality by comparing the pointers, instead of using strcmp(). g_intern_static_string() does not copy the string,
+Returns a canonical representation for C<$string>. Interned strings
+can be compared for equality by comparing the pointers, instead of
+using strcmp(). g_intern_static_string() does not copy the string,
 therefore C<$string> must not be freed or modified.
 
-This function must not be used before library constructors have finished running. In particular, this means it cannot be used to initialize global variables in C++.
+This function must not be used before library constructors have finished
+running. In particular, this means it cannot be used to initialize global
+variables in C++.
 
 =begin code
 method intern-static-string ( Str $string --> Str )
@@ -43,6 +48,12 @@ method intern-static-string ( Str $string --> Str )
 
 Return value; a canonical representation for the string. 
 
+=begin comment
+
+=head2 Example
+# Example for intern-static-string
+
+=end comment
 
 =end pod
 
@@ -50,9 +61,13 @@ Return value; a canonical representation for the string.
 =begin pod
 =head2 intern-string
 
-Returns a canonical representation for C<$string>. Interned strings can be compared for equality by comparing the pointers, instead of using strcmp().
+Returns a canonical representation for C<$string>. Interned strings
+can be compared for equality by comparing the pointers, instead of
+using strcmp().
 
-This function must not be used before library constructors have finished running. In particular, this means it cannot be used to initialize global variables in C++.
+This function must not be used before library constructors have finished
+running. In particular, this means it cannot be used to initialize global
+variables in C++.
 
 =begin code
 method intern-string ( Str $string --> Str )
@@ -62,6 +77,12 @@ method intern-string ( Str $string --> Str )
 
 Return value; a canonical representation for the string. 
 
+=begin comment
+
+=head2 Example
+# Example for intern-string
+
+=end comment
 
 =end pod
 
@@ -69,11 +90,22 @@ Return value; a canonical representation for the string.
 =begin pod
 =head2 quark-from-static-string
 
-Gets the GQuark identifying the given (static) string. If the string does not currently have an associated GQuark, a new GQuark is created, linked to the given string.
+Gets the B<Gnome::Glib::Quark> identifying the given (static) string. If the
+string does not currently have an associated B<Gnome::Glib::Quark>, a new B<Gnome::Glib::Quark>
+is created, linked to the given string.
 
-Note that this function is identical to C<.from-string()> except that if a new GQuark is created the string itself is used rather than a copy. This saves memory, but can only be used if the string will continue to exist until the program terminates. It can be used with statically allocated strings in the main program, but not with statically allocated memory in dynamically loaded modules, if you expect to ever unload the module again (e.g. do not use this function in GTK+ theme engines).
+Note that this function is identical to C<.from-string()> except
+that if a new B<Gnome::Glib::Quark> is created the string itself is used rather
+than a copy. This saves memory, but can only be used if the string
+will continue to exist until the program terminates. It can be used
+with statically allocated strings in the main program, but not with
+statically allocated memory in dynamically loaded modules, if you
+expect to ever unload the module again (e.g. do not use this
+function in GTK+ theme engines).
 
-This function must not be used before library constructors have finished running. In particular, this means it cannot be used to initialize global variables in C++.
+This function must not be used before library constructors have finished
+running. In particular, this means it cannot be used to initialize global
+variables in C++.
 
 =begin code
 method quark-from-static-string ( Str $string --> UInt )
@@ -81,8 +113,14 @@ method quark-from-static-string ( Str $string --> UInt )
 
 =item $string; a string.
 
-Return value; the GQuark identifying the string, or 0 if C<$string> is C<Nil>. 
+Return value; the B<Gnome::Glib::Quark> identifying the string, or 0 if C<$string> is undefined. 
 
+=begin comment
+
+=head2 Example
+# Example for quark-from-static-string
+
+=end comment
 
 =end pod
 
@@ -90,10 +128,13 @@ Return value; the GQuark identifying the string, or 0 if C<$string> is C<Nil>.
 =begin pod
 =head2 quark-from-string
 
-Gets the GQuark identifying the given string. If the string does not currently have an associated GQuark, a new GQuark is created,
+Gets the B<Gnome::Glib::Quark> identifying the given string. If the string does
+not currently have an associated B<Gnome::Glib::Quark>, a new B<Gnome::Glib::Quark> is created,
 using a copy of the string.
 
-This function must not be used before library constructors have finished running. In particular, this means it cannot be used to initialize global variables in C++.
+This function must not be used before library constructors have finished
+running. In particular, this means it cannot be used to initialize global
+variables in C++.
 
 =begin code
 method quark-from-string ( Str $string --> UInt )
@@ -101,8 +142,14 @@ method quark-from-string ( Str $string --> UInt )
 
 =item $string; a string.
 
-Return value; the GQuark identifying the string, or 0 if C<$string> is C<Nil>. 
+Return value; the B<Gnome::Glib::Quark> identifying the string, or 0 if C<$string> is undefined. 
 
+=begin comment
+
+=head2 Example
+# Example for quark-from-string
+
+=end comment
 
 =end pod
 
@@ -110,16 +157,22 @@ Return value; the GQuark identifying the string, or 0 if C<$string> is C<Nil>.
 =begin pod
 =head2 quark-to-string
 
-Gets the string associated with the given GQuark.
+Gets the string associated with the given B<Gnome::Glib::Quark>.
 
 =begin code
 method quark-to-string ( UInt $quark --> Str )
 =end code
 
-=item $quark; a GQuark..
+=item $quark; a B<Gnome::Glib::Quark>..
 
-Return value; the string associated with the GQuark. 
+Return value; the string associated with the B<Gnome::Glib::Quark>. 
 
+=begin comment
+
+=head2 Example
+# Example for quark-to-string
+
+=end comment
 
 =end pod
 
@@ -127,12 +180,14 @@ Return value; the string associated with the GQuark.
 =begin pod
 =head2 quark-try-string
 
-Gets the GQuark associated with the given string, or 0 if string is C<Nil> or it has no associated GQuark.
+Gets the B<Gnome::Glib::Quark> associated with the given string, or 0 if string is
+undefined or it has no associated B<Gnome::Glib::Quark>.
 
 If you want the GQuark to be created if it doesn't already exist,
 use C<.from-string()> or C<.from-static-string()>.
 
-This function must not be used before library constructors have finished running.
+This function must not be used before library constructors have finished
+running.
 
 =begin code
 method quark-try-string ( Str $string --> UInt )
@@ -140,9 +195,15 @@ method quark-try-string ( Str $string --> UInt )
 
 =item $string; a string.
 
-Return value; the GQuark associated with the string, or 0 if C<$string> is
- C<Nil> or there is no GQuark associated with it. 
+Return value; the B<Gnome::Glib::Quark> associated with the string, or 0 if C<$string> is
+    undefined or there is no B<Gnome::Glib::Quark> associated with it. 
 
+=begin comment
+
+=head2 Example
+# Example for quark-try-string
+
+=end comment
 
 =end pod
 
