@@ -66,12 +66,6 @@ subtest 'ISA test', {
     is .get-int32, 40, '.get-int32()';
     $variant.unref;
 
-    enum VFlags ( :AAA(1), :BBB(2), :CCC(4), :DDD(8));
-    my GFlag $some-flags = AAA +| DDD;
-    my $some-strings = CArray[Str].new( 'a', 'b', 'c', Str);
-    $variant .= new-variant(
-      '(t^as)', GFlag, $some-flags, CArray[Str], $some-strings
-    );
     $variant.unref;
 
 
@@ -386,9 +380,6 @@ subtest 'Method tests', {
     #TM:0:get-uint32()
      .get-uint32(), '…', '.get-uint32()';
 
-    #TM:0:get-uint64()
-     .get-uint64(), '…', '.get-uint64()';
-
     #TM:0:get-va()
     is .get-va( $format-string, $endptr, $app), '…', '.get-va()';
 
@@ -409,10 +400,30 @@ subtest 'Method tests', {
 
     #TM:0:is-of-type()
     ok .is-of-type( $type), '.is-of-type()';
+}}
 
-    #TM:0:iter-new()
-    ok .iter-new(), '.iter-new()';
 
+    enum VFlags ( :AAA(1), :BBB(2), :CCC(4), :DDD(8));
+    my GFlag $some-flags = AAA +| DDD;
+    my $some-strings = CArray[Str].new( 'a', 'b', 'c', Str);
+    $variant .= new-variant(
+      '(t^as)', GFlag, $some-flags, CArray[Str], $some-strings
+    );
+
+    #TM:1:iter-new(): see above
+    my Gnome::Glib::N-VariantIter $variantiter .= new(
+      :native-object($variant.iter-new)
+    );
+    ok $variantiter.is-valid, '.iter-new()';
+
+    #TM:1:get-uint64()
+#    is $variantiter.init($variant), 2, '.init()';
+    my Gnome::Glib::N-Variant $v .= new(
+      :native-object($variantiter.next-value)
+    );
+    is $v.get-uint64, $some-flags, '.get-uint64()';
+
+#`{{
     #TM:0:lookup()
     ok .lookup( $key, $format-string), '.lookup()';
 

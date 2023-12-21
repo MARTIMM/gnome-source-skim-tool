@@ -22,19 +22,21 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-VariantIter $variantiter;
+#my N-VariantIter $variantiter;
 
-#-------------------------------------------------------------------------------
-#--[Class init tests]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
+enum VFlags ( :AAA(1), :BBB(2), :CCC(4), :DDD(8));
+my GFlag $some-flags = AAA +| DDD;
+my $some-strings = CArray[Str].new( 'a', 'b', 'c', Str);
 
-subtest 'ISA test', {
-  given $variantiter {
+# t: the type string of G_VARIANT_TYPE_UINT64; an unsigned 64 bit integer.
+my Gnome::Glib::N-Variant $variant .= new-variant(
+  '(t^as)', GFlag, $some-flags, CArray[Str], $some-strings
+);
 
-#`{{
-}}
-  }
-};
+my Gnome::Glib::N-VariantIter $variantiter .= new(
+  :native-object($variant.iter-new)
+);
+ok $variantiter.is-valid, '.iter-new()';
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -58,23 +60,32 @@ subtest 'Method tests', {
 
     #TM:0:free()
     ok .free(), '.free()';
+}}
 
-    #TM:0:init()
-    ok .init( $value), '.init()';
+    #TM:1:init()
+    is $variantiter.init($variant), 2, '.init()';
 
+#`{{
     #TM:0:loop()
     ok .loop( $format-string), '.loop()';
+}}
 
-    #TM:0:n-children()
-    ok .n-children(), '.n-children()';
+    #TM:1:n-children()
+    is .n-children(), 2, '.n-children()';
 
+#`{{
     #TM:0:next()
     ok .next( $format-string), '.next()';
-
-    #TM:0:next-value()
-    ok .next-value(), '.next-value()';
-
 }}
+
+    #TM:1:next-value()
+    my Gnome::Glib::N-Variant $v .= new(:native-object(.next-value));
+    is $v.get-uint64, $some-flags, '.next-value()';
+
+#    $v .= new(:native-object(.next-value));
+#    is $v.get-uint64, $some-flags, '.next-value()';
+
+    #, '.next-value()';
   }
 };
 
