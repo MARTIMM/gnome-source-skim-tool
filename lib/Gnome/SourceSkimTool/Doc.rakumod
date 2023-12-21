@@ -321,7 +321,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
       $native-sub-doc
 
       =begin code
-      method $native-sub \($raku-list \)
+      method $native-sub \($raku-list )
       =end code
 
       $items-doc$returns-doc
