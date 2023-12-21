@@ -133,7 +133,7 @@ make_pointless_dictionary (void)
 =end comment
 
 =begin code
-method add ( Str $format-string, … )
+method add ( Str $format-string, …)
 =end code
 
 =item $format-string; a B<Gnome::Glib::N-Variant> varargs format string.
@@ -183,7 +183,7 @@ make_pointless_dictionary (void)
 =end comment
 
 =begin code
-method add-parsed ( Str $format, … )
+method add-parsed ( Str $format, …)
 =end code
 
 =item $format; a text format B<Gnome::Glib::N-Variant>.
@@ -215,7 +215,7 @@ If C<$value> is a floating reference (see g_variant_ref_sink()),
 the C<$builder> instance takes ownership of C<$value>.
 
 =begin code
-method add-value ( CArray[N-Variant] $value )
+method add-value ( CArray[N-Variant] $value)
 =end code
 
 =item $value; a B<Gnome::Glib::N-Variant>.
@@ -250,7 +250,7 @@ B<Gnome::Glib::N-VariantBuilder> or one that is set to all-zeros but it is not v
 to call this function on uninitialised memory.
 
 =begin code
-method clear ( )
+method clear ()
 =end code
 
 =begin comment
@@ -275,7 +275,7 @@ inconsistent value to be constructed (ie: too few values added to the
 subcontainer).
 
 =begin code
-method close ( )
+method close ()
 =end code
 
 =begin comment
@@ -311,7 +311,7 @@ have been added; in this case it is impossible to infer the type of
 the empty array.
 
 =begin code
-method end (--> CArray[N-Variant] )
+method end (--> CArray[N-Variant])
 =end code
 
 Return value; a new, floating, B<Gnome::Glib::N-Variant>. 
@@ -360,7 +360,7 @@ reference counting; you should use C<.new-variantbuilder()> instead of
 this function.
 
 =begin code
-method init ( CArray[N-VariantType] $type )
+method init ( CArray[N-VariantType] $type)
 =end code
 
 =item $type; a container type.
@@ -419,7 +419,7 @@ output = g_variant_builder_end (&builder);
 =end comment
 
 =begin code
-method open ( CArray[N-VariantType] $type )
+method open ( CArray[N-VariantType] $type)
 =end code
 
 =item $type; the B<Gnome::Glib::N-VariantType> of the container.
@@ -444,7 +444,7 @@ Don't call this on stack-allocated B<Gnome::Glib::N-VariantBuilder> instances or
 things will happen.
 
 =begin code
-method ref (--> CArray[N-VariantBuilder]  )
+method ref (--> CArray[N-VariantBuilder] )
 =end code
 
 Return value; a new reference to C<$builder>. 
@@ -472,7 +472,7 @@ Don't call this on stack-allocated B<Gnome::Glib::N-VariantBuilder> instances or
 things will happen.
 
 =begin code
-method unref ( )
+method unref ()
 =end code
 
 =begin comment

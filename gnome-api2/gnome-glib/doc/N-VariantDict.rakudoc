@@ -201,7 +201,7 @@ to C<.clear()> but it is not valid to call this function
 on uninitialised memory.
 
 =begin code
-method clear ( )
+method clear ()
 =end code
 
 =begin comment
@@ -220,7 +220,7 @@ method clear ( )
 Checks if C<$key> exists in C<$dict>.
 
 =begin code
-method contains ( Str $key --> Bool )
+method contains ( Str $key --> Bool)
 =end code
 
 =item $key; the key to look up in the dictionary.
@@ -249,7 +249,7 @@ B<Gnome::Glib::N-VariantDict>) or by reinitialising it with C<.init()> (in
 the case of stack-allocated).
 
 =begin code
-method end (--> CArray[N-Variant] )
+method end (--> CArray[N-Variant])
 =end code
 
 Return value; a new, floating, B<Gnome::Glib::N-Variant>. 
@@ -285,7 +285,7 @@ reference may try to use reference counting; you should use
 C<.new-variantdict()> instead of this function.
 
 =begin code
-method init ( CArray[N-Variant] $from-asv )
+method init ( CArray[N-Variant] $from-asv)
 =end code
 
 =item $from-asv; the initial value for C<$dict>.
@@ -310,7 +310,7 @@ This call is a convenience wrapper that is exactly equivalent to
 calling g_variant_new() followed by C<.insert-value()>.
 
 =begin code
-method insert ( Str $key, Str $format-string, … )
+method insert ( Str $key, Str $format-string, …)
 =end code
 
 =item $key; the key to insert a value for.
@@ -334,7 +334,7 @@ Inserts (or replaces) a key in a B<Gnome::Glib::N-VariantDict>.
  C<$value> is consumed if it is floating.
 
 =begin code
-method insert-value ( Str $key, CArray[N-Variant] $value )
+method insert-value ( Str $key, CArray[N-Variant] $value)
 =end code
 
 =item $key; the key to insert a value for.
@@ -365,7 +365,7 @@ values and also determines if the values are copied or borrowed, see the
 section on GVariant format strings.
 
 =begin code
-method lookup ( Str $key, Str $format-string, … --> Bool )
+method lookup ( Str $key, Str $format-string, … --> Bool)
 =end code
 
 =item $key; the key to look up in the dictionary.
@@ -400,7 +400,7 @@ returned.  If C<$expected_type> was specified then any non-undefined return
 value will have this type.
 
 =begin code
-method lookup-value ( Str $key, CArray[N-VariantType] $expected-type --> CArray[N-Variant] )
+method lookup-value ( Str $key, CArray[N-VariantType] $expected-type --> CArray[N-Variant])
 =end code
 
 =item $key; the key to look up in the dictionary.
@@ -427,7 +427,7 @@ Don't call this on stack-allocated B<Gnome::Glib::N-VariantDict> instances or ba
 things will happen.
 
 =begin code
-method ref (--> CArray[N-VariantDict] )
+method ref (--> CArray[N-VariantDict])
 =end code
 
 Return value; a new reference to C<$dict>. 
@@ -448,7 +448,7 @@ Return value; a new reference to C<$dict>.
 Removes a key and its associated value from a B<Gnome::Glib::N-VariantDict>.
 
 =begin code
-method remove ( Str $key --> Bool )
+method remove ( Str $key --> Bool)
 =end code
 
 =item $key; the key to remove.
@@ -477,7 +477,7 @@ Don't call this on stack-allocated B<Gnome::Glib::N-VariantDict> instances or ba
 things will happen.
 
 =begin code
-method unref ( )
+method unref ()
 =end code
 
 =begin comment

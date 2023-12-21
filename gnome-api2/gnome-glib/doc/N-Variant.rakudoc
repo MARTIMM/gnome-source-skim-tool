@@ -27,11 +27,9 @@ along with a string representing the type of data you wish to pass to it.
 For instance, if you want to create a B<N-Variant> holding an integer value you
 can use:
 
-=begin comment
-<!-- language="C" -->
-  GVariant *v = g_variant_new ("u", 40);
-
-=end comment
+=begin code
+my Gnome::Glib::Variant $v .= new-variant( 'u', guint32, 40);
+=end code
 
 The string "u" in the first argument tells B<N-Variant> that the data passed to
 the constructor (40) is going to be an unsigned integer.
@@ -314,21 +312,17 @@ Note that the arguments must be of the correct width for their types
 specified in C<$format_string>. This can be achieved by casting them. See
 the GVariant varargs documentation.
 
-=begin comment
-<!-- language="C" -->
-MyFlags some_flags = FLAG_ONE | FLAG_TWO;
-const gchar *some_strings[] = { "a", "b", "c", NULL };
-GVariant *new_variant;
-
-new_variant = g_variant_new ("(t^as)",
-                             // This cast is required.
-                             (guint64) some_flags,
-                             some_strings);
-
-=end comment
+=begin code
+enum VFlags ( :AAA(1), :BBB(2), :CCC(4), :DDD(8));
+my GFlag $some-flags = AAA +| DDD;
+my $some-strings = CArray[Str].new( 'a', 'b', 'c', Str);
+my Gnome::Glib::N-Variant $v .= new-variant(
+  '(t^as)', GFlag, $some-flags, CArray[Str], $some-strings
+);
+=end code
 
 =begin code
-method new-variant ( Str $format-string, … --> Gnome::Glib::Variant \)
+method new-variant ( Str $format-string, … --> Gnome::Glib::Variant )
 =end code
 
 =item $format-string; a B<N-Variant> format string.
@@ -362,7 +356,7 @@ If the C<$children> are floating references (see C<.ref-sink()>), the
 new instance takes ownership of them as if via C<.ref-sink()>.
 
 =begin code
-method new-array ( CArray[N-VariantType] $child-type, CArray[N-Variant] $children, Int() $n-children --> Gnome::Glib::Variant \)
+method new-array ( CArray[N-VariantType] $child-type, CArray[N-Variant] $children, Int() $n-children --> Gnome::Glib::Variant )
 =end code
 
 =item $child-type; the element type of the new array.
@@ -386,7 +380,7 @@ method new-array ( CArray[N-VariantType] $child-type, CArray[N-Variant] $childre
 Creates a new boolean B<N-Variant> instance -- either C<True> or C<False>.
 
 =begin code
-method new-boolean ( Bool() $value --> Gnome::Glib::Variant \)
+method new-boolean ( Bool() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #gboolean value.
@@ -407,7 +401,7 @@ method new-boolean ( Bool() $value --> Gnome::Glib::Variant \)
 Creates a new byte B<N-Variant> instance.
 
 =begin code
-method new-byte ( UInt() $value --> Gnome::Glib::Variant \)
+method new-byte ( UInt() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #guint8 value.
@@ -433,7 +427,7 @@ The nul terminator character at the end of the string is stored in
 the array.
 
 =begin code
-method new-bytestring ( Str $string --> Gnome::Glib::Variant \)
+method new-bytestring ( Str $string --> Gnome::Glib::Variant )
 =end code
 
 =item $string; a normal
@@ -458,7 +452,7 @@ strings.
 If C<$length> is -1 then C<$strv> is undefined-terminated.
 
 =begin code
-method new-bytestring-array ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant \)
+method new-bytestring-array ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant )
 =end code
 
 =item $strv; an array of strings.
@@ -484,7 +478,7 @@ If the C<$key> or C<$value> are floating references (see C<.ref-sink()>),
 the new instance takes ownership of them as if via C<.ref-sink()>.
 
 =begin code
-method new-dict-entry ( CArray[N-Variant] $key, CArray[N-Variant] $value --> Gnome::Glib::Variant \)
+method new-dict-entry ( CArray[N-Variant] $key, CArray[N-Variant] $value --> Gnome::Glib::Variant )
 =end code
 
 =item $key; a basic B<N-Variant>, the key.
@@ -506,7 +500,7 @@ method new-dict-entry ( CArray[N-Variant] $key, CArray[N-Variant] $value --> Gno
 Creates a new double B<N-Variant> instance.
 
 =begin code
-method new-double ( Num() $value --> Gnome::Glib::Variant \)
+method new-double ( Num() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #gdouble floating point value.
@@ -536,7 +530,7 @@ expectation.
  C<$n_elements> must be the length of the C<$elements> array.
 
 =begin code
-method new-fixed-array ( CArray[N-VariantType] $element-type, gpointer $elements, Int() $n-elements, Int() $element-size --> Gnome::Glib::Variant \)
+method new-fixed-array ( CArray[N-VariantType] $element-type, gpointer $elements, Int() $n-elements, Int() $element-size --> Gnome::Glib::Variant )
 =end code
 
 =item $element-type; the B<N-VariantType> of each element.
@@ -569,7 +563,7 @@ Otherwise this function will internally create a copy of the memory (since
 GLib 2.60) or (in older versions) fail and exit the process.
 
 =begin code
-method new-from-bytes ( CArray[N-VariantType] $type, CArray[N-Bytes]  $bytes, Bool() $trusted --> Gnome::Glib::Variant \)
+method new-from-bytes ( CArray[N-VariantType] $type, CArray[N-Bytes]  $bytes, Bool() $trusted --> Gnome::Glib::Variant )
 =end code
 
 =item $type; a B<N-VariantType>.
@@ -614,7 +608,7 @@ the memory (since GLib 2.60) or (in older versions) fail and exit the
 process.
 
 =begin code
-method new-from-data ( CArray[N-VariantType] $type, gpointer $data, Int() $size, Bool() $trusted, &notify, gpointer $user-data --> Gnome::Glib::Variant \)
+method new-from-data ( CArray[N-VariantType] $type, gpointer $data, Int() $size, Bool() $trusted, &notify, gpointer $user-data --> Gnome::Glib::Variant )
 =end code
 
 =item $type; a definite B<N-VariantType>.
@@ -644,7 +638,7 @@ that are sent alongside a D-Bus message.  If you're not interacting
 with D-Bus, you probably don't need them.
 
 =begin code
-method new-handle ( Int() $value --> Gnome::Glib::Variant \)
+method new-handle ( Int() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #gint32 value.
@@ -665,7 +659,7 @@ method new-handle ( Int() $value --> Gnome::Glib::Variant \)
 Creates a new int16 B<N-Variant> instance.
 
 =begin code
-method new-int16 ( Int() $value --> Gnome::Glib::Variant \)
+method new-int16 ( Int() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #gint16 value.
@@ -686,7 +680,7 @@ method new-int16 ( Int() $value --> Gnome::Glib::Variant \)
 Creates a new int32 B<N-Variant> instance.
 
 =begin code
-method new-int32 ( Int() $value --> Gnome::Glib::Variant \)
+method new-int32 ( Int() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #gint32 value.
@@ -707,7 +701,7 @@ method new-int32 ( Int() $value --> Gnome::Glib::Variant \)
 Creates a new int64 B<N-Variant> instance.
 
 =begin code
-method new-int64 ( Int() $value --> Gnome::Glib::Variant \)
+method new-int64 ( Int() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #gint64 value.
@@ -737,7 +731,7 @@ If C<$child> is a floating reference (see C<.ref-sink()>), the new
 instance takes ownership of C<$child>.
 
 =begin code
-method new-maybe ( CArray[N-VariantType] $child-type, CArray[N-Variant] $child --> Gnome::Glib::Variant \)
+method new-maybe ( CArray[N-VariantType] $child-type, CArray[N-Variant] $child --> Gnome::Glib::Variant )
 =end code
 
 =item $child-type; the B<N-VariantType> of the child, or undefined.
@@ -760,7 +754,7 @@ Creates a D-Bus object path B<N-Variant> with the contents of C<$string>. C<$str
 C<.is-object-path()> if you're not sure.
 
 =begin code
-method new-object-path ( Str $object-path --> Gnome::Glib::Variant \)
+method new-object-path ( Str $object-path --> Gnome::Glib::Variant )
 =end code
 
 =item $object-path; a normal C nul-terminated string.
@@ -787,7 +781,7 @@ C<.is-object-path()>.
 If C<$length> is -1 then C<$strv> is undefined-terminated.
 
 =begin code
-method new-objv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant \)
+method new-objv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant )
 =end code
 
 =item $strv; an array of strings.
@@ -844,7 +838,7 @@ be anything along the lines of "%*", "%?", "\C<r>", or anything starting
 with "%@".
 
 =begin code
-method new-parsed ( Str $format, … --> Gnome::Glib::Variant \)
+method new-parsed ( Str $format, … --> Gnome::Glib::Variant )
 =end code
 
 =item $format; a text format B<N-Variant>.
@@ -887,7 +881,7 @@ result.  This can also be done by adding the result to a container,
 or by passing it to another C<.new-variant()> call.
 
 =begin code
-method new-parsed-va ( Str $format, … --> Gnome::Glib::Variant \)
+method new-parsed-va ( Str $format, … --> Gnome::Glib::Variant )
 =end code
 
 =item $format; a text format B<N-Variant>.
@@ -914,7 +908,7 @@ C<.new-string()> but it saves a temporary variable and an
 unnecessary copy.
 
 =begin code
-method new-printf ( Str $format-string, … --> Gnome::Glib::Variant \)
+method new-printf ( Str $format-string, … --> Gnome::Glib::Variant )
 =end code
 
 =item $format-string; a printf-style format string.
@@ -937,7 +931,7 @@ Creates a D-Bus type signature B<N-Variant> with the contents of C<$string>.  C<
 C<.is-signature()> if you're not sure.
 
 =begin code
-method new-signature ( Str $signature --> Gnome::Glib::Variant \)
+method new-signature ( Str $signature --> Gnome::Glib::Variant )
 =end code
 
 =item $signature; a normal C nul-terminated string.
@@ -960,7 +954,7 @@ Creates a string B<N-Variant> with the contents of C<$string>.
 potentially-undefined strings, use C<.new-variant()> with B<ms> as the format string.
 
 =begin code
-method new-string ( Str $string --> Gnome::Glib::Variant \)
+method new-string ( Str $string --> Gnome::Glib::Variant )
 =end code
 
 =item $string; a normal UTF-8 nul-terminated string.
@@ -984,7 +978,7 @@ strings.
 If C<$length> is -1 then C<$strv> is undefined-terminated.
 
 =begin code
-method new-strv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant \)
+method new-strv ( Array[Str] $strv, Int() $length --> Gnome::Glib::Variant )
 =end code
 
 =item $strv; an array of strings.
@@ -1015,7 +1009,7 @@ it to this function.  It is even possible that C<$string> is immediately
 freed.
 
 =begin code
-method new-take-string ( Str $string --> Gnome::Glib::Variant \)
+method new-take-string ( Str $string --> Gnome::Glib::Variant )
 =end code
 
 =item $string; a normal UTF-8 nul-terminated string.
@@ -1042,7 +1036,7 @@ If the C<$children> are floating references (see C<.ref-sink()>), the
 new instance takes ownership of them as if via C<.ref-sink()>.
 
 =begin code
-method new-tuple ( CArray[N-Variant] $children, Int() $n-children --> Gnome::Glib::Variant \)
+method new-tuple ( CArray[N-Variant] $children, Int() $n-children --> Gnome::Glib::Variant )
 =end code
 
 =item $children; the items to make the tuple out of.
@@ -1064,7 +1058,7 @@ method new-tuple ( CArray[N-Variant] $children, Int() $n-children --> Gnome::Gli
 Creates a new uint16 B<N-Variant> instance.
 
 =begin code
-method new-uint16 ( UInt() $value --> Gnome::Glib::Variant \)
+method new-uint16 ( UInt() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #guint16 value.
@@ -1085,7 +1079,7 @@ method new-uint16 ( UInt() $value --> Gnome::Glib::Variant \)
 Creates a new uint32 B<N-Variant> instance.
 
 =begin code
-method new-uint32 ( UInt() $value --> Gnome::Glib::Variant \)
+method new-uint32 ( UInt() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #guint32 value.
@@ -1106,7 +1100,7 @@ method new-uint32 ( UInt() $value --> Gnome::Glib::Variant \)
 Creates a new uint64 B<N-Variant> instance.
 
 =begin code
-method new-uint64 ( UInt() $value --> Gnome::Glib::Variant \)
+method new-uint64 ( UInt() $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a #guint64 value.
@@ -1160,7 +1154,7 @@ result.  This can also be done by adding the result to a container,
 or by passing it to another C<.new-variant()> call.
 
 =begin code
-method new-va ( Str $format-string, Array[Str] $endptr, … --> Gnome::Glib::Variant \)
+method new-va ( Str $format-string, Array[Str] $endptr, … --> Gnome::Glib::Variant )
 =end code
 
 =item $format-string; a string that is prefixed with a format string.
@@ -1188,7 +1182,7 @@ If C<$child> is a floating reference (see C<.ref-sink()>), the new
 instance takes ownership of C<$child>.
 
 =begin code
-method new-variant ( CArray[N-Variant] $value --> Gnome::Glib::Variant \)
+method new-variant ( CArray[N-Variant] $value --> Gnome::Glib::Variant )
 =end code
 
 =item $value; a B<N-Variant> instance.

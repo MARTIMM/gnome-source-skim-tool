@@ -72,7 +72,7 @@ must contain only the characters B<[A-Z][a-z][0-9]_>.  No sequence
 (including the one following the final B</> character) may be empty.
 
 =begin code
-method variant-is-object-path ( Str $string --> Bool )
+method variant-is-object-path ( Str $string --> Bool)
 =end code
 
 =item $string; a normal C nul-terminated string.
@@ -100,7 +100,7 @@ D-Bus type signatures consist of zero or more definite B<Gnome::Glib::N-VariantT
 strings in sequence.
 
 =begin code
-method variant-is-signature ( Str $string --> Bool )
+method variant-is-signature ( Str $string --> Bool)
 =end code
 
 =item $string; a normal C nul-terminated string.
@@ -157,13 +157,16 @@ which would result in a C<G_VARIANT_PARSE_ERROR_RECURSION> error. B<Gnome::Glib:
 guaranteed to handle nesting up to at least 64 levels.
 
 =begin code
-method variant-parse ( CArray[N-VariantType] $type, Str $text, Str $limit, Array[Str] $endptr --> CArray[N-Variant] )
+method variant-parse ( CArray[N-VariantType] $type, Str $text, Str $limit, Array[Str] $endptr, CArray[N-Error] $err --> CArray[N-Variant])
 =end code
 
 =item $type; a B<Gnome::Glib::N-VariantType>, or undefined.
 =item $text; a string containing a GVariant in text form.
 =item $limit; a pointer to the end of C<$text>, or undefined.
 =item $endptr; a location to store the end pointer, or undefined.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
 
 Return value; a non-floating reference to a B<Gnome::Glib::N-Variant>, or undefined. 
 
@@ -213,7 +216,7 @@ C<.parse()> then you must add nul termination before using this
 function.
 
 =begin code
-method variant-parse-error-print-context ( CArray[N-Error] $error, Str $source-str --> Str )
+method variant-parse-error-print-context ( CArray[N-Error] $error, Str $source-str --> Str)
 =end code
 
 =item $error; a B<Gnome::Glib::N-Error> from the B<Gnome::Glib::T-Variant> domain.

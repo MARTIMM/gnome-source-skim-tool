@@ -92,23 +92,19 @@
 "____EXAMPLE____090": "=begin comment\n\n=head2 Example\n# Example for parse-error-quark\n\n=end comment\n"
 
 "____EXAMPLE____091": |
-  =begin comment
+  =begin code
   my Gnome::Glib::Variant $v .= new-variant( 'u', guint32, 40);
   =end code
 
 "____EXAMPLE____092": |
-  =begin comment
+  =begin code
   enum VFlags ( :AAA(1), :BBB(2), :CCC(4), :DDD(8));
   my GFlag $some-flags = AAA +| DDD;
-  my $some-strings = CArray[Str].new;
-  $some-strings[0] = 'a';
-  $some-strings[1] = 'b';
-  $some-strings[2] = 'c';
-  $some-strings[3] = Str;
+  my $some-strings = CArray[Str].new( 'a', 'b', 'c', Str);
   my Gnome::Glib::N-Variant $v .= new-variant(
     '(t^as)', GFlag, $some-flags, CArray[Str], $some-strings
   );
-  =end comment
+  =end code
 
 "____EXAMPLE____093": "=begin comment\n<!-- language=\"C\" -->\n g_variant_new_parsed (\"[('one', 1), ('two', %i), (%s, 3)]\", 2, \"three\");\n\n=end comment\n"
 "____EXAMPLE____094": "=begin comment\n<!-- language=\"C\" -->\n[('one', 1), ('two', 2), ('three', 3)]\n\n=end comment\n"

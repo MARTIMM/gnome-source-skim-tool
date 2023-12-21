@@ -80,7 +80,7 @@ A reference is taken to the container that C<$iter> is iterating over
 and will be related only when C<.free()> is called.
 
 =begin code
-method copy (--> CArray[N-VariantIter]  )
+method copy (--> CArray[N-VariantIter] )
 =end code
 
 Return value; a new heap-allocated B<Gnome::Glib::N-VariantIter>. 
@@ -104,7 +104,7 @@ iterators that were returned by C<.new-variantiter()> or
 C<.copy()>.
 
 =begin code
-method free ( )
+method free ()
 =end code
 
 =begin comment
@@ -129,7 +129,7 @@ The iterator remains valid for as long as C<$value> exists, and need not
 be freed in any way.
 
 =begin code
-method init ( CArray[N-Variant] $value --> Int )
+method init ( CArray[N-Variant] $value --> Int)
 =end code
 
 =item $value; a container B<Gnome::Glib::N-Variant>.
@@ -214,7 +214,7 @@ the values and also determines if the values are copied or borrowed.
 See the section on GVariant format strings.
 
 =begin code
-method loop ( Str $format-string, … --> Bool )
+method loop ( Str $format-string, … --> Bool)
 =end code
 
 =item $format-string; a GVariant format string.
@@ -244,7 +244,7 @@ of items remaining.
 This function might be useful for preallocation of arrays.
 
 =begin code
-method n-children (--> Int )
+method n-children (--> Int)
 =end code
 
 Return value; the number of children in the container. 
@@ -306,7 +306,7 @@ the values and also determines if the values are copied or borrowed.
 See the section on GVariant format strings.
 
 =begin code
-method next ( Str $format-string, … --> Bool )
+method next ( Str $format-string, … --> Bool)
 =end code
 
 =item $format-string; a GVariant format string.
@@ -359,7 +359,7 @@ Here is an example for iterating with C<.next-value()>:
 =end comment
 
 =begin code
-method next-value (--> CArray[N-Variant] )
+method next-value (--> CArray[N-Variant])
 =end code
 
 Return value; a B<Gnome::Glib::N-Variant>, or undefined. 
