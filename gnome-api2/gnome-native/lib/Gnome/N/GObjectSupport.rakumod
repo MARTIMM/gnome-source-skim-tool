@@ -14,6 +14,7 @@ unit role Gnome::N::GObjectSupport:auth<github:MARTIMM>:api<2>;
 
 my Hash $signal-types = {};
 
+#`{{
 #-------------------------------------------------------------------------------
 method _set-native-object ( $n-native-object ) {
   if ? $n-native-object {
@@ -24,6 +25,7 @@ method _set-native-object ( $n-native-object ) {
   # now call the one from TopLevelClassSupport
   callsame
 }
+}}
 
 #-------------------------------------------------------------------------------
 method native-object-ref ( $n-native-object --> N-Object ) {

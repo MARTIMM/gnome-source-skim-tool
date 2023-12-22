@@ -211,7 +211,6 @@ method generate-callables (
         RAKUMOD
 
       $c ~= q:to/RAKUMOD/;
-              # Check the function name. 
               return self.bless(
                 :native-object(
                   $routine-caller.call-native-sub( $name, @arguments, $methods)

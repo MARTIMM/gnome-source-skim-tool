@@ -157,14 +157,8 @@ submethod BUILD ( *%options ) {
 # no pod. user does not have to know about it.
 #
 # Fallback method to find the native subs which then can be called as if they
-# were methods. Each class must provide their own '_fallback()' method which,
-# when nothing found, must call the parents _fallback with 'callsame()'.
-# The subs in some class all start with some prefix which can be left out too
-# provided that the _fallback functions must also test with an added prefix.
-# So e.g. a sub 'gtk_label_get_text' defined in class GtlLabel can be called
-# like '$label.gtk_label_get_text()' or '$label.get_text()'. As an extra
-# feature dashes can be used instead of underscores, so '$label.get-text()'
-# works too.
+# were methods. Each class must provide their own '_fallback-v2()' method which,
+# when nothing found, must call the parents _fallback-v2 with 'callsame()'.
 method FALLBACK (
   $native-sub is copy, **@params is copy, *%named-params
 ) {
@@ -182,10 +176,10 @@ method FALLBACK (
 
 #-------------------------------------------------------------------------------
 # When _fallback-v2() is called from the FALLBACK() method above, it starts to
-# run _fallback-v2() at the leaf class. When sub address is not resolved
+# run _fallback-v2() at the leaf class. When native sub address is not resolved
 # it calls callsame() which enters the _fallback-v2() in the class below
-# the leaf class. When nothing is found, the call ends up here and the thing
-# only to do is die().
+# the leaf class. When nothing is found, the call ends up here and the only
+# thing to do then is to die().
 method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
   die X::Gnome.new(:message("Native sub '$n' not found"));
 }
@@ -486,7 +480,7 @@ Set the native object. This happens mostly when a native object is created.
   method _set-native-object ( $native-object )
 
 =end pod
-method _set-native-object ( $native-object ) {
+method _set-native-object ( Mu $native-object ) {
 #note "$?LINE set native: $native-object.gist()";
 #TODO if previous no is defined, should it be unreffed?
 
