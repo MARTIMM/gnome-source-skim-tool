@@ -334,7 +334,12 @@ method CALL-ME( *@a, *%o ) {
 }}
 
 #-------------------------------------------------------------------------------
-method make-pointer ( $type, $value ) {
+multi method make-pointer ( $type, Pointer $value ) {
+  nativecast( Pointer[$type], $value)
+}
+
+#-------------------------------------------------------------------------------
+multi method make-pointer ( $type, $value ) {
   my $array = CArray[$type].new($value);
   nativecast( Pointer[$type], $array)
 }

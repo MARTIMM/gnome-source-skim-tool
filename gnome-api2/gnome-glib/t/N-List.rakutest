@@ -95,7 +95,7 @@ unless %*ENV<raku_test_all>:exists {
 }}
 
     #TB:1:nth-data()
-    my Pointer[gint] $p = nativecast( Pointer[gint], .nth-data( $N-List, 5));
+    my Pointer[gint] $p = .make-pointer( gint, .nth-data( $N-List, 5));
     is $p.deref, 4, '.nth-data()';
 
     #TB:1:nth()
