@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gio action
+=comment Package: Gio, C-Source: action
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,6 +8,7 @@ use v6.d;
 use NativeCall;
 
 
+use Gnome::Glib::N-Error:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::N-VariantType:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -30,19 +31,19 @@ unit role Gnome::Gio::R-Action:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  activate => %( :parameters([N-Variant])),
-  change-state => %( :parameters([N-Variant])),
-  get-enabled => %( :returns(gboolean), :cnv-return(Bool)),
-  get-name => %( :returns(Str)),
-  get-parameter-type => %( :returns(N-VariantType)),
-  get-state => %( :returns(N-Variant)),
-  get-state-hint => %( :returns(N-Variant)),
-  get-state-type => %( :returns(N-VariantType)),
+  activate => %(:is-symbol<g_action_activate>,  :parameters([N-Variant])),
+  change-state => %(:is-symbol<g_action_change_state>,  :parameters([N-Variant])),
+  get-enabled => %(:is-symbol<g_action_get_enabled>,  :returns(gboolean), :cnv-return(Bool)),
+  get-name => %(:is-symbol<g_action_get_name>,  :returns(Str)),
+  get-parameter-type => %(:is-symbol<g_action_get_parameter_type>,  :returns(N-VariantType)),
+  get-state => %(:is-symbol<g_action_get_state>,  :returns(N-Variant)),
+  get-state-hint => %(:is-symbol<g_action_get_state_hint>,  :returns(N-Variant)),
+  get-state-type => %(:is-symbol<g_action_get_state_type>,  :returns(N-VariantType)),
 
   #--[Functions]----------------------------------------------------------------
-  name-is-valid => %( :type(Function),  :returns(gboolean), :parameters([Str])),
-  parse-detailed-name => %( :type(Function),  :returns(gboolean), :parameters([ Str, gchar-pptr, CArray[N-Variant]])),
-  print-detailed-name => %( :type(Function),  :returns(Str), :parameters([ Str, N-Variant])),
+  name-is-valid => %( :type(Function), :is-symbol<g_action_name_is_valid>,  :returns(gboolean), :parameters([Str])),
+  parse-detailed-name => %( :type(Function), :is-symbol<g_action_parse_detailed_name>,  :returns(gboolean), :parameters([ Str, gchar-pptr, CArray[N-Variant], CArray[N-Error]])),
+  print-detailed-name => %( :type(Function), :is-symbol<g_action_print_detailed_name>,  :returns(Str), :parameters([ Str, N-Variant])),
 );
 
 #-------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ method _fallback-v2 (
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'g_action_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }

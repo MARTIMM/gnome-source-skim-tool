@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gio actionmap
+=comment Package: Gio, C-Source: actionmap
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -29,10 +29,10 @@ unit role Gnome::Gio::R-ActionMap:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  add-action => %( :parameters([N-Object])),
-  #add-action-entries => %( :parameters([N-ActionEntry , gint, gpointer])),
-  lookup-action => %( :returns(N-Object), :parameters([Str])),
-  remove-action => %( :parameters([Str])),
+  add-action => %(:is-symbol<g_action_map_add_action>,  :parameters([N-Object])),
+  #add-action-entries => %(:is-symbol<g_action_map_add_action_entries>,  :parameters([N-ActionEntry , gint, gpointer])),
+  lookup-action => %(:is-symbol<g_action_map_lookup_action>,  :returns(N-Object), :parameters([Str])),
+  remove-action => %(:is-symbol<g_action_map_remove_action>,  :parameters([Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ method _fallback-v2 (
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'g_action_map_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }

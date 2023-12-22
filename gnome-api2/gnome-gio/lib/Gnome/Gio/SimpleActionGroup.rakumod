@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gio simpleactiongroup
+=comment Package: Gio, C-Source: simpleactiongroup
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -50,14 +50,13 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gio-lib()), :sub-prefix<g_simple_action_group_>);
+  $!routine-caller .= new(:library(gio-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gio::SimpleActionGroup' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GSimpleActionGroup');
@@ -71,7 +70,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-simpleactiongroup => %( :type(Constructor), :isnew, :returns(N-Object), ),
+  new-simpleactiongroup => %( :type(Constructor), :is-symbol<g_simple_action_group_new>, :returns(N-Object), ),
 );
 
 #-------------------------------------------------------------------------------
@@ -81,7 +80,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gio-lib()), :sub-prefix<g_simple_action_group_>
+        :library(gio-lib())
       );
 
       # Check the function name. 

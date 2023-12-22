@@ -1,0 +1,662 @@
+=comment Package: Gio, C-Source: actiongroup
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::R-ActionGroup
+
+=head1 Description
+
+B<Gnome::Gio::R-ActionGroup> represents a group of actions. Actions can be used to
+expose functionality in a structured way, either from one part of a
+program to another, or to the outside world. Action groups are often
+used together with a B<Gnome::Gio::MenuModel> that provides additional
+representation data for displaying the actions to the user, e.g. in
+a menu.
+
+The main way to interact with the actions in a GActionGroup is to
+activate them with C<.activate-action()>. Activating an
+action may require a B<Gnome::Glib::N-Variant> parameter. The required type of the
+parameter can be inquired with C<.get-action-parameter-type()>.
+Actions may be disabled, see C<.get-action-enabled()>.
+Activating a disabled action has no effect.
+
+Actions may optionally have a state in the form of a B<Gnome::Glib::N-Variant>. The
+current state of an action can be inquired with
+C<.get-action-state()>. Activating a stateful action may
+change its state, but it is also possible to set the state by calling
+C<.change-action-state()>.
+
+As typical example, consider a text editing application which has an
+option to change the current font to 'bold'. A good way to represent
+this would be a stateful action, with a boolean state. Activating the
+action would toggle the state.
+
+Each action in the group has a unique name (which is a string).  All
+method calls, except C<.list-actions()> take the name of
+an action as an argument.
+
+The B<Gnome::Gio::R-ActionGroup> API is meant to be the 'public' API to the action
+group.  The calls here are exactly the interaction that 'external
+forces' (eg: UI, incoming D-Bus messages, etc.) are supposed to have
+with actions.  'Internal' APIs (ie: ones meant only to be accessed by
+the action group implementation) are found on subclasses.  This is
+why you will find - for example - C<.get-action-enabled()>
+but not an equivalent set() call.
+
+Signals are emitted on the action group in response to state changes
+on individual actions.
+
+Implementations of B<Gnome::Gio::R-ActionGroup> should provide implementations for
+the virtual functions C<.list-actions()> and
+C<.query-action()>.  The other virtual functions should
+not be implemented - their "wrappers" are actually implemented with
+calls to C<.query-action()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::ActionGroup
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 action-added
+
+Emits the  I<action-added> signal on C<$action_group>.
+
+This function should only be called by B<Gnome::Gio::R-ActionGroup> implementations.
+
+=begin code
+method action-added ( Str $action-name )
+=end code
+
+=item $action-name; the name of an action in the group.
+
+=begin comment
+
+=head2 Example
+# Example for action-added
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 action-enabled-changed
+
+Emits the  I<action-enabled-changed> signal on C<$action_group>.
+
+This function should only be called by B<Gnome::Gio::R-ActionGroup> implementations.
+
+=begin code
+method action-enabled-changed ( Str $action-name, Bool() $enabled )
+=end code
+
+=item $action-name; the name of an action in the group.
+=item $enabled; whether or not the action is now enabled.
+
+=begin comment
+
+=head2 Example
+# Example for action-enabled-changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 action-removed
+
+Emits the  I<action-removed> signal on C<$action_group>.
+
+This function should only be called by B<Gnome::Gio::R-ActionGroup> implementations.
+
+=begin code
+method action-removed ( Str $action-name )
+=end code
+
+=item $action-name; the name of an action in the group.
+
+=begin comment
+
+=head2 Example
+# Example for action-removed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 action-state-changed
+
+Emits the  I<action-state-changed> signal on C<$action_group>.
+
+This function should only be called by B<Gnome::Gio::R-ActionGroup> implementations.
+
+=begin code
+method action-state-changed ( Str $action-name, CArray[N-Variant] $state )
+=end code
+
+=item $action-name; the name of an action in the group.
+=item $state; the new state of the named action.
+
+=begin comment
+
+=head2 Example
+# Example for action-state-changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 activate-action
+
+Activate the named action within C<$action_group>.
+
+If the action is expecting a parameter, then the correct type of
+parameter must be given as C<$parameter>.  If the action is expecting no
+parameters then C<$parameter> must be undefined.  See
+C<.get-action-parameter-type()>.
+
+If the B<Gnome::Gio::R-ActionGroup> implementation supports asynchronous remote
+activation over D-Bus, this call may return before the relevant
+D-Bus traffic has been sent, or any replies have been received. In
+order to block on such asynchronous activation calls,
+g_dbus_connection_flush() should be called prior to the code, which
+depends on the result of the action activation. Without flushing
+the D-Bus connection, there is no guarantee that the action would
+have been activated.
+
+The following code which runs in a remote app instance, shows an
+example of a "quit" action being activated on the primary app
+instance over D-Bus. Here g_dbus_connection_flush() is called
+before B<exit()>. Without g_dbus_connection_flush(), the "quit" action
+may fail to be activated on the primary instance.
+
+=begin comment
+<!-- language="C" -->
+// call "quit" action on primary instance
+g_action_group_activate_action (G_ACTION_GROUP (app), "quit", NULL);
+
+// make sure the action is activated now
+g_dbus_connection_flush (...);
+
+g_debug ("application has been terminated. exiting.");
+
+exit (0);
+
+=end comment
+
+=begin code
+method activate-action ( Str $action-name, CArray[N-Variant] $parameter )
+=end code
+
+=item $action-name; the name of the action to activate.
+=item $parameter; parameters to the activation.
+
+=begin comment
+
+=head2 Example
+# Example for activate-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 change-action-state
+
+Request for the state of the named action within C<$action_group> to be
+changed to C<$value>.
+
+The action must be stateful and C<$value> must be of the correct type.
+See C<.get-action-state-type()>.
+
+This call merely requests a change.  The action may refuse to change
+its state or may change its state to something other than C<$value>.
+See C<.get-action-state-hint()>.
+
+If the C<$value> GVariant is floating, it is consumed.
+
+=begin code
+method change-action-state ( Str $action-name, CArray[N-Variant] $value )
+=end code
+
+=item $action-name; the name of the action to request the change on.
+=item $value; the new state.
+
+=begin comment
+
+=head2 Example
+# Example for change-action-state
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-action-enabled
+
+Checks if the named action within C<$action_group> is currently enabled.
+
+An action must be enabled in order to be activated or in order to
+have its state changed from outside callers.
+
+=begin code
+method get-action-enabled ( Str $action-name --> Bool )
+=end code
+
+=item $action-name; the name of the action to query.
+
+Return value; whether or not the action is currently enabled. 
+
+=begin comment
+
+=head2 Example
+# Example for get-action-enabled
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-action-parameter-type
+
+Queries the type of the parameter that must be given when activating
+the named action within C<$action_group>.
+
+When activating the action using C<.activate-action()>,
+the B<Gnome::Glib::N-Variant> given to that function must be of the type returned
+by this function.
+
+In the case that this function returns undefined, you must not give any
+B<Gnome::Glib::N-Variant>, but undefined instead.
+
+The parameter type of a particular action will never change but it is
+possible for an action to be removed and for a new action to be added
+with the same name but a different parameter type.
+
+=begin code
+method get-action-parameter-type ( Str $action-name --> CArray[N-VariantType] )
+=end code
+
+=item $action-name; the name of the action to query.
+
+Return value; the parameter type. 
+
+=begin comment
+
+=head2 Example
+# Example for get-action-parameter-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-action-state
+
+Queries the current state of the named action within C<$action_group>.
+
+If the action is not stateful then undefined will be returned.  If the
+action is stateful then the type of the return value is the type
+given by C<.get-action-state-type()>.
+
+The return value (if non-undefined) should be freed with
+g_variant_unref() when it is no longer required.
+
+=begin code
+method get-action-state ( Str $action-name --> CArray[N-Variant] )
+=end code
+
+=item $action-name; the name of the action to query.
+
+Return value; the current state of the action. 
+
+=begin comment
+
+=head2 Example
+# Example for get-action-state
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-action-state-hint
+
+Requests a hint about the valid range of values for the state of the
+named action within C<$action_group>.
+
+If undefined is returned it either means that the action is not stateful
+or that there is no hint about the valid range of values for the
+state of the action.
+
+If a B<Gnome::Glib::N-Variant> array is returned then each item in the array is a
+possible value for the state.  If a B<Gnome::Glib::N-Variant> pair (ie: two-tuple) is
+returned then the tuple specifies the inclusive lower and upper bound
+of valid values for the state.
+
+In any case, the information is merely a hint.  It may be possible to
+have a state value outside of the hinted range and setting a value
+within the range may fail.
+
+The return value (if non-undefined) should be freed with
+g_variant_unref() when it is no longer required.
+
+=begin code
+method get-action-state-hint ( Str $action-name --> CArray[N-Variant] )
+=end code
+
+=item $action-name; the name of the action to query.
+
+Return value; the state range hint. 
+
+=begin comment
+
+=head2 Example
+# Example for get-action-state-hint
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-action-state-type
+
+Queries the type of the state of the named action within C<$action_group>.
+
+If the action is stateful then this function returns the
+B<Gnome::Glib::N-VariantType> of the state.  All calls to
+C<.change-action-state()> must give a B<Gnome::Glib::N-Variant> of this
+type and C<.get-action-state()> will return a B<Gnome::Glib::N-Variant>
+of the same type.
+
+If the action is not stateful then this function will return undefined.
+In that case, C<.get-action-state()> will return undefined
+and you must not call C<.change-action-state()>.
+
+The state type of a particular action will never change but it is
+possible for an action to be removed and for a new action to be added
+with the same name but a different state type.
+
+=begin code
+method get-action-state-type ( Str $action-name --> CArray[N-VariantType] )
+=end code
+
+=item $action-name; the name of the action to query.
+
+Return value; the state type, if the action is stateful. 
+
+=begin comment
+
+=head2 Example
+# Example for get-action-state-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 has-action
+
+Checks if the named action exists within C<$action_group>.
+
+=begin code
+method has-action ( Str $action-name --> Bool )
+=end code
+
+=item $action-name; the name of the action to check for.
+
+Return value; whether the named action exists. 
+
+=begin comment
+
+=head2 Example
+# Example for has-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 list-actions
+
+Lists the actions contained within C<$action_group>.
+
+The caller is responsible for freeing the list with g_strfreev() when
+it is no longer required.
+
+=begin code
+method list-actions (--> Array[Str] )
+=end code
+
+Return value; a the array names of the
+actions in the group. 
+
+=begin comment
+
+=head2 Example
+# Example for list-actions
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 query-action
+
+Queries all aspects of the named action within an C<$action_group>.
+
+This function acquires the information available from
+C<.has-action()>, C<.get-action-enabled()>,
+C<.get-action-parameter-type()>,
+C<.get-action-state-type()>,
+C<.get-action-state-hint()> and
+C<.get-action-state()> with a single function call.
+
+This provides two main benefits.
+
+The first is the improvement in efficiency that comes with not having
+to perform repeated lookups of the action in order to discover
+different things about it.  The second is that implementing
+B<Gnome::Gio::R-ActionGroup> can now be done by only overriding this one virtual
+function.
+
+The interface provides a default implementation of this function that
+calls the individual functions, as required, to fetch the
+information.  The interface also provides default implementations of
+those functions that call this function.  All implementations,
+therefore, must override either this function or all of the others.
+
+If the action exists, C<True> is returned and any of the requested
+fields (as indicated by having a non-undefined reference passed in) are
+filled.  If the action doesn't exist, C<False> is returned and the
+fields may or may not have been modified.
+
+=begin code
+method query-action ( Str $action-name, Bool() $enabled, CArray[N-VariantType] $parameter-type, CArray[N-VariantType] $state-type, CArray[N-Variant] $state-hint, CArray[N-Variant] $state --> Bool )
+=end code
+
+=item $action-name; the name of an action in the group.
+=item $enabled; (transfer ownership: full) if the action is presently enabled.
+=item $parameter-type; the parameter type, or undefined if none needed.
+=item $state-type; the state type, or undefined if stateless.
+=item $state-hint; (transfer ownership: full) the state hint, or undefined if none.
+=item $state; (transfer ownership: full) the current state, or undefined if stateless.
+
+Return value; C<True> if the action exists, else C<False>. 
+
+=begin comment
+
+=head2 Example
+# Example for query-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 action-added
+
+Signals that a new action was just added to the group.
+This signal is emitted after the action has been added
+and is now visible.
+
+=begin code
+method handler (
+  Str $action-name,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gio::ActionGroup :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $action-name; the name of the action in C<$action_group>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal action-added
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 action-enabled-changed
+
+Signals that the enabled status of the named action has changed.
+
+=begin code
+method handler (
+  Str $action-name,
+  gboolean $enabled,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gio::ActionGroup :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $action-name; the name of the action in C<$action_group>.
+=item $enabled; whether the action is enabled or not.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal action-enabled-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 action-removed
+
+Signals that an action is just about to be removed from the group.
+This signal is emitted before the action is removed, so the action
+is still visible and can be queried from the signal handler.
+
+=begin code
+method handler (
+  Str $action-name,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gio::ActionGroup :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $action-name; the name of the action in C<$action_group>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal action-removed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 action-state-changed
+
+Signals that the state of the named action has changed.
+
+=begin code
+method handler (
+  Str $action-name,
+   $value,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gio::ActionGroup :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $action-name; the name of the action in C<$action_group>.
+=item $value; the new value of the state.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ActionGroup> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal action-state-changed
+
+=end comment
+
+=end pod
+

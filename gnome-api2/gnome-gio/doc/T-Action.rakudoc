@@ -1,0 +1,140 @@
+=comment Package: Gio, C-Source: action
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gio::T-Action
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 action-name-is-valid
+
+Checks if C<$action_name> is valid.
+ C<$action_name> is valid if it consists only of alphanumeric characters,
+plus '-' and '.'.  The empty string is not a valid action name.
+
+It is an error to call this function with a non-utf8 C<$action_name>. C<$action_name> must not be undefined.
+
+=begin code
+method action-name-is-valid ( Str $action-name --> Bool )
+=end code
+
+=item $action-name; a potential action name.
+
+Return value; C<True> if C<$action_name> is valid. 
+
+=begin comment
+
+=head2 Example
+# Example for action-name-is-valid
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 action-parse-detailed-name
+
+Parses a detailed action name into its separate name and target
+components.
+
+Detailed action names can have three formats.
+
+The first format is used to represent an action name with no target
+value and consists of just an action name containing no whitespace
+nor the characters ':', '(' or ')'.  For example: "app.action".
+
+The second format is used to represent an action with a target value
+that is a non-empty string consisting only of alphanumerics, plus '-'
+and '.'.  In that case, the action name and target value are
+separated by a double colon ("::").  For example:
+"app.action::target".
+
+The third format is used to represent an action with any type of
+target value, including strings.  The target value follows the action
+name, surrounded in parens.  For example: "app.action(42)".  The
+target value is parsed using g_variant_parse().  If a tuple-typed
+value is desired, it must be specified in the same way, resulting in
+two sets of parens, for example: "app.action((1,2,3))".  A string
+target can be specified this way as well: "app.action('target')".
+For strings, this third format must be used if * target value is
+empty or contains characters other than alphanumerics, '-' and '.'.
+
+=begin code
+method action-parse-detailed-name ( Str $detailed-name, Array[Str] $action-name, CArray[N-Variant] $target-value, CArray[N-Error] $err --> Bool )
+=end code
+
+=item $detailed-name; a detailed action name.
+=item $action-name; (transfer ownership: full) the action name.
+=item $target-value; (transfer ownership: full) the target value, or undefined for no target.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; C<True> if successful, else C<False> with C<$error> set. 
+
+=begin comment
+
+=head2 Example
+# Example for action-parse-detailed-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 action-print-detailed-name
+
+Formats a detailed action name from C<$action_name> and C<$target_value>.
+
+It is an error to call this function with an invalid action name.
+
+This function is the opposite of C<.parse-detailed-name()>.
+It will produce a string that can be parsed back to the C<$action_name>
+and C<$target_value> by that function.
+
+See that function for the types of strings that will be printed by
+this function.
+
+=begin code
+method action-print-detailed-name ( Str $action-name, CArray[N-Variant] $target-value --> Str )
+=end code
+
+=item $action-name; a valid action name.
+=item $target-value; a B<Gnome::Glib::N-Variant> target value, or undefined.
+
+Return value; a detailed format string. 
+
+=begin comment
+
+=head2 Example
+# Example for action-print-detailed-name
+
+=end comment
+
+=end pod
+
