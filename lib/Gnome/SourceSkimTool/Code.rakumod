@@ -197,7 +197,9 @@ method generate-callables (
     else {
       $c ~= q:to/RAKUMOD/;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
-        method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+        method _fallback-v2 (
+          Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+        ) {
           if $methods{$name}:exists {
             $_fallback-v2-ok = True;
             if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -214,7 +216,8 @@ method generate-callables (
               return self.bless(
                 :native-object(
                   $routine-caller.call-native-sub( $name, @arguments, $methods)
-                )
+                ),
+                |%options
               );
             }
 

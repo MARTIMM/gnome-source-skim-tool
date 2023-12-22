@@ -54,7 +54,7 @@ find . -name '*.raku*' | xargs wc -l
 * The `new()` call is only used for specific work. I.e.
   * Providing a native object from elsewhere with `:$native-object`.
   * Using an id with `:$build-id` to get a native object from an XML description.
-* Need to rethink the inheriting mechanism, so for the time being it is off limits.
+* Inheriting mechanism is changed.
 * Code is split into more separate files.
   * **Gnome::\<package>::\<class>**. Class names are as before.
   * **Gnome::\<package>::R-\<role>**. Name of roles are changed but is not a problem because they cannot be used as a class.
@@ -67,6 +67,40 @@ find . -name '*.raku*' | xargs wc -l
 
 
 # Release notes
+* 2023-12-22 0.13.2
+  * Tried to find out how to inherit from Gtk classes. Needed to make a few small changes in the **Gnome::N::GnomeRoutineCaller** module and in the classes `_fallback-v2()` methods, it is possible to just do it in more simpler way than it was done in the api<1> version. To show a little example where user options can be provided;
+    ```
+    use Gnome::Gtk4::Label:api<2>;
+    use Gnome::Gtk4::T-Enums:api<2>;
+
+    class MyLabel is Gnome::Gtk4::Label {
+      submethod BUILD ( *%options ) {
+        with self {
+          .set-use-markup(%options<do-markup>:exists);
+          .set-hexpand(?%options<he>);              # :he True or False/Any
+          .set-wrap(?%options<lw>);                 # :lw True or False/Any
+          .set-justify(GTK_JUSTIFY_FILL);
+          .set-halign(GTK_ALIGN_START);
+          .set-valign(GTK_ALIGN_START);
+          .set-margin-top((%options<mt> // 5).Int); # :mt defaultset to 5
+          .set-margin-start(2);
+        }
+      }
+    }
+
+    my MyLabel $t1 .= new-label( 'test1', :lw, :he);
+    note "hexpand: ", $t1.get-hexpand;              # hexpand: True
+    note "line-wrap: ", $t1.get-wrap;               # line-wrap: True
+    note "margin top: ", $t1.get-margin-top;        # margin top: 5
+
+    my MyLabel $t2 .= new-with-mnemonic('_test2');
+    note "hexpand: ", $t2.get-hexpand;              # hexpand: False
+    note "line-wrap: ", $t2.get-wrap;               # line-wrap: False
+    note "margin top: ", $t2.get-margin-top;        # margin top: 10
+    ```
+
+    Must still mention that the information in such a class is not saved when the native object is given to some native routine and later retrieved using another routine to rebuild the raku object with something like `$my-label .= new(:$native-object)`. Extra steps are needed to accomplish that.
+
 * 2023-12-20 0.13.1
   * GnomeRoutineCaller helpers will not return Lists anymore when there were any pointers (like CArray[]) where data is placed by called native routines. It was already needed to provide any pointers to the native routines.
 
