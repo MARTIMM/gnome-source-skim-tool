@@ -178,9 +178,6 @@ method FALLBACK (
 #note "$?LINE $_fallback-v2-ok";
     return $r if $_fallback-v2-ok;
   }
-
-#note "$?LINE continue old style";
-  self.FALLBACK-ORIGINAL( $native-sub, |@params, |%named-params);
 }
 
 #-------------------------------------------------------------------------------
@@ -191,87 +188,6 @@ method FALLBACK (
 # only to do is die().
 method _fallback-v2 ( Str $n, Bool $_fallback-v2-ok is rw, *@arguments ) {
   die X::Gnome.new(:message("Native sub '$n' not found"));
-}
-
-#-------------------------------------------------------------------------------
-# Old fashion with same purpose as above with _fallback-v2().
-method _fallback ( Str $n, *@arguments, *%named-params ) {
-  die X::Gnome.new(:message("Native sub '$n' not found"));
-}
-
-#-------------------------------------------------------------------------------
-method FALLBACK-ORIGINAL (
-  $native-sub is copy, **@params is copy, *%named-params
-) {
-  state Hash $cache = %();
-
-  # cairo does not use the type system
-  $!class-name //= '-';
-  $!class-name-of-sub //= '-';
-
-  note "\nSearch for .$native-sub\() in $!class-name following ",
-    self.^mro if $Gnome::N::x-debug;
-
-#  CATCH { test-catch-exception( $_, $native-sub); }
-  CATCH { .note; die; }
-
-  # convert all dashes to underscores if there are any.
-  $native-sub ~~ s:g/ '-' /_/ if $native-sub.index('-').defined;
-
-  my Callable $s;
-
-  # call the _fallback functions of this class's children starting
-  # at the bottom
-  if $cache{$!class-name}{$native-sub}:exists {
-
-    note "Use cached sub address of .$native-sub\() in $!class-name"
-      if $Gnome::N::x-debug;
-
-    $s = $cache{$!class-name}{$native-sub};
-  }
-
-  else {
-    $s = self._fallback($native-sub);
-#`{{
-    if $s.defined {
-      note "Found $native-sub in $!class-name-of-sub for $!class-name"
-        if $Gnome::N::x-debug;
-      $cache{$!class-name}{$native-sub} = $s;
-    }
-
-    else {
-      die X::Gnome.new(:message("Native sub '$native-sub' not found"));
-    }
-}}
-  }
-
-  # user convenience substitutions to get a native object instead of
-  # a Gtk3::SomeThing or other *::SomeThing object.
-  self.convert-to-natives( $s, @params);
-
-  # cast to other gtk object type if the found subroutine is from another
-  # gtk object type than the native object stored at $!n-native-object.
-  # This happens e.g. when a Gnome::Gtk::Button object uses gtk-widget-show()
-  # which belongs to Gnome::Gtk::Widget.
-  my Mu $g-object-cast;
-
-  #TODO Not all classes have $!gtk-class-* defined so we need to test it
-  if $!n-native-object ~~ N-Object and
-     ? $!class-gtype and ?$!class-name and ?$!class-name-of-sub and
-     $!class-name ne $!class-name-of-sub {
-
-    note "Cast $!class-name to $!class-name-of-sub" if $Gnome::N::x-debug;
-    $g-object-cast = _check_instance_cast( $!n-native-object, $!class-gtype);
-  }
-
-  else {
-    note "Use $!class-name for call" if $Gnome::N::x-debug;
-    $g-object-cast = $!n-native-object; #type-cast($!n-native-object);
-  }
-
-  note "test-call: $s.gist(), $g-object-cast.gist(), @params.gist(), %named-params.gist()" if $Gnome::N::x-debug;
-
-  test-call( $s, $g-object-cast, |@params, |%named-params)
 }
 
 #-------------------------------------------------------------------------------
@@ -1435,3 +1351,87 @@ method _f ( Str $sub-class? --> Mu ) {
 
 $!n-native-object
 }
+
+
+#`{{
+#-------------------------------------------------------------------------------
+# Old fashion with same purpose as above with _fallback-v2().
+method _fallback ( Str $n, *@arguments, *%named-params ) {
+  die X::Gnome.new(:message("Native sub '$n' not found"));
+}
+
+#-------------------------------------------------------------------------------
+method FALLBACK-ORIGINAL (
+  $native-sub is copy, **@params is copy, *%named-params
+) {
+  state Hash $cache = %();
+
+  # cairo does not use the type system
+  $!class-name //= '-';
+  $!class-name-of-sub //= '-';
+
+  note "\nSearch for .$native-sub\() in $!class-name following ",
+    self.^mro if $Gnome::N::x-debug;
+
+#  CATCH { test-catch-exception( $_, $native-sub); }
+  CATCH { .note; die; }
+
+  # convert all dashes to underscores if there are any.
+  $native-sub ~~ s:g/ '-' /_/ if $native-sub.index('-').defined;
+
+  my Callable $s;
+
+  # call the _fallback functions of this class's children starting
+  # at the bottom
+  if $cache{$!class-name}{$native-sub}:exists {
+
+    note "Use cached sub address of .$native-sub\() in $!class-name"
+      if $Gnome::N::x-debug;
+
+    $s = $cache{$!class-name}{$native-sub};
+  }
+
+  else {
+    $s = self._fallback($native-sub);
+#`{{
+    if $s.defined {
+      note "Found $native-sub in $!class-name-of-sub for $!class-name"
+        if $Gnome::N::x-debug;
+      $cache{$!class-name}{$native-sub} = $s;
+    }
+
+    else {
+      die X::Gnome.new(:message("Native sub '$native-sub' not found"));
+    }
+}}
+  }
+
+  # user convenience substitutions to get a native object instead of
+  # a Gtk3::SomeThing or other *::SomeThing object.
+  self.convert-to-natives( $s, @params);
+
+  # cast to other gtk object type if the found subroutine is from another
+  # gtk object type than the native object stored at $!n-native-object.
+  # This happens e.g. when a Gnome::Gtk::Button object uses gtk-widget-show()
+  # which belongs to Gnome::Gtk::Widget.
+  my Mu $g-object-cast;
+
+  #TODO Not all classes have $!gtk-class-* defined so we need to test it
+  if $!n-native-object ~~ N-Object and
+     ? $!class-gtype and ?$!class-name and ?$!class-name-of-sub and
+     $!class-name ne $!class-name-of-sub {
+
+    note "Cast $!class-name to $!class-name-of-sub" if $Gnome::N::x-debug;
+    $g-object-cast = _check_instance_cast( $!n-native-object, $!class-gtype);
+  }
+
+  else {
+    note "Use $!class-name for call" if $Gnome::N::x-debug;
+    $g-object-cast = $!n-native-object; #type-cast($!n-native-object);
+  }
+
+  note "test-call: $s.gist(), $g-object-cast.gist(), @params.gist(), %named-params.gist()" if $Gnome::N::x-debug;
+
+  test-call( $s, $g-object-cast, |@params, |%named-params)
+}
+}}
