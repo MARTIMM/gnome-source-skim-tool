@@ -1,0 +1,67 @@
+=comment Package: Gio, C-Source: simpleactiongroup
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::SimpleActionGroup
+
+=head1 Description
+
+B<Gnome::Gio::SimpleActionGroup> is a hash table filled with B<Gnome::Gio::R-Action> objects,
+implementing the B<Gnome::Gio::R-ActionGroup> and B<Gnome::Gio::R-ActionMap> interfaces.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::SimpleActionGroup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-simpleactiongroup
+
+Creates a new, empty, B<Gnome::Gio::SimpleActionGroup>.
+
+=begin code
+method new-simpleactiongroup ( --> Gnome::Gio::SimpleActionGroup \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-simpleactiongroup
+
+=end comment
+
+=end pod
+

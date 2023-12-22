@@ -1,0 +1,1204 @@
+=comment Package: Gio, C-Source: ioenums
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gio::T-Ioenums
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GBusType
+
+An enumeration for well-known message buses.
+=item C<G_BUS_TYPE_STARTER>; An alias for the message bus that activated the process, if any.
+=item C<G_BUS_TYPE_NONE>; Not a message bus.
+=item C<G_BUS_TYPE_SYSTEM>; The system-wide message bus.
+=item C<G_BUS_TYPE_SESSION>; The login session message bus.
+
+=head2 GConverterResult
+
+Results returned from g_converter_convert().
+=item C<G_CONVERTER_ERROR>; There was an error during conversion.
+=item C<G_CONVERTER_CONVERTED>; Some data was consumed or produced
+=item C<G_CONVERTER_FINISHED>; The conversion is finished
+=item C<G_CONVERTER_FLUSHED>; Flushing is finished
+
+=head2 GCredentialsType
+
+Enumeration describing different kinds of native credential types.
+=item C<G_CREDENTIALS_TYPE_INVALID>; Indicates an invalid native credential type.
+=item C<G_CREDENTIALS_TYPE_LINUX_UCRED>; The native credentials type is a B<struct ucred>.
+=item C<G_CREDENTIALS_TYPE_FREEBSD_CMSGCRED>; The native credentials type is a B<struct cmsgcred>.
+=item C<G_CREDENTIALS_TYPE_OPENBSD_SOCKPEERCRED>; The native credentials type is a B<struct sockpeercred>. Added in 2.30.
+=item C<G_CREDENTIALS_TYPE_SOLARIS_UCRED>; The native credentials type is a B<ucred_t>. Added in 2.40.
+=item C<G_CREDENTIALS_TYPE_NETBSD_UNPCBID>; The native credentials type is a B<struct unpcbid>. Added in 2.42.
+=item C<G_CREDENTIALS_TYPE_APPLE_XUCRED>; The native credentials type is a B<struct xucred>. Added in 2.66.
+=item C<G_CREDENTIALS_TYPE_WIN32_PID>; The native credentials type is a PID B<DWORD>. Added in 2.72.
+
+=head2 GDBusError
+
+Error codes for the C<G_DBUS_ERROR> error domain.
+=item C<G_DBUS_ERROR_FAILED>; A generic error; "something went wrong" - see the error message for
+more.
+=item C<G_DBUS_ERROR_NO_MEMORY>; There was not enough memory to complete an operation.
+=item C<G_DBUS_ERROR_SERVICE_UNKNOWN>; The bus doesn't know how to launch a service to supply the bus name
+you wanted.
+=item C<G_DBUS_ERROR_NAME_HAS_NO_OWNER>; The bus name you referenced doesn't exist (i.e. no application owns
+it).
+=item C<G_DBUS_ERROR_NO_REPLY>; No reply to a message expecting one, usually means a timeout occurred.
+=item C<G_DBUS_ERROR_IO_ERROR>; Something went wrong reading or writing to a socket, for example.
+=item C<G_DBUS_ERROR_BAD_ADDRESS>; A D-Bus bus address was malformed.
+=item C<G_DBUS_ERROR_NOT_SUPPORTED>; Requested operation isn't supported (like ENOSYS on UNIX).
+=item C<G_DBUS_ERROR_LIMITS_EXCEEDED>; Some limited resource is exhausted.
+=item C<G_DBUS_ERROR_ACCESS_DENIED>; Security restrictions don't allow doing what you're trying to do.
+=item C<G_DBUS_ERROR_AUTH_FAILED>; Authentication didn't work.
+=item C<G_DBUS_ERROR_NO_SERVER>; Unable to connect to server (probably caused by ECONNREFUSED on a
+socket).
+=item C<G_DBUS_ERROR_TIMEOUT>; Certain timeout errors, possibly ETIMEDOUT on a socket.  Note that
+C<G_DBUS_ERROR_NO_REPLY> is used for message reply timeouts. Warning:
+this is confusingly-named given that C<G_DBUS_ERROR_TIMED_OUT> also
+exists. We can't fix it for compatibility reasons so just be
+careful.
+=item C<G_DBUS_ERROR_NO_NETWORK>; No network access (probably ENETUNREACH on a socket).
+=item C<G_DBUS_ERROR_ADDRESS_IN_USE>; Can't bind a socket since its address is in use (i.e. EADDRINUSE).
+=item C<G_DBUS_ERROR_DISCONNECTED>; The connection is disconnected and you're trying to use it.
+=item C<G_DBUS_ERROR_INVALID_ARGS>; Invalid arguments passed to a method call.
+=item C<G_DBUS_ERROR_FILE_NOT_FOUND>; Missing file.
+=item C<G_DBUS_ERROR_FILE_EXISTS>; Existing file and the operation you're using does not silently overwrite.
+=item C<G_DBUS_ERROR_UNKNOWN_METHOD>; Method name you invoked isn't known by the object you invoked it on.
+=item C<G_DBUS_ERROR_TIMED_OUT>; Certain timeout errors, e.g. while starting a service. Warning: this is
+confusingly-named given that C<G_DBUS_ERROR_TIMEOUT> also exists. We
+can't fix it for compatibility reasons so just be careful.
+=item C<G_DBUS_ERROR_MATCH_RULE_NOT_FOUND>; Tried to remove or modify a match rule that didn't exist.
+=item C<G_DBUS_ERROR_MATCH_RULE_INVALID>; The match rule isn't syntactically valid.
+=item C<G_DBUS_ERROR_SPAWN_EXEC_FAILED>; While starting a new process, the exec() call failed.
+=item C<G_DBUS_ERROR_SPAWN_FORK_FAILED>; While starting a new process, the fork() call failed.
+=item C<G_DBUS_ERROR_SPAWN_CHILD_EXITED>; While starting a new process, the child exited with a status code.
+=item C<G_DBUS_ERROR_SPAWN_CHILD_SIGNALED>; While starting a new process, the child exited on a signal.
+=item C<G_DBUS_ERROR_SPAWN_FAILED>; While starting a new process, something went wrong.
+=item C<G_DBUS_ERROR_SPAWN_SETUP_FAILED>; We failed to setup the environment correctly.
+=item C<G_DBUS_ERROR_SPAWN_CONFIG_INVALID>; We failed to setup the config parser correctly.
+=item C<G_DBUS_ERROR_SPAWN_SERVICE_INVALID>; Bus name was not valid.
+=item C<G_DBUS_ERROR_SPAWN_SERVICE_NOT_FOUND>; Service file not found in system-services directory.
+=item C<G_DBUS_ERROR_SPAWN_PERMISSIONS_INVALID>; Permissions are incorrect on the setuid helper.
+=item C<G_DBUS_ERROR_SPAWN_FILE_INVALID>; Service file invalid (Name, User or Exec missing).
+=item C<G_DBUS_ERROR_SPAWN_NO_MEMORY>; Tried to get a UNIX process ID and it wasn't available.
+=item C<G_DBUS_ERROR_UNIX_PROCESS_ID_UNKNOWN>; Tried to get a UNIX process ID and it wasn't available.
+=item C<G_DBUS_ERROR_INVALID_SIGNATURE>; A type signature is not valid.
+=item C<G_DBUS_ERROR_INVALID_FILE_CONTENT>; A file contains invalid syntax or is otherwise broken.
+=item C<G_DBUS_ERROR_SELINUX_SECURITY_CONTEXT_UNKNOWN>; Asked for SELinux security context and it wasn't available.
+=item C<G_DBUS_ERROR_ADT_AUDIT_DATA_UNKNOWN>; Asked for ADT audit data and it wasn't available.
+=item C<G_DBUS_ERROR_OBJECT_PATH_IN_USE>; There's already an object with the requested object path.
+=item C<G_DBUS_ERROR_UNKNOWN_OBJECT>; Object you invoked a method on isn't known. Since 2.42
+=item C<G_DBUS_ERROR_UNKNOWN_INTERFACE>; Interface you invoked a method on isn't known by the object. Since 2.42
+=item C<G_DBUS_ERROR_UNKNOWN_PROPERTY>; Property you tried to access isn't known by the object. Since 2.42
+=item C<G_DBUS_ERROR_PROPERTY_READ_ONLY>; Property you tried to set is read-only. Since 2.42
+
+=head2 GDBusMessageByteOrder
+
+Enumeration used to describe the byte order of a D-Bus message.
+=item C<G_DBUS_MESSAGE_BYTE_ORDER_BIG_ENDIAN>; The byte order is big endian.
+=item C<G_DBUS_MESSAGE_BYTE_ORDER_LITTLE_ENDIAN>; The byte order is little endian.
+
+=head2 GDBusMessageHeaderField
+
+Header fields used in B<Gnome::Gio::DBusMessage>.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_INVALID>; Not a valid header field.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_PATH>; The object path.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_INTERFACE>; The interface name.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_MEMBER>; The method or signal name.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_ERROR_NAME>; The name of the error that occurred.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_REPLY_SERIAL>; The serial number the message is a reply to.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_DESTINATION>; The name the message is intended for.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_SENDER>; Unique name of the sender of the message (filled in by the bus).
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_SIGNATURE>; The signature of the message body.
+=item C<G_DBUS_MESSAGE_HEADER_FIELD_NUM_UNIX_FDS>; The number of UNIX file descriptors that accompany the message.
+
+=head2 GDBusMessageType
+
+Message types used in B<Gnome::Gio::DBusMessage>.
+=item C<G_DBUS_MESSAGE_TYPE_INVALID>; Message is of invalid type.
+=item C<G_DBUS_MESSAGE_TYPE_METHOD_CALL>; Method call.
+=item C<G_DBUS_MESSAGE_TYPE_METHOD_RETURN>; Method reply.
+=item C<G_DBUS_MESSAGE_TYPE_ERROR>; Error reply.
+=item C<G_DBUS_MESSAGE_TYPE_SIGNAL>; Signal emission.
+
+=head2 GDataStreamByteOrder
+
+B<Gnome::Gio::T-Ioenums> is used to ensure proper endianness of streaming data sources
+across various machine architectures.
+=item C<G_DATA_STREAM_BYTE_ORDER_BIG_ENDIAN>; Selects Big Endian byte order.
+=item C<G_DATA_STREAM_BYTE_ORDER_LITTLE_ENDIAN>; Selects Little Endian byte order.
+=item C<G_DATA_STREAM_BYTE_ORDER_HOST_ENDIAN>; Selects endianness based on host machine's architecture.
+
+=head2 GDataStreamNewlineType
+
+B<Gnome::Gio::T-Ioenums> is used when checking for or setting the line endings for a given file.
+=item C<G_DATA_STREAM_NEWLINE_TYPE_LF>; Selects "LF" line endings, common on most modern UNIX platforms.
+=item C<G_DATA_STREAM_NEWLINE_TYPE_CR>; Selects "CR" line endings.
+=item C<G_DATA_STREAM_NEWLINE_TYPE_CR_LF>; Selects "CR, LF" line ending, common on Microsoft Windows.
+=item C<G_DATA_STREAM_NEWLINE_TYPE_ANY>; Automatically try to handle any line ending type.
+
+=head2 GDriveStartStopType
+
+Enumeration describing how a drive can be started/stopped.
+=item C<G_DRIVE_START_STOP_TYPE_UNKNOWN>; Unknown or drive doesn't support
+   start/stop.
+=item C<G_DRIVE_START_STOP_TYPE_SHUTDOWN>; The stop method will physically
+   shut down the drive and e.g. power down the port the drive is
+   attached to.
+=item C<G_DRIVE_START_STOP_TYPE_NETWORK>; The start/stop methods are used
+   for connecting/disconnect to the drive over the network.
+=item C<G_DRIVE_START_STOP_TYPE_MULTIDISK>; The start/stop methods will
+   assemble/disassemble a virtual drive from several physical
+   drives.
+=item C<G_DRIVE_START_STOP_TYPE_PASSWORD>; The start/stop methods will
+   unlock/lock the disk (for example using the ATA <quote>SECURITY
+   UNLOCK DEVICE</quote> command)
+
+=head2 GEmblemOrigin
+
+GEmblemOrigin is used to add information about the origin of the emblem
+to B<Gnome::Gio::Emblem>.
+=item C<G_EMBLEM_ORIGIN_UNKNOWN>; Emblem of unknown origin
+=item C<G_EMBLEM_ORIGIN_DEVICE>; Emblem adds device-specific information
+=item C<G_EMBLEM_ORIGIN_LIVEMETADATA>; Emblem depicts live metadata, such as "readonly"
+=item C<G_EMBLEM_ORIGIN_TAG>; Emblem comes from a user-defined tag, e.g. set by nautilus (in the future)
+
+=head2 GFileAttributeStatus
+
+Used by g_file_set_attributes_from_info() when setting file attributes.
+=item C<G_FILE_ATTRIBUTE_STATUS_UNSET>; Attribute value is unset (empty).
+=item C<G_FILE_ATTRIBUTE_STATUS_SET>; Attribute value is set.
+=item C<G_FILE_ATTRIBUTE_STATUS_ERROR_SETTING>; Indicates an error in setting the value.
+
+=head2 GFileAttributeType
+
+The data types for file attributes.
+=item C<G_FILE_ATTRIBUTE_TYPE_INVALID>; indicates an invalid or uninitialized type.
+=item C<G_FILE_ATTRIBUTE_TYPE_STRING>; a null terminated UTF8 string.
+=item C<G_FILE_ATTRIBUTE_TYPE_BYTE_STRING>; a zero terminated string of non-zero bytes.
+=item C<G_FILE_ATTRIBUTE_TYPE_BOOLEAN>; a boolean value.
+=item C<G_FILE_ATTRIBUTE_TYPE_UINT32>; an unsigned 4-byte/32-bit integer.
+=item C<G_FILE_ATTRIBUTE_TYPE_INT32>; a signed 4-byte/32-bit integer.
+=item C<G_FILE_ATTRIBUTE_TYPE_UINT64>; an unsigned 8-byte/64-bit integer.
+=item C<G_FILE_ATTRIBUTE_TYPE_INT64>; a signed 8-byte/64-bit integer.
+=item C<G_FILE_ATTRIBUTE_TYPE_OBJECT>; a B<Gnome::GObject::Object>.
+=item C<G_FILE_ATTRIBUTE_TYPE_STRINGV>; a undefined terminated char **. Since 2.22
+
+=head2 GFileMonitorEvent
+
+Specifies what type of event a monitor event is.
+=item C<G_FILE_MONITOR_EVENT_CHANGED>; a file changed.
+=item C<G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT>; a hint that this was probably the last change in a set of changes.
+=item C<G_FILE_MONITOR_EVENT_DELETED>; a file was deleted.
+=item C<G_FILE_MONITOR_EVENT_CREATED>; a file was created.
+=item C<G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED>; a file attribute was changed.
+=item C<G_FILE_MONITOR_EVENT_PRE_UNMOUNT>; the file location will soon be unmounted.
+=item C<G_FILE_MONITOR_EVENT_UNMOUNTED>; the file location was unmounted.
+=item C<G_FILE_MONITOR_EVENT_MOVED>; the file was moved -- only sent if the
+  (deprecated) C<G_FILE_MONITOR_SEND_MOVED> flag is set
+=item C<G_FILE_MONITOR_EVENT_RENAMED>; the file was renamed within the
+  current directory -- only sent if the C<G_FILE_MONITOR_WATCH_MOVES>
+  flag is set.  Since: 2.46.
+=item C<G_FILE_MONITOR_EVENT_MOVED_IN>; the file was moved into the
+  monitored directory from another location -- only sent if the
+  C<G_FILE_MONITOR_WATCH_MOVES> flag is set.  Since: 2.46.
+=item C<G_FILE_MONITOR_EVENT_MOVED_OUT>; the file was moved out of the
+  monitored directory to another location -- only sent if the
+  C<G_FILE_MONITOR_WATCH_MOVES> flag is set.  Since: 2.46
+
+=head2 GFileType
+
+Indicates the file's on-disk type.
+
+On Windows systems a file will never have C<G_FILE_TYPE_SYMBOLIC_LINK> type;
+use B<Gnome::Gio::FileInfo> and C<G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK> to determine
+whether a file is a symlink or not. This is due to the fact that NTFS does
+not have a single filesystem object type for symbolic links - it has
+files that symlink to files, and directories that symlink to directories.
+B<Gnome::Gio::T-Ioenums> enumeration cannot precisely represent this important distinction,
+which is why all Windows symlinks will continue to be reported as
+C<G_FILE_TYPE_REGULAR> or C<G_FILE_TYPE_DIRECTORY>.
+=item C<G_FILE_TYPE_UNKNOWN>; File's type is unknown.
+=item C<G_FILE_TYPE_REGULAR>; File handle represents a regular file.
+=item C<G_FILE_TYPE_DIRECTORY>; File handle represents a directory.
+=item C<G_FILE_TYPE_SYMBOLIC_LINK>; File handle represents a symbolic link
+   (Unix systems).
+=item C<G_FILE_TYPE_SPECIAL>; File is a "special" file, such as a socket, fifo,
+   block device, or character device.
+=item C<G_FILE_TYPE_SHORTCUT>; File is a shortcut (Windows systems).
+=item C<G_FILE_TYPE_MOUNTABLE>; File is a mountable location.
+
+=head2 GFilesystemPreviewType
+
+Indicates a hint from the file system whether files should be
+previewed in a file manager. Returned as the value of the key
+C<G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW>.
+=item C<G_FILESYSTEM_PREVIEW_TYPE_IF_ALWAYS>; Only preview files if user has explicitly requested it.
+=item C<G_FILESYSTEM_PREVIEW_TYPE_IF_LOCAL>; Preview files if user has requested preview of "local" files.
+=item C<G_FILESYSTEM_PREVIEW_TYPE_NEVER>; Never preview files.
+
+=head2 GIOErrorEnum
+
+Error codes returned by GIO functions.
+
+Note that this domain may be extended in future GLib releases. In
+general, new error codes either only apply to new APIs, or else
+replace C<G_IO_ERROR_FAILED> in cases that were not explicitly
+distinguished before. You should therefore avoid writing code like
+=begin comment
+<!-- language="C" -->
+if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_FAILED))
+  {
+    // Assume that this is EPRINTERONFIRE
+    ...
+  }
+
+=end comment
+
+but should instead treat all unrecognized error codes the same as
+C<G_IO_ERROR_FAILED>.
+
+See also B<Gnome::Gio::T-Ioenums> for a cheaper way of returning
+C<G_IO_ERROR_WOULD_BLOCK> to callers without allocating a B<Gnome::Glib::N-Error>.
+=item C<G_IO_ERROR_FAILED>; Generic error condition for when an operation fails
+    and no more specific B<Gnome::Gio::T-Ioenums> value is defined.
+=item C<G_IO_ERROR_NOT_FOUND>; File not found.
+=item C<G_IO_ERROR_EXISTS>; File already exists.
+=item C<G_IO_ERROR_IS_DIRECTORY>; File is a directory.
+=item C<G_IO_ERROR_NOT_DIRECTORY>; File is not a directory.
+=item C<G_IO_ERROR_NOT_EMPTY>; File is a directory that isn't empty.
+=item C<G_IO_ERROR_NOT_REGULAR_FILE>; File is not a regular file.
+=item C<G_IO_ERROR_NOT_SYMBOLIC_LINK>; File is not a symbolic link.
+=item C<G_IO_ERROR_NOT_MOUNTABLE_FILE>; File cannot be mounted.
+=item C<G_IO_ERROR_FILENAME_TOO_LONG>; Filename is too many characters.
+=item C<G_IO_ERROR_INVALID_FILENAME>; Filename is invalid or contains invalid characters.
+=item C<G_IO_ERROR_TOO_MANY_LINKS>; File contains too many symbolic links.
+=item C<G_IO_ERROR_NO_SPACE>; No space left on drive.
+=item C<G_IO_ERROR_INVALID_ARGUMENT>; Invalid argument.
+=item C<G_IO_ERROR_PERMISSION_DENIED>; Permission denied.
+=item C<G_IO_ERROR_NOT_SUPPORTED>; Operation (or one of its parameters) not supported
+=item C<G_IO_ERROR_NOT_MOUNTED>; File isn't mounted.
+=item C<G_IO_ERROR_ALREADY_MOUNTED>; File is already mounted.
+=item C<G_IO_ERROR_CLOSED>; File was closed.
+=item C<G_IO_ERROR_CANCELLED>; Operation was cancelled. See B<Gnome::Gio::Cancellable>.
+=item C<G_IO_ERROR_PENDING>; Operations are still pending.
+=item C<G_IO_ERROR_READ_ONLY>; File is read only.
+=item C<G_IO_ERROR_CANT_CREATE_BACKUP>; Backup couldn't be created.
+=item C<G_IO_ERROR_WRONG_ETAG>; File's Entity Tag was incorrect.
+=item C<G_IO_ERROR_TIMED_OUT>; Operation timed out.
+=item C<G_IO_ERROR_WOULD_RECURSE>; Operation would be recursive.
+=item C<G_IO_ERROR_BUSY>; File is busy.
+=item C<G_IO_ERROR_WOULD_BLOCK>; Operation would block.
+=item C<G_IO_ERROR_HOST_NOT_FOUND>; Host couldn't be found (remote operations).
+=item C<G_IO_ERROR_WOULD_MERGE>; Operation would merge files.
+=item C<G_IO_ERROR_FAILED_HANDLED>; Operation failed and a helper program has
+    already interacted with the user. Do not display any error dialog.
+=item C<G_IO_ERROR_TOO_MANY_OPEN_FILES>; The current process has too many files
+    open and can't open any more. Duplicate descriptors do count toward
+    this limit. Since 2.20
+=item C<G_IO_ERROR_NOT_INITIALIZED>; The object has not been initialized. Since 2.22
+=item C<G_IO_ERROR_ADDRESS_IN_USE>; The requested address is already in use. Since 2.22
+=item C<G_IO_ERROR_PARTIAL_INPUT>; Need more input to finish operation. Since 2.24
+=item C<G_IO_ERROR_INVALID_DATA>; The input data was invalid. Since 2.24
+=item C<G_IO_ERROR_DBUS_ERROR>; A remote object generated an error that
+    doesn't correspond to a locally registered B<Gnome::Glib::N-Error> error
+    domain. Use g_dbus_error_get_remote_error() to extract the D-Bus
+    error name and g_dbus_error_strip_remote_error() to fix up the
+    message so it matches what was received on the wire. Since 2.26.
+=item C<G_IO_ERROR_HOST_UNREACHABLE>; Host unreachable. Since 2.26
+=item C<G_IO_ERROR_NETWORK_UNREACHABLE>; Network unreachable. Since 2.26
+=item C<G_IO_ERROR_CONNECTION_REFUSED>; Connection refused. Since 2.26
+=item C<G_IO_ERROR_PROXY_FAILED>; Connection to proxy server failed. Since 2.26
+=item C<G_IO_ERROR_PROXY_AUTH_FAILED>; Proxy authentication failed. Since 2.26
+=item C<G_IO_ERROR_PROXY_NEED_AUTH>; Proxy server needs authentication. Since 2.26
+=item C<G_IO_ERROR_PROXY_NOT_ALLOWED>; Proxy connection is not allowed by ruleset.
+    Since 2.26
+=item C<G_IO_ERROR_BROKEN_PIPE>; Broken pipe. Since 2.36
+=item C<G_IO_ERROR_CONNECTION_CLOSED>; Connection closed by peer. Note that this
+    is the same code as C<G_IO_ERROR_BROKEN_PIPE>; before 2.44 some
+    "connection closed" errors returned C<G_IO_ERROR_BROKEN_PIPE>, but others
+    returned C<G_IO_ERROR_FAILED>. Now they should all return the same
+    value, which has this more logical name. Since 2.44.
+=item C<G_IO_ERROR_NOT_CONNECTED>; Transport endpoint is not connected. Since 2.44
+=item C<G_IO_ERROR_MESSAGE_TOO_LARGE>; Message too large. Since 2.48.
+=item C<G_IO_ERROR_NO_SUCH_DEVICE>; No such device found. Since 2.74
+
+=head2 GIOModuleScopeFlags
+
+Flags for use with g_io_module_scope_new().
+=item C<G_IO_MODULE_SCOPE_NONE>; No module scan flags
+=item C<G_IO_MODULE_SCOPE_BLOCK_DUPLICATES>; When using this scope to load or
+    scan modules, automatically block a modules which has the same base
+    basename as previously loaded module.
+
+=head2 GMemoryMonitorWarningLevel
+
+Memory availability warning levels.
+
+Note that because new values might be added, it is recommended that applications check
+B<Gnome::Gio::T-Ioenums> as ranges, for example:
+=begin comment
+<!-- language="C" -->
+if (warning_level > G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
+  drop_caches ();
+
+=end comment
+
+=item C<G_MEMORY_MONITOR_WARNING_LEVEL_LOW>; Memory on the device is low, processes
+  should free up unneeded resources (for example, in-memory caches) so they can
+  be used elsewhere.
+=item C<G_MEMORY_MONITOR_WARNING_LEVEL_MEDIUM>; Same as C<$G_MEMORY_MONITOR_WARNING_LEVEL_LOW>
+  but the device has even less free memory, so processes should try harder to free
+  up unneeded resources. If your process does not need to stay running, it is a
+  good time for it to quit.
+=item C<G_MEMORY_MONITOR_WARNING_LEVEL_CRITICAL>; The system will soon start terminating
+  processes to reclaim memory, including background processes.
+
+=head2 GMountOperationResult
+
+B<Gnome::Gio::T-Ioenums> is returned as a result when a request for
+information is send by the mounting operation.
+=item C<G_MOUNT_OPERATION_HANDLED>; The request was fulfilled and the
+    user specified data is now available
+=item C<G_MOUNT_OPERATION_ABORTED>; The user requested the mount operation
+    to be aborted
+=item C<G_MOUNT_OPERATION_UNHANDLED>; The request was unhandled (i.e. not
+    implemented)
+
+=head2 GNetworkConnectivity
+
+The host's network connectivity state, as reported by B<Gnome::Gio::R-NetworkMonitor>.
+=item C<G_NETWORK_CONNECTIVITY_LOCAL>; The host is not configured with a
+  route to the Internet; it may or may not be connected to a local
+  network.
+=item C<G_NETWORK_CONNECTIVITY_LIMITED>; The host is connected to a network, but
+  does not appear to be able to reach the full Internet, perhaps
+  due to upstream network problems.
+=item C<G_NETWORK_CONNECTIVITY_PORTAL>; The host is behind a captive portal and
+  cannot reach the full Internet.
+=item C<G_NETWORK_CONNECTIVITY_FULL>; The host is connected to a network, and
+  appears to be able to reach the full Internet.
+
+=head2 GNotificationPriority
+
+Priority levels for B<GNotifications>.
+=item C<G_NOTIFICATION_PRIORITY_NORMAL>; the default priority, to be used for the
+  majority of notifications (for example email messages, software updates,
+  completed download/sync operations)
+=item C<G_NOTIFICATION_PRIORITY_LOW>; for notifications that do not require
+  immediate attention - typically used for contextual background
+  information, such as contact birthdays or local weather
+=item C<G_NOTIFICATION_PRIORITY_HIGH>; for events that require more attention,
+  usually because responses are time-sensitive (for example chat and SMS
+  messages or alarms)
+=item C<G_NOTIFICATION_PRIORITY_URGENT>; for urgent notifications, or notifications
+  that require a response in a short space of time (for example phone calls
+  or emergency warnings)
+
+=head2 GPasswordSave
+
+B<Gnome::Gio::T-Ioenums> is used to indicate the lifespan of a saved password.
+
+B<Gvfs> stores passwords in the Gnome keyring when this flag allows it
+to, and later retrieves it again from there.
+=item C<G_PASSWORD_SAVE_NEVER>; never save a password.
+=item C<G_PASSWORD_SAVE_FOR_SESSION>; save a password for the session.
+=item C<G_PASSWORD_SAVE_PERMANENTLY>; save a password permanently.
+
+=head2 GPollableReturn
+
+Return value for various IO operations that signal errors via the
+return value and not necessarily via a B<Gnome::Glib::N-Error>.
+
+This enum exists to be able to return errors to callers without having to
+allocate a B<Gnome::Glib::N-Error>. Allocating B<GErrors> can be quite expensive for
+regularly happening errors like C<G_IO_ERROR_WOULD_BLOCK>.
+
+In case of C<G_POLLABLE_RETURN_FAILED> a B<Gnome::Glib::N-Error> should be set for the
+operation to give details about the error that happened.
+=item C<G_POLLABLE_RETURN_FAILED>; Generic error condition for when an operation fails.
+=item C<G_POLLABLE_RETURN_OK>; The operation was successfully finished.
+=item C<G_POLLABLE_RETURN_WOULD_BLOCK>; The operation would block.
+
+=head2 GResolverError
+
+An error code used with C<G_RESOLVER_ERROR> in a B<Gnome::Glib::N-Error> returned
+from a B<Gnome::Gio::Resolver> routine.
+=item C<G_RESOLVER_ERROR_NOT_FOUND>; the requested name/address/service was not
+    found
+=item C<G_RESOLVER_ERROR_TEMPORARY_FAILURE>; the requested information could not
+    be looked up due to a network error or similar problem
+=item C<G_RESOLVER_ERROR_INTERNAL>; unknown error
+
+=head2 GResolverRecordType
+
+The type of record that g_resolver_lookup_records() or
+g_resolver_lookup_records_async() should retrieve. The records are returned
+as lists of B<Gnome::Glib::N-Variant> tuples. Each record type has different values in
+the variant tuples returned.
+
+C<G_RESOLVER_RECORD_SRV> records are returned as variants with the signature
+B<(qqqs)>, containing a B<guint16> with the priority, a B<guint16> with the
+weight, a B<guint16> with the port, and a string of the hostname.
+
+C<G_RESOLVER_RECORD_MX> records are returned as variants with the signature
+B<(qs)>, representing a B<guint16> with the preference, and a string containing
+the mail exchanger hostname.
+
+C<G_RESOLVER_RECORD_TXT> records are returned as variants with the signature
+B<(as)>, representing an array of the strings in the text record. Note: Most TXT
+records only contain a single string, but
+[RFC 1035](https://tools.ietf.org/html/rfc1035#section-3.3.14) does allow a
+record to contain multiple strings. The RFC which defines the interpretation
+of a specific TXT record will likely require concatenation of multiple
+strings if they are present, as with
+[RFC 7208](https://tools.ietf.org/html/rfc7208#section-3.3).
+
+C<G_RESOLVER_RECORD_SOA> records are returned as variants with the signature
+B<(ssuuuuu)>, representing a string containing the primary name server, a
+string containing the administrator, the serial as a B<guint32>, the refresh
+interval as a B<guint32>, the retry interval as a B<guint32>, the expire timeout
+as a B<guint32>, and the TTL as a B<guint32>.
+
+C<G_RESOLVER_RECORD_NS> records are returned as variants with the signature
+B<(s)>, representing a string of the hostname of the name server.
+=item C<G_RESOLVER_RECORD_SRV>; look up DNS SRV records for a domain
+=item C<G_RESOLVER_RECORD_MX>; look up DNS MX records for a domain
+=item C<G_RESOLVER_RECORD_TXT>; look up DNS TXT records for a name
+=item C<G_RESOLVER_RECORD_SOA>; look up DNS SOA records for a zone
+=item C<G_RESOLVER_RECORD_NS>; look up DNS NS records for a domain
+
+=head2 GResourceError
+
+An error code used with C<G_RESOURCE_ERROR> in a B<Gnome::Glib::N-Error> returned
+from a B<Gnome::Gio::N-Resource> routine.
+=item C<G_RESOURCE_ERROR_NOT_FOUND>; no file was found at the requested path
+=item C<G_RESOURCE_ERROR_INTERNAL>; unknown error
+
+=head2 GSocketClientEvent
+
+Describes an event occurring on a B<Gnome::Gio::SocketClient>. See the
+ I<event defined in Gnome::Gio::Ioenums> signal for more details.
+
+Additional values may be added to this type in the future.
+=item C<G_SOCKET_CLIENT_RESOLVING>; The client is doing a DNS lookup.
+=item C<G_SOCKET_CLIENT_RESOLVED>; The client has completed a DNS lookup.
+=item C<G_SOCKET_CLIENT_CONNECTING>; The client is connecting to a remote
+  host (either a proxy or the destination server).
+=item C<G_SOCKET_CLIENT_CONNECTED>; The client has connected to a remote
+  host.
+=item C<G_SOCKET_CLIENT_PROXY_NEGOTIATING>; The client is negotiating
+  with a proxy to connect to the destination server.
+=item C<G_SOCKET_CLIENT_PROXY_NEGOTIATED>; The client has negotiated
+  with the proxy server.
+=item C<G_SOCKET_CLIENT_TLS_HANDSHAKING>; The client is performing a
+  TLS handshake.
+=item C<G_SOCKET_CLIENT_TLS_HANDSHAKED>; The client has performed a
+  TLS handshake.
+=item C<G_SOCKET_CLIENT_COMPLETE>; The client is done with a particular
+  B<Gnome::Gio::R-SocketConnectable>.
+
+=head2 GSocketFamily
+
+The protocol family of a B<Gnome::Gio::SocketAddress>. (These values are
+identical to the system defines C<AF_INET>, %AF_INET6 and C<AF_UNIX>,
+if available.)
+=item C<G_SOCKET_FAMILY_INVALID>; no address family
+=item C<G_SOCKET_FAMILY_UNIX>; the UNIX domain family
+=item C<G_SOCKET_FAMILY_IPV4>; the IPv4 family
+=item C<G_SOCKET_FAMILY_IPV6>; the IPv6 family
+
+=head2 GSocketListenerEvent
+
+Describes an event occurring on a B<Gnome::Gio::SocketListener>. See the
+ I<event defined in Gnome::Gio::Ioenums> signal for more details.
+
+Additional values may be added to this type in the future.
+=item C<G_SOCKET_LISTENER_BINDING>; The listener is about to bind a socket.
+=item C<G_SOCKET_LISTENER_BOUND>; The listener has bound a socket.
+=item C<G_SOCKET_LISTENER_LISTENING>; The listener is about to start
+   listening on this socket.
+=item C<G_SOCKET_LISTENER_LISTENED>; The listener is now listening on
+  this socket.
+
+=head2 GSocketProtocol
+
+A protocol identifier is specified when creating a B<Gnome::Gio::Socket>, which is a
+family/type specific identifier, where 0 means the default protocol for
+the particular family/type.
+
+This enum contains a set of commonly available and used protocols. You
+can also pass any other identifiers handled by the platform in order to
+use protocols not listed here.
+=item C<G_SOCKET_PROTOCOL_UNKNOWN>; The protocol type is unknown
+=item C<G_SOCKET_PROTOCOL_DEFAULT>; The default protocol for the family/type
+=item C<G_SOCKET_PROTOCOL_TCP>; TCP over IP
+=item C<G_SOCKET_PROTOCOL_UDP>; UDP over IP
+=item C<G_SOCKET_PROTOCOL_SCTP>; SCTP over IP
+
+=head2 GSocketType
+
+Flags used when creating a B<Gnome::Gio::Socket>. Some protocols may not implement
+all the socket types.
+=item C<G_SOCKET_TYPE_INVALID>; Type unknown or wrong
+=item C<G_SOCKET_TYPE_STREAM>; Reliable connection-based byte streams (e.g. TCP).
+=item C<G_SOCKET_TYPE_DATAGRAM>; Connectionless, unreliable datagram passing.
+    (e.g. UDP)
+=item C<G_SOCKET_TYPE_SEQPACKET>; Reliable connection-based passing of datagrams
+    of fixed maximum length (e.g. SCTP).
+
+=head2 GTlsAuthenticationMode
+
+The client authentication mode for a B<Gnome::Gio::R-TlsServerConnection>.
+=item C<G_TLS_AUTHENTICATION_NONE>; client authentication not required
+=item C<G_TLS_AUTHENTICATION_REQUESTED>; client authentication is requested
+=item C<G_TLS_AUTHENTICATION_REQUIRED>; client authentication is required
+
+=head2 GTlsCertificateRequestFlags
+
+Flags for g_tls_interaction_request_certificate(),
+g_tls_interaction_request_certificate_async(), and
+g_tls_interaction_invoke_request_certificate().
+=item C<G_TLS_CERTIFICATE_REQUEST_NONE>; No flags
+
+=head2 GTlsChannelBindingError
+
+An error code used with C<G_TLS_CHANNEL_BINDING_ERROR> in a B<Gnome::Glib::N-Error> to
+indicate a TLS channel binding retrieval error.
+=item C<G_TLS_CHANNEL_BINDING_ERROR_NOT_IMPLEMENTED>; Either entire binding
+   retrieval facility or specific binding type is not implemented in the
+   TLS backend.
+=item C<G_TLS_CHANNEL_BINDING_ERROR_INVALID_STATE>; The handshake is not yet
+   complete on the connection which is a strong requirement for any existing
+   binding type.
+=item C<G_TLS_CHANNEL_BINDING_ERROR_NOT_AVAILABLE>; Handshake is complete but
+   binding data is not available. That normally indicates the TLS
+   implementation failed to provide the binding data. For example, some
+   implementations do not provide a peer certificate for resumed connections.
+=item C<G_TLS_CHANNEL_BINDING_ERROR_NOT_SUPPORTED>; Binding type is not supported
+   on the current connection. This error could be triggered when requesting
+   B<tls-server-end-point> binding data for a certificate which has no hash
+   function or uses multiple hash functions.
+=item C<G_TLS_CHANNEL_BINDING_ERROR_GENERAL_ERROR>; Any other backend error
+   preventing binding data retrieval.
+
+=head2 GTlsChannelBindingType
+
+The type of TLS channel binding data to retrieve from B<Gnome::Gio::TlsConnection>
+or B<Gnome::Gio::R-DtlsConnection>, as documented by RFC 5929 or RFC 9266. The
+[B<tls-unique-for-telnet>](https://tools.ietf.org/html/rfc5929#section-5)
+binding type is not currently implemented.
+=item C<G_TLS_CHANNEL_BINDING_TLS_UNIQUE>; [B<tls-unique>](https://tools.ietf.org/html/rfc5929#section-3) binding
+   type
+=item C<G_TLS_CHANNEL_BINDING_TLS_SERVER_END_POINT>; [B<tls-server-end-point>](https://tools.ietf.org/html/rfc5929#section-4)
+   binding type
+=item C<G_TLS_CHANNEL_BINDING_TLS_EXPORTER>; [B<tls-exporter>](https://www.rfc-editor.org/rfc/rfc9266.html) binding
+   type. Since: 2.74
+
+=head2 GTlsDatabaseLookupFlags
+
+Flags for g_tls_database_lookup_certificate_for_handle(),
+g_tls_database_lookup_certificate_issuer(),
+and g_tls_database_lookup_certificates_issued_by().
+=item C<G_TLS_DATABASE_LOOKUP_NONE>; No lookup flags
+=item C<G_TLS_DATABASE_LOOKUP_KEYPAIR>; Restrict lookup to certificates that have
+    a private key.
+
+=head2 GTlsError
+
+An error code used with C<G_TLS_ERROR> in a B<Gnome::Glib::N-Error> returned from a
+TLS-related routine.
+=item C<G_TLS_ERROR_UNAVAILABLE>; No TLS provider is available
+=item C<G_TLS_ERROR_MISC>; Miscellaneous TLS error
+=item C<G_TLS_ERROR_BAD_CERTIFICATE>; The certificate presented could not
+  be parsed or failed validation.
+=item C<G_TLS_ERROR_NOT_TLS>; The TLS handshake failed because the
+  peer does not seem to be a TLS server.
+=item C<G_TLS_ERROR_HANDSHAKE>; The TLS handshake failed because the
+  peer's certificate was not acceptable.
+=item C<G_TLS_ERROR_CERTIFICATE_REQUIRED>; The TLS handshake failed because
+  the server requested a client-side certificate, but none was
+  provided. See g_tls_connection_set_certificate().
+=item C<G_TLS_ERROR_EOF>; The TLS connection was closed without proper
+  notice, which may indicate an attack. See
+  g_tls_connection_set_require_close_notify().
+=item C<G_TLS_ERROR_INAPPROPRIATE_FALLBACK>; The TLS handshake failed
+  because the client sent the fallback SCSV, indicating a protocol
+  downgrade attack. Since: 2.60
+=item C<G_TLS_ERROR_BAD_CERTIFICATE_PASSWORD>; The certificate failed
+  to load because a password was incorrect. Since: 2.72
+
+=head2 GTlsInteractionResult
+
+B<Gnome::Gio::T-Ioenums> is returned by various functions in B<Gnome::Gio::TlsInteraction>
+when finishing an interaction request.
+=item C<G_TLS_INTERACTION_UNHANDLED>; The interaction was unhandled (i.e. not
+    implemented).
+=item C<G_TLS_INTERACTION_HANDLED>; The interaction completed, and resulting data
+    is available.
+=item C<G_TLS_INTERACTION_FAILED>; The interaction has failed, or was cancelled.
+    and the operation should be aborted.
+
+=head2 GTlsProtocolVersion
+
+The TLS or DTLS protocol version used by a B<Gnome::Gio::TlsConnection> or
+B<Gnome::Gio::R-DtlsConnection>. The integer values of these versions are sequential
+to ensure newer known protocol versions compare greater than older
+known versions. Any known DTLS protocol version will compare greater
+than any SSL or TLS protocol version. The protocol version may be
+C<G_TLS_PROTOCOL_VERSION_UNKNOWN> if the TLS backend supports a newer
+protocol version that GLib does not yet know about. This means that
+it's possible for an unknown DTLS protocol version to compare less
+than the TLS protocol versions.
+=item C<G_TLS_PROTOCOL_VERSION_UNKNOWN>; No protocol version or unknown protocol version
+=item C<G_TLS_PROTOCOL_VERSION_SSL_3_0>; SSL 3.0, which is insecure and should not be used
+=item C<G_TLS_PROTOCOL_VERSION_TLS_1_0>; TLS 1.0, which is insecure and should not be used
+=item C<G_TLS_PROTOCOL_VERSION_TLS_1_1>; TLS 1.1, which is insecure and should not be used
+=item C<G_TLS_PROTOCOL_VERSION_TLS_1_2>; TLS 1.2, defined by [RFC 5246](https://datatracker.ietf.org/doc/html/rfc5246)
+=item C<G_TLS_PROTOCOL_VERSION_TLS_1_3>; TLS 1.3, defined by [RFC 8446](https://datatracker.ietf.org/doc/html/rfc8446)
+=item C<G_TLS_PROTOCOL_VERSION_DTLS_1_0>; DTLS 1.0, which is insecure and should not be used
+=item C<G_TLS_PROTOCOL_VERSION_DTLS_1_2>; DTLS 1.2, defined by [RFC 6347](https://datatracker.ietf.org/doc/html/rfc6347)
+
+=head2 GTlsRehandshakeMode
+
+When to allow rehandshaking. See
+g_tls_connection_set_rehandshake_mode().
+=item C<G_TLS_REHANDSHAKE_NEVER>; Never allow rehandshaking
+=item C<G_TLS_REHANDSHAKE_SAFELY>; Allow safe rehandshaking only
+=item C<G_TLS_REHANDSHAKE_UNSAFELY>; Allow unsafe rehandshaking
+
+=head2 GUnixSocketAddressType
+
+The type of name used by a B<Gnome::Gio::UnixSocketAddress>.
+C<G_UNIX_SOCKET_ADDRESS_PATH> indicates a traditional unix domain
+socket bound to a filesystem path. C<G_UNIX_SOCKET_ADDRESS_ANONYMOUS>
+indicates a socket not bound to any name (eg, a client-side socket,
+or a socket created with socketpair()).
+
+For abstract sockets, there are two incompatible ways of naming
+them; the man pages suggest using the entire B<struct sockaddr_un>
+as the name, padding the unused parts of the C<sun_path> field with
+zeroes; this corresponds to C<G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED>.
+However, many programs instead just use a portion of C<sun_path>, and
+pass an appropriate smaller length to bind() or connect(). This is
+C<G_UNIX_SOCKET_ADDRESS_ABSTRACT>.
+=item C<G_UNIX_SOCKET_ADDRESS_INVALID>; invalid
+=item C<G_UNIX_SOCKET_ADDRESS_ANONYMOUS>; anonymous
+=item C<G_UNIX_SOCKET_ADDRESS_PATH>; a filesystem path
+=item C<G_UNIX_SOCKET_ADDRESS_ABSTRACT>; an abstract name
+=item C<G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED>; an abstract name, 0-padded
+  to the full length of a unix socket name
+
+=head2 GZlibCompressorFormat
+
+Used to select the type of data format to use for B<Gnome::Gio::ZlibDecompressor>
+and B<Gnome::Gio::ZlibCompressor>.
+=item C<G_ZLIB_COMPRESSOR_FORMAT_ZLIB>; deflate compression with zlib header
+=item C<G_ZLIB_COMPRESSOR_FORMAT_GZIP>; gzip file format
+=item C<G_ZLIB_COMPRESSOR_FORMAT_RAW>; deflate compression with no header
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GAppInfoCreateFlags
+
+Flags used when creating a B<Gnome::Gio::R-AppInfo>.
+
+=item C<G_APP_INFO_CREATE_NONE>; No flags.
+=item C<G_APP_INFO_CREATE_NEEDS_TERMINAL>; Application opens in a terminal window.
+=item C<G_APP_INFO_CREATE_SUPPORTS_URIS>; Application supports URI arguments.
+=item C<G_APP_INFO_CREATE_SUPPORTS_STARTUP_NOTIFICATION>; Application supports startup notification. Since 2.26
+
+=head2 GApplicationFlags
+
+Flags used to define the behaviour of a B<Gnome::Gio::Application>.
+
+=item C<G_APPLICATION_FLAGS_NONE>; Default. Deprecated in 2.74, use
+  C<G_APPLICATION_DEFAULT_FLAGS> instead
+=item C<G_APPLICATION_DEFAULT_FLAGS>; Default flags. Since: 2.74
+=item C<G_APPLICATION_IS_SERVICE>; Run as a service. In this mode, registration
+     fails if the service is already running, and the application
+     will initially wait up to 10 seconds for an initial activation
+     message to arrive.
+=item C<G_APPLICATION_IS_LAUNCHER>; Don't try to become the primary instance.
+=item C<G_APPLICATION_HANDLES_OPEN>; This application handles opening files (in
+    the primary instance). Note that this flag only affects the default
+    implementation of local_command_line(), and has no effect if
+    C<G_APPLICATION_HANDLES_COMMAND_LINE> is given.
+    See g_application_run() for details.
+=item C<G_APPLICATION_HANDLES_COMMAND_LINE>; This application handles command line
+    arguments (in the primary instance). Note that this flag only affect
+    the default implementation of local_command_line().
+    See g_application_run() for details.
+=item C<G_APPLICATION_SEND_ENVIRONMENT>; Send the environment of the
+    launching process to the primary instance. Set this flag if your
+    application is expected to behave differently depending on certain
+    environment variables. For instance, an editor might be expected
+    to use the B<GIT_COMMITTER_NAME> environment variable
+    when editing a git commit message. The environment is available
+    to the  I<command-line defined in Gnome::Gio::Ioenums> signal handler, via
+    g_application_command_line_getenv().
+=item C<G_APPLICATION_NON_UNIQUE>; Make no attempts to do any of the typical
+    single-instance application negotiation, even if the application
+    ID is given.  The application neither attempts to become the
+    owner of the application ID nor does it check if an existing
+    owner already exists.  Everything occurs in the local process.
+    Since: 2.30.
+=item C<G_APPLICATION_CAN_OVERRIDE_APP_ID>; Allow users to override the
+    application ID from the command line with B<--gapplication-app-id>.
+    Since: 2.48
+=item C<G_APPLICATION_ALLOW_REPLACEMENT>; Allow another instance to take over
+    the bus name. Since: 2.60
+=item C<G_APPLICATION_REPLACE>; Take over from another instance. This flag is
+    usually set by passing B<--gapplication-replace> on the commandline.
+    Since: 2.60
+
+=head2 GAskPasswordFlags
+
+B<Gnome::Gio::T-Ioenums> are used to request specific information from the
+user, or to notify the user of their choices in an authentication
+situation.
+
+=item C<G_ASK_PASSWORD_NEED_PASSWORD>; operation requires a password.
+=item C<G_ASK_PASSWORD_NEED_USERNAME>; operation requires a username.
+=item C<G_ASK_PASSWORD_NEED_DOMAIN>; operation requires a domain.
+=item C<G_ASK_PASSWORD_SAVING_SUPPORTED>; operation supports saving settings.
+=item C<G_ASK_PASSWORD_ANONYMOUS_SUPPORTED>; operation supports anonymous users.
+=item C<G_ASK_PASSWORD_TCRYPT>; operation takes TCRYPT parameters (Since: 2.58)
+
+=head2 GBusNameOwnerFlags
+
+Flags used in g_bus_own_name().
+
+=item C<G_BUS_NAME_OWNER_FLAGS_NONE>; No flags set.
+=item C<G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT>; Allow another message bus connection to claim the name.
+=item C<G_BUS_NAME_OWNER_FLAGS_REPLACE>; If another message bus connection owns the name and have
+specified C<G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT>, then take the name from the other connection.
+=item C<G_BUS_NAME_OWNER_FLAGS_DO_NOT_QUEUE>; If another message bus connection owns the name, immediately
+return an error from g_bus_own_name() rather than entering the waiting queue for that name. (Since 2.54)
+
+=head2 GBusNameWatcherFlags
+
+Flags used in g_bus_watch_name().
+
+=item C<G_BUS_NAME_WATCHER_FLAGS_NONE>; No flags set.
+=item C<G_BUS_NAME_WATCHER_FLAGS_AUTO_START>; If no-one owns the name when
+beginning to watch the name, ask the bus to launch an owner for the
+name.
+
+=head2 GConverterFlags
+
+Flags used when calling a g_converter_convert().
+
+=item C<G_CONVERTER_NO_FLAGS>; No flags.
+=item C<G_CONVERTER_INPUT_AT_END>; At end of input data
+=item C<G_CONVERTER_FLUSH>; Flush data
+
+=head2 GDBusCallFlags
+
+Flags used in g_dbus_connection_call() and similar APIs.
+
+=item C<G_DBUS_CALL_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_CALL_FLAGS_NO_AUTO_START>; The bus must not launch
+an owner for the destination name in response to this method
+invocation.
+=item C<G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION>; the caller is prepared to
+wait for interactive authorization. Since 2.46.
+
+=head2 GDBusCapabilityFlags
+
+Capabilities negotiated with the remote peer.
+
+=item C<G_DBUS_CAPABILITY_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_CAPABILITY_FLAGS_UNIX_FD_PASSING>; The connection
+supports exchanging UNIX file descriptors with the remote peer.
+
+=head2 GDBusConnectionFlags
+
+Flags used when creating a new B<Gnome::Gio::DBusConnection>.
+
+=item C<G_DBUS_CONNECTION_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT>; Perform authentication against server.
+=item C<G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER>; Perform authentication against client.
+=item C<G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS>; When
+authenticating as a server, allow the anonymous authentication
+method.
+=item C<G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION>; Pass this flag if connecting to a peer that is a
+message bus. This means that the Hello() method will be invoked as part of the connection setup.
+=item C<G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING>; If set, processing of D-Bus messages is
+delayed until g_dbus_connection_start_message_processing() is called.
+=item C<G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER>; When authenticating
+as a server, require the UID of the peer to be the same as the UID of the server. (Since: 2.68)
+=item C<G_DBUS_CONNECTION_FLAGS_CROSS_NAMESPACE>; When authenticating, try to use
+ protocols that work across a Linux user namespace boundary, even if this
+ reduces interoperability with older D-Bus implementations. This currently
+ affects client-side B<EXTERNAL> authentication, for which this flag makes
+ connections to a server in another user namespace succeed, but causes
+ a deadlock when connecting to a GDBus server older than 2.73.3. Since: 2.74
+
+=head2 GDBusInterfaceSkeletonFlags
+
+Flags describing the behavior of a B<Gnome::Gio::DBusInterfaceSkeleton> instance.
+
+=item C<G_DBUS_INTERFACE_SKELETON_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_INTERFACE_SKELETON_FLAGS_HANDLE_METHOD_INVOCATIONS_IN_THREAD>; Each method invocation is handled in
+  a thread dedicated to the invocation. This means that the method implementation can use blocking IO
+  without blocking any other part of the process. It also means that the method implementation must
+  use locking to access data structures used by other threads.
+
+=head2 GDBusMessageFlags
+
+Message flags used in B<Gnome::Gio::DBusMessage>.
+
+=item C<G_DBUS_MESSAGE_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED>; A reply is not expected.
+=item C<G_DBUS_MESSAGE_FLAGS_NO_AUTO_START>; The bus must not launch an
+owner for the destination name in response to this message.
+=item C<G_DBUS_MESSAGE_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION>; If set on a method
+call, this flag means that the caller is prepared to wait for interactive
+authorization. Since 2.46.
+
+=head2 GDBusObjectManagerClientFlags
+
+Flags used when constructing a B<Gnome::Gio::DBusObjectManagerClient>.
+
+=item C<G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_DO_NOT_AUTO_START>; If not set and the
+  manager is for a well-known name, then request the bus to launch
+  an owner for the name if no-one owns the name. This flag can only
+  be used in managers for well-known names.
+
+=head2 GDBusPropertyInfoFlags
+
+Flags describing the access control of a D-Bus property.
+
+=item C<G_DBUS_PROPERTY_INFO_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_PROPERTY_INFO_FLAGS_READABLE>; Property is readable.
+=item C<G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE>; Property is writable.
+
+=head2 GDBusProxyFlags
+
+Flags used when constructing an instance of a B<Gnome::Gio::DBusProxy> derived class.
+
+=item C<G_DBUS_PROXY_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES>; Don't load properties.
+=item C<G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS>; Don't connect to signals on the remote object.
+=item C<G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START>; If the proxy is for a well-known name,
+do not ask the bus to launch an owner during proxy initialization or a method call.
+This flag is only meaningful in proxies for well-known names.
+=item C<G_DBUS_PROXY_FLAGS_GET_INVALIDATED_PROPERTIES>; If set, the property value for any __invalidated property__ will be (asynchronously) retrieved upon receiving the [B<PropertiesChanged>](http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-properties) D-Bus signal and the property will not cause emission of the  I<g-properties-changed defined in Gnome::Gio::Ioenums> signal. When the value is received the  I<g-properties-changed defined in Gnome::Gio::Ioenums> signal is emitted for the property along with the retrieved value. Since 2.32.
+=item C<G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION>; If the proxy is for a well-known name,
+do not ask the bus to launch an owner during proxy initialization, but allow it to be
+autostarted by a method call. This flag is only meaningful in proxies for well-known names,
+and only if C<G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START> is not also specified.
+=item C<G_DBUS_PROXY_FLAGS_NO_MATCH_RULE>; Don't actually send the AddMatch D-Bus
+   call for this signal subscription. This gives you more control
+   over which match rules you add (but you must add them manually). (Since: 2.72)
+
+=head2 GDBusSendMessageFlags
+
+Flags used when sending B<GDBusMessages> on a B<Gnome::Gio::DBusConnection>.
+
+=item C<G_DBUS_SEND_MESSAGE_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_SEND_MESSAGE_FLAGS_PRESERVE_SERIAL>; Do not automatically
+assign a serial number from the B<Gnome::Gio::DBusConnection> object when
+sending a message.
+
+=head2 GDBusServerFlags
+
+Flags used when creating a B<Gnome::Gio::DBusServer>.
+
+=item C<G_DBUS_SERVER_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_SERVER_FLAGS_RUN_IN_THREAD>; All  I<new-connection defined in Gnome::Gio::Ioenums>
+signals will run in separated dedicated threads (see signal for
+details).
+=item C<G_DBUS_SERVER_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS>; Allow the anonymous
+authentication method.
+=item C<G_DBUS_SERVER_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER>; Require the UID of the
+peer to be the same as the UID of the server when authenticating. (Since: 2.68)
+
+=head2 GDBusSignalFlags
+
+Flags used when subscribing to signals via g_dbus_connection_signal_subscribe().
+
+=item C<G_DBUS_SIGNAL_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_SIGNAL_FLAGS_NO_MATCH_RULE>; Don't actually send the AddMatch
+D-Bus call for this signal subscription.  This gives you more control
+over which match rules you add (but you must add them manually).
+=item C<G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_NAMESPACE>; Match first arguments that
+contain a bus or interface name with the given namespace.
+=item C<G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_PATH>; Match first arguments that
+contain an object path that is either equivalent to the given path,
+or one of the paths is a subpath of the other.
+
+=head2 GDBusSubtreeFlags
+
+Flags passed to g_dbus_connection_register_subtree().
+
+=item C<G_DBUS_SUBTREE_FLAGS_NONE>; No flags set.
+=item C<G_DBUS_SUBTREE_FLAGS_DISPATCH_TO_UNENUMERATED_NODES>; Method calls to objects not in the enumerated range
+                                                      will still be dispatched. This is useful if you want
+                                                      to dynamically spawn objects in the subtree.
+
+=head2 GDriveStartFlags
+
+Flags used when starting a drive.
+
+=item C<G_DRIVE_START_NONE>; No flags set.
+
+=head2 GFileAttributeInfoFlags
+
+Flags specifying the behaviour of an attribute.
+
+=item C<G_FILE_ATTRIBUTE_INFO_NONE>; no flags set.
+=item C<G_FILE_ATTRIBUTE_INFO_COPY_WITH_FILE>; copy the attribute values when the file is copied.
+=item C<G_FILE_ATTRIBUTE_INFO_COPY_WHEN_MOVED>; copy the attribute values when the file is moved.
+
+=head2 GFileCopyFlags
+
+Flags used when copying or moving files.
+
+=item C<G_FILE_COPY_NONE>; No flags set.
+=item C<G_FILE_COPY_OVERWRITE>; Overwrite any existing files
+=item C<G_FILE_COPY_BACKUP>; Make a backup of any existing files.
+=item C<G_FILE_COPY_NOFOLLOW_SYMLINKS>; Don't follow symlinks.
+=item C<G_FILE_COPY_ALL_METADATA>; Copy all file metadata instead of just default set used for copy (see B<Gnome::Gio::FileInfo>).
+=item C<G_FILE_COPY_NO_FALLBACK_FOR_MOVE>; Don't use copy and delete fallback if native move not supported.
+=item C<G_FILE_COPY_TARGET_DEFAULT_PERMS>; Leaves target file with default perms, instead of setting the source file perms.
+
+=head2 GFileCreateFlags
+
+Flags used when an operation may create a file.
+
+=item C<G_FILE_CREATE_NONE>; No flags set.
+=item C<G_FILE_CREATE_PRIVATE>; Create a file that can only be
+   accessed by the current user.
+=item C<G_FILE_CREATE_REPLACE_DESTINATION>; Replace the destination
+   as if it didn't exist before. Don't try to keep any old
+   permissions, replace instead of following links. This
+   is generally useful if you're doing a "copy over"
+   rather than a "save new version of" replace operation.
+   You can think of it as "unlink destination" before
+   writing to it, although the implementation may not
+   be exactly like that. This flag can only be used with
+   g_file_replace() and its variants, including g_file_replace_contents().
+   Since 2.20
+
+=head2 GFileMeasureFlags
+
+Flags that can be used with g_file_measure_disk_usage().
+
+=item C<G_FILE_MEASURE_NONE>; No flags set.
+=item C<G_FILE_MEASURE_REPORT_ANY_ERROR>; Report any error encountered
+  while traversing the directory tree.  Normally errors are only
+  reported for the toplevel file.
+=item C<G_FILE_MEASURE_APPARENT_SIZE>; Tally usage based on apparent file
+  sizes.  Normally, the block-size is used, if available, as this is a
+  more accurate representation of disk space used.
+  Compare with B<du --apparent-size>.
+=item C<G_FILE_MEASURE_NO_XDEV>; Do not cross mount point boundaries.
+  Compare with B<du -x>.
+
+=head2 GFileMonitorFlags
+
+Flags used to set what a B<Gnome::Gio::FileMonitor> will watch for.
+
+=item C<G_FILE_MONITOR_NONE>; No flags set.
+=item C<G_FILE_MONITOR_WATCH_MOUNTS>; Watch for mount events.
+=item C<G_FILE_MONITOR_SEND_MOVED>; Pair DELETED and CREATED events caused
+  by file renames (moves) and send a single G_FILE_MONITOR_EVENT_MOVED
+  event instead (NB: not supported on all backends; the default
+  behaviour -without specifying this flag- is to send single DELETED
+  and CREATED events).  Deprecated since 2.46: use
+  C<G_FILE_MONITOR_WATCH_MOVES> instead.
+=item C<G_FILE_MONITOR_WATCH_HARD_LINKS>; Watch for changes to the file made
+  via another hard link. Since 2.36.
+=item C<G_FILE_MONITOR_WATCH_MOVES>; Watch for rename operations on a
+  monitored directory.  This causes C<G_FILE_MONITOR_EVENT_RENAMED>,
+  C<G_FILE_MONITOR_EVENT_MOVED_IN> and C<G_FILE_MONITOR_EVENT_MOVED_OUT>
+  events to be emitted when possible.  Since: 2.46.
+
+=head2 GFileQueryInfoFlags
+
+Flags used when querying a B<Gnome::Gio::FileInfo>.
+
+=item C<G_FILE_QUERY_INFO_NONE>; No flags set.
+=item C<G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS>; Don't follow symlinks.
+
+=head2 GIOStreamSpliceFlags
+
+GIOStreamSpliceFlags determine how streams should be spliced.
+
+=item C<G_IO_STREAM_SPLICE_NONE>; Do not close either stream.
+=item C<G_IO_STREAM_SPLICE_CLOSE_STREAM1>; Close the first stream after
+    the splice.
+=item C<G_IO_STREAM_SPLICE_CLOSE_STREAM2>; Close the second stream after
+    the splice.
+=item C<G_IO_STREAM_SPLICE_WAIT_FOR_BOTH>; Wait for both splice operations to finish
+    before calling the callback.
+
+=head2 GMountMountFlags
+
+Flags used when mounting a mount.
+
+=item C<G_MOUNT_MOUNT_NONE>; No flags set.
+
+=head2 GMountUnmountFlags
+
+Flags used when an unmounting a mount.
+
+=item C<G_MOUNT_UNMOUNT_NONE>; No flags set.
+=item C<G_MOUNT_UNMOUNT_FORCE>; Unmount even if there are outstanding
+ file operations on the mount.
+
+=head2 GOutputStreamSpliceFlags
+
+GOutputStreamSpliceFlags determine how streams should be spliced.
+
+=item C<G_OUTPUT_STREAM_SPLICE_NONE>; Do not close either stream.
+=item C<G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE>; Close the source stream after
+    the splice.
+=item C<G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET>; Close the target stream after
+    the splice.
+
+=head2 GResourceFlags
+
+GResourceFlags give information about a particular file inside a resource
+bundle.
+
+=item C<G_RESOURCE_FLAGS_NONE>; No flags set.
+=item C<G_RESOURCE_FLAGS_COMPRESSED>; The file is compressed.
+
+=head2 GResourceLookupFlags
+
+GResourceLookupFlags determine how resource path lookups are handled.
+
+=item C<G_RESOURCE_LOOKUP_FLAGS_NONE>; No flags set.
+
+=head2 GSocketMsgFlags
+
+Flags used in g_socket_receive_message() and g_socket_send_message().
+The flags listed in the enum are some commonly available flags, but the
+values used for them are the same as on the platform, and any other flags
+are passed in/out as is. So to use a platform specific flag, just include
+the right system header and pass in the flag.
+
+=item C<G_SOCKET_MSG_NONE>; No flags.
+=item C<G_SOCKET_MSG_OOB>; Request to send/receive out of band data.
+=item C<G_SOCKET_MSG_PEEK>; Read data from the socket without removing it from
+    the queue.
+=item C<G_SOCKET_MSG_DONTROUTE>; Don't use a gateway to send out the packet,
+    only send to hosts on directly connected networks.
+
+=head2 GSubprocessFlags
+
+Flags to define the behaviour of a B<Gnome::Gio::Subprocess>.
+
+Note that the default for stdin is to redirect from B</dev/null>.  For
+stdout and stderr the default are for them to inherit the
+corresponding descriptor from the calling process.
+
+Note that it is a programmer error to mix 'incompatible' flags.  For
+example, you may not request both C<G_SUBPROCESS_FLAGS_STDOUT_PIPE> and
+C<G_SUBPROCESS_FLAGS_STDOUT_SILENCE>.
+
+=item C<G_SUBPROCESS_FLAGS_NONE>; No flags.
+=item C<G_SUBPROCESS_FLAGS_STDIN_PIPE>; create a pipe for the stdin of the
+  spawned process that can be accessed with
+  g_subprocess_get_stdin_pipe().
+=item C<G_SUBPROCESS_FLAGS_STDIN_INHERIT>; stdin is inherited from the
+  calling process.
+=item C<G_SUBPROCESS_FLAGS_STDOUT_PIPE>; create a pipe for the stdout of the
+  spawned process that can be accessed with
+  g_subprocess_get_stdout_pipe().
+=item C<G_SUBPROCESS_FLAGS_STDOUT_SILENCE>; silence the stdout of the spawned
+  process (ie: redirect to B</dev/null>).
+=item C<G_SUBPROCESS_FLAGS_STDERR_PIPE>; create a pipe for the stderr of the
+  spawned process that can be accessed with
+  g_subprocess_get_stderr_pipe().
+=item C<G_SUBPROCESS_FLAGS_STDERR_SILENCE>; silence the stderr of the spawned
+  process (ie: redirect to B</dev/null>).
+=item C<G_SUBPROCESS_FLAGS_STDERR_MERGE>; merge the stderr of the spawned
+  process with whatever the stdout happens to be.  This is a good way
+  of directing both streams to a common log file, for example.
+=item C<G_SUBPROCESS_FLAGS_INHERIT_FDS>; spawned processes will inherit the
+  file descriptors of their parent, unless those descriptors have
+  been explicitly marked as close-on-exec.  This flag has no effect
+  over the "standard" file descriptors (stdin, stdout, stderr).
+=item C<G_SUBPROCESS_FLAGS_SEARCH_PATH_FROM_ENVP>; if path searching is
+  needed when spawning the subprocess, use the B<PATH> in the launcher
+  environment. (Since: 2.72)
+
+=head2 GTestDBusFlags
+
+Flags to define future B<Gnome::Gio::TestDBus> behaviour.
+
+=item C<G_TEST_DBUS_NONE>; No flags.
+
+=head2 GTlsCertificateFlags
+
+A set of flags describing TLS certification validation. This can be
+used to describe why a particular certificate was rejected (for
+example, in  I<accept-certificate defined in Gnome::Gio::Ioenums>).
+
+GLib guarantees that if certificate verification fails, at least one
+flag will be set, but it does not guarantee that all possible flags
+will be set. Accordingly, you may not safely decide to ignore any
+particular type of error. For example, it would be incorrect to mask
+C<G_TLS_CERTIFICATE_EXPIRED> if you want to allow expired certificates,
+because this could potentially be the only error flag set even if
+other problems exist with the certificate.
+
+=item C<G_TLS_CERTIFICATE_NO_FLAGS>; No flags set. Since: 2.74
+=item C<G_TLS_CERTIFICATE_UNKNOWN_CA>; The signing certificate authority is
+  not known.
+=item C<G_TLS_CERTIFICATE_BAD_IDENTITY>; The certificate does not match the
+  expected identity of the site that it was retrieved from.
+=item C<G_TLS_CERTIFICATE_NOT_ACTIVATED>; The certificate's activation time
+  is still in the future
+=item C<G_TLS_CERTIFICATE_EXPIRED>; The certificate has expired
+=item C<G_TLS_CERTIFICATE_REVOKED>; The certificate has been revoked
+  according to the B<Gnome::Gio::TlsConnection>'s certificate revocation list.
+=item C<G_TLS_CERTIFICATE_INSECURE>; The certificate's algorithm is
+  considered insecure.
+=item C<G_TLS_CERTIFICATE_GENERIC_ERROR>; Some other error occurred validating
+  the certificate
+=item C<G_TLS_CERTIFICATE_VALIDATE_ALL>; the combination of all of the above
+  flags
+
+=head2 GTlsDatabaseVerifyFlags
+
+Flags for g_tls_database_verify_chain().
+
+=item C<G_TLS_DATABASE_VERIFY_NONE>; No verification flags
+
+=head2 GTlsPasswordFlags
+
+Various flags for the password.
+
+=item C<G_TLS_PASSWORD_NONE>; No flags
+=item C<G_TLS_PASSWORD_RETRY>; The password was wrong, and the user should retry.
+=item C<G_TLS_PASSWORD_MANY_TRIES>; Hint to the user that the password has been
+   wrong many times, and the user may not have many chances left.
+=item C<G_TLS_PASSWORD_FINAL_TRY>; Hint to the user that this is the last try to get
+   this password right.
+=item C<G_TLS_PASSWORD_PKCS11_USER>; For PKCS #11, the user PIN is required.
+   Since: 2.70.
+=item C<G_TLS_PASSWORD_PKCS11_SECURITY_OFFICER>; For PKCS #11, the security officer
+   PIN is required. Since: 2.70.
+=item C<G_TLS_PASSWORD_PKCS11_CONTEXT_SPECIFIC>; For PKCS #11, the context-specific
+   PIN is required. Since: 2.70.
+=end pod
+
