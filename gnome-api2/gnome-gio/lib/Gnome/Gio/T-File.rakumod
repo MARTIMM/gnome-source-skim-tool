@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Gio file
+=comment Package: Gio, C-Source: File
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -7,12 +7,12 @@ use v6.d;
 use NativeCall;
 
 
+use Gnome::Glib::N-Error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
-
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
@@ -20,7 +20,6 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 
 unit class Gnome::Gio::T-File:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -35,30 +34,28 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( ) {
   # Initialize helper
-  $!routine-caller .= new( :library(gio-lib()), :sub-prefix("g_"));
+  $!routine-caller .= new(:library(gio-lib()));
 }
 
-# Next two methods need checks for proper referencing or cleanup 
-method native-object-ref ( $n-native-object ) {
-  $n-native-object
-}
-
-method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
-}
+#-------------------------------------------------------------------------------
+#--[Standalone functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  file-new-for-commandline-arg => %( :type(Function),  :returns(N-Object), :parameters([Str])),
-  file-new-for-commandline-arg-and-cwd => %( :type(Function),  :returns(N-Object), :parameters([ Str, Str])),
-  file-new-for-path => %( :type(Function),  :returns(N-Object), :parameters([Str])),
-  file-new-for-uri => %( :type(Function),  :returns(N-Object), :parameters([Str])),
-  file-new-tmp => %( :type(Function),  :returns(N-Object), :parameters([ Str, CArray[N-Object]])),
-  file-parse-name => %( :type(Function),  :returns(N-Object), :parameters([Str])),
+  file-new-for-commandline-arg => %( :type(Function), :is-symbol<g_file_new_for_commandline_arg>,  :returns(N-Object), :parameters([Str])),
+  file-new-for-commandline-arg-and-cwd => %( :type(Function), :is-symbol<g_file_new_for_commandline_arg_and_cwd>,  :returns(N-Object), :parameters([ Str, Str])),
+  file-new-for-path => %( :type(Function), :is-symbol<g_file_new_for_path>,  :returns(N-Object), :parameters([Str])),
+  file-new-for-uri => %( :type(Function), :is-symbol<g_file_new_for_uri>,  :returns(N-Object), :parameters([Str])),
+  file-new-tmp => %( :type(Function), :is-symbol<g_file_new_tmp>,  :returns(N-Object), :parameters([ Str, CArray[N-Object], CArray[N-Error]])),
+  file-new-tmp-async => %( :type(Function), :is-symbol<g_file_new_tmp_async>,  :parameters([ Str, gint, N-Object, :( N-Object $source-object, N-Object $res, gpointer $user-data ), gpointer])),
+  file-new-tmp-dir-async => %( :type(Function), :is-symbol<g_file_new_tmp_dir_async>,  :parameters([ Str, gint, N-Object, :( N-Object $source-object, N-Object $res, gpointer $user-data ), gpointer])),
+  file-new-tmp-dir-finish => %( :type(Function), :is-symbol<g_file_new_tmp_dir_finish>,  :returns(N-Object), :parameters([ N-Object, CArray[N-Error]])),
+  file-new-tmp-finish => %( :type(Function), :is-symbol<g_file_new_tmp_finish>,  :returns(N-Object), :parameters([ N-Object, CArray[N-Object], CArray[N-Error]])),
+  file-parse-name => %( :type(Function), :is-symbol<g_file_parse_name>,  :returns(N-Object), :parameters([Str])),
 
 );
-
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
 method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
   if $methods{$name}:exists {

@@ -1,0 +1,86 @@
+=comment Package: Gio, C-Source: File
+use v6.d;
+
+#TL:1:Gnome::Gio::T-File:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gio::File:api<2>;
+#use Gnome::Gio::N-FileAttributeInfoList:api<2>;
+use Gnome::Gio::T-File:api<2>;
+use Gnome::Gio::T-Ioenums:api<2>;
+#use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::N-Error:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gio::T-File $file .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $file {
+    my CArray[N-Error] $err;
+    my Str $cwd;
+    my N-Object $cancellable;
+    my N-Object $result;
+    my Str $path;
+    my Str $tmpl;
+    my gpointer $user-data;
+    my Str $parse-name;
+    my Str $arg;
+    my gint $io-priority;
+    my Str $uri;
+    my CArray[N-Object] $iostream;
+    sub callback ( N-Object $source-object, N-Object $res, gpointer $user-data ) {}
+
+
+#`{{
+    #TM:0:file-new-for-commandline-arg()
+    ok .file-new-for-commandline-arg( $arg), '.file-new-for-commandline-arg()';
+
+    #TM:0:file-new-for-commandline-arg-and-cwd()
+    ok .file-new-for-commandline-arg-and-cwd( $arg, $cwd), '.file-new-for-commandline-arg-and-cwd()';
+
+    #TM:0:file-new-for-path()
+    ok .file-new-for-path( $path), '.file-new-for-path()';
+
+    #TM:0:file-new-for-uri()
+    ok .file-new-for-uri( $uri), '.file-new-for-uri()';
+
+    #TM:0:file-new-tmp()
+    ok .file-new-tmp( $tmpl, $iostream, $err), '.file-new-tmp()';
+
+    #TM:0:file-new-tmp-async()
+    ok .file-new-tmp-async( $tmpl, $io-priority, $cancellable, $callback, $user-data), '.file-new-tmp-async()';
+
+    #TM:0:file-new-tmp-dir-async()
+    ok .file-new-tmp-dir-async( $tmpl, $io-priority, $cancellable, $callback, $user-data), '.file-new-tmp-dir-async()';
+
+    #TM:0:file-new-tmp-dir-finish()
+    ok .file-new-tmp-dir-finish( $result, $err), '.file-new-tmp-dir-finish()';
+
+    #TM:0:file-new-tmp-finish()
+    ok .file-new-tmp-finish( $result, $iostream, $err), '.file-new-tmp-finish()';
+
+    #TM:0:file-parse-name()
+    ok .file-parse-name( $parse-name), '.file-parse-name()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

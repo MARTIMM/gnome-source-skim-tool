@@ -1,0 +1,333 @@
+=comment Package: Gio, C-Source: File
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gio::T-File
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-for-commandline-arg
+
+Creates a B<Gnome::Gio::File> with the given argument from the command line.
+The value of C<$arg> can be either a URI, an absolute path or a
+relative path resolved relative to the current working directory.
+This operation never fails, but the returned object might not
+support any I/O operation if C<$arg> points to a malformed path.
+
+Note that on Windows, this function expects its argument to be in
+UTF-8 -- not the system code page.  This means that you
+should not use this function with string from argv as it is passed
+to main().  g_win32_get_command_line() will return a UTF-8 version of
+the commandline.  B<Gnome::Gio::Application> also uses UTF-8 but
+g_application_command_line_create_file_for_arg() may be more useful
+for you there.  It is also always possible to use this function with
+B<GOptionContext> arguments of type C<G_OPTION_ARG_FILENAME>.
+
+=begin code
+method file-new-for-commandline-arg ( Str $arg --> N-Object )
+=end code
+
+=item $arg; a command line string.
+
+Return value; a new B<Gnome::Gio::File>.
+  Free the returned object with g_object_unref().. 
+
+=begin comment
+
+=head2 Example
+# Example for file-new-for-commandline-arg
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-for-commandline-arg-and-cwd
+
+Creates a B<Gnome::Gio::File> with the given argument from the command line.
+
+This function is similar to C<.new-for-commandline-arg()> except
+that it allows for passing the current working directory as an
+argument instead of using the current working directory of the
+process.
+
+This is useful if the commandline argument was given in a context
+other than the invocation of the current process.
+
+See also g_application_command_line_create_file_for_arg().
+
+=begin code
+method file-new-for-commandline-arg-and-cwd ( Str $arg, Str $cwd --> N-Object )
+=end code
+
+=item $arg; a command line string.
+=item $cwd; the current working directory of the commandline.
+
+Return value; a new B<Gnome::Gio::File>. 
+
+=begin comment
+
+=head2 Example
+# Example for file-new-for-commandline-arg-and-cwd
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-for-path
+
+Constructs a B<Gnome::Gio::File> for a given path. This operation never
+fails, but the returned object might not support any I/O
+operation if C<$path> is malformed.
+
+=begin code
+method file-new-for-path ( Str $path --> N-Object )
+=end code
+
+=item $path; a string containing a relative or absolute path.
+  The string must be encoded in the glib filename encoding..
+
+Return value; a new B<Gnome::Gio::File> for the given C<$path>.
+  Free the returned object with g_object_unref().. 
+
+=begin comment
+
+=head2 Example
+# Example for file-new-for-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-for-uri
+
+Constructs a B<Gnome::Gio::File> for a given URI. This operation never
+fails, but the returned object might not support any I/O
+operation if C<$uri> is malformed or if the uri type is
+not supported.
+
+=begin code
+method file-new-for-uri ( Str $uri --> N-Object )
+=end code
+
+=item $uri; a UTF-8 string containing a URI.
+
+Return value; a new B<Gnome::Gio::File> for the given C<$uri>.
+  Free the returned object with g_object_unref().. 
+
+=begin comment
+
+=head2 Example
+# Example for file-new-for-uri
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-tmp
+
+Opens a file in the preferred directory for temporary files (as
+returned by g_get_tmp_dir()) and returns a B<Gnome::Gio::File> and
+B<Gnome::Gio::FileIOStream> pointing to it.
+ C<$tmpl> should be a string in the GLib file name encoding
+containing a sequence of six 'X' characters, and containing no
+directory components. If it is undefined, a default template is used.
+
+Unlike the other B<Gnome::Gio::File> constructors, this will return undefined if
+a temporary file could not be created.
+
+=begin code
+method file-new-tmp ( Str $tmpl, N-Object() $iostream, CArray[N-Error] $err --> N-Object )
+=end code
+
+=item $tmpl; Template for the file
+  name, as in C<.open-tmp()>, or undefined for a default template.
+=item $iostream; (transfer ownership: full) on return, a B<Gnome::Gio::FileIOStream> for the created file.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; a new B<Gnome::Gio::File>.
+  Free the returned object with g_object_unref().. 
+
+=begin comment
+
+=head2 Example
+# Example for file-new-tmp
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-tmp-async
+
+Asynchronously opens a file in the preferred directory for temporary files
+ (as returned by g_get_tmp_dir()) as C<.new-tmp()>.
+ C<$tmpl> should be a string in the GLib file name encoding
+containing a sequence of six 'X' characters, and containing no
+directory components. If it is undefined, a default template is used.
+
+=begin code
+method file-new-tmp-async ( Str $tmpl, Int() $io-priority, N-Object() $cancellable, &callback, gpointer $user-data )
+=end code
+
+=item $tmpl; Template for the file
+  name, as in C<.open-tmp()>, or undefined for a default template.
+=item $io-priority; the I/O priority of the request.
+=item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
+=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item $user-data; data to pass to C<$callback>.
+
+=begin comment
+
+=head2 Example
+# Example for file-new-tmp-async
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-tmp-dir-async
+
+Asynchronously creates a directory in the preferred directory for
+temporary files (as returned by g_get_tmp_dir()) as g_dir_make_tmp().
+ C<$tmpl> should be a string in the GLib file name encoding
+containing a sequence of six 'X' characters, and containing no
+directory components. If it is undefined, a default template is used.
+
+=begin code
+method file-new-tmp-dir-async ( Str $tmpl, Int() $io-priority, N-Object() $cancellable, &callback, gpointer $user-data )
+=end code
+
+=item $tmpl; Template for the file
+  name, as in g_dir_make_tmp(), or undefined for a default template.
+=item $io-priority; the I/O priority of the request.
+=item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
+=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item $user-data; data to pass to C<$callback>.
+
+=begin comment
+
+=head2 Example
+# Example for file-new-tmp-dir-async
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-tmp-dir-finish
+
+Finishes a temporary directory creation started by
+C<.new-tmp-dir-async()>.
+
+=begin code
+method file-new-tmp-dir-finish ( N-Object() $result, CArray[N-Error] $err --> N-Object )
+=end code
+
+=item $result; a B<Gnome::Gio::R-AsyncResult>.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; a new B<Gnome::Gio::File>.
+  Free the returned object with g_object_unref().. 
+
+=begin comment
+
+=head2 Example
+# Example for file-new-tmp-dir-finish
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-new-tmp-finish
+
+Finishes a temporary file creation started by C<.new-tmp-async()>.
+
+=begin code
+method file-new-tmp-finish ( N-Object() $result, N-Object() $iostream, CArray[N-Error] $err --> N-Object )
+=end code
+
+=item $result; a B<Gnome::Gio::R-AsyncResult>.
+=item $iostream; (transfer ownership: full) on return, a B<Gnome::Gio::FileIOStream> for the created file.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; a new B<Gnome::Gio::File>.
+  Free the returned object with g_object_unref().. 
+
+=begin comment
+
+=head2 Example
+# Example for file-new-tmp-finish
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 file-parse-name
+
+Constructs a B<Gnome::Gio::File> with the given C<$parse_name> (i.e. something
+given by C<.get-parse-name()>). This operation never fails,
+but the returned object might not support any I/O operation if
+the C<$parse_name> cannot be parsed.
+
+=begin code
+method file-parse-name ( Str $parse-name --> N-Object )
+=end code
+
+=item $parse-name; a file name or path to be parsed.
+
+Return value; a new B<Gnome::Gio::File>.. 
+
+=begin comment
+
+=head2 Example
+# Example for file-parse-name
+
+=end comment
+
+=end pod
+
