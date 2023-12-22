@@ -1,0 +1,66 @@
+=comment Package: Pango, C-Source: types
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Pango::N-Rectangle
+
+=head1 Description
+
+The U<Gnome::Pango::N-Rectangle> structure represents a rectangle.
+
+U<Gnome::Pango::N-Rectangle> is frequently used to represent the logical or ink
+extents of a single glyph or section of text. (See, for instance,
+C<.get-glyph-extents() in class Gnome::Pango::Font>.)
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Pango::Rectangle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Rectangle
+
+  class N-Rectangle:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gint $.x;
+    has gint $.y;
+    has gint $.width;
+    has gint $.height;
+  }
+
+=item x; X coordinate of the left side of the rectangle.
+=item y; Y coordinate of the the top side of the rectangle.
+=item width; width of the rectangle.
+=item height; height of the rectangle.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
