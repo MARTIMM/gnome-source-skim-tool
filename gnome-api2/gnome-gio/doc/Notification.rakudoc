@@ -1,0 +1,416 @@
+=comment Package: Gio, C-Source: io
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::Notification
+
+=head1 Description
+
+B<Gnome::Gio::Notification> is a mechanism for creating a notification to be shown
+to the user -- typically as a pop-up notification presented by the
+desktop environment shell.
+
+The key difference between B<Gnome::Gio::Notification> and other similar APIs is
+that, if supported by the desktop environment, notifications sent
+with B<Gnome::Gio::Notification> will persist after the application has exited,
+and even across system reboots.
+
+Since the user may click on a notification while the application is
+not running, applications using B<Gnome::Gio::Notification> should be able to be
+started as a D-Bus service, using B<Gnome::Gio::Application>.
+
+In order for B<Gnome::Gio::Notification> to work, the application must have installed
+a B<.desktop> file. For example:
+=begin comment
+
+ [Desktop Entry]
+  Name=Test Application
+  Comment=Description of what Test Application does
+  Exec=gnome-test-application
+  Icon=org.gnome.TestApplication
+  Terminal=false
+  Type=Application
+  Categories=GNOME;GTK;TestApplication Category;
+  StartupNotify=true
+  DBusActivatable=true
+  X-GNOME-UsesNotifications=true
+
+=end comment
+
+The B<X-GNOME-UsesNotifications> key indicates to GNOME Control Center
+that this application uses notifications, so it can be listed in the
+Control Center’s ‘Notifications’ panel.
+
+The B<.desktop> file must be named as B<org.gnome.TestApplication.desktop>,
+where B<org.gnome.TestApplication> is the ID passed to g_application_new().
+
+User interaction with a notification (either the default action, or
+buttons) must be associated with actions on the application (ie:
+"app." actions).  It is not possible to route user interaction
+through the notification itself, because the object will not exist if
+the application is autostarted as a result of a notification being
+clicked.
+
+A notification can be sent with g_application_send_notification().
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::Notification
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-notification
+
+Creates a new B<Gnome::Gio::Notification> with C<$title> as its title.
+
+After populating C<$notification> with more details, it can be sent to
+the desktop shell with g_application_send_notification(). Changing
+any properties after this call will not have any effect until
+resending C<$notification>.
+
+=begin code
+method new-notification ( Str $title --> Gnome::Gio::Notification \)
+=end code
+
+=item $title; the title of the notification.
+
+=begin comment
+
+=head2 Example
+# Example for new-notification
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-button
+
+Adds a button to C<$notification> that activates the action in C<$detailed_action> when clicked. That action must be an
+application-wide action (starting with "app."). If C<$detailed_action>
+contains a target, the action will be activated with that target as
+its parameter.
+
+See g_action_parse_detailed_name() for a description of the format
+for C<$detailed_action>.
+
+=begin code
+method add-button ( Str $label, Str $detailed-action )
+=end code
+
+=item $label; label of the button.
+=item $detailed-action; a detailed action name.
+
+=begin comment
+
+=head2 Example
+# Example for add-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-button-with-target
+This function is not yet available
+
+Adds a button to C<$notification> that activates C<$action> when clicked. C<$action> must be an application-wide action (it must start with "app.").
+
+If C<$target_format> is given, it is used to collect remaining
+positional parameters into a B<Gnome::Glib::N-Variant> instance, similar to
+g_variant_new(). C<$action> will be activated with that B<Gnome::Glib::N-Variant> as its
+parameter.
+
+=begin code
+method add-button-with-target ( Str $label, Str $action, Str $target-format, … )
+=end code
+
+=item $label; label of the button.
+=item $action; an action name.
+=item $target-format; a B<Gnome::Glib::N-Variant> format string, or undefined.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for add-button-with-target
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-button-with-target-value
+
+Adds a button to C<$notification> that activates C<$action> when clicked. C<$action> must be an application-wide action (it must start with "app.").
+
+If C<$target> is non-undefined, C<$action> will be activated with C<$target> as
+its parameter.
+
+=begin code
+method add-button-with-target-value ( Str $label, Str $action, CArray[N-Variant] $target )
+=end code
+
+=item $label; label of the button.
+=item $action; an action name.
+=item $target; a B<Gnome::Glib::N-Variant> to use as C<$action>'s parameter, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for add-button-with-target-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-body
+
+Sets the body of C<$notification> to C<$body>.
+
+=begin code
+method set-body ( Str $body )
+=end code
+
+=item $body; the new body for C<$notification>, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for set-body
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-category
+
+Sets the type of C<$notification> to C<$category>. Categories have a main
+type like B<email>, B<im> or B<device> and can have a detail separated
+by a B<.>, e.g. B<im.received> or B<email.arrived>. Setting the category
+helps the notification server to select proper feedback to the user.
+
+Standard categories are [listed in the specification](https://specifications.freedesktop.org/notification-spec/latest/ar01s06.html).
+
+=begin code
+method set-category ( Str $category )
+=end code
+
+=item $category; the category for C<$notification>, or undefined for no category.
+
+=begin comment
+
+=head2 Example
+# Example for set-category
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-default-action
+
+Sets the default action of C<$notification> to C<$detailed_action>. This
+action is activated when the notification is clicked on.
+
+The action in C<$detailed_action> must be an application-wide action (it
+must start with "app."). If C<$detailed_action> contains a target, the
+given action will be activated with that target as its parameter.
+See g_action_parse_detailed_name() for a description of the format
+for C<$detailed_action>.
+
+When no default action is set, the application that the notification
+was sent on is activated.
+
+=begin code
+method set-default-action ( Str $detailed-action )
+=end code
+
+=item $detailed-action; a detailed action name.
+
+=begin comment
+
+=head2 Example
+# Example for set-default-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-default-action-and-target
+This function is not yet available
+
+Sets the default action of C<$notification> to C<$action>. This action is
+activated when the notification is clicked on. It must be an
+application-wide action (it must start with "app.").
+
+If C<$target_format> is given, it is used to collect remaining
+positional parameters into a B<Gnome::Glib::N-Variant> instance, similar to
+g_variant_new(). C<$action> will be activated with that B<Gnome::Glib::N-Variant> as its
+parameter.
+
+When no default action is set, the application that the notification
+was sent on is activated.
+
+=begin code
+method set-default-action-and-target ( Str $action, Str $target-format, … )
+=end code
+
+=item $action; an action name.
+=item $target-format; a B<Gnome::Glib::N-Variant> format string, or undefined.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-default-action-and-target
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-default-action-and-target-value
+
+Sets the default action of C<$notification> to C<$action>. This action is
+activated when the notification is clicked on. It must be an
+application-wide action (start with "app.").
+
+If C<$target> is non-undefined, C<$action> will be activated with C<$target> as
+its parameter.
+
+When no default action is set, the application that the notification
+was sent on is activated.
+
+=begin code
+method set-default-action-and-target-value ( Str $action, CArray[N-Variant] $target )
+=end code
+
+=item $action; an action name.
+=item $target; a B<Gnome::Glib::N-Variant> to use as C<$action>'s parameter, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for set-default-action-and-target-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-icon
+
+Sets the icon of C<$notification> to C<$icon>.
+
+=begin code
+method set-icon ( N-Object() $icon )
+=end code
+
+=item $icon; the icon to be shown in C<$notification>, as a B<Gnome::Gio::R-Icon>.
+
+=begin comment
+
+=head2 Example
+# Example for set-icon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-priority
+
+Sets the priority of C<$notification> to C<$priority>. See
+B<Gnome::Gio::T-Ioenums> for possible values.
+
+=begin code
+method set-priority ( GNotificationPriority $priority )
+=end code
+
+=item $priority; a B<Gnome::Gio::T-Ioenums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-priority
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-title
+
+Sets the title of C<$notification> to C<$title>.
+
+=begin code
+method set-title ( Str $title )
+=end code
+
+=item $title; the new title for C<$notification>.
+
+=begin comment
+
+=head2 Example
+# Example for set-title
+
+=end comment
+
+=end pod
+

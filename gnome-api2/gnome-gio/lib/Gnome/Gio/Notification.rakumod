@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gio io
+=comment Package: Gio, C-Source: io
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -9,7 +9,7 @@ use NativeCall;
 
 
 use Gnome::GObject::Object:api<2>;
-#use Gnome::Gio::T-NotificationPriority:api<2>;
+use Gnome::Gio::T-Ioenums:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -39,14 +39,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gio-lib()), :sub-prefix<g_notification_>);
+  $!routine-caller .= new(:library(gio-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gio::Notification' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GNotification');
@@ -60,20 +59,20 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-notification => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str])),
+  new-notification => %( :type(Constructor), :is-symbol<g_notification_new>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
-  add-button => %( :parameters([Str, Str])),
-  #add-button-with-target => %(:variable-list,  :parameters([Str, Str, Str])),
-  add-button-with-target-value => %( :parameters([Str, Str, N-Variant])),
-  set-body => %( :parameters([Str])),
-  set-category => %( :parameters([Str])),
-  set-default-action => %( :parameters([Str])),
-  #set-default-action-and-target => %(:variable-list,  :parameters([Str, Str])),
-  set-default-action-and-target-value => %( :parameters([Str, N-Variant])),
-  set-icon => %( :parameters([N-Object])),
-  #set-priority => %( :parameters([GEnum])),
-  set-title => %( :parameters([Str])),
+  add-button => %(:is-symbol<g_notification_add_button>,  :parameters([Str, Str])),
+  add-button-with-target => %(:is-symbol<g_notification_add_button_with_target>, :variable-list,  :parameters([Str, Str, Str])),
+  add-button-with-target-value => %(:is-symbol<g_notification_add_button_with_target_value>,  :parameters([Str, Str, N-Variant])),
+  set-body => %(:is-symbol<g_notification_set_body>,  :parameters([Str])),
+  set-category => %(:is-symbol<g_notification_set_category>,  :parameters([Str])),
+  set-default-action => %(:is-symbol<g_notification_set_default_action>,  :parameters([Str])),
+  set-default-action-and-target => %(:is-symbol<g_notification_set_default_action_and_target>, :variable-list,  :parameters([Str, Str])),
+  set-default-action-and-target-value => %(:is-symbol<g_notification_set_default_action_and_target_value>,  :parameters([Str, N-Variant])),
+  set-icon => %(:is-symbol<g_notification_set_icon>,  :parameters([N-Object])),
+  set-priority => %(:is-symbol<g_notification_set_priority>,  :parameters([GEnum])),
+  set-title => %(:is-symbol<g_notification_set_title>,  :parameters([Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -83,7 +82,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gio-lib()), :sub-prefix<g_notification_>
+        :library(gio-lib())
       );
 
       # Check the function name. 
