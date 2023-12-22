@@ -12,8 +12,8 @@ use Test;
 
 use Gnome::Gio::SimpleAction:api<2>;
 
-use Gnome::Glib::Variant:api<2>;
-use Gnome::Glib::VariantType:api<2>;
+use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::N-VariantType:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -33,9 +33,9 @@ my Gnome::Gio::SimpleAction $simpleaction;
 
 subtest 'ISA test', {
   given $simpleaction {
-    my Gnome::Glib::VariantType $parameter-type;
+    my Gnome::Glib::N-VariantType $parameter-type;
     my Str $name;
-    my Gnome::Glib::Variant $state;
+    my Gnome::Glib::N-Variant $state;
 
     #TC:1:new-simpleaction()
     $name = 'new-action';

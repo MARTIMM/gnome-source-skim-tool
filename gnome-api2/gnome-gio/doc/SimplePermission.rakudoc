@@ -1,0 +1,73 @@
+=comment Package: Gio, C-Source: io
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::SimplePermission
+
+=head1 Description
+
+B<Gnome::Gio::SimplePermission> is a trivial implementation of B<Gnome::Gio::Permission> that
+represents a permission that is either always or never allowed.  The
+value is given at construction and doesn't change.
+
+Calling request or release will result in errors.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::SimplePermission
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-simplepermission
+
+Creates a new B<Gnome::Gio::Permission> instance that represents an action that is
+either always or never allowed.
+
+=begin code
+method new-simplepermission ( Bool() $allowed --> Gnome::Gio::SimplePermission \)
+=end code
+
+=item $allowed; C<True> if the action is allowed.
+
+=begin comment
+
+=head2 Example
+# Example for new-simplepermission
+
+=end comment
+
+=end pod
+

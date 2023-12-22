@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gio io
+=comment Package: Gio, C-Source: io
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w1<change-state activate>,
+      :w1<activate change-state>,
     );
 
     # Signals from interfaces
@@ -53,14 +53,13 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gio-lib()), :sub-prefix<g_simple_action_>);
+  $!routine-caller .= new(:library(gio-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gio::SimpleAction' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GSimpleAction');
@@ -74,13 +73,13 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-simpleaction => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str, N-VariantType])),
-  new-stateful => %( :type(Constructor), :returns(N-Object), :parameters([ Str, N-VariantType, N-Variant])),
+  new-simpleaction => %( :type(Constructor), :is-symbol<g_simple_action_new>, :returns(N-Object), :parameters([ Str, N-VariantType])),
+  new-stateful => %( :type(Constructor), :is-symbol<g_simple_action_new_stateful>, :returns(N-Object), :parameters([ Str, N-VariantType, N-Variant])),
 
   #--[Methods]------------------------------------------------------------------
-  set-enabled => %( :parameters([gboolean])),
-  set-state => %( :parameters([N-Variant])),
-  set-state-hint => %( :parameters([N-Variant])),
+  set-enabled => %(:is-symbol<g_simple_action_set_enabled>,  :parameters([gboolean])),
+  set-state => %(:is-symbol<g_simple_action_set_state>,  :parameters([N-Variant])),
+  set-state-hint => %(:is-symbol<g_simple_action_set_state_hint>,  :parameters([N-Variant])),
 );
 
 #-------------------------------------------------------------------------------
@@ -90,7 +89,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gio-lib()), :sub-prefix<g_simple_action_>
+        :library(gio-lib())
       );
 
       # Check the function name. 
