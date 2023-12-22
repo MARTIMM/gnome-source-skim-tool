@@ -1,30 +1,43 @@
+=comment Package: Pango, C-Source: direction
 use v6.d;
 
 =begin pod
 =head1 Gnome::Pango::T-Direction
 =end pod
 
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 =begin pod
 =head1 Enumerations
 
 =head2 PangoDirection
 
-`C<PangoDirection enumeration>` represents a direction in the Unicode bidirectional algorithm.
+C<enumeration PangoDirection defined in Gnome::Pango::T-Direction> represents a direction in the Unicode bidirectional
+algorithm.
 
 Not every value in this enumeration makes sense for every usage of
-`C<PangoDirection enumeration>`; for example, the return value of [func C<$unichar_direction>]
-and [func C<$find_base_dir>] cannot be `PANGO_DIRECTION_WEAK_LTR` or
-`PANGO_DIRECTION_WEAK_RTL`, since every character is either neutral or has a strong direction; on the other hand `PANGO_DIRECTION_NEUTRAL`
+C<enumeration PangoDirection defined in Gnome::Pango::T-Direction>; for example, the return value of [func C<$unichar_direction>]
+and [func C<$find_base_dir>] cannot be B<PANGO_DIRECTION_WEAK_LTR> or
+B<PANGO_DIRECTION_WEAK_RTL>, since every character is either neutral
+or has a strong direction; on the other hand B<PANGO_DIRECTION_NEUTRAL>
 doesn't make sense to pass to [func C<$itemize_with_base_dir>].
 
-The `PANGO_DIRECTION_TTB_LTR`, `PANGO_DIRECTION_TTB_RTL` values come from an earlier interpretation of this enumeration as the writing direction of a block of text and are no longer used. See `C<PangoC<Gravity enumeration> enumeration>` for how vertical text is handled in Pango.
+The B<PANGO_DIRECTION_TTB_LTR>, B<PANGO_DIRECTION_TTB_RTL> values come from
+an earlier interpretation of this enumeration as the writing direction
+of a block of text and are no longer used. See C<enumeration PangoGravity defined in Gnome::Pango::T-Gravity> for how
+vertical text is handled in Pango.
 
-If you are interested in text direction, you should really use fribidi directly. `C<PangoDirection enumeration>` is only retained because it is used in some public apis.=item C<PANGO_DIRECTION_LTR>; A strong left-to-right direction
+If you are interested in text direction, you should really use fribidi
+directly. C<enumeration PangoDirection defined in Gnome::Pango::T-Direction> is only retained because it is used in some
+public apis.
+=item C<PANGO_DIRECTION_LTR>; A strong left-to-right direction
 =item C<PANGO_DIRECTION_RTL>; A strong right-to-left direction
 =item C<PANGO_DIRECTION_TTB_LTR>; Deprecated value; treated the
- same as `PANGO_DIRECTION_RTL`.
+  same as B<PANGO_DIRECTION_RTL>.
 =item C<PANGO_DIRECTION_TTB_RTL>; Deprecated value; treated the
- same as `PANGO_DIRECTION_LTR`
+  same as B<PANGO_DIRECTION_LTR>
 =item C<PANGO_DIRECTION_WEAK_LTR>; A weak left-to-right direction
 =item C<PANGO_DIRECTION_WEAK_RTL>; A weak right-to-left direction
 =item C<PANGO_DIRECTION_NEUTRAL>; No direction specified

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Pango gravity
+=comment Package: Pango, C-Source: gravity
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -13,7 +13,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 #use Gnome::Pango::N-Matrix:api<2>;
-#use Gnome::Pango::T-Script:api<2>;
+#use Gnome::Pango::T-ScriptIter:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
@@ -35,7 +35,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( ) {
   # Initialize helper
-  $!routine-caller .= new(:library('libpango-1.0.so.0'));
+  $!routine-caller .= new(:library(pango-lib()));
 }
 
 #-------------------------------------------------------------------------------

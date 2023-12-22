@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Pango direction
+=comment Package: Pango, C-Source: direction
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
