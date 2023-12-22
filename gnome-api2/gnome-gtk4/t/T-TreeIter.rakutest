@@ -6,8 +6,8 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
 use Gnome::Gtk4::N-TreeIter:api<2>;
@@ -37,9 +37,9 @@ my Gnome::Gtk4::T-TreeIter $treemodel .= new;
 subtest 'Function tests', {
   with $treemodel {
     my N-Object $proxy;
+    my N-TreePath $path;
     my N-TreeIter $iter;
     my gint-ptr $new-order;
-    my N-TreePath $path;
 
 
 #`{{

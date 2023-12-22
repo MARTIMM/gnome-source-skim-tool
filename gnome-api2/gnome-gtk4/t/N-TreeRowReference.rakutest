@@ -32,8 +32,8 @@ my N-TreeRowReference $treerowreference;
 subtest 'ISA test', {
   given $treerowreference {
     my N-Object() $proxy;
-    my N-Object() $model;
     my CArray[N-TreePath] $path;
+    my N-Object() $model;
 
 #`{{
     #TC:0:new-treerowreference()
@@ -91,9 +91,9 @@ subtest 'Method tests', {
 subtest 'Function tests', {
   with $treerowreference {
     my CArray[N-TreePath] $path;
+    my CArray[N-TreeIter] $iter;
     my Array[Int] $new-order;
     my N-Object() $proxy;
-    my CArray[N-TreeIter] $iter;
 
 
 #`{{

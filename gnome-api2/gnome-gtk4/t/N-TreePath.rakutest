@@ -6,8 +6,8 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
 use Gnome::Gtk4::N-TreePath:api<2>;
@@ -29,9 +29,9 @@ my N-TreePath $treepath;
 
 subtest 'ISA test', {
   given $treepath {
+    my Str $path;
     my Array[Int] $indices;
     my Int() $length;
-    my Str $path;
     my Int() $first-index;
 
 #`{{
@@ -77,11 +77,11 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $treepath {
-    my CArray[N-TreePath] $descendant;
-    my CArray[N-TreePath] $b;
-    my Int() $index;
-    my Array[Int] $depth;
     my CArray[N-TreePath] $ancestor;
+    my Int() $index;
+    my CArray[N-TreePath] $b;
+    my CArray[N-TreePath] $descendant;
+    my Array[Int] $depth;
 
 
 #`{{
