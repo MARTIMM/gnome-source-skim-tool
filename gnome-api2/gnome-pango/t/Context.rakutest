@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Pango context
+=comment Package: Pango, C-Source: context
 use v6.d;
 
 #TL:1:Gnome::Pango::Context:
@@ -15,6 +15,10 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::Context:api<2>;
+#use Gnome::Pango::N-FontDescription:api<2>;
+#use Gnome::Pango::N-FontMetrics:api<2>;
+#use Gnome::Pango::N-Language:api<2>;
+#use Gnome::Pango::N-Matrix:api<2>;
 use Gnome::Pango::T-Direction:api<2>;
 use Gnome::Pango::T-Gravity:api<2>;
 
@@ -54,6 +58,9 @@ subtest 'Method tests', {
     my N-Object() $font-map;
     my N-Object() $families;
     my Array[Int] $n-families;
+    my gint-ptr $n-families;
+    my CArray[N-Object] $families;
+    my N-Object $font-map;
     my PangoGravityHint $hint;
     my N-Object $language;
     my N-Object $desc;

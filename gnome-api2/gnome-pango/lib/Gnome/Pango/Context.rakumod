@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Pango Context
+=comment Package: Pango, C-Source: context
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new(:library('libpango-1.0.so.0'));
+  $!routine-caller .= new(:library(pango-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Pango::Context' {
@@ -98,7 +98,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library('libpango-1.0.so.0')
+        :library(pango-lib())
       );
 
       # Check the function name. 
