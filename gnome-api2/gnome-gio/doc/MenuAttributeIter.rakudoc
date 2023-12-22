@@ -1,0 +1,171 @@
+=comment Package: Gio, C-Source: menumodel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::MenuAttributeIter
+
+=head1 Description
+
+B<Gnome::Gio::MenuAttributeIter> is an opaque structure type.  You must access it
+using the functions below.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::MenuAttributeIter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-name
+
+Gets the name of the attribute at the current iterator position, as
+a string.
+
+The iterator is not advanced.
+
+=begin code
+method get-name (--> Str )
+=end code
+
+Return value; the name of the attribute. 
+
+=begin comment
+
+=head2 Example
+# Example for get-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-next
+
+This function combines C<.next()> with
+C<.get-name()> and C<.get-value()>.
+
+First the iterator is advanced to the next (possibly first) attribute.
+If that fails, then C<False> is returned and there are no other
+effects.
+
+If successful, C<$name> and C<$value> are set to the name and value of the
+attribute that has just been advanced to.  At this point,
+C<.get-name()> and C<.get-value()> will
+return the same values again.
+
+The value returned in C<$name> remains valid for as long as the iterator
+remains at the current position.  The value returned in C<$value> must
+be unreffed using g_variant_unref() when it is no longer in use.
+
+=begin code
+method get-next ( Array[Str] $out-name, CArray[N-Variant] $value --> Bool )
+=end code
+
+=item $out-name; the type of the attribute.
+=item $value; (transfer ownership: full) the attribute value.
+
+Return value; C<True> on success, or C<False> if there is no additional
+    attribute. 
+
+=begin comment
+
+=head2 Example
+# Example for get-next
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Gets the value of the attribute at the current iterator position.
+
+The iterator is not advanced.
+
+=begin code
+method get-value (--> CArray[N-Variant] )
+=end code
+
+Return value; the value of the current attribute. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next
+
+Attempts to advance the iterator to the next (possibly first)
+attribute.
+
+C<True> is returned on success, or C<False> if there are no more
+attributes.
+
+You must call this function when you first acquire the iterator
+to advance it to the first attribute (and determine if the first
+attribute exists at all).
+
+=begin code
+method next (--> Bool )
+=end code
+
+Return value; C<True> on success, or C<False> when there are no more attributes. 
+
+=begin comment
+
+=head2 Example
+# Example for next
+
+=end comment
+
+=end pod
+

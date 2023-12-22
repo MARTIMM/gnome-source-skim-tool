@@ -1,0 +1,656 @@
+=comment Package: Gio, C-Source: io
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::MenuItem
+
+=head1 Description
+
+B<Gnome::Gio::MenuItem> is an opaque structure type.  You must access it using the
+functions below.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::MenuItem
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-menuitem
+
+Creates a new B<Gnome::Gio::MenuItem>.
+
+If C<$label> is non-undefined it is used to set the "label" attribute of the
+new item.
+
+If C<$detailed_action> is non-undefined it is used to set the "action" and
+possibly the "target" attribute of the new item.  See
+C<.set-detailed-action()> for more information.
+
+=begin code
+method new-menuitem ( Str $label, Str $detailed-action --> Gnome::Gio::MenuItem \)
+=end code
+
+=item $label; the section label, or undefined.
+=item $detailed-action; the detailed action string, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for new-menuitem
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-model
+
+Creates a B<Gnome::Gio::MenuItem> as an exact copy of an existing menu item in a
+B<Gnome::Gio::MenuModel>.
+ C<$item_index> must be valid (ie: be sure to call
+g_menu_model_get_n_items() first).
+
+=begin code
+method new-from-model ( N-Object() $model, Int() $item-index --> Gnome::Gio::MenuItem \)
+=end code
+
+=item $model; a B<Gnome::Gio::MenuModel>.
+=item $item-index; the index of an item in C<$model>.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-section
+
+Creates a new B<Gnome::Gio::MenuItem> representing a section.
+
+This is a convenience API around C<.new-menuitem()> and
+C<.set-section()>.
+
+The effect of having one menu appear as a section of another is
+exactly as it sounds: the items from C<$section> become a direct part of
+the menu that C<$menu_item> is added to.
+
+Visual separation is typically displayed between two non-empty
+sections.  If C<$label> is non-undefined then it will be encorporated into
+this visual indication.  This allows for labeled subsections of a
+menu.
+
+As a simple example, consider a typical "Edit" menu from a simple
+program.  It probably contains an "Undo" and "Redo" item, followed by
+a separator, followed by "Cut", "Copy" and "Paste".
+
+This would be accomplished by creating three B<Gnome::Gio::Menu> instances.  The
+first would be populated with the "Undo" and "Redo" items, and the
+second with the "Cut", "Copy" and "Paste" items.  The first and
+second menus would then be added as submenus of the third.  In XML
+format, this would look something like the following:
+=begin comment
+
+<menu id='edit-menu'>
+  <section>
+    <item label='Undo'/>
+    <item label='Redo'/>
+  </section>
+  <section>
+    <item label='Cut'/>
+    <item label='Copy'/>
+    <item label='Paste'/>
+  </section>
+</menu>
+
+=end comment
+
+The following example is exactly equivalent.  It is more illustrative
+of the exact relationship between the menus and items (keeping in
+mind that the 'link' element defines a new menu that is linked to the
+containing one).  The style of the second example is more verbose and
+difficult to read (and therefore not recommended except for the
+purpose of understanding what is really going on).
+=begin comment
+
+<menu id='edit-menu'>
+  <item>
+    <link name='section'>
+      <item label='Undo'/>
+      <item label='Redo'/>
+    </link>
+  </item>
+  <item>
+    <link name='section'>
+      <item label='Cut'/>
+      <item label='Copy'/>
+      <item label='Paste'/>
+    </link>
+  </item>
+</menu>
+
+=end comment
+
+=begin code
+method new-section ( Str $label, N-Object() $section --> Gnome::Gio::MenuItem \)
+=end code
+
+=item $label; the section label, or undefined.
+=item $section; a B<Gnome::Gio::MenuModel> with the items of the section.
+
+=begin comment
+
+=head2 Example
+# Example for new-section
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-submenu
+
+Creates a new B<Gnome::Gio::MenuItem> representing a submenu.
+
+This is a convenience API around C<.new-menuitem()> and
+C<.set-submenu()>.
+
+=begin code
+method new-submenu ( Str $label, N-Object() $submenu --> Gnome::Gio::MenuItem \)
+=end code
+
+=item $label; the section label, or undefined.
+=item $submenu; a B<Gnome::Gio::MenuModel> with the items of the submenu.
+
+=begin comment
+
+=head2 Example
+# Example for new-submenu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-attribute
+This function is not yet available
+
+Queries the named C<$attribute> on C<$menu_item>.
+
+If the attribute exists and matches the B<Gnome::Glib::N-VariantType> corresponding
+to C<$format_string> then C<$format_string> is used to deconstruct the
+value into the positional parameters and C<True> is returned.
+
+If the attribute does not exist, or it does exist but has the wrong
+type, then the positional parameters are ignored and C<False> is
+returned.
+
+=begin code
+method get-attribute ( Str $attribute, Str $format-string, … --> Bool )
+=end code
+
+=item $attribute; the attribute name to query.
+=item $format-string; a B<Gnome::Glib::N-Variant> format string.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+Return value; C<True> if the named attribute was found with the expected
+    type. 
+
+=begin comment
+
+=head2 Example
+# Example for get-attribute
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-attribute-value
+
+Queries the named C<$attribute> on C<$menu_item>.
+
+If C<$expected_type> is specified and the attribute does not have this
+type, undefined is returned.  undefined is also returned if the attribute
+simply does not exist.
+
+=begin code
+method get-attribute-value ( Str $attribute, CArray[N-VariantType] $expected-type --> CArray[N-Variant] )
+=end code
+
+=item $attribute; the attribute name to query.
+=item $expected-type; the expected type of the attribute.
+
+Return value; the attribute value, or undefined. 
+
+=begin comment
+
+=head2 Example
+# Example for get-attribute-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-link
+
+Queries the named C<$link> on C<$menu_item>.
+
+=begin code
+method get-link ( Str $link --> N-Object )
+=end code
+
+=item $link; the link name to query.
+
+Return value; the link, or undefined. 
+
+=begin comment
+
+=head2 Example
+# Example for get-link
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-action-and-target
+This function is not yet available
+
+Sets or unsets the "action" and "target" attributes of C<$menu_item>.
+
+If C<$action> is undefined then both the "action" and "target" attributes
+are unset (and C<$format_string> is ignored along with the positional
+parameters).
+
+If C<$action> is non-undefined then the "action" attribute is set. C<$format_string> is then inspected.  If it is non-undefined then the proper
+position parameters are collected to create a B<Gnome::Glib::N-Variant> instance to
+use as the target value.  If it is undefined then the positional
+parameters are ignored and the "target" attribute is unset.
+
+See also C<.set-action-and-target-value()> for an equivalent
+call that directly accepts a B<Gnome::Glib::N-Variant>.  See
+C<.set-detailed-action()> for a more convenient version that
+works with string-typed targets.
+
+See also C<.set-action-and-target-value()> for a
+description of the semantics of the action and target attributes.
+
+=begin code
+method set-action-and-target ( Str $action, Str $format-string, … )
+=end code
+
+=item $action; the name of the action for this item.
+=item $format-string; a GVariant format string.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-action-and-target
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-action-and-target-value
+
+Sets or unsets the "action" and "target" attributes of C<$menu_item>.
+
+If C<$action> is undefined then both the "action" and "target" attributes
+are unset (and C<$target_value> is ignored).
+
+If C<$action> is non-undefined then the "action" attribute is set.  The
+"target" attribute is then set to the value of C<$target_value> if it is
+non-undefined or unset otherwise.
+
+Normal menu items (ie: not submenu, section or other custom item
+types) are expected to have the "action" attribute set to identify
+the action that they are associated with.  The state type of the
+action help to determine the disposition of the menu item.  See
+B<Gnome::Gio::R-Action> and B<Gnome::Gio::R-ActionGroup> for an overview of actions.
+
+In general, clicking on the menu item will result in activation of
+the named action with the "target" attribute given as the parameter
+to the action invocation.  If the "target" attribute is not set then
+the action is invoked with no parameter.
+
+If the action has no state then the menu item is usually drawn as a
+plain menu item (ie: with no additional decoration).
+
+If the action has a boolean state then the menu item is usually drawn
+as a toggle menu item (ie: with a checkmark or equivalent
+indication).  The item should be marked as 'toggled' or 'checked'
+when the boolean state is C<True>.
+
+If the action has a string state then the menu item is usually drawn
+as a radio menu item (ie: with a radio bullet or equivalent
+indication).  The item should be marked as 'selected' when the string
+state is equal to the value of the C<$target> property.
+
+See C<.set-action-and-target()> or
+C<.set-detailed-action()> for two equivalent calls that are
+probably more convenient for most uses.
+
+=begin code
+method set-action-and-target-value ( Str $action, CArray[N-Variant] $target-value )
+=end code
+
+=item $action; the name of the action for this item.
+=item $target-value; a B<Gnome::Glib::N-Variant> to use as the action target.
+
+=begin comment
+
+=head2 Example
+# Example for set-action-and-target-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-attribute
+This function is not yet available
+
+Sets or unsets an attribute on C<$menu_item>.
+
+The attribute to set or unset is specified by C<$attribute>. This
+can be one of the standard attribute names C<G_MENU_ATTRIBUTE_LABEL>,
+C<G_MENU_ATTRIBUTE_ACTION>, C<G_MENU_ATTRIBUTE_TARGET>, or a custom
+attribute name.
+Attribute names are restricted to lowercase characters, numbers
+and '-'. Furthermore, the names must begin with a lowercase character,
+must not end with a '-', and must not contain consecutive dashes.
+
+If C<$format_string> is non-undefined then the proper position parameters
+are collected to create a B<Gnome::Glib::N-Variant> instance to use as the attribute
+value.  If it is undefined then the positional parameterrs are ignored
+and the named attribute is unset.
+
+See also C<.set-attribute-value()> for an equivalent call
+that directly accepts a B<Gnome::Glib::N-Variant>.
+
+=begin code
+method set-attribute ( Str $attribute, Str $format-string, … )
+=end code
+
+=item $attribute; the attribute to set.
+=item $format-string; a B<Gnome::Glib::N-Variant> format string, or undefined.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-attribute
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-attribute-value
+
+Sets or unsets an attribute on C<$menu_item>.
+
+The attribute to set or unset is specified by C<$attribute>. This
+can be one of the standard attribute names C<G_MENU_ATTRIBUTE_LABEL>,
+C<G_MENU_ATTRIBUTE_ACTION>, C<G_MENU_ATTRIBUTE_TARGET>, or a custom
+attribute name.
+Attribute names are restricted to lowercase characters, numbers
+and '-'. Furthermore, the names must begin with a lowercase character,
+must not end with a '-', and must not contain consecutive dashes.
+
+must consist only of lowercase
+ASCII characters, digits and '-'.
+
+If C<$value> is non-undefined then it is used as the new value for the
+attribute.  If C<$value> is undefined then the attribute is unset. If
+the C<$value> B<Gnome::Glib::N-Variant> is floating, it is consumed.
+
+See also C<.set-attribute()> for a more convenient way to do
+the same.
+
+=begin code
+method set-attribute-value ( Str $attribute, CArray[N-Variant] $value )
+=end code
+
+=item $attribute; the attribute to set.
+=item $value; a B<Gnome::Glib::N-Variant> to use as the value, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for set-attribute-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-detailed-action
+
+Sets the "action" and possibly the "target" attribute of C<$menu_item>.
+
+The format of C<$detailed_action> is the same format parsed by
+g_action_parse_detailed_name().
+
+See C<.set-action-and-target()> or
+C<.set-action-and-target-value()> for more flexible (but
+slightly less convenient) alternatives.
+
+See also C<.set-action-and-target-value()> for a description of
+the semantics of the action and target attributes.
+
+=begin code
+method set-detailed-action ( Str $detailed-action )
+=end code
+
+=item $detailed-action; the "detailed" action string.
+
+=begin comment
+
+=head2 Example
+# Example for set-detailed-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-icon
+
+Sets (or unsets) the icon on C<$menu_item>.
+
+This call is the same as calling g_icon_serialize() and using the
+result as the value to C<.set-attribute-value()> for
+C<G_MENU_ATTRIBUTE_ICON>.
+
+This API is only intended for use with "noun" menu items; things like
+bookmarks or applications in an "Open With" menu.  Don't use it on
+menu items corresponding to verbs (eg: stock icons for 'Save' or
+'Quit').
+
+If C<$icon> is undefined then the icon is unset.
+
+=begin code
+method set-icon ( N-Object() $icon )
+=end code
+
+=item $icon; a B<Gnome::Gio::R-Icon>, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for set-icon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label
+
+Sets or unsets the "label" attribute of C<$menu_item>.
+
+If C<$label> is non-undefined it is used as the label for the menu item.  If
+it is undefined then the label attribute is unset.
+
+=begin code
+method set-label ( Str $label )
+=end code
+
+=item $label; the label to set, or undefined to unset.
+
+=begin comment
+
+=head2 Example
+# Example for set-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-link
+
+Creates a link from C<$menu_item> to C<$model> if non-undefined, or unsets it.
+
+Links are used to establish a relationship between a particular menu
+item and another menu.  For example, C<G_MENU_LINK_SUBMENU> is used to
+associate a submenu with a particular menu item, and C<G_MENU_LINK_SECTION>
+is used to create a section. Other types of link can be used, but there
+is no guarantee that clients will be able to make sense of them.
+Link types are restricted to lowercase characters, numbers
+and '-'. Furthermore, the names must begin with a lowercase character,
+must not end with a '-', and must not contain consecutive dashes.
+
+=begin code
+method set-link ( Str $link, N-Object() $model )
+=end code
+
+=item $link; type of link to establish or unset.
+=item $model; the B<Gnome::Gio::MenuModel> to link to (or undefined to unset).
+
+=begin comment
+
+=head2 Example
+# Example for set-link
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-section
+
+Sets or unsets the "section" link of C<$menu_item> to C<$section>.
+
+The effect of having one menu appear as a section of another is
+exactly as it sounds: the items from C<$section> become a direct part of
+the menu that C<$menu_item> is added to.  See C<.new-section()>
+for more information about what it means for a menu item to be a
+section.
+
+=begin code
+method set-section ( N-Object() $section )
+=end code
+
+=item $section; a B<Gnome::Gio::MenuModel>, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for set-section
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-submenu
+
+Sets or unsets the "submenu" link of C<$menu_item> to C<$submenu>.
+
+If C<$submenu> is non-undefined, it is linked to.  If it is undefined then the
+link is unset.
+
+The effect of having one menu appear as a submenu of another is
+exactly as it sounds.
+
+=begin code
+method set-submenu ( N-Object() $submenu )
+=end code
+
+=item $submenu; a B<Gnome::Gio::MenuModel>, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for set-submenu
+
+=end comment
+
+=end pod
+

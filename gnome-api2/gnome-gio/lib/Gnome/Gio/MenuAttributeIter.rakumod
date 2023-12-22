@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gio menumodel
+=comment Package: Gio, C-Source: menumodel
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -38,14 +38,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gio-lib()), :sub-prefix<g_menu_attribute_iter_>);
+  $!routine-caller .= new(:library(gio-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gio::MenuAttributeIter' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GMenuAttributeIter');
@@ -59,10 +58,10 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-name => %( :returns(Str)),
-  get-next => %( :returns(gboolean), :cnv-return(Bool), :parameters([gchar-pptr, CArray[N-Variant]])),
-  get-value => %( :returns(N-Variant)),
-  next => %( :returns(gboolean), :cnv-return(Bool)),
+  get-name => %(:is-symbol<g_menu_attribute_iter_get_name>,  :returns(Str)),
+  get-next => %(:is-symbol<g_menu_attribute_iter_get_next>,  :returns(gboolean), :cnv-return(Bool), :parameters([gchar-pptr, CArray[N-Variant]])),
+  get-value => %(:is-symbol<g_menu_attribute_iter_get_value>,  :returns(N-Variant)),
+  next => %(:is-symbol<g_menu_attribute_iter_next>,  :returns(gboolean), :cnv-return(Bool)),
 );
 
 #-------------------------------------------------------------------------------
@@ -72,7 +71,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gio-lib()), :sub-prefix<g_menu_attribute_iter_>
+        :library(gio-lib())
       );
 
       # Check the function name. 

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c Gio io
+=comment Package: Gio, C-Source: io
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -39,14 +39,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new( :library(gio-lib()), :sub-prefix<g_menu_item_>);
+  $!routine-caller .= new(:library(gio-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gio::MenuItem' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GMenuItem');
@@ -60,25 +59,25 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-menuitem => %( :type(Constructor), :isnew, :returns(N-Object), :parameters([ Str, Str])),
-  new-from-model => %( :type(Constructor), :returns(N-Object), :parameters([ N-Object, gint])),
-  new-section => %( :type(Constructor), :returns(N-Object), :parameters([ Str, N-Object])),
-  new-submenu => %( :type(Constructor), :returns(N-Object), :parameters([ Str, N-Object])),
+  new-menuitem => %( :type(Constructor), :is-symbol<g_menu_item_new>, :returns(N-Object), :parameters([ Str, Str])),
+  new-from-model => %( :type(Constructor), :is-symbol<g_menu_item_new_from_model>, :returns(N-Object), :parameters([ N-Object, gint])),
+  new-section => %( :type(Constructor), :is-symbol<g_menu_item_new_section>, :returns(N-Object), :parameters([ Str, N-Object])),
+  new-submenu => %( :type(Constructor), :is-symbol<g_menu_item_new_submenu>, :returns(N-Object), :parameters([ Str, N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  #get-attribute => %(:variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
-  get-attribute-value => %( :returns(N-Variant), :parameters([Str, N-VariantType])),
-  get-link => %( :returns(N-Object), :parameters([Str])),
-  #set-action-and-target => %(:variable-list,  :parameters([Str, Str])),
-  set-action-and-target-value => %( :parameters([Str, N-Variant])),
-  #set-attribute => %(:variable-list,  :parameters([Str, Str])),
-  set-attribute-value => %( :parameters([Str, N-Variant])),
-  set-detailed-action => %( :parameters([Str])),
-  set-icon => %( :parameters([N-Object])),
-  set-label => %( :parameters([Str])),
-  set-link => %( :parameters([Str, N-Object])),
-  set-section => %( :parameters([N-Object])),
-  set-submenu => %( :parameters([N-Object])),
+  get-attribute => %(:is-symbol<g_menu_item_get_attribute>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
+  get-attribute-value => %(:is-symbol<g_menu_item_get_attribute_value>,  :returns(N-Variant), :parameters([Str, N-VariantType])),
+  get-link => %(:is-symbol<g_menu_item_get_link>,  :returns(N-Object), :parameters([Str])),
+  set-action-and-target => %(:is-symbol<g_menu_item_set_action_and_target>, :variable-list,  :parameters([Str, Str])),
+  set-action-and-target-value => %(:is-symbol<g_menu_item_set_action_and_target_value>,  :parameters([Str, N-Variant])),
+  set-attribute => %(:is-symbol<g_menu_item_set_attribute>, :variable-list,  :parameters([Str, Str])),
+  set-attribute-value => %(:is-symbol<g_menu_item_set_attribute_value>,  :parameters([Str, N-Variant])),
+  set-detailed-action => %(:is-symbol<g_menu_item_set_detailed_action>,  :parameters([Str])),
+  set-icon => %(:is-symbol<g_menu_item_set_icon>,  :parameters([N-Object])),
+  set-label => %(:is-symbol<g_menu_item_set_label>,  :parameters([Str])),
+  set-link => %(:is-symbol<g_menu_item_set_link>,  :parameters([Str, N-Object])),
+  set-section => %(:is-symbol<g_menu_item_set_section>,  :parameters([N-Object])),
+  set-submenu => %(:is-symbol<g_menu_item_set_submenu>,  :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------
@@ -88,7 +87,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gio-lib()), :sub-prefix<g_menu_item_>
+        :library(gio-lib())
       );
 
       # Check the function name. 

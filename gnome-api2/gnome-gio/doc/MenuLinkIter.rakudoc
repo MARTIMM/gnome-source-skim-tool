@@ -1,0 +1,167 @@
+=comment Package: Gio, C-Source: menumodel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::MenuLinkIter
+
+=head1 Description
+
+B<Gnome::Gio::MenuLinkIter> is an opaque structure type.  You must access it using
+the functions below.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::MenuLinkIter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-name
+
+Gets the name of the link at the current iterator position.
+
+The iterator is not advanced.
+
+=begin code
+method get-name (--> Str )
+=end code
+
+Return value; the type of the link. 
+
+=begin comment
+
+=head2 Example
+# Example for get-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-next
+
+This function combines C<.next()> with
+C<.get-name()> and C<.get-value()>.
+
+First the iterator is advanced to the next (possibly first) link.
+If that fails, then C<False> is returned and there are no other effects.
+
+If successful, C<$out_link> and C<$value> are set to the name and B<Gnome::Gio::MenuModel>
+of the link that has just been advanced to.  At this point,
+C<.get-name()> and C<.get-value()> will return the
+same values again.
+
+The value returned in C<$out_link> remains valid for as long as the iterator
+remains at the current position.  The value returned in C<$value> must
+be unreffed using g_object_unref() when it is no longer in use.
+
+=begin code
+method get-next ( Array[Str] $out-link, N-Object() $value --> Bool )
+=end code
+
+=item $out-link; the name of the link.
+=item $value; (transfer ownership: full) the linked B<Gnome::Gio::MenuModel>.
+
+Return value; C<True> on success, or C<False> if there is no additional link. 
+
+=begin comment
+
+=head2 Example
+# Example for get-next
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Gets the linked B<Gnome::Gio::MenuModel> at the current iterator position.
+
+The iterator is not advanced.
+
+=begin code
+method get-value (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gio::MenuModel> that is linked to. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next
+
+Attempts to advance the iterator to the next (possibly first)
+link.
+
+C<True> is returned on success, or C<False> if there are no more links.
+
+You must call this function when you first acquire the iterator to
+advance it to the first link (and determine if the first link exists
+at all).
+
+=begin code
+method next (--> Bool )
+=end code
+
+Return value; C<True> on success, or C<False> when there are no more links. 
+
+=begin comment
+
+=head2 Example
+# Example for next
+
+=end comment
+
+=end pod
+

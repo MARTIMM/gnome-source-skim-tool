@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -c -t Gio menumodel
+=comment Package: Gio, C-Source: menumodel
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -49,14 +49,13 @@ submethod BUILD ( *%options ) {
   }
 
   # Initialize helper
-  $!routine-caller .= new( :library(gio-lib()), :sub-prefix<g_menu_model_>);
+  $!routine-caller .= new(:library(gio-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Gio::MenuModel' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
-    die X::Gnome.new(:message("Native object not defined"))
-      unless self.is-valid;
+    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
     self._set-class-info('GMenuModel');
@@ -70,14 +69,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  #get-item-attribute => %(:variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, Str, Str])),
-  get-item-attribute-value => %( :returns(N-Variant), :parameters([gint, Str, N-VariantType])),
-  get-item-link => %( :returns(N-Object), :parameters([gint, Str])),
-  get-n-items => %( :returns(gint)),
-  is-mutable => %( :returns(gboolean), :cnv-return(Bool)),
-  items-changed => %( :parameters([gint, gint, gint])),
-  iterate-item-attributes => %( :returns(N-Object), :parameters([gint])),
-  iterate-item-links => %( :returns(N-Object), :parameters([gint])),
+  get-item-attribute => %(:is-symbol<g_menu_model_get_item_attribute>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, Str, Str])),
+  get-item-attribute-value => %(:is-symbol<g_menu_model_get_item_attribute_value>,  :returns(N-Variant), :parameters([gint, Str, N-VariantType])),
+  get-item-link => %(:is-symbol<g_menu_model_get_item_link>,  :returns(N-Object), :parameters([gint, Str])),
+  get-n-items => %(:is-symbol<g_menu_model_get_n_items>,  :returns(gint)),
+  is-mutable => %(:is-symbol<g_menu_model_is_mutable>,  :returns(gboolean), :cnv-return(Bool)),
+  items-changed => %(:is-symbol<g_menu_model_items_changed>,  :parameters([gint, gint, gint])),
+  iterate-item-attributes => %(:is-symbol<g_menu_model_iterate_item_attributes>,  :returns(N-Object), :parameters([gint])),
+  iterate-item-links => %(:is-symbol<g_menu_model_iterate_item_links>,  :returns(N-Object), :parameters([gint])),
 );
 
 #-------------------------------------------------------------------------------
@@ -87,7 +86,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library(gio-lib()), :sub-prefix<g_menu_model_>
+        :library(gio-lib())
       );
 
       # Check the function name. 

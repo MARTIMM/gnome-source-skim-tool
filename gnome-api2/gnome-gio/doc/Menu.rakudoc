@@ -1,0 +1,457 @@
+=comment Package: Gio, C-Source: io
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::Menu
+
+=head1 Description
+
+B<Gnome::Gio::Menu> is a simple implementation of B<Gnome::Gio::MenuModel>.
+You populate a B<Gnome::Gio::Menu> by adding B<Gnome::Gio::MenuItem> instances to it.
+
+There are some convenience functions to allow you to directly
+add items (avoiding B<Gnome::Gio::MenuItem>) for the common cases. To add
+a regular item, use C<.insert()>. To add a section, use
+C<.insert-section()>. To add a submenu, use
+C<.insert-submenu()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::Menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-menu
+
+Creates a new B<Gnome::Gio::Menu>.
+
+The new menu has no items.
+
+=begin code
+method new-menu ( --> Gnome::Gio::Menu \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append
+
+Convenience function for appending a normal menu item to the end of C<$menu>.  Combine C<.item-new()> and C<.insert-item()> for a more
+flexible alternative.
+
+=begin code
+method append ( Str $label, Str $detailed-action )
+=end code
+
+=item $label; the section label, or undefined.
+=item $detailed-action; the detailed action string, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for append
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-item
+
+Appends C<$item> to the end of C<$menu>.
+
+See C<.insert-item()> for more information.
+
+=begin code
+method append-item ( N-Object() $item )
+=end code
+
+=item $item; a B<Gnome::Gio::MenuItem> to append.
+
+=begin comment
+
+=head2 Example
+# Example for append-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-section
+
+Convenience function for appending a section menu item to the end of C<$menu>.  Combine C<.item-new-section()> and C<.insert-item()> for a
+more flexible alternative.
+
+=begin code
+method append-section ( Str $label, N-Object() $section )
+=end code
+
+=item $label; the section label, or undefined.
+=item $section; a B<Gnome::Gio::MenuModel> with the items of the section.
+
+=begin comment
+
+=head2 Example
+# Example for append-section
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-submenu
+
+Convenience function for appending a submenu menu item to the end of C<$menu>.  Combine C<.item-new-submenu()> and C<.insert-item()> for a
+more flexible alternative.
+
+=begin code
+method append-submenu ( Str $label, N-Object() $submenu )
+=end code
+
+=item $label; the section label, or undefined.
+=item $submenu; a B<Gnome::Gio::MenuModel> with the items of the submenu.
+
+=begin comment
+
+=head2 Example
+# Example for append-submenu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 freeze
+
+Marks C<$menu> as frozen.
+
+After the menu is frozen, it is an error to attempt to make any
+changes to it.  In effect this means that the B<Gnome::Gio::Menu> API must no
+longer be used.
+
+This function causes C<.model-is-mutable()> to begin returning
+C<False>, which has some positive performance implications.
+
+=begin code
+method freeze ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for freeze
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+Convenience function for inserting a normal menu item into C<$menu>.
+Combine C<.item-new()> and C<.insert-item()> for a more flexible
+alternative.
+
+=begin code
+method insert ( Int() $position, Str $label, Str $detailed-action )
+=end code
+
+=item $position; the position at which to insert the item.
+=item $label; the section label, or undefined.
+=item $detailed-action; the detailed action string, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for insert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-item
+
+Inserts C<$item> into C<$menu>.
+
+The "insertion" is actually done by copying all of the attribute and
+link values of C<$item> and using them to form a new item within C<$menu>.
+As such, C<$item> itself is not really inserted, but rather, a menu item
+that is exactly the same as the one presently described by C<$item>.
+
+This means that C<$item> is essentially useless after the insertion
+occurs.  Any changes you make to it are ignored unless it is inserted
+again (at which point its updated values will be copied).
+
+You should probably just free C<$item> once you're done.
+
+There are many convenience functions to take care of common cases.
+See C<.insert()>, C<.insert-section()> and
+C<.insert-submenu()> as well as "prepend" and "append" variants of
+each of these functions.
+
+=begin code
+method insert-item ( Int() $position, N-Object() $item )
+=end code
+
+=item $position; the position at which to insert the item.
+=item $item; the B<Gnome::Gio::MenuItem> to insert.
+
+=begin comment
+
+=head2 Example
+# Example for insert-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-section
+
+Convenience function for inserting a section menu item into C<$menu>.
+Combine C<.item-new-section()> and C<.insert-item()> for a more
+flexible alternative.
+
+=begin code
+method insert-section ( Int() $position, Str $label, N-Object() $section )
+=end code
+
+=item $position; the position at which to insert the item.
+=item $label; the section label, or undefined.
+=item $section; a B<Gnome::Gio::MenuModel> with the items of the section.
+
+=begin comment
+
+=head2 Example
+# Example for insert-section
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-submenu
+
+Convenience function for inserting a submenu menu item into C<$menu>.
+Combine C<.item-new-submenu()> and C<.insert-item()> for a more
+flexible alternative.
+
+=begin code
+method insert-submenu ( Int() $position, Str $label, N-Object() $submenu )
+=end code
+
+=item $position; the position at which to insert the item.
+=item $label; the section label, or undefined.
+=item $submenu; a B<Gnome::Gio::MenuModel> with the items of the submenu.
+
+=begin comment
+
+=head2 Example
+# Example for insert-submenu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend
+
+Convenience function for prepending a normal menu item to the start
+of C<$menu>.  Combine C<.item-new()> and C<.insert-item()> for a more
+flexible alternative.
+
+=begin code
+method prepend ( Str $label, Str $detailed-action )
+=end code
+
+=item $label; the section label, or undefined.
+=item $detailed-action; the detailed action string, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for prepend
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-item
+
+Prepends C<$item> to the start of C<$menu>.
+
+See C<.insert-item()> for more information.
+
+=begin code
+method prepend-item ( N-Object() $item )
+=end code
+
+=item $item; a B<Gnome::Gio::MenuItem> to prepend.
+
+=begin comment
+
+=head2 Example
+# Example for prepend-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-section
+
+Convenience function for prepending a section menu item to the start
+of C<$menu>.  Combine C<.item-new-section()> and C<.insert-item()> for
+a more flexible alternative.
+
+=begin code
+method prepend-section ( Str $label, N-Object() $section )
+=end code
+
+=item $label; the section label, or undefined.
+=item $section; a B<Gnome::Gio::MenuModel> with the items of the section.
+
+=begin comment
+
+=head2 Example
+# Example for prepend-section
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-submenu
+
+Convenience function for prepending a submenu menu item to the start
+of C<$menu>.  Combine C<.item-new-submenu()> and C<.insert-item()> for
+a more flexible alternative.
+
+=begin code
+method prepend-submenu ( Str $label, N-Object() $submenu )
+=end code
+
+=item $label; the section label, or undefined.
+=item $submenu; a B<Gnome::Gio::MenuModel> with the items of the submenu.
+
+=begin comment
+
+=head2 Example
+# Example for prepend-submenu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes an item from the menu.
+ C<$position> gives the index of the item to remove.
+
+It is an error if position is not in range the range from 0 to one
+less than the number of items in the menu.
+
+It is not possible to remove items by identity since items are added
+to the menu simply by copying their links and attributes (ie:
+identity of the item itself is not preserved).
+
+=begin code
+method remove ( Int() $position )
+=end code
+
+=item $position; the position of the item to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-all
+
+Removes all items in the menu.
+
+=begin code
+method remove-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for remove-all
+
+=end comment
+
+=end pod
+
