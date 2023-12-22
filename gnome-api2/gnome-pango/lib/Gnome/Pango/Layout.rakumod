@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Pango layout
+=comment Package: Pango, C-Source: layout
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -10,6 +10,7 @@ use NativeCall;
 
 use Gnome::GObject::Object:api<2>;
 #use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::N-Error:api<2>;
 use Gnome::Glib::N-SList:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -48,7 +49,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 submethod BUILD ( *%options ) {
 
   # Initialize helper
-  $!routine-caller .= new(:library('libpango-1.0.so.0'));
+  $!routine-caller .= new(:library(pango-lib()));
 
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::Pango::Layout' {
@@ -133,11 +134,11 @@ my Hash $methods = %(
   set-text => %(:is-symbol<pango_layout_set_text>,  :parameters([Str, gint])),
   set-width => %(:is-symbol<pango_layout_set_width>,  :parameters([gint])),
   set-wrap => %(:is-symbol<pango_layout_set_wrap>,  :parameters([GEnum])),
-  write-to-file => %(:is-symbol<pango_layout_write_to_file>,  :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, Str])),
+  write-to-file => %(:is-symbol<pango_layout_write_to_file>,  :returns(gboolean), :cnv-return(Bool), :parameters([GFlag, Str, CArray[N-Error]])),
   xy-to-index => %(:is-symbol<pango_layout_xy_to_index>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint, gint-ptr, gint-ptr])),
 
   #--[Functions]----------------------------------------------------------------
-  #deserialize => %( :type(Function), :is-symbol<pango_layout_deserialize>,  :returns(N-Object), :parameters([UInt])),
+  #deserialize => %( :type(Function), :is-symbol<pango_layout_deserialize>,  :returns(N-Object), :parameters([ UInt, CArray[N-Error]])),
 );
 
 #-------------------------------------------------------------------------------
@@ -147,7 +148,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
       my Gnome::N::GnomeRoutineCaller $routine-caller .= new(
-        :library('libpango-1.0.so.0')
+        :library(pango-lib())
       );
 
       # Check the function name. 

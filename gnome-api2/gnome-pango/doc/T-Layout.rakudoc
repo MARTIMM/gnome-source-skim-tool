@@ -1,48 +1,71 @@
+=comment Package: Pango, C-Source: layout
 use v6.d;
 
 =begin pod
 =head1 Gnome::Pango::T-Layout
 =end pod
 
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 =begin pod
 =head1 Enumerations
 
 =head2 PangoAlignment
 
-I<PangoAlignment> describes how to align the lines of a B<Gnome::Pango::Layout>
+C<enumeration PangoAlignment defined in Gnome::Pango::T-Layout> describes how to align the lines of a B<Gnome::Pango::Layout>
 within the available space.
 
 If the B<Gnome::Pango::Layout> is set to justify using C<.set-justify()>,
 this only affects partial lines.
 
-See C<.set-auto-dir()> for how text direction affects the interpretation of I<PangoAlignment> values.=item C<PANGO_ALIGN_LEFT>; Put all available space on the right
+See C<.set-auto-dir()> for how text direction affects
+the interpretation of C<enumeration PangoAlignment defined in Gnome::Pango::T-Layout> values.
+=item C<PANGO_ALIGN_LEFT>; Put all available space on the right
 =item C<PANGO_ALIGN_CENTER>; Center the line within the available space
 =item C<PANGO_ALIGN_RIGHT>; Put all available space on the left
+
 =head2 PangoEllipsizeMode
 
-I<PangoEllipsizeMode> describes what sort of ellipsization should be applied to text.
+C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-Layout> describes what sort of ellipsization
+should be applied to text.
 
-In the ellipsization process characters are removed from the text in order to make it fit to a given width and replaced with an ellipsis.=item C<PANGO_ELLIPSIZE_NONE>; No ellipsization
+In the ellipsization process characters are removed from the
+text in order to make it fit to a given width and replaced
+with an ellipsis.
+=item C<PANGO_ELLIPSIZE_NONE>; No ellipsization
 =item C<PANGO_ELLIPSIZE_START>; Omit characters at the start of the text
 =item C<PANGO_ELLIPSIZE_MIDDLE>; Omit characters in the middle of the text
 =item C<PANGO_ELLIPSIZE_END>; Omit characters at the end of the text
+
 =head2 PangoLayoutDeserializeError
 
-Errors that can be returned by C<.Layout.deserialize()>.=item C<PANGO_LAYOUT_DESERIALIZE_INVALID>; Unspecified error
+Errors that can be returned by C<.Layout.deserialize()>.
+=item C<PANGO_LAYOUT_DESERIALIZE_INVALID>; Unspecified error
 =item C<PANGO_LAYOUT_DESERIALIZE_INVALID_VALUE>; A JSon value could not be
- interpreted
+  interpreted
 =item C<PANGO_LAYOUT_DESERIALIZE_MISSING_VALUE>; A required JSon member was
- not found
+  not found
+
 =head2 PangoWrapMode
 
-I<PangoWrapMode> describes how to wrap the lines of a B<Gnome::Pango::Layout>
+C<enumeration PangoWrapMode defined in Gnome::Pango::T-Layout> describes how to wrap the lines of a B<Gnome::Pango::Layout>
 to the desired width.
 
-For C<$PANGO_WRAP_WORD>, Pango uses break opportunities that are determined by the Unicode line breaking algorithm. For C<$PANGO_WRAP_CHAR>, Pango allows breaking at grapheme boundaries that are determined by the Unicode text segmentation algorithm.=item C<PANGO_WRAP_WORD>; wrap lines at word boundaries.
+For C<$PANGO_WRAP_WORD>, Pango uses break opportunities that are determined
+by the Unicode line breaking algorithm. For C<$PANGO_WRAP_CHAR>, Pango allows
+breaking at grapheme boundaries that are determined by the Unicode text
+segmentation algorithm.
+=item C<PANGO_WRAP_WORD>; wrap lines at word boundaries.
 =item C<PANGO_WRAP_CHAR>; wrap lines at character boundaries.
 =item C<PANGO_WRAP_WORD_CHAR>; wrap lines at word boundaries, but fall back to
- character boundaries if there is not enough space for a full word.
+  character boundaries if there is not enough space for a full word.
 =end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 =begin pod
 =head1 Bitfields
@@ -52,14 +75,17 @@ For C<$PANGO_WRAP_WORD>, Pango uses break opportunities that are determined by t
 Flags that influence the behavior of C<.Layout.deserialize()>.
 
 New members may be added to this enumeration over time.
+
 =item C<PANGO_LAYOUT_DESERIALIZE_DEFAULT>; Default behavior
 =item C<PANGO_LAYOUT_DESERIALIZE_CONTEXT>; Apply context information
- from the serialization to the I<PangoContext>
+  from the serialization to the B<Gnome::Pango::Context>
+
 =head2 PangoLayoutSerializeFlags
 
 Flags that influence the behavior of C<.serialize()>.
 
 New members may be added to this enumeration over time.
+
 =item C<PANGO_LAYOUT_SERIALIZE_DEFAULT>; Default behavior
 =item C<PANGO_LAYOUT_SERIALIZE_CONTEXT>; Include context information
 =item C<PANGO_LAYOUT_SERIALIZE_OUTPUT>; Include information about the formatted output

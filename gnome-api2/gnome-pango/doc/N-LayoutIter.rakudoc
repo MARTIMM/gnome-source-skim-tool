@@ -1,35 +1,40 @@
+=comment Package: Pango, C-Source: layout
 use v6.d;
-
-=begin pod
-=head1 Gnome::Pango::LayoutIter
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
-
-![](images/layoutiter.png)
+=head1 Gnome::Pango::N-LayoutIter
 
 =head1 Description
 
-A B<Gnome::Pango::LayoutIter> can be used to iterate over the visual
-extents of a I<PangoLayout>.
+A U<Gnome::Pango::N-LayoutIter> can be used to iterate over the visual
+extents of a B<Gnome::Pango::Layout>.
 
-To obtain a B<Gnome::Pango::LayoutIter>, use C<.get-iter() defined in Layout>.
+To obtain a U<Gnome::Pango::N-LayoutIter>, use C<.get-iter() in class Gnome::Pango::Layout>.
 
-The B<Gnome::Pango::LayoutIter> structure is opaque, and has no user-visible fields.
-=begin comment
-=head2 Uml Diagram
-![](plantuml/….svg)
-=end comment
+The U<Gnome::Pango::N-LayoutIter> structure is opaque, and has no user-visible fields.
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Pango::LayoutIter
+
 =end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-LayoutIter
+
+This is an opaque type of which fields are not available.
+
+  class N-LayoutIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
 =end pod
 
@@ -47,7 +52,6 @@ The B<Gnome::Pango::LayoutIter> structure is opaque, and has no user-visible fie
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
 
 =end pod
 
@@ -69,9 +73,14 @@ Determines whether C<$iter> is on the last line of the layout.
 method at-last-line (--> Bool )
 =end code
 
+Return value; C<True> if C<$iter> is on the last line. 
 
-Return value; %TRUE if C<$iter> is on the last line. 
+=begin comment
 
+=head2 Example
+# Example for at-last-line
+
+=end comment
 
 =end pod
 
@@ -79,15 +88,20 @@ Return value; %TRUE if C<$iter> is on the last line.
 =begin pod
 =head2 copy
 
-Copies a B<Gnome::Pango::LayoutIter>.
+Copies a U<Gnome::Pango::N-LayoutIter>.
 
 =begin code
 method copy (--> CArray[N-LayoutIter] )
 =end code
 
+Return value; the newly allocated U<Gnome::Pango::N-LayoutIter>. 
 
-Return value; the newly allocated B<Gnome::Pango::LayoutIter>. 
+=begin comment
 
+=head2 Example
+# Example for copy
+
+=end comment
 
 =end pod
 
@@ -101,6 +115,12 @@ Frees an iterator that's no longer in use.
 method free ( )
 =end code
 
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
 
 =end pod
 
@@ -108,7 +128,8 @@ method free ( )
 =begin pod
 =head2 get-baseline
 
-Gets the Y position of the current line's baseline, in layout coordinates.
+Gets the Y position of the current line's baseline, in layout
+coordinates.
 
 Layout coordinates have the origin at the top left of the entire layout.
 
@@ -116,15 +137,21 @@ Layout coordinates have the origin at the top left of the entire layout.
 method get-baseline (--> Int )
 =end code
 
-
 Return value; baseline of current line. 
 
+=begin comment
+
+=head2 Example
+# Example for get-baseline
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-char-extents
+This function is not yet available
 
 Gets the extents of the current character, in layout coordinates.
 
@@ -138,13 +165,21 @@ method get-char-extents ( CArray[N-Rectangle]  $logical-rect )
 =end code
 
 =item $logical-rect; rectangle to fill with
- logical extents.
+  logical extents.
+
+=begin comment
+
+=head2 Example
+# Example for get-char-extents
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-cluster-extents
+This function is not yet available
 
 Gets the extents of the current cluster, in layout coordinates.
 
@@ -157,6 +192,13 @@ method get-cluster-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]
 =item $ink-rect; rectangle to fill with ink extents.
 =item $logical-rect; rectangle to fill with logical extents.
 
+=begin comment
+
+=head2 Example
+# Example for get-cluster-extents
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -167,15 +209,21 @@ Gets the current byte index.
 
 Note that iterating forward by char moves in visual order,
 not logical order, so indexes may not be sequential. Also,
-the index may be equal to the length of the text in the layout, if on the %NULL run (see C<.get-run()>).
+the index may be equal to the length of the text in the
+layout, if on the undefined run (see C<.get-run()>).
 
 =begin code
 method get-index (--> Int )
 =end code
 
-
 Return value; current byte index. 
 
+=begin comment
+
+=head2 Example
+# Example for get-index
+
+=end comment
 
 =end pod
 
@@ -183,23 +231,29 @@ Return value; current byte index.
 =begin pod
 =head2 get-layout
 
-Gets the layout associated with a B<Gnome::Pango::LayoutIter>.
+Gets the layout associated with a U<Gnome::Pango::N-LayoutIter>.
 
 =begin code
 method get-layout (--> N-Object )
 =end code
 
-
 Return value; the layout associated with C<$iter>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-layout
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-layout-extents
+This function is not yet available
 
-Obtains the extents of the I<PangoLayout> being iterated over.
+Obtains the extents of the B<Gnome::Pango::Layout> being iterated over.
 
 =begin code
 method get-layout-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
@@ -207,6 +261,13 @@ method get-layout-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle] 
 
 =item $ink-rect; rectangle to fill with ink extents.
 =item $logical-rect; rectangle to fill with logical extents.
+
+=begin comment
+
+=head2 Example
+# Example for get-layout-extents
+
+=end comment
 
 =end pod
 
@@ -216,26 +277,36 @@ method get-layout-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle] 
 
 Gets the current line.
 
-Use the faster C<.get-line-readonly()> if you do not plan to modify the contents of the line (glyphs,
+Use the faster C<.get-line-readonly()> if
+you do not plan to modify the contents of the line (glyphs,
 glyph widths, etc.).
 
 =begin code
 method get-line (--> CArray[N-LayoutLine] )
 =end code
 
-
 Return value; the current line. 
 
+=begin comment
+
+=head2 Example
+# Example for get-line
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-line-extents
+This function is not yet available
 
 Obtains the extents of the current line.
 
-Extents are in layout coordinates (origin is the top-left corner of the entire I<PangoLayout>). Thus the extents returned by this function will be the same width/height but not at the same x/y as the extents returned from C<.get-extents() defined in LayoutLine>.
+Extents are in layout coordinates (origin is the top-left corner
+of the entire B<Gnome::Pango::Layout>). Thus the extents returned by this
+function will be the same width/height but not at the same x/y
+as the extents returned from C<.get-extents() in class Gnome::Pango::N-LayoutLine>.
 
 =begin code
 method get-line-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
@@ -243,6 +314,13 @@ method get-line-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $
 
 =item $ink-rect; rectangle to fill with ink extents.
 =item $logical-rect; rectangle to fill with logical extents.
+
+=begin comment
+
+=head2 Example
+# Example for get-line-extents
+
+=end comment
 
 =end pod
 
@@ -260,10 +338,15 @@ but the user is not expected to modify the contents of the line
 method get-line-readonly (--> CArray[N-LayoutLine] )
 =end code
 
-
 Return value; the current line, that should not be
- modified. 
+  modified. 
 
+=begin comment
+
+=head2 Example
+# Example for get-line-readonly
+
+=end comment
 
 =end pod
 
@@ -271,12 +354,17 @@ Return value; the current line, that should not be
 =begin pod
 =head2 get-line-yrange
 
-Divides the vertical space in the I<PangoLayout> being iterated over between the lines in the layout, and returns the space belonging to the current line.
+Divides the vertical space in the B<Gnome::Pango::Layout> being iterated over
+between the lines in the layout, and returns the space belonging to
+the current line.
 
-A line's range includes the line's logical extents. plus half of the spacing above and below the line, if C<.set-spacing() defined in Layout>
-has been called to set layout spacing. The Y positions are in layout coordinates (origin at top left of the entire layout).
+A line's range includes the line's logical extents. plus half of the
+spacing above and below the line, if C<.set-spacing() in class Gnome::Pango::Layout>
+has been called to set layout spacing. The Y positions are in layout
+coordinates (origin at top left of the entire layout).
 
-Note: Since 1.44, Pango uses line heights for placing lines, and there may be gaps between the ranges returned by this function.
+Note: Since 1.44, Pango uses line heights for placing lines, and there
+may be gaps between the ranges returned by this function.
 
 =begin code
 method get-line-yrange ( Array[Int] $y0, Array[Int] $y1 )
@@ -285,23 +373,40 @@ method get-line-yrange ( Array[Int] $y0, Array[Int] $y1 )
 =item $y0; (transfer ownership: full) start of line.
 =item $y1; (transfer ownership: full) end of line.
 
+=begin comment
+
+=head2 Example
+# Example for get-line-yrange
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-run
+This function is not yet available
 
 Gets the current run.
 
-When iterating by run, at the end of each line, there's a position with a %NULL run, so this function can return %NULL. The %NULL run at the end of each line ensures that all lines have at least one run,
+When iterating by run, at the end of each line, there's a position
+with a undefined run, so this function can return undefined. The undefined run
+at the end of each line ensures that all lines have at least one run,
 even lines consisting of only a newline.
 
-Use the faster C<.get-run-readonly()> if you do not plan to modify the contents of the run (glyphs, glyph widths, etc.).
+Use the faster C<.get-run-readonly()> if you do not
+plan to modify the contents of the run (glyphs, glyph widths, etc.).
 
 =begin code
 method get-run ( )
 =end code
 
+=begin comment
+
+=head2 Example
+# Example for get-run
+
+=end comment
 
 =end pod
 
@@ -309,25 +414,33 @@ method get-run ( )
 =begin pod
 =head2 get-run-baseline
 
-Gets the Y position of the current run's baseline, in layout coordinates.
+Gets the Y position of the current run's baseline, in layout
+coordinates.
 
 Layout coordinates have the origin at the top left of the entire layout.
 
-The run baseline can be different from the line baseline, for example due to superscript or subscript positioning.
+The run baseline can be different from the line baseline, for
+example due to superscript or subscript positioning.
 
 =begin code
 method get-run-baseline (--> Int )
 =end code
 
-
 Return value; No documentation about its value and use. 
 
+=begin comment
+
+=head2 Example
+# Example for get-run-baseline
+
+=end comment
 
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-run-extents
+This function is not yet available
 
 Gets the extents of the current run in layout coordinates.
 
@@ -340,15 +453,25 @@ method get-run-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $l
 =item $ink-rect; rectangle to fill with ink extents.
 =item $logical-rect; rectangle to fill with logical extents.
 
+=begin comment
+
+=head2 Example
+# Example for get-run-extents
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-run-readonly
+This function is not yet available
 
 Gets the current run for read-only access.
 
-When iterating by run, at the end of each line, there's a position with a %NULL run, so this function can return %NULL. The %NULL run at the end of each line ensures that all lines have at least one run,
+When iterating by run, at the end of each line, there's a position
+with a undefined run, so this function can return undefined. The undefined run
+at the end of each line ensures that all lines have at least one run,
 even lines consisting of only a newline.
 
 This is a faster alternative to C<.get-run()>,
@@ -359,6 +482,12 @@ glyph widths, etc.).
 method get-run-readonly ( )
 =end code
 
+=begin comment
+
+=head2 Example
+# Example for get-run-readonly
+
+=end comment
 
 =end pod
 
@@ -368,15 +497,20 @@ method get-run-readonly ( )
 
 Moves C<$iter> forward to the next character in visual order.
 
-If C<$iter> was already at the end of the layout, returns %FALSE.
+If C<$iter> was already at the end of the layout, returns C<False>.
 
 =begin code
 method next-char (--> Bool )
 =end code
 
-
 Return value; whether motion was possible. 
 
+=begin comment
+
+=head2 Example
+# Example for next-char
+
+=end comment
 
 =end pod
 
@@ -386,15 +520,20 @@ Return value; whether motion was possible.
 
 Moves C<$iter> forward to the next cluster in visual order.
 
-If C<$iter> was already at the end of the layout, returns %FALSE.
+If C<$iter> was already at the end of the layout, returns C<False>.
 
 =begin code
 method next-cluster (--> Bool )
 =end code
 
-
 Return value; whether motion was possible. 
 
+=begin comment
+
+=head2 Example
+# Example for next-cluster
+
+=end comment
 
 =end pod
 
@@ -404,15 +543,20 @@ Return value; whether motion was possible.
 
 Moves C<$iter> forward to the start of the next line.
 
-If C<$iter> is already on the last line, returns %FALSE.
+If C<$iter> is already on the last line, returns C<False>.
 
 =begin code
 method next-line (--> Bool )
 =end code
 
-
 Return value; whether motion was possible. 
 
+=begin comment
+
+=head2 Example
+# Example for next-line
+
+=end comment
 
 =end pod
 
@@ -422,15 +566,20 @@ Return value; whether motion was possible.
 
 Moves C<$iter> forward to the next run in visual order.
 
-If C<$iter> was already at the end of the layout, returns %FALSE.
+If C<$iter> was already at the end of the layout, returns C<False>.
 
 =begin code
 method next-run (--> Bool )
 =end code
 
-
 Return value; whether motion was possible. 
 
+=begin comment
+
+=head2 Example
+# Example for next-run
+
+=end comment
 
 =end pod
 

@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Pango Layout
+=comment Package: Pango, C-Source: layout
 use v6.d;
 
 #TL:1:Gnome::Pango::N-LayoutLine:
@@ -15,7 +15,8 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::N-LayoutLine:api<2>;
-#use Gnome::Pango::T-Direction:api<2>;
+use Gnome::Pango::N-Rectangle:api<2>;
+use Gnome::Pango::T-Direction:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
@@ -48,16 +49,16 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $layoutline {
-    my Array[Int] $trailing;
     my Int() $start-index;
-    my N-Object $ink-rect;
-    my N-Object $logical-rect;
-    my Array[Int] $height;
-    my Array[Int] $n-ranges;
-    my Array[Int] $ranges;
-    my Int() $x-pos;
     my Int() $end-index;
     my Array[Int] $index;
+    my Array[Int] $ranges;
+    my CArray[N-Rectangle]  $logical-rect;
+    my Array[Int] $trailing;
+    my Int() $x-pos;
+    my Array[Int] $n-ranges;
+    my Array[Int] $height;
+    my CArray[N-Rectangle]  $ink-rect;
 
 
 #`{{

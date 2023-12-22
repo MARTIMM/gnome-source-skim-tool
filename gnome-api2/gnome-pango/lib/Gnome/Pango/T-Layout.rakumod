@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -c Pango layout
+=comment Package: Pango, C-Source: layout
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------

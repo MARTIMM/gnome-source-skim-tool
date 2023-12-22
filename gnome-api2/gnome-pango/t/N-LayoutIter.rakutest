@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Pango Layout
+=comment Package: Pango, C-Source: layout
 use v6.d;
 
 #TL:1:Gnome::Pango::N-LayoutIter:
@@ -15,6 +15,8 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::N-LayoutIter:api<2>;
+use Gnome::Pango::N-LayoutLine:api<2>;
+use Gnome::Pango::N-Rectangle:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
@@ -47,9 +49,9 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $layoutiter {
-    my N-Object $ink-rect;
     my Array[Int] $y0;
-    my N-Object $logical-rect;
+    my CArray[N-Rectangle]  $ink-rect;
+    my CArray[N-Rectangle]  $logical-rect;
     my Array[Int] $y1;
 
 
