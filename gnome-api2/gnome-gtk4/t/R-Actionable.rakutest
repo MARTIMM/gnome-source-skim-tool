@@ -9,7 +9,7 @@ use NativeCall;
 use Test;
 
 use Gnome::Gtk4::Button:api<2>;
-use Gnome::Glib::Variant:api<2>;
+use Gnome::Glib::N-Variant:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -34,7 +34,7 @@ subtest 'Method tests', {
     my Str $action-name;
     my Str $detailed-action-name;
 #    my N-Object $target-value;
-    my Gnome::Glib::Variant $target-value;
+    my Gnome::Glib::N-Variant $target-value;
 
     #TM:1:set-detailed-action-name()
     $detailed-action-name = 'app.text';

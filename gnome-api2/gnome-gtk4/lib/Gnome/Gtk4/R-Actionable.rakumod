@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 actionable
+=comment Package: Gtk4, C-Source: actionable
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -29,12 +29,12 @@ unit role Gnome::Gtk4::R-Actionable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-action-name => %( :returns(Str)),
-  get-action-target-value => %( :returns(N-Variant)),
-  set-action-name => %( :parameters([Str])),
-  #set-action-target => %(:variable-list,  :parameters([Str])),
-  set-action-target-value => %( :parameters([N-Variant])),
-  set-detailed-action-name => %( :parameters([Str])),
+  get-action-name => %(:is-symbol<gtk_actionable_get_action_name>,  :returns(Str)),
+  get-action-target-value => %(:is-symbol<gtk_actionable_get_action_target_value>,  :returns(N-Variant)),
+  set-action-name => %(:is-symbol<gtk_actionable_set_action_name>,  :parameters([Str])),
+  set-action-target => %(:is-symbol<gtk_actionable_set_action_target>, :variable-list,  :parameters([Str])),
+  set-action-target-value => %(:is-symbol<gtk_actionable_set_action_target_value>,  :parameters([N-Variant])),
+  set-detailed-action-name => %(:is-symbol<gtk_actionable_set_detailed_action_name>,  :parameters([Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ method _fallback-v2 (
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'gtk_actionable_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }
