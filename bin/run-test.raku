@@ -22,7 +22,6 @@ my Hash $test-location = %(
 # Test testfile found in standard locations */t
 multi sub MAIN ( Str $distro, Str $t ) {
   my Str $test-file;
-
   $test-file = "$API2MODS/$test-location{$distro}/t/$t.rakutest";
   run-test( $distro, $test-file);
 }
@@ -30,9 +29,7 @@ multi sub MAIN ( Str $distro, Str $t ) {
 #-------------------------------------------------------------------------------
 # --y load documentation example yaml file to see if it can be loaded correctly
 multi sub MAIN ( Str $distro, Str $t, Bool :$y! ) {
-
   my Str $test-file;
-  
   $test-file = "$API2MODS/$test-location{$distro}/doc/code-sections/$t.yaml";
   my Hash $h = load-yaml($test-file.IO.slurp);
   Gnome::SourceSkimTool::Prepare.display-hash(
@@ -44,42 +41,34 @@ multi sub MAIN ( Str $distro, Str $t, Bool :$y! ) {
 # --c compile module to see if there are problems when there is no test file
 multi sub MAIN ( Str $distro, Str $t, Bool :$c! ) {
   my Str $test-file;
-
   $test-file = "$API2MODS/$test-location{$distro}/lib/Gnome/$distro/$t.rakumod";
-  run-test( $distro, $test-file);
+  run-test( $distro, $test-file, :show-stats);
 }
 
 #-------------------------------------------------------------------------------
-multi sub MAIN ( Str $xt, Bool :$d = False ) {
+# --p test all files in test directory with prove
+multi sub MAIN ( Str $distro, Bool :$p!, Bool :$v = False, Bool :$t = True ) {
+  set-paths($distro);
+  my Str $test-dir = "$API2MODS/$test-location{$distro}/t";
+  my Str $verbose = $v ?? '-v' !! '';
+  my Str $timer = $t ?? '--timer' !! '';
+  my Str $cmd = "prove6 $verbose $timer '$test-dir'";
+  shell $cmd;
+}
 
-  # xt holds path name to either Ctk3 or Gtk4 in the xt dir
-  my Str $gtk-v = ($xt ~~ / '3' /) ?? '3' !! '4';
+#-------------------------------------------------------------------------------
+multi sub MAIN ( Str $program-path, Bool :$d = False ) {
 
-  # Paths to find by Raku
-  my @pth = ();
-  @pth = (
-    "$API2MODS/gnome-native/lib",
-    "$API2MODS/gnome-glib/lib",
-    "$API2MODS/gnome-gobject/lib",
-    "$API2MODS/gnome-gio/lib",
-    "$API2MODS/gnome-pango/lib",
-    "$API2MODS/gnome-cairo/lib",
-    "$API2MODS/gnome-atk/lib",
-    "$API2MODS/gnome-gtk$gtk-v/lib",
-    "$API2MODS/gnome-gdk$gtk-v/lib",
-  );
+  # Test if path has an a 3 in it, then test for Gtk3. Otherwise assume Gtk4.
+  my Str $distro = $program-path ~~ m/ '3' / ?? 'Gtk3' !! 'Gtk4';
+  set-paths($distro);
 
-  %*ENV<RAKULIB> = @pth.join(',');
-
-  @pth.push: "$API2MODS/gnome-gsk4/lib" if $gtk-v eq '4';
-  %*ENV<RAKULIB> = @pth.join(',');
-
-  my $log = $xt.IO.basename;
+  # Programs are timed and stored in log files
+  my $log = $program-path.IO.basename;
   $log ~~ s/ \. <-[.]>+ $/-log.md/;
-  my Str $path = $xt.IO.dirname ~ '/log/';
+  my Str $path = $program-path.IO.dirname ~ '/log/';
   mkdir $path, 0o750 unless $path.IO.e;
   $log = $path ~ $log;
-#note 'log: ', $log;
 
   $log.IO.spurt(
     'Elapsed time | User time| Kernel time | Cpu % | Notes' ~
@@ -91,83 +80,88 @@ multi sub MAIN ( Str $xt, Bool :$d = False ) {
 
   my Str $cmd;
   if $d {
-    $cmd = "$time-cmd raku-debug '$xt'";
+    $cmd = "$time-cmd raku-debug '$program-path'";
   }
 
   else {
-    $cmd = "$time-cmd rakudo '$xt'";
+    $cmd = "$time-cmd rakudo '$program-path'";
   }
 
   my Proc $p = shell $cmd;
 }
 
-
 #-------------------------------------------------------------------------------
-sub run-test ( Str $distro, Str $test-file ) {
+sub run-test ( Str $distro, Str $test-file, Bool :$show-stats = False ) {
   if $test-location{$distro}:exists and $test-file.IO.r {
-    my Str $gtk-v = '';
-    $gtk-v = '3' if $distro ~~ / 3 /;
-    $gtk-v = '4' if $distro ~~ / 4 /;
-    $gtk-v = 'PC' if $distro ~~ / Pango || Cairo /;
+    set-paths($distro);
 
-    # Paths to find by Raku
-    my @pth;
-    given $gtk-v {
-      when '3' {
-        @pth = (
-          "$API2MODS/gnome-native/lib",
-          "$API2MODS/gnome-glib/lib",
-          "$API2MODS/gnome-gobject/lib",
-          "$API2MODS/gnome-gio/lib",
-          "$API2MODS/gnome-pango/lib",
-          "$API2MODS/gnome-cairo/lib",
-          "$API2MODS/gnome-atk/lib",
-          "$API2MODS/gnome-gtk3/lib",
-          "$API2MODS/gnome-gdk3/lib",
-        );
-      }
-
-      when '4' {
-        @pth = (
-          "$API2MODS/gnome-native/lib",
-          "$API2MODS/gnome-glib/lib",
-          "$API2MODS/gnome-gobject/lib",
-          "$API2MODS/gnome-gio/lib",
-          "$API2MODS/gnome-pango/lib",
-          "$API2MODS/gnome-cairo/lib",
-          "$API2MODS/gnome-atk/lib",
-          "$API2MODS/gnome-gtk4/lib",
-          "$API2MODS/gnome-gdk4/lib",
-          "$API2MODS/gnome-gsk4/lib",
-        );
-      }
-
-      when 'PC' {
-        @pth = (
-          "$API2MODS/gnome-native/lib",
-          "$API2MODS/gnome-glib/lib",
-          "$API2MODS/gnome-gobject/lib",
-          "$API2MODS/gnome-gio/lib",
-          "$API2MODS/gnome-pango/lib",
-          "$API2MODS/gnome-cairo/lib",
-        );
-      }
-
-      default {
-        @pth = (
-          "$API2MODS/gnome-native/lib",
-          "$API2MODS/gnome-glib/lib",
-          "$API2MODS/gnome-gobject/lib",
-          "$API2MODS/gnome-gio/lib",
-        );
-      }
-    }
-
-    %*ENV<RAKULIB> = @pth.join(',');
-
-    my Str $cmd = "rakudo --stagestats '$test-file'";
+    my Str $stsopt = $show-stats ?? '--stagestats' !! '';
+    my Str $cmd = "rakudo $stsopt '$test-file'";
     my Proc $p = shell $cmd;   #, :out, :err;
 #    note $p.out.slurp;#: :close;
 #    note $p.err.slurp;#: :close;
   }
+}
+
+#-------------------------------------------------------------------------------
+sub set-paths ( Str $distro ) {
+  my Str $gtk-v = '';
+  $gtk-v = '3' if $distro ~~ / 3 /;
+  $gtk-v = '4' if $distro ~~ / 4 /;
+  $gtk-v = 'PC' if $distro ~~ / Pango || Cairo /;
+
+  # Paths to find by Raku
+  my @pth;
+  given $gtk-v {
+    when '3' {
+      @pth = (
+        "$API2MODS/gnome-native/lib",
+        "$API2MODS/gnome-glib/lib",
+        "$API2MODS/gnome-gobject/lib",
+        "$API2MODS/gnome-gio/lib",
+        "$API2MODS/gnome-pango/lib",
+        "$API2MODS/gnome-cairo/lib",
+        "$API2MODS/gnome-atk/lib",
+        "$API2MODS/gnome-gtk3/lib",
+        "$API2MODS/gnome-gdk3/lib",
+      );
+    }
+
+    when '4' {
+      @pth = (
+        "$API2MODS/gnome-native/lib",
+        "$API2MODS/gnome-glib/lib",
+        "$API2MODS/gnome-gobject/lib",
+        "$API2MODS/gnome-gio/lib",
+        "$API2MODS/gnome-pango/lib",
+        "$API2MODS/gnome-cairo/lib",
+        "$API2MODS/gnome-atk/lib",
+        "$API2MODS/gnome-gtk4/lib",
+        "$API2MODS/gnome-gdk4/lib",
+        "$API2MODS/gnome-gsk4/lib",
+      );
+    }
+
+    when 'PC' {
+      @pth = (
+        "$API2MODS/gnome-native/lib",
+        "$API2MODS/gnome-glib/lib",
+        "$API2MODS/gnome-gobject/lib",
+        "$API2MODS/gnome-gio/lib",
+        "$API2MODS/gnome-pango/lib",
+        "$API2MODS/gnome-cairo/lib",
+      );
+    }
+
+    default {
+      @pth = (
+        "$API2MODS/gnome-native/lib",
+        "$API2MODS/gnome-glib/lib",
+        "$API2MODS/gnome-gobject/lib",
+        "$API2MODS/gnome-gio/lib",
+      );
+    }
+  }
+
+  %*ENV<RAKULIB> = @pth.join(',');
 }
