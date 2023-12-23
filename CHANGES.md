@@ -68,7 +68,8 @@ find . -name '*.raku*' | xargs wc -l
 
 # Release notes
 * 2023-12-22 0.13.2
-  * Tried to find out how to inherit from Gtk classes. Needed to make a few small changes in the **Gnome::N::GnomeRoutineCaller** module and in the classes `_fallback-v2()` methods, it is possible to just do it in more simpler way than it was done in the api<1> version. To show a little example where user options can be provided;
+  * Tried to find out how to inherit from Gtk classes. Needed to make a few small changes in the **Gnome::N::GnomeRoutineCaller** module and in the classes `_fallback-v2()` methods,. I found it possible to just do that in a more simpler way than it was done in the api<1> version.
+    Below a little example to show where user options can be provided;
     ```
     use Gnome::Gtk4::Label:api<2>;
     use Gnome::Gtk4::T-Enums:api<2>;
@@ -98,8 +99,11 @@ find . -name '*.raku*' | xargs wc -l
     note "line-wrap: ", $t2.get-wrap;               # line-wrap: False
     note "margin top: ", $t2.get-margin-top;        # margin top: 10
     ```
+    Note that options are only useful in constructor methods, those with `new` in the name. For other methods and functions, the options are ignored.
 
-    Must still mention that the information in such a class is not saved when the native object is given to some native routine and later retrieved using another routine to rebuild the raku object with something like `$my-label .= new(:$native-object)`. Extra steps are needed to accomplish that.
+    Must still mention that the information in such a class is not saved when the native object hiding in the class, is given to some native routine and later retrieved using another routine to rebuild the raku object with something like `$my-label .= new(:$native-object)`. Extra steps are needed to accomplish that.
+
+    Now all existing classes must be changed 😦. I'll start with the Gtk4 classes. Newly generated classes will have this inherit possibility.
 
 * 2023-12-20 0.13.1
   * GnomeRoutineCaller helpers will not return Lists anymore when there were any pointers (like CArray[]) where data is placed by called native routines. It was already needed to provide any pointers to the native routines.
