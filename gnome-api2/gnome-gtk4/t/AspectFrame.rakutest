@@ -40,8 +40,8 @@ subtest 'ISA test', {
     $obey-child = False;
     $aspectframe .= new-aspectframe( $xalign, $yalign, $ratio, $obey-child);
     ok .is-valid, '.new-aspectframe( $xalign, $yalign, $ratio, $obey-child)';
-note 'xalign: ', .get-xalign;
-note 'yalign: ', .get-yalign;
+note 'xalign:                            ', .get-xalign;
+note 'yalign == xalign is bug in Gnome!: ', .get-yalign;
   }
 };
 
