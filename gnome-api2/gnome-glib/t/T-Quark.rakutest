@@ -24,25 +24,25 @@ my Gnome::Glib::T-Quark $quark .= new;
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $quark {
-    my GQuark $quark;
+    my GQuark ( $q1, $q2);
     my Str $string = 'my string';
 
-
     #TM:1:try-string()
-    $quark = .try-string($string);
-    is $quark, 0, '.try-string()';    # not found
-    $quark = .from-string($string);   # set
-    is $quark, 1, '.from-string()';
-    $quark = .try-string($string);    # found
-    is $quark, 1, '.try-string()';
+    $q1 = .try-string($string);
+    is $q1, 0, '.try-string()';    # not found
 
-    #TM:0:to-string()
-    is .to-string($quark), $string, '.to-string()';
+    #TM:1:from-string()
+    $q1 = .from-string($string);   # set
+    ok $q1 > 0, '.from-string(): ' ~ $q1.Str;
+    $q2 = .try-string($string);    # found
+    is $q2, $q1, '.try-string()';
 
-    #TM:0:from-string()
+    #TM:1:to-string()
+    is .to-string($q2), $string, '.to-string()';
+
     $string = 'my 2nd string';
-    $quark = .from-string($string);
-    is .to-string($quark), $string, '.from-string()';
+    $q1 = .from-string($string);
+    is .to-string($q1), $string, '.from-string(): ' ~ $q1.Str;
 
 #`{{
     #TM:0:from-static-string()
