@@ -5,17 +5,15 @@ use Gnome::Gtk4::T-Enums:api<2>;
 
 
 class MyLabel is Gnome::Gtk4::Label {
-  submethod BUILD ( *%options ) {
-note "$?LINE %options.gist()";
-
+  submethod BUILD ( Bool :$lw = False, Bool :$he = False, Int :$mt = 5 ) {
     with self {
-      .set-use-markup(%options<do-markup>:exists);
-      .set-hexpand(?%options<he>);
-      .set-wrap(?%options<lw>);
+      .set-use-markup(True);
+      .set-hexpand($he);
+      .set-wrap($lw);
       .set-justify(GTK_JUSTIFY_FILL);
       .set-halign(GTK_ALIGN_START);
       .set-valign(GTK_ALIGN_START);
-      .set-margin-top((%options<mt> // 5).Int);
+      .set-margin-top($mt);
       .set-margin-start(2);
 
 #      Gnome::Gtk4::StyleContext.new(
