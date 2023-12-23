@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c Gtk4 buildable
+=comment Package: Gtk4, C-Source: buildable
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ unit role Gnome::Gtk4::R-Buildable:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-buildable-id => %( :returns(Str)),
+  get-buildable-id => %(:is-symbol<gtk_buildable_get_buildable_id>,  :returns(Str)),
 );
 
 #-------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ method _fallback-v2 (
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'gtk_buildable_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }
