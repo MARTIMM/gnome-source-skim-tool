@@ -1,0 +1,140 @@
+=comment Package: Gtk4, C-Source: border
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::N-Border
+
+![](images/border.png)
+
+=head1 Description
+
+A struct that specifies a border around a rectangular area.
+
+Each side can have different width.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Border
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Border
+
+  class N-Border:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gint16 $.left;
+    has gint16 $.right;
+    has gint16 $.top;
+    has gint16 $.bottom;
+  }
+
+=item left; The width of the left border
+=item right; The width of the right border
+=item top; The width of the top border
+=item bottom; The width of the bottom border
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-border
+
+Allocates a new U<Gnome::Gtk4::N-Border> struct and initializes its elements to zero.
+
+=begin code
+method new-border ( --> Gnome::Gtk4::Border \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-border
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Copies a U<Gnome::Gtk4::N-Border>.
+
+=begin code
+method copy (--> CArray[N-Border] )
+=end code
+
+Return value; a copy of C<$border_>.. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees a U<Gnome::Gtk4::N-Border>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
