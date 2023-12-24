@@ -21,7 +21,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-AttrList:api<2>;
-#use Gnome::Pango::N-TabArray:api<2>;
+use Gnome::Pango::N-TabArray:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
@@ -77,7 +77,7 @@ subtest 'Method tests', {
     my gboolean $setting;
     my GtkEntryIconPosition $icon-pos;
     my gint $x;
-    my N-AttrList  $attrs;
+#    my N-AttrList  $attrs;
     my N-Object $model;
     my gboolean $visible;
     my gboolean $overwrite;
