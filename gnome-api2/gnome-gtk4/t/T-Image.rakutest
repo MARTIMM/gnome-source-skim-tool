@@ -1,0 +1,43 @@
+=comment Package: Gtk4, C-Source: image
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Image:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Image:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-Image:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkImageType
+subtest 'GtkImageType', {
+  is GTK_IMAGE_EMPTY.value, 0, 'enum GTK_IMAGE_EMPTY = 0';
+
+  is GTK_IMAGE_ICON_NAME.value, 1, 'enum GTK_IMAGE_ICON_NAME = 1';
+
+  is GTK_IMAGE_GICON.value, 2, 'enum GTK_IMAGE_GICON = 2';
+
+  is GTK_IMAGE_PAINTABLE.value, 3, 'enum GTK_IMAGE_PAINTABLE = 3';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

@@ -1,0 +1,250 @@
+=comment Package: Gtk4, C-Source: image
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Image:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Image:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-Image:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Image $image;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $image {
+    my Str $resource-path;
+    my N-Object $icon;
+    my Str $icon-name;
+    my  $pixbuf;
+    my Str $filename;
+    my N-Object $paintable;
+
+#`{{
+    #TC:0:new-image()
+
+    $image .= new-image();
+    ok .is-valid, '.new-image()';
+
+    #TC:0:new-from-file()
+    $filename = 'text';
+    $image .= new-from-file( $filename);
+    ok .is-valid, '.new-from-file( $filename)';
+
+    #TC:0:new-from-gicon()
+    $icon = …;
+    $image .= new-from-gicon( $icon);
+    ok .is-valid, '.new-from-gicon( $icon)';
+
+    #TC:0:new-from-icon-name()
+    $icon-name = 'text';
+    $image .= new-from-icon-name( $icon-name);
+    ok .is-valid, '.new-from-icon-name( $icon-name)';
+
+    #TC:0:new-from-paintable()
+    $paintable = …;
+    $image .= new-from-paintable( $paintable);
+    ok .is-valid, '.new-from-paintable( $paintable)';
+
+    #TC:0:new-from-pixbuf()
+    $pixbuf = '…';
+    $image .= new-from-pixbuf( $pixbuf);
+    ok .is-valid, '.new-from-pixbuf( $pixbuf)';
+
+    #TC:0:new-from-resource()
+    $resource-path = 'text';
+    $image .= new-from-resource( $resource-path);
+    ok .is-valid, '.new-from-resource( $resource-path)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $image {
+    my gint $pixel-size;
+    my N-Object $paintable;
+    my Str $filename;
+    my N-Object $icon;
+    my Str $resource-path;
+    my  $pixbuf;
+    my Str $icon-name;
+    my GtkIconSize $icon-size;
+
+
+#`{{
+    #TM:0:clear()
+    ok .clear(), '.clear()';
+
+    #TM:0:get-gicon()
+     .get-gicon(), '…', '.get-gicon()';
+
+    #TM:0:get-icon-name()
+     .get-icon-name(), '…', '.get-icon-name()';
+
+    #TM:0:get-paintable()
+     .get-paintable(), '…', '.get-paintable()';
+
+    #TM:0:get-storage-type()
+     .get-storage-type(), '…', '.get-storage-type()';
+
+    #TM:0:set-from-file()
+    $filename = 'text';
+    .set-from-file( $filename);
+    ok True, '.set-from-file()';
+
+    #TM:0:set-from-gicon()
+    $icon = …;
+    .set-from-gicon( $icon);
+    ok True, '.set-from-gicon()';
+
+    #TM:0:set-from-icon-name()
+    $icon-name = 'text';
+    .set-from-icon-name( $icon-name);
+    ok True, '.set-from-icon-name()';
+
+    #TM:0:set-from-paintable()
+    $paintable = …;
+    .set-from-paintable( $paintable);
+    ok True, '.set-from-paintable()';
+
+    #TM:0:set-from-pixbuf()
+    $pixbuf = '…';
+    .set-from-pixbuf( $pixbuf);
+    ok True, '.set-from-pixbuf()';
+
+    #TM:0:set-from-resource()
+    $resource-path = 'text';
+    .set-from-resource( $resource-path);
+    ok True, '.set-from-resource()';
+
+    #TM:0:set-icon-size()
+    $icon-size = …;
+    .set-icon-size( $icon-size);
+    #TM:0:get-icon-size()
+    is .get-icon-size(),  $icon-size, '.set-icon-size() / .get-icon-size()';
+
+    #TM:0:set-pixel-size()
+    $pixel-size = '…';
+    .set-pixel-size( $pixel-size);
+    #TM:0:get-pixel-size()
+    is .get-pixel-size(),  $pixel-size, '.set-pixel-size() / .get-pixel-size()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $image {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Image() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Image;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Image :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Image $image .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $image.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

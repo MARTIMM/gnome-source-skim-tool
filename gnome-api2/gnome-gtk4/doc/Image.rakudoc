@@ -1,0 +1,650 @@
+=comment Package: Gtk4, C-Source: image
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Image
+
+![](images/image.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::Image> widget displays an image.
+
+![An example GtkImage](image.png)
+
+Various kinds of object can be displayed as an image; most typically,
+you would load a B<Gnome::Gdk4::Texture> from a file, using the convenience function
+C<.new-from-file()>, for instance:
+
+=begin comment
+GtkWidget *image = gtk_image_new_from_file ("myfile.png");
+
+=end comment
+
+If the file isn’t loaded successfully, the image will contain a
+“broken image” icon similar to that used in many web browsers.
+
+If you want to handle errors in loading the file yourself,
+for example by displaying an error message, then load the image with
+C<.new-from-file() in class Gnome::Gdk4::Texture>, then create the B<Gnome::Gtk4::Image> with
+C<.new-from-paintable()>.
+
+Sometimes an application will want to avoid depending on external data
+files, such as image files. See the documentation of U<Gnome::Gio::N-Resource> inside
+GIO, for details. In this case, I<resource>,
+C<.new-from-resource()>, and C<.set-from-resource()>
+should be used.
+
+B<Gnome::Gtk4::Image> displays its image as an icon, with a size that is determined
+by the application. See B<Gnome::Gtk4::Picture> if you want to show an image
+at is actual size.
+
+=head3 CSS nodes
+
+B<Gnome::Gtk4::Image> has a single CSS node with the name B<image>. The style classes
+B<.normal-icons> or B<.large-icons> may appear, depending on the
+I<icon-size> property.
+
+=head3 Accessibility
+
+B<Gnome::Gtk4::Image> uses the B<GTK_ACCESSIBLE_ROLE_IMG> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Image
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-image
+
+Creates a new empty B<Gnome::Gtk4::Image> widget.
+
+=begin code
+method new-image ( --> Gnome::Gtk4::Image \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-image
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-file
+
+Creates a new B<Gnome::Gtk4::Image> displaying the file C<$filename>.
+
+If the file isn’t found or can’t be loaded, the resulting B<Gnome::Gtk4::Image>
+will display a “broken image” icon. This function never returns undefined,
+it always returns a valid B<Gnome::Gtk4::Image> widget.
+
+If you need to detect failures to load the file, use
+C<.new-from-file() in class Gnome::Gdk4::Texture> to load the file yourself,
+then create the B<Gnome::Gtk4::Image> from the texture.
+
+The storage type (see C<.get-storage-type()>)
+of the returned image is not defined, it will be whatever
+is appropriate for displaying the file.
+
+=begin code
+method new-from-file ( Str $filename --> Gnome::Gtk4::Image \)
+=end code
+
+=item $filename; a filename.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-gicon
+
+Creates a B<Gnome::Gtk4::Image> displaying an icon from the current icon theme.
+
+If the icon name isn’t known, a “broken image” icon will be
+displayed instead. If the current icon theme is changed, the icon
+will be updated appropriately.
+
+=begin code
+method new-from-gicon ( N-Object() $icon --> Gnome::Gtk4::Image \)
+=end code
+
+=item $icon; an icon.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-gicon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-icon-name
+
+Creates a B<Gnome::Gtk4::Image> displaying an icon from the current icon theme.
+
+If the icon name isn’t known, a “broken image” icon will be
+displayed instead. If the current icon theme is changed, the icon
+will be updated appropriately.
+
+=begin code
+method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Image \)
+=end code
+
+=item $icon-name; an icon name.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-icon-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-paintable
+
+Creates a new B<Gnome::Gtk4::Image> displaying C<$paintable>.
+
+The B<Gnome::Gtk4::Image> does not assume a reference to the paintable; you still
+need to unref it if you own references. B<Gnome::Gtk4::Image> will add its own
+reference rather than adopting yours.
+
+The B<Gnome::Gtk4::Image> will track changes to the C<$paintable> and update
+its size and contents in response to it.
+
+=begin code
+method new-from-paintable ( N-Object() $paintable --> Gnome::Gtk4::Image \)
+=end code
+
+=item $paintable; a U<Gnome::Gdk4::R-Paintable>.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-pixbuf
+This function is not yet available
+
+Creates a new B<Gnome::Gtk4::Image> displaying C<$pixbuf>.
+
+The B<Gnome::Gtk4::Image> does not assume a reference to the pixbuf; you still
+need to unref it if you own references. B<Gnome::Gtk4::Image> will add its own
+reference rather than adopting yours.
+
+This is a helper for C<.new-from-paintable()>, and you can't
+get back the exact pixbuf once this is called, only a texture.
+
+Note that this function just creates an B<Gnome::Gtk4::Image> from the pixbuf.
+The B<Gnome::Gtk4::Image> created will not react to state changes. Should you
+want that, you should use C<.new-from-icon-name()>.
+
+=begin code
+method new-from-pixbuf ( … --> Gnome::Gtk4::Image \)
+=end code
+
+=item pixbuf; a B<GdkPixbuf>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-from-pixbuf
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-resource
+
+Creates a new B<Gnome::Gtk4::Image> displaying the resource file C<$resource_path>.
+
+If the file isn’t found or can’t be loaded, the resulting B<Gnome::Gtk4::Image> will
+display a “broken image” icon. This function never returns undefined,
+it always returns a valid B<Gnome::Gtk4::Image> widget.
+
+If you need to detect failures to load the file, use
+C<.new-from-file() in class Gnome::Gtk4::Image> to load the file yourself,
+then create the B<Gnome::Gtk4::Image> from the pixbuf.
+
+The storage type (see C<.get-storage-type()>) of
+the returned image is not defined, it will be whatever is
+appropriate for displaying the file.
+
+=begin code
+method new-from-resource ( Str $resource-path --> Gnome::Gtk4::Image \)
+=end code
+
+=item $resource-path; a resource path.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-resource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear
+
+Resets the image to be empty.
+
+=begin code
+method clear ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for clear
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-gicon
+
+Gets the U<Gnome::Gio::R-Icon> being displayed by the B<Gnome::Gtk4::Image>.
+
+The storage type of the image must be C<GTK_IMAGE_EMPTY> or
+C<GTK_IMAGE_GICON> (see C<.get-storage-type()>).
+The caller of this function does not own a reference to the
+returned U<Gnome::Gio::R-Icon>.
+
+=begin code
+method get-gicon (--> N-Object )
+=end code
+
+Return value; a U<Gnome::Gio::R-Icon>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-gicon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-name
+
+Gets the icon name and size being displayed by the B<Gnome::Gtk4::Image>.
+
+The storage type of the image must be C<GTK_IMAGE_EMPTY> or
+C<GTK_IMAGE_ICON_NAME> (see C<.get-storage-type()>).
+The returned string is owned by the B<Gnome::Gtk4::Image> and should not
+be freed.
+
+=begin code
+method get-icon-name (--> Str )
+=end code
+
+Return value; the icon name. 
+
+=begin comment
+
+=head2 Example
+# Example for get-icon-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-size
+
+Gets the icon size used by the C<$image> when rendering icons.
+
+=begin code
+method get-icon-size (--> GtkIconSize )
+=end code
+
+Return value; the image size used by icons. 
+
+=begin comment
+
+=head2 Example
+# Example for get-icon-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-paintable
+
+Gets the image U<Gnome::Gdk4::R-Paintable> being displayed by the B<Gnome::Gtk4::Image>.
+
+The storage type of the image must be C<GTK_IMAGE_EMPTY> or
+C<GTK_IMAGE_PAINTABLE> (see C<.get-storage-type()>).
+The caller of this function does not own a reference to the
+returned paintable.
+
+=begin code
+method get-paintable (--> N-Object )
+=end code
+
+Return value; the displayed paintable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pixel-size
+
+Gets the pixel size used for named icons.
+
+=begin code
+method get-pixel-size (--> Int )
+=end code
+
+Return value; the pixel size used for named icons.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pixel-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-storage-type
+
+Gets the type of representation being used by the B<Gnome::Gtk4::Image>
+to store image data.
+
+If the B<Gnome::Gtk4::Image> has no image data, the return value will
+be C<GTK_IMAGE_EMPTY>.
+
+=begin code
+method get-storage-type (--> GtkImageType )
+=end code
+
+Return value; image representation being used. 
+
+=begin comment
+
+=head2 Example
+# Example for get-storage-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-from-file
+
+Sets a B<Gnome::Gtk4::Image> to show a file.
+
+See C<.new-from-file()> for details.
+
+=begin code
+method set-from-file ( Str $filename )
+=end code
+
+=item $filename; a filename.
+
+=begin comment
+
+=head2 Example
+# Example for set-from-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-from-gicon
+
+Sets a B<Gnome::Gtk4::Image> to show a U<Gnome::Gio::R-Icon>.
+
+See C<.new-from-gicon()> for details.
+
+=begin code
+method set-from-gicon ( N-Object() $icon )
+=end code
+
+=item $icon; an icon.
+
+=begin comment
+
+=head2 Example
+# Example for set-from-gicon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-from-icon-name
+
+Sets a B<Gnome::Gtk4::Image> to show a named icon.
+
+See C<.new-from-icon-name()> for details.
+
+=begin code
+method set-from-icon-name ( Str $icon-name )
+=end code
+
+=item $icon-name; an icon name.
+
+=begin comment
+
+=head2 Example
+# Example for set-from-icon-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-from-paintable
+
+Sets a B<Gnome::Gtk4::Image> to show a U<Gnome::Gdk4::R-Paintable>.
+
+See C<.new-from-paintable()> for details.
+
+=begin code
+method set-from-paintable ( N-Object() $paintable )
+=end code
+
+=item $paintable; a U<Gnome::Gdk4::R-Paintable>.
+
+=begin comment
+
+=head2 Example
+# Example for set-from-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-from-pixbuf
+This function is not yet available
+
+Sets a B<Gnome::Gtk4::Image> to show a B<GdkPixbuf>.
+
+See C<.new-from-pixbuf()> for details.
+
+Note: This is a helper for C<.set-from-paintable()>,
+and you can't get back the exact pixbuf once this is called,
+only a paintable.
+
+=begin code
+method set-from-pixbuf ( … )
+=end code
+
+=item pixbuf; a B<GdkPixbuf> or undefined. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-from-pixbuf
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-from-resource
+
+Sets a B<Gnome::Gtk4::Image> to show a resource.
+
+See C<.new-from-resource()> for details.
+
+=begin code
+method set-from-resource ( Str $resource-path )
+=end code
+
+=item $resource-path; a resource path.
+
+=begin comment
+
+=head2 Example
+# Example for set-from-resource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-icon-size
+
+Suggests an icon size to the theme for named icons.
+
+=begin code
+method set-icon-size ( GtkIconSize $icon-size )
+=end code
+
+=item $icon-size; the new icon size.
+
+=begin comment
+
+=head2 Example
+# Example for set-icon-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pixel-size
+
+Sets the pixel size to use for named icons.
+
+If the pixel size is set to a value != -1, it is used instead
+of the icon size set by C<.set-from-icon-name()>.
+
+=begin code
+method set-pixel-size ( Int() $pixel-size )
+=end code
+
+=item $pixel-size; the new pixel size.
+
+=begin comment
+
+=head2 Example
+# Example for set-pixel-size
+
+=end comment
+
+=end pod
+
