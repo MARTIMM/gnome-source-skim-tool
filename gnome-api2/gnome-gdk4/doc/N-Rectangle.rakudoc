@@ -1,0 +1,191 @@
+=comment Package: Gdk4, C-Source: types
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gdk4::N-Rectangle
+
+=head1 Description
+
+A U<Gnome::Gdk4::N-Rectangle> data type for representing rectangles.
+
+U<Gnome::Gdk4::N-Rectangle> is identical to U<Gnome::Cairo::N-Context>. Together with Cairo’s
+U<Gnome::Cairo::N-Context> data type, these are the central types for representing
+sets of pixels.
+
+The intersection of two rectangles can be computed with
+C<.intersect()>; to find the union of two rectangles use
+C<.union()>.
+
+The U<Gnome::Cairo::N-Context> type provided by Cairo is usually used for managing
+non-rectangular clipping of graphical operations.
+
+The Graphene library has a number of other data types for regions and
+volumes in 2D and 3D.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::Rectangle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Rectangle
+
+  class N-Rectangle:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gint $.x;
+    has gint $.y;
+    has gint $.width;
+    has gint $.height;
+  }
+
+=item x; the x coordinate of the top left corner
+=item y; the y coordinate of the top left corner
+=item width; the width of the rectangle
+=item height; the height of the rectangle
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains-point
+
+Returns C<True> if C<$rect> contains the point described by C<$x> and C<$y>.
+
+=begin code
+method contains-point ( Int() $x, Int() $y --> Bool )
+=end code
+
+=item $x; X coordinate.
+=item $y; Y coordinate.
+
+Return value; C<True> if C<$rect> contains the point. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks if the two given rectangles are equal.
+
+=begin code
+method equal ( CArray[N-Rectangle] $rect2 --> Bool )
+=end code
+
+=item $rect2; a U<Gnome::Gdk4::N-Rectangle>.
+
+Return value; C<True> if the rectangles are equal.. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersect
+
+Calculates the intersection of two rectangles.
+
+It is allowed for C<$dest> to be the same as either C<$src1> or C<$src2>.
+If the rectangles do not intersect, C<$dest>’s width and height is set
+to 0 and its x and y values are undefined. If you are only interested
+in whether the rectangles intersect, but not in the intersecting area
+itself, pass undefined for C<$dest>.
+
+=begin code
+method intersect ( CArray[N-Rectangle] $src2, CArray[N-Rectangle] $dest --> Bool )
+=end code
+
+=item $src2; a U<Gnome::Gdk4::N-Rectangle>.
+=item $dest; return location for the
+  intersection of C<$src1> and C<$src2>.
+
+Return value; C<True> if the rectangles intersect.. 
+
+=begin comment
+
+=head2 Example
+# Example for intersect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 union
+
+Calculates the union of two rectangles.
+
+The union of rectangles C<$src1> and C<$src2> is the smallest rectangle which
+includes both C<$src1> and C<$src2> within it. It is allowed for C<$dest> to be
+the same as either C<$src1> or C<$src2>.
+
+Note that this function does not ignore 'empty' rectangles (ie. with
+zero width or height).
+
+=begin code
+method union ( CArray[N-Rectangle] $src2, CArray[N-Rectangle] $dest )
+=end code
+
+=item $src2; a U<Gnome::Gdk4::N-Rectangle>.
+=item $dest; return location for the union of C<$src1> and C<$src2>.
+
+=begin comment
+
+=head2 Example
+# Example for union
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,88 @@
+=comment Package: Gdk4, C-Source: types
+use v6.d;
+
+#TL:1:Gnome::Gdk4::N-Rectangle:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Rectangle $rectangle;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $rectangle {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $rectangle {
+    my CArray[N-Rectangle] $rect2;
+    my Int() $y;
+    my CArray[N-Rectangle] $src2;
+    my Int() $x;
+    my CArray[N-Rectangle] $dest;
+
+
+#`{{
+    #TM:0:contains-point()
+    ok .contains-point( $x, $y), '.contains-point()';
+
+    #TM:0:equal()
+    ok .equal( $rect2), '.equal()';
+
+    #TM:0:intersect()
+    ok .intersect( $src2, $dest), '.intersect()';
+
+    #TM:0:union()
+    ok .union( $src2, $dest), '.union()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $rectangle {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
