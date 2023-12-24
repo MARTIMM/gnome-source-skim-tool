@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: StyleContext
+=comment Package: Gtk4, C-Source: ColorButton
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,11 +8,9 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::GObject::Object:api<2>;
 use Gnome::Gdk4::N-RGBA:api<2>;
-#use Gnome::Gtk4::N-Border:api<2>;
-use Gnome::Gtk4::T-Enums:api<2>;
-use Gnome::Gtk4::T-StyleContext:api<2>;
+use Gnome::Gtk4::R-ColorChooser:api<2>;
+use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,8 +22,9 @@ use Gnome::N::X:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::StyleContext:auth<github:MARTIMM>:api<2>;
-also is Gnome::GObject::Object;
+unit class Gnome::Gtk4::ColorButton:auth<github:MARTIMM>:api<2>;
+also is Gnome::Gtk4::Widget;
+also does Gnome::Gtk4::R-ColorChooser;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -34,23 +33,37 @@ also is Gnome::GObject::Object;
 # Define callable helper
 has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
+# Add signal registration helper
+my Bool $signals-added = False;
+
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+  # Add signal administration info.
+  unless $signals-added {
+    self.add-signal-types( $?CLASS.^name,
+      :w0<color-set activate>,
+    );
+
+    # Signals from interfaces
+    self._add_gtk_color_chooser_signal_types($?CLASS.^name)
+      if self.^can('_add_gtk_color_chooser_signal_types');
+    $signals-added = True;
+  }
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
-  if self.^name eq 'Gnome::Gtk4::StyleContext' {
+  if self.^name eq 'Gnome::Gtk4::ColorButton' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
-    self._set-class-info('GtkStyleContext');
+    self._set-class-info('GtkColorButton');
   }
 }
 
@@ -60,30 +73,15 @@ submethod BUILD ( *%options ) {
 
 my Hash $methods = %(
 
-  #--[Methods]------------------------------------------------------------------
-  add-class => %(:is-symbol<gtk_style_context_add_class>,  :parameters([Str])),
-  add-provider => %(:is-symbol<gtk_style_context_add_provider>,  :parameters([N-Object, guint])),
-  #get-border => %(:is-symbol<gtk_style_context_get_border>,  :parameters([N-Border ])),
-  get-color => %(:is-symbol<gtk_style_context_get_color>,  :parameters([N-RGBA])),
-  get-display => %(:is-symbol<gtk_style_context_get_display>,  :returns(N-Object)),
-  #get-margin => %(:is-symbol<gtk_style_context_get_margin>,  :parameters([N-Border ])),
-  #get-padding => %(:is-symbol<gtk_style_context_get_padding>,  :parameters([N-Border ])),
-  get-scale => %(:is-symbol<gtk_style_context_get_scale>,  :returns(gint)),
-  get-state => %(:is-symbol<gtk_style_context_get_state>,  :returns(GFlag), :cnv-return(GtkStateFlags)),
-  has-class => %(:is-symbol<gtk_style_context_has_class>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  lookup-color => %(:is-symbol<gtk_style_context_lookup_color>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, N-RGBA])),
-  remove-class => %(:is-symbol<gtk_style_context_remove_class>,  :parameters([Str])),
-  remove-provider => %(:is-symbol<gtk_style_context_remove_provider>,  :parameters([N-Object])),
-  restore => %(:is-symbol<gtk_style_context_restore>, ),
-  save => %(:is-symbol<gtk_style_context_save>, ),
-  set-display => %(:is-symbol<gtk_style_context_set_display>,  :parameters([N-Object])),
-  set-scale => %(:is-symbol<gtk_style_context_set_scale>,  :parameters([gint])),
-  set-state => %(:is-symbol<gtk_style_context_set_state>,  :parameters([GFlag])),
-  to-string => %(:is-symbol<gtk_style_context_to_string>,  :returns(Str), :parameters([GFlag])),
+  #--[Constructors]-------------------------------------------------------------
+  new-colorbutton => %( :type(Constructor), :is-symbol<gtk_color_button_new>, :returns(N-Object), ),
+  new-with-rgba => %( :type(Constructor), :is-symbol<gtk_color_button_new_with_rgba>, :returns(N-Object), :parameters([ N-RGBA])),
 
-  #--[Functions]----------------------------------------------------------------
-  add-provider-for-display => %( :type(Function), :is-symbol<gtk_style_context_add_provider_for_display>,  :parameters([ N-Object, N-Object, guint])),
-  remove-provider-for-display => %( :type(Function), :is-symbol<gtk_style_context_remove_provider_for_display>,  :parameters([ N-Object, N-Object])),
+  #--[Methods]------------------------------------------------------------------
+  get-modal => %(:is-symbol<gtk_color_button_get_modal>,  :returns(gboolean), :cnv-return(Bool)),
+  get-title => %(:is-symbol<gtk_color_button_get_title>,  :returns(Str)),
+  set-modal => %(:is-symbol<gtk_color_button_set_modal>,  :parameters([gboolean])),
+  set-title => %(:is-symbol<gtk_color_button_set_title>,  :parameters([Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -119,6 +117,13 @@ method _fallback-v2 (
   }
 
   else {
+    my $r;
+    my $native-object = self.get-native-object-no-reffing;
+    $r = self.Gnome::Gtk4::R-ColorChooser::_fallback-v2(
+      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
+    );
+    return $r if $_fallback-v2-ok;
+
     callsame;
   }
 }

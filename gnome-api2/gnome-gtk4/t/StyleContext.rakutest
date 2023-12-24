@@ -10,7 +10,7 @@ use Test;
 use NativeCall;
 
 
-#use Gnome::Gdk4::N-RGBA:api<2>;
+use Gnome::Gdk4::N-RGBA:api<2>;
 #use Gnome::Gtk4::N-Border:api<2>;
 use Gnome::Gtk4::StyleContext:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
@@ -51,17 +51,17 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $stylecontext {
-    my N-Object $provider;
 #    my N-Border  $margin;
-    my Str $color-name;
+    my N-RGBA $color;
     my GFlag $flags;
-    my gint $scale;
-#    my N-Border  $padding;
-    my guint $priority;
-#    my N-RGBA  $color;
-    my Str $class-name;
-#    my N-Border  $border;
     my N-Object $display;
+#    my N-Border  $padding;
+    my N-Object $provider;
+#    my N-Border  $border;
+    my guint $priority;
+    my Str $color-name;
+    my Str $class-name;
+    my gint $scale;
 
 
 #`{{
@@ -130,8 +130,8 @@ subtest 'Method tests', {
 subtest 'Function tests', {
   with $stylecontext {
     my N-Object() $display;
-    my N-Object() $provider;
     my UInt() $priority;
+    my N-Object() $provider;
 
 
 #`{{

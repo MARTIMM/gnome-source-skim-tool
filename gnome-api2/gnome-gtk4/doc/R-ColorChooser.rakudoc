@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: colorchooser
+=comment Package: Gtk4, C-Source: ColorChooser
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -47,7 +47,6 @@ B<Gnome::Gtk4::ColorButton>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-palette
-This function is not yet available
 
 Adds a palette to the color chooser.
 
@@ -68,7 +67,7 @@ of removing the default color palette from the color chooser.
 If C<$colors> is undefined, removes all previously added palettes.
 
 =begin code
-method add-palette ( GtkOrientation $orientation, Int() $colors-per-line, Int() $n-colors, CArray[N-RGBA]  $colors )
+method add-palette ( GtkOrientation $orientation, Int() $colors-per-line, Int() $n-colors, CArray[N-RGBA] $colors )
 =end code
 
 =item $orientation; C<GTK_ORIENTATION_HORIZONTAL> if the palette should
@@ -89,12 +88,11 @@ method add-palette ( GtkOrientation $orientation, Int() $colors-per-line, Int() 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-rgba
-This function is not yet available
 
 Gets the currently-selected color.
 
 =begin code
-method get-rgba ( CArray[N-RGBA]  $color )
+method get-rgba ( CArray[N-RGBA] $color )
 =end code
 
 =item $color; a U<Gnome::Gdk4::N-RGBA> to fill in with the current color.
@@ -133,12 +131,11 @@ Return value; C<True> if the color chooser uses the alpha channel,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-rgba
-This function is not yet available
 
 Sets the color.
 
 =begin code
-method set-rgba ( CArray[N-RGBA]  $color )
+method set-rgba ( CArray[N-RGBA] $color )
 =end code
 
 =item $color; the new color.

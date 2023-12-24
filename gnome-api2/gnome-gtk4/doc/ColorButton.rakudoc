@@ -1,0 +1,282 @@
+=comment Package: Gtk4, C-Source: ColorButton
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ColorButton
+
+![](images/colorbutton.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::ColorButton> allows to open a color chooser dialog to change
+the color.
+
+![An example GtkColorButton](color-button.png)
+
+It is suitable widget for selecting a color in a preference dialog.
+
+=head2 CSS nodes
+
+=begin comment
+colorbutton
+╰── button.color
+    ╰── [content]
+
+=end comment
+
+B<Gnome::Gtk4::ColorButton> has a single CSS node with name colorbutton which
+contains a button node. To differentiate it from a plain B<Gnome::Gtk4::Button>,
+it gets the .color style class.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ColorButton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-colorbutton
+
+Creates a new color button.
+
+This returns a widget in the form of a small button containing
+a swatch representing the current selected color. When the button
+is clicked, a color chooser dialog will open, allowing the user
+to select a color. The swatch will be updated to reflect the new
+color when the user finishes.
+
+=begin code
+method new-colorbutton ( --> Gnome::Gtk4::ColorButton \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-colorbutton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-rgba
+
+Creates a new color button showing the given color.
+
+=begin code
+method new-with-rgba ( CArray[N-RGBA] $rgba --> Gnome::Gtk4::ColorButton \)
+=end code
+
+=item $rgba; A U<Gnome::Gdk4::N-RGBA> to set the current color with.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-rgba
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-modal
+
+Gets whether the dialog is modal.
+
+=begin code
+method get-modal (--> Bool )
+=end code
+
+Return value; C<True> if the dialog is modal. 
+
+=begin comment
+
+=head2 Example
+# Example for get-modal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-title
+
+Gets the title of the color chooser dialog.
+
+=begin code
+method get-title (--> Str )
+=end code
+
+Return value; An internal string, do not free the return value. 
+
+=begin comment
+
+=head2 Example
+# Example for get-title
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-modal
+
+Sets whether the dialog should be modal.
+
+=begin code
+method set-modal ( Bool() $modal )
+=end code
+
+=item $modal; C<True> to make the dialog modal.
+
+=begin comment
+
+=head2 Example
+# Example for set-modal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-title
+
+Sets the title for the color chooser dialog.
+
+=begin code
+method set-title ( Str $title )
+=end code
+
+=item $title; String containing new window title.
+
+=begin comment
+
+=head2 Example
+# Example for set-title
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted to when the color button is activated.
+
+The B<::activate> signal on B<Gnome::Gtk4::MenuButton> is an action signal and
+emitting it causes the button to pop up its dialog.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ColorButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ColorButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 color-set
+
+Emitted when the user selects a color.
+
+When handling this signal, use C<.get-rgba() in class Gnome::Gtk4::R-ColorChooser>
+to find out which color was just selected.
+
+Note that this signal is only emitted when the user changes the color.
+If you need to react to programmatic color changes as well, use
+the notify::rgba signal.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ColorButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ColorButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal color-set
+
+=end comment
+
+=end pod
+

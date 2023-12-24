@@ -1,7 +1,7 @@
-# Package: Gtk4, C-Source: colorchooser
+=comment Package: Gtk4, C-Source: ColorButton
 use v6.d;
 
-#TL:1:Gnome::Gtk4::R-ColorChooser:
+#TL:1:Gnome::Gtk4::ColorButton:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -10,13 +10,42 @@ use NativeCall;
 use Test;
 
 
-use Gnome::Gtk4::ColorChooserDialog:api<2>;
-use Gnome::Gtk4::N-RGBA:api<2>;
-use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gdk4::N-RGBA:api<2>;
+use Gnome::Gtk4::ColorButton:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::ColorButton $colorbutton;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $colorbutton {
+    my N-RGBA $rgba;
+
+#`{{
+    #TC:0:new-colorbutton()
+
+    $colorbutton .= new-colorbutton();
+    ok .is-valid, '.new-colorbutton()';
+
+    #TC:0:new-with-rgba()
+    $rgba = '…';
+    $colorbutton .= new-with-rgba( $rgba);
+    ok .is-valid, '.new-with-rgba( $rgba)';
+
+}}
+  }
+};
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -28,33 +57,35 @@ unless %*ENV<raku_test_all>:exists {
 }
 
 #-------------------------------------------------------------------------------
-my Gnome::Gtk4::ColorChooserDialog $colorchooser .= new;
 subtest 'Method tests', {
-  with $colorchooser {
-    my N-RGBA  $colors;
-    my gint $colors-per-line;
-    my gint $n-colors;
-    my N-RGBA  $color;
-    my gboolean $use-alpha;
-    my GtkOrientation $orientation;
+  with $colorbutton {
+    my gboolean $modal;
+    my Str $title;
 
 
 #`{{
-    #TM:0:add-palette()
-    ok .add-palette( $orientation, $colors-per-line, $n-colors, $colors), '.add-palette()';
+    #TM:0:set-modal()
+    $modal = '…';
+    .set-modal( $modal);
+    #TM:0:get-modal()
+    is .get-modal(),  $modal, '.set-modal() / .get-modal()';
 
-    #TM:0:set-rgba()
-    $color = '…';
-    .set-rgba( $color);
-    #TM:0:get-rgba()
-    is .get-rgba(),  $color, '.set-rgba() / .get-rgba()';
+    #TM:0:set-title()
+    $title = 'text';
+    .set-title( $title);
+    #TM:0:get-title()
+    is .get-title(),  $title, '.set-title() / .get-title()';
 
-    #TM:0:set-use-alpha()
-    $use-alpha = '…';
-    .set-use-alpha( $use-alpha);
-    #TM:0:get-use-alpha()
-    is .get-use-alpha(),  $use-alpha, '.set-use-alpha() / .get-use-alpha()';
+}}
+  }
+};
 
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $colorbutton {
+
+
+#`{{
 }}
   }
 };
@@ -75,15 +106,15 @@ subtest 'Signals …', {
 
     method … (
       'any-args',
-      Gnome::Gtk4::ColorChooser() :$_native-object, gulong :$_handler-id
+      Gnome::Gtk4::ColorButton() :$_native-object, gulong :$_handler-id
       # --> …
     ) {
 
-      isa-ok $_native-object, Gnome::Gtk4::ColorChooser;
+      isa-ok $_native-object, Gnome::Gtk4::ColorButton;
       $!signal-processed = True;
     }
 
-    method signal-emitter ( Gnome::Gtk4::ColorChooser :$_widget --> Str ) {
+    method signal-emitter ( Gnome::Gtk4::ColorButton :$_widget --> Str ) {
 
       while $main.gtk-events-pending() { $main.iteration-do(False); }
 
@@ -114,13 +145,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gtk4::ColorChooser $colorchooser .= new;
+  my Gnome::Gtk4::ColorButton $colorbutton .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $colorchooser.register-signal( $sh, 'method', 'signal');
+  $colorbutton.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',

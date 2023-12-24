@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: colorchooser
+=comment Package: Gtk4, C-Source: ColorChooser
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Gdk4::N-RGBA:api<2>;
+use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -30,10 +30,10 @@ unit role Gnome::Gtk4::R-ColorChooser:auth<github:MARTIMM>:api<2>;
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  #add-palette => %(:is-symbol<gtk_color_chooser_add_palette>,  :parameters([GEnum, gint, gint, N-RGBA ])),
-  #get-rgba => %(:is-symbol<gtk_color_chooser_get_rgba>,  :parameters([N-RGBA ])),
+  add-palette => %(:is-symbol<gtk_color_chooser_add_palette>,  :parameters([GEnum, gint, gint, N-RGBA])),
+  get-rgba => %(:is-symbol<gtk_color_chooser_get_rgba>,  :parameters([N-RGBA])),
   get-use-alpha => %(:is-symbol<gtk_color_chooser_get_use_alpha>,  :returns(gboolean), :cnv-return(Bool)),
-  #set-rgba => %(:is-symbol<gtk_color_chooser_set_rgba>,  :parameters([N-RGBA ])),
+  set-rgba => %(:is-symbol<gtk_color_chooser_set_rgba>,  :parameters([N-RGBA])),
   set-use-alpha => %(:is-symbol<gtk_color_chooser_set_use_alpha>,  :parameters([gboolean])),
 );
 
@@ -46,7 +46,7 @@ method _fallback-v2 (
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'gtk_color_chooser_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }
