@@ -1,0 +1,292 @@
+=comment Package: Gtk4, C-Source: centerbox
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CenterBox
+
+![](images/centerbox.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::CenterBox> arranges three children in a row, keeping the middle child
+centered as well as possible.
+
+![An example GtkCenterBox](centerbox.png)
+
+To add children to B<Gnome::Gtk4::CenterBox>, use C<.set-start-widget()>,
+C<.set-center-widget()> and
+C<.set-end-widget()>.
+
+The sizing and positioning of children can be influenced with the
+align and expand properties of the children.
+
+=head2 GtkCenterBox as GtkBuildable
+
+The B<Gnome::Gtk4::CenterBox> implementation of the U<Gnome::Gtk4::R-Buildable> interface
+supports placing children in the 3 positions by specifying “start”, “center”
+or “end” as the “type” attribute of a <child> element.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::CenterBox> uses a single CSS node with the name “box”,
+
+The first child of the B<Gnome::Gtk4::CenterBox> will be allocated depending on the
+text direction, i.e. in left-to-right layouts it will be allocated on the
+left and in right-to-left layouts on the right.
+
+In vertical orientation, the nodes of the children are arranged from top to
+bottom.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::CenterBox> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CenterBox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-centerbox
+
+Creates a new B<Gnome::Gtk4::CenterBox>.
+
+=begin code
+method new-centerbox ( --> Gnome::Gtk4::CenterBox \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-centerbox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-baseline-position
+
+Gets the value set by C<.set-baseline-position()>.
+
+=begin code
+method get-baseline-position (--> GtkBaselinePosition )
+=end code
+
+Return value; the baseline position. 
+
+=begin comment
+
+=head2 Example
+# Example for get-baseline-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-center-widget
+
+Gets the center widget, or undefined if there is none.
+
+=begin code
+method get-center-widget (--> N-Object )
+=end code
+
+Return value; the center widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-center-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-end-widget
+
+Gets the end widget, or undefined if there is none.
+
+=begin code
+method get-end-widget (--> N-Object )
+=end code
+
+Return value; the end widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-end-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-start-widget
+
+Gets the start widget, or undefined if there is none.
+
+=begin code
+method get-start-widget (--> N-Object )
+=end code
+
+Return value; the start widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-baseline-position
+
+Sets the baseline position of a center box.
+
+This affects only horizontal boxes with at least one baseline
+aligned child. If there is more vertical space available than
+requested, and the baseline is not allocated by the parent then C<$position> is used to allocate the baseline wrt. the extra space
+available.
+
+=begin code
+method set-baseline-position ( GtkBaselinePosition $position )
+=end code
+
+=item $position; a C<enumeration GtkBaselinePosition defined in Gnome::Gtk4::T-Enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-baseline-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-center-widget
+
+Sets the center widget.
+
+To remove the existing center widget, pas undefined.
+
+=begin code
+method set-center-widget ( N-Object() $child )
+=end code
+
+=item $child; the new center widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-center-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-end-widget
+
+Sets the end widget.
+
+To remove the existing end widget, pass undefined.
+
+=begin code
+method set-end-widget ( N-Object() $child )
+=end code
+
+=item $child; the new end widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-end-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-start-widget
+
+Sets the start widget.
+
+To remove the existing start widget, pass undefined.
+
+=begin code
+method set-start-widget ( N-Object() $child )
+=end code
+
+=item $child; the new start widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-start-widget
+
+=end comment
+
+=end pod
+
