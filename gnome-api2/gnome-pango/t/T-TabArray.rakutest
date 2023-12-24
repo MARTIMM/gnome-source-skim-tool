@@ -1,0 +1,58 @@
+=comment Package: Pango, C-Source: tabs
+use v6.d;
+
+#TL:1:Gnome::Pango::T-TabArray:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::N-TabArray:api<2>;
+use Gnome::Pango::T-TabArray:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:PangoTabAlign
+subtest 'PangoTabAlign', {
+  is PANGO_TAB_LEFT.value, 0, 'enum PANGO_TAB_LEFT = 0';
+
+  is PANGO_TAB_RIGHT.value, 1, 'enum PANGO_TAB_RIGHT = 1';
+
+  is PANGO_TAB_CENTER.value, 2, 'enum PANGO_TAB_CENTER = 2';
+
+  is PANGO_TAB_DECIMAL.value, 3, 'enum PANGO_TAB_DECIMAL = 3';
+
+};
+
+
+my Gnome::Pango::T-TabArray $tabs .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $tabs {
+    my Str $text;
+
+
+#`{{
+    #TM:0:tab-array-from-string()
+    ok .tab-array-from-string( $text), '.tab-array-from-string()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

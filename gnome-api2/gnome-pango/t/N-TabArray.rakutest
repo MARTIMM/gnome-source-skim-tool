@@ -1,0 +1,145 @@
+=comment Package: Pango, C-Source: tabs
+use v6.d;
+
+#TL:1:Gnome::Pango::N-TabArray:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::N-TabArray:api<2>;
+use Gnome::Pango::T-TabArray:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-TabArray $tabarray;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $tabarray {
+    my Bool() $positions-in-pixels;
+    my Int() $first-position;
+    my Int() $size;
+    my Int() $initial-size;
+    my PangoTabAlign $first-alignment;
+
+#`{{
+    #TC:0:new-tabarray()
+    $initial-size = -42;
+    $positions-in-pixels = True;
+    $tabarray .= new-tabarray( $initial-size, $positions-in-pixels);
+    ok .is-valid, '.new-tabarray( $initial-size, $positions-in-pixels)';
+
+    #TC:0:new-with-positions()
+    $size = -42;
+    $positions-in-pixels = True;
+    $first-alignment = …;
+    $first-position = -42;
+    $tabarray .= new-with-positions( $size, $positions-in-pixels, $first-alignment, $first-position);
+    ok .is-valid, '.new-with-positions( $size, $positions-in-pixels, $first-alignment, $first-position)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $tabarray {
+    my Int() $location;
+    my Int() $tab-index;
+    my Array[Int] $locations;
+    my UInt() $decimal-point;
+    my Bool() $positions-in-pixels;
+    my PangoTabAlign $alignment;
+    my Int() $new-size;
+    my PangoTabAlign $alignments;
+
+
+#`{{
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-size()
+     .get-size(), '…', '.get-size()';
+
+    #TM:0:get-tabs()
+    is .get-tabs( $alignments, $locations), '…', '.get-tabs()';
+
+    #TM:0:resize()
+    ok .resize( $new-size), '.resize()';
+
+    #TM:0:set-decimal-point()
+    $tab-index = -42;
+    $decimal-point = 42;
+    .set-decimal-point( $tab-index, $decimal-point);
+    #TM:0:get-decimal-point()
+    is .get-decimal-point(),  $tab-index, $decimal-point, '.set-decimal-point() / .get-decimal-point()';
+
+    #TM:0:set-positions-in-pixels()
+    $positions-in-pixels = True;
+    .set-positions-in-pixels( $positions-in-pixels);
+    #TM:0:get-positions-in-pixels()
+    is .get-positions-in-pixels(),  $positions-in-pixels, '.set-positions-in-pixels() / .get-positions-in-pixels()';
+
+    #TM:0:set-tab()
+    $tab-index = -42;
+    $alignment = …;
+    $location = -42;
+    .set-tab( $tab-index, $alignment, $location);
+    #TM:0:get-tab()
+    is .get-tab(),  $tab-index, $alignment, $location, '.set-tab() / .get-tab()';
+
+    #TM:0:sort()
+    ok .sort(), '.sort()';
+
+    #TM:0:to-string()
+    ok .to-string(), '.to-string()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $tabarray {
+    my Str $text;
+
+
+#`{{
+    #TM:0:from-string()
+    ok .from-string( $text), '.from-string()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

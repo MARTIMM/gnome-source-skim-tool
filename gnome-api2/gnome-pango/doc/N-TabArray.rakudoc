@@ -1,0 +1,462 @@
+=comment Package: Pango, C-Source: tabs
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Pango::N-TabArray
+
+=head1 Description
+
+A B<Gnome::Pango::N-TabArray> contains an array of tab stops.
+
+B<Gnome::Pango::N-TabArray> can be used to set tab stops in a B<Gnome::Pango::Layout>.
+Each tab stop has an alignment, a position, and optionally
+a character to use as decimal point.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Pango::TabArray
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-TabArray
+
+This is an opaque type of which fields are not available.
+
+  class N-TabArray:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-tabarray
+
+Creates an array of C<$initial-size> tab stops.
+
+Tab stops are specified in pixel units if C<$positions-in-pixels> is C<True>,
+otherwise in Pango units. All stops are initially at position 0.
+
+=begin code
+method new-tabarray ( Int() $initial-size, Bool() $positions-in-pixels --> Gnome::Pango::TabArray \)
+=end code
+
+=item $initial-size; Initial number of tab stops to allocate, can be 0.
+=item $positions-in-pixels; whether positions are in pixel units.
+
+=begin comment
+
+=head2 Example
+# Example for new-tabarray
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-positions
+This function is not yet available
+
+Creates a B<Gnome::Pango::N-TabArray> and allows you to specify the alignment
+and position of each tab stop.
+
+You **must** provide an alignment and position for C<$size> tab stops.
+
+=begin code
+method new-with-positions ( Int() $size, Bool() $positions-in-pixels, PangoTabAlign $first-alignment, Int() $first-position, … --> Gnome::Pango::TabArray \)
+=end code
+
+=item $size; number of tab stops in the array.
+=item $positions-in-pixels; whether positions are in pixel units.
+=item $first-alignment; alignment of first tab stop.
+=item $first-position; position of first tab stop.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-with-positions
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Copies a B<Gnome::Pango::N-TabArray>.
+
+=begin code
+method copy (--> CArray[N-TabArray] )
+=end code
+
+Return value; the newly allocated B<Gnome::Pango::N-TabArray>, which should
+  be freed with C<.free()>.. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees a tab array and associated resources.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-decimal-point
+
+Gets the Unicode character to use as decimal point.
+
+This is only relevant for tabs with C<PANGO_TAB_DECIMAL> alignment,
+which align content at the first occurrence of the decimal point
+character.
+
+The default value of 0 means that Pango will use the
+decimal point according to the current locale.
+
+=begin code
+method get-decimal-point ( Int() $tab-index --> UInt )
+=end code
+
+=item $tab-index; the index of a tab stop.
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-decimal-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-positions-in-pixels
+
+Returns C<True> if the tab positions are in pixels,
+C<False> if they are in Pango units.
+
+=begin code
+method get-positions-in-pixels (--> Bool )
+=end code
+
+Return value; whether positions are in pixels.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-positions-in-pixels
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-size
+
+Gets the number of tab stops in C<$tab-array>.
+
+=begin code
+method get-size (--> Int )
+=end code
+
+Return value; the number of tab stops in the array.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tab
+
+Gets the alignment and position of a tab stop.
+
+=begin code
+method get-tab ( Int() $tab-index, PangoTabAlign $alignment, Array[Int] $location )
+=end code
+
+=item $tab-index; tab stop index.
+=item $alignment; (transfer ownership: full) location to store alignment.
+=item $location; (transfer ownership: full) location to store tab position.
+
+=begin comment
+
+=head2 Example
+# Example for get-tab
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tabs
+
+If non-undefined, C<$alignments> and C<$locations> are filled with allocated
+arrays.
+
+The arrays are of length C<.get-size()>.
+You must free the returned array.
+
+=begin code
+method get-tabs ( PangoTabAlign $alignments, Array[Int] $locations )
+=end code
+
+=item $alignments; (transfer ownership: full) location to store an array of tab
+  stop alignments.
+=item $locations; (transfer ownership: full) location to store an array
+  of tab positions.
+
+=begin comment
+
+=head2 Example
+# Example for get-tabs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 resize
+
+Resizes a tab array.
+
+You must subsequently initialize any tabs
+that were added as a result of growing the array.
+
+=begin code
+method resize ( Int() $new-size )
+=end code
+
+=item $new-size; new size of the array.
+
+=begin comment
+
+=head2 Example
+# Example for resize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-decimal-point
+
+Sets the Unicode character to use as decimal point.
+
+This is only relevant for tabs with C<PANGO_TAB_DECIMAL> alignment,
+which align content at the first occurrence of the decimal point
+character.
+
+By default, Pango uses the decimal point according
+to the current locale.
+
+=begin code
+method set-decimal-point ( Int() $tab-index, UInt() $decimal-point )
+=end code
+
+=item $tab-index; the index of a tab stop.
+=item $decimal-point; the decimal point to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-decimal-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-positions-in-pixels
+
+Sets whether positions in this array are specified in
+pixels.
+
+=begin code
+method set-positions-in-pixels ( Bool() $positions-in-pixels )
+=end code
+
+=item $positions-in-pixels; whether positions are in pixels.
+
+=begin comment
+
+=head2 Example
+# Example for set-positions-in-pixels
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab
+
+Sets the alignment and location of a tab stop.
+
+=begin code
+method set-tab ( Int() $tab-index, PangoTabAlign $alignment, Int() $location )
+=end code
+
+=item $tab-index; the index of a tab stop.
+=item $alignment; tab alignment.
+=item $location; tab location in Pango units.
+
+=begin comment
+
+=head2 Example
+# Example for set-tab
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort
+
+Utility function to ensure that the tab stops are in increasing order.
+
+=begin code
+method sort ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for sort
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-string
+
+Serializes a B<Gnome::Pango::N-TabArray> to a string.
+
+No guarantees are made about the format of the string,
+it may change between Pango versions.
+
+The intended use of this function is testing and
+debugging. The format is not meant as a permanent
+storage format.
+
+=begin code
+method to-string (--> Str )
+=end code
+
+Return value; a newly allocated string. 
+
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 from-string
+
+Deserializes a B<Gnome::Pango::N-TabArray> from a string.
+
+This is the counterpart to C<.to-string()>.
+See that functions for details about the format.
+
+=begin code
+method from-string ( Str $text --> CArray[N-TabArray] )
+=end code
+
+=item $text; a string.
+
+Return value; a new B<Gnome::Pango::N-TabArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for from-string
+
+=end comment
+
+=end pod
+

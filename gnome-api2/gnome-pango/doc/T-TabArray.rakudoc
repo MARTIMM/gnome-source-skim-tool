@@ -1,0 +1,76 @@
+=comment Package: Pango, C-Source: tabs
+use v6.d;
+
+=begin pod
+=head1 Gnome::Pango::T-TabArray
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 PangoTabAlign
+
+C<enumeration PangoTabAlign defined in Gnome::Pango::T-TabArray> specifies where the text appears relative to the tab stop
+position.
+=item C<PANGO_TAB_LEFT>; the text appears to the right of the tab stop position
+=item C<PANGO_TAB_RIGHT>; the text appears to the left of the tab stop position
+  until the available space is filled. Since: 1.50
+=item C<PANGO_TAB_CENTER>; the text is centered at the tab stop position
+  until the available space is filled. Since: 1.50
+=item C<PANGO_TAB_DECIMAL>; text before the first occurrence of the decimal point
+  character appears to the left of the tab stop position (until the available
+  space is filled), the rest to the right. Since: 1.50
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 tab-array-from-string
+
+Deserializes a B<Gnome::Pango::N-TabArray> from a string.
+
+This is the counterpart to C<.to-string()>.
+See that functions for details about the format.
+
+=begin code
+method tab-array-from-string ( Str $text --> CArray[N-TabArray] )
+=end code
+
+=item $text; a string.
+
+Return value; a new B<Gnome::Pango::N-TabArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for tab-array-from-string
+
+=end comment
+
+=end pod
+
