@@ -618,7 +618,13 @@ note "$?LINE $funcname, $classname, $h.gist()";
 #-------------------------------------------------------------------------------
 method !modify-variables ( Str $text is copy --> Str ) {
 
-  $text ~~ s:g/ \s? '@' (\w+) / C<\$$0>/;
+  my token variable { \w+ }
+  my regex var-regex { \s? '@' <variable> }
+  while $text ~~ m/ <var-regex> / {
+    my Str $variable = $/<var-regex><variable>.Str;
+    $variable ~~ s:g/ '_' /-/;
+    $text ~~ s/ <var-regex> / C<\$$variable>/;
+  }
 
   $text
 }
@@ -762,7 +768,7 @@ method !modify-rest ( Str $text is copy --> Str ) {
         }
 
         default {
-          $text ~~ s/ <name-regex> /U<$classname>/;
+          $text ~~ s/ <name-regex> /B<$classname>/;
         }
       }
     }
