@@ -1,0 +1,286 @@
+=comment Package: Gdk4, C-Source: rgba
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gdk4::N-RGBA
+
+=head1 Description
+
+A U<Gnome::Gdk4::N-RGBA> is used to represent a color, in a way that is compatible
+with cairo’s notion of color.
+
+U<Gnome::Gdk4::N-RGBA> is a convenient way to pass colors around. It’s based on
+cairo’s way to deal with colors and mirrors its behavior. All values
+are in the range from 0.0 to 1.0 inclusive. So the color
+(0.0, 0.0, 0.0, 0.0) represents transparent black and
+(1.0, 1.0, 1.0, 1.0) is opaque white. Other values will
+be clamped to this range when drawing.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::RGBA
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-RGBA
+
+  class N-RGBA:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.red;
+    has gfloat $.green;
+    has gfloat $.blue;
+    has gfloat $.alpha;
+  }
+
+=item red; The intensity of the red channel from 0.0 to 1.0 inclusive
+=item green; The intensity of the green channel from 0.0 to 1.0 inclusive
+=item blue; The intensity of the blue channel from 0.0 to 1.0 inclusive
+=item alpha; The opacity of the color from 0.0 for completely translucent to
+  1.0 for opaque
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Makes a copy of a U<Gnome::Gdk4::N-RGBA>.
+
+The result must be freed through C<.free()>.
+
+=begin code
+method copy (--> CArray[N-RGBA] )
+=end code
+
+Return value; A newly allocated U<Gnome::Gdk4::N-RGBA>, with the same contents as C<$rgba>. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Compares two U<Gnome::Gdk4::N-RGBA> colors.
+
+=begin code
+method equal ( gpointer $p2 --> Bool )
+=end code
+
+=item $p2; another U<Gnome::Gdk4::N-RGBA>.
+
+Return value; C<True> if the two colors compare equal. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees a U<Gnome::Gdk4::N-RGBA>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 hash
+
+A hash function suitable for using for a hash
+table that stores U<Gnome::Gdk4::N-RGBA>s.
+
+=begin code
+method hash (--> UInt )
+=end code
+
+Return value; The hash value for C<$p>. 
+
+=begin comment
+
+=head2 Example
+# Example for hash
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-clear
+
+Checks if an C<$rgba> value is transparent.
+
+That is, drawing with the value would not produce any change.
+
+=begin code
+method is-clear (--> Bool )
+=end code
+
+Return value; C<True> if the C<$rgba> is clear. 
+
+=begin comment
+
+=head2 Example
+# Example for is-clear
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-opaque
+
+Checks if an C<$rgba> value is opaque.
+
+That is, drawing with the value will not retain any results
+from previous contents.
+
+=begin code
+method is-opaque (--> Bool )
+=end code
+
+Return value; C<True> if the C<$rgba> is opaque. 
+
+=begin comment
+
+=head2 Example
+# Example for is-opaque
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 parse
+
+Parses a textual representation of a color.
+
+The string can be either one of:
+
+=item A standard name (Taken from the Css specification).
+=item A hexadecimal value in the form “\#rgb”, “\#rrggbb”,
+  “\#rrrgggbbb” or ”\#rrrrggggbbbb”
+=item A hexadecimal value in the form “\#rgba”, “\#rrggbbaa”,
+  or ”\#rrrrggggbbbbaaaa”
+=item A RGB color in the form “rgb(r,g,b)” (In this case the color
+  will have full opacity)
+=item A RGBA color in the form “rgba(r,g,b,a)”
+
+Where “r”, “g”, “b” and “a” are respectively the red, green,
+blue and alpha color values. In the last two cases, “r”, “g”,
+and “b” are either integers in the range 0 to 255 or percentage
+values in the range 0% to 100%, and a is a floating point value
+in the range 0 to 1.
+
+=begin code
+method parse ( Str $spec --> Bool )
+=end code
+
+=item $spec; the string specifying the color.
+
+Return value; C<True> if the parsing succeeded. 
+
+=begin comment
+
+=head2 Example
+# Example for parse
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-string
+
+Returns a textual specification of C<$rgba> in the form
+B<rgb(r,g,b)> or B<rgba(r,g,b,a)>, where “r”, “g”, “b” and
+“a” represent the red, green, blue and alpha values
+respectively. “r”, “g”, and “b” are represented as integers
+in the range 0 to 255, and “a” is represented as a floating
+point value in the range 0 to 1.
+
+These string forms are string forms that are supported by
+the CSS3 colors module, and can be parsed by C<.parse()>.
+
+Note that this string representation may lose some precision,
+since “r”, “g” and “b” are represented as 8-bit integers. If
+this is a concern, you should use a different representation.
+
+=begin code
+method to-string (--> Str )
+=end code
+
+Return value; A newly allocated text string. 
+
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
+
+=end pod
+
