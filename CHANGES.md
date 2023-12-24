@@ -63,12 +63,12 @@ find . -name '*.raku*' | xargs wc -l
 * In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. There is no pixbuf package for version 4. There it is solved differently.
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk4`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 * No lists are returned to read veriables set by the native routines.
-
+* Some cases where text was provided as an argument where it also needed to give the length of the string. In the older versions it was hidden. In the new version it must be provided.
 
 
 # Release notes
 * 2023-12-22 0.13.2
-  * Tried to find out how to inherit from Gtk classes. Needed to make a few small changes in the **Gnome::N::GnomeRoutineCaller** module and in the classes `_fallback-v2()` methods,. I found it possible to just do that in a more simpler way than it was done in the api<1> version.
+  * Tried to find out how to inherit from Gtk classes. Needed to make a few small changes in the **Gnome::N::GnomeRoutineCaller** module and in the classes `_fallback-v2()` methods. I found it possible to just do that in a more simpler way than it was done in the api<1> version.
     Below a little example to show where user options can be provided;
     ```
     use Gnome::Gtk4::Label:api<2>;
@@ -94,7 +94,7 @@ find . -name '*.raku*' | xargs wc -l
     note "line-wrap: ", $t1.get-wrap;               # line-wrap: True
     note "margin top: ", $t1.get-margin-top;        # margin top: 5
 
-    my MyLabel $t2 .= new-with-mnemonic('_test2');
+    my MyLabel $t2 .= new-with-mnemonic( '_test2', :10mt);
     note "hexpand: ", $t2.get-hexpand;              # hexpand: False
     note "line-wrap: ", $t2.get-wrap;               # line-wrap: False
     note "margin top: ", $t2.get-margin-top;        # margin top: 10
