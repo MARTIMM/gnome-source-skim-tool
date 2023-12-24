@@ -1,0 +1,305 @@
+=comment Package: Gtk4, C-Source: CssProvider
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CssProvider
+
+![](images/cssprovider.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::CssProvider> is an object implementing the U<Gnome::Gtk4::R-StyleProvider> interface
+for CSS.
+
+It is able to parse CSS-like input in order to style widgets.
+
+An application can make GTK parse a specific CSS style sheet by calling
+C<.load-from-file()> or
+C<.load-from-resource()>
+and adding the provider with C<.add-provider() in class Gnome::Gtk4::StyleContext> or
+C<.StyleContext.add-provider-for-display()>.
+
+In addition, certain files will be read when GTK is initialized.
+First, the file B<$XDG_CONFIG_HOME/gtk-4.0/gtk.css> is loaded if it
+exists. Then, GTK loads the first existing file among
+B<XDG_DATA_HOME/themes/THEME/gtk-VERSION/gtk-VARIANT.css>,
+B<$HOME/.themes/THEME/gtk-VERSION/gtk-VARIANT.css>,
+B<$XDG_DATA_DIRS/themes/THEME/gtk-VERSION/gtk-VARIANT.css> and
+B<DATADIR/share/themes/THEME/gtk-VERSION/gtk-VARIANT.css>,
+where B<THEME> is the name of the current theme (see the
+I<gtk-theme-name defined in Gnome::Gtk4::Settings> setting), B<VARIANT> is the
+variant to load (see the
+I<gtk-application-prefer-dark-theme defined in Gnome::Gtk4::Settings> setting),
+B<DATADIR> is the prefix configured when GTK was compiled (unless
+overridden by the B<GTK_DATA_PREFIX> environment variable), and
+B<VERSION> is the GTK version number. If no file is found for the
+current version, GTK tries older versions all the way back to 4.0.
+
+To track errors while loading CSS, connect to the
+I<parsing-error> signal.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CssProvider
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cssprovider
+
+Returns a newly created B<Gnome::Gtk4::CssProvider>.
+
+=begin code
+method new-cssprovider ( --> Gnome::Gtk4::CssProvider \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cssprovider
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 load-from-data
+
+Loads C<$data> into C<$css_provider>.
+
+This clears any previously loaded information.
+
+=begin code
+method load-from-data ( Str $data, Int() $length )
+=end code
+
+=item $data; CSS data loaded in memory.
+=item $length; the length of C<$data> in bytes, or -1 for NUL terminated strings. If
+  C<$length> is not -1, the code will assume it is not NUL terminated and will
+  potentially do a copy..
+
+=begin comment
+
+=head2 Example
+# Example for load-from-data
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 load-from-file
+
+Loads the data contained in C<$file> into C<$css_provider>.
+
+This clears any previously loaded information.
+
+=begin code
+method load-from-file ( N-Object() $file )
+=end code
+
+=item $file; B<Gnome::Gio::File> pointing to a file to load.
+
+=begin comment
+
+=head2 Example
+# Example for load-from-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 load-from-path
+
+Loads the data contained in C<$path> into C<$css_provider>.
+
+This clears any previously loaded information.
+
+=begin code
+method load-from-path ( Str $path )
+=end code
+
+=item $path; the path of a filename to load, in the GLib filename encoding.
+
+=begin comment
+
+=head2 Example
+# Example for load-from-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 load-from-resource
+
+Loads the data contained in the resource at C<$resource_path> into
+the C<$css_provider>.
+
+This clears any previously loaded information.
+
+=begin code
+method load-from-resource ( Str $resource-path )
+=end code
+
+=item $resource-path; a U<Gnome::Gio::N-Resource> resource path.
+
+=begin comment
+
+=head2 Example
+# Example for load-from-resource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 load-named
+
+Loads a theme from the usual theme paths.
+
+The actual process of finding the theme might change between
+releases, but it is guaranteed that this function uses the same
+mechanism to load the theme that GTK uses for loading its own theme.
+
+=begin code
+method load-named ( Str $name, Str $variant )
+=end code
+
+=item $name; A theme name.
+=item $variant; variant to load, for example, "dark", or
+  undefined for the default.
+
+=begin comment
+
+=head2 Example
+# Example for load-named
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-string
+
+Converts the C<$provider> into a string representation in CSS
+format.
+
+Using C<.load-from-data()> with the return
+value from this function on a new provider created with
+C<.newcssprovider()> will basically create a duplicate
+of this C<$provider>.
+
+=begin code
+method to-string (--> Str )
+=end code
+
+Return value; a new string representing the C<$provider>.. 
+
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 parsing-error
+
+Signals that a parsing error occurred.
+
+The C<$path>, C<$line> and C<$position> describe the actual location of
+the error as accurately as possible.
+
+Parsing errors are never fatal, so the parsing will resume after
+the error. Errors may however cause parts of the given data or
+even all of it to not be parsed at all. So it is a useful idea
+to check that the parsing succeeds by connecting to this signal.
+
+Note that this signal may be emitted at any time as the css provider
+may opt to defer parsing parts or all of the input to a later time
+than when a loading function was called.
+
+=begin code
+method handler (
+  N-CssSection _UA_ $section,
+   $error,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::CssProvider :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $section; section the error happened in.
+=item $error; The parsing error.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CssProvider> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal parsing-error
+
+=end comment
+
+=end pod
+
