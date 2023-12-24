@@ -27,7 +27,7 @@ multi sub MAIN ( Str $distro, Str $t ) {
 }
 
 #-------------------------------------------------------------------------------
-# --y load documentation example yaml file to see if it can be loaded correctly
+# --y Load documentation example yaml file to see if it can be loaded correctly
 multi sub MAIN ( Str $distro, Str $t, Bool :$y! ) {
   my Str $test-file;
   $test-file = "$API2MODS/$test-location{$distro}/doc/code-sections/$t.yaml";
@@ -38,7 +38,7 @@ multi sub MAIN ( Str $distro, Str $t, Bool :$y! ) {
 }
 
 #-------------------------------------------------------------------------------
-# --c compile module to see if there are problems when there is no test file
+# --c Compile module to see if there are problems when there is no test file
 multi sub MAIN ( Str $distro, Str $t, Bool :$c! ) {
   my Str $test-file;
   $test-file = "$API2MODS/$test-location{$distro}/lib/Gnome/$distro/$t.rakumod";
@@ -46,7 +46,7 @@ multi sub MAIN ( Str $distro, Str $t, Bool :$c! ) {
 }
 
 #-------------------------------------------------------------------------------
-# --p test all files in test directory with prove
+# --p Test all files in test directory with prove
 multi sub MAIN ( Str $distro, Bool :$p!, Bool :$v = False, Bool :$t = True ) {
   set-paths($distro);
   my Str $test-dir = "$API2MODS/$test-location{$distro}/t";
@@ -57,11 +57,26 @@ multi sub MAIN ( Str $distro, Bool :$p!, Bool :$v = False, Bool :$t = True ) {
 }
 
 #-------------------------------------------------------------------------------
-multi sub MAIN ( Str $program-path, Bool :$d = False ) {
+# Test program using a path only.
+# --i is used to note relative paths (from $program-path) to include
+# directories. It is a list separated by commas. E.g --i=../lib
+multi sub MAIN ( Str $program-path, Bool :$d = False, Str :$i = '' ) {
 
-  # Test if path has an a 3 in it, then test for Gtk3. Otherwise assume Gtk4.
-  my Str $distro = $program-path ~~ m/ '3' / ?? 'Gtk3' !! 'Gtk4';
+  # Explicit test for Gtk4 only
+  my Str $distro = 'Gtk4';
   set-paths($distro);
+
+  if ?$i {
+    my $env = %*ENV<RAKULIB>;
+    my $path-dir = $program-path.IO.parent;
+
+    my @ep = $i.split(',');
+    for @ep -> $p {
+      $env ~= ',' ~ $path-dir ~ '/' ~ $p;
+    }
+
+    %*ENV<RAKULIB> = $env;
+  }
 
   # Programs are timed and stored in log files
   my $log = $program-path.IO.basename;
