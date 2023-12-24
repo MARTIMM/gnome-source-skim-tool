@@ -1,0 +1,152 @@
+=comment Package: Gtk4, C-Source: editable
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-Editable
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkEditableProperties
+
+The identifiers for B<Gnome::Gtk4::R-Editable> properties.
+
+See C<.Editable.install-properties()> for details on how to
+implement the B<Gnome::Gtk4::R-Editable> interface.
+=item C<GTK_EDITABLE_PROP_TEXT>; the property id for I<text>
+=item C<GTK_EDITABLE_PROP_CURSOR_POSITION>; the property id for I<cursor-position>
+=item C<GTK_EDITABLE_PROP_SELECTION_BOUND>; the property id for I<selection-bound>
+=item C<GTK_EDITABLE_PROP_EDITABLE>; the property id for I<editable>
+=item C<GTK_EDITABLE_PROP_WIDTH_CHARS>; the property id for I<width-chars>
+=item C<GTK_EDITABLE_PROP_MAX_WIDTH_CHARS>; the property id for I<max-width-chars>
+=item C<GTK_EDITABLE_PROP_XALIGN>; the property id for I<xalign>
+=item C<GTK_EDITABLE_PROP_ENABLE_UNDO>; the property id for I<enable-undo>
+=item C<GTK_EDITABLE_NUM_PROPERTIES>; the number of properties
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 editable-delegate-get-property
+
+Gets a property of the B<Gnome::Gtk4::R-Editable> delegate for C<$object>.
+
+This is helper function that should be called in the B<get_property>
+function of your B<Gnome::Gtk4::R-Editable> implementation, before handling your
+own properties.
+
+=begin code
+method editable-delegate-get-property ( N-Object() $object, UInt() $prop-id, CArray[N-Value] $value, N-Object() $pspec --> Bool )
+=end code
+
+=item $object; a B<Gnome::GObject::Object>.
+=item $prop-id; a property ID.
+=item $value; value to set.
+=item $pspec; the B<Gnome::GObject::ParamSpec> for the property.
+
+Return value; C<True> if the property was found. 
+
+=begin comment
+
+=head2 Example
+# Example for editable-delegate-get-property
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 editable-delegate-set-property
+
+Sets a property on the B<Gnome::Gtk4::R-Editable> delegate for C<$object>.
+
+This is a helper function that should be called in the B<set_property>
+function of your B<Gnome::Gtk4::R-Editable> implementation, before handling your
+own properties.
+
+=begin code
+method editable-delegate-set-property ( N-Object() $object, UInt() $prop-id, CArray[N-Value] $value, N-Object() $pspec --> Bool )
+=end code
+
+=item $object; a B<Gnome::GObject::Object>.
+=item $prop-id; a property ID.
+=item $value; value to set.
+=item $pspec; the B<Gnome::GObject::ParamSpec> for the property.
+
+Return value; C<True> if the property was found. 
+
+=begin comment
+
+=head2 Example
+# Example for editable-delegate-set-property
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 editable-install-properties
+This function is not yet available
+
+Overrides the B<Gnome::Gtk4::R-Editable> properties for C<$class>.
+
+This is a helper function that should be called in class_init,
+after installing your own properties.
+
+Note that your class must have "text", "cursor-position",
+"selection-bound", "editable", "width-chars", "max-width-chars",
+"xalign" and "enable-undo" properties for this function to work.
+
+To handle the properties in your set_property and get_property
+functions, you can either use C<.Editable.delegate-set-property()>
+and C<.Editable.delegate-get-property()> (if you are using
+a delegate), or remember the C<$first-prop> offset and add it to the
+values in the  C<enumeration EditableProperties from Gnome::Gtk4::T-Editable>  enumeration to get the
+property IDs for these properties.
+
+=begin code
+method editable-install-properties ( …, UInt() $first-prop --> UInt )
+=end code
+
+=item object-class; a B<GObjectClass>. Note that each argument must be specified as a type followed by its value!
+=item $first-prop; property ID to use for the first property.
+
+Return value; the number of properties that were installed. 
+
+=begin comment
+
+=head2 Example
+# Example for editable-install-properties
+
+=end comment
+
+=end pod
+

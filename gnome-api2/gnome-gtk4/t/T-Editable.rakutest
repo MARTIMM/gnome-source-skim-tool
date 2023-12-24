@@ -1,0 +1,79 @@
+=comment Package: Gtk4, C-Source: editable
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Editable:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::Gtk4::T-Editable:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkEditableProperties
+subtest 'GtkEditableProperties', {
+  is GTK_EDITABLE_PROP_TEXT.value, 0, 'enum GTK_EDITABLE_PROP_TEXT = 0';
+
+  is GTK_EDITABLE_PROP_CURSOR_POSITION.value, 1, 'enum GTK_EDITABLE_PROP_CURSOR_POSITION = 1';
+
+  is GTK_EDITABLE_PROP_SELECTION_BOUND.value, 2, 'enum GTK_EDITABLE_PROP_SELECTION_BOUND = 2';
+
+  is GTK_EDITABLE_PROP_EDITABLE.value, 3, 'enum GTK_EDITABLE_PROP_EDITABLE = 3';
+
+  is GTK_EDITABLE_PROP_WIDTH_CHARS.value, 4, 'enum GTK_EDITABLE_PROP_WIDTH_CHARS = 4';
+
+  is GTK_EDITABLE_PROP_MAX_WIDTH_CHARS.value, 5, 'enum GTK_EDITABLE_PROP_MAX_WIDTH_CHARS = 5';
+
+  is GTK_EDITABLE_PROP_XALIGN.value, 6, 'enum GTK_EDITABLE_PROP_XALIGN = 6';
+
+  is GTK_EDITABLE_PROP_ENABLE_UNDO.value, 7, 'enum GTK_EDITABLE_PROP_ENABLE_UNDO = 7';
+
+  is GTK_EDITABLE_NUM_PROPERTIES.value, 8, 'enum GTK_EDITABLE_NUM_PROPERTIES = 8';
+
+};
+
+
+my Gnome::Gtk4::T-Editable $editable .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $editable {
+    my  $object-class;
+    my N-Object $object;
+    my N-Object $pspec;
+    my guint $prop-id;
+    my N-Value $value;
+    my guint $first-prop;
+
+
+#`{{
+    #TM:0:editable-delegate-get-property()
+    ok .editable-delegate-get-property( $object, $prop-id, $value, $pspec), '.editable-delegate-get-property()';
+
+    #TM:0:editable-delegate-set-property()
+    ok .editable-delegate-set-property( $object, $prop-id, $value, $pspec), '.editable-delegate-set-property()';
+
+    #TM:0:editable-install-properties()
+    ok .editable-install-properties( $object-class, $first-prop), '.editable-install-properties()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

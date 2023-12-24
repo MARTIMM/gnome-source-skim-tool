@@ -1,0 +1,195 @@
+=comment Package: Gtk4, C-Source: editable
+use v6.d;
+
+#TL:1:Gnome::Gtk4::R-Editable:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Text:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  my Gnome::Gtk4::Text $editable .= new-text;
+  with $editable {
+    my gint $position;
+    my gfloat $xalign;
+    my gint $n-chars;
+    my gint $end-pos;
+    my gint $start-pos;
+    my gboolean $is-editable;
+    my gboolean $enable-undo;
+    my gint $length;
+    my Str $text;
+
+
+#`{{
+    #TM:0:delete-selection()
+    ok .delete-selection(), '.delete-selection()';
+
+    #TM:0:delete-text()
+    ok .delete-text( $start-pos, $end-pos), '.delete-text()';
+
+    #TM:0:finish-delegate()
+    ok .finish-delegate(), '.finish-delegate()';
+
+    #TM:0:get-chars()
+    is .get-chars( $start-pos, $end-pos), '…', '.get-chars()';
+
+    #TM:0:get-delegate()
+     .get-delegate(), '…', '.get-delegate()';
+
+    #TM:0:get-selection-bounds()
+    is .get-selection-bounds( $start-pos, $end-pos), '…', '.get-selection-bounds()';
+
+    #TM:0:init-delegate()
+    ok .init-delegate(), '.init-delegate()';
+
+    #TM:0:insert-text()
+    ok .insert-text( $text, $length, $position), '.insert-text()';
+
+    #TM:0:select-region()
+    ok .select-region( $start-pos, $end-pos), '.select-region()';
+
+    #TM:0:set-alignment()
+    $xalign = '…';
+    .set-alignment( $xalign);
+    #TM:0:get-alignment()
+    is .get-alignment(),  $xalign, '.set-alignment() / .get-alignment()';
+
+    #TM:0:set-editable()
+    $is-editable = '…';
+    .set-editable( $is-editable);
+    #TM:0:get-editable()
+    is .get-editable(),  $is-editable, '.set-editable() / .get-editable()';
+
+    #TM:0:set-enable-undo()
+    $enable-undo = '…';
+    .set-enable-undo( $enable-undo);
+    #TM:0:get-enable-undo()
+    is .get-enable-undo(),  $enable-undo, '.set-enable-undo() / .get-enable-undo()';
+
+    #TM:0:set-max-width-chars()
+    $n-chars = '…';
+    .set-max-width-chars( $n-chars);
+    #TM:0:get-max-width-chars()
+    is .get-max-width-chars(),  $n-chars, '.set-max-width-chars() / .get-max-width-chars()';
+
+    #TM:0:set-position()
+    $position = '…';
+    .set-position( $position);
+    #TM:0:get-position()
+    is .get-position(),  $position, '.set-position() / .get-position()';
+}}
+
+    #TM:1:set-text()
+    $text = 'text';
+    .set-text( $text);
+    #TM:1:get-text()
+    is .get-text(),  $text, '.set-text() / .get-text()';
+
+#`{{
+    #TM:0:set-width-chars()
+    $n-chars = '…';
+    .set-width-chars( $n-chars);
+    #TM:0:get-width-chars()
+    is .get-width-chars(),  $n-chars, '.set-width-chars() / .get-width-chars()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Editable() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Editable;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Editable :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Editable $editable .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $editable.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
