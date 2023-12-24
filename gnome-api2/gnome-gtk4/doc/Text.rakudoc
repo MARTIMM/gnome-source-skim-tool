@@ -1,0 +1,1362 @@
+=comment Package: Gtk4, C-Source: text
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Text
+
+![](images/text.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::Text> widget is a single-line text entry widget.
+
+B<Gnome::Gtk4::Text> is the common implementation of single-line text editing
+that is shared between B<Gnome::Gtk4::Entry>, B<Gnome::Gtk4::PasswordEntry>, B<Gnome::Gtk4::SpinButton>
+and other widgets. In all of these, B<Gnome::Gtk4::Text> is used as the delegate
+for the B<Gnome::Gtk4::R-Editable> implementation.
+
+A fairly large set of key bindings are supported by default. If the
+entered text is longer than the allocation of the widget, the widget
+will scroll so that the cursor position is visible.
+
+When using an entry for passwords and other sensitive information,
+it can be put into “password mode” using C<.set-visibility()>.
+In this mode, entered text is displayed using a “invisible” character.
+By default, GTK picks the best invisible character that is available
+in the current font, but it can be changed with
+C<.set-invisible-char()>.
+
+If you are looking to add icons or progress display in an entry, look
+at B<Gnome::Gtk4::Entry>. There other alternatives for more specialized use cases,
+such as B<Gnome::Gtk4::SearchEntry>.
+
+If you need multi-line editable text, look at B<Gnome::Gtk4::TextView>.
+
+=head2 CSS nodes
+
+=begin comment
+text[.read-only]
+├── placeholder
+├── undershoot.left
+├── undershoot.right
+├── [selection]
+├── [block-cursor]
+╰── [window.popup]
+
+=end comment
+
+B<Gnome::Gtk4::Text> has a main node with the name text. Depending on the properties
+of the widget, the .read-only style class may appear.
+
+When the entry has a selection, it adds a subnode with the name selection.
+
+When the entry is in overwrite mode, it adds a subnode with the name
+block-cursor that determines how the block cursor is drawn.
+
+The CSS node for a context menu is added as a subnode below text as well.
+
+The undershoot nodes are used to draw the underflow indication when content
+is scrolled out of view. These nodes get the .left and .right style classes
+added depending on where the indication is drawn.
+
+When touch is used and touch selection handles are shown, they are using
+CSS nodes with name cursor-handle. They get the .top or .bottom style class
+depending on where they are shown in relation to the selection. If there is
+just a single handle for the text cursor, it gets the style class
+.insertion-cursor.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::Text> uses the C<GTK_ACCESSIBLE_ROLE_NONE> role, which causes it to be
+skipped for accessibility. This is because B<Gnome::Gtk4::Text> is expected to be used
+as a delegate for a B<Gnome::Gtk4::R-Editable> implementation that will be represented
+to accessibility.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-text
+
+Creates a new B<Gnome::Gtk4::Text>.
+
+=begin code
+method new-text ( --> Gnome::Gtk4::Text \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-buffer
+
+Creates a new B<Gnome::Gtk4::Text> with the specified text buffer.
+
+=begin code
+method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::Text \)
+=end code
+
+=item $buffer; The buffer to use for the new B<Gnome::Gtk4::Text>..
+
+=begin comment
+
+=head2 Example
+# Example for new-with-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compute-cursor-extents
+This function is not yet available
+
+Determine the positions of the strong and weak cursors if the
+insertion point in the layout is at C<$position>.
+
+The position of each cursor is stored as a zero-width rectangle.
+The strong cursor location is the location where characters of
+the directionality equal to the base direction are inserted.
+The weak cursor location is the location where characters of
+the directionality opposite to the base direction are inserted.
+
+The rectangle positions are in widget coordinates.
+
+=begin code
+method compute-cursor-extents ( Int() $position, …, … )
+=end code
+
+=item $position; the character position.
+=item strong; location to store the strong cursor position. Note that each argument must be specified as a type followed by its value!
+=item weak; location to store the weak cursor position. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for compute-cursor-extents
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-activates-default
+
+Returns whether pressing Enter will activate
+the default widget for the window containing C<$self>.
+
+See C<.set-activates-default()>.
+
+=begin code
+method get-activates-default (--> Bool )
+=end code
+
+Return value; C<True> if the B<Gnome::Gtk4::Text> will activate the default widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-activates-default
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-attributes
+This function is not yet available
+
+Gets the attribute list that was set on the B<Gnome::Gtk4::Text>.
+
+See C<.set-attributes()>.
+
+=begin code
+method get-attributes (--> CArray[N-AttrList]  )
+=end code
+
+Return value; the attribute list. 
+
+=begin comment
+
+=head2 Example
+# Example for get-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-buffer
+
+Get the B<Gnome::Gtk4::EntryBuffer> object which holds the text for
+this widget.
+
+=begin code
+method get-buffer (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Gtk4::EntryBuffer> object.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-emoji-completion
+
+Returns whether Emoji completion is enabled for this
+B<Gnome::Gtk4::Text> widget.
+
+=begin code
+method get-enable-emoji-completion (--> Bool )
+=end code
+
+Return value; C<True> if Emoji completion is enabled. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-emoji-completion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-extra-menu
+
+Gets the menu model for extra items in the context menu.
+
+See C<.set-extra-menu()>.
+
+=begin code
+method get-extra-menu (--> N-Object )
+=end code
+
+Return value; the menu model. 
+
+=begin comment
+
+=head2 Example
+# Example for get-extra-menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-input-hints
+
+Gets the input hints of the B<Gnome::Gtk4::Text>.
+
+=begin code
+method get-input-hints (--> UInt )
+=end code
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-input-hints
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-input-purpose
+
+Gets the input purpose of the B<Gnome::Gtk4::Text>.
+
+=begin code
+method get-input-purpose (--> GtkInputPurpose )
+=end code
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-input-purpose
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-invisible-char
+
+Retrieves the character displayed when visibility is set to false.
+
+Note that GTK does not compute this value unless it needs it,
+so the value returned by this function is not very useful unless
+it has been explicitly set with C<.set-invisible-char()>.
+
+=begin code
+method get-invisible-char (--> UInt )
+=end code
+
+Return value; the current invisible char, or 0, if C<$text> does not
+  show invisible text at all.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-invisible-char
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-max-length
+
+Retrieves the maximum allowed length of the text in C<$self>.
+
+See C<.set-max-length()>.
+
+This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer> and
+calling C<.get-max-length() in class Gnome::Gtk4::EntryBuffer> on it.
+
+=begin code
+method get-max-length (--> Int )
+=end code
+
+Return value; the maximum allowed number of characters
+  in B<Gnome::Gtk4::Text>, or 0 if there is no maximum.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-max-length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-overwrite-mode
+
+Gets whether text is overwritten when typing in the B<Gnome::Gtk4::Text>.
+
+See C<.set-overwrite-mode()>.
+
+=begin code
+method get-overwrite-mode (--> Bool )
+=end code
+
+Return value; whether the text is overwritten when typing. 
+
+=begin comment
+
+=head2 Example
+# Example for get-overwrite-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-placeholder-text
+
+Retrieves the text that will be displayed when C<$self> is empty and unfocused
+
+If no placeholder text has been set, undefined will be returned.
+
+=begin code
+method get-placeholder-text (--> Str )
+=end code
+
+Return value; the placeholder text. 
+
+=begin comment
+
+=head2 Example
+# Example for get-placeholder-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-propagate-text-width
+
+Returns whether the B<Gnome::Gtk4::Text> will grow and shrink
+with the content.
+
+=begin code
+method get-propagate-text-width (--> Bool )
+=end code
+
+Return value; C<True> if C<$self> will propagate the text width. 
+
+=begin comment
+
+=head2 Example
+# Example for get-propagate-text-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tabs
+
+Gets the tabstops that were set on the B<Gnome::Gtk4::Text>.
+
+See C<.set-tabs()>.
+
+=begin code
+method get-tabs (--> CArray[N-TabArray] )
+=end code
+
+Return value; the tabstops. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tabs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-text-length
+
+Retrieves the current length of the text in C<$self>.
+
+This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer>
+and calling C<.get-length() in class Gnome::Gtk4::EntryBuffer> on it.
+
+=begin code
+method get-text-length (--> UInt )
+=end code
+
+Return value; the current number of characters
+  in B<Gnome::Gtk4::Text>, or 0 if there are none.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-text-length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-truncate-multiline
+
+Returns whether the B<Gnome::Gtk4::Text> will truncate multi-line text
+that is pasted into the widget
+
+=begin code
+method get-truncate-multiline (--> Bool )
+=end code
+
+Return value; C<True> if C<$self> will truncate multi-line text. 
+
+=begin comment
+
+=head2 Example
+# Example for get-truncate-multiline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visibility
+
+Retrieves whether the text in C<$self> is visible.
+
+=begin code
+method get-visibility (--> Bool )
+=end code
+
+Return value; C<True> if the text is currently visible. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visibility
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 grab-focus-without-selecting
+
+Causes C<$self> to have keyboard focus.
+
+It behaves like C<.grab-focus() in class Gnome::Gtk4::Widget>,
+except that it doesn't select the contents of C<$self>.
+You only want to call this on some special entries
+which the user usually doesn't want to replace all text in,
+such as search-as-you-type entries.
+
+=begin code
+method grab-focus-without-selecting (--> Bool )
+=end code
+
+Return value; C<True> if focus is now inside C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for grab-focus-without-selecting
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-activates-default
+
+If C<$activates> is C<True>, pressing Enter will activate
+the default widget for the window containing C<$self>.
+
+This usually means that the dialog containing the B<Gnome::Gtk4::Text>
+will be closed, since the default widget is usually one of
+the dialog buttons.
+
+=begin code
+method set-activates-default ( Bool() $activates )
+=end code
+
+=item $activates; C<True> to activate window’s default widget on Enter keypress.
+
+=begin comment
+
+=head2 Example
+# Example for set-activates-default
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-attributes
+This function is not yet available
+
+Sets attributes that are applied to the text.
+
+=begin code
+method set-attributes ( CArray[N-AttrList]  $attrs )
+=end code
+
+=item $attrs; a B<Gnome::Pango::N-AttrList>.
+
+=begin comment
+
+=head2 Example
+# Example for set-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-buffer
+
+Set the B<Gnome::Gtk4::EntryBuffer> object which holds the text for
+this widget.
+
+=begin code
+method set-buffer ( N-Object() $buffer )
+=end code
+
+=item $buffer; a B<Gnome::Gtk4::EntryBuffer>.
+
+=begin comment
+
+=head2 Example
+# Example for set-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-emoji-completion
+
+Sets whether Emoji completion is enabled.
+
+If it is, typing ':', followed by a recognized keyword,
+will pop up a window with suggested Emojis matching the
+keyword.
+
+=begin code
+method set-enable-emoji-completion ( Bool() $enable-emoji-completion )
+=end code
+
+=item $enable-emoji-completion; C<True> to enable Emoji completion.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-emoji-completion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-extra-menu
+
+Sets a menu model to add when constructing
+the context menu for C<$self>.
+
+=begin code
+method set-extra-menu ( N-Object() $model )
+=end code
+
+=item $model; a B<Gnome::Gio::MenuModel>.
+
+=begin comment
+
+=head2 Example
+# Example for set-extra-menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-input-hints
+
+Sets input hints that allow input methods
+to fine-tune their behaviour.
+
+=begin code
+method set-input-hints ( UInt $hints )
+=end code
+
+=item $hints; the hints.
+
+=begin comment
+
+=head2 Example
+# Example for set-input-hints
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-input-purpose
+
+Sets the input purpose of the B<Gnome::Gtk4::Text>.
+
+This can be used by on-screen keyboards and other
+input methods to adjust their behaviour.
+
+=begin code
+method set-input-purpose ( GtkInputPurpose $purpose )
+=end code
+
+=item $purpose; the purpose.
+
+=begin comment
+
+=head2 Example
+# Example for set-input-purpose
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-invisible-char
+
+Sets the character to use when in “password mode”.
+
+By default, GTK picks the best invisible char available in the
+current font. If you set the invisible char to 0, then the user
+will get no feedback at all; there will be no text on the screen
+as they type.
+
+=begin code
+method set-invisible-char ( UInt() $ch )
+=end code
+
+=item $ch; a Unicode character.
+
+=begin comment
+
+=head2 Example
+# Example for set-invisible-char
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-max-length
+
+Sets the maximum allowed length of the contents of the widget.
+
+If the current contents are longer than the given length, then
+they will be truncated to fit.
+
+This is equivalent to getting C<$self>'s B<Gnome::Gtk4::EntryBuffer> and
+calling C<.set-max-length() in class Gnome::Gtk4::EntryBuffer> on it.
+
+=begin code
+method set-max-length ( Int() $length )
+=end code
+
+=item $length; the maximum length of the B<Gnome::Gtk4::Text>, or 0 for no maximum.
+  (other than the maximum length of entries.) The value passed
+  in will be clamped to the range 0-65536..
+
+=begin comment
+
+=head2 Example
+# Example for set-max-length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-overwrite-mode
+
+Sets whether the text is overwritten when typing
+in the B<Gnome::Gtk4::Text>.
+
+=begin code
+method set-overwrite-mode ( Bool() $overwrite )
+=end code
+
+=item $overwrite; new value.
+
+=begin comment
+
+=head2 Example
+# Example for set-overwrite-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-placeholder-text
+
+Sets text to be displayed in C<$self> when it is empty.
+
+This can be used to give a visual hint of the expected
+contents of the B<Gnome::Gtk4::Text>.
+
+=begin code
+method set-placeholder-text ( Str $text )
+=end code
+
+=item $text; a string to be displayed when C<$self>
+  is empty and unfocused.
+
+=begin comment
+
+=head2 Example
+# Example for set-placeholder-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-propagate-text-width
+
+Sets whether the B<Gnome::Gtk4::Text> should grow and shrink with the content.
+
+=begin code
+method set-propagate-text-width ( Bool() $propagate-text-width )
+=end code
+
+=item $propagate-text-width; C<True> to propagate the text width.
+
+=begin comment
+
+=head2 Example
+# Example for set-propagate-text-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tabs
+
+Sets tabstops that are applied to the text.
+
+=begin code
+method set-tabs ( CArray[N-TabArray] $tabs )
+=end code
+
+=item $tabs; a B<Gnome::Pango::N-TabArray>.
+
+=begin comment
+
+=head2 Example
+# Example for set-tabs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-truncate-multiline
+
+Sets whether the B<Gnome::Gtk4::Text> should truncate multi-line text
+that is pasted into the widget.
+
+=begin code
+method set-truncate-multiline ( Bool() $truncate-multiline )
+=end code
+
+=item $truncate-multiline; C<True> to truncate multi-line text.
+
+=begin comment
+
+=head2 Example
+# Example for set-truncate-multiline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-visibility
+
+Sets whether the contents of the B<Gnome::Gtk4::Text> are visible or not.
+
+When visibility is set to C<False>, characters are displayed
+as the invisible char, and will also appear that way when
+the text in the widget is copied to the clipboard.
+
+By default, GTK picks the best invisible character available
+in the current font, but it can be changed with
+C<.set-invisible-char()>.
+
+Note that you probably want to set I<input-purpose>
+to C<GTK_INPUT_PURPOSE_PASSWORD> or C<GTK_INPUT_PURPOSE_PIN> to
+inform input methods about the purpose of this self,
+in addition to setting visibility to C<False>.
+
+=begin code
+method set-visibility ( Bool() $visible )
+=end code
+
+=item $visible; C<True> if the contents of the B<Gnome::Gtk4::Text> are displayed
+  as plaintext.
+
+=begin comment
+
+=head2 Example
+# Example for set-visibility
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unset-invisible-char
+
+Unsets the invisible char.
+
+After calling this, the default invisible
+char is used again.
+
+=begin code
+method unset-invisible-char ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unset-invisible-char
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted when the user hits the Enter key.
+
+The default bindings for this signal are all forms
+of the <kbd>Enter</kbd> key.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 backspace
+
+Emitted when the user asks for it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Backspace</kbd> and <kbd>Shift</kbd>-<kbd>Backspace</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal backspace
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 copy-clipboard
+
+Emitted to copy the selection to the clipboard.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>c</kbd> and
+<kbd>Ctrl</kbd>-<kbd>Insert</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal copy-clipboard
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 cut-clipboard
+
+Emitted to cut the selection to the clipboard.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>x</kbd> and
+<kbd>Shift</kbd>-<kbd>Delete</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal cut-clipboard
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 delete-from-cursor
+
+Emitted when the user initiates a text deletion.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+If the C<$type> is C<GTK_DELETE_CHARS>, GTK deletes the selection
+if there is one, otherwise it deletes the requested number
+of characters.
+
+The default bindings for this signal are <kbd>Delete</kbd>
+for deleting a character and <kbd>Ctrl</kbd>-<kbd>Delete</kbd>
+for deleting a word.
+
+=begin code
+method handler (
+   $type,
+  gint $count,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $type; the granularity of the deletion, as a C<enumeration GtkDeleteType defined in Gnome::Gtk4::T-Enums>.
+=item $count; the number of C<$type> units to delete.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal delete-from-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 insert-at-cursor
+
+Emitted when the user initiates the insertion of a
+fixed string at the cursor.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+This signal has no default bindings.
+
+=begin code
+method handler (
+  Str $string,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $string; the string to insert.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal insert-at-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 insert-emoji
+
+Emitted to present the Emoji chooser for the widget.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>.</kbd> and
+<kbd>Ctrl</kbd>-<kbd>;</kbd>
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal insert-emoji
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-cursor
+
+Emitted when the user initiates a cursor movement.
+
+If the cursor is not visible in C<$self>, this signal causes
+the viewport to be moved instead.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control the cursor
+programmatically.
+
+The default bindings for this signal come in two variants,
+the variant with the <kbd>Shift</kbd> modifier extends the
+selection, the variant without it does not.
+There are too many key combinations to list them all here.
+
+=item <kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd>
+  move by individual characters/lines
+=item <kbd>Ctrl</kbd>-<kbd>→</kbd>, etc. move by words/paragraphs
+=item <kbd>Home</kbd>, <kbd>End</kbd> move to the ends of the buffer
+
+=begin code
+method handler (
+   $step,
+  gint $count,
+  gboolean $extend,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $step; the granularity of the move, as a C<enumeration GtkMovementStep defined in Gnome::Gtk4::T-Enums>.
+=item $count; the number of C<$step> units to move.
+=item $extend; C<True> if the move should extend the selection.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 paste-clipboard
+
+Emitted to paste the contents of the clipboard.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>v</kbd> and <kbd>Shift</kbd>-<kbd>Insert</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal paste-clipboard
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 preedit-changed
+
+Emitted when the preedit text changes.
+
+If an input method is used, the typed text will not immediately
+be committed to the buffer. So if you are interested in the text,
+connect to this signal.
+
+=begin code
+method handler (
+  Str $preedit,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $preedit; the current preedit string.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal preedit-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 toggle-overwrite
+
+Emitted to toggle the overwrite mode of the B<Gnome::Gtk4::Text>.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal is <kbd>Insert</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Text :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Text> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggle-overwrite
+
+=end comment
+
+=end pod
+

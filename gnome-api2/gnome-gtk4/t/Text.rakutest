@@ -1,0 +1,276 @@
+=comment Package: Gtk4, C-Source: text
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Text:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::Text:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+#use Gnome::Pango::N-AttrList:api<2>;
+use Gnome::Pango::N-TabArray:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Text $text;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $text {
+    my N-Object $buffer;
+
+#`{{
+    #TC:0:new-text()
+
+    $text .= new-text();
+    ok .is-valid, '.new-text()';
+
+    #TC:0:new-with-buffer()
+    $buffer = …;
+    $text .= new-with-buffer( $buffer);
+    ok .is-valid, '.new-with-buffer( $buffer)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $text {
+    my  $weak;
+    my  $strong;
+    my gboolean $visible;
+    my N-TabArray $tabs;
+    my N-Object $model;
+    my GtkInputPurpose $purpose;
+    my gboolean $overwrite;
+    my gboolean $truncate-multiline;
+#    my N-AttrList  $attrs;
+    my gunichar $ch;
+    my Str $text;
+    my gint $length;
+    my gboolean $activates;
+    my gboolean $enable-emoji-completion;
+    my gboolean $propagate-text-width;
+    my gsize $position;
+    my N-Object $buffer;
+    my GFlag $hints;
+
+
+#`{{
+    #TM:0:compute-cursor-extents()
+    ok .compute-cursor-extents( $position, $strong, $weak), '.compute-cursor-extents()';
+
+    #TM:0:get-text-length()
+     .get-text-length(), '…', '.get-text-length()';
+
+    #TM:0:grab-focus-without-selecting()
+    ok .grab-focus-without-selecting(), '.grab-focus-without-selecting()';
+
+    #TM:0:set-activates-default()
+    $activates = '…';
+    .set-activates-default( $activates);
+    #TM:0:get-activates-default()
+    is .get-activates-default(),  $activates, '.set-activates-default() / .get-activates-default()';
+
+    #TM:0:set-attributes()
+    $attrs = '…';
+    .set-attributes( $attrs);
+    #TM:0:get-attributes()
+    is .get-attributes(),  $attrs, '.set-attributes() / .get-attributes()';
+
+    #TM:0:set-buffer()
+    $buffer = …;
+    .set-buffer( $buffer);
+    #TM:0:get-buffer()
+    is .get-buffer(),  $buffer, '.set-buffer() / .get-buffer()';
+
+    #TM:0:set-enable-emoji-completion()
+    $enable-emoji-completion = '…';
+    .set-enable-emoji-completion( $enable-emoji-completion);
+    #TM:0:get-enable-emoji-completion()
+    is .get-enable-emoji-completion(),  $enable-emoji-completion, '.set-enable-emoji-completion() / .get-enable-emoji-completion()';
+
+    #TM:0:set-extra-menu()
+    $model = …;
+    .set-extra-menu( $model);
+    #TM:0:get-extra-menu()
+    is .get-extra-menu(),  $model, '.set-extra-menu() / .get-extra-menu()';
+
+    #TM:0:set-input-hints()
+    $hints = …;
+    .set-input-hints( $hints);
+    #TM:0:get-input-hints()
+    is .get-input-hints(),  $hints, '.set-input-hints() / .get-input-hints()';
+
+    #TM:0:set-input-purpose()
+    $purpose = …;
+    .set-input-purpose( $purpose);
+    #TM:0:get-input-purpose()
+    is .get-input-purpose(),  $purpose, '.set-input-purpose() / .get-input-purpose()';
+
+    #TM:0:set-invisible-char()
+    $ch = '…';
+    .set-invisible-char( $ch);
+    #TM:0:get-invisible-char()
+    is .get-invisible-char(),  $ch, '.set-invisible-char() / .get-invisible-char()';
+
+    #TM:0:set-max-length()
+    $length = '…';
+    .set-max-length( $length);
+    #TM:0:get-max-length()
+    is .get-max-length(),  $length, '.set-max-length() / .get-max-length()';
+
+    #TM:0:set-overwrite-mode()
+    $overwrite = '…';
+    .set-overwrite-mode( $overwrite);
+    #TM:0:get-overwrite-mode()
+    is .get-overwrite-mode(),  $overwrite, '.set-overwrite-mode() / .get-overwrite-mode()';
+
+    #TM:0:set-placeholder-text()
+    $text = 'text';
+    .set-placeholder-text( $text);
+    #TM:0:get-placeholder-text()
+    is .get-placeholder-text(),  $text, '.set-placeholder-text() / .get-placeholder-text()';
+
+    #TM:0:set-propagate-text-width()
+    $propagate-text-width = '…';
+    .set-propagate-text-width( $propagate-text-width);
+    #TM:0:get-propagate-text-width()
+    is .get-propagate-text-width(),  $propagate-text-width, '.set-propagate-text-width() / .get-propagate-text-width()';
+
+    #TM:0:set-tabs()
+    $tabs = '…';
+    .set-tabs( $tabs);
+    #TM:0:get-tabs()
+    is .get-tabs(),  $tabs, '.set-tabs() / .get-tabs()';
+
+    #TM:0:set-truncate-multiline()
+    $truncate-multiline = '…';
+    .set-truncate-multiline( $truncate-multiline);
+    #TM:0:get-truncate-multiline()
+    is .get-truncate-multiline(),  $truncate-multiline, '.set-truncate-multiline() / .get-truncate-multiline()';
+
+    #TM:0:set-visibility()
+    $visible = '…';
+    .set-visibility( $visible);
+    #TM:0:get-visibility()
+    is .get-visibility(),  $visible, '.set-visibility() / .get-visibility()';
+
+    #TM:0:unset-invisible-char()
+    ok .unset-invisible-char(), '.unset-invisible-char()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $text {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Text() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Text;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Text :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Text $text .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $text.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
