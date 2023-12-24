@@ -62,19 +62,11 @@ try {
 }
 
 # Must use =comment because '#' is translated in =head2 later on
+$filename .= lc;
 $*command-line = "=comment Package: $*gnome-package.Str(), C-Source: $filename";
 $*verbose = $v;
 
-#  $*generate-code = $c;
-#  $*generate-doc = $d;
-#  $*generate-test = $t;
-
 @*gir-type-select = @types // ();
-
-
-# Get data using filename
-$filename .= lc;
-#  my Gnome::SourceSkimTool::Prepare $prepare .= new;
 
 # Generate library code
 if $c {
