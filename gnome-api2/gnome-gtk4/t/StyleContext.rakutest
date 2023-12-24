@@ -1,0 +1,223 @@
+=comment Package: Gtk4, C-Source: StyleContext
+use v6.d;
+
+#TL:1:Gnome::Gtk4::StyleContext:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::Gdk4::N-RGBA:api<2>;
+#use Gnome::Gtk4::N-Border:api<2>;
+use Gnome::Gtk4::StyleContext:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-StyleContext:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::StyleContext $stylecontext;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $stylecontext {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $stylecontext {
+    my N-Object $provider;
+#    my N-Border  $margin;
+    my Str $color-name;
+    my GFlag $flags;
+    my gint $scale;
+#    my N-Border  $padding;
+    my guint $priority;
+#    my N-RGBA  $color;
+    my Str $class-name;
+#    my N-Border  $border;
+    my N-Object $display;
+
+
+#`{{
+    #TM:0:add-class()
+    ok .add-class( $class-name), '.add-class()';
+
+    #TM:0:add-provider()
+    ok .add-provider( $provider, $priority), '.add-provider()';
+
+    #TM:0:get-border()
+    is .get-border( $border), '…', '.get-border()';
+
+    #TM:0:get-color()
+    is .get-color( $color), '…', '.get-color()';
+
+    #TM:0:get-margin()
+    is .get-margin( $margin), '…', '.get-margin()';
+
+    #TM:0:get-padding()
+    is .get-padding( $padding), '…', '.get-padding()';
+
+    #TM:0:has-class()
+    ok .has-class( $class-name), '.has-class()';
+
+    #TM:0:lookup-color()
+    ok .lookup-color( $color-name, $color), '.lookup-color()';
+
+    #TM:0:remove-class()
+    ok .remove-class( $class-name), '.remove-class()';
+
+    #TM:0:remove-provider()
+    ok .remove-provider( $provider), '.remove-provider()';
+
+    #TM:0:restore()
+    ok .restore(), '.restore()';
+
+    #TM:0:save()
+    ok .save(), '.save()';
+
+    #TM:0:set-display()
+    $display = …;
+    .set-display( $display);
+    #TM:0:get-display()
+    is .get-display(),  $display, '.set-display() / .get-display()';
+
+    #TM:0:set-scale()
+    $scale = '…';
+    .set-scale( $scale);
+    #TM:0:get-scale()
+    is .get-scale(),  $scale, '.set-scale() / .get-scale()';
+
+    #TM:0:set-state()
+    $flags = …;
+    .set-state( $flags);
+    #TM:0:get-state()
+    is .get-state(),  $flags, '.set-state() / .get-state()';
+
+    #TM:0:to-string()
+    ok .to-string( $flags), '.to-string()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $stylecontext {
+    my N-Object() $display;
+    my N-Object() $provider;
+    my UInt() $priority;
+
+
+#`{{
+    #TM:0:add-provider-for-display()
+    ok .add-provider-for-display( $display, $provider, $priority), '.add-provider-for-display()';
+
+    #TM:0:remove-provider-for-display()
+    ok .remove-provider-for-display( $display, $provider), '.remove-provider-for-display()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::StyleContext() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::StyleContext;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::StyleContext :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::StyleContext $stylecontext .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $stylecontext.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

@@ -1,0 +1,72 @@
+=comment Package: Gtk4, C-Source: StyleProvider
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-StyleProvider
+
+![](images/styleprovider.png)
+
+=head1 Description
+
+U<Gnome::Gtk4::R-StyleProvider> is an interface for style information used by
+B<Gnome::Gtk4::StyleContext>.
+
+See C<.add-provider() in class Gnome::Gtk4::StyleContext> and
+C<.StyleContext.add-provider-for-display()> for
+adding B<GtkStyleProviders>.
+
+GTK uses the U<Gnome::Gtk4::R-StyleProvider> implementation for CSS in
+B<Gnome::Gtk4::CssProvider>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::StyleProvider
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 gtk-private-changed
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::StyleProvider :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::StyleProvider> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal gtk-private-changed
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,49 @@
+=comment Package: Gtk4, C-Source: StyleProvider
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-StyleProvider:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::Gtk4::StyleProvider:api<2>;
+use Gnome::Gtk4::T-StyleProvider:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GTK_STYLE_PROVIDER_PRIORITY_THEME
+is GTK_STYLE_PROVIDER_PRIORITY_THEME, 200, "constant GTK_STYLE_PROVIDER_PRIORITY_THEME = 200";
+
+#TE:1:GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
+is GTK_STYLE_PROVIDER_PRIORITY_APPLICATION, 600, "constant GTK_STYLE_PROVIDER_PRIORITY_APPLICATION = 600";
+
+#TE:1:GTK_STYLE_PROVIDER_PRIORITY_FALLBACK
+is GTK_STYLE_PROVIDER_PRIORITY_FALLBACK, 1, "constant GTK_STYLE_PROVIDER_PRIORITY_FALLBACK = 1";
+
+#TE:1:GTK_STYLE_PROVIDER_PRIORITY_SETTINGS
+is GTK_STYLE_PROVIDER_PRIORITY_SETTINGS, 400, "constant GTK_STYLE_PROVIDER_PRIORITY_SETTINGS = 400";
+
+#TE:1:GTK_STYLE_PROVIDER_PRIORITY_USER
+is GTK_STYLE_PROVIDER_PRIORITY_USER, 800, "constant GTK_STYLE_PROVIDER_PRIORITY_USER = 800";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

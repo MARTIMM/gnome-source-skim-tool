@@ -1,0 +1,51 @@
+=comment Package: Gtk4, C-Source: StyleProvider
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-StyleProvider
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constants
+
+=head2 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
+
+A priority that can be used when adding a U<Gnome::Gtk4::R-StyleProvider>
+for application-specific style information.
+
+=head2 GTK_STYLE_PROVIDER_PRIORITY_FALLBACK
+
+The priority used for default style information
+that is used in the absence of themes.
+
+Note that this is not very useful for providing default
+styling for custom style classes - themes are likely to
+override styling provided at this priority with
+catch-all B<* {...}> rules.
+
+=head2 GTK_STYLE_PROVIDER_PRIORITY_SETTINGS
+
+The priority used for style information provided
+via B<Gnome::Gtk4::Settings>.
+
+This priority is higher than C<GTK_STYLE_PROVIDER_PRIORITY_THEME>
+to let settings override themes.
+
+=head2 GTK_STYLE_PROVIDER_PRIORITY_THEME
+
+The priority used for style information provided
+by themes.
+
+=head2 GTK_STYLE_PROVIDER_PRIORITY_USER
+
+The priority used for the style information from
+B<$XDG_CONFIG_HOME/gtk-4.0/gtk.css>.
+
+You should not use priorities higher than this, to
+give the user the last word.
+=end pod
+

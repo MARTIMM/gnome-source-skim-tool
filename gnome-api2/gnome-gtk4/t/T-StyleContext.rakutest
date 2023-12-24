@@ -1,0 +1,45 @@
+=comment Package: Gtk4, C-Source: StyleContext
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-StyleContext:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::Gdk4::N-RGBA:api<2>;
+#use Gnome::Gtk4::N-Border:api<2>;
+use Gnome::Gtk4::StyleContext:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-StyleContext:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkStyleContextPrintFlags
+subtest 'GtkStyleContextPrintFlags', {
+  is GTK_STYLE_CONTEXT_PRINT_NONE.value, 0, 'bitfield GTK_STYLE_CONTEXT_PRINT_NONE = 0';
+
+  is GTK_STYLE_CONTEXT_PRINT_RECURSE.value, 1, 'bitfield GTK_STYLE_CONTEXT_PRINT_RECURSE = 1';
+
+  is GTK_STYLE_CONTEXT_PRINT_SHOW_STYLE.value, 2, 'bitfield GTK_STYLE_CONTEXT_PRINT_SHOW_STYLE = 2';
+
+  is GTK_STYLE_CONTEXT_PRINT_SHOW_CHANGE.value, 4, 'bitfield GTK_STYLE_CONTEXT_PRINT_SHOW_CHANGE = 4';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
