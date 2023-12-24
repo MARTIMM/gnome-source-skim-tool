@@ -1,0 +1,310 @@
+=comment Package: Gtk4, C-Source: frame
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Frame
+
+![](images/frame.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Frame> is a widget that surrounds its child with a decorative
+frame and an optional label.
+
+![An example GtkFrame](frame.png)
+
+If present, the label is drawn inside the top edge of the frame.
+The horizontal position of the label can be controlled with
+C<.set-label-align()>.
+
+B<Gnome::Gtk4::Frame> clips its child. You can use this to add rounded corners
+to widgets, but be aware that it also cuts off shadows.
+
+=head2 GtkFrame as GtkBuildable
+
+The B<Gnome::Gtk4::Frame> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+placing a child in the label position by specifying “label” as the
+“type” attribute of a <child> element. A normal content child can
+be specified without specifying a <child> type attribute.
+
+An example of a UI definition fragment with GtkFrame:
+=begin comment
+<object class="GtkFrame">
+  <child type="label">
+    <object class="GtkLabel" id="frame_label"/>
+  </child>
+  <child>
+    <object class="GtkEntry" id="frame_content"/>
+  </child>
+</object>
+
+=end comment
+
+=head2 CSS nodes
+
+=begin comment
+frame
+├── <label widget>
+╰── <child>
+
+=end comment
+
+B<Gnome::Gtk4::Frame> has a main CSS node with name “frame”, which is used to draw the
+visible border. You can set the appearance of the border using CSS properties
+like “border-style” on this node.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Frame
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-frame
+
+Creates a new B<Gnome::Gtk4::Frame>, with optional label C<$label>.
+
+If C<$label> is undefined, the label is omitted.
+
+=begin code
+method new-frame ( Str $label --> Gnome::Gtk4::Frame \)
+=end code
+
+=item $label; the text to use as the label of the frame.
+
+=begin comment
+
+=head2 Example
+# Example for new-frame
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$frame>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child widget of C<$frame>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-label
+
+Returns the frame labels text.
+
+If the frame's label widget is not a B<Gnome::Gtk4::Label>, undefined
+is returned.
+
+=begin code
+method get-label (--> Str )
+=end code
+
+Return value; the text in the label, or undefined if there
+   was no label widget or the label widget was not a B<Gnome::Gtk4::Label>.
+   This string is owned by GTK and must not be modified or freed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-label-align
+
+Retrieves the X alignment of the frame’s label.
+
+=begin code
+method get-label-align (--> Num )
+=end code
+
+Return value; the frames X alignment. 
+
+=begin comment
+
+=head2 Example
+# Example for get-label-align
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-label-widget
+
+Retrieves the label widget for the frame.
+
+=begin code
+method get-label-widget (--> N-Object )
+=end code
+
+Return value; the label widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-label-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child widget of C<$frame>.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; the child widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label
+
+Creates a new B<Gnome::Gtk4::Label> with the C<$label> and sets it as the frame's
+label widget.
+
+=begin code
+method set-label ( Str $label )
+=end code
+
+=item $label; the text to use as the label of the frame.
+
+=begin comment
+
+=head2 Example
+# Example for set-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label-align
+
+Sets the X alignment of the frame widget’s label.
+
+The default value for a newly created frame is 0.0.
+
+=begin code
+method set-label-align ( Num() $xalign )
+=end code
+
+=item $xalign; The position of the label along the top edge
+  of the widget. A value of 0.0 represents left alignment;
+  1.0 represents right alignment..
+
+=begin comment
+
+=head2 Example
+# Example for set-label-align
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label-widget
+
+Sets the label widget for the frame.
+
+This is the widget that will appear embedded in the top edge
+of the frame as a title.
+
+=begin code
+method set-label-widget ( N-Object() $label-widget )
+=end code
+
+=item $label-widget; the new label widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-label-widget
+
+=end comment
+
+=end pod
+
