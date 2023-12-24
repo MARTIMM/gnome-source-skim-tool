@@ -1,0 +1,37 @@
+=comment Package: Gtk4, C-Source: entry
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Entry:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-Entry:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkEntryIconPosition
+subtest 'GtkEntryIconPosition', {
+  is GTK_ENTRY_ICON_PRIMARY.value, 0, 'enum GTK_ENTRY_ICON_PRIMARY = 0';
+
+  is GTK_ENTRY_ICON_SECONDARY.value, 1, 'enum GTK_ENTRY_ICON_SECONDARY = 1';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
