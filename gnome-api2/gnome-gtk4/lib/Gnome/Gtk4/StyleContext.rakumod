@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: StyleContext
+=comment Package: Gtk4, C-Source: stylecontext
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gdk4::N-RGBA:api<2>;
-#use Gnome::Gtk4::N-Border:api<2>;
+use Gnome::Gtk4::N-Border:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::T-StyleContext:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -63,11 +63,11 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   add-class => %(:is-symbol<gtk_style_context_add_class>,  :parameters([Str])),
   add-provider => %(:is-symbol<gtk_style_context_add_provider>,  :parameters([N-Object, guint])),
-  #get-border => %(:is-symbol<gtk_style_context_get_border>,  :parameters([N-Border ])),
+  get-border => %(:is-symbol<gtk_style_context_get_border>,  :parameters([N-Border])),
   get-color => %(:is-symbol<gtk_style_context_get_color>,  :parameters([N-RGBA])),
   get-display => %(:is-symbol<gtk_style_context_get_display>,  :returns(N-Object)),
-  #get-margin => %(:is-symbol<gtk_style_context_get_margin>,  :parameters([N-Border ])),
-  #get-padding => %(:is-symbol<gtk_style_context_get_padding>,  :parameters([N-Border ])),
+  get-margin => %(:is-symbol<gtk_style_context_get_margin>,  :parameters([N-Border])),
+  get-padding => %(:is-symbol<gtk_style_context_get_padding>,  :parameters([N-Border])),
   get-scale => %(:is-symbol<gtk_style_context_get_scale>,  :returns(gint)),
   get-state => %(:is-symbol<gtk_style_context_get_state>,  :returns(GFlag), :cnv-return(GtkStateFlags)),
   has-class => %(:is-symbol<gtk_style_context_has_class>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),

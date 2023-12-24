@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: StyleContext
+=comment Package: Gtk4, C-Source: stylecontext
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------

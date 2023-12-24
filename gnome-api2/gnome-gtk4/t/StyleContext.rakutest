@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: StyleContext
+=comment Package: Gtk4, C-Source: stylecontext
 use v6.d;
 
 #TL:1:Gnome::Gtk4::StyleContext:
@@ -11,7 +11,7 @@ use NativeCall;
 
 
 use Gnome::Gdk4::N-RGBA:api<2>;
-#use Gnome::Gtk4::N-Border:api<2>;
+use Gnome::Gtk4::N-Border:api<2>;
 use Gnome::Gtk4::StyleContext:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::T-StyleContext:api<2>;
@@ -51,17 +51,17 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $stylecontext {
-#    my N-Border  $margin;
-    my N-RGBA $color;
-    my GFlag $flags;
-    my N-Object $display;
-#    my N-Border  $padding;
-    my N-Object $provider;
-#    my N-Border  $border;
     my guint $priority;
-    my Str $color-name;
-    my Str $class-name;
+    my N-Object $provider;
     my gint $scale;
+    my N-Object $display;
+    my Str $color-name;
+    my N-Border $padding;
+    my N-Border $border;
+    my GFlag $flags;
+    my N-Border $margin;
+    my Str $class-name;
+    my N-RGBA $color;
 
 
 #`{{
@@ -129,9 +129,9 @@ subtest 'Method tests', {
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $stylecontext {
-    my N-Object() $display;
     my UInt() $priority;
     my N-Object() $provider;
+    my N-Object() $display;
 
 
 #`{{
