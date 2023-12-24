@@ -384,6 +384,18 @@ method !convert-args ( Mu $v, $p ) {
         $c = CArray[N-GError].new(N-GError); #($p.new);
       }
 
+      when .^name ~~ / num / {
+        $c = $v.Num if $v.defined;
+      }
+
+      when .^name ~~ / int / {
+        $c = $v.Int if $v.defined;
+      }
+
+      when .^name ~~ / Str / {
+        $c = $v.Str if $v.defined;
+      }
+
 #`{{
       when N-Object {
         my N-Object $no = $v.get-native-object-no-reffing;
