@@ -64,7 +64,7 @@ find . -name '*.raku*' | xargs wc -l
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk4`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 * No lists are returned to read veriables set by the native routines.
 * Some cases where text was provided as an argument where it also needed to give the length of the string. In the older versions it was hidden. In the new version it must be provided.
-
+* Possible and maybe for certain there will be no distributions for Gtk3 and Gdk3.
 
 # Release notes
 * 2023-12-22 0.13.2
