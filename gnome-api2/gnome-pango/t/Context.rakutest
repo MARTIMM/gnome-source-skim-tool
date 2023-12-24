@@ -56,11 +56,10 @@ subtest 'Method tests', {
   with $context {
     my PangoDirection $direction;
     my N-Object() $font-map;
-    my N-Object() $families;
-    my Array[Int] $n-families;
-    my gint-ptr $n-families;
+#    my N-Object() $families;
+    my CArray[int] $n-families;
+#    my gint-ptr $n-families;
     my CArray[N-Object] $families;
-    my N-Object $font-map;
     my PangoGravityHint $hint;
     my N-Object $language;
     my N-Object $desc;
