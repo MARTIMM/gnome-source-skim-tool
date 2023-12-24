@@ -16,7 +16,7 @@ use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Gtk4::N-Requisition:api<2>;
 #use Gnome::Gtk4::R-Accessible:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
-#use Gnome::Gtk4::R-ConstraintTarget:api<2>;
+use Gnome::Gtk4::R-ConstraintTarget:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -33,7 +33,7 @@ unit class Gnome::Gtk4::Widget:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::InitiallyUnowned;
 #also does Gnome::Gtk4::R-Accessible;
 also does Gnome::Gtk4::R-Buildable;
-#also does Gnome::Gtk4::R-ConstraintTarget;
+also does Gnome::Gtk4::R-ConstraintTarget;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -65,10 +65,9 @@ submethod BUILD ( *%options ) {
 }}
     self._add_gtk_buildable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_buildable_signal_types');
-#`{{
     self._add_gtk_constraint_target_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_constraint_target_signal_types');
-}}
+
     $signals-added = True;
   }
 
@@ -306,13 +305,11 @@ method _fallback-v2 (
     );
     return $r if $_fallback-v2-ok;
 
-#`{{
     $r = self.Gnome::Gtk4::R-ConstraintTarget::_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     );
     return $r if $_fallback-v2-ok;
 
-}}
     callsame;
   }
 }
