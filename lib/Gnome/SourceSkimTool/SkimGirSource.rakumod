@@ -4,13 +4,15 @@ use XML::XPath;
 use YAMLish;
 
 #use Gnome::SourceSkimTool::ConstEnumType;
-use Gnome::SourceSkimTool::Code;
+#use Gnome::SourceSkimTool::Code;
+use Gnome::SourceSkimTool::Resolve;
 
 
 #-------------------------------------------------------------------------------
 unit class Gnome::SourceSkimTool::SkimGirSource:auth<github:MARTIMM>;
 
-has Gnome::SourceSkimTool::Code $!mod;
+#has Gnome::SourceSkimTool::Code $!mod;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 has Hash $!map;
 has Hash $!other;
@@ -33,7 +35,8 @@ submethod BUILD ( ) {
 
   $!fname-class = %();
 
-  $!mod .= new; #(:$!xpath);
+#  $!mod .= new;
+  $!solve .= new;
 }
 
 #-------------------------------------------------------------------------------
@@ -244,7 +247,7 @@ method get-classes-from-gir ( ) {
     if $!map{$entry-name}<gir-type> ~~ any(
          <function constant enumeration bitfield docsection callback>
        ) {
-      $!map{$entry-name}<type-name> = $type-name;
+#      $!map{$entry-name}<type-name> = $type-name;
       $!map{$entry-name}<type-letter> = 'T';
     }
 
@@ -315,7 +318,7 @@ method implement-role ( Str $entry-name, Str $role-class-name) {
 # Add implementor to the role
 method set-implentors ( Str $entry-name, Str $role-class-name is copy ) {
   my Str $raku-package = $*work-data<raku-package>;
-  my Hash $role-h = $!mod.search-name($role-class-name);
+  my Hash $role-h = $!solve.search-name($role-class-name);
   if ?$role-h {
     my Str $gnome-name = $role-h<gnome-name>;
 
@@ -381,7 +384,8 @@ method !map-element (
       # with the Widget class.
       return $deprecated if ( $deprecated and $attrs<name> ne 'Misc' );
 
-      $class-name = $*work-data<raku-package> ~ '::' ~ $attrs<name>;
+      my Str $type-name = self!check-pixbuf($attrs<name>);
+      $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
       self!map-class-to-fname( $source-filename, $attrs<name>);
 
       my @roles = ();
@@ -403,7 +407,7 @@ method !map-element (
         :$source-filename,
         :$class-name,
         :$gnome-name,
-        :type-name($attrs<name>),
+        :$type-name,
         :type-letter(''),
 
         :$parent-raku-name, :$parent-gnome-name, :@roles,
@@ -419,7 +423,8 @@ method !map-element (
 
       my Str $np = $*work-data<name-prefix>;
 
-      $class-name = $*work-data<raku-package> ~ '::R-' ~ $attrs<name>;
+      my Str $type-name = self!check-pixbuf($attrs<name>);
+      $class-name = $*work-data<raku-package> ~ '::R-' ~ $type-name;
       self!map-class-to-fname( $source-filename, $attrs<name>);
 
       $!map{$ctype} = %(
@@ -428,7 +433,7 @@ method !map-element (
         :$source-filename,
         :$class-name,
         :$gnome-name,
-        :type-name($attrs<name>),
+        :$type-name,
         :type-letter('R'),
 
         :$symbol-prefix,
@@ -441,7 +446,8 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $record-class = "N-$ctype";
+      my Str $type-name = self!check-pixbuf($attrs<name>);
+      my Str $record-class = 'N-' ~ $type-name;
       my Str $name-prefix = $*work-data<name-prefix>;
       $record-class ~~ s:i/ 'N-' $name-prefix /N-/;
       $class-name = [~] $*work-data<raku-package>, '::', $record-class;
@@ -454,7 +460,7 @@ method !map-element (
         :$class-name,
         :$record-class,
         :$gnome-name,
-        :type-name($attrs<name>),
+        :$type-name,
         :type-letter('N'),
 
         :$symbol-prefix,
@@ -466,7 +472,8 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $union-class = "N-$ctype";
+      my Str $type-name = self!check-pixbuf($attrs<name>);
+      my Str $union-class = 'N-' ~ $type-name;
       my Str $name-prefix = $*work-data<name-prefix>;
       $union-class ~~ s:i/ 'N-' $name-prefix /N-/;
       $class-name = [~] $*work-data<raku-package>, '::', $union-class;
@@ -479,7 +486,7 @@ method !map-element (
         :$class-name,
         :$union-class,
         :$gnome-name,
-        :type-name($attrs<name>),
+        :$type-name,
         :type-letter('N'),
 
         :$symbol-prefix,
@@ -493,8 +500,8 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
-      $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
+      my Str $type-name = self!check-pixbuf($source-filename);
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
 
       my Str $function-name = $attrs<name>;
 
@@ -524,8 +531,8 @@ method !map-element (
         }
       }
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
-      $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
+      my Str $type-name = self!check-pixbuf-type($source-filename);
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
 
       $!map{$ctype} = %(
         :gir-type<constant>,
@@ -545,8 +552,9 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
-      $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
+      my Str $type-name = self!check-pixbuf-type($source-filename);
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
+note "$?LINE $source-filename, $type-name, $class-name";
 
       $!map{$ctype} = %(
         :gir-type<enumeration>,
@@ -563,8 +571,8 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
-      $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
+      my Str $type-name = self!check-pixbuf-type($source-filename);
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
 
       $!map{$ctype} = %(
         :gir-type<bitfield>,
@@ -581,9 +589,13 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
+      my Str $type-name = self!check-pixbuf-type($source-filename);
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'D-' ~ $type-name;
       $!map{$attrs<name>} = %(
         :gir-type<docsection>,
 
+        :$type-name,
+        :$class-name,
         :$source-filename,
         :$gnome-name,
       );
@@ -594,12 +606,14 @@ method !map-element (
       $deprecated = ($source-filename eq 'deprecated');
       return $deprecated if $deprecated;
 
-      my Str $type-name = 'T-' ~ $source-filename.tc;
+      my Str $type-name = self!check-pixbuf-type($source-filename);
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
       my Str $callback-name = $attrs<name>;
       $!map{$ctype} = %(
         :gir-type<callback>,
 
         :$type-name,
+        :$class-name,
         :$source-filename,
         :$gnome-name,
         :$callback-name,
@@ -716,12 +730,35 @@ method !get-source-file( XML::Element:D $element --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !check-pixbuf ( Str $name --> Str ) {
+method !check-pixbuf ( Str $name is copy --> Str ) {
+print "$?LINE $name --> ";
   given $name {
-    when 'GdkPixbuf'        { 'Pixbuf' }
-    when m/^ Pixbuf \w+ /   { S/^ Pixbuf // with $name }
-    default                 { $name }
+    when 'GdkPixbuf'        { $name = 'Pixbuf'; }
+    when m/^ Pixbuf \w+ /   { $name ~~ s/^ Pixbuf //; }
+    default                 { }
   }
+
+note $name;
+  $name
+}
+
+#-------------------------------------------------------------------------------
+method !check-pixbuf-type ( Str $source-filename ) {
+  my Str $type-name;
+  if $source-filename ~~ m/^ 'gdk-pixbuf' / {
+    my Str $c = $source-filename;
+    $c ~~ s:g/ '-' (<[a..z]>) /$0.uc()/;
+    $c .= tc;
+    $c ~~ s/ GdkPixbuf //;
+    $type-name = ?$c ?? $c !! 'Pixbuf';
+note "$?LINE $source-filename, $c, $type-name";
+  }
+
+  else {
+    $type-name = $source-filename.tc;
+  }
+
+  $type-name
 }
 
 #-------------------------------------------------------------------------------
