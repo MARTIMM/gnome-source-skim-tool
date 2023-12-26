@@ -1901,7 +1901,7 @@ method convert-ntype (
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = $!solve.search-name($ctype);
-#note "  $?LINE $is-pointer, $ctype, $h.gist";
+#note "  $?LINE $is-pointer, $ctype, $h.gist()";
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-Object';
