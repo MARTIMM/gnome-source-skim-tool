@@ -53,18 +53,27 @@ submethod BUILD ( ) {
   # Add/modify some more global work data
   if ?$*gnome-class {
 
-    $*work-data<raku-class-name> =
-      $*work-data<raku-package> ~ "::$*gnome-class";
-
-    my Str $c;
     # Exceptions (as always >sic<)
-    $c = $*gnome-class;
-    unless $*gnome-class ~~ / SList / {
-      $c ~~ s/^ (.) /$0.lc()/;
-      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+    if $*gnome-class ~~ m/ SList / {
+      $*work-data<sub-prefix> = 'g_slist_';
+      $*work-data<raku-class-name> =
+        $*work-data<raku-package> ~ '::SList';
+
     }
 
-    $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
+    elsif  $*gnome-package ~~ GdkPixbuf {
+      # done in prepare-work-data()
+    }
+
+    else {
+      $*work-data<raku-class-name> =
+        $*work-data<raku-package> ~ "::$*gnome-class";
+
+      my Str $c = $*gnome-class;
+      $c ~~ s/^ (.) /$0.lc()/;
+      $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+      $*work-data<sub-prefix> = [~] $*work-data<name-prefix>, '_', $c, '_';
+    }
  }
 
   self.display-hash( $*work-data, :label<work-data>) if $*verbose;
@@ -111,28 +120,30 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
       $work-data = %(
         :library<gdk-pixbuf-lib()>,
         :gir-module-path(SKIMTOOLDATA ~ 'GdkPixbuf/'),
-        :raku-package<Gnome::Gdk3>,
-        :gnome-name($*gnome-class ?? "GdkPixbuf$*gnome-class" !! ''),
+        :raku-package<Gnome::GdkPixbuf>,
         :gir(GIRROOT ~ 'GdkPixbuf-2.0.gir'),
         :name-prefix<gdk_pixbuf>,
-        :result-mods(API2MODS ~ 'gnome-gdk3/lib/Gnome/Gdk3/'),
-        :result-tests(API2MODS ~ 'gnome-gdk3/t/'),
-        :result-docs(API2MODS ~ 'gnome-gdk3/doc/'),
+        :result-mods(API2MODS ~ 'gnome-gdkpixbuf/lib/Gnome/GdkPixbuf/'),
+        :result-tests(API2MODS ~ 'gnome-gdkpixbuf/t/'),
+        :result-docs(API2MODS ~ 'gnome-gdkpixbuf/doc/'),
       );
-    }
 
-    when GdkPixdata {
-      $work-data = %(
-        :library<gdk-pixbuf-lib()>,
-        :gir-module-path(SKIMTOOLDATA ~ 'GdkPixdata/'),
-        :raku-package<Gnome::Gdk3>,
-        :gnome-name($*gnome-class ?? "GdkPixdata$*gnome-class" !! ''),
-        :gir(GIRROOT ~ 'GdkPixdata-2.0.gir'),
-        :name-prefix<gdk_pixdata>,
-        :result-mods(API2MODS ~ 'gnome-gdk3/lib/Gnome/Gdk3/'),
-        :result-tests(API2MODS ~ 'gnome-gdk3/t/'),
-        :result-docs(API2MODS ~ 'gnome-gdk3/doc/'),
-      );
+      if ?$*gnome-class {
+        my Str $c = $*gnome-class;
+        $c = $*gnome-class;
+        $c ~~ s:g/ '-' (<[a..z]>) /$0.uc()/;
+        $c .= tc;
+        $work-data<gnome-name> = $c;
+
+        $c ~~ s/ GdkPixbuf //;
+        $work-data<raku-name> = ?$c ?? $c !! 'Pixbuf';
+        $work-data<raku-class-name> = "Gnome::GdkPixbuf::$work-data<raku-name>";
+        
+        $c = $*gnome-class.lc;
+        $c ~~ s:g/ '-' /_/;
+        $work-data<sub-prefix> = $c;
+
+      }
     }
 
     when Gtk4 {
@@ -297,7 +308,8 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
     }
   }
 
-  $work-data<raku-name> = $*gnome-class ?? "$*gnome-class" !! '';
+  $work-data<raku-name> = $*gnome-class ?? "$*gnome-class" !! ''
+    unless ?$work-data<raku-name>;
   $work-data<result-code-sections> = $work-data<result-docs> ~ 'code-sections/';
 
   mkdir $work-data<result-mods>, 0o700 unless $work-data<result-mods>.IO.e;
