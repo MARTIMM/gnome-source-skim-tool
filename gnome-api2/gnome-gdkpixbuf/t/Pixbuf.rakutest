@@ -10,10 +10,10 @@ use Test;
 use NativeCall;
 
 
-#use Gnome::GdkPixbuf::N-PixbufFormat:api<2>;
+#use Gnome::GdkPixbuf::N-Format:api<2>;
 #use Gnome::GdkPixbuf::Pixbuf:api<2>;
-#use Gnome::GdkPixbuf::T-Gdk-pixbuf-core:api<2>;
-#use Gnome::GdkPixbuf::T-Gdk-pixbuf-transform:api<2>;
+#use Gnome::GdkPixbuf::T-Core:api<2>;
+#use Gnome::GdkPixbuf::T-Transform:api<2>;
 #use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
 #use Gnome::Glib::N-HashTable:api<2>;
@@ -35,22 +35,22 @@ my Gnome::GdkPixbuf::Pixbuf $gdkpixbuf;
 
 subtest 'ISA test', {
   given $gdkpixbuf {
-    my N-Object $stream;
-    sub destroy-fn ( Str $pixels, gpointer $data ) {}
-    my GdkColorspace  $colorspace;
     my gboolean $has-alpha;
-    my N-Object $cancellable;
-    my gboolean $preserve-aspect-ratio;
-    my Str $resource-path;
-    my gpointer $destroy-fn-data;
-    my gint $height;
     my N-Object $async-result;
-    my Str $filename;
-    my CArray[N-Error] $err;
-    my gchar-pptr $data;
+    my N-Object $cancellable;
     my gint $bits-per-sample;
-    my gint $rowstride;
+    my gchar-pptr $data;
+    my N-Object $stream;
+    my Str $filename;
+    my Str $resource-path;
+    my gboolean $preserve-aspect-ratio;
+    my gpointer $destroy-fn-data;
     my gint $width;
+    sub destroy-fn ( Str $pixels, gpointer $data ) {}
+    my CArray[N-Error] $err;
+    my gint $rowstride;
+    my gint $height;
+    my GdkColorspace  $colorspace;
 
 #`{{
     #TC:0:new-gdkpixbuf()
@@ -168,52 +168,52 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $gdkpixbuf {
-    my gdouble $offset-x;
-    my gboolean $pixelate;
-    my gchar-pptr $option-values;
-    my guint32 $color1;
-    my gint $height;
-    my guchar $b;
-    my N-Object $cancellable;
-    my CArray[N-Error] $err;
-    my  $callback;
     my gint $overall-alpha;
-    my Str $filename;
+    my CArray[N-Error] $error;
+    my gchar-pptr $option-values;
+    my gint $width;
+    my gint $dest-height;
+    my guint32 $color1;
+    my N-Object $dest;
+    my gint $src-x;
     my Str $type;
     my CArray[gsize] $buffer-size;
-    my gint-ptr $length;
-    my CArray[N-Error] $error;
-    my N-Object $dest-pixbuf;
-    my gint $dest-height;
-    my GdkInterpType  $interp-type;
-    my gint $check-size;
-    my N-Object $stream;
-    my guchar $r;
+    my gdouble $offset-x;
+    my gint $dest-width;
+    my GdkPixbufRotation  $angle;
+    my CArray[N-Error] $err;
+    my gchar-pptr $buffer;
     my Str $value;
-    my gint $width;
+    my gint $height;
+    my  $callback;
+    my gfloat $saturation;
+    my gboolean $substitute-color;
+    my gint $check-size;
+    my Str $key;
+    my guint32 $color2;
+    my guchar $g;
+    my gdouble $scale-x;
+    my gint $check-y;
     my gint $dest-y;
     my gdouble $offset-y;
-    my gint $check-y;
-    my gfloat $saturation;
+    my guchar $b;
+    my N-Object $cancellable;
     my gpointer $user-data;
-    my gdouble $scale-x;
+    my N-Object $dest-pixbuf;
+    my gchar-pptr $option-keys;
+    my gint $dest-x;
+    my gint-ptr $length;
+    my gboolean $pixelate;
+    my Str $filename;
+    my gint $check-x;
+    my guchar $r;
+    my gdouble $scale-y;
+    my gint $src-y;
+    my GdkInterpType  $interp-type;
+    my guint32 $pixel;
     my gboolean $horizontal;
     sub save-func ( Str $buf, gsize $count, CArray[N-Error] $error, gpointer $data --> gboolean ) {}
-    my guint32 $pixel;
-    my gint $src-y;
-    my gchar-pptr $option-keys;
-    my Str $key;
-    my gchar-pptr $buffer;
-    my gint $dest-width;
-    my gboolean $substitute-color;
-    my N-Object $dest;
-    my gint $dest-x;
-    my gint $src-x;
-    my gdouble $scale-y;
-    my guint32 $color2;
-    my gint $check-x;
-    my GdkPixbufRotation  $angle;
-    my guchar $g;
+    my N-Object $stream;
 
 
 #`{{
@@ -353,20 +353,20 @@ subtest 'Method tests', {
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $gdkpixbuf {
-    my Int() $height;
-    my gpointer $user-data;
-    my CArray[N-Error] $err;
-    my Bool() $preserve-aspect-ratio;
+    my Str $path;
     my  $callback;
-    my N-Object() $cancellable;
+    my Int() $height;
     my Str $filename;
+    my N-Object() $cancellable;
+    my Int() $bits-per-sample;
     my Bool() $has-alpha;
     my N-Object() $async-result;
-    my N-Object() $stream;
-    my GdkColorspace  $colorspace;
+    my Bool() $preserve-aspect-ratio;
     my Int() $width;
-    my Int() $bits-per-sample;
-    my Str $path;
+    my N-Object() $stream;
+    my gpointer $user-data;
+    my GdkColorspace  $colorspace;
+    my CArray[N-Error] $err;
 
 
 #`{{
