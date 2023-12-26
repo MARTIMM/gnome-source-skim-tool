@@ -1,0 +1,492 @@
+=comment Package: GdkPixbuf, C-Source: gdk-pixbuf
+use v6.d;
+
+#TL:1:Gnome::GdkPixbuf::Pixbuf:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::GdkPixbuf::N-PixbufFormat:api<2>;
+#use Gnome::GdkPixbuf::Pixbuf:api<2>;
+#use Gnome::GdkPixbuf::T-Gdk-pixbuf-core:api<2>;
+#use Gnome::GdkPixbuf::T-Gdk-pixbuf-transform:api<2>;
+#use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::N-Error:api<2>;
+#use Gnome::Glib::N-HashTable:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::GdkPixbuf::Pixbuf $gdkpixbuf;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $gdkpixbuf {
+    my N-Object $stream;
+    sub destroy-fn ( Str $pixels, gpointer $data ) {}
+    my GdkColorspace  $colorspace;
+    my gboolean $has-alpha;
+    my N-Object $cancellable;
+    my gboolean $preserve-aspect-ratio;
+    my Str $resource-path;
+    my gpointer $destroy-fn-data;
+    my gint $height;
+    my N-Object $async-result;
+    my Str $filename;
+    my CArray[N-Error] $err;
+    my gchar-pptr $data;
+    my gint $bits-per-sample;
+    my gint $rowstride;
+    my gint $width;
+
+#`{{
+    #TC:0:new-gdkpixbuf()
+    $colorspace = …;
+    $has-alpha = '…';
+    $bits-per-sample = '…';
+    $width = '…';
+    $height = '…';
+    $gdkpixbuf .= new-gdkpixbuf( $colorspace, $has-alpha, $bits-per-sample, $width, $height);
+    ok .is-valid, '.new-gdkpixbuf( $colorspace, $has-alpha, $bits-per-sample, $width, $height)';
+
+    #TC:0:new-from-bytes()
+    $data = '…';
+    $colorspace = …;
+    $has-alpha = '…';
+    $bits-per-sample = '…';
+    $width = '…';
+    $height = '…';
+    $rowstride = '…';
+    $gdkpixbuf .= new-from-bytes( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride);
+    ok .is-valid, '.new-from-bytes( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride)';
+
+    #TC:0:new-from-data()
+    $data = 'text';
+    $colorspace = …;
+    $has-alpha = '…';
+    $bits-per-sample = '…';
+    $width = '…';
+    $height = '…';
+    $rowstride = '…';
+    $destroy-fn = …;
+    $destroy-fn-data = '…';
+    $gdkpixbuf .= new-from-data( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride, $destroy-fn, $destroy-fn-data);
+    ok .is-valid, '.new-from-data( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride, $destroy-fn, $destroy-fn-data)';
+
+    #TC:0:new-from-file()
+    $filename = 'text';
+    $err = '…';
+    $gdkpixbuf .= new-from-file( $filename, $err);
+    ok .is-valid, '.new-from-file( $filename, $err)';
+
+    #TC:0:new-from-file-at-scale()
+    $filename = 'text';
+    $width = '…';
+    $height = '…';
+    $preserve-aspect-ratio = '…';
+    $err = '…';
+    $gdkpixbuf .= new-from-file-at-scale( $filename, $width, $height, $preserve-aspect-ratio, $err);
+    ok .is-valid, '.new-from-file-at-scale( $filename, $width, $height, $preserve-aspect-ratio, $err)';
+
+    #TC:0:new-from-file-at-size()
+    $filename = 'text';
+    $width = '…';
+    $height = '…';
+    $err = '…';
+    $gdkpixbuf .= new-from-file-at-size( $filename, $width, $height, $err);
+    ok .is-valid, '.new-from-file-at-size( $filename, $width, $height, $err)';
+
+    #TC:0:new-from-resource()
+    $resource-path = 'text';
+    $err = '…';
+    $gdkpixbuf .= new-from-resource( $resource-path, $err);
+    ok .is-valid, '.new-from-resource( $resource-path, $err)';
+
+    #TC:0:new-from-resource-at-scale()
+    $resource-path = 'text';
+    $width = '…';
+    $height = '…';
+    $preserve-aspect-ratio = '…';
+    $err = '…';
+    $gdkpixbuf .= new-from-resource-at-scale( $resource-path, $width, $height, $preserve-aspect-ratio, $err);
+    ok .is-valid, '.new-from-resource-at-scale( $resource-path, $width, $height, $preserve-aspect-ratio, $err)';
+
+    #TC:0:new-from-stream()
+    $stream = …;
+    $cancellable = …;
+    $err = '…';
+    $gdkpixbuf .= new-from-stream( $stream, $cancellable, $err);
+    ok .is-valid, '.new-from-stream( $stream, $cancellable, $err)';
+
+    #TC:0:new-from-stream-at-scale()
+    $stream = …;
+    $width = '…';
+    $height = '…';
+    $preserve-aspect-ratio = '…';
+    $cancellable = …;
+    $err = '…';
+    $gdkpixbuf .= new-from-stream-at-scale( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $err);
+    ok .is-valid, '.new-from-stream-at-scale( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $err)';
+
+    #TC:0:new-from-stream-finish()
+    $async-result = …;
+    $err = '…';
+    $gdkpixbuf .= new-from-stream-finish( $async-result, $err);
+    ok .is-valid, '.new-from-stream-finish( $async-result, $err)';
+
+    #TC:0:new-from-xpm-data()
+    $data = '…';
+    $gdkpixbuf .= new-from-xpm-data( $data);
+    ok .is-valid, '.new-from-xpm-data( $data)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $gdkpixbuf {
+    my gdouble $offset-x;
+    my gboolean $pixelate;
+    my gchar-pptr $option-values;
+    my guint32 $color1;
+    my gint $height;
+    my guchar $b;
+    my N-Object $cancellable;
+    my CArray[N-Error] $err;
+    my  $callback;
+    my gint $overall-alpha;
+    my Str $filename;
+    my Str $type;
+    my CArray[gsize] $buffer-size;
+    my gint-ptr $length;
+    my CArray[N-Error] $error;
+    my N-Object $dest-pixbuf;
+    my gint $dest-height;
+    my GdkInterpType  $interp-type;
+    my gint $check-size;
+    my N-Object $stream;
+    my guchar $r;
+    my Str $value;
+    my gint $width;
+    my gint $dest-y;
+    my gdouble $offset-y;
+    my gint $check-y;
+    my gfloat $saturation;
+    my gpointer $user-data;
+    my gdouble $scale-x;
+    my gboolean $horizontal;
+    sub save-func ( Str $buf, gsize $count, CArray[N-Error] $error, gpointer $data --> gboolean ) {}
+    my guint32 $pixel;
+    my gint $src-y;
+    my gchar-pptr $option-keys;
+    my Str $key;
+    my gchar-pptr $buffer;
+    my gint $dest-width;
+    my gboolean $substitute-color;
+    my N-Object $dest;
+    my gint $dest-x;
+    my gint $src-x;
+    my gdouble $scale-y;
+    my guint32 $color2;
+    my gint $check-x;
+    my GdkPixbufRotation  $angle;
+    my guchar $g;
+
+
+#`{{
+    #TM:0:add-alpha()
+    ok .add-alpha( $substitute-color, $r, $g, $b), '.add-alpha()';
+
+    #TM:0:apply-embedded-orientation()
+    ok .apply-embedded-orientation(), '.apply-embedded-orientation()';
+
+    #TM:0:composite()
+    ok .composite( $dest, $dest-x, $dest-y, $dest-width, $dest-height, $offset-x, $offset-y, $scale-x, $scale-y, $interp-type, $overall-alpha), '.composite()';
+
+    #TM:0:composite-color()
+    ok .composite-color( $dest, $dest-x, $dest-y, $dest-width, $dest-height, $offset-x, $offset-y, $scale-x, $scale-y, $interp-type, $overall-alpha, $check-x, $check-y, $check-size, $color1, $color2), '.composite-color()';
+
+    #TM:0:composite-color-simple()
+    ok .composite-color-simple( $dest-width, $dest-height, $interp-type, $overall-alpha, $check-size, $color1, $color2), '.composite-color-simple()';
+
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:copy-area()
+    ok .copy-area( $src-x, $src-y, $width, $height, $dest-pixbuf, $dest-x, $dest-y), '.copy-area()';
+
+    #TM:0:copy-options()
+    ok .copy-options( $dest-pixbuf), '.copy-options()';
+
+    #TM:0:fill()
+    ok .fill( $pixel), '.fill()';
+
+    #TM:0:flip()
+    ok .flip( $horizontal), '.flip()';
+
+    #TM:0:get-bits-per-sample()
+     .get-bits-per-sample(), '…', '.get-bits-per-sample()';
+
+    #TM:0:get-byte-length()
+     .get-byte-length(), '…', '.get-byte-length()';
+
+    #TM:0:get-colorspace()
+     .get-colorspace(), '…', '.get-colorspace()';
+
+    #TM:0:get-has-alpha()
+     .get-has-alpha(), '…', '.get-has-alpha()';
+
+    #TM:0:get-height()
+     .get-height(), '…', '.get-height()';
+
+    #TM:0:get-n-channels()
+     .get-n-channels(), '…', '.get-n-channels()';
+
+    #TM:0:get-options()
+     .get-options(), '…', '.get-options()';
+
+    #TM:0:get-pixels()
+     .get-pixels(), '…', '.get-pixels()';
+
+    #TM:0:get-pixels-with-length()
+    is .get-pixels-with-length( $length), '…', '.get-pixels-with-length()';
+
+    #TM:0:get-rowstride()
+     .get-rowstride(), '…', '.get-rowstride()';
+
+    #TM:0:get-width()
+     .get-width(), '…', '.get-width()';
+
+    #TC:0:new-subpixbuf()
+    $src-x = '…';
+    $src-y = '…';
+    $width = '…';
+    $height = '…';
+    $gdkpixbuf .= new-subpixbuf( $src-x, $src-y, $width, $height);
+    ok .is-valid, '.new-subpixbuf( $src-x, $src-y, $width, $height)';
+
+    #TM:0:read-pixel-bytes()
+    ok .read-pixel-bytes(), '.read-pixel-bytes()';
+
+    #TM:0:read-pixels()
+    ok .read-pixels(), '.read-pixels()';
+
+    #TM:0:remove-option()
+    ok .remove-option( $key), '.remove-option()';
+
+    #TM:0:rotate-simple()
+    ok .rotate-simple( $angle), '.rotate-simple()';
+
+    #TM:0:saturate-and-pixelate()
+    ok .saturate-and-pixelate( $dest, $saturation, $pixelate), '.saturate-and-pixelate()';
+
+    #TM:0:save()
+    ok .save( $filename, $type, $error), '.save()';
+
+    #TM:0:save-to-buffer()
+    ok .save-to-buffer( $buffer, $buffer-size, $type, $error), '.save-to-buffer()';
+
+    #TM:0:save-to-bufferv()
+    ok .save-to-bufferv( $buffer, $buffer-size, $type, $option-keys, $option-values, $err), '.save-to-bufferv()';
+
+    #TM:0:save-to-callback()
+    ok .save-to-callback( $save-func, $user-data, $type, $error), '.save-to-callback()';
+
+    #TM:0:save-to-callbackv()
+    ok .save-to-callbackv( $save-func, $user-data, $type, $option-keys, $option-values, $err), '.save-to-callbackv()';
+
+    #TM:0:save-to-stream()
+    ok .save-to-stream( $stream, $type, $cancellable, $error), '.save-to-stream()';
+
+    #TM:0:save-to-stream-async()
+    ok .save-to-stream-async( $stream, $type, $cancellable, $callback, $user-data), '.save-to-stream-async()';
+
+    #TM:0:save-to-streamv()
+    ok .save-to-streamv( $stream, $type, $option-keys, $option-values, $cancellable, $err), '.save-to-streamv()';
+
+    #TM:0:save-to-streamv-async()
+    ok .save-to-streamv-async( $stream, $type, $option-keys, $option-values, $cancellable, $callback, $user-data), '.save-to-streamv-async()';
+
+    #TM:0:savev()
+    ok .savev( $filename, $type, $option-keys, $option-values, $err), '.savev()';
+
+    #TM:0:scale()
+    ok .scale( $dest, $dest-x, $dest-y, $dest-width, $dest-height, $offset-x, $offset-y, $scale-x, $scale-y, $interp-type), '.scale()';
+
+    #TM:0:scale-simple()
+    ok .scale-simple( $dest-width, $dest-height, $interp-type), '.scale-simple()';
+
+    #TM:0:set-option()
+    $key = 'text';
+    $value = 'text';
+    .set-option( $key, $value);
+    #TM:0:get-option()
+    is .get-option(),  $key, $value, '.set-option() / .get-option()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $gdkpixbuf {
+    my Int() $height;
+    my gpointer $user-data;
+    my CArray[N-Error] $err;
+    my Bool() $preserve-aspect-ratio;
+    my  $callback;
+    my N-Object() $cancellable;
+    my Str $filename;
+    my Bool() $has-alpha;
+    my N-Object() $async-result;
+    my N-Object() $stream;
+    my GdkColorspace  $colorspace;
+    my Int() $width;
+    my Int() $bits-per-sample;
+    my Str $path;
+
+
+#`{{
+    #TM:0:calculate-rowstride()
+    ok .calculate-rowstride( $colorspace, $has-alpha, $bits-per-sample, $width, $height), '.calculate-rowstride()';
+
+    #TM:0:get-file-info()
+    is .get-file-info( $filename, $width, $height), '…', '.get-file-info()';
+
+    #TM:0:get-file-info-async()
+    is .get-file-info-async( $filename, $cancellable, $callback, $user-data), '…', '.get-file-info-async()';
+
+    #TM:0:get-file-info-finish()
+    is .get-file-info-finish( $async-result, $width, $height, $err), '…', '.get-file-info-finish()';
+
+    #TM:0:get-formats()
+     .get-formats(), '…', '.get-formats()';
+
+    #TM:0:init-modules()
+    ok .init-modules( $path, $err), '.init-modules()';
+
+    #TC:0:new-from-stream-async()
+    $stream = …;
+    $cancellable = …;
+    $callback = '…';
+    $user-data = '…';
+    $gdkpixbuf .= new-from-stream-async( $stream, $cancellable, $callback, $user-data);
+    ok .is-valid, '.new-from-stream-async( $stream, $cancellable, $callback, $user-data)';
+
+    #TC:0:new-from-stream-at-scale-async()
+    $stream = …;
+    $width = -42;
+    $height = -42;
+    $preserve-aspect-ratio = True;
+    $cancellable = …;
+    $callback = '…';
+    $user-data = '…';
+    $gdkpixbuf .= new-from-stream-at-scale-async( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $callback, $user-data);
+    ok .is-valid, '.new-from-stream-at-scale-async( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $callback, $user-data)';
+
+    #TM:0:save-to-stream-finish()
+    ok .save-to-stream-finish( $async-result, $err), '.save-to-stream-finish()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::GdkPixbuf::Pixbuf() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::GdkPixbuf::Pixbuf;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::GdkPixbuf::Pixbuf :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::GdkPixbuf::Pixbuf $gdkpixbuf .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $gdkpixbuf.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
