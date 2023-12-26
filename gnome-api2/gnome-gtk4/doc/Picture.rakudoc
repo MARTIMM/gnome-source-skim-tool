@@ -1,0 +1,570 @@
+=comment Package: Gtk4, C-Source: picture
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Picture
+
+![](images/picture.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::Picture> widget displays a B<Gnome::Gdk4::R-Paintable>.
+
+![An example GtkPicture](picture.png)
+
+Many convenience functions are provided to make pictures simple to use.
+For example, if you want to load an image from a file, and then display
+it, there’s a convenience function to do this:
+
+=begin comment
+GtkWidget *widget = gtk_picture_new_for_filename ("myfile.png");
+
+=end comment
+
+If the file isn’t loaded successfully, the picture will contain a
+“broken image” icon similar to that used in many web browsers.
+If you want to handle errors in loading the file yourself,
+for example by displaying an error message, then load the image with
+C<.new-from-file() in class Gnome::Gdk4::Texture>, then create the B<Gnome::Gtk4::Picture> with
+C<.new-for-paintable()>.
+
+Sometimes an application will want to avoid depending on external data
+files, such as image files. See the documentation of B<Gnome::Gio::N-Resource> for details.
+In this case, C<.new-for-resource()> and
+C<.set-resource()> should be used.
+
+B<Gnome::Gtk4::Picture> displays an image at its natural size. See B<Gnome::Gtk4::Image>
+if you want to display a fixed-size image, such as an icon.
+
+=head3 Sizing the paintable
+
+You can influence how the paintable is displayed inside the B<Gnome::Gtk4::Picture>.
+By turning off I<keep-aspect-ratio> you can allow the
+paintable to get stretched. I<can-shrink> can be unset
+to make sure that paintables are never made smaller than their ideal size -
+but be careful if you do not know the size of the paintable in use (like
+when displaying user-loaded images). This can easily cause the picture to
+grow larger than the screen. And [property C<$GtkWidget>:halign] and
+[property C<$GtkWidget>:valign] can be used to make sure the paintable doesn't
+fill all available space but is instead displayed at its original size.
+
+=head3 CSS nodes
+
+B<Gnome::Gtk4::Picture> has a single CSS node with the name B<picture>.
+
+=head3 Accessibility
+
+B<Gnome::Gtk4::Picture> uses the B<GTK_ACCESSIBLE_ROLE_IMG> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Picture
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-picture
+
+Creates a new empty B<Gnome::Gtk4::Picture> widget.
+
+=begin code
+method new-picture ( --> Gnome::Gtk4::Picture \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-picture
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-file
+
+Creates a new B<Gnome::Gtk4::Picture> displaying the given C<$file>.
+
+If the file isn’t found or can’t be loaded, the resulting
+B<Gnome::Gtk4::Picture> is empty.
+
+If you need to detect failures to load the file, use
+C<.new-from-file() in class Gnome::Gdk4::Texture> to load the file yourself,
+then create the B<Gnome::Gtk4::Picture> from the texture.
+
+=begin code
+method new-for-file ( N-Object() $file --> Gnome::Gtk4::Picture \)
+=end code
+
+=item $file; a B<Gnome::Gio::File>.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-filename
+
+Creates a new B<Gnome::Gtk4::Picture> displaying the file C<$filename>.
+
+This is a utility function that calls C<.new-for-file()>.
+See that function for details.
+
+=begin code
+method new-for-filename ( Str $filename --> Gnome::Gtk4::Picture \)
+=end code
+
+=item $filename; a filename.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-filename
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-paintable
+
+Creates a new B<Gnome::Gtk4::Picture> displaying C<$paintable>.
+
+The B<Gnome::Gtk4::Picture> will track changes to the C<$paintable> and update
+its size and contents in response to it.
+
+=begin code
+method new-for-paintable ( N-Object() $paintable --> Gnome::Gtk4::Picture \)
+=end code
+
+=item $paintable; a B<Gnome::Gdk4::R-Paintable>.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-pixbuf
+This function is not yet available
+
+Creates a new B<Gnome::Gtk4::Picture> displaying C<$pixbuf>.
+
+This is a utility function that calls C<.new-for-paintable()>,
+See that function for details.
+
+The pixbuf must not be modified after passing it to this function.
+
+=begin code
+method new-for-pixbuf ( … --> Gnome::Gtk4::Picture \)
+=end code
+
+=item pixbuf; a B<GdkPixbuf>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-for-pixbuf
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-resource
+
+Creates a new B<Gnome::Gtk4::Picture> displaying the resource at C<$resource-path>.
+
+This is a utility function that calls C<.new-for-file()>.
+See that function for details.
+
+=begin code
+method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Picture \)
+=end code
+
+=item $resource-path; resource path to play back.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-resource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-alternative-text
+
+Gets the alternative textual description of the picture.
+
+The returned string will be undefined if the picture cannot be described textually.
+
+=begin code
+method get-alternative-text (--> Str )
+=end code
+
+Return value; the alternative textual description of C<$self>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-alternative-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-can-shrink
+
+Returns whether the B<Gnome::Gtk4::Picture> respects its contents size.
+
+=begin code
+method get-can-shrink (--> Bool )
+=end code
+
+Return value; C<True> if the picture can be made smaller than its contents. 
+
+=begin comment
+
+=head2 Example
+# Example for get-can-shrink
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-file
+
+Gets the B<Gnome::Gio::File> currently displayed if C<$self> is displaying a file.
+
+If C<$self> is not displaying a file, for example when
+C<.set-paintable()> was used, then undefined is returned.
+
+=begin code
+method get-file (--> N-Object )
+=end code
+
+Return value; The B<Gnome::Gio::File> displayed by C<$self>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-keep-aspect-ratio
+
+Returns whether the B<Gnome::Gtk4::Picture> preserves its contents aspect ratio.
+
+=begin code
+method get-keep-aspect-ratio (--> Bool )
+=end code
+
+Return value; C<True> if the self tries to keep the contents' aspect ratio. 
+
+=begin comment
+
+=head2 Example
+# Example for get-keep-aspect-ratio
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-paintable
+
+Gets the B<Gnome::Gdk4::R-Paintable> being displayed by the B<Gnome::Gtk4::Picture>.
+
+=begin code
+method get-paintable (--> N-Object )
+=end code
+
+Return value; the displayed paintable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-alternative-text
+
+Sets an alternative textual description for the picture contents.
+
+It is equivalent to the "alt" attribute for images on websites.
+
+This text will be made available to accessibility tools.
+
+If the picture cannot be described textually, set this property to undefined.
+
+=begin code
+method set-alternative-text ( Str $alternative-text )
+=end code
+
+=item $alternative-text; a textual description of the contents.
+
+=begin comment
+
+=head2 Example
+# Example for set-alternative-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-can-shrink
+
+If set to C<True>, the C<$self> can be made smaller than its contents.
+
+The contents will then be scaled down when rendering.
+
+If you want to still force a minimum size manually, consider using
+C<.set-size-request() in class Gnome::Gtk4::Widget>.
+
+Also of note is that a similar function for growing does not exist
+because the grow behavior can be controlled via
+C<.set-halign() in class Gnome::Gtk4::Widget> and C<.set-valign() in class Gnome::Gtk4::Widget>.
+
+=begin code
+method set-can-shrink ( Bool() $can-shrink )
+=end code
+
+=item $can-shrink; if C<$self> can be made smaller than its contents.
+
+=begin comment
+
+=head2 Example
+# Example for set-can-shrink
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-file
+
+Makes C<$self> load and display C<$file>.
+
+See C<.new-for-file()> for details.
+
+=begin code
+method set-file ( N-Object() $file )
+=end code
+
+=item $file; a B<Gnome::Gio::File>.
+
+=begin comment
+
+=head2 Example
+# Example for set-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-filename
+
+Makes C<$self> load and display the given C<$filename>.
+
+This is a utility function that calls C<.set-file()>.
+
+=begin code
+method set-filename ( Str $filename )
+=end code
+
+=item $filename; the filename to play.
+
+=begin comment
+
+=head2 Example
+# Example for set-filename
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-keep-aspect-ratio
+
+If set to C<True>, the C<$self> will render its contents according to
+their aspect ratio.
+
+That means that empty space may show up at the top/bottom or
+left/right of C<$self>.
+
+If set to C<False> or if the contents provide no aspect ratio,
+the contents will be stretched over the picture's whole area.
+
+=begin code
+method set-keep-aspect-ratio ( Bool() $keep-aspect-ratio )
+=end code
+
+=item $keep-aspect-ratio; whether to keep aspect ratio.
+
+=begin comment
+
+=head2 Example
+# Example for set-keep-aspect-ratio
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-paintable
+
+Makes C<$self> display the given C<$paintable>.
+
+If C<$paintable> is undefined, nothing will be displayed.
+
+See C<.new-for-paintable()> for details.
+
+=begin code
+method set-paintable ( N-Object() $paintable )
+=end code
+
+=item $paintable; a B<Gnome::Gdk4::R-Paintable>.
+
+=begin comment
+
+=head2 Example
+# Example for set-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pixbuf
+This function is not yet available
+
+Sets a B<Gnome::Gtk4::Picture> to show a B<GdkPixbuf>.
+
+See C<.new-for-pixbuf()> for details.
+
+This is a utility function that calls C<.set-paintable()>.
+
+=begin code
+method set-pixbuf ( … )
+=end code
+
+=item pixbuf; a B<GdkPixbuf>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-pixbuf
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-resource
+
+Makes C<$self> load and display the resource at the given C<$resource-path>.
+
+This is a utility function that calls C<.set-file()>.
+
+=begin code
+method set-resource ( Str $resource-path )
+=end code
+
+=item $resource-path; the resource to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-resource
+
+=end comment
+
+=end pod
+

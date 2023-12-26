@@ -1,0 +1,230 @@
+=comment Package: Gtk4, C-Source: picture
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Picture:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Picture:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Picture $picture;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $picture {
+    my  $pixbuf;
+    my Str $filename;
+    my Str $resource-path;
+    my N-Object $paintable;
+    my N-Object $file;
+
+#`{{
+    #TC:0:new-picture()
+
+    $picture .= new-picture();
+    ok .is-valid, '.new-picture()';
+
+    #TC:0:new-for-file()
+    $file = …;
+    $picture .= new-for-file( $file);
+    ok .is-valid, '.new-for-file( $file)';
+
+    #TC:0:new-for-filename()
+    $filename = 'text';
+    $picture .= new-for-filename( $filename);
+    ok .is-valid, '.new-for-filename( $filename)';
+
+    #TC:0:new-for-paintable()
+    $paintable = …;
+    $picture .= new-for-paintable( $paintable);
+    ok .is-valid, '.new-for-paintable( $paintable)';
+
+    #TC:0:new-for-pixbuf()
+    $pixbuf = '…';
+    $picture .= new-for-pixbuf( $pixbuf);
+    ok .is-valid, '.new-for-pixbuf( $pixbuf)';
+
+    #TC:0:new-for-resource()
+    $resource-path = 'text';
+    $picture .= new-for-resource( $resource-path);
+    ok .is-valid, '.new-for-resource( $resource-path)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $picture {
+    my  $pixbuf;
+    my N-Object $paintable;
+    my N-Object $file;
+    my gboolean $can-shrink;
+    my gboolean $keep-aspect-ratio;
+    my Str $filename;
+    my Str $resource-path;
+    my Str $alternative-text;
+
+
+#`{{
+    #TM:0:set-alternative-text()
+    $alternative-text = 'text';
+    .set-alternative-text( $alternative-text);
+    #TM:0:get-alternative-text()
+    is .get-alternative-text(),  $alternative-text, '.set-alternative-text() / .get-alternative-text()';
+
+    #TM:0:set-can-shrink()
+    $can-shrink = '…';
+    .set-can-shrink( $can-shrink);
+    #TM:0:get-can-shrink()
+    is .get-can-shrink(),  $can-shrink, '.set-can-shrink() / .get-can-shrink()';
+
+    #TM:0:set-file()
+    $file = …;
+    .set-file( $file);
+    #TM:0:get-file()
+    is .get-file(),  $file, '.set-file() / .get-file()';
+
+    #TM:0:set-filename()
+    $filename = 'text';
+    .set-filename( $filename);
+    ok True, '.set-filename()';
+
+    #TM:0:set-keep-aspect-ratio()
+    $keep-aspect-ratio = '…';
+    .set-keep-aspect-ratio( $keep-aspect-ratio);
+    #TM:0:get-keep-aspect-ratio()
+    is .get-keep-aspect-ratio(),  $keep-aspect-ratio, '.set-keep-aspect-ratio() / .get-keep-aspect-ratio()';
+
+    #TM:0:set-paintable()
+    $paintable = …;
+    .set-paintable( $paintable);
+    #TM:0:get-paintable()
+    is .get-paintable(),  $paintable, '.set-paintable() / .get-paintable()';
+
+    #TM:0:set-pixbuf()
+    $pixbuf = '…';
+    .set-pixbuf( $pixbuf);
+    ok True, '.set-pixbuf()';
+
+    #TM:0:set-resource()
+    $resource-path = 'text';
+    .set-resource( $resource-path);
+    ok True, '.set-resource()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $picture {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Picture() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Picture;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Picture :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Picture $picture .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $picture.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
