@@ -144,10 +144,10 @@ method generate-test ( ) {
     # commandline or just do it when there is no preference
     next if ?@*gir-type-select and ($gir-type ~~ none(|@*gir-type-select));
 
-    once $t-prep .= new;
+    $t-prep .= new unless ?$t-prep;
 
     my Hash $data = $!filedata{$gir-type}.values[0];
-note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
+#note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
 
     next unless ?$data<type-name>;
     $data<package-name> = $*work-data<raku-package>;
