@@ -43,10 +43,12 @@
 0inputs+0outputs (0major+74336minor)pagefaults 0swaps
 ```
 
-Number of lines coded and generated in this project
+* Number of lines coded and generated in this project
 ```
 find . -name '*.raku*' | xargs wc -l
 ```
+
+* GdkPixdata is deprecated
 
 ### List of backward compatibility breaks 😭 😭
 * Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages if they are still installed.
@@ -60,7 +62,7 @@ find . -name '*.raku*' | xargs wc -l
   * **Gnome::\<package>::R-\<role>**. Name of roles are changed but is not a problem because they cannot be used as a class.
   * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**. The object **N-Object** found in `Gnome::N` is widely used and was name N-GObject in the first project.
   * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
-* In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. There is no pixbuf package for version 4. There it is solved differently.
+* In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. First of all, it is not specifically pinned to version 3.
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk4`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 * No lists are returned to read veriables set by the native routines.
 * Some cases where text was provided as an argument where it also needed to give the length of the string. In the older versions it was hidden. In the new version it must be provided.
