@@ -1,0 +1,54 @@
+=comment Package: Gtk4, C-Source: textview
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-TextView
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constants
+
+=head2 GTK_TEXT_VIEW_PRIORITY_VALIDATE
+
+The priority at which the text view validates onscreen lines
+in an idle job in the background.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkTextExtendSelection
+
+Granularity types that extend the text selection. Use the
+B<GtkTextView::extend-selection> signal to customize the selection.
+=item C<GTK_TEXT_EXTEND_SELECTION_WORD>; Selects the current word. It is triggered by
+  a double-click for example.
+=item C<GTK_TEXT_EXTEND_SELECTION_LINE>; Selects the current line. It is triggered by
+  a triple-click for example.
+
+=head2 GtkTextViewLayer
+
+Used to reference the layers of B<Gnome::Gtk4::TextView> for the purpose of customized
+drawing with the I<snapshot_layer> vfunc.
+=item C<GTK_TEXT_VIEW_LAYER_BELOW_TEXT>; The layer rendered below the text (but above the background).
+=item C<GTK_TEXT_VIEW_LAYER_ABOVE_TEXT>; The layer rendered above the text.
+
+=head2 GtkTextWindowType
+
+Used to reference the parts of B<Gnome::Gtk4::TextView>.
+=item C<GTK_TEXT_WINDOW_WIDGET>; Window that floats over scrolling areas.
+=item C<GTK_TEXT_WINDOW_TEXT>; Scrollable text window.
+=item C<GTK_TEXT_WINDOW_LEFT>; Left side border window.
+=item C<GTK_TEXT_WINDOW_RIGHT>; Right side border window.
+=item C<GTK_TEXT_WINDOW_TOP>; Top border window.
+=item C<GTK_TEXT_WINDOW_BOTTOM>; Bottom border window.
+=end pod
+

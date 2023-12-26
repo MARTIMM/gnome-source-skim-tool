@@ -1,0 +1,2526 @@
+=comment Package: Gtk4, C-Source: textview
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TextView
+
+![](images/textview.png)
+
+=head1 Description
+
+A widget that displays the contents of a B<Gnome::Gtk4::TextBuffer>.
+
+![An example GtkTextview](multiline-text.png)
+
+You may wish to begin by reading the [conceptual overview](section-text-widget.html),
+which gives an overview of all the objects and data types related to the
+text widget and how they work together.
+
+=head3 CSS nodes
+
+=begin comment
+textview.view
+├── border.top
+├── border.left
+├── text
+│   ╰── [selection]
+├── border.right
+├── border.bottom
+╰── [window.popup]
+
+=end comment
+
+B<Gnome::Gtk4::TextView> has a main css node with name textview and style class .view,
+and subnodes for each of the border windows, and the main text area,
+with names border and text, respectively. The border nodes each get
+one of the style classes .left, .right, .top or .bottom.
+
+A node representing the selection will appear below the text node.
+
+If a context menu is opened, the window node will appear as a subnode
+of the main node.
+
+=head3 Accessibility
+
+B<Gnome::Gtk4::TextView> uses the C<GTK_ACCESSIBLE_ROLE_TEXT_BOX> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TextView
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-textview
+
+Creates a new B<Gnome::Gtk4::TextView>.
+
+If you don’t call C<.set-buffer()> before using the
+text view, an empty default buffer will be created for you. Get the
+buffer with C<.get-buffer()>. If you want to specify
+your own buffer, consider C<.new-with-buffer()>.
+
+=begin code
+method new-textview ( --> Gnome::Gtk4::TextView \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-textview
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-buffer
+
+Creates a new B<Gnome::Gtk4::TextView> widget displaying the buffer C<$buffer>.
+
+One buffer can be shared among many widgets. C<$buffer> may be undefined
+to create a default buffer, in which case this function is equivalent
+to C<.newtextview()>. The text view adds its own reference count
+to the buffer; it does not take over an existing reference.
+
+=begin code
+method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::TextView \)
+=end code
+
+=item $buffer; a B<Gnome::Gtk4::TextBuffer>.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-child-at-anchor
+
+Adds a child widget in the text buffer, at the given C<$anchor>.
+
+=begin code
+method add-child-at-anchor ( N-Object() $child, N-Object() $anchor )
+=end code
+
+=item $child; a B<Gnome::Gtk4::Widget>.
+=item $anchor; a B<Gnome::Gtk4::TextChildAnchor> in the B<Gnome::Gtk4::TextBuffer> for C<$text-view>.
+
+=begin comment
+
+=head2 Example
+# Example for add-child-at-anchor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-overlay
+
+Adds C<$child> at a fixed coordinate in the B<Gnome::Gtk4::TextView>'s text window.
+
+The C<$xpos> and C<$ypos> must be in buffer coordinates (see
+C<.get-iter-location()> to convert to
+buffer coordinates).
+ C<$child> will scroll with the text view.
+
+If instead you want a widget that will not move with the
+B<Gnome::Gtk4::TextView> contents see B<Gnome::Gtk4::Overlay>.
+
+=begin code
+method add-overlay ( N-Object() $child, Int() $xpos, Int() $ypos )
+=end code
+
+=item $child; a B<Gnome::Gtk4::Widget>.
+=item $xpos; X position of child in window coordinates.
+=item $ypos; Y position of child in window coordinates.
+
+=begin comment
+
+=head2 Example
+# Example for add-overlay
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 backward-display-line
+This function is not yet available
+
+Moves the given C<$iter> backward by one display (wrapped) line.
+
+A display line is different from a paragraph. Paragraphs are
+separated by newlines or other paragraph separator characters.
+Display lines are created by line-wrapping a paragraph. If
+wrapping is turned off, display lines and paragraphs will be the
+same. Display lines are divided differently for each view, since
+they depend on the view’s width; paragraphs are the same in all
+views, since they depend on the contents of the B<Gnome::Gtk4::TextBuffer>.
+
+=begin code
+method backward-display-line ( CArray[N-TextIter]  $iter --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+
+Return value; C<True> if C<$iter> was moved and is not on the end iterator. 
+
+=begin comment
+
+=head2 Example
+# Example for backward-display-line
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 backward-display-line-start
+This function is not yet available
+
+Moves the given C<$iter> backward to the next display line start.
+
+A display line is different from a paragraph. Paragraphs are
+separated by newlines or other paragraph separator characters.
+Display lines are created by line-wrapping a paragraph. If
+wrapping is turned off, display lines and paragraphs will be the
+same. Display lines are divided differently for each view, since
+they depend on the view’s width; paragraphs are the same in all
+views, since they depend on the contents of the B<Gnome::Gtk4::TextBuffer>.
+
+=begin code
+method backward-display-line-start ( CArray[N-TextIter]  $iter --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+
+Return value; C<True> if C<$iter> was moved and is not on the end iterator. 
+
+=begin comment
+
+=head2 Example
+# Example for backward-display-line-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 buffer-to-window-coords
+This function is not yet available
+
+Converts buffer coordinates to window coordinates.
+
+=begin code
+method buffer-to-window-coords ( GtkTextWindowType  $win, Int() $buffer-x, Int() $buffer-y, Array[Int] $window-x, Array[Int] $window-y )
+=end code
+
+=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-TextView>.
+=item $buffer-x; buffer x coordinate.
+=item $buffer-y; buffer y coordinate.
+=item $window-x; (transfer ownership: full) window x coordinate return location.
+=item $window-y; (transfer ownership: full) window y coordinate return location.
+
+=begin comment
+
+=head2 Example
+# Example for buffer-to-window-coords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 forward-display-line
+This function is not yet available
+
+Moves the given C<$iter> forward by one display (wrapped) line.
+
+A display line is different from a paragraph. Paragraphs are
+separated by newlines or other paragraph separator characters.
+Display lines are created by line-wrapping a paragraph. If
+wrapping is turned off, display lines and paragraphs will be the
+same. Display lines are divided differently for each view, since
+they depend on the view’s width; paragraphs are the same in all
+views, since they depend on the contents of the B<Gnome::Gtk4::TextBuffer>.
+
+=begin code
+method forward-display-line ( CArray[N-TextIter]  $iter --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+
+Return value; C<True> if C<$iter> was moved and is not on the end iterator. 
+
+=begin comment
+
+=head2 Example
+# Example for forward-display-line
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 forward-display-line-end
+This function is not yet available
+
+Moves the given C<$iter> forward to the next display line end.
+
+A display line is different from a paragraph. Paragraphs are
+separated by newlines or other paragraph separator characters.
+Display lines are created by line-wrapping a paragraph. If
+wrapping is turned off, display lines and paragraphs will be the
+same. Display lines are divided differently for each view, since
+they depend on the view’s width; paragraphs are the same in all
+views, since they depend on the contents of the B<Gnome::Gtk4::TextBuffer>.
+
+=begin code
+method forward-display-line-end ( CArray[N-TextIter]  $iter --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+
+Return value; C<True> if C<$iter> was moved and is not on the end iterator. 
+
+=begin comment
+
+=head2 Example
+# Example for forward-display-line-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-accepts-tab
+
+Returns whether pressing the <kbd>Tab</kbd> key inserts a tab characters.
+
+See C<.set-accepts-tab()>.
+
+=begin code
+method get-accepts-tab (--> Bool )
+=end code
+
+Return value; C<True> if pressing the Tab key inserts a tab character,
+  C<False> if pressing the Tab key moves the keyboard focus.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-accepts-tab
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-bottom-margin
+
+Gets the bottom margin for text in the C<$text-view>.
+
+=begin code
+method get-bottom-margin (--> Int )
+=end code
+
+Return value; bottom margin in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-bottom-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-buffer
+
+Returns the B<Gnome::Gtk4::TextBuffer> being displayed by this text view.
+
+The reference count on the buffer is not incremented; the caller
+of this function won’t own a new reference.
+
+=begin code
+method get-buffer (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::TextBuffer>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cursor-locations
+This function is not yet available
+
+Determine the positions of the strong and weak cursors if the
+insertion point is at C<$iter>.
+
+The position of each cursor is stored as a zero-width rectangle.
+The strong cursor location is the location where characters of
+the directionality equal to the base direction of the paragraph
+are inserted. The weak cursor location is the location where
+characters of the directionality opposite to the base direction
+of the paragraph are inserted.
+
+If C<$iter> is undefined, the actual cursor position is used.
+
+Note that if C<$iter> happens to be the actual cursor position, and
+there is currently an IM preedit sequence being entered, the
+returned locations will be adjusted to account for the preedit
+cursor’s offset within the preedit sequence.
+
+The rectangle position is in buffer coordinates; use
+C<.buffer-to-window-coords()> to convert these
+coordinates to coordinates for one of the windows in the text view.
+
+=begin code
+method get-cursor-locations ( CArray[N-TextIter]  $iter, CArray[N-Rectangle] $strong, CArray[N-Rectangle] $weak )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $strong; location to store the strong cursor position.
+=item $weak; location to store the weak cursor position.
+
+=begin comment
+
+=head2 Example
+# Example for get-cursor-locations
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cursor-visible
+
+Find out whether the cursor should be displayed.
+
+=begin code
+method get-cursor-visible (--> Bool )
+=end code
+
+Return value; whether the insertion mark is visible. 
+
+=begin comment
+
+=head2 Example
+# Example for get-cursor-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-editable
+
+Returns the default editability of the B<Gnome::Gtk4::TextView>.
+
+Tags in the buffer may override this setting for some ranges of text.
+
+=begin code
+method get-editable (--> Bool )
+=end code
+
+Return value; whether text is editable by default. 
+
+=begin comment
+
+=head2 Example
+# Example for get-editable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-extra-menu
+
+Gets the menu model that gets added to the context menu
+or undefined if none has been set.
+
+=begin code
+method get-extra-menu (--> N-Object )
+=end code
+
+Return value; the menu model. 
+
+=begin comment
+
+=head2 Example
+# Example for get-extra-menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-gutter
+This function is not yet available
+
+Gets a B<Gnome::Gtk4::Widget> that has previously been set as gutter.
+
+See C<.set-gutter()>.
+ C<$win> must be one of C<GTK_TEXT_WINDOW_LEFT>, C<GTK_TEXT_WINDOW_RIGHT>,
+C<GTK_TEXT_WINDOW_TOP>, or C<GTK_TEXT_WINDOW_BOTTOM>.
+
+=begin code
+method get-gutter ( GtkTextWindowType  $win --> N-Object )
+=end code
+
+=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-TextView>.
+
+Return value; a B<Gnome::Gtk4::Widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-gutter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-indent
+
+Gets the default indentation of paragraphs in C<$text-view>.
+
+Tags in the view’s buffer may override the default.
+The indentation may be negative.
+
+=begin code
+method get-indent (--> Int )
+=end code
+
+Return value; number of pixels of indentation. 
+
+=begin comment
+
+=head2 Example
+# Example for get-indent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-input-hints
+
+Gets the B<input-hints> of the B<Gnome::Gtk4::TextView>.
+
+=begin code
+method get-input-hints (--> UInt )
+=end code
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-input-hints
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-input-purpose
+
+Gets the B<input-purpose> of the B<Gnome::Gtk4::TextView>.
+
+=begin code
+method get-input-purpose (--> GtkInputPurpose )
+=end code
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-input-purpose
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-at-location
+This function is not yet available
+
+Retrieves the iterator at buffer coordinates C<$x> and C<$y>.
+
+Buffer coordinates are coordinates for the entire buffer, not just
+the currently-displayed portion. If you have coordinates from an
+event, you have to convert those to buffer coordinates with
+C<.window-to-buffer-coords()>.
+
+=begin code
+method get-iter-at-location ( CArray[N-TextIter]  $iter, Int() $x, Int() $y --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $x; x position, in buffer coordinates.
+=item $y; y position, in buffer coordinates.
+
+Return value; C<True> if the position is over text. 
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-at-location
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-at-position
+This function is not yet available
+
+Retrieves the iterator pointing to the character at buffer
+coordinates C<$x> and C<$y>.
+
+Buffer coordinates are coordinates for the entire buffer, not just
+the currently-displayed portion. If you have coordinates from an event,
+you have to convert those to buffer coordinates with
+C<.window-to-buffer-coords()>.
+
+Note that this is different from C<.get-iter-at-location()>,
+which returns cursor locations, i.e. positions between characters.
+
+=begin code
+method get-iter-at-position ( CArray[N-TextIter]  $iter, Array[Int] $trailing, Int() $x, Int() $y --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $trailing; (transfer ownership: full) if non-undefined, location to store
+   an integer indicating where in the grapheme the user clicked.
+   It will either be zero, or the number of characters in the grapheme.
+   0 represents the trailing edge of the grapheme..
+=item $x; x position, in buffer coordinates.
+=item $y; y position, in buffer coordinates.
+
+Return value; C<True> if the position is over text. 
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-at-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-location
+This function is not yet available
+
+Gets a rectangle which roughly contains the character at C<$iter>.
+
+The rectangle position is in buffer coordinates; use
+C<.buffer-to-window-coords()> to convert these
+coordinates to coordinates for one of the windows in the text view.
+
+=begin code
+method get-iter-location ( CArray[N-TextIter]  $iter, CArray[N-Rectangle] $location )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $location; bounds of the character at C<$iter>.
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-location
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-justification
+
+Gets the default justification of paragraphs in C<$text-view>.
+
+Tags in the buffer may override the default.
+
+=begin code
+method get-justification (--> GtkJustification )
+=end code
+
+Return value; default justification. 
+
+=begin comment
+
+=head2 Example
+# Example for get-justification
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-left-margin
+
+Gets the default left margin size of paragraphs in the C<$text-view>.
+
+Tags in the buffer may override the default.
+
+=begin code
+method get-left-margin (--> Int )
+=end code
+
+Return value; left margin in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-left-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-line-at-y
+This function is not yet available
+
+Gets the B<Gnome::Gtk4::N-TextIter> at the start of the line containing
+the coordinate C<$y>.
+ C<$y> is in buffer coordinates, convert from window coordinates with
+C<.window-to-buffer-coords()>. If non-undefined, C<$line-top> will be filled with the coordinate of the top edge
+of the line.
+
+=begin code
+method get-line-at-y ( CArray[N-TextIter]  $target-iter, Int() $y, Array[Int] $line-top )
+=end code
+
+=item $target-iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $y; a y coordinate.
+=item $line-top; (transfer ownership: full) return location for top coordinate of the line.
+
+=begin comment
+
+=head2 Example
+# Example for get-line-at-y
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-line-yrange
+This function is not yet available
+
+Gets the y coordinate of the top of the line containing C<$iter>,
+and the height of the line.
+
+The coordinate is a buffer coordinate; convert to window
+coordinates with C<.buffer-to-window-coords()>.
+
+=begin code
+method get-line-yrange ( CArray[N-TextIter]  $iter, Array[Int] $y, Array[Int] $height )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $y; (transfer ownership: full) return location for a y coordinate.
+=item $height; (transfer ownership: full) return location for a height.
+
+=begin comment
+
+=head2 Example
+# Example for get-line-yrange
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-ltr-context
+
+Gets the B<Gnome::Pango::Context> that is used for rendering LTR directed
+text layouts.
+
+The context may be replaced when CSS changes occur.
+
+=begin code
+method get-ltr-context (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Pango::Context>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-ltr-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-monospace
+
+Gets whether the B<Gnome::Gtk4::TextView> uses monospace styling.
+
+=begin code
+method get-monospace (--> Bool )
+=end code
+
+Return value; C<True> if monospace fonts are desired. 
+
+=begin comment
+
+=head2 Example
+# Example for get-monospace
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-overwrite
+
+Returns whether the B<Gnome::Gtk4::TextView> is in overwrite mode or not.
+
+=begin code
+method get-overwrite (--> Bool )
+=end code
+
+Return value; whether C<$text-view> is in overwrite mode or not.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-overwrite
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pixels-above-lines
+
+Gets the default number of pixels to put above paragraphs.
+
+Adding this function with C<.get-pixels-below-lines()>
+is equal to the line space between each paragraph.
+
+=begin code
+method get-pixels-above-lines (--> Int )
+=end code
+
+Return value; default number of pixels above paragraphs. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pixels-above-lines
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pixels-below-lines
+
+Gets the default number of pixels to put below paragraphs.
+
+The line space is the sum of the value returned by this function and
+the value returned by C<.get-pixels-above-lines()>.
+
+=begin code
+method get-pixels-below-lines (--> Int )
+=end code
+
+Return value; default number of blank pixels below paragraphs. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pixels-below-lines
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pixels-inside-wrap
+
+Gets the default number of pixels to put between wrapped lines
+inside a paragraph.
+
+=begin code
+method get-pixels-inside-wrap (--> Int )
+=end code
+
+Return value; default number of pixels of blank space between wrapped lines. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pixels-inside-wrap
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-right-margin
+
+Gets the default right margin for text in C<$text-view>.
+
+Tags in the buffer may override the default.
+
+=begin code
+method get-right-margin (--> Int )
+=end code
+
+Return value; right margin in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-right-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-rtl-context
+
+Gets the B<Gnome::Pango::Context> that is used for rendering RTL directed
+text layouts.
+
+The context may be replaced when CSS changes occur.
+
+=begin code
+method get-rtl-context (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Pango::Context>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-rtl-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tabs
+
+Gets the default tabs for C<$text-view>.
+
+Tags in the buffer may override the defaults. The returned array
+will be undefined if “standard” (8-space) tabs are used. Free the
+return value with C<.free() in class Gnome::Pango::N-TabArray>.
+
+=begin code
+method get-tabs (--> CArray[N-TabArray] )
+=end code
+
+Return value; copy of default tab array,
+  or undefined if standard tabs are used; must be freed with
+  C<.free() in class Gnome::Pango::N-TabArray>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tabs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-top-margin
+
+Gets the top margin for text in the C<$text-view>.
+
+=begin code
+method get-top-margin (--> Int )
+=end code
+
+Return value; top margin in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-top-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible-rect
+
+Fills C<$visible-rect> with the currently-visible
+region of the buffer, in buffer coordinates.
+
+Convert to window coordinates with
+C<.buffer-to-window-coords()>.
+
+=begin code
+method get-visible-rect ( CArray[N-Rectangle] $visible-rect )
+=end code
+
+=item $visible-rect; rectangle to fill.
+
+=begin comment
+
+=head2 Example
+# Example for get-visible-rect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-wrap-mode
+
+Gets the line wrapping for the view.
+
+=begin code
+method get-wrap-mode (--> GtkWrapMode )
+=end code
+
+Return value; the line wrap setting. 
+
+=begin comment
+
+=head2 Example
+# Example for get-wrap-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 im-context-filter-keypress
+
+Allow the B<Gnome::Gtk4::TextView> input method to internally handle key press
+and release events.
+
+If this function returns C<True>, then no further processing should be
+done for this key event. See C<.filter-keypress() in class Gnome::Gtk4::IMContext>.
+
+Note that you are expected to call this function from your handler
+when overriding key event handling. This is needed in the case when
+you need to insert your own key handling between the input method
+and the default key event handling of the B<Gnome::Gtk4::TextView>.
+
+=begin comment
+static gboolean
+gtk_foo_bar_key_press_event (GtkWidget *widget,
+                             GdkEvent  *event)
+{
+  guint keyval;
+
+  gdk_event_get_keyval ((GdkEvent*)event, &keyval);
+
+  if (keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter)
+    {
+      if (gtk_text_view_im_context_filter_keypress (GTK_TEXT_VIEW (widget), event))
+        return TRUE;
+    }
+
+  // Do some stuff
+
+  return GTK_WIDGET_CLASS (gtk_foo_bar_parent_class)->key_press_event (widget, event);
+}
+
+=end comment
+
+=begin code
+method im-context-filter-keypress ( N-Object() $event --> Bool )
+=end code
+
+=item $event; the key event.
+
+Return value; C<True> if the input method handled the key event.. 
+
+=begin comment
+
+=head2 Example
+# Example for im-context-filter-keypress
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 move-mark-onscreen
+
+Moves a mark within the buffer so that it's
+located within the currently-visible text area.
+
+=begin code
+method move-mark-onscreen ( N-Object() $mark --> Bool )
+=end code
+
+=item $mark; a B<Gnome::Gtk4::TextMark>.
+
+Return value; C<True> if the mark moved (wasn’t already onscreen). 
+
+=begin comment
+
+=head2 Example
+# Example for move-mark-onscreen
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 move-overlay
+
+Updates the position of a child.
+
+See C<.add-overlay()>.
+
+=begin code
+method move-overlay ( N-Object() $child, Int() $xpos, Int() $ypos )
+=end code
+
+=item $child; a widget already added with C<.add-overlay()>.
+=item $xpos; new X position in buffer coordinates.
+=item $ypos; new Y position in buffer coordinates.
+
+=begin comment
+
+=head2 Example
+# Example for move-overlay
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 move-visually
+This function is not yet available
+
+Move the iterator a given number of characters visually, treating
+it as the strong cursor position.
+
+If C<$count> is positive, then the new strong cursor position will
+be C<$count> positions to the right of the old cursor position.
+If C<$count> is negative then the new strong cursor position will
+be C<$count> positions to the left of the old cursor position.
+
+In the presence of bi-directional text, the correspondence
+between logical and visual order will depend on the direction
+of the current run, and there may be jumps when the cursor
+is moved off of the end of a run.
+
+=begin code
+method move-visually ( CArray[N-TextIter]  $iter, Int() $count --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $count; number of characters to move (negative moves left,
+   positive moves right).
+
+Return value; C<True> if C<$iter> moved and is not on the end iterator. 
+
+=begin comment
+
+=head2 Example
+# Example for move-visually
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 place-cursor-onscreen
+
+Moves the cursor to the currently visible region of the
+buffer.
+
+=begin code
+method place-cursor-onscreen (--> Bool )
+=end code
+
+Return value; C<True> if the cursor had to be moved.. 
+
+=begin comment
+
+=head2 Example
+# Example for place-cursor-onscreen
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes a child widget from C<$text-view>.
+
+=begin code
+method remove ( N-Object() $child )
+=end code
+
+=item $child; the child to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 reset-cursor-blink
+
+Ensures that the cursor is shown.
+
+This also resets the time that it will stay blinking (or
+visible, in case blinking is disabled).
+
+This function should be called in response to user input
+(e.g. from derived classes that override the textview's
+event handlers).
+
+=begin code
+method reset-cursor-blink ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for reset-cursor-blink
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 reset-im-context
+
+Reset the input method context of the text view if needed.
+
+This can be necessary in the case where modifying the buffer
+would confuse on-going input method behavior.
+
+=begin code
+method reset-im-context ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for reset-im-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-mark-onscreen
+
+Scrolls C<$text-view> the minimum distance such that C<$mark> is contained
+within the visible area of the widget.
+
+=begin code
+method scroll-mark-onscreen ( N-Object() $mark )
+=end code
+
+=item $mark; a mark in the buffer for C<$text-view>.
+
+=begin comment
+
+=head2 Example
+# Example for scroll-mark-onscreen
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to-iter
+This function is not yet available
+
+Scrolls C<$text-view> so that C<$iter> is on the screen in the position
+indicated by C<$xalign> and C<$yalign>.
+
+An alignment of 0.0 indicates left or top, 1.0 indicates right or
+bottom, 0.5 means center. If C<$use-align> is C<False>, the text scrolls
+the minimal distance to get the mark onscreen, possibly not scrolling
+at all. The effective screen for purposes of this function is reduced
+by a margin of size C<$within-margin>.
+
+Note that this function uses the currently-computed height of the
+lines in the text buffer. Line heights are computed in an idle
+handler; so this function may not have the desired effect if it’s
+called before the height computations. To avoid oddness, consider
+using C<.scroll-to-mark()> which saves a point to be
+scrolled to after line validation.
+
+=begin code
+method scroll-to-iter ( CArray[N-TextIter]  $iter, Num() $within-margin, Bool() $use-align, Num() $xalign, Num() $yalign --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $within-margin; margin as a [0.0,0.5) fraction of screen size.
+=item $use-align; whether to use alignment arguments (if C<False>,
+   just get the mark onscreen).
+=item $xalign; horizontal alignment of mark within visible area.
+=item $yalign; vertical alignment of mark within visible area.
+
+Return value; C<True> if scrolling occurred. 
+
+=begin comment
+
+=head2 Example
+# Example for scroll-to-iter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to-mark
+
+Scrolls C<$text-view> so that C<$mark> is on the screen in the position
+indicated by C<$xalign> and C<$yalign>.
+
+An alignment of 0.0 indicates left or top, 1.0 indicates right or
+bottom, 0.5 means center. If C<$use-align> is C<False>, the text scrolls
+the minimal distance to get the mark onscreen, possibly not scrolling
+at all. The effective screen for purposes of this function is reduced
+by a margin of size C<$within-margin>.
+
+=begin code
+method scroll-to-mark ( N-Object() $mark, Num() $within-margin, Bool() $use-align, Num() $xalign, Num() $yalign )
+=end code
+
+=item $mark; a B<Gnome::Gtk4::TextMark>.
+=item $within-margin; margin as a [0.0,0.5) fraction of screen size.
+=item $use-align; whether to use alignment arguments (if C<False>, just
+   get the mark onscreen).
+=item $xalign; horizontal alignment of mark within visible area.
+=item $yalign; vertical alignment of mark within visible area.
+
+=begin comment
+
+=head2 Example
+# Example for scroll-to-mark
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-accepts-tab
+
+Sets the behavior of the text widget when the <kbd>Tab</kbd> key is pressed.
+
+If C<$accepts-tab> is C<True>, a tab character is inserted. If C<$accepts-tab>
+is C<False> the keyboard focus is moved to the next widget in the focus
+chain.
+
+=begin code
+method set-accepts-tab ( Bool() $accepts-tab )
+=end code
+
+=item $accepts-tab; C<True> if pressing the Tab key should insert a tab
+   character, C<False>, if pressing the Tab key should move the
+   keyboard focus..
+
+=begin comment
+
+=head2 Example
+# Example for set-accepts-tab
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-bottom-margin
+
+Sets the bottom margin for text in C<$text-view>.
+
+Note that this function is confusingly named.
+In CSS terms, the value set here is padding.
+
+=begin code
+method set-bottom-margin ( Int() $bottom-margin )
+=end code
+
+=item $bottom-margin; bottom margin in pixels.
+
+=begin comment
+
+=head2 Example
+# Example for set-bottom-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-buffer
+
+Sets C<$buffer> as the buffer being displayed by C<$text-view>.
+
+The previous buffer displayed by the text view is unreferenced, and
+a reference is added to C<$buffer>. If you owned a reference to C<$buffer>
+before passing it to this function, you must remove that reference
+yourself; B<Gnome::Gtk4::TextView> will not “adopt” it.
+
+=begin code
+method set-buffer ( N-Object() $buffer )
+=end code
+
+=item $buffer; a B<Gnome::Gtk4::TextBuffer>.
+
+=begin comment
+
+=head2 Example
+# Example for set-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cursor-visible
+
+Toggles whether the insertion point should be displayed.
+
+A buffer with no editable text probably shouldn’t have a visible
+cursor, so you may want to turn the cursor off.
+
+Note that this property may be overridden by the
+[property C<$GtkSettings>:gtk-keynav-use-caret] setting.
+
+=begin code
+method set-cursor-visible ( Bool() $setting )
+=end code
+
+=item $setting; whether to show the insertion cursor.
+
+=begin comment
+
+=head2 Example
+# Example for set-cursor-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-editable
+
+Sets the default editability of the B<Gnome::Gtk4::TextView>.
+
+You can override this default setting with tags in the buffer,
+using the “editable” attribute of tags.
+
+=begin code
+method set-editable ( Bool() $setting )
+=end code
+
+=item $setting; whether it’s editable.
+
+=begin comment
+
+=head2 Example
+# Example for set-editable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-extra-menu
+
+Sets a menu model to add when constructing the context
+menu for C<$text-view>.
+
+You can pass undefined to remove a previously set extra menu.
+
+=begin code
+method set-extra-menu ( N-Object() $model )
+=end code
+
+=item $model; a B<Gnome::Gio::MenuModel>.
+
+=begin comment
+
+=head2 Example
+# Example for set-extra-menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-gutter
+This function is not yet available
+
+Places C<$widget> into the gutter specified by C<$win>.
+ C<$win> must be one of C<GTK_TEXT_WINDOW_LEFT>, C<GTK_TEXT_WINDOW_RIGHT>,
+C<GTK_TEXT_WINDOW_TOP>, or C<GTK_TEXT_WINDOW_BOTTOM>.
+
+=begin code
+method set-gutter ( GtkTextWindowType  $win, N-Object() $widget )
+=end code
+
+=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-TextView>.
+=item $widget; a B<Gnome::Gtk4::Widget>.
+
+=begin comment
+
+=head2 Example
+# Example for set-gutter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-indent
+
+Sets the default indentation for paragraphs in C<$text-view>.
+
+Tags in the buffer may override the default.
+
+=begin code
+method set-indent ( Int() $indent )
+=end code
+
+=item $indent; indentation in pixels.
+
+=begin comment
+
+=head2 Example
+# Example for set-indent
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-input-hints
+
+Sets the B<input-hints> of the B<Gnome::Gtk4::TextView>.
+
+The B<input-hints> allow input methods to fine-tune
+their behaviour.
+
+=begin code
+method set-input-hints ( UInt $hints )
+=end code
+
+=item $hints; the hints.
+
+=begin comment
+
+=head2 Example
+# Example for set-input-hints
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-input-purpose
+
+Sets the B<input-purpose> of the B<Gnome::Gtk4::TextView>.
+
+The B<input-purpose> can be used by on-screen keyboards
+and other input methods to adjust their behaviour.
+
+=begin code
+method set-input-purpose ( GtkInputPurpose $purpose )
+=end code
+
+=item $purpose; the purpose.
+
+=begin comment
+
+=head2 Example
+# Example for set-input-purpose
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-justification
+
+Sets the default justification of text in C<$text-view>.
+
+Tags in the view’s buffer may override the default.
+
+=begin code
+method set-justification ( GtkJustification $justification )
+=end code
+
+=item $justification; justification.
+
+=begin comment
+
+=head2 Example
+# Example for set-justification
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-left-margin
+
+Sets the default left margin for text in C<$text-view>.
+
+Tags in the buffer may override the default.
+
+Note that this function is confusingly named.
+In CSS terms, the value set here is padding.
+
+=begin code
+method set-left-margin ( Int() $left-margin )
+=end code
+
+=item $left-margin; left margin in pixels.
+
+=begin comment
+
+=head2 Example
+# Example for set-left-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-monospace
+
+Sets whether the B<Gnome::Gtk4::TextView> should display text in
+monospace styling.
+
+=begin code
+method set-monospace ( Bool() $monospace )
+=end code
+
+=item $monospace; C<True> to request monospace styling.
+
+=begin comment
+
+=head2 Example
+# Example for set-monospace
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-overwrite
+
+Changes the B<Gnome::Gtk4::TextView> overwrite mode.
+
+=begin code
+method set-overwrite ( Bool() $overwrite )
+=end code
+
+=item $overwrite; C<True> to turn on overwrite mode, C<False> to turn it off.
+
+=begin comment
+
+=head2 Example
+# Example for set-overwrite
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pixels-above-lines
+
+Sets the default number of blank pixels above paragraphs in C<$text-view>.
+
+Tags in the buffer for C<$text-view> may override the defaults.
+
+=begin code
+method set-pixels-above-lines ( Int() $pixels-above-lines )
+=end code
+
+=item $pixels-above-lines; pixels above paragraphs.
+
+=begin comment
+
+=head2 Example
+# Example for set-pixels-above-lines
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pixels-below-lines
+
+Sets the default number of pixels of blank space
+to put below paragraphs in C<$text-view>.
+
+May be overridden by tags applied to C<$text-view>’s buffer.
+
+=begin code
+method set-pixels-below-lines ( Int() $pixels-below-lines )
+=end code
+
+=item $pixels-below-lines; pixels below paragraphs.
+
+=begin comment
+
+=head2 Example
+# Example for set-pixels-below-lines
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pixels-inside-wrap
+
+Sets the default number of pixels of blank space to leave between
+display/wrapped lines within a paragraph.
+
+May be overridden by tags in C<$text-view>’s buffer.
+
+=begin code
+method set-pixels-inside-wrap ( Int() $pixels-inside-wrap )
+=end code
+
+=item $pixels-inside-wrap; default number of pixels between wrapped lines.
+
+=begin comment
+
+=head2 Example
+# Example for set-pixels-inside-wrap
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-right-margin
+
+Sets the default right margin for text in the text view.
+
+Tags in the buffer may override the default.
+
+Note that this function is confusingly named.
+In CSS terms, the value set here is padding.
+
+=begin code
+method set-right-margin ( Int() $right-margin )
+=end code
+
+=item $right-margin; right margin in pixels.
+
+=begin comment
+
+=head2 Example
+# Example for set-right-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tabs
+
+Sets the default tab stops for paragraphs in C<$text-view>.
+
+Tags in the buffer may override the default.
+
+=begin code
+method set-tabs ( CArray[N-TabArray] $tabs )
+=end code
+
+=item $tabs; tabs as a B<Gnome::Pango::N-TabArray>.
+
+=begin comment
+
+=head2 Example
+# Example for set-tabs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-top-margin
+
+Sets the top margin for text in C<$text-view>.
+
+Note that this function is confusingly named.
+In CSS terms, the value set here is padding.
+
+=begin code
+method set-top-margin ( Int() $top-margin )
+=end code
+
+=item $top-margin; top margin in pixels.
+
+=begin comment
+
+=head2 Example
+# Example for set-top-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-wrap-mode
+
+Sets the line wrapping for the view.
+
+=begin code
+method set-wrap-mode ( GtkWrapMode $wrap-mode )
+=end code
+
+=item $wrap-mode; a C<enumeration GtkWrapMode defined in Gnome::Gtk4::T-Enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-wrap-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 starts-display-line
+This function is not yet available
+
+Determines whether C<$iter> is at the start of a display line.
+
+See C<.forward-display-line()> for an
+explanation of display lines vs. paragraphs.
+
+=begin code
+method starts-display-line ( CArray[N-TextIter]  $iter --> Bool )
+=end code
+
+=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+
+Return value; C<True> if C<$iter> begins a wrapped line. 
+
+=begin comment
+
+=head2 Example
+# Example for starts-display-line
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 window-to-buffer-coords
+This function is not yet available
+
+Converts coordinates on the window identified by C<$win> to buffer
+coordinates.
+
+=begin code
+method window-to-buffer-coords ( GtkTextWindowType  $win, Int() $window-x, Int() $window-y, Array[Int] $buffer-x, Array[Int] $buffer-y )
+=end code
+
+=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-TextView>.
+=item $window-x; window x coordinate.
+=item $window-y; window y coordinate.
+=item $buffer-x; (transfer ownership: full) buffer x coordinate return location.
+=item $buffer-y; (transfer ownership: full) buffer y coordinate return location.
+
+=begin comment
+
+=head2 Example
+# Example for window-to-buffer-coords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 backspace
+
+Gets emitted when the user asks for it.
+
+The I<backspace> signal is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Backspace</kbd> and <kbd>Shift</kbd>-<kbd>Backspace</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal backspace
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 copy-clipboard
+
+Gets emitted to copy the selection to the clipboard.
+
+The I<copy-clipboard> signal is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>c</kbd> and
+<kbd>Ctrl</kbd>-<kbd>Insert</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal copy-clipboard
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 cut-clipboard
+
+Gets emitted to cut the selection to the clipboard.
+
+The I<cut-clipboard> signal is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>x</kbd> and
+<kbd>Shift</kbd>-<kbd>Delete</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal cut-clipboard
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 delete-from-cursor
+
+Gets emitted when the user initiates a text deletion.
+
+The I<delete-from-cursor> signal is a [keybinding signal](class.SignalAction.html).
+
+If the C<$type> is C<GTK_DELETE_CHARS>, GTK deletes the selection
+if there is one, otherwise it deletes the requested number
+of characters.
+
+The default bindings for this signal are <kbd>Delete</kbd> for
+deleting a character, <kbd>Ctrl</kbd>-<kbd>Delete</kbd> for
+deleting a word and <kbd>Ctrl</kbd>-<kbd>Backspace</kbd> for
+deleting a word backwards.
+
+=begin code
+method handler (
+   $type,
+  gint $count,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $type; the granularity of the deletion, as a C<enumeration GtkDeleteType defined in Gnome::Gtk4::T-Enums>.
+=item $count; the number of C<$type> units to delete.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal delete-from-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 extend-selection
+
+Emitted when the selection needs to be extended at C<$location>.
+
+=begin code
+method handler (
+   $granularity,
+  N-TextIter _UA_ $location,
+  N-TextIter _UA_ $start,
+  N-TextIter _UA_ $end,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $granularity; the granularity type.
+=item $location; the location where to extend the selection.
+=item $start; where the selection should start.
+=item $end; where the selection should end.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<GDK_EVENT_STOP> to stop other handlers from being invoked for the
+  event. C<GDK_EVENT_PROPAGATE> to propagate the event further.
+
+=begin comment
+
+=head2 Example
+# Example for signal extend-selection
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 insert-at-cursor
+
+Gets emitted when the user initiates the insertion of a
+fixed string at the cursor.
+
+The I<insert-at-cursor> signal is a [keybinding signal](class.SignalAction.html).
+
+This signal has no default bindings.
+
+=begin code
+method handler (
+  Str $string,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $string; the string to insert.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal insert-at-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 insert-emoji
+
+Gets emitted to present the Emoji chooser for the C<$text-view>.
+
+The I<insert-emoji> signal is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>.</kbd> and
+<kbd>Ctrl</kbd>-<kbd>;</kbd>
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal insert-emoji
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-cursor
+
+Gets emitted when the user initiates a cursor movement.
+
+The I<move-cursor> signal is a [keybinding signal](class.SignalAction.html).
+If the cursor is not visible in C<$text-view>, this signal causes
+the viewport to be moved instead.
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control the cursor
+programmatically.
+
+The default bindings for this signal come in two variants,
+the variant with the <kbd>Shift</kbd> modifier extends the
+selection, the variant without it does not.
+There are too many key combinations to list them all here.
+
+=item <kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd>
+  move by individual characters/lines
+=item <kbd>Ctrl</kbd>-<kbd>→</kbd>, etc. move by words/paragraphs
+=item <kbd>Home</kbd>, <kbd>End</kbd> move to the ends of the buffer
+=item <kbd>PgUp</kbd>, <kbd>PgDn</kbd> move vertically by pages
+=item <kbd>Ctrl</kbd>-<kbd>PgUp</kbd>, <kbd>Ctrl</kbd>-<kbd>PgDn</kbd>
+  move horizontally by pages
+
+=begin code
+method handler (
+   $step,
+  gint $count,
+  gboolean $extend-selection,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $step; the granularity of the move, as a C<enumeration GtkMovementStep defined in Gnome::Gtk4::T-Enums>.
+=item $count; the number of C<$step> units to move.
+=item $extend-selection; C<True> if the move should extend the selection.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-viewport
+
+Gets emitted to move the viewport.
+
+The I<move-viewport> signal is a [keybinding signal](class.SignalAction.html),
+which can be bound to key combinations to allow the user to move the viewport,
+i.e. change what part of the text view is visible in a containing scrolled
+window.
+
+There are no default bindings for this signal.
+
+=begin code
+method handler (
+   $step,
+  gint $count,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $step; the granularity of the movement, as a C<enumeration GtkScrollStep defined in Gnome::Gtk4::T-Enums>.
+=item $count; the number of C<$step> units to move.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-viewport
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 paste-clipboard
+
+Gets emitted to paste the contents of the clipboard
+into the text view.
+
+The I<paste-clipboard> signal is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>v</kbd> and
+<kbd>Shift</kbd>-<kbd>Insert</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal paste-clipboard
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 preedit-changed
+
+Emitted when preedit text of the active IM changes.
+
+If an input method is used, the typed text will not immediately
+be committed to the buffer. So if you are interested in the text,
+connect to this signal.
+
+This signal is only emitted if the text at the given position
+is actually editable.
+
+=begin code
+method handler (
+  Str $preedit,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $preedit; the current preedit string.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal preedit-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-all
+
+Gets emitted to select or unselect the complete contents of the text view.
+
+The I<select-all> signal is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are
+<kbd>Ctrl</kbd>-<kbd>a</kbd> and
+<kbd>Ctrl</kbd>-<kbd>/</kbd> for selecting and
+<kbd>Shift</kbd>-<kbd>Ctrl</kbd>-<kbd>a</kbd> and
+<kbd>Ctrl</kbd>-<kbd>\</kbd> for unselecting.
+
+=begin code
+method handler (
+  gboolean $select,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $select; C<True> to select, C<False> to unselect.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal select-all
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 set-anchor
+
+Gets emitted when the user initiates settings the "anchor" mark.
+
+The I<set-anchor> signal is a [keybinding signal](class.SignalAction.html)
+which gets emitted when the user initiates setting the "anchor"
+mark. The "anchor" mark gets placed at the same position as the
+"insert" mark.
+
+This signal has no default bindings.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal set-anchor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 toggle-cursor-visible
+
+Gets emitted to toggle the B<cursor-visible> property.
+
+The I<toggle-cursor-visible> signal is a
+[keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>F7</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggle-cursor-visible
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 toggle-overwrite
+
+Gets emitted to toggle the overwrite mode of the text view.
+
+The I<toggle-overwrite> signal is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>Insert</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggle-overwrite
+
+=end comment
+
+=end pod
+

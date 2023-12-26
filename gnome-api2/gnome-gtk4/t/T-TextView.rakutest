@@ -1,0 +1,73 @@
+=comment Package: Gtk4, C-Source: textview
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-TextView:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Gtk4::T-TextView:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkTextExtendSelection
+subtest 'GtkTextExtendSelection', {
+  is GTK_TEXT_EXTEND_SELECTION_WORD.value, 0, 'enum GTK_TEXT_EXTEND_SELECTION_WORD = 0';
+
+  is GTK_TEXT_EXTEND_SELECTION_LINE.value, 1, 'enum GTK_TEXT_EXTEND_SELECTION_LINE = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkTextViewLayer
+subtest 'GtkTextViewLayer', {
+  is GTK_TEXT_VIEW_LAYER_BELOW_TEXT.value, 0, 'enum GTK_TEXT_VIEW_LAYER_BELOW_TEXT = 0';
+
+  is GTK_TEXT_VIEW_LAYER_ABOVE_TEXT.value, 1, 'enum GTK_TEXT_VIEW_LAYER_ABOVE_TEXT = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkTextWindowType
+subtest 'GtkTextWindowType', {
+  is GTK_TEXT_WINDOW_WIDGET.value, 0, 'enum GTK_TEXT_WINDOW_WIDGET = 0';
+
+  is GTK_TEXT_WINDOW_TEXT.value, 1, 'enum GTK_TEXT_WINDOW_TEXT = 1';
+
+  is GTK_TEXT_WINDOW_LEFT.value, 2, 'enum GTK_TEXT_WINDOW_LEFT = 2';
+
+  is GTK_TEXT_WINDOW_RIGHT.value, 3, 'enum GTK_TEXT_WINDOW_RIGHT = 3';
+
+  is GTK_TEXT_WINDOW_TOP.value, 4, 'enum GTK_TEXT_WINDOW_TOP = 4';
+
+  is GTK_TEXT_WINDOW_BOTTOM.value, 5, 'enum GTK_TEXT_WINDOW_BOTTOM = 5';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GTK_TEXT_VIEW_PRIORITY_VALIDATE
+is GTK_TEXT_VIEW_PRIORITY_VALIDATE, 125, "constant GTK_TEXT_VIEW_PRIORITY_VALIDATE = 125";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

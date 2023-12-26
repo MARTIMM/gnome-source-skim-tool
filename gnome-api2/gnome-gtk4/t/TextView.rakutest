@@ -1,0 +1,419 @@
+=comment Package: Gtk4, C-Source: textview
+use v6.d;
+
+#TL:1:Gnome::Gtk4::TextView:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gdk4::N-Rectangle:api<2>;
+#use Gnome::Gtk4::N-TextIter:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+#use Gnome::Gtk4::T-TextView:api<2>;
+#use Gnome::Gtk4::TextView:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::N-TabArray:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::TextView $textview;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $textview {
+    my N-Object $buffer;
+
+#`{{
+    #TC:0:new-textview()
+
+    $textview .= new-textview();
+    ok .is-valid, '.new-textview()';
+
+    #TC:0:new-with-buffer()
+    $buffer = …;
+    $textview .= new-with-buffer( $buffer);
+    ok .is-valid, '.new-with-buffer( $buffer)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $textview {
+    my N-Object $widget;
+    my N-Rectangle $weak;
+    my N-TabArray $tabs;
+    my gint $x;
+    my N-Rectangle $strong;
+    my gint $indent;
+    my GtkJustification $justification;
+    my gint-ptr $y;
+    my N-Object $anchor;
+    my gint-ptr $buffer-x;
+    my GFlag $hints;
+    my gint $pixels-inside-wrap;
+    my gboolean $overwrite;
+    my gint $pixels-above-lines;
+    my gint $ypos;
+    my N-Object $event;
+    my gboolean $accepts-tab;
+    my N-Object $buffer;
+    my gint $top-margin;
+    my gint-ptr $height;
+    my gint $count;
+    my gint $right-margin;
+    my gdouble $yalign;
+    my gboolean $use-align;
+    my N-Object $mark;
+    my N-Rectangle $visible-rect;
+    my gboolean $setting;
+    my N-Object $model;
+    my gdouble $xalign;
+    my gint $xpos;
+    my N-TextIter  $iter;
+    my N-TextIter  $target-iter;
+    my gint $pixels-below-lines;
+    my GtkTextWindowType  $win;
+    my GtkWrapMode $wrap-mode;
+    my gint $bottom-margin;
+    my N-Object $child;
+    my gint $window-y;
+    my gint-ptr $line-top;
+    my gboolean $monospace;
+    my gint-ptr $buffer-y;
+    my GtkInputPurpose $purpose;
+    my gint-ptr $trailing;
+    my N-Rectangle $location;
+    my gdouble $within-margin;
+    my gint $window-x;
+    my gint $left-margin;
+
+
+#`{{
+    #TM:0:add-child-at-anchor()
+    ok .add-child-at-anchor( $child, $anchor), '.add-child-at-anchor()';
+
+    #TM:0:add-overlay()
+    ok .add-overlay( $child, $xpos, $ypos), '.add-overlay()';
+
+    #TM:0:backward-display-line()
+    ok .backward-display-line( $iter), '.backward-display-line()';
+
+    #TM:0:backward-display-line-start()
+    ok .backward-display-line-start( $iter), '.backward-display-line-start()';
+
+    #TM:0:buffer-to-window-coords()
+    ok .buffer-to-window-coords( $win, $buffer-x, $buffer-y, $window-x, $window-y), '.buffer-to-window-coords()';
+
+    #TM:0:forward-display-line()
+    ok .forward-display-line( $iter), '.forward-display-line()';
+
+    #TM:0:forward-display-line-end()
+    ok .forward-display-line-end( $iter), '.forward-display-line-end()';
+
+    #TM:0:get-cursor-locations()
+    is .get-cursor-locations( $iter, $strong, $weak), '…', '.get-cursor-locations()';
+
+    #TM:0:get-iter-at-location()
+    is .get-iter-at-location( $iter, $x, $y), '…', '.get-iter-at-location()';
+
+    #TM:0:get-iter-at-position()
+    is .get-iter-at-position( $iter, $trailing, $x, $y), '…', '.get-iter-at-position()';
+
+    #TM:0:get-iter-location()
+    is .get-iter-location( $iter, $location), '…', '.get-iter-location()';
+
+    #TM:0:get-line-at-y()
+    is .get-line-at-y( $target-iter, $y, $line-top), '…', '.get-line-at-y()';
+
+    #TM:0:get-line-yrange()
+    is .get-line-yrange( $iter, $y, $height), '…', '.get-line-yrange()';
+
+    #TM:0:get-ltr-context()
+     .get-ltr-context(), '…', '.get-ltr-context()';
+
+    #TM:0:get-rtl-context()
+     .get-rtl-context(), '…', '.get-rtl-context()';
+
+    #TM:0:get-visible-rect()
+    is .get-visible-rect( $visible-rect), '…', '.get-visible-rect()';
+
+    #TM:0:im-context-filter-keypress()
+    ok .im-context-filter-keypress( $event), '.im-context-filter-keypress()';
+
+    #TM:0:move-mark-onscreen()
+    ok .move-mark-onscreen( $mark), '.move-mark-onscreen()';
+
+    #TM:0:move-overlay()
+    ok .move-overlay( $child, $xpos, $ypos), '.move-overlay()';
+
+    #TM:0:move-visually()
+    ok .move-visually( $iter, $count), '.move-visually()';
+
+    #TM:0:place-cursor-onscreen()
+    ok .place-cursor-onscreen(), '.place-cursor-onscreen()';
+
+    #TM:0:remove()
+    ok .remove( $child), '.remove()';
+
+    #TM:0:reset-cursor-blink()
+    ok .reset-cursor-blink(), '.reset-cursor-blink()';
+
+    #TM:0:reset-im-context()
+    ok .reset-im-context(), '.reset-im-context()';
+
+    #TM:0:scroll-mark-onscreen()
+    ok .scroll-mark-onscreen( $mark), '.scroll-mark-onscreen()';
+
+    #TM:0:scroll-to-iter()
+    ok .scroll-to-iter( $iter, $within-margin, $use-align, $xalign, $yalign), '.scroll-to-iter()';
+
+    #TM:0:scroll-to-mark()
+    ok .scroll-to-mark( $mark, $within-margin, $use-align, $xalign, $yalign), '.scroll-to-mark()';
+
+    #TM:0:set-accepts-tab()
+    $accepts-tab = '…';
+    .set-accepts-tab( $accepts-tab);
+    #TM:0:get-accepts-tab()
+    is .get-accepts-tab(),  $accepts-tab, '.set-accepts-tab() / .get-accepts-tab()';
+
+    #TM:0:set-bottom-margin()
+    $bottom-margin = '…';
+    .set-bottom-margin( $bottom-margin);
+    #TM:0:get-bottom-margin()
+    is .get-bottom-margin(),  $bottom-margin, '.set-bottom-margin() / .get-bottom-margin()';
+
+    #TM:0:set-buffer()
+    $buffer = …;
+    .set-buffer( $buffer);
+    #TM:0:get-buffer()
+    is .get-buffer(),  $buffer, '.set-buffer() / .get-buffer()';
+
+    #TM:0:set-cursor-visible()
+    $setting = '…';
+    .set-cursor-visible( $setting);
+    #TM:0:get-cursor-visible()
+    is .get-cursor-visible(),  $setting, '.set-cursor-visible() / .get-cursor-visible()';
+
+    #TM:0:set-editable()
+    $setting = '…';
+    .set-editable( $setting);
+    #TM:0:get-editable()
+    is .get-editable(),  $setting, '.set-editable() / .get-editable()';
+
+    #TM:0:set-extra-menu()
+    $model = …;
+    .set-extra-menu( $model);
+    #TM:0:get-extra-menu()
+    is .get-extra-menu(),  $model, '.set-extra-menu() / .get-extra-menu()';
+
+    #TM:0:set-gutter()
+    $win = …;
+    $widget = …;
+    .set-gutter( $win, $widget);
+    #TM:0:get-gutter()
+    is .get-gutter(),  $win, $widget, '.set-gutter() / .get-gutter()';
+
+    #TM:0:set-indent()
+    $indent = '…';
+    .set-indent( $indent);
+    #TM:0:get-indent()
+    is .get-indent(),  $indent, '.set-indent() / .get-indent()';
+
+    #TM:0:set-input-hints()
+    $hints = …;
+    .set-input-hints( $hints);
+    #TM:0:get-input-hints()
+    is .get-input-hints(),  $hints, '.set-input-hints() / .get-input-hints()';
+
+    #TM:0:set-input-purpose()
+    $purpose = …;
+    .set-input-purpose( $purpose);
+    #TM:0:get-input-purpose()
+    is .get-input-purpose(),  $purpose, '.set-input-purpose() / .get-input-purpose()';
+
+    #TM:0:set-justification()
+    $justification = …;
+    .set-justification( $justification);
+    #TM:0:get-justification()
+    is .get-justification(),  $justification, '.set-justification() / .get-justification()';
+
+    #TM:0:set-left-margin()
+    $left-margin = '…';
+    .set-left-margin( $left-margin);
+    #TM:0:get-left-margin()
+    is .get-left-margin(),  $left-margin, '.set-left-margin() / .get-left-margin()';
+
+    #TM:0:set-monospace()
+    $monospace = '…';
+    .set-monospace( $monospace);
+    #TM:0:get-monospace()
+    is .get-monospace(),  $monospace, '.set-monospace() / .get-monospace()';
+
+    #TM:0:set-overwrite()
+    $overwrite = '…';
+    .set-overwrite( $overwrite);
+    #TM:0:get-overwrite()
+    is .get-overwrite(),  $overwrite, '.set-overwrite() / .get-overwrite()';
+
+    #TM:0:set-pixels-above-lines()
+    $pixels-above-lines = '…';
+    .set-pixels-above-lines( $pixels-above-lines);
+    #TM:0:get-pixels-above-lines()
+    is .get-pixels-above-lines(),  $pixels-above-lines, '.set-pixels-above-lines() / .get-pixels-above-lines()';
+
+    #TM:0:set-pixels-below-lines()
+    $pixels-below-lines = '…';
+    .set-pixels-below-lines( $pixels-below-lines);
+    #TM:0:get-pixels-below-lines()
+    is .get-pixels-below-lines(),  $pixels-below-lines, '.set-pixels-below-lines() / .get-pixels-below-lines()';
+
+    #TM:0:set-pixels-inside-wrap()
+    $pixels-inside-wrap = '…';
+    .set-pixels-inside-wrap( $pixels-inside-wrap);
+    #TM:0:get-pixels-inside-wrap()
+    is .get-pixels-inside-wrap(),  $pixels-inside-wrap, '.set-pixels-inside-wrap() / .get-pixels-inside-wrap()';
+
+    #TM:0:set-right-margin()
+    $right-margin = '…';
+    .set-right-margin( $right-margin);
+    #TM:0:get-right-margin()
+    is .get-right-margin(),  $right-margin, '.set-right-margin() / .get-right-margin()';
+
+    #TM:0:set-tabs()
+    $tabs = '…';
+    .set-tabs( $tabs);
+    #TM:0:get-tabs()
+    is .get-tabs(),  $tabs, '.set-tabs() / .get-tabs()';
+
+    #TM:0:set-top-margin()
+    $top-margin = '…';
+    .set-top-margin( $top-margin);
+    #TM:0:get-top-margin()
+    is .get-top-margin(),  $top-margin, '.set-top-margin() / .get-top-margin()';
+
+    #TM:0:set-wrap-mode()
+    $wrap-mode = …;
+    .set-wrap-mode( $wrap-mode);
+    #TM:0:get-wrap-mode()
+    is .get-wrap-mode(),  $wrap-mode, '.set-wrap-mode() / .get-wrap-mode()';
+
+    #TM:0:starts-display-line()
+    ok .starts-display-line( $iter), '.starts-display-line()';
+
+    #TM:0:window-to-buffer-coords()
+    ok .window-to-buffer-coords( $win, $window-x, $window-y, $buffer-x, $buffer-y), '.window-to-buffer-coords()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $textview {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::TextView() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::TextView;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::TextView :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::TextView $textview .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $textview.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
