@@ -79,8 +79,7 @@ method get-classes-from-gir ( ) {
 
       # Save the class info in separate gir files
       when 'class' {
-        my $name = $attrs<name>;
-
+        my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
         unless $xml-file.IO.e {
           my Str $xml = qq:to/EOXML/;
@@ -109,17 +108,10 @@ method get-classes-from-gir ( ) {
         }
       }
 
-      # Only stand alone functions. Functions within other
-      # elements are not saved here.
-      when 'function' {
-        $!other<function>.push: $element;
-      }
-
       # Records are structures in C. There are fields for the structure,
       # constructors, methods and functions.
       when 'record' {
-        my $name = $attrs<c:type>;
-
+        my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
         unless $xml-file.IO.e {
           my Str $name-prefix = $*work-data<name-prefix>;
@@ -146,17 +138,8 @@ method get-classes-from-gir ( ) {
         }
       }
 
-      when 'constant' {
-        $!other<constant>.push: $element;
-      }
-
-      when 'docsection' {
-        $!other<docsection>.push: $element;
-      }
-
       when 'union' {
-        my $name = $attrs<c:type>;
-
+        my Str $name = self!check-pixbuf($attrs<name>);
         if ?$name {
           my Str $name-prefix = $*work-data<name-prefix>;
           $name ~~ s:i/^ $name-prefix //;
@@ -185,21 +168,8 @@ method get-classes-from-gir ( ) {
         }
       }
 
-      when 'callback' {
-        $!other<callback>.push: $element;
-      }
-
-      when 'bitfield' {
-        $!other<bitfield>.push: $element;
-      }
-
-      when 'enumeration' {
-        $!other<enumeration>.push: $element;
-      }
-
       when 'interface' {
-        my $name = $attrs<name>;
-
+        my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
         unless $xml-file.IO.e {
           my Str $xml = qq:to/EOXML/;
@@ -221,6 +191,32 @@ method get-classes-from-gir ( ) {
           note "Save interface I-$name" if $*verbose;
           $xml-file.IO.spurt($xml);
         }
+      }
+
+      # Only stand alone functions. Functions within other
+      # elements are not saved here.
+      when 'function' {
+        $!other<function>.push: $element;
+      }
+
+      when 'constant' {
+        $!other<constant>.push: $element;
+      }
+
+      when 'docsection' {
+        $!other<docsection>.push: $element;
+      }
+
+      when 'callback' {
+        $!other<callback>.push: $element;
+      }
+
+      when 'bitfield' {
+        $!other<bitfield>.push: $element;
+      }
+
+      when 'enumeration' {
+        $!other<enumeration>.push: $element;
       }
     }
   }
@@ -705,7 +701,7 @@ method !get-source-file( XML::Element:D $element --> Str ) {
         # In Gtk and Gdk for version 3, the filenames are having the prefix
         # 'gtk' or 'gdk' before it. Glib, GObject and Gio have a 'g' prefixed.
         if $*gnome-package.Str ~~ any(<
-          Gtk3 Gdk3 Gtk4 Gdk4 Gsk4 Glib GObject Gio Atk Pango
+          Gtk3 Gdk3 Gtk4 Gdk4 Gsk4 Glib GObject Gio Atk Pango GdkPixbuf
         >) {
           my $name-prefix = $*work-data<name-prefix>;
           $module-filename ~~ s/^ $name-prefix <[_-]>? //;
@@ -717,6 +713,15 @@ method !get-source-file( XML::Element:D $element --> Str ) {
   }
 
   $module-filename
+}
+
+#-------------------------------------------------------------------------------
+method !check-pixbuf ( Str $name --> Str ) {
+  given $name {
+    when 'GdkPixbuf'        { 'Pixbuf' }
+    when m/^ Pixbuf \w+ /   { S/^ Pixbuf // with $name }
+    default                 { $name }
+  }
 }
 
 #-------------------------------------------------------------------------------

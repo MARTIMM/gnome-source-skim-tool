@@ -26,7 +26,7 @@ submethod BUILD ( ) {
   $!solve .= new;
 
   # load data for this module
-  my Str $file = "$*work-data<gir-module-path>R-$*gnome-class.gir";
+  my Str $file = "$*work-data<gir-module-path>R-$*work-data<raku-name>.gir";
   note "Load module data from $file" if $*verbose;
   $!xpath .= new(:$file);
 }

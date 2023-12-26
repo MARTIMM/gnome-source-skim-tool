@@ -102,8 +102,8 @@ method search-name ( Str $name is copy --> Hash ) {
   for @*map-search-list -> $map-name {
     self!check-map($map-name);
 
-#note "Search for $name in map $map-name" if $*verbose;
-#note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pango /;
+#note "$?LINE: Search for $name in map $map-name";
+#note "$?LINE: search $name, $map-name" if $name ~~ m:i/ pixbuf /;
 
     # It is possible that not all hashes are loaded
     next unless $*object-maps{$map-name}:exists
@@ -138,33 +138,36 @@ method search-name ( Str $name is copy --> Hash ) {
 #-------------------------------------------------------------------------------
 method !check-search-list ( ) {
   unless ?@*map-search-list {
-    my Str $package = $*gnome-package.Str;
+    given $*gnome-package.Str {
+      when m/^ [ Gtk | Gdk ] 3 / {
+        @*map-search-list = <
+          Gtk Gdk GdkPixbuf Atk Cairo Pango Gio GObject Glib
+        >
+      }
 
-    # Gtk version 3 and 4 depend on these at least
-    @*map-search-list = <Gtk Gdk Atk Gio Cairo PangoCairo Pango>
-      if $package ~~ m/^ Gtk /;
+      when m/^ [ Gtk | Gdk ] 4 / {
+        @*map-search-list = <
+          Gtk Gdk Gsk GdkPixbuf Atk Cairo Pango Gio GObject Glib
+        >
+      }
 
-    # Add Gsk when processing Gtk version 4
-    @*map-search-list.push: 'Gsk' if $package eq 'Gtk4';
+      when 'Gsk4' {
+        @*map-search-list = <Gdk GObject Glib>
+      }
 
-    # Add Pixbuf when processing Gtk version 3
-    @*map-search-list.push: 'GdkPixbuf' if $package eq 'Gtk3';
+      when 'Gio' {
+        @*map-search-list = <Gio GObject Glib>
+      }
 
-    # Only process these when gdk version 3
-    @*map-search-list = <Gdk GdkPixbuf Cairo> if $package eq 'Gdk3';
+      when 'GdkPixbuf' {
+        @*map-search-list = <Gdk GdkPixbuf Gio GObject Glib>
+      }
 
-    # Only process this when gdk version 4
-    @*map-search-list = <Gdk Cairo> if $package eq 'Gdk4';
-
-    # Some lesser packages
-    @*map-search-list = <Pango Cairo PangoCairo>
-      if $package ~~ m/ Pango || Cairo /;
-
-    @*map-search-list = 'Gio' if $package eq 'Gio';
-
-    # And always add the following
-    @*map-search-list.push: 'Glib', 'GObject';
-  }  
+      when m/ Cairo | Pango / {
+        @*map-search-list = <Cairo Pango GObject Glib>
+      }
+    }
+  }
 }
 
 #-------------------------------------------------------------------------------

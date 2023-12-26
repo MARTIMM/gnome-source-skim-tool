@@ -3,6 +3,7 @@ use Gnome::SourceSkimTool::ConstEnumType;
 use Gnome::SourceSkimTool::Doc;
 use Gnome::SourceSkimTool::Code;
 use Gnome::SourceSkimTool::Test;
+use Gnome::SourceSkimTool::Resolve;
 
 use XML;
 use XML::XPath;
@@ -14,6 +15,7 @@ unit class Gnome::SourceSkimTool::Class:auth<github:MARTIMM>;
 has Gnome::SourceSkimTool::Doc $!grd;
 has Gnome::SourceSkimTool::Code $!mod;
 has Gnome::SourceSkimTool::Test $!tst;
+has Gnome::SourceSkimTool::Resolve $!solve;
 
 has XML::XPath $!xpath;
 
@@ -21,9 +23,10 @@ has XML::XPath $!xpath;
 submethod BUILD ( ) {
 
   $!mod .= new;
+  $!solve .= new;
 
   # load data for this module
-  my Str $file = "$*work-data<gir-module-path>C-$*gnome-class.gir";
+  my Str $file = "$*work-data<gir-module-path>C-$*work-data<raku-name>.gir";
   note "Load module data from $file" if $*verbose;
   $!xpath .= new(:$file);
 }
@@ -52,7 +55,9 @@ method generate-code ( ) {
 
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
-  my Str $fname = "$*work-data<result-mods>$*gnome-class.rakumod";
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameCodeType));
+#  my Str $fname = "$*work-data<result-mods>$*work-data<raku-name>.rakumod";
   $!mod.save-file( $fname, $code, "class module");
 }
 
@@ -100,7 +105,9 @@ method generate-doc ( ) {
 #  $doc ~= $!grd.document-properties( $element, $!xpath);
 
 #  note "Save pod doc";
-  my Str $fname = $*work-data<result-docs> ~ $*gnome-class ~ '.rakudoc';
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameDocType));
+#  my Str $fname = "$*work-data<result-docs>$*work-data<raku-name>.rakudoc";
   $!mod.save-file( $fname, $doc, "class documentation");
 }
 
@@ -135,6 +142,8 @@ method generate-test ( ) {
   $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-  my Str $fname = $*work-data<result-tests> ~ $*gnome-class ~ '.rakutest';
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameTestType));
+#  my Str $fname = "$*work-data<result-tests>$*work-data<raku-name>.rakutest";
   $!mod.save-file( $fname, $code, "class tests");
 }
