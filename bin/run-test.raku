@@ -12,7 +12,7 @@ my Hash $test-location = %(
   :Cairo<gnome-cairo>,
   :Gtk3<gnome-gtk3>, :Gdk3<gnome-gdk3>,
   :Gtk4<gnome-gtk4>, :Gsk4<gnome-gsk4>, :Gdk4<gnome-gdk4>,
-  :Pango<gnome-pango>,
+  :GdkPixbuf<gnome-gdkpixbuf>, :Pango<gnome-pango>,
   :Gio<gnome-gio>,
   :Glib<gnome-glib>,
   :GObject<gnome-gobject>,
@@ -111,8 +111,9 @@ sub run-test ( Str $distro, Str $test-file, Bool :$show-stats = False ) {
   if $test-location{$distro}:exists and $test-file.IO.r {
     set-paths($distro);
 
+    chdir($test-file.IO.parent);
     my Str $stsopt = $show-stats ?? '--stagestats' !! '';
-    my Str $cmd = "rakudo $stsopt '$test-file'";
+    my Str $cmd = "rakudo $stsopt '$test-file.IO().basename()'";
     my Proc $p = shell $cmd;   #, :out, :err;
 #    note $p.out.slurp;#: :close;
 #    note $p.err.slurp;#: :close;
@@ -124,7 +125,7 @@ sub set-paths ( Str $distro ) {
   my Str $gtk-v = '';
   $gtk-v = '3' if $distro ~~ / 3 /;
   $gtk-v = '4' if $distro ~~ / 4 /;
-  $gtk-v = 'PC' if $distro ~~ / Pango || Cairo /;
+  $gtk-v = 'PC' if $distro ~~ / Pango || Cairo || Pixbuf /;
 
   # Paths to find by Raku
   my @pth;
@@ -135,6 +136,7 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-glib/lib",
         "$API2MODS/gnome-gobject/lib",
         "$API2MODS/gnome-gio/lib",
+        "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
         "$API2MODS/gnome-cairo/lib",
         "$API2MODS/gnome-atk/lib",
@@ -149,6 +151,7 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-glib/lib",
         "$API2MODS/gnome-gobject/lib",
         "$API2MODS/gnome-gio/lib",
+        "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
         "$API2MODS/gnome-cairo/lib",
         "$API2MODS/gnome-atk/lib",
@@ -164,6 +167,7 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-glib/lib",
         "$API2MODS/gnome-gobject/lib",
         "$API2MODS/gnome-gio/lib",
+        "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
         "$API2MODS/gnome-cairo/lib",
       );
