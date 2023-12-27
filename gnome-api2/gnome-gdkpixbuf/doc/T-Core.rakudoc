@@ -14,10 +14,47 @@ use v6.d;
 
 =head2 GdkColorspace
 
+This enumeration defines the color spaces that are supported by
+the gdk-pixbuf library.
+
+Currently only RGB is supported.
+=item C<GDK_COLORSPACE_RGB>; Indicates a red/green/blue additive color space.
+
 =head2 GdkPixbufAlphaMode
+
+Control the alpha channel for drawables.
+
+These values can be passed to gdk_pixbuf_xlib_render_to_drawable_alpha()
+in gdk-pixbuf-xlib to control how the alpha channel of an image should
+be handled.
+
+This function can create a bilevel clipping mask (black and white) and use
+it while painting the image.
+
+In the future, when the X Window System gets an alpha channel extension,
+it will be possible to do full alpha compositing onto arbitrary drawables.
+For now both cases fall back to a bilevel clipping mask.
+=item C<GDK_PIXBUF_ALPHA_BILEVEL>; A bilevel clipping mask (black and white)
+ will be created and used to draw the image.  Pixels below 0.5 opacity
+ will be considered fully transparent, and all others will be
+ considered fully opaque.
+=item C<GDK_PIXBUF_ALPHA_FULL>; For now falls back to B<GDK>_PIXBUF_ALPHA_BILEVEL.
+ In the future it will do full alpha compositing.
 
 =head2 GdkPixbufError
 
+An error code in the B<GDK_PIXBUF_ERROR> domain.
+
+Many gdk-pixbuf operations can cause errors in this domain, or in
+the B<G_FILE_ERROR> domain.
+=item C<GDK_PIXBUF_ERROR_CORRUPT_IMAGE>; An image file was broken somehow.
+=item C<GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY>; Not enough memory.
+=item C<GDK_PIXBUF_ERROR_BAD_OPTION>; A bad option was passed to a pixbuf save module.
+=item C<GDK_PIXBUF_ERROR_UNKNOWN_TYPE>; Unknown image type.
+=item C<GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION>; Don't know how to perform the
+ given operation on the type of image at hand.
+=item C<GDK_PIXBUF_ERROR_FAILED>; Generic failure code, something went wrong.
+=item C<GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION>; Only part of the animation was loaded.
 =end pod
 
 #-------------------------------------------------------------------------------

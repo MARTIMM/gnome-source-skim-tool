@@ -6,11 +6,11 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
-#use Gnome::GdkPixbuf::T-Core:api<2>;
+use Gnome::GdkPixbuf::T-Core:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -23,16 +23,36 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 #TE:1:GdkColorspace
 subtest 'GdkColorspace', {
+  is GDK_COLORSPACE_RGB.value, 0, 'enum GDK_COLORSPACE_RGB = 0';
+
 };
 
 #-------------------------------------------------------------------------------
 #TE:1:GdkPixbufAlphaMode
 subtest 'GdkPixbufAlphaMode', {
+  is GDK_PIXBUF_ALPHA_BILEVEL.value, 0, 'enum GDK_PIXBUF_ALPHA_BILEVEL = 0';
+
+  is GDK_PIXBUF_ALPHA_FULL.value, 1, 'enum GDK_PIXBUF_ALPHA_FULL = 1';
+
 };
 
 #-------------------------------------------------------------------------------
 #TE:1:GdkPixbufError
 subtest 'GdkPixbufError', {
+  is GDK_PIXBUF_ERROR_CORRUPT_IMAGE.value, 0, 'enum GDK_PIXBUF_ERROR_CORRUPT_IMAGE = 0';
+
+  is GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY.value, 1, 'enum GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY = 1';
+
+  is GDK_PIXBUF_ERROR_BAD_OPTION.value, 2, 'enum GDK_PIXBUF_ERROR_BAD_OPTION = 2';
+
+  is GDK_PIXBUF_ERROR_UNKNOWN_TYPE.value, 3, 'enum GDK_PIXBUF_ERROR_UNKNOWN_TYPE = 3';
+
+  is GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION.value, 4, 'enum GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION = 4';
+
+  is GDK_PIXBUF_ERROR_FAILED.value, 5, 'enum GDK_PIXBUF_ERROR_FAILED = 5';
+
+  is GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION.value, 6, 'enum GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION = 6';
+
 };
 
 
