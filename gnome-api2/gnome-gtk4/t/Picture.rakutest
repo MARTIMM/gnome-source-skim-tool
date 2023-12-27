@@ -29,11 +29,11 @@ my Gnome::Gtk4::Picture $picture;
 
 subtest 'ISA test', {
   given $picture {
-    my  $pixbuf;
+    my N-Object $file;
+    my N-Object $paintable;
     my Str $filename;
     my Str $resource-path;
-    my N-Object $paintable;
-    my N-Object $file;
+    my N-Object $pixbuf;
 
 #`{{
     #TC:0:new-picture()
@@ -57,7 +57,7 @@ subtest 'ISA test', {
     ok .is-valid, '.new-for-paintable( $paintable)';
 
     #TC:0:new-for-pixbuf()
-    $pixbuf = '…';
+    $pixbuf = …;
     $picture .= new-for-pixbuf( $pixbuf);
     ok .is-valid, '.new-for-pixbuf( $pixbuf)';
 
@@ -82,14 +82,14 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $picture {
-    my  $pixbuf;
-    my N-Object $paintable;
-    my N-Object $file;
-    my gboolean $can-shrink;
-    my gboolean $keep-aspect-ratio;
     my Str $filename;
-    my Str $resource-path;
     my Str $alternative-text;
+    my gboolean $keep-aspect-ratio;
+    my gboolean $can-shrink;
+    my N-Object $file;
+    my N-Object $pixbuf;
+    my Str $resource-path;
+    my N-Object $paintable;
 
 
 #`{{
@@ -129,7 +129,7 @@ subtest 'Method tests', {
     is .get-paintable(),  $paintable, '.set-paintable() / .get-paintable()';
 
     #TM:0:set-pixbuf()
-    $pixbuf = '…';
+    $pixbuf = …;
     .set-pixbuf( $pixbuf);
     ok True, '.set-pixbuf()';
 

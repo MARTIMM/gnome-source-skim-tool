@@ -197,7 +197,6 @@ method new-for-paintable ( N-Object() $paintable --> Gnome::Gtk4::Picture \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-for-pixbuf
-This function is not yet available
 
 Creates a new B<Gnome::Gtk4::Picture> displaying C<$pixbuf>.
 
@@ -207,10 +206,10 @@ See that function for details.
 The pixbuf must not be modified after passing it to this function.
 
 =begin code
-method new-for-pixbuf ( … --> Gnome::Gtk4::Picture \)
+method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Picture \)
 =end code
 
-=item pixbuf; a B<GdkPixbuf>. Note that each argument must be specified as a type followed by its value!
+=item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf>.
 
 =begin comment
 
@@ -522,19 +521,18 @@ method set-paintable ( N-Object() $paintable )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-pixbuf
-This function is not yet available
 
-Sets a B<Gnome::Gtk4::Picture> to show a B<GdkPixbuf>.
+Sets a B<Gnome::Gtk4::Picture> to show a B<Gnome::GdkPixbuf::Pixbuf>.
 
 See C<.new-for-pixbuf()> for details.
 
 This is a utility function that calls C<.set-paintable()>.
 
 =begin code
-method set-pixbuf ( … )
+method set-pixbuf ( N-Object() $pixbuf )
 =end code
 
-=item pixbuf; a B<GdkPixbuf>. Note that each argument must be specified as a type followed by its value!
+=item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf>.
 
 =begin comment
 

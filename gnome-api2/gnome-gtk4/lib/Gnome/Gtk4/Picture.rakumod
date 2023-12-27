@@ -61,7 +61,7 @@ my Hash $methods = %(
   new-for-file => %( :type(Constructor), :is-symbol<gtk_picture_new_for_file>, :returns(N-Object), :parameters([ N-Object])),
   new-for-filename => %( :type(Constructor), :is-symbol<gtk_picture_new_for_filename>, :returns(N-Object), :parameters([ Str])),
   new-for-paintable => %( :type(Constructor), :is-symbol<gtk_picture_new_for_paintable>, :returns(N-Object), :parameters([ N-Object])),
-  #new-for-pixbuf => %( :type(Constructor), :is-symbol<gtk_picture_new_for_pixbuf>, :returns(N-Object), :parameters([ ])),
+  new-for-pixbuf => %( :type(Constructor), :is-symbol<gtk_picture_new_for_pixbuf>, :returns(N-Object), :parameters([ N-Object])),
   new-for-resource => %( :type(Constructor), :is-symbol<gtk_picture_new_for_resource>, :returns(N-Object), :parameters([ Str])),
 
   #--[Methods]------------------------------------------------------------------
@@ -76,7 +76,7 @@ my Hash $methods = %(
   set-filename => %(:is-symbol<gtk_picture_set_filename>,  :parameters([Str])),
   set-keep-aspect-ratio => %(:is-symbol<gtk_picture_set_keep_aspect_ratio>,  :parameters([gboolean])),
   set-paintable => %(:is-symbol<gtk_picture_set_paintable>,  :parameters([N-Object])),
-  #set-pixbuf => %(:is-symbol<gtk_picture_set_pixbuf>, ),
+  set-pixbuf => %(:is-symbol<gtk_picture_set_pixbuf>,  :parameters([N-Object])),
   set-resource => %(:is-symbol<gtk_picture_set_resource>,  :parameters([Str])),
 );
 
