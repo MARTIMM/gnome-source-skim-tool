@@ -1,0 +1,45 @@
+=comment Package: Gtk4, C-Source: iconview
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-IconView:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-IconView:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkIconViewDropPosition
+subtest 'GtkIconViewDropPosition', {
+  is GTK_ICON_VIEW_NO_DROP.value, 0, 'enum GTK_ICON_VIEW_NO_DROP = 0';
+
+  is GTK_ICON_VIEW_DROP_INTO.value, 1, 'enum GTK_ICON_VIEW_DROP_INTO = 1';
+
+  is GTK_ICON_VIEW_DROP_LEFT.value, 2, 'enum GTK_ICON_VIEW_DROP_LEFT = 2';
+
+  is GTK_ICON_VIEW_DROP_RIGHT.value, 3, 'enum GTK_ICON_VIEW_DROP_RIGHT = 3';
+
+  is GTK_ICON_VIEW_DROP_ABOVE.value, 4, 'enum GTK_ICON_VIEW_DROP_ABOVE = 4';
+
+  is GTK_ICON_VIEW_DROP_BELOW.value, 5, 'enum GTK_ICON_VIEW_DROP_BELOW = 5';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

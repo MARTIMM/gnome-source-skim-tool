@@ -1,0 +1,392 @@
+=comment Package: Gtk4, C-Source: iconview
+use v6.d;
+
+#TL:1:Gnome::Gtk4::IconView:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::Gdk4::N-ContentFormats:api<2>;
+use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::Gdk4::T-Enums:api<2>;
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Gtk4::IconView:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-IconView:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::IconView $iconview;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $iconview {
+    my N-Object $model;
+    my N-Object $area;
+
+#`{{
+    #TC:0:new-iconview()
+
+    $iconview .= new-iconview();
+    ok .is-valid, '.new-iconview()';
+
+    #TC:0:new-with-area()
+    $area = …;
+    $iconview .= new-with-area( $area);
+    ok .is-valid, '.new-with-area( $area)';
+
+    #TC:0:new-with-model()
+    $model = …;
+    $iconview .= new-with-model( $model);
+    ok .is-valid, '.new-with-model( $model)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $iconview {
+    my CArray[N-TreePath] $end-path;
+    my gfloat $row-align;
+    my gint $column;
+    my GtkSelectionMode $mode;
+    my gboolean $keyboard-tip;
+    my gint $columns;
+    my gint $drag-y;
+    my GFlag $actions;
+    my gint $drag-x;
+    my N-Object $cell;
+    my N-TreePath $path;
+    sub func ( N-Object $icon-view, N-TreePath $path, gpointer $data ) {}
+    my gint $spacing;
+    my gboolean $reorderable;
+    my N-Object $model;
+    my gint $item-width;
+    my gint $column-spacing;
+#    my GtkIconViewDropPosition  $pos;
+#    my N-ContentFormats  $formats;
+    my gpointer $data;
+    my GFlag $start-button-mask;
+    my CArray[N-TreePath] $start-path;
+    my gint $margin;
+    my gfloat $col-align;
+    my gint $item-padding;
+    my gboolean $start-editing;
+    my N-Rectangle $rect;
+    my gint $y;
+    my gboolean $single;
+    my N-Object $tooltip;
+    my N-TreeIter $iter;
+    my gboolean $use-align;
+    my gint $row-spacing;
+    my GtkOrientation $orientation;
+    my gint $x;
+
+
+#`{{
+    #TM:0:create-drag-icon()
+    ok .create-drag-icon( $path), '.create-drag-icon()';
+
+    #TM:0:enable-model-drag-dest()
+    ok .enable-model-drag-dest( $formats, $actions), '.enable-model-drag-dest()';
+
+    #TM:0:enable-model-drag-source()
+    ok .enable-model-drag-source( $start-button-mask, $formats, $actions), '.enable-model-drag-source()';
+
+    #TM:0:get-cell-rect()
+    is .get-cell-rect( $path, $cell, $rect), '…', '.get-cell-rect()';
+
+    #TM:0:get-dest-item-at-pos()
+    is .get-dest-item-at-pos( $drag-x, $drag-y, $path, $pos), '…', '.get-dest-item-at-pos()';
+
+    #TM:0:get-item-at-pos()
+    is .get-item-at-pos( $x, $y, $path, $cell), '…', '.get-item-at-pos()';
+
+    #TM:0:get-item-column()
+    is .get-item-column( $path), '…', '.get-item-column()';
+
+    #TM:0:get-item-row()
+    is .get-item-row( $path), '…', '.get-item-row()';
+
+    #TM:0:get-path-at-pos()
+    is .get-path-at-pos( $x, $y), '…', '.get-path-at-pos()';
+
+    #TM:0:get-selected-items()
+     .get-selected-items(), '…', '.get-selected-items()';
+
+    #TM:0:get-tooltip-context()
+    is .get-tooltip-context( $x, $y, $keyboard-tip, $model, $path, $iter), '…', '.get-tooltip-context()';
+
+    #TM:0:get-visible-range()
+    is .get-visible-range( $start-path, $end-path), '…', '.get-visible-range()';
+
+    #TM:0:item-activated()
+    ok .item-activated( $path), '.item-activated()';
+
+    #TM:0:path-is-selected()
+    ok .path-is-selected( $path), '.path-is-selected()';
+
+    #TM:0:scroll-to-path()
+    ok .scroll-to-path( $path, $use-align, $row-align, $col-align), '.scroll-to-path()';
+
+    #TM:0:select-all()
+    ok .select-all(), '.select-all()';
+
+    #TM:0:select-path()
+    ok .select-path( $path), '.select-path()';
+
+    #TM:0:selected-foreach()
+    ok .selected-foreach( $func, $data), '.selected-foreach()';
+
+    #TM:0:set-activate-on-single-click()
+    $single = '…';
+    .set-activate-on-single-click( $single);
+    #TM:0:get-activate-on-single-click()
+    is .get-activate-on-single-click(),  $single, '.set-activate-on-single-click() / .get-activate-on-single-click()';
+
+    #TM:0:set-column-spacing()
+    $column-spacing = '…';
+    .set-column-spacing( $column-spacing);
+    #TM:0:get-column-spacing()
+    is .get-column-spacing(),  $column-spacing, '.set-column-spacing() / .get-column-spacing()';
+
+    #TM:0:set-columns()
+    $columns = '…';
+    .set-columns( $columns);
+    #TM:0:get-columns()
+    is .get-columns(),  $columns, '.set-columns() / .get-columns()';
+
+    #TM:0:set-cursor()
+    $path = '…';
+    $cell = …;
+    $start-editing = '…';
+    .set-cursor( $path, $cell, $start-editing);
+    #TM:0:get-cursor()
+    is .get-cursor(),  $path, $cell, $start-editing, '.set-cursor() / .get-cursor()';
+
+    #TM:0:set-drag-dest-item()
+    $path = '…';
+    $pos = …;
+    .set-drag-dest-item( $path, $pos);
+    #TM:0:get-drag-dest-item()
+    is .get-drag-dest-item(),  $path, $pos, '.set-drag-dest-item() / .get-drag-dest-item()';
+
+    #TM:0:set-item-orientation()
+    $orientation = …;
+    .set-item-orientation( $orientation);
+    #TM:0:get-item-orientation()
+    is .get-item-orientation(),  $orientation, '.set-item-orientation() / .get-item-orientation()';
+
+    #TM:0:set-item-padding()
+    $item-padding = '…';
+    .set-item-padding( $item-padding);
+    #TM:0:get-item-padding()
+    is .get-item-padding(),  $item-padding, '.set-item-padding() / .get-item-padding()';
+
+    #TM:0:set-item-width()
+    $item-width = '…';
+    .set-item-width( $item-width);
+    #TM:0:get-item-width()
+    is .get-item-width(),  $item-width, '.set-item-width() / .get-item-width()';
+
+    #TM:0:set-margin()
+    $margin = '…';
+    .set-margin( $margin);
+    #TM:0:get-margin()
+    is .get-margin(),  $margin, '.set-margin() / .get-margin()';
+
+    #TM:0:set-markup-column()
+    $column = '…';
+    .set-markup-column( $column);
+    #TM:0:get-markup-column()
+    is .get-markup-column(),  $column, '.set-markup-column() / .get-markup-column()';
+
+    #TM:0:set-model()
+    $model = …;
+    .set-model( $model);
+    #TM:0:get-model()
+    is .get-model(),  $model, '.set-model() / .get-model()';
+
+    #TM:0:set-pixbuf-column()
+    $column = '…';
+    .set-pixbuf-column( $column);
+    #TM:0:get-pixbuf-column()
+    is .get-pixbuf-column(),  $column, '.set-pixbuf-column() / .get-pixbuf-column()';
+
+    #TM:0:set-reorderable()
+    $reorderable = '…';
+    .set-reorderable( $reorderable);
+    #TM:0:get-reorderable()
+    is .get-reorderable(),  $reorderable, '.set-reorderable() / .get-reorderable()';
+
+    #TM:0:set-row-spacing()
+    $row-spacing = '…';
+    .set-row-spacing( $row-spacing);
+    #TM:0:get-row-spacing()
+    is .get-row-spacing(),  $row-spacing, '.set-row-spacing() / .get-row-spacing()';
+
+    #TM:0:set-selection-mode()
+    $mode = …;
+    .set-selection-mode( $mode);
+    #TM:0:get-selection-mode()
+    is .get-selection-mode(),  $mode, '.set-selection-mode() / .get-selection-mode()';
+
+    #TM:0:set-spacing()
+    $spacing = '…';
+    .set-spacing( $spacing);
+    #TM:0:get-spacing()
+    is .get-spacing(),  $spacing, '.set-spacing() / .get-spacing()';
+
+    #TM:0:set-text-column()
+    $column = '…';
+    .set-text-column( $column);
+    #TM:0:get-text-column()
+    is .get-text-column(),  $column, '.set-text-column() / .get-text-column()';
+
+    #TM:0:set-tooltip-cell()
+    $tooltip = …;
+    $path = '…';
+    $cell = …;
+    .set-tooltip-cell( $tooltip, $path, $cell);
+    ok True, '.set-tooltip-cell()';
+
+    #TM:0:set-tooltip-column()
+    $column = '…';
+    .set-tooltip-column( $column);
+    #TM:0:get-tooltip-column()
+    is .get-tooltip-column(),  $column, '.set-tooltip-column() / .get-tooltip-column()';
+
+    #TM:0:set-tooltip-item()
+    $tooltip = …;
+    $path = '…';
+    .set-tooltip-item( $tooltip, $path);
+    ok True, '.set-tooltip-item()';
+
+    #TM:0:unselect-all()
+    ok .unselect-all(), '.unselect-all()';
+
+    #TM:0:unselect-path()
+    ok .unselect-path( $path), '.unselect-path()';
+
+    #TM:0:unset-model-drag-dest()
+    ok .unset-model-drag-dest(), '.unset-model-drag-dest()';
+
+    #TM:0:unset-model-drag-source()
+    ok .unset-model-drag-source(), '.unset-model-drag-source()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $iconview {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::IconView() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::IconView;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::IconView :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::IconView $iconview .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $iconview.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

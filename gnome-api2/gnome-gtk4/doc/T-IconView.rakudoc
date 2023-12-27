@@ -1,0 +1,43 @@
+=comment Package: Gtk4, C-Source: iconview
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-IconView
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkIconViewDropPosition
+
+An enum for determining where a dropped item goes.
+=item C<GTK_ICON_VIEW_NO_DROP>; no drop possible
+=item C<GTK_ICON_VIEW_DROP_INTO>; dropped item replaces the item
+=item C<GTK_ICON_VIEW_DROP_LEFT>; dropped item is inserted to the left
+=item C<GTK_ICON_VIEW_DROP_RIGHT>; dropped item is inserted to the right
+=item C<GTK_ICON_VIEW_DROP_ABOVE>; dropped item is inserted above
+=item C<GTK_ICON_VIEW_DROP_BELOW>; dropped item is inserted below
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 IconViewForeachFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $icon-view, CArray[N-TreePath] $path, gpointer $data  )
+=end code
+
+=item icon-view; a B<Gnome::Gtk4::IconView>
+=item path; The B<Gnome::Gtk4::N-TreePath> of a selected row
+=item data; user data
+
+=end pod

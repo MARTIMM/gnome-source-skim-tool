@@ -1,0 +1,1870 @@
+=comment Package: Gtk4, C-Source: iconview
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::IconView
+
+![](images/iconview.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::IconView> is a widget which displays data in a grid of icons.
+
+B<Gnome::Gtk4::IconView> provides an alternative view on a B<Gnome::Gtk4::R-TreeModel>.
+It displays the model as a grid of icons with labels. Like
+B<Gnome::Gtk4::TreeView>, it allows to select one or multiple items
+(depending on the selection mode, see C<.set-selection-mode()>).
+In addition to selection with the arrow keys, B<Gnome::Gtk4::IconView> supports
+rubberband selection, which is controlled by dragging the pointer.
+
+Note that if the tree model is backed by an actual tree store (as
+opposed to a flat list where the mapping to icons is obvious),
+B<Gnome::Gtk4::IconView> will only display the first level of the tree and
+ignore the tree’s branches.
+
+=head2 CSS nodes
+
+=begin comment
+iconview.view
+╰── [rubberband]
+
+=end comment
+
+B<Gnome::Gtk4::IconView> has a single CSS node with name iconview and style class .view.
+For rubberband selection, a subnode with name rubberband is used.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::IconView
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-iconview
+
+Creates a new B<Gnome::Gtk4::IconView> widget
+
+=begin code
+method new-iconview ( --> Gnome::Gtk4::IconView \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-iconview
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-area
+
+Creates a new B<Gnome::Gtk4::IconView> widget using the
+specified C<$area> to layout cells inside the icons.
+
+=begin code
+method new-with-area ( N-Object() $area --> Gnome::Gtk4::IconView \)
+=end code
+
+=item $area; the B<Gnome::Gtk4::CellArea> to use to layout cells.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-area
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-model
+
+Creates a new B<Gnome::Gtk4::IconView> widget with the model C<$model>.
+
+=begin code
+method new-with-model ( N-Object() $model --> Gnome::Gtk4::IconView \)
+=end code
+
+=item $model; The model..
+
+=begin comment
+
+=head2 Example
+# Example for new-with-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-drag-icon
+
+Creates a B<Gnome::Gdk4::R-Paintable> representation of the item at C<$path>.
+This image is used for a drag icon.
+
+=begin code
+method create-drag-icon ( CArray[N-TreePath] $path --> N-Object )
+=end code
+
+=item $path; a B<Gnome::Gtk4::N-TreePath> in C<$icon-view>.
+
+Return value; a newly-allocated B<Gnome::Gdk4::R-Paintable> of the drag icon.. 
+
+=begin comment
+
+=head2 Example
+# Example for create-drag-icon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 enable-model-drag-dest
+This function is not yet available
+
+Turns C<$icon-view> into a drop destination for automatic DND. Calling this
+method sets B<Gnome::Gtk4::IconView>:reorderable to C<False>.
+
+=begin code
+method enable-model-drag-dest ( CArray[N-ContentFormats]  $formats, UInt $actions )
+=end code
+
+=item $formats; the formats that the drag will support.
+=item $actions; the bitmask of possible actions for a drag to this
+   widget.
+
+=begin comment
+
+=head2 Example
+# Example for enable-model-drag-dest
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 enable-model-drag-source
+This function is not yet available
+
+Turns C<$icon-view> into a drag source for automatic DND. Calling this
+method sets B<Gnome::Gtk4::IconView>:reorderable to C<False>.
+
+=begin code
+method enable-model-drag-source ( UInt $start-button-mask, CArray[N-ContentFormats]  $formats, UInt $actions )
+=end code
+
+=item $start-button-mask; Mask of allowed buttons to start drag.
+=item $formats; the formats that the drag will support.
+=item $actions; the bitmask of possible actions for a drag from this
+   widget.
+
+=begin comment
+
+=head2 Example
+# Example for enable-model-drag-source
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-activate-on-single-click
+
+Gets the setting set by C<.set-activate-on-single-click()>.
+
+=begin code
+method get-activate-on-single-click (--> Bool )
+=end code
+
+Return value; C<True> if item-activated will be emitted on a single click. 
+
+=begin comment
+
+=head2 Example
+# Example for get-activate-on-single-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cell-rect
+
+Fills the bounding rectangle in widget coordinates for the cell specified by C<$path> and C<$cell>. If C<$cell> is undefined the main cell area is used.
+
+This function is only valid if C<$icon-view> is realized.
+
+=begin code
+method get-cell-rect ( CArray[N-TreePath] $path, N-Object() $cell, CArray[N-Rectangle] $rect --> Bool )
+=end code
+
+=item $path; a B<Gnome::Gtk4::N-TreePath>.
+=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+=item $rect; rectangle to fill with cell rect.
+
+Return value; C<False> if there is no such item, C<True> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-cell-rect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-column-spacing
+
+Returns the value of the I<column-spacing> property.
+
+=begin code
+method get-column-spacing (--> Int )
+=end code
+
+Return value; the space between columns. 
+
+=begin comment
+
+=head2 Example
+# Example for get-column-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-columns
+
+Returns the value of the I<columns> property.
+
+=begin code
+method get-columns (--> Int )
+=end code
+
+Return value; the number of columns, or -1. 
+
+=begin comment
+
+=head2 Example
+# Example for get-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cursor
+
+Fills in C<$path> and C<$cell> with the current cursor path and cell.
+If the cursor isn’t currently set, then * C<$path> will be undefined.
+If no cell currently has focus, then * C<$cell> will be undefined.
+
+The returned B<Gnome::Gtk4::N-TreePath> must be freed with gtk_tree_path_free().
+
+=begin code
+method get-cursor ( CArray[N-TreePath] $path, N-Object() $cell --> Bool )
+=end code
+
+=item $path; (transfer ownership: full) Return location for the current
+  cursor path.
+=item $cell; Return location the current
+  focus cell.
+
+Return value; C<True> if the cursor is set.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-dest-item-at-pos
+This function is not yet available
+
+Determines the destination item for a given position.
+
+=begin code
+method get-dest-item-at-pos ( Int() $drag-x, Int() $drag-y, CArray[N-TreePath] $path, GtkIconViewDropPosition  $pos --> Bool )
+=end code
+
+=item $drag-x; the position to determine the destination item for.
+=item $drag-y; the position to determine the destination item for.
+=item $path; (transfer ownership: full) Return location for the path of the item.
+=item $pos; (transfer ownership: full) Return location for the drop position.
+
+Return value; whether there is an item at the given position.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-dest-item-at-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-drag-dest-item
+This function is not yet available
+
+Gets information about the item that is highlighted for feedback.
+
+=begin code
+method get-drag-dest-item ( CArray[N-TreePath] $path, GtkIconViewDropPosition  $pos )
+=end code
+
+=item $path; (transfer ownership: full) Return location for the path of
+  the highlighted item.
+=item $pos; (transfer ownership: full) Return location for the drop position.
+
+=begin comment
+
+=head2 Example
+# Example for get-drag-dest-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item-at-pos
+
+Gets the path and cell for the icon at the given position.
+
+=begin code
+method get-item-at-pos ( Int() $x, Int() $y, CArray[N-TreePath] $path, N-Object() $cell --> Bool )
+=end code
+
+=item $x; The x position to be identified.
+=item $y; The y position to be identified.
+=item $path; (transfer ownership: full) Return location for the path.
+=item $cell; Return location for the renderer
+  responsible for the cell at ( C<$x>, C<$y>).
+
+Return value; C<True> if an item exists at the specified position. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item-at-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item-column
+
+Gets the column in which the item C<$path> is currently
+displayed. Column numbers start at 0.
+
+=begin code
+method get-item-column ( CArray[N-TreePath] $path --> Int )
+=end code
+
+=item $path; the B<Gnome::Gtk4::N-TreePath> of the item.
+
+Return value; The column in which the item is displayed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item-orientation
+
+Returns the value of the I<item-orientation> property which determines
+whether the labels are drawn beside the icons instead of below.
+
+=begin code
+method get-item-orientation (--> GtkOrientation )
+=end code
+
+Return value; the relative position of texts and icons. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item-orientation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item-padding
+
+Returns the value of the I<item-padding> property.
+
+=begin code
+method get-item-padding (--> Int )
+=end code
+
+Return value; the padding around items. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item-padding
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item-row
+
+Gets the row in which the item C<$path> is currently
+displayed. Row numbers start at 0.
+
+=begin code
+method get-item-row ( CArray[N-TreePath] $path --> Int )
+=end code
+
+=item $path; the B<Gnome::Gtk4::N-TreePath> of the item.
+
+Return value; The row in which the item is displayed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item-width
+
+Returns the value of the I<item-width> property.
+
+=begin code
+method get-item-width (--> Int )
+=end code
+
+Return value; the width of a single item, or -1. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-margin
+
+Returns the value of the I<margin> property.
+
+=begin code
+method get-margin (--> Int )
+=end code
+
+Return value; the space at the borders. 
+
+=begin comment
+
+=head2 Example
+# Example for get-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-markup-column
+
+Returns the column with markup text for C<$icon-view>.
+
+=begin code
+method get-markup-column (--> Int )
+=end code
+
+Return value; the markup column, or -1 if it’s unset.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-markup-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Returns the model the B<Gnome::Gtk4::IconView> is based on.  Returns undefined if the
+model is unset.
+
+=begin code
+method get-model (--> N-Object )
+=end code
+
+Return value; The currently used B<Gnome::Gtk4::R-TreeModel>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-path-at-pos
+
+Gets the path for the icon at the given position.
+
+=begin code
+method get-path-at-pos ( Int() $x, Int() $y --> CArray[N-TreePath] )
+=end code
+
+=item $x; The x position to be identified.
+=item $y; The y position to be identified.
+
+Return value; The B<Gnome::Gtk4::N-TreePath> corresponding
+to the icon or undefined if no icon exists at that position.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-path-at-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pixbuf-column
+
+Returns the column with pixbufs for C<$icon-view>.
+
+=begin code
+method get-pixbuf-column (--> Int )
+=end code
+
+Return value; the pixbuf column, or -1 if it’s unset.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pixbuf-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-reorderable
+
+Retrieves whether the user can reorder the list via drag-and-drop.
+See C<.set-reorderable()>.
+
+=begin code
+method get-reorderable (--> Bool )
+=end code
+
+Return value; C<True> if the list can be reordered.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-spacing
+
+Returns the value of the I<row-spacing> property.
+
+=begin code
+method get-row-spacing (--> Int )
+=end code
+
+Return value; the space between rows. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-items
+
+Creates a list of paths of all selected items. Additionally, if you are
+planning on modifying the model after calling this function, you may
+want to convert the returned list into a list of B<GtkTreeRowReferences>.
+To do this, you can use gtk_tree_row_reference_new().
+
+To free the return value, use B<g_list_free_full>:
+=begin comment
+<!-- language="C" -->
+GtkWidget *icon_view = gtk_icon_view_new ();
+// Use icon_view
+
+GList *list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (icon_view));
+
+// use list
+
+g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
+
+=end comment
+
+=begin code
+method get-selected-items (--> N-List )
+=end code
+
+Return value; A B<Gnome::Glib::N-List> containing a B<Gnome::Gtk4::N-TreePath> for each selected row.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-items
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection-mode
+
+Gets the selection mode of the C<$icon-view>.
+
+=begin code
+method get-selection-mode (--> GtkSelectionMode )
+=end code
+
+Return value; the current selection mode. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-spacing
+
+Returns the value of the I<spacing> property.
+
+=begin code
+method get-spacing (--> Int )
+=end code
+
+Return value; the space between cells. 
+
+=begin comment
+
+=head2 Example
+# Example for get-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-text-column
+
+Returns the column with text for C<$icon-view>.
+
+=begin code
+method get-text-column (--> Int )
+=end code
+
+Return value; the text column, or -1 if it’s unset.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-text-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tooltip-column
+
+Returns the column of C<$icon-view>’s model which is being used for
+displaying tooltips on C<$icon-view>’s rows.
+
+=begin code
+method get-tooltip-column (--> Int )
+=end code
+
+Return value; the index of the tooltip column that is currently being
+used, or -1 if this is disabled.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tooltip-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tooltip-context
+
+This function is supposed to be used in a B<GtkWidget::query-tooltip>
+signal handler for B<Gnome::Gtk4::IconView>. The C<$x>, C<$y> and C<$keyboard-tip> values
+which are received in the signal handler, should be passed to this
+function without modification.
+
+The return value indicates whether there is an icon view item at the given
+coordinates (C<True>) or not (C<False>) for mouse tooltips. For keyboard
+tooltips the item returned will be the cursor item. When C<True>, then any of C<$model>, C<$path> and C<$iter> which have been provided will be set to point to
+that row and the corresponding model.
+
+=begin code
+method get-tooltip-context ( Int() $x, Int() $y, Bool() $keyboard-tip, N-Object() $model, CArray[N-TreePath] $path, CArray[N-TreeIter] $iter --> Bool )
+=end code
+
+=item $x; the x coordinate (relative to widget coordinates).
+=item $y; the y coordinate (relative to widget coordinates).
+=item $keyboard-tip; whether this is a keyboard tooltip or not.
+=item $model; a pointer to receive a B<Gnome::Gtk4::R-TreeModel>.
+=item $path; (transfer ownership: full) a pointer to receive a B<Gnome::Gtk4::N-TreePath>.
+=item $iter; a pointer to receive a B<Gnome::Gtk4::N-TreeIter>.
+
+Return value; whether or not the given tooltip context points to an item. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tooltip-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible-range
+
+Sets C<$start-path> and C<$end-path> to be the first and last visible path.
+Note that there may be invisible paths in between.
+
+Both paths should be freed with gtk_tree_path_free() after use.
+
+=begin code
+method get-visible-range ( CArray[N-TreePath] $start-path, CArray[N-TreePath] $end-path --> Bool )
+=end code
+
+=item $start-path; (transfer ownership: full) Return location for start of region.
+=item $end-path; (transfer ownership: full) Return location for end of region.
+
+Return value; C<True>, if valid paths were placed in C<$start-path> and C<$end-path>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visible-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 item-activated
+
+Activates the item determined by C<$path>.
+
+=begin code
+method item-activated ( CArray[N-TreePath] $path )
+=end code
+
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be activated.
+
+=begin comment
+
+=head2 Example
+# Example for item-activated
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 path-is-selected
+
+Returns C<True> if the icon pointed to by C<$path> is currently
+selected. If C<$path> does not point to a valid location, C<False> is returned.
+
+=begin code
+method path-is-selected ( CArray[N-TreePath] $path --> Bool )
+=end code
+
+=item $path; A B<Gnome::Gtk4::N-TreePath> to check selection on..
+
+Return value; C<True> if C<$path> is selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for path-is-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to-path
+
+Moves the alignments of C<$icon-view> to the position specified by C<$path>. C<$row-align> determines where the row is placed, and C<$col-align> determines
+where C<$column> is placed.  Both are expected to be between 0.0 and 1.0.
+0.0 means left/top alignment, 1.0 means right/bottom alignment, 0.5 means
+center.
+
+If C<$use-align> is C<False>, then the alignment arguments are ignored, and the
+tree does the minimum amount of work to scroll the item onto the screen.
+This means that the item will be scrolled to the edge closest to its current
+position.  If the item is currently visible on the screen, nothing is done.
+
+This function only works if the model is set, and C<$path> is a valid row on
+the model. If the model changes before the C<$icon-view> is realized, the
+centered path will be modified to reflect this change.
+
+=begin code
+method scroll-to-path ( CArray[N-TreePath] $path, Bool() $use-align, Num() $row-align, Num() $col-align )
+=end code
+
+=item $path; The path of the item to move to..
+=item $use-align; whether to use alignment arguments, or C<False>..
+=item $row-align; The vertical alignment of the item specified by C<$path>..
+=item $col-align; The horizontal alignment of the item specified by C<$path>..
+
+=begin comment
+
+=head2 Example
+# Example for scroll-to-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-all
+
+Selects all the icons. C<$icon-view> must has its selection mode set
+to C<GTK_SELECTION_MULTIPLE>.
+
+=begin code
+method select-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for select-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-path
+
+Selects the row at C<$path>.
+
+=begin code
+method select-path ( CArray[N-TreePath] $path )
+=end code
+
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be selected..
+
+=begin comment
+
+=head2 Example
+# Example for select-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 selected-foreach
+
+Calls a function for each selected icon. Note that the model or
+selection cannot be modified from within this function.
+
+=begin code
+method selected-foreach ( &func, gpointer $data )
+=end code
+
+=item &func; The function to call for each selected icon.. Tthe function must be specified with following signature; C<:( N-Object $icon-view, N-TreePath $path, gpointer $data )>.
+=item $data; User data to pass to the function..
+
+=begin comment
+
+=head2 Example
+# Example for selected-foreach
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-activate-on-single-click
+
+Causes the B<Gnome::Gtk4::IconView>::item-activated signal to be emitted on
+a single click instead of a double click.
+
+=begin code
+method set-activate-on-single-click ( Bool() $single )
+=end code
+
+=item $single; C<True> to emit item-activated on a single click.
+
+=begin comment
+
+=head2 Example
+# Example for set-activate-on-single-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-column-spacing
+
+Sets the I<column-spacing> property which specifies the space
+which is inserted between the columns of the icon view.
+
+=begin code
+method set-column-spacing ( Int() $column-spacing )
+=end code
+
+=item $column-spacing; the column spacing.
+
+=begin comment
+
+=head2 Example
+# Example for set-column-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-columns
+
+Sets the I<columns> property which determines in how
+many columns the icons are arranged. If C<$columns> is
+-1, the number of columns will be chosen automatically
+to fill the available area.
+
+=begin code
+method set-columns ( Int() $columns )
+=end code
+
+=item $columns; the number of columns.
+
+=begin comment
+
+=head2 Example
+# Example for set-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cursor
+
+Sets the current keyboard focus to be at C<$path>, and selects it.  This is
+useful when you want to focus the user’s attention on a particular item.
+If C<$cell> is defined, then focus is given to the cell specified by
+it. Additionally, if C<$start-editing> is C<True>, then editing should be
+started in the specified cell.
+
+This function is often followed by B<gtk_widget_grab_focus
+(icon_view)> in order to give keyboard focus to the widget.
+Please note that editing can only happen when the widget is realized.
+
+=begin code
+method set-cursor ( CArray[N-TreePath] $path, N-Object() $cell, Bool() $start-editing )
+=end code
+
+=item $path; A B<Gnome::Gtk4::N-TreePath>.
+=item $cell; One of the cell renderers of C<$icon-view>.
+=item $start-editing; C<True> if the specified cell should start being edited..
+
+=begin comment
+
+=head2 Example
+# Example for set-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-drag-dest-item
+This function is not yet available
+
+Sets the item that is highlighted for feedback.
+
+=begin code
+method set-drag-dest-item ( CArray[N-TreePath] $path, GtkIconViewDropPosition  $pos )
+=end code
+
+=item $path; The path of the item to highlight.
+=item $pos; Specifies where to drop, relative to the item.
+
+=begin comment
+
+=head2 Example
+# Example for set-drag-dest-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-item-orientation
+
+Sets the I<item-orientation> property which determines whether the labels
+are drawn beside the icons instead of below.
+
+=begin code
+method set-item-orientation ( GtkOrientation $orientation )
+=end code
+
+=item $orientation; the relative position of texts and icons.
+
+=begin comment
+
+=head2 Example
+# Example for set-item-orientation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-item-padding
+
+Sets the B<Gnome::Gtk4::IconView>:item-padding property which specifies the padding
+around each of the icon view’s items.
+
+=begin code
+method set-item-padding ( Int() $item-padding )
+=end code
+
+=item $item-padding; the item padding.
+
+=begin comment
+
+=head2 Example
+# Example for set-item-padding
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-item-width
+
+Sets the I<item-width> property which specifies the width
+to use for each item. If it is set to -1, the icon view will
+automatically determine a suitable item size.
+
+=begin code
+method set-item-width ( Int() $item-width )
+=end code
+
+=item $item-width; the width for each item.
+
+=begin comment
+
+=head2 Example
+# Example for set-item-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-margin
+
+Sets the I<margin> property which specifies the space
+which is inserted at the top, bottom, left and right
+of the icon view.
+
+=begin code
+method set-margin ( Int() $margin )
+=end code
+
+=item $margin; the margin.
+
+=begin comment
+
+=head2 Example
+# Example for set-margin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-markup-column
+
+Sets the column with markup information for C<$icon-view> to be C<$column>. The markup column must be of type B<G_TYPE_STRING>.
+If the markup column is set to something, it overrides
+the text column set by C<.set-text-column()>.
+
+=begin code
+method set-markup-column ( Int() $column )
+=end code
+
+=item $column; A column in the currently used model, or -1 to display no text.
+
+=begin comment
+
+=head2 Example
+# Example for set-markup-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model for a B<Gnome::Gtk4::IconView>.
+If the C<$icon-view> already has a model set, it will remove
+it before setting the new model.  If C<$model> is undefined, then
+it will unset the old model.
+
+=begin code
+method set-model ( N-Object() $model )
+=end code
+
+=item $model; The model..
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pixbuf-column
+
+Sets the column with pixbufs for C<$icon-view> to be C<$column>. The pixbuf
+column must be of type B<GDK_TYPE_PIXBUF>
+
+=begin code
+method set-pixbuf-column ( Int() $column )
+=end code
+
+=item $column; A column in the currently used model, or -1 to disable.
+
+=begin comment
+
+=head2 Example
+# Example for set-pixbuf-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-reorderable
+
+This function is a convenience function to allow you to reorder models that
+support the B<GtkTreeDragSourceIface> and the B<GtkTreeDragDestIface>. Both
+B<Gnome::Gtk4::TreeStore> and B<Gnome::Gtk4::ListStore> support these. If C<$reorderable> is C<True>, then
+the user can reorder the model by dragging and dropping rows.  The
+developer can listen to these changes by connecting to the model's
+row_inserted and row_deleted signals. The reordering is implemented by setting up
+the icon view as a drag source and destination. Therefore, drag and
+drop can not be used in a reorderable view for any other purpose.
+
+This function does not give you any degree of control over the order -- any
+reordering is allowed.  If more control is needed, you should probably
+handle drag and drop manually.
+
+=begin code
+method set-reorderable ( Bool() $reorderable )
+=end code
+
+=item $reorderable; C<True>, if the list of items can be reordered..
+
+=begin comment
+
+=head2 Example
+# Example for set-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-spacing
+
+Sets the I<row-spacing> property which specifies the space
+which is inserted between the rows of the icon view.
+
+=begin code
+method set-row-spacing ( Int() $row-spacing )
+=end code
+
+=item $row-spacing; the row spacing.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-selection-mode
+
+Sets the selection mode of the C<$icon-view>.
+
+=begin code
+method set-selection-mode ( GtkSelectionMode $mode )
+=end code
+
+=item $mode; The selection mode.
+
+=begin comment
+
+=head2 Example
+# Example for set-selection-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-spacing
+
+Sets the I<spacing> property which specifies the space
+which is inserted between the cells (i.e. the icon and
+the text) of an item.
+
+=begin code
+method set-spacing ( Int() $spacing )
+=end code
+
+=item $spacing; the spacing.
+
+=begin comment
+
+=head2 Example
+# Example for set-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-text-column
+
+Sets the column with text for C<$icon-view> to be C<$column>. The text
+column must be of type B<G_TYPE_STRING>.
+
+=begin code
+method set-text-column ( Int() $column )
+=end code
+
+=item $column; A column in the currently used model, or -1 to display no text.
+
+=begin comment
+
+=head2 Example
+# Example for set-text-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tooltip-cell
+
+Sets the tip area of C<$tooltip> to the area which C<$cell> occupies in
+the item pointed to by C<$path>. See also gtk_tooltip_set_tip_area().
+
+See also C<.set-tooltip-column()> for a simpler alternative.
+
+=begin code
+method set-tooltip-cell ( N-Object() $tooltip, CArray[N-TreePath] $path, N-Object() $cell )
+=end code
+
+=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $path; a B<Gnome::Gtk4::N-TreePath>.
+=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+
+=begin comment
+
+=head2 Example
+# Example for set-tooltip-cell
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tooltip-column
+
+If you only plan to have simple (text-only) tooltips on full items, you
+can use this function to have B<Gnome::Gtk4::IconView> handle these automatically
+for you. C<$column> should be set to the column in C<$icon-view>’s model
+containing the tooltip texts, or -1 to disable this feature.
+
+When enabled, B<GtkWidget:has-tooltip> will be set to C<True> and C<$icon-view> will connect a B<GtkWidget::query-tooltip> signal handler.
+
+Note that the signal handler sets the text with gtk_tooltip_set_markup(),
+so &, <, etc have to be escaped in the text.
+
+=begin code
+method set-tooltip-column ( Int() $column )
+=end code
+
+=item $column; an integer, which is a valid column number for C<$icon-view>’s model.
+
+=begin comment
+
+=head2 Example
+# Example for set-tooltip-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tooltip-item
+
+Sets the tip area of C<$tooltip> to be the area covered by the item at C<$path>.
+See also C<.set-tooltip-column()> for a simpler alternative.
+See also gtk_tooltip_set_tip_area().
+
+=begin code
+method set-tooltip-item ( N-Object() $tooltip, CArray[N-TreePath] $path )
+=end code
+
+=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $path; a B<Gnome::Gtk4::N-TreePath>.
+
+=begin comment
+
+=head2 Example
+# Example for set-tooltip-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-all
+
+Unselects all the icons.
+
+=begin code
+method unselect-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unselect-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-path
+
+Unselects the row at C<$path>.
+
+=begin code
+method unselect-path ( CArray[N-TreePath] $path )
+=end code
+
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be unselected..
+
+=begin comment
+
+=head2 Example
+# Example for unselect-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unset-model-drag-dest
+
+Undoes the effect of C<.enable-model-drag-dest()>. Calling this
+method sets B<Gnome::Gtk4::IconView>:reorderable to C<False>.
+
+=begin code
+method unset-model-drag-dest ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unset-model-drag-dest
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unset-model-drag-source
+
+Undoes the effect of C<.enable-model-drag-source()>. Calling this
+method sets B<Gnome::Gtk4::IconView>:reorderable to C<False>.
+
+=begin code
+method unset-model-drag-source ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unset-model-drag-source
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate-cursor-item
+
+A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+which gets emitted when the user activates the currently
+focused item.
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control activation
+programmatically.
+
+The default bindings for this signal are Space, Return and Enter.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal activate-cursor-item
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 item-activated
+
+The I<item-activated> signal is emitted when the method
+C<.item-activated()> is called, when the user double
+clicks an item with the "activate-on-single-click" property set
+to C<False>, or when the user single clicks an item when the
+"activate-on-single-click" property set to C<True>. It is also
+emitted when a non-editable item is selected and one of the keys:
+Space, Return or Enter is pressed.
+
+=begin code
+method handler (
+  N-TreePath $path,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $path; the B<Gnome::Gtk4::N-TreePath> for the activated item.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal item-activated
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-cursor
+
+The I<move-cursor> signal is a
+[keybinding signal]B<Gnome::Gtk4::SignalAction>
+which gets emitted when the user initiates a cursor movement.
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control the cursor
+programmatically.
+
+The default bindings for this signal include
+=item Arrow keys which move by individual steps
+=item Home/End keys which move to the first/last item
+=item PageUp/PageDown which move by "pages"
+All of these will extend the selection when combined with
+the Shift modifier.
+
+=begin code
+method handler (
+   $step,
+  gint $count,
+  gboolean $extend,
+  gboolean $modify,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $step; the granularity of the move, as a C<enumeration GtkMovementStep defined in Gnome::Gtk4::T-Enums>.
+=item $count; the number of C<$step> units to move.
+=item $extend; whether to extend the selection.
+=item $modify; whether to modify the selection.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal move-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-all
+
+A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+which gets emitted when the user selects all items.
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control selection
+programmatically.
+
+The default binding for this signal is Ctrl-a.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal select-all
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-cursor-item
+
+A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+which gets emitted when the user selects the item that is currently
+focused.
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control selection
+programmatically.
+
+There is no default binding for this signal.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal select-cursor-item
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 selection-changed
+
+The I<selection-changed> signal is emitted when the selection
+(i.e. the set of selected items) changes.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal selection-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 toggle-cursor-item
+
+A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+which gets emitted when the user toggles whether the currently
+focused item is selected or not. The exact effect of this
+depend on the selection mode.
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control selection
+programmatically.
+
+There is no default binding for this signal is Ctrl-Space.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggle-cursor-item
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 unselect-all
+
+A [keybinding signal]B<Gnome::Gtk4::SignalAction>
+which gets emitted when the user unselects all items.
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control selection
+programmatically.
+
+The default binding for this signal is Ctrl-Shift-a.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal unselect-all
+
+=end comment
+
+=end pod
+
