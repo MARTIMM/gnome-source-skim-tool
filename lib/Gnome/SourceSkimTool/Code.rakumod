@@ -985,26 +985,32 @@ method generate-enumerations-code ( Array:D $enum-names --> Str ) {
     EOENUM
 
   # For each of the found names
+  my Str $package = $*gnome-package.Str;
   for $enum-names.sort -> $enum-name {
 #    my Str $name = $enum-name;
 
     # Must have a name to search using the @name attribute on an element
-    my Str $prefix = $*work-data<name-prefix>.tc;
-    my Str $name = $enum-name;
-    $name ~~ s/^ $prefix //;
-#`{{
-    my Str $package = $*gnome-package.Str;
+#    my Str $prefix = $*work-data<name-prefix>.tc;
+#    my Str $name = $enum-name;
+#    $name ~~ s/^ $prefix //;
+
+##`{{
     if $package ~~ / Glib || GObject || Gio / {
       $package = 'G';
     }
     
+    elsif $package ~~ / GdkPixbuf / {
+      $package = 'Gdk';
+    }
+
     else {
       $package ~~ s/ \d+ $//;
     }
 
+    my Str $name = $enum-name;
     $name ~~ s/^ $package //;
-}}
-#note "$?LINE $prefix, $enum-name, $name";
+#}}
+note "$?LINE $package, $enum-name, $name";
 
     # Get the XML element of the enum data
     my XML::Element $e = $xpath.find(
@@ -1062,18 +1068,25 @@ method generate-bitfield-code ( Array:D $bitfield-names --> Str ) {
 }}
 
   # For each of the found names
+  my Str $package = $*gnome-package.Str;
   for $bitfield-names.sort -> $bitfield-name {
-    my Str $name = $bitfield-name;
     my Str $package = $*gnome-package.Str;
     if $package ~~ / Glib || GObject || Gio / {
       $package = 'G';
     }
     
+    elsif $package ~~ / GdkPixbuf / {
+      $package = 'Gdk';
+    }
+
     else {
       $package ~~ s/ \d+ $//;
     }
 
+    my Str $name = $bitfield-name;
     $name ~~ s/^ $package //;
+#}}
+note "$?LINE $package, $bitfield-name, $name";
 
 #note "$?LINE $bitfield-name, $package, $name";
     # Get the XML element of the bitfield data

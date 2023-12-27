@@ -824,6 +824,7 @@ method document-enumerations ( @enum-names --> Str ) {
     EOENUM
 
   # For each of the found names
+  my Str $package = $*gnome-package.Str;
   for @enum-names.sort -> $enum-name {
     $doc ~= qq:to/EOENUM/;
 
@@ -832,10 +833,26 @@ method document-enumerations ( @enum-names --> Str ) {
     EOENUM
 
     # Must have a name to search using the @name attribute on an element
-    my Str $prefix = $*work-data<name-prefix>.uc;
-    my Str $name = $enum-name;
-    $name ~~ s:i/^ $prefix //;
+#    my Str $prefix = $*work-data<name-prefix>.uc;
+#    my Str $name = $enum-name;
+#    $name ~~ s:i/^ $prefix //;
 #note "$?LINE $prefix, $name";
+    if $package ~~ / Glib || GObject || Gio / {
+      $package = 'G';
+    }
+    
+    elsif $package ~~ / GdkPixbuf / {
+      $package = 'Gdk';
+    }
+
+    else {
+      $package ~~ s/ \d+ $//;
+    }
+
+    my Str $name = $enum-name;
+    $name ~~ s/^ $package //;
+#}}
+note "$?LINE $package, $enum-name, $name";
 
     # Get the XML element of the enum data
     my XML::Element $e = $xpath.find(
@@ -876,6 +893,7 @@ method document-bitfield ( @bitfield-names --> Str ) {
     EOBITF
 
   # For each of the found names
+  my Str $package = $*gnome-package.Str;
   for @bitfield-names.sort -> $bitfield-name {
     $doc ~= qq:to/EOBITF/;
 
@@ -884,10 +902,26 @@ method document-bitfield ( @bitfield-names --> Str ) {
     EOBITF
 
     # Must have a name to search using the @name attribute on an element
-    my Str $prefix = $*work-data<name-prefix>.uc;
+#    my Str $prefix = $*work-data<name-prefix>.uc;
+#    my Str $name = $bitfield-name;
+#    $name ~~ s:i/^ $prefix //;
+    if $package ~~ / Glib || GObject || Gio / {
+      $package = 'G';
+    }
+    
+    elsif $package ~~ / GdkPixbuf / {
+      $package = 'Gdk';
+    }
+
+    else {
+      $package ~~ s/ \d+ $//;
+    }
+
     my Str $name = $bitfield-name;
-    $name ~~ s:i/^ $prefix //;
- 
+    $name ~~ s/^ $package //;
+#}}
+note "$?LINE $package, $bitfield-name, $name";
+
     # Get the XML element of the bitfield data
     my XML::Element $e = $xpath.find(
       '//bitfield[@name="' ~ $name ~ '"]', :!to-list
