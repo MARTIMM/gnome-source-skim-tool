@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::GObject::Object:api<2>;
 #use Gnome::GdkPixbuf::N-Format:api<2>;
-#use Gnome::GdkPixbuf::T-Core:api<2>;
+use Gnome::GdkPixbuf::T-Core:api<2>;
 #use Gnome::GdkPixbuf::T-Transform:api<2>;
 #use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
@@ -90,7 +90,7 @@ my Hash $methods = %(
   flip => %(:is-symbol<gdk_pixbuf_flip>,  :returns(N-Object), :parameters([gboolean])),
   get-bits-per-sample => %(:is-symbol<gdk_pixbuf_get_bits_per_sample>,  :returns(gint)),
   get-byte-length => %(:is-symbol<gdk_pixbuf_get_byte_length>,  :returns(gsize)),
-  #get-colorspace => %(:is-symbol<gdk_pixbuf_get_colorspace>,  :returns(GEnum), :cnv-return(GdkColorspace )),
+  get-colorspace => %(:is-symbol<gdk_pixbuf_get_colorspace>,  :returns(GEnum), :cnv-return(GdkColorspace )),
   get-has-alpha => %(:is-symbol<gdk_pixbuf_get_has_alpha>,  :returns(gboolean), :cnv-return(Bool)),
   get-height => %(:is-symbol<gdk_pixbuf_get_height>,  :returns(gint)),
   get-n-channels => %(:is-symbol<gdk_pixbuf_get_n_channels>,  :returns(gint)),

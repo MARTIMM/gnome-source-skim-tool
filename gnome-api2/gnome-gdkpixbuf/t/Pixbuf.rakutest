@@ -101,6 +101,7 @@ subtest 'ISA test', {
        'domain text is g-file-error-quark';
       is $err[0].code, 4, 'error code for this error is 4';
     }
+    $gdkpixbuf.clear-object;
 
     $filename = 't/Data/some-test-file.xyz';
     $err = CArray[N-Error].new(N-Error);
@@ -112,36 +113,24 @@ subtest 'ISA test', {
         GDK_PIXBUF_ERROR_UNKNOWN_TYPE,
         'error code for this error is ' ~ GdkPixbufError($err[0].code);
     }
+    $gdkpixbuf.clear-object;
 
+    $filename = 't/Data/gtk-raku.png';
     $err = CArray[N-Error].new(N-Error);
-    $gdkpixbuf .= new-from-file( 't/Data/gtk-raku.png', $err);
-    ok !$err[0], '.new-from-file loaded ok';
+    $gdkpixbuf .= new-from-file( $filename, $err);
+    ok !$err[0], '.new-from-file loading ' ~ $filename ~ ' successful';
+    $gdkpixbuf.clear-object;
 
-#`{{
-    #TC:0:new-from-file-at-scale()
-    $filename = 'text';
-    $width = '…';
-    $height = '…';
-    $preserve-aspect-ratio = '…';
-    $err = '…';
-    $gdkpixbuf .= new-from-file-at-scale( $filename, $width, $height, $preserve-aspect-ratio, $err);
+    #TC:1:new-from-file-at-scale()
+    $filename = 't/Data/gtk-raku.png';
+    $width = 100;
+    $height = 100;
+    $preserve-aspect-ratio = True;
+    $err = CArray[N-Error].new(N-Error);
+    $gdkpixbuf .= new-from-file-at-scale(
+      $filename, $width, $height, $preserve-aspect-ratio, $err
+    );
     ok .is-valid, '.new-from-file-at-scale( $filename, $width, $height, $preserve-aspect-ratio, $err)';
-
-                  $err = CArray[N-Error].new(N-Error);
-              #_gdk_pixbuf_new_from_file_at_size
-                  $gdkpixbuf .= new-from-file(
-                    :file<t/Data/gtk-raku.png>, :100width, :100height
-                  );
-                  ok $gdkpixbuf.is-valid, '.new(:file, :width, :height)';
-
-                  $err = CArray[N-Error].new(N-Error);
-                  $gdkpixbuf .= new-from-file(
-                    :file<t/Data/gtk-raku.png>, :100width, :100height,
-                    :!preserve_aspect_ratio
-                  );
-                  ok $gdkpixbuf.is-valid,
-                    '.new(:file, :width, :height, :preserve_aspect_ratio)';
-}}
 
     #TC:1:new-from-file-at-size()
     $filename = 't/Data/gtk-raku.png';
@@ -150,7 +139,7 @@ subtest 'ISA test', {
     $err = CArray[N-Error].new(N-Error);
     $gdkpixbuf .= new-from-file-at-size( $filename, $width, $height, $err);
     ok .is-valid, '.new-from-file-at-size( $filename, $width, $height, $err)';
-  isa-ok $gdkpixbuf, Gnome::GdkPixbuf::Pixbuf, '.new(:file)';
+    $gdkpixbuf.clear-object;
 
 #`{{
     #TC:0:new-from-resource()
@@ -260,6 +249,10 @@ subtest 'Method tests', {
     my N-Object $stream;
 
 
+    $filename = 't/Data/gtk-raku.png';
+    $err = CArray[N-Error].new(N-Error);
+    $gdkpixbuf .= new-from-file( $filename, $err);
+
 #`{{
     #TM:0:add-alpha()
     ok .add-alpha( $substitute-color, $r, $g, $b), '.add-alpha()';
@@ -290,22 +283,24 @@ subtest 'Method tests', {
 
     #TM:0:flip()
     ok .flip( $horizontal), '.flip()';
+}}
 
-    #TM:0:get-bits-per-sample()
-     .get-bits-per-sample(), '…', '.get-bits-per-sample()';
+    #TM:1:get-bits-per-sample()
+    is .get-bits-per-sample(), 8, '.get-bits-per-sample()';
 
-    #TM:0:get-byte-length()
-     .get-byte-length(), '…', '.get-byte-length()';
+    #TM:1:get-byte-length()
+    is .get-byte-length(), 192 * 197 * 4, '.get-byte-length()';
 
-    #TM:0:get-colorspace()
-     .get-colorspace(), '…', '.get-colorspace()';
+    #TM:1:get-colorspace()
+    is .get-colorspace(), GDK_COLORSPACE_RGB, '.get-colorspace()';
 
-    #TM:0:get-has-alpha()
-     .get-has-alpha(), '…', '.get-has-alpha()';
+    #TM:1:get-has-alpha()
+    ok .get-has-alpha(), '.get-has-alpha()';
 
-    #TM:0:get-height()
-     .get-height(), '…', '.get-height()';
+    #TM:1:get-height()
+    is .get-height(), 197, '.get-height()';
 
+#`{{
     #TM:0:get-n-channels()
      .get-n-channels(), '…', '.get-n-channels()';
 
@@ -317,13 +312,15 @@ subtest 'Method tests', {
 
     #TM:0:get-pixels-with-length()
     is .get-pixels-with-length( $length), '…', '.get-pixels-with-length()';
+}}
 
-    #TM:0:get-rowstride()
-     .get-rowstride(), '…', '.get-rowstride()';
+    #TM:1:get-rowstride()
+    is .get-rowstride(), 192 * 4, '.get-rowstride()';
 
-    #TM:0:get-width()
-     .get-width(), '…', '.get-width()';
+    #TM:1:get-width()
+    is .get-width(), 192, '.get-width()';
 
+#`{{
     #TC:0:new-subpixbuf()
     $src-x = '…';
     $src-y = '…';
