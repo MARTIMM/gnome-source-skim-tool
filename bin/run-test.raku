@@ -20,10 +20,13 @@ my Hash $test-location = %(
 
 #-------------------------------------------------------------------------------
 # Test testfile found in standard locations */t
-multi sub MAIN ( Str $distro, Str $t ) {
+multi sub MAIN (
+  Str $distro, Str $t, Bool :v($verbose) = False, Bool :t($timer) = True
+) {
   my Str $test-file;
   $test-file = "$API2MODS/$test-location{$distro}/t/$t.rakutest";
-  run-test( $distro, $test-file);
+
+  run-test( $distro, $test-file, :$verbose, :$timer);
 }
 
 #-------------------------------------------------------------------------------
@@ -47,13 +50,11 @@ multi sub MAIN ( Str $distro, Str $t, Bool :$c! ) {
 
 #-------------------------------------------------------------------------------
 # --p Test all files in test directory with prove
-multi sub MAIN ( Str $distro, Bool :$p!, Bool :$v = False, Bool :$t = True ) {
-  set-paths($distro);
+multi sub MAIN (
+  Str $distro, Bool :$p!, Bool :v($verbose) = False, Bool :t($timer) = True
+) {
   my Str $test-dir = "$API2MODS/$test-location{$distro}/t";
-  my Str $verbose = $v ?? '-v' !! '';
-  my Str $timer = $t ?? '--timer' !! '';
-  my Str $cmd = "prove6 $verbose $timer '$test-dir'";
-  shell $cmd;
+  run-test( $distro, $test-dir, :$verbose, :$timer);
 }
 
 #-------------------------------------------------------------------------------
@@ -107,13 +108,49 @@ multi sub MAIN ( Str $program-path, Bool :$d = False, Str :$i = '' ) {
 }
 
 #-------------------------------------------------------------------------------
-sub run-test ( Str $distro, Str $test-file, Bool :$show-stats = False ) {
-  if $test-location{$distro}:exists and $test-file.IO.r {
+sub run-test (
+  Str $distro, Str $test-file is copy,
+  Bool :$show-stats = False, Bool :$verbose = False, Bool :$timer = True
+) {
+  # Test for test directory. run all files with prove6
+  if $test-location{$distro}:exists and $test-file.IO.d {
     set-paths($distro);
+    my Str $test-dir = $test-file;
+    my Str $prog = 'prove6';
+    $prog ~= ' -v' if $verbose;
+    $prog ~= ' --timer' if $timer;
+    $test-file = 't/';
+    chdir($test-dir.IO.parent);
 
-    chdir($test-file.IO.parent);
-    my Str $stsopt = $show-stats ?? '--stagestats' !! '';
-    my Str $cmd = "rakudo $stsopt '$test-file.IO().basename()'";
+    my Str $cmd = "$prog '$test-file'";
+    note "\nRun command '$cmd' in directory $*CWD.Str()";
+    shell $cmd;   #, :out, :err;
+  }
+
+  elsif $test-location{$distro}:exists and $test-file.IO.r {
+    set-paths($distro);
+    my Str $test-dir = $test-file.IO.parent.Str;
+    my Str $stsopt = '';
+    my Str $prog;
+
+    # If ending in a t-directory call program with prove
+    if $test-dir ~~ m/ '/t' $/ {
+      $prog = 'prove6';
+      $prog ~= ' -v' if $verbose;
+      $prog ~= ' --timer' if $timer;
+      $test-file = 't/' ~ $test-file.IO().basename;
+      chdir($test-dir.IO.parent);
+    }
+
+    else {
+      $stsopt = '--stagestats' if $show-stats;
+      $prog = "rakudo $stsopt";
+      $test-file = $test-file.IO().basename;
+      chdir($test-dir);
+    }
+
+    my Str $cmd = "$prog '$test-file'";
+    note "\nRun command '$cmd' in directory $*CWD.Str()";
     my Proc $p = shell $cmd;   #, :out, :err;
 #    note $p.out.slurp;#: :close;
 #    note $p.err.slurp;#: :close;
