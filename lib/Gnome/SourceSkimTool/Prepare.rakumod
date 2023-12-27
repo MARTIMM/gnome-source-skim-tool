@@ -138,11 +138,10 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         $c ~~ s/ GdkPixbuf //;
         $work-data<raku-name> = ?$c ?? $c !! 'Pixbuf';
         $work-data<raku-class-name> = "Gnome::GdkPixbuf::$work-data<raku-name>";
-        
-        $c = $*gnome-class.lc;
-        $c ~~ s:g/ '-' /_/;
-        $work-data<sub-prefix> = $c;
-
+        $c = $*gnome-class;
+        $c ~~ s/^ Gdk /gdk/;
+        $c ~~ s:g/ (<[A..Z]>) /_$0.lc()/;
+        $work-data<sub-prefix> = $c ~ '_';
       }
     }
 
