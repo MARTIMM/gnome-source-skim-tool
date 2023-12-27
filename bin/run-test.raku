@@ -5,7 +5,7 @@ use YAMLish;
 use Gnome::SourceSkimTool::Prepare;
 
 #-------------------------------------------------------------------------------
-constant $API2MODS is export = 'gnome-api2';
+constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2';
 
 my Hash $test-location = %(
   :Atk<gnome-atk>,
@@ -66,13 +66,13 @@ multi sub MAIN ( Str $program-path, Bool :$d = False, Str :$i = '' ) {
   my Str $distro = 'Gtk4';
   set-paths($distro);
 
+  my $path-dir = $program-path.IO.parent;
   if ?$i {
     my $env = %*ENV<RAKULIB>;
-    my $path-dir = $program-path.IO.parent;
 
     my @ep = $i.split(',');
     for @ep -> $p {
-      $env ~= ',' ~ $path-dir ~ '/' ~ $p;
+      $env ~= ',' ~ ($path-dir ~ '/' ~ $p).IO.absolute;
     }
 
     %*ENV<RAKULIB> = $env;
@@ -83,7 +83,7 @@ multi sub MAIN ( Str $program-path, Bool :$d = False, Str :$i = '' ) {
   $log ~~ s/ \. <-[.]>+ $/-log.md/;
   my Str $path = $program-path.IO.dirname ~ '/log/';
   mkdir $path, 0o750 unless $path.IO.e;
-  $log = $path ~ $log;
+  $log = ($path ~ $log).IO.absolute;
 
   $log.IO.spurt(
     'Elapsed time | User time| Kernel time | Cpu % | Notes' ~
@@ -95,13 +95,14 @@ multi sub MAIN ( Str $program-path, Bool :$d = False, Str :$i = '' ) {
 
   my Str $cmd;
   if $d {
-    $cmd = "$time-cmd raku-debug '$program-path'";
+    $cmd = "$time-cmd raku-debug '$program-path.IO().basename()'";
   }
 
   else {
-    $cmd = "$time-cmd rakudo '$program-path'";
+    $cmd = "$time-cmd rakudo '$program-path.IO().basename()'";
   }
 
+  chdir($path-dir);
   my Proc $p = shell $cmd;
 }
 
