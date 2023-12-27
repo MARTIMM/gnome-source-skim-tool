@@ -177,7 +177,8 @@ method generate-code ( ) {
           $enum-names.push: $k;
         }
 
-        $types-code<enumeration> = $!mod.generate-enumerations-code($enum-names);
+        $types-code<enumeration> =
+          $!mod.generate-enumerations-code($enum-names);
       }
 
       when 'bitfield' {
