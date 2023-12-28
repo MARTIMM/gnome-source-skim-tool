@@ -42,7 +42,7 @@ subtest 'Method tests', {
     ok True, '.set-detailed-action-name()';
 
     #TM:1:set-action-target-value()
-    $target-value .= new-variant( 'u', 'uint32', 42);
+    $target-value .= new-variant( 'u', uint32, 42);
     .set-action-target-value($target-value);
     #TM:1:get-action-target-value()
     $target-value .= new(:native-object(.get-action-target-value()));
