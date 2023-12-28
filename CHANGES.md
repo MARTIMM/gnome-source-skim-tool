@@ -41,7 +41,7 @@ Run a test with `prove6 --timer` on the old and new modules. The older tests tak
 | Date       | Dist      |1e| Files | Tests | wallclock secs | Note 
 |------------|-----------|--|-------|-------|----------------|--------------
 | 2023 12 28 | Gtk4      |  |    97 |   249 |             78 |
-| 2023 12 28 | Gtk4      | -|    97 |   249 |            171 | some files changed
+| 2023 12 28 | Gtk4      | -|    97 |   249 |            171 | 47 files changed
 
 #### Compare
 The calculation is to show how much time it would take when the newer version would do the same number of equal tests.
