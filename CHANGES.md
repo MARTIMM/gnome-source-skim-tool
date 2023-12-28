@@ -7,11 +7,11 @@
   * Add info about the glib types used and what it means in Raku.
   * That properties are mostly not needed because of their getters and setters.
   * What does a function, constructor and method mean for gnome and how is translated.
-  * Referencing, dereferncing and floating references.
+  * Referencing, dereferencing and floating references.
   * Naming the classes, structures, unions, enumerations and the modules where they are defined.
   * C-examples and converting to Raku
 
-* TODO Some types nedd implemented
+* TODO Some types need to be implemented
   Unknown gir type to convert to native raku type 'record' for ctype 'GtkRecentInfo'
   Unknown gir type to convert to raku type 'record' for ctype 'GtkRecentInfo', '(Any)'
    Unknown gir type to convert to native raku type 'callback' for ctype 'GtkRecentSortFunc'
@@ -24,9 +24,31 @@
   * See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
   * https://docs.raku.org/language/compilation#$*REPO
 
-* TODO Change all :isnew and :realname into :is-symbol. Add :is-symbol to all routines. Note the gnome name in :is-symbol. Then no prefix is needed and converting dashes.
+* TODO Check failing COERCE of gnome classes.
 
-* TODO Check if failing COERCE has something to do with skipping Any class in TopLevelClassSupport. If so, insert a simplyfied Any (MyAny).
+* GdkPixdata is deprecated. Not needed to implement.
+
+### Timing information
+Run a test with `prove6 --timer` on the old and new modules. The older tests take much more time than the newer modules, but it does many more tests than in the newer modules. It will take time to have the new tests about the same number of tests. Anyways, a comparison of apples with pears for the moment.
+
+#### Api 1 tests
+| Date       | Dist      |1e| Files | Tests | wallclock secs | Note 
+|------------|-----------|--|-------|-------|----------------|--------------
+| 2023 12 28 | Gtk3      | *|   144 |   367 |            510 | compile time
+| 2023 12 28 | Gtk3      |  |   144 |   367 |            145 |
+
+#### Api 2 tests
+| Date       | Dist      |1e| Files | Tests | wallclock secs | Note 
+|------------|-----------|--|-------|-------|----------------|--------------
+| 2023 12 28 | Gtk4      |  |    97 |   249 |             78 |
+
+#### Compare
+The calculation is to show how much time it would take when the newer version would do the same number of equal tests.
+
+| Date       | #t2 * wc1 / #t1 | Note
+|------------|-----------------|-----
+| 2023 12 28 |           98.38 | 78 sec, 20 sec faster than compiled old version
+
 
 ### Testing command with timing -o for dump to file
 * With some options
@@ -48,7 +70,8 @@
 find . -name '*.raku*' | xargs wc -l
 ```
 
-* GdkPixdata is deprecated
+##
+
 
 ### List of backward compatibility breaks 😭 😭
 * Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages if they are still installed.
