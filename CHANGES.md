@@ -41,6 +41,7 @@ Run a test with `prove6 --timer` on the old and new modules. The older tests tak
 | Date       | Dist      |1e| Files | Tests | wallclock secs | Note 
 |------------|-----------|--|-------|-------|----------------|--------------
 | 2023 12 28 | Gtk4      |  |    97 |   249 |             78 |
+| 2023 12 28 | Gtk4      | -|    97 |   249 |            171 | some files changed
 
 #### Compare
 The calculation is to show how much time it would take when the newer version would do the same number of equal tests.
@@ -129,6 +130,9 @@ find . -name '*.raku*' | xargs wc -l
     Must still mention that the information in such a class is not saved when the native object hiding in the class, is given to some native routine and later retrieved using another routine to rebuild the raku object with something like `$my-label .= new(:$native-object)`. Extra steps are needed to accomplish that.
 
     Now all existing classes must be changed 😦. I'll start with the Gtk4 classes. Newly generated classes will have this inherit possibility.
+
+* 2023-12-28 0.13.2
+  * Processing fallback routines stored in roles was wrong. It throwed errors when a class was inherited and a lower class needed to access the fallback routine in some role. Now fixed. 
 
 * 2023-12-20 0.13.1
   * GnomeRoutineCaller helpers will not return Lists anymore when there were any pointers (like CArray[]) where data is placed by called native routines. It was already needed to provide any pointers to the native routines.

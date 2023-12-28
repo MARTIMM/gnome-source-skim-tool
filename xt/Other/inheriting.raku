@@ -1,7 +1,10 @@
 use v6.d;
 
 use Gnome::Gtk4::Label:api<2>;
+use Gnome::Gtk4::Box:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::X:api<2>;
+#Gnome::N::debug(:on);
 
 
 class MyLabel is Gnome::Gtk4::Label {
@@ -33,3 +36,21 @@ my MyLabel $t2 .= new-with-mnemonic( '_test2', :10mt);
 note "hexpand: ", $t2.get-hexpand;
 note "line-wrap: ", $t2.get-wrap;
 note "margin top: ", $t2.get-margin-top;
+
+
+# Inherit a class with a role
+class MyBox is Gnome::Gtk4::Box {
+  method new ( ) {
+    self.new-box( GTK_ORIENTATION_HORIZONTAL, 2);
+  }
+}
+
+my MyBox $mb .= new;
+$mb.set-orientation(GTK_ORIENTATION_VERTICAL);
+
+try {
+  $mb.unknown-method();
+  CATCH {
+    default { note "\n", .message; }
+  }
+}

@@ -178,9 +178,10 @@ method generate-callables (
 
     # For interfaces/roles, there is another fallback api called from class
     if $is-interface {
+      my Hash $role-h = $!solve.search-name($*work-data<gnome-name>);
       $c ~= qq:to/RAKUMOD/;
         # This method is recognized in class Gnome::N::TopLevelClassSupport.
-        method _fallback-v2 \(
+        method _do_$role-h<symbol-prefix>fallback-v2 \(
           Str \$name, Bool \$_fallback-v2-ok is rw,
           Gnome\:\:N\:\:GnomeRoutineCaller \$routine-caller, \@arguments, \$native-object
         ) \{
@@ -244,20 +245,22 @@ method generate-callables (
         $c ~= [~] '    my $r;', "\n",
               '    my $native-object = self.get-native-object-no-reffing;',
               "\n";
-      }
 
-      for @$roles -> $role {
+        for @$roles -> $role {
+          my Bool $available = self.add-import($role);
+          $c ~= "#`\{\{\n" unless $available;
 
-        my Bool $available = self.add-import($role);
-        $c ~= "#`\{\{\n" unless $available;
-        $c ~= qq:to/RAKUMOD/;
-              \$r = self.{$role}::_fallback-v2\(
-                \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments, \$native-object
-              \);
-              return \$r if \$_fallback-v2-ok;
+          my Hash $role-h = $!solve.search-name($role);
+          my Str $cb-name = "_do_$role-h<symbol-prefix>fallback-v2";
+          $c ~= qq:to/RAKUMOD/;
+                \$r = self.$cb-name\(
+                  \$name, \$_fallback-v2-ok, \$!routine-caller, \@arguments, \$native-object
+                \) if self.^can\('$cb-name');
+                return \$r if \$_fallback-v2-ok;
 
-          RAKUMOD
-        $c ~= "\}\}\n" unless $available;
+            RAKUMOD
+          $c ~= "\}\}\n" unless $available;
+        }
       }
 
       $c ~= q:to/RAKUMOD/;
