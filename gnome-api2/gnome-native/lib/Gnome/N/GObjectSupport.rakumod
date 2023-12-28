@@ -183,7 +183,7 @@ An example where a keyboard press is handled.
 =end pod
 
 method register-signal (
-  $handler-object, Str:D $handler-name, Str:D $signal-name, *%user-options
+  Mu $handler-object, Str:D $handler-name, Str:D $signal-name, *%user-options
   --> Int
 ) {
 
