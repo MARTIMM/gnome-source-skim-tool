@@ -39,7 +39,7 @@ my Hash $methods = %(
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 (
+method _do_gtk_actionable_fallback-v2 (
   Str $name, Bool $_fallback-v2-ok is rw,
   Gnome::N::GnomeRoutineCaller $routine-caller, @arguments, $native-object
 ) {

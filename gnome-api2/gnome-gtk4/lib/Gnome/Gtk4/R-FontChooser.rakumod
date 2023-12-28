@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Gtk4::T-FontChooser:api<2>;
+use Gnome::Gtk4::T-FontChooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -38,7 +38,7 @@ my Hash $methods = %(
   get-font-map => %(:is-symbol<gtk_font_chooser_get_font_map>,  :returns(N-Object)),
   get-font-size => %(:is-symbol<gtk_font_chooser_get_font_size>,  :returns(gint)),
   get-language => %(:is-symbol<gtk_font_chooser_get_language>,  :returns(Str)),
-  #get-level => %(:is-symbol<gtk_font_chooser_get_level>,  :returns(GFlag), :cnv-return(GtkFontChooserLevel )),
+  get-level => %(:is-symbol<gtk_font_chooser_get_level>,  :returns(GFlag), :cnv-return(GtkFontChooserLevel)),
   get-preview-text => %(:is-symbol<gtk_font_chooser_get_preview_text>,  :returns(Str)),
   get-show-preview-entry => %(:is-symbol<gtk_font_chooser_get_show_preview_entry>,  :returns(gboolean), :cnv-return(Bool)),
   #set-filter-func => %(:is-symbol<gtk_font_chooser_set_filter_func>,  :parameters([:( N-Object $family, N-Object $face, gpointer $data --> gboolean ), gpointer, ])),
@@ -46,21 +46,21 @@ my Hash $methods = %(
   #set-font-desc => %(:is-symbol<gtk_font_chooser_set_font_desc>,  :parameters([N-FontDescription ])),
   set-font-map => %(:is-symbol<gtk_font_chooser_set_font_map>,  :parameters([N-Object])),
   set-language => %(:is-symbol<gtk_font_chooser_set_language>,  :parameters([Str])),
-  #set-level => %(:is-symbol<gtk_font_chooser_set_level>,  :parameters([GFlag])),
+  set-level => %(:is-symbol<gtk_font_chooser_set_level>,  :parameters([GFlag])),
   set-preview-text => %(:is-symbol<gtk_font_chooser_set_preview_text>,  :parameters([Str])),
   set-show-preview-entry => %(:is-symbol<gtk_font_chooser_set_show_preview_entry>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 (
+method _do_gtk_font_chooser_fallback-v2 (
   Str $name, Bool $_fallback-v2-ok is rw,
   Gnome::N::GnomeRoutineCaller $routine-caller, @arguments, $native-object
 ) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'gtk_font_chooser_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }

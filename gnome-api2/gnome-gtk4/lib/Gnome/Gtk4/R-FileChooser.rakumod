@@ -8,6 +8,7 @@ use v6.d;
 use NativeCall;
 
 
+use Gnome::Glib::N-Error:api<2>;
 use Gnome::Gtk4::T-FileChooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -31,7 +32,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   add-choice => %(:is-symbol<gtk_file_chooser_add_choice>,  :parameters([Str, Str, gchar-pptr, gchar-pptr])),
   add-filter => %(:is-symbol<gtk_file_chooser_add_filter>,  :parameters([N-Object])),
-  add-shortcut-folder => %(:is-symbol<gtk_file_chooser_add_shortcut_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  add-shortcut-folder => %(:is-symbol<gtk_file_chooser_add_shortcut_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])),
   get-action => %(:is-symbol<gtk_file_chooser_get_action>,  :returns(GEnum), :cnv-return(GtkFileChooserAction)),
   get-choice => %(:is-symbol<gtk_file_chooser_get_choice>,  :returns(Str), :parameters([Str])),
   get-create-folders => %(:is-symbol<gtk_file_chooser_get_create_folders>,  :returns(gboolean), :cnv-return(Bool)),
@@ -45,27 +46,27 @@ my Hash $methods = %(
   get-shortcut-folders => %(:is-symbol<gtk_file_chooser_get_shortcut_folders>,  :returns(N-Object)),
   remove-choice => %(:is-symbol<gtk_file_chooser_remove_choice>,  :parameters([Str])),
   remove-filter => %(:is-symbol<gtk_file_chooser_remove_filter>,  :parameters([N-Object])),
-  remove-shortcut-folder => %(:is-symbol<gtk_file_chooser_remove_shortcut_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  remove-shortcut-folder => %(:is-symbol<gtk_file_chooser_remove_shortcut_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])),
   set-action => %(:is-symbol<gtk_file_chooser_set_action>,  :parameters([GEnum])),
   set-choice => %(:is-symbol<gtk_file_chooser_set_choice>,  :parameters([Str, Str])),
   set-create-folders => %(:is-symbol<gtk_file_chooser_set_create_folders>,  :parameters([gboolean])),
-  set-current-folder => %(:is-symbol<gtk_file_chooser_set_current_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  set-current-folder => %(:is-symbol<gtk_file_chooser_set_current_folder>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])),
   set-current-name => %(:is-symbol<gtk_file_chooser_set_current_name>,  :parameters([Str])),
-  set-file => %(:is-symbol<gtk_file_chooser_set_file>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  set-file => %(:is-symbol<gtk_file_chooser_set_file>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, CArray[N-Error]])),
   set-filter => %(:is-symbol<gtk_file_chooser_set_filter>,  :parameters([N-Object])),
   set-select-multiple => %(:is-symbol<gtk_file_chooser_set_select_multiple>,  :parameters([gboolean])),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 (
+method _do_gtk_file_chooser_fallback-v2 (
   Str $name, Bool $_fallback-v2-ok is rw,
   Gnome::N::GnomeRoutineCaller $routine-caller, @arguments, $native-object
 ) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'gtk_file_chooser_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }

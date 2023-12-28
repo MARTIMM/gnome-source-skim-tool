@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: ColorButton
+=comment Package: Gtk4, C-Source: colorbutton
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -119,9 +119,9 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-    $r = self.Gnome::Gtk4::R-ColorChooser::_fallback-v2(
+    $r = self._do_gtk_color_chooser_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_color_chooser_fallback-v2');
     return $r if $_fallback-v2-ok;
 
     callsame;

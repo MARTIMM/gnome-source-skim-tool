@@ -14,7 +14,7 @@ use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 #use Gnome::Gsk4::N-Transform:api<2>;
 use Gnome::Gtk4::N-Requisition:api<2>;
-#use Gnome::Gtk4::R-Accessible:api<2>;
+use Gnome::Gtk4::R-Accessible:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-ConstraintTarget:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
@@ -31,7 +31,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Widget:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::InitiallyUnowned;
-#also does Gnome::Gtk4::R-Accessible;
+also does Gnome::Gtk4::R-Accessible;
 also does Gnome::Gtk4::R-Buildable;
 also does Gnome::Gtk4::R-ConstraintTarget;
 
@@ -53,21 +53,18 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<unrealize hide show realize destroy map unmap>,
-      :w1<mnemonic-activate state-flags-changed direction-changed move-focus keynav-failed>,
+      :w0<hide realize unrealize map unmap destroy show>,
+      :w1<move-focus keynav-failed state-flags-changed mnemonic-activate direction-changed>,
       :w4<query-tooltip>,
     );
 
     # Signals from interfaces
-#`{{
     self._add_gtk_accessible_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_accessible_signal_types');
-}}
     self._add_gtk_buildable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_buildable_signal_types');
     self._add_gtk_constraint_target_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_constraint_target_signal_types');
-
     $signals-added = True;
   }
 
@@ -269,7 +266,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
@@ -293,21 +289,19 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-#`{{
-    $r = self.Gnome::Gtk4::R-Accessible::_fallback-v2(
+    $r = self._do_gtk_accessible_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_accessible_fallback-v2');
     return $r if $_fallback-v2-ok;
 
-}}
-    $r = self.Gnome::Gtk4::R-Buildable::_fallback-v2(
+    $r = self._do_gtk_buildable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_buildable_fallback-v2');
     return $r if $_fallback-v2-ok;
 
-    $r = self.Gnome::Gtk4::R-ConstraintTarget::_fallback-v2(
+    $r = self._do_gtk_constraint_target_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_constraint_target_fallback-v2');
     return $r if $_fallback-v2-ok;
 
     callsame;

@@ -1,17 +1,17 @@
-=comment Package: Gtk4, C-Source: StyleProvider
+=comment Package: Gtk4, C-Source: styleprovider
 use v6.d;
 
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-#use NativeCall;
+use NativeCall;
 
 
-#use Gnome::N::GlibToRakuTypes:api<2>;
-#use Gnome::N::N-Object:api<2>;
-#use Gnome::N::NativeLib:api<2>;
-#use Gnome::N::TopLevelClassSupport:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------

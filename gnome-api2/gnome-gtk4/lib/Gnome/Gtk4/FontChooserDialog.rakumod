@@ -85,7 +85,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
@@ -109,9 +108,9 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-    $r = self.Gnome::Gtk4::R-FontChooser::_fallback-v2(
+    $r = self._do_gtk_font_chooser_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_font_chooser_fallback-v2');
     return $r if $_fallback-v2-ok;
 
     callsame;

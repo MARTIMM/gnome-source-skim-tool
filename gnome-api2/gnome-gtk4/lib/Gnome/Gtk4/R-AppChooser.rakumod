@@ -35,14 +35,14 @@ my Hash $methods = %(
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 (
+method _do_gtk_app_chooser_fallback-v2 (
   Str $name, Bool $_fallback-v2-ok is rw,
   Gnome::N::GnomeRoutineCaller $routine-caller, @arguments, $native-object
 ) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     return $routine-caller.call-native-sub(
-      $name, @arguments, $methods, $native-object, 'gtk_app_chooser_'
+      $name, @arguments, $methods, $native-object
     );
   }
 }

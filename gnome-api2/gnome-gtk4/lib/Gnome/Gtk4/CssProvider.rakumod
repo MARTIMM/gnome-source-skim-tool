@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: CssProvider
+=comment Package: Gtk4, C-Source: cssprovider
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -119,9 +119,9 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-    $r = self.Gnome::Gtk4::R-StyleProvider::_fallback-v2(
+    $r = self._do_gtk_style_provider_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_style_provider_fallback-v2');
     return $r if $_fallback-v2-ok;
 
     callsame;

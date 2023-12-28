@@ -46,7 +46,7 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<insert-emoji copy-clipboard paste-clipboard toggle-overwrite activate cut-clipboard backspace>,
+      :w0<activate paste-clipboard toggle-overwrite insert-emoji copy-clipboard backspace cut-clipboard>,
       :w1<preedit-changed insert-at-cursor>,
       :w2<delete-from-cursor>,
       :w3<move-cursor>,
@@ -55,7 +55,6 @@ submethod BUILD ( *%options ) {
     # Signals from interfaces
     self._add_gtk_editable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_editable_signal_types');
-
     $signals-added = True;
   }
 
@@ -155,10 +154,9 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-
-    $r = self.Gnome::Gtk4::R-Editable::_fallback-v2(
+    $r = self._do_gtk_editable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_editable_fallback-v2');
     return $r if $_fallback-v2-ok;
 
     callsame;
