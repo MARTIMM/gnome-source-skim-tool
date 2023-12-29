@@ -1,0 +1,82 @@
+=comment Package: Gtk4, C-Source: treednd
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-TreeDragDest
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 tree-create-row-drag-content
+
+Creates a content provider for dragging C<$path> from C<$tree-model>.
+
+=begin code
+method tree-create-row-drag-content ( N-Object() $tree-model, CArray[N-TreePath] $path --> N-Object )
+=end code
+
+=item $tree-model; a B<Gnome::Gtk4::R-TreeModel>.
+=item $path; a row in C<$tree-model>.
+
+Return value; a new B<Gnome::Gdk4::ContentProvider>. 
+
+=begin comment
+
+=head2 Example
+# Example for tree-create-row-drag-content
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 tree-get-row-drag-data
+
+Obtains a C<$tree-model> and C<$path> from value of target type
+C<GTK_TYPE_TREE_ROW_DATA>.
+
+The returned path must be freed with gtk_tree_path_free().
+
+=begin code
+method tree-get-row-drag-data ( CArray[N-Value] $value, N-Object() $tree-model, CArray[N-TreePath] $path --> Bool )
+=end code
+
+=item $value; a B<Gnome::GObject::N-Value>.
+=item $tree-model; a B<Gnome::Gtk4::R-TreeModel>.
+=item $path; (transfer ownership: full) row in C<$tree-model>.
+
+Return value; C<True> if C<$selection-data> had target type C<GTK_TYPE_TREE_ROW_DATA>
+ is otherwise valid. 
+
+=begin comment
+
+=head2 Example
+# Example for tree-get-row-drag-data
+
+=end comment
+
+=end pod
+

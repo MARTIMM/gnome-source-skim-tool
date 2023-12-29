@@ -1,0 +1,95 @@
+=comment Package: Gtk4, C-Source: treednd
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-TreeDragDest
+
+![](images/treedragdest.png)
+
+=head1 Description
+
+Interface for Drag-and-Drop destinations in B<Gnome::Gtk4::TreeView>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TreeDragDest
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 drag-data-received
+
+Asks the B<Gnome::Gtk4::R-TreeDragDest> to insert a row before the path C<$dest>,
+deriving the contents of the row from C<$value>. If C<$dest> is
+outside the tree so that inserting before it is impossible, C<False>
+will be returned. Also, C<False> may be returned if the new row is
+not created for some model-specific reason.  Should robustly handle
+a C<$dest> no longer found in the model!
+
+=begin code
+method drag-data-received ( CArray[N-TreePath] $dest, CArray[N-Value] $value --> Bool )
+=end code
+
+=item $dest; row to drop in front of.
+=item $value; data to drop.
+
+Return value; whether a new row was created before position C<$dest>. 
+
+=begin comment
+
+=head2 Example
+# Example for drag-data-received
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 row-drop-possible
+
+Determines whether a drop is possible before the given C<$dest-path>,
+at the same depth as C<$dest-path>. i.e., can we drop the data in C<$value> at that location. C<$dest-path> does not have to
+exist; the return value will almost certainly be C<False> if the
+parent of C<$dest-path> doesn’t exist, though.
+
+=begin code
+method row-drop-possible ( CArray[N-TreePath] $dest-path, CArray[N-Value] $value --> Bool )
+=end code
+
+=item $dest-path; destination row.
+=item $value; the data being dropped.
+
+Return value; C<True> if a drop is possible before C<$dest-path>. 
+
+=begin comment
+
+=head2 Example
+# Example for row-drop-possible
+
+=end comment
+
+=end pod
+

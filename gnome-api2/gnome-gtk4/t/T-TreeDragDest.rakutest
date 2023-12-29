@@ -1,0 +1,49 @@
+=comment Package: Gtk4, C-Source: treednd
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-TreeDragDest:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-TreeDragDest:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gtk4::T-TreeDragDest $treednd .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $treednd {
+    my CArray[N-Object] $tree-model;
+    my CArray[N-TreePath] $path;
+    my N-Value $value;
+
+
+#`{{
+    #TM:0:tree-create-row-drag-content()
+    ok .tree-create-row-drag-content( $tree-model, $path), '.tree-create-row-drag-content()';
+
+    #TM:0:tree-get-row-drag-data()
+    ok .tree-get-row-drag-data( $value, $tree-model, $path), '.tree-get-row-drag-data()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
