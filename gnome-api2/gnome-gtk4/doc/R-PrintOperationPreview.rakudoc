@@ -1,0 +1,194 @@
+=comment Package: Gtk4, C-Source: printoperationpreview
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-PrintOperationPreview
+
+![](images/printoperationpreview.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::R-PrintOperationPreview> is the interface that is used to
+implement print preview.
+
+A B<Gnome::Gtk4::R-PrintOperationPreview> object is passed to the
+I<preview defined in PrintOperation> signal by
+B<Gnome::Gtk4::PrintOperation>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::PrintOperationPreview
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 end-preview
+
+Ends a preview.
+
+This function must be called to finish a custom print preview.
+
+=begin code
+method end-preview ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for end-preview
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-selected
+
+Returns whether the given page is included in the set of pages that
+have been selected for printing.
+
+=begin code
+method is-selected ( Int() $page-nr --> Bool )
+=end code
+
+=item $page-nr; a page number.
+
+Return value; C<True> if the page has been selected for printing. 
+
+=begin comment
+
+=head2 Example
+# Example for is-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 render-page
+
+Renders a page to the preview.
+
+This is using the print context that was passed to the
+I<preview defined in PrintOperation> handler together
+with C<$preview>.
+
+A custom print preview should use this function to render
+the currently selected page.
+
+Note that this function requires a suitable cairo context to
+be associated with the print context.
+
+=begin code
+method render-page ( Int() $page-nr )
+=end code
+
+=item $page-nr; the page to render.
+
+=begin comment
+
+=head2 Example
+# Example for render-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 got-page-size
+
+Emitted once for each page that gets rendered to the preview.
+
+A handler for this signal should update the C<$context>
+according to C<$page-setup> and set up a suitable cairo
+context, using C<.set-cairo-context() in class Gnome::Gtk4::PrintContext>.
+
+=begin code
+method handler (
+  N-Object $context,
+  N-Object $page-setup,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::PrintOperationPreview :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $context; the current B<Gnome::Gtk4::PrintContext>.
+=item $page-setup; the B<Gnome::Gtk4::PageSetup> for the current page.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperationPreview> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal got-page-size
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 ready
+
+The I<ready> signal gets emitted once per preview operation,
+before the first page is rendered.
+
+A handler for this signal can be used for setup tasks.
+
+=begin code
+method handler (
+  N-Object $context,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::PrintOperationPreview :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $context; the current B<Gnome::Gtk4::PrintContext>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::PrintOperationPreview> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal ready
+
+=end comment
+
+=end pod
+
