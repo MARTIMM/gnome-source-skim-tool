@@ -1,0 +1,432 @@
+=comment Package: Gtk4, C-Source: selectionmodel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-SelectionModel
+
+![](images/selectionmodel.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::R-SelectionModel> is an interface that add support for selection to list models.
+
+This support is then used by widgets using list models to add the ability
+to select and unselect various items.
+
+GTK provides default implementations of the most common selection modes such
+as B<Gnome::Gtk4::SingleSelection>, so you will only need to implement this
+interface if you want detailed control about how selections should be handled.
+
+A B<Gnome::Gtk4::R-SelectionModel> supports a single boolean per item indicating if an item is
+selected or not. This can be queried via C<.is-selected()>.
+When the selected state of one or more items changes, the model will emit the
+I<selection-changed> signal by calling the
+C<.selection-changed()> function. The positions given
+in that signal may have their selection state changed, though that is not a
+requirement. If new items added to the model via the
+[signal C<$Gio>.ListModel::items-changed] signal are selected or not is up to the
+implementation.
+
+Note that items added via [signal C<$Gio>.ListModel::items-changed] may already
+be selected and no I<selection-changed> will be
+emitted for them. So to track which items are selected, it is necessary to
+listen to both signals.
+
+Additionally, the interface can expose functionality to select and unselect
+items. If these functions are implemented, GTK's list widgets will allow users
+to select and unselect items. However, B<Gnome::Gtk4::R-SelectionModel>s are free to only
+implement them partially or not at all. In that case the widgets will not
+support the unimplemented operations.
+
+When selecting or unselecting is supported by a model, the return values of
+the selection functions do *not* indicate if selection or unselection happened.
+They are only meant to indicate complete failure, like when this mode of
+selecting is not supported by the model.
+
+Selections may happen asynchronously, so the only reliable way to find out
+when an item was selected is to listen to the signals that indicate selection.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::SelectionModel
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection
+This function is not yet available
+
+Gets the set containing all currently selected items in the model.
+
+This function may be slow, so if you are only interested in single item,
+consider using C<.is-selected()> or if you are only
+interested in a few, consider C<.get-selection-in-range()>.
+
+=begin code
+method get-selection (--> CArray[N-Bitset]  )
+=end code
+
+Return value; a B<Gnome::Gtk4::N-Bitset> containing all the values currently
+  selected in C<$model>. If no items are selected, the bitset is empty.
+  The bitset must not be modified.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection-in-range
+This function is not yet available
+
+Gets the set of selected items in a range.
+
+This function is an optimization for
+C<.get-selection()> when you are only
+interested in part of the model's selected state. A common use
+case is in response to the I<selection-changed>
+signal.
+
+=begin code
+method get-selection-in-range ( UInt() $position, UInt() $n-items --> CArray[N-Bitset]  )
+=end code
+
+=item $position; start of the queired range.
+=item $n-items; number of items in the queried range.
+
+Return value; A B<Gnome::Gtk4::N-Bitset> that matches the selection state
+  for the given range with all other values being undefined.
+  The bitset must not be modified.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection-in-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-selected
+
+Checks if the given item is selected.
+
+=begin code
+method is-selected ( UInt() $position --> Bool )
+=end code
+
+=item $position; the position of the item to query.
+
+Return value; C<True> if the item is selected. 
+
+=begin comment
+
+=head2 Example
+# Example for is-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-all
+
+Requests to select all items in the model.
+
+=begin code
+method select-all (--> Bool )
+=end code
+
+Return value; C<True> if this action was supported and no fallback should be
+  tried. This does not mean that all items are now selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for select-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-item
+
+Requests to select an item in the model.
+
+=begin code
+method select-item ( UInt() $position, Bool() $unselect-rest --> Bool )
+=end code
+
+=item $position; the position of the item to select.
+=item $unselect-rest; whether previously selected items should be unselected.
+
+Return value; C<True> if this action was supported and no fallback should be
+  tried. This does not mean the item was selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for select-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-range
+
+Requests to select a range of items in the model.
+
+=begin code
+method select-range ( UInt() $position, UInt() $n-items, Bool() $unselect-rest --> Bool )
+=end code
+
+=item $position; the first item to select.
+=item $n-items; the number of items to select.
+=item $unselect-rest; whether previously selected items should be unselected.
+
+Return value; C<True> if this action was supported and no fallback should be
+  tried. This does not mean the range was selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for select-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 selection-changed
+
+Helper function for implementations of B<Gnome::Gtk4::R-SelectionModel>.
+
+Call this when a the selection changes to emit the
+I<selection-changed> signal.
+
+=begin code
+method selection-changed ( UInt() $position, UInt() $n-items )
+=end code
+
+=item $position; the first changed item.
+=item $n-items; the number of changed items.
+
+=begin comment
+
+=head2 Example
+# Example for selection-changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-selection
+This function is not yet available
+
+Make selection changes.
+
+This is the most advanced selection updating method that allows
+the most fine-grained control over selection changes. If you can,
+you should try the simpler versions, as implementations are more
+likely to implement support for those.
+
+Requests that the selection state of all positions set in C<$mask>
+be updated to the respective value in the C<$selected> bitmask.
+
+In pseudocode, it would look something like this:
+
+=begin comment
+for (i = 0; i < n_items; i++)
+  {
+    // don't change values not in the mask
+    if (!gtk_bitset_contains (mask, i))
+      continue;
+
+    if (gtk_bitset_contains (selected, i))
+      select_item (i);
+    else
+      unselect_item (i);
+  }
+
+gtk_selection_model_selection_changed (model,
+                                       first_changed_item,
+                                       n_changed_items);
+
+=end comment
+
+ C<$mask> and C<$selected> must not be modified. They may refer to the
+same bitset, which would mean that every item in the set should
+be selected.
+
+=begin code
+method set-selection ( CArray[N-Bitset]  $selected, CArray[N-Bitset]  $mask --> Bool )
+=end code
+
+=item $selected; bitmask specifying if items should be selected or unselected.
+=item $mask; bitmask specifying which items should be updated.
+
+Return value; C<True> if this action was supported and no fallback should be
+  tried. This does not mean that all items were updated according
+  to the inputs.. 
+
+=begin comment
+
+=head2 Example
+# Example for set-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-all
+
+Requests to unselect all items in the model.
+
+=begin code
+method unselect-all (--> Bool )
+=end code
+
+Return value; C<True> if this action was supported and no fallback should be
+  tried. This does not mean that all items are now unselected.. 
+
+=begin comment
+
+=head2 Example
+# Example for unselect-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-item
+
+Requests to unselect an item in the model.
+
+=begin code
+method unselect-item ( UInt() $position --> Bool )
+=end code
+
+=item $position; the position of the item to unselect.
+
+Return value; C<True> if this action was supported and no fallback should be
+  tried. This does not mean the item was unselected.. 
+
+=begin comment
+
+=head2 Example
+# Example for unselect-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-range
+
+Requests to unselect a range of items in the model.
+
+=begin code
+method unselect-range ( UInt() $position, UInt() $n-items --> Bool )
+=end code
+
+=item $position; the first item to unselect.
+=item $n-items; the number of items to unselect.
+
+Return value; C<True> if this action was supported and no fallback should be
+  tried. This does not mean the range was unselected.. 
+
+=begin comment
+
+=head2 Example
+# Example for unselect-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 selection-changed
+
+Emitted when the selection state of some of the items in C<$model> changes.
+
+Note that this signal does not specify the new selection state of the
+items, they need to be queried manually. It is also not necessary for
+a model to change the selection state of any of the items in the selection
+model, though it would be rather useless to emit such a signal.
+
+=begin code
+method handler (
+  guint $position,
+  guint $n-items,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SelectionModel :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $position; The first item that may have changed.
+=item $n-items; number of items with changes.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SelectionModel> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal selection-changed
+
+=end comment
+
+=end pod
+
