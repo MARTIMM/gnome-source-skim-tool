@@ -53,8 +53,8 @@ submethod BUILD ( *%options ) {
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<hide realize unrealize map unmap destroy show>,
-      :w1<move-focus keynav-failed state-flags-changed mnemonic-activate direction-changed>,
+      :w0<destroy unrealize unmap hide realize show map>,
+      :w1<mnemonic-activate direction-changed state-flags-changed move-focus keynav-failed>,
       :w4<query-tooltip>,
     );
 
