@@ -29,27 +29,35 @@
 * GdkPixdata is deprecated. Not needed to implement.
 
 ### Timing information
-Run a test with `prove6 --timer` on the old and new modules. The older tests take much more time than the newer modules, but it does many more tests than in the newer modules. It will take time to have the new tests about the same number of tests. Anyways, a comparison of apples with pears for the moment.
+Run a test with `prove6 --timer` on the old and new modules. The older tests take much more time than the newer modules, but it does many more tests than in the newer modules. It will take time to have the new tests with about the same number of tests. Anyways, a comparison of apples with pears for the moment.
 
 #### Api 1 tests
-| Date       | Dist      |1e| Files | Tests | wallclock secs | Note 
-|------------|-----------|--|-------|-------|----------------|--------------
-| 2023 12 28 | Gtk3      | *|   144 |   367 |            510 | compile time
-| 2023 12 28 | Gtk3      |  |   144 |   367 |            145 |
+|cc| Date       | Dist      |#c| Files | Tests | secs |
+|--|------------|-----------|--|-------|-------|------|
+|  | 2023 12 28 | Gtk3      | *|   144 |   367 |  510 |
+| 1| 2023 12 28 | Gtk3      |  |   144 |   367 |  145 |
 
 #### Api 2 tests
-| Date       | Dist      |1e| Files | Tests | wallclock secs | Note 
-|------------|-----------|--|-------|-------|----------------|--------------
-| 2023 12 28 | Gtk4      |  |    97 |   249 |             78 |
-| 2023 12 28 | Gtk4      | -|    97 |   249 |            171 | 47 files changed
+|cc| Date       | Dist      |#c| Files | Tests | secs |
+|--|------------|-----------|--|-------|-------|------|
+| 1| 2023 12 28 | Gtk4      |  |    97 |   249 |   78 |
+|  | 2023 12 28 | Gtk4      | -|    97 |   249 |  171 |
+
+* **cc**; compare code for next table
+* **#c**; rough number of files to be compiled. **.** ⅓ of total, **-** half, **+** ⅔, **\*** all files
+* **secs**; Number of seconds to run. Some tests needed a `sleep()` which is not working time really.
 
 #### Compare
 The calculation is to show how much time it would take when the newer version would do the same number of equal tests.
 
-| Date       | #t2 * wc1 / #t1 | Note
-|------------|-----------------|-----
-| 2023 12 28 |           98.38 | 78 sec, 20 sec faster than compiled old version
+|cc|    Comp | secs |   Diff | Speedup % |
+|--|---------|------|--------|-----------|
+| 1|    98.4 |   78 |   20.4 |     126.2 |
 
+* **cc**; compares entries from above tables
+* **Comp**; The number of seconds the new version should have when compared to the older version. The calculation is `(nbr tests in new version) * (nbr seconds of old version) / (nbr tests in old version)`
+* **secs**; number of seconds of testing new version.
+* **Diff**; difference in seconds compared to real value of new version tests
 
 ### Testing command with timing -o for dump to file
 * With some options
@@ -91,6 +99,8 @@ find . -name '*.raku*' | xargs wc -l
 * No lists are returned to read veriables set by the native routines.
 * Some cases where text was provided as an argument where it also needed to give the length of the string. In the older versions it was hidden. In the new version it must be provided.
 * Possible and maybe for certain there will be no distributions for Gtk3 and Gdk3.
+* Gnome also have a fair share in braking compatibility between Gtk3 and Gtk4. Also a reason not to do Gtk3/Gdk3 in this new api. Luckily, the deprecated symbols, functions and classes were not suported in the old versions of mine. Much is to be read [here](https://docs.gtk.org/gtk4/migrating-3to4.html). A small list;
+  * Window manager control like `self.set-position()` and `self.set-keep-above()`;
 
 # Release notes
 * 2023-12-22 0.13.2
