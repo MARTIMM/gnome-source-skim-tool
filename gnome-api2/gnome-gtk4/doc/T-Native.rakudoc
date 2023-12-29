@@ -1,0 +1,52 @@
+=comment Package: Gtk4, C-Source: native
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-Native
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 native-get-for-surface
+
+Finds the B<Gnome::Gtk4::R-Native> associated with the surface.
+
+=begin code
+method native-get-for-surface ( N-Object() $surface --> N-Object )
+=end code
+
+=item $surface; a B<Gnome::Gdk4::Surface>.
+
+Return value; the B<Gnome::Gtk4::R-Native> that is associated with C<$surface>. 
+
+=begin comment
+
+=head2 Example
+# Example for native-get-for-surface
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,192 @@
+=comment Package: Gtk4, C-Source: native
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-Native
+
+![](images/native.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::R-Native> is the interface implemented by all widgets that have
+their own B<Gnome::Gdk4::Surface>.
+
+The obvious example of a B<Gnome::Gtk4::R-Native> is B<Gnome::Gtk4::Window>.
+
+Every widget that is not itself a B<Gnome::Gtk4::R-Native> is contained in one,
+and you can get it with C<.get-native() in class Gnome::Gtk4::Widget>.
+
+To get the surface of a B<Gnome::Gtk4::R-Native>, use C<.get-surface()>.
+It is also possible to find the B<Gnome::Gtk4::R-Native> to which a surface
+belongs, with C<.Native.get-for-surface()>.
+
+In addition to a B<Gnome::Gdk4::Surface>, a B<Gnome::Gtk4::R-Native> also provides
+a B<Gnome::Gsk4::Renderer> for rendering on that surface. To get the
+renderer, use C<.get-renderer()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Native
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-renderer
+
+Returns the renderer that is used for this B<Gnome::Gtk4::R-Native>.
+
+=begin code
+method get-renderer (--> N-Object )
+=end code
+
+Return value; the renderer for C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-renderer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-surface
+
+Returns the surface of this B<Gnome::Gtk4::R-Native>.
+
+=begin code
+method get-surface (--> N-Object )
+=end code
+
+Return value; the surface of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-surface-transform
+
+Retrieves the surface transform of C<$self>.
+
+This is the translation from C<$self>'s surface coordinates into C<$self>'s widget coordinates.
+
+=begin code
+method get-surface-transform ( Num() $x, Num() $y )
+=end code
+
+=item $x; (transfer ownership: full) return location for the x coordinate.
+=item $y; (transfer ownership: full) return location for the y coordinate.
+
+=begin comment
+
+=head2 Example
+# Example for get-surface-transform
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 realize
+
+Realizes a B<Gnome::Gtk4::R-Native>.
+
+This should only be used by subclasses.
+
+=begin code
+method realize ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for realize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unrealize
+
+Unrealizes a B<Gnome::Gtk4::R-Native>.
+
+This should only be used by subclasses.
+
+=begin code
+method unrealize ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unrealize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-for-surface
+
+Finds the B<Gnome::Gtk4::R-Native> associated with the surface.
+
+=begin code
+method get-for-surface ( N-Object() $surface --> N-Object )
+=end code
+
+=item $surface; a B<Gnome::Gdk4::Surface>.
+
+Return value; the B<Gnome::Gtk4::R-Native> that is associated with C<$surface>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-for-surface
+
+=end comment
+
+=end pod
+

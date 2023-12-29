@@ -1,0 +1,42 @@
+=comment Package: Gtk4, C-Source: native
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Native:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Native:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gtk4::T-Native $native .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $native {
+    my N-Object $surface;
+
+
+#`{{
+    #TM:0:native-get-for-surface()
+    ok .native-get-for-surface( $surface), '.native-get-for-surface()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
