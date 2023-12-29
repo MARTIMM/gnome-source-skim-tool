@@ -1,0 +1,127 @@
+=comment Package: Gtk4, C-Source: root
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-Root
+
+![](images/root.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::R-Root> is the interface implemented by all widgets that can act as a toplevel
+widget.
+
+The root widget takes care of providing the connection to the windowing system
+and manages layout, drawing and event delivery for its widget hierarchy.
+
+The obvious example of a B<Gnome::Gtk4::R-Root> is B<Gnome::Gtk4::Window>.
+
+To get the display to which a B<Gnome::Gtk4::R-Root> belongs, use
+C<.get-display()>.
+
+B<Gnome::Gtk4::R-Root> also maintains the location of keyboard focus inside its widget
+hierarchy, with C<.set-focus()> and C<.get-focus()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Root
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-display
+
+Returns the display that this B<Gnome::Gtk4::R-Root> is on.
+
+=begin code
+method get-display (--> N-Object )
+=end code
+
+Return value; the display of C<$root>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-display
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-focus
+
+Retrieves the current focused widget within the root.
+
+Note that this is the widget that would have the focus
+if the root is active; if the root is not focused then
+B<gtk_widget_has_focus (widget)> will be C<False> for the
+widget.
+
+=begin code
+method get-focus (--> N-Object )
+=end code
+
+Return value; the currently focused widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-focus
+
+If C<$focus> is not the current focus widget, and is focusable, sets
+it as the focus widget for the root.
+
+If C<$focus> is undefined, unsets the focus widget for the root.
+
+To set the focus to a particular widget in the root, it is usually
+more convenient to use C<.grab-focus() in class Gnome::Gtk4::Widget> instead of
+this function.
+
+=begin code
+method set-focus ( N-Object() $focus )
+=end code
+
+=item $focus; widget to be the new focus widget, or undefined
+   to unset the focus widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-focus
+
+=end comment
+
+=end pod
+
