@@ -1,0 +1,1024 @@
+=comment Package: Gtk4, C-Source: combobox
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ComboBox
+
+![](images/combobox.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::ComboBox> is a widget that allows the user to choose from a list of
+valid choices.
+
+![An example GtkComboBox](combo-box.png)
+
+The B<Gnome::Gtk4::ComboBox> displays the selected choice; when activated, the
+B<Gnome::Gtk4::ComboBox> displays a popup which allows the user to make a new choice.
+
+The B<Gnome::Gtk4::ComboBox> uses the model-view pattern; the list of valid choices
+is specified in the form of a tree model, and the display of the choices
+can be adapted to the data in the model by using cell renderers, as you
+would in a tree view. This is possible since B<Gnome::Gtk4::ComboBox> implements the
+B<Gnome::Gtk4::R-CellLayout> interface. The tree model holding the valid
+choices is not restricted to a flat list, it can be a real tree, and the
+popup will reflect the tree structure.
+
+To allow the user to enter values not in the model, the
+I<has-entry> property allows the B<Gnome::Gtk4::ComboBox> to
+contain a B<Gnome::Gtk4::Entry>. This entry can be accessed by calling
+C<.get-child()> on the combo box.
+
+For a simple list of textual choices, the model-view API of B<Gnome::Gtk4::ComboBox>
+can be a bit overwhelming. In this case, B<Gnome::Gtk4::ComboBoxText> offers
+a simple alternative. Both B<Gnome::Gtk4::ComboBox> and B<Gnome::Gtk4::ComboBoxText> can contain
+an entry.
+
+=head3 CSS nodes
+
+=begin comment
+combobox
+├── box.linked
+│   ╰── button.combo
+│       ╰── box
+│           ├── cellview
+│           ╰── arrow
+╰── window.popup
+
+=end comment
+
+A normal combobox contains a box with the .linked class, a button
+with the .combo class and inside those buttons, there are a cellview and
+an arrow.
+
+=begin comment
+combobox
+├── box.linked
+│   ├── entry.combo
+│   ╰── button.combo
+│       ╰── box
+│           ╰── arrow
+╰── window.popup
+
+=end comment
+
+A B<Gnome::Gtk4::ComboBox> with an entry has a single CSS node with name combobox.
+It contains a box with the .linked class. That box contains an entry and
+a button, both with the .combo class added. The button also contains another
+node with name arrow.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::ComboBox> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ComboBox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-combobox
+
+Creates a new empty B<Gnome::Gtk4::ComboBox>.
+
+=begin code
+method new-combobox ( --> Gnome::Gtk4::ComboBox \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-combobox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-entry
+
+Creates a new empty B<Gnome::Gtk4::ComboBox> with an entry.
+
+In order to use a combo box with entry, you need to tell it
+which column of the model contains the text for the entry
+by calling C<.set-entry-text-column()>.
+
+=begin code
+method new-with-entry ( --> Gnome::Gtk4::ComboBox \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-with-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-model
+
+Creates a new B<Gnome::Gtk4::ComboBox> with a model.
+
+=begin code
+method new-with-model ( N-Object() $model --> Gnome::Gtk4::ComboBox \)
+=end code
+
+=item $model; a B<Gnome::Gtk4::R-TreeModel>.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-model-and-entry
+
+Creates a new empty B<Gnome::Gtk4::ComboBox> with an entry and a model.
+
+See also C<.new-with-entry()>.
+
+=begin code
+method new-with-model-and-entry ( N-Object() $model --> Gnome::Gtk4::ComboBox \)
+=end code
+
+=item $model; A B<Gnome::Gtk4::R-TreeModel>.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-model-and-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active
+
+Returns the index of the currently active item.
+
+If the model is a non-flat treemodel, and the active item is not
+an immediate child of the root of the tree, this function returns
+B<gtk_tree_path_get_indices (path)[0]>, where B<path> is the
+ B<Gnome::Gtk4::N-TreePath>  of the active item.
+
+=begin code
+method get-active (--> Int )
+=end code
+
+Return value; An integer which is the index of the currently active item,
+  or -1 if there’s no active item. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active-id
+
+Returns the ID of the active row of C<$combo-box>.
+
+This value is taken from the active row and the column specified
+by the I<id-column> property of C<$combo-box>
+(see C<.set-id-column()>).
+
+The returned value is an interned string which means that you can
+compare the pointer by value to other interned strings and that you
+must not free it.
+
+If the I<id-column> property of C<$combo-box> is
+not set, or if no row is active, or if the active row has a undefined
+ID value, then undefined is returned.
+
+=begin code
+method get-active-id (--> Str )
+=end code
+
+Return value; the ID of the active row. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active-id
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active-iter
+
+Sets C<$iter> to point to the currently active item.
+
+If no item is active, C<$iter> is left unchanged.
+
+=begin code
+method get-active-iter ( CArray[N-TreeIter] $iter --> Bool )
+=end code
+
+=item $iter; A B<Gnome::Gtk4::N-TreeIter>.
+
+Return value; C<True> if C<$iter> was set, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active-iter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-button-sensitivity
+
+Returns whether the combo box sets the dropdown button
+sensitive or not when there are no items in the model.
+
+=begin code
+method get-button-sensitivity (--> GtkSensitivityType )
+=end code
+
+Return value; C<GTK_SENSITIVITY_ON> if the dropdown button
+  is sensitive when the model is empty, C<GTK_SENSITIVITY_OFF>
+  if the button is always insensitive or C<GTK_SENSITIVITY_AUTO>
+  if it is only sensitive as long as the model has one item to
+  be selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-button-sensitivity
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$combo-box>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child widget of C<$combo-box>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-entry-text-column
+
+Returns the column which C<$combo-box> is using to get the strings
+from to display in the internal entry.
+
+=begin code
+method get-entry-text-column (--> Int )
+=end code
+
+Return value; A column in the data source model of C<$combo-box>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-entry-text-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-entry
+
+Returns whether the combo box has an entry.
+
+=begin code
+method get-has-entry (--> Bool )
+=end code
+
+Return value; whether there is an entry in C<$combo-box>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-has-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-id-column
+
+Returns the column which C<$combo-box> is using to get string IDs
+for values from.
+
+=begin code
+method get-id-column (--> Int )
+=end code
+
+Return value; A column in the data source model of C<$combo-box>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-id-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Returns the B<Gnome::Gtk4::R-TreeModel> of C<$combo-box>.
+
+=begin code
+method get-model (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Gtk4::R-TreeModel> which was passed
+  during construction.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-popup-fixed-width
+
+Gets whether the popup uses a fixed width.
+
+=begin code
+method get-popup-fixed-width (--> Bool )
+=end code
+
+Return value; C<True> if the popup uses a fixed width. 
+
+=begin comment
+
+=head2 Example
+# Example for get-popup-fixed-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-separator-func
+
+Returns the current row separator function.
+
+=begin code
+method get-row-separator-func (-->  )
+=end code
+
+Return value; the current row separator function.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-separator-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popdown
+
+Hides the menu or dropdown list of C<$combo-box>.
+
+This function is mostly intended for use by accessibility technologies;
+applications should have little use for it.
+
+=begin code
+method popdown ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for popdown
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popup
+
+Pops up the menu or dropdown list of C<$combo-box>.
+
+This function is mostly intended for use by accessibility technologies;
+applications should have little use for it.
+
+Before calling this, C<$combo-box> must be mapped, or nothing will happen.
+
+=begin code
+method popup ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for popup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popup-for-device
+
+Pops up the menu of C<$combo-box>.
+
+Note that currently this does not do anything with the device, as it was
+previously only used for list-mode combo boxes, and those were removed
+in GTK 4. However, it is retained in case similar functionality is added
+back later.
+
+=begin code
+method popup-for-device ( N-Object() $device )
+=end code
+
+=item $device; a B<Gnome::Gdk4::Device>.
+
+=begin comment
+
+=head2 Example
+# Example for popup-for-device
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-active
+
+Sets the active item of C<$combo-box> to be the item at C<$index>.
+
+=begin code
+method set-active ( Int() $index )
+=end code
+
+=item $index; An index in the model passed during construction,
+  or -1 to have no active item.
+
+=begin comment
+
+=head2 Example
+# Example for set-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-active-id
+
+Changes the active row of C<$combo-box> to the one that has an ID equal to C<$active-id>.
+
+If C<$active-id> is undefined, the active row is unset. Rows having
+a undefined ID string cannot be made active by this function.
+
+If the I<id-column> property of C<$combo-box> is
+unset or if no row has the given ID then the function does nothing
+and returns C<False>.
+
+=begin code
+method set-active-id ( Str $active-id --> Bool )
+=end code
+
+=item $active-id; the ID of the row to select.
+
+Return value; C<True> if a row with a matching ID was found. If a undefined
+  C<$active-id> was given to unset the active row, the function
+  always returns C<True>.. 
+
+=begin comment
+
+=head2 Example
+# Example for set-active-id
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-active-iter
+
+Sets the current active item to be the one referenced by C<$iter>.
+
+If C<$iter> is undefined, the active item is unset.
+
+=begin code
+method set-active-iter ( CArray[N-TreeIter] $iter )
+=end code
+
+=item $iter; The B<Gnome::Gtk4::N-TreeIter>.
+
+=begin comment
+
+=head2 Example
+# Example for set-active-iter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-button-sensitivity
+
+Sets whether the dropdown button of the combo box should update
+its sensitivity depending on the model contents.
+
+=begin code
+method set-button-sensitivity ( GtkSensitivityType $sensitivity )
+=end code
+
+=item $sensitivity; specify the sensitivity of the dropdown button.
+
+=begin comment
+
+=head2 Example
+# Example for set-button-sensitivity
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child widget of C<$combo-box>.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; the child widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-entry-text-column
+
+Sets the model column which C<$combo-box> should use to get strings
+from to be C<$text-column>.
+
+For this column no separate
+B<Gnome::Gtk4::CellRenderer> is needed.
+
+The column C<$text-column> in the model of C<$combo-box> must be of
+type C<G_TYPE_STRING>.
+
+This is only relevant if C<$combo-box> has been created with
+I<has-entry> as C<True>.
+
+=begin code
+method set-entry-text-column ( Int() $text-column )
+=end code
+
+=item $text-column; A column in C<$model> to get the strings from for
+  the internal entry.
+
+=begin comment
+
+=head2 Example
+# Example for set-entry-text-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-id-column
+
+Sets the model column which C<$combo-box> should use to get string IDs
+for values from.
+
+The column C<$id-column> in the model of C<$combo-box> must be of type
+C<G_TYPE_STRING>.
+
+=begin code
+method set-id-column ( Int() $id-column )
+=end code
+
+=item $id-column; A column in C<$model> to get string IDs for values from.
+
+=begin comment
+
+=head2 Example
+# Example for set-id-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model used by C<$combo-box> to be C<$model>.
+
+Will unset a previously set model (if applicable). If model is undefined,
+then it will unset the model.
+
+Note that this function does not clear the cell renderers, you have to
+call C<.clear() in class Gnome::Gtk4::R-CellLayout> yourself if you need to set up different
+cell renderers for the new model.
+
+=begin code
+method set-model ( N-Object() $model )
+=end code
+
+=item $model; A B<Gnome::Gtk4::R-TreeModel>.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-popup-fixed-width
+
+Specifies whether the popup’s width should be a fixed width.
+
+If C<$fixed> is C<True>, the popup's width is set to match the
+allocated width of the combo box.
+
+=begin code
+method set-popup-fixed-width ( Bool() $fixed )
+=end code
+
+=item $fixed; whether to use a fixed popup width.
+
+=begin comment
+
+=head2 Example
+# Example for set-popup-fixed-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-separator-func
+This function is not yet available
+
+Sets the row separator function, which is used to determine
+whether a row should be drawn as a separator.
+
+If the row separator function is undefined, no separators are drawn.
+This is the default value.
+
+=begin code
+method set-row-separator-func ( &func, gpointer $data, … )
+=end code
+
+=item &func; a B<Gnome::Gtk4::T-TreeView>. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreeIter $iter, gpointer $data --> gboolean )>.
+=item $data; user data to pass to C<$func>.
+=item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-row-separator-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted to when the combo box is activated.
+
+The B<::activate> signal on B<Gnome::Gtk4::ComboBox> is an action signal and
+emitting it causes the combo box to pop up its dropdown.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ComboBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ComboBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+Emitted when the active item is changed.
+
+The can be due to the user selecting a different item from the list,
+or due to a call to C<.set-active-iter()>. It will
+also be emitted while typing into the entry of a combo box with an entry.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ComboBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ComboBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 format-entry-text
+
+Emitted to allow changing how the text in a combo box's entry is displayed.
+
+See I<has-entry>.
+
+Connect a signal handler which returns an allocated string representing C<$path>. That string will then be used to set the text in the combo box's
+entry. The default signal handler uses the text from the
+I<entry-text-column> model column.
+
+Here's an example signal handler which fetches data from the model and
+displays it in the entry.
+=begin comment
+static char *
+format_entry_text_callback (GtkComboBox *combo,
+                            const char *path,
+                            gpointer     user_data)
+{
+  GtkTreeIter iter;
+  GtkTreeModel model;
+  double       value;
+
+  model = gtk_combo_box_get_model (combo);
+
+  gtk_tree_model_get_iter_from_string (model, &iter, path);
+  gtk_tree_model_get (model, &iter,
+                      THE_DOUBLE_VALUE_COLUMN, &value,
+                      -1);
+
+  return g_strdup_printf ("%g", value);
+}
+
+=end comment
+
+=begin code
+method handler (
+  Str $path,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ComboBox :$_widget,
+  *C<user>-options
+  --> Str
+)
+=end code
+
+=item $path; the  B<Gnome::Gtk4::N-TreePath>  string from the combo box's current model
+  to format text for.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ComboBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; (transfer ownership: full) a newly allocated string representing C<$path>
+  for the current B<Gnome::Gtk4::ComboBox> model.
+
+=begin comment
+
+=head2 Example
+# Example for signal format-entry-text
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-active
+
+Emitted to move the active selection.
+
+This is an [keybinding signal](class.SignalAction.html).
+
+=begin code
+method handler (
+   $scroll-type,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ComboBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $scroll-type; a C<enumeration GtkScrollType defined in Gnome::Gtk4::T-Enums>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ComboBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-active
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 popdown
+
+Emitted to popdown the combo box list.
+
+This is an [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are Alt+Up and Escape.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ComboBox :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ComboBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal popdown
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 popup
+
+Emitted to popup the combo box list.
+
+This is an [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is Alt+Down.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ComboBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ComboBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal popup
+
+=end comment
+
+=end pod
+

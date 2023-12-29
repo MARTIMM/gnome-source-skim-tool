@@ -1,0 +1,252 @@
+=comment Package: Gtk4, C-Source: combobox
+use v6.d;
+
+#TL:1:Gnome::Gtk4::ComboBox:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::ComboBox:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::ComboBox $combobox;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $combobox {
+    my N-Object $model;
+
+#`{{
+    #TC:0:new-combobox()
+
+    $combobox .= new-combobox();
+    ok .is-valid, '.new-combobox()';
+
+    #TC:0:new-with-entry()
+
+    $combobox .= new-with-entry();
+    ok .is-valid, '.new-with-entry()';
+
+    #TC:0:new-with-model()
+    $model = …;
+    $combobox .= new-with-model( $model);
+    ok .is-valid, '.new-with-model( $model)';
+
+    #TC:0:new-with-model-and-entry()
+    $model = …;
+    $combobox .= new-with-model-and-entry( $model);
+    ok .is-valid, '.new-with-model-and-entry( $model)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $combobox {
+    my gboolean $fixed;
+    my Str $active-id;
+    my  $destroy;
+    my N-TreeIter $iter;
+    my gpointer $data;
+    my N-Object $child;
+    sub func ( N-Object $model, N-TreeIter $iter, gpointer $data --> gboolean ) {}
+    my N-Object $device;
+    my gint $index;
+    my N-Object $model;
+    my gint $text-column;
+    my gint $id-column;
+    my GtkSensitivityType $sensitivity;
+
+
+#`{{
+    #TM:0:get-has-entry()
+     .get-has-entry(), '…', '.get-has-entry()';
+
+    #TM:0:popdown()
+    ok .popdown(), '.popdown()';
+
+    #TM:0:popup()
+    ok .popup(), '.popup()';
+
+    #TM:0:popup-for-device()
+    ok .popup-for-device( $device), '.popup-for-device()';
+
+    #TM:0:set-active()
+    $index = '…';
+    .set-active( $index);
+    #TM:0:get-active()
+    is .get-active(),  $index, '.set-active() / .get-active()';
+
+    #TM:0:set-active-id()
+    $active-id = 'text';
+    .set-active-id( $active-id);
+    #TM:0:get-active-id()
+    is .get-active-id(),  $active-id, '.set-active-id() / .get-active-id()';
+
+    #TM:0:set-active-iter()
+    $iter = '…';
+    .set-active-iter( $iter);
+    #TM:0:get-active-iter()
+    is .get-active-iter(),  $iter, '.set-active-iter() / .get-active-iter()';
+
+    #TM:0:set-button-sensitivity()
+    $sensitivity = …;
+    .set-button-sensitivity( $sensitivity);
+    #TM:0:get-button-sensitivity()
+    is .get-button-sensitivity(),  $sensitivity, '.set-button-sensitivity() / .get-button-sensitivity()';
+
+    #TM:0:set-child()
+    $child = …;
+    .set-child( $child);
+    #TM:0:get-child()
+    is .get-child(),  $child, '.set-child() / .get-child()';
+
+    #TM:0:set-entry-text-column()
+    $text-column = '…';
+    .set-entry-text-column( $text-column);
+    #TM:0:get-entry-text-column()
+    is .get-entry-text-column(),  $text-column, '.set-entry-text-column() / .get-entry-text-column()';
+
+    #TM:0:set-id-column()
+    $id-column = '…';
+    .set-id-column( $id-column);
+    #TM:0:get-id-column()
+    is .get-id-column(),  $id-column, '.set-id-column() / .get-id-column()';
+
+    #TM:0:set-model()
+    $model = …;
+    .set-model( $model);
+    #TM:0:get-model()
+    is .get-model(),  $model, '.set-model() / .get-model()';
+
+    #TM:0:set-popup-fixed-width()
+    $fixed = '…';
+    .set-popup-fixed-width( $fixed);
+    #TM:0:get-popup-fixed-width()
+    is .get-popup-fixed-width(),  $fixed, '.set-popup-fixed-width() / .get-popup-fixed-width()';
+
+    #TM:0:set-row-separator-func()
+    $func = …;
+    $data = '…';
+    $destroy = '…';
+    .set-row-separator-func( $func, $data, $destroy);
+    #TM:0:get-row-separator-func()
+    is .get-row-separator-func(),  $func, $data, $destroy, '.set-row-separator-func() / .get-row-separator-func()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $combobox {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::ComboBox() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::ComboBox;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::ComboBox :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::ComboBox $combobox .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $combobox.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
