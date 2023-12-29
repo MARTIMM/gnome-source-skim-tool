@@ -1,0 +1,618 @@
+=comment Package: Gtk4, C-Source: columnview
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ColumnView
+
+![](images/columnview.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ColumnView> presents a large dynamic list of items using multiple columns
+with headers.
+
+B<Gnome::Gtk4::ColumnView> uses the factories of its columns to generate a cell widget for
+each column, for each visible item and displays them together as the row for
+this item.
+
+The I<show-row-separators> and
+I<show-column-separators> properties offer a simple way
+to display separators between the rows or columns.
+
+B<Gnome::Gtk4::ColumnView> allows the user to select items according to the selection
+characteristics of the model. For models that allow multiple selected items,
+it is possible to turn on *rubberband selection*, using
+I<enable-rubberband>.
+
+The column view supports sorting that can be customized by the user by
+clicking on column headers. To set this up, the B<Gnome::Gtk4::Sorter> returned by
+C<.get-sorter()> must be attached to a sort model for the
+data that the view is showing, and the columns must have sorters attached to
+them by calling C<.set-sorter() in class Gnome::Gtk4::ColumnViewColumn>. The initial sort
+order can be set with C<.sort-by-column()>.
+
+The column view also supports interactive resizing and reordering of
+columns, via Drag-and-Drop of the column headers. This can be enabled or
+disabled with the I<reorderable> and
+I<resizable defined in Gnome::Gtk4::ColumnViewColumn> properties.
+
+To learn more about the list widget framework, see the
+[overview](section-list-widget.html).
+
+=head2 CSS nodes
+
+=begin comment
+columnview[.column-separators][.rich-list][.navigation-sidebar][.data-table]
+├── header
+│   ├── <column header>
+┊   ┊
+│   ╰── <column header>
+│
+├── listview
+│
+┊
+╰── [rubberband]
+
+=end comment
+
+B<Gnome::Gtk4::ColumnView> uses a single CSS node named columnview. It may carry the
+.column-separators style class, when I<show-column-separators>
+property is set. Header widgets appear below a node with name header.
+The rows are contained in a B<Gnome::Gtk4::ListView> widget, so there is a listview
+node with the same structure as for a standalone B<Gnome::Gtk4::ListView> widget.
+If I<show-row-separators> is set, it will be passed
+on to the list view, causing its CSS node to carry the .separators style class.
+For rubberband selection, a node with name rubberband is used.
+
+The main columnview node may also carry style classes to select
+the style of [list presentation](section-list-widget.html#list-styles):
+.rich-list, .navigation-sidebar or .data-table.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::ColumnView> uses the C<GTK_ACCESSIBLE_ROLE_TREE_GRID> role, header title
+widgets are using the C<GTK_ACCESSIBLE_ROLE_COLUMN_HEADER> role. The row widgets
+are using the C<GTK_ACCESSIBLE_ROLE_ROW> role, and individual cells are using
+the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ColumnView
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-columnview
+
+Creates a new B<Gnome::Gtk4::ColumnView>.
+
+You most likely want to call C<.append-column()>
+to add columns next.
+
+=begin code
+method new-columnview ( N-Object() $model --> Gnome::Gtk4::ColumnView \)
+=end code
+
+=item $model; (transfer ownership: full) the list model to use.
+
+=begin comment
+
+=head2 Example
+# Example for new-columnview
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-column
+
+Appends the C<$column> to the end of the columns in C<$self>.
+
+=begin code
+method append-column ( N-Object() $column )
+=end code
+
+=item $column; a B<Gnome::Gtk4::ColumnViewColumn> that hasn't been added to a
+  B<Gnome::Gtk4::ColumnView> yet.
+
+=begin comment
+
+=head2 Example
+# Example for append-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-columns
+
+Gets the list of columns in this column view.
+
+This list is constant over the lifetime of C<$self> and can be used to
+monitor changes to the columns of C<$self> by connecting to the I<items-changed> signal.
+
+=begin code
+method get-columns (--> N-List )
+=end code
+
+Return value; The list managing the columns. 
+
+=begin comment
+
+=head2 Example
+# Example for get-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-rubberband
+
+Returns whether rows can be selected by dragging with the mouse.
+
+=begin code
+method get-enable-rubberband (--> Bool )
+=end code
+
+Return value; C<True> if rubberband selection is enabled. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-rubberband
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Gets the model that's currently used to read the items displayed.
+
+=begin code
+method get-model (--> N-Object )
+=end code
+
+Return value; The model in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-reorderable
+
+Returns whether columns are reorderable.
+
+=begin code
+method get-reorderable (--> Bool )
+=end code
+
+Return value; C<True> if columns are reorderable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-column-separators
+
+Returns whether the list should show separators
+between columns.
+
+=begin code
+method get-show-column-separators (--> Bool )
+=end code
+
+Return value; C<True> if the list shows column separators. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-column-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-row-separators
+
+Returns whether the list should show separators
+between rows.
+
+=begin code
+method get-show-row-separators (--> Bool )
+=end code
+
+Return value; C<True> if the list shows separators. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-row-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-single-click-activate
+
+Returns whether rows will be activated on single click and
+selected on hover.
+
+=begin code
+method get-single-click-activate (--> Bool )
+=end code
+
+Return value; C<True> if rows are activated on single click. 
+
+=begin comment
+
+=head2 Example
+# Example for get-single-click-activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-sorter
+
+Returns a special sorter that reflects the users sorting
+choices in the column view.
+
+To allow users to customizable sorting by clicking on column
+headers, this sorter needs to be set on the sort model underneath
+the model that is displayed by the view.
+
+See C<.set-sorter() in class Gnome::Gtk4::ColumnViewColumn> for setting up
+per-column sorting.
+
+Here is an example:
+=begin comment
+gtk_column_view_column_set_sorter (column, sorter);
+gtk_column_view_append_column (view, column);
+sorter = g_object_ref (gtk_column_view_get_sorter (view)));
+model = gtk_sort_list_model_new (store, sorter);
+selection = gtk_no_selection_new (model);
+gtk_column_view_set_model (view, selection);
+
+=end comment
+
+=begin code
+method get-sorter (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gtk4::Sorter> of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-sorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-column
+
+Inserts a column at the given position in the columns of C<$self>.
+
+If C<$column> is already a column of C<$self>, it will be repositioned.
+
+=begin code
+method insert-column ( UInt() $position, N-Object() $column )
+=end code
+
+=item $position; the position to insert C<$column> at.
+=item $column; the B<Gnome::Gtk4::ColumnViewColumn> to insert.
+
+=begin comment
+
+=head2 Example
+# Example for insert-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-column
+
+Removes the C<$column> from the list of columns of C<$self>.
+
+=begin code
+method remove-column ( N-Object() $column )
+=end code
+
+=item $column; a B<Gnome::Gtk4::ColumnViewColumn> that's part of C<$self>.
+
+=begin comment
+
+=head2 Example
+# Example for remove-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-rubberband
+
+Sets whether selections can be changed by dragging with the mouse.
+
+=begin code
+method set-enable-rubberband ( Bool() $enable-rubberband )
+=end code
+
+=item $enable-rubberband; C<True> to enable rubberband selection.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-rubberband
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model to use.
+
+This must be a B<Gnome::Gtk4::R-SelectionModel>.
+
+=begin code
+method set-model ( N-Object() $model )
+=end code
+
+=item $model; the model to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-reorderable
+
+Sets whether columns should be reorderable by dragging.
+
+=begin code
+method set-reorderable ( Bool() $reorderable )
+=end code
+
+=item $reorderable; whether columns should be reorderable.
+
+=begin comment
+
+=head2 Example
+# Example for set-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-column-separators
+
+Sets whether the list should show separators
+between columns.
+
+=begin code
+method set-show-column-separators ( Bool() $show-column-separators )
+=end code
+
+=item $show-column-separators; C<True> to show column separators.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-column-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-row-separators
+
+Sets whether the list should show separators
+between rows.
+
+=begin code
+method set-show-row-separators ( Bool() $show-row-separators )
+=end code
+
+=item $show-row-separators; C<True> to show row separators.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-row-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-single-click-activate
+
+Sets whether rows should be activated on single click and
+selected on hover.
+
+=begin code
+method set-single-click-activate ( Bool() $single-click-activate )
+=end code
+
+=item $single-click-activate; C<True> to activate items on single click.
+
+=begin comment
+
+=head2 Example
+# Example for set-single-click-activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort-by-column
+
+Sets the sorting of the view.
+
+This function should be used to set up the initial sorting.
+At runtime, users can change the sorting of a column view
+by clicking on the list headers.
+
+This call only has an effect if the sorter returned by
+C<.get-sorter()> is set on a sort model,
+and C<.set-sorter() in class Gnome::Gtk4::ColumnViewColumn> has been called
+on C<$column> to associate a sorter with the column.
+
+If C<$column> is undefined, the view will be unsorted.
+
+=begin code
+method sort-by-column ( N-Object() $column, GtkSortType $direction )
+=end code
+
+=item $column; the B<Gnome::Gtk4::ColumnViewColumn> to sort by.
+=item $direction; the direction to sort in.
+
+=begin comment
+
+=head2 Example
+# Example for sort-by-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted when a row has been activated by the user, usually via activating
+the GtkListBase|list.activate-item action.
+
+This allows for a convenient way to handle activation in a columnview.
+See C<.set-activatable() in class Gnome::Gtk4::ListItem> for details on how to use this
+signal.
+
+=begin code
+method handler (
+  guint $position,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ColumnView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $position; position of item to activate.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ColumnView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=end pod
+

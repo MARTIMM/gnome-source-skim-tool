@@ -1,0 +1,212 @@
+=comment Package: Gtk4, C-Source: columnview
+use v6.d;
+
+#TL:1:Gnome::Gtk4::ColumnView:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::ColumnView:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::ColumnView $columnview;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $columnview {
+    my N-Object $model;
+
+#`{{
+    #TC:0:new-columnview()
+    $model = …;
+    $columnview .= new-columnview( $model);
+    ok .is-valid, '.new-columnview( $model)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $columnview {
+    my gboolean $reorderable;
+    my N-Object $model;
+    my guint $position;
+    my GtkSortType $direction;
+    my gboolean $enable-rubberband;
+    my gboolean $show-column-separators;
+    my N-Object $column;
+    my gboolean $show-row-separators;
+    my gboolean $single-click-activate;
+
+
+#`{{
+    #TM:0:append-column()
+    ok .append-column( $column), '.append-column()';
+
+    #TM:0:get-columns()
+     .get-columns(), '…', '.get-columns()';
+
+    #TM:0:get-sorter()
+     .get-sorter(), '…', '.get-sorter()';
+
+    #TM:0:insert-column()
+    ok .insert-column( $position, $column), '.insert-column()';
+
+    #TM:0:remove-column()
+    ok .remove-column( $column), '.remove-column()';
+
+    #TM:0:set-enable-rubberband()
+    $enable-rubberband = '…';
+    .set-enable-rubberband( $enable-rubberband);
+    #TM:0:get-enable-rubberband()
+    is .get-enable-rubberband(),  $enable-rubberband, '.set-enable-rubberband() / .get-enable-rubberband()';
+
+    #TM:0:set-model()
+    $model = …;
+    .set-model( $model);
+    #TM:0:get-model()
+    is .get-model(),  $model, '.set-model() / .get-model()';
+
+    #TM:0:set-reorderable()
+    $reorderable = '…';
+    .set-reorderable( $reorderable);
+    #TM:0:get-reorderable()
+    is .get-reorderable(),  $reorderable, '.set-reorderable() / .get-reorderable()';
+
+    #TM:0:set-show-column-separators()
+    $show-column-separators = '…';
+    .set-show-column-separators( $show-column-separators);
+    #TM:0:get-show-column-separators()
+    is .get-show-column-separators(),  $show-column-separators, '.set-show-column-separators() / .get-show-column-separators()';
+
+    #TM:0:set-show-row-separators()
+    $show-row-separators = '…';
+    .set-show-row-separators( $show-row-separators);
+    #TM:0:get-show-row-separators()
+    is .get-show-row-separators(),  $show-row-separators, '.set-show-row-separators() / .get-show-row-separators()';
+
+    #TM:0:set-single-click-activate()
+    $single-click-activate = '…';
+    .set-single-click-activate( $single-click-activate);
+    #TM:0:get-single-click-activate()
+    is .get-single-click-activate(),  $single-click-activate, '.set-single-click-activate() / .get-single-click-activate()';
+
+    #TM:0:sort-by-column()
+    ok .sort-by-column( $column, $direction), '.sort-by-column()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $columnview {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::ColumnView() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::ColumnView;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::ColumnView :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::ColumnView $columnview .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $columnview.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
