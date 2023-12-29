@@ -1,0 +1,194 @@
+=comment Package: Gtk4, C-Source: celleditable
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-CellEditable
+
+![](images/celleditable.png)
+
+=head1 Description
+
+Interface for widgets that can be used for editing cells
+
+The B<Gnome::Gtk4::R-CellEditable> interface must be implemented for widgets to be usable
+to edit the contents of a B<Gnome::Gtk4::TreeView> cell. It provides a way to specify how
+temporary widgets should be configured for editing, get the new value, etc.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellEditable
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 editing-done
+
+Emits the B<GtkCellEditable::editing-done> signal.
+
+=begin code
+method editing-done ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for editing-done
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-widget
+
+Emits the B<GtkCellEditable::remove-widget> signal.
+
+=begin code
+method remove-widget ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for remove-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 start-editing
+
+Begins editing on a C<$cell-editable>.
+
+The B<Gnome::Gtk4::CellRenderer> for the cell creates and returns a B<Gnome::Gtk4::R-CellEditable> from
+gtk_cell_renderer_start_editing(), configured for the B<Gnome::Gtk4::CellRenderer> type.
+
+C<.start-editing()> can then set up C<$cell-editable> suitably for
+editing a cell, e.g. making the Esc key emit B<GtkCellEditable::editing-done>.
+
+Note that the C<$cell-editable> is created on-demand for the current edit; its
+lifetime is temporary and does not persist across other edits and/or cells.
+
+=begin code
+method start-editing ( N-Object() $event )
+=end code
+
+=item $event; The B<Gnome::Gdk4::Event> that began the editing process, or
+  undefined if editing was initiated programmatically.
+
+=begin comment
+
+=head2 Example
+# Example for start-editing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 editing-done
+
+This signal is a sign for the cell renderer to update its
+value from the C<$cell-editable>.
+
+Implementations of B<Gnome::Gtk4::R-CellEditable> are responsible for
+emitting this signal when they are done editing, e.g.
+B<Gnome::Gtk4::Entry> emits this signal when the user presses Enter. Typical things to
+do in a handler for I<editing-done> are to capture the edited value,
+disconnect the C<$cell-editable> from signals on the B<Gnome::Gtk4::CellRenderer>, etc.
+
+C<.editing-done()> is a convenience method
+for emitting B<GtkCellEditable::editing-done>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::CellEditable :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellEditable> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal editing-done
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 remove-widget
+
+This signal is meant to indicate that the cell is finished
+editing, and the C<$cell-editable> widget is being removed and may
+subsequently be destroyed.
+
+Implementations of B<Gnome::Gtk4::R-CellEditable> are responsible for
+emitting this signal when they are done editing. It must
+be emitted after the B<GtkCellEditable::editing-done> signal,
+to give the cell renderer a chance to update the cell's value
+before the widget is removed.
+
+C<.remove-widget()> is a convenience method
+for emitting B<GtkCellEditable::remove-widget>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::CellEditable :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellEditable> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal remove-widget
+
+=end comment
+
+=end pod
+
