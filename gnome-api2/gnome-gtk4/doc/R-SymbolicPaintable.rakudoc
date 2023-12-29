@@ -1,0 +1,78 @@
+=comment Package: Gtk4, C-Source: symbolicpaintable
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-SymbolicPaintable
+
+![](images/symbolicpaintable.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::R-SymbolicPaintable> is an interface that support symbolic colors in
+paintables.
+
+B<Gnome::Gdk4::R-Paintable>s implementing the interface will have the
+[vfunc C<$Gtk>.SymbolicPaintable.snapshot_symbolic] function called and
+have the colors for drawing symbolic icons passed. At least 4 colors are guaranteed
+to be passed every time.
+
+These 4 colors are the foreground color, and the colors to use for errors, warnings
+and success information in that order.
+
+More colors may be added in the future.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::SymbolicPaintable
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 snapshot-symbolic
+
+Snapshots the paintable with the given colors.
+
+If less than 4 colors are provided, GTK will pad the array with default
+colors.
+
+=begin code
+method snapshot-symbolic ( N-Object() $snapshot, Num() $width, Num() $height, CArray[N-RGBA] $colors, Int() $n-colors )
+=end code
+
+=item $snapshot; a B<Gnome::Gdk4::Snapshot> to snapshot to.
+=item $width; width to snapshot in.
+=item $height; height to snapshot in.
+=item $colors; a pointer to an array of colors.
+=item $n-colors; The number of colors.
+
+=begin comment
+
+=head2 Example
+# Example for snapshot-symbolic
+
+=end comment
+
+=end pod
+
