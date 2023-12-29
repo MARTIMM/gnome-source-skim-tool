@@ -1,0 +1,268 @@
+=comment Package: Gtk4, C-Source: scrollable
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::R-Scrollable
+
+![](images/scrollable.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::R-Scrollable> is an interface for widgets with native scrolling ability.
+
+To implement this interface you should override the
+I<hadjustment> and
+I<vadjustment> properties.
+
+=head3 Creating a scrollable widget
+
+All scrollable widgets should do the following.
+
+=item When a parent widget sets the scrollable child widget’s adjustments,
+  the widget should connect to the I<value-changed defined in Adjustment>
+  signal. The child widget should then populate the adjustments’ properties
+  as soon as possible, which usually means queueing an allocation right away
+  and populating the properties in the [vfunc C<$Gtk>.Widget.size_allocate]
+  implementation.
+
+=item Because its preferred size is the size for a fully expanded widget,
+  the scrollable widget must be able to cope with underallocations.
+  This means that it must accept any value passed to its
+  [vfunc C<$Gtk>.Widget.size_allocate] implementation.
+
+=item When the parent allocates space to the scrollable child widget,
+  the widget must ensure the adjustments’ property values are correct and up
+  to date, for example using C<.configure() in class Gnome::Gtk4::Adjustment>.
+
+=item When any of the adjustments emits the I<value-changed defined in Adjustment>
+  signal, the scrollable widget should scroll its contents.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Scrollable
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-border
+
+Returns the size of a non-scrolling border around the
+outside of the scrollable.
+
+An example for this would be treeview headers. GTK can use
+this information to display overlaid graphics, like the
+overshoot indication, at the right position.
+
+=begin code
+method get-border ( CArray[N-Border] $border --> Bool )
+=end code
+
+=item $border; return location for the results.
+
+Return value; C<True> if C<$border> has been set. 
+
+=begin comment
+
+=head2 Example
+# Example for get-border
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-hadjustment
+
+Retrieves the B<Gnome::Gtk4::Adjustment> used for horizontal scrolling.
+
+=begin code
+method get-hadjustment (--> N-Object )
+=end code
+
+Return value; horizontal B<Gnome::Gtk4::Adjustment>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-hadjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-hscroll-policy
+
+Gets the horizontal C<enumeration GtkScrollablePolicy defined in Gnome::Gtk4::T-Enums>.
+
+=begin code
+method get-hscroll-policy (--> GtkScrollablePolicy )
+=end code
+
+Return value; The horizontal C<enumeration GtkScrollablePolicy defined in Gnome::Gtk4::T-Enums>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-hscroll-policy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-vadjustment
+
+Retrieves the B<Gnome::Gtk4::Adjustment> used for vertical scrolling.
+
+=begin code
+method get-vadjustment (--> N-Object )
+=end code
+
+Return value; vertical B<Gnome::Gtk4::Adjustment>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-vadjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-vscroll-policy
+
+Gets the vertical C<enumeration GtkScrollablePolicy defined in Gnome::Gtk4::T-Enums>.
+
+=begin code
+method get-vscroll-policy (--> GtkScrollablePolicy )
+=end code
+
+Return value; The vertical C<enumeration GtkScrollablePolicy defined in Gnome::Gtk4::T-Enums>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-vscroll-policy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hadjustment
+
+Sets the horizontal adjustment of the B<Gnome::Gtk4::R-Scrollable>.
+
+=begin code
+method set-hadjustment ( N-Object() $hadjustment )
+=end code
+
+=item $hadjustment; a B<Gnome::Gtk4::Adjustment>.
+
+=begin comment
+
+=head2 Example
+# Example for set-hadjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hscroll-policy
+
+Sets the C<enumeration GtkScrollablePolicy defined in Gnome::Gtk4::T-Enums>.
+
+The policy determines whether horizontal scrolling should start
+below the minimum width or below the natural width.
+
+=begin code
+method set-hscroll-policy ( GtkScrollablePolicy $policy )
+=end code
+
+=item $policy; the horizontal C<enumeration GtkScrollablePolicy defined in Gnome::Gtk4::T-Enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-hscroll-policy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vadjustment
+
+Sets the vertical adjustment of the B<Gnome::Gtk4::R-Scrollable>.
+
+=begin code
+method set-vadjustment ( N-Object() $vadjustment )
+=end code
+
+=item $vadjustment; a B<Gnome::Gtk4::Adjustment>.
+
+=begin comment
+
+=head2 Example
+# Example for set-vadjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vscroll-policy
+
+Sets the C<enumeration GtkScrollablePolicy defined in Gnome::Gtk4::T-Enums>.
+
+The policy determines whether vertical scrolling should start
+below the minimum height or below the natural height.
+
+=begin code
+method set-vscroll-policy ( GtkScrollablePolicy $policy )
+=end code
+
+=item $policy; the vertical C<enumeration GtkScrollablePolicy defined in Gnome::Gtk4::T-Enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-vscroll-policy
+
+=end comment
+
+=end pod
+
