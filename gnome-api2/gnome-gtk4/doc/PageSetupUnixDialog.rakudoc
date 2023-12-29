@@ -1,0 +1,178 @@
+=comment Package: Gtk4, C-Source: pagesetupunixdialog
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::PageSetupUnixDialog
+
+![](images/pagesetupunixdialog.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::PageSetupUnixDialog> implements a page setup dialog for platforms
+which don’t provide a native page setup dialog, like Unix.
+
+![An example GtkPageSetupUnixDialog](pagesetupdialog.png)
+
+It can be used very much like any other GTK dialog, at the
+cost of the portability offered by the high-level printing
+API in B<Gnome::Gtk4::PrintOperation>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::PageSetupUnixDialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-pagesetupunixdialog
+
+Creates a new page setup dialog.
+
+=begin code
+method new-pagesetupunixdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::PageSetupUnixDialog \)
+=end code
+
+=item $title; the title of the dialog.
+=item $parent; transient parent of the dialog.
+
+=begin comment
+
+=head2 Example
+# Example for new-pagesetupunixdialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page-setup
+
+Gets the currently selected page setup from the dialog.
+
+=begin code
+method get-page-setup (--> N-Object )
+=end code
+
+Return value; the current page setup. 
+
+=begin comment
+
+=head2 Example
+# Example for get-page-setup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-print-settings
+
+Gets the current print settings from the dialog.
+
+=begin code
+method get-print-settings (--> N-Object )
+=end code
+
+Return value; the current print settings. 
+
+=begin comment
+
+=head2 Example
+# Example for get-print-settings
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-page-setup
+
+Sets the B<Gnome::Gtk4::PageSetup> from which the page setup
+dialog takes its values.
+
+=begin code
+method set-page-setup ( N-Object() $page-setup )
+=end code
+
+=item $page-setup; a B<Gnome::Gtk4::PageSetup>.
+
+=begin comment
+
+=head2 Example
+# Example for set-page-setup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-print-settings
+
+Sets the B<Gnome::Gtk4::PrintSettings> from which the page setup dialog
+takes its values.
+
+=begin code
+method set-print-settings ( N-Object() $print-settings )
+=end code
+
+=item $print-settings; a B<Gnome::Gtk4::PrintSettings>.
+
+=begin comment
+
+=head2 Example
+# Example for set-print-settings
+
+=end comment
+
+=end pod
+
