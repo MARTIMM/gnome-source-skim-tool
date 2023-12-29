@@ -1,0 +1,39 @@
+=comment Package: Gtk4, C-Source: treesortable
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-TreeSortable:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-TreeSortable:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID
+is GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, -2, "constant GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID = -2";
+
+#TE:1:GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID
+is GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, -1, "constant GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID = -1";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

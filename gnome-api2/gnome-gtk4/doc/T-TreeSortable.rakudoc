@@ -1,0 +1,47 @@
+=comment Package: Gtk4, C-Source: treesortable
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-TreeSortable
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constants
+
+=head2 GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID
+
+Uses the default sort function in a B<Gnome::Gtk4::R-TreeSortable>.
+
+See also: C<.set-sort-column-id()>
+
+=head2 GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID
+
+Disables sorting in a B<Gnome::Gtk4::R-TreeSortable>.
+
+See also: C<.set-sort-column-id()>
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 TreeIterCompareFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $model, CArray[N-TreeIter] $a, CArray[N-TreeIter] $b, gpointer $user-data  )
+=end code
+
+=item model; The B<Gnome::Gtk4::R-TreeModel> the comparison is within
+=item a; A B<Gnome::Gtk4::N-TreeIter> in C<$model>
+=item b; Another B<Gnome::Gtk4::N-TreeIter> in C<$model>
+=item user-data; Data passed when the compare func is assigned e.g. by
+ C<.set-sort-func()>
+
+=end pod
