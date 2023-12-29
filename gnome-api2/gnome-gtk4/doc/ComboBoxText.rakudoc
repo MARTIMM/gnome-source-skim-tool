@@ -1,0 +1,382 @@
+=comment Package: Gtk4, C-Source: comboboxtext
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ComboBoxText
+
+![](images/comboboxtext.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::ComboBoxText> is a simple variant of B<Gnome::Gtk4::ComboBox> for text-only
+use cases.
+
+![An example GtkComboBoxText](combo-box-text.png)
+
+B<Gnome::Gtk4::ComboBoxText> hides the model-view complexity of B<Gnome::Gtk4::ComboBox>.
+
+To create a B<Gnome::Gtk4::ComboBoxText>, use C<.newcomboboxtext()> or
+C<.new-with-entry()>.
+
+You can add items to a B<Gnome::Gtk4::ComboBoxText> with
+C<.append-text()>,
+C<.insert-text()> or
+C<.prepend-text()> and remove options with
+C<.remove()>.
+
+If the B<Gnome::Gtk4::ComboBoxText> contains an entry (via the
+I<has-entry defined in Gnome::Gtk4::ComboBox> property), its contents can be retrieved
+using C<.get-active-text()>.
+
+You should not call C<.set-model() in class Gnome::Gtk4::ComboBox> or attempt to pack more
+cells into this combo box via its B<Gnome::Gtk4::R-CellLayout> interface.
+
+=head2 GtkComboBoxText as GtkBuildable
+
+The B<Gnome::Gtk4::ComboBoxText> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+adding items directly using the <items> element and specifying <item>
+elements for each item. Each <item> element can specify the “id”
+corresponding to the appended text and also supports the regular
+translation attributes “translatable”, “context” and “comments”.
+
+Here is a UI definition fragment specifying B<Gnome::Gtk4::ComboBoxText> items:
+=begin comment
+<object class="GtkComboBoxText">
+  <items>
+    <item translatable="yes" id="factory">Factory</item>
+    <item translatable="yes" id="home">Home</item>
+    <item translatable="yes" id="subway">Subway</item>
+  </items>
+</object>
+
+=end comment
+
+=head2 CSS nodes
+
+=begin comment
+combobox
+╰── box.linked
+    ├── entry.combo
+    ├── button.combo
+    ╰── window.popup
+
+=end comment
+
+B<Gnome::Gtk4::ComboBoxText> has a single CSS node with name combobox. It adds
+the style class .combo to the main CSS nodes of its entry and button
+children, and the .linked class to the node of its internal box.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ComboBoxText
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-comboboxtext
+
+Creates a new B<Gnome::Gtk4::ComboBoxText>.
+
+=begin code
+method new-comboboxtext ( --> Gnome::Gtk4::ComboBoxText \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-comboboxtext
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-entry
+
+Creates a new B<Gnome::Gtk4::ComboBoxText> with an entry.
+
+=begin code
+method new-with-entry ( --> Gnome::Gtk4::ComboBoxText \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-with-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append
+
+Appends C<$text> to the list of strings stored in C<$combo-box>.
+
+If C<$id> is non-undefined then it is used as the ID of the row.
+
+This is the same as calling C<.insert()>
+with a position of -1.
+
+=begin code
+method append ( Str $id, Str $text )
+=end code
+
+=item $id; a string ID for this value.
+=item $text; A string.
+
+=begin comment
+
+=head2 Example
+# Example for append
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-text
+
+Appends C<$text> to the list of strings stored in C<$combo-box>.
+
+This is the same as calling C<.insert-text()>
+with a position of -1.
+
+=begin code
+method append-text ( Str $text )
+=end code
+
+=item $text; A string.
+
+=begin comment
+
+=head2 Example
+# Example for append-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active-text
+
+Returns the currently active string in C<$combo-box>.
+
+If no row is currently selected, undefined is returned.
+If C<$combo-box> contains an entry, this function will
+return its contents (which will not necessarily
+be an item from the list).
+
+=begin code
+method get-active-text (--> Str )
+=end code
+
+Return value; a newly allocated
+  string containing the currently active text.
+  Must be freed with g_free().. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+Inserts C<$text> at C<$position> in the list of strings stored in C<$combo-box>.
+
+If C<$id> is non-undefined then it is used as the ID of the row.
+See I<id-column defined in Gnome::Gtk4::ComboBox>.
+
+If C<$position> is negative then C<$text> is appended.
+
+=begin code
+method insert ( Int() $position, Str $id, Str $text )
+=end code
+
+=item $position; An index to insert C<$text>.
+=item $id; a string ID for this value.
+=item $text; A string to display.
+
+=begin comment
+
+=head2 Example
+# Example for insert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-text
+
+Inserts C<$text> at C<$position> in the list of strings stored in C<$combo-box>.
+
+If C<$position> is negative then C<$text> is appended.
+
+This is the same as calling C<.insert()>
+with a undefined ID string.
+
+=begin code
+method insert-text ( Int() $position, Str $text )
+=end code
+
+=item $position; An index to insert C<$text>.
+=item $text; A string.
+
+=begin comment
+
+=head2 Example
+# Example for insert-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend
+
+Prepends C<$text> to the list of strings stored in C<$combo-box>.
+
+If C<$id> is non-undefined then it is used as the ID of the row.
+
+This is the same as calling C<.insert()>
+with a position of 0.
+
+=begin code
+method prepend ( Str $id, Str $text )
+=end code
+
+=item $id; a string ID for this value.
+=item $text; a string.
+
+=begin comment
+
+=head2 Example
+# Example for prepend
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-text
+
+Prepends C<$text> to the list of strings stored in C<$combo-box>.
+
+This is the same as calling C<.insert-text()>
+with a position of 0.
+
+=begin code
+method prepend-text ( Str $text )
+=end code
+
+=item $text; A string.
+
+=begin comment
+
+=head2 Example
+# Example for prepend-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes the string at C<$position> from C<$combo-box>.
+
+=begin code
+method remove ( Int() $position )
+=end code
+
+=item $position; Index of the item to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-all
+
+Removes all the text entries from the combo box.
+
+=begin code
+method remove-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for remove-all
+
+=end comment
+
+=end pod
+
