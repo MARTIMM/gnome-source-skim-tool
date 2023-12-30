@@ -1,0 +1,123 @@
+=comment Package: Gtk4, C-Source: multiselection
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::MultiSelection
+
+![](images/multiselection.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::MultiSelection> is a B<Gnome::Gtk4::R-SelectionModel> that allows selecting multiple
+elements.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::MultiSelection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-multiselection
+
+Creates a new selection to handle C<$model>.
+
+=begin code
+method new-multiselection ( N-List() $model --> Gnome::Gtk4::MultiSelection \)
+=end code
+
+=item $model; (transfer ownership: full) the B<Gnome::Gio::R-ListModel> to manage.
+
+=begin comment
+
+=head2 Example
+# Example for new-multiselection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Returns the underlying model of C<$self>.
+
+=begin code
+method get-model (--> N-List )
+=end code
+
+Return value; the underlying model. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model that C<$self> should wrap.
+
+If C<$model> is undefined, C<$self> will be empty.
+
+=begin code
+method set-model ( N-List() $model )
+=end code
+
+=item $model; A B<Gnome::Gio::R-ListModel> to wrap.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
