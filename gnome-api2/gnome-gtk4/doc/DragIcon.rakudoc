@@ -1,0 +1,209 @@
+=comment Package: Gtk4, C-Source: dragicon
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::DragIcon
+
+![](images/dragicon.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::DragIcon> is a B<Gnome::Gtk4::R-Root> implementation for drag icons.
+
+A drag icon moves with the pointer during a Drag-and-Drop operation
+and is destroyed when the drag ends.
+
+To set up a drag icon and associate it with an ongoing drag operation,
+use C<.DragIcon.get-for-drag()> to get the icon for a drag. You can
+then use it like any other widget and use C<.set-child()>
+to set whatever widget should be used for the drag icon.
+
+Keep in mind that drag icons do not allow user input.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::DragIcon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the widget currently used as drag icon.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; The drag icon. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the widget to display as the drag icon.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; a B<Gnome::Gtk4::Widget>.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-widget-for-value
+
+Creates a widget that can be used as a drag icon for the given C<$value>.
+
+Supported types include strings, B<Gnome::Gdk4::N-RGBA> and B<Gnome::Gtk4::TextBuffer>.
+If GTK does not know how to create a widget for a given value,
+it will return undefined.
+
+This method is used to set the default drag icon on drag-and-drop
+operations started by B<Gnome::Gtk4::DragSource>, so you don't need to set
+a drag icon using this function there.
+
+=begin code
+method create-widget-for-value ( CArray[N-Value] $value --> N-Object )
+=end code
+
+=item $value; a B<Gnome::GObject::N-Value>.
+
+Return value; A new B<Gnome::Gtk4::Widget>
+  for displaying C<$value> as a drag icon.. 
+
+=begin comment
+
+=head2 Example
+# Example for create-widget-for-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-for-drag
+
+Gets the B<Gnome::Gtk4::DragIcon> in use with C<$drag>.
+
+If no drag icon exists yet, a new one will be created
+and shown.
+
+=begin code
+method get-for-drag ( N-Object() $drag --> N-Object )
+=end code
+
+=item $drag; a B<Gnome::Gdk4::Drag>.
+
+Return value; the B<Gnome::Gtk4::DragIcon>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-for-drag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-from-paintable
+
+Creates a B<Gnome::Gtk4::DragIcon> that shows C<$paintable>, and associates
+it with the drag operation.
+
+The hotspot position on the paintable is aligned with the
+hotspot of the cursor.
+
+=begin code
+method set-from-paintable ( N-Object() $drag, N-Object() $paintable, Int() $hot-x, Int() $hot-y )
+=end code
+
+=item $drag; a B<Gnome::Gdk4::Drag>.
+=item $paintable; a B<Gnome::Gdk4::R-Paintable> to display.
+=item $hot-x; X coordinate of the hotspot.
+=item $hot-y; Y coordinate of the hotspot.
+
+=begin comment
+
+=head2 Example
+# Example for set-from-paintable
+
+=end comment
+
+=end pod
+
