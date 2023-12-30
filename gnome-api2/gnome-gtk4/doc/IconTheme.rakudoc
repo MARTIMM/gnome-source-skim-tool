@@ -1,0 +1,606 @@
+=comment Package: Gtk4, C-Source: icontheme
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::IconTheme
+
+![](images/icontheme.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::IconTheme> provides a facility for loading themed icons.
+
+The main reason for using a name rather than simply providing a filename
+is to allow different icons to be used depending on what “icon theme” is
+selected by the user. The operation of icon themes on Linux and Unix
+follows the [Icon Theme Specification](http://www.freedesktop.org/Standards/icon-theme-spec)
+There is a fallback icon theme, named B<hicolor>, where applications
+should install their icons, but additional icon themes can be installed
+as operating system vendors and users choose.
+
+In many cases, named themes are used indirectly, via B<Gnome::Gtk4::Image>
+rather than directly, but looking up icons directly is also simple. The
+B<Gnome::Gtk4::IconTheme> object acts as a database of all the icons in the current
+theme. You can create new B<Gnome::Gtk4::IconTheme> objects, but it’s much more
+efficient to use the standard icon theme of the B<Gnome::Gtk4::Widget> so that the
+icon information is shared with other people looking up icons.
+
+=begin comment
+GtkIconTheme *icon_theme;
+GtkIconPaintable *icon;
+GdkPaintable *paintable;
+
+icon_theme = gtk_icon_theme_get_for_display (gtk_widget_get_display (my_widget));
+icon = gtk_icon_theme_lookup_icon (icon_theme,
+                                   "my-icon-name", // icon name
+                                   48, // icon size
+                                   1,  // scale
+                                   0,  // flags);
+paintable = GDK_PAINTABLE (icon);
+// Use the paintable
+g_object_unref (icon);
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::IconTheme
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-icontheme
+
+Creates a new icon theme object.
+
+Icon theme objects are used to lookup up an icon by name
+in a particular icon theme. Usually, you’ll want to use
+C<.IconTheme.get-for-display()> rather than creating
+a new icon theme object for scratch.
+
+=begin code
+method new-icontheme ( --> Gnome::Gtk4::IconTheme \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-icontheme
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-resource-path
+
+Adds a resource path that will be looked at when looking
+for icons, similar to search paths.
+
+See C<.set-resource-path()>.
+
+This function should be used to make application-specific icons
+available as part of the icon theme.
+
+=begin code
+method add-resource-path ( Str $path )
+=end code
+
+=item $path; a resource path.
+
+=begin comment
+
+=head2 Example
+# Example for add-resource-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-search-path
+
+Appends a directory to the search path.
+
+See C<.set-search-path()>.
+
+=begin code
+method add-search-path ( Str $path )
+=end code
+
+=item $path; directory name to append to the icon path.
+
+=begin comment
+
+=head2 Example
+# Example for add-search-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-display
+
+Returns the display that the B<Gnome::Gtk4::IconTheme> object was
+created for.
+
+=begin code
+method get-display (--> N-Object )
+=end code
+
+Return value; the display of C<$icon-theme>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-display
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-names
+
+Lists the names of icons in the current icon theme.
+
+=begin code
+method get-icon-names (--> Array[Str] )
+=end code
+
+Return value; a string array
+  holding the names of all the icons in the theme. You must
+  free the array using g_strfreev().. 
+
+=begin comment
+
+=head2 Example
+# Example for get-icon-names
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-sizes
+
+Returns an array of integers describing the sizes at which
+the icon is available without scaling.
+
+A size of -1 means that the icon is available in a scalable
+format. The array is zero-terminated.
+
+=begin code
+method get-icon-sizes ( Str $icon-name --> Array[Int] )
+=end code
+
+=item $icon-name; the name of an icon.
+
+Return value; A newly
+  allocated array describing the sizes at which the icon is
+  available. The array should be freed with g_free() when it is no
+  longer needed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-icon-sizes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-resource-path
+
+Gets the current resource path.
+
+See C<.set-resource-path()>.
+
+=begin code
+method get-resource-path (--> Array[Str] )
+=end code
+
+Return value; 
+  A list of resource paths. 
+
+=begin comment
+
+=head2 Example
+# Example for get-resource-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-search-path
+
+Gets the current search path.
+
+See C<.set-search-path()>.
+
+=begin code
+method get-search-path (--> Array[Str] )
+=end code
+
+Return value; 
+  a list of icon theme path directories. 
+
+=begin comment
+
+=head2 Example
+# Example for get-search-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-theme-name
+
+Gets the current icon theme name.
+
+Returns (transfer full): the current icon theme name,
+
+=begin code
+method get-theme-name (--> Str )
+=end code
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-theme-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 has-gicon
+
+Checks whether an icon theme includes an icon
+for a particular B<Gnome::Gio::R-Icon>.
+
+=begin code
+method has-gicon ( N-Object() $gicon --> Bool )
+=end code
+
+=item $gicon; a B<Gnome::Gio::R-Icon>.
+
+Return value; C<True> if C<$self> includes an icon for C<$gicon>. 
+
+=begin comment
+
+=head2 Example
+# Example for has-gicon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 has-icon
+
+Checks whether an icon theme includes an icon
+for a particular name.
+
+=begin code
+method has-icon ( Str $icon-name --> Bool )
+=end code
+
+=item $icon-name; the name of an icon.
+
+Return value; C<True> if C<$self> includes an
+ icon for C<$icon-name>.. 
+
+=begin comment
+
+=head2 Example
+# Example for has-icon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 lookup-by-gicon
+
+Looks up a icon for a desired size and window scale.
+
+The icon can then be rendered by using it as a B<Gnome::Gdk4::R-Paintable>,
+or you can get information such as the filename and size.
+
+=begin code
+method lookup-by-gicon ( N-Object() $icon, Int() $size, Int() $scale, GtkTextDirection $direction, UInt $flags --> N-Object )
+=end code
+
+=item $icon; the B<Gnome::Gio::R-Icon> to look up.
+=item $size; desired icon size.
+=item $scale; the desired scale.
+=item $direction; text direction the icon will be displayed in.
+=item $flags; flags modifying the behavior of the icon lookup.
+
+Return value; a B<Gnome::Gtk4::IconPaintable> containing
+  information about the icon. Unref with g_object_unref(). 
+
+=begin comment
+
+=head2 Example
+# Example for lookup-by-gicon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 lookup-icon
+
+Looks up a named icon for a desired size and window scale,
+returning a B<Gnome::Gtk4::IconPaintable>.
+
+The icon can then be rendered by using it as a B<Gnome::Gdk4::R-Paintable>,
+or you can get information such as the filename and size.
+
+If the available C<$icon-name> is not available and C<$fallbacks> are
+provided, they will be tried in order.
+
+If no matching icon is found, then a paintable that renders the
+"missing icon" icon is returned. If you need to do something else
+for missing icons you need to use C<.has-icon()>.
+
+Note that you probably want to listen for icon theme changes and
+update the icon. This is usually done by overriding the
+GtkWidgetClass.css-changed() function.
+
+=begin code
+method lookup-icon ( Str $icon-name, Array[Str] $fallbacks, Int() $size, Int() $scale, GtkTextDirection $direction, UInt $flags --> N-Object )
+=end code
+
+=item $icon-name; the name of the icon to lookup.
+=item $fallbacks; .
+=item $size; desired icon size..
+=item $scale; the window scale this will be displayed on.
+=item $direction; text direction the icon will be displayed in.
+=item $flags; flags modifying the behavior of the icon lookup.
+
+Return value; a B<Gnome::Gtk4::IconPaintable> object
+  containing the icon.. 
+
+=begin comment
+
+=head2 Example
+# Example for lookup-icon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-resource-path
+
+Sets the resource paths that will be looked at when
+looking for icons, similar to search paths.
+
+The resources are considered as part of the hicolor icon theme
+and must be located in subdirectories that are defined in the
+hicolor icon theme, such as B< C<$path>/16x16/actions/run.png>
+or B< C<$path>/scalable/actions/run.svg>.
+
+Icons that are directly placed in the resource path instead
+of a subdirectory are also considered as ultimate fallback,
+but they are treated like unthemed icons.
+
+=begin code
+method set-resource-path ( Array[Str] $path )
+=end code
+
+=item $path; 
+  NULL-terminated array of resource paths
+  that are searched for icons.
+
+=begin comment
+
+=head2 Example
+# Example for set-resource-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-search-path
+
+Sets the search path for the icon theme object.
+
+When looking for an icon theme, GTK will search for a subdirectory
+of one or more of the directories in C<$path> with the same name
+as the icon theme containing an index.theme file. (Themes from
+multiple of the path elements are combined to allow themes to be
+extended by adding icons in the user’s home directory.)
+
+In addition if an icon found isn’t found either in the current
+icon theme or the default icon theme, and an image file with
+the right name is found directly in one of the elements of C<$path>, then that image will be used for the icon name.
+(This is legacy feature, and new icons should be put
+into the fallback icon theme, which is called hicolor,
+rather than directly on the icon path.)
+
+=begin code
+method set-search-path ( Array[Str] $path )
+=end code
+
+=item $path; NULL-terminated
+  array of directories that are searched for icon themes.
+
+=begin comment
+
+=head2 Example
+# Example for set-search-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-theme-name
+
+Sets the name of the icon theme that the B<Gnome::Gtk4::IconTheme> object uses
+overriding system configuration.
+
+This function cannot be called on the icon theme objects returned
+from C<.IconTheme.get-for-display()>.
+
+=begin code
+method set-theme-name ( Str $theme-name )
+=end code
+
+=item $theme-name; name of icon theme to use instead of
+  configured theme, or undefined to unset a previously set custom theme.
+
+=begin comment
+
+=head2 Example
+# Example for set-theme-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-for-display
+
+Gets the icon theme object associated with C<$display>.
+
+If this function has not previously been called for the given
+display, a new icon theme object will be created and associated
+with the display. Icon theme objects are fairly expensive to create,
+so using this function is usually a better choice than calling
+C<.newicontheme()> and setting the display yourself; by using
+this function a single icon theme object will be shared between users.
+
+=begin code
+method get-for-display ( N-Object() $display --> N-Object )
+=end code
+
+=item $display; a B<Gnome::Gdk4::Display>.
+
+Return value; A unique B<Gnome::Gtk4::IconTheme> associated with
+  the given display. This icon theme is associated with the display
+  and can be used as long as the display is open. Do not ref or unref it.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-for-display
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+Emitted when the icon theme changes.
+
+This can happen becuase current icon theme is switched or
+because GTK detects that a change has occurred in the
+contents of the current icon theme.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::IconTheme :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::IconTheme> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=end pod
+

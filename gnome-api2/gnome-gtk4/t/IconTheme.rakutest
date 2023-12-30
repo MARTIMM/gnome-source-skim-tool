@@ -1,0 +1,208 @@
+=comment Package: Gtk4, C-Source: icontheme
+use v6.d;
+
+#TL:1:Gnome::Gtk4::IconTheme:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::IconTheme:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-IconPaintable:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::IconTheme $icontheme;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $icontheme {
+
+#`{{
+    #TC:0:new-icontheme()
+
+    $icontheme .= new-icontheme();
+    ok .is-valid, '.new-icontheme()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $icontheme {
+    my N-Object $icon;
+    my Str $icon-name;
+    my Str $theme-name;
+    my GtkTextDirection $direction;
+    my gchar-pptr $fallbacks;
+    my GFlag $flags;
+    my N-Object $gicon;
+    my gchar-pptr $path;
+    my gint $scale;
+    my gint $size;
+
+
+#`{{
+    #TM:0:add-resource-path()
+    ok .add-resource-path( $path), '.add-resource-path()';
+
+    #TM:0:add-search-path()
+    ok .add-search-path( $path), '.add-search-path()';
+
+    #TM:0:get-display()
+     .get-display(), '…', '.get-display()';
+
+    #TM:0:get-icon-names()
+     .get-icon-names(), '…', '.get-icon-names()';
+
+    #TM:0:get-icon-sizes()
+    is .get-icon-sizes( $icon-name), '…', '.get-icon-sizes()';
+
+    #TM:0:has-gicon()
+    ok .has-gicon( $gicon), '.has-gicon()';
+
+    #TM:0:has-icon()
+    ok .has-icon( $icon-name), '.has-icon()';
+
+    #TM:0:lookup-by-gicon()
+    ok .lookup-by-gicon( $icon, $size, $scale, $direction, $flags), '.lookup-by-gicon()';
+
+    #TM:0:lookup-icon()
+    ok .lookup-icon( $icon-name, $fallbacks, $size, $scale, $direction, $flags), '.lookup-icon()';
+
+    #TM:0:set-resource-path()
+    $path = '…';
+    .set-resource-path( $path);
+    #TM:0:get-resource-path()
+    is .get-resource-path(),  $path, '.set-resource-path() / .get-resource-path()';
+
+    #TM:0:set-search-path()
+    $path = '…';
+    .set-search-path( $path);
+    #TM:0:get-search-path()
+    is .get-search-path(),  $path, '.set-search-path() / .get-search-path()';
+
+    #TM:0:set-theme-name()
+    $theme-name = 'text';
+    .set-theme-name( $theme-name);
+    #TM:0:get-theme-name()
+    is .get-theme-name(),  $theme-name, '.set-theme-name() / .get-theme-name()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $icontheme {
+    my N-Object() $display;
+
+
+#`{{
+    #TM:0:get-for-display()
+    is .get-for-display( $display), '…', '.get-for-display()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::IconTheme() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::IconTheme;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::IconTheme :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::IconTheme $icontheme .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $icontheme.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
