@@ -1,14 +1,12 @@
+=comment Package: Gtk4, C-Source: window
 use v6.d;
-
-=begin pod
-=head1 Gnome::Gtk4::Window
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Description]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
+=head1 Gnome::Gtk4::Window
 
 ![](images/window.png)
 
@@ -22,19 +20,19 @@ Windows normally have decorations that are under the control
 of the windowing system and allow the user to manipulate the window
 (resize it, move it, close it,...).
 
-=head1 GtkWindow as GtkBuildable
+=head2 GtkWindow as GtkBuildable
 
-The B<Gnome::Gtk4::Window> implementation of the [iface C<$Gtk>.Buildable] interface supports
+The B<Gnome::Gtk4::Window> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
 setting a child as the titlebar by specifying “titlebar” as the “type”
 attribute of a <child> element.
 
-=head1 CSS nodes
+=head2 CSS nodes
 
 =begin comment
+window.background [.csd / .solid-csd / .ssd] [.maximized / .fullscreen / .tiled]
+├── <child>
+╰── <titlebar child>.titlebar [.default-decoration]
 
-  window.background [.csd / .solid-csd / .ssd] [.maximized / .fullscreen / .tiled]
-  ├── &lt;child&gt;
-  ╰── &lt;titlebar child&gt;.titlebar [.default-decoration]
 =end comment
 
 B<Gnome::Gtk4::Window> has a main CSS node with name window and style class .background.
@@ -59,27 +57,30 @@ can be used to resize it.
 B<Gnome::Gtk4::Window> adds the .titlebar and .default-decoration style classes to the
 widget that is added as a titlebar child.
 
-=head1 Accessibility
+=head2 Accessibility
 
-B<Gnome::Gtk4::Window> uses the %GTK_ACCESSIBLE_ROLE_WINDOW role.
+B<Gnome::Gtk4::Window> uses the C<GTK_ACCESSIBLE_ROLE_WINDOW> role.
 
-=head1 Actions
+=head2 Actions
 
 B<Gnome::Gtk4::Window> defines a set of built-in actions:
-- I<default.activate>: Activate the default widget.
-- I<window.minimize>: Minimize the window.
-- I<window.toggle-maximized>: Maximize or restore the window.
-- I<window.close>: Close the window.
+=item B<default.activate>: Activate the default widget.
+=item B<window.minimize>: Minimize the window.
+=item B<window.toggle-maximized>: Maximize or restore the window.
+=item B<window.close>: Close the window.
 
 =begin comment
+
 =head2 Uml Diagram
 ![](plantuml/….svg)
+
 =end comment
 
 =begin comment
+
 =head2 Example
-  … text …
-  … example code …
+# Example use of module Gnome::Gtk4::Window
+
 =end comment
 
 =end pod
@@ -99,7 +100,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-
 =head3 :build-id
 
 Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
@@ -114,20 +114,30 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 
 Creates a new B<Gnome::Gtk4::Window>.
 
-To get an undecorated window (no window borders), use C<.set-decorated()>.
+To get an undecorated window (no window borders), use
+C<.set-decorated()>.
 
-All top-level windows created by gtk_window_new() are stored in an internal top-level window list. This list can be obtained from C<.Window.list-toplevels()>. Due to GTK keeping a reference to the window internally, gtk_window_new() does not return a reference to the caller.
+All top-level windows created by C<.new-window()> are stored
+in an internal top-level window list. This list can be obtained
+from C<.Window.list-toplevels()>. Due to GTK keeping a
+reference to the window internally, C<.new-window()> does not
+return a reference to the caller.
 
 To delete a B<Gnome::Gtk4::Window>, call C<.destroy()>.
 
 =begin code
-method new-window (
-  --> Gnome::Gtk4::Window
-)
+method new-window ( --> Gnome::Gtk4::Window \)
 =end code
 
+=begin comment
+
+=head2 Example
+# Example for new-window
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 #--[Methods]--------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -142,17 +152,25 @@ method new-window (
 
 Requests that the window is closed.
 
-This is similar to what happens when a window manager close button is clicked.
+This is similar to what happens when a window manager
+close button is clicked.
 
-This function can be used with close buttons in custom titlebars.
+This function can be used with close buttons in custom
+titlebars.
 
 =begin code
-method close (  )
+method close ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for close
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 destroy
@@ -160,65 +178,96 @@ method close (  )
 Drop the internal reference GTK holds on toplevel windows.
 
 =begin code
-method destroy (  )
+method destroy ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for destroy
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 fullscreen
 
 Asks to place C<$window> in the fullscreen state.
 
-Note that you shouldn’t assume the window is definitely fullscreen afterward, because other entities (e.g. the user or window manager unfullscreen it again, and not all window managers honor requests to fullscreen windows.
+Note that you shouldn’t assume the window is definitely fullscreen
+afterward, because other entities (e.g. the user or window manager
+unfullscreen it again, and not all window managers honor requests
+to fullscreen windows.
 
 You can track the result of this operation via the
-[property C<$Gdk>.Toplevel:state] property, or by listening to notifications of the I<fullscreened> property.
+I<state defined in Gnome::Gdk4::R-Toplevel> property, or by listening to
+notifications of the I<fullscreened> property.
 
 =begin code
-method fullscreen (  )
+method fullscreen ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for fullscreen
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 fullscreen-on-monitor
 
 Asks to place C<$window> in the fullscreen state on the given C<$monitor>.
 
-Note that you shouldn't assume the window is definitely fullscreen afterward, or that the windowing system allows fullscreen windows on any given monitor.
+Note that you shouldn't assume the window is definitely fullscreen
+afterward, or that the windowing system allows fullscreen windows on
+any given monitor.
 
 You can track the result of this operation via the
-[property C<$Gdk>.Toplevel:state] property, or by listening to notifications of the I<fullscreened> property.
+I<state defined in Gnome::Gdk4::R-Toplevel> property, or by listening to
+notifications of the I<fullscreened> property.
 
 =begin code
-method fullscreen-on-monitor (  N-Object() $monitor )
+method fullscreen-on-monitor ( N-Object() $monitor )
 =end code
 
 =item $monitor; which monitor to go fullscreen on.
 
+=begin comment
+
+=head2 Example
+# Example for fullscreen-on-monitor
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-application
 
-Gets the I<GtkApplication> associated with the window.
+Gets the B<Gnome::Gtk4::Application> associated with the window.
 
 =begin code
-method get-application ( --> N-Object() )
+method get-application (--> N-Object )
 =end code
 
+Return value; a B<Gnome::Gtk4::Application>. 
 
+=begin comment
 
-Return value; a I<GtkApplication>. 
+=head2 Example
+# Example for get-application
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-child
@@ -226,15 +275,20 @@ Return value; a I<GtkApplication>.
 Gets the child widget of C<$window>.
 
 =begin code
-method get-child ( --> N-Object() )
+method get-child (--> N-Object )
 =end code
-
-
 
 Return value; the child widget of C<$window>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-decorated
@@ -242,33 +296,46 @@ Return value; the child widget of C<$window>.
 Returns whether the window has been set to have decorations.
 
 =begin code
-method get-decorated ( --> Bool() )
+method get-decorated (--> Bool )
 =end code
 
+Return value; C<True> if the window has been set to have decorations. 
 
+=begin comment
 
-Return value; %TRUE if the window has been set to have decorations. 
+=head2 Example
+# Example for get-decorated
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-default-size
 
 Gets the default size of the window.
 
-A value of 0 for the width or height indicates that a default size has not been explicitly set for that dimension, so the
+A value of 0 for the width or height indicates that a default
+size has not been explicitly set for that dimension, so the
 “natural” size of the window will be used.
 
 =begin code
-method get-default-size (  Array[Int] $width, Array[Int] $height )
+method get-default-size ( Array[Int] $width, Array[Int] $height )
 =end code
 
 =item $width; (transfer ownership: full) location to store the default width.
 =item $height; (transfer ownership: full) location to store the default height.
 
+=begin comment
+
+=head2 Example
+# Example for get-default-size
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-default-widget
@@ -276,15 +343,20 @@ method get-default-size (  Array[Int] $width, Array[Int] $height )
 Returns the default widget for C<$window>.
 
 =begin code
-method get-default-widget ( --> N-Object() )
+method get-default-widget (--> N-Object )
 =end code
-
-
 
 Return value; the default widget. 
 
+=begin comment
+
+=head2 Example
+# Example for get-default-widget
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-deletable
@@ -292,15 +364,20 @@ Return value; the default widget.
 Returns whether the window has been set to have a close button.
 
 =begin code
-method get-deletable ( --> Bool() )
+method get-deletable (--> Bool )
 =end code
 
+Return value; C<True> if the window has been set to have a close button. 
 
+=begin comment
 
-Return value; %TRUE if the window has been set to have a close button. 
+=head2 Example
+# Example for get-deletable
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-destroy-with-parent
@@ -308,33 +385,46 @@ Return value; %TRUE if the window has been set to have a close button.
 Returns whether the window will be destroyed with its transient parent.
 
 =begin code
-method get-destroy-with-parent ( --> Bool() )
+method get-destroy-with-parent (--> Bool )
 =end code
 
+Return value; C<True> if the window will be destroyed with its transient parent.. 
 
+=begin comment
 
-Return value; %TRUE if the window will be destroyed with its transient parent.. 
+=head2 Example
+# Example for get-destroy-with-parent
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-focus
 
 Retrieves the current focused widget within the window.
 
-Note that this is the widget that would have the focus if the toplevel window focused; if the toplevel window is not focused then I<gtk_widget_has_focus (widget)> will not be %TRUE for the widget.
+Note that this is the widget that would have the focus
+if the toplevel window focused; if the toplevel window
+is not focused then B<gtk_widget_has_focus (widget)> will
+not be C<True> for the widget.
 
 =begin code
-method get-focus ( --> N-Object() )
+method get-focus (--> N-Object )
 =end code
-
-
 
 Return value; the currently focused widget. 
 
+=begin comment
+
+=head2 Example
+# Example for get-focus
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-focus-visible
@@ -342,16 +432,21 @@ Return value; the currently focused widget.
 Gets whether “focus rectangles” are supposed to be visible.
 
 =begin code
-method get-focus-visible ( --> Bool() )
+method get-focus-visible (--> Bool )
 =end code
 
+Return value; C<True> if “focus rectangles” are supposed to be visible
+  in this window.. 
 
+=begin comment
 
-Return value; %TRUE if “focus rectangles” are supposed to be visible
- in this window.. 
+=head2 Example
+# Example for get-focus-visible
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-group
@@ -361,32 +456,43 @@ Returns the group for C<$window>.
 If the window has no group, then the default group is returned.
 
 =begin code
-method get-group ( --> N-Object() )
+method get-group (--> N-Object )
 =end code
 
+Return value; the B<Gnome::Gtk4::WindowGroup> for a window
+  or the default group. 
 
+=begin comment
 
-Return value; the B<Gnome::Gtk4::Window>Group for a window
- or the default group. 
+=head2 Example
+# Example for get-group
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-handle-menubar-accel
 
-Returns whether this window reacts to F10 key presses by activating a menubar it contains.
+Returns whether this window reacts to F10 key presses by
+activating a menubar it contains.
 
 =begin code
-method get-handle-menubar-accel ( --> Bool() )
+method get-handle-menubar-accel (--> Bool )
 =end code
 
+Return value; C<True> if the window handles F10. 
 
+=begin comment
 
-Return value; %TRUE if the window handles F10. 
+=head2 Example
+# Example for get-handle-menubar-accel
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-hide-on-close
@@ -394,15 +500,20 @@ Return value; %TRUE if the window handles F10.
 Returns whether the window will be hidden when the close button is clicked.
 
 =begin code
-method get-hide-on-close ( --> Bool() )
+method get-hide-on-close (--> Bool )
 =end code
 
+Return value; C<True> if the window will be hidden. 
 
+=begin comment
 
-Return value; %TRUE if the window will be hidden. 
+=head2 Example
+# Example for get-hide-on-close
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-icon-name
@@ -410,15 +521,20 @@ Return value; %TRUE if the window will be hidden.
 Returns the name of the themed icon for the window.
 
 =begin code
-method get-icon-name ( --> Str )
+method get-icon-name (--> Str )
 =end code
-
-
 
 Return value; the icon name. 
 
+=begin comment
+
+=head2 Example
+# Example for get-icon-name
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-mnemonics-visible
@@ -426,16 +542,21 @@ Return value; the icon name.
 Gets whether mnemonics are supposed to be visible.
 
 =begin code
-method get-mnemonics-visible ( --> Bool() )
+method get-mnemonics-visible (--> Bool )
 =end code
 
+Return value; C<True> if mnemonics are supposed to be visible
+  in this window.. 
 
+=begin comment
 
-Return value; %TRUE if mnemonics are supposed to be visible
- in this window.. 
+=head2 Example
+# Example for get-mnemonics-visible
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-modal
@@ -443,32 +564,42 @@ Return value; %TRUE if mnemonics are supposed to be visible
 Returns whether the window is modal.
 
 =begin code
-method get-modal ( --> Bool() )
+method get-modal (--> Bool )
 =end code
 
+Return value; C<True> if the window is set to be modal and
+  establishes a grab when shown. 
 
+=begin comment
 
-Return value; %TRUE if the window is set to be modal and
- establishes a grab when shown. 
+=head2 Example
+# Example for get-modal
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-resizable
 
-Gets the value set by gtk_window_set_resizable().
+Gets the value set by C<.set-resizable()>.
 
 =begin code
-method get-resizable ( --> Bool() )
+method get-resizable (--> Bool )
 =end code
 
+Return value; C<True> if the user can resize the window. 
 
+=begin comment
 
-Return value; %TRUE if the user can resize the window. 
+=head2 Example
+# Example for get-resizable
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-title
@@ -476,31 +607,42 @@ Return value; %TRUE if the user can resize the window.
 Retrieves the title of the window.
 
 =begin code
-method get-title ( --> Str )
+method get-title (--> Str )
 =end code
-
-
 
 Return value; the title of the window. 
 
+=begin comment
+
+=head2 Example
+# Example for get-title
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-titlebar
 
-Returns the custom titlebar that has been set with gtk_window_set_titlebar().
+Returns the custom titlebar that has been set with
+C<.set-titlebar()>.
 
 =begin code
-method get-titlebar ( --> N-Object() )
+method get-titlebar (--> N-Object )
 =end code
-
-
 
 Return value; the custom titlebar. 
 
+=begin comment
+
+=head2 Example
+# Example for get-titlebar
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-transient-for
@@ -508,15 +650,20 @@ Return value; the custom titlebar.
 Fetches the transient parent for this window.
 
 =begin code
-method get-transient-for ( --> N-Object() )
+method get-transient-for (--> N-Object )
 =end code
-
-
 
 Return value; the transient parent for this window. 
 
+=begin comment
+
+=head2 Example
+# Example for get-transient-for
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 has-group
@@ -524,15 +671,20 @@ Return value; the transient parent for this window.
 Returns whether C<$window> has an explicit window group.
 
 =begin code
-method has-group ( --> Bool() )
+method has-group (--> Bool )
 =end code
 
+Return value; C<True> if C<$window> has an explicit window group.. 
 
+=begin comment
 
-Return value; %TRUE if C<$window> has an explicit window group.. 
+=head2 Example
+# Example for has-group
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 is-active
@@ -541,102 +693,150 @@ Returns whether the window is part of the current active toplevel.
 
 The active toplevel is the window receiving keystrokes.
 
-The return value is %TRUE if the window is active toplevel itself.
-You might use this function if you wanted to draw a widget differently in an active window from a widget in an inactive window.
+The return value is C<True> if the window is active toplevel itself.
+You might use this function if you wanted to draw a widget
+differently in an active window from a widget in an inactive window.
 
 =begin code
-method is-active ( --> Bool() )
+method is-active (--> Bool )
 =end code
 
+Return value; C<True> if the window part of the current active window.. 
 
+=begin comment
 
-Return value; %TRUE if the window part of the current active window.. 
+=head2 Example
+# Example for is-active
 
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 is-fullscreen
 
 Retrieves the current fullscreen state of C<$window>.
 
-Note that since fullscreening is ultimately handled by the window manager and happens asynchronously to an application request, you shouldn’t assume the return value of this function changing immediately (or at all), as an effect of calling C<.fullscreen()> or C<.unfullscreen() defined in Window>.
+Note that since fullscreening is ultimately handled by the window
+manager and happens asynchronously to an application request, you
+shouldn’t assume the return value of this function changing
+immediately (or at all), as an effect of calling
+C<.fullscreen()> or C<.unfullscreen()>.
 
-If the window isn't yet mapped, the value returned will whether the initial requested state is fullscreen.
+If the window isn't yet mapped, the value returned will whether the
+initial requested state is fullscreen.
 
 =begin code
-method is-fullscreen ( --> Bool() )
+method is-fullscreen (--> Bool )
 =end code
-
-
 
 Return value; whether the window has a fullscreen state.. 
 
+=begin comment
+
+=head2 Example
+# Example for is-fullscreen
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 is-maximized
 
 Retrieves the current maximized state of C<$window>.
 
-Note that since maximization is ultimately handled by the window manager and happens asynchronously to an application request, you shouldn’t assume the return value of this function changing immediately (or at all), as an effect of calling C<.maximize()> or C<.unmaximize() defined in Window>.
+Note that since maximization is ultimately handled by the window
+manager and happens asynchronously to an application request, you
+shouldn’t assume the return value of this function changing
+immediately (or at all), as an effect of calling
+C<.maximize()> or C<.unmaximize()>.
 
-If the window isn't yet mapped, the value returned will whether the initial requested state is maximized.
+If the window isn't yet mapped, the value returned will whether the
+initial requested state is maximized.
 
 =begin code
-method is-maximized ( --> Bool() )
+method is-maximized (--> Bool )
 =end code
-
-
 
 Return value; whether the window has a maximized state.. 
 
+=begin comment
+
+=head2 Example
+# Example for is-maximized
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 maximize
 
 Asks to maximize C<$window>, so that it fills the screen.
 
-Note that you shouldn’t assume the window is definitely maximized afterward, because other entities (e.g. the user or window manager could unmaximize it again, and not all window managers support maximization.
+Note that you shouldn’t assume the window is definitely maximized
+afterward, because other entities (e.g. the user or window manager
+could unmaximize it again, and not all window managers support
+maximization.
 
 It’s permitted to call this function before showing a window,
-in which case the window will be maximized when it appears onscreen initially.
+in which case the window will be maximized when it appears onscreen
+initially.
 
 You can track the result of this operation via the
-[property C<$Gdk>.Toplevel:state] property, or by listening to notifications on the I<maximized>
+I<state defined in Gnome::Gdk4::R-Toplevel> property, or by listening to
+notifications on the I<maximized>
 property.
 
 =begin code
-method maximize (  )
+method maximize ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for maximize
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 minimize
 
 Asks to minimize the specified C<$window>.
 
-Note that you shouldn’t assume the window is definitely minimized afterward, because the windowing system might not support this functionality; other entities (e.g. the user or the window manager could unminimize it again, or there may not be a window manager in which case minimization isn’t possible, etc.
+Note that you shouldn’t assume the window is definitely minimized
+afterward, because the windowing system might not support this
+functionality; other entities (e.g. the user or the window manager
+could unminimize it again, or there may not be a window manager in
+which case minimization isn’t possible, etc.
 
 It’s permitted to call this function before showing a window,
-in which case the window will be minimized before it ever appears onscreen.
+in which case the window will be minimized before it ever appears
+onscreen.
 
 You can track result of this operation via the
-[property C<$Gdk>.Toplevel:state] property.
+I<state defined in Gnome::Gdk4::R-Toplevel> property.
 
 =begin code
-method minimize (  )
+method minimize ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for minimize
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 present
@@ -644,15 +844,22 @@ method minimize (  )
 Presents a window to the user.
 
 This function should not be used as when it is called,
-it is too late to gather a valid timestamp to allow focus stealing prevention to work correctly.
+it is too late to gather a valid timestamp to allow focus
+stealing prevention to work correctly.
 
 =begin code
-method present (  )
+method present ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for present
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 present-with-time
@@ -660,46 +867,73 @@ method present (  )
 Presents a window to the user.
 
 This may mean raising the window in the stacking order,
-unminimizing it, moving it to the current desktop, and/or giving it the keyboard focus, possibly dependent on the user’s platform, window manager, and preferences.
+unminimizing it, moving it to the current desktop, and/or
+giving it the keyboard focus, possibly dependent on the user’s
+platform, window manager, and preferences.
 
-If C<$window> is hidden, this function calls C<.show() defined in Widget>
+If C<$window> is hidden, this function calls C<.show() in class Gnome::Gtk4::Widget>
 as well.
 
-This function should be used when the user tries to open a window that’s already open. Say for example the preferences dialog is currently open, and the user chooses Preferences from the menu a second time; use C<.present()> to move the already-open dialog where the user can see it.
+This function should be used when the user tries to open a window
+that’s already open. Say for example the preferences dialog is
+currently open, and the user chooses Preferences from the menu
+a second time; use C<.present()> to move the
+already-open dialog where the user can see it.
 
 Presents a window to the user in response to a user interaction.
-The timestamp should be gathered when the window was requested to be shown (when clicking a link for example), rather than once the window is ready to be shown.
+The timestamp should be gathered when the window was requested
+to be shown (when clicking a link for example), rather than once
+the window is ready to be shown.
 
 =begin code
-method present-with-time (  UInt() $timestamp )
+method present-with-time ( UInt() $timestamp )
 =end code
 
 =item $timestamp; the timestamp of the user interaction (typically a
- button or key press event) which triggered this call.
+  button or key press event) which triggered this call.
 
+=begin comment
+
+=head2 Example
+# Example for present-with-time
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-application
 
-Sets or unsets the I<GtkApplication> associated with the window.
+Sets or unsets the B<Gnome::Gtk4::Application> associated with the window.
 
-The application will be kept alive for at least as long as it has any windows associated with it (see g_application_hold() for a way to keep it alive without windows).
+The application will be kept alive for at least as long as it has
+any windows associated with it (see g_application_hold() for a way
+to keep it alive without windows).
 
-Normally, the connection between the application and the window will remain until the window is destroyed, but you can explicitly remove it by setting the C<$application> to %NULL.
+Normally, the connection between the application and the window will
+remain until the window is destroyed, but you can explicitly remove
+it by setting the C<$application> to undefined.
 
-This is equivalent to calling C<.remove-window() defined in Application>
-and/or C<.add-window() defined in Application> on the old/new applications as relevant.
+This is equivalent to calling C<.remove-window() in class Gnome::Gtk4::Application>
+and/or C<.add-window() in class Gnome::Gtk4::Application> on the old/new applications
+as relevant.
 
 =begin code
-method set-application (  N-Object() $application )
+method set-application ( N-Object() $application )
 =end code
 
-=item $application; a I<GtkApplication>, or %NULL to unset.
+=item $application; a B<Gnome::Gtk4::Application>, or undefined to unset.
 
+=begin comment
+
+=head2 Example
+# Example for set-application
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-child
@@ -707,74 +941,124 @@ method set-application (  N-Object() $application )
 Sets the child widget of C<$window>.
 
 =begin code
-method set-child (  N-Object() $child )
+method set-child ( N-Object() $child )
 =end code
 
 =item $child; the child widget.
 
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-decorated
 
 Sets whether the window should be decorated.
 
-By default, windows are decorated with a title bar, resize controls, etc. Some window managers allow GTK to disable these decorations, creating a borderless window. If you set the decorated property to %FALSE using this function, GTK will do its best to convince the window manager not to decorate the window. Depending on the system, this function may not have any effect when called on a window that is already visible, so you should call it before calling C<.show() defined in Widget>.
+By default, windows are decorated with a title bar, resize
+controls, etc. Some window managers allow GTK to disable these
+decorations, creating a borderless window. If you set the decorated
+property to C<False> using this function, GTK will do its best to
+convince the window manager not to decorate the window. Depending on
+the system, this function may not have any effect when called on a
+window that is already visible, so you should call it before calling
+C<.show() in class Gnome::Gtk4::Widget>.
 
-On Windows, this function always works, since there’s no window manager policy involved.
+On Windows, this function always works, since there’s no window manager
+policy involved.
 
 =begin code
-method set-decorated (  Bool() $setting )
+method set-decorated ( Bool() $setting )
 =end code
 
-=item $setting; %TRUE to decorate the window.
+=item $setting; C<True> to decorate the window.
 
+=begin comment
+
+=head2 Example
+# Example for set-decorated
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-default-size
 
 Sets the default size of a window.
 
-If the window’s “natural” size (its size request) is larger than the default, the default will be ignored.
+If the window’s “natural” size (its size request) is larger than
+the default, the default will be ignored.
 
-Unlike C<.set-size-request() defined in Widget>, which sets a size request for a widget and thus would keep users from shrinking the window, this function only sets the initial size, just as if the user had resized the window themselves. Users can still shrink the window again as they normally would. Setting a default size of -1 means to use the “natural” default size (the size request of the window).
+Unlike C<.set-size-request() in class Gnome::Gtk4::Widget>, which sets a size
+request for a widget and thus would keep users from shrinking
+the window, this function only sets the initial size, just as
+if the user had resized the window themselves. Users can still
+shrink the window again as they normally would. Setting a default
+size of -1 means to use the “natural” default size (the size request
+of the window).
 
-The default size of a window only affects the first time a window is shown; if a window is hidden and re-shown, it will remember the size it had prior to hiding, rather than using the default size.
+The default size of a window only affects the first time a window is
+shown; if a window is hidden and re-shown, it will remember the size
+it had prior to hiding, rather than using the default size.
 
-Windows can’t actually be 0x0 in size, they must be at least 1x1, but passing 0 for C<$width> and C<$height> is OK, resulting in a 1x1 default size.
+Windows can’t actually be 0x0 in size, they must be at least 1x1, but
+passing 0 for C<$width> and C<$height> is OK, resulting in a 1x1 default size.
 
 If you use this function to reestablish a previously saved window size,
-note that the appropriate size to save is the one returned by C<.get-default-size()>. Using the window allocation directly will not work in all circumstances and can lead to growing or shrinking windows.
+note that the appropriate size to save is the one returned by
+C<.get-default-size()>. Using the window allocation
+directly will not work in all circumstances and can lead to growing
+or shrinking windows.
 
 =begin code
-method set-default-size (  Int() $width, Int() $height )
+method set-default-size ( Int() $width, Int() $height )
 =end code
 
 =item $width; width in pixels, or -1 to unset the default width.
 =item $height; height in pixels, or -1 to unset the default height.
 
+=begin comment
+
+=head2 Example
+# Example for set-default-size
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-default-widget
 
 Sets the default widget.
 
-The default widget is the widget that is activated when the user presses Enter in a dialog (for example).
+The default widget is the widget that is activated when the user
+presses Enter in a dialog (for example).
 
 =begin code
-method set-default-widget (  N-Object() $default-widget )
+method set-default-widget ( N-Object() $default-widget )
 =end code
 
 =item $default-widget; widget to be the default
- to unset the default widget for the toplevel.
+  to unset the default widget for the toplevel.
 
+=begin comment
+
+=head2 Example
+# Example for set-default-widget
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-deletable
@@ -782,53 +1066,80 @@ method set-default-widget (  N-Object() $default-widget )
 Sets whether the window should be deletable.
 
 By default, windows have a close button in the window frame.
-Some window managers allow GTK to disable this button. If you set the deletable property to %FALSE using this function, GTK will do its best to convince the window manager not to show a close button. Depending on the system, this function may not have any effect when called on a window that is already visible,
-so you should call it before calling C<.show() defined in Widget>.
+Some  window managers allow GTK to disable this button. If you
+set the deletable property to C<False> using this function, GTK
+will do its best to convince the window manager not to show a
+close button. Depending on the system, this function may not
+have any effect when called on a window that is already visible,
+so you should call it before calling C<.show() in class Gnome::Gtk4::Widget>.
 
-On Windows, this function always works, since there’s no window manager policy involved.
+On Windows, this function always works, since there’s no window
+manager policy involved.
 
 =begin code
-method set-deletable (  Bool() $setting )
+method set-deletable ( Bool() $setting )
 =end code
 
-=item $setting; %TRUE to decorate the window as deletable.
+=item $setting; C<True> to decorate the window as deletable.
 
+=begin comment
+
+=head2 Example
+# Example for set-deletable
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-destroy-with-parent
 
-If C<$setting> is %TRUE, then destroying the transient parent of C<$window>
+If C<$setting> is C<True>, then destroying the transient parent of C<$window>
 will also destroy C<$window> itself.
 
-This is useful for dialogs that shouldn’t persist beyond the lifetime of the main window they are associated with, for example.
+This is useful for dialogs that shouldn’t persist beyond the lifetime
+of the main window they are associated with, for example.
 
 =begin code
-method set-destroy-with-parent (  Bool() $setting )
+method set-destroy-with-parent ( Bool() $setting )
 =end code
 
 =item $setting; whether to destroy C<$window> with its transient parent.
 
+=begin comment
+
+=head2 Example
+# Example for set-destroy-with-parent
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-display
 
-Sets the I<GdkDisplay> where the C<$window> is displayed.
+Sets the B<Gnome::Gdk4::Display> where the C<$window> is displayed.
 
 If the window is already mapped, it will be unmapped,
 and then remapped on the new display.
 
 =begin code
-method set-display (  N-Object() $display )
+method set-display ( N-Object() $display )
 =end code
 
-=item $display; a I<GdkDisplay>.
+=item $display; a B<Gnome::Gdk4::Display>.
 
+=begin comment
+
+=head2 Example
+# Example for set-display
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-focus
@@ -836,18 +1147,27 @@ method set-display (  N-Object() $display )
 Sets the focus widget.
 
 If C<$focus> is not the current focus widget, and is focusable,
-sets it as the focus widget for the window. If C<$focus> is %NULL,
-unsets the focus widget for this window. To set the focus to a particular widget in the toplevel, it is usually more convenient to use C<.grab-focus() defined in Widget> instead of this function.
+sets it as the focus widget for the window. If C<$focus> is undefined,
+unsets the focus widget for this window. To set the focus to a
+particular widget in the toplevel, it is usually more convenient
+to use C<.grab-focus() in class Gnome::Gtk4::Widget> instead of this function.
 
 =begin code
-method set-focus (  N-Object() $focus )
+method set-focus ( N-Object() $focus )
 =end code
 
-=item $focus; widget to be the new focus widget, or %NULL to unset
- any focus widget for the toplevel window..
+=item $focus; widget to be the new focus widget, or undefined to unset
+  any focus widget for the toplevel window..
 
+=begin comment
+
+=head2 Example
+# Example for set-focus
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-focus-visible
@@ -855,60 +1175,91 @@ method set-focus (  N-Object() $focus )
 Sets whether “focus rectangles” are supposed to be visible.
 
 =begin code
-method set-focus-visible (  Bool() $setting )
+method set-focus-visible ( Bool() $setting )
 =end code
 
 =item $setting; the new value.
 
+=begin comment
+
+=head2 Example
+# Example for set-focus-visible
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-handle-menubar-accel
 
-Sets whether this window should react to F10 key presses by activating a menubar it contains.
+Sets whether this window should react to F10 key presses
+by activating a menubar it contains.
 
 =begin code
-method set-handle-menubar-accel (  Bool() $handle-menubar-accel )
+method set-handle-menubar-accel ( Bool() $handle-menubar-accel )
 =end code
 
-=item $handle-menubar-accel; %TRUE to make C<$window> handle F10.
+=item $handle-menubar-accel; C<True> to make C<$window> handle F10.
 
+=begin comment
+
+=head2 Example
+# Example for set-handle-menubar-accel
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-hide-on-close
 
-If C<$setting> is %TRUE, then clicking the close button on the window will not destroy it, but only hide it.
+If C<$setting> is C<True>, then clicking the close button on the window
+will not destroy it, but only hide it.
 
 =begin code
-method set-hide-on-close (  Bool() $setting )
+method set-hide-on-close ( Bool() $setting )
 =end code
 
 =item $setting; whether to hide the window when it is closed.
 
+=begin comment
+
+=head2 Example
+# Example for set-hide-on-close
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-icon-name
 
 Sets the icon for the window from a named themed icon.
 
-See the docs for [class C<$Gtk>.IconTheme] for more details.
+See the docs for B<Gnome::Gtk4::IconTheme> for more details.
 On some platforms, the window icon is not used at all.
 
-Note that this has nothing to do with the WM_ICON_NAME property which is mentioned in the ICCCM.
+Note that this has nothing to do with the WM_ICON_NAME
+property which is mentioned in the ICCCM.
 
 =begin code
-method set-icon-name (  Str $name )
+method set-icon-name ( Str $name )
 =end code
 
 =item $name; the name of the themed icon.
 
+=begin comment
+
+=head2 Example
+# Example for set-icon-name
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-mnemonics-visible
@@ -916,30 +1267,47 @@ method set-icon-name (  Str $name )
 Sets whether mnemonics are supposed to be visible.
 
 =begin code
-method set-mnemonics-visible (  Bool() $setting )
+method set-mnemonics-visible ( Bool() $setting )
 =end code
 
 =item $setting; the new value.
 
+=begin comment
+
+=head2 Example
+# Example for set-mnemonics-visible
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-modal
 
 Sets a window modal or non-modal.
 
-Modal windows prevent interaction with other windows in the same application. To keep modal dialogs on top of main application windows,
-use C<.set-transient-for()> to make the dialog transient for the parent; most window managers will then disallow lowering the dialog below the parent.
+Modal windows prevent interaction with other windows in the same
+application. To keep modal dialogs on top of main application windows,
+use C<.set-transient-for()> to make the dialog transient
+for the parent; most window managers will then disallow lowering the
+dialog below the parent.
 
 =begin code
-method set-modal (  Bool() $modal )
+method set-modal ( Bool() $modal )
 =end code
 
 =item $modal; whether the window is modal.
 
+=begin comment
+
+=head2 Example
+# Example for set-modal
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-resizable
@@ -949,144 +1317,233 @@ Sets whether the user can resize a window.
 Windows are user resizable by default.
 
 =begin code
-method set-resizable (  Bool() $resizable )
+method set-resizable ( Bool() $resizable )
 =end code
 
-=item $resizable; %TRUE if the user can resize this window.
+=item $resizable; C<True> if the user can resize this window.
 
+=begin comment
+
+=head2 Example
+# Example for set-resizable
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-startup-id
 
 Sets the startup notification ID.
 
-Startup notification identifiers are used by desktop environment to track application startup, to provide user feedback and other features. This function changes the corresponding property on the underlying I<GdkSurface>.
+Startup notification identifiers are used by desktop environment
+to track application startup, to provide user feedback and other
+features. This function changes the corresponding property on the
+underlying B<Gnome::Gdk4::Surface>.
 
-Normally, startup identifier is managed automatically and you should only use this function in special cases like transferring focus from other processes. You should use this function before calling C<.present()> or any equivalent function generating a window map event.
+Normally, startup identifier is managed automatically and you should
+only use this function in special cases like transferring focus from
+other processes. You should use this function before calling
+C<.present()> or any equivalent function generating
+a window map event.
 
 This function is only useful on X11, not with other GTK targets.
 
 =begin code
-method set-startup-id (  Str $startup-id )
+method set-startup-id ( Str $startup-id )
 =end code
 
 =item $startup-id; a string with startup-notification identifier.
 
+=begin comment
+
+=head2 Example
+# Example for set-startup-id
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-title
 
 Sets the title of the B<Gnome::Gtk4::Window>.
 
-The title of a window will be displayed in its title bar; on the X Window System, the title bar is rendered by the window manager so exactly how the title appears to users may vary according to a user’s exact configuration. The title should help a user distinguish this window from other windows they may have open. A good title might include the application name and current document filename, for example.
+The title of a window will be displayed in its title bar; on the
+X Window System, the title bar is rendered by the window manager
+so exactly how the title appears to users may vary according to a
+user’s exact configuration. The title should help a user distinguish
+this window from other windows they may have open. A good title might
+include the application name and current document filename, for example.
 
-Passing %NULL does the same as setting the title to an empty string.
+Passing undefined does the same as setting the title to an empty string.
 
 =begin code
-method set-title (  Str $title )
+method set-title ( Str $title )
 =end code
 
 =item $title; title of the window.
 
+=begin comment
+
+=head2 Example
+# Example for set-title
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-titlebar
 
 Sets a custom titlebar for C<$window>.
 
-A typical widget used here is [class C<$Gtk>.HeaderBar], as it provides various features expected of a titlebar while allowing the addition of child widgets to it.
+A typical widget used here is B<Gnome::Gtk4::HeaderBar>, as it
+provides various features expected of a titlebar while allowing
+the addition of child widgets to it.
 
-If you set a custom titlebar, GTK will do its best to convince the window manager not to put its own titlebar on the window.
-Depending on the system, this function may not work for a window that is already visible, so you set the titlebar before calling C<.show() defined in Widget>.
+If you set a custom titlebar, GTK will do its best to convince
+the window manager not to put its own titlebar on the window.
+Depending on the system, this function may not work for a window
+that is already visible, so you set the titlebar before calling
+C<.show() in class Gnome::Gtk4::Widget>.
 
 =begin code
-method set-titlebar (  N-Object() $titlebar )
+method set-titlebar ( N-Object() $titlebar )
 =end code
 
 =item $titlebar; the widget to use as titlebar.
 
+=begin comment
+
+=head2 Example
+# Example for set-titlebar
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-transient-for
 
-Dialog windows should be set transient for the main application window they were spawned from. This allows window managers to e.g.
-keep the dialog on top of the main window, or center the dialog over the main window. [ctor C<$Gtk>.Dialog.new_with_buttons] and other convenience functions in GTK will sometimes call gtk_window_set_transient_for() on your behalf.
+Dialog windows should be set transient for the main application
+window they were spawned from. This allows window managers to e.g.
+keep the dialog on top of the main window, or center the dialog
+over the main window. C<.new-with-buttons() in class Gnome::Gtk4::Dialog> and other
+convenience functions in GTK will sometimes call
+C<.set-transient-for()> on your behalf.
 
-Passing %NULL for C<$parent> unsets the current transient window.
+Passing undefined for C<$parent> unsets the current transient window.
 
 On Windows, this function puts the child window on top of the parent,
 much as the window manager would have done on X.
 
 =begin code
-method set-transient-for (  N-Object() $parent )
+method set-transient-for ( N-Object() $parent )
 =end code
 
 =item $parent; parent window.
 
+=begin comment
+
+=head2 Example
+# Example for set-transient-for
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unfullscreen
 
-Asks to remove the fullscreen state for C<$window>, and return to its previous state.
+Asks to remove the fullscreen state for C<$window>, and return to
+its previous state.
 
-Note that you shouldn’t assume the window is definitely not fullscreen afterward, because other entities (e.g. the user or window manager could fullscreen it again, and not all window managers honor requests to unfullscreen windows; normally the window will end up restored to its normal state. Just don’t write code that crashes if not.
+Note that you shouldn’t assume the window is definitely not
+fullscreen afterward, because other entities (e.g. the user or
+window manager could fullscreen it again, and not all window
+managers honor requests to unfullscreen windows; normally the
+window will end up restored to its normal state. Just don’t
+write code that crashes if not.
 
 You can track the result of this operation via the
-[property C<$Gdk>.Toplevel:state] property, or by listening to notifications of the I<fullscreened> property.
+I<state defined in Gnome::Gdk4::R-Toplevel> property, or by listening to
+notifications of the I<fullscreened> property.
 
 =begin code
-method unfullscreen (  )
+method unfullscreen ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for unfullscreen
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unmaximize
 
 Asks to unmaximize C<$window>.
 
-Note that you shouldn’t assume the window is definitely unmaximized afterward, because other entities (e.g. the user or window manager maximize it again, and not all window managers honor requests to unmaximize.
+Note that you shouldn’t assume the window is definitely unmaximized
+afterward, because other entities (e.g. the user or window manager
+maximize it again, and not all window managers honor requests to
+unmaximize.
 
 You can track the result of this operation via the
-[property C<$Gdk>.Toplevel:state] property, or by listening to notifications on the I<maximized> property.
+I<state defined in Gnome::Gdk4::R-Toplevel> property, or by listening to
+notifications on the I<maximized> property.
 
 =begin code
-method unmaximize (  )
+method unmaximize ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for unmaximize
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unminimize
 
 Asks to unminimize the specified C<$window>.
 
-Note that you shouldn’t assume the window is definitely unminimized afterward, because the windowing system might not support this functionality; other entities (e.g. the user or the window manager could minimize it again, or there may not be a window manager in which case minimization isn’t possible, etc.
+Note that you shouldn’t assume the window is definitely unminimized
+afterward, because the windowing system might not support this
+functionality; other entities (e.g. the user or the window manager
+could minimize it again, or there may not be a window manager in
+which case minimization isn’t possible, etc.
 
 You can track result of this operation via the
-[property C<$Gdk>.Toplevel:state] property.
+I<state defined in Gnome::Gdk4::R-Toplevel> property.
 
 =begin code
-method unminimize (  )
+method unminimize ( )
 =end code
 
+=begin comment
 
+=head2 Example
+# Example for unminimize
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 #--[Functions]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -1101,37 +1558,51 @@ method unminimize (  )
 
 Returns the fallback icon name for windows.
 
-The returned string is owned by GTK and should not be modified. It is only valid until the next call to C<.Window.set-default-icon-name()>.
+The returned string is owned by GTK and should not
+be modified. It is only valid until the next call to
+C<.Window.set-default-icon-name()>.
 
 =begin code
-method get-default-icon-name ( --> Str )
+method get-default-icon-name (--> Str )
 =end code
-
-
 
 Return value; the fallback icon name for windows. 
 
+=begin comment
+
+=head2 Example
+# Example for get-default-icon-name
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-toplevels
 
 Returns a list of all existing toplevel windows.
 
-If you want to iterate through the list and perform actions involving callbacks that might destroy the widgets or add new ones, be aware that the list of toplevels will change and emit the "items-changed" signal.
+If you want to iterate through the list and perform actions involving
+callbacks that might destroy the widgets or add new ones, be aware that
+the list of toplevels will change and emit the "items-changed" signal.
 
 =begin code
-method get-toplevels ( --> N-List() )
+method get-toplevels (--> N-List )
 =end code
 
-
-
 Return value; the list
- of toplevel widgets. 
+  of toplevel widgets. 
 
+=begin comment
+
+=head2 Example
+# Example for get-toplevels
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 list-toplevels
@@ -1139,20 +1610,27 @@ Return value; the list
 Returns a list of all existing toplevel windows.
 
 The widgets in the list are not individually referenced.
-If you want to iterate through the list and perform actions involving callbacks that might destroy the widgets, you must call I<g_list_foreach (result, (GFunc)g_object_ref, NULL)> first,
+If you want to iterate through the list and perform actions
+involving callbacks that might destroy the widgets, you must
+call B<g_list_foreach (result, (GFunc)g_object_ref, NULL)> first,
 and then unref all the widgets afterwards.
 
 =begin code
-method list-toplevels ( --> N-List() )
+method list-toplevels (--> N-List )
 =end code
 
-
-
 Return value; list of
- toplevel widgets. 
+  toplevel widgets. 
 
+=begin comment
+
+=head2 Example
+# Example for list-toplevels
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-auto-startup-notification
@@ -1160,52 +1638,80 @@ Return value; list of
 Sets whether the window should request startup notification.
 
 By default, after showing the first B<Gnome::Gtk4::Window>, GTK calls
-[method C<$Gdk>.Display.notify_startup_complete]. Call this function to disable the automatic startup notification. You might do this if your first window is a splash screen, and you want to delay notification until after your real main window has been shown,
+C<.notify-startup-complete() in class Gnome::Gdk4::Display>. Call this function
+to disable the automatic startup notification. You might do this
+if your first window is a splash screen, and you want to delay
+notification until after your real main window has been shown,
 for example.
 
-In that example, you would disable startup notification temporarily, show your splash screen, then re-enable it so that showing the main window would automatically result in notification.
+In that example, you would disable startup notification
+temporarily, show your splash screen, then re-enable it so that
+showing the main window would automatically result in notification.
 
 =begin code
-method set-auto-startup-notification (  Bool() $setting )
+method set-auto-startup-notification ( Bool() $setting )
 =end code
 
-=item $setting; %TRUE to automatically do startup notification.
+=item $setting; C<True> to automatically do startup notification.
 
+=begin comment
+
+=head2 Example
+# Example for set-auto-startup-notification
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-default-icon-name
 
 Sets an icon to be used as fallback.
 
-The fallback icon is used for windows that haven't had C<.set-icon-name()>
+The fallback icon is used for windows that
+haven't had C<.set-icon-name()>
 called on them.
 
 =begin code
-method set-default-icon-name (  Str $name )
+method set-default-icon-name ( Str $name )
 =end code
 
 =item $name; the name of the themed icon.
 
+=begin comment
+
+=head2 Example
+# Example for set-default-icon-name
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-interactive-debugging
 
 Opens or closes the [interactive debugger](running.html#interactive-debugging).
 
-The debugger offers access to the widget hierarchy of the application and to useful debugging tools.
+The debugger offers access to the widget hierarchy of the application
+and to useful debugging tools.
 
 =begin code
-method set-interactive-debugging (  Bool() $enable )
+method set-interactive-debugging ( Bool() $enable )
 =end code
 
-=item $enable; %TRUE to enable interactive debugging.
+=item $enable; C<True> to enable interactive debugging.
 
+=begin comment
+
+=head2 Example
+# Example for set-interactive-debugging
+
+=end comment
 
 =end pod
+
 #-------------------------------------------------------------------------------
 #--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -1216,44 +1722,60 @@ method set-interactive-debugging (  Bool() $enable )
 =comment -----------------------------------------------------------------------
 =head3 activate-default
 
-Emitted when the user activates the default widget of C<$window>.
+Emitted when the user activates the default widget
+of C<$window>.
 
 This is a [keybinding signal](class.SignalAction.html).
 
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Window() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *%user-options
+  *C<user>-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate-default
+
+=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 activate-focus
 
-Emitted when the user activates the currently focused widget of C<$window>.
+Emitted when the user activates the currently focused
+widget of C<$window>.
 
 This is a [keybinding signal](class.SignalAction.html).
 
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Window() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *%user-options
+  *C<user>-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate-focus
+
+=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 close-request
@@ -1263,69 +1785,93 @@ Emitted when the user clicks on the close button of the window.
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Window() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *%user-options
+  *C<user>-options
   --> gboolean
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-Return value; %TRUE to stop other handlers from being invoked for the signal
+Return value; C<True> to stop other handlers from being invoked for the signal
+
+=begin comment
+
+=head2 Example
+# Example for signal close-request
+
+=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 enable-debugging
 
 Emitted when the user enables or disables interactive debugging.
 
-When C<$toggle> is %TRUE, interactive debugging is toggled on or off,
-when it is %FALSE, the debugger will be pointed at the widget under the pointer.
+When C<$toggle> is C<True>, interactive debugging is toggled on or off,
+when it is C<False>, the debugger will be pointed at the widget
+under the pointer.
 
 This is a [keybinding signal](class.SignalAction.html).
 
-The default bindings for this signal are Ctrl-Shift-I and Ctrl-Shift-D.
+The default bindings for this signal are Ctrl-Shift-I
+and Ctrl-Shift-D.
 
 =begin code
 method handler (
   gboolean $toggle,
   Int :$_handle_id,
-  Gnome::Gtk4::Window() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *%user-options
+  *C<user>-options
   --> gboolean
 )
 =end code
 
 =item $toggle; toggle the debugger.
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-Return value; %TRUE if the key binding was handled
+Return value; C<True> if the key binding was handled
+
+=begin comment
+
+=head2 Example
+# Example for signal enable-debugging
+
+=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 keys-changed
 
-emitted when the set of accelerators or mnemonics that are associated with C<$window> changes.
+emitted when the set of accelerators or mnemonics that
+are associated with C<$window> changes.
 
 =begin code
 method handler (
   Int :$_handle_id,
-  Gnome::Gtk4::Window() :$_native-object,
+  N-GObject :$_native-object,
   Gnome::Gtk4::Window :$_widget,
-  *%user-options
+  *C<user>-options
 )
 =end code
 
 =item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Window> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item %user-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal keys-changed
+
+=end comment
 
 =end pod
 
