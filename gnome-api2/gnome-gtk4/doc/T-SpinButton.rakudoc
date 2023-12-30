@@ -1,0 +1,54 @@
+=comment Package: Gtk4, C-Source: spinbutton
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-SpinButton
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constants
+
+=head2 GTK_INPUT_ERROR
+
+Constant to return from a signal handler for the I<input>
+signal in case of conversion failure.
+
+See I<input>.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkSpinButtonUpdatePolicy
+
+Determines whether the spin button displays values outside the adjustment
+bounds.
+
+See C<.set-update-policy()>.
+=item C<GTK_UPDATE_ALWAYS>; When refreshing your B<Gnome::Gtk4::SpinButton>, the value is
+  always displayed
+=item C<GTK_UPDATE_IF_VALID>; When refreshing your B<Gnome::Gtk4::SpinButton>, the value is
+  only displayed if it is valid within the bounds of the spin button's
+  adjustment
+
+=head2 GtkSpinType
+
+The values of the GtkSpinType enumeration are used to specify the
+change to make in C<.spin()>.
+=item C<GTK_SPIN_STEP_FORWARD>; Increment by the adjustments step increment.
+=item C<GTK_SPIN_STEP_BACKWARD>; Decrement by the adjustments step increment.
+=item C<GTK_SPIN_PAGE_FORWARD>; Increment by the adjustments page increment.
+=item C<GTK_SPIN_PAGE_BACKWARD>; Decrement by the adjustments page increment.
+=item C<GTK_SPIN_HOME>; Go to the adjustments lower bound.
+=item C<GTK_SPIN_END>; Go to the adjustments upper bound.
+=item C<GTK_SPIN_USER_DEFINED>; Change by a specified amount.
+=end pod
+

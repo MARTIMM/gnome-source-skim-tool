@@ -1,0 +1,251 @@
+=comment Package: Gtk4, C-Source: spinbutton
+use v6.d;
+
+#TL:1:Gnome::Gtk4::SpinButton:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::SpinButton:api<2>;
+use Gnome::Gtk4::T-SpinButton:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::SpinButton $spinbutton;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $spinbutton {
+    my gdouble $max;
+    my N-Object $adjustment;
+    my guint $digits;
+    my gdouble $step;
+    my gdouble $climb-rate;
+    my gdouble $min;
+
+#`{{
+    #TC:0:new-spinbutton()
+    $adjustment = …;
+    $climb-rate = '…';
+    $digits = '…';
+    $spinbutton .= new-spinbutton( $adjustment, $climb-rate, $digits);
+    ok .is-valid, '.new-spinbutton( $adjustment, $climb-rate, $digits)';
+
+    #TC:0:new-with-range()
+    $min = '…';
+    $max = '…';
+    $step = '…';
+    $spinbutton .= new-with-range( $min, $max, $step);
+    ok .is-valid, '.new-with-range( $min, $max, $step)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $spinbutton {
+    my GtkSpinType  $direction;
+    my gdouble $min;
+    my guint $digits;
+    my gdouble $max;
+    my gdouble $climb-rate;
+    my gdouble $page;
+    my GtkSpinButtonUpdatePolicy  $policy;
+    my gboolean $wrap;
+    my gdouble $value;
+    my gboolean $snap-to-ticks;
+    my N-Object $adjustment;
+    my gboolean $numeric;
+    my gdouble $increment;
+    my gdouble $step;
+
+
+#`{{
+    #TM:0:configure()
+    ok .configure( $adjustment, $climb-rate, $digits), '.configure()';
+
+    #TM:0:get-value-as-int()
+     .get-value-as-int(), '…', '.get-value-as-int()';
+
+    #TM:0:set-adjustment()
+    $adjustment = …;
+    .set-adjustment( $adjustment);
+    #TM:0:get-adjustment()
+    is .get-adjustment(),  $adjustment, '.set-adjustment() / .get-adjustment()';
+
+    #TM:0:set-climb-rate()
+    $climb-rate = '…';
+    .set-climb-rate( $climb-rate);
+    #TM:0:get-climb-rate()
+    is .get-climb-rate(),  $climb-rate, '.set-climb-rate() / .get-climb-rate()';
+
+    #TM:0:set-digits()
+    $digits = '…';
+    .set-digits( $digits);
+    #TM:0:get-digits()
+    is .get-digits(),  $digits, '.set-digits() / .get-digits()';
+
+    #TM:0:set-increments()
+    $step = '…';
+    $page = '…';
+    .set-increments( $step, $page);
+    #TM:0:get-increments()
+    is .get-increments(),  $step, $page, '.set-increments() / .get-increments()';
+
+    #TM:0:set-numeric()
+    $numeric = '…';
+    .set-numeric( $numeric);
+    #TM:0:get-numeric()
+    is .get-numeric(),  $numeric, '.set-numeric() / .get-numeric()';
+
+    #TM:0:set-range()
+    $min = '…';
+    $max = '…';
+    .set-range( $min, $max);
+    #TM:0:get-range()
+    is .get-range(),  $min, $max, '.set-range() / .get-range()';
+
+    #TM:0:set-snap-to-ticks()
+    $snap-to-ticks = '…';
+    .set-snap-to-ticks( $snap-to-ticks);
+    #TM:0:get-snap-to-ticks()
+    is .get-snap-to-ticks(),  $snap-to-ticks, '.set-snap-to-ticks() / .get-snap-to-ticks()';
+
+    #TM:0:set-update-policy()
+    $policy = …;
+    .set-update-policy( $policy);
+    #TM:0:get-update-policy()
+    is .get-update-policy(),  $policy, '.set-update-policy() / .get-update-policy()';
+
+    #TM:0:set-value()
+    $value = '…';
+    .set-value( $value);
+    #TM:0:get-value()
+    is .get-value(),  $value, '.set-value() / .get-value()';
+
+    #TM:0:set-wrap()
+    $wrap = '…';
+    .set-wrap( $wrap);
+    #TM:0:get-wrap()
+    is .get-wrap(),  $wrap, '.set-wrap() / .get-wrap()';
+
+    #TM:0:spin()
+    ok .spin( $direction, $increment), '.spin()';
+
+    #TM:0:update()
+    ok .update(), '.update()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $spinbutton {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::SpinButton() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::SpinButton;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::SpinButton :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::SpinButton $spinbutton .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $spinbutton.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

@@ -1,0 +1,66 @@
+=comment Package: Gtk4, C-Source: spinbutton
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-SpinButton:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-SpinButton:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkSpinButtonUpdatePolicy
+subtest 'GtkSpinButtonUpdatePolicy', {
+  is GTK_UPDATE_ALWAYS.value, 0, 'enum GTK_UPDATE_ALWAYS = 0';
+
+  is GTK_UPDATE_IF_VALID.value, 1, 'enum GTK_UPDATE_IF_VALID = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkSpinType
+subtest 'GtkSpinType', {
+  is GTK_SPIN_STEP_FORWARD.value, 0, 'enum GTK_SPIN_STEP_FORWARD = 0';
+
+  is GTK_SPIN_STEP_BACKWARD.value, 1, 'enum GTK_SPIN_STEP_BACKWARD = 1';
+
+  is GTK_SPIN_PAGE_FORWARD.value, 2, 'enum GTK_SPIN_PAGE_FORWARD = 2';
+
+  is GTK_SPIN_PAGE_BACKWARD.value, 3, 'enum GTK_SPIN_PAGE_BACKWARD = 3';
+
+  is GTK_SPIN_HOME.value, 4, 'enum GTK_SPIN_HOME = 4';
+
+  is GTK_SPIN_END.value, 5, 'enum GTK_SPIN_END = 5';
+
+  is GTK_SPIN_USER_DEFINED.value, 6, 'enum GTK_SPIN_USER_DEFINED = 6';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GTK_INPUT_ERROR
+is GTK_INPUT_ERROR, -1, "constant GTK_INPUT_ERROR = -1";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
