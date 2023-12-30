@@ -52,8 +52,10 @@ unless %*ENV<raku_test_all>:exists {
     $data = .make-pointer( gint, 101);
 
     #TM:1:append
+    my @save-against-gc = ();
     for ^10 -> $i {
-      $N-List = .append( $N-List, .make-pointer( gint, $i));
+      @save-against-gc.push: .make-pointer( gint, $i);
+      $N-List = .append( $N-List, @save-against-gc[*-1]);
     }
 
     #TM:1:length
