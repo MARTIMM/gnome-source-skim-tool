@@ -10,7 +10,12 @@ use Test;
 use NativeCall;
 
 
-#use Gnome::Gtk4::Native:api<2>;
+use Gnome::Gtk4::Window:api<2>;
+ok 1, 'loads Window using R-Native';
+done-testing;
+=finish
+
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;

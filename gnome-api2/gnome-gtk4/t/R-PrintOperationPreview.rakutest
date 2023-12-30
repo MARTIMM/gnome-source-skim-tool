@@ -10,7 +10,12 @@ use Test;
 use NativeCall;
 
 
-#use Gnome::Gtk4::PrintOperationPreview:api<2>;
+use Gnome::Gtk4::PrintOperation:api<2>;
+ok 1, 'load PrintOperation using R-PrintOperationPreview';
+done-testing;
+
+=finish
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;

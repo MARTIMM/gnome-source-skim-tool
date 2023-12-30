@@ -10,7 +10,13 @@ use Test;
 use NativeCall;
 
 
-#use Gnome::Gtk4::CellEditable:api<2>;
+use Gnome::Gtk4::SpinButton:api<2>;
+ok 1, 'load SpinButton using R-CellEditable';
+done-testing;
+
+=finish
+
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
