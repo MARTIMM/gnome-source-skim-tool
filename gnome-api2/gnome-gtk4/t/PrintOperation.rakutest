@@ -1,0 +1,277 @@
+=comment Package: Gtk4, C-Source: printoperation
+use v6.d;
+
+#TL:1:Gnome::Gtk4::PrintOperation:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-Error:api<2>;
+use Gnome::Gtk4::PrintOperation:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-PrintOperation:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::PrintOperation $printoperation;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $printoperation {
+
+#`{{
+    #TC:0:new-printoperation()
+
+    $printoperation .= new-printoperation();
+    ok .is-valid, '.new-printoperation()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $printoperation {
+    my gboolean $support-selection;
+    my Str $label;
+    my gint $current-page;
+    my gboolean $allow-async;
+    my CArray[N-Error] $err;
+    my gboolean $show-progress;
+    my N-Object $parent;
+    my GtkUnit $unit;
+    my Str $job-name;
+    my gboolean $has-selection;
+    my N-Object $print-settings;
+    my gint $n-pages;
+    my Str $filename;
+    my gboolean $embed;
+    my N-Object $default-page-setup;
+    my gboolean $track-status;
+    my GtkPrintOperationAction $action;
+    my gboolean $full-page;
+
+
+#`{{
+    #TM:0:cancel()
+    ok .cancel(), '.cancel()';
+
+    #TM:0:draw-page-finish()
+    ok .draw-page-finish(), '.draw-page-finish()';
+
+    #TM:0:get-error()
+    is .get-error( $err), '…', '.get-error()';
+
+    #TM:0:get-n-pages-to-print()
+     .get-n-pages-to-print(), '…', '.get-n-pages-to-print()';
+
+    #TM:0:get-status()
+     .get-status(), '…', '.get-status()';
+
+    #TM:0:get-status-string()
+     .get-status-string(), '…', '.get-status-string()';
+
+    #TM:0:is-finished()
+    ok .is-finished(), '.is-finished()';
+
+    #TM:0:run()
+    ok .run( $action, $parent, $err), '.run()';
+
+    #TM:0:set-allow-async()
+    $allow-async = '…';
+    .set-allow-async( $allow-async);
+    ok True, '.set-allow-async()';
+
+    #TM:0:set-current-page()
+    $current-page = '…';
+    .set-current-page( $current-page);
+    ok True, '.set-current-page()';
+
+    #TM:0:set-custom-tab-label()
+    $label = 'text';
+    .set-custom-tab-label( $label);
+    ok True, '.set-custom-tab-label()';
+
+    #TM:0:set-default-page-setup()
+    $default-page-setup = …;
+    .set-default-page-setup( $default-page-setup);
+    #TM:0:get-default-page-setup()
+    is .get-default-page-setup(),  $default-page-setup, '.set-default-page-setup() / .get-default-page-setup()';
+
+    #TM:0:set-defer-drawing()
+
+    .set-defer-drawing();
+    ok True, '.set-defer-drawing()';
+
+    #TM:0:set-embed-page-setup()
+    $embed = '…';
+    .set-embed-page-setup( $embed);
+    #TM:0:get-embed-page-setup()
+    is .get-embed-page-setup(),  $embed, '.set-embed-page-setup() / .get-embed-page-setup()';
+
+    #TM:0:set-export-filename()
+    $filename = 'text';
+    .set-export-filename( $filename);
+    ok True, '.set-export-filename()';
+
+    #TM:0:set-has-selection()
+    $has-selection = '…';
+    .set-has-selection( $has-selection);
+    #TM:0:get-has-selection()
+    is .get-has-selection(),  $has-selection, '.set-has-selection() / .get-has-selection()';
+
+    #TM:0:set-job-name()
+    $job-name = 'text';
+    .set-job-name( $job-name);
+    ok True, '.set-job-name()';
+
+    #TM:0:set-n-pages()
+    $n-pages = '…';
+    .set-n-pages( $n-pages);
+    ok True, '.set-n-pages()';
+
+    #TM:0:set-print-settings()
+    $print-settings = …;
+    .set-print-settings( $print-settings);
+    #TM:0:get-print-settings()
+    is .get-print-settings(),  $print-settings, '.set-print-settings() / .get-print-settings()';
+
+    #TM:0:set-show-progress()
+    $show-progress = '…';
+    .set-show-progress( $show-progress);
+    ok True, '.set-show-progress()';
+
+    #TM:0:set-support-selection()
+    $support-selection = '…';
+    .set-support-selection( $support-selection);
+    #TM:0:get-support-selection()
+    is .get-support-selection(),  $support-selection, '.set-support-selection() / .get-support-selection()';
+
+    #TM:0:set-track-print-status()
+    $track-status = '…';
+    .set-track-print-status( $track-status);
+    ok True, '.set-track-print-status()';
+
+    #TM:0:set-unit()
+    $unit = …;
+    .set-unit( $unit);
+    ok True, '.set-unit()';
+
+    #TM:0:set-use-full-page()
+    $full-page = '…';
+    .set-use-full-page( $full-page);
+    ok True, '.set-use-full-page()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $printoperation {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::PrintOperation() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::PrintOperation;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::PrintOperation :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::PrintOperation $printoperation .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $printoperation.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
