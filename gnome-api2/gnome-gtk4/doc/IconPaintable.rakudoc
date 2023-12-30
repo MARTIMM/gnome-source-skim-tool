@@ -1,0 +1,164 @@
+=comment Package: Gtk4, C-Source: icontheme
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::IconPaintable
+
+![](images/iconpaintable.png)
+
+=head1 Description
+
+Contains information found when looking up an icon in B<Gnome::Gtk4::IconTheme>.
+
+B<Gnome::Gtk4::IconPaintable> implements B<Gnome::Gdk4::R-Paintable>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::IconPaintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-file
+
+Creates a B<Gnome::Gtk4::IconPaintable> for a file with a given size and scale.
+
+The icon can then be rendered by using it as a B<Gnome::Gdk4::R-Paintable>.
+
+=begin code
+method new-for-file ( N-Object() $file, Int() $size, Int() $scale --> Gnome::Gtk4::IconPaintable \)
+=end code
+
+=item $file; a B<Gnome::Gio::File>.
+=item $size; desired icon size.
+=item $scale; the desired scale.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-file
+
+Gets the B<Gnome::Gio::File> that was used to load the icon.
+
+Returns undefined if the icon was not loaded from a file.
+
+=begin code
+method get-file (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gio::File> for the icon. 
+
+=begin comment
+
+=head2 Example
+# Example for get-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-name
+
+Get the icon name being used for this icon.
+
+When an icon looked up in the icon theme was not available, the
+icon theme may use fallback icons - either those specified to
+gtk_icon_theme_lookup_icon() or the always-available
+"image-missing". The icon chosen is returned by this function.
+
+If the icon was created without an icon theme, this function
+returns undefined.
+
+=begin code
+method get-icon-name (--> Str )
+=end code
+
+Return value; the themed icon-name for the
+  icon, or undefined if its not a themed icon.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-icon-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-symbolic
+
+Checks if the icon is symbolic or not.
+
+This currently uses only the file name and not the file contents
+for determining this. This behaviour may change in the future.
+
+Note that to render a symbolic B<Gnome::Gtk4::IconPaintable> properly (with
+recoloring), you have to set its icon name on a B<Gnome::Gtk4::Image>.
+
+=begin code
+method is-symbolic (--> Bool )
+=end code
+
+Return value; C<True> if the icon is symbolic, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for is-symbolic
+
+=end comment
+
+=end pod
+

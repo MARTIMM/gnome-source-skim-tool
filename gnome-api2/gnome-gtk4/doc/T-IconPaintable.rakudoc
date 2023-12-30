@@ -1,0 +1,40 @@
+=comment Package: Gtk4, C-Source: icontheme
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-IconPaintable
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkIconThemeError
+
+Error codes for B<Gnome::Gtk4::IconTheme> operations.
+=item C<GTK_ICON_THEME_NOT_FOUND>; The icon specified does not exist in the theme
+=item C<GTK_ICON_THEME_FAILED>; An unspecified error occurred.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GtkIconLookupFlags
+
+Used to specify options for gtk_icon_theme_lookup_icon().
+
+=item C<GTK_ICON_LOOKUP_FORCE_REGULAR>; Try to always load regular icons, even
+  when symbolic icon names are given
+=item C<GTK_ICON_LOOKUP_FORCE_SYMBOLIC>; Try to always load symbolic icons, even
+  when regular icon names are given
+=item C<GTK_ICON_LOOKUP_PRELOAD>; Starts loading the texture in the background
+  so it is ready when later needed.
+=end pod
+

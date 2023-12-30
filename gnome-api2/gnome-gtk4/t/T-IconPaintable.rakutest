@@ -1,0 +1,50 @@
+=comment Package: Gtk4, C-Source: icontheme
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-IconPaintable:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-IconPaintable:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkIconLookupFlags
+subtest 'GtkIconLookupFlags', {
+  is GTK_ICON_LOOKUP_FORCE_REGULAR.value, 1, 'bitfield GTK_ICON_LOOKUP_FORCE_REGULAR = 1';
+
+  is GTK_ICON_LOOKUP_FORCE_SYMBOLIC.value, 2, 'bitfield GTK_ICON_LOOKUP_FORCE_SYMBOLIC = 2';
+
+  is GTK_ICON_LOOKUP_PRELOAD.value, 4, 'bitfield GTK_ICON_LOOKUP_PRELOAD = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkIconThemeError
+subtest 'GtkIconThemeError', {
+  is GTK_ICON_THEME_NOT_FOUND.value, 0, 'enum GTK_ICON_THEME_NOT_FOUND = 0';
+
+  is GTK_ICON_THEME_FAILED.value, 1, 'enum GTK_ICON_THEME_FAILED = 1';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
