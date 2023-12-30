@@ -1,7 +1,7 @@
-=comment Package: Gtk4, C-Source: selectionmodel
+=comment Package: Gtk4, C-Source: singleselection
 use v6.d;
 
-#TL:1:Gnome::Gtk4::R-SelectionModel:
+#TL:1:Gnome::Gtk4::SingleSelection:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -10,17 +10,36 @@ use Test;
 use NativeCall;
 
 
-use Gnome::Gtk4::MultiSelection:api<2>;
-ok 1, 'loads MultiSelection using R-SelectionModel';
-done-testing;
-=finish
-
-#use Gnome::Gtk4::N-Bitset:api<2>;
-#use Gnome::Gtk4::SelectionModel:api<2>;
+use Gnome::Gtk4::SingleSelection:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::SingleSelection $singleselection;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $singleselection {
+    my N-Object $model;
+
+#`{{
+    #TC:0:new-singleselection()
+    $model = …;
+    $singleselection .= new-singleselection( $model);
+    ok .is-valid, '.new-singleselection( $model)';
+
+}}
+  }
+};
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -33,49 +52,51 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $selectionmodel {
-    my guint $n-items;
+  with $singleselection {
     my guint $position;
-    my N-Bitset  $mask;
-    my N-Bitset  $selected;
-    my gboolean $unselect-rest;
+    my gboolean $can-unselect;
+    my gboolean $autoselect;
+    my N-Object $model;
 
 
 #`{{
-    #TM:0:get-selection-in-range()
-    is .get-selection-in-range( $position, $n-items), '…', '.get-selection-in-range()';
+    #TM:0:get-selected-item()
+     .get-selected-item(), '…', '.get-selected-item()';
 
-    #TM:0:is-selected()
-    ok .is-selected( $position), '.is-selected()';
+    #TM:0:set-autoselect()
+    $autoselect = '…';
+    .set-autoselect( $autoselect);
+    #TM:0:get-autoselect()
+    is .get-autoselect(),  $autoselect, '.set-autoselect() / .get-autoselect()';
 
-    #TM:0:select-all()
-    ok .select-all(), '.select-all()';
+    #TM:0:set-can-unselect()
+    $can-unselect = '…';
+    .set-can-unselect( $can-unselect);
+    #TM:0:get-can-unselect()
+    is .get-can-unselect(),  $can-unselect, '.set-can-unselect() / .get-can-unselect()';
 
-    #TM:0:select-item()
-    ok .select-item( $position, $unselect-rest), '.select-item()';
+    #TM:0:set-model()
+    $model = …;
+    .set-model( $model);
+    #TM:0:get-model()
+    is .get-model(),  $model, '.set-model() / .get-model()';
 
-    #TM:0:select-range()
-    ok .select-range( $position, $n-items, $unselect-rest), '.select-range()';
+    #TM:0:set-selected()
+    $position = '…';
+    .set-selected( $position);
+    #TM:0:get-selected()
+    is .get-selected(),  $position, '.set-selected() / .get-selected()';
 
-    #TM:0:selection-changed()
-    ok .selection-changed( $position, $n-items), '.selection-changed()';
+}}
+  }
+};
 
-    #TM:0:set-selection()
-    $selected = '…';
-    $mask = '…';
-    .set-selection( $selected, $mask);
-    #TM:0:get-selection()
-    is .get-selection(),  $selected, $mask, '.set-selection() / .get-selection()';
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $singleselection {
 
-    #TM:0:unselect-all()
-    ok .unselect-all(), '.unselect-all()';
 
-    #TM:0:unselect-item()
-    ok .unselect-item( $position), '.unselect-item()';
-
-    #TM:0:unselect-range()
-    ok .unselect-range( $position, $n-items), '.unselect-range()';
-
+#`{{
 }}
   }
 };
@@ -96,15 +117,15 @@ subtest 'Signals …', {
 
     method … (
       'any-args',
-      Gnome::Gtk4::SelectionModel() :$_native-object, gulong :$_handler-id
+      Gnome::Gtk4::SingleSelection() :$_native-object, gulong :$_handler-id
       # --> …
     ) {
 
-      isa-ok $_native-object, Gnome::Gtk4::SelectionModel;
+      isa-ok $_native-object, Gnome::Gtk4::SingleSelection;
       $!signal-processed = True;
     }
 
-    method signal-emitter ( Gnome::Gtk4::SelectionModel :$_widget --> Str ) {
+    method signal-emitter ( Gnome::Gtk4::SingleSelection :$_widget --> Str ) {
 
       while $main.gtk-events-pending() { $main.iteration-do(False); }
 
@@ -135,13 +156,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gtk4::SelectionModel $selectionmodel .= new;
+  my Gnome::Gtk4::SingleSelection $singleselection .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $selectionmodel.register-signal( $sh, 'method', 'signal');
+  $singleselection.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',

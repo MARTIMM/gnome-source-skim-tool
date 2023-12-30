@@ -1,0 +1,297 @@
+=comment Package: Gtk4, C-Source: singleselection
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::SingleSelection
+
+![](images/singleselection.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::SingleSelection> is a B<Gnome::Gtk4::R-SelectionModel> that allows selecting a single
+item.
+
+Note that the selection is *persistent* -- if the selected item is removed
+and re-added in the same [signal C<$Gio>.ListModel::items-changed] emission, it
+stays selected. In particular, this means that changing the sort order of an
+underlying sort model will preserve the selection.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::SingleSelection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-singleselection
+
+Creates a new selection to handle C<$model>.
+
+=begin code
+method new-singleselection ( N-List() $model --> Gnome::Gtk4::SingleSelection \)
+=end code
+
+=item $model; (transfer ownership: full) the B<Gnome::Gio::R-ListModel> to manage.
+
+=begin comment
+
+=head2 Example
+# Example for new-singleselection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-autoselect
+
+Checks if autoselect has been enabled or disabled via
+C<.set-autoselect()>.
+
+=begin code
+method get-autoselect (--> Bool )
+=end code
+
+Return value; C<True> if autoselect is enabled. 
+
+=begin comment
+
+=head2 Example
+# Example for get-autoselect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-can-unselect
+
+If C<True>, gtk_selection_model_unselect_item() is supported and allows
+unselecting the selected item.
+
+=begin code
+method get-can-unselect (--> Bool )
+=end code
+
+Return value; C<True> to support unselecting. 
+
+=begin comment
+
+=head2 Example
+# Example for get-can-unselect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Gets the model that C<$self> is wrapping.
+
+=begin code
+method get-model (--> N-List )
+=end code
+
+Return value; The model being wrapped. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected
+
+Gets the position of the selected item.
+
+If no item is selected, C<GTK_INVALID_LIST_POSITION> is returned.
+
+=begin code
+method get-selected (--> UInt )
+=end code
+
+Return value; The position of the selected item. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-item
+
+Gets the selected item.
+
+If no item is selected, undefined is returned.
+
+=begin code
+method get-selected-item (--> gpointer )
+=end code
+
+Return value; The selected item. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-autoselect
+
+Enables or disables autoselect.
+
+If C<$autoselect> is C<True>, C<$self> will enforce that an item is always
+selected. It will select a new item when the currently selected
+item is deleted and it will disallow unselecting the current item.
+
+=begin code
+method set-autoselect ( Bool() $autoselect )
+=end code
+
+=item $autoselect; C<True> to always select an item.
+
+=begin comment
+
+=head2 Example
+# Example for set-autoselect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-can-unselect
+
+If C<True>, unselecting the current item via
+gtk_selection_model_unselect_item() is supported.
+
+Note that setting I<autoselect> will
+cause unselecting to not work, so it practically makes no sense
+to set both at the same time the same time.
+
+=begin code
+method set-can-unselect ( Bool() $can-unselect )
+=end code
+
+=item $can-unselect; C<True> to allow unselecting.
+
+=begin comment
+
+=head2 Example
+# Example for set-can-unselect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model that C<$self> should wrap.
+
+If C<$model> is undefined, C<$self> will be empty.
+
+=begin code
+method set-model ( N-List() $model )
+=end code
+
+=item $model; A B<Gnome::Gio::R-ListModel> to wrap.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-selected
+
+Selects the item at the given position.
+
+If the list does not have an item at C<$position> or
+C<GTK_INVALID_LIST_POSITION> is given, the behavior depends on the
+value of the I<autoselect> property:
+If it is set, no change will occur and the old item will stay
+selected. If it is unset, the selection will be unset and no item
+will be selected.
+
+=begin code
+method set-selected ( UInt() $position )
+=end code
+
+=item $position; the item to select or C<GTK_INVALID_LIST_POSITION>.
+
+=begin comment
+
+=head2 Example
+# Example for set-selected
+
+=end comment
+
+=end pod
+
