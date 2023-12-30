@@ -1,0 +1,192 @@
+=comment Package: Gtk4, C-Source: printoperation
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-PrintOperation
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkPrintError
+
+Error codes that identify various errors that can occur while
+using the GTK printing support.
+=item C<GTK_PRINT_ERROR_GENERAL>; An unspecified error occurred.
+=item C<GTK_PRINT_ERROR_INTERNAL_ERROR>; An internal error occurred.
+=item C<GTK_PRINT_ERROR_NOMEM>; A memory allocation failed.
+=item C<GTK_PRINT_ERROR_INVALID_FILE>; An error occurred while loading a page setup
+  or paper size from a key file.
+
+=head2 GtkPrintOperationAction
+
+Determines what action the print operation should perform.
+
+A parameter of this typs is passed to C<.run()>.
+=item C<GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG>; Show the print dialog.
+=item C<GTK_PRINT_OPERATION_ACTION_PRINT>; Start to print without showing
+  the print dialog, based on the current print settings.
+=item C<GTK_PRINT_OPERATION_ACTION_PREVIEW>; Show the print preview.
+=item C<GTK_PRINT_OPERATION_ACTION_EXPORT>; Export to a file. This requires
+  the export-filename property to be set.
+
+=head2 GtkPrintOperationResult
+
+The result of a print operation.
+
+A value of this type is returned by C<.run()>.
+=item C<GTK_PRINT_OPERATION_RESULT_ERROR>; An error has occurred.
+=item C<GTK_PRINT_OPERATION_RESULT_APPLY>; The print settings should be stored.
+=item C<GTK_PRINT_OPERATION_RESULT_CANCEL>; The print operation has been canceled,
+  the print settings should not be stored.
+=item C<GTK_PRINT_OPERATION_RESULT_IN_PROGRESS>; The print operation is not complete
+  yet. This value will only be returned when running asynchronously.
+
+=head2 GtkPrintStatus
+
+The status gives a rough indication of the completion of a running
+print operation.
+=item C<GTK_PRINT_STATUS_INITIAL>; The printing has not started yet; this
+  status is set initially, and while the print dialog is shown.
+=item C<GTK_PRINT_STATUS_PREPARING>; This status is set while the begin-print
+  signal is emitted and during pagination.
+=item C<GTK_PRINT_STATUS_GENERATING_DATA>; This status is set while the
+  pages are being rendered.
+=item C<GTK_PRINT_STATUS_SENDING_DATA>; The print job is being sent off to the
+  printer.
+=item C<GTK_PRINT_STATUS_PENDING>; The print job has been sent to the printer,
+  but is not printed for some reason, e.g. the printer may be stopped.
+=item C<GTK_PRINT_STATUS_PENDING_ISSUE>; Some problem has occurred during
+  printing, e.g. a paper jam.
+=item C<GTK_PRINT_STATUS_PRINTING>; The printer is processing the print job.
+=item C<GTK_PRINT_STATUS_FINISHED>; The printing has been completed successfully.
+=item C<GTK_PRINT_STATUS_FINISHED_ABORTED>; The printing has been aborted.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 PageSetupDoneFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $page-setup, gpointer $data  )
+=end code
+
+=item page-setup; the B<Gnome::Gtk4::PageSetup> that has been passed to
+  gtk_print_run_page_setup_dialog_async()
+=item data; user data that has been passed to
+  gtk_print_run_page_setup_dialog_async()
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 print-error-quark
+
+Registers an error quark for B<Gnome::Gtk4::PrintOperation> if necessary.
+
+=begin code
+method print-error-quark (--> UInt )
+=end code
+
+Return value; The error quark used for B<Gnome::Gtk4::PrintOperation> errors.. 
+
+=begin comment
+
+=head2 Example
+# Example for print-error-quark
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 print-run-page-setup-dialog
+
+Runs a page setup dialog, letting the user modify the values from C<$page-setup>. If the user cancels the dialog, the returned B<Gnome::Gtk4::PageSetup>
+is identical to the passed in C<$page-setup>, otherwise it contains the
+modifications done in the dialog.
+
+Note that this function may use a recursive mainloop to show the page
+setup dialog. See gtk_print_run_page_setup_dialog_async() if this is
+a problem.
+
+=begin code
+method print-run-page-setup-dialog ( N-Object() $parent, N-Object() $page-setup, N-Object() $settings --> N-Object )
+=end code
+
+=item $parent; transient parent.
+=item $page-setup; an existing B<Gnome::Gtk4::PageSetup>.
+=item $settings; a B<Gnome::Gtk4::PrintSettings>.
+
+Return value; a new B<Gnome::Gtk4::PageSetup>. 
+
+=begin comment
+
+=head2 Example
+# Example for print-run-page-setup-dialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 print-run-page-setup-dialog-async
+
+Runs a page setup dialog, letting the user modify the values from C<$page-setup>.
+
+In contrast to gtk_print_run_page_setup_dialog(), this function  returns after
+showing the page setup dialog on platforms that support this, and calls C<$done-cb>
+from a signal handler for the I<response> signal of the dialog.
+
+=begin code
+method print-run-page-setup-dialog-async ( N-Object() $parent, N-Object() $page-setup, N-Object() $settings, &done-cb, gpointer $data )
+=end code
+
+=item $parent; transient parent.
+=item $page-setup; an existing B<Gnome::Gtk4::PageSetup>.
+=item $settings; a B<Gnome::Gtk4::PrintSettings>.
+=item &done-cb; a function to call when the user saves
+   the modified page setup. Tthe function must be specified with following signature; C<:( N-Object $page-setup, gpointer $data )>.
+=item $data; user data to pass to C<$done-cb>.
+
+=begin comment
+
+=head2 Example
+# Example for print-run-page-setup-dialog-async
+
+=end comment
+
+=end pod
+

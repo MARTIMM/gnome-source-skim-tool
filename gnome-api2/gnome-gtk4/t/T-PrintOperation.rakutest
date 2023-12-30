@@ -1,0 +1,116 @@
+=comment Package: Gtk4, C-Source: printoperation
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-PrintOperation:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-PrintOperation:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gtk4::T-PrintOperation $printoperation .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $printoperation {
+    my N-Object $parent;
+    my gpointer $data;
+    sub done-cb ( N-Object $page-setup, gpointer $data ) {}
+    my N-Object $settings;
+    my N-Object $page-setup;
+
+
+#`{{
+    #TM:0:print-error-quark()
+    ok .print-error-quark(), '.print-error-quark()';
+
+    #TM:0:print-run-page-setup-dialog()
+    ok .print-run-page-setup-dialog( $parent, $page-setup, $settings), '.print-run-page-setup-dialog()';
+
+    #TM:0:print-run-page-setup-dialog-async()
+    ok .print-run-page-setup-dialog-async( $parent, $page-setup, $settings, $done-cb, $data), '.print-run-page-setup-dialog-async()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkPrintError
+subtest 'GtkPrintError', {
+  is GTK_PRINT_ERROR_GENERAL.value, 0, 'enum GTK_PRINT_ERROR_GENERAL = 0';
+
+  is GTK_PRINT_ERROR_INTERNAL_ERROR.value, 1, 'enum GTK_PRINT_ERROR_INTERNAL_ERROR = 1';
+
+  is GTK_PRINT_ERROR_NOMEM.value, 2, 'enum GTK_PRINT_ERROR_NOMEM = 2';
+
+  is GTK_PRINT_ERROR_INVALID_FILE.value, 3, 'enum GTK_PRINT_ERROR_INVALID_FILE = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkPrintOperationAction
+subtest 'GtkPrintOperationAction', {
+  is GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG.value, 0, 'enum GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG = 0';
+
+  is GTK_PRINT_OPERATION_ACTION_PRINT.value, 1, 'enum GTK_PRINT_OPERATION_ACTION_PRINT = 1';
+
+  is GTK_PRINT_OPERATION_ACTION_PREVIEW.value, 2, 'enum GTK_PRINT_OPERATION_ACTION_PREVIEW = 2';
+
+  is GTK_PRINT_OPERATION_ACTION_EXPORT.value, 3, 'enum GTK_PRINT_OPERATION_ACTION_EXPORT = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkPrintOperationResult
+subtest 'GtkPrintOperationResult', {
+  is GTK_PRINT_OPERATION_RESULT_ERROR.value, 0, 'enum GTK_PRINT_OPERATION_RESULT_ERROR = 0';
+
+  is GTK_PRINT_OPERATION_RESULT_APPLY.value, 1, 'enum GTK_PRINT_OPERATION_RESULT_APPLY = 1';
+
+  is GTK_PRINT_OPERATION_RESULT_CANCEL.value, 2, 'enum GTK_PRINT_OPERATION_RESULT_CANCEL = 2';
+
+  is GTK_PRINT_OPERATION_RESULT_IN_PROGRESS.value, 3, 'enum GTK_PRINT_OPERATION_RESULT_IN_PROGRESS = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkPrintStatus
+subtest 'GtkPrintStatus', {
+  is GTK_PRINT_STATUS_INITIAL.value, 0, 'enum GTK_PRINT_STATUS_INITIAL = 0';
+
+  is GTK_PRINT_STATUS_PREPARING.value, 1, 'enum GTK_PRINT_STATUS_PREPARING = 1';
+
+  is GTK_PRINT_STATUS_GENERATING_DATA.value, 2, 'enum GTK_PRINT_STATUS_GENERATING_DATA = 2';
+
+  is GTK_PRINT_STATUS_SENDING_DATA.value, 3, 'enum GTK_PRINT_STATUS_SENDING_DATA = 3';
+
+  is GTK_PRINT_STATUS_PENDING.value, 4, 'enum GTK_PRINT_STATUS_PENDING = 4';
+
+  is GTK_PRINT_STATUS_PENDING_ISSUE.value, 5, 'enum GTK_PRINT_STATUS_PENDING_ISSUE = 5';
+
+  is GTK_PRINT_STATUS_PRINTING.value, 6, 'enum GTK_PRINT_STATUS_PRINTING = 6';
+
+  is GTK_PRINT_STATUS_FINISHED.value, 7, 'enum GTK_PRINT_STATUS_FINISHED = 7';
+
+  is GTK_PRINT_STATUS_FINISHED_ABORTED.value, 8, 'enum GTK_PRINT_STATUS_FINISHED_ABORTED = 8';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
