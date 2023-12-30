@@ -1,0 +1,503 @@
+=comment Package: Gtk4, C-Source: dropdown
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::DropDown
+
+![](images/dropdown.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::DropDown> is a widget that allows the user to choose an item
+from a list of options.
+
+![An example GtkDropDown](drop-down.png)
+
+The B<Gnome::Gtk4::DropDown> displays the selected choice.
+
+The options are given to B<Gnome::Gtk4::DropDown> in the form of B<Gnome::Gio::R-ListModel>
+and how the individual options are represented is determined by
+a B<Gnome::Gtk4::ListItemFactory>. The default factory displays simple strings.
+
+B<Gnome::Gtk4::DropDown> knows how to obtain strings from the items in a
+B<Gnome::Gtk4::StringList>; for other models, you have to provide an expression
+to find the strings via C<.set-expression()>.
+
+B<Gnome::Gtk4::DropDown> can optionally allow search in the popup, which is
+useful if the list of options is long. To enable the search entry,
+use C<.set-enable-search()>.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::DropDown> has a single CSS node with name dropdown,
+with the button and popover nodes as children.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::DropDown> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::DropDown
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-dropdown
+
+Creates a new B<Gnome::Gtk4::DropDown>.
+
+You may want to call C<.set-factory()>
+to set up a way to map its items to widgets.
+
+=begin code
+method new-dropdown ( N-List() $model, N-Object() $expression --> Gnome::Gtk4::DropDown \)
+=end code
+
+=item $model; (transfer ownership: full) the model to use.
+=item $expression; (transfer ownership: full) the expression to use.
+
+=begin comment
+
+=head2 Example
+# Example for new-dropdown
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-strings
+
+Creates a new B<Gnome::Gtk4::DropDown> that is populated with
+the strings.
+
+=begin code
+method new-from-strings ( Array[Str] $strings --> Gnome::Gtk4::DropDown \)
+=end code
+
+=item $strings; The strings to put in the dropdown.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-strings
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-search
+
+Returns whether search is enabled.
+
+=begin code
+method get-enable-search (--> Bool )
+=end code
+
+Return value; C<True> if the popup includes a search entry. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-search
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-expression
+
+Gets the expression set that is used to obtain strings from items.
+
+See C<.set-expression()>.
+
+=begin code
+method get-expression (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Expression>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-factory
+
+Gets the factory that's currently used to populate list items.
+
+The factory returned by this function is always used for the
+item in the button. It is also used for items in the popup
+if I<list-factory> is not set.
+
+=begin code
+method get-factory (--> N-Object )
+=end code
+
+Return value; The factory in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-list-factory
+
+Gets the factory that's currently used to populate list items in the popup.
+
+=begin code
+method get-list-factory (--> N-Object )
+=end code
+
+Return value; The factory in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-list-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Gets the model that provides the displayed items.
+
+=begin code
+method get-model (--> N-List )
+=end code
+
+Return value; The model in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected
+
+Gets the position of the selected item.
+
+=begin code
+method get-selected (--> UInt )
+=end code
+
+Return value; the position of the selected item, or C<GTK_INVALID_LIST_POSITION>
+  if not item is selected. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-item
+
+Gets the selected item. If no item is selected, undefined is returned.
+
+=begin code
+method get-selected-item (--> gpointer )
+=end code
+
+Return value; The selected item. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-arrow
+
+Returns whether to show an arrow within the widget.
+
+=begin code
+method get-show-arrow (--> Bool )
+=end code
+
+Return value; C<True> if an arrow will be shown.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-arrow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-search
+
+Sets whether a search entry will be shown in the popup that
+allows to search for items in the list.
+
+Note that I<expression> must be set for
+search to work.
+
+=begin code
+method set-enable-search ( Bool() $enable-search )
+=end code
+
+=item $enable-search; whether to enable search.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-search
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-expression
+
+Sets the expression that gets evaluated to obtain strings from items.
+
+This is used for search in the popup. The expression must have
+a value type of C<G_TYPE_STRING>.
+
+=begin code
+method set-expression ( N-Object() $expression )
+=end code
+
+=item $expression; a B<Gnome::Gtk4::Expression>.
+
+=begin comment
+
+=head2 Example
+# Example for set-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-factory
+
+Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating list items.
+
+=begin code
+method set-factory ( N-Object() $factory )
+=end code
+
+=item $factory; the factory to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-list-factory
+
+Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating list items in the popup.
+
+=begin code
+method set-list-factory ( N-Object() $factory )
+=end code
+
+=item $factory; the factory to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-list-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the B<Gnome::Gio::R-ListModel> to use.
+
+=begin code
+method set-model ( N-List() $model )
+=end code
+
+=item $model; the model to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-selected
+
+Selects the item at the given position.
+
+=begin code
+method set-selected ( UInt() $position )
+=end code
+
+=item $position; the position of the item to select, or C<GTK_INVALID_LIST_POSITION>.
+
+=begin comment
+
+=head2 Example
+# Example for set-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-arrow
+
+Sets whether an arrow will be displayed within the widget.
+
+=begin code
+method set-show-arrow ( Bool() $show-arrow )
+=end code
+
+=item $show-arrow; whether to show an arrow within the widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-arrow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted to when the drop down is activated.
+
+The B<::activate> signal on B<Gnome::Gtk4::DropDown> is an action signal and
+emitting it causes the drop down to pop up its dropdown.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropDown :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropDown> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=end pod
+

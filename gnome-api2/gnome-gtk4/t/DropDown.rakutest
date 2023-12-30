@@ -1,0 +1,207 @@
+=comment Package: Gtk4, C-Source: dropdown
+use v6.d;
+
+#TL:1:Gnome::Gtk4::DropDown:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::DropDown:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::DropDown $dropdown;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $dropdown {
+    my N-Object $expression;
+    my gchar-pptr $strings;
+    my N-Object $model;
+
+#`{{
+    #TC:0:new-dropdown()
+    $model = …;
+    $expression = …;
+    $dropdown .= new-dropdown( $model, $expression);
+    ok .is-valid, '.new-dropdown( $model, $expression)';
+
+    #TC:0:new-from-strings()
+    $strings = '…';
+    $dropdown .= new-from-strings( $strings);
+    ok .is-valid, '.new-from-strings( $strings)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $dropdown {
+    my gboolean $show-arrow;
+    my N-Object $expression;
+    my N-Object $factory;
+    my guint $position;
+    my N-Object $model;
+    my gboolean $enable-search;
+
+
+#`{{
+    #TM:0:get-selected-item()
+     .get-selected-item(), '…', '.get-selected-item()';
+
+    #TM:0:set-enable-search()
+    $enable-search = '…';
+    .set-enable-search( $enable-search);
+    #TM:0:get-enable-search()
+    is .get-enable-search(),  $enable-search, '.set-enable-search() / .get-enable-search()';
+
+    #TM:0:set-expression()
+    $expression = …;
+    .set-expression( $expression);
+    #TM:0:get-expression()
+    is .get-expression(),  $expression, '.set-expression() / .get-expression()';
+
+    #TM:0:set-factory()
+    $factory = …;
+    .set-factory( $factory);
+    #TM:0:get-factory()
+    is .get-factory(),  $factory, '.set-factory() / .get-factory()';
+
+    #TM:0:set-list-factory()
+    $factory = …;
+    .set-list-factory( $factory);
+    #TM:0:get-list-factory()
+    is .get-list-factory(),  $factory, '.set-list-factory() / .get-list-factory()';
+
+    #TM:0:set-model()
+    $model = …;
+    .set-model( $model);
+    #TM:0:get-model()
+    is .get-model(),  $model, '.set-model() / .get-model()';
+
+    #TM:0:set-selected()
+    $position = '…';
+    .set-selected( $position);
+    #TM:0:get-selected()
+    is .get-selected(),  $position, '.set-selected() / .get-selected()';
+
+    #TM:0:set-show-arrow()
+    $show-arrow = '…';
+    .set-show-arrow( $show-arrow);
+    #TM:0:get-show-arrow()
+    is .get-show-arrow(),  $show-arrow, '.set-show-arrow() / .get-show-arrow()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $dropdown {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::DropDown() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::DropDown;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::DropDown :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::DropDown $dropdown .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $dropdown.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
