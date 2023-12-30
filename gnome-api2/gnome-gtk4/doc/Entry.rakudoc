@@ -75,10 +75,10 @@ see B<Gnome::Gtk4::Text>.
 
 =head2 GtkEntry as GtkBuildable
 
-The B<Gnome::Gtk4::Entry> implementation of the U<Gnome::Gtk4::R-Buildable> interface supports a
+The B<Gnome::Gtk4::Entry> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports a
 custom <attributes> element, which supports any number of <attribute>
 elements. The <attribute> element has attributes named “name“, “value“,
-“start“ and “end“ and allows you to specify U<Gnome::Pango::N-Attribute> values for
+“start“ and “end“ and allows you to specify B<Gnome::Pango::N-Attribute> values for
 this label.
 
 An example of a UI definition fragment specifying Pango attributes:
@@ -394,13 +394,13 @@ Return value; C<True> if the icon is activatable..
 =begin pod
 =head2 get-icon-area
 
-Gets the area where entry’s icon at C<$icon_pos> is drawn.
+Gets the area where entry’s icon at C<$icon-pos> is drawn.
 
 This function is useful when drawing something to the
 entry in a draw callback.
 
 If the entry is not realized or has no icon at the given
-position, C<$icon_area> is filled with zeros. Otherwise, C<$icon_area> will be filled with the icon's allocation,
+position, C<$icon-area> is filled with zeros. Otherwise, C<$icon-area> will be filled with the icon's allocation,
 relative to C<$entry>'s allocation.
 
 =begin code
@@ -452,10 +452,10 @@ Return value; the index of the icon at the given position, or -1.
 =begin pod
 =head2 get-icon-gicon
 
-Retrieves the U<Gnome::Gio::R-Icon> used for the icon.
+Retrieves the B<Gnome::Gio::R-Icon> used for the icon.
 
 undefined will be returned if there is no icon or if the icon was
-set by some other method (e.g., by U<Gnome::Gdk4::R-Paintable> or icon name).
+set by some other method (e.g., by B<Gnome::Gdk4::R-Paintable> or icon name).
 
 =begin code
 method get-icon-gicon ( GtkEntryIconPosition $icon-pos --> N-Object )
@@ -463,7 +463,7 @@ method get-icon-gicon ( GtkEntryIconPosition $icon-pos --> N-Object )
 
 =item $icon-pos; Icon position.
 
-Return value; A U<Gnome::Gio::R-Icon>. 
+Return value; A B<Gnome::Gio::R-Icon>. 
 
 =begin comment
 
@@ -481,7 +481,7 @@ Return value; A U<Gnome::Gio::R-Icon>.
 Retrieves the icon name used for the icon.
 
 undefined is returned if there is no icon or if the icon was set
-by some other method (e.g., by U<Gnome::Gdk4::R-Paintable> or gicon).
+by some other method (e.g., by B<Gnome::Gdk4::R-Paintable> or gicon).
 
 =begin code
 method get-icon-name ( GtkEntryIconPosition $icon-pos --> Str )
@@ -504,9 +504,9 @@ Return value; An icon name.
 =begin pod
 =head2 get-icon-paintable
 
-Retrieves the U<Gnome::Gdk4::R-Paintable> used for the icon.
+Retrieves the B<Gnome::Gdk4::R-Paintable> used for the icon.
 
-If no U<Gnome::Gdk4::R-Paintable> was used for the icon, undefined is returned.
+If no B<Gnome::Gdk4::R-Paintable> was used for the icon, undefined is returned.
 
 =begin code
 method get-icon-paintable ( GtkEntryIconPosition $icon-pos --> N-Object )
@@ -514,9 +514,9 @@ method get-icon-paintable ( GtkEntryIconPosition $icon-pos --> N-Object )
 
 =item $icon-pos; Icon position.
 
-Return value; A U<Gnome::Gdk4::R-Paintable>
+Return value; A B<Gnome::Gdk4::R-Paintable>
   if no icon is set for this position or the icon set is not
-  a U<Gnome::Gdk4::R-Paintable>.. 
+  a B<Gnome::Gdk4::R-Paintable>.. 
 
 =begin comment
 
@@ -809,14 +809,13 @@ Return value; a fraction from 0.0 to 1.0.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-tabs
-This function is not yet available
 
 Gets the tabstops of the B<GtkEntry.
 
 See C<.set-tabs()>.
 
 =begin code
-method get-tabs (--> CArray[N-TabArray]  )
+method get-tabs (--> CArray[N-TabArray] )
 =end code
 
 Return value; the tabstops. 
@@ -1210,7 +1209,7 @@ from the current icon theme.
 If the icon name isn’t known, a “broken image” icon will be
 displayed instead.
 
-If C<$icon_name> is undefined, no icon will be shown in the
+If C<$icon-name> is undefined, no icon will be shown in the
 specified position.
 
 =begin code
@@ -1543,14 +1542,13 @@ method set-progress-pulse-step ( Num() $fraction )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-tabs
-This function is not yet available
 
 Sets a >PangoTabArrayB<.
 
 The tabstops in the array are applied to the entry text.
 
 =begin code
-method set-tabs ( CArray[N-TabArray]  $tabs )
+method set-tabs ( CArray[N-TabArray] $tabs )
 =end code
 
 =item $tabs; a >PangoTabArray`.

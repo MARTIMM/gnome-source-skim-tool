@@ -10,8 +10,8 @@ use NativeCall;
 
 use Gnome::Gdk4::N-Rectangle:api<2>;
 use Gnome::Gdk4::T-Enums:api<2>;
-#use Gnome::Gtk4::R-CellEditable:api<2>;
-#use Gnome::Gtk4::R-Editable:api<2>;
+use Gnome::Gtk4::R-CellEditable:api<2>;
+use Gnome::Gtk4::R-Editable:api<2>;
 use Gnome::Gtk4::T-Entry:api<2>;
 use Gnome::Gtk4::T-Enums:api<2>;
 use Gnome::Gtk4::T-Image:api<2>;
@@ -22,7 +22,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-AttrList:api<2>;
-#use Gnome::Pango::N-TabArray:api<2>;
+use Gnome::Pango::N-TabArray:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -31,8 +31,8 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::Entry:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Widget;
-#also does Gnome::Gtk4::R-CellEditable;
-#also does Gnome::Gtk4::R-Editable;
+also does Gnome::Gtk4::R-CellEditable;
+also does Gnome::Gtk4::R-Editable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -57,14 +57,10 @@ submethod BUILD ( *%options ) {
     );
 
     # Signals from interfaces
-#`{{
     self._add_gtk_cell_editable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_cell_editable_signal_types');
-}}
-#`{{
     self._add_gtk_editable_signal_types($?CLASS.^name)
       if self.^can('_add_gtk_editable_signal_types');
-}}
     $signals-added = True;
   }
 
@@ -119,7 +115,7 @@ my Hash $methods = %(
   get-placeholder-text => %(:is-symbol<gtk_entry_get_placeholder_text>,  :returns(Str)),
   get-progress-fraction => %(:is-symbol<gtk_entry_get_progress_fraction>,  :returns(gdouble)),
   get-progress-pulse-step => %(:is-symbol<gtk_entry_get_progress_pulse_step>,  :returns(gdouble)),
-  #get-tabs => %(:is-symbol<gtk_entry_get_tabs>,  :returns(N-TabArray )),
+  get-tabs => %(:is-symbol<gtk_entry_get_tabs>,  :returns(N-TabArray)),
   get-text-length => %(:is-symbol<gtk_entry_get_text_length>,  :returns(guint16)),
   get-visibility => %(:is-symbol<gtk_entry_get_visibility>,  :returns(gboolean), :cnv-return(Bool)),
   grab-focus-without-selecting => %(:is-symbol<gtk_entry_grab_focus_without_selecting>,  :returns(gboolean), :cnv-return(Bool)),
@@ -148,7 +144,7 @@ my Hash $methods = %(
   set-placeholder-text => %(:is-symbol<gtk_entry_set_placeholder_text>,  :parameters([Str])),
   set-progress-fraction => %(:is-symbol<gtk_entry_set_progress_fraction>,  :parameters([gdouble])),
   set-progress-pulse-step => %(:is-symbol<gtk_entry_set_progress_pulse_step>,  :parameters([gdouble])),
-  #set-tabs => %(:is-symbol<gtk_entry_set_tabs>,  :parameters([N-TabArray ])),
+  set-tabs => %(:is-symbol<gtk_entry_set_tabs>,  :parameters([N-TabArray])),
   set-visibility => %(:is-symbol<gtk_entry_set_visibility>,  :parameters([gboolean])),
   unset-invisible-char => %(:is-symbol<gtk_entry_unset_invisible_char>, ),
 );
@@ -188,20 +184,16 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-#`{{
-    $r = self.Gnome::Gtk4::R-CellEditable::_fallback-v2(
+    $r = self._do_gtk_cell_editable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_cell_editable_fallback-v2');
     return $r if $_fallback-v2-ok;
 
-}}
-#`{{
-    $r = self.Gnome::Gtk4::R-Editable::_fallback-v2(
+    $r = self._do_gtk_editable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    );
+    ) if self.^can('_do_gtk_editable_fallback-v2');
     return $r if $_fallback-v2-ok;
 
-}}
     callsame;
   }
 }
