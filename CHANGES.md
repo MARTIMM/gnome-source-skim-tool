@@ -36,12 +36,24 @@ Run a test with `prove6 --timer` on the old and new modules. The older tests tak
 |--|------------|-----------|--|-------|-------|------|
 |  | 2023 12 28 | Gtk3      | *|   144 |   367 |  510 |
 | 1| 2023 12 28 | Gtk3      |  |   144 |   367 |  145 |
+|  | 2023 12 30 | Glib      | *|    10 |    21 |   24 |
+|  | 2023 12 30 | Glib      |  |    10 |    21 |    6 |
+|  | 2023 12 30 | Gdk3      | *|    11 |    20 |   64 |
+|  | 2023 12 30 | Gdk3      |  |    11 |    20 |    6 |
+|  | 2023 12 30 | Gio       | *|    24 |    43 |   69 |
+|  | 2023 12 30 | Gio       |  |    24 |    43 |   12 |
+
+
 
 #### Api 2 tests
 |cc| Date       | Dist      |#c| Files | Tests | secs |
 |--|------------|-----------|--|-------|-------|------|
 | 1| 2023 12 28 | Gtk4      |  |    97 |   249 |   78 |
 |  | 2023 12 28 | Gtk4      | -|    97 |   249 |  171 |
+| 2| 2023 12 30 | Gtk4      |  |   128 |   318 |  106 |
+|  | 2023 12 30 | Glib      |  |    16 |    38 |   10 |
+|  | 2023 12 30 | Gio       |  |    16 |   106 |   13 |
+|  | 2023 12 30 | Gdk4      |  |     3 |    15 |    2 |
 
 * **cc**; compare code for next table
 * **#c**; rough number of files to be compiled. **.** ⅓ of total, **-** half, **+** ⅔, **\*** all files
@@ -50,9 +62,10 @@ Run a test with `prove6 --timer` on the old and new modules. The older tests tak
 #### Compare
 The calculation is to show how much time it would take when the newer version would do the same number of equal tests.
 
-|cc|    Comp | secs |   Diff | Speedup % |
-|--|---------|------|--------|-----------|
-| 1|    98.4 |   78 |   20.4 |     126.2 |
+|cc      |    Comp | secs |   Diff | Speedup % |
+|--------|---------|------|--------|-----------|
+| 1      |    98.4 |   78 |   20.4 |     126.2 |
+| 2 vs 1 |   125.6 |  106 |   19.4 |     118.5 |
 
 * **cc**; compares entries from above tables
 * **Comp**; The number of seconds the new version should have when compared to the older version. The calculation is `(nbr tests in new version) * (nbr seconds of old version) / (nbr tests in old version)`
