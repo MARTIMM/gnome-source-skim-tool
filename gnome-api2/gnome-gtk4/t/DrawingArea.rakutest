@@ -1,0 +1,172 @@
+=comment Package: Gtk4, C-Source: drawingarea
+use v6.d;
+
+#TL:1:Gnome::Gtk4::DrawingArea:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::Cairo::N-Context:api<2>;
+use Gnome::Gtk4::DrawingArea:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::DrawingArea $drawing-area;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $drawing-area {
+
+#`{{
+    #TC:0:new-drawingarea()
+
+    $drawing-area .= new-drawingarea();
+    ok .is-valid, '.new-drawingarea()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $drawing-area {
+    my gpointer $user-data;
+    my gint $width;
+    my gint $height;
+#    sub draw-func ( N-Object $drawing-area, N-_t  $cr, gint $width, gint $height, gpointer $user-data )  {}
+    my  $destroy;
+
+
+#`{{
+    #TM:0:set-content-height()
+    $height = '…';
+    .set-content-height( $height);
+    #TM:0:get-content-height()
+    is .get-content-height(),  $height, '.set-content-height() / .get-content-height()';
+
+    #TM:0:set-content-width()
+    $width = '…';
+    .set-content-width( $width);
+    #TM:0:get-content-width()
+    is .get-content-width(),  $width, '.set-content-width() / .get-content-width()';
+
+    #TM:0:set-draw-func()
+    $draw-func = …;
+    $user-data = '…';
+    $destroy = '…';
+    .set-draw-func( $draw-func, $user-data, $destroy);
+    ok True, '.set-draw-func()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $drawing-area {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::DrawingArea() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::DrawingArea;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::DrawingArea :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::DrawingArea $drawing-area .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $drawing-area.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

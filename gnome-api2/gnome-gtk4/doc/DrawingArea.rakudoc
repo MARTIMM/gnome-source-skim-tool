@@ -1,0 +1,342 @@
+=comment Package: Gtk4, C-Source: drawingarea
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::DrawingArea
+
+![](images/drawingarea.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::DrawingArea> is a widget that allows drawing with cairo.
+
+![An example GtkDrawingArea](drawingarea.png)
+
+It’s essentially a blank widget; you can draw on it. After
+creating a drawing area, the application may want to connect to:
+
+=item The I<realize defined in Widget> signal to take any necessary actions
+  when the widget is instantiated on a particular display.
+  (Create GDK resources in response to this signal.)
+
+=item The I<resize> signal to take any necessary
+  actions when the widget changes size.
+
+=item Call C<.set-draw-func()> to handle redrawing the
+  contents of the widget.
+
+The following code portion demonstrates using a drawing
+area to display a circle in the normal widget foreground
+color.
+
+=head3 Simple GtkDrawingArea usage
+
+=begin comment
+static void
+draw_function (GtkDrawingArea *area,
+               cairo_t        *cr,
+               int             width,
+               int             height,
+               gpointer        data)
+{
+  GdkRGBA color;
+  GtkStyleContext *context;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (area));
+
+  cairo_arc (cr,
+             width / 2.0, height / 2.0,
+             MIN (width, height) / 2.0,
+             0, 2 * G_PI);
+
+  gtk_style_context_get_color (context,
+                               &color);
+  gdk_cairo_set_source_rgba (cr, &color);
+
+  cairo_fill (cr);
+}
+
+int
+main (int argc, char **argv)
+{
+  gtk_init ();
+
+  GtkWidget *area = gtk_drawing_area_new ();
+  gtk_drawing_area_set_content_width (GTK_DRAWING_AREA (area), 100);
+  gtk_drawing_area_set_content_height (GTK_DRAWING_AREA (area), 100);
+  gtk_drawing_area_set_draw_func (GTK_DRAWING_AREA (area),
+                                  draw_function,
+                                  NULL, NULL);
+  return 0;
+}
+
+=end comment
+
+The draw function is normally called when a drawing area first comes
+onscreen, or when it’s covered by another window and then uncovered.
+You can also force a redraw by adding to the “damage region” of the
+drawing area’s window using C<.queue-draw() in class Gnome::Gtk4::Widget>.
+This will cause the drawing area to call the draw function again.
+
+The available routines for drawing are documented in the
+[Cairo documentation](https://www.cairographics.org/manual/); GDK
+offers additional API to integrate with Cairo, like C<.cairo-set-source-rgba() in package Gnome::Gdk>
+or C<.cairo-set-source-pixbuf() in package Gnome::Gdk>.
+
+To receive mouse events on a drawing area, you will need to use
+event controllers. To receive keyboard events, you will need to set
+the “can-focus” property on the drawing area, and you should probably
+draw some user-visible indication that the drawing area is focused.
+
+If you need more complex control over your widget, you should consider
+creating your own B<Gnome::Gtk4::Widget> subclass.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::DrawingArea
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-drawingarea
+
+Creates a new drawing area.
+
+=begin code
+method new-drawingarea ( --> Gnome::Gtk4::DrawingArea \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-drawingarea
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-content-height
+
+Retrieves the content height of the B<Gnome::Gtk4::DrawingArea>.
+
+=begin code
+method get-content-height (--> Int )
+=end code
+
+Return value; The height requested for content of the drawing area. 
+
+=begin comment
+
+=head2 Example
+# Example for get-content-height
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-content-width
+
+Retrieves the content width of the B<Gnome::Gtk4::DrawingArea>.
+
+=begin code
+method get-content-width (--> Int )
+=end code
+
+Return value; The width requested for content of the drawing area. 
+
+=begin comment
+
+=head2 Example
+# Example for get-content-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-content-height
+
+Sets the desired height of the contents of the drawing area.
+
+Note that because widgets may be allocated larger sizes than they
+requested, it is possible that the actual height passed to your draw
+function is larger than the height set here. You can use
+C<.set-valign() in class Gnome::Gtk4::Widget> to avoid that.
+
+If the height is set to 0 (the default), the drawing area may disappear.
+
+=begin code
+method set-content-height ( Int() $height )
+=end code
+
+=item $height; the height of contents.
+
+=begin comment
+
+=head2 Example
+# Example for set-content-height
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-content-width
+
+Sets the desired width of the contents of the drawing area.
+
+Note that because widgets may be allocated larger sizes than they
+requested, it is possible that the actual width passed to your draw
+function is larger than the width set here. You can use
+C<.set-halign() in class Gnome::Gtk4::Widget> to avoid that.
+
+If the width is set to 0 (the default), the drawing area may disappear.
+
+=begin code
+method set-content-width ( Int() $width )
+=end code
+
+=item $width; the width of contents.
+
+=begin comment
+
+=head2 Example
+# Example for set-content-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-draw-func
+This function is not yet available
+
+Setting a draw function is the main thing you want to do when using
+a drawing area.
+
+The draw function is called whenever GTK needs to draw the contents
+of the drawing area to the screen.
+
+The draw function will be called during the drawing stage of GTK.
+In the drawing stage it is not allowed to change properties of any
+GTK widgets or call any functions that would cause any properties
+to be changed. You should restrict yourself exclusively to drawing
+your contents in the draw function.
+
+If what you are drawing does change, call C<.queue-draw() in class Gnome::Gtk4::Widget>
+on the drawing area. This will cause a redraw and will call C<$draw-func> again.
+
+=begin code
+method set-draw-func ( &draw-func, gpointer $user-data, … )
+=end code
+
+=item &draw-func; callback that lets you draw
+  the drawing area's contents. Tthe function must be specified with following signature; C<:( N-Object $drawing-area, N-_t  $cr, gint $width, gint $height, gpointer $user-data ) >.
+=item $user-data; user data passed to C<$draw-func>.
+=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-draw-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 resize
+
+Emitted once when the widget is realized, and then each time the widget
+is changed while realized.
+
+This is useful in order to keep state up to date with the widget size,
+like for instance a backing surface.
+
+=begin code
+method handler (
+  gint $width,
+  gint $height,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DrawingArea :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $width; the width of the viewport.
+=item $height; the height of the viewport.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DrawingArea> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal resize
+
+=end comment
+
+=end pod
+

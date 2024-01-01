@@ -1,0 +1,29 @@
+=comment Package: Gtk4, C-Source: drawingarea
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-DrawingArea
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 DrawingAreaDrawFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $drawing-area, CArray[N-_t] _UA_ $cr, Int() $width, Int() $height, gpointer $user-data  )
+=end code
+
+=item drawing-area; the B<Gnome::Gtk4::DrawingArea> to redraw
+=item cr; the context to draw to
+=item width; the actual width of the contents. This value will be at least
+  as wide as GtkDrawingArea:width.
+=item height; the actual height of the contents. This value will be at least
+  as wide as GtkDrawingArea:height.
+=item user-data; user data
+
+=end pod
