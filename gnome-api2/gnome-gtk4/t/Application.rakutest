@@ -40,7 +40,7 @@ subtest 'ISA test', {
 
     #TC:1:new-application()
     $application-id = 'io.mt.xyz';
-    $flags = G_APPLICATION_FLAGS_NONE;
+    $flags = G_APPLICATION_DEFAULT_FLAGS;
     $application .= new-application( $application-id, $flags);
     ok .is-valid, '.new-application( $application-id, $flags)';
   }

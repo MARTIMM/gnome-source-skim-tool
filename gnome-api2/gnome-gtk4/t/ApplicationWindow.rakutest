@@ -30,7 +30,7 @@ my Str $application-id;
 my GApplicationFlags $flags;
 
 $application-id = 'io.mt.xyz';
-$flags = G_APPLICATION_FLAGS_NONE;
+$flags = G_APPLICATION_DEFAULT_FLAGS;
 $application .= new-application( $application-id, $flags);
 note $application.is-valid;
 
