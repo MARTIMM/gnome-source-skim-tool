@@ -1,0 +1,41 @@
+=comment Package: Gdk4, C-Source: texture
+use v6.d;
+
+#TL:1:Gnome::Gdk4::T-Texture:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gdk4::T-Texture:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GdkTextureError
+subtest 'GdkTextureError', {
+  is GDK_TEXTURE_ERROR_TOO_LARGE.value, 0, 'enum GDK_TEXTURE_ERROR_TOO_LARGE = 0';
+
+  is GDK_TEXTURE_ERROR_CORRUPT_IMAGE.value, 1, 'enum GDK_TEXTURE_ERROR_CORRUPT_IMAGE = 1';
+
+  is GDK_TEXTURE_ERROR_UNSUPPORTED_CONTENT.value, 2, 'enum GDK_TEXTURE_ERROR_UNSUPPORTED_CONTENT = 2';
+
+  is GDK_TEXTURE_ERROR_UNSUPPORTED_FORMAT.value, 3, 'enum GDK_TEXTURE_ERROR_UNSUPPORTED_FORMAT = 3';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

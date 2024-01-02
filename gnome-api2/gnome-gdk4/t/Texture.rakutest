@@ -1,0 +1,231 @@
+=comment Package: Gdk4, C-Source: texture
+use v6.d;
+
+#TL:1:Gnome::Gdk4::Texture:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gdk4::Texture:api<2>;
+use Gnome::Gdk4::T-Texture:api<2>;
+
+use Gnome::Gio::File:api<2>;
+
+#use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-Quark:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+#Gnome::N::debug(:on);
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+my Gnome::Gdk4::Texture $texture;
+my Gnome::Glib::T-Quark $quark .= new;
+my Gnome::Gio::File $file;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $texture {
+    my Str $path;
+    my Str $resource-path;
+    my N-Object $pixbuf;
+#    my N-Bytes  $bytes;
+    my CArray[N-Error] $err;
+    my Str $filename;
+
+#`{{
+    #TC:0:new-for-pixbuf()
+    $pixbuf = …;
+    $texture .= new-for-pixbuf( $pixbuf);
+    ok .is-valid, '.new-for-pixbuf( $pixbuf)';
+
+    #TC:0:new-from-bytes()
+    $bytes = '…';
+    $err = '…';
+    $texture .= new-from-bytes( $bytes, $err);
+    ok .is-valid, '.new-from-bytes( $bytes, $err)';
+
+    #TC:0:new-from-file()
+    $file = …;
+    $err = '…';
+    $texture .= new-from-file( $file, $err);
+    ok .is-valid, '.new-from-file( $file, $err)';
+}}
+    #TC:1:new-from-file()
+    $filename = 't/Data/unknown-image.png';
+    $file .= new-for-path($filename);
+    $err = CArray[N-Error].new(N-Error);
+    $texture .= new-from-file( $file, $err);
+    if ?$err[0] {
+      is $quark.to-string($err[0].domain), 'g-io-error-quark',
+       'domain text is g-io-error-quark: ' ~ $err[0].message;
+#      is $err[0].code, 4, 'error code for this error is 1';
+    }
+    $texture.clear-object;
+
+    $filename = 't/Data/gtk-raku.png';
+    $file .= new-for-path($filename);
+    $err = CArray[N-Error].new(N-Error);
+    $texture .= new-from-file( $file, $err);
+    ok !$err[0], '.new-from-file loading ' ~ $filename ~ ' successful';
+    $texture.clear-object;
+
+
+#`{{
+    #TC:0:new-from-filename()
+    $path = 'text';
+    $err = '…';
+    $texture .= new-from-filename( $path, $err);
+    ok .is-valid, '.new-from-filename( $path, $err)';
+
+    #TC:0:new-from-resource()
+    $resource-path = 'text';
+    $texture .= new-from-resource( $resource-path);
+    ok .is-valid, '.new-from-resource( $resource-path)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $texture {
+    my Str $filename;
+    my gsize $stride;
+    my Str $data;
+
+
+#`{{
+    #TM:0:download()
+    ok .download( $data, $stride), '.download()';
+
+    #TM:0:get-height()
+     .get-height(), '…', '.get-height()';
+
+    #TM:0:get-width()
+     .get-width(), '…', '.get-width()';
+
+    #TM:0:save-to-png()
+    ok .save-to-png( $filename), '.save-to-png()';
+
+    #TM:0:save-to-png-bytes()
+    ok .save-to-png-bytes(), '.save-to-png-bytes()';
+
+    #TM:0:save-to-tiff()
+    ok .save-to-tiff( $filename), '.save-to-tiff()';
+
+    #TM:0:save-to-tiff-bytes()
+    ok .save-to-tiff-bytes(), '.save-to-tiff-bytes()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $texture {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gdk4::Texture() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gdk4::Texture;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gdk4::Texture :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gdk4::Texture $texture .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $texture.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
