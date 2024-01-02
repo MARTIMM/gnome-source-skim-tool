@@ -1,0 +1,380 @@
+=comment Package: Gtk4, C-Source: headerbar
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::HeaderBar
+
+![](images/headerbar.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::HeaderBar> is a widget for creating custom title bars for windows.
+
+![An example GtkHeaderBar](headerbar.png)
+
+B<Gnome::Gtk4::HeaderBar> is similar to a horizontal B<Gnome::Gtk4::CenterBox>. It allows
+children to be placed at the start or the end. In addition, it allows
+the window title to be displayed. The title will be centered with respect
+to the width of the box, even if the children at either side take up
+different amounts of space.
+
+B<Gnome::Gtk4::HeaderBar> can add typical window frame controls, such as minimize,
+maximize and close buttons, or the window icon.
+
+For these reasons, B<Gnome::Gtk4::HeaderBar> is the natural choice for use as the
+custom titlebar widget of a B<Gnome::Gtk4::Window> (see C<.set-titlebar() in class Gnome::Gtk4::Window>),
+as it gives features typical of titlebars while allowing the addition of
+child widgets.
+
+=head3 GtkHeaderBar as GtkBuildable
+
+The B<Gnome::Gtk4::HeaderBar> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+adding children at the start or end sides by specifying “start” or “end” as
+the “type” attribute of a <child> element, or setting the title widget by
+specifying “title” value.
+
+By default the B<Gnome::Gtk4::HeaderBar> uses a B<Gnome::Gtk4::Label> displaying the title of the
+window it is contained in as the title widget, equivalent to the following
+UI definition:
+
+=begin comment
+<object class="GtkHeaderBar">
+  <property name="title-widget">
+    <object class="GtkLabel">
+      <property name="label" translatable="yes">Label</property>
+      <property name="single-line-mode">True</property>
+      <property name="ellipsize">end</property>
+      <property name="width-chars">5</property>
+      <style>
+        <class name="title"/>
+      </style>
+    </object>
+  </property>
+</object>
+
+=end comment
+
+=head2 CSS nodes
+
+=begin comment
+headerbar
+╰── windowhandle
+    ╰── box
+        ├── box.start
+        │   ├── windowcontrols.start
+        │   ╰── [other children]
+        ├── [Title Widget]
+        ╰── box.end
+            ├── [other children]
+            ╰── windowcontrols.end
+
+=end comment
+
+A B<Gnome::Gtk4::HeaderBar>'s CSS node is called B<headerbar>. It contains a B<windowhandle>
+subnode, which contains a B<box> subnode, which contains two B<box> subnodes at
+the start and end of the header bar, as well as a center node that represents
+the title.
+
+Each of the boxes contains a B<windowcontrols> subnode, see
+B<Gnome::Gtk4::WindowControls> for details, as well as other children.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::HeaderBar> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::HeaderBar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-headerbar
+
+Creates a new B<Gnome::Gtk4::HeaderBar> widget.
+
+=begin code
+method new-headerbar ( --> Gnome::Gtk4::HeaderBar \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-headerbar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-decoration-layout
+
+Gets the decoration layout of the B<Gnome::Gtk4::HeaderBar>.
+
+=begin code
+method get-decoration-layout (--> Str )
+=end code
+
+Return value; the decoration layout. 
+
+=begin comment
+
+=head2 Example
+# Example for get-decoration-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-title-buttons
+
+Returns whether this header bar shows the standard window
+title buttons.
+
+=begin code
+method get-show-title-buttons (--> Bool )
+=end code
+
+Return value; C<True> if title buttons are shown. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-title-buttons
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-title-widget
+
+Retrieves the title widget of the header.
+
+See C<.set-title-widget()>.
+
+=begin code
+method get-title-widget (--> N-Object )
+=end code
+
+Return value; the title widget of the header. 
+
+=begin comment
+
+=head2 Example
+# Example for get-title-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-end
+
+Adds C<$child> to C<$bar>, packed with reference to the
+end of the C<$bar>.
+
+=begin code
+method pack-end ( N-Object() $child )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to be added to C<$bar>.
+
+=begin comment
+
+=head2 Example
+# Example for pack-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-start
+
+Adds C<$child> to C<$bar>, packed with reference to the
+start of the C<$bar>.
+
+=begin code
+method pack-start ( N-Object() $child )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to be added to C<$bar>.
+
+=begin comment
+
+=head2 Example
+# Example for pack-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes a child from the B<Gnome::Gtk4::HeaderBar>.
+
+The child must have been added with
+C<.pack-start()>,
+C<.pack-end()> or
+C<.set-title-widget()>.
+
+=begin code
+method remove ( N-Object() $child )
+=end code
+
+=item $child; the child to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-decoration-layout
+
+Sets the decoration layout for this header bar.
+
+This property overrides the
+I<gtk-decoration-layout defined in Gnome::Gtk4::Settings> setting.
+
+There can be valid reasons for overriding the setting, such
+as a header bar design that does not allow for buttons to take
+room on the right, or only offers room for a single close button.
+Split header bars are another example for overriding the setting.
+
+The format of the string is button names, separated by commas.
+A colon separates the buttons that should appear on the left
+from those on the right. Recognized button names are minimize,
+maximize, close and icon (the window icon).
+
+For example, “icon:minimize,maximize,close” specifies a icon
+on the left, and minimize, maximize and close buttons on the right.
+
+=begin code
+method set-decoration-layout ( Str $layout )
+=end code
+
+=item $layout; a decoration layout, or undefined to unset the layout.
+
+=begin comment
+
+=head2 Example
+# Example for set-decoration-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-title-buttons
+
+Sets whether this header bar shows the standard window
+title buttons.
+
+=begin code
+method set-show-title-buttons ( Bool() $setting )
+=end code
+
+=item $setting; C<True> to show standard title buttons.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-title-buttons
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-title-widget
+
+Sets the title for the B<Gnome::Gtk4::HeaderBar>.
+
+When set to undefined, the headerbar will display the title of
+the window it is contained in.
+
+The title should help a user identify the current view.
+To achieve the same style as the builtin title, use the
+“title” style class.
+
+You should set the title widget to undefined, for the window
+title label to be visible again.
+
+=begin code
+method set-title-widget ( N-Object() $title-widget )
+=end code
+
+=item $title-widget; a widget to use for a title.
+
+=begin comment
+
+=head2 Example
+# Example for set-title-widget
+
+=end comment
+
+=end pod
+

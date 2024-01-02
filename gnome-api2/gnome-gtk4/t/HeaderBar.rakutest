@@ -1,0 +1,178 @@
+=comment Package: Gtk4, C-Source: headerbar
+use v6.d;
+
+#TL:1:Gnome::Gtk4::HeaderBar:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::HeaderBar:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::HeaderBar $header-bar;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $header-bar {
+
+#`{{
+    #TC:0:new-headerbar()
+
+    $header-bar .= new-headerbar();
+    ok .is-valid, '.new-headerbar()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $header-bar {
+    my N-Object $child;
+    my N-Object $title-widget;
+    my Str $layout;
+    my gboolean $setting;
+
+
+#`{{
+    #TM:0:pack-end()
+    ok .pack-end( $child), '.pack-end()';
+
+    #TM:0:pack-start()
+    ok .pack-start( $child), '.pack-start()';
+
+    #TM:0:remove()
+    ok .remove( $child), '.remove()';
+
+    #TM:0:set-decoration-layout()
+    $layout = 'text';
+    .set-decoration-layout( $layout);
+    #TM:0:get-decoration-layout()
+    is .get-decoration-layout(),  $layout, '.set-decoration-layout() / .get-decoration-layout()';
+
+    #TM:0:set-show-title-buttons()
+    $setting = '…';
+    .set-show-title-buttons( $setting);
+    #TM:0:get-show-title-buttons()
+    is .get-show-title-buttons(),  $setting, '.set-show-title-buttons() / .get-show-title-buttons()';
+
+    #TM:0:set-title-widget()
+    $title-widget = …;
+    .set-title-widget( $title-widget);
+    #TM:0:get-title-widget()
+    is .get-title-widget(),  $title-widget, '.set-title-widget() / .get-title-widget()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $header-bar {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::HeaderBar() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::HeaderBar;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::HeaderBar :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::HeaderBar $header-bar .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $header-bar.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
