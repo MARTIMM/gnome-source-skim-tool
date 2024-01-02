@@ -7,29 +7,10 @@ use YAMLish;
 #-------------------------------------------------------------------------------
 my Hash $list = %();
 
-my Str $api1 = $*HOME ~ '/Languages/Raku/Projects';
-my Str $api2 = [~] $api1, '/gnome-source-skim-tool/gnome-api2/';
+my Str $api2 =
+  [~] $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
 
 my ExternalModuleType $mod-type;
-
-# Old packages
-
-#`{{
-$mod-type = EMTInApi1;
-list-dir("$api1/gnome-glib/lib");
-list-dir("$api1/gnome-native/lib"); # is modified for new api
-list-dir("$api1/gnome-pango/lib");  # was never implemented
-
-list-dir("$api1/gnome-gio/lib");
-list-dir("$api1/gnome-gobject/lib");
-
-list-dir("$api1/gnome-gtk3/lib");
-list-dir("$api1/gnome-gdk3/lib");
-list-dir("$api1/gnome-cairo/lib");
-#list-dir("$api1/gnome-/lib");
-}}
-
-
 
 # New packages
 $mod-type = EMTInApi2;
@@ -45,6 +26,7 @@ list-dir("$api2/gnome-gsk4/lib");
 
 list-dir("$api2/gnome-gdkpixbuf/lib");
 list-dir("$api2/gnome-pango/lib");
+#list-dir("$api2/gnome-cairo/lib");
 
 #`{{
 

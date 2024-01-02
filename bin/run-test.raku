@@ -9,7 +9,7 @@ constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/gnome-sourc
 
 my Hash $test-location = %(
   :Atk<gnome-atk>,
-  :Cairo<gnome-cairo>,
+#  :Cairo<gnome-cairo>,
   :Gtk3<gnome-gtk3>, :Gdk3<gnome-gdk3>,
   :Gtk4<gnome-gtk4>, :Gsk4<gnome-gsk4>, :Gdk4<gnome-gdk4>,
   :GdkPixbuf<gnome-gdkpixbuf>, :Pango<gnome-pango>,
@@ -175,7 +175,7 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-gio/lib",
         "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
-        "$API2MODS/gnome-cairo/lib",
+#        "$API2MODS/gnome-cairo/lib",
         "$API2MODS/gnome-atk/lib",
         "$API2MODS/gnome-gtk3/lib",
         "$API2MODS/gnome-gdk3/lib",
@@ -190,7 +190,7 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-gio/lib",
         "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
-        "$API2MODS/gnome-cairo/lib",
+#        "$API2MODS/gnome-cairo/lib",
         "$API2MODS/gnome-atk/lib",
         "$API2MODS/gnome-gtk4/lib",
         "$API2MODS/gnome-gdk4/lib",
@@ -206,7 +206,7 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-gio/lib",
         "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
-        "$API2MODS/gnome-cairo/lib",
+#        "$API2MODS/gnome-cairo/lib",
       );
     }
 

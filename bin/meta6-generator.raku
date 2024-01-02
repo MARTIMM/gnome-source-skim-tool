@@ -22,9 +22,9 @@ check-modules( 'Pango',   "$api2/gnome-pango/lib");
 check-modules( 'GdkPixbuf',   "$api2/gnome-gdkpixbuf/lib");
 
 check-modules( 'N',       "$api2/gnome-native/lib");
+check-modules( 'Cairo',   "$api2/gnome-cairo/lib");
 
 #`{{
-check-modules( "$api2/gnome-cairo/lib");
 
 check-modules( "$api2/gnome-gtk3/lib");
 check-modules( "$api2/gnome-gdk3/lib");
@@ -70,7 +70,7 @@ sub check-modules ( Str $name, Str $cdir ) {
       .<source-url> = "git://github.com/MARTIMM/gnome-{$name.lc}-api2.git";
 
       if $name ~~ 'Gtk4' {
-         # Gnome::Gdk4:api<2> Gnome::Gsk4:api<2>
+        # Gnome::Gdk4:api<2> Gnome::Gsk4:api<2>
         .<description> = "Modules for package Gnome\::Gtk4\:api<2>. The language binding to GNOME’s user interface toolkit version 4";
         .<depends> = [  "Gnome::Gio$dep-pfix", "Gnome::GObject$dep-pfix",
           "Gnome::Glib$dep-pfix", "Gnome::N$dep-pfix"
@@ -82,12 +82,24 @@ sub check-modules ( Str $name, Str $cdir ) {
 
 #      elsif $name ~~ 'Gtk3' { }
 #      elsif $name ~~ 'Gdk3' { }
-#      elsif $name ~~ 'GdkPixbuf' { }
-#      elsif $name ~~ 'GdkPixdata' { }
+      elsif $name ~~ 'GdkPixbuf' {
+        .<tags> = [ 'Gnome', $name, 'image', 'animation', 'video'];
+        .<description> = "Modules for Gnome::Pixbuf:api<2>. Graphical media loading and manipulation";
+        .<depends> = [ "Gnome::GObject$dep-pfix", "Gnome::Glib$dep-pfix",
+          "Gnome::Gio$dep-pfix", "Gnome::N$dep-pfix"
+        ];
+      }
 
 #      elsif $name ~~ 'Atk' { }
-#      elsif $name ~~ 'Cairo' { }
-
+#`{{
+        elsif $name ~~ 'Cairo' {
+        .<tags> = [ 'Gnome', $name, 'drawing'];
+        .<description> = "Modules for Gnome::Cairo:api<2>. Drawing on surfaces";
+        .<depends> = [ "Gnome::GObject$dep-pfix", "Gnome::Glib$dep-pfix",
+          "Gnome::N$dep-pfix"
+        ];
+      }
+}}
       elsif $name ~~ 'Pango' {
         .<tags> = [ 'Gnome', $name, 'text-layout', 'text-rendering'];
         .<description> = "Modules for package Gnome\::Pango\:api<2>. The language binding to Pango: Internationalized text layout and rendering";
