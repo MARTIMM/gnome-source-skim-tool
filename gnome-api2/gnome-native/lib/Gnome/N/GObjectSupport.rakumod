@@ -479,9 +479,9 @@ method _convert_g_signal_connect_object (
 #note "F: $f.gist()";
 
   note [~] "Calling: .g_signal_connect_object\(\n",
-    "  $instance.perl(),\n",
+    "  $instance.gist(),\n",
     "  '$detailed-signal',\n",
-    "  $provided-handler.perl(),\n",
+    "  $provided-handler.gist(),\n",
     "  gpointer,\n",
 #    "  OpaquePointer,\n",
     "  0\n",
