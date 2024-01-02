@@ -46,7 +46,7 @@ method set-object-name (
       }
 
       else {
-        $object-name ~~ s/^ '-' /$/;
+        $object-name ~~ s/^ '-' /\$/;
       }
     }
 
