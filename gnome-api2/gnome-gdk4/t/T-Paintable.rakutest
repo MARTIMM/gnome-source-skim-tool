@@ -1,0 +1,54 @@
+=comment Package: Gdk4, C-Source: paintable
+use v6.d;
+
+#TL:1:Gnome::Gdk4::T-Paintable:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gdk4::T-Paintable:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GdkPaintableFlags
+subtest 'GdkPaintableFlags', {
+  is GDK_PAINTABLE_STATIC_SIZE.value, 1, 'bitfield GDK_PAINTABLE_STATIC_SIZE = 1';
+
+  is GDK_PAINTABLE_STATIC_CONTENTS.value, 2, 'bitfield GDK_PAINTABLE_STATIC_CONTENTS = 2';
+
+};
+
+
+my Gnome::Gdk4::T-Paintable $paintable .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $paintable {
+    my gint $intrinsic-height;
+    my gint $intrinsic-width;
+
+
+#`{{
+    #TM:0:paintable-new-empty()
+    ok .paintable-new-empty( $intrinsic-width, $intrinsic-height), '.paintable-new-empty()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

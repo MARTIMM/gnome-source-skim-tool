@@ -1,0 +1,79 @@
+=comment Package: Gdk4, C-Source: paintable
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gdk4::T-Paintable
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GdkPaintableFlags
+
+Flags about a paintable object.
+
+Implementations use these for optimizations such as caching.
+
+=item C<GDK_PAINTABLE_STATIC_SIZE>; The size is immutable.
+  The [signal C<$GdkPaintable>::invalidate-size] signal will never be
+  emitted.
+=item C<GDK_PAINTABLE_STATIC_CONTENTS>; The content is immutable.
+  The [signal C<$GdkPaintable>::invalidate-contents] signal will never be
+  emitted.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 paintable-new-empty
+
+Returns a paintable that has the given intrinsic size and draws nothing.
+
+This is often useful for implementing the
+[vfunc C<$Gdk>.Paintable.get_current_image] virtual function
+when the paintable is in an incomplete state (like a
+B<Gnome::Gtk4::MediaStream> before receiving the first frame).
+
+=begin code
+method paintable-new-empty ( Int() $intrinsic-width, Int() $intrinsic-height --> N-Object )
+=end code
+
+=item $intrinsic-width; The intrinsic width to report. Can be 0 for no width..
+=item $intrinsic-height; The intrinsic height to report. Can be 0 for no height..
+
+Return value; a B<Gnome::Gdk4::R-Paintable>. 
+
+=begin comment
+
+=head2 Example
+# Example for paintable-new-empty
+
+=end comment
+
+=end pod
+

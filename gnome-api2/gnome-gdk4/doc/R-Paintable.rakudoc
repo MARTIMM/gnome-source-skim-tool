@@ -1,0 +1,455 @@
+=comment Package: Gdk4, C-Source: paintable
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gdk4::R-Paintable
+
+=head1 Description
+
+B<Gnome::Gdk4::R-Paintable> is a simple interface used by GTK to represent content that
+can be painted.
+
+The content of a B<Gnome::Gdk4::R-Paintable> can be painted anywhere at any size
+without requiring any sort of layout. The interface is inspired by
+similar concepts elsewhere, such as
+[ClutterContent](https://developer.gnome.org/clutter/stable/ClutterContent.html),
+[HTML/CSS Paint Sources](https://www.w3.org/TR/css-images-4/#paint-source),
+or [SVG Paint Servers](https://www.w3.org/TR/SVG2/pservers.html).
+
+A B<Gnome::Gdk4::R-Paintable> can be snapshot at any time and size using
+C<.snapshot()>. How the paintable interprets that size and
+if it scales or centers itself into the given rectangle is implementation
+defined, though if you are implementing a B<Gnome::Gdk4::R-Paintable> and don't know what
+to do, it is suggested that you scale your paintable ignoring any potential
+aspect ratio.
+
+The contents that a B<Gnome::Gdk4::R-Paintable> produces may depend on the B<GdkSnapshot>
+passed to it. For example, paintables may decide to use more detailed images
+on higher resolution screens or when OpenGL is available. A B<Gnome::Gdk4::R-Paintable>
+will however always produce the same output for the same snapshot.
+
+A B<Gnome::Gdk4::R-Paintable> may change its contents, meaning that it will now produce
+a different output with the same snapshot. Once that happens, it will call
+C<.invalidate-contents()> which will emit the
+[signal C<$GdkPaintable>::invalidate-contents] signal. If a paintable is known
+to never change its contents, it will set the C<GDK_PAINTABLE_STATIC_CONTENTS>
+flag. If a consumer cannot deal with changing contents, it may call
+C<.get-current-image()> which will return a static
+paintable and use that.
+
+A paintable can report an intrinsic (or preferred) size or aspect ratio it
+wishes to be rendered at, though it doesn't have to. Consumers of the interface
+can use this information to layout thepaintable appropriately. Just like the
+contents, the size of a paintable can change. A paintable will indicate this
+by calling C<.invalidate-size()> which will emit the
+[signal C<$GdkPaintable>::invalidate-size] signal. And just like for contents,
+if a paintable is known to never change its size, it will set the
+C<GDK_PAINTABLE_STATIC_SIZE> flag.
+
+Besides API for applications, there are some functions that are only
+useful for implementing subclasses and should not be used by applications:
+C<.invalidate-contents()>,
+C<.invalidate-size()>,
+C<.Paintable.new-empty()>.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::Paintable
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compute-concrete-size
+
+Compute a concrete size for the B<Gnome::Gdk4::R-Paintable>.
+
+Applies the sizing algorithm outlined in the
+[CSS Image spec](https://drafts.csswg.org/css-images-3/#default-sizing)
+to the given C<$paintable>. See that link for more details.
+
+It is not necessary to call this function when both C<$specified-width>
+and C<$specified-height> are known, but it is useful to call this
+function in GtkWidget:measure implementations to compute the
+other dimension when only one dimension is given.
+
+=begin code
+method compute-concrete-size ( Num() $specified-width, Num() $specified-height, Num() $default-width, Num() $default-height, Num() $concrete-width, Num() $concrete-height )
+=end code
+
+=item $specified-width; the width C<$paintable> could be drawn into or
+  0.0 if unknown.
+=item $specified-height; the height C<$paintable> could be drawn into or
+  0.0 if unknown.
+=item $default-width; the width C<$paintable> would be drawn into if
+  no other constraints were given.
+=item $default-height; the height C<$paintable> would be drawn into if
+  no other constraints were given.
+=item $concrete-width; (transfer ownership: full) will be set to the concrete width computed.
+=item $concrete-height; (transfer ownership: full) will be set to the concrete height computed.
+
+=begin comment
+
+=head2 Example
+# Example for compute-concrete-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-image
+
+Gets an immutable paintable for the current contents displayed by C<$paintable>.
+
+This is useful when you want to retain the current state of an animation,
+for example to take a screenshot of a running animation.
+
+If the C<$paintable> is already immutable, it will return itself.
+
+=begin code
+method get-current-image (--> N-Object )
+=end code
+
+Return value; An immutable paintable for the current
+  contents of C<$paintable>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-image
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-flags
+
+Get flags for the paintable.
+
+This is oftentimes useful for optimizations.
+
+See [flags C<$Gdk>.PaintableFlags] for the flags and what they mean.
+
+=begin code
+method get-flags (--> UInt )
+=end code
+
+Return value; The C<bit field GdkPaintableFlags defined in Gnome::Gdk4::T-Paintable> for this paintable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-flags
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-intrinsic-aspect-ratio
+
+Gets the preferred aspect ratio the C<$paintable> would like to be displayed at.
+
+The aspect ratio is the width divided by the height, so a value of 0.5
+means that the C<$paintable> prefers to be displayed twice as high as it
+is wide. Consumers of this interface can use this to preserve aspect
+ratio when displaying the paintable.
+
+This is a purely informational value and does not in any way limit the
+values that may be passed to C<.snapshot()>.
+
+Usually when a C<$paintable> returns nonzero values from
+C<.get-intrinsic-width()> and
+C<.get-intrinsic-height()> the aspect ratio
+should conform to those values, though that is not required.
+
+If the C<$paintable> does not have a preferred aspect ratio,
+it returns 0. Negative values are never returned.
+
+=begin code
+method get-intrinsic-aspect-ratio (--> Num )
+=end code
+
+Return value; the intrinsic aspect ratio of C<$paintable> or 0 if none.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-intrinsic-aspect-ratio
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-intrinsic-height
+
+Gets the preferred height the C<$paintable> would like to be displayed at.
+
+Consumers of this interface can use this to reserve enough space to draw
+the paintable.
+
+This is a purely informational value and does not in any way limit the
+values that may be passed to C<.snapshot()>.
+
+If the C<$paintable> does not have a preferred height, it returns 0.
+Negative values are never returned.
+
+=begin code
+method get-intrinsic-height (--> Int )
+=end code
+
+Return value; the intrinsic height of C<$paintable> or 0 if none.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-intrinsic-height
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-intrinsic-width
+
+Gets the preferred width the C<$paintable> would like to be displayed at.
+
+Consumers of this interface can use this to reserve enough space to draw
+the paintable.
+
+This is a purely informational value and does not in any way limit the
+values that may be passed to C<.snapshot()>.
+
+If the C<$paintable> does not have a preferred width, it returns 0.
+Negative values are never returned.
+
+=begin code
+method get-intrinsic-width (--> Int )
+=end code
+
+Return value; the intrinsic width of C<$paintable> or 0 if none.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-intrinsic-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invalidate-contents
+
+Called by implementations of B<Gnome::Gdk4::R-Paintable> to invalidate their contents.
+
+Unless the contents are invalidated, implementations must guarantee that
+multiple calls of C<.snapshot()> produce the same output.
+
+This function will emit the I<invalidate-contents>
+signal.
+
+If a C<$paintable> reports the C<GDK_PAINTABLE_STATIC_CONTENTS> flag,
+it must not call this function.
+
+=begin code
+method invalidate-contents ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for invalidate-contents
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invalidate-size
+
+Called by implementations of B<Gnome::Gdk4::R-Paintable> to invalidate their size.
+
+As long as the size is not invalidated, C<$paintable> must return the same
+values for its intrinsic width, height and aspect ratio.
+
+This function will emit the I<invalidate-size>
+signal.
+
+If a C<$paintable> reports the C<GDK_PAINTABLE_STATIC_SIZE> flag,
+it must not call this function.
+
+=begin code
+method invalidate-size ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for invalidate-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 snapshot
+
+Snapshots the given paintable with the given C<$width> and C<$height>.
+
+The paintable is drawn at the current (0,0) offset of the C<$snapshot>.
+If C<$width> and C<$height> are not larger than zero, this function will
+do nothing.
+
+=begin code
+method snapshot ( N-Object() $snapshot, Num() $width, Num() $height )
+=end code
+
+=item $snapshot; a B<Gnome::Gdk4::Snapshot> to snapshot to.
+=item $width; width to snapshot in.
+=item $height; height to snapshot in.
+
+=begin comment
+
+=head2 Example
+# Example for snapshot
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-empty
+
+Returns a paintable that has the given intrinsic size and draws nothing.
+
+This is often useful for implementing the
+[vfunc C<$Gdk>.Paintable.get_current_image] virtual function
+when the paintable is in an incomplete state (like a
+B<Gnome::Gtk4::MediaStream> before receiving the first frame).
+
+=begin code
+method new-empty ( Int() $intrinsic-width, Int() $intrinsic-height --> N-Object )
+=end code
+
+=item $intrinsic-width; The intrinsic width to report. Can be 0 for no width..
+=item $intrinsic-height; The intrinsic height to report. Can be 0 for no height..
+
+Return value; a B<Gnome::Gdk4::R-Paintable>. 
+
+=begin comment
+
+=head2 Example
+# Example for new-empty
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 invalidate-contents
+
+Emitted when the contents of the C<$paintable> change.
+
+Examples for such an event would be videos changing to the next frame or
+the icon theme for an icon changing.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Paintable :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Paintable> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal invalidate-contents
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 invalidate-size
+
+Emitted when the intrinsic size of the C<$paintable> changes.
+
+This means the values reported by at least one of
+C<.get-intrinsic-width()>,
+C<.get-intrinsic-height()> or
+C<.get-intrinsic-aspect-ratio()>
+has changed.
+
+Examples for such an event would be a paintable displaying
+the contents of a toplevel surface being resized.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Paintable :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Paintable> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal invalidate-size
+
+=end comment
+
+=end pod
+
