@@ -165,13 +165,14 @@ sub _name_from_instance ( N-Object $instance --> Str )
 
 
 
-
+#`{{
 # TODO - needed?
 #-------------------------------------------------------------------------------
 method FALLBACK( $routine, *@a, *%o ) {
   note 'a & o: ', self.^name, ', ', $routine, ', ', @a.gist, ', ', %o.gist;
   self._wrap-native-type-from-no(self)."$routine"( |@a, |%o);
 }
+}}
 
 =finish
 #-------------------------------------------------------------------------------
