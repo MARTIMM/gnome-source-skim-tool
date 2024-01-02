@@ -36,10 +36,10 @@ Run a test with `prove6 --timer` on the old and new modules. The older tests tak
 |--|------------|-----------|--|-------|-------|------|
 |  | 2023 12 28 | Gtk3      | *|   144 |   367 |  510 |
 | 1| 2023 12 28 | Gtk3      |  |   144 |   367 |  145 |
-|  | 2023 12 30 | Glib      | *|    10 |    21 |   24 |
-|  | 2023 12 30 | Glib      |  |    10 |    21 |    6 |
 |  | 2023 12 30 | Gdk3      | *|    11 |    20 |   64 |
 |  | 2023 12 30 | Gdk3      |  |    11 |    20 |    6 |
+|  | 2023 12 30 | Glib      | *|    10 |    21 |   24 |
+|  | 2023 12 30 | Glib      |  |    10 |    21 |    6 |
 |  | 2023 12 30 | Gio       | *|    24 |    43 |   69 |
 |  | 2023 12 30 | Gio       |  |    24 |    43 |   12 |
 
@@ -51,9 +51,10 @@ Run a test with `prove6 --timer` on the old and new modules. The older tests tak
 | 1| 2023 12 28 | Gtk4      |  |    97 |   249 |   78 |
 |  | 2023 12 28 | Gtk4      | -|    97 |   249 |  171 |
 | 2| 2023 12 30 | Gtk4      |  |   128 |   318 |  106 |
+|  | 2023 12 30 | Gdk4      |  |     3 |    15 |    2 |
+|  | 2024 01 02 | Gdk4      |  |     7 |    22 |    5 |
 |  | 2023 12 30 | Glib      |  |    16 |    38 |   10 |
 |  | 2023 12 30 | Gio       |  |    16 |   106 |   13 |
-|  | 2023 12 30 | Gdk4      |  |     3 |    15 |    2 |
 
 * **cc**; compare code for next table
 * **#c**; rough number of files to be compiled. **.** ⅓ of total, **-** half, **+** ⅔, **\*** all files
@@ -107,7 +108,7 @@ find . -name '*.raku*' | xargs wc -l
   * **Gnome::\<package>::R-\<role>**. Name of roles are changed but is not a problem because they cannot be used as a class.
   * **Gnome::\<package>::N-\<structures>**. Structures and unions are stored separately. This is a change from the older packages. The structure names are also exported so that the last part can be used; E.g. **N-Error** imported with **Gnome::Glib::N-Error**. The object **N-Object** found in `Gnome::N` is widely used and was name N-GObject in the first project.
   * **Gnome::\<package>::T-\<types>**. A gathering of other types like constants and enumerations. The types are all exported.
-* In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. First of all, it is not specifically pinned to version 3.
+* In the older packages GdkPixbuf was put into the Gdk3 package. The newer one will separate this. First of all, it is not specifically pinned to version 3. It isn't gone, however, gnome developers mention that it would be better to use [GdkTexture and GdkPaintables](https://blog.gtk.org/2018/03/16/textures-and-paintables/).
 * New packages are introduced in the new api; To name a few, `Gnome::Atk`, `Gnome::Pango`, `Gnome::Gsk4`, `Gnome::Gtk4`, and `Gnome::Gdk4`.
 * No lists are returned to read veriables set by the native routines.
 * Some cases where text was provided as an argument where it also needed to give the length of the string. In the older versions it was hidden. In the new version it must be provided.
