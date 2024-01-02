@@ -222,7 +222,7 @@ multi method call-native-sub (
     $routine<function-address>{$func-pattern} = $c;
   }
 
-#note "\n$?LINE '$func-pattern', $routine.gist()";
+#note "\n$?LINE '$func-pattern', $routine.gist(), $native-args.gist()";
 
   self.convert-return( $c(|$native-args), $routine);
 }
