@@ -14,6 +14,7 @@ method set-object-name (
   Hash $object-map-entry, ObjectNameType :$name-type = ClassnameType,
   --> Str
 ) {
+#note "$?LINE $name-type.Str()";
   my Str $object-name;
   my Str $type-letter = $object-map-entry<type-letter> // '';
   $object-map-entry<package-name> //= $*work-data<raku-package>;
@@ -33,6 +34,19 @@ method set-object-name (
       else {
         $object-name = $object-map-entry<package-name> ~ '::' ~
                        $object-map-entry<type-name>;
+      }
+    }
+
+    when TestVariableType {
+      $object-name = $object-map-entry<type-name>;
+      $object-name ~~ s:g/ (<[A..Z]>) /-$0.lc()/;
+
+      if ?$type-letter {
+        $object-name = [~] '$', $type-letter.lc, $object-name;
+      }
+
+      else {
+        $object-name ~~ s/^ '-' /$/;
       }
     }
 
