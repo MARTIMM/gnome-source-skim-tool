@@ -178,15 +178,13 @@ method generate-test ( ) {
   $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//union');
-
   $ctype = $element.attribs<c:type>;
-  my Hash $h = $!solve.search-name($ctype);
 
-#  my Str $class = 'N-' ~ $h<gnome-name>;
-#  my Str $test-variable = '$' ~ $class.lc;
-  my Str $test-variable = $h<gnome-name>.lc;
-  $test-variable ~~ s:i/^ $prefix //;
-  $test-variable = '$' ~ $test-variable;
+  my Hash $h = $!solve.search-name($ctype);
+  my Str $test-variable = $!solve.set-object-name(
+    $h, :name-type(TestVariableType)
+  );
+
 
   my Str $raku-class-struct = $h<class-name>;
   $!mod.add-import($raku-class-struct);

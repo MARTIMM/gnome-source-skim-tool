@@ -117,8 +117,13 @@ method generate-test ( ) {
   $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//class');
-  my Str $test-variable = '$' ~ $*gnome-class.lc;
   $!mod.add-import($*work-data<raku-class-name>);
+
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $test-variable = $!solve.set-object-name(
+    $h0, :name-type(TestVariableType)
+  );
+
 
   my Str $code = $!tst.prepare-test($*work-data<raku-class-name>);
 
@@ -142,7 +147,6 @@ method generate-test ( ) {
   $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
   my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameTestType));
 #  my Str $fname = "$*work-data<result-tests>$*work-data<raku-name>.rakutest";
   $!mod.save-file( $fname, $code, "class tests");

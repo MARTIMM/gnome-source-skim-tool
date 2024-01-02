@@ -120,14 +120,14 @@ method generate-test ( ) {
   $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//namespace/record');
-
   my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!solve.search-name($ctype);
 
   # Get name of test variable holding this record object
-  my Str $test-variable = $h<gnome-name>.lc;
-  $test-variable ~~ s:i/^ $prefix //;
-  $test-variable = '$' ~ $test-variable;
+  my Hash $h = $!solve.search-name($ctype);
+  my Str $test-variable = $!solve.set-object-name(
+    $h, :name-type(TestVariableType)
+  );
+
 
   # Import the record structure
 #  my Str $raku-class-struct = $h<class-name>;

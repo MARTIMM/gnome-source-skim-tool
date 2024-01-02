@@ -117,8 +117,12 @@ method generate-test ( ) {
   $!tst .= new;
 
   my XML::Element $element = $!xpath.find('//interface');
-  my Str $test-variable = '$' ~ $*gnome-class.lc;
   $!mod.add-import($*work-data<raku-class-name>);
+
+  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
+  my Str $test-variable = $!solve.set-object-name(
+    $h0, :name-type(TestVariableType)
+  );
 
   my Str $ctype = $element.attribs<c:type>;
   my Hash $h = $!solve.search-name($ctype);
