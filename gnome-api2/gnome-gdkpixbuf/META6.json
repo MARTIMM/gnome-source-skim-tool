@@ -5,8 +5,13 @@
   "authors": [
     "Marcel Timmerman"
   ],
-  "depends": [ "Gnome::Glib", "Gnome::GObject", "Gnome::Gio", "Gnome::N"],
-  "description": "Modules for Gnome::Pixbuf:api<2>. Image loading and manipulation",
+  "depends": [
+    "Gnome::GObject:auth<github:MARTIMM>:api<2>",
+    "Gnome::Glib:auth<github:MARTIMM>:api<2>",
+    "Gnome::Gio:auth<github:MARTIMM>:api<2>",
+    "Gnome::N:auth<github:MARTIMM>:api<2>"
+  ],
+  "description": "Modules for Gnome::Pixbuf:api<2>. Graphical media loading and manipulation",
   "license": "Artistic-2.0",
   "meta-version": "2",
   "name": "Gnome::GdkPixbuf",
@@ -23,7 +28,10 @@
   },
   "tags": [
     "Gnome",
-    "GdkPixbuf"
+    "GdkPixbuf",
+    "image",
+    "animation",
+    "video"
   ],
   "version": "0.1.1"
 }
