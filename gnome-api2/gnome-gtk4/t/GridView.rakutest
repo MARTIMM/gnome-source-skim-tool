@@ -1,0 +1,192 @@
+=comment Package: Gtk4, C-Source: gridview
+use v6.d;
+
+#TL:1:Gnome::Gtk4::GridView:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::GridView:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::GridView $grid-view;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $grid-view {
+    my N-Object $model;
+    my N-Object $factory;
+
+#`{{
+    #TC:0:new-gridview()
+    $model = …;
+    $factory = …;
+    $grid-view .= new-gridview( $model, $factory);
+    ok .is-valid, '.new-gridview( $model, $factory)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $grid-view {
+    my gboolean $enable-rubberband;
+    my gboolean $single-click-activate;
+    my N-Object $factory;
+    my guint $min-columns;
+    my N-Object $model;
+    my guint $max-columns;
+
+
+#`{{
+    #TM:0:set-enable-rubberband()
+    $enable-rubberband = '…';
+    .set-enable-rubberband( $enable-rubberband);
+    #TM:0:get-enable-rubberband()
+    is .get-enable-rubberband(),  $enable-rubberband, '.set-enable-rubberband() / .get-enable-rubberband()';
+
+    #TM:0:set-factory()
+    $factory = …;
+    .set-factory( $factory);
+    #TM:0:get-factory()
+    is .get-factory(),  $factory, '.set-factory() / .get-factory()';
+
+    #TM:0:set-max-columns()
+    $max-columns = '…';
+    .set-max-columns( $max-columns);
+    #TM:0:get-max-columns()
+    is .get-max-columns(),  $max-columns, '.set-max-columns() / .get-max-columns()';
+
+    #TM:0:set-min-columns()
+    $min-columns = '…';
+    .set-min-columns( $min-columns);
+    #TM:0:get-min-columns()
+    is .get-min-columns(),  $min-columns, '.set-min-columns() / .get-min-columns()';
+
+    #TM:0:set-model()
+    $model = …;
+    .set-model( $model);
+    #TM:0:get-model()
+    is .get-model(),  $model, '.set-model() / .get-model()';
+
+    #TM:0:set-single-click-activate()
+    $single-click-activate = '…';
+    .set-single-click-activate( $single-click-activate);
+    #TM:0:get-single-click-activate()
+    is .get-single-click-activate(),  $single-click-activate, '.set-single-click-activate() / .get-single-click-activate()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $grid-view {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::GridView() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::GridView;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::GridView :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::GridView $grid-view .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $grid-view.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

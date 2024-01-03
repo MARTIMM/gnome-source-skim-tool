@@ -1,0 +1,437 @@
+=comment Package: Gtk4, C-Source: gridview
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::GridView
+
+![](images/gridview.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::GridView> presents a large dynamic grid of items.
+
+B<Gnome::Gtk4::GridView> uses its factory to generate one child widget for each
+visible item and shows them in a grid. The orientation of the grid view
+determines if the grid reflows vertically or horizontally.
+
+B<Gnome::Gtk4::GridView> allows the user to select items according to the selection
+characteristics of the model. For models that allow multiple selected items,
+it is possible to turn on _rubberband selection_, using
+I<enable-rubberband>.
+
+To learn more about the list widget framework, see the
+[overview](section-list-widget.html).
+
+=head2 CSS nodes
+
+=begin comment
+gridview
+├── child[.activatable]
+│
+├── child[.activatable]
+│
+┊
+╰── [rubberband]
+
+=end comment
+
+B<Gnome::Gtk4::GridView> uses a single CSS node with name B<gridview>. Each child uses
+a single CSS node with name B<child>. If the I<activatable defined in Gnome::Gtk4::ListItem>
+property is set, the corresponding row will have the B<.activatable> style
+class. For rubberband selection, a subnode with name B<rubberband> is used.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::GridView> uses the C<GTK_ACCESSIBLE_ROLE_GRID> role, and the items
+use the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GridView
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gridview
+
+Creates a new B<Gnome::Gtk4::GridView> that uses the given C<$factory> for
+mapping items to widgets.
+
+The function takes ownership of the
+arguments, so you can write code like
+=begin comment
+grid_view = gtk_grid_view_new (create_model (),
+  gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
+
+=end comment
+
+=begin code
+method new-gridview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::GridView \)
+=end code
+
+=item $model; (transfer ownership: full) the model to use.
+=item $factory; (transfer ownership: full) The factory to populate items with.
+
+=begin comment
+
+=head2 Example
+# Example for new-gridview
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-rubberband
+
+Returns whether rows can be selected by dragging with the mouse.
+
+=begin code
+method get-enable-rubberband (--> Bool )
+=end code
+
+Return value; C<True> if rubberband selection is enabled. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-rubberband
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-factory
+
+Gets the factory that's currently used to populate list items.
+
+=begin code
+method get-factory (--> N-Object )
+=end code
+
+Return value; The factory in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-max-columns
+
+Gets the maximum number of columns that the grid will use.
+
+=begin code
+method get-max-columns (--> UInt )
+=end code
+
+Return value; The maximum number of columns. 
+
+=begin comment
+
+=head2 Example
+# Example for get-max-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-min-columns
+
+Gets the minimum number of columns that the grid will use.
+
+=begin code
+method get-min-columns (--> UInt )
+=end code
+
+Return value; The minimum number of columns. 
+
+=begin comment
+
+=head2 Example
+# Example for get-min-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Gets the model that's currently used to read the items displayed.
+
+=begin code
+method get-model (--> N-Object )
+=end code
+
+Return value; The model in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-single-click-activate
+
+Returns whether items will be activated on single click and
+selected on hover.
+
+=begin code
+method get-single-click-activate (--> Bool )
+=end code
+
+Return value; C<True> if items are activated on single click. 
+
+=begin comment
+
+=head2 Example
+# Example for get-single-click-activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-rubberband
+
+Sets whether selections can be changed by dragging with the mouse.
+
+=begin code
+method set-enable-rubberband ( Bool() $enable-rubberband )
+=end code
+
+=item $enable-rubberband; C<True> to enable rubberband selection.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-rubberband
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-factory
+
+Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating list items.
+
+=begin code
+method set-factory ( N-Object() $factory )
+=end code
+
+=item $factory; the factory to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-max-columns
+
+Sets the maximum number of columns to use.
+
+This number must be at least 1.
+
+If C<$max-columns> is smaller than the minimum set via
+C<.set-min-columns()>, that value is used instead.
+
+=begin code
+method set-max-columns ( UInt() $max-columns )
+=end code
+
+=item $max-columns; The maximum number of columns.
+
+=begin comment
+
+=head2 Example
+# Example for set-max-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-min-columns
+
+Sets the minimum number of columns to use.
+
+This number must be at least 1.
+
+If C<$min-columns> is smaller than the minimum set via
+C<.set-max-columns()>, that value is ignored.
+
+=begin code
+method set-min-columns ( UInt() $min-columns )
+=end code
+
+=item $min-columns; The minimum number of columns.
+
+=begin comment
+
+=head2 Example
+# Example for set-min-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the imodel to use.
+
+This must be a B<Gnome::Gtk4::R-SelectionModel>.
+
+=begin code
+method set-model ( N-Object() $model )
+=end code
+
+=item $model; the model to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-single-click-activate
+
+Sets whether items should be activated on single click and
+selected on hover.
+
+=begin code
+method set-single-click-activate ( Bool() $single-click-activate )
+=end code
+
+=item $single-click-activate; C<True> to activate items on single click.
+
+=begin comment
+
+=head2 Example
+# Example for set-single-click-activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted when a cell has been activated by the user,
+usually via activating the GtkGridView|list.activate-item action.
+
+This allows for a convenient way to handle activation in a gridview.
+See I<activatable defined in Gnome::Gtk4::ListItem> for details on how to use
+this signal.
+
+=begin code
+method handler (
+  guint $position,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GridView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $position; position of item to activate.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GridView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=end pod
+
