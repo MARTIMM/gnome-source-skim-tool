@@ -1,0 +1,450 @@
+=comment Package: Gtk4, C-Source: listview
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ListView
+
+![](images/listview.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ListView> presents a large dynamic list of items.
+
+B<Gnome::Gtk4::ListView> uses its factory to generate one row widget for each visible
+item and shows them in a linear display, either vertically or horizontally.
+
+The I<show-separators> property offers a simple way to
+display separators between the rows.
+
+B<Gnome::Gtk4::ListView> allows the user to select items according to the selection
+characteristics of the model. For models that allow multiple selected items,
+it is possible to turn on _rubberband selection_, using
+I<enable-rubberband>.
+
+If you need multiple columns with headers, see B<Gnome::Gtk4::ColumnView>.
+
+To learn more about the list widget framework, see the
+[overview](section-list-widget.html).
+
+An example of using B<Gnome::Gtk4::ListView>:
+=begin comment
+static void
+setup_listitem_cb (GtkListItemFactory *factory,
+                   GtkListItem        *list_item)
+{
+  GtkWidget *image;
+
+  image = gtk_image_new ();
+  gtk_image_set_icon_size (GTK_IMAGE (image), GTK_ICON_SIZE_LARGE);
+  gtk_list_item_set_child (list_item, image);
+}
+
+static void
+bind_listitem_cb (GtkListItemFactory *factory,
+                  GtkListItem        *list_item)
+{
+  GtkWidget *image;
+  GAppInfo *app_info;
+
+  image = gtk_list_item_get_child (list_item);
+  app_info = gtk_list_item_get_item (list_item);
+  gtk_image_set_from_gicon (GTK_IMAGE (image), g_app_info_get_icon (app_info));
+}
+
+static void
+activate_cb (GtkListView  *list,
+             guint         position,
+             gpointer      unused)
+{
+  GAppInfo *app_info;
+
+  app_info = g_list_model_get_item (G_LIST_MODEL (gtk_list_view_get_model (list)), position);
+  g_app_info_launch (app_info, NULL, NULL, NULL);
+  g_object_unref (app_info);
+}
+
+...
+
+  model = create_application_list ();
+
+  factory = gtk_signal_list_item_factory_new ();
+  g_signal_connect (factory, "setup", G_CALLBACK (setup_listitem_cb), NULL);
+  g_signal_connect (factory, "bind", G_CALLBACK (bind_listitem_cb), NULL);
+
+  list = gtk_list_view_new (GTK_SELECTION_MODEL (gtk_single_selection_new (model)), factory);
+
+  g_signal_connect (list, "activate", G_CALLBACK (activate_cb), NULL);
+
+  gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (sw), list);
+
+=end comment
+
+=head2 CSS nodes
+
+=begin comment
+listview[.separators][.rich-list][.navigation-sidebar][.data-table]
+├── row[.activatable]
+│
+├── row[.activatable]
+│
+┊
+╰── [rubberband]
+
+=end comment
+
+B<Gnome::Gtk4::ListView> uses a single CSS node named B<listview>. It may carry the
+B<.separators> style class, when I<show-separators>
+property is set. Each child widget uses a single CSS node named B<row>.
+If the I<activatable defined in Gnome::Gtk4::ListItem> property is set, the
+corresponding row will have the B<.activatable> style class. For
+rubberband selection, a node with name B<rubberband> is used.
+
+The main listview node may also carry style classes to select
+the style of [list presentation](ListContainers.html#list-styles):
+.rich-list, .navigation-sidebar or .data-table.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::ListView> uses the C<GTK_ACCESSIBLE_ROLE_LIST> role, and the list
+items use the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ListView
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-listview
+
+Creates a new B<Gnome::Gtk4::ListView> that uses the given C<$factory> for
+mapping items to widgets.
+
+The function takes ownership of the
+arguments, so you can write code like
+=begin comment
+list_view = gtk_list_view_new (create_model (),
+  gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
+
+=end comment
+
+=begin code
+method new-listview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::ListView \)
+=end code
+
+=item $model; (transfer ownership: full) the model to use.
+=item $factory; (transfer ownership: full) The factory to populate items with.
+
+=begin comment
+
+=head2 Example
+# Example for new-listview
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-rubberband
+
+Returns whether rows can be selected by dragging with the mouse.
+
+=begin code
+method get-enable-rubberband (--> Bool )
+=end code
+
+Return value; C<True> if rubberband selection is enabled. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-rubberband
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-factory
+
+Gets the factory that's currently used to populate list items.
+
+=begin code
+method get-factory (--> N-Object )
+=end code
+
+Return value; The factory in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Gets the model that's currently used to read the items displayed.
+
+=begin code
+method get-model (--> N-Object )
+=end code
+
+Return value; The model in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-separators
+
+Returns whether the list box should show separators
+between rows.
+
+=begin code
+method get-show-separators (--> Bool )
+=end code
+
+Return value; C<True> if the list box shows separators. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-single-click-activate
+
+Returns whether rows will be activated on single click and
+selected on hover.
+
+=begin code
+method get-single-click-activate (--> Bool )
+=end code
+
+Return value; C<True> if rows are activated on single click. 
+
+=begin comment
+
+=head2 Example
+# Example for get-single-click-activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-rubberband
+
+Sets whether selections can be changed by dragging with the mouse.
+
+=begin code
+method set-enable-rubberband ( Bool() $enable-rubberband )
+=end code
+
+=item $enable-rubberband; C<True> to enable rubberband selection.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-rubberband
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-factory
+
+Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating list items.
+
+=begin code
+method set-factory ( N-Object() $factory )
+=end code
+
+=item $factory; the factory to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model to use.
+
+This must be a B<Gnome::Gtk4::R-SelectionModel> to use.
+
+=begin code
+method set-model ( N-Object() $model )
+=end code
+
+=item $model; the model to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-separators
+
+Sets whether the list box should show separators
+between rows.
+
+=begin code
+method set-show-separators ( Bool() $show-separators )
+=end code
+
+=item $show-separators; C<True> to show separators.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-single-click-activate
+
+Sets whether rows should be activated on single click and
+selected on hover.
+
+=begin code
+method set-single-click-activate ( Bool() $single-click-activate )
+=end code
+
+=item $single-click-activate; C<True> to activate items on single click.
+
+=begin comment
+
+=head2 Example
+# Example for set-single-click-activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted when a row has been activated by the user,
+usually via activating the GtkListView|list.activate-item action.
+
+This allows for a convenient way to handle activation in a listview.
+See C<.set-activatable() in class Gnome::Gtk4::ListItem> for details on how to use
+this signal.
+
+=begin code
+method handler (
+  guint $position,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $position; position of item to activate.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=end pod
+
