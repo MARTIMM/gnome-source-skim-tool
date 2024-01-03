@@ -54,9 +54,9 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkFrame                            Frame
 │   │   ├── GtkGLArea
 │   │   ├── GtkGrid                             Grid
-│   │   ├── GtkListBase
-│   │   │   ├── GtkGridView
-│   │   │   ╰── GtkListView
+│   │   ├── GtkListBase                         ListBase
+│   │   │   ├── GtkGridView                     GridView
+│   │   │   ╰── GtkListView                     ListView
 │   │   ├── GtkHeaderBar                        HeaderBar
 │   │   ├── GtkIconView                         IconView
 │   │   ├── GtkImage                            Image
