@@ -217,7 +217,7 @@ of B<Gnome::Gio::SimpleAction> to connect only one handler or the other.
 
 =begin code
 method handler (
-   $parameter,
+  N-Object $parameter,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gio::SimpleAction :$_widget,
@@ -226,7 +226,7 @@ method handler (
 =end code
 
 =item $parameter; the parameter to the activation, or undefined if it has
-  no parameter.
+  no parameter. It is a native B<Gnome::Glib::Variant>.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::SimpleAction> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
