@@ -508,6 +508,31 @@ method !adjust-data ( Array $arguments, Array $parameters --> List ) {
   my Array $new-parameters = [|$parameters];
   my Str $func-pattern = '';
 
+#`{{
+  if $arguments[0] ~~ List {
+    for @($arguments[$np]) -> Pair $pair {
+      my ( $type, $value ) = $pair.kv;
+
+      # Must be an undefined type followed by a defined value
+      if $type.defined and !$value.defined {
+        die X::Gnome.new(:message(
+            'A type must not be a value, is it perhaps written as a string?' ~
+            "\n" ~ 'A value however must be defined, e.g. :gint32(42)';
+          )
+        )
+      }
+
+      note "extend list with a $type.gist() followed $value.gist()"
+        if $Gnome::N::x-debug;
+
+      $new-arguments.push: $value;
+      $new-parameters.push: $type;
+      $func-pattern ~= $type.^name;
+    }
+  }
+
+  elsif $arguments.elems > $np {
+}}
   if $arguments.elems > $np {
     for $arguments[$np..*-1] -> $type, $value {
       # Must be an undefined type followed by a defined value

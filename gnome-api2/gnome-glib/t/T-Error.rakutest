@@ -49,14 +49,15 @@ subtest 'Method tests', {
     $e = CArray[N-Error].new(N-Error);
     $domain = 87654;
     $code = 7987;
-    $format = 'my %dnd error';
+    $format = 'my %d%dnd error';
 
-    .set-error( $e, $domain, $code, $format, gint32, 2);
-    is $e[0].message, sprintf( $format, 2), '.set-error() with added gint32';
+    .set-error( $e, $domain, $code, $format, gint32, 2, gint32, 2);
+    is $e[0].message, sprintf( $format, 2, 2), '.set-error() with added gint32';
 
+    # Other method to describe extra arguments
     $e = CArray[N-Error].new(N-Error);
-    .set-error( $e, $domain, $code, $format, gint32, 3);
-    is $e[0].message, sprintf( $format, 3), '.set-error() with added gint32';
+    .set-error( $e, $domain, $code, $format, gint32, 3, gint32, 2);
+    is $e[0].message, sprintf( $format, 3, 2), '.set-error() with added gint32';
 
     $e = CArray[N-Error].new(N-Error);
     $format = 'illegal value %4.2f';
