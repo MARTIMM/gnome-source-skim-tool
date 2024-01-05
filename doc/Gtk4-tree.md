@@ -197,8 +197,8 @@ GObject                                         Gnome::GObject::Object
 │   ╰── GtkMediaFile
 ├── GMountOperation
 │   ╰── GtkMountOperation
-├── GtkMultiSelection
-├── GtkNoSelection
+├── GtkMultiSelection                           MultiSelection
+├── GtkNoSelection                              NoSelection
 ├── GtkNotebookPage
 ├── GtkPageSetup
 ├── GtkPrinter
@@ -210,7 +210,7 @@ GObject                                         Gnome::GObject::Object
 ├── GtkSelectionFilterModel
 ├── GtkSettings
 ├── GtkShortcut                                 Shortcut
-├── GtkSingleSelection
+├── GtkSingleSelection                          SingleSelection
 ├── GtkSizeGroup
 ├── GtkSliceListModel
 ├── GdkSnapshot
