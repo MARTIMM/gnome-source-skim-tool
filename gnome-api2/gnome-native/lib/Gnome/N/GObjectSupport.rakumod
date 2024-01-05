@@ -220,6 +220,7 @@ method register-signal (
     %named-args<_handler-id> = $handler-id;
 
     sub w0 ( N-Object $w, gpointer $d ) is export {
+      CONTROL { when CX::Warn {  note .gist; .resume; } }
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
@@ -242,10 +243,11 @@ method register-signal (
     }
 
     sub w1( N-Object $w, $h0, gpointer $d ) is export {
+      CONTROL { when CX::Warn {  note .gist; .resume; } }
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
-      note "\nw1, call $handler-name\() for $signal-name: $h0, %named-args.gist()"
+      note "\nw1, call $handler-name\() for $signal-name: $h0.gist(), %named-args.gist()"
         if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args($h0);
@@ -264,10 +266,11 @@ method register-signal (
     }
 
     sub w2( N-Object $w, $h0, $h1, gpointer $d ) is export {
+      CONTROL { when CX::Warn {  note .gist; .resume; } }
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
-      note "\nw2, call $handler-name\() for $signal-name: $h0, $h1, %named-args.gist()"
+      note "\nw2, call $handler-name\() for $signal-name: $h0.gist(), $h1.gist(), %named-args.gist()"
         if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1);
@@ -287,10 +290,11 @@ method register-signal (
     }
 
     sub w3( N-Object $w, $h0, $h1, $h2, gpointer $d ) is export {
+      CONTROL { when CX::Warn {  note .gist; .resume; } }
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
-      note "\nw3, call $handler-name\() for $signal-name: $h0, $h1, $h2, %named-args.gist()" if $Gnome::N::x-debug;
+      note "\nw3, call $handler-name\() for $signal-name: $h0.gist(), $h1.gist(), $h2.gist(), %named-args.gist()" if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1, $h2);
       my $retval = $handler-object."$handler-name"(
@@ -309,10 +313,11 @@ method register-signal (
     }
 
     sub w4( N-Object $w, $h0, $h1, $h2, $h3, gpointer $d ) is export {
+      CONTROL { when CX::Warn {  note .gist; .resume; } }
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
-      note "\nw4, call $handler-name\() for $signal-name: $h0, $h1, $h2, $h3, %named-args.gist()" if $Gnome::N::x-debug;
+      note "\nw4, call $handler-name\() for $signal-name: $h0.gist(), $h1.gist(), $h2.gist(), $h3.gist(), %named-args.gist()" if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1, $h2, $h3);
       my $retval = $handler-object."$handler-name"(
@@ -333,10 +338,11 @@ method register-signal (
     sub w5(
       N-Object $w, $h0, $h1, $h2, $h3, $h4, gpointer $d
     ) is export {
+      CONTROL { when CX::Warn {  note .gist; .resume; } }
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
-      note "\nw5, call $handler-name\() for $signal-name: $h0, $h1, $h2, $h3, $h4, %named-args.gist()" if $Gnome::N::x-debug;
+      note "\nw5, call $handler-name\() for $signal-name: $h0.gist(), $h1.gist(), $h2.gist(), $h3.gist(), $h4.gist(), %named-args.gist()" if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1, $h2, $h3, $h4);
       my $retval = $handler-object."$handler-name"(
@@ -357,10 +363,11 @@ method register-signal (
     sub w6(
       N-Object $w, $h0, $h1, $h2, $h3, $h4, $h5, gpointer $d
     ) is export {
+      CONTROL { when CX::Warn {  note .gist; .resume; } }
       CATCH { default { .message.note; .backtrace.concise.note } }
 
       %named-args<_native-object> := $w;
-      note "\nw6, call $handler-name\() for $signal-name: $h0, $h1, $h2, $h3, $h4, $h5, %named-args.gist()" if $Gnome::N::x-debug;
+      note "\nw6, call $handler-name\() for $signal-name: $h0.gist(), $h1.gist(), $h2.gist(), $h3.gist(), $h4.gist(), $h5.gist(), %named-args.gist()" if $Gnome::N::x-debug;
 
 #      my List @converted-args = self!check-args( $h0, $h1, $h2, $h3, $h4, $h5);
       my $retval = $handler-object."$handler-name"(
