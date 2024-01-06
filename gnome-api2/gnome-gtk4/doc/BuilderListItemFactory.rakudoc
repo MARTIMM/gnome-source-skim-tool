@@ -1,0 +1,192 @@
+=comment Package: Gtk4, C-Source: builderlistitemfactory
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::BuilderListItemFactory
+
+![](images/builderlistitemfactory.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::BuilderListItemFactory> is a B<Gnome::Gtk4::ListItemFactory> that creates
+widgets by instantiating B<Gnome::Gtk4::Builder> UI templates.
+
+The templates must be extending B<Gnome::Gtk4::ListItem>, and typically use
+B<Gnome::Gtk4::Expression>s to obtain data from the items in the model.
+
+Example:
+=begin comment
+  <interface>
+    <template class="GtkListItem">
+      <property name="child">
+        <object class="GtkLabel">
+          <property name="xalign">0</property>
+          <binding name="label">
+            <lookup name="name" type="SettingsKey">
+              <lookup name="item">GtkListItem</lookup>
+            </lookup>
+          </binding>
+        </object>
+      </property>
+    </template>
+  </interface>
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::BuilderListItemFactory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-bytes
+This function is not yet available
+
+Creates a new B<Gnome::Gtk4::BuilderListItemFactory> that instantiates widgets
+using C<$bytes> as the data to pass to B<Gnome::Gtk4::Builder>.
+
+=begin code
+method new-from-bytes ( N-Object() $scope, CArray[N-Bytes]  $bytes --> Gnome::Gtk4::BuilderListItemFactory \)
+=end code
+
+=item $scope; A scope to use when instantiating.
+=item $bytes; the B<Gnome::Glib::N-Bytes> containing the ui file to instantiate.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-bytes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-resource
+
+Creates a new B<Gnome::Gtk4::BuilderListItemFactory> that instantiates widgets
+using data read from the given C<$resource-path> to pass to B<Gnome::Gtk4::Builder>.
+
+=begin code
+method new-from-resource ( N-Object() $scope, Str $resource-path --> Gnome::Gtk4::BuilderListItemFactory \)
+=end code
+
+=item $scope; A scope to use when instantiating.
+=item $resource-path; valid path to a resource that contains the data.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-resource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-bytes
+This function is not yet available
+
+Gets the data used as the B<Gnome::Gtk4::Builder> UI template for constructing
+listitems.
+
+=begin code
+method get-bytes (--> CArray[N-Bytes]  )
+=end code
+
+Return value; The B<Gnome::Gtk4::Builder> data. 
+
+=begin comment
+
+=head2 Example
+# Example for get-bytes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-resource
+
+If the data references a resource, gets the path of that resource.
+
+=begin code
+method get-resource (--> Str )
+=end code
+
+Return value; The path to the resource. 
+
+=begin comment
+
+=head2 Example
+# Example for get-resource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-scope
+
+Gets the scope used when constructing listitems.
+
+=begin code
+method get-scope (--> N-Object )
+=end code
+
+Return value; The scope used when constructing listitems. 
+
+=begin comment
+
+=head2 Example
+# Example for get-scope
+
+=end comment
+
+=end pod
+
