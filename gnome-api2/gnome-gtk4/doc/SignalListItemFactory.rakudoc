@@ -1,0 +1,251 @@
+=comment Package: Gtk4, C-Source: signallistitemfactory
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::SignalListItemFactory
+
+![](images/signallistitemfactory.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::SignalListItemFactory> is a B<Gnome::Gtk4::ListItemFactory> that emits signals
+to to manage listitems.
+
+Signals are emitted for every listitem in the same order:
+
+ 1. I<setup> is emitted to set up permanent
+ things on the listitem. This usually means constructing the widgets used in
+ the row and adding them to the listitem.
+
+ 2. I<bind> is emitted to bind the item passed
+ via I<item defined in Gnome::Gtk4::ListItem> to the widgets that have been created in
+ step 1 or to add item-specific widgets. Signals are connected to listen to
+ changes - both to changes in the item to update the widgets or to changes
+ in the widgets to update the item. After this signal has been called, the
+ listitem may be shown in a list widget.
+
+ 3. I<unbind> is emitted to undo everything
+ done in step 2. Usually this means disconnecting signal handlers. Once this
+ signal has been called, the listitem will no longer be used in a list
+ widget.
+
+ 4. I<bind> and
+ I<unbind> may be emitted multiple times
+ again to bind the listitem for use with new items. By reusing listitems,
+ potentially costly setup can be avoided. However, it means code needs to
+ make sure to properly clean up the listitem in step 3 so that no information
+ from the previous use leaks into the next use.
+
+5. I<teardown> is emitted to allow undoing
+the effects of I<setup>. After this signal
+was emitted on a listitem, the listitem will be destroyed and not be used again.
+
+Note that during the signal emissions, changing properties on the
+B<Gnome::Gtk4::ListItem>s passed will not trigger notify signals as the listitem's
+notifications are frozen. See g_object_freeze_notify() for details.
+
+For tracking changes in other properties in the B<Gnome::Gtk4::ListItem>, the I<notify> signal is recommended. The signal can be connected in the
+I<setup> signal and removed again during
+I<teardown>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::SignalListItemFactory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-signallistitemfactory
+
+Creates a new B<Gnome::Gtk4::SignalListItemFactory>.
+
+You need to connect signal handlers before you use it.
+
+=begin code
+method new-signallistitemfactory ( --> Gnome::Gtk4::SignalListItemFactory \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-signallistitemfactory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 bind
+
+Emitted when a new I<item defined in Gnome::Gtk4::ListItem> has been set
+on the C<$listitem> and should be bound for use.
+
+After this signal was emitted, the listitem might be shown in
+a B<Gnome::Gtk4::ListView> or other list widget.
+
+The I<unbind> signal is the
+opposite of this signal and can be used to undo everything done
+in this signal.
+
+=begin code
+method handler (
+  N-Object $listitem,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SignalListItemFactory :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $listitem; The B<Gnome::Gtk4::ListItem> to bind.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal bind
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 setup
+
+Emitted when a new listitem has been created and needs to be setup for use.
+
+It is the first signal emitted for every listitem.
+
+The I<teardown> signal is the opposite
+of this signal and can be used to undo everything done in this signal.
+
+=begin code
+method handler (
+  N-Object $listitem,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SignalListItemFactory :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $listitem; The B<Gnome::Gtk4::ListItem> to set up.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal setup
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 teardown
+
+Emitted when a listitem is about to be destroyed.
+
+It is the last signal ever emitted for this C<$listitem>.
+
+This signal is the opposite of the I<setup>
+signal and should be used to undo everything done in that signal.
+
+=begin code
+method handler (
+  N-Object $listitem,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SignalListItemFactory :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $listitem; The B<Gnome::Gtk4::ListItem> to teardown.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal teardown
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 unbind
+
+Emitted when a listitem has been removed from use in a list widget
+and its new I<item defined in Gnome::Gtk4::ListItem> is about to be unset.
+
+This signal is the opposite of the I<bind>
+signal and should be used to undo everything done in that signal.
+
+=begin code
+method handler (
+  N-Object $listitem,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SignalListItemFactory :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $listitem; The B<Gnome::Gtk4::ListItem> to unbind.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal unbind
+
+=end comment
+
+=end pod
+
