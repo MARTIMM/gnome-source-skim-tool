@@ -1,0 +1,330 @@
+=comment Package: Gio, C-Source: liststore
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::ListStore
+
+=head1 Description
+
+B<Gnome::Gio::ListStore> is a simple implementation of B<Gnome::Gio::R-ListModel> that stores all
+items in memory.
+
+It provides insertions, deletions, and lookups in logarithmic time
+with a fast path for the common case of iterating the list linearly.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::ListStore
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-liststore
+
+Creates a new B<Gnome::Gio::ListStore> with items of type C<$item-type>. C<$item-type>
+must be a subclass of B<Gnome::GObject::Object>.
+
+=begin code
+method new-liststore ( GType $item-type --> Gnome::Gio::ListStore \)
+=end code
+
+=item $item-type; the B<Gnome::GObject::ListStore> of items in the list.
+
+=begin comment
+
+=head2 Example
+# Example for new-liststore
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append
+
+Appends C<$item> to C<$store>. C<$item> must be of type B<Gnome::Gio::ListStore>:item-type.
+
+This function takes a ref on C<$item>.
+
+Use C<.splice()> to append multiple items at the same time
+efficiently.
+
+=begin code
+method append ( gpointer $item )
+=end code
+
+=item $item; the new item.
+
+=begin comment
+
+=head2 Example
+# Example for append
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 find
+
+Looks up the given C<$item> in the list store by looping over the items until
+the first occurrence of C<$item>. If C<$item> was not found, then C<$position> will
+not be set, and this method will return C<False>.
+
+If you need to compare the two items with a custom comparison function, use
+C<.find-with-equal-func()> with a custom B<Gnome::Glib::T-DoubleIEEE754> instead.
+
+=begin code
+method find ( gpointer $item, Array[Int] $position --> Bool )
+=end code
+
+=item $item; an item.
+=item $position; (transfer ownership: full) the first position of C<$item>, if it was found..
+
+Return value; Whether C<$store> contains C<$item>. If it was found, C<$position> will be
+set to the position where C<$item> occurred for the first time.. 
+
+=begin comment
+
+=head2 Example
+# Example for find
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 find-with-equal-func
+This function is not yet available
+
+Looks up the given C<$item> in the list store by looping over the items and
+comparing them with C<$compare-func> until the first occurrence of C<$item> which
+matches. If C<$item> was not found, then C<$position> will not be set, and this
+method will return C<False>.
+
+=begin code
+method find-with-equal-func ( gpointer $item, …, Array[Int] $position --> Bool )
+=end code
+
+=item $item; an item.
+=item equal-func; A custom equality check function. Note that each argument must be specified as a type followed by its value!
+=item $position; (transfer ownership: full) the first position of C<$item>, if it was found..
+
+Return value; Whether C<$store> contains C<$item>. If it was found, C<$position> will be
+set to the position where C<$item> occurred for the first time.. 
+
+=begin comment
+
+=head2 Example
+# Example for find-with-equal-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+Inserts C<$item> into C<$store> at C<$position>. C<$item> must be of type
+B<Gnome::Gio::ListStore>:item-type or derived from it. C<$position> must be smaller
+than the length of the list, or equal to it to append.
+
+This function takes a ref on C<$item>.
+
+Use C<.splice()> to insert multiple items at the same time
+efficiently.
+
+=begin code
+method insert ( UInt() $position, gpointer $item )
+=end code
+
+=item $position; the position at which to insert the new item.
+=item $item; the new item.
+
+=begin comment
+
+=head2 Example
+# Example for insert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-sorted
+This function is not yet available
+
+Inserts C<$item> into C<$store> at a position to be determined by the C<$compare-func>.
+
+The list must already be sorted before calling this function or the
+result is undefined.  Usually you would approach this by only ever
+inserting items by way of this function.
+
+This function takes a ref on C<$item>.
+
+=begin code
+method insert-sorted ( gpointer $item, …, gpointer $user-data --> UInt )
+=end code
+
+=item $item; the new item.
+=item compare-func; pairwise comparison function for sorting. Note that each argument must be specified as a type followed by its value!
+=item $user-data; user data for C<$compare-func>.
+
+Return value; the position at which C<$item> was inserted. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-sorted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes the item from C<$store> that is at C<$position>. C<$position> must be
+smaller than the current length of the list.
+
+Use C<.splice()> to remove multiple items at the same time
+efficiently.
+
+=begin code
+method remove ( UInt() $position )
+=end code
+
+=item $position; the position of the item that is to be removed.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-all
+
+Removes all items from C<$store>.
+
+=begin code
+method remove-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for remove-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort
+This function is not yet available
+
+Sort the items in C<$store> according to C<$compare-func>.
+
+=begin code
+method sort ( …, gpointer $user-data )
+=end code
+
+=item compare-func; pairwise comparison function for sorting. Note that each argument must be specified as a type followed by its value!
+=item $user-data; user data for C<$compare-func>.
+
+=begin comment
+
+=head2 Example
+# Example for sort
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 splice
+
+Changes C<$store> by removing C<$n-removals> items and adding C<$n-additions>
+items to it. C<$additions> must contain C<$n-additions> items of type
+B<Gnome::Gio::ListStore>:item-type.  undefined is not permitted.
+
+This function is more efficient than C<.insert()> and
+C<.remove()>, because it only emits
+ I<items-changed defined in Gnome::Gio::ListStore> once for the change.
+
+This function takes a ref on each item in C<$additions>.
+
+The parameters C<$position> and C<$n-removals> must be correct (ie: C<$position> + C<$n-removals> must be less than or equal to the length of
+the list at the time this function is called).
+
+=begin code
+method splice ( UInt() $position, UInt() $n-removals, Array $additions, UInt() $n-additions )
+=end code
+
+=item $position; the position at which to make the change.
+=item $n-removals; the number of items to remove.
+=item $additions; the items to add.
+=item $n-additions; the number of items to add.
+
+=begin comment
+
+=head2 Example
+# Example for splice
+
+=end comment
+
+=end pod
+
