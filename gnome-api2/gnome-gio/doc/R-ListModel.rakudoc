@@ -1,0 +1,288 @@
+=comment Package: Gio, C-Source: listmodel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::R-ListModel
+
+=head1 Description
+
+B<Gnome::Gio::R-ListModel> is an interface that represents a mutable list of
+B<GObjects>. Its main intention is as a model for various widgets in
+user interfaces, such as list views, but it can also be used as a
+convenient method of returning lists of data, with support for
+updates.
+
+Each object in the list may also report changes in itself via some
+mechanism (normally the  I<notify defined in Gnome::Gio::ListModel> signal).  Taken together
+with the  I<items-changed> signal, this provides for a list
+that can change its membership, and in which the members can change
+their individual properties.
+
+A good example would be the list of visible wireless network access
+points, where each access point can report dynamic properties such as
+signal strength.
+
+It is important to note that the B<Gnome::Gio::R-ListModel> itself does not report
+changes to the individual items.  It only reports changes to the list
+membership.  If you want to observe changes to the objects themselves
+then you need to connect signals to the objects that you are
+interested in.
+
+All items in a B<Gnome::Gio::R-ListModel> are of (or derived from) the same type.
+C<.get-item-type()> returns that type.  The type may be an
+interface, in which case all objects in the list must implement it.
+
+The semantics are close to that of an array:
+C<.get-n-items()> returns the number of items in the list and
+C<.get-item()> returns an item at a (0-based) position. In
+order to allow implementations to calculate the list length lazily,
+you can also iterate over items: starting from 0, repeatedly call
+C<.get-item()> until it returns undefined.
+
+An implementation may create objects lazily, but must take care to
+return the same object for a given position until all references to
+it are gone.
+
+On the other side, a consumer is expected only to hold references on
+objects that are currently "user visible", in order to facilitate the
+maximum level of laziness in the implementation of the list and to
+reduce the required number of signal connections at a given time.
+
+This interface is intended only to be used from a single thread.  The
+thread in which it is appropriate to use it depends on the particular
+implementation, but typically it will be from the thread that owns
+the thread-default main context
+in effect at the time that the model was created.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::ListModel
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item
+
+Get the item at C<$position>.
+
+If C<$position> is greater than the number of items in C<$list>, undefined is
+returned.
+
+undefined is never returned for an index that is smaller than the length
+of the list.
+
+See also: C<.get-n-items()>
+
+=begin code
+method get-item ( UInt() $position --> gpointer )
+=end code
+
+=item $position; the position of the item to fetch.
+
+Return value; the item at C<$position>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item-type
+
+Gets the type of the items in C<$list>.
+
+All items returned from C<.get-item()> are of the type
+returned by this function, or a subtype, or if the type is an
+interface, they are an implementation of that interface.
+
+The item type of a B<Gnome::Gio::R-ListModel> can not change during the life of the
+model.
+
+=begin code
+method get-item-type (--> GType )
+=end code
+
+Return value; the B<Gnome::GObject::ListModel> of the items contained in C<$list>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-items
+
+Gets the number of items in C<$list>.
+
+Depending on the model implementation, calling this function may be
+less efficient than iterating the list with increasing values for C<$position> until C<.get-item()> returns undefined.
+
+=begin code
+method get-n-items (--> UInt )
+=end code
+
+Return value; the number of items in C<$list>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-n-items
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-object
+
+Get the item at C<$position>.
+
+If C<$position> is greater than the number of items in C<$list>, undefined is
+returned.
+
+undefined is never returned for an index that is smaller than the length
+of the list.
+
+This function is meant to be used by language bindings in place
+of C<.get-item()>.
+
+See also: C<.get-n-items()>
+
+=begin code
+method get-object ( UInt() $position --> N-Object )
+=end code
+
+=item $position; the position of the item to fetch.
+
+Return value; the object at C<$position>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-object
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 items-changed
+
+Emits the  I<items-changed> signal on C<$list>.
+
+This function should only be called by classes implementing
+B<Gnome::Gio::R-ListModel>. It has to be called after the internal representation
+of C<$list> has been updated, because handlers connected to this signal
+might query the new state of the list.
+
+Implementations must only make changes to the model (as visible to
+its consumer) in places that will not cause problems for that
+consumer.  For models that are driven directly by a write API (such
+as B<Gnome::Gio::ListStore>), changes can be reported in response to uses of that
+API.  For models that represent remote data, changes should only be
+made from a fresh mainloop dispatch.  It is particularly not
+permitted to make changes in response to a call to the B<Gnome::Gio::R-ListModel>
+consumer API.
+
+Stated another way: in general, it is assumed that code making a
+series of accesses to the model via the API, without returning to the
+mainloop, and without calling other code, will continue to view the
+same contents of the model.
+
+=begin code
+method items-changed ( UInt() $position, UInt() $removed, UInt() $added )
+=end code
+
+=item $position; the position at which C<$list> changed.
+=item $removed; the number of items removed.
+=item $added; the number of items added.
+
+=begin comment
+
+=head2 Example
+# Example for items-changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 items-changed
+
+This signal is emitted whenever items were added to or removed
+from C<$list>. At C<$position>, C<$removed> items were removed and C<$added>
+items were added in their place.
+
+Note: If B<removed != added>, the positions of all later items
+in the model change.
+
+=begin code
+method handler (
+  guint $position,
+  guint $removed,
+  guint $added,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gio::ListModel :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $position; the position at which C<$list> changed.
+=item $removed; the number of items removed.
+=item $added; the number of items added.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gio::ListModel> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal items-changed
+
+=end comment
+
+=end pod
+
