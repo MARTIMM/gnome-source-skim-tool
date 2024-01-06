@@ -244,6 +244,7 @@ GObject                                         Gnome::GObject::Object
 │   ├── GtkNeverTrigger                         NeverTrigger
 │   ╰── GtkAlternativeTrigger                   AlternativeTrigger
 ╰── GtkPrintBackend
+
 GInterface
 ├── GtkAccessible                               R-Accessible
 ├── GtkBuildable                                R-Buildable
@@ -269,6 +270,7 @@ GInterface
 ├── GtkTreeSortable                             R-TreeSortable
 ├── GtkSelectionModel                           R-SelectionModel
 ╰── GtkPrintOperationPreview                    R-PrintOperationPreview
+
 GBoxed
 ├── GtkBitset
 ├── GtkPaperSize
@@ -276,6 +278,10 @@ GBoxed
 ├── GtkTreeIter                                 TreeIter
 ├── GtkCssSection
 ╰── GtkTreePath
+
 GtkExpression
+
+Types, constants, standalone functions, etc. generated from gnome sources
+Gnome::Gtk4::*
 
 ```
