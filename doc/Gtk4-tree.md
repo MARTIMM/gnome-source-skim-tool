@@ -138,9 +138,9 @@ GObject                                         Gnome::GObject::Object
 ├── GtkBookmarkList
 ├── GtkBuilderCScope
 ├── GtkBuilder
-├── GtkListItemFactory
-│   ├── GtkBuilderListItemFactory
-│   ╰── GtkSignalListItemFactory
+├── GtkListItemFactory                          ListItemFactory
+│   ├── GtkBuilderListItemFactory               BuilderListItemFactory
+│   ╰── GtkSignalListItemFactory                SignalListItemFactory
 ├── GtkCellAreaContext
 ├── GtkColumnViewColumn
 ├── GtkConstraint                               Constraint
