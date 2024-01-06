@@ -128,20 +128,16 @@ method generate-test ( ) {
   my Hash $h = $!solve.search-name($ctype);
   my Str $code = $!tst.prepare-test($h<class-name>);
 
-#TODO generate a variable in a class using this interface
-
   $code ~= $!tst.generate-test-separator;
 
-  my Hash $hcs =
-    $!mod.get-native-subs( $element, $!xpath, :routine-type<method>);
-#  my Hash $hcs = $!mod.get-methods( $element, $!xpath, :user-side);
+  my Hash $hcs = $!mod.get-native-subs(
+    $element, $!xpath, :routine-type<method>
+  );
   $code ~= $!tst.generate-method-tests( $hcs, $test-variable);
   $code ~= $!tst.generate-test-end;
   $code ~= $!tst.generate-signal-tests($test-variable);
   $code = $!mod.substitute-MODULE-IMPORTS($code);
 
-  my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
   my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameTestType));
-#  my Str $fname = "$*work-data<result-tests>R-$*gnome-class.rakutest";
   $!mod.save-file( $fname, $code, "interface tests");
 }
