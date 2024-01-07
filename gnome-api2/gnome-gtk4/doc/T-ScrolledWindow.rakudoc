@@ -1,0 +1,44 @@
+=comment Package: Gtk4, C-Source: scrolledwindow
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-ScrolledWindow
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkCornerType
+
+Specifies which corner a child widget should be placed in when packed into
+a B<GtkScrolledWindow.>
+
+This is effectively the opposite of where the scroll bars are placed.
+=item C<GTK_CORNER_TOP_LEFT>; Place the scrollbars on the right and bottom of the
+  widget (default behaviour).
+=item C<GTK_CORNER_BOTTOM_LEFT>; Place the scrollbars on the top and right of the
+  widget.
+=item C<GTK_CORNER_TOP_RIGHT>; Place the scrollbars on the left and bottom of the
+  widget.
+=item C<GTK_CORNER_BOTTOM_RIGHT>; Place the scrollbars on the top and left of the
+  widget.
+
+=head2 GtkPolicyType
+
+Determines how the size should be computed to achieve the one of the
+visibility mode for the scrollbars.
+=item C<GTK_POLICY_ALWAYS>; The scrollbar is always visible. The view size is
+  independent of the content.
+=item C<GTK_POLICY_AUTOMATIC>; The scrollbar will appear and disappear as necessary.
+  For example, when all of a B<Gnome::Gtk4::TreeView> can not be seen.
+=item C<GTK_POLICY_NEVER>; The scrollbar should never appear. In this mode the
+  content determines the size.
+=item C<GTK_POLICY_EXTERNAL>; Don't show a scrollbar, but don't force the
+  size to follow the content. This can be used e.g. to make multiple
+  scrolled windows share a scrollbar.
+=end pod
+

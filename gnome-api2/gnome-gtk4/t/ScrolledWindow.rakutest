@@ -1,0 +1,254 @@
+=comment Package: Gtk4, C-Source: scrolledwindow
+use v6.d;
+
+#TL:1:Gnome::Gtk4::ScrolledWindow:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::ScrolledWindow:api<2>;
+use Gnome::Gtk4::T-ScrolledWindow:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::ScrolledWindow $scrolled-window;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $scrolled-window {
+
+#`{{
+    #TC:0:new-scrolledwindow()
+
+    $scrolled-window .= new-scrolledwindow();
+    ok .is-valid, '.new-scrolledwindow()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $scrolled-window {
+    my gint $width;
+    my gint $height;
+    my gboolean $has-frame;
+    my GtkPolicyType $vscrollbar-policy;
+    my GtkPolicyType $hscrollbar-policy;
+    my N-Object $hadjustment;
+    my gboolean $propagate;
+    my N-Object $child;
+    my GtkCornerType $window-placement;
+    my gboolean $overlay-scrolling;
+    my gboolean $kinetic-scrolling;
+    my N-Object $vadjustment;
+
+
+#`{{
+    #TM:0:get-hscrollbar()
+     .get-hscrollbar(), '…', '.get-hscrollbar()';
+
+    #TM:0:get-vscrollbar()
+     .get-vscrollbar(), '…', '.get-vscrollbar()';
+
+    #TM:0:set-child()
+    $child = …;
+    .set-child( $child);
+    #TM:0:get-child()
+    is .get-child(),  $child, '.set-child() / .get-child()';
+
+    #TM:0:set-hadjustment()
+    $hadjustment = …;
+    .set-hadjustment( $hadjustment);
+    #TM:0:get-hadjustment()
+    is .get-hadjustment(),  $hadjustment, '.set-hadjustment() / .get-hadjustment()';
+
+    #TM:0:set-has-frame()
+    $has-frame = '…';
+    .set-has-frame( $has-frame);
+    #TM:0:get-has-frame()
+    is .get-has-frame(),  $has-frame, '.set-has-frame() / .get-has-frame()';
+
+    #TM:0:set-kinetic-scrolling()
+    $kinetic-scrolling = '…';
+    .set-kinetic-scrolling( $kinetic-scrolling);
+    #TM:0:get-kinetic-scrolling()
+    is .get-kinetic-scrolling(),  $kinetic-scrolling, '.set-kinetic-scrolling() / .get-kinetic-scrolling()';
+
+    #TM:0:set-max-content-height()
+    $height = '…';
+    .set-max-content-height( $height);
+    #TM:0:get-max-content-height()
+    is .get-max-content-height(),  $height, '.set-max-content-height() / .get-max-content-height()';
+
+    #TM:0:set-max-content-width()
+    $width = '…';
+    .set-max-content-width( $width);
+    #TM:0:get-max-content-width()
+    is .get-max-content-width(),  $width, '.set-max-content-width() / .get-max-content-width()';
+
+    #TM:0:set-min-content-height()
+    $height = '…';
+    .set-min-content-height( $height);
+    #TM:0:get-min-content-height()
+    is .get-min-content-height(),  $height, '.set-min-content-height() / .get-min-content-height()';
+
+    #TM:0:set-min-content-width()
+    $width = '…';
+    .set-min-content-width( $width);
+    #TM:0:get-min-content-width()
+    is .get-min-content-width(),  $width, '.set-min-content-width() / .get-min-content-width()';
+
+    #TM:0:set-overlay-scrolling()
+    $overlay-scrolling = '…';
+    .set-overlay-scrolling( $overlay-scrolling);
+    #TM:0:get-overlay-scrolling()
+    is .get-overlay-scrolling(),  $overlay-scrolling, '.set-overlay-scrolling() / .get-overlay-scrolling()';
+
+    #TM:0:set-placement()
+    $window-placement = …;
+    .set-placement( $window-placement);
+    #TM:0:get-placement()
+    is .get-placement(),  $window-placement, '.set-placement() / .get-placement()';
+
+    #TM:0:set-policy()
+    $hscrollbar-policy = …;
+    $vscrollbar-policy = …;
+    .set-policy( $hscrollbar-policy, $vscrollbar-policy);
+    #TM:0:get-policy()
+    is .get-policy(),  $hscrollbar-policy, $vscrollbar-policy, '.set-policy() / .get-policy()';
+
+    #TM:0:set-propagate-natural-height()
+    $propagate = '…';
+    .set-propagate-natural-height( $propagate);
+    #TM:0:get-propagate-natural-height()
+    is .get-propagate-natural-height(),  $propagate, '.set-propagate-natural-height() / .get-propagate-natural-height()';
+
+    #TM:0:set-propagate-natural-width()
+    $propagate = '…';
+    .set-propagate-natural-width( $propagate);
+    #TM:0:get-propagate-natural-width()
+    is .get-propagate-natural-width(),  $propagate, '.set-propagate-natural-width() / .get-propagate-natural-width()';
+
+    #TM:0:set-vadjustment()
+    $vadjustment = …;
+    .set-vadjustment( $vadjustment);
+    #TM:0:get-vadjustment()
+    is .get-vadjustment(),  $vadjustment, '.set-vadjustment() / .get-vadjustment()';
+
+    #TM:0:unset-placement()
+    ok .unset-placement(), '.unset-placement()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $scrolled-window {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::ScrolledWindow() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::ScrolledWindow;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::ScrolledWindow :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::ScrolledWindow $scrolled-window .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $scrolled-window.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

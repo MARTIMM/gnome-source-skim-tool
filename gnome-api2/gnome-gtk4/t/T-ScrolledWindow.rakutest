@@ -1,0 +1,54 @@
+=comment Package: Gtk4, C-Source: scrolledwindow
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-ScrolledWindow:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-ScrolledWindow:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkCornerType
+subtest 'GtkCornerType', {
+  is GTK_CORNER_TOP_LEFT.value, 0, 'enum GTK_CORNER_TOP_LEFT = 0';
+
+  is GTK_CORNER_BOTTOM_LEFT.value, 1, 'enum GTK_CORNER_BOTTOM_LEFT = 1';
+
+  is GTK_CORNER_TOP_RIGHT.value, 2, 'enum GTK_CORNER_TOP_RIGHT = 2';
+
+  is GTK_CORNER_BOTTOM_RIGHT.value, 3, 'enum GTK_CORNER_BOTTOM_RIGHT = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkPolicyType
+subtest 'GtkPolicyType', {
+  is GTK_POLICY_ALWAYS.value, 0, 'enum GTK_POLICY_ALWAYS = 0';
+
+  is GTK_POLICY_AUTOMATIC.value, 1, 'enum GTK_POLICY_AUTOMATIC = 1';
+
+  is GTK_POLICY_NEVER.value, 2, 'enum GTK_POLICY_NEVER = 2';
+
+  is GTK_POLICY_EXTERNAL.value, 3, 'enum GTK_POLICY_EXTERNAL = 3';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
