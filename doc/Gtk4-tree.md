@@ -79,7 +79,7 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkScaleButton
 │   │   │   ╰── GtkVolumeButton
 │   │   ├── GtkScrollbar
-│   │   ├── GtkScrolledWindow
+│   │   ├── GtkScrolledWindow                   ScrolledWindow
 │   │   ├── GtkSearchBar
 │   │   ├── GtkSearchEntry
 │   │   ├── GtkSeparator
@@ -190,8 +190,8 @@ GObject                                         Gnome::GObject::Object
 ├── GtkIMContext
 │   ├── GtkIMContextSimple
 │   ╰── GtkIMMulticontext
-├── GtkListItem
-├── GtkListStore
+├── GtkListItem                                 ListItem
+├── GtkListStore                                ListStore
 ├── GtkMapListModel
 ├── GtkMediaStream
 │   ╰── GtkMediaFile
@@ -217,8 +217,8 @@ GObject                                         Gnome::GObject::Object
 │   ╰── GtkSnapshot
 ├── GtkSortListModel
 ├── GtkStackPage
-├── GtkStringList
-├── GtkStringObject
+├── GtkStringList                               StringList
+├── GtkStringObject                             StringObject
 ├── GtkStyleContext                             StyleContext
 ├── GtkTextBuffer
 ├── GtkTextChildAnchor
