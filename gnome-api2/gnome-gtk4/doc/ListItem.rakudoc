@@ -1,0 +1,294 @@
+=comment Package: Gtk4, C-Source: listitem
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ListItem
+
+![](images/listitem.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ListItem> is used by list widgets to represent items in a B<Gnome::Gio::R-ListModel>.
+
+The B<Gnome::Gtk4::ListItem>s are managed by the list widget (with its factory)
+and cannot be created by applications, but they need to be populated
+by application code. This is done by calling C<.set-child()>.
+
+B<Gnome::Gtk4::ListItem>s exist in 2 stages:
+
+1. The unbound stage where the listitem is not currently connected to
+   an item in the list. In that case, the I<item>
+   property is set to undefined.
+
+2. The bound stage where the listitem references an item from the list.
+   The I<item> property is defined.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ListItem
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-activatable
+
+Checks if a list item has been set to be activatable via
+C<.set-activatable()>.
+
+=begin code
+method get-activatable (--> Bool )
+=end code
+
+Return value; C<True> if the item is activatable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-activatable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child previously set via C<.set-child()> or
+undefined if none was set.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; The child. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-item
+
+Gets the model item that associated with C<$self>.
+
+If C<$self> is unbound, this function returns undefined.
+
+=begin code
+method get-item (--> gpointer )
+=end code
+
+Return value; The item displayed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-position
+
+Gets the position in the model that C<$self> currently displays.
+
+If C<$self> is unbound, C<GTK_INVALID_LIST_POSITION> is returned.
+
+=begin code
+method get-position (--> UInt )
+=end code
+
+Return value; The position of this item. 
+
+=begin comment
+
+=head2 Example
+# Example for get-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selectable
+
+Checks if a list item has been set to be selectable via
+C<.set-selectable()>.
+
+Do not confuse this function with C<.get-selected()>.
+
+=begin code
+method get-selectable (--> Bool )
+=end code
+
+Return value; C<True> if the item is selectable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selectable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected
+
+Checks if the item is displayed as selected.
+
+The selected state is maintained by the liste widget and its model
+and cannot be set otherwise.
+
+=begin code
+method get-selected (--> Bool )
+=end code
+
+Return value; C<True> if the item is selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-activatable
+
+Sets C<$self> to be activatable.
+
+If an item is activatable, double-clicking on the item, using
+the Return key or calling gtk_widget_activate() will activate
+the item. Activating instructs the containing view to handle
+activation. B<Gnome::Gtk4::ListView> for example will be emitting the
+I<activate defined in ListView> signal.
+
+By default, list items are activatable.
+
+=begin code
+method set-activatable ( Bool() $activatable )
+=end code
+
+=item $activatable; if the item should be activatable.
+
+=begin comment
+
+=head2 Example
+# Example for set-activatable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child to be used for this listitem.
+
+This function is typically called by applications when
+setting up a listitem so that the widget can be reused when
+binding it multiple times.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; The list item's child or undefined to unset.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-selectable
+
+Sets C<$self> to be selectable.
+
+If an item is selectable, clicking on the item or using the keyboard
+will try to select or unselect the item. If this succeeds is up to
+the model to determine, as it is managing the selected state.
+
+Note that this means that making an item non-selectable has no
+influence on the selected state at all. A non-selectable item
+may still be selected.
+
+By default, list items are selectable. When rebinding them to
+a new item, they will also be reset to be selectable by GTK.
+
+=begin code
+method set-selectable ( Bool() $selectable )
+=end code
+
+=item $selectable; if the item should be selectable.
+
+=begin comment
+
+=head2 Example
+# Example for set-selectable
+
+=end comment
+
+=end pod
+
