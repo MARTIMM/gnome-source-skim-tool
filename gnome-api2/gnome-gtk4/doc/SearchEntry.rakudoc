@@ -1,0 +1,375 @@
+=comment Package: Gtk4, C-Source: searchentry
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::SearchEntry
+
+![](images/searchentry.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::SearchEntry> is an entry widget that has been tailored for use
+as a search entry.
+
+The main API for interacting with a B<Gnome::Gtk4::SearchEntry> as entry
+is the B<Gnome::Gtk4::R-Editable> interface.
+
+![An example GtkSearchEntry](search-entry.png)
+
+It will show an inactive symbolic “find” icon when the search
+entry is empty, and a symbolic “clear” icon when there is text.
+Clicking on the “clear” icon will empty the search entry.
+
+To make filtering appear more reactive, it is a good idea to
+not react to every change in the entry text immediately, but
+only after a short delay. To support this, B<Gnome::Gtk4::SearchEntry>
+emits the I<search-changed> signal which
+can be used instead of the I<changed defined in Editable> signal.
+
+The I<previous-match>,
+I<next-match> and
+I<stop-search> signals can be used to
+implement moving between search results and ending the search.
+
+Often, B<Gnome::Gtk4::SearchEntry> will be fed events by means of being
+placed inside a B<Gnome::Gtk4::SearchBar>. If that is not the case,
+you can use C<.set-key-capture-widget()> to
+let it capture key input from another widget.
+
+B<Gnome::Gtk4::SearchEntry> provides only minimal API and should be used with
+the B<Gnome::Gtk4::R-Editable> API.
+
+=head3 CSS Nodes
+
+=begin comment
+entry.search
+╰── text
+
+=end comment
+
+B<Gnome::Gtk4::SearchEntry> has a single CSS node with name entry that carries
+a B<.search> style class, and the text node is a child of that.
+
+=head3 Accessibility
+
+B<Gnome::Gtk4::SearchEntry> uses the C<GTK_ACCESSIBLE_ROLE_SEARCH_BOX> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::SearchEntry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-searchentry
+
+Creates a B<Gnome::Gtk4::SearchEntry>.
+
+=begin code
+method new-searchentry ( --> Gnome::Gtk4::SearchEntry \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-searchentry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-key-capture-widget
+
+Gets the widget that C<$entry> is capturing key events from.
+
+=begin code
+method get-key-capture-widget (--> N-Object )
+=end code
+
+Return value; The key capture widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-key-capture-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-key-capture-widget
+
+Sets C<$widget> as the widget that C<$entry> will capture key
+events from.
+
+Key events are consumed by the search entry to start or
+continue a search.
+
+If the entry is part of a B<Gnome::Gtk4::SearchBar>, it is preferable
+to call C<.set-key-capture-widget() in class Gnome::Gtk4::SearchBar> instead,
+which will reveal the entry in addition to triggering the
+search entry.
+
+Note that despite the name of this function, the events
+are only 'captured' in the bubble phase, which means that
+editable child widgets of C<$widget> will receive text input
+before it gets captured. If that is not desired, you can
+capture and forward the events yourself with
+C<.forward() in class Gnome::Gtk4::EventControllerKey>.
+
+=begin code
+method set-key-capture-widget ( N-Object() $widget )
+=end code
+
+=item $widget; a B<Gnome::Gtk4::Widget>.
+
+=begin comment
+
+=head2 Example
+# Example for set-key-capture-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted when the entry is activated.
+
+The keybindings for this signal are all forms of the Enter key.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SearchEntry :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 next-match
+
+Emitted when the user initiates a move to the next match
+for the current search string.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+Applications should connect to it, to implement moving
+between matches.
+
+The default bindings for this signal is Ctrl-g.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SearchEntry :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal next-match
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 previous-match
+
+Emitted when the user initiates a move to the previous match
+for the current search string.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+Applications should connect to it, to implement moving
+between matches.
+
+The default bindings for this signal is Ctrl-Shift-g.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SearchEntry :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal previous-match
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 search-changed
+
+Emitted with a short delay of 150 milliseconds after the
+last change to the entry text.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SearchEntry :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal search-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 search-started
+
+Emitted when the user initiated a search on the entry.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SearchEntry :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal search-started
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 stop-search
+
+Emitted when the user stops a search via keyboard input.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+Applications should connect to it, to implement hiding
+the search entry in this case.
+
+The default bindings for this signal is Escape.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SearchEntry :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal stop-search
+
+=end comment
+
+=end pod
+
