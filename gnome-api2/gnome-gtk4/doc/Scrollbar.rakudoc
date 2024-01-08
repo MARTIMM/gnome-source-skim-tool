@@ -1,0 +1,170 @@
+=comment Package: Gtk4, C-Source: scrollbar
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Scrollbar
+
+![](images/scrollbar.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::Scrollbar> widget is a horizontal or vertical scrollbar.
+
+![An example GtkScrollbar](scrollbar.png)
+
+Its position and movement are controlled by the adjustment that is passed to
+or created by C<.newscrollbar()>. See B<Gnome::Gtk4::Adjustment> for more
+details. The I<value defined in Gnome::Gtk4::Adjustment> field sets the position of the
+thumb and must be between I<lower defined in Gnome::Gtk4::Adjustment> and
+I<upper defined in Gnome::Gtk4::Adjustment> - I<page-size defined in Gnome::Gtk4::Adjustment>.
+The I<page-size defined in Gnome::Gtk4::Adjustment> represents the size of the visible
+scrollable area.
+
+The fields I<step-increment defined in Gnome::Gtk4::Adjustment> and
+I<page-increment defined in Gnome::Gtk4::Adjustment> fields are added to or subtracted
+from the I<value defined in Gnome::Gtk4::Adjustment> when the user asks to move by a step
+(using e.g. the cursor arrow keys) or by a page (using e.g. the Page Down/Up
+keys).
+
+=head2 CSS nodes
+
+=begin comment
+scrollbar
+╰── range[.fine-tune]
+    ╰── trough
+        ╰── slider
+
+=end comment
+
+B<Gnome::Gtk4::Scrollbar> has a main CSS node with name scrollbar and a subnode for its
+contents. The main node gets the .horizontal or .vertical style classes applied,
+depending on the scrollbar's orientation.
+
+The range node gets the style class .fine-tune added when the scrollbar is
+in 'fine-tuning' mode.
+
+Other style classes that may be added to scrollbars inside
+B<Gnome::Gtk4::ScrolledWindow> include the positional classes (.left, .right,
+.top, .bottom) and style classes related to overlay scrolling (.overlay-indicator,
+.dragging, .hovering).
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::Scrollbar> uses the C<GTK_ACCESSIBLE_ROLE_SCROLLBAR> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Scrollbar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-scrollbar
+
+Creates a new scrollbar with the given orientation.
+
+=begin code
+method new-scrollbar ( GtkOrientation $orientation, N-Object() $adjustment --> Gnome::Gtk4::Scrollbar \)
+=end code
+
+=item $orientation; the scrollbar’s orientation..
+=item $adjustment; the B<Gnome::Gtk4::Adjustment> to use, or undefined
+  to create a new adjustment..
+
+=begin comment
+
+=head2 Example
+# Example for new-scrollbar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-adjustment
+
+Returns the scrollbar's adjustment.
+
+=begin code
+method get-adjustment (--> N-Object )
+=end code
+
+Return value; the scrollbar's adjustment. 
+
+=begin comment
+
+=head2 Example
+# Example for get-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-adjustment
+
+Makes the scrollbar use the given adjustment.
+
+=begin code
+method set-adjustment ( N-Object() $adjustment )
+=end code
+
+=item $adjustment; the adjustment to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-adjustment
+
+=end comment
+
+=end pod
+
