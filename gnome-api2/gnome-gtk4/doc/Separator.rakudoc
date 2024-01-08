@@ -1,0 +1,91 @@
+=comment Package: Gtk4, C-Source: separator
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Separator
+
+![](images/separator.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Separator> is a horizontal or vertical separator widget.
+
+![An example GtkSeparator](separators.png)
+
+A B<Gnome::Gtk4::Separator> can be used to group the widgets within a window.
+It displays a line with a shadow to make it appear sunken into the
+interface.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::Separator> has a single CSS node with name separator. The node
+gets one of the .horizontal or .vertical style classes.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::Separator> uses the C<GTK_ACCESSIBLE_ROLE_SEPARATOR> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Separator
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-separator
+
+Creates a new B<Gnome::Gtk4::Separator> with the given orientation.
+
+=begin code
+method new-separator ( GtkOrientation $orientation --> Gnome::Gtk4::Separator \)
+=end code
+
+=item $orientation; the separator’s orientation..
+
+=begin comment
+
+=head2 Example
+# Example for new-separator
+
+=end comment
+
+=end pod
+
