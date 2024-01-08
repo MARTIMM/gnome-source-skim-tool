@@ -1,0 +1,37 @@
+=comment Package: Gtk4, C-Source: notebook
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Notebook:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Notebook:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkNotebookTab
+subtest 'GtkNotebookTab', {
+  is GTK_NOTEBOOK_TAB_FIRST.value, 0, 'enum GTK_NOTEBOOK_TAB_FIRST = 0';
+
+  is GTK_NOTEBOOK_TAB_LAST.value, 1, 'enum GTK_NOTEBOOK_TAB_LAST = 1';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

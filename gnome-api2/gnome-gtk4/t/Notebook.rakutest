@@ -1,0 +1,303 @@
+=comment Package: Gtk4, C-Source: notebook
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Notebook:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Notebook:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Notebook $notebook;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $notebook {
+
+#`{{
+    #TC:0:new-notebook()
+
+    $notebook .= new-notebook();
+    ok .is-valid, '.new-notebook()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $notebook {
+    my gint $page-num;
+    my N-Object $child;
+    my Str $group-name;
+    my gint $position;
+    my N-Object $widget;
+    my gboolean $show-tabs;
+    my GtkPositionType $pos;
+    my gboolean $show-border;
+    my Str $menu-text;
+    my gboolean $scrollable;
+    my N-Object $tab-label;
+    my gboolean $detachable;
+    my gboolean $reorderable;
+    my GtkPackType $pack-type;
+    my Str $tab-text;
+    my N-Object $menu-label;
+
+
+#`{{
+    #TM:0:append-page()
+    ok .append-page( $child, $tab-label), '.append-page()';
+
+    #TM:0:append-page-menu()
+    ok .append-page-menu( $child, $tab-label, $menu-label), '.append-page-menu()';
+
+    #TM:0:detach-tab()
+    ok .detach-tab( $child), '.detach-tab()';
+
+    #TM:0:get-n-pages()
+     .get-n-pages(), '…', '.get-n-pages()';
+
+    #TM:0:get-nth-page()
+    is .get-nth-page( $page-num), '…', '.get-nth-page()';
+
+    #TM:0:get-page()
+    is .get-page( $child), '…', '.get-page()';
+
+    #TM:0:get-pages()
+     .get-pages(), '…', '.get-pages()';
+
+    #TM:0:insert-page()
+    ok .insert-page( $child, $tab-label, $position), '.insert-page()';
+
+    #TM:0:insert-page-menu()
+    ok .insert-page-menu( $child, $tab-label, $menu-label, $position), '.insert-page-menu()';
+
+    #TM:0:next-page()
+    ok .next-page(), '.next-page()';
+
+    #TM:0:page-num()
+    ok .page-num( $child), '.page-num()';
+
+    #TM:0:popup-disable()
+    ok .popup-disable(), '.popup-disable()';
+
+    #TM:0:popup-enable()
+    ok .popup-enable(), '.popup-enable()';
+
+    #TM:0:prepend-page()
+    ok .prepend-page( $child, $tab-label), '.prepend-page()';
+
+    #TM:0:prepend-page-menu()
+    ok .prepend-page-menu( $child, $tab-label, $menu-label), '.prepend-page-menu()';
+
+    #TM:0:prev-page()
+    ok .prev-page(), '.prev-page()';
+
+    #TM:0:remove-page()
+    ok .remove-page( $page-num), '.remove-page()';
+
+    #TM:0:reorder-child()
+    ok .reorder-child( $child, $position), '.reorder-child()';
+
+    #TM:0:set-action-widget()
+    $widget = …;
+    $pack-type = …;
+    .set-action-widget( $widget, $pack-type);
+    #TM:0:get-action-widget()
+    is .get-action-widget(),  $widget, $pack-type, '.set-action-widget() / .get-action-widget()';
+
+    #TM:0:set-current-page()
+    $page-num = '…';
+    .set-current-page( $page-num);
+    #TM:0:get-current-page()
+    is .get-current-page(),  $page-num, '.set-current-page() / .get-current-page()';
+
+    #TM:0:set-group-name()
+    $group-name = 'text';
+    .set-group-name( $group-name);
+    #TM:0:get-group-name()
+    is .get-group-name(),  $group-name, '.set-group-name() / .get-group-name()';
+
+    #TM:0:set-menu-label()
+    $child = …;
+    $menu-label = …;
+    .set-menu-label( $child, $menu-label);
+    #TM:0:get-menu-label()
+    is .get-menu-label(),  $child, $menu-label, '.set-menu-label() / .get-menu-label()';
+
+    #TM:0:set-menu-label-text()
+    $child = …;
+    $menu-text = 'text';
+    .set-menu-label-text( $child, $menu-text);
+    #TM:0:get-menu-label-text()
+    is .get-menu-label-text(),  $child, $menu-text, '.set-menu-label-text() / .get-menu-label-text()';
+
+    #TM:0:set-scrollable()
+    $scrollable = '…';
+    .set-scrollable( $scrollable);
+    #TM:0:get-scrollable()
+    is .get-scrollable(),  $scrollable, '.set-scrollable() / .get-scrollable()';
+
+    #TM:0:set-show-border()
+    $show-border = '…';
+    .set-show-border( $show-border);
+    #TM:0:get-show-border()
+    is .get-show-border(),  $show-border, '.set-show-border() / .get-show-border()';
+
+    #TM:0:set-show-tabs()
+    $show-tabs = '…';
+    .set-show-tabs( $show-tabs);
+    #TM:0:get-show-tabs()
+    is .get-show-tabs(),  $show-tabs, '.set-show-tabs() / .get-show-tabs()';
+
+    #TM:0:set-tab-detachable()
+    $child = …;
+    $detachable = '…';
+    .set-tab-detachable( $child, $detachable);
+    #TM:0:get-tab-detachable()
+    is .get-tab-detachable(),  $child, $detachable, '.set-tab-detachable() / .get-tab-detachable()';
+
+    #TM:0:set-tab-label()
+    $child = …;
+    $tab-label = …;
+    .set-tab-label( $child, $tab-label);
+    #TM:0:get-tab-label()
+    is .get-tab-label(),  $child, $tab-label, '.set-tab-label() / .get-tab-label()';
+
+    #TM:0:set-tab-label-text()
+    $child = …;
+    $tab-text = 'text';
+    .set-tab-label-text( $child, $tab-text);
+    #TM:0:get-tab-label-text()
+    is .get-tab-label-text(),  $child, $tab-text, '.set-tab-label-text() / .get-tab-label-text()';
+
+    #TM:0:set-tab-pos()
+    $pos = …;
+    .set-tab-pos( $pos);
+    #TM:0:get-tab-pos()
+    is .get-tab-pos(),  $pos, '.set-tab-pos() / .get-tab-pos()';
+
+    #TM:0:set-tab-reorderable()
+    $child = …;
+    $reorderable = '…';
+    .set-tab-reorderable( $child, $reorderable);
+    #TM:0:get-tab-reorderable()
+    is .get-tab-reorderable(),  $child, $reorderable, '.set-tab-reorderable() / .get-tab-reorderable()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $notebook {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Notebook() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Notebook;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Notebook :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Notebook $notebook .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $notebook.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

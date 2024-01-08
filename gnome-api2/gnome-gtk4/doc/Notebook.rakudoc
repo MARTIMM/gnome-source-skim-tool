@@ -1,0 +1,1602 @@
+=comment Package: Gtk4, C-Source: notebook
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Notebook
+
+![](images/notebook.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Notebook> is a container whose children are pages switched
+between using tabs.
+
+![An example GtkNotebook](notebook.png)
+
+There are many configuration options for B<Gnome::Gtk4::Notebook>. Among
+other things, you can choose on which edge the tabs appear
+(see C<.set-tab-pos()>), whether, if there are
+too many tabs to fit the notebook should be made bigger or scrolling
+arrows added (see C<.set-scrollable()>), and whether
+there will be a popup menu allowing the users to switch pages.
+(see C<.popup-enable()>).
+
+=head2 GtkNotebook as GtkBuildable
+
+The B<Gnome::Gtk4::Notebook> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+supports placing children into tabs by specifying “tab” as the
+“type” attribute of a <child> element. Note that the content
+of the tab must be created before the tab can be filled.
+A tab child can be specified without specifying a <child>
+type attribute.
+
+To add a child widget in the notebooks action area, specify
+"action-start" or “action-end” as the “type” attribute of the
+<child> element.
+
+An example of a UI definition fragment with B<Gnome::Gtk4::Notebook>:
+
+=begin comment
+<object class="GtkNotebook">
+  <child>
+    <object class="GtkLabel" id="notebook-content">
+      <property name="label">Content</property>
+    </object>
+  </child>
+  <child type="tab">
+    <object class="GtkLabel" id="notebook-tab">
+      <property name="label">Tab</property>
+    </object>
+  </child>
+</object>
+
+=end comment
+
+=head2 CSS nodes
+
+=begin comment
+notebook
+├── header.top
+│   ├── [<action widget>]
+│   ├── tabs
+│   │   ├── [arrow]
+│   │   ├── tab
+│   │   │   ╰── <tab label>
+┊   ┊   ┊
+│   │   ├── tab[.reorderable-page]
+│   │   │   ╰── <tab label>
+│   │   ╰── [arrow]
+│   ╰── [<action widget>]
+│
+╰── stack
+    ├── <child>
+    ┊
+    ╰── <child>
+
+=end comment
+
+B<Gnome::Gtk4::Notebook> has a main CSS node with name B<notebook>, a subnode
+with name B<header> and below that a subnode with name B<tabs> which
+contains one subnode per tab with name B<tab>.
+
+If action widgets are present, their CSS nodes are placed next
+to the B<tabs> node. If the notebook is scrollable, CSS nodes with
+name B<arrow> are placed as first and last child of the B<tabs> node.
+
+The main node gets the B<.frame> style class when the notebook
+has a border (see C<.set-show-border()>).
+
+The header node gets one of the style class B<.top>, B<.bottom>,
+B<.left> or B<.right>, depending on where the tabs are placed. For
+reorderable pages, the tab node gets the B<.reorderable-page> class.
+
+A B<tab> node gets the B<.dnd> style class while it is moved with drag-and-drop.
+
+The nodes are always arranged from left-to-right, regardless of text direction.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::Notebook> uses the following roles:
+
+=item C<GTK_ACCESSIBLE_ROLE_GROUP> for the notebook widget
+=item C<GTK_ACCESSIBLE_ROLE_TAB_LIST> for the list of tabs
+=item C<GTK_ACCESSIBLE_ROLE_TAB> role for each tab
+=item C<GTK_ACCESSIBLE_ROLE_TAB_PANEL> for each page
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Notebook
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-notebook
+
+Creates a new B<Gnome::Gtk4::Notebook> widget with no pages.
+
+=begin code
+method new-notebook ( --> Gnome::Gtk4::Notebook \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-notebook
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-page
+
+Appends a page to C<$notebook>.
+
+=begin code
+method append-page ( N-Object() $child, N-Object() $tab-label --> Int )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
+=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+  for the page, or undefined to use the default label, “page N”.
+
+Return value; the index (starting from 0) of the appended
+  page in the notebook, or -1 if function fails. 
+
+=begin comment
+
+=head2 Example
+# Example for append-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-page-menu
+
+Appends a page to C<$notebook>, specifying the widget to use as the
+label in the popup menu.
+
+=begin code
+method append-page-menu ( N-Object() $child, N-Object() $tab-label, N-Object() $menu-label --> Int )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
+=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+  for the page, or undefined to use the default label, “page N”.
+=item $menu-label; the widget to use as a label for the
+  page-switch menu, if that is enabled. If undefined, and C<$tab-label>
+  is a B<Gnome::Gtk4::Label> or undefined, then the menu label will be a newly
+  created label with the same text as C<$tab-label>; if C<$tab-label>
+  is not a B<Gnome::Gtk4::Label>, C<$menu-label> must be specified if the
+  page-switch menu is to be used..
+
+Return value; the index (starting from 0) of the appended
+  page in the notebook, or -1 if function fails. 
+
+=begin comment
+
+=head2 Example
+# Example for append-page-menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 detach-tab
+
+Removes the child from the notebook.
+
+This function is very similar to C<.remove-page()>,
+but additionally informs the notebook that the removal
+is happening as part of a tab DND operation, which should
+not be cancelled.
+
+=begin code
+method detach-tab ( N-Object() $child )
+=end code
+
+=item $child; a child.
+
+=begin comment
+
+=head2 Example
+# Example for detach-tab
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-action-widget
+
+Gets one of the action widgets.
+
+See C<.set-action-widget()>.
+
+=begin code
+method get-action-widget ( GtkPackType $pack-type --> N-Object )
+=end code
+
+=item $pack-type; pack type of the action widget to receive.
+
+Return value; The action widget
+  with the given C<$pack-type> or undefined when this action
+  widget has not been set. 
+
+=begin comment
+
+=head2 Example
+# Example for get-action-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-page
+
+Returns the page number of the current page.
+
+=begin code
+method get-current-page (--> Int )
+=end code
+
+Return value; the index (starting from 0) of the current
+  page in the notebook. If the notebook has no pages,
+  then -1 will be returned.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-group-name
+
+Gets the current group name for C<$notebook>.
+
+=begin code
+method get-group-name (--> Str )
+=end code
+
+Return value; the group name,
+  or undefined if none is set. 
+
+=begin comment
+
+=head2 Example
+# Example for get-group-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-menu-label
+
+Retrieves the menu label widget of the page containing C<$child>.
+
+=begin code
+method get-menu-label ( N-Object() $child --> N-Object )
+=end code
+
+=item $child; a widget contained in a page of C<$notebook>.
+
+Return value; the menu label, or undefined
+  if the notebook page does not have a menu label other than
+  the default (the tab label).. 
+
+=begin comment
+
+=head2 Example
+# Example for get-menu-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-menu-label-text
+
+Retrieves the text of the menu label for the page containing C<$child>.
+
+=begin code
+method get-menu-label-text ( N-Object() $child --> Str )
+=end code
+
+=item $child; the child widget of a page of the notebook..
+
+Return value; the text of the tab label, or undefined if
+  the widget does not have a menu label other than the default
+  menu label, or the menu label widget is not a B<Gnome::Gtk4::Label>.
+  The string is owned by the widget and must not be freed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-menu-label-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-pages
+
+Gets the number of pages in a notebook.
+
+=begin code
+method get-n-pages (--> Int )
+=end code
+
+Return value; the number of pages in the notebook. 
+
+=begin comment
+
+=head2 Example
+# Example for get-n-pages
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-nth-page
+
+Returns the child widget contained in page number C<$page-num>.
+
+=begin code
+method get-nth-page ( Int() $page-num --> N-Object )
+=end code
+
+=item $page-num; the index of a page in the notebook, or -1
+  to get the last page.
+
+Return value; the child widget, or undefined if C<$page-num>
+is out of bounds. 
+
+=begin comment
+
+=head2 Example
+# Example for get-nth-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page
+
+Returns the B<Gnome::Gtk4::NotebookPage> for C<$child>.
+
+=begin code
+method get-page ( N-Object() $child --> N-Object )
+=end code
+
+=item $child; a child of C<$notebook>.
+
+Return value; the B<Gnome::Gtk4::NotebookPage> for C<$child>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pages
+
+Returns a B<Gnome::Gio::R-ListModel> that contains the pages of the notebook.
+
+This can be used to keep an up-to-date view. The model also
+implements B<Gnome::Gtk4::R-SelectionModel> and can be used to track
+and modify the visible page.
+
+=begin code
+method get-pages (--> N-List )
+=end code
+
+Return value; a
+  B<Gnome::Gio::R-ListModel> for the notebook's children. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pages
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-scrollable
+
+Returns whether the tab label area has arrows for scrolling.
+
+=begin code
+method get-scrollable (--> Bool )
+=end code
+
+Return value; C<True> if arrows for scrolling are present. 
+
+=begin comment
+
+=head2 Example
+# Example for get-scrollable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-border
+
+Returns whether a bevel will be drawn around the notebook pages.
+
+=begin code
+method get-show-border (--> Bool )
+=end code
+
+Return value; C<True> if the bevel is drawn. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-border
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-tabs
+
+Returns whether the tabs of the notebook are shown.
+
+=begin code
+method get-show-tabs (--> Bool )
+=end code
+
+Return value; C<True> if the tabs are shown. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-tabs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tab-detachable
+
+Returns whether the tab contents can be detached from C<$notebook>.
+
+=begin code
+method get-tab-detachable ( N-Object() $child --> Bool )
+=end code
+
+=item $child; a child B<Gnome::Gtk4::Widget>.
+
+Return value; C<True> if the tab is detachable.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tab-detachable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tab-label
+
+Returns the tab label widget for the page C<$child>.
+
+undefined is returned if C<$child> is not in C<$notebook> or
+if no tab label has specifically been set for C<$child>.
+
+=begin code
+method get-tab-label ( N-Object() $child --> N-Object )
+=end code
+
+=item $child; the page.
+
+Return value; the tab label. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tab-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tab-label-text
+
+Retrieves the text of the tab label for the page containing C<$child>.
+
+=begin code
+method get-tab-label-text ( N-Object() $child --> Str )
+=end code
+
+=item $child; a widget contained in a page of C<$notebook>.
+
+Return value; the text of the tab label, or undefined if
+  the tab label idget is not a B<Gnome::Gtk4::Label>. The string is owned
+  by the widget and must not be freed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tab-label-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tab-pos
+
+Gets the edge at which the tabs are drawn.
+
+=begin code
+method get-tab-pos (--> GtkPositionType )
+=end code
+
+Return value; the edge at which the tabs are drawn. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tab-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tab-reorderable
+
+Gets whether the tab can be reordered via drag and drop or not.
+
+=begin code
+method get-tab-reorderable ( N-Object() $child --> Bool )
+=end code
+
+=item $child; a child B<Gnome::Gtk4::Widget>.
+
+Return value; C<True> if the tab is reorderable.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tab-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-page
+
+Insert a page into C<$notebook> at the given position.
+
+=begin code
+method insert-page ( N-Object() $child, N-Object() $tab-label, Int() $position --> Int )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
+=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+  for the page, or undefined to use the default label, “page N”.
+=item $position; the index (starting at 0) at which to insert the page,
+  or -1 to append the page after all other pages.
+
+Return value; the index (starting from 0) of the inserted
+  page in the notebook, or -1 if function fails. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-page-menu
+
+Insert a page into C<$notebook> at the given position, specifying
+the widget to use as the label in the popup menu.
+
+=begin code
+method insert-page-menu ( N-Object() $child, N-Object() $tab-label, N-Object() $menu-label, Int() $position --> Int )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
+=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+  for the page, or undefined to use the default label, “page N”.
+=item $menu-label; the widget to use as a label for the
+  page-switch menu, if that is enabled. If undefined, and C<$tab-label>
+  is a B<Gnome::Gtk4::Label> or undefined, then the menu label will be a newly
+  created label with the same text as C<$tab-label>; if C<$tab-label>
+  is not a B<Gnome::Gtk4::Label>, C<$menu-label> must be specified if the
+  page-switch menu is to be used..
+=item $position; the index (starting at 0) at which to insert the page,
+  or -1 to append the page after all other pages..
+
+Return value; the index (starting from 0) of the inserted
+  page in the notebook. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-page-menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next-page
+
+Switches to the next page.
+
+Nothing happens if the current page is the last page.
+
+=begin code
+method next-page ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for next-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 page-num
+
+Finds the index of the page which contains the given child
+widget.
+
+=begin code
+method page-num ( N-Object() $child --> Int )
+=end code
+
+=item $child; a B<Gnome::Gtk4::Widget>.
+
+Return value; the index of the page containing C<$child>, or
+  -1 if C<$child> is not in the notebook. 
+
+=begin comment
+
+=head2 Example
+# Example for page-num
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popup-disable
+
+Disables the popup menu.
+
+=begin code
+method popup-disable ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for popup-disable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popup-enable
+
+Enables the popup menu.
+
+If the user clicks with the right mouse button on the tab labels,
+a menu with all the pages will be popped up.
+
+=begin code
+method popup-enable ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for popup-enable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-page
+
+Prepends a page to C<$notebook>.
+
+=begin code
+method prepend-page ( N-Object() $child, N-Object() $tab-label --> Int )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
+=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+  for the page, or undefined to use the default label, “page N”.
+
+Return value; the index (starting from 0) of the prepended
+  page in the notebook, or -1 if function fails. 
+
+=begin comment
+
+=head2 Example
+# Example for prepend-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-page-menu
+
+Prepends a page to C<$notebook>, specifying the widget to use as the
+label in the popup menu.
+
+=begin code
+method prepend-page-menu ( N-Object() $child, N-Object() $tab-label, N-Object() $menu-label --> Int )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to use as the contents of the page.
+=item $tab-label; the B<Gnome::Gtk4::Widget> to be used as the label
+  for the page, or undefined to use the default label, “page N”.
+=item $menu-label; the widget to use as a label for the
+  page-switch menu, if that is enabled. If undefined, and C<$tab-label>
+  is a B<Gnome::Gtk4::Label> or undefined, then the menu label will be a newly
+  created label with the same text as C<$tab-label>; if C<$tab-label>
+  is not a B<Gnome::Gtk4::Label>, C<$menu-label> must be specified if the
+  page-switch menu is to be used..
+
+Return value; the index (starting from 0) of the prepended
+  page in the notebook, or -1 if function fails. 
+
+=begin comment
+
+=head2 Example
+# Example for prepend-page-menu
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prev-page
+
+Switches to the previous page.
+
+Nothing happens if the current page is the first page.
+
+=begin code
+method prev-page ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for prev-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-page
+
+Removes a page from the notebook given its index
+in the notebook.
+
+=begin code
+method remove-page ( Int() $page-num )
+=end code
+
+=item $page-num; the index of a notebook page, starting
+  from 0. If -1, the last page will be removed..
+
+=begin comment
+
+=head2 Example
+# Example for remove-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 reorder-child
+
+Reorders the page containing C<$child>, so that it appears in position C<$position>.
+
+If C<$position> is greater than or equal to the number of children in
+the list or negative, C<$child> will be moved to the end of the list.
+
+=begin code
+method reorder-child ( N-Object() $child, Int() $position )
+=end code
+
+=item $child; the child to move.
+=item $position; the new position, or -1 to move to the end.
+
+=begin comment
+
+=head2 Example
+# Example for reorder-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-action-widget
+
+Sets C<$widget> as one of the action widgets.
+
+Depending on the pack type the widget will be placed before
+or after the tabs. You can use a B<Gnome::Gtk4::Box> if you need to pack
+more than one widget on the same side.
+
+=begin code
+method set-action-widget ( N-Object() $widget, GtkPackType $pack-type )
+=end code
+
+=item $widget; a B<Gnome::Gtk4::Widget>.
+=item $pack-type; pack type of the action widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-action-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-current-page
+
+Switches to the page number C<$page-num>.
+
+Note that due to historical reasons, GtkNotebook refuses
+to switch to a page unless the child widget is visible.
+Therefore, it is recommended to show child widgets before
+adding them to a notebook.
+
+=begin code
+method set-current-page ( Int() $page-num )
+=end code
+
+=item $page-num; index of the page to switch to, starting from 0.
+  If negative, the last page will be used. If greater
+  than the number of pages in the notebook, nothing
+  will be done..
+
+=begin comment
+
+=head2 Example
+# Example for set-current-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-group-name
+
+Sets a group name for C<$notebook>.
+
+Notebooks with the same name will be able to exchange tabs
+via drag and drop. A notebook with a undefined group name will
+not be able to exchange tabs with any other notebook.
+
+=begin code
+method set-group-name ( Str $group-name )
+=end code
+
+=item $group-name; the name of the notebook group,
+  or undefined to unset it.
+
+=begin comment
+
+=head2 Example
+# Example for set-group-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-menu-label
+
+Changes the menu label for the page containing C<$child>.
+
+=begin code
+method set-menu-label ( N-Object() $child, N-Object() $menu-label )
+=end code
+
+=item $child; the child widget.
+=item $menu-label; the menu label, or undefined for default.
+
+=begin comment
+
+=head2 Example
+# Example for set-menu-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-menu-label-text
+
+Creates a new label and sets it as the menu label of C<$child>.
+
+=begin code
+method set-menu-label-text ( N-Object() $child, Str $menu-text )
+=end code
+
+=item $child; the child widget.
+=item $menu-text; the label text.
+
+=begin comment
+
+=head2 Example
+# Example for set-menu-label-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-scrollable
+
+Sets whether the tab label area will have arrows for
+scrolling if there are too many tabs to fit in the area.
+
+=begin code
+method set-scrollable ( Bool() $scrollable )
+=end code
+
+=item $scrollable; C<True> if scroll arrows should be added.
+
+=begin comment
+
+=head2 Example
+# Example for set-scrollable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-border
+
+Sets whether a bevel will be drawn around the notebook pages.
+
+This only has a visual effect when the tabs are not shown.
+
+=begin code
+method set-show-border ( Bool() $show-border )
+=end code
+
+=item $show-border; C<True> if a bevel should be drawn around the notebook.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-border
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-tabs
+
+Sets whether to show the tabs for the notebook or not.
+
+=begin code
+method set-show-tabs ( Bool() $show-tabs )
+=end code
+
+=item $show-tabs; C<True> if the tabs should be shown.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-tabs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab-detachable
+
+Sets whether the tab can be detached from C<$notebook> to another
+notebook or widget.
+
+Note that two notebooks must share a common group identificator
+(see C<.set-group-name()>) to allow automatic tabs
+interchange between them.
+
+If you want a widget to interact with a notebook through DnD
+(i.e.: accept dragged tabs from it) it must be set as a drop
+destination and accept the target “GTK_NOTEBOOK_TAB”. The notebook
+will fill the selection with a GtkWidget** pointing to the child
+widget that corresponds to the dropped tab.
+
+Note that you should use C<.detach-tab()> instead
+of C<.remove-page()> if you want to remove the tab
+from the source notebook as part of accepting a drop. Otherwise,
+the source notebook will think that the dragged tab was removed
+from underneath the ongoing drag operation, and will initiate a
+drag cancel animation.
+
+=begin comment
+static void
+on_drag_data_received (GtkWidget        *widget,
+                       GdkDrop          *drop,
+                       GtkSelectionData *data,
+                       guint             time,
+                       gpointer          user_data)
+{
+  GtkDrag *drag;
+  GtkWidget *notebook;
+  GtkWidget **child;
+
+  drag = gtk_drop_get_drag (drop);
+  notebook = g_object_get_data (drag, "gtk-notebook-drag-origin");
+  child = (void*) gtk_selection_data_get_data (data);
+
+  // process_widget (*child);
+
+  gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), *child);
+}
+
+=end comment
+
+If you want a notebook to accept drags from other widgets,
+you will have to set your own DnD code to do it.
+
+=begin code
+method set-tab-detachable ( N-Object() $child, Bool() $detachable )
+=end code
+
+=item $child; a child B<Gnome::Gtk4::Widget>.
+=item $detachable; whether the tab is detachable or not.
+
+=begin comment
+
+=head2 Example
+# Example for set-tab-detachable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab-label
+
+Changes the tab label for C<$child>.
+
+If undefined is specified for C<$tab-label>, then the page will
+have the label “page N”.
+
+=begin code
+method set-tab-label ( N-Object() $child, N-Object() $tab-label )
+=end code
+
+=item $child; the page.
+=item $tab-label; the tab label widget to use, or undefined
+  for default tab label.
+
+=begin comment
+
+=head2 Example
+# Example for set-tab-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab-label-text
+
+Creates a new label and sets it as the tab label for the page
+containing C<$child>.
+
+=begin code
+method set-tab-label-text ( N-Object() $child, Str $tab-text )
+=end code
+
+=item $child; the page.
+=item $tab-text; the label text.
+
+=begin comment
+
+=head2 Example
+# Example for set-tab-label-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab-pos
+
+Sets the edge at which the tabs are drawn.
+
+=begin code
+method set-tab-pos ( GtkPositionType $pos )
+=end code
+
+=item $pos; the edge to draw the tabs at.
+
+=begin comment
+
+=head2 Example
+# Example for set-tab-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab-reorderable
+
+Sets whether the notebook tab can be reordered
+via drag and drop or not.
+
+=begin code
+method set-tab-reorderable ( N-Object() $child, Bool() $reorderable )
+=end code
+
+=item $child; a child B<Gnome::Gtk4::Widget>.
+=item $reorderable; whether the tab is reorderable or not.
+
+=begin comment
+
+=head2 Example
+# Example for set-tab-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 change-current-page
+
+=begin code
+method handler (
+  gint $object,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $object; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal change-current-page
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 create-window
+
+The I<create-window> signal is emitted when a detachable
+tab is dropped on the root window.
+
+A handler for this signal can create a window containing
+a notebook where the tab will be attached. It is also
+responsible for moving/resizing the window and adding the
+necessary properties to the notebook (e.g. the
+B<Gnome::Gtk4::Notebook>:group-name ).
+
+=begin code
+method handler (
+  N-Object $page,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+  --> N-Object
+)
+=end code
+
+=item $page; the tab of C<$notebook> that is being detached.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; a B<Gnome::Gtk4::Notebook> that
+  C<$page> should be added to
+
+=begin comment
+
+=head2 Example
+# Example for signal create-window
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 focus-tab
+
+=begin code
+method handler (
+   $object,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $object; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal focus-tab
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-focus-out
+
+=begin code
+method handler (
+   $object,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $object; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-focus-out
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 page-added
+
+the I<page-added> signal is emitted in the notebook
+right after a page is added to the notebook.
+
+=begin code
+method handler (
+  N-Object $child,
+  guint $page-num,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $child; the child B<Gnome::Gtk4::Widget> affected.
+=item $page-num; the new page number for C<$child>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal page-added
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 page-removed
+
+the I<page-removed> signal is emitted in the notebook
+right after a page is removed from the notebook.
+
+=begin code
+method handler (
+  N-Object $child,
+  guint $page-num,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $child; the child B<Gnome::Gtk4::Widget> affected.
+=item $page-num; the C<$child> page number.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal page-removed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 page-reordered
+
+the I<page-reordered> signal is emitted in the notebook
+right after a page has been reordered.
+
+=begin code
+method handler (
+  N-Object $child,
+  guint $page-num,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $child; the child B<Gnome::Gtk4::Widget> affected.
+=item $page-num; the new page number for C<$child>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal page-reordered
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 reorder-tab
+
+=begin code
+method handler (
+   $object,
+  gboolean $p0,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $object; .
+=item $p0; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal reorder-tab
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-page
+
+=begin code
+method handler (
+  gboolean $object,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $object; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal select-page
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 switch-page
+
+Emitted when the user or a function changes the current page.
+
+=begin code
+method handler (
+  N-Object $page,
+  guint $page-num,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Notebook :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $page; the new current page.
+=item $page-num; the index of the page.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Notebook> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal switch-page
+
+=end comment
+
+=end pod
+
