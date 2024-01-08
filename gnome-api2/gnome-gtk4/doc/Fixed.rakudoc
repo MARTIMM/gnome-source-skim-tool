@@ -1,0 +1,264 @@
+=comment Package: Gtk4, C-Source: fixed
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Fixed
+
+![](images/fixed.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Fixed> places its child widgets at fixed positions and with fixed sizes.
+
+B<Gnome::Gtk4::Fixed> performs no automatic layout management.
+
+For most applications, you should not use this container! It keeps
+you from having to learn about the other GTK containers, but it
+results in broken applications.  With B<Gnome::Gtk4::Fixed>, the following
+things will result in truncated text, overlapping widgets, and
+other display bugs:
+
+=item Themes, which may change widget sizes.
+
+=item Fonts other than the one you used to write the app will of course
+  change the size of widgets containing text; keep in mind that
+  users may use a larger font because of difficulty reading the
+  default, or they may be using a different OS that provides different fonts.
+
+=item Translation of text into other languages changes its size. Also,
+  display of non-English text will use a different font in many
+  cases.
+
+In addition, B<Gnome::Gtk4::Fixed> does not pay attention to text direction and
+thus may produce unwanted results if your app is run under right-to-left
+languages such as Hebrew or Arabic. That is: normally GTK will order
+containers appropriately for the text direction, e.g. to put labels to
+the right of the thing they label when using an RTL language, but it can’t
+do that with B<Gnome::Gtk4::Fixed>. So if you need to reorder widgets depending on
+the text direction, you would need to manually detect it and adjust child
+positions accordingly.
+
+Finally, fixed positioning makes it kind of annoying to add/remove
+UI elements, since you have to reposition all the other elements. This
+is a long-term maintenance problem for your application.
+
+If you know none of these things are an issue for your application,
+and prefer the simplicity of B<Gnome::Gtk4::Fixed>, by all means use the
+widget. But you should be aware of the tradeoffs.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Fixed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-fixed
+
+Creates a new B<Gnome::Gtk4::Fixed>.
+
+=begin code
+method new-fixed ( --> Gnome::Gtk4::Fixed \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-fixed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-position
+
+Retrieves the translation transformation of the
+given child B<Gnome::Gtk4::Widget> in the B<Gnome::Gtk4::Fixed>.
+
+See also: C<.get-child-transform()>.
+
+=begin code
+method get-child-position ( N-Object() $widget, Num() $x, Num() $y )
+=end code
+
+=item $widget; a child of C<$fixed>.
+=item $x; (transfer ownership: full) the horizontal position of the C<$widget>.
+=item $y; (transfer ownership: full) the vertical position of the C<$widget>.
+
+=begin comment
+
+=head2 Example
+# Example for get-child-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-transform
+This function is not yet available
+
+Retrieves the transformation for C<$widget> set using
+C<.set-child-transform()>.
+
+=begin code
+method get-child-transform ( N-Object() $widget --> CArray[N-Transform]  )
+=end code
+
+=item $widget; a B<Gnome::Gtk4::Widget>, child of C<$fixed>.
+
+Return value; a B<Gnome::Gsk4::N-Transform>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child-transform
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 move
+
+Sets a translation transformation to the given C<$x> and C<$y>
+coordinates to the child C<$widget> of the B<Gnome::Gtk4::Fixed>.
+
+=begin code
+method move ( N-Object() $widget, Num() $x, Num() $y )
+=end code
+
+=item $widget; the child widget.
+=item $x; the horizontal position to move the widget to.
+=item $y; the vertical position to move the widget to.
+
+=begin comment
+
+=head2 Example
+# Example for move
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 put
+
+Adds a widget to a B<Gnome::Gtk4::Fixed> at the given position.
+
+=begin code
+method put ( N-Object() $widget, Num() $x, Num() $y )
+=end code
+
+=item $widget; the widget to add.
+=item $x; the horizontal position to place the widget at.
+=item $y; the vertical position to place the widget at.
+
+=begin comment
+
+=head2 Example
+# Example for put
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes a child from C<$fixed>.
+
+=begin code
+method remove ( N-Object() $widget )
+=end code
+
+=item $widget; the child widget to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child-transform
+This function is not yet available
+
+Sets the transformation for C<$widget>.
+
+This is a convenience function that retrieves the
+B<Gnome::Gtk4::FixedLayoutChild> instance associated to C<$widget> and calls C<.set-transform() in class Gnome::Gtk4::FixedLayoutChild>.
+
+=begin code
+method set-child-transform ( N-Object() $widget, CArray[N-Transform]  $transform )
+=end code
+
+=item $widget; a B<Gnome::Gtk4::Widget>, child of C<$fixed>.
+=item $transform; the transformation assigned to C<$widget>
+  to reset C<$widget>'s transform.
+
+=begin comment
+
+=head2 Example
+# Example for set-child-transform
+
+=end comment
+
+=end pod
+
