@@ -1,0 +1,803 @@
+=comment Package: Gtk4, C-Source: entrycompletion
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::EntryCompletion
+
+![](images/entrycompletion.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::EntryCompletion> is an auxiliary object to provide completion functionality
+for B<Gnome::Gtk4::Entry>.
+
+It implements the B<Gnome::Gtk4::R-CellLayout> interface, to allow the user
+to add extra cells to the B<Gnome::Gtk4::TreeView> with completion matches.
+
+“Completion functionality” means that when the user modifies the text
+in the entry, B<Gnome::Gtk4::EntryCompletion> checks which rows in the model match
+the current content of the entry, and displays a list of matches.
+By default, the matching is done by comparing the entry text
+case-insensitively against the text column of the model (see
+C<.set-text-column()>), but this can be overridden
+with a custom match function (see C<.set-match-func()>).
+
+When the user selects a completion, the content of the entry is
+updated. By default, the content of the entry is replaced by the
+text column of the model, but this can be overridden by connecting
+to the I<match-selected> signal and updating the
+entry in the signal handler. Note that you should return C<True> from
+the signal handler to suppress the default behaviour.
+
+To add completion functionality to an entry, use
+C<.set-completion() in class Gnome::Gtk4::Entry>.
+
+B<Gnome::Gtk4::EntryCompletion> uses a B<Gnome::Gtk4::TreeModelFilter> model to
+represent the subset of the entire model that is currently matching.
+While the B<Gnome::Gtk4::EntryCompletion> signals
+I<match-selected> and
+I<cursor-on-match> take the original model
+and an iter pointing to that model as arguments, other callbacks and
+signals (such as B<Gnome::Gtk4::T-CellLayout> or
+I<apply-attributes) defined in CellArea>
+will generally take the filter model as argument. As long as you are
+only calling C<.get() in class Gnome::Gtk4::R-TreeModel>, this will make no difference to
+you. If for some reason, you need the original model, use
+C<.get-model() in class Gnome::Gtk4::TreeModelFilter>. Don’t forget to use
+C<.convert-iter-to-child-iter() in class Gnome::Gtk4::TreeModelFilter> to obtain a
+matching iter.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::EntryCompletion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-entrycompletion
+
+Creates a new B<Gnome::Gtk4::EntryCompletion> object.
+
+=begin code
+method new-entrycompletion ( --> Gnome::Gtk4::EntryCompletion \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-entrycompletion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-area
+
+Creates a new B<Gnome::Gtk4::EntryCompletion> object using the
+specified C<$area>.
+
+The B<Gnome::Gtk4::CellArea> is used to layout cells in the underlying
+B<Gnome::Gtk4::TreeViewColumn> for the drop-down menu.
+
+=begin code
+method new-with-area ( N-Object() $area --> Gnome::Gtk4::EntryCompletion \)
+=end code
+
+=item $area; the B<Gnome::Gtk4::CellArea> used to layout cells.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-area
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 complete
+
+Requests a completion operation, or in other words a refiltering of the
+current list with completions, using the current key.
+
+The completion list view will be updated accordingly.
+
+=begin code
+method complete ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for complete
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compute-prefix
+
+Computes the common prefix that is shared by all rows in C<$completion>
+that start with C<$key>.
+
+If no row matches C<$key>, undefined will be returned.
+Note that a text column must have been set for this function to work,
+see C<.set-text-column()> for details.
+
+=begin code
+method compute-prefix ( Str $key --> Str )
+=end code
+
+=item $key; The text to complete for.
+
+Return value; The common prefix all rows
+  starting with C<$key>. 
+
+=begin comment
+
+=head2 Example
+# Example for compute-prefix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-completion-prefix
+
+Get the original text entered by the user that triggered
+the completion or undefined if there’s no completion ongoing.
+
+=begin code
+method get-completion-prefix (--> Str )
+=end code
+
+Return value; the prefix for the current completion. 
+
+=begin comment
+
+=head2 Example
+# Example for get-completion-prefix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-entry
+
+Gets the entry C<$completion> has been attached to.
+
+=begin code
+method get-entry (--> N-Object )
+=end code
+
+Return value; The entry C<$completion> has been attached to. 
+
+=begin comment
+
+=head2 Example
+# Example for get-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-inline-completion
+
+Returns whether the common prefix of the possible completions should
+be automatically inserted in the entry.
+
+=begin code
+method get-inline-completion (--> Bool )
+=end code
+
+Return value; C<True> if inline completion is turned on. 
+
+=begin comment
+
+=head2 Example
+# Example for get-inline-completion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-inline-selection
+
+Returns C<True> if inline-selection mode is turned on.
+
+=begin code
+method get-inline-selection (--> Bool )
+=end code
+
+Return value; C<True> if inline-selection mode is on. 
+
+=begin comment
+
+=head2 Example
+# Example for get-inline-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-minimum-key-length
+
+Returns the minimum key length as set for C<$completion>.
+
+=begin code
+method get-minimum-key-length (--> Int )
+=end code
+
+Return value; The currently used minimum key length. 
+
+=begin comment
+
+=head2 Example
+# Example for get-minimum-key-length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Returns the model the B<Gnome::Gtk4::EntryCompletion> is using as data source.
+
+Returns undefined if the model is unset.
+
+=begin code
+method get-model (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Gtk4::R-TreeModel>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-popup-completion
+
+Returns whether the completions should be presented in a popup window.
+
+=begin code
+method get-popup-completion (--> Bool )
+=end code
+
+Return value; C<True> if popup completion is turned on. 
+
+=begin comment
+
+=head2 Example
+# Example for get-popup-completion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-popup-set-width
+
+Returns whether the completion popup window will be resized to the
+width of the entry.
+
+=begin code
+method get-popup-set-width (--> Bool )
+=end code
+
+Return value; C<True> if the popup window will be resized to the width of
+  the entry. 
+
+=begin comment
+
+=head2 Example
+# Example for get-popup-set-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-popup-single-match
+
+Returns whether the completion popup window will appear even if there is
+only a single match.
+
+=begin code
+method get-popup-single-match (--> Bool )
+=end code
+
+Return value; C<True> if the popup window will appear regardless of the
+   number of matches. 
+
+=begin comment
+
+=head2 Example
+# Example for get-popup-single-match
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-text-column
+
+Returns the column in the model of C<$completion> to get strings from.
+
+=begin code
+method get-text-column (--> Int )
+=end code
+
+Return value; the column containing the strings. 
+
+=begin comment
+
+=head2 Example
+# Example for get-text-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-prefix
+
+Requests a prefix insertion.
+
+=begin code
+method insert-prefix ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for insert-prefix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-inline-completion
+
+Sets whether the common prefix of the possible completions should
+be automatically inserted in the entry.
+
+=begin code
+method set-inline-completion ( Bool() $inline-completion )
+=end code
+
+=item $inline-completion; C<True> to do inline completion.
+
+=begin comment
+
+=head2 Example
+# Example for set-inline-completion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-inline-selection
+
+Sets whether it is possible to cycle through the possible completions
+inside the entry.
+
+=begin code
+method set-inline-selection ( Bool() $inline-selection )
+=end code
+
+=item $inline-selection; C<True> to do inline selection.
+
+=begin comment
+
+=head2 Example
+# Example for set-inline-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-match-func
+This function is not yet available
+
+Sets the match function for C<$completion> to be C<$func>.
+
+The match function is used to determine if a row should or
+should not be in the completion list.
+
+=begin code
+method set-match-func ( &func, gpointer $func-data, … )
+=end code
+
+=item &func; the B<Gnome::Gtk4::EntryCompletion>MatchFunc to use. Tthe function must be specified with following signature; C<:( N-Object $completion, Str $key, N-TreeIter $iter, gpointer $user-data --> gboolean )>.
+=item $func-data; user data for C<$func>.
+=item func-notify; destroy notify for C<$func-data>.. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-match-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-minimum-key-length
+
+Requires the length of the search key for C<$completion> to be at least C<$length>.
+
+This is useful for long lists, where completing using a small
+key takes a lot of time and will come up with meaningless results anyway
+(ie, a too large dataset).
+
+=begin code
+method set-minimum-key-length ( Int() $length )
+=end code
+
+=item $length; the minimum length of the key in order to start completing.
+
+=begin comment
+
+=head2 Example
+# Example for set-minimum-key-length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model for a B<Gnome::Gtk4::EntryCompletion>.
+
+If C<$completion> already has a model set, it will remove it
+before setting the new model. If model is undefined, then it
+will unset the model.
+
+=begin code
+method set-model ( N-Object() $model )
+=end code
+
+=item $model; the B<Gnome::Gtk4::R-TreeModel>.
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-popup-completion
+
+Sets whether the completions should be presented in a popup window.
+
+=begin code
+method set-popup-completion ( Bool() $popup-completion )
+=end code
+
+=item $popup-completion; C<True> to do popup completion.
+
+=begin comment
+
+=head2 Example
+# Example for set-popup-completion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-popup-set-width
+
+Sets whether the completion popup window will be resized to be the same
+width as the entry.
+
+=begin code
+method set-popup-set-width ( Bool() $popup-set-width )
+=end code
+
+=item $popup-set-width; C<True> to make the width of the popup the same as the entry.
+
+=begin comment
+
+=head2 Example
+# Example for set-popup-set-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-popup-single-match
+
+Sets whether the completion popup window will appear even if there is
+only a single match.
+
+You may want to set this to C<False> if you
+are using I<inline-completion>.
+
+=begin code
+method set-popup-single-match ( Bool() $popup-single-match )
+=end code
+
+=item $popup-single-match; C<True> if the popup should appear even for a single match.
+
+=begin comment
+
+=head2 Example
+# Example for set-popup-single-match
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-text-column
+
+Convenience function for setting up the most used case of this code: a
+completion list with just strings.
+
+This function will set up C<$completion>
+to have a list displaying all (and just) strings in the completion list,
+and to get those strings from C<$column> in the model of C<$completion>.
+
+This functions creates and adds a B<Gnome::Gtk4::CellRendererText> for the selected
+column. If you need to set the text column, but don't want the cell
+renderer, use g_object_set() to set the
+I<text-column> property directly.
+
+=begin code
+method set-text-column ( Int() $column )
+=end code
+
+=item $column; the column in the model of C<$completion> to get strings from.
+
+=begin comment
+
+=head2 Example
+# Example for set-text-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 cursor-on-match
+
+Emitted when a match from the cursor is on a match of the list.
+
+The default behaviour is to replace the contents
+of the entry with the contents of the text column in the row
+pointed to by C<$iter>.
+
+Note that C<$model> is the model that was passed to
+C<.set-model()>.
+
+=begin code
+method handler (
+  N-Object $model,
+  N-TreeIter $iter,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::EntryCompletion :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $model; the B<Gnome::Gtk4::R-TreeModel> containing the matches.
+=item $iter; a B<Gnome::Gtk4::N-TreeIter> positioned at the selected match.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryCompletion> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if the signal has been handled
+
+=begin comment
+
+=head2 Example
+# Example for signal cursor-on-match
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 insert-prefix
+
+Emitted when the inline autocompletion is triggered.
+
+The default behaviour is to make the entry display the
+whole prefix and select the newly inserted part.
+
+Applications may connect to this signal in order to insert only a
+smaller part of the C<$prefix> into the entry - e.g. the entry used in
+the B<Gnome::Gtk4::R-FileChooser> inserts only the part of the prefix up to the
+next '/'.
+
+=begin code
+method handler (
+  Str $prefix,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::EntryCompletion :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $prefix; the common prefix of all possible completions.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryCompletion> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if the signal has been handled
+
+=begin comment
+
+=head2 Example
+# Example for signal insert-prefix
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 match-selected
+
+Emitted when a match from the list is selected.
+
+The default behaviour is to replace the contents of the
+entry with the contents of the text column in the row
+pointed to by C<$iter>.
+
+Note that C<$model> is the model that was passed to
+C<.set-model()>.
+
+=begin code
+method handler (
+  N-Object $model,
+  N-TreeIter $iter,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::EntryCompletion :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $model; the B<Gnome::Gtk4::R-TreeModel> containing the matches.
+=item $iter; a B<Gnome::Gtk4::N-TreeIter> positioned at the selected match.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryCompletion> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if the signal has been handled
+
+=begin comment
+
+=head2 Example
+# Example for signal match-selected
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 no-matches
+
+Emitted when the filter model has zero
+number of rows in completion_complete method.
+
+In other words when B<Gnome::Gtk4::EntryCompletion> is out of suggestions.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::EntryCompletion :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryCompletion> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal no-matches
+
+=end comment
+
+=end pod
+
