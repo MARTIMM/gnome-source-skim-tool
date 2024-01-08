@@ -1,0 +1,185 @@
+=comment Package: Gtk4, C-Source: entrybuffer
+use v6.d;
+
+#TL:1:Gnome::Gtk4::EntryBuffer:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::EntryBuffer:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::EntryBuffer $entry-buffer;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $entry-buffer {
+    my Str $initial-chars;
+    my gint $n-initial-chars;
+
+#`{{
+    #TC:0:new-entrybuffer()
+    $initial-chars = 'text';
+    $n-initial-chars = '…';
+    $entry-buffer .= new-entrybuffer( $initial-chars, $n-initial-chars);
+    ok .is-valid, '.new-entrybuffer( $initial-chars, $n-initial-chars)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $entry-buffer {
+    my gint $n-chars;
+    my Str $chars;
+    my gint $max-length;
+    my guint $position;
+
+
+#`{{
+    #TM:0:delete-text()
+    ok .delete-text( $position, $n-chars), '.delete-text()';
+
+    #TM:0:emit-deleted-text()
+    ok .emit-deleted-text( $position, $n-chars), '.emit-deleted-text()';
+
+    #TM:0:emit-inserted-text()
+    ok .emit-inserted-text( $position, $chars, $n-chars), '.emit-inserted-text()';
+
+    #TM:0:get-bytes()
+     .get-bytes(), '…', '.get-bytes()';
+
+    #TM:0:get-length()
+     .get-length(), '…', '.get-length()';
+
+    #TM:0:insert-text()
+    ok .insert-text( $position, $chars, $n-chars), '.insert-text()';
+
+    #TM:0:set-max-length()
+    $max-length = '…';
+    .set-max-length( $max-length);
+    #TM:0:get-max-length()
+    is .get-max-length(),  $max-length, '.set-max-length() / .get-max-length()';
+
+    #TM:0:set-text()
+    $chars = 'text';
+    $n-chars = '…';
+    .set-text( $chars, $n-chars);
+    #TM:0:get-text()
+    is .get-text(),  $chars, $n-chars, '.set-text() / .get-text()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $entry-buffer {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::EntryBuffer() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::EntryBuffer;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::EntryBuffer :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::EntryBuffer $entry-buffer .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $entry-buffer.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

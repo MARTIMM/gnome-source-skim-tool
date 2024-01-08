@@ -1,0 +1,421 @@
+=comment Package: Gtk4, C-Source: entrybuffer
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::EntryBuffer
+
+![](images/entrybuffer.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::EntryBuffer> hold the text displayed in a B<Gnome::Gtk4::Text> widget.
+
+A single B<Gnome::Gtk4::EntryBuffer> object can be shared by multiple widgets
+which will then share the same text content, but not the cursor
+position, visibility attributes, icon etc.
+
+B<Gnome::Gtk4::EntryBuffer> may be derived from. Such a derived class might allow
+text to be stored in an alternate location, such as non-pageable memory,
+useful in the case of important passwords. Or a derived class could
+integrate with an application’s concept of undo/redo.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::EntryBuffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-entrybuffer
+
+Create a new B<Gnome::Gtk4::EntryBuffer> object.
+
+Optionally, specify initial text to set in the buffer.
+
+=begin code
+method new-entrybuffer ( Str $initial-chars, Int() $n-initial-chars --> Gnome::Gtk4::EntryBuffer \)
+=end code
+
+=item $initial-chars; initial buffer text.
+=item $n-initial-chars; number of characters in C<$initial-chars>, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for new-entrybuffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 delete-text
+
+Deletes a sequence of characters from the buffer.
+ C<$n-chars> characters are deleted starting at C<$position>.
+If C<$n-chars> is negative, then all characters until the
+end of the text are deleted.
+
+If C<$position> or C<$n-chars> are out of bounds, then they
+are coerced to sane values.
+
+Note that the positions are specified in characters,
+not bytes.
+
+=begin code
+method delete-text ( UInt() $position, Int() $n-chars --> UInt )
+=end code
+
+=item $position; position at which to delete text.
+=item $n-chars; number of characters to delete.
+
+Return value; The number of characters deleted.. 
+
+=begin comment
+
+=head2 Example
+# Example for delete-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 emit-deleted-text
+
+Used when subclassing B<Gnome::Gtk4::EntryBuffer>.
+
+=begin code
+method emit-deleted-text ( UInt() $position, UInt() $n-chars )
+=end code
+
+=item $position; position at which text was deleted.
+=item $n-chars; number of characters deleted.
+
+=begin comment
+
+=head2 Example
+# Example for emit-deleted-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 emit-inserted-text
+
+Used when subclassing B<Gnome::Gtk4::EntryBuffer>.
+
+=begin code
+method emit-inserted-text ( UInt() $position, Str $chars, UInt() $n-chars )
+=end code
+
+=item $position; position at which text was inserted.
+=item $chars; text that was inserted.
+=item $n-chars; number of characters inserted.
+
+=begin comment
+
+=head2 Example
+# Example for emit-inserted-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-bytes
+
+Retrieves the length in bytes of the buffer.
+
+See C<.get-length()>.
+
+=begin code
+method get-bytes (--> Int )
+=end code
+
+Return value; The byte length of the buffer.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-bytes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-length
+
+Retrieves the length in characters of the buffer.
+
+=begin code
+method get-length (--> UInt )
+=end code
+
+Return value; The number of characters in the buffer.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-max-length
+
+Retrieves the maximum allowed length of the text in C<$buffer>.
+
+=begin code
+method get-max-length (--> Int )
+=end code
+
+Return value; the maximum allowed number of characters
+  in B<Gnome::Gtk4::EntryBuffer>, or 0 if there is no maximum.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-max-length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-text
+
+Retrieves the contents of the buffer.
+
+The memory pointer returned by this call will not change
+unless this object emits a signal, or is finalized.
+
+=begin code
+method get-text (--> Str )
+=end code
+
+Return value; a pointer to the contents of the widget as a
+  string. This string points to internally allocated storage
+  in the buffer and must not be freed, modified or stored.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-text
+
+Inserts C<$n-chars> characters of C<$chars> into the contents of the
+buffer, at position C<$position>.
+
+If C<$n-chars> is negative, then characters from chars will be inserted
+until a null-terminator is found. If C<$position> or C<$n-chars> are out of
+bounds, or the maximum buffer text length is exceeded, then they are
+coerced to sane values.
+
+Note that the position and length are in characters, not in bytes.
+
+=begin code
+method insert-text ( UInt() $position, Str $chars, Int() $n-chars --> UInt )
+=end code
+
+=item $position; the position at which to insert text..
+=item $chars; the text to insert into the buffer..
+=item $n-chars; the length of the text in characters, or -1.
+
+Return value; The number of characters actually inserted.. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-max-length
+
+Sets the maximum allowed length of the contents of the buffer.
+
+If the current contents are longer than the given length, then
+they will be truncated to fit.
+
+=begin code
+method set-max-length ( Int() $max-length )
+=end code
+
+=item $max-length; the maximum length of the entry buffer, or 0 for no maximum.
+  (other than the maximum length of entries.) The value passed in will
+  be clamped to the range 0-65536..
+
+=begin comment
+
+=head2 Example
+# Example for set-max-length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-text
+
+Sets the text in the buffer.
+
+This is roughly equivalent to calling
+C<.delete-text()> and
+C<.insert-text()>.
+
+Note that C<$n-chars> is in characters, not in bytes.
+
+=begin code
+method set-text ( Str $chars, Int() $n-chars )
+=end code
+
+=item $chars; the new text.
+=item $n-chars; the number of characters in C<$text>, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for set-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 deleted-text
+
+The text is altered in the default handler for this signal.
+
+If you want access to the text after the text has been modified,
+use C<G_CONNECT_AFTER>.
+
+=begin code
+method handler (
+  guint $position,
+  guint $n-chars,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::EntryBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $position; the position the text was deleted at..
+=item $n-chars; The number of characters that were deleted..
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal deleted-text
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 inserted-text
+
+This signal is emitted after text is inserted into the buffer.
+
+=begin code
+method handler (
+  guint $position,
+  Str $chars,
+  guint $n-chars,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::EntryBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $position; the position the text was inserted at..
+=item $chars; The text that was inserted..
+=item $n-chars; The number of characters that were inserted..
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EntryBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal inserted-text
+
+=end comment
+
+=end pod
+
