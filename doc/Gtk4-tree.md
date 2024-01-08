@@ -69,7 +69,7 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkNotebook
 │   │   ├── GtkOverlay
 │   │   ├── GtkPaned
-│   │   ├── GtkPasswordEntry
+│   │   ├── GtkPasswordEntry                    PasswordEntry
 │   │   ├── GtkPicture                          Picture
 │   │   ├── GtkPopoverMenuBar
 │   │   ├── GtkProgressBar
@@ -175,8 +175,8 @@ GObject                                         Gnome::GObject::Object
 │   ├── GtkEventControllerScroll
 │   ├── GtkPadController
 │   ╰── GtkShortcutController
-├── GtkEntryBuffer
-├── GtkEntryCompletion
+├── GtkEntryBuffer                              EntryBuffer
+├── GtkEntryCompletion                          EntryCompletion
 ├── GtkNativeDialog
 │   ╰── GtkFileChooserNative
 ├── GtkFilterListModel
