@@ -34,8 +34,8 @@ Run a test with `prove6 --timer` on the old and new modules. The older tests tak
 #### Api 1 tests
 |cc| Date       | Dist      |#c| Files | Tests | secs |
 |--|------------|-----------|--|-------|-------|------|
-| 2| 2023 12 28 | Gtk3      | *|   144 |   367 |  510 |
-| 1| 2023 12 28 |           |  |   144 |   367 |  145 |
+| a| 2023 12 28 | Gtk3      | *|   144 |   367 |  510 |
+| b| 2023 12 28 |           |  |   144 |   367 |  145 |
 |  | 2023 12 30 | Gdk3      | *|    11 |    20 |   64 |
 |  | 2023 12 30 |           |  |    11 |    20 |    6 |
 |  | 2023 12 30 | Glib      | *|    10 |    21 |   24 |
@@ -68,11 +68,11 @@ The calculation is to show how much time it would take when the newer version wo
 
 | o vs n |  Comp | secs | Diff | Speedup % |
 |--------|-------|------|------|-----------|
-| 1 vs 1 |    98 |   78 |   20 |       126 |
-| 2 vs 1 |   125 |  106 |   19 |       118 |
-| 3 vs 2 |   486 |  261 |  225 |       186 |
-| 4 vs 1 |   138 |  111 |   27 |       124 |
-| 5 vs 1 |   155 |  124 |
+| 1 vs b |    98 |   78 |   20 |       126 |
+| 2 vs b |   125 |  106 |   19 |       118 |
+| 3 vs a |   486 |  261 |  225 |       186 |
+| 4 vs b |   138 |  111 |   27 |       124 |
+| 5 vs b |   155 |  124 |   31 |       125 |
 
 
 * **cc**; compares entries from above tables
