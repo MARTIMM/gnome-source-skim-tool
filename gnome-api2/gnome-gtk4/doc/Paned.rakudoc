@@ -1,0 +1,712 @@
+=comment Package: Gtk4, C-Source: paned
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Paned
+
+![](images/paned.png)
+
+=head1 Description
+
+A widget with two panes, arranged either horizontally or vertically.
+
+![An example GtkPaned](panes.png)
+
+The division between the two panes is adjustable by the user
+by dragging a handle.
+
+Child widgets are added to the panes of the widget with
+C<.set-start-child()> and C<.set-end-child()>.
+The division between the two children is set by default from the size
+requests of the children, but it can be adjusted by the user.
+
+A paned widget draws a separator between the two child widgets and a
+small handle that the user can drag to adjust the division. It does not
+draw any relief around the children or around the separator. (The space
+in which the separator is called the gutter.) Often, it is useful to put
+each child inside a B<Gnome::Gtk4::Frame> so that the gutter appears as a
+ridge. No separator is drawn if one of the children is missing.
+
+Each child has two options that can be set, "resize" and "shrink". If
+"resize" is true then, when the B<Gnome::Gtk4::Paned> is resized, that child will
+expand or shrink along with the paned widget. If "shrink" is true, then
+that child can be made smaller than its requisition by the user.
+Setting "shrink" to false allows the application to set a minimum size.
+If "resize" is false for both children, then this is treated as if
+"resize" is true for both children.
+
+The application can set the position of the slider as if it were set
+by the user, by calling C<.set-position()>.
+
+=head2 CSS nodes
+
+=begin comment
+paned
+├── <child>
+├── separator[.wide]
+╰── <child>
+
+=end comment
+
+B<Gnome::Gtk4::Paned> has a main CSS node with name paned, and a subnode for
+the separator with name separator. The subnode gets a .wide style
+class when the paned is supposed to be wide.
+
+In horizontal orientation, the nodes are arranged based on the text
+direction, so in left-to-right mode, :first-child will select the
+leftmost child, while it will select the rightmost child in
+RTL layouts.
+
+=head3 Creating a paned widget with minimum sizes.
+
+=begin comment
+GtkWidget *hpaned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+GtkWidget *frame1 = gtk_frame_new (NULL);
+GtkWidget *frame2 = gtk_frame_new (NULL);
+
+gtk_widget_set_size_request (hpaned, 200, -1);
+
+gtk_paned_set_start_child (GTK_PANED (hpaned), frame1);
+gtk_paned_set_start_child_resize (GTK_PANED (hpaned), TRUE);
+gtk_paned_set_start_child_shrink (GTK_PANED (hpaned), FALSE);
+gtk_widget_set_size_request (frame1, 50, -1);
+
+gtk_paned_set_end_child (GTK_PANED (hpaned), frame2);
+gtk_paned_set_end_child_resize (GTK_PANED (hpaned), FALSE);
+gtk_paned_set_end_child_shrink (GTK_PANED (hpaned), FALSE);
+gtk_widget_set_size_request (frame2, 50, -1);
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Paned
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-paned
+
+Creates a new B<Gnome::Gtk4::Paned> widget.
+
+=begin code
+method new-paned ( GtkOrientation $orientation --> Gnome::Gtk4::Paned \)
+=end code
+
+=item $orientation; the paned’s orientation..
+
+=begin comment
+
+=head2 Example
+# Example for new-paned
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-end-child
+
+Retrieves the end child of the given B<Gnome::Gtk4::Paned>.
+
+=begin code
+method get-end-child (--> N-Object )
+=end code
+
+Return value; the end child widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-end-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-position
+
+Obtains the position of the divider between the two panes.
+
+=begin code
+method get-position (--> Int )
+=end code
+
+Return value; the position of the divider, in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-resize-end-child
+
+Returns whether the I<end-child> can be resized.
+
+=begin code
+method get-resize-end-child (--> Bool )
+=end code
+
+Return value; true if the end child is resizable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-resize-end-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-resize-start-child
+
+Returns whether the I<start-child> can be resized.
+
+=begin code
+method get-resize-start-child (--> Bool )
+=end code
+
+Return value; true if the start child is resizable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-resize-start-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-shrink-end-child
+
+Returns whether the I<end-child> can shrink.
+
+=begin code
+method get-shrink-end-child (--> Bool )
+=end code
+
+Return value; true if the end child is shrinkable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-shrink-end-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-shrink-start-child
+
+Returns whether the I<start-child> can shrink.
+
+=begin code
+method get-shrink-start-child (--> Bool )
+=end code
+
+Return value; true if the start child is shrinkable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-shrink-start-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-start-child
+
+Retrieves the start child of the given B<Gnome::Gtk4::Paned>.
+
+=begin code
+method get-start-child (--> N-Object )
+=end code
+
+Return value; the start child widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-wide-handle
+
+Gets whether the separator should be wide.
+
+=begin code
+method get-wide-handle (--> Bool )
+=end code
+
+Return value; C<True> if the paned should have a wide handle. 
+
+=begin comment
+
+=head2 Example
+# Example for get-wide-handle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-end-child
+
+Sets the end child of C<$paned> to C<$child>.
+
+If C<$child> is undefined, the existing child will be removed.
+
+=begin code
+method set-end-child ( N-Object() $child )
+=end code
+
+=item $child; the widget to add.
+
+=begin comment
+
+=head2 Example
+# Example for set-end-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-position
+
+Sets the position of the divider between the two panes.
+
+=begin code
+method set-position ( Int() $position )
+=end code
+
+=item $position; pixel position of divider, a negative value means that the position
+  is unset.
+
+=begin comment
+
+=head2 Example
+# Example for set-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-resize-end-child
+
+Sets whether the I<end-child> can be resized.
+
+=begin code
+method set-resize-end-child ( Bool() $resize )
+=end code
+
+=item $resize; true to let the end child be resized.
+
+=begin comment
+
+=head2 Example
+# Example for set-resize-end-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-resize-start-child
+
+Sets whether the I<start-child> can be resized.
+
+=begin code
+method set-resize-start-child ( Bool() $resize )
+=end code
+
+=item $resize; true to let the start child be resized.
+
+=begin comment
+
+=head2 Example
+# Example for set-resize-start-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-shrink-end-child
+
+Sets whether the I<end-child> can shrink.
+
+=begin code
+method set-shrink-end-child ( Bool() $resize )
+=end code
+
+=item $resize; true to let the end child be shrunk.
+
+=begin comment
+
+=head2 Example
+# Example for set-shrink-end-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-shrink-start-child
+
+Sets whether the I<start-child> can shrink.
+
+=begin code
+method set-shrink-start-child ( Bool() $resize )
+=end code
+
+=item $resize; true to let the start child be shrunk.
+
+=begin comment
+
+=head2 Example
+# Example for set-shrink-start-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-start-child
+
+Sets the start child of C<$paned> to C<$child>.
+
+If C<$child> is undefined, the existing child will be removed.
+
+=begin code
+method set-start-child ( N-Object() $child )
+=end code
+
+=item $child; the widget to add.
+
+=begin comment
+
+=head2 Example
+# Example for set-start-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-wide-handle
+
+Sets whether the separator should be wide.
+
+=begin code
+method set-wide-handle ( Bool() $wide )
+=end code
+
+=item $wide; the new value for the I<wide-handle> property.
+
+=begin comment
+
+=head2 Example
+# Example for set-wide-handle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 accept-position
+
+Emitted to accept the current position of the handle when
+moving it using key bindings.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>Return</kbd> or
+<kbd>Space</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Paned :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal accept-position
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 cancel-position
+
+Emitted to cancel moving the position of the handle using key
+bindings.
+
+The position of the handle will be reset to the value prior to
+moving it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>Escape</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Paned :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal cancel-position
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 cycle-child-focus
+
+Emitted to cycle the focus between the children of the paned.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding is <kbd>F6</kbd>.
+
+=begin code
+method handler (
+  gboolean $reversed,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Paned :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $reversed; whether cycling backward or forward.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal cycle-child-focus
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 cycle-handle-focus
+
+Emitted to cycle whether the paned should grab focus to allow
+the user to change position of the handle by using key bindings.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>F8</kbd>.
+
+=begin code
+method handler (
+  gboolean $reversed,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Paned :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $reversed; whether cycling backward or forward.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal cycle-handle-focus
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-handle
+
+Emitted to move the handle with key bindings.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+=begin code
+method handler (
+   $scroll-type,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Paned :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $scroll-type; a C<enumeration GtkScrollType defined in Gnome::Gtk4::T-Enums>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal move-handle
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 toggle-handle-focus
+
+Emitted to accept the current position of the handle and then
+move focus to the next widget in the focus chain.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding is <kbd>Tab</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Paned :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Paned> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal toggle-handle-focus
+
+=end comment
+
+=end pod
+

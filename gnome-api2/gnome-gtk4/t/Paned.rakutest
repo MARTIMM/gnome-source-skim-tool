@@ -1,0 +1,201 @@
+=comment Package: Gtk4, C-Source: paned
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Paned:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::Paned:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Paned $paned;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $paned {
+    my GtkOrientation $orientation;
+
+#`{{
+    #TC:0:new-paned()
+    $orientation = …;
+    $paned .= new-paned( $orientation);
+    ok .is-valid, '.new-paned( $orientation)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $paned {
+    my N-Object $child;
+    my gboolean $wide;
+    my gint $position;
+    my gboolean $resize;
+
+
+#`{{
+    #TM:0:set-end-child()
+    $child = …;
+    .set-end-child( $child);
+    #TM:0:get-end-child()
+    is .get-end-child(),  $child, '.set-end-child() / .get-end-child()';
+
+    #TM:0:set-position()
+    $position = '…';
+    .set-position( $position);
+    #TM:0:get-position()
+    is .get-position(),  $position, '.set-position() / .get-position()';
+
+    #TM:0:set-resize-end-child()
+    $resize = '…';
+    .set-resize-end-child( $resize);
+    #TM:0:get-resize-end-child()
+    is .get-resize-end-child(),  $resize, '.set-resize-end-child() / .get-resize-end-child()';
+
+    #TM:0:set-resize-start-child()
+    $resize = '…';
+    .set-resize-start-child( $resize);
+    #TM:0:get-resize-start-child()
+    is .get-resize-start-child(),  $resize, '.set-resize-start-child() / .get-resize-start-child()';
+
+    #TM:0:set-shrink-end-child()
+    $resize = '…';
+    .set-shrink-end-child( $resize);
+    #TM:0:get-shrink-end-child()
+    is .get-shrink-end-child(),  $resize, '.set-shrink-end-child() / .get-shrink-end-child()';
+
+    #TM:0:set-shrink-start-child()
+    $resize = '…';
+    .set-shrink-start-child( $resize);
+    #TM:0:get-shrink-start-child()
+    is .get-shrink-start-child(),  $resize, '.set-shrink-start-child() / .get-shrink-start-child()';
+
+    #TM:0:set-start-child()
+    $child = …;
+    .set-start-child( $child);
+    #TM:0:get-start-child()
+    is .get-start-child(),  $child, '.set-start-child() / .get-start-child()';
+
+    #TM:0:set-wide-handle()
+    $wide = '…';
+    .set-wide-handle( $wide);
+    #TM:0:get-wide-handle()
+    is .get-wide-handle(),  $wide, '.set-wide-handle() / .get-wide-handle()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $paned {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Paned() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Paned;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Paned :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Paned $paned .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $paned.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
