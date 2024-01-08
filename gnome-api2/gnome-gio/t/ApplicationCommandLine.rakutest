@@ -1,0 +1,188 @@
+=comment Package: Gio, C-Source: applicationcommandline
+use v6.d;
+
+#TL:1:Gnome::Gio::ApplicationCommandLine:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gio::ApplicationCommandLine:api<2>;
+use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::N-VariantDict:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gio::ApplicationCommandLine $application-command-line;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $application-command-line {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $application-command-line {
+    my Str $format;
+    my gint $exit-status;
+    my Str $name;
+    my gint-ptr $argc;
+    my Str $arg;
+
+
+#`{{
+    #TM:0:create-file-for-arg()
+    ok .create-file-for-arg( $arg), '.create-file-for-arg()';
+
+    #TM:0:get-arguments()
+    is .get-arguments( $argc), '…', '.get-arguments()';
+
+    #TM:0:get-cwd()
+     .get-cwd(), '…', '.get-cwd()';
+
+    #TM:0:get-environ()
+     .get-environ(), '…', '.get-environ()';
+
+    #TM:0:get-is-remote()
+     .get-is-remote(), '…', '.get-is-remote()';
+
+    #TM:0:get-options-dict()
+     .get-options-dict(), '…', '.get-options-dict()';
+
+    #TM:0:get-platform-data()
+     .get-platform-data(), '…', '.get-platform-data()';
+
+    #TM:0:get-stdin()
+     .get-stdin(), '…', '.get-stdin()';
+
+    #TM:0:getenv()
+    is .getenv( $name), '…', '.getenv()';
+
+    #TM:0:print()
+    ok .print( $format), '.print()';
+
+    #TM:0:printerr()
+    ok .printerr( $format), '.printerr()';
+
+    #TM:0:set-exit-status()
+    $exit-status = '…';
+    .set-exit-status( $exit-status);
+    #TM:0:get-exit-status()
+    is .get-exit-status(),  $exit-status, '.set-exit-status() / .get-exit-status()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $application-command-line {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gio::ApplicationCommandLine() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gio::ApplicationCommandLine;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gio::ApplicationCommandLine :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gio::ApplicationCommandLine $application-command-line .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $application-command-line.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
