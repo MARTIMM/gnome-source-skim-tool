@@ -1,27 +1,27 @@
 ```
 GObject                                         Gnome::GObject::Object
 |                                               Gnome::Gio::*
-├── GApplication
-├── GFile
+├── GApplication                                Application
+├── GApplicationCommandLine                     ApplicationCommandLine
+├── GFile                                       File
 ├── GListStore                                  ListStore
-├── GMenu
-├── GMenuAttribute
-├── GMenuItem
-├── GMenuLinkIter
-├── GMenuModel
-├── GNotification
-├── GPermission
-├── GSimpleAction
-├── GSimpleActionGroup
-├── GSimplePermission
-├──
+├── GMenu                                       Menu
+├── GMenuAttribute                              MenuAttribute
+├── GMenuItem                                   MenuItem
+├── GMenuLinkIter                               MenuLinkIter
+├── GMenuModel                                  MenuModel
+├── GNotification                               Notification
+├── GPermission                                 Permission
+├── GSimpleAction                               SimpleAction
+├── GSimpleActionGroup                          SimpleActionGroup
+├── GSimplePermission                           SimplePermission
 ├──
 ├──
 
 GInterface
-├── GAction
-├── GActionGroup
-├── GActionMap
+├── GAction                                     Action
+├── GActionGroup                                ActionGroup
+├── GActionMap                                  ActionMap
 ├── GListModel                                  R-ListModel
 ├── 
 ├──
