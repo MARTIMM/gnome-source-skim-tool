@@ -53,6 +53,7 @@ Run a test with `prove6 --timer` on the old and new modules. The older tests tak
 | 2| 2023 12 30 |           |  |   128 |   318 |  106 |
 | 3| 2024 01 07 |           | *|   139 |   350 |  261 |
 | 4| 2024 01 07 |           | *|   139 |   350 |  111 |
+| 5| 2024 01 08 |           |  |   154 |   393 |  124 |
 |  | 2023 12 30 | Gdk4      |  |     3 |    15 |    2 |
 |  | 2024 01 02 |           |  |     7 |    22 |    5 |
 |  | 2023 12 30 | Glib      |  |    16 |    38 |   10 |
@@ -71,6 +72,7 @@ The calculation is to show how much time it would take when the newer version wo
 | 2 vs 1 |   125 |  106 |   19 |       118 |
 | 3 vs 2 |   486 |  261 |  225 |       186 |
 | 4 vs 1 |   138 |  111 |   27 |       124 |
+| 5 vs 1 |   155 |  124 |
 
 
 * **cc**; compares entries from above tables

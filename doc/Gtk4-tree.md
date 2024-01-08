@@ -46,7 +46,7 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkEntry                            Entry
 │   │   ├── GtkExpander
 │   │   ├── GtkFileChooserWidget                FileChooserWidget
-│   │   ├── GtkFixed
+│   │   ├── GtkFixed                            Fixed
 │   │   ├── GtkFlowBox
 │   │   ├── GtkFlowBoxChild
 │   │   ├── GtkFontButton
@@ -66,9 +66,9 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkListBoxRow
 │   │   ├── GtkMediaControls
 │   │   ├── GtkMenuButton
-│   │   ├── GtkNotebook
+│   │   ├── GtkNotebook                         Notebook
 │   │   ├── GtkOverlay
-│   │   ├── GtkPaned
+│   │   ├── GtkPaned                            Paned
 │   │   ├── GtkPasswordEntry                    PasswordEntry
 │   │   ├── GtkPicture                          Picture
 │   │   ├── GtkPopoverMenuBar
@@ -78,10 +78,10 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkRevealer
 │   │   ├── GtkScaleButton
 │   │   │   ╰── GtkVolumeButton
-│   │   ├── GtkScrollbar
+│   │   ├── GtkScrollbar                        Scrollbar
 │   │   ├── GtkScrolledWindow                   ScrolledWindow
-│   │   ├── GtkSearchBar
-│   │   ├── GtkSearchEntry
+│   │   ├── GtkSearchBar                        SearchBar
+│   │   ├── GtkSearchEntry                      SearchEntry
 │   │   ├── GtkSeparator
 │   │   ├── GtkShortcutLabel                    ShortcutLabel
 │   │   ├── GtkShortcutsShortcut                ShortcutsShortcut
@@ -199,7 +199,7 @@ GObject                                         Gnome::GObject::Object
 │   ╰── GtkMountOperation
 ├── GtkMultiSelection                           MultiSelection
 ├── GtkNoSelection                              NoSelection
-├── GtkNotebookPage
+├── GtkNotebookPage                             NotebookPage
 ├── GtkPageSetup
 ├── GtkPrinter
 ├── GtkPrintContext
@@ -283,5 +283,35 @@ GtkExpression
 
 Types, constants, standalone functions, etc. generated from gnome sources
 Gnome::Gtk4::*
+
+T-AboutDialog
+T-Accessible
+T-ActivateAction
+T-Application
+T-Assistant
+T-Dialog
+T-Editable
+T-Entry
+T-Enums
+T-IconPaintable
+T-IconView
+T-Image
+T-FileChooser
+T-FontChooser
+T-MessageDialog
+T-Native
+T-Notebook
+T-PrintOperation
+T-ScrolledWindow
+T-ShortcutsShortcut
+T-Show
+T-ShortcutAction
+T-SpinButton
+T-StyleContext
+T-StyleProvider
+T-TextView
+T-TreeDragDest
+T-TreeIter
+T-TreeSortable
 
 ```
