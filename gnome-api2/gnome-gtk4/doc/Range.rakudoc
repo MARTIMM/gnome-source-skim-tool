@@ -1,0 +1,748 @@
+=comment Package: Gtk4, C-Source: range
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Range
+
+![](images/range.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Range> is the common base class for widgets which visualize an
+adjustment.
+
+Widgets that are derived from B<Gnome::Gtk4::Range> include
+B<Gnome::Gtk4::Scale> and B<Gnome::Gtk4::Scrollbar>.
+
+Apart from signals for monitoring the parameters of the adjustment,
+B<Gnome::Gtk4::Range> provides properties and methods for setting a
+“fill level” on range widgets. See C<.set-fill-level()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-adjustment
+
+Get the adjustment which is the “model” object for B<Gnome::Gtk4::Range>.
+
+=begin code
+method get-adjustment (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Adjustment>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-fill-level
+
+Gets the current position of the fill level indicator.
+
+=begin code
+method get-fill-level (--> Num )
+=end code
+
+Return value; The current fill level. 
+
+=begin comment
+
+=head2 Example
+# Example for get-fill-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-flippable
+
+Gets whether the B<Gnome::Gtk4::Range> respects text direction.
+
+See C<.set-flippable()>.
+
+=begin code
+method get-flippable (--> Bool )
+=end code
+
+Return value; C<True> if the range is flippable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-flippable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-inverted
+
+Gets whether the range is inverted.
+
+See C<.set-inverted()>.
+
+=begin code
+method get-inverted (--> Bool )
+=end code
+
+Return value; C<True> if the range is inverted. 
+
+=begin comment
+
+=head2 Example
+# Example for get-inverted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-range-rect
+
+This function returns the area that contains the range’s trough,
+in coordinates relative to C<$range>'s origin.
+
+This function is useful mainly for B<Gnome::Gtk4::Range> subclasses.
+
+=begin code
+method get-range-rect ( CArray[N-Rectangle] $range-rect )
+=end code
+
+=item $range-rect; return location for the range rectangle.
+
+=begin comment
+
+=head2 Example
+# Example for get-range-rect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-restrict-to-fill-level
+
+Gets whether the range is restricted to the fill level.
+
+=begin code
+method get-restrict-to-fill-level (--> Bool )
+=end code
+
+Return value; C<True> if C<$range> is restricted to the fill level.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-restrict-to-fill-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-round-digits
+
+Gets the number of digits to round the value to when
+it changes.
+
+See I<change-value>.
+
+=begin code
+method get-round-digits (--> Int )
+=end code
+
+Return value; the number of digits to round to. 
+
+=begin comment
+
+=head2 Example
+# Example for get-round-digits
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-fill-level
+
+Gets whether the range displays the fill level graphically.
+
+=begin code
+method get-show-fill-level (--> Bool )
+=end code
+
+Return value; C<True> if C<$range> shows the fill level.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-fill-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-slider-range
+
+This function returns sliders range along the long dimension,
+in widget->window coordinates.
+
+This function is useful mainly for B<Gnome::Gtk4::Range> subclasses.
+
+=begin code
+method get-slider-range ( Array[Int] $slider-start, Array[Int] $slider-end )
+=end code
+
+=item $slider-start; (transfer ownership: full) return location for the slider's start.
+=item $slider-end; (transfer ownership: full) return location for the slider's end.
+
+=begin comment
+
+=head2 Example
+# Example for get-slider-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-slider-size-fixed
+
+This function is useful mainly for B<Gnome::Gtk4::Range> subclasses.
+
+See C<.set-slider-size-fixed()>.
+
+=begin code
+method get-slider-size-fixed (--> Bool )
+=end code
+
+Return value; whether the range’s slider has a fixed size.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-slider-size-fixed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Gets the current value of the range.
+
+=begin code
+method get-value (--> Num )
+=end code
+
+Return value; current value of the range.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-adjustment
+
+Sets the adjustment to be used as the “model” object for the B<Gnome::Gtk4::Range>
+
+The adjustment indicates the current range value, the minimum and
+maximum range values, the step/page increments used for keybindings
+and scrolling, and the page size.
+
+The page size is normally 0 for B<Gnome::Gtk4::Scale> and nonzero for B<Gnome::Gtk4::Scrollbar>,
+and indicates the size of the visible area of the widget being scrolled.
+The page size affects the size of the scrollbar slider.
+
+=begin code
+method set-adjustment ( N-Object() $adjustment )
+=end code
+
+=item $adjustment; a B<Gnome::Gtk4::Adjustment>.
+
+=begin comment
+
+=head2 Example
+# Example for set-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-fill-level
+
+Set the new position of the fill level indicator.
+
+The “fill level” is probably best described by its most prominent
+use case, which is an indicator for the amount of pre-buffering in
+a streaming media player. In that use case, the value of the range
+would indicate the current play position, and the fill level would
+be the position up to which the file/stream has been downloaded.
+
+This amount of prebuffering can be displayed on the range’s trough
+and is themeable separately from the trough. To enable fill level
+display, use C<.set-show-fill-level()>. The range defaults
+to not showing the fill level.
+
+Additionally, it’s possible to restrict the range’s slider position
+to values which are smaller than the fill level. This is controlled
+by C<.set-restrict-to-fill-level()> and is by default
+enabled.
+
+=begin code
+method set-fill-level ( Num() $fill-level )
+=end code
+
+=item $fill-level; the new position of the fill level indicator.
+
+=begin comment
+
+=head2 Example
+# Example for set-fill-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-flippable
+
+Sets whether the B<Gnome::Gtk4::Range> respects text direction.
+
+If a range is flippable, it will switch its direction
+if it is horizontal and its direction is C<GTK_TEXT_DIR_RTL>.
+
+See C<.get-direction() in class Gnome::Gtk4::Widget>.
+
+=begin code
+method set-flippable ( Bool() $flippable )
+=end code
+
+=item $flippable; C<True> to make the range flippable.
+
+=begin comment
+
+=head2 Example
+# Example for set-flippable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-increments
+
+Sets the step and page sizes for the range.
+
+The step size is used when the user clicks the B<Gnome::Gtk4::Scrollbar>
+arrows or moves a B<Gnome::Gtk4::Scale> via arrow keys. The page size
+is used for example when moving via Page Up or Page Down keys.
+
+=begin code
+method set-increments ( Num() $step, Num() $page )
+=end code
+
+=item $step; step size.
+=item $page; page size.
+
+=begin comment
+
+=head2 Example
+# Example for set-increments
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-inverted
+
+Sets whether to invert the range.
+
+Ranges normally move from lower to higher values as the
+slider moves from top to bottom or left to right. Inverted
+ranges have higher values at the top or on the right rather
+than on the bottom or left.
+
+=begin code
+method set-inverted ( Bool() $setting )
+=end code
+
+=item $setting; C<True> to invert the range.
+
+=begin comment
+
+=head2 Example
+# Example for set-inverted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-range
+
+Sets the allowable values in the B<Gnome::Gtk4::Range>.
+
+The range value is clamped to be between C<$min> and C<$max>.
+(If the range has a non-zero page size, it is clamped
+between C<$min> and C<$max> - page-size.)
+
+=begin code
+method set-range ( Num() $min, Num() $max )
+=end code
+
+=item $min; minimum range value.
+=item $max; maximum range value.
+
+=begin comment
+
+=head2 Example
+# Example for set-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-restrict-to-fill-level
+
+Sets whether the slider is restricted to the fill level.
+
+See C<.set-fill-level()> for a general description
+of the fill level concept.
+
+=begin code
+method set-restrict-to-fill-level ( Bool() $restrict-to-fill-level )
+=end code
+
+=item $restrict-to-fill-level; Whether the fill level restricts slider movement..
+
+=begin comment
+
+=head2 Example
+# Example for set-restrict-to-fill-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-round-digits
+
+Sets the number of digits to round the value to when
+it changes.
+
+See I<change-value>.
+
+=begin code
+method set-round-digits ( Int() $round-digits )
+=end code
+
+=item $round-digits; the precision in digits, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for set-round-digits
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-fill-level
+
+Sets whether a graphical fill level is show on the trough.
+
+See C<.set-fill-level()> for a general description
+of the fill level concept.
+
+=begin code
+method set-show-fill-level ( Bool() $show-fill-level )
+=end code
+
+=item $show-fill-level; Whether a fill level indicator graphics is shown..
+
+=begin comment
+
+=head2 Example
+# Example for set-show-fill-level
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-slider-size-fixed
+
+Sets whether the range’s slider has a fixed size, or a size that
+depends on its adjustment’s page size.
+
+This function is useful mainly for B<Gnome::Gtk4::Range> subclasses.
+
+=begin code
+method set-slider-size-fixed ( Bool() $size-fixed )
+=end code
+
+=item $size-fixed; C<True> to make the slider size constant.
+
+=begin comment
+
+=head2 Example
+# Example for set-slider-size-fixed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-value
+
+Sets the current value of the range.
+
+If the value is outside the minimum or maximum range values,
+it will be clamped to fit inside them. The range emits the
+I<value-changed> signal if the value changes.
+
+=begin code
+method set-value ( Num() $value )
+=end code
+
+=item $value; new value of the range.
+
+=begin comment
+
+=head2 Example
+# Example for set-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 adjust-bounds
+
+Emitted before clamping a value, to give the application a
+chance to adjust the bounds.
+
+=begin code
+method handler (
+  gdouble $value,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Range :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $value; the value before we clamp.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Range> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal adjust-bounds
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 change-value
+
+Emitted when a scroll action is performed on a range.
+
+It allows an application to determine the type of scroll event
+that occurred and the resultant new value. The application can
+handle the event itself and return C<True> to prevent further
+processing. Or, by returning C<False>, it can pass the event to
+other handlers until the default GTK handler is reached.
+
+The value parameter is unrounded. An application that overrides
+the I<change-value> signal is responsible for clamping the value
+to the desired number of decimal digits; the default GTK
+handler clamps the value based on I<round-digits>.
+
+=begin code
+method handler (
+   $scroll,
+  gdouble $value,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Range :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $scroll; the type of scroll action that was performed.
+=item $value; the new value resulting from the scroll action.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Range> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> to prevent other handlers from being invoked for
+    the signal, C<False> to propagate the signal further
+
+=begin comment
+
+=head2 Example
+# Example for signal change-value
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-slider
+
+Virtual function that moves the slider.
+
+Used for keybindings.
+
+=begin code
+method handler (
+   $step,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Range :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $step; how to move the slider.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Range> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-slider
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 value-changed
+
+Emitted when the range value changes.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Range :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Range> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal value-changed
+
+=end comment
+
+=end pod
+

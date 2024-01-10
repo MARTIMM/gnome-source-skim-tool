@@ -1,0 +1,231 @@
+=comment Package: Gtk4, C-Source: range
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Range:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::Gtk4::Range:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Range $range;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $range {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $range {
+    my gboolean $restrict-to-fill-level;
+    my N-Rectangle $range-rect;
+    my gint-ptr $slider-end;
+    my gdouble $max;
+    my gdouble $fill-level;
+    my gboolean $setting;
+    my gboolean $flippable;
+    my gint $round-digits;
+    my gdouble $value;
+    my gdouble $page;
+    my N-Object $adjustment;
+    my gboolean $show-fill-level;
+    my gdouble $step;
+    my gint-ptr $slider-start;
+    my gboolean $size-fixed;
+    my gdouble $min;
+
+
+#`{{
+    #TM:0:get-range-rect()
+    is .get-range-rect( $range-rect), '…', '.get-range-rect()';
+
+    #TM:0:get-slider-range()
+    is .get-slider-range( $slider-start, $slider-end), '…', '.get-slider-range()';
+
+    #TM:0:set-adjustment()
+    $adjustment = …;
+    .set-adjustment( $adjustment);
+    #TM:0:get-adjustment()
+    is .get-adjustment(),  $adjustment, '.set-adjustment() / .get-adjustment()';
+
+    #TM:0:set-fill-level()
+    $fill-level = '…';
+    .set-fill-level( $fill-level);
+    #TM:0:get-fill-level()
+    is .get-fill-level(),  $fill-level, '.set-fill-level() / .get-fill-level()';
+
+    #TM:0:set-flippable()
+    $flippable = '…';
+    .set-flippable( $flippable);
+    #TM:0:get-flippable()
+    is .get-flippable(),  $flippable, '.set-flippable() / .get-flippable()';
+
+    #TM:0:set-increments()
+    $step = '…';
+    $page = '…';
+    .set-increments( $step, $page);
+    ok True, '.set-increments()';
+
+    #TM:0:set-inverted()
+    $setting = '…';
+    .set-inverted( $setting);
+    #TM:0:get-inverted()
+    is .get-inverted(),  $setting, '.set-inverted() / .get-inverted()';
+
+    #TM:0:set-range()
+    $min = '…';
+    $max = '…';
+    .set-range( $min, $max);
+    ok True, '.set-range()';
+
+    #TM:0:set-restrict-to-fill-level()
+    $restrict-to-fill-level = '…';
+    .set-restrict-to-fill-level( $restrict-to-fill-level);
+    #TM:0:get-restrict-to-fill-level()
+    is .get-restrict-to-fill-level(),  $restrict-to-fill-level, '.set-restrict-to-fill-level() / .get-restrict-to-fill-level()';
+
+    #TM:0:set-round-digits()
+    $round-digits = '…';
+    .set-round-digits( $round-digits);
+    #TM:0:get-round-digits()
+    is .get-round-digits(),  $round-digits, '.set-round-digits() / .get-round-digits()';
+
+    #TM:0:set-show-fill-level()
+    $show-fill-level = '…';
+    .set-show-fill-level( $show-fill-level);
+    #TM:0:get-show-fill-level()
+    is .get-show-fill-level(),  $show-fill-level, '.set-show-fill-level() / .get-show-fill-level()';
+
+    #TM:0:set-slider-size-fixed()
+    $size-fixed = '…';
+    .set-slider-size-fixed( $size-fixed);
+    #TM:0:get-slider-size-fixed()
+    is .get-slider-size-fixed(),  $size-fixed, '.set-slider-size-fixed() / .get-slider-size-fixed()';
+
+    #TM:0:set-value()
+    $value = '…';
+    .set-value( $value);
+    #TM:0:get-value()
+    is .get-value(),  $value, '.set-value() / .get-value()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $range {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Range() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Range;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Range :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Range $range .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $range.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
