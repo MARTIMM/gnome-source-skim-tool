@@ -1,0 +1,334 @@
+=comment Package: Gtk4, C-Source: stack
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::StackPage
+
+![](images/stackpage.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::StackPage> is an auxiliary class used by B<Gnome::Gtk4::Stack>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::StackPage
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Returns the stack child to which C<$self> belongs.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child to which C<$self> belongs. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-name
+
+Returns the icon name of the page.
+
+=begin code
+method get-icon-name (--> Str )
+=end code
+
+Return value; The value of the I<icon-name> property. 
+
+=begin comment
+
+=head2 Example
+# Example for get-icon-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-name
+
+Returns the name of the page.
+
+=begin code
+method get-name (--> Str )
+=end code
+
+Return value; The value of the I<name> property. 
+
+=begin comment
+
+=head2 Example
+# Example for get-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-needs-attention
+
+Returns whether the page is marked as “needs attention”.
+
+=begin code
+method get-needs-attention (--> Bool )
+=end code
+
+Return value; The value of the I<needs-attention>
+  property.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-needs-attention
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-title
+
+Gets the page title.
+
+=begin code
+method get-title (--> Str )
+=end code
+
+Return value; The value of the I<title> property. 
+
+=begin comment
+
+=head2 Example
+# Example for get-title
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-use-underline
+
+Gets whether underlines in the page title indicate mnemonics.
+
+=begin code
+method get-use-underline (--> Bool )
+=end code
+
+Return value; The value of the I<use-underline> property. 
+
+=begin comment
+
+=head2 Example
+# Example for get-use-underline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible
+
+Returns whether C<$page> is visible in its B<Gnome::Gtk4::Stack>.
+
+This is independent from the I<visible defined in Gnome::Gtk4::Widget>
+property of its widget.
+
+=begin code
+method get-visible (--> Bool )
+=end code
+
+Return value; C<True> if C<$page> is visible. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-icon-name
+
+Sets the icon name of the page.
+
+=begin code
+method set-icon-name ( Str $setting )
+=end code
+
+=item $setting; the new value to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-icon-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-name
+
+Sets the name of the page.
+
+=begin code
+method set-name ( Str $setting )
+=end code
+
+=item $setting; the new value to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-needs-attention
+
+Sets whether the page is marked as “needs attention”.
+
+=begin code
+method set-needs-attention ( Bool() $setting )
+=end code
+
+=item $setting; the new value to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-needs-attention
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-title
+
+Sets the page title.
+
+=begin code
+method set-title ( Str $setting )
+=end code
+
+=item $setting; the new value to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-title
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-use-underline
+
+Sets whether underlines in the page title indicate mnemonics.
+
+=begin code
+method set-use-underline ( Bool() $setting )
+=end code
+
+=item $setting; the new value to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-use-underline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-visible
+
+Sets whether C<$page> is visible in its B<Gnome::Gtk4::Stack>.
+
+=begin code
+method set-visible ( Bool() $visible )
+=end code
+
+=item $visible; The new property value.
+
+=begin comment
+
+=head2 Example
+# Example for set-visible
+
+=end comment
+
+=end pod
+

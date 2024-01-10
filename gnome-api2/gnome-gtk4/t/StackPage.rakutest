@@ -1,0 +1,183 @@
+=comment Package: Gtk4, C-Source: stack
+use v6.d;
+
+#TL:1:Gnome::Gtk4::StackPage:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::StackPage:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::StackPage $stack-page;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $stack-page {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $stack-page {
+    my gboolean $visible;
+    my gboolean $setting;
+
+
+#`{{
+    #TM:0:get-child()
+     .get-child(), '…', '.get-child()';
+
+    #TM:0:set-icon-name()
+    $setting = 'text';
+    .set-icon-name( $setting);
+    #TM:0:get-icon-name()
+    is .get-icon-name(),  $setting, '.set-icon-name() / .get-icon-name()';
+
+    #TM:0:set-name()
+    $setting = 'text';
+    .set-name( $setting);
+    #TM:0:get-name()
+    is .get-name(),  $setting, '.set-name() / .get-name()';
+
+    #TM:0:set-needs-attention()
+    $setting = '…';
+    .set-needs-attention( $setting);
+    #TM:0:get-needs-attention()
+    is .get-needs-attention(),  $setting, '.set-needs-attention() / .get-needs-attention()';
+
+    #TM:0:set-title()
+    $setting = 'text';
+    .set-title( $setting);
+    #TM:0:get-title()
+    is .get-title(),  $setting, '.set-title() / .get-title()';
+
+    #TM:0:set-use-underline()
+    $setting = '…';
+    .set-use-underline( $setting);
+    #TM:0:get-use-underline()
+    is .get-use-underline(),  $setting, '.set-use-underline() / .get-use-underline()';
+
+    #TM:0:set-visible()
+    $visible = '…';
+    .set-visible( $visible);
+    #TM:0:get-visible()
+    is .get-visible(),  $visible, '.set-visible() / .get-visible()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $stack-page {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::StackPage() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::StackPage;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::StackPage :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::StackPage $stack-page .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $stack-page.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
