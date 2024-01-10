@@ -1,0 +1,1151 @@
+=comment Package: Gtk4, C-Source: listbox
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ListBox
+
+![](images/listbox.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ListBox> is a vertical list.
+
+A B<Gnome::Gtk4::ListBox> only contains B<Gnome::Gtk4::ListBoxRow> children. These rows can
+by dynamically sorted and filtered, and headers can be added dynamically
+depending on the row content. It also allows keyboard and mouse navigation
+and selection like a typical list.
+
+Using B<Gnome::Gtk4::ListBox> is often an alternative to B<Gnome::Gtk4::TreeView>, especially
+when the list contents has a more complicated layout than what is allowed
+by a B<Gnome::Gtk4::CellRenderer>, or when the contents is interactive (i.e. has a
+button in it).
+
+Although a B<Gnome::Gtk4::ListBox> must have only B<Gnome::Gtk4::ListBoxRow> children, you can
+add any kind of widget to it via C<.prepend()>,
+C<.append()> and C<.insert()> and a
+B<Gnome::Gtk4::ListBoxRow> widget will automatically be inserted between the list
+and the widget.
+
+B<GtkListBoxRows> can be marked as activatable or selectable. If a row is
+activatable, I<row-activated> will be emitted for it when
+the user tries to activate it. If it is selectable, the row will be marked
+as selected when the user tries to select it.
+
+=head2 GtkListBox as GtkBuildable
+
+The B<Gnome::Gtk4::ListBox> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+setting a child as the placeholder by specifying “placeholder” as the “type”
+attribute of a <child> element. See C<.set-placeholder()>
+for info.
+
+=head2 CSS nodes
+
+=begin comment
+<!-- language="plain" -->
+list[.separators][.rich-list][.navigation-sidebar]
+╰── row[.activatable]
+
+=end comment
+
+B<Gnome::Gtk4::ListBox> uses a single CSS node named list. It may carry the .separators
+style class, when the I<show-separators> property is set.
+Each B<Gnome::Gtk4::ListBoxRow> uses a single CSS node named row. The row nodes get the
+.activatable style class added when appropriate.
+
+The main list node may also carry style classes to select
+the style of [list presentation](section-list-widget.html#list-styles):
+.rich-list, .navigation-sidebar or .data-table.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::ListBox> uses the C<GTK_ACCESSIBLE_ROLE_LIST> role and B<Gnome::Gtk4::ListBoxRow> uses
+the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ListBox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-listbox
+
+Creates a new B<Gnome::Gtk4::ListBox> container.
+
+=begin code
+method new-listbox ( --> Gnome::Gtk4::ListBox \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-listbox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append
+
+Append a widget to the list.
+
+If a sort function is set, the widget will
+actually be inserted at the calculated position.
+
+=begin code
+method append ( N-Object() $child )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to add.
+
+=begin comment
+
+=head2 Example
+# Example for append
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 bind-model
+This function is not yet available
+
+Binds C<$model> to C<$box>.
+
+If C<$box> was already bound to a model, that previous binding is
+destroyed.
+
+The contents of C<$box> are cleared and then filled with widgets that
+represent items from C<$model>. C<$box> is updated whenever C<$model> changes.
+If C<$model> is undefined, C<$box> is left empty.
+
+It is undefined to add or remove widgets directly (for example, with
+C<.insert()>) while C<$box> is bound to a model.
+
+Note that using a model is incompatible with the filtering and sorting
+functionality in B<Gnome::Gtk4::ListBox>. When using a model, filtering and sorting
+should be implemented by the model.
+
+=begin code
+method bind-model ( N-List() $model, &create-widget-func, gpointer $user-data, … )
+=end code
+
+=item $model; the B<Gnome::Gio::R-ListModel> to be bound to C<$box>.
+=item &create-widget-func; a function that creates widgets for items
+  or undefined in case you also passed undefined as C<$model>. Tthe function must be specified with following signature; C<:( gpointer $item, gpointer $user-data --> N-Object )>.
+=item $user-data; user data passed to C<$create-widget-func>.
+=item user-data-free-func; function for freeing C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for bind-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 drag-highlight-row
+
+Add a drag highlight to a row.
+
+This is a helper function for implementing DnD onto a B<Gnome::Gtk4::ListBox>.
+The passed in C<$row> will be highlighted by setting the
+C<GTK_STATE_FLAG_DROP_ACTIVE> state and any previously highlighted
+row will be unhighlighted.
+
+The row will also be unhighlighted when the widget gets
+a drag leave event.
+
+=begin code
+method drag-highlight-row ( N-Object() $row )
+=end code
+
+=item $row; a B<Gnome::Gtk4::ListBoxRow>.
+
+=begin comment
+
+=head2 Example
+# Example for drag-highlight-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 drag-unhighlight-row
+
+If a row has previously been highlighted via C<.drag-highlight-row()>,
+it will have the highlight removed.
+
+=begin code
+method drag-unhighlight-row ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for drag-unhighlight-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-activate-on-single-click
+
+Returns whether rows activate on single clicks.
+
+=begin code
+method get-activate-on-single-click (--> Bool )
+=end code
+
+Return value; C<True> if rows are activated on single click, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-activate-on-single-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-adjustment
+
+Gets the adjustment (if any) that the widget uses to
+for vertical scrolling.
+
+=begin code
+method get-adjustment (--> N-Object )
+=end code
+
+Return value; the adjustment. 
+
+=begin comment
+
+=head2 Example
+# Example for get-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-at-index
+
+Gets the n-th child in the list (not counting headers).
+
+If C<$index-> is negative or larger than the number of items in the
+list, undefined is returned.
+
+=begin code
+method get-row-at-index ( Int() $index --> N-Object )
+=end code
+
+=item $index; the index of the row.
+
+Return value; the child B<Gnome::Gtk4::Widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-at-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-at-y
+
+Gets the row at the C<$y> position.
+
+=begin code
+method get-row-at-y ( Int() $y --> N-Object )
+=end code
+
+=item $y; position.
+
+Return value; the row. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-at-y
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-row
+
+Gets the selected row, or undefined if no rows are selected.
+
+Note that the box may allow multiple selection, in which
+case you should use C<.selected-foreach()> to
+find all selected rows.
+
+=begin code
+method get-selected-row (--> N-Object )
+=end code
+
+Return value; the selected row. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-rows
+
+Creates a list of all selected children.
+
+=begin code
+method get-selected-rows (--> N-List )
+=end code
+
+Return value; 
+  A B<Gnome::Glib::N-List> containing the B<Gnome::Gtk4::Widget> for each selected child.
+  Free with g_list_free() when done.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-rows
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection-mode
+
+Gets the selection mode of the listbox.
+
+=begin code
+method get-selection-mode (--> GtkSelectionMode )
+=end code
+
+Return value; a C<enumeration GtkSelectionMode defined in Gnome::Gtk4::T-Enums>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-separators
+
+Returns whether the list box should show separators
+between rows.
+
+=begin code
+method get-show-separators (--> Bool )
+=end code
+
+Return value; C<True> if the list box shows separators. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+Insert the C<$child> into the C<$box> at C<$position>.
+
+If a sort function is
+set, the widget will actually be inserted at the calculated position.
+
+If C<$position> is -1, or larger than the total number of items in the C<$box>, then the C<$child> will be appended to the end.
+
+=begin code
+method insert ( N-Object() $child, Int() $position )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $position; the position to insert C<$child> in.
+
+=begin comment
+
+=head2 Example
+# Example for insert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invalidate-filter
+
+Update the filtering for all rows.
+
+Call this when result
+of the filter function on the C<$box> is changed due
+to an external factor. For instance, this would be used
+if the filter function just looked for a specific search
+string and the entry with the search string has changed.
+
+=begin code
+method invalidate-filter ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for invalidate-filter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invalidate-headers
+
+Update the separators for all rows.
+
+Call this when result
+of the header function on the C<$box> is changed due
+to an external factor.
+
+=begin code
+method invalidate-headers ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for invalidate-headers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invalidate-sort
+
+Update the sorting for all rows.
+
+Call this when result
+of the sort function on the C<$box> is changed due
+to an external factor.
+
+=begin code
+method invalidate-sort ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for invalidate-sort
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend
+
+Prepend a widget to the list.
+
+If a sort function is set, the widget will
+actually be inserted at the calculated position.
+
+=begin code
+method prepend ( N-Object() $child )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to add.
+
+=begin comment
+
+=head2 Example
+# Example for prepend
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes a child from C<$box>.
+
+=begin code
+method remove ( N-Object() $child )
+=end code
+
+=item $child; the child to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-all
+
+Select all children of C<$box>, if the selection mode allows it.
+
+=begin code
+method select-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for select-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-row
+
+Make C<$row> the currently selected row.
+
+=begin code
+method select-row ( N-Object() $row )
+=end code
+
+=item $row; The row to select.
+
+=begin comment
+
+=head2 Example
+# Example for select-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 selected-foreach
+
+Calls a function for each selected child.
+
+Note that the selection cannot be modified from within this function.
+
+=begin code
+method selected-foreach ( &func, gpointer $data )
+=end code
+
+=item &func; the function to call for each selected child. Tthe function must be specified with following signature; C<:( N-Object $box, N-Object $row, gpointer $user-data )>.
+=item $data; user data to pass to the function.
+
+=begin comment
+
+=head2 Example
+# Example for selected-foreach
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-activate-on-single-click
+
+If C<$single> is C<True>, rows will be activated when you click on them,
+otherwise you need to double-click.
+
+=begin code
+method set-activate-on-single-click ( Bool() $single )
+=end code
+
+=item $single; a boolean.
+
+=begin comment
+
+=head2 Example
+# Example for set-activate-on-single-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-adjustment
+
+Sets the adjustment (if any) that the widget uses to
+for vertical scrolling.
+
+For instance, this is used to get the page size for
+PageUp/Down key handling.
+
+In the normal case when the C<$box> is packed inside
+a B<Gnome::Gtk4::ScrolledWindow> the adjustment from that will
+be picked up automatically, so there is no need
+to manually do that.
+
+=begin code
+method set-adjustment ( N-Object() $adjustment )
+=end code
+
+=item $adjustment; the adjustment.
+
+=begin comment
+
+=head2 Example
+# Example for set-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-filter-func
+This function is not yet available
+
+By setting a filter function on the C<$box> one can decide dynamically which
+of the rows to show.
+
+For instance, to implement a search function on a list that
+filters the original list to only show the matching rows.
+
+The C<$filter-func> will be called for each row after the call, and
+it will continue to be called each time a row changes (via
+C<.changed() in class Gnome::Gtk4::ListBoxRow>) or when C<.invalidate-filter()>
+is called.
+
+Note that using a filter function is incompatible with using a model
+(see C<.bind-model()>).
+
+=begin code
+method set-filter-func ( &filter-func, gpointer $user-data, … )
+=end code
+
+=item &filter-func; callback that lets you filter which rows to show. Tthe function must be specified with following signature; C<:( N-Object $row, gpointer $user-data --> gboolean )>.
+=item $user-data; user data passed to C<$filter-func>.
+=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-filter-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-header-func
+This function is not yet available
+
+Sets a header function.
+
+By setting a header function on the C<$box> one can dynamically add headers
+in front of rows, depending on the contents of the row and its position
+in the list.
+
+For instance, one could use it to add headers in front of the first item
+of a new kind, in a list sorted by the kind.
+
+The C<$update-header> can look at the current header widget using
+C<.get-header() in class Gnome::Gtk4::ListBoxRow> and either update the state of the widget
+as needed, or set a new one using C<.set-header() in class Gnome::Gtk4::ListBoxRow>. If no
+header is needed, set the header to undefined.
+
+Note that you may get many calls C<$update-header> to this for a particular
+row when e.g. changing things that don’t affect the header. In this case
+it is important for performance to not blindly replace an existing header
+with an identical one.
+
+The C<$update-header> function will be called for each row after the call,
+and it will continue to be called each time a row changes (via
+C<.changed() in class Gnome::Gtk4::ListBoxRow>) and when the row before changes (either
+by C<.changed() in class Gnome::Gtk4::ListBoxRow> on the previous row, or when the previous
+row becomes a different row). It is also called for all rows when
+C<.invalidate-headers()> is called.
+
+=begin code
+method set-header-func ( &update-header, gpointer $user-data, … )
+=end code
+
+=item &update-header; callback that lets you add row headers. Tthe function must be specified with following signature; C<:( N-Object $row, N-Object $before, gpointer $user-data )>.
+=item $user-data; user data passed to C<$update-header>.
+=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-header-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-placeholder
+
+Sets the placeholder widget that is shown in the list when
+it doesn't display any visible children.
+
+=begin code
+method set-placeholder ( N-Object() $placeholder )
+=end code
+
+=item $placeholder; a B<Gnome::Gtk4::Widget>.
+
+=begin comment
+
+=head2 Example
+# Example for set-placeholder
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-selection-mode
+
+Sets how selection works in the listbox.
+
+=begin code
+method set-selection-mode ( GtkSelectionMode $mode )
+=end code
+
+=item $mode; The C<enumeration GtkSelectionMode defined in Gnome::Gtk4::T-Enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-selection-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-separators
+
+Sets whether the list box should show separators
+between rows.
+
+=begin code
+method set-show-separators ( Bool() $show-separators )
+=end code
+
+=item $show-separators; C<True> to show separators.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sort-func
+This function is not yet available
+
+Sets a sort function.
+
+By setting a sort function on the C<$box> one can dynamically reorder
+the rows of the list, based on the contents of the rows.
+
+The C<$sort-func> will be called for each row after the call, and will
+continue to be called each time a row changes (via
+C<.changed() in class Gnome::Gtk4::ListBoxRow>) and when C<.invalidate-sort()>
+is called.
+
+Note that using a sort function is incompatible with using a model
+(see C<.bind-model()>).
+
+=begin code
+method set-sort-func ( &sort-func, gpointer $user-data, … )
+=end code
+
+=item &sort-func; the sort function. Tthe function must be specified with following signature; C<:( N-Object $row1, N-Object $row2, gpointer $user-data --> gint )>.
+=item $user-data; user data passed to C<$sort-func>.
+=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-sort-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-all
+
+Unselect all children of C<$box>, if the selection mode allows it.
+
+=begin code
+method unselect-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unselect-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-row
+
+Unselects a single row of C<$box>, if the selection mode allows it.
+
+=begin code
+method unselect-row ( N-Object() $row )
+=end code
+
+=item $row; the row to unselected.
+
+=begin comment
+
+=head2 Example
+# Example for unselect-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate-cursor-row
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate-cursor-row
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-cursor
+
+=begin code
+method handler (
+   $object,
+  gint $p0,
+  gboolean $p1,
+  gboolean $p2,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $object; .
+=item $p0; .
+=item $p1; .
+=item $p2; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 row-activated
+
+Emitted when a row has been activated by the user.
+
+=begin code
+method handler (
+  N-Object $row,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $row; the activated row.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal row-activated
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 row-selected
+
+Emitted when a new row is selected, or (with a undefined C<$row>)
+when the selection is cleared.
+
+When the C<$box> is using C<GTK_SELECTION_MULTIPLE>, this signal will not
+give you the full picture of selection changes, and you should use
+the I<selected-rows-changed> signal instead.
+
+=begin code
+method handler (
+  N-Object $row,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $row; the selected row.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal row-selected
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-all
+
+Emitted to select all children of the box, if the selection
+mode permits it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>Ctrl</kbd>-<kbd>a</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal select-all
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 selected-rows-changed
+
+Emitted when the set of selected rows changes.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal selected-rows-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 toggle-cursor-row
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggle-cursor-row
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 unselect-all
+
+Emitted to unselect all children of the box, if the selection
+mode permits it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is
+<kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>a</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ListBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal unselect-all
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,276 @@
+=comment Package: Gtk4, C-Source: listbox
+use v6.d;
+
+#TL:1:Gnome::Gtk4::ListBox:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Gtk4::ListBox:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::ListBox $list-box;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $list-box {
+
+#`{{
+    #TC:0:new-listbox()
+
+    $list-box .= new-listbox();
+    ok .is-valid, '.new-listbox()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $list-box {
+    sub sort-func ( N-Object $row1, N-Object $row2, gpointer $user-data --> gint ) {}
+    my gint $y;
+    my gint $position;
+    my N-Object $child;
+    my N-Object $placeholder;
+    sub filter-func ( N-Object $row, gpointer $user-data --> gboolean ) {}
+    my GtkSelectionMode $mode;
+    my  $user-data-free-func;
+    my gboolean $single;
+    my N-Object $row;
+    my gpointer $user-data;
+    my N-Object $adjustment;
+    my gpointer $data;
+    my N-Object $model;
+    my gboolean $show-separators;
+    sub update-header ( N-Object $row, N-Object $before, gpointer $user-data ) {}
+    sub create-widget-func ( gpointer $item, gpointer $user-data --> N-Object ) {}
+    my  $destroy;
+    sub func ( N-Object $box, N-Object $row, gpointer $user-data ) {}
+    my gint $index;
+
+
+#`{{
+    #TM:0:append()
+    ok .append( $child), '.append()';
+
+    #TM:0:bind-model()
+    ok .bind-model( $model, $create-widget-func, $user-data, $user-data-free-func), '.bind-model()';
+
+    #TM:0:drag-highlight-row()
+    ok .drag-highlight-row( $row), '.drag-highlight-row()';
+
+    #TM:0:drag-unhighlight-row()
+    ok .drag-unhighlight-row(), '.drag-unhighlight-row()';
+
+    #TM:0:get-row-at-index()
+    is .get-row-at-index( $index), '…', '.get-row-at-index()';
+
+    #TM:0:get-row-at-y()
+    is .get-row-at-y( $y), '…', '.get-row-at-y()';
+
+    #TM:0:get-selected-row()
+     .get-selected-row(), '…', '.get-selected-row()';
+
+    #TM:0:get-selected-rows()
+     .get-selected-rows(), '…', '.get-selected-rows()';
+
+    #TM:0:insert()
+    ok .insert( $child, $position), '.insert()';
+
+    #TM:0:invalidate-filter()
+    ok .invalidate-filter(), '.invalidate-filter()';
+
+    #TM:0:invalidate-headers()
+    ok .invalidate-headers(), '.invalidate-headers()';
+
+    #TM:0:invalidate-sort()
+    ok .invalidate-sort(), '.invalidate-sort()';
+
+    #TM:0:prepend()
+    ok .prepend( $child), '.prepend()';
+
+    #TM:0:remove()
+    ok .remove( $child), '.remove()';
+
+    #TM:0:select-all()
+    ok .select-all(), '.select-all()';
+
+    #TM:0:select-row()
+    ok .select-row( $row), '.select-row()';
+
+    #TM:0:selected-foreach()
+    ok .selected-foreach( $func, $data), '.selected-foreach()';
+
+    #TM:0:set-activate-on-single-click()
+    $single = '…';
+    .set-activate-on-single-click( $single);
+    #TM:0:get-activate-on-single-click()
+    is .get-activate-on-single-click(),  $single, '.set-activate-on-single-click() / .get-activate-on-single-click()';
+
+    #TM:0:set-adjustment()
+    $adjustment = …;
+    .set-adjustment( $adjustment);
+    #TM:0:get-adjustment()
+    is .get-adjustment(),  $adjustment, '.set-adjustment() / .get-adjustment()';
+
+    #TM:0:set-filter-func()
+    $filter-func = …;
+    $user-data = '…';
+    $destroy = '…';
+    .set-filter-func( $filter-func, $user-data, $destroy);
+    ok True, '.set-filter-func()';
+
+    #TM:0:set-header-func()
+    $update-header = …;
+    $user-data = '…';
+    $destroy = '…';
+    .set-header-func( $update-header, $user-data, $destroy);
+    ok True, '.set-header-func()';
+
+    #TM:0:set-placeholder()
+    $placeholder = …;
+    .set-placeholder( $placeholder);
+    ok True, '.set-placeholder()';
+
+    #TM:0:set-selection-mode()
+    $mode = …;
+    .set-selection-mode( $mode);
+    #TM:0:get-selection-mode()
+    is .get-selection-mode(),  $mode, '.set-selection-mode() / .get-selection-mode()';
+
+    #TM:0:set-show-separators()
+    $show-separators = '…';
+    .set-show-separators( $show-separators);
+    #TM:0:get-show-separators()
+    is .get-show-separators(),  $show-separators, '.set-show-separators() / .get-show-separators()';
+
+    #TM:0:set-sort-func()
+    $sort-func = …;
+    $user-data = '…';
+    $destroy = '…';
+    .set-sort-func( $sort-func, $user-data, $destroy);
+    ok True, '.set-sort-func()';
+
+    #TM:0:unselect-all()
+    ok .unselect-all(), '.unselect-all()';
+
+    #TM:0:unselect-row()
+    ok .unselect-row( $row), '.unselect-row()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $list-box {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::ListBox() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::ListBox;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::ListBox :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::ListBox $list-box .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $list-box.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
