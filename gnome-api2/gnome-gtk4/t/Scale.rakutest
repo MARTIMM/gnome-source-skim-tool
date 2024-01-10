@@ -1,0 +1,217 @@
+=comment Package: Gtk4, C-Source: scale
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Scale:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::Scale:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Scale $scale;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $scale {
+    my GtkOrientation $orientation;
+    my N-Object $adjustment;
+    my gdouble $max;
+    my gdouble $min;
+    my gdouble $step;
+
+#`{{
+    #TC:0:new-scale()
+    $orientation = …;
+    $adjustment = …;
+    $scale .= new-scale( $orientation, $adjustment);
+    ok .is-valid, '.new-scale( $orientation, $adjustment)';
+
+    #TC:0:new-with-range()
+    $orientation = …;
+    $min = '…';
+    $max = '…';
+    $step = '…';
+    $scale .= new-with-range( $orientation, $min, $max, $step);
+    ok .is-valid, '.new-with-range( $orientation, $min, $max, $step)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $scale {
+    my gint $digits;
+    my gint-ptr $x;
+    my gdouble $value;
+    sub func ( N-Object $scale, gdouble $value, gpointer $user-data --> Str ) {}
+    my Str $markup;
+    my  $destroy-notify;
+    my GtkPositionType $position;
+    my GtkPositionType $pos;
+    my gboolean $has-origin;
+    my gpointer $user-data;
+    my gint-ptr $y;
+    my gboolean $draw-value;
+
+
+#`{{
+    #TM:0:add-mark()
+    ok .add-mark( $value, $position, $markup), '.add-mark()';
+
+    #TM:0:clear-marks()
+    ok .clear-marks(), '.clear-marks()';
+
+    #TM:0:get-layout()
+     .get-layout(), '…', '.get-layout()';
+
+    #TM:0:get-layout-offsets()
+    is .get-layout-offsets( $x, $y), '…', '.get-layout-offsets()';
+
+    #TM:0:set-digits()
+    $digits = '…';
+    .set-digits( $digits);
+    #TM:0:get-digits()
+    is .get-digits(),  $digits, '.set-digits() / .get-digits()';
+
+    #TM:0:set-draw-value()
+    $draw-value = '…';
+    .set-draw-value( $draw-value);
+    #TM:0:get-draw-value()
+    is .get-draw-value(),  $draw-value, '.set-draw-value() / .get-draw-value()';
+
+    #TM:0:set-format-value-func()
+    $func = …;
+    $user-data = '…';
+    $destroy-notify = '…';
+    .set-format-value-func( $func, $user-data, $destroy-notify);
+    ok True, '.set-format-value-func()';
+
+    #TM:0:set-has-origin()
+    $has-origin = '…';
+    .set-has-origin( $has-origin);
+    #TM:0:get-has-origin()
+    is .get-has-origin(),  $has-origin, '.set-has-origin() / .get-has-origin()';
+
+    #TM:0:set-value-pos()
+    $pos = …;
+    .set-value-pos( $pos);
+    #TM:0:get-value-pos()
+    is .get-value-pos(),  $pos, '.set-value-pos() / .get-value-pos()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $scale {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Scale() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Scale;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Scale :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Scale $scale .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $scale.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
