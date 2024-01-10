@@ -1,0 +1,156 @@
+=comment Package: Gtk4, C-Source: stackswitcher
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::StackSwitcher
+
+![](images/stackswitcher.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::StackSwitcher> shows a row of buttons to switch between B<Gnome::Gtk4::Stack>
+pages.
+
+![An example GtkStackSwitcher](stackswitcher.png)
+
+It acts as a controller for the associated B<Gnome::Gtk4::Stack>.
+
+All the content for the buttons comes from the properties of the stacks
+B<Gnome::Gtk4::StackPage> objects; the button visibility in a B<Gnome::Gtk4::StackSwitcher>
+widget is controlled by the visibility of the child in the B<Gnome::Gtk4::Stack>.
+
+It is possible to associate multiple B<Gnome::Gtk4::StackSwitcher> widgets
+with the same B<Gnome::Gtk4::Stack> widget.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::StackSwitcher> has a single CSS node named stackswitcher and
+style class .stack-switcher.
+
+When circumstances require it, B<Gnome::Gtk4::StackSwitcher> adds the
+.needs-attention style class to the widgets representing the
+stack pages.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::StackSwitcher> uses the C<GTK_ACCESSIBLE_ROLE_TAB_LIST> role
+and uses the C<GTK_ACCESSIBLE_ROLE_TAB> for its buttons.
+
+=head2 Orientable
+
+Since GTK 4.4, B<Gnome::Gtk4::StackSwitcher> implements B<Gnome::Gtk4::R-Orientable> allowing
+the stack switcher to be made vertical with
+B<gtk_orientable_set_orientation()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::StackSwitcher
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-stackswitcher
+
+Create a new B<Gnome::Gtk4::StackSwitcher>.
+
+=begin code
+method new-stackswitcher ( --> Gnome::Gtk4::StackSwitcher \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-stackswitcher
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-stack
+
+Retrieves the stack.
+
+=begin code
+method get-stack (--> N-Object )
+=end code
+
+Return value; the stack. 
+
+=begin comment
+
+=head2 Example
+# Example for get-stack
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-stack
+
+Sets the stack to control.
+
+=begin code
+method set-stack ( N-Object() $stack )
+=end code
+
+=item $stack; a B<Gnome::Gtk4::Stack>.
+
+=begin comment
+
+=head2 Example
+# Example for set-stack
+
+=end comment
+
+=end pod
+
