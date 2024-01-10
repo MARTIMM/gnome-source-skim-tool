@@ -1,0 +1,228 @@
+=comment Package: Gtk4, C-Source: stack
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Stack:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Stack:api<2>;
+use Gnome::Gtk4::T-Stack:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Stack $stack;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $stack {
+
+#`{{
+    #TC:0:new-stack()
+
+    $stack .= new-stack();
+    ok .is-valid, '.new-stack()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $stack {
+    my GtkStackTransitionType $transition;
+    my gboolean $interpolate-size;
+    my gboolean $vhomogeneous;
+    my guint $duration;
+    my gboolean $hhomogeneous;
+    my Str $name;
+    my N-Object $child;
+    my Str $title;
+
+
+#`{{
+    #TM:0:add-child()
+    ok .add-child( $child), '.add-child()';
+
+    #TM:0:add-named()
+    ok .add-named( $child, $name), '.add-named()';
+
+    #TM:0:add-titled()
+    ok .add-titled( $child, $name, $title), '.add-titled()';
+
+    #TM:0:get-child-by-name()
+    is .get-child-by-name( $name), '…', '.get-child-by-name()';
+
+    #TM:0:get-page()
+    is .get-page( $child), '…', '.get-page()';
+
+    #TM:0:get-pages()
+     .get-pages(), '…', '.get-pages()';
+
+    #TM:0:get-transition-running()
+     .get-transition-running(), '…', '.get-transition-running()';
+
+    #TM:0:remove()
+    ok .remove( $child), '.remove()';
+
+    #TM:0:set-hhomogeneous()
+    $hhomogeneous = '…';
+    .set-hhomogeneous( $hhomogeneous);
+    #TM:0:get-hhomogeneous()
+    is .get-hhomogeneous(),  $hhomogeneous, '.set-hhomogeneous() / .get-hhomogeneous()';
+
+    #TM:0:set-interpolate-size()
+    $interpolate-size = '…';
+    .set-interpolate-size( $interpolate-size);
+    #TM:0:get-interpolate-size()
+    is .get-interpolate-size(),  $interpolate-size, '.set-interpolate-size() / .get-interpolate-size()';
+
+    #TM:0:set-transition-duration()
+    $duration = '…';
+    .set-transition-duration( $duration);
+    #TM:0:get-transition-duration()
+    is .get-transition-duration(),  $duration, '.set-transition-duration() / .get-transition-duration()';
+
+    #TM:0:set-transition-type()
+    $transition = …;
+    .set-transition-type( $transition);
+    #TM:0:get-transition-type()
+    is .get-transition-type(),  $transition, '.set-transition-type() / .get-transition-type()';
+
+    #TM:0:set-vhomogeneous()
+    $vhomogeneous = '…';
+    .set-vhomogeneous( $vhomogeneous);
+    #TM:0:get-vhomogeneous()
+    is .get-vhomogeneous(),  $vhomogeneous, '.set-vhomogeneous() / .get-vhomogeneous()';
+
+    #TM:0:set-visible-child()
+    $child = …;
+    .set-visible-child( $child);
+    #TM:0:get-visible-child()
+    is .get-visible-child(),  $child, '.set-visible-child() / .get-visible-child()';
+
+    #TM:0:set-visible-child-full()
+    $name = 'text';
+    $transition = …;
+    .set-visible-child-full( $name, $transition);
+    ok True, '.set-visible-child-full()';
+
+    #TM:0:set-visible-child-name()
+    $name = 'text';
+    .set-visible-child-name( $name);
+    #TM:0:get-visible-child-name()
+    is .get-visible-child-name(),  $name, '.set-visible-child-name() / .get-visible-child-name()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $stack {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Stack() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Stack;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Stack :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Stack $stack .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $stack.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

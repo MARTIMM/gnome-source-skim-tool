@@ -1,0 +1,79 @@
+=comment Package: Gtk4, C-Source: stack
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-Stack:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-Stack:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkStackTransitionType
+subtest 'GtkStackTransitionType', {
+  is GTK_STACK_TRANSITION_TYPE_NONE.value, 0, 'enum GTK_STACK_TRANSITION_TYPE_NONE = 0';
+
+  is GTK_STACK_TRANSITION_TYPE_CROSSFADE.value, 1, 'enum GTK_STACK_TRANSITION_TYPE_CROSSFADE = 1';
+
+  is GTK_STACK_TRANSITION_TYPE_SLIDE_RIGHT.value, 2, 'enum GTK_STACK_TRANSITION_TYPE_SLIDE_RIGHT = 2';
+
+  is GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT.value, 3, 'enum GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT = 3';
+
+  is GTK_STACK_TRANSITION_TYPE_SLIDE_UP.value, 4, 'enum GTK_STACK_TRANSITION_TYPE_SLIDE_UP = 4';
+
+  is GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN.value, 5, 'enum GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN = 5';
+
+  is GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT.value, 6, 'enum GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT = 6';
+
+  is GTK_STACK_TRANSITION_TYPE_SLIDE_UP_DOWN.value, 7, 'enum GTK_STACK_TRANSITION_TYPE_SLIDE_UP_DOWN = 7';
+
+  is GTK_STACK_TRANSITION_TYPE_OVER_UP.value, 8, 'enum GTK_STACK_TRANSITION_TYPE_OVER_UP = 8';
+
+  is GTK_STACK_TRANSITION_TYPE_OVER_DOWN.value, 9, 'enum GTK_STACK_TRANSITION_TYPE_OVER_DOWN = 9';
+
+  is GTK_STACK_TRANSITION_TYPE_OVER_LEFT.value, 10, 'enum GTK_STACK_TRANSITION_TYPE_OVER_LEFT = 10';
+
+  is GTK_STACK_TRANSITION_TYPE_OVER_RIGHT.value, 11, 'enum GTK_STACK_TRANSITION_TYPE_OVER_RIGHT = 11';
+
+  is GTK_STACK_TRANSITION_TYPE_UNDER_UP.value, 12, 'enum GTK_STACK_TRANSITION_TYPE_UNDER_UP = 12';
+
+  is GTK_STACK_TRANSITION_TYPE_UNDER_DOWN.value, 13, 'enum GTK_STACK_TRANSITION_TYPE_UNDER_DOWN = 13';
+
+  is GTK_STACK_TRANSITION_TYPE_UNDER_LEFT.value, 14, 'enum GTK_STACK_TRANSITION_TYPE_UNDER_LEFT = 14';
+
+  is GTK_STACK_TRANSITION_TYPE_UNDER_RIGHT.value, 15, 'enum GTK_STACK_TRANSITION_TYPE_UNDER_RIGHT = 15';
+
+  is GTK_STACK_TRANSITION_TYPE_OVER_UP_DOWN.value, 16, 'enum GTK_STACK_TRANSITION_TYPE_OVER_UP_DOWN = 16';
+
+  is GTK_STACK_TRANSITION_TYPE_OVER_DOWN_UP.value, 17, 'enum GTK_STACK_TRANSITION_TYPE_OVER_DOWN_UP = 17';
+
+  is GTK_STACK_TRANSITION_TYPE_OVER_LEFT_RIGHT.value, 18, 'enum GTK_STACK_TRANSITION_TYPE_OVER_LEFT_RIGHT = 18';
+
+  is GTK_STACK_TRANSITION_TYPE_OVER_RIGHT_LEFT.value, 19, 'enum GTK_STACK_TRANSITION_TYPE_OVER_RIGHT_LEFT = 19';
+
+  is GTK_STACK_TRANSITION_TYPE_ROTATE_LEFT.value, 20, 'enum GTK_STACK_TRANSITION_TYPE_ROTATE_LEFT = 20';
+
+  is GTK_STACK_TRANSITION_TYPE_ROTATE_RIGHT.value, 21, 'enum GTK_STACK_TRANSITION_TYPE_ROTATE_RIGHT = 21';
+
+  is GTK_STACK_TRANSITION_TYPE_ROTATE_LEFT_RIGHT.value, 22, 'enum GTK_STACK_TRANSITION_TYPE_ROTATE_LEFT_RIGHT = 22';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

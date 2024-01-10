@@ -1,0 +1,44 @@
+=comment Package: Gtk4, C-Source: stack
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-Stack
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkStackTransitionType
+
+Possible transitions between pages in a B<Gnome::Gtk4::Stack> widget.
+
+New values may be added to this enumeration over time.
+=item C<GTK_STACK_TRANSITION_TYPE_NONE>; No transition
+=item C<GTK_STACK_TRANSITION_TYPE_CROSSFADE>; A cross-fade
+=item C<GTK_STACK_TRANSITION_TYPE_SLIDE_RIGHT>; Slide from left to right
+=item C<GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT>; Slide from right to left
+=item C<GTK_STACK_TRANSITION_TYPE_SLIDE_UP>; Slide from bottom up
+=item C<GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN>; Slide from top down
+=item C<GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT>; Slide from left or right according to the children order
+=item C<GTK_STACK_TRANSITION_TYPE_SLIDE_UP_DOWN>; Slide from top down or bottom up according to the order
+=item C<GTK_STACK_TRANSITION_TYPE_OVER_UP>; Cover the old page by sliding up
+=item C<GTK_STACK_TRANSITION_TYPE_OVER_DOWN>; Cover the old page by sliding down
+=item C<GTK_STACK_TRANSITION_TYPE_OVER_LEFT>; Cover the old page by sliding to the left
+=item C<GTK_STACK_TRANSITION_TYPE_OVER_RIGHT>; Cover the old page by sliding to the right
+=item C<GTK_STACK_TRANSITION_TYPE_UNDER_UP>; Uncover the new page by sliding up
+=item C<GTK_STACK_TRANSITION_TYPE_UNDER_DOWN>; Uncover the new page by sliding down
+=item C<GTK_STACK_TRANSITION_TYPE_UNDER_LEFT>; Uncover the new page by sliding to the left
+=item C<GTK_STACK_TRANSITION_TYPE_UNDER_RIGHT>; Uncover the new page by sliding to the right
+=item C<GTK_STACK_TRANSITION_TYPE_OVER_UP_DOWN>; Cover the old page sliding up or uncover the new page sliding down, according to order
+=item C<GTK_STACK_TRANSITION_TYPE_OVER_DOWN_UP>; Cover the old page sliding down or uncover the new page sliding up, according to order
+=item C<GTK_STACK_TRANSITION_TYPE_OVER_LEFT_RIGHT>; Cover the old page sliding left or uncover the new page sliding right, according to order
+=item C<GTK_STACK_TRANSITION_TYPE_OVER_RIGHT_LEFT>; Cover the old page sliding right or uncover the new page sliding left, according to order
+=item C<GTK_STACK_TRANSITION_TYPE_ROTATE_LEFT>; Pretend the pages are sides of a cube and rotate that cube to the left
+=item C<GTK_STACK_TRANSITION_TYPE_ROTATE_RIGHT>; Pretend the pages are sides of a cube and rotate that cube to the right
+=item C<GTK_STACK_TRANSITION_TYPE_ROTATE_LEFT_RIGHT>; Pretend the pages are sides of a cube and rotate that cube to the left or right according to the children order
+=end pod
+

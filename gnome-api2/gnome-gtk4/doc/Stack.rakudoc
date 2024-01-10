@@ -1,0 +1,691 @@
+=comment Package: Gtk4, C-Source: stack
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Stack
+
+![](images/stack.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Stack> is a container which only shows one of its children
+at a time.
+
+In contrast to B<Gnome::Gtk4::Notebook>, B<Gnome::Gtk4::Stack> does not provide a means
+for users to change the visible child. Instead, a separate widget
+such as B<Gnome::Gtk4::StackSwitcher> or B<Gnome::Gtk4::StackSidebar> can
+be used with B<Gnome::Gtk4::Stack> to provide this functionality.
+
+Transitions between pages can be animated as slides or fades. This
+can be controlled with C<.set-transition-type()>.
+These animations respect the I<gtk-enable-animations defined in Gnome::Gtk4::Settings>
+setting.
+
+B<Gnome::Gtk4::Stack> maintains a B<Gnome::Gtk4::StackPage> object for each added
+child, which holds additional per-child properties. You
+obtain the B<Gnome::Gtk4::StackPage> for a child with C<.get-page()>
+and you can obtain a B<Gnome::Gtk4::R-SelectionModel> containing all the pages
+with C<.get-pages()>.
+
+=head2 GtkStack as GtkBuildable
+
+To set child-specific properties in a .ui file, create B<Gnome::Gtk4::StackPage>
+objects explicitly, and set the child widget as a property on it:
+
+=begin comment
+  <object class="GtkStack" id="stack">
+    <child>
+      <object class="GtkStackPage">
+        <property name="name">page1</property>
+        <property name="title">In the beginning…</property>
+        <property name="child">
+          <object class="GtkLabel">
+            <property name="label">It was dark</property>
+          </object>
+        </property>
+      </object>
+    </child>
+
+=end comment
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::Stack> has a single CSS node named stack.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::Stack> uses the C<GTK_ACCESSIBLE_ROLE_TAB_PANEL> for the stack
+pages, which are the accessible parent objects of the child widgets.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Stack
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-stack
+
+Creates a new B<Gnome::Gtk4::Stack>.
+
+=begin code
+method new-stack ( --> Gnome::Gtk4::Stack \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-stack
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-child
+
+Adds a child to C<$stack>.
+
+=begin code
+method add-child ( N-Object() $child --> N-Object )
+=end code
+
+=item $child; the widget to add.
+
+Return value; the B<Gnome::Gtk4::StackPage> for C<$child>. 
+
+=begin comment
+
+=head2 Example
+# Example for add-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-named
+
+Adds a child to C<$stack>.
+
+The child is identified by the C<$name>.
+
+=begin code
+method add-named ( N-Object() $child, Str $name --> N-Object )
+=end code
+
+=item $child; the widget to add.
+=item $name; the name for C<$child>.
+
+Return value; the B<Gnome::Gtk4::StackPage> for C<$child>. 
+
+=begin comment
+
+=head2 Example
+# Example for add-named
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-titled
+
+Adds a child to C<$stack>.
+
+The child is identified by the C<$name>. The C<$title>
+will be used by B<Gnome::Gtk4::StackSwitcher> to represent C<$child> in a tab bar, so it should be short.
+
+=begin code
+method add-titled ( N-Object() $child, Str $name, Str $title --> N-Object )
+=end code
+
+=item $child; the widget to add.
+=item $name; the name for C<$child>.
+=item $title; a human-readable title for C<$child>.
+
+Return value; the B<Gnome::Gtk4::StackPage> for C<$child>. 
+
+=begin comment
+
+=head2 Example
+# Example for add-titled
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-by-name
+
+Finds the child with the name given as the argument.
+
+Returns undefined if there is no child with this name.
+
+=begin code
+method get-child-by-name ( Str $name --> N-Object )
+=end code
+
+=item $name; the name of the child to find.
+
+Return value; the requested child
+  of the B<Gnome::Gtk4::Stack>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child-by-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-hhomogeneous
+
+Gets whether C<$stack> is horizontally homogeneous.
+
+=begin code
+method get-hhomogeneous (--> Bool )
+=end code
+
+Return value; whether C<$stack> is horizontally homogeneous.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-hhomogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-interpolate-size
+
+Returns whether the B<Gnome::Gtk4::Stack> is set up to interpolate between
+the sizes of children on page switch.
+
+=begin code
+method get-interpolate-size (--> Bool )
+=end code
+
+Return value; C<True> if child sizes are interpolated. 
+
+=begin comment
+
+=head2 Example
+# Example for get-interpolate-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page
+
+Retrieves the stack page for the given C<$child>.
+
+If the given C<$child> is not a child widget of the stack, this function will return undefined.
+
+=begin code
+method get-page ( N-Object() $child --> N-Object )
+=end code
+
+=item $child; a child of C<$stack>.
+
+Return value; the stack page object. 
+
+=begin comment
+
+=head2 Example
+# Example for get-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pages
+
+Returns a B<Gnome::Gio::R-ListModel> that contains the pages of the stack.
+
+This can be used to keep an up-to-date view. The model also
+implements B<Gnome::Gtk4::R-SelectionModel> and can be used to track
+and modify the visible page.
+
+=begin code
+method get-pages (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::R-SelectionModel> for the stack's children. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pages
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-transition-duration
+
+Returns the amount of time (in milliseconds) that
+transitions between pages in C<$stack> will take.
+
+=begin code
+method get-transition-duration (--> UInt )
+=end code
+
+Return value; the transition duration. 
+
+=begin comment
+
+=head2 Example
+# Example for get-transition-duration
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-transition-running
+
+Returns whether the C<$stack> is currently in a transition from one page to
+another.
+
+=begin code
+method get-transition-running (--> Bool )
+=end code
+
+Return value; C<True> if the transition is currently running, C<False> otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-transition-running
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-transition-type
+
+Gets the type of animation that will be used
+for transitions between pages in C<$stack>.
+
+=begin code
+method get-transition-type (--> GtkStackTransitionType )
+=end code
+
+Return value; the current transition type of C<$stack>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-transition-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-vhomogeneous
+
+Gets whether C<$stack> is vertically homogeneous.
+
+=begin code
+method get-vhomogeneous (--> Bool )
+=end code
+
+Return value; whether C<$stack> is vertically homogeneous.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-vhomogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible-child
+
+Gets the currently visible child of C<$stack>.
+
+Returns undefined if there are no visible children.
+
+=begin code
+method get-visible-child (--> N-Object )
+=end code
+
+Return value; the visible child of the B<Gnome::Gtk4::Stack>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visible-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible-child-name
+
+Returns the name of the currently visible child of C<$stack>.
+
+Returns undefined if there is no visible child.
+
+=begin code
+method get-visible-child-name (--> Str )
+=end code
+
+Return value; the name of the visible child
+  of the B<Gnome::Gtk4::Stack>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visible-child-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes a child widget from C<$stack>.
+
+=begin code
+method remove ( N-Object() $child )
+=end code
+
+=item $child; the child to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hhomogeneous
+
+Sets the B<Gnome::Gtk4::Stack> to be horizontally homogeneous or not.
+
+If it is homogeneous, the B<Gnome::Gtk4::Stack> will request the same
+width for all its children. If it isn't, the stack
+may change width when a different child becomes visible.
+
+=begin code
+method set-hhomogeneous ( Bool() $hhomogeneous )
+=end code
+
+=item $hhomogeneous; C<True> to make C<$stack> horizontally homogeneous.
+
+=begin comment
+
+=head2 Example
+# Example for set-hhomogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-interpolate-size
+
+Sets whether or not C<$stack> will interpolate its size when
+changing the visible child.
+
+If the I<interpolate-size> property is set
+to C<True>, C<$stack> will interpolate its size between the current
+one and the one it'll take after changing the visible child,
+according to the set transition duration.
+
+=begin code
+method set-interpolate-size ( Bool() $interpolate-size )
+=end code
+
+=item $interpolate-size; the new value.
+
+=begin comment
+
+=head2 Example
+# Example for set-interpolate-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-transition-duration
+
+Sets the duration that transitions between pages in C<$stack>
+will take.
+
+=begin code
+method set-transition-duration ( UInt() $duration )
+=end code
+
+=item $duration; the new duration, in milliseconds.
+
+=begin comment
+
+=head2 Example
+# Example for set-transition-duration
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-transition-type
+
+Sets the type of animation that will be used for
+transitions between pages in C<$stack>.
+
+Available types include various kinds of fades and slides.
+
+The transition type can be changed without problems
+at runtime, so it is possible to change the animation
+based on the page that is about to become current.
+
+=begin code
+method set-transition-type ( GtkStackTransitionType $transition )
+=end code
+
+=item $transition; the new transition type.
+
+=begin comment
+
+=head2 Example
+# Example for set-transition-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vhomogeneous
+
+Sets the B<Gnome::Gtk4::Stack> to be vertically homogeneous or not.
+
+If it is homogeneous, the B<Gnome::Gtk4::Stack> will request the same
+height for all its children. If it isn't, the stack
+may change height when a different child becomes visible.
+
+=begin code
+method set-vhomogeneous ( Bool() $vhomogeneous )
+=end code
+
+=item $vhomogeneous; C<True> to make C<$stack> vertically homogeneous.
+
+=begin comment
+
+=head2 Example
+# Example for set-vhomogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-visible-child
+
+Makes C<$child> the visible child of C<$stack>.
+
+If C<$child> is different from the currently visible child,
+the transition between the two will be animated with the
+current transition type of C<$stack>.
+
+Note that the C<$child> widget has to be visible itself
+(see C<.show() in class Gnome::Gtk4::Widget>) in order to become the visible
+child of C<$stack>.
+
+=begin code
+method set-visible-child ( N-Object() $child )
+=end code
+
+=item $child; a child of C<$stack>.
+
+=begin comment
+
+=head2 Example
+# Example for set-visible-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-visible-child-full
+
+Makes the child with the given name visible.
+
+Note that the child widget has to be visible itself
+(see C<.show() in class Gnome::Gtk4::Widget>) in order to become the visible
+child of C<$stack>.
+
+=begin code
+method set-visible-child-full ( Str $name, GtkStackTransitionType $transition )
+=end code
+
+=item $name; the name of the child to make visible.
+=item $transition; the transition type to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-visible-child-full
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-visible-child-name
+
+Makes the child with the given name visible.
+
+If C<$child> is different from the currently visible child,
+the transition between the two will be animated with the
+current transition type of C<$stack>.
+
+Note that the child widget has to be visible itself
+(see C<.show() in class Gnome::Gtk4::Widget>) in order to become the visible
+child of C<$stack>.
+
+=begin code
+method set-visible-child-name ( Str $name )
+=end code
+
+=item $name; the name of the child to make visible.
+
+=begin comment
+
+=head2 Example
+# Example for set-visible-child-name
+
+=end comment
+
+=end pod
+
