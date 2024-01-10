@@ -60,10 +60,10 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkHeaderBar                        HeaderBar
 │   │   ├── GtkIconView                         IconView
 │   │   ├── GtkImage                            Image
-│   │   ├── GtkInfoBar
+│   │   ├── GtkInfoBar                          InfoBar
 │   │   ├── GtkLabel                            Label
-│   │   ├── GtkListBox
-│   │   ├── GtkListBoxRow
+│   │   ├── GtkListBox                          ListBox
+│   │   ├── GtkListBoxRow                       ListBoxRow
 │   │   ├── GtkMediaControls
 │   │   ├── GtkMenuButton
 │   │   ├── GtkNotebook                         Notebook
@@ -73,8 +73,8 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkPicture                          Picture
 │   │   ├── GtkPopoverMenuBar
 │   │   ├── GtkProgressBar
-│   │   ├── GtkRange
-│   │   │   ╰── GtkScale
+│   │   ├── GtkRange                            Range
+│   │   │   ╰── GtkScale                        Scale
 │   │   ├── GtkRevealer
 │   │   ├── GtkScaleButton
 │   │   │   ╰── GtkVolumeButton
@@ -87,10 +87,10 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkShortcutsShortcut                ShortcutsShortcut
 │   │   ├── GtkSpinButton
 │   │   ├── GtkSpinner
-│   │   ├── GtkStack
-│   │   ├── GtkStackSidebar
-│   │   ├── GtkStackSwitcher
-│   │   ├── GtkStatusbar
+│   │   ├── GtkStack                            Stack
+│   │   ├── GtkStackSidebar                     StackSidebar
+│   │   ├── GtkStackSwitcher                    StackSwitcher
+│   │   ├── GtkStatusbar                        Statusbar
 │   │   ├── GtkSwitch
 │   │   ├── GtkLevelBar
 │   │   ├── GtkText                             Text
@@ -216,7 +216,7 @@ GObject                                         Gnome::GObject::Object
 ├── GdkSnapshot
 │   ╰── GtkSnapshot
 ├── GtkSortListModel
-├── GtkStackPage
+├── GtkStackPage                                StackPage
 ├── GtkStringList                               StringList
 ├── GtkStringObject                             StringObject
 ├── GtkStyleContext                             StyleContext
