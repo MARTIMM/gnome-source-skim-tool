@@ -1,0 +1,212 @@
+=comment Package: Gtk4, C-Source: infobar
+use v6.d;
+
+#TL:1:Gnome::Gtk4::InfoBar:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::InfoBar:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::InfoBar $info-bar;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $info-bar {
+    my Str $first-button-text;
+
+#`{{
+    #TC:0:new-infobar()
+
+    $info-bar .= new-infobar();
+    ok .is-valid, '.new-infobar()';
+
+    #TC:0:new-with-buttons()
+    $first-button-text = 'text';
+    $info-bar .= new-with-buttons( $first-button-text);
+    ok .is-valid, '.new-with-buttons( $first-button-text)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $info-bar {
+    my gint $response-id;
+    my GtkMessageType $message-type;
+    my Str $first-button-text;
+    my Str $button-text;
+    my N-Object $widget;
+    my gboolean $setting;
+    my N-Object $child;
+    my gboolean $revealed;
+
+
+#`{{
+    #TM:0:add-action-widget()
+    ok .add-action-widget( $child, $response-id), '.add-action-widget()';
+
+    #TM:0:add-button()
+    ok .add-button( $button-text, $response-id), '.add-button()';
+
+    #TM:0:add-buttons()
+    ok .add-buttons( $first-button-text), '.add-buttons()';
+
+    #TM:0:add-child()
+    ok .add-child( $widget), '.add-child()';
+
+    #TM:0:remove-action-widget()
+    ok .remove-action-widget( $widget), '.remove-action-widget()';
+
+    #TM:0:remove-child()
+    ok .remove-child( $widget), '.remove-child()';
+
+    #TM:0:response()
+    ok .response( $response-id), '.response()';
+
+    #TM:0:set-default-response()
+    $response-id = '…';
+    .set-default-response( $response-id);
+    ok True, '.set-default-response()';
+
+    #TM:0:set-message-type()
+    $message-type = …;
+    .set-message-type( $message-type);
+    #TM:0:get-message-type()
+    is .get-message-type(),  $message-type, '.set-message-type() / .get-message-type()';
+
+    #TM:0:set-response-sensitive()
+    $response-id = '…';
+    $setting = '…';
+    .set-response-sensitive( $response-id, $setting);
+    ok True, '.set-response-sensitive()';
+
+    #TM:0:set-revealed()
+    $revealed = '…';
+    .set-revealed( $revealed);
+    #TM:0:get-revealed()
+    is .get-revealed(),  $revealed, '.set-revealed() / .get-revealed()';
+
+    #TM:0:set-show-close-button()
+    $setting = '…';
+    .set-show-close-button( $setting);
+    #TM:0:get-show-close-button()
+    is .get-show-close-button(),  $setting, '.set-show-close-button() / .get-show-close-button()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $info-bar {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::InfoBar() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::InfoBar;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::InfoBar :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::InfoBar $info-bar .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $info-bar.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

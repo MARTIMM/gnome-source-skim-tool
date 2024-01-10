@@ -1,0 +1,618 @@
+=comment Package: Gtk4, C-Source: infobar
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::InfoBar
+
+![](images/infobar.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::InfoBar> can be show messages to the user without a dialog.
+
+![An example GtkInfoBar](info-bar.png)
+
+It is often temporarily shown at the top or bottom of a document.
+In contrast to B<Gnome::Gtk4::Dialog>, which has an action area at the
+bottom, B<Gnome::Gtk4::InfoBar> has an action area at the side.
+
+The API of B<Gnome::Gtk4::InfoBar> is very similar to B<Gnome::Gtk4::Dialog>, allowing you
+to add buttons to the action area with C<.add-button()>
+or C<.new-with-buttons()>. The sensitivity of action widgets
+can be controlled with C<.set-response-sensitive()>.
+
+To add widgets to the main content area of a B<Gnome::Gtk4::InfoBar>, use
+C<.add-child()>.
+
+Similar to B<Gnome::Gtk4::MessageDialog>, the contents of a B<Gnome::Gtk4::InfoBar>
+can by classified as error message, warning, informational message, etc,
+by using C<.set-message-type()>. GTK may use the message
+type to determine how the message is displayed.
+
+A simple example for using a B<Gnome::Gtk4::InfoBar>:
+=begin comment
+GtkWidget *message_label;
+GtkWidget *widget;
+GtkWidget *grid;
+GtkInfoBar *bar;
+
+// set up info bar
+widget = gtk_info_bar_new ();
+bar = GTK_INFO_BAR (widget);
+grid = gtk_grid_new ();
+
+message_label = gtk_label_new ("");
+gtk_info_bar_add_child (bar, message_label);
+gtk_info_bar_add_button (bar,
+                         _("_OK"),
+                         GTK_RESPONSE_OK);
+g_signal_connect (bar,
+                  "response",
+                  G_CALLBACK (gtk_widget_hide),
+                  NULL);
+gtk_grid_attach (GTK_GRID (grid),
+                 widget,
+                 0, 2, 1, 1);
+
+// ...
+
+// show an error message
+gtk_label_set_text (GTK_LABEL (message_label), "An error occurred!");
+gtk_info_bar_set_message_type (bar, GTK_MESSAGE_ERROR);
+gtk_widget_show (bar);
+
+=end comment
+
+=head2 GtkInfoBar as GtkBuildable
+
+B<Gnome::Gtk4::InfoBar> supports a custom B<<action-widgets>> element, which can contain
+multiple B<<action-widget>> elements. The “response” attribute specifies a
+numeric response, and the content of the element is the id of widget
+(which should be a child of the dialogs C<$action-area>).
+
+B<Gnome::Gtk4::InfoBar> supports adding action widgets by specifying “action” as
+the “type” attribute of a B<<child>> element. The widget will be added
+either to the action area. The response id has to be associated
+with the action widget using the B<<action-widgets>> element.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::InfoBar> has a single CSS node with name infobar. The node may get
+one of the style classes .info, .warning, .error or .question, depending
+on the message type.
+If the info bar shows a close button, that button will have the .close
+style class applied.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::InfoBar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-infobar
+
+Creates a new B<Gnome::Gtk4::InfoBar> object.
+
+=begin code
+method new-infobar ( --> Gnome::Gtk4::InfoBar \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-infobar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-buttons
+This function is not yet available
+
+Creates a new B<Gnome::Gtk4::InfoBar> with buttons.
+
+Button text/response ID pairs should be listed, with a undefined pointer
+ending the list. A response ID can be any positive number,
+or one of the values in the C<enumeration GtkResponseType defined in Gnome::Gtk4::T-Dialog> enumeration. If the
+user clicks one of these dialog buttons, GtkInfoBar will emit
+the I<response> signal with the corresponding
+response ID.
+
+=begin code
+method new-with-buttons ( Str $first-button-text, … --> Gnome::Gtk4::InfoBar \)
+=end code
+
+=item $first-button-text; ext to go in first button.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-with-buttons
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-action-widget
+
+Add an activatable widget to the action area of a B<Gnome::Gtk4::InfoBar>.
+
+This also connects a signal handler that will emit the
+I<response> signal on the message area
+when the widget is activated. The widget is appended to the
+end of the message areas action area.
+
+=begin code
+method add-action-widget ( N-Object() $child, Int() $response-id )
+=end code
+
+=item $child; an activatable widget.
+=item $response-id; response ID for C<$child>.
+
+=begin comment
+
+=head2 Example
+# Example for add-action-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-button
+
+Adds a button with the given text.
+
+Clicking the button will emit the I<response>
+signal with the given response_id. The button is appended to the
+end of the info bars's action area. The button widget is returned,
+but usually you don't need it.
+
+=begin code
+method add-button ( Str $button-text, Int() $response-id --> N-Object )
+=end code
+
+=item $button-text; text of button.
+=item $response-id; response ID for the button.
+
+Return value; the B<Gnome::Gtk4::Button> widget
+that was added. 
+
+=begin comment
+
+=head2 Example
+# Example for add-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-buttons
+This function is not yet available
+
+Adds multiple buttons.
+
+This is the same as calling C<.add-button()>
+repeatedly. The variable argument list should be undefined-terminated
+as with C<.new-with-buttons()>. Each button must have both
+text and response ID.
+
+=begin code
+method add-buttons ( Str $first-button-text, … )
+=end code
+
+=item $first-button-text; button text.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for add-buttons
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-child
+
+Adds a widget to the content area of the info bar.
+
+=begin code
+method add-child ( N-Object() $widget )
+=end code
+
+=item $widget; the child to be added.
+
+=begin comment
+
+=head2 Example
+# Example for add-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-message-type
+
+Returns the message type of the message area.
+
+=begin code
+method get-message-type (--> GtkMessageType )
+=end code
+
+Return value; the message type of the message area.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-message-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-revealed
+
+Returns whether the info bar is currently revealed.
+
+=begin code
+method get-revealed (--> Bool )
+=end code
+
+Return value; the current value of the I<revealed> property. 
+
+=begin comment
+
+=head2 Example
+# Example for get-revealed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-close-button
+
+Returns whether the widget will display a standard close button.
+
+=begin code
+method get-show-close-button (--> Bool )
+=end code
+
+Return value; C<True> if the widget displays standard close button. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-close-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-action-widget
+
+Removes a widget from the action area of C<$info-bar>.
+
+The widget must have been put there by a call to
+C<.add-action-widget()> or C<.add-button()>.
+
+=begin code
+method remove-action-widget ( N-Object() $widget )
+=end code
+
+=item $widget; an action widget to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove-action-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-child
+
+Removes a widget from the content area of the info bar.
+
+=begin code
+method remove-child ( N-Object() $widget )
+=end code
+
+=item $widget; a child that has been added to the content area.
+
+=begin comment
+
+=head2 Example
+# Example for remove-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 response
+
+Emits the “response” signal with the given C<$response-id>.
+
+=begin code
+method response ( Int() $response-id )
+=end code
+
+=item $response-id; a response ID.
+
+=begin comment
+
+=head2 Example
+# Example for response
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-default-response
+
+Sets the last widget in the info bar’s action area with
+the given response_id as the default widget for the dialog.
+
+Pressing “Enter” normally activates the default widget.
+
+Note that this function currently requires C<$info-bar> to
+be added to a widget hierarchy.
+
+=begin code
+method set-default-response ( Int() $response-id )
+=end code
+
+=item $response-id; a response ID.
+
+=begin comment
+
+=head2 Example
+# Example for set-default-response
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-message-type
+
+Sets the message type of the message area.
+
+GTK uses this type to determine how the message is displayed.
+
+=begin code
+method set-message-type ( GtkMessageType $message-type )
+=end code
+
+=item $message-type; a C<enumeration GtkMessageType defined in Gnome::Gtk4::T-Enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-message-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-response-sensitive
+
+Sets the sensitivity of action widgets for C<$response-id>.
+
+Calls B<gtk_widget_set_sensitive (widget, setting)> for each
+widget in the info bars’s action area with the given C<$response-id>.
+A convenient way to sensitize/desensitize buttons.
+
+=begin code
+method set-response-sensitive ( Int() $response-id, Bool() $setting )
+=end code
+
+=item $response-id; a response ID.
+=item $setting; TRUE for sensitive.
+
+=begin comment
+
+=head2 Example
+# Example for set-response-sensitive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-revealed
+
+Sets whether the B<Gnome::Gtk4::InfoBar> is revealed.
+
+Changing this will make C<$info-bar> reveal or conceal
+itself via a sliding transition.
+
+Note: this does not show or hide C<$info-bar> in the
+I<visible defined in Gnome::Gtk4::Widget> sense, so revealing has no effect
+if I<visible defined in Gnome::Gtk4::Widget> is C<False>.
+
+=begin code
+method set-revealed ( Bool() $revealed )
+=end code
+
+=item $revealed; The new value of the property.
+
+=begin comment
+
+=head2 Example
+# Example for set-revealed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-close-button
+
+If true, a standard close button is shown.
+
+When clicked it emits the response C<GTK_RESPONSE_CLOSE>.
+
+=begin code
+method set-show-close-button ( Bool() $setting )
+=end code
+
+=item $setting; C<True> to include a close button.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-close-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 close
+
+Gets emitted when the user uses a keybinding to dismiss the info bar.
+
+The I<close> signal is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is the Escape key.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::InfoBar :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::InfoBar> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal close
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 response
+
+Emitted when an action widget is clicked.
+
+The signal is also emitted when the application programmer
+calls C<.response()>. The C<$response-id> depends
+on which action widget was clicked.
+
+=begin code
+method handler (
+  gint $response-id,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::InfoBar :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $response-id; the response ID.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::InfoBar> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal response
+
+=end comment
+
+=end pod
+
