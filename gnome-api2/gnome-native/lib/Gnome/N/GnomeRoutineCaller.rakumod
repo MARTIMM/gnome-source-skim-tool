@@ -361,7 +361,7 @@ method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
 method !convert-args ( Mu $v, $p ) {
   my $c;
 
-#note "$?LINE $p.^name(), $v.gist(), ", $v.^mro;
+  note "Argument: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
   if $v.can('get-native-object-no-reffing') {
     my N-Object $no = $v.get-native-object-no-reffing;
     $c = $no;
@@ -417,7 +417,7 @@ method !convert-args ( Mu $v, $p ) {
     }
   }
 
-#note "$?LINE $c.gist()";
+  note "Converted: $c.gist()" if $Gnome::N::x-debug;
   $c
 }
 
@@ -463,7 +463,7 @@ multi method convert-return ( $v, Hash $routine ) {
       $c = $v;
     }
   }
-
+#note "$?LINE c: $c.gist()";
   $c
 }
 
