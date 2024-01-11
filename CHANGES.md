@@ -124,6 +124,9 @@ find . -name '*.raku*' | xargs wc -l
   * Window manager control like `self.set-position()` and `self.set-keep-above()`;
 
 # Release notes
+* 2024-01-10 0.14.0
+  * Adding more and more modules to several distro's
+
 * 2023-12-22 0.13.2
   * Tried to find out how to inherit from Gtk classes. Needed to make a few small changes in the **Gnome::N::GnomeRoutineCaller** module and in the classes `_fallback-v2()` methods. I found it possible to just do that in a more simpler way than it was done in the api<1> version.
     Below a little example to show where user options can be provided;
