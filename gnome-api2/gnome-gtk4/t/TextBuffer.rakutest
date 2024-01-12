@@ -1,0 +1,393 @@
+=comment Package: Gtk4, C-Source: textbuffer
+use v6.d;
+
+#TL:1:Gnome::Gtk4::TextBuffer:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::N-TextIter:api<2>;
+use Gnome::Gtk4::TextBuffer:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::TextBuffer $text-buffer;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $text-buffer {
+    my N-Object $table;
+
+#`{{
+    #TC:0:new-textbuffer()
+    $table = …;
+    $text-buffer .= new-textbuffer( $table);
+    ok .is-valid, '.new-textbuffer( $table)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $text-buffer {
+    my Str $text;
+    my guint $max-undo-levels;
+    my N-TextIter $start;
+    my gboolean $default-editable;
+    my gint $byte-index;
+    my gboolean $interactive;
+    my N-Object $tag;
+    my N-TextIter $where;
+    my N-TextIter $bound;
+    my gint $char-offset;
+    my N-TextIter $end;
+    my N-Object $clipboard;
+    my N-TextIter $end-iter;
+    my N-Object $first-tag;
+    my N-TextIter $start-iter;
+    my N-Object $mark;
+    my N-Object $paintable;
+    my gint $line-number;
+    my gint $len;
+    my Str $name;
+    my gboolean $enable-undo;
+    my Str $tag-name;
+    my Str $markup;
+    my gboolean $setting;
+    my Str $mark-name;
+    my N-TextIter $override-location;
+    my Str $first-property-name;
+    my N-Object $anchor;
+    my N-TextIter $iter;
+    my gboolean $include-hidden-chars;
+    my Str $first-tag-name;
+    my N-TextIter $ins;
+    my gboolean $left-gravity;
+
+
+#`{{
+    #TM:0:add-mark()
+    ok .add-mark( $mark, $where), '.add-mark()';
+
+    #TM:0:add-selection-clipboard()
+    ok .add-selection-clipboard( $clipboard), '.add-selection-clipboard()';
+
+    #TM:0:apply-tag()
+    ok .apply-tag( $tag, $start, $end), '.apply-tag()';
+
+    #TM:0:apply-tag-by-name()
+    ok .apply-tag-by-name( $name, $start, $end), '.apply-tag-by-name()';
+
+    #TM:0:backspace()
+    ok .backspace( $iter, $interactive, $default-editable), '.backspace()';
+
+    #TM:0:begin-irreversible-action()
+    ok .begin-irreversible-action(), '.begin-irreversible-action()';
+
+    #TM:0:begin-user-action()
+    ok .begin-user-action(), '.begin-user-action()';
+
+    #TM:0:copy-clipboard()
+    ok .copy-clipboard( $clipboard), '.copy-clipboard()';
+
+    #TM:0:create-child-anchor()
+    ok .create-child-anchor( $iter), '.create-child-anchor()';
+
+    #TM:0:create-mark()
+    ok .create-mark( $mark-name, $where, $left-gravity), '.create-mark()';
+
+    #TM:0:create-tag()
+    ok .create-tag( $tag-name, $first-property-name), '.create-tag()';
+
+    #TM:0:cut-clipboard()
+    ok .cut-clipboard( $clipboard, $default-editable), '.cut-clipboard()';
+
+    #TM:0:delete()
+    ok .delete( $start, $end), '.delete()';
+
+    #TM:0:delete-interactive()
+    ok .delete-interactive( $start-iter, $end-iter, $default-editable), '.delete-interactive()';
+
+    #TM:0:delete-mark()
+    ok .delete-mark( $mark), '.delete-mark()';
+
+    #TM:0:delete-mark-by-name()
+    ok .delete-mark-by-name( $name), '.delete-mark-by-name()';
+
+    #TM:0:delete-selection()
+    ok .delete-selection( $interactive, $default-editable), '.delete-selection()';
+
+    #TM:0:end-irreversible-action()
+    ok .end-irreversible-action(), '.end-irreversible-action()';
+
+    #TM:0:end-user-action()
+    ok .end-user-action(), '.end-user-action()';
+
+    #TM:0:get-bounds()
+    is .get-bounds( $start, $end), '…', '.get-bounds()';
+
+    #TM:0:get-can-redo()
+     .get-can-redo(), '…', '.get-can-redo()';
+
+    #TM:0:get-can-undo()
+     .get-can-undo(), '…', '.get-can-undo()';
+
+    #TM:0:get-char-count()
+     .get-char-count(), '…', '.get-char-count()';
+
+    #TM:0:get-end-iter()
+    is .get-end-iter( $iter), '…', '.get-end-iter()';
+
+    #TM:0:get-has-selection()
+     .get-has-selection(), '…', '.get-has-selection()';
+
+    #TM:0:get-insert()
+     .get-insert(), '…', '.get-insert()';
+
+    #TM:0:get-iter-at-child-anchor()
+    is .get-iter-at-child-anchor( $iter, $anchor), '…', '.get-iter-at-child-anchor()';
+
+    #TM:0:get-iter-at-line()
+    is .get-iter-at-line( $iter, $line-number), '…', '.get-iter-at-line()';
+
+    #TM:0:get-iter-at-line-index()
+    is .get-iter-at-line-index( $iter, $line-number, $byte-index), '…', '.get-iter-at-line-index()';
+
+    #TM:0:get-iter-at-line-offset()
+    is .get-iter-at-line-offset( $iter, $line-number, $char-offset), '…', '.get-iter-at-line-offset()';
+
+    #TM:0:get-iter-at-mark()
+    is .get-iter-at-mark( $iter, $mark), '…', '.get-iter-at-mark()';
+
+    #TM:0:get-iter-at-offset()
+    is .get-iter-at-offset( $iter, $char-offset), '…', '.get-iter-at-offset()';
+
+    #TM:0:get-line-count()
+     .get-line-count(), '…', '.get-line-count()';
+
+    #TM:0:get-mark()
+    is .get-mark( $name), '…', '.get-mark()';
+
+    #TM:0:get-selection-bound()
+     .get-selection-bound(), '…', '.get-selection-bound()';
+
+    #TM:0:get-selection-bounds()
+    is .get-selection-bounds( $start, $end), '…', '.get-selection-bounds()';
+
+    #TM:0:get-selection-content()
+     .get-selection-content(), '…', '.get-selection-content()';
+
+    #TM:0:get-slice()
+    is .get-slice( $start, $end, $include-hidden-chars), '…', '.get-slice()';
+
+    #TM:0:get-start-iter()
+    is .get-start-iter( $iter), '…', '.get-start-iter()';
+
+    #TM:0:get-tag-table()
+     .get-tag-table(), '…', '.get-tag-table()';
+
+    #TM:0:insert()
+    ok .insert( $iter, $text, $len), '.insert()';
+
+    #TM:0:insert-at-cursor()
+    ok .insert-at-cursor( $text, $len), '.insert-at-cursor()';
+
+    #TM:0:insert-child-anchor()
+    ok .insert-child-anchor( $iter, $anchor), '.insert-child-anchor()';
+
+    #TM:0:insert-interactive()
+    ok .insert-interactive( $iter, $text, $len, $default-editable), '.insert-interactive()';
+
+    #TM:0:insert-interactive-at-cursor()
+    ok .insert-interactive-at-cursor( $text, $len, $default-editable), '.insert-interactive-at-cursor()';
+
+    #TM:0:insert-markup()
+    ok .insert-markup( $iter, $markup, $len), '.insert-markup()';
+
+    #TM:0:insert-paintable()
+    ok .insert-paintable( $iter, $paintable), '.insert-paintable()';
+
+    #TM:0:insert-range()
+    ok .insert-range( $iter, $start, $end), '.insert-range()';
+
+    #TM:0:insert-range-interactive()
+    ok .insert-range-interactive( $iter, $start, $end, $default-editable), '.insert-range-interactive()';
+
+    #TM:0:insert-with-tags()
+    ok .insert-with-tags( $iter, $text, $len, $first-tag), '.insert-with-tags()';
+
+    #TM:0:insert-with-tags-by-name()
+    ok .insert-with-tags-by-name( $iter, $text, $len, $first-tag-name), '.insert-with-tags-by-name()';
+
+    #TM:0:move-mark()
+    ok .move-mark( $mark, $where), '.move-mark()';
+
+    #TM:0:move-mark-by-name()
+    ok .move-mark-by-name( $name, $where), '.move-mark-by-name()';
+
+    #TM:0:paste-clipboard()
+    ok .paste-clipboard( $clipboard, $override-location, $default-editable), '.paste-clipboard()';
+
+    #TM:0:place-cursor()
+    ok .place-cursor( $where), '.place-cursor()';
+
+    #TM:0:redo()
+    ok .redo(), '.redo()';
+
+    #TM:0:remove-all-tags()
+    ok .remove-all-tags( $start, $end), '.remove-all-tags()';
+
+    #TM:0:remove-selection-clipboard()
+    ok .remove-selection-clipboard( $clipboard), '.remove-selection-clipboard()';
+
+    #TM:0:remove-tag()
+    ok .remove-tag( $tag, $start, $end), '.remove-tag()';
+
+    #TM:0:remove-tag-by-name()
+    ok .remove-tag-by-name( $name, $start, $end), '.remove-tag-by-name()';
+
+    #TM:0:select-range()
+    ok .select-range( $ins, $bound), '.select-range()';
+
+    #TM:0:set-enable-undo()
+    $enable-undo = '…';
+    .set-enable-undo( $enable-undo);
+    #TM:0:get-enable-undo()
+    is .get-enable-undo(),  $enable-undo, '.set-enable-undo() / .get-enable-undo()';
+
+    #TM:0:set-max-undo-levels()
+    $max-undo-levels = '…';
+    .set-max-undo-levels( $max-undo-levels);
+    #TM:0:get-max-undo-levels()
+    is .get-max-undo-levels(),  $max-undo-levels, '.set-max-undo-levels() / .get-max-undo-levels()';
+
+    #TM:0:set-modified()
+    $setting = '…';
+    .set-modified( $setting);
+    #TM:0:get-modified()
+    is .get-modified(),  $setting, '.set-modified() / .get-modified()';
+
+    #TM:0:set-text()
+    $text = 'text';
+    $len = '…';
+    .set-text( $text, $len);
+    #TM:0:get-text()
+    is .get-text(),  $text, $len, '.set-text() / .get-text()';
+
+    #TM:0:undo()
+    ok .undo(), '.undo()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $text-buffer {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::TextBuffer() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::TextBuffer;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::TextBuffer :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::TextBuffer $text-buffer .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $text-buffer.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

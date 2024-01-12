@@ -1,0 +1,2548 @@
+=comment Package: Gtk4, C-Source: textbuffer
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TextBuffer
+
+![](images/textbuffer.png)
+
+=head1 Description
+
+Stores text and attributes for display in a B<Gnome::Gtk4::TextView>.
+
+You may wish to begin by reading the
+[text widget conceptual overview](section-text-widget.html),
+which gives an overview of all the objects and data types
+related to the text widget and how they work together.
+
+GtkTextBuffer can support undoing changes to the buffer
+content, see C<.set-enable-undo()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TextBuffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-textbuffer
+
+Creates a new text buffer.
+
+=begin code
+method new-textbuffer ( N-Object() $table --> Gnome::Gtk4::TextBuffer \)
+=end code
+
+=item $table; a tag table, or undefined to create a new one.
+
+=begin comment
+
+=head2 Example
+# Example for new-textbuffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-mark
+
+Adds the mark at position C<$where>.
+
+The mark must not be added to another buffer, and if its name
+is defined then there must not be another mark in the buffer
+with the same name.
+
+Emits the I<mark-set> signal as notification
+of the mark's initial placement.
+
+=begin code
+method add-mark ( N-Object() $mark, CArray[N-TextIter] $where )
+=end code
+
+=item $mark; the mark to add.
+=item $where; location to place mark.
+
+=begin comment
+
+=head2 Example
+# Example for add-mark
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-selection-clipboard
+
+Adds C<$clipboard> to the list of clipboards in which the selection
+contents of C<$buffer> are available.
+
+In most cases, C<$clipboard> will be the B<Gnome::Gdk4::Clipboard> returned by
+C<.get-primary-clipboard() in class Gnome::Gtk4::Widget> for a view of C<$buffer>.
+
+=begin code
+method add-selection-clipboard ( N-Object() $clipboard )
+=end code
+
+=item $clipboard; a B<Gnome::Gdk4::Clipboard>.
+
+=begin comment
+
+=head2 Example
+# Example for add-selection-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 apply-tag
+
+Emits the “apply-tag” signal on C<$buffer>.
+
+The default handler for the signal applies C<$tag> to the given range. C<$start> and C<$end> do
+not have to be in order.
+
+=begin code
+method apply-tag ( N-Object() $tag, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+=end code
+
+=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $start; one bound of range to be tagged.
+=item $end; other bound of range to be tagged.
+
+=begin comment
+
+=head2 Example
+# Example for apply-tag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 apply-tag-by-name
+
+Emits the “apply-tag” signal on C<$buffer>.
+
+Calls C<.lookup() in class Gnome::Gtk4::TextTagTable> on the buffer’s
+tag table to get a B<Gnome::Gtk4::TextTag>, then calls
+C<.apply-tag()>.
+
+=begin code
+method apply-tag-by-name ( Str $name, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+=end code
+
+=item $name; name of a named B<Gnome::Gtk4::TextTag>.
+=item $start; one bound of range to be tagged.
+=item $end; other bound of range to be tagged.
+
+=begin comment
+
+=head2 Example
+# Example for apply-tag-by-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 backspace
+
+Performs the appropriate action as if the user hit the delete
+key with the cursor at the position specified by C<$iter>.
+
+In the normal case a single character will be deleted, but when
+combining accents are involved, more than one character can
+be deleted, and when precomposed character and accent combinations
+are involved, less than one character will be deleted.
+
+Because the buffer is modified, all outstanding iterators become
+invalid after calling this function; however, the C<$iter> will be
+re-initialized to point to the location where text was deleted.
+
+=begin code
+method backspace ( CArray[N-TextIter] $iter, Bool() $interactive, Bool() $default-editable --> Bool )
+=end code
+
+=item $iter; a position in C<$buffer>.
+=item $interactive; whether the deletion is caused by user interaction.
+=item $default-editable; whether the buffer is editable by default.
+
+Return value; C<True> if the buffer was modified. 
+
+=begin comment
+
+=head2 Example
+# Example for backspace
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 begin-irreversible-action
+
+Denotes the beginning of an action that may not be undone.
+
+This will cause any previous operations in the undo/redo queue
+to be cleared.
+
+This should be paired with a call to
+C<.end-irreversible-action()> after the irreversible
+action has completed.
+
+You may nest calls to C<.begin-irreversible-action()>
+and C<.end-irreversible-action()> pairs.
+
+=begin code
+method begin-irreversible-action ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for begin-irreversible-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 begin-user-action
+
+Called to indicate that the buffer operations between here and a
+call to C<.end-user-action()> are part of a single
+user-visible operation.
+
+The operations between C<.begin-user-action()> and
+C<.end-user-action()> can then be grouped when creating
+an undo stack. B<Gnome::Gtk4::TextBuffer> maintains a count of calls to
+C<.begin-user-action()> that have not been closed with
+a call to C<.end-user-action()>, and emits the
+“begin-user-action” and “end-user-action” signals only for the
+outermost pair of calls. This allows you to build user actions
+from other user actions.
+
+The “interactive” buffer mutation functions, such as
+C<.insert-interactive()>, automatically call
+begin/end user action around the buffer operations they perform,
+so there's no need to add extra calls if you user action consists
+solely of a single call to one of those functions.
+
+=begin code
+method begin-user-action ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for begin-user-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy-clipboard
+
+Copies the currently-selected text to a clipboard.
+
+=begin code
+method copy-clipboard ( N-Object() $clipboard )
+=end code
+
+=item $clipboard; the B<Gnome::Gdk4::Clipboard> object to copy to.
+
+=begin comment
+
+=head2 Example
+# Example for copy-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-child-anchor
+
+Creates and inserts a child anchor.
+
+This is a convenience function which simply creates a child anchor
+with C<.newtextbuffer() in class Gnome::Gtk4::TextChildAnchor> and inserts it into the buffer
+with C<.insert-child-anchor()>.
+
+The new anchor is owned by the buffer; no reference count is
+returned to the caller of this function.
+
+=begin code
+method create-child-anchor ( CArray[N-TextIter] $iter --> N-Object )
+=end code
+
+=item $iter; location in the buffer.
+
+Return value; the created child anchor. 
+
+=begin comment
+
+=head2 Example
+# Example for create-child-anchor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-mark
+
+Creates a mark at position C<$where>.
+
+If C<$mark-name> is undefined, the mark is anonymous; otherwise, the mark
+can be retrieved by name using C<.get-mark()>.
+If a mark has left gravity, and text is inserted at the mark’s
+current location, the mark will be moved to the left of the
+newly-inserted text. If the mark has right gravity
+( C<$left-gravity> = C<False>), the mark will end up on the right of
+newly-inserted text. The standard left-to-right cursor is a mark
+with right gravity (when you type, the cursor stays on the right
+side of the text you’re typing).
+
+The caller of this function does not own a
+reference to the returned B<Gnome::Gtk4::TextMark>, so you can ignore the
+return value if you like. Marks are owned by the buffer and go
+away when the buffer does.
+
+Emits the I<mark-set> signal as notification
+of the mark's initial placement.
+
+=begin code
+method create-mark ( Str $mark-name, CArray[N-TextIter] $where, Bool() $left-gravity --> N-Object )
+=end code
+
+=item $mark-name; name for mark.
+=item $where; location to place mark.
+=item $left-gravity; whether the mark has left gravity.
+
+Return value; the new B<Gnome::Gtk4::TextMark> object. 
+
+=begin comment
+
+=head2 Example
+# Example for create-mark
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-tag
+This function is not yet available
+
+Creates a tag and adds it to the tag table for C<$buffer>.
+
+Equivalent to calling C<.newtextbuffer() in class Gnome::Gtk4::TextTag> and then adding the
+tag to the buffer’s tag table. The returned tag is owned by
+the buffer’s tag table, so the ref count will be equal to one.
+
+If C<$tag-name> is undefined, the tag is anonymous.
+
+If C<$tag-name> is non-undefined, a tag called C<$tag-name> must not already
+exist in the tag table for this buffer.
+
+The C<$first-property-name> argument and subsequent arguments are a list
+of properties to set on the tag, as with g_object_set().
+
+=begin code
+method create-tag ( Str $tag-name, Str $first-property-name, … --> N-Object )
+=end code
+
+=item $tag-name; name of the new tag.
+=item $first-property-name; name of first property to set.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+Return value; a new tag. 
+
+=begin comment
+
+=head2 Example
+# Example for create-tag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 cut-clipboard
+
+Copies the currently-selected text to a clipboard,
+then deletes said text if it’s editable.
+
+=begin code
+method cut-clipboard ( N-Object() $clipboard, Bool() $default-editable )
+=end code
+
+=item $clipboard; the B<Gnome::Gdk4::Clipboard> object to cut to.
+=item $default-editable; default editability of the buffer.
+
+=begin comment
+
+=head2 Example
+# Example for cut-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 delete
+
+Deletes text between C<$start> and C<$end>.
+
+The order of C<$start> and C<$end> is not actually relevant;
+C<.delete()> will reorder them.
+
+This function actually emits the “delete-range” signal, and
+the default handler of that signal deletes the text. Because the
+buffer is modified, all outstanding iterators become invalid after
+calling this function; however, the C<$start> and C<$end> will be
+re-initialized to point to the location where text was deleted.
+
+=begin code
+method delete ( CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+=end code
+
+=item $start; a position in C<$buffer>.
+=item $end; another position in C<$buffer>.
+
+=begin comment
+
+=head2 Example
+# Example for delete
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 delete-interactive
+
+Deletes all editable text in the given range.
+
+Calls C<.delete()> for each editable
+sub-range of [ C<$start>, C<$end>). C<$start> and C<$end> are revalidated
+to point to the location of the last deleted range, or left
+untouched if no text was deleted.
+
+=begin code
+method delete-interactive ( CArray[N-TextIter] $start-iter, CArray[N-TextIter] $end-iter, Bool() $default-editable --> Bool )
+=end code
+
+=item $start-iter; start of range to delete.
+=item $end-iter; end of range.
+=item $default-editable; whether the buffer is editable by default.
+
+Return value; whether some text was actually deleted. 
+
+=begin comment
+
+=head2 Example
+# Example for delete-interactive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 delete-mark
+
+Deletes C<$mark>, so that it’s no longer located anywhere in the
+buffer.
+
+Removes the reference the buffer holds to the mark, so if
+you haven’t called g_object_ref() on the mark, it will be freed.
+Even if the mark isn’t freed, most operations on C<$mark> become
+invalid, until it gets added to a buffer again with
+C<.add-mark()>. Use C<.get-deleted() in class Gnome::Gtk4::TextMark>
+to find out if a mark has been removed from its buffer.
+
+The I<mark-deleted> signal will be emitted as
+notification after the mark is deleted.
+
+=begin code
+method delete-mark ( N-Object() $mark )
+=end code
+
+=item $mark; a B<Gnome::Gtk4::TextMark> in C<$buffer>.
+
+=begin comment
+
+=head2 Example
+# Example for delete-mark
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 delete-mark-by-name
+
+Deletes the mark named C<$name>; the mark must exist.
+
+See C<.delete-mark()> for details.
+
+=begin code
+method delete-mark-by-name ( Str $name )
+=end code
+
+=item $name; name of a mark in C<$buffer>.
+
+=begin comment
+
+=head2 Example
+# Example for delete-mark-by-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 delete-selection
+
+Deletes the range between the “insert” and “selection_bound” marks,
+that is, the currently-selected text.
+
+If C<$interactive> is C<True>, the editability of the selection will be
+considered (users can’t delete uneditable text).
+
+=begin code
+method delete-selection ( Bool() $interactive, Bool() $default-editable --> Bool )
+=end code
+
+=item $interactive; whether the deletion is caused by user interaction.
+=item $default-editable; whether the buffer is editable by default.
+
+Return value; whether there was a non-empty selection to delete. 
+
+=begin comment
+
+=head2 Example
+# Example for delete-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 end-irreversible-action
+
+Denotes the end of an action that may not be undone.
+
+This will cause any previous operations in the undo/redo
+queue to be cleared.
+
+This should be called after completing modifications to the
+text buffer after C<.begin-irreversible-action()>
+was called.
+
+You may nest calls to C<.begin-irreversible-action()>
+and C<.end-irreversible-action()> pairs.
+
+=begin code
+method end-irreversible-action ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for end-irreversible-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 end-user-action
+
+Ends a user-visible operation.
+
+Should be paired with a call to
+C<.begin-user-action()>.
+See that function for a full explanation.
+
+=begin code
+method end-user-action ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for end-user-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-bounds
+
+Retrieves the first and last iterators in the buffer, i.e. the
+entire buffer lies within the range [ C<$start>, C<$end>).
+
+=begin code
+method get-bounds ( CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+=end code
+
+=item $start; iterator to initialize with first position in the buffer.
+=item $end; iterator to initialize with the end iterator.
+
+=begin comment
+
+=head2 Example
+# Example for get-bounds
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-can-redo
+
+Gets whether there is a redoable action in the history.
+
+=begin code
+method get-can-redo (--> Bool )
+=end code
+
+Return value; C<True> if there is an redoable action. 
+
+=begin comment
+
+=head2 Example
+# Example for get-can-redo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-can-undo
+
+Gets whether there is an undoable action in the history.
+
+=begin code
+method get-can-undo (--> Bool )
+=end code
+
+Return value; C<True> if there is an undoable action. 
+
+=begin comment
+
+=head2 Example
+# Example for get-can-undo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-char-count
+
+Gets the number of characters in the buffer.
+
+Note that characters and bytes are not the same, you can’t e.g.
+expect the contents of the buffer in string form to be this
+many bytes long.
+
+The character count is cached, so this function is very fast.
+
+=begin code
+method get-char-count (--> Int )
+=end code
+
+Return value; number of characters in the buffer. 
+
+=begin comment
+
+=head2 Example
+# Example for get-char-count
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-undo
+
+Gets whether the buffer is saving modifications to the buffer
+to allow for undo and redo actions.
+
+See C<.begin-irreversible-action()> and
+C<.end-irreversible-action()> to create
+changes to the buffer that cannot be undone.
+
+=begin code
+method get-enable-undo (--> Bool )
+=end code
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-undo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-end-iter
+
+Initializes C<$iter> with the “end iterator,” one past the last valid
+character in the text buffer.
+
+If dereferenced with C<.get-char() in class Gnome::Gtk4::N-TextIter>, the end
+iterator has a character value of 0.
+The entire buffer lies in the range from the first position in
+the buffer (call C<.get-start-iter()> to get
+character position 0) to the end iterator.
+
+=begin code
+method get-end-iter ( CArray[N-TextIter] $iter )
+=end code
+
+=item $iter; iterator to initialize.
+
+=begin comment
+
+=head2 Example
+# Example for get-end-iter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-selection
+
+Indicates whether the buffer has some text currently selected.
+
+=begin code
+method get-has-selection (--> Bool )
+=end code
+
+Return value; C<True> if the there is text selected. 
+
+=begin comment
+
+=head2 Example
+# Example for get-has-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-insert
+
+Returns the mark that represents the cursor (insertion point).
+
+Equivalent to calling C<.get-mark()>
+to get the mark named “insert”, but very slightly more
+efficient, and involves less typing.
+
+=begin code
+method get-insert (--> N-Object )
+=end code
+
+Return value; insertion point mark. 
+
+=begin comment
+
+=head2 Example
+# Example for get-insert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-at-child-anchor
+
+Obtains the location of C<$anchor> within C<$buffer>.
+
+=begin code
+method get-iter-at-child-anchor ( CArray[N-TextIter] $iter, N-Object() $anchor )
+=end code
+
+=item $iter; an iterator to be initialized.
+=item $anchor; a child anchor that appears in C<$buffer>.
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-at-child-anchor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-at-line
+
+Initializes C<$iter> to the start of the given line.
+
+If C<$line-number> is greater than or equal to the number of lines
+in the C<$buffer>, the end iterator is returned.
+
+=begin code
+method get-iter-at-line ( CArray[N-TextIter] $iter, Int() $line-number --> Bool )
+=end code
+
+=item $iter; iterator to initialize.
+=item $line-number; line number counting from 0.
+
+Return value; whether the exact position has been found. 
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-at-line
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-at-line-index
+
+Obtains an iterator pointing to C<$byte-index> within the given line.
+ C<$byte-index> must be the start of a UTF-8 character. Note bytes, not
+characters; UTF-8 may encode one character as multiple bytes.
+
+If C<$line-number> is greater than or equal to the number of lines in the C<$buffer>,
+the end iterator is returned. And if C<$byte-index> is off the
+end of the line, the iterator at the end of the line is returned.
+
+=begin code
+method get-iter-at-line-index ( CArray[N-TextIter] $iter, Int() $line-number, Int() $byte-index --> Bool )
+=end code
+
+=item $iter; iterator to initialize.
+=item $line-number; line number counting from 0.
+=item $byte-index; byte index from start of line.
+
+Return value; whether the exact position has been found. 
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-at-line-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-at-line-offset
+
+Obtains an iterator pointing to C<$char-offset> within the given line.
+
+Note characters, not bytes; UTF-8 may encode one character as multiple
+bytes.
+
+If C<$line-number> is greater than or equal to the number of lines in the C<$buffer>,
+the end iterator is returned. And if C<$char-offset> is off the
+end of the line, the iterator at the end of the line is returned.
+
+=begin code
+method get-iter-at-line-offset ( CArray[N-TextIter] $iter, Int() $line-number, Int() $char-offset --> Bool )
+=end code
+
+=item $iter; iterator to initialize.
+=item $line-number; line number counting from 0.
+=item $char-offset; char offset from start of line.
+
+Return value; whether the exact position has been found. 
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-at-line-offset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-at-mark
+
+Initializes C<$iter> with the current position of C<$mark>.
+
+=begin code
+method get-iter-at-mark ( CArray[N-TextIter] $iter, N-Object() $mark )
+=end code
+
+=item $iter; iterator to initialize.
+=item $mark; a B<Gnome::Gtk4::TextMark> in C<$buffer>.
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-at-mark
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-iter-at-offset
+
+Initializes C<$iter> to a position C<$char-offset> chars from the start
+of the entire buffer.
+
+If C<$char-offset> is -1 or greater than the number
+of characters in the buffer, C<$iter> is initialized to the end iterator,
+the iterator one past the last valid character in the buffer.
+
+=begin code
+method get-iter-at-offset ( CArray[N-TextIter] $iter, Int() $char-offset )
+=end code
+
+=item $iter; iterator to initialize.
+=item $char-offset; char offset from start of buffer, counting from 0, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for get-iter-at-offset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-line-count
+
+Obtains the number of lines in the buffer.
+
+This value is cached, so the function is very fast.
+
+=begin code
+method get-line-count (--> Int )
+=end code
+
+Return value; number of lines in the buffer. 
+
+=begin comment
+
+=head2 Example
+# Example for get-line-count
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mark
+
+Returns the mark named C<$name> in buffer C<$buffer>, or undefined if no such
+mark exists in the buffer.
+
+=begin code
+method get-mark ( Str $name --> N-Object )
+=end code
+
+=item $name; a mark name.
+
+Return value; a B<Gnome::Gtk4::TextMark>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mark
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-max-undo-levels
+
+Gets the maximum number of undo levels to perform.
+
+If 0, unlimited undo actions may be performed. Note that this may
+have a memory usage impact as it requires storing an additional
+copy of the inserted or removed text within the text buffer.
+
+=begin code
+method get-max-undo-levels (--> UInt )
+=end code
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-max-undo-levels
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-modified
+
+Indicates whether the buffer has been modified since the last call
+to C<.set-modified()> set the modification flag to
+C<False>.
+
+Used for example to enable a “save” function in a text editor.
+
+=begin code
+method get-modified (--> Bool )
+=end code
+
+Return value; C<True> if the buffer has been modified. 
+
+=begin comment
+
+=head2 Example
+# Example for get-modified
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection-bound
+
+Returns the mark that represents the selection bound.
+
+Equivalent to calling C<.get-mark()>
+to get the mark named “selection_bound”, but very slightly
+more efficient, and involves less typing.
+
+The currently-selected text in C<$buffer> is the region between the
+“selection_bound” and “insert” marks. If “selection_bound” and
+“insert” are in the same place, then there is no current selection.
+C<.get-selection-bounds()> is another convenient
+function for handling the selection, if you just want to know whether
+there’s a selection and what its bounds are.
+
+=begin code
+method get-selection-bound (--> N-Object )
+=end code
+
+Return value; selection bound mark. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection-bound
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection-bounds
+
+Returns C<True> if some text is selected; places the bounds
+of the selection in C<$start> and C<$end>.
+
+If the selection has length 0, then C<$start> and C<$end> are filled
+in with the same value. C<$start> and C<$end> will be in ascending order.
+If C<$start> and C<$end> are undefined, then they are not filled in, but the
+return value still indicates whether text is selected.
+
+=begin code
+method get-selection-bounds ( CArray[N-TextIter] $start, CArray[N-TextIter] $end --> Bool )
+=end code
+
+=item $start; iterator to initialize with selection start.
+=item $end; iterator to initialize with selection end.
+
+Return value; whether the selection has nonzero length. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection-bounds
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection-content
+
+Get a content provider for this buffer.
+
+It can be used to make the content of C<$buffer> available
+in a B<Gnome::Gdk4::Clipboard>, see C<.set-content() in class Gnome::Gdk4::Clipboard>.
+
+=begin code
+method get-selection-content (--> N-Object )
+=end code
+
+Return value; a new B<Gnome::Gdk4::ContentProvider>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection-content
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-slice
+
+Returns the text in the range [ C<$start>, C<$end>).
+
+Excludes undisplayed text (text marked with tags that set the
+invisibility attribute) if C<$include-hidden-chars> is C<False>.
+The returned string includes a 0xFFFC character whenever the
+buffer contains embedded images, so byte and character indexes
+into the returned string do correspond to byte and character
+indexes into the buffer. Contrast with C<.get-text()>.
+Note that 0xFFFC can occur in normal text as well, so it is not a
+reliable indicator that a paintable or widget is in the buffer.
+
+=begin code
+method get-slice ( CArray[N-TextIter] $start, CArray[N-TextIter] $end, Bool() $include-hidden-chars --> Str )
+=end code
+
+=item $start; start of a range.
+=item $end; end of a range.
+=item $include-hidden-chars; whether to include invisible text.
+
+Return value; an allocated UTF-8 string. 
+
+=begin comment
+
+=head2 Example
+# Example for get-slice
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-start-iter
+
+Initialized C<$iter> with the first position in the text buffer.
+
+This is the same as using C<.get-iter-at-offset()>
+to get the iter at character offset 0.
+
+=begin code
+method get-start-iter ( CArray[N-TextIter] $iter )
+=end code
+
+=item $iter; iterator to initialize.
+
+=begin comment
+
+=head2 Example
+# Example for get-start-iter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tag-table
+
+Get the B<Gnome::Gtk4::TextTagTable> associated with this buffer.
+
+=begin code
+method get-tag-table (--> N-Object )
+=end code
+
+Return value; the buffer’s tag table. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tag-table
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-text
+
+Returns the text in the range [ C<$start>, C<$end>).
+
+Excludes undisplayed text (text marked with tags that set the
+invisibility attribute) if C<$include-hidden-chars> is C<False>.
+Does not include characters representing embedded images, so
+byte and character indexes into the returned string do not
+correspond to byte and character indexes into the buffer.
+Contrast with C<.get-slice()>.
+
+=begin code
+method get-text ( CArray[N-TextIter] $start, CArray[N-TextIter] $end, Bool() $include-hidden-chars --> Str )
+=end code
+
+=item $start; start of a range.
+=item $end; end of a range.
+=item $include-hidden-chars; whether to include invisible text.
+
+Return value; an allocated UTF-8 string. 
+
+=begin comment
+
+=head2 Example
+# Example for get-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+Inserts C<$len> bytes of C<$text> at position C<$iter>.
+
+If C<$len> is -1, C<$text> must be nul-terminated and will be inserted in its
+entirety. Emits the “insert-text” signal; insertion actually occurs
+in the default handler for the signal. C<$iter> is invalidated when
+insertion occurs (because the buffer contents change), but the
+default signal handler revalidates it to point to the end of the
+inserted text.
+
+=begin code
+method insert ( CArray[N-TextIter] $iter, Str $text, Int() $len )
+=end code
+
+=item $iter; a position in the buffer.
+=item $text; text in UTF-8 format.
+=item $len; length of text in bytes, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for insert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-at-cursor
+
+Inserts C<$text> in C<$buffer>.
+
+Simply calls C<.insert()>,
+using the current cursor position as the insertion point.
+
+=begin code
+method insert-at-cursor ( Str $text, Int() $len )
+=end code
+
+=item $text; text in UTF-8 format.
+=item $len; length of text, in bytes.
+
+=begin comment
+
+=head2 Example
+# Example for insert-at-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-child-anchor
+
+Inserts a child widget anchor into the text buffer at C<$iter>.
+
+The anchor will be counted as one character in character counts, and
+when obtaining the buffer contents as a string, will be represented
+by the Unicode “object replacement character” 0xFFFC. Note that the
+“slice” variants for obtaining portions of the buffer as a string
+include this character for child anchors, but the “text” variants do
+not. E.g. see C<.get-slice()> and
+C<.get-text()>.
+
+Consider C<.create-child-anchor()> as a more
+convenient alternative to this function. The buffer will add a
+reference to the anchor, so you can unref it after insertion.
+
+=begin code
+method insert-child-anchor ( CArray[N-TextIter] $iter, N-Object() $anchor )
+=end code
+
+=item $iter; location to insert the anchor.
+=item $anchor; a B<Gnome::Gtk4::TextChildAnchor>.
+
+=begin comment
+
+=head2 Example
+# Example for insert-child-anchor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-interactive
+
+Inserts C<$text> in C<$buffer>.
+
+Like C<.insert()>, but the insertion will not occur
+if C<$iter> is at a non-editable location in the buffer. Usually you
+want to prevent insertions at ineditable locations if the insertion
+results from a user action (is interactive).
+ C<$default-editable> indicates the editability of text that doesn't
+have a tag affecting editability applied to it. Typically the
+result of C<.get-editable() in class Gnome::Gtk4::TextView> is appropriate here.
+
+=begin code
+method insert-interactive ( CArray[N-TextIter] $iter, Str $text, Int() $len, Bool() $default-editable --> Bool )
+=end code
+
+=item $iter; a position in C<$buffer>.
+=item $text; some UTF-8 text.
+=item $len; length of text in bytes, or -1.
+=item $default-editable; default editability of buffer.
+
+Return value; whether text was actually inserted. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-interactive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-interactive-at-cursor
+
+Inserts C<$text> in C<$buffer>.
+
+Calls C<.insert-interactive()>
+at the cursor position.
+ C<$default-editable> indicates the editability of text that doesn't
+have a tag affecting editability applied to it. Typically the
+result of C<.get-editable() in class Gnome::Gtk4::TextView> is appropriate here.
+
+=begin code
+method insert-interactive-at-cursor ( Str $text, Int() $len, Bool() $default-editable --> Bool )
+=end code
+
+=item $text; text in UTF-8 format.
+=item $len; length of text in bytes, or -1.
+=item $default-editable; default editability of buffer.
+
+Return value; whether text was actually inserted. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-interactive-at-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-markup
+
+Inserts the text in C<$markup> at position C<$iter>.
+ C<$markup> will be inserted in its entirety and must be nul-terminated
+and valid UTF-8. Emits the I<insert-text> signal,
+possibly multiple times; insertion actually occurs in the default handler
+for the signal. C<$iter> will point to the end of the inserted text on return.
+
+=begin code
+method insert-markup ( CArray[N-TextIter] $iter, Str $markup, Int() $len )
+=end code
+
+=item $iter; location to insert the markup.
+=item $markup; a nul-terminated UTF-8 string containing Pango markup.
+=item $len; length of C<$markup> in bytes, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for insert-markup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-paintable
+
+Inserts an image into the text buffer at C<$iter>.
+
+The image will be counted as one character in character counts,
+and when obtaining the buffer contents as a string, will be
+represented by the Unicode “object replacement character” 0xFFFC.
+Note that the “slice” variants for obtaining portions of the buffer
+as a string include this character for paintable, but the “text”
+variants do not. e.g. see C<.get-slice()> and
+C<.get-text()>.
+
+=begin code
+method insert-paintable ( CArray[N-TextIter] $iter, N-Object() $paintable )
+=end code
+
+=item $iter; location to insert the paintable.
+=item $paintable; a B<Gnome::Gdk4::R-Paintable>.
+
+=begin comment
+
+=head2 Example
+# Example for insert-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-range
+
+Copies text, tags, and paintables between C<$start> and C<$end>
+and inserts the copy at C<$iter>.
+
+The order of C<$start> and C<$end> doesn’t matter.
+
+Used instead of simply getting/inserting text because it preserves
+images and tags. If C<$start> and C<$end> are in a different buffer from C<$buffer>, the two buffers must share the same tag table.
+
+Implemented via emissions of the I<insert-text> and I<apply-tag> signals,
+so expect those.
+
+=begin code
+method insert-range ( CArray[N-TextIter] $iter, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+=end code
+
+=item $iter; a position in C<$buffer>.
+=item $start; a position in a B<Gnome::Gtk4::TextBuffer>.
+=item $end; another position in the same buffer as C<$start>.
+
+=begin comment
+
+=head2 Example
+# Example for insert-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-range-interactive
+
+Copies text, tags, and paintables between C<$start> and C<$end>
+and inserts the copy at C<$iter>.
+
+Same as C<.insert-range()>, but does nothing
+if the insertion point isn’t editable. The C<$default-editable>
+parameter indicates whether the text is editable at C<$iter> if
+no tags enclosing C<$iter> affect editability. Typically the result
+of C<.get-editable() in class Gnome::Gtk4::TextView> is appropriate here.
+
+=begin code
+method insert-range-interactive ( CArray[N-TextIter] $iter, CArray[N-TextIter] $start, CArray[N-TextIter] $end, Bool() $default-editable --> Bool )
+=end code
+
+=item $iter; a position in C<$buffer>.
+=item $start; a position in a B<Gnome::Gtk4::TextBuffer>.
+=item $end; another position in the same buffer as C<$start>.
+=item $default-editable; default editability of the buffer.
+
+Return value; whether an insertion was possible at C<$iter>. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-range-interactive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-with-tags
+This function is not yet available
+
+Inserts C<$text> into C<$buffer> at C<$iter>, applying the list of tags to
+the newly-inserted text.
+
+The last tag specified must be undefined to terminate the list.
+Equivalent to calling C<.insert()>,
+then C<.apply-tag()> on the inserted text;
+this is just a convenience function.
+
+=begin code
+method insert-with-tags ( CArray[N-TextIter] $iter, Str $text, Int() $len, N-Object() $first-tag, … )
+=end code
+
+=item $iter; an iterator in C<$buffer>.
+=item $text; UTF-8 text.
+=item $len; length of C<$text>, or -1.
+=item $first-tag; first tag to apply to C<$text>.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for insert-with-tags
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-with-tags-by-name
+This function is not yet available
+
+Inserts C<$text> into C<$buffer> at C<$iter>, applying the list of tags to
+the newly-inserted text.
+
+Same as C<.insert-with-tags()>, but allows you
+to pass in tag names instead of tag objects.
+
+=begin code
+method insert-with-tags-by-name ( CArray[N-TextIter] $iter, Str $text, Int() $len, Str $first-tag-name, … )
+=end code
+
+=item $iter; position in C<$buffer>.
+=item $text; UTF-8 text.
+=item $len; length of C<$text>, or -1.
+=item $first-tag-name; name of a tag to apply to C<$text>.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for insert-with-tags-by-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 move-mark
+
+Moves C<$mark> to the new location C<$where>.
+
+Emits the I<mark-set> signal
+as notification of the move.
+
+=begin code
+method move-mark ( N-Object() $mark, CArray[N-TextIter] $where )
+=end code
+
+=item $mark; a B<Gnome::Gtk4::TextMark>.
+=item $where; new location for C<$mark> in C<$buffer>.
+
+=begin comment
+
+=head2 Example
+# Example for move-mark
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 move-mark-by-name
+
+Moves the mark named C<$name> (which must exist) to location C<$where>.
+
+See C<.move-mark()> for details.
+
+=begin code
+method move-mark-by-name ( Str $name, CArray[N-TextIter] $where )
+=end code
+
+=item $name; name of a mark.
+=item $where; new location for mark.
+
+=begin comment
+
+=head2 Example
+# Example for move-mark-by-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 paste-clipboard
+
+Pastes the contents of a clipboard.
+
+If C<$override-location> is undefined, the pasted text will be inserted
+at the cursor position, or the buffer selection will be replaced
+if the selection is non-empty.
+
+Note: pasting is asynchronous, that is, we’ll ask for the paste data
+and return, and at some point later after the main loop runs, the paste
+data will be inserted.
+
+=begin code
+method paste-clipboard ( N-Object() $clipboard, CArray[N-TextIter] $override-location, Bool() $default-editable )
+=end code
+
+=item $clipboard; the B<Gnome::Gdk4::Clipboard> to paste from.
+=item $override-location; location to insert pasted text.
+=item $default-editable; whether the buffer is editable by default.
+
+=begin comment
+
+=head2 Example
+# Example for paste-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 place-cursor
+
+This function moves the “insert” and “selection_bound” marks
+simultaneously.
+
+If you move them to the same place in two steps with
+C<.move-mark()>, you will temporarily select a
+region in between their old and new locations, which can be pretty
+inefficient since the temporarily-selected region will force stuff
+to be recalculated. This function moves them as a unit, which can
+be optimized.
+
+=begin code
+method place-cursor ( CArray[N-TextIter] $where )
+=end code
+
+=item $where; where to put the cursor.
+
+=begin comment
+
+=head2 Example
+# Example for place-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 redo
+
+Redoes the next redoable action on the buffer, if there is one.
+
+=begin code
+method redo ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for redo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-all-tags
+
+Removes all tags in the range between C<$start> and C<$end>.
+
+Be careful with this function; it could remove tags added in code
+unrelated to the code you’re currently writing. That is, using this
+function is probably a bad idea if you have two or more unrelated
+code sections that add tags.
+
+=begin code
+method remove-all-tags ( CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+=end code
+
+=item $start; one bound of range to be untagged.
+=item $end; other bound of range to be untagged.
+
+=begin comment
+
+=head2 Example
+# Example for remove-all-tags
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-selection-clipboard
+
+Removes a B<Gnome::Gdk4::Clipboard> added with
+C<.add-selection-clipboard()>.
+
+=begin code
+method remove-selection-clipboard ( N-Object() $clipboard )
+=end code
+
+=item $clipboard; a B<Gnome::Gdk4::Clipboard> added to C<$buffer> by
+  C<.add-selection-clipboard()>.
+
+=begin comment
+
+=head2 Example
+# Example for remove-selection-clipboard
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-tag
+
+Emits the “remove-tag” signal.
+
+The default handler for the signal removes all occurrences
+of C<$tag> from the given range. C<$start> and C<$end> don’t have
+to be in order.
+
+=begin code
+method remove-tag ( N-Object() $tag, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+=end code
+
+=item $tag; a B<Gnome::Gtk4::TextTag>.
+=item $start; one bound of range to be untagged.
+=item $end; other bound of range to be untagged.
+
+=begin comment
+
+=head2 Example
+# Example for remove-tag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-tag-by-name
+
+Emits the “remove-tag” signal.
+
+Calls C<.lookup() in class Gnome::Gtk4::TextTagTable> on the buffer’s
+tag table to get a B<Gnome::Gtk4::TextTag>, then calls
+C<.remove-tag()>.
+
+=begin code
+method remove-tag-by-name ( Str $name, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+=end code
+
+=item $name; name of a B<Gnome::Gtk4::TextTag>.
+=item $start; one bound of range to be untagged.
+=item $end; other bound of range to be untagged.
+
+=begin comment
+
+=head2 Example
+# Example for remove-tag-by-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-range
+
+This function moves the “insert” and “selection_bound” marks
+simultaneously.
+
+If you move them in two steps with
+C<.move-mark()>, you will temporarily select a
+region in between their old and new locations, which can be pretty
+inefficient since the temporarily-selected region will force stuff
+to be recalculated. This function moves them as a unit, which can
+be optimized.
+
+=begin code
+method select-range ( CArray[N-TextIter] $ins, CArray[N-TextIter] $bound )
+=end code
+
+=item $ins; where to put the “insert” mark.
+=item $bound; where to put the “selection_bound” mark.
+
+=begin comment
+
+=head2 Example
+# Example for select-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-undo
+
+Sets whether or not to enable undoable actions in the text buffer.
+
+Undoable actions in this context are changes to the text content of
+the buffer. Changes to tags and marks are not tracked.
+
+If enabled, the user will be able to undo the last number of actions
+up to C<.get-max-undo-levels()>.
+
+See C<.begin-irreversible-action()> and
+C<.end-irreversible-action()> to create
+changes to the buffer that cannot be undone.
+
+=begin code
+method set-enable-undo ( Bool() $enable-undo )
+=end code
+
+=item $enable-undo; C<True> to enable undo.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-undo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-max-undo-levels
+
+Sets the maximum number of undo levels to perform.
+
+If 0, unlimited undo actions may be performed. Note that this may
+have a memory usage impact as it requires storing an additional
+copy of the inserted or removed text within the text buffer.
+
+=begin code
+method set-max-undo-levels ( UInt() $max-undo-levels )
+=end code
+
+=item $max-undo-levels; the maximum number of undo actions to perform.
+
+=begin comment
+
+=head2 Example
+# Example for set-max-undo-levels
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-modified
+
+Used to keep track of whether the buffer has been
+modified since the last time it was saved.
+
+Whenever the buffer is saved to disk, call
+B<gtk_text_buffer_set_modified ( C<$buffer>, FALSE)>.
+When the buffer is modified, it will automatically
+toggled on the modified bit again. When the modified
+bit flips, the buffer emits the
+I<modified-changed> signal.
+
+=begin code
+method set-modified ( Bool() $setting )
+=end code
+
+=item $setting; modification flag setting.
+
+=begin comment
+
+=head2 Example
+# Example for set-modified
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-text
+
+Deletes current contents of C<$buffer>, and inserts C<$text> instead.
+
+If C<$len> is -1, C<$text> must be nul-terminated. C<$text> must be valid UTF-8.
+
+=begin code
+method set-text ( Str $text, Int() $len )
+=end code
+
+=item $text; UTF-8 text to insert.
+=item $len; length of C<$text> in bytes.
+
+=begin comment
+
+=head2 Example
+# Example for set-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 undo
+
+Undoes the last undoable action on the buffer, if there is one.
+
+=begin code
+method undo ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for undo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 apply-tag
+
+Emitted to apply a tag to a range of text in a B<Gnome::Gtk4::TextBuffer>.
+
+Applying actually occurs in the default handler.
+
+Note that if your handler runs before the default handler
+it must not invalidate the C<$start> and C<$end> iters (or has to
+revalidate them).
+
+See also:
+C<.apply-tag()>,
+C<.insert-with-tags()>,
+C<.insert-range()>.
+
+=begin code
+method handler (
+  N-Object $tag,
+  N-TextIter $start,
+  N-TextIter $end,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $tag; the applied tag.
+=item $start; the start of the range the tag is applied to.
+=item $end; the end of the range the tag is applied to.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal apply-tag
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 begin-user-action
+
+Emitted at the beginning of a single user-visible
+operation on a B<Gnome::Gtk4::TextBuffer>.
+
+See also:
+C<.begin-user-action()>,
+C<.insert-interactive()>,
+C<.insert-range-interactive()>,
+C<.delete-interactive()>,
+C<.backspace()>,
+C<.delete-selection()>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal begin-user-action
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+Emitted when the content of a B<Gnome::Gtk4::TextBuffer> has changed.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 delete-range
+
+Emitted to delete a range from a B<Gnome::Gtk4::TextBuffer>.
+
+Note that if your handler runs before the default handler
+it must not invalidate the C<$start> and C<$end> iters (or has
+to revalidate them). The default signal handler revalidates
+the C<$start> and C<$end> iters to both point to the location
+where text was deleted. Handlers which run after the default
+handler (see g_signal_connect_after()) do not have access to
+the deleted text.
+
+See also: C<.delete()>.
+
+=begin code
+method handler (
+  N-TextIter $start,
+  N-TextIter $end,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $start; the start of the range to be deleted.
+=item $end; the end of the range to be deleted.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal delete-range
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 end-user-action
+
+Emitted at the end of a single user-visible
+operation on the B<Gnome::Gtk4::TextBuffer>.
+
+See also:
+C<.end-user-action()>,
+C<.insert-interactive()>,
+C<.insert-range-interactive()>,
+C<.delete-interactive()>,
+C<.backspace()>,
+C<.delete-selection()>,
+C<.backspace()>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal end-user-action
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 insert-child-anchor
+
+Emitted to insert a B<Gnome::Gtk4::TextChildAnchor> in a B<Gnome::Gtk4::TextBuffer>.
+
+Insertion actually occurs in the default handler.
+
+Note that if your handler runs before the default handler
+it must not invalidate the C<$location> iter (or has to
+revalidate it). The default signal handler revalidates
+it to be placed after the inserted C<$anchor>.
+
+See also: C<.insert-child-anchor()>.
+
+=begin code
+method handler (
+  N-TextIter $location,
+  N-Object $anchor,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $location; position to insert C<$anchor> in C<$textbuffer>.
+=item $anchor; the B<Gnome::Gtk4::TextChildAnchor> to be inserted.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal insert-child-anchor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 insert-paintable
+
+Emitted to insert a B<Gnome::Gdk4::R-Paintable> in a B<Gnome::Gtk4::TextBuffer>.
+
+Insertion actually occurs in the default handler.
+
+Note that if your handler runs before the default handler
+it must not invalidate the C<$location> iter (or has to
+revalidate it). The default signal handler revalidates
+it to be placed after the inserted C<$paintable>.
+
+See also: C<.insert-paintable()>.
+
+=begin code
+method handler (
+  N-TextIter $location,
+   $paintable,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $location; position to insert C<$paintable> in C<$textbuffer>.
+=item $paintable; the B<Gnome::Gdk4::R-Paintable> to be inserted.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal insert-paintable
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 insert-text
+
+Emitted to insert text in a B<Gnome::Gtk4::TextBuffer>.
+
+Insertion actually occurs in the default handler.
+
+Note that if your handler runs before the default handler
+it must not invalidate the C<$location> iter (or has to
+revalidate it). The default signal handler revalidates
+it to point to the end of the inserted text.
+
+See also: C<.insert()>,
+C<.insert-range()>.
+
+=begin code
+method handler (
+  N-TextIter $location,
+  Str $text,
+  gint $len,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $location; position to insert C<$text> in C<$textbuffer>.
+=item $text; the UTF-8 text to be inserted.
+=item $len; length of the inserted text in bytes.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal insert-text
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 mark-deleted
+
+Emitted as notification after a B<Gnome::Gtk4::TextMark> is deleted.
+
+See also: C<.delete-mark()>.
+
+=begin code
+method handler (
+  N-Object $mark,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $mark; The mark that was deleted.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal mark-deleted
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 mark-set
+
+Emitted as notification after a B<Gnome::Gtk4::TextMark> is set.
+
+See also:
+C<.create-mark()>,
+C<.move-mark()>.
+
+=begin code
+method handler (
+  N-TextIter $location,
+  N-Object $mark,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $location; The location of C<$mark> in C<$textbuffer>.
+=item $mark; The mark that is set.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal mark-set
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 modified-changed
+
+Emitted when the modified bit of a B<Gnome::Gtk4::TextBuffer> flips.
+
+See also: C<.set-modified()>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal modified-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 paste-done
+
+Emitted after paste operation has been completed.
+
+This is useful to properly scroll the view to the end
+of the pasted text. See C<.paste-clipboard()>
+for more details.
+
+=begin code
+method handler (
+   $clipboard,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $clipboard; the B<Gnome::Gdk4::Clipboard> pasted from.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal paste-done
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 redo
+
+Emitted when a request has been made to redo the
+previously undone operation.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal redo
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 remove-tag
+
+Emitted to remove all occurrences of C<$tag> from a range
+of text in a B<Gnome::Gtk4::TextBuffer>.
+
+Removal actually occurs in the default handler.
+
+Note that if your handler runs before the default handler
+it must not invalidate the C<$start> and C<$end> iters (or has
+to revalidate them).
+
+See also: C<.remove-tag()>.
+
+=begin code
+method handler (
+  N-Object $tag,
+  N-TextIter $start,
+  N-TextIter $end,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $tag; the tag to be removed.
+=item $start; the start of the range the tag is removed from.
+=item $end; the end of the range the tag is removed from.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal remove-tag
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 undo
+
+Emitted when a request has been made to undo the
+previous operation or set of operations that have
+been grouped together.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextBuffer :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextBuffer> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal undo
+
+=end comment
+
+=end pod
+
