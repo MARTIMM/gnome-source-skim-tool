@@ -28,58 +28,6 @@
 
 * GdkPixdata is deprecated. Not needed to implement.
 
-### Timing information
-Run a test with `prove6 --timer` on the old and new modules. The older tests take much more time than the newer modules, but it does many more tests than in the newer modules. It will take time to have the new tests with about the same number of tests. Anyways, a comparison of apples with pears for the moment.
-
-#### Api 1 tests
-|cc| Date       | Dist      |#c| Files | Tests | secs |
-|--|------------|-----------|--|-------|-------|------|
-| a| 2023 12 28 | Gtk3      | *|   144 |   367 |  510 |
-| b| 2023 12 28 |           |  |   144 |   367 |  145 |
-|  | 2023 12 30 | Gdk3      | *|    11 |    20 |   64 |
-|  | 2023 12 30 |           |  |    11 |    20 |    6 |
-|  | 2023 12 30 | Glib      | *|    10 |    21 |   24 |
-|  | 2023 12 30 |           |  |    10 |    21 |    6 |
-|  | 2023 12 30 | Gio       | *|    24 |    43 |   69 |
-|  | 2023 12 30 |           |  |    24 |    43 |   12 |
-
-
-
-#### Api 2 tests
-|cc| Date       | Dist      |#c| Files | Tests | secs |
-|--|------------|-----------|--|-------|-------|------|
-| 1| 2023 12 28 | Gtk4      |  |    97 |   249 |   78 |
-|  | 2023 12 28 |           | -|    97 |   249 |  171 |
-| 2| 2023 12 30 |           |  |   128 |   318 |  106 |
-| 3| 2024 01 07 |           | *|   139 |   350 |  261 |
-| 4| 2024 01 07 |           | *|   139 |   350 |  111 |
-| 5| 2024 01 08 |           |  |   154 |   393 |  124 |
-|  | 2023 12 30 | Gdk4      |  |     3 |    15 |    2 |
-|  | 2024 01 02 |           |  |     7 |    22 |    5 |
-|  | 2023 12 30 | Glib      |  |    16 |    38 |   10 |
-|  | 2023 12 30 | Gio       |  |    16 |   106 |   13 |
-
-* **cc**; compare code for next table
-* **#c**; rough number of files to be compiled. **.** ⅓ of total, **-** half, **+** ⅔, **\*** all files
-* **secs**; Number of seconds to run. Some tests needed a `sleep()` which is not working time really.
-
-#### Compare
-The calculation is to show how much time it would take when the newer version would do the same number of equal tests.
-
-| o vs n |  Comp | secs | Diff | Speedup % |
-|--------|-------|------|------|-----------|
-| 1 vs b |    98 |   78 |   20 |       126 |
-| 2 vs b |   125 |  106 |   19 |       118 |
-| 3 vs a |   486 |  261 |  225 |       186 |
-| 4 vs b |   138 |  111 |   27 |       124 |
-| 5 vs b |   155 |  124 |   31 |       125 |
-
-
-* **cc**; compares entries from above tables
-* **Comp**; The number of seconds the new version should have when compared to the older version. The calculation is `(nbr tests in new version) * (nbr seconds of old version) / (nbr tests in old version)`
-* **secs**; number of seconds of testing new version.
-* **Diff**; difference in seconds compared to real value of new version tests
-
 ### Testing command with timing -o for dump to file
 * With some options
 ```
