@@ -122,7 +122,7 @@ sub run-test (
     $test-file = 't/';
     chdir($test-dir.IO.parent);
 
-    my Str $cmd = "$prog '$test-file'";
+    my Str $cmd = "$prog --ignore-exit --trap '$test-file'";
     note "\nRun command '$cmd' in directory $*CWD.Str()";
     shell $cmd;   #, :out, :err;
   }
@@ -149,7 +149,7 @@ sub run-test (
       chdir($test-dir);
     }
 
-    my Str $cmd = "$prog '$test-file'";
+    my Str $cmd = "$prog --ignore-exit --trap '$test-file'";
     note "\nRun command '$cmd' in directory $*CWD.Str()";
     my Proc $p = shell $cmd;   #, :out, :err;
 #    note $p.out.slurp;#: :close;
