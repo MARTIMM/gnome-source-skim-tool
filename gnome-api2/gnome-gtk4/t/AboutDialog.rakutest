@@ -58,63 +58,65 @@ subtest 'Method tests', {
     my Str $website;
     my Str $system-information;
     my Str $license;
-    my Array[Str] $people;
+    my Array $people;
     my Str $name;
     my Str $icon-name;
-    my Array[Str] $authors;
-    my Array[Str] $artists;
-    my Array[Str] $documenters;
+    my Array $authors;
+    my Array $artists;
+    my Array $documenters;
     my Str $section-name;
     my Str $website-label;
     my Str $translator-credits;
 
 
-#`{{
-    #TM:0:add-credit-section()
+    #TM:1:add-credit-section()
+    $section-name = 'piano players';
+    $people = [ 'lou de haringboer', 'kniertje'];
     ok .add-credit-section( $section-name, $people), '.add-credit-section()';
 
-    #TM:0:set-artists()
-    $artists = '…';
-    .set-artists( $artists);
-    #TM:0:get-artists()
-    is .get-artists(),  $artists, '.set-artists() / .get-artists()';
+    #TM:1:set-artists()
+    $artists = [ 'mt++3', 'pietje puk3'];
+    .set-artists($artists);
+    #TM:1:get-artists()
+    is-deeply .get-artists(), $artists, '.set-artists() / .get-artists()';
 
-    #TM:0:set-authors()
-    $authors = '…';
-    .set-authors( $authors);
-    #TM:0:get-authors()
-    is .get-authors(),  $authors, '.set-authors() / .get-authors()';
+    #TM:1:set-authors()
+    $authors = ['mt++1', 'pietje puk1'];
+    .set-authors($authors);
+    #TM:1:get-authors()
+    is-deeply .get-authors(), $authors, '.set-authors() / .get-authors()';
 
-    #TM:0:set-comments()
-    $comments = 'text';
-    .set-comments( $comments);
-    #TM:0:get-comments()
-    is .get-comments(),  $comments, '.set-comments() / .get-comments()';
+    #TM:1:set-comments()
+    $comments = 'Very good language binding';
+    .set-comments($comments);
+    #TM:1:get-comments()
+    is .get-comments(), $comments, '.set-comments() / .get-comments()';
 
-    #TM:0:set-copyright()
-    $copyright = 'text';
-    .set-copyright( $copyright);
-    #TM:0:get-copyright()
-    is .get-copyright(),  $copyright, '.set-copyright() / .get-copyright()';
+    #TM:1:set-copyright()
+    $copyright = 'm.timmerman a.k.a MARTIMM';
+    .set-copyright($copyright);
+    #TM:1:get-copyright()
+    is .get-copyright(), $copyright, '.set-copyright() / .get-copyright()';
 
-    #TM:0:set-documenters()
-    $documenters = '…';
+    #TM:1:set-documenters()
+    $documenters = [ 'mt++2', 'pietje puk2'];
     .set-documenters( $documenters);
-    #TM:0:get-documenters()
-    is .get-documenters(),  $documenters, '.set-documenters() / .get-documenters()';
+    #TM:1:get-documenters()
+    is-deeply .get-documenters(),  $documenters, '.set-documenters() / .get-documenters()';
 
-    #TM:0:set-license()
-    $license = 'text';
-    .set-license( $license);
-    #TM:0:get-license()
-    is .get-license(),  $license, '.set-license() / .get-license()';
+    #TM:1:set-license()
+    $license = 'Artistic License 2.0';
+    .set-license($license);
+    #TM:1:get-license()
+    is .get-license(), $license, '.set-license() / .get-license()';
 
-    #TM:0:set-license-type()
-    $license-type = …;  # an enum or fla
-    .set-license-type( $license-type);
-    #TM:0:get-license-type()
-    is .get-license-type(),  $license-type, '.set-license-type() / .get-license-type()';
+    #TM:1:set-license-type()
+    $license-type = GTK_LICENSE_MIT_X11;
+    .set-license-type($license-type);
+    #TM:1:get-license-type()
+    is .get-license-type(), $license-type, '.set-license-type() / .get-license-type()';
 
+#`{{
     #TM:0:set-logo()
     $logo = …;  # a native object
     .set-logo( $logo);
@@ -126,13 +128,15 @@ subtest 'Method tests', {
     .set-logo-icon-name( $icon-name);
     #TM:0:get-logo-icon-name()
     is .get-logo-icon-name(),  $icon-name, '.set-logo-icon-name() / .get-logo-icon-name()';
+}}
 
-    #TM:0:set-program-name()
-    $name = 'text';
-    .set-program-name( $name);
-    #TM:0:get-program-name()
+    #TM:1:set-program-name()
+    $name = 'program-name';
+    .set-program-name($name);
+    #TM:1:get-program-name()
     is .get-program-name(),  $name, '.set-program-name() / .get-program-name()';
 
+#`{{
     #TM:0:set-system-information()
     $system-information = 'text';
     .set-system-information( $system-information);
@@ -144,32 +148,31 @@ subtest 'Method tests', {
     .set-translator-credits( $translator-credits);
     #TM:0:get-translator-credits()
     is .get-translator-credits(),  $translator-credits, '.set-translator-credits() / .get-translator-credits()';
+}}
 
-    #TM:0:set-version()
-    $version = 'text';
-    .set-version( $version);
-    #TM:0:get-version()
+    #TM:1:set-version()
+    $version = '0.20.1.2';
+    .set-version($version);
+    #TM:1:get-version()
     is .get-version(),  $version, '.set-version() / .get-version()';
 
-    #TM:0:set-website()
-    $website = 'text';
-    .set-website( $website);
-    #TM:0:get-website()
-    is .get-website(),  $website, '.set-website() / .get-website()';
+    #TM:1:set-website()
+    $website = 'https://example.com/my-favorite-items.html';
+    .set-website($website);
+    #TM:1:get-website()
+    is .get-website(), $website, '.set-website() / .get-website()';
 
-    #TM:0:set-website-label()
-    $website-label = 'text';
-    .set-website-label( $website-label);
-    #TM:0:get-website-label()
-    is .get-website-label(),  $website-label, '.set-website-label() / .get-website-label()';
+    #TM:1:set-website-label()
+    $website-label = 'favorite';
+    .set-website-label($website-label);
+    #TM:1:get-website-label()
+    is .get-website-label(), $website-label, '.set-website-label() / .get-website-label()';
 
-    #TM:0:set-wrap-license()
+    #TM:1:set-wrap-license()
     $wrap-license = True;
-    .set-wrap-license( $wrap-license);
-    #TM:0:get-wrap-license()
-    is .get-wrap-license(),  $wrap-license, '.set-wrap-license() / .get-wrap-license()';
-
-}}
+    .set-wrap-license($wrap-license);
+    #TM:1:get-wrap-license()
+    is .get-wrap-license(), $wrap-license, '.set-wrap-license() / .get-wrap-license()';
   }
 };
 
