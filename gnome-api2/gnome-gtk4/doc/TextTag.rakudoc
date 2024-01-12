@@ -1,0 +1,175 @@
+=comment Package: Gtk4, C-Source: texttag
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TextTag
+
+![](images/texttag.png)
+
+=head1 Description
+
+A tag that can be applied to text contained in a B<Gnome::Gtk4::TextBuffer>.
+
+You may wish to begin by reading the
+[text widget conceptual overview](section-text-widget.html),
+which gives an overview of all the objects and data types
+related to the text widget and how they work together.
+
+Tags should be in the B<Gnome::Gtk4::TextTagTable> for a given
+B<Gnome::Gtk4::TextBuffer> before using them with that buffer.
+
+C<.create-tag() in class Gnome::Gtk4::TextBuffer> is the best way to create tags.
+See “gtk4-demo” for numerous examples.
+
+For each property of B<Gnome::Gtk4::TextTag>, there is a “set” property, e.g.
+“font-set” corresponds to “font”. These “set” properties reflect
+whether a property has been set or not.
+
+They are maintained by GTK and you should not set them independently.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TextTag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-texttag
+
+Creates a B<Gnome::Gtk4::TextTag>.
+
+=begin code
+method new-texttag ( Str $name --> Gnome::Gtk4::TextTag \)
+=end code
+
+=item $name; tag name.
+
+=begin comment
+
+=head2 Example
+# Example for new-texttag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 changed
+
+Emits the I<tag-changed defined in TextTagTable> signal on the
+B<Gnome::Gtk4::TextTagTable> where the tag is included.
+
+The signal is already emitted when setting a B<Gnome::Gtk4::TextTag> property.
+This function is useful for a B<Gnome::Gtk4::TextTag> subclass.
+
+=begin code
+method changed ( Bool() $size-changed )
+=end code
+
+=item $size-changed; whether the change affects the B<Gnome::Gtk4::TextView> layout.
+
+=begin comment
+
+=head2 Example
+# Example for changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-priority
+
+Get the tag priority.
+
+=begin code
+method get-priority (--> Int )
+=end code
+
+Return value; The tag’s priority.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-priority
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-priority
+
+Sets the priority of a B<Gnome::Gtk4::TextTag>.
+
+Valid priorities start at 0 and go to one less than
+C<.get-size() in class Gnome::Gtk4::TextTagTable>. Each tag in a table
+has a unique priority; setting the priority of one tag shifts
+the priorities of all the other tags in the table to maintain
+a unique priority for each tag.
+
+Higher priority tags “win” if two tags both set the same text
+attribute. When adding a tag to a tag table, it will be assigned
+the highest priority in the table by default; so normally the
+precedence of a set of tags is the order in which they were added
+to the table, or created with C<.create-tag() in class Gnome::Gtk4::TextBuffer>,
+which adds the tag to the buffer’s table automatically.
+
+=begin code
+method set-priority ( Int() $priority )
+=end code
+
+=item $priority; the new priority.
+
+=begin comment
+
+=head2 Example
+# Example for set-priority
+
+=end comment
+
+=end pod
+
