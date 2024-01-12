@@ -1,0 +1,162 @@
+=comment Package: Gtk4, C-Source: textchild
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TextChildAnchor
+
+![](images/textchildanchor.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::TextChildAnchor> is a spot in a B<Gnome::Gtk4::TextBuffer> where child widgets can
+be “anchored”.
+
+The anchor can have multiple widgets anchored, to allow for multiple views.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TextChildAnchor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-textchildanchor
+
+Creates a new B<Gnome::Gtk4::TextChildAnchor>.
+
+Usually you would then insert it into a B<Gnome::Gtk4::TextBuffer> with
+C<.insert-child-anchor() in class Gnome::Gtk4::TextBuffer>. To perform the
+creation and insertion in one step, use the convenience
+function C<.create-child-anchor() in class Gnome::Gtk4::TextBuffer>.
+
+=begin code
+method new-textchildanchor ( --> Gnome::Gtk4::TextChildAnchor \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-textchildanchor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-replacement
+
+Creates a new B<Gnome::Gtk4::TextChildAnchor> with the given replacement character.
+
+Usually you would then insert it into a B<Gnome::Gtk4::TextBuffer> with
+C<.insert-child-anchor() in class Gnome::Gtk4::TextBuffer>.
+
+=begin code
+method new-with-replacement ( Str $character --> Gnome::Gtk4::TextChildAnchor \)
+=end code
+
+=item $character; .
+
+=begin comment
+
+=head2 Example
+# Example for new-with-replacement
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-deleted
+
+Determines whether a child anchor has been deleted from
+the buffer.
+
+Keep in mind that the child anchor will be unreferenced
+when removed from the buffer, so you need to hold your own
+reference (with g_object_ref()) if you plan to use this
+function — otherwise all deleted child anchors will also
+be finalized.
+
+=begin code
+method get-deleted (--> Bool )
+=end code
+
+Return value; C<True> if the child anchor has been deleted from its buffer. 
+
+=begin comment
+
+=head2 Example
+# Example for get-deleted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-widgets
+
+Gets a list of all widgets anchored at this child anchor.
+
+The order in which the widgets are returned is not defined.
+
+=begin code
+method get-widgets ( Array[Int] $out-len --> N-Object )
+=end code
+
+=item $out-len; (transfer ownership: full) return location for the length of the array.
+
+Return value; an
+  array of widgets anchored at C<$anchor>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-widgets
+
+=end comment
+
+=end pod
+
