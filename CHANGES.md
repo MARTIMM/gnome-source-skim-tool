@@ -72,6 +72,10 @@ find . -name '*.raku*' | xargs wc -l
   * Window manager control like `self.set-position()` and `self.set-keep-above()`;
 
 # Release notes
+* 2024-01-12 0.14.1
+  * Coerse test works now after updating raku compiler. Version now: 
+  `v2023.12-41-gbafa5ad46. Implementing the Raku® Programming Language v6.d. Built on MoarVM version 2023.12-14-gc3fea4f58.
+
 * 2024-01-10 0.14.0
   * Adding more and more modules to several distro's
 
