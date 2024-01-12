@@ -5,7 +5,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
 
 my N-Object(Mu) $no;
-my Gnome::Gtk4::Button(Mu) ( $b1, $b2);
+my Gnome::Gtk4::Button() ( $b1, $b2);
 
 Gnome::N::debug(:on);
 
@@ -26,3 +26,4 @@ note "$?LINE, ", $b2.^can('is_dispatcher');
 note "$?LINE, ", Any.new.^can('is_dispatcher');
 
 $b2 = $no;
+note "$?LINE, ", 'Button label b2: ', $b2.get-label;
