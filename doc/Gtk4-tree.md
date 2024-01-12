@@ -1,3 +1,8 @@
+# Administration of Gtk version 4 modules
+
+Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelClassSupport**
+
+## Class modules
 ```
 GObject                                         Gnome::GObject::Object
 ├── GInitiallyUnowned                           Gnome::GObject::InitiallyUnowned
@@ -220,11 +225,11 @@ GObject                                         Gnome::GObject::Object
 ├── GtkStringList                               StringList
 ├── GtkStringObject                             StringObject
 ├── GtkStyleContext                             StyleContext
-├── GtkTextBuffer
-├── GtkTextChildAnchor
-├── GtkTextMark
-├── GtkTextTag
-├── GtkTextTagTable
+├── GtkTextBuffer                               TextBuffer
+├── GtkTextChildAnchor                          TextChildAnchor
+├── GtkTextMark                                 TextMark
+├── GtkTextTag                                  TextTag
+├── GtkTextTagTable                             TextTagTable
 ├── GtkTreeListModel
 ├── GtkTreeListRow
 ├── GtkTreeModelFilter
@@ -233,7 +238,7 @@ GObject                                         Gnome::GObject::Object
 ├── GtkTreeStore
 ├── GtkWidgetPaintable
 ├── GtkWindowGroup
-├── GtkTooltip
+├── GtkTooltip                                  Tooltip
 ├── GtkShortcutAction                           ShortcutAction
 │   ├── GtkSignalAction                         SignalAction
 │   ├── GtkNothingAction                        NothingAction
@@ -244,7 +249,11 @@ GObject                                         Gnome::GObject::Object
 │   ├── GtkNeverTrigger                         NeverTrigger
 │   ╰── GtkAlternativeTrigger                   AlternativeTrigger
 ╰── GtkPrintBackend
+```
 
+## Role modules
+
+```
 GInterface
 ├── GtkAccessible                               R-Accessible
 ├── GtkBuildable                                R-Buildable
@@ -270,20 +279,29 @@ GInterface
 ├── GtkTreeSortable                             R-TreeSortable
 ├── GtkSelectionModel                           R-SelectionModel
 ╰── GtkPrintOperationPreview                    R-PrintOperationPreview
+```
 
+## Other type classes
+These modules are generally inheriting directly from **Gnome::N::TopLevelClassSupport**
+
+```
 GBoxed
 ├── GtkBitset
 ├── GtkPaperSize
-├── GtkTextIter
+├── GtkTextIter                                 TextIter
 ├── GtkTreeIter                                 TreeIter
 ├── GtkCssSection
 ╰── GtkTreePath
 
 GtkExpression
+```
+
+## Type modules
 
 Types, constants, standalone functions, etc. generated from gnome sources
-Gnome::Gtk4::*
+`Gnome::Gtk4::\*`
 
+```
 T-AboutDialog
 T-Accessible
 T-ActivateAction
@@ -310,6 +328,7 @@ T-SpinButton
 T-StyleContext
 T-StyleProvider
 T-TextView
+T-TextIter
 T-TreeDragDest
 T-TreeIter
 T-TreeSortable
