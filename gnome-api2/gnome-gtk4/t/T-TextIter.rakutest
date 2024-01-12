@@ -1,0 +1,39 @@
+=comment Package: Gtk4, C-Source: textiter
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-TextIter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-TextIter:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkTextSearchFlags
+subtest 'GtkTextSearchFlags', {
+  is GTK_TEXT_SEARCH_VISIBLE_ONLY.value, 1, 'bitfield GTK_TEXT_SEARCH_VISIBLE_ONLY = 1';
+
+  is GTK_TEXT_SEARCH_TEXT_ONLY.value, 2, 'bitfield GTK_TEXT_SEARCH_TEXT_ONLY = 2';
+
+  is GTK_TEXT_SEARCH_CASE_INSENSITIVE.value, 4, 'bitfield GTK_TEXT_SEARCH_CASE_INSENSITIVE = 4';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

@@ -1,0 +1,364 @@
+=comment Package: Gtk4, C-Source: textiter
+use v6.d;
+
+#TL:1:Gnome::Gtk4::N-TextIter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::N-TextIter:api<2>;
+use Gnome::Gtk4::T-TextIter:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+#use Gnome::Pango::N-Language:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-TextIter $n-text-iter;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-text-iter {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-text-iter {
+    my Int() $char-offset;
+    my CArray[N-TextIter] $rhs;
+    my Bool() $default-setting;
+    my Int() $byte-on-line;
+    sub pred ( gunichar $ch, gpointer $user-data --> gboolean ) {}
+    my Bool() $default-editability;
+    my CArray[N-TextIter] $other;
+    my Str $str;
+    my CArray[N-TextIter] $match-start;
+    my Bool() $toggled-on;
+    my Int() $line-number;
+    my CArray[N-TextIter] $match-end;
+    my Int() $char-on-line;
+    my CArray[N-TextIter] $second;
+    my CArray[N-TextIter] $start;
+    my CArray[N-TextIter] $limit;
+    my N-Object() $tag;
+    my UInt $flags;
+    my Int() $count;
+    my CArray[N-TextIter] $end;
+    my gpointer $user-data;
+
+
+#`{{
+    #TM:0:assign()
+    ok .assign( $other), '.assign()';
+
+    #TM:0:backward-char()
+    ok .backward-char(), '.backward-char()';
+
+    #TM:0:backward-chars()
+    ok .backward-chars( $count), '.backward-chars()';
+
+    #TM:0:backward-cursor-position()
+    ok .backward-cursor-position(), '.backward-cursor-position()';
+
+    #TM:0:backward-cursor-positions()
+    ok .backward-cursor-positions( $count), '.backward-cursor-positions()';
+
+    #TM:0:backward-find-char()
+    ok .backward-find-char( $pred, $user-data, $limit), '.backward-find-char()';
+
+    #TM:0:backward-line()
+    ok .backward-line(), '.backward-line()';
+
+    #TM:0:backward-lines()
+    ok .backward-lines( $count), '.backward-lines()';
+
+    #TM:0:backward-search()
+    ok .backward-search( $str, $flags, $match-start, $match-end, $limit), '.backward-search()';
+
+    #TM:0:backward-sentence-start()
+    ok .backward-sentence-start(), '.backward-sentence-start()';
+
+    #TM:0:backward-sentence-starts()
+    ok .backward-sentence-starts( $count), '.backward-sentence-starts()';
+
+    #TM:0:backward-to-tag-toggle()
+    ok .backward-to-tag-toggle( $tag), '.backward-to-tag-toggle()';
+
+    #TM:0:backward-visible-cursor-position()
+    ok .backward-visible-cursor-position(), '.backward-visible-cursor-position()';
+
+    #TM:0:backward-visible-cursor-positions()
+    ok .backward-visible-cursor-positions( $count), '.backward-visible-cursor-positions()';
+
+    #TM:0:backward-visible-line()
+    ok .backward-visible-line(), '.backward-visible-line()';
+
+    #TM:0:backward-visible-lines()
+    ok .backward-visible-lines( $count), '.backward-visible-lines()';
+
+    #TM:0:backward-visible-word-start()
+    ok .backward-visible-word-start(), '.backward-visible-word-start()';
+
+    #TM:0:backward-visible-word-starts()
+    ok .backward-visible-word-starts( $count), '.backward-visible-word-starts()';
+
+    #TM:0:backward-word-start()
+    ok .backward-word-start(), '.backward-word-start()';
+
+    #TM:0:backward-word-starts()
+    ok .backward-word-starts( $count), '.backward-word-starts()';
+
+    #TM:0:can-insert()
+    ok .can-insert( $default-editability), '.can-insert()';
+
+    #TM:0:compare()
+    ok .compare( $rhs), '.compare()';
+
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:editable()
+    ok .editable( $default-setting), '.editable()';
+
+    #TM:0:ends-line()
+    ok .ends-line(), '.ends-line()';
+
+    #TM:0:ends-sentence()
+    ok .ends-sentence(), '.ends-sentence()';
+
+    #TM:0:ends-tag()
+    ok .ends-tag( $tag), '.ends-tag()';
+
+    #TM:0:ends-word()
+    ok .ends-word(), '.ends-word()';
+
+    #TM:0:equal()
+    ok .equal( $rhs), '.equal()';
+
+    #TM:0:forward-char()
+    ok .forward-char(), '.forward-char()';
+
+    #TM:0:forward-chars()
+    ok .forward-chars( $count), '.forward-chars()';
+
+    #TM:0:forward-cursor-position()
+    ok .forward-cursor-position(), '.forward-cursor-position()';
+
+    #TM:0:forward-cursor-positions()
+    ok .forward-cursor-positions( $count), '.forward-cursor-positions()';
+
+    #TM:0:forward-find-char()
+    ok .forward-find-char( $pred, $user-data, $limit), '.forward-find-char()';
+
+    #TM:0:forward-line()
+    ok .forward-line(), '.forward-line()';
+
+    #TM:0:forward-lines()
+    ok .forward-lines( $count), '.forward-lines()';
+
+    #TM:0:forward-search()
+    ok .forward-search( $str, $flags, $match-start, $match-end, $limit), '.forward-search()';
+
+    #TM:0:forward-sentence-end()
+    ok .forward-sentence-end(), '.forward-sentence-end()';
+
+    #TM:0:forward-sentence-ends()
+    ok .forward-sentence-ends( $count), '.forward-sentence-ends()';
+
+    #TM:0:forward-to-end()
+    ok .forward-to-end(), '.forward-to-end()';
+
+    #TM:0:forward-to-line-end()
+    ok .forward-to-line-end(), '.forward-to-line-end()';
+
+    #TM:0:forward-to-tag-toggle()
+    ok .forward-to-tag-toggle( $tag), '.forward-to-tag-toggle()';
+
+    #TM:0:forward-visible-cursor-position()
+    ok .forward-visible-cursor-position(), '.forward-visible-cursor-position()';
+
+    #TM:0:forward-visible-cursor-positions()
+    ok .forward-visible-cursor-positions( $count), '.forward-visible-cursor-positions()';
+
+    #TM:0:forward-visible-line()
+    ok .forward-visible-line(), '.forward-visible-line()';
+
+    #TM:0:forward-visible-lines()
+    ok .forward-visible-lines( $count), '.forward-visible-lines()';
+
+    #TM:0:forward-visible-word-end()
+    ok .forward-visible-word-end(), '.forward-visible-word-end()';
+
+    #TM:0:forward-visible-word-ends()
+    ok .forward-visible-word-ends( $count), '.forward-visible-word-ends()';
+
+    #TM:0:forward-word-end()
+    ok .forward-word-end(), '.forward-word-end()';
+
+    #TM:0:forward-word-ends()
+    ok .forward-word-ends( $count), '.forward-word-ends()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-buffer()
+     .get-buffer(), '…', '.get-buffer()';
+
+    #TM:0:get-bytes-in-line()
+     .get-bytes-in-line(), '…', '.get-bytes-in-line()';
+
+    #TM:0:get-char()
+     .get-char(), '…', '.get-char()';
+
+    #TM:0:get-chars-in-line()
+     .get-chars-in-line(), '…', '.get-chars-in-line()';
+
+    #TM:0:get-child-anchor()
+     .get-child-anchor(), '…', '.get-child-anchor()';
+
+    #TM:0:get-language()
+     .get-language(), '…', '.get-language()';
+
+    #TM:0:get-marks()
+     .get-marks(), '…', '.get-marks()';
+
+    #TM:0:get-paintable()
+     .get-paintable(), '…', '.get-paintable()';
+
+    #TM:0:get-slice()
+    is .get-slice( $end), '…', '.get-slice()';
+
+    #TM:0:get-tags()
+     .get-tags(), '…', '.get-tags()';
+
+    #TM:0:get-text()
+    is .get-text( $end), '…', '.get-text()';
+
+    #TM:0:get-toggled-tags()
+    is .get-toggled-tags( $toggled-on), '…', '.get-toggled-tags()';
+
+    #TM:0:get-visible-slice()
+    is .get-visible-slice( $end), '…', '.get-visible-slice()';
+
+    #TM:0:get-visible-text()
+    is .get-visible-text( $end), '…', '.get-visible-text()';
+
+    #TM:0:has-tag()
+    ok .has-tag( $tag), '.has-tag()';
+
+    #TM:0:in-range()
+    ok .in-range( $start, $end), '.in-range()';
+
+    #TM:0:inside-sentence()
+    ok .inside-sentence(), '.inside-sentence()';
+
+    #TM:0:inside-word()
+    ok .inside-word(), '.inside-word()';
+
+    #TM:0:is-cursor-position()
+    ok .is-cursor-position(), '.is-cursor-position()';
+
+    #TM:0:is-end()
+    ok .is-end(), '.is-end()';
+
+    #TM:0:is-start()
+    ok .is-start(), '.is-start()';
+
+    #TM:0:order()
+    ok .order( $second), '.order()';
+
+    #TM:0:set-line()
+    $line-number = -42;
+    .set-line( $line-number);
+    #TM:0:get-line()
+    is .get-line(),  $line-number, '.set-line() / .get-line()';
+
+    #TM:0:set-line-index()
+    $byte-on-line = -42;
+    .set-line-index( $byte-on-line);
+    #TM:0:get-line-index()
+    is .get-line-index(),  $byte-on-line, '.set-line-index() / .get-line-index()';
+
+    #TM:0:set-line-offset()
+    $char-on-line = -42;
+    .set-line-offset( $char-on-line);
+    #TM:0:get-line-offset()
+    is .get-line-offset(),  $char-on-line, '.set-line-offset() / .get-line-offset()';
+
+    #TM:0:set-offset()
+    $char-offset = -42;
+    .set-offset( $char-offset);
+    #TM:0:get-offset()
+    is .get-offset(),  $char-offset, '.set-offset() / .get-offset()';
+
+    #TM:0:set-visible-line-index()
+    $byte-on-line = -42;
+    .set-visible-line-index( $byte-on-line);
+    #TM:0:get-visible-line-index()
+    is .get-visible-line-index(),  $byte-on-line, '.set-visible-line-index() / .get-visible-line-index()';
+
+    #TM:0:set-visible-line-offset()
+    $char-on-line = -42;
+    .set-visible-line-offset( $char-on-line);
+    #TM:0:get-visible-line-offset()
+    is .get-visible-line-offset(),  $char-on-line, '.set-visible-line-offset() / .get-visible-line-offset()';
+
+    #TM:0:starts-line()
+    ok .starts-line(), '.starts-line()';
+
+    #TM:0:starts-sentence()
+    ok .starts-sentence(), '.starts-sentence()';
+
+    #TM:0:starts-tag()
+    ok .starts-tag( $tag), '.starts-tag()';
+
+    #TM:0:starts-word()
+    ok .starts-word(), '.starts-word()';
+
+    #TM:0:toggles-tag()
+    ok .toggles-tag( $tag), '.toggles-tag()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-text-iter {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
