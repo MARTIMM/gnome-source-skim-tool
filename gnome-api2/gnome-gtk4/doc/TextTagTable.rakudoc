@@ -1,0 +1,319 @@
+=comment Package: Gtk4, C-Source: texttagtable
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TextTagTable
+
+![](images/texttagtable.png)
+
+=head1 Description
+
+The collection of tags in a B<Gnome::Gtk4::TextBuffer>
+
+You may wish to begin by reading the
+[text widget conceptual overview](section-text-widget.html),
+which gives an overview of all the objects and data types
+related to the text widget and how they work together.
+
+=head2 GtkTextTagTables as GtkBuildable
+
+The B<Gnome::Gtk4::TextTagTable> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+supports adding tags by specifying “tag” as the “type” attribute
+of a <child> element.
+
+An example of a UI definition fragment specifying tags:
+=begin comment
+<object class="GtkTextTagTable">
+ <child type="tag">
+   <object class="GtkTextTag"/>
+ </child>
+</object>
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TextTagTable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-texttagtable
+
+Creates a new B<Gnome::Gtk4::TextTagTable>.
+
+The table contains no tags by default.
+
+=begin code
+method new-texttagtable ( --> Gnome::Gtk4::TextTagTable \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-texttagtable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add
+
+Add a tag to the table.
+
+The tag is assigned the highest priority in the table.
+ C<$tag> must not be in a tag table already, and may not have
+the same name as an already-added tag.
+
+=begin code
+method add ( N-Object() $tag --> Bool )
+=end code
+
+=item $tag; a B<Gnome::Gtk4::TextTag>.
+
+Return value; C<True> on success.. 
+
+=begin comment
+
+=head2 Example
+# Example for add
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 foreach
+
+Calls C<$func> on each tag in C<$table>, with user data C<$data>.
+
+Note that the table may not be modified while iterating
+over it (you can’t add/remove tags).
+
+=begin code
+method foreach ( &func, gpointer $data )
+=end code
+
+=item &func; a function to call on each tag. Tthe function must be specified with following signature; C<:( N-Object $tag, gpointer $data )>.
+=item $data; user data.
+
+=begin comment
+
+=head2 Example
+# Example for foreach
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-size
+
+Returns the size of the table (number of tags)
+
+=begin code
+method get-size (--> Int )
+=end code
+
+Return value; number of tags in C<$table>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 lookup
+
+Look up a named tag.
+
+=begin code
+method lookup ( Str $name --> N-Object )
+=end code
+
+=item $name; name of a tag.
+
+Return value; The tag. 
+
+=begin comment
+
+=head2 Example
+# Example for lookup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Remove a tag from the table.
+
+If a B<Gnome::Gtk4::TextBuffer> has C<$table> as its tag table, the tag is
+removed from the buffer. The table’s reference to the tag is
+removed, so the tag will end up destroyed if you don’t have
+a reference to it.
+
+=begin code
+method remove ( N-Object() $tag )
+=end code
+
+=item $tag; a B<Gnome::Gtk4::TextTag>.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 tag-added
+
+Emitted every time a new tag is added in the B<Gnome::Gtk4::TextTagTable>.
+
+=begin code
+method handler (
+  N-Object $tag,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextTagTable :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $tag; the added tag..
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextTagTable> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal tag-added
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 tag-changed
+
+Emitted every time a tag in the B<Gnome::Gtk4::TextTagTable> changes.
+
+=begin code
+method handler (
+  N-Object $tag,
+  gboolean $size-changed,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextTagTable :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $tag; the changed tag..
+=item $size-changed; whether the change affects the B<Gnome::Gtk4::TextView> layout..
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextTagTable> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal tag-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 tag-removed
+
+Emitted every time a tag is removed from the B<Gnome::Gtk4::TextTagTable>.
+
+The C<$tag> is still valid by the time the signal is emitted, but
+it is not associated with a tag table any more.
+
+=begin code
+method handler (
+  N-Object $tag,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TextTagTable :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $tag; the removed tag..
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TextTagTable> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal tag-removed
+
+=end comment
+
+=end pod
+
