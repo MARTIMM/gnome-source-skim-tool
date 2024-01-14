@@ -1,0 +1,176 @@
+=comment Package: Gtk4, C-Source: spinner
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Spinner
+
+![](images/spinner.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::Spinner> widget displays an icon-size spinning animation.
+
+It is often used as an alternative to a B<Gnome::Gtk4::ProgressBar>
+for displaying indefinite activity, instead of actual progress.
+
+![An example GtkSpinner](spinner.png)
+
+To start the animation, use C<.start()>, to stop it
+use C<.stop()>.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::Spinner> has a single CSS node with the name spinner.
+When the animation is active, the :checked pseudoclass is
+added to this node.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Spinner
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-spinner
+
+Returns a new spinner widget. Not yet started.
+
+=begin code
+method new-spinner ( --> Gnome::Gtk4::Spinner \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-spinner
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-spinning
+
+Returns whether the spinner is spinning.
+
+=begin code
+method get-spinning (--> Bool )
+=end code
+
+Return value; C<True> if the spinner is active. 
+
+=begin comment
+
+=head2 Example
+# Example for get-spinning
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-spinning
+
+Sets the activity of the spinner.
+
+=begin code
+method set-spinning ( Bool() $spinning )
+=end code
+
+=item $spinning; whether the spinner should be spinning.
+
+=begin comment
+
+=head2 Example
+# Example for set-spinning
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 start
+
+Starts the animation of the spinner.
+
+=begin code
+method start ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 stop
+
+Stops the animation of the spinner.
+
+=begin code
+method stop ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for stop
+
+=end comment
+
+=end pod
+
