@@ -1,0 +1,281 @@
+=comment Package: Gtk4, C-Source: switch
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Switch
+
+![](images/switch.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Switch> is a "light switch" that has two states: on or off.
+
+![An example GtkSwitch](switch.png)
+
+The user can control which state should be active by clicking the
+empty area, or by dragging the handle.
+
+B<Gnome::Gtk4::Switch> can also handle situations where the underlying state
+changes with a delay. See [signal C<$GtkSwitch>::state-set] for details.
+
+=head2 CSS nodes
+
+=begin comment
+switch
+├── label
+├── label
+╰── slider
+
+=end comment
+
+B<Gnome::Gtk4::Switch> has four css nodes, the main node with the name switch and
+subnodes for the slider and the on and off labels. Neither of them is
+using any style classes.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::Switch> uses the C<GTK_ACCESSIBLE_ROLE_SWITCH> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Switch
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-switch
+
+Creates a new B<Gnome::Gtk4::Switch> widget.
+
+=begin code
+method new-switch ( --> Gnome::Gtk4::Switch \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-switch
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active
+
+Gets whether the B<Gnome::Gtk4::Switch> is in its “on” or “off” state.
+
+=begin code
+method get-active (--> Bool )
+=end code
+
+Return value; C<True> if the B<Gnome::Gtk4::Switch> is active, and C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-state
+
+Gets the underlying state of the B<Gnome::Gtk4::Switch>.
+
+=begin code
+method get-state (--> Bool )
+=end code
+
+Return value; the underlying state. 
+
+=begin comment
+
+=head2 Example
+# Example for get-state
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-active
+
+Changes the state of C<$self> to the desired one.
+
+=begin code
+method set-active ( Bool() $is-active )
+=end code
+
+=item $is-active; C<True> if C<$self> should be active, and C<False> otherwise.
+
+=begin comment
+
+=head2 Example
+# Example for set-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-state
+
+Sets the underlying state of the B<Gnome::Gtk4::Switch>.
+
+Normally, this is the same as I<active>, unless
+the switch is set up for delayed state changes. This function is
+typically called from a I<state-set> signal handler.
+
+See I<state-set> for details.
+
+=begin code
+method set-state ( Bool() $state )
+=end code
+
+=item $state; the new state.
+
+=begin comment
+
+=head2 Example
+# Example for set-state
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted to animate the switch.
+
+Applications should never connect to this signal,
+but use the I<active> property.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Switch :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Switch> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 state-set
+
+Emitted to change the underlying state.
+
+The I<state-set> signal is emitted when the user changes the switch
+position. The default handler keeps the state in sync with the
+I<active> property.
+
+To implement delayed state change, applications can connect to this
+signal, initiate the change of the underlying state, and call
+C<.set-state()> when the underlying state change is
+complete. The signal handler should return C<True> to prevent the
+default handler from running.
+
+Visually, the underlying state is represented by the trough color of
+the switch, while the I<active> property is
+represented by the position of the switch.
+
+=begin code
+method handler (
+  gboolean $state,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Switch :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $state; the new state of the switch.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Switch> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> to stop the signal emission
+
+=begin comment
+
+=head2 Example
+# Example for signal state-set
+
+=end comment
+
+=end pod
+
