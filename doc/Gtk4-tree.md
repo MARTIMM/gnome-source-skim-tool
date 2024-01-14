@@ -90,14 +90,14 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkSeparator
 │   │   ├── GtkShortcutLabel                    ShortcutLabel
 │   │   ├── GtkShortcutsShortcut                ShortcutsShortcut
-│   │   ├── GtkSpinButton
-│   │   ├── GtkSpinner
+│   │   ├── GtkSpinButton                       SpinButton
+│   │   ├── GtkSpinner                          Spinner
 │   │   ├── GtkStack                            Stack
 │   │   ├── GtkStackSidebar                     StackSidebar
 │   │   ├── GtkStackSwitcher                    StackSwitcher
 │   │   ├── GtkStatusbar                        Statusbar
-│   │   ├── GtkSwitch
-│   │   ├── GtkLevelBar
+│   │   ├── GtkSwitch                           Switch
+│   │   ├── GtkLevelBar                         LevelBar
 │   │   ├── GtkText                             Text
 │   │   ├── GtkTextView                         TextView
 │   │   ├── GtkTreeExpander
@@ -218,8 +218,8 @@ GObject                                         Gnome::GObject::Object
 ├── GtkSingleSelection                          SingleSelection
 ├── GtkSizeGroup
 ├── GtkSliceListModel
-├── GdkSnapshot
-│   ╰── GtkSnapshot
+├── GdkSnapshot                                 Snapshot in Gnome::Gdk4
+│   ╰── GtkSnapshot                             Snapshot
 ├── GtkSortListModel
 ├── GtkStackPage                                StackPage
 ├── GtkStringList                               StringList
@@ -311,11 +311,12 @@ T-Dialog
 T-Editable
 T-Entry
 T-Enums
+T-FileChooser
+T-FontChooser
 T-IconPaintable
 T-IconView
 T-Image
-T-FileChooser
-T-FontChooser
+T-LevelBar
 T-MessageDialog
 T-Native
 T-Notebook
