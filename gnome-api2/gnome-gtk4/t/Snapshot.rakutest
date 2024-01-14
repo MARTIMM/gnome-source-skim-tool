@@ -1,0 +1,345 @@
+=comment Package: Gtk4, C-Source: snapshot
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Snapshot:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Cairo::N-Context:api<2>;
+use Gnome::Gdk4::N-RGBA:api<2>;
+#use Gnome::Glib::N-Bytes:api<2>;
+#use Gnome::Gsk4::N-ColorStop:api<2>;
+#use Gnome::Gsk4::N-RoundedRect:api<2>;
+#use Gnome::Gsk4::N-Shadow:api<2>;
+#use Gnome::Gsk4::N-Transform:api<2>;
+#use Gnome::Gsk4::T-Enums:api<2>;
+use Gnome::Gtk4::Snapshot:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::T-Direction:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Snapshot $snapshot;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $snapshot {
+
+#`{{
+    #TC:0:new-snapshot()
+
+    $snapshot .= new-snapshot();
+    ok .is-valid, '.new-snapshot()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $snapshot {
+    my gfloat $hradius;
+    my N-Object $layout;
+    my  $axis;
+    my N-RGBA $border-color;
+    my gfloat $vradius;
+    my gfloat $dy;
+#    my N-Bytes  $take-args;
+    my gsize $n-stops;
+    my gfloat $end;
+    my gfloat $blur-radius;
+    my N-Object $node;
+    my N-Object $context;
+    my  $center;
+    my gfloat $dx;
+    my  $size;
+    my  $color-offset;
+#    my N-ColorStop  $stops;
+    my gdouble $width;
+#    my N-RoundedRect  $outline;
+    my  $end-point;
+#    my N-RoundedRect  $bounds;
+    my N-Object $shader;
+    my gint $index;
+    my  $start-point;
+    my gdouble $radius;
+#    my N-Shadow  $shadow;
+    my gfloat $angle;
+    my gdouble $opacity;
+    my gfloat $rotation;
+    my gdouble $x;
+    my N-RGBA $color;
+#    my N-Transform  $transform;
+    my  $color-matrix;
+    my N-Object $texture;
+    my gdouble $y;
+    my  $child-bounds;
+    my gfloat $factor-y;
+#    my GskBlendMode  $blend-mode;
+    my gsize $n-shadows;
+    my gdouble $progress;
+    my gdouble $height;
+    my Str $message;
+    my  $border-width;
+    my gfloat $depth;
+    my  $matrix;
+    my gfloat $factor-x;
+    my gfloat $factor-z;
+    my  $point;
+    my PangoDirection $direction;
+    my gfloat $spread;
+    my gfloat $start;
+
+
+#`{{
+    #TM:0:append-border()
+    ok .append-border( $outline, $border-width, $border-color), '.append-border()';
+
+    #TM:0:append-cairo()
+    ok .append-cairo( $bounds), '.append-cairo()';
+
+    #TM:0:append-color()
+    ok .append-color( $color, $bounds), '.append-color()';
+
+    #TM:0:append-conic-gradient()
+    ok .append-conic-gradient( $bounds, $center, $rotation, $stops, $n-stops), '.append-conic-gradient()';
+
+    #TM:0:append-inset-shadow()
+    ok .append-inset-shadow( $outline, $color, $dx, $dy, $spread, $blur-radius), '.append-inset-shadow()';
+
+    #TM:0:append-layout()
+    ok .append-layout( $layout, $color), '.append-layout()';
+
+    #TM:0:append-linear-gradient()
+    ok .append-linear-gradient( $bounds, $start-point, $end-point, $stops, $n-stops), '.append-linear-gradient()';
+
+    #TM:0:append-node()
+    ok .append-node( $node), '.append-node()';
+
+    #TM:0:append-outset-shadow()
+    ok .append-outset-shadow( $outline, $color, $dx, $dy, $spread, $blur-radius), '.append-outset-shadow()';
+
+    #TM:0:append-radial-gradient()
+    ok .append-radial-gradient( $bounds, $center, $hradius, $vradius, $start, $end, $stops, $n-stops), '.append-radial-gradient()';
+
+    #TM:0:append-repeating-linear-gradient()
+    ok .append-repeating-linear-gradient( $bounds, $start-point, $end-point, $stops, $n-stops), '.append-repeating-linear-gradient()';
+
+    #TM:0:append-repeating-radial-gradient()
+    ok .append-repeating-radial-gradient( $bounds, $center, $hradius, $vradius, $start, $end, $stops, $n-stops), '.append-repeating-radial-gradient()';
+
+    #TM:0:append-texture()
+    ok .append-texture( $texture, $bounds), '.append-texture()';
+
+    #TM:0:free-to-node()
+    ok .free-to-node(), '.free-to-node()';
+
+    #TM:0:free-to-paintable()
+    ok .free-to-paintable( $size), '.free-to-paintable()';
+
+    #TM:0:gl-shader-pop-texture()
+    ok .gl-shader-pop-texture(), '.gl-shader-pop-texture()';
+
+    #TM:0:perspective()
+    ok .perspective( $depth), '.perspective()';
+
+    #TM:0:pop()
+    ok .pop(), '.pop()';
+
+    #TM:0:push-blend()
+    ok .push-blend( $blend-mode), '.push-blend()';
+
+    #TM:0:push-blur()
+    ok .push-blur( $radius), '.push-blur()';
+
+    #TM:0:push-clip()
+    ok .push-clip( $bounds), '.push-clip()';
+
+    #TM:0:push-color-matrix()
+    ok .push-color-matrix( $color-matrix, $color-offset), '.push-color-matrix()';
+
+    #TM:0:push-cross-fade()
+    ok .push-cross-fade( $progress), '.push-cross-fade()';
+
+    #TM:0:push-debug()
+    ok .push-debug( $message), '.push-debug()';
+
+    #TM:0:push-gl-shader()
+    ok .push-gl-shader( $shader, $bounds, $take-args), '.push-gl-shader()';
+
+    #TM:0:push-opacity()
+    ok .push-opacity( $opacity), '.push-opacity()';
+
+    #TM:0:push-repeat()
+    ok .push-repeat( $bounds, $child-bounds), '.push-repeat()';
+
+    #TM:0:push-rounded-clip()
+    ok .push-rounded-clip( $bounds), '.push-rounded-clip()';
+
+    #TM:0:push-shadow()
+    ok .push-shadow( $shadow, $n-shadows), '.push-shadow()';
+
+    #TM:0:render-background()
+    ok .render-background( $context, $x, $y, $width, $height), '.render-background()';
+
+    #TM:0:render-focus()
+    ok .render-focus( $context, $x, $y, $width, $height), '.render-focus()';
+
+    #TM:0:render-frame()
+    ok .render-frame( $context, $x, $y, $width, $height), '.render-frame()';
+
+    #TM:0:render-insertion-cursor()
+    ok .render-insertion-cursor( $context, $x, $y, $layout, $index, $direction), '.render-insertion-cursor()';
+
+    #TM:0:render-layout()
+    ok .render-layout( $context, $x, $y, $layout), '.render-layout()';
+
+    #TM:0:restore()
+    ok .restore(), '.restore()';
+
+    #TM:0:rotate()
+    ok .rotate( $angle), '.rotate()';
+
+    #TM:0:rotate-()
+    ok .rotate3d( $angle, $axis), '.rotate3d()';
+
+    #TM:0:save()
+    ok .save(), '.save()';
+
+    #TM:0:scale()
+    ok .scale( $factor-x, $factor-y), '.scale()';
+
+    #TM:0:scale3d()
+    ok .scale3d( $factor-x, $factor-y, $factor-z), '.scale3d()';
+
+    #TM:0:to-node()
+    ok .to-node(), '.to-node()';
+
+    #TM:0:to-paintable()
+    ok .to-paintable( $size), '.to-paintable()';
+
+    #TM:0:transform()
+    ok .transform( $transform), '.transform()';
+
+    #TM:0:transform-matrix()
+    ok .transform-matrix( $matrix), '.transform-matrix()';
+
+    #TM:0:translate()
+    ok .translate( $point), '.translate()';
+
+    #TM:0:translate3d()
+    ok .translate3d( $point), '.translate3d()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $snapshot {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Snapshot() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Snapshot;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Snapshot :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Snapshot $snapshot .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $snapshot.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

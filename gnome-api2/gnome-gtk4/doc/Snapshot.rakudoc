@@ -1,0 +1,1284 @@
+=comment Package: Gtk4, C-Source: snapshot
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::GdkPixbuf::Pixbuf
+
+![](images/snapshot.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Snapshot> assists in creating B<Gnome::Gsk4::RenderNode>s for widgets.
+
+It functions in a similar way to a cairo context, and maintains a stack
+of render nodes and their associated transformations.
+
+The node at the top of the stack is the one that B<gtk_snapshot_append_…()>
+functions operate on. Use the B<gtk_snapshot_push_…()> functions and
+[method C<$Snapshot>.pop] to change the current node.
+
+The typical way to obtain a B<Gnome::Gtk4::Snapshot> object is as an argument to
+the [vfunc C<$Gtk>.Widget.snapshot] vfunc. If you need to create your own
+B<Gnome::Gtk4::Snapshot>, use C<.newsnapshot()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Snapshot
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-snapshot
+
+Creates a new B<Gnome::Gtk4::Snapshot>.
+
+=begin code
+method new-snapshot ( --> Gnome::Gtk4::Snapshot \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-snapshot
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-border
+This function is not yet available
+
+Appends a stroked border rectangle inside the given C<$outline>.
+
+The four sides of the border can have different widths and colors.
+
+=begin code
+method append-border ( CArray[N-RoundedRect]  $outline, Num() $border-width, CArray[N-RGBA] $border-color )
+=end code
+
+=item $outline; the outline of the border.
+=item $border-width; the stroke width of the border on
+  the top, right, bottom and left side respectively..
+=item $border-color; the color used on the top, right,
+  bottom and left side..
+
+=begin comment
+
+=head2 Example
+# Example for append-border
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-cairo
+This function is not yet available
+
+Creates a new B<Gnome::Gsk4::CairoNode> and appends it to the current
+render node of C<$snapshot>, without changing the current node.
+
+=begin code
+method append-cairo ( … --> CArray[N-_t]  )
+=end code
+
+=item bounds; the bounds for the new node. Note that each argument must be specified as a type followed by its value!
+
+Return value; a B<Gnome::Cairo::N-Context> suitable for drawing the contents of
+  the newly created render node. 
+
+=begin comment
+
+=head2 Example
+# Example for append-cairo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-color
+This function is not yet available
+
+Creates a new render node drawing the C<$color> into the
+given C<$bounds> and appends it to the current render node
+of C<$snapshot>.
+
+You should try to avoid calling this function if C<$color> is transparent.
+
+=begin code
+method append-color ( CArray[N-RGBA] $color, … )
+=end code
+
+=item $color; the color to draw.
+=item bounds; the bounds for the new node. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for append-color
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-conic-gradient
+This function is not yet available
+
+Appends a conic gradient node with the given stops to C<$snapshot>.
+
+=begin code
+method append-conic-gradient ( …, …, Num() $rotation, CArray[N-ColorStop]  $stops, Int() $n-stops )
+=end code
+
+=item bounds; the rectangle to render the gradient into. Note that each argument must be specified as a type followed by its value!
+=item center; the center point of the conic gradient. Note that each argument must be specified as a type followed by its value!
+=item $rotation; the clockwise rotation in degrees of the starting angle.
+  0 means the starting angle is the top..
+=item $stops; the color stops defining the gradient.
+=item $n-stops; the number of elements in C<$stops>.
+
+=begin comment
+
+=head2 Example
+# Example for append-conic-gradient
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-inset-shadow
+This function is not yet available
+
+Appends an inset shadow into the box given by C<$outline>.
+
+=begin code
+method append-inset-shadow ( CArray[N-RoundedRect]  $outline, CArray[N-RGBA] $color, Num() $dx, Num() $dy, Num() $spread, Num() $blur-radius )
+=end code
+
+=item $outline; outline of the region surrounded by shadow.
+=item $color; color of the shadow.
+=item $dx; horizontal offset of shadow.
+=item $dy; vertical offset of shadow.
+=item $spread; how far the shadow spreads towards the inside.
+=item $blur-radius; how much blur to apply to the shadow.
+
+=begin comment
+
+=head2 Example
+# Example for append-inset-shadow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-layout
+
+No documentation of method.
+
+=begin code
+method append-layout ( N-Object() $layout, CArray[N-RGBA] $color )
+=end code
+
+=item $layout; .
+=item $color; .
+
+=begin comment
+
+=head2 Example
+# Example for append-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-linear-gradient
+This function is not yet available
+
+Appends a linear gradient node with the given stops to C<$snapshot>.
+
+=begin code
+method append-linear-gradient ( …, …, …, CArray[N-ColorStop]  $stops, Int() $n-stops )
+=end code
+
+=item bounds; the rectangle to render the linear gradient into. Note that each argument must be specified as a type followed by its value!
+=item start-point; the point at which the linear gradient will begin. Note that each argument must be specified as a type followed by its value!
+=item end-point; the point at which the linear gradient will finish. Note that each argument must be specified as a type followed by its value!
+=item $stops; the color stops defining the gradient.
+=item $n-stops; the number of elements in C<$stops>.
+
+=begin comment
+
+=head2 Example
+# Example for append-linear-gradient
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-node
+
+Appends C<$node> to the current render node of C<$snapshot>,
+without changing the current node.
+
+If C<$snapshot> does not have a current node yet, C<$node>
+will become the initial node.
+
+=begin code
+method append-node ( N-Object() $node )
+=end code
+
+=item $node; a B<Gnome::Gsk4::RenderNode>.
+
+=begin comment
+
+=head2 Example
+# Example for append-node
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-outset-shadow
+This function is not yet available
+
+Appends an outset shadow node around the box given by C<$outline>.
+
+=begin code
+method append-outset-shadow ( CArray[N-RoundedRect]  $outline, CArray[N-RGBA] $color, Num() $dx, Num() $dy, Num() $spread, Num() $blur-radius )
+=end code
+
+=item $outline; outline of the region surrounded by shadow.
+=item $color; color of the shadow.
+=item $dx; horizontal offset of shadow.
+=item $dy; vertical offset of shadow.
+=item $spread; how far the shadow spreads towards the outside.
+=item $blur-radius; how much blur to apply to the shadow.
+
+=begin comment
+
+=head2 Example
+# Example for append-outset-shadow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-radial-gradient
+This function is not yet available
+
+Appends a radial gradient node with the given stops to C<$snapshot>.
+
+=begin code
+method append-radial-gradient ( …, …, Num() $hradius, Num() $vradius, Num() $start, Num() $end, CArray[N-ColorStop]  $stops, Int() $n-stops )
+=end code
+
+=item bounds; the rectangle to render the readial gradient into. Note that each argument must be specified as a type followed by its value!
+=item center; the center point for the radial gradient. Note that each argument must be specified as a type followed by its value!
+=item $hradius; the horizontal radius.
+=item $vradius; the vertical radius.
+=item $start; the start position (on the horizontal axis).
+=item $end; the end position (on the horizontal axis).
+=item $stops; the color stops defining the gradient.
+=item $n-stops; the number of elements in C<$stops>.
+
+=begin comment
+
+=head2 Example
+# Example for append-radial-gradient
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-repeating-linear-gradient
+This function is not yet available
+
+Appends a repeating linear gradient node with the given stops to C<$snapshot>.
+
+=begin code
+method append-repeating-linear-gradient ( …, …, …, CArray[N-ColorStop]  $stops, Int() $n-stops )
+=end code
+
+=item bounds; the rectangle to render the linear gradient into. Note that each argument must be specified as a type followed by its value!
+=item start-point; the point at which the linear gradient will begin. Note that each argument must be specified as a type followed by its value!
+=item end-point; the point at which the linear gradient will finish. Note that each argument must be specified as a type followed by its value!
+=item $stops; the color stops defining the gradient.
+=item $n-stops; the number of elements in C<$stops>.
+
+=begin comment
+
+=head2 Example
+# Example for append-repeating-linear-gradient
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-repeating-radial-gradient
+This function is not yet available
+
+Appends a repeating radial gradient node with the given stops to C<$snapshot>.
+
+=begin code
+method append-repeating-radial-gradient ( …, …, Num() $hradius, Num() $vradius, Num() $start, Num() $end, CArray[N-ColorStop]  $stops, Int() $n-stops )
+=end code
+
+=item bounds; the rectangle to render the readial gradient into. Note that each argument must be specified as a type followed by its value!
+=item center; the center point for the radial gradient. Note that each argument must be specified as a type followed by its value!
+=item $hradius; the horizontal radius.
+=item $vradius; the vertical radius.
+=item $start; the start position (on the horizontal axis).
+=item $end; the end position (on the horizontal axis).
+=item $stops; the color stops defining the gradient.
+=item $n-stops; the number of elements in C<$stops>.
+
+=begin comment
+
+=head2 Example
+# Example for append-repeating-radial-gradient
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-texture
+This function is not yet available
+
+Creates a new render node drawing the C<$texture>
+into the given C<$bounds> and appends it to the
+current render node of C<$snapshot>.
+
+=begin code
+method append-texture ( N-Object() $texture, … )
+=end code
+
+=item $texture; the texture to render.
+=item bounds; the bounds for the new node. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for append-texture
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free-to-node
+
+Returns the node that was constructed by C<$snapshot>
+and frees C<$snapshot>.
+
+=begin code
+method free-to-node (--> N-Object )
+=end code
+
+Return value; a newly-created B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for free-to-node
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free-to-paintable
+This function is not yet available
+
+Returns a paintable for the node that was
+constructed by C<$snapshot> and frees C<$snapshot>.
+
+=begin code
+method free-to-paintable ( … --> N-Object )
+=end code
+
+=item size; The size of the resulting paintable
+  or undefined to use the bounds of the snapshot. Note that each argument must be specified as a type followed by its value!
+
+Return value; a newly-created B<Gnome::Gdk4::R-Paintable>. 
+
+=begin comment
+
+=head2 Example
+# Example for free-to-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 gl-shader-pop-texture
+
+Removes the top element from the stack of render nodes and
+adds it to the nearest B<Gnome::Gsk4::GLShaderNode> below it.
+
+This must be called the same number of times as the number
+of textures is needed for the shader in
+C<.push-gl-shader()>.
+
+=begin code
+method gl-shader-pop-texture ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for gl-shader-pop-texture
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 perspective
+
+Applies a perspective projection transform.
+
+See C<.perspective() in class Gnome::Gsk4::N-Transform> for a discussion on the details.
+
+=begin code
+method perspective ( Num() $depth )
+=end code
+
+=item $depth; distance of the z=0 plane.
+
+=begin comment
+
+=head2 Example
+# Example for perspective
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pop
+
+Removes the top element from the stack of render nodes,
+and appends it to the node underneath it.
+
+=begin code
+method pop ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for pop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-blend
+This function is not yet available
+
+Blends together two images with the given blend mode.
+
+Until the first call to C<.pop()>, the
+bottom image for the blend operation will be recorded.
+After that call, the top image to be blended will be
+recorded until the second call to C<.pop()>.
+
+Calling this function requires two subsequent calls
+to C<.pop()>.
+
+=begin code
+method push-blend ( GskBlendMode  $blend-mode )
+=end code
+
+=item $blend-mode; blend mode to use.
+
+=begin comment
+
+=head2 Example
+# Example for push-blend
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-blur
+
+Blurs an image.
+
+The image is recorded until the next call to C<.pop()>.
+
+=begin code
+method push-blur ( Num() $radius )
+=end code
+
+=item $radius; the blur radius to use. Must be positive.
+
+=begin comment
+
+=head2 Example
+# Example for push-blur
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-clip
+This function is not yet available
+
+Clips an image to a rectangle.
+
+The image is recorded until the next call to C<.pop()>.
+
+=begin code
+method push-clip ( … )
+=end code
+
+=item bounds; the rectangle to clip to. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for push-clip
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-color-matrix
+This function is not yet available
+
+Modifies the colors of an image by applying an affine transformation
+in RGB space.
+
+The image is recorded until the next call to C<.pop()>.
+
+=begin code
+method push-color-matrix ( …, … )
+=end code
+
+=item color-matrix; the color matrix to use. Note that each argument must be specified as a type followed by its value!
+=item color-offset; the color offset to use. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for push-color-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-cross-fade
+
+Snapshots a cross-fade operation between two images with the
+given C<$progress>.
+
+Until the first call to C<.pop()>, the start image
+will be snapshot. After that call, the end image will be recorded
+until the second call to C<.pop()>.
+
+Calling this function requires two subsequent calls
+to C<.pop()>.
+
+=begin code
+method push-cross-fade ( Num() $progress )
+=end code
+
+=item $progress; progress between 0.0 and 1.0.
+
+=begin comment
+
+=head2 Example
+# Example for push-cross-fade
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-debug
+This function is not yet available
+
+Inserts a debug node with a message.
+
+Debug nodes don't affect the rendering at all, but can be
+helpful in identifying parts of a render node tree dump,
+for example in the GTK inspector.
+
+=begin code
+method push-debug ( Str $message, … )
+=end code
+
+=item $message; a printf-style format string.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for push-debug
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-gl-shader
+This function is not yet available
+
+Push a B<Gnome::Gsk4::GLShaderNode>.
+
+The node uses the given B<Gnome::Gsk4::GLShader> and uniform values
+Additionally this takes a list of C<$n-children> other nodes
+which will be passed to the B<Gnome::Gsk4::GLShaderNode>.
+
+The C<$take-args> argument is a block of data to use for uniform
+arguments, as per types and offsets defined by the C<$shader>.
+Normally this is generated by C<.format-args() in class Gnome::Gsk4::GLShader>
+or  B<Gnome::Gsk4::N-ShaderArgsBuilder> .
+
+The snapshotter takes ownership of C<$take-args>, so the caller should
+not free it after this.
+
+If the renderer doesn't support GL shaders, or if there is any
+problem when compiling the shader, then the node will draw pink.
+You should use C<.compile() in class Gnome::Gsk4::GLShader> to ensure the C<$shader>
+will work for the renderer before using it.
+
+If the shader requires textures (see C<.get-n-textures() in class Gnome::Gsk4::GLShader>),
+then it is expected that you call C<.gl-shader-pop-texture()>
+the number of times that are required. Each of these calls will generate
+a node that is added as a child to the B<Gnome::Gsk4::GLShaderNode>, which in turn
+will render these offscreen and pass as a texture to the shader.
+
+Once all textures (if any) are pop:ed, you must call the regular
+C<.pop()>.
+
+If you want to use pre-existing textures as input to the shader rather
+than rendering new ones, use C<.append-texture()> to
+push a texture node. These will be used directly rather than being
+re-rendered.
+
+For details on how to write shaders, see B<Gnome::Gsk4::GLShader>.
+
+=begin code
+method push-gl-shader ( N-Object() $shader, …, CArray[N-Bytes]  $take-args )
+=end code
+
+=item $shader; The code to run.
+=item bounds; the rectangle to render into. Note that each argument must be specified as a type followed by its value!
+=item $take-args; (transfer ownership: full) Data block with arguments for the shader..
+
+=begin comment
+
+=head2 Example
+# Example for push-gl-shader
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-opacity
+
+Modifies the opacity of an image.
+
+The image is recorded until the next call to C<.pop()>.
+
+=begin code
+method push-opacity ( Num() $opacity )
+=end code
+
+=item $opacity; the opacity to use.
+
+=begin comment
+
+=head2 Example
+# Example for push-opacity
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-repeat
+This function is not yet available
+
+Creates a node that repeats the child node.
+
+The child is recorded until the next call to C<.pop()>.
+
+=begin code
+method push-repeat ( …, … )
+=end code
+
+=item bounds; the bounds within which to repeat. Note that each argument must be specified as a type followed by its value!
+=item child-bounds; the bounds of the child or undefined
+  to use the full size of the collected child node. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for push-repeat
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-rounded-clip
+This function is not yet available
+
+Clips an image to a rounded rectangle.
+
+The image is recorded until the next call to C<.pop()>.
+
+=begin code
+method push-rounded-clip ( CArray[N-RoundedRect]  $bounds )
+=end code
+
+=item $bounds; the rounded rectangle to clip to.
+
+=begin comment
+
+=head2 Example
+# Example for push-rounded-clip
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 push-shadow
+This function is not yet available
+
+Applies a shadow to an image.
+
+The image is recorded until the next call to C<.pop()>.
+
+=begin code
+method push-shadow ( CArray[N-Shadow]  $shadow, Int() $n-shadows )
+=end code
+
+=item $shadow; the first shadow specification.
+=item $n-shadows; number of shadow specifications.
+
+=begin comment
+
+=head2 Example
+# Example for push-shadow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 render-background
+
+Creates a render node for the CSS background according to C<$context>,
+and appends it to the current node of C<$snapshot>, without changing
+the current node.
+
+=begin code
+method render-background ( N-Object() $context, Num() $x, Num() $y, Num() $width, Num() $height )
+=end code
+
+=item $context; the style context that defines the background.
+=item $x; X origin of the rectangle.
+=item $y; Y origin of the rectangle.
+=item $width; rectangle width.
+=item $height; rectangle height.
+
+=begin comment
+
+=head2 Example
+# Example for render-background
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 render-focus
+
+Creates a render node for the focus outline according to C<$context>,
+and appends it to the current node of C<$snapshot>, without changing
+the current node.
+
+=begin code
+method render-focus ( N-Object() $context, Num() $x, Num() $y, Num() $width, Num() $height )
+=end code
+
+=item $context; the style context that defines the focus ring.
+=item $x; X origin of the rectangle.
+=item $y; Y origin of the rectangle.
+=item $width; rectangle width.
+=item $height; rectangle height.
+
+=begin comment
+
+=head2 Example
+# Example for render-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 render-frame
+
+Creates a render node for the CSS border according to C<$context>,
+and appends it to the current node of C<$snapshot>, without changing
+the current node.
+
+=begin code
+method render-frame ( N-Object() $context, Num() $x, Num() $y, Num() $width, Num() $height )
+=end code
+
+=item $context; the style context that defines the frame.
+=item $x; X origin of the rectangle.
+=item $y; Y origin of the rectangle.
+=item $width; rectangle width.
+=item $height; rectangle height.
+
+=begin comment
+
+=head2 Example
+# Example for render-frame
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 render-insertion-cursor
+
+Draws a text caret using C<$snapshot> at the specified index of C<$layout>.
+
+=begin code
+method render-insertion-cursor ( N-Object() $context, Num() $x, Num() $y, N-Object() $layout, Int() $index, PangoDirection $direction )
+=end code
+
+=item $context; a B<Gnome::Gtk4::StyleContext>.
+=item $x; X origin.
+=item $y; Y origin.
+=item $layout; the B<Gnome::Pango::Layout> of the text.
+=item $index; the index in the B<Gnome::Pango::Layout>.
+=item $direction; the C<enumeration PangoDirection defined in Gnome::Pango::T-Direction> of the text.
+
+=begin comment
+
+=head2 Example
+# Example for render-insertion-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 render-layout
+
+Creates a render node for rendering C<$layout> according to the style
+information in C<$context>, and appends it to the current node of C<$snapshot>,
+without changing the current node.
+
+=begin code
+method render-layout ( N-Object() $context, Num() $x, Num() $y, N-Object() $layout )
+=end code
+
+=item $context; the style context that defines the text.
+=item $x; X origin of the rectangle.
+=item $y; Y origin of the rectangle.
+=item $layout; the B<Gnome::Pango::Layout> to render.
+
+=begin comment
+
+=head2 Example
+# Example for render-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 restore
+
+Restores C<$snapshot> to the state saved by a preceding call to
+[method C<$Snapshot>.save] and removes that state from the stack of
+saved states.
+
+=begin code
+method restore ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for restore
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 rotate
+
+Rotates @ C<$snapshot>'s coordinate system by C<$angle> degrees in 2D space -
+or in 3D speak, rotates around the Z axis.
+
+To rotate around other axes, use C<.rotate-3d() in class Gnome::Gsk4::N-Transform>.
+
+=begin code
+method rotate ( Num() $angle )
+=end code
+
+=item $angle; the rotation angle, in degrees (clockwise).
+
+=begin comment
+
+=head2 Example
+# Example for rotate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 rotate-3d
+This function is not yet available
+
+Rotates C<$snapshot>'s coordinate system by C<$angle> degrees around C<$axis>.
+
+For a rotation in 2D space, use C<.rotate() in class Gnome::Gsk4::N-Transform>.
+
+=begin code
+method rotate-3d ( Num() $angle, … )
+=end code
+
+=item $angle; the rotation angle, in degrees (clockwise).
+=item axis; The rotation axis. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for rotate-3d
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 save
+
+Makes a copy of the current state of C<$snapshot> and saves it
+on an internal stack.
+
+When C<.restore()> is called, C<$snapshot> will
+be restored to the saved state. Multiple calls to
+[method C<$Snapshot>.save] and B<Gnome::Gtk4::Snapshot> can be nested;
+each call to B<C<.restore()>> restores the state from
+the matching paired B<C<.save()>>.
+
+It is necessary to clear all saved states with corresponding
+calls to B<C<.restore()>>.
+
+=begin code
+method save ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for save
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scale
+
+Scales C<$snapshot>'s coordinate system in 2-dimensional space by
+the given factors.
+
+Use C<.scale-3d()> to scale in all 3 dimensions.
+
+=begin code
+method scale ( Num() $factor-x, Num() $factor-y )
+=end code
+
+=item $factor-x; scaling factor on the X axis.
+=item $factor-y; scaling factor on the Y axis.
+
+=begin comment
+
+=head2 Example
+# Example for scale
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scale-3d
+
+Scales C<$snapshot>'s coordinate system by the given factors.
+
+=begin code
+method scale-3d ( Num() $factor-x, Num() $factor-y, Num() $factor-z )
+=end code
+
+=item $factor-x; scaling factor on the X axis.
+=item $factor-y; scaling factor on the Y axis.
+=item $factor-z; scaling factor on the Z axis.
+
+=begin comment
+
+=head2 Example
+# Example for scale-3d
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-node
+
+Returns the render node that was constructed
+by C<$snapshot>.
+
+After calling this function, it is no longer possible to
+add more nodes to C<$snapshot>. The only function that should
+be called after this is C<.unref() in class Gnome::GObject::Object>.
+
+=begin code
+method to-node (--> N-Object )
+=end code
+
+Return value; the constructed B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for to-node
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-paintable
+This function is not yet available
+
+Returns a paintable encapsulating the render node
+that was constructed by C<$snapshot>.
+
+After calling this function, it is no longer possible to
+add more nodes to C<$snapshot>. The only function that should
+be called after this is C<.unref() in class Gnome::GObject::Object>.
+
+=begin code
+method to-paintable ( … --> N-Object )
+=end code
+
+=item size; The size of the resulting paintable
+  or undefined to use the bounds of the snapshot. Note that each argument must be specified as a type followed by its value!
+
+Return value; a new B<Gnome::Gdk4::R-Paintable>. 
+
+=begin comment
+
+=head2 Example
+# Example for to-paintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 transform
+This function is not yet available
+
+Transforms C<$snapshot>'s coordinate system with the given C<$transform>.
+
+=begin code
+method transform ( CArray[N-Transform]  $transform )
+=end code
+
+=item $transform; the transform to apply.
+
+=begin comment
+
+=head2 Example
+# Example for transform
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 transform-matrix
+This function is not yet available
+
+Transforms C<$snapshot>'s coordinate system with the given C<$matrix>.
+
+=begin code
+method transform-matrix ( … )
+=end code
+
+=item matrix; the matrix to multiply the transform with. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for transform-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 translate
+This function is not yet available
+
+Translates C<$snapshot>'s coordinate system by C<$point> in 2-dimensional space.
+
+=begin code
+method translate ( … )
+=end code
+
+=item point; the point to translate the snapshot by. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for translate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 translate-3d
+This function is not yet available
+
+Translates C<$snapshot>'s coordinate system by C<$point>.
+
+=begin code
+method translate-3d ( … )
+=end code
+
+=item point; the point to translate the snapshot by. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for translate-3d
+
+=end comment
+
+=end pod
+
