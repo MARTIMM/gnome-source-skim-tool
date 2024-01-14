@@ -123,6 +123,8 @@ sub _init_check_v4 ( --> gboolean )
 multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
 #say Backtrace.new.nice;
 
+  printf "\ncalling $name\n" if $Gnome::N::x-debug;
+
   my Hash $routine := $methods{$name};
   my Array $arguments = [|@arguments];
   my Array $native-args;
@@ -156,15 +158,18 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
   if ?$routine<function-address>{$func-pattern} {
     note "Reuse native function address of $name\()" if $Gnome::N::x-debug;
     $c = $routine<function-address>{$func-pattern};
+#note "$?LINE c: $name {$c.WHICH}";
   }
 
   else {
     note "Get native function address of $name\()" if $Gnome::N::x-debug;
     $c = self!native-function( $name, $parameters, $routine);
+#note "$?LINE c: $name {$c.WHICH}";
     $routine<function-address>{$func-pattern} = $c;
   }
 
-#note "\n$?LINE '$func-pattern'\n\[{$native-args>>.gist.join(', ')}\]";
+  note "Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
+    if $Gnome::N::x-debug;
 
   self.convert-return( $c(|$native-args), $routine);
 }
@@ -176,6 +181,8 @@ multi method call-native-sub (
   --> Any
 ) {
 #say Backtrace.new.nice;
+
+  printf "\ncalling $name, $native-object\n" if $Gnome::N::x-debug;
 
   my Hash $routine := $methods{$name};
 
@@ -222,7 +229,8 @@ multi method call-native-sub (
     $routine<function-address>{$func-pattern} = $c;
   }
 
-#note "\n$?LINE '$func-pattern', $routine.gist(), $native-args.gist()";
+  note "Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
+    if $Gnome::N::x-debug;
 
   self.convert-return( $c(|$native-args), $routine);
 }
@@ -312,6 +320,7 @@ method !native-function (
 
   # Create signature
   my Signature $signature .= new( :params(|@parameterList), :$returns);
+  note "Signature $signature.gist()" if $Gnome::N::x-debug;
 
   # Get a pointer to the sub, then cast it to a sub with the proper
   # signature. after that, the sub can be called, returning a value.
@@ -328,7 +337,6 @@ method !native-function (
 # Final change will that $routine<realname> and $routine<isnew> are changed to
 # $routine<is-symbol> holding the full native name. All entries will have
 # this field eventually. After all changes, this method may also dissappear.
-
 method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
   my Str $routine-name;
 
@@ -353,7 +361,9 @@ method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
     $routine-name = ($sub-prefix // $!sub-prefix) ~ $routine-name;
   }
 
-#note "$?LINE $name, {$sub-prefix//'-'}, $routine-name, $routine.gist()";
+  note "Routine name $name, $routine-name, $routine.gist()"
+    if $Gnome::N::x-debug;
+
   $routine-name
 }
 
@@ -361,10 +371,13 @@ method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
 method !convert-args ( Mu $v, $p ) {
   my $c;
 
-  note "Argument: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+  #note "Argument: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+
   if $v.can('get-native-object-no-reffing') {
     my N-Object $no = $v.get-native-object-no-reffing;
     $c = $no;
+
+    #note "Converted; type: $c.^name(), value: $c" if $Gnome::N::x-debug;
   }
 
   else {
@@ -415,9 +428,10 @@ method !convert-args ( Mu $v, $p ) {
         $c = $v;
       }
     }
+
+    #note "Converted; type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
   }
 
-  note "Converted: $c.gist()" if $Gnome::N::x-debug;
   $c
 }
 
@@ -425,7 +439,8 @@ method !convert-args ( Mu $v, $p ) {
 multi method convert-return ( $v, Hash $routine ) {
   my $c;
   my $p = $routine<returns>;
-#note "$?LINE p = {$p.^name}, $p.gist(), $v.gist()";
+
+  #note "Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
 
   # Use 'given' because $p is a type and is always undefined
   given $p {
@@ -463,7 +478,10 @@ multi method convert-return ( $v, Hash $routine ) {
       $c = $v;
     }
   }
-#note "$?LINE c: $c.gist()";
+
+  #note "Converted return; type: $c.^name(), value: $c.gist()"
+  #  if $Gnome::N::x-debug;
+
   $c
 }
 
@@ -472,7 +490,8 @@ multi method convert-return ( $v, Hash $routine ) {
 # argument pointers
 multi method convert-return ( $v, $p ) {
   my $c;
-#note "$?LINE p = {$p.^name}, $p.gist()";
+
+  #note "Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
 
   # Use 'given' because $p is a type and is always undefined
   given $p {      
@@ -492,11 +511,14 @@ multi method convert-return ( $v, $p ) {
       $c = ?$v[0] ?? $v[0] !! $p;
     }
 
-#    # Most values do not need conversion
-#    default {
-#      $c = $v;
-#    }
+    # Most values do not need conversion
+    default {
+      $c = $v;
+    }
   }
+
+  #note "Converted return; type: $c.^name(), value: $c.gist()"
+  #  if $Gnome::N::x-debug;
 
   $c
 }
