@@ -28,8 +28,8 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 # Get the description at the start of a class, record or union.
 method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!solve.search-name($ctype);
+  my Str $ctype = $element.attribs<c:type>//'';
+  my Hash $h = $!solve.search-name($ctype)//%();
   my Str $class-name = $!solve.set-object-name($h);
 
   my Str $doc = $xpath.find( 'doc/text()', :start($element)).Str // '';
@@ -113,8 +113,8 @@ method document-build ( XML::Element $element --> Str ) {
 
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!solve.search-name($ctype);
+  my Str $ctype = $element.attribs<c:type>//'';
+  my Hash $h = $!solve.search-name($ctype)//%();
   if $h<inheritable> {
     $doc ~= Q:q:to/EOBUILD/;
 
@@ -135,8 +135,8 @@ method document-constructors (
   XML::Element $element, XML::XPath $xpath --> Str
 ) {
 
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!solve.search-name($ctype);
+  my Str $ctype = $element.attribs<c:type>//'';
+  my Hash $h = $!solve.search-name($ctype)//%();
 
   # Get all methods in this class
   my Hash $hcs =
@@ -213,7 +213,7 @@ method document-native-subs (
   XML::Element $element, XML::XPath $xpath, Str :$routine-type = 'method' 
   --> Str ) {
 
-  my Str $ctype = $element.attribs<c:type>;
+  my Str $ctype = $element.attribs<c:type>//'';
 
   # Get all subs of $routine-type in this class
   my Hash $hcs = self.get-native-subs( $element, $xpath, :$routine-type);
@@ -1276,8 +1276,8 @@ method start-document ( Str $type-letter = '' --> Str ) {
 method !set-inherit-example ( XML::Element $element --> Str ) {
 
   my Str $doc = '';
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!solve.search-name($ctype);
+  my Str $ctype = $element.attribs<c:type>//'';
+  my Hash $h = $!solve.search-name($ctype)//%();
 
   if $h<inheritable> {
     # Code like {'...'} is inserted here and there to prevent interpretation
@@ -1294,7 +1294,7 @@ method !set-inherit-example ( XML::Element $element --> Str ) {
 
         submethod new \( \|c ) \{
           # let the {$*work-data<raku-class-name>} class process the options
-          self\.bless\( :{$element.attribs<c:type>}, \|c);
+          self\.bless\( :{$element.attribs<c:type>//''}, \|c);
         \}
 
         submethod BUILD \( ... ) \{

@@ -34,8 +34,8 @@ submethod BUILD ( ) {
 method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
   my Str $also = '';
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!solve.search-name($ctype);
+  my Str $ctype = $element.attribs<c:type> // '';
+  my Hash $h = $!solve.search-name($ctype) // %();
 
   # Check for parent class. There are never more than one. When there is
   # none, pick TopLevelClassSupport
@@ -238,8 +238,8 @@ method generate-callables (
         RAKUMOD
 
       # When there are roles implemented, generate calls to the role's fallback
-      my Str $ctype = $element.attribs<c:type>;
-      my Hash $h = $!solve.search-name($ctype);
+      my Str $ctype = $element.attribs<c:type>//'';
+      my Hash $h = $!solve.search-name($ctype)//%();
       my Array $roles = $h<implement-roles>//[];
       if ?$roles {
         $c ~= [~] '    my $r;', "\n",
@@ -280,8 +280,8 @@ method generate-callables (
 method make-build-submethod (
   XML::Element $element, XML::XPath $xpath --> Str
 ) {
-  my Str $ctype = $element.attribs<c:type>;
-  my Hash $h = $!solve.search-name($ctype);
+  my Str $ctype = $element.attribs<c:type>//'';
+  my Hash $h = $!solve.search-name($ctype)//%();
 
   # Signal administration
   my Str $role-signals = self.get-role-signals($h);
