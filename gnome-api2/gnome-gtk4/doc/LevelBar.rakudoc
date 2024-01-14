@@ -1,0 +1,506 @@
+=comment Package: Gtk4, C-Source: levelbar
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::LevelBar
+
+![](images/levelbar.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::LevelBar> is a widget that can be used as a level indicator.
+
+Typical use cases are displaying the strength of a password, or
+showing the charge level of a battery.
+
+![An example GtkLevelBar](levelbar.png)
+
+Use C<.set-value()> to set the current value, and
+C<.add-offset-value()> to set the value offsets at which
+the bar will be considered in a different state. GTK will add a few
+offsets by default on the level bar: C<GTK_LEVEL_BAR_OFFSET_LOW>,
+C<GTK_LEVEL_BAR_OFFSET_HIGH> and C<GTK_LEVEL_BAR_OFFSET_FULL>, with
+values 0.25, 0.75 and 1.0 respectively.
+
+Note that it is your responsibility to update preexisting offsets
+when changing the minimum or maximum value. GTK will simply clamp
+them to the new range.
+
+=head3 Adding a custom offset on the bar
+
+=begin comment
+static GtkWidget *
+create_level_bar (void)
+{
+  GtkWidget *widget;
+  GtkLevelBar *bar;
+
+  widget = gtk_level_bar_new ();
+  bar = GTK_LEVEL_BAR (widget);
+
+  // This changes the value of the default low offset
+
+  gtk_level_bar_add_offset_value (bar,
+                                  GTK_LEVEL_BAR_OFFSET_LOW,
+                                  0.10);
+
+  // This adds a new offset to the bar; the application will
+  // be able to change its color CSS like this:
+  //
+  // levelbar block.my-offset {
+  //   background-color: magenta;
+  //   border-style: solid;
+  //   border-color: black;
+  //   border-style: 1px;
+  // }
+
+  gtk_level_bar_add_offset_value (bar, "my-offset", 0.60);
+
+  return widget;
+}
+
+=end comment
+
+The default interval of values is between zero and one, but it’s possible
+to modify the interval using C<.set-min-value()> and
+C<.set-max-value()>. The value will be always drawn in
+proportion to the admissible interval, i.e. a value of 15 with a specified
+interval between 10 and 20 is equivalent to a value of 0.5 with an interval
+between 0 and 1. When C<GTK_LEVEL_BAR_MODE_DISCRETE> is used, the bar level
+is rendered as a finite number of separated blocks instead of a single one.
+The number of blocks that will be rendered is equal to the number of units
+specified by the admissible interval.
+
+For instance, to build a bar rendered with five blocks, it’s sufficient to
+set the minimum value to 0 and the maximum value to 5 after changing the
+indicator mode to discrete.
+
+=head2 GtkLevelBar as GtkBuildable
+
+The B<Gnome::Gtk4::LevelBar> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports a
+custom <offsets> element, which can contain any number of <offset> elements,
+each of which must have name and value attributes.
+
+=head2 CSS nodes
+
+=begin comment
+levelbar[.discrete]
+╰── trough
+    ├── block.filled.level-name
+    ┊
+    ├── block.empty
+    ┊
+
+=end comment
+
+B<Gnome::Gtk4::LevelBar> has a main CSS node with name levelbar and one of the style
+classes .discrete or .continuous and a subnode with name trough. Below the
+trough node are a number of nodes with name block and style class .filled
+or .empty. In continuous mode, there is exactly one node of each, in discrete
+mode, the number of filled and unfilled nodes corresponds to blocks that are
+drawn. The block.filled nodes also get a style class .level-name corresponding
+to the level for the current value.
+
+In horizontal orientation, the nodes are always arranged from left to right,
+regardless of text direction.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::LevelBar> uses the C<GTK_ACCESSIBLE_ROLE_METER> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::LevelBar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-levelbar
+
+Creates a new B<Gnome::Gtk4::LevelBar>.
+
+=begin code
+method new-levelbar ( --> Gnome::Gtk4::LevelBar \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-levelbar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-interval
+
+Creates a new B<Gnome::Gtk4::LevelBar> for the specified interval.
+
+=begin code
+method new-for-interval ( Num() $min-value, Num() $max-value --> Gnome::Gtk4::LevelBar \)
+=end code
+
+=item $min-value; a positive value.
+=item $max-value; a positive value.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-interval
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-offset-value
+
+Adds a new offset marker on C<$self> at the position specified by C<$value>.
+
+When the bar value is in the interval topped by C<$value> (or between C<$value>
+and I<max-value> in case the offset is the last one
+on the bar) a style class named B<level-> C<$name> will be applied
+when rendering the level bar fill.
+
+If another offset marker named C<$name> exists, its value will be
+replaced by C<$value>.
+
+=begin code
+method add-offset-value ( Str $name, Num() $value )
+=end code
+
+=item $name; the name of the new offset.
+=item $value; the value for the new offset.
+
+=begin comment
+
+=head2 Example
+# Example for add-offset-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-inverted
+
+Returns whether the levelbar is inverted.
+
+=begin code
+method get-inverted (--> Bool )
+=end code
+
+Return value; C<True> if the level bar is inverted. 
+
+=begin comment
+
+=head2 Example
+# Example for get-inverted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-max-value
+
+Returns the B<max-value> of the B<Gnome::Gtk4::LevelBar>.
+
+=begin code
+method get-max-value (--> Num )
+=end code
+
+Return value; a positive value. 
+
+=begin comment
+
+=head2 Example
+# Example for get-max-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-min-value
+
+Returns the B<min-value of the >GtkLevelBarB<.
+
+=begin code
+method get-min-value (--> Num )
+=end code
+
+Return value; a positive value. 
+
+=begin comment
+
+=head2 Example
+# Example for get-min-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mode
+
+Returns the >modeB< of the >GtkLevelBarB<.
+
+=begin code
+method get-mode (--> GtkLevelBarMode )
+=end code
+
+Return value; a >GtkLevelBarModeB<. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-offset-value
+
+Fetches the value specified for the offset marker C<$name> in C<$self>.
+
+=begin code
+method get-offset-value ( Str $name, Num() $value --> Bool )
+=end code
+
+=item $name; the name of an offset in the bar.
+=item $value; (transfer ownership: full) location where to store the value.
+
+Return value; C<True> if the specified offset is found. 
+
+=begin comment
+
+=head2 Example
+# Example for get-offset-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Returns the >valueB< of the >GtkLevelBarB<.
+
+=begin code
+method get-value (--> Num )
+=end code
+
+Return value; a value in the interval between
+  I<min-value[ and I<max-value>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-offset-value
+
+Removes an offset marker from a >GtkLevelBarB<.
+
+The marker must have been previously added with
+C<.add-offset-value>.
+
+=begin code
+method remove-offset-value ( Str $name )
+=end code
+
+=item $name; the name of an offset in the bar.
+
+----EXAMPLE----011
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-inverted
+
+Sets whether the >GtkLevelBarB< is inverted.
+
+=begin code
+method set-inverted ( Bool() $inverted )
+=end code
+
+=item $inverted; C<True> to invert the level bar.
+
+----EXAMPLE----012
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-max-value
+
+Sets the >max-valueB< of the >GtkLevelBarB<.
+
+You probably want to update preexisting level offsets after calling
+this function.
+
+=begin code
+method set-max-value ( Num() $value )
+=end code
+
+=item $value; a positive value.
+
+----EXAMPLE----013
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-min-value
+
+Sets the >min-valueB< of the >GtkLevelBarB<.
+
+You probably want to update preexisting level offsets after calling
+this function.
+
+=begin code
+method set-min-value ( Num() $value )
+=end code
+
+=item $value; a positive value.
+
+----EXAMPLE----014
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-mode
+
+Sets the >modeB< of the >GtkLevelBarB<.
+
+=begin code
+method set-mode ( GtkLevelBarMode $mode )
+=end code
+
+=item $mode; a >GtkLevelBarModeB<.
+
+----EXAMPLE----015
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-value
+
+Sets the value of the >GtkLevelBar`.
+
+=begin code
+method set-value ( Num() $value )
+=end code
+
+=item $value; a value in the interval between
+  I<min-value> and I<max-value>.
+
+----EXAMPLE----016
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation()>-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 offset-changed
+
+Emitted when an offset specified on the bar changes value.
+
+This typically is the result of a C<.add-offset-value()>
+call.
+
+The signal supports detailed connections; you can connect to the
+detailed signal "changed::x" in order to only receive callbacks when
+the value of offset "x" changes.
+
+=begin code
+method handler (
+  Str $name,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::LevelBar :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $name; the name of the offset that changed value.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::LevelBar> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal offset-changed
+
+=end comment
+
+=end pod
+

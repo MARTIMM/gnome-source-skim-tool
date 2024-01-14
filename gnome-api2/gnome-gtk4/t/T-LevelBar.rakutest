@@ -1,0 +1,42 @@
+=comment Package: Gtk4, C-Source: levelbar
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-LevelBar:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-LevelBar:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GTK_LEVEL_BAR_OFFSET_LOW
+is GTK_LEVEL_BAR_OFFSET_LOW, 'low', "constant GTK_LEVEL_BAR_OFFSET_LOW = 'low'";
+
+#TE:1:GTK_LEVEL_BAR_OFFSET_HIGH
+is GTK_LEVEL_BAR_OFFSET_HIGH, 'high', "constant GTK_LEVEL_BAR_OFFSET_HIGH = 'high'";
+
+#TE:1:GTK_LEVEL_BAR_OFFSET_FULL
+is GTK_LEVEL_BAR_OFFSET_FULL, 'full', "constant GTK_LEVEL_BAR_OFFSET_FULL = 'full'";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
