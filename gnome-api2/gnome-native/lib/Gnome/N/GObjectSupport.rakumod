@@ -29,7 +29,13 @@ method _set-native-object ( $n-native-object ) {
 
 #-------------------------------------------------------------------------------
 method native-object-ref ( $n-native-object --> N-Object ) {
-  _g_object_ref($n-native-object)
+  if _g_object_is_floating($n-native-object) {
+    _g_object_ref_sink($n-native-object);
+  }
+
+  else {
+    _g_object_ref($n-native-object);
+  }
 }
 
 #-------------------------------------------------------------------------------
@@ -501,7 +507,7 @@ method _convert_g_signal_connect_object (
 }
 
 #-------------------------------------------------------------------------------
-method !convert-type ( $type, Bool :$type-only = False --> Any ) {
+method !convert-type ( Mu $type, Bool :$type-only = False --> Any ) {
   my $converted-type;
 
 #note 'type: ', $type.^name;
@@ -542,6 +548,16 @@ Increases the reference count of this object and returns the same object.
 sub _g_object_ref ( N-Object $object --> N-Object )
   is native(&gobject-lib)
   is symbol('g_object_ref')
+  { * }
+
+sub _g_object_ref_sink ( N-Object $object --> N-Object )
+  is native(&gobject-lib)
+  is symbol('g_object_ref_sink')
+  { * }
+
+sub _g_object_is_floating ( N-Object $object --> gboolean )
+  is native(&gobject-lib)
+  is symbol('g_object_is_floating')
   { * }
 
 #-------------------------------------------------------------------------------
