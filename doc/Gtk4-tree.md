@@ -100,8 +100,8 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkLevelBar                         LevelBar
 │   │   ├── GtkText                             Text
 │   │   ├── GtkTextView                         TextView
-│   │   ├── GtkTreeExpander
-│   │   ├── GtkTreeView
+│   │   ├── GtkTreeExpander                     TreeExpander
+│   │   ├── GtkTreeView                         TreeView
 │   │   ├── GtkVideo
 │   │   ├── GtkViewport
 │   │   ├── GtkWindowControls
@@ -118,7 +118,7 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkCellRendererProgress
 │   │   ├── GtkCellRendererSpinner
 │   │   ╰── GtkCellRendererToggle
-│   ╰── GtkTreeViewColumn
+│   ╰── GtkTreeViewColumn                       TreeViewColumn
 ├── GtkFilter
 │   ├── GtkMultiFilter
 │   │   ├── GtkAnyFilter
@@ -230,12 +230,12 @@ GObject                                         Gnome::GObject::Object
 ├── GtkTextMark                                 TextMark
 ├── GtkTextTag                                  TextTag
 ├── GtkTextTagTable                             TextTagTable
-├── GtkTreeListModel
-├── GtkTreeListRow
-├── GtkTreeModelFilter
-├── GtkTreeModelSort
-├── GtkTreeSelection
-├── GtkTreeStore
+├── GtkTreeListModel                            TreeListModel
+├── GtkTreeListRow                              TreeListRow
+├── GtkTreeModelFilter                          TreeModelFilter
+├── GtkTreeModelSort                            TreeModelSort
+├── GtkTreeSelection                            TreeSelection
+├── GtkTreeStore                                TreeStore
 ├── GtkWidgetPaintable
 ├── GtkWindowGroup
 ├── GtkTooltip                                  Tooltip
@@ -255,6 +255,7 @@ GObject                                         Gnome::GObject::Object
 
 ```
 GInterface
+|                                               Gnome::Gtk4::*
 ├── GtkAccessible                               R-Accessible
 ├── GtkBuildable                                R-Buildable
 ├── GtkConstraintTarget                         R-ConstraintTarget
@@ -286,12 +287,20 @@ These modules are generally inheriting directly from **Gnome::N::TopLevelClassSu
 
 ```
 GBoxed
+|                                               Gnome::Gtk4::*
 ├── GtkBitset
 ├── GtkPaperSize
-├── GtkTextIter                                 TextIter
-├── GtkTreeIter                                 TreeIter
+├── GtkTextIter                                 N-TextIter
+├── GtkTreeIter                                 N-TreeIter
 ├── GtkCssSection
-╰── GtkTreePath
+╰── GtkTreePath                                 N-TreePath
+
+Gnome::N::TopLevelClassSupport
+|   Gnome::Gtk4::*
+├── N-Border
+├── N-Requisition
+├── N-TreeRowReference
+├── 
 
 GtkExpression
 ```
@@ -302,36 +311,42 @@ Types, constants, standalone functions, etc. generated from gnome sources
 `Gnome::Gtk4::\*`
 
 ```
-T-AboutDialog
-T-Accessible
-T-ActivateAction
-T-Application
-T-Assistant
-T-Dialog
-T-Editable
-T-Entry
-T-Enums
-T-FileChooser
-T-FontChooser
-T-IconPaintable
-T-IconView
-T-Image
-T-LevelBar
-T-MessageDialog
-T-Native
-T-Notebook
-T-PrintOperation
-T-ScrolledWindow
-T-ShortcutsShortcut
-T-Show
-T-ShortcutAction
-T-SpinButton
-T-StyleContext
-T-StyleProvider
-T-TextView
-T-TextIter
-T-TreeDragDest
-T-TreeIter
-T-TreeSortable
+Gnome::N::TopLevelClassSupport
+|   Gnome::Gtk4::*
+├── T-AboutDialog
+├── T-Accessible
+├── T-ActivateAction
+├── T-Application
+├── T-Assistant
+├── T-Dialog
+├── T-Editable
+├── T-Entry
+├── T-Enums
+├── T-FileChooser
+├── T-FontChooser
+├── T-IconPaintable
+├── T-IconView
+├── T-Image
+├── T-LevelBar
+├── T-MessageDialog
+├── T-Native
+├── T-Notebook
+├── T-PrintOperation
+├── T-ScrolledWindow
+├── T-ShortcutAction
+├── T-ShortcutsShortcut
+├── T-Show
+├── T-SpinButton
+├── T-Stack
+├── T-StyleContext
+├── T-StyleProvider
+├── T-TextIter
+├── T-TextView
+├── T-TreeDragDest
+├── T-TreeIter
+├── T-TreeSortable
+├── T-TreeView
+├── T-TreeViewColumn
+
 
 ```
