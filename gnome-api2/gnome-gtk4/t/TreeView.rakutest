@@ -1,0 +1,512 @@
+=comment Package: Gtk4, C-Source: treeview
+use v6.d;
+
+#TL:1:Gnome::Gtk4::TreeView:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Gdk4::N-ContentFormats:api<2>;
+use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::Gdk4::T-Enums:api<2>;
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-TreeView:api<2>;
+use Gnome::Gtk4::TreeView:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::TreeView $tree-view;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $tree-view {
+    my N-Object $model;
+
+#`{{
+    #TC:0:new-treeview()
+
+    $tree-view .= new-treeview();
+    ok .is-valid, '.new-treeview()';
+
+    #TC:0:new-with-model()
+    $model = …;
+    $tree-view .= new-with-model( $model);
+    ok .is-valid, '.new-with-model( $model)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $tree-view {
+    my GFlag $start-button-mask;
+    my gint $indentation;
+    my gboolean $enable-search;
+    my  $search-destroy;
+    my N-TreePath $path;
+    my gint-ptr $cell-x;
+    my N-Object $model;
+    my CArray[N-TreePath] $end-path;
+    my gboolean $reorderable;
+    my gboolean $enabled;
+    my gint $wy;
+    my gfloat $row-align;
+    my gint $tree-y;
+    my gint $wx;
+    my CArray[N-TreePath] $start-path;
+    my  $dnotify;
+    my gboolean $hover;
+    my gboolean $use-align;
+    my gboolean $open-all;
+    my gint $drag-x;
+    my gboolean $keyboard-tip;
+    my gint $n;
+    my gboolean $single;
+    my N-Rectangle $visible-rect;
+    my gint $column;
+    my N-Object $base-column;
+    my N-Rectangle $rect;
+    my N-TreeIter $iter;
+    sub func ( N-Object $model, N-TreeIter $iter, gpointer $data --> gboolean ) {}
+    my N-Object $entry;
+    my gpointer $user-data;
+    my gint-ptr $by;
+    my gint-ptr $ty;
+#    my N-ContentFormats  $formats;
+    my GtkTreeViewGridLines $grid-lines;
+    my gint $tree-x;
+    my gboolean $setting;
+    my gint $x;
+    my GFlag $actions;
+    my Str $title;
+    my gboolean $expand;
+    my gfloat $col-align;
+    my gint $drag-y;
+    my gboolean $enable;
+    my N-Object $tooltip;
+    my gboolean $start-editing;
+    my gboolean $headers-visible;
+    my gpointer $data;
+    my N-Object $focus-cell;
+    my gpointer $search-user-data;
+    my N-Object $cell;
+    my gint-ptr $bx;
+    my  $destroy;
+    my gint-ptr $tx;
+    my gint-ptr $cell-y;
+    my gint $position;
+    sub search-equal-func ( N-Object $model, gint $column, Str $key, N-TreeIter $iter, gpointer $search-data --> gboolean ) {}
+    my N-Object $focus-column;
+    my gint $y;
+    my GtkTreeViewDropPosition $pos;
+
+
+#`{{
+    #TM:0:append-column()
+    ok .append-column( $column), '.append-column()';
+
+    #TM:0:collapse-all()
+    ok .collapse-all(), '.collapse-all()';
+
+    #TM:0:collapse-row()
+    ok .collapse-row( $path), '.collapse-row()';
+
+    #TM:0:columns-autosize()
+    ok .columns-autosize(), '.columns-autosize()';
+
+    #TM:0:convert-bin-window-to-tree-coords()
+    ok .convert-bin-window-to-tree-coords( $bx, $by, $tx, $ty), '.convert-bin-window-to-tree-coords()';
+
+    #TM:0:convert-bin-window-to-widget-coords()
+    ok .convert-bin-window-to-widget-coords( $bx, $by, $wx, $wy), '.convert-bin-window-to-widget-coords()';
+
+    #TM:0:convert-tree-to-bin-window-coords()
+    ok .convert-tree-to-bin-window-coords( $tx, $ty, $bx, $by), '.convert-tree-to-bin-window-coords()';
+
+    #TM:0:convert-tree-to-widget-coords()
+    ok .convert-tree-to-widget-coords( $tx, $ty, $wx, $wy), '.convert-tree-to-widget-coords()';
+
+    #TM:0:convert-widget-to-bin-window-coords()
+    ok .convert-widget-to-bin-window-coords( $wx, $wy, $bx, $by), '.convert-widget-to-bin-window-coords()';
+
+    #TM:0:convert-widget-to-tree-coords()
+    ok .convert-widget-to-tree-coords( $wx, $wy, $tx, $ty), '.convert-widget-to-tree-coords()';
+
+    #TM:0:create-row-drag-icon()
+    ok .create-row-drag-icon( $path), '.create-row-drag-icon()';
+
+    #TM:0:enable-model-drag-dest()
+    ok .enable-model-drag-dest( $formats, $actions), '.enable-model-drag-dest()';
+
+    #TM:0:enable-model-drag-source()
+    ok .enable-model-drag-source( $start-button-mask, $formats, $actions), '.enable-model-drag-source()';
+
+    #TM:0:expand-all()
+    ok .expand-all(), '.expand-all()';
+
+    #TM:0:expand-row()
+    ok .expand-row( $path, $open-all), '.expand-row()';
+
+    #TM:0:expand-to-path()
+    ok .expand-to-path( $path), '.expand-to-path()';
+
+    #TM:0:get-background-area()
+    is .get-background-area( $path, $column, $rect), '…', '.get-background-area()';
+
+    #TM:0:get-cell-area()
+    is .get-cell-area( $path, $column, $rect), '…', '.get-cell-area()';
+
+    #TM:0:get-column()
+    is .get-column( $n), '…', '.get-column()';
+
+    #TM:0:get-columns()
+     .get-columns(), '…', '.get-columns()';
+
+    #TM:0:get-dest-row-at-pos()
+    is .get-dest-row-at-pos( $drag-x, $drag-y, $path, $pos), '…', '.get-dest-row-at-pos()';
+
+    #TM:0:get-n-columns()
+     .get-n-columns(), '…', '.get-n-columns()';
+
+    #TM:0:get-path-at-pos()
+    is .get-path-at-pos( $x, $y, $path, $column, $cell-x, $cell-y), '…', '.get-path-at-pos()';
+
+    #TM:0:get-selection()
+     .get-selection(), '…', '.get-selection()';
+
+    #TM:0:get-tooltip-context()
+    is .get-tooltip-context( $x, $y, $keyboard-tip, $model, $path, $iter), '…', '.get-tooltip-context()';
+
+    #TM:0:get-visible-range()
+    is .get-visible-range( $start-path, $end-path), '…', '.get-visible-range()';
+
+    #TM:0:get-visible-rect()
+    is .get-visible-rect( $visible-rect), '…', '.get-visible-rect()';
+
+    #TM:0:insert-column()
+    ok .insert-column( $column, $position), '.insert-column()';
+
+    #TM:0:insert-column-with-attributes()
+    ok .insert-column-with-attributes( $position, $title, $cell), '.insert-column-with-attributes()';
+
+    #TM:0:insert-column-with-data-func()
+    ok .insert-column-with-data-func( $position, $title, $cell, $func, $data, $dnotify), '.insert-column-with-data-func()';
+
+    #TM:0:is-blank-at-pos()
+    ok .is-blank-at-pos( $x, $y, $path, $column, $cell-x, $cell-y), '.is-blank-at-pos()';
+
+    #TM:0:is-rubber-banding-active()
+    ok .is-rubber-banding-active(), '.is-rubber-banding-active()';
+
+    #TM:0:map-expanded-rows()
+    ok .map-expanded-rows( $func, $data), '.map-expanded-rows()';
+
+    #TM:0:move-column-after()
+    ok .move-column-after( $column, $base-column), '.move-column-after()';
+
+    #TM:0:remove-column()
+    ok .remove-column( $column), '.remove-column()';
+
+    #TM:0:row-activated()
+    ok .row-activated( $path, $column), '.row-activated()';
+
+    #TM:0:row-expanded()
+    ok .row-expanded( $path), '.row-expanded()';
+
+    #TM:0:scroll-to-cell()
+    ok .scroll-to-cell( $path, $column, $use-align, $row-align, $col-align), '.scroll-to-cell()';
+
+    #TM:0:scroll-to-point()
+    ok .scroll-to-point( $tree-x, $tree-y), '.scroll-to-point()';
+
+    #TM:0:set-activate-on-single-click()
+    $single = '…';
+    .set-activate-on-single-click( $single);
+    #TM:0:get-activate-on-single-click()
+    is .get-activate-on-single-click(),  $single, '.set-activate-on-single-click() / .get-activate-on-single-click()';
+
+    #TM:0:set-column-drag-function()
+    $func = …;
+    $user-data = '…';
+    $destroy = '…';
+    .set-column-drag-function( $func, $user-data, $destroy);
+    ok True, '.set-column-drag-function()';
+
+    #TM:0:set-cursor()
+    $path = '…';
+    $focus-column = …;
+    $start-editing = '…';
+    .set-cursor( $path, $focus-column, $start-editing);
+    #TM:0:get-cursor()
+    is .get-cursor(),  $path, $focus-column, $start-editing, '.set-cursor() / .get-cursor()';
+
+    #TM:0:set-cursor-on-cell()
+    $path = '…';
+    $focus-column = …;
+    $focus-cell = …;
+    $start-editing = '…';
+    .set-cursor-on-cell( $path, $focus-column, $focus-cell, $start-editing);
+    ok True, '.set-cursor-on-cell()';
+
+    #TM:0:set-drag-dest-row()
+    $path = '…';
+    $pos = …;
+    .set-drag-dest-row( $path, $pos);
+    #TM:0:get-drag-dest-row()
+    is .get-drag-dest-row(),  $path, $pos, '.set-drag-dest-row() / .get-drag-dest-row()';
+
+    #TM:0:set-enable-search()
+    $enable-search = '…';
+    .set-enable-search( $enable-search);
+    #TM:0:get-enable-search()
+    is .get-enable-search(),  $enable-search, '.set-enable-search() / .get-enable-search()';
+
+    #TM:0:set-enable-tree-lines()
+    $enabled = '…';
+    .set-enable-tree-lines( $enabled);
+    #TM:0:get-enable-tree-lines()
+    is .get-enable-tree-lines(),  $enabled, '.set-enable-tree-lines() / .get-enable-tree-lines()';
+
+    #TM:0:set-expander-column()
+    $column = …;
+    .set-expander-column( $column);
+    #TM:0:get-expander-column()
+    is .get-expander-column(),  $column, '.set-expander-column() / .get-expander-column()';
+
+    #TM:0:set-fixed-height-mode()
+    $enable = '…';
+    .set-fixed-height-mode( $enable);
+    #TM:0:get-fixed-height-mode()
+    is .get-fixed-height-mode(),  $enable, '.set-fixed-height-mode() / .get-fixed-height-mode()';
+
+    #TM:0:set-grid-lines()
+    $grid-lines = …;
+    .set-grid-lines( $grid-lines);
+    #TM:0:get-grid-lines()
+    is .get-grid-lines(),  $grid-lines, '.set-grid-lines() / .get-grid-lines()';
+
+    #TM:0:set-headers-clickable()
+    $setting = '…';
+    .set-headers-clickable( $setting);
+    #TM:0:get-headers-clickable()
+    is .get-headers-clickable(),  $setting, '.set-headers-clickable() / .get-headers-clickable()';
+
+    #TM:0:set-headers-visible()
+    $headers-visible = '…';
+    .set-headers-visible( $headers-visible);
+    #TM:0:get-headers-visible()
+    is .get-headers-visible(),  $headers-visible, '.set-headers-visible() / .get-headers-visible()';
+
+    #TM:0:set-hover-expand()
+    $expand = '…';
+    .set-hover-expand( $expand);
+    #TM:0:get-hover-expand()
+    is .get-hover-expand(),  $expand, '.set-hover-expand() / .get-hover-expand()';
+
+    #TM:0:set-hover-selection()
+    $hover = '…';
+    .set-hover-selection( $hover);
+    #TM:0:get-hover-selection()
+    is .get-hover-selection(),  $hover, '.set-hover-selection() / .get-hover-selection()';
+
+    #TM:0:set-level-indentation()
+    $indentation = '…';
+    .set-level-indentation( $indentation);
+    #TM:0:get-level-indentation()
+    is .get-level-indentation(),  $indentation, '.set-level-indentation() / .get-level-indentation()';
+
+    #TM:0:set-model()
+    $model = …;
+    .set-model( $model);
+    #TM:0:get-model()
+    is .get-model(),  $model, '.set-model() / .get-model()';
+
+    #TM:0:set-reorderable()
+    $reorderable = '…';
+    .set-reorderable( $reorderable);
+    #TM:0:get-reorderable()
+    is .get-reorderable(),  $reorderable, '.set-reorderable() / .get-reorderable()';
+
+    #TM:0:set-row-separator-func()
+    $func = …;
+    $data = '…';
+    $destroy = '…';
+    .set-row-separator-func( $func, $data, $destroy);
+    #TM:0:get-row-separator-func()
+    is .get-row-separator-func(),  $func, $data, $destroy, '.set-row-separator-func() / .get-row-separator-func()';
+
+    #TM:0:set-rubber-banding()
+    $enable = '…';
+    .set-rubber-banding( $enable);
+    #TM:0:get-rubber-banding()
+    is .get-rubber-banding(),  $enable, '.set-rubber-banding() / .get-rubber-banding()';
+
+    #TM:0:set-search-column()
+    $column = '…';
+    .set-search-column( $column);
+    #TM:0:get-search-column()
+    is .get-search-column(),  $column, '.set-search-column() / .get-search-column()';
+
+    #TM:0:set-search-entry()
+    $entry = …;
+    .set-search-entry( $entry);
+    #TM:0:get-search-entry()
+    is .get-search-entry(),  $entry, '.set-search-entry() / .get-search-entry()';
+
+    #TM:0:set-search-equal-func()
+    $search-equal-func = …;
+    $search-user-data = '…';
+    $search-destroy = '…';
+    .set-search-equal-func( $search-equal-func, $search-user-data, $search-destroy);
+    #TM:0:get-search-equal-func()
+    is .get-search-equal-func(),  $search-equal-func, $search-user-data, $search-destroy, '.set-search-equal-func() / .get-search-equal-func()';
+
+    #TM:0:set-show-expanders()
+    $enabled = '…';
+    .set-show-expanders( $enabled);
+    #TM:0:get-show-expanders()
+    is .get-show-expanders(),  $enabled, '.set-show-expanders() / .get-show-expanders()';
+
+    #TM:0:set-tooltip-cell()
+    $tooltip = …;
+    $path = '…';
+    $column = …;
+    $cell = …;
+    .set-tooltip-cell( $tooltip, $path, $column, $cell);
+    ok True, '.set-tooltip-cell()';
+
+    #TM:0:set-tooltip-column()
+    $column = '…';
+    .set-tooltip-column( $column);
+    #TM:0:get-tooltip-column()
+    is .get-tooltip-column(),  $column, '.set-tooltip-column() / .get-tooltip-column()';
+
+    #TM:0:set-tooltip-row()
+    $tooltip = …;
+    $path = '…';
+    .set-tooltip-row( $tooltip, $path);
+    ok True, '.set-tooltip-row()';
+
+    #TM:0:unset-rows-drag-dest()
+    ok .unset-rows-drag-dest(), '.unset-rows-drag-dest()';
+
+    #TM:0:unset-rows-drag-source()
+    ok .unset-rows-drag-source(), '.unset-rows-drag-source()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $tree-view {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::TreeView() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::TreeView;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::TreeView :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::TreeView $tree-view .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $tree-view.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

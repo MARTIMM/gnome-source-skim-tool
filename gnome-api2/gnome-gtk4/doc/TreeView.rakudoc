@@ -1,0 +1,2903 @@
+=comment Package: Gtk4, C-Source: treeview
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TreeView
+
+![](images/treeview.png)
+
+=head1 Description
+
+A widget for displaying both trees and lists
+
+Widget that displays any object that implements the B<Gnome::Gtk4::R-TreeModel> interface.
+
+Please refer to the [tree widget conceptual overview](section-tree-widget.html)
+for an overview of all the objects and data types related to the tree
+widget and how they work together.
+
+=head3 Coordinate systems in GtkTreeView API
+
+Several different coordinate systems are exposed in the B<Gnome::Gtk4::TreeView> API.
+These are:
+
+![](tree-view-coordinates.png)
+
+=item Widget coordinates: Coordinates relative to the widget (usually B<widget->window>).
+
+=item Bin window coordinates: Coordinates relative to the window that GtkTreeView renders to.
+
+=item Tree coordinates: Coordinates relative to the entire scrollable area of GtkTreeView. These
+  coordinates start at (0, 0) for row 0 of the tree.
+
+Several functions are available for converting between the different
+coordinate systems.  The most common translations are between widget and bin
+window coordinates and between bin window and tree coordinates. For the
+former you can use C<.convert-widget-to-bin-window-coords()>
+(and vice versa), for the latter C<.convert-bin-window-to-tree-coords()>
+(and vice versa).
+
+## B<Gnome::Gtk4::TreeView> as B<Gnome::Gtk4::R-Buildable>
+
+The B<Gnome::Gtk4::TreeView> implementation of the B<Gnome::Gtk4::R-Buildable> interface accepts
+B<Gnome::Gtk4::TreeViewColumn> objects as B<<child>> elements and exposes the
+internal B<Gnome::Gtk4::TreeSelection> in UI definitions.
+
+An example of a UI definition fragment with B<Gnome::Gtk4::TreeView>:
+
+=begin comment
+<object class="GtkTreeView" id="treeview">
+  <property name="model">liststore1</property>
+  <child>
+    <object class="GtkTreeViewColumn" id="test-column">
+      <property name="title">Test</property>
+      <child>
+        <object class="GtkCellRendererText" id="test-renderer"/>
+        <attributes>
+          <attribute name="text">1</attribute>
+        </attributes>
+      </child>
+    </object>
+  </child>
+  <child internal-child="selection">
+    <object class="GtkTreeSelection" id="selection">
+      <signal name="changed" handler="on_treeview_selection_changed"/>
+    </object>
+  </child>
+</object>
+
+=end comment
+
+=head3 CSS nodes
+
+=begin comment
+treeview.view
+├── header
+│   ├── button
+│   │   ╰── [sort-indicator]
+┊   ┊
+│   ╰── button
+│       ╰── [sort-indicator]
+│
+├── [rubberband]
+╰── [dndtarget]
+
+=end comment
+
+B<Gnome::Gtk4::TreeView> has a main CSS node with name B<treeview> and style class B<.view>.
+It has a subnode with name B<header>, which is the parent for all the column
+header widgets' CSS nodes.
+
+Each column header consists of a B<button>, which among other content, has a
+child with name B<sort-indicator>, which carries the B<.ascending> or B<.descending>
+style classes when the column header should show a sort indicator. The CSS
+is expected to provide a suitable image using the B<-gtk-icon-source> property.
+
+For rubberband selection, a subnode with name B<rubberband> is used.
+
+For the drop target location during DND, a subnode with name B<dndtarget> is used.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TreeView
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-treeview
+
+Creates a new B<Gnome::Gtk4::TreeView> widget.
+
+=begin code
+method new-treeview ( --> Gnome::Gtk4::TreeView \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-treeview
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-model
+
+Creates a new B<Gnome::Gtk4::TreeView> widget with the model initialized to C<$model>.
+
+=begin code
+method new-with-model ( N-Object() $model --> Gnome::Gtk4::TreeView \)
+=end code
+
+=item $model; the model..
+
+=begin comment
+
+=head2 Example
+# Example for new-with-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-column
+
+Appends C<$column> to the list of columns. If C<$tree-view> has “fixed_height”
+mode enabled, then C<$column> must have its “sizing” property set to be
+GTK_TREE_VIEW_COLUMN_FIXED.
+
+=begin code
+method append-column ( N-Object() $column --> Int )
+=end code
+
+=item $column; The B<Gnome::Gtk4::TreeViewColumn> to add..
+
+Return value; The number of columns in C<$tree-view> after appending.. 
+
+=begin comment
+
+=head2 Example
+# Example for append-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 collapse-all
+
+Recursively collapses all visible, expanded nodes in C<$tree-view>.
+
+=begin code
+method collapse-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for collapse-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 collapse-row
+
+Collapses a row (hides its child rows, if they exist).
+
+=begin code
+method collapse-row ( CArray[N-TreePath] $path --> Bool )
+=end code
+
+=item $path; path to a row in the C<$tree-view>.
+
+Return value; C<True> if the row was collapsed.. 
+
+=begin comment
+
+=head2 Example
+# Example for collapse-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 columns-autosize
+
+Resizes all columns to their optimal width. Only works after the
+treeview has been realized.
+
+=begin code
+method columns-autosize ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for columns-autosize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 convert-bin-window-to-tree-coords
+
+Converts bin_window coordinates to coordinates for the
+tree (the full scrollable area of the tree).
+
+=begin code
+method convert-bin-window-to-tree-coords ( Int() $bx, Int() $by, Array[Int] $tx, Array[Int] $ty )
+=end code
+
+=item $bx; X coordinate relative to bin_window.
+=item $by; Y coordinate relative to bin_window.
+=item $tx; (transfer ownership: full) return location for tree X coordinate.
+=item $ty; (transfer ownership: full) return location for tree Y coordinate.
+
+=begin comment
+
+=head2 Example
+# Example for convert-bin-window-to-tree-coords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 convert-bin-window-to-widget-coords
+
+Converts bin_window coordinates to widget relative coordinates.
+
+=begin code
+method convert-bin-window-to-widget-coords ( Int() $bx, Int() $by, Array[Int] $wx, Array[Int] $wy )
+=end code
+
+=item $bx; bin_window X coordinate.
+=item $by; bin_window Y coordinate.
+=item $wx; (transfer ownership: full) return location for widget X coordinate.
+=item $wy; (transfer ownership: full) return location for widget Y coordinate.
+
+=begin comment
+
+=head2 Example
+# Example for convert-bin-window-to-widget-coords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 convert-tree-to-bin-window-coords
+
+Converts tree coordinates (coordinates in full scrollable area of the tree)
+to bin_window coordinates.
+
+=begin code
+method convert-tree-to-bin-window-coords ( Int() $tx, Int() $ty, Array[Int] $bx, Array[Int] $by )
+=end code
+
+=item $tx; tree X coordinate.
+=item $ty; tree Y coordinate.
+=item $bx; (transfer ownership: full) return location for X coordinate relative to bin_window.
+=item $by; (transfer ownership: full) return location for Y coordinate relative to bin_window.
+
+=begin comment
+
+=head2 Example
+# Example for convert-tree-to-bin-window-coords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 convert-tree-to-widget-coords
+
+Converts tree coordinates (coordinates in full scrollable area of the tree)
+to widget coordinates.
+
+=begin code
+method convert-tree-to-widget-coords ( Int() $tx, Int() $ty, Array[Int] $wx, Array[Int] $wy )
+=end code
+
+=item $tx; X coordinate relative to the tree.
+=item $ty; Y coordinate relative to the tree.
+=item $wx; (transfer ownership: full) return location for widget X coordinate.
+=item $wy; (transfer ownership: full) return location for widget Y coordinate.
+
+=begin comment
+
+=head2 Example
+# Example for convert-tree-to-widget-coords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 convert-widget-to-bin-window-coords
+
+Converts widget coordinates to coordinates for the bin_window.
+
+=begin code
+method convert-widget-to-bin-window-coords ( Int() $wx, Int() $wy, Array[Int] $bx, Array[Int] $by )
+=end code
+
+=item $wx; X coordinate relative to the widget.
+=item $wy; Y coordinate relative to the widget.
+=item $bx; (transfer ownership: full) return location for bin_window X coordinate.
+=item $by; (transfer ownership: full) return location for bin_window Y coordinate.
+
+=begin comment
+
+=head2 Example
+# Example for convert-widget-to-bin-window-coords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 convert-widget-to-tree-coords
+
+Converts widget coordinates to coordinates for the
+tree (the full scrollable area of the tree).
+
+=begin code
+method convert-widget-to-tree-coords ( Int() $wx, Int() $wy, Array[Int] $tx, Array[Int] $ty )
+=end code
+
+=item $wx; X coordinate relative to the widget.
+=item $wy; Y coordinate relative to the widget.
+=item $tx; (transfer ownership: full) return location for tree X coordinate.
+=item $ty; (transfer ownership: full) return location for tree Y coordinate.
+
+=begin comment
+
+=head2 Example
+# Example for convert-widget-to-tree-coords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-row-drag-icon
+
+Creates a B<Gnome::Cairo::N-Context> representation of the row at C<$path>.
+This image is used for a drag icon.
+
+=begin code
+method create-row-drag-icon ( CArray[N-TreePath] $path --> N-Object )
+=end code
+
+=item $path; a B<Gnome::Gtk4::N-TreePath> in C<$tree-view>.
+
+Return value; a newly-allocated surface of the drag icon.. 
+
+=begin comment
+
+=head2 Example
+# Example for create-row-drag-icon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 enable-model-drag-dest
+This function is not yet available
+
+Turns C<$tree-view> into a drop destination for automatic DND. Calling
+this method sets B<Gnome::Gtk4::TreeView>:reorderable to C<False>.
+
+=begin code
+method enable-model-drag-dest ( CArray[N-ContentFormats]  $formats, UInt $actions )
+=end code
+
+=item $formats; the target formats that the drag will support.
+=item $actions; the bitmask of possible actions for a drag from this
+   widget.
+
+=begin comment
+
+=head2 Example
+# Example for enable-model-drag-dest
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 enable-model-drag-source
+This function is not yet available
+
+Turns C<$tree-view> into a drag source for automatic DND. Calling this
+method sets B<Gnome::Gtk4::TreeView>:reorderable to C<False>.
+
+=begin code
+method enable-model-drag-source ( UInt $start-button-mask, CArray[N-ContentFormats]  $formats, UInt $actions )
+=end code
+
+=item $start-button-mask; Mask of allowed buttons to start drag.
+=item $formats; the target formats that the drag will support.
+=item $actions; the bitmask of possible actions for a drag from this
+   widget.
+
+=begin comment
+
+=head2 Example
+# Example for enable-model-drag-source
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 expand-all
+
+Recursively expands all nodes in the C<$tree-view>.
+
+=begin code
+method expand-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for expand-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 expand-row
+
+Opens the row so its children are visible.
+
+=begin code
+method expand-row ( CArray[N-TreePath] $path, Bool() $open-all --> Bool )
+=end code
+
+=item $path; path to a row.
+=item $open-all; whether to recursively expand, or just expand immediate children.
+
+Return value; C<True> if the row existed and had children. 
+
+=begin comment
+
+=head2 Example
+# Example for expand-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 expand-to-path
+
+Expands the row at C<$path>. This will also expand all parent rows of C<$path> as necessary.
+
+=begin code
+method expand-to-path ( CArray[N-TreePath] $path )
+=end code
+
+=item $path; path to a row..
+
+=begin comment
+
+=head2 Example
+# Example for expand-to-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-activate-on-single-click
+
+Gets the setting set by C<.set-activate-on-single-click()>.
+
+=begin code
+method get-activate-on-single-click (--> Bool )
+=end code
+
+Return value; C<True> if row-activated will be emitted on a single click. 
+
+=begin comment
+
+=head2 Example
+# Example for get-activate-on-single-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-background-area
+
+Fills the bounding rectangle in bin_window coordinates for the cell at the
+row specified by C<$path> and the column specified by C<$column>.  If C<$path> is
+undefined, or points to a node not found in the tree, the C<$y> and C<$height> fields of
+the rectangle will be filled with 0. If C<$column> is undefined, the C<$x> and C<$width>
+fields will be filled with 0.  The returned rectangle is equivalent to the C<$background-area> passed to gtk_cell_renderer_render().  These background
+areas tile to cover the entire bin window.  Contrast with the C<$cell-area>,
+returned by C<.get-cell-area()>, which returns only the cell
+itself, excluding surrounding borders and the tree expander area.
+
+=begin code
+method get-background-area ( CArray[N-TreePath] $path, N-Object() $column, CArray[N-Rectangle] $rect )
+=end code
+
+=item $path; a B<Gnome::Gtk4::N-TreePath> for the row, or undefined to get only horizontal coordinates.
+=item $column; a B<Gnome::Gtk4::TreeViewColumn> for the column, or undefined to get only vertical coordinates.
+=item $rect; rectangle to fill with cell background rect.
+
+=begin comment
+
+=head2 Example
+# Example for get-background-area
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cell-area
+
+Fills the bounding rectangle in bin_window coordinates for the cell at the
+row specified by C<$path> and the column specified by C<$column>.  If C<$path> is
+undefined, or points to a path not currently displayed, the C<$y> and C<$height> fields
+of the rectangle will be filled with 0. If C<$column> is undefined, the C<$x> and C<$width>
+fields will be filled with 0.  The sum of all cell rects does not cover the
+entire tree; there are extra pixels in between rows, for example. The
+returned rectangle is equivalent to the C<$cell-area> passed to
+gtk_cell_renderer_render().  This function is only valid if C<$tree-view> is
+realized.
+
+=begin code
+method get-cell-area ( CArray[N-TreePath] $path, N-Object() $column, CArray[N-Rectangle] $rect )
+=end code
+
+=item $path; a B<Gnome::Gtk4::N-TreePath> for the row, or undefined to get only horizontal coordinates.
+=item $column; a B<Gnome::Gtk4::TreeViewColumn> for the column, or undefined to get only vertical coordinates.
+=item $rect; rectangle to fill with cell rect.
+
+=begin comment
+
+=head2 Example
+# Example for get-cell-area
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-column
+
+Gets the B<Gnome::Gtk4::TreeViewColumn> at the given position in the #tree_view.
+
+=begin code
+method get-column ( Int() $n --> N-Object )
+=end code
+
+=item $n; The position of the column, counting from 0..
+
+Return value; The B<Gnome::Gtk4::TreeViewColumn>, or undefined if the
+position is outside the range of columns.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-columns
+
+Returns a B<Gnome::Glib::N-List> of all the B<Gnome::Gtk4::TreeViewColumn>s currently in C<$tree-view>.
+The returned list must be freed with g_list_free ().
+
+=begin code
+method get-columns (--> N-List )
+=end code
+
+Return value; A list of B<Gnome::Gtk4::TreeViewColumn>s. 
+
+=begin comment
+
+=head2 Example
+# Example for get-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cursor
+
+Fills in C<$path> and C<$focus-column> with the current path and focus column.  If
+the cursor isn’t currently set, then * C<$path> will be undefined.  If no column
+currently has focus, then * C<$focus-column> will be undefined.
+
+The returned B<Gnome::Gtk4::N-TreePath> must be freed with gtk_tree_path_free() when
+you are done with it.
+
+=begin code
+method get-cursor ( CArray[N-TreePath] $path, N-Object() $focus-column )
+=end code
+
+=item $path; (transfer ownership: full) A pointer to be
+  filled with the current cursor path.
+=item $focus-column; A
+  pointer to be filled with the current focus column.
+
+=begin comment
+
+=head2 Example
+# Example for get-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-dest-row-at-pos
+
+Determines the destination row for a given position.  C<$drag-x> and C<$drag-y> are expected to be in widget coordinates.  This function is only
+meaningful if C<$tree-view> is realized.  Therefore this function will always
+return C<False> if C<$tree-view> is not realized or does not have a model.
+
+=begin code
+method get-dest-row-at-pos ( Int() $drag-x, Int() $drag-y, CArray[N-TreePath] $path, GtkTreeViewDropPosition $pos --> Bool )
+=end code
+
+=item $drag-x; the position to determine the destination row for.
+=item $drag-y; the position to determine the destination row for.
+=item $path; (transfer ownership: full) Return location for the path of
+  the highlighted row.
+=item $pos; (transfer ownership: full) Return location for the drop position, or
+  undefined.
+
+Return value; whether there is a row at the given position, C<True> if this
+is indeed the case.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-dest-row-at-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-drag-dest-row
+
+Gets information about the row that is highlighted for feedback.
+
+=begin code
+method get-drag-dest-row ( CArray[N-TreePath] $path, GtkTreeViewDropPosition $pos )
+=end code
+
+=item $path; (transfer ownership: full) Return location for the path of the highlighted row.
+=item $pos; (transfer ownership: full) Return location for the drop position.
+
+=begin comment
+
+=head2 Example
+# Example for get-drag-dest-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-search
+
+Returns whether or not the tree allows to start interactive searching
+by typing in text.
+
+=begin code
+method get-enable-search (--> Bool )
+=end code
+
+Return value; whether or not to let the user search interactively. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-search
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-tree-lines
+
+Returns whether or not tree lines are drawn in C<$tree-view>.
+
+=begin code
+method get-enable-tree-lines (--> Bool )
+=end code
+
+Return value; C<True> if tree lines are drawn in C<$tree-view>, C<False>
+otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-tree-lines
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-expander-column
+
+Returns the column that is the current expander column,
+or undefined if none has been set.
+This column has the expander arrow drawn next to it.
+
+=begin code
+method get-expander-column (--> N-Object )
+=end code
+
+Return value; The expander column.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expander-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-fixed-height-mode
+
+Returns whether fixed height mode is turned on for C<$tree-view>.
+
+=begin code
+method get-fixed-height-mode (--> Bool )
+=end code
+
+Return value; C<True> if C<$tree-view> is in fixed height mode. 
+
+=begin comment
+
+=head2 Example
+# Example for get-fixed-height-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-grid-lines
+
+Returns which grid lines are enabled in C<$tree-view>.
+
+=begin code
+method get-grid-lines (--> GtkTreeViewGridLines )
+=end code
+
+Return value; a B<Gnome::Gtk4::TreeView>GridLines value indicating which grid lines
+are enabled.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-grid-lines
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-headers-clickable
+
+Returns whether all header columns are clickable.
+
+=begin code
+method get-headers-clickable (--> Bool )
+=end code
+
+Return value; C<True> if all header columns are clickable, otherwise C<False>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-headers-clickable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-headers-visible
+
+Returns C<True> if the headers on the C<$tree-view> are visible.
+
+=begin code
+method get-headers-visible (--> Bool )
+=end code
+
+Return value; Whether the headers are visible or not.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-headers-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-hover-expand
+
+Returns whether hover expansion mode is turned on for C<$tree-view>.
+
+=begin code
+method get-hover-expand (--> Bool )
+=end code
+
+Return value; C<True> if C<$tree-view> is in hover expansion mode. 
+
+=begin comment
+
+=head2 Example
+# Example for get-hover-expand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-hover-selection
+
+Returns whether hover selection mode is turned on for C<$tree-view>.
+
+=begin code
+method get-hover-selection (--> Bool )
+=end code
+
+Return value; C<True> if C<$tree-view> is in hover selection mode. 
+
+=begin comment
+
+=head2 Example
+# Example for get-hover-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-level-indentation
+
+Returns the amount, in pixels, of extra indentation for child levels
+in C<$tree-view>.
+
+=begin code
+method get-level-indentation (--> Int )
+=end code
+
+Return value; the amount of extra indentation for child levels in C<$tree-view>.  A return value of 0 means that this feature is disabled.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-level-indentation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Returns the model the B<Gnome::Gtk4::TreeView> is based on.  Returns undefined if the
+model is unset.
+
+=begin code
+method get-model (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Gtk4::R-TreeModel>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-columns
+
+Queries the number of columns in the given C<$tree-view>.
+
+=begin code
+method get-n-columns (--> UInt )
+=end code
+
+Return value; The number of columns in the C<$tree-view>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-n-columns
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-path-at-pos
+
+Finds the path at the point ( C<$x>, C<$y>), relative to bin_window coordinates.
+That is, C<$x> and C<$y> are relative to an events coordinates. Widget-relative
+coordinates must be converted using
+C<.convert-widget-to-bin-window-coords()>. It is primarily for
+things like popup menus. If C<$path> is non-undefined, then it will be filled
+with the B<Gnome::Gtk4::N-TreePath> at that point.  This path should be freed with
+gtk_tree_path_free().  If C<$column> is non-undefined, then it will be filled
+with the column at that point.  C<$cell-x> and C<$cell-y> return the coordinates
+relative to the cell background (i.e. the C<$background-area> passed to
+gtk_cell_renderer_render()).  This function is only meaningful if C<$tree-view> is realized.  Therefore this function will always return C<False>
+if C<$tree-view> is not realized or does not have a model.
+
+For converting widget coordinates (eg. the ones you get from
+GtkWidget::query-tooltip), please see
+C<.convert-widget-to-bin-window-coords()>.
+
+=begin code
+method get-path-at-pos ( Int() $x, Int() $y, CArray[N-TreePath] $path, N-Object() $column, Array[Int] $cell-x, Array[Int] $cell-y --> Bool )
+=end code
+
+=item $x; The x position to be identified (relative to bin_window)..
+=item $y; The y position to be identified (relative to bin_window)..
+=item $path; (transfer ownership: full) A pointer to a B<Gnome::Gtk4::N-TreePath>
+  pointer to be filled in.
+=item $column; A pointer to
+  a B<Gnome::Gtk4::TreeViewColumn> pointer to be filled in.
+=item $cell-x; (transfer ownership: full) A pointer where the X coordinate
+  relative to the cell can be placed.
+=item $cell-y; (transfer ownership: full) A pointer where the Y coordinate
+  relative to the cell can be placed.
+
+Return value; C<True> if a row exists at that coordinate.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-path-at-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-reorderable
+
+Retrieves whether the user can reorder the tree via drag-and-drop. See
+C<.set-reorderable()>.
+
+=begin code
+method get-reorderable (--> Bool )
+=end code
+
+Return value; C<True> if the tree can be reordered.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-separator-func
+
+Returns the current row separator function.
+
+=begin code
+method get-row-separator-func (-->  )
+=end code
+
+Return value; the current row separator function.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-separator-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-rubber-banding
+
+Returns whether rubber banding is turned on for C<$tree-view>.  If the
+selection mode is C<GTK_SELECTION_MULTIPLE>, rubber banding will allow the
+user to select multiple rows by dragging the mouse.
+
+=begin code
+method get-rubber-banding (--> Bool )
+=end code
+
+Return value; C<True> if rubber banding in C<$tree-view> is enabled.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-rubber-banding
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-search-column
+
+Gets the column searched on by the interactive search code.
+
+=begin code
+method get-search-column (--> Int )
+=end code
+
+Return value; the column the interactive search code searches in.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-search-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-search-entry
+
+Returns the B<Gnome::Gtk4::Entry> which is currently in use as interactive search
+entry for C<$tree-view>.  In case the built-in entry is being used, undefined
+will be returned.
+
+=begin code
+method get-search-entry (--> N-Object )
+=end code
+
+Return value; the entry currently in use as search entry.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-search-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-search-equal-func
+
+Returns the compare function currently in use.
+
+=begin code
+method get-search-equal-func (-->  )
+=end code
+
+Return value; the currently used compare function for the search code.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-search-equal-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection
+
+Gets the B<Gnome::Gtk4::TreeSelection> associated with C<$tree-view>.
+
+=begin code
+method get-selection (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Gtk4::TreeSelection> object.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-expanders
+
+Returns whether or not expanders are drawn in C<$tree-view>.
+
+=begin code
+method get-show-expanders (--> Bool )
+=end code
+
+Return value; C<True> if expanders are drawn in C<$tree-view>, C<False>
+otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-expanders
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tooltip-column
+
+Returns the column of C<$tree-view>’s model which is being used for
+displaying tooltips on C<$tree-view>’s rows.
+
+=begin code
+method get-tooltip-column (--> Int )
+=end code
+
+Return value; the index of the tooltip column that is currently being
+used, or -1 if this is disabled.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tooltip-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tooltip-context
+
+This function is supposed to be used in a I<query-tooltip>
+signal handler for B<Gnome::Gtk4::TreeView>. The C<$x>, C<$y> and C<$keyboard-tip> values
+which are received in the signal handler, should be passed to this
+function without modification.
+
+The return value indicates whether there is a tree view row at the given
+coordinates (C<True>) or not (C<False>) for mouse tooltips. For keyboard
+tooltips the row returned will be the cursor row. When C<True>, then any of C<$model>, C<$path> and C<$iter> which have been provided will be set to point to
+that row and the corresponding model. C<$x> and C<$y> will always be converted
+to be relative to C<$tree-view>’s bin_window if C<$keyboard-tooltip> is C<False>.
+
+=begin code
+method get-tooltip-context ( Int() $x, Int() $y, Bool() $keyboard-tip, N-Object() $model, CArray[N-TreePath] $path, CArray[N-TreeIter] $iter --> Bool )
+=end code
+
+=item $x; the x coordinate (relative to widget coordinates).
+=item $y; the y coordinate (relative to widget coordinates).
+=item $keyboard-tip; whether this is a keyboard tooltip or not.
+=item $model; a pointer to
+  receive a B<Gnome::Gtk4::R-TreeModel>.
+=item $path; (transfer ownership: full) a pointer to receive a B<Gnome::Gtk4::N-TreePath>.
+=item $iter; a pointer to receive a B<Gnome::Gtk4::N-TreeIter>.
+
+Return value; whether or not the given tooltip context points to a row. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tooltip-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible-range
+
+Sets C<$start-path> and C<$end-path> to be the first and last visible path.
+Note that there may be invisible paths in between.
+
+The paths should be freed with gtk_tree_path_free() after use.
+
+=begin code
+method get-visible-range ( CArray[N-TreePath] $start-path, CArray[N-TreePath] $end-path --> Bool )
+=end code
+
+=item $start-path; (transfer ownership: full) Return location for start of region.
+=item $end-path; (transfer ownership: full) Return location for end of region.
+
+Return value; C<True>, if valid paths were placed in C<$start-path> and C<$end-path>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visible-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible-rect
+
+Fills C<$visible-rect> with the currently-visible region of the
+buffer, in tree coordinates. Convert to bin_window coordinates with
+C<.convert-tree-to-bin-window-coords()>.
+Tree coordinates start at 0,0 for row 0 of the tree, and cover the entire
+scrollable area of the tree.
+
+=begin code
+method get-visible-rect ( CArray[N-Rectangle] $visible-rect )
+=end code
+
+=item $visible-rect; rectangle to fill.
+
+=begin comment
+
+=head2 Example
+# Example for get-visible-rect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-column
+
+This inserts the C<$column> into the C<$tree-view> at C<$position>.  If C<$position> is
+-1, then the column is inserted at the end. If C<$tree-view> has
+“fixed_height” mode enabled, then C<$column> must have its “sizing” property
+set to be GTK_TREE_VIEW_COLUMN_FIXED.
+
+=begin code
+method insert-column ( N-Object() $column, Int() $position --> Int )
+=end code
+
+=item $column; The B<Gnome::Gtk4::TreeViewColumn> to be inserted..
+=item $position; The position to insert C<$column> in..
+
+Return value; The number of columns in C<$tree-view> after insertion.. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-column-with-attributes
+This function is not yet available
+
+Creates a new B<Gnome::Gtk4::TreeViewColumn> and inserts it into the C<$tree-view> at C<$position>.  If C<$position> is -1, then the newly created column is inserted at
+the end.  The column is initialized with the attributes given. If C<$tree-view>
+has “fixed_height” mode enabled, then the new column will have its sizing
+property set to be GTK_TREE_VIEW_COLUMN_FIXED.
+
+=begin code
+method insert-column-with-attributes ( Int() $position, Str $title, N-Object() $cell, … --> Int )
+=end code
+
+=item $position; The position to insert the new column in.
+=item $title; The title to set the header to.
+=item $cell; The B<Gnome::Gtk4::CellRenderer>.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+Return value; The number of columns in C<$tree-view> after insertion.. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-column-with-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-column-with-data-func
+This function is not yet available
+
+Convenience function that inserts a new column into the B<Gnome::Gtk4::TreeView>
+with the given cell renderer and a B<Gnome::Gtk4::T-TreeViewColumn> to set cell renderer
+attributes (normally using data from the model). See also
+C<.column-set-cell-data-func()>, C<.column-pack-start()>.
+If C<$tree-view> has “fixed_height” mode enabled, then the new column will have its
+“sizing” property set to be GTK_TREE_VIEW_COLUMN_FIXED.
+
+=begin code
+method insert-column-with-data-func ( Int() $position, Str $title, N-Object() $cell, &func, gpointer $data, … --> Int )
+=end code
+
+=item $position; Position to insert, -1 for append.
+=item $title; column title.
+=item $cell; cell renderer for column.
+=item &func; function to set attributes of cell renderer. Tthe function must be specified with following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-TreeIter $iter, gpointer $data )>.
+=item $data; data for C<$func>.
+=item dnotify; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
+
+Return value; number of columns in the tree view post-insert. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-column-with-data-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-blank-at-pos
+
+Determine whether the point ( C<$x>, C<$y>) in C<$tree-view> is blank, that is no
+cell content nor an expander arrow is drawn at the location. If so, the
+location can be considered as the background. You might wish to take
+special action on clicks on the background, such as clearing a current
+selection, having a custom context menu or starting rubber banding.
+
+The C<$x> and C<$y> coordinate that are provided must be relative to bin_window
+coordinates.  Widget-relative coordinates must be converted using
+C<.convert-widget-to-bin-window-coords()>.
+
+For converting widget coordinates (eg. the ones you get from
+GtkWidget::query-tooltip), please see
+C<.convert-widget-to-bin-window-coords()>.
+
+The C<$path>, C<$column>, C<$cell-x> and C<$cell-y> arguments will be filled in
+likewise as for C<.get-path-at-pos()>.  Please see
+C<.get-path-at-pos()> for more information.
+
+=begin code
+method is-blank-at-pos ( Int() $x, Int() $y, CArray[N-TreePath] $path, N-Object() $column, Array[Int] $cell-x, Array[Int] $cell-y --> Bool )
+=end code
+
+=item $x; The x position to be identified (relative to bin_window).
+=item $y; The y position to be identified (relative to bin_window).
+=item $path; (transfer ownership: full) A pointer to a B<Gnome::Gtk4::N-TreePath> pointer to
+  be filled in.
+=item $column; A pointer to a
+  B<Gnome::Gtk4::TreeViewColumn> pointer to be filled in.
+=item $cell-x; (transfer ownership: full) A pointer where the X coordinate relative to the
+  cell can be placed.
+=item $cell-y; (transfer ownership: full) A pointer where the Y coordinate relative to the
+  cell can be placed.
+
+Return value; C<True> if the area at the given coordinates is blank,
+C<False> otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for is-blank-at-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-rubber-banding-active
+
+Returns whether a rubber banding operation is currently being done
+in C<$tree-view>.
+
+=begin code
+method is-rubber-banding-active (--> Bool )
+=end code
+
+Return value; C<True> if a rubber banding operation is currently being
+done in C<$tree-view>.. 
+
+=begin comment
+
+=head2 Example
+# Example for is-rubber-banding-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 map-expanded-rows
+
+Calls C<$func> on all expanded rows.
+
+=begin code
+method map-expanded-rows ( &func, gpointer $data )
+=end code
+
+=item &func; A function to be called. Tthe function must be specified with following signature; C<:( N-Object $tree-view, N-TreePath $path, gpointer $user-data )>.
+=item $data; User data to be passed to the function..
+
+=begin comment
+
+=head2 Example
+# Example for map-expanded-rows
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 move-column-after
+
+Moves C<$column> to be after to C<$base-column>.  If C<$base-column> is undefined, then C<$column> is placed in the first position.
+
+=begin code
+method move-column-after ( N-Object() $column, N-Object() $base-column )
+=end code
+
+=item $column; The B<Gnome::Gtk4::TreeViewColumn> to be moved..
+=item $base-column; The B<Gnome::Gtk4::TreeViewColumn> to be moved relative to.
+
+=begin comment
+
+=head2 Example
+# Example for move-column-after
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-column
+
+Removes C<$column> from C<$tree-view>.
+
+=begin code
+method remove-column ( N-Object() $column --> Int )
+=end code
+
+=item $column; The B<Gnome::Gtk4::TreeViewColumn> to remove..
+
+Return value; The number of columns in C<$tree-view> after removing.. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 row-activated
+
+Activates the cell determined by C<$path> and C<$column>.
+
+=begin code
+method row-activated ( CArray[N-TreePath] $path, N-Object() $column )
+=end code
+
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be activated..
+=item $column; The B<Gnome::Gtk4::TreeViewColumn> to be activated..
+
+=begin comment
+
+=head2 Example
+# Example for row-activated
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 row-expanded
+
+Returns C<True> if the node pointed to by C<$path> is expanded in C<$tree-view>.
+
+=begin code
+method row-expanded ( CArray[N-TreePath] $path --> Bool )
+=end code
+
+=item $path; A B<Gnome::Gtk4::N-TreePath> to test expansion state..
+
+Return value; C<True> if #path is expanded.. 
+
+=begin comment
+
+=head2 Example
+# Example for row-expanded
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to-cell
+
+Moves the alignments of C<$tree-view> to the position specified by C<$column> and C<$path>.  If C<$column> is undefined, then no horizontal scrolling occurs.  Likewise,
+if C<$path> is undefined no vertical scrolling occurs.  At a minimum, one of C<$column>
+or C<$path> need to be non-undefined.  C<$row-align> determines where the row is
+placed, and C<$col-align> determines where C<$column> is placed.  Both are expected
+to be between 0.0 and 1.0. 0.0 means left/top alignment, 1.0 means
+right/bottom alignment, 0.5 means center.
+
+If C<$use-align> is C<False>, then the alignment arguments are ignored, and the
+tree does the minimum amount of work to scroll the cell onto the screen.
+This means that the cell will be scrolled to the edge closest to its current
+position.  If the cell is currently visible on the screen, nothing is done.
+
+This function only works if the model is set, and C<$path> is a valid row on the
+model.  If the model changes before the C<$tree-view> is realized, the centered
+path will be modified to reflect this change.
+
+=begin code
+method scroll-to-cell ( CArray[N-TreePath] $path, N-Object() $column, Bool() $use-align, Num() $row-align, Num() $col-align )
+=end code
+
+=item $path; The path of the row to move to.
+=item $column; The B<Gnome::Gtk4::TreeViewColumn> to move horizontally to.
+=item $use-align; whether to use alignment arguments, or C<False>..
+=item $row-align; The vertical alignment of the row specified by C<$path>..
+=item $col-align; The horizontal alignment of the column specified by C<$column>..
+
+=begin comment
+
+=head2 Example
+# Example for scroll-to-cell
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to-point
+
+Scrolls the tree view such that the top-left corner of the visible
+area is C<$tree-x>, C<$tree-y>, where C<$tree-x> and C<$tree-y> are specified
+in tree coordinates.  The C<$tree-view> must be realized before
+this function is called.  If it isn't, you probably want to be
+using C<.scroll-to-cell()>.
+
+If either C<$tree-x> or C<$tree-y> are -1, then that direction isn’t scrolled.
+
+=begin code
+method scroll-to-point ( Int() $tree-x, Int() $tree-y )
+=end code
+
+=item $tree-x; X coordinate of new top-left pixel of visible area, or -1.
+=item $tree-y; Y coordinate of new top-left pixel of visible area, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for scroll-to-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-activate-on-single-click
+
+Cause the B<Gnome::Gtk4::TreeView>::row-activated signal to be emitted
+on a single click instead of a double click.
+
+=begin code
+method set-activate-on-single-click ( Bool() $single )
+=end code
+
+=item $single; C<True> to emit row-activated on a single click.
+
+=begin comment
+
+=head2 Example
+# Example for set-activate-on-single-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-column-drag-function
+This function is not yet available
+
+Sets a user function for determining where a column may be dropped when
+dragged.  This function is called on every column pair in turn at the
+beginning of a column drag to determine where a drop can take place.  The
+arguments passed to C<$func> are: the C<$tree-view>, the B<Gnome::Gtk4::TreeViewColumn> being
+dragged, the two B<Gnome::Gtk4::TreeViewColumn>s determining the drop spot, and C<$user-data>.  If either of the B<Gnome::Gtk4::TreeViewColumn> arguments for the drop spot
+are undefined, then they indicate an edge.  If C<$func> is set to be undefined, then C<$tree-view> reverts to the default behavior of allowing all columns to be
+dropped everywhere.
+
+=begin code
+method set-column-drag-function ( &func, gpointer $user-data, … )
+=end code
+
+=item &func; A function to determine which columns are reorderable. Tthe function must be specified with following signature; C<:( N-Object $tree-view, N-Object $column, N-Object $prev-column, N-Object $next-column, gpointer $data --> gboolean )>.
+=item $user-data; User data to be passed to C<$func>.
+=item destroy; Destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-column-drag-function
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cursor
+
+Sets the current keyboard focus to be at C<$path>, and selects it.  This is
+useful when you want to focus the user’s attention on a particular row.  If C<$focus-column> is defined, then focus is given to the column specified by
+it. Additionally, if C<$focus-column> is specified, and C<$start-editing> is
+C<True>, then editing should be started in the specified cell.
+This function is often followed by C<$gtk-widget-grab-focus> ( C<$tree-view>)
+in order to give keyboard focus to the widget.  Please note that editing
+can only happen when the widget is realized.
+
+If C<$path> is invalid for C<$model>, the current cursor (if any) will be unset
+and the function will return without failing.
+
+=begin code
+method set-cursor ( CArray[N-TreePath] $path, N-Object() $focus-column, Bool() $start-editing )
+=end code
+
+=item $path; A B<Gnome::Gtk4::N-TreePath>.
+=item $focus-column; A B<Gnome::Gtk4::TreeViewColumn>.
+=item $start-editing; C<True> if the specified cell should start being edited..
+
+=begin comment
+
+=head2 Example
+# Example for set-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cursor-on-cell
+
+Sets the current keyboard focus to be at C<$path>, and selects it.  This is
+useful when you want to focus the user’s attention on a particular row.  If C<$focus-column> is defined, then focus is given to the column specified by
+it. If C<$focus-column> and C<$focus-cell> are defined, and C<$focus-column>
+contains 2 or more editable or activatable cells, then focus is given to
+the cell specified by C<$focus-cell>. Additionally, if C<$focus-column> is
+specified, and C<$start-editing> is C<True>, then editing should be started in
+the specified cell.  This function is often followed by C<$gtk-widget-grab-focus> ( C<$tree-view>) in order to give keyboard focus to the
+widget.  Please note that editing can only happen when the widget is
+realized.
+
+If C<$path> is invalid for C<$model>, the current cursor (if any) will be unset
+and the function will return without failing.
+
+=begin code
+method set-cursor-on-cell ( CArray[N-TreePath] $path, N-Object() $focus-column, N-Object() $focus-cell, Bool() $start-editing )
+=end code
+
+=item $path; A B<Gnome::Gtk4::N-TreePath>.
+=item $focus-column; A B<Gnome::Gtk4::TreeViewColumn>.
+=item $focus-cell; A B<Gnome::Gtk4::CellRenderer>.
+=item $start-editing; C<True> if the specified cell should start being edited..
+
+=begin comment
+
+=head2 Example
+# Example for set-cursor-on-cell
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-drag-dest-row
+
+Sets the row that is highlighted for feedback.
+If C<$path> is undefined, an existing highlight is removed.
+
+=begin code
+method set-drag-dest-row ( CArray[N-TreePath] $path, GtkTreeViewDropPosition $pos )
+=end code
+
+=item $path; The path of the row to highlight.
+=item $pos; Specifies whether to drop before, after or into the row.
+
+=begin comment
+
+=head2 Example
+# Example for set-drag-dest-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-search
+
+If C<$enable-search> is set, then the user can type in text to search through
+the tree interactively (this is sometimes called "typeahead find").
+
+Note that even if this is C<False>, the user can still initiate a search
+using the “start-interactive-search” key binding.
+
+=begin code
+method set-enable-search ( Bool() $enable-search )
+=end code
+
+=item $enable-search; C<True>, if the user can search interactively.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-search
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-tree-lines
+
+Sets whether to draw lines interconnecting the expanders in C<$tree-view>.
+This does not have any visible effects for lists.
+
+=begin code
+method set-enable-tree-lines ( Bool() $enabled )
+=end code
+
+=item $enabled; C<True> to enable tree line drawing, C<False> otherwise..
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-tree-lines
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-expander-column
+
+Sets the column to draw the expander arrow at. It must be in C<$tree-view>.
+If C<$column> is undefined, then the expander arrow is always at the first
+visible column.
+
+If you do not want expander arrow to appear in your tree, set the
+expander column to a hidden column.
+
+=begin code
+method set-expander-column ( N-Object() $column )
+=end code
+
+=item $column; undefined, or the column to draw the expander arrow at..
+
+=begin comment
+
+=head2 Example
+# Example for set-expander-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-fixed-height-mode
+
+Enables or disables the fixed height mode of C<$tree-view>.
+Fixed height mode speeds up B<Gnome::Gtk4::TreeView> by assuming that all
+rows have the same height.
+Only enable this option if all rows are the same height and all
+columns are of type C<GTK_TREE_VIEW_COLUMN_FIXED>.
+
+=begin code
+method set-fixed-height-mode ( Bool() $enable )
+=end code
+
+=item $enable; C<True> to enable fixed height mode.
+
+=begin comment
+
+=head2 Example
+# Example for set-fixed-height-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-grid-lines
+
+Sets which grid lines to draw in C<$tree-view>.
+
+=begin code
+method set-grid-lines ( GtkTreeViewGridLines $grid-lines )
+=end code
+
+=item $grid-lines; a B<Gnome::Gtk4::TreeView>GridLines value indicating which grid lines to
+enable..
+
+=begin comment
+
+=head2 Example
+# Example for set-grid-lines
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-headers-clickable
+
+Allow the column title buttons to be clicked.
+
+=begin code
+method set-headers-clickable ( Bool() $setting )
+=end code
+
+=item $setting; C<True> if the columns are clickable..
+
+=begin comment
+
+=head2 Example
+# Example for set-headers-clickable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-headers-visible
+
+Sets the visibility state of the headers.
+
+=begin code
+method set-headers-visible ( Bool() $headers-visible )
+=end code
+
+=item $headers-visible; C<True> if the headers are visible.
+
+=begin comment
+
+=head2 Example
+# Example for set-headers-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hover-expand
+
+Enables or disables the hover expansion mode of C<$tree-view>.
+Hover expansion makes rows expand or collapse if the pointer
+moves over them.
+
+=begin code
+method set-hover-expand ( Bool() $expand )
+=end code
+
+=item $expand; C<True> to enable hover selection mode.
+
+=begin comment
+
+=head2 Example
+# Example for set-hover-expand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hover-selection
+
+Enables or disables the hover selection mode of C<$tree-view>.
+Hover selection makes the selected row follow the pointer.
+Currently, this works only for the selection modes
+C<GTK_SELECTION_SINGLE> and C<GTK_SELECTION_BROWSE>.
+
+=begin code
+method set-hover-selection ( Bool() $hover )
+=end code
+
+=item $hover; C<True> to enable hover selection mode.
+
+=begin comment
+
+=head2 Example
+# Example for set-hover-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-level-indentation
+
+Sets the amount of extra indentation for child levels to use in C<$tree-view>
+in addition to the default indentation.  The value should be specified in
+pixels, a value of 0 disables this feature and in this case only the default
+indentation will be used.
+This does not have any visible effects for lists.
+
+=begin code
+method set-level-indentation ( Int() $indentation )
+=end code
+
+=item $indentation; the amount, in pixels, of extra indentation in C<$tree-view>..
+
+=begin comment
+
+=head2 Example
+# Example for set-level-indentation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-model
+
+Sets the model for a B<Gnome::Gtk4::TreeView>.  If the C<$tree-view> already has a model
+set, it will remove it before setting the new model.  If C<$model> is undefined,
+then it will unset the old model.
+
+=begin code
+method set-model ( N-Object() $model )
+=end code
+
+=item $model; The model..
+
+=begin comment
+
+=head2 Example
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-reorderable
+
+This function is a convenience function to allow you to reorder
+models that support the B<GtkTreeDragSourceIface> and the
+B<GtkTreeDragDestIface>.  Both B<Gnome::Gtk4::TreeStore> and B<Gnome::Gtk4::ListStore> support
+these.  If C<$reorderable> is C<True>, then the user can reorder the
+model by dragging and dropping rows. The developer can listen to
+these changes by connecting to the model’s B<GtkTreeModel::row-inserted>
+and B<GtkTreeModel::row-deleted> signals. The reordering is implemented
+by setting up the tree view as a drag source and destination.
+Therefore, drag and drop can not be used in a reorderable view for any
+other purpose.
+
+This function does not give you any degree of control over the order -- any
+reordering is allowed.  If more control is needed, you should probably
+handle drag and drop manually.
+
+=begin code
+method set-reorderable ( Bool() $reorderable )
+=end code
+
+=item $reorderable; C<True>, if the tree can be reordered..
+
+=begin comment
+
+=head2 Example
+# Example for set-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-separator-func
+This function is not yet available
+
+Sets the row separator function, which is used to determine
+whether a row should be drawn as a separator. If the row separator
+function is undefined, no separators are drawn. This is the default value.
+
+=begin code
+method set-row-separator-func ( &func, gpointer $data, … )
+=end code
+
+=item &func; a B<Gnome::Gtk4::TreeView>RowSeparatorFunc. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreeIter $iter, gpointer $data --> gboolean )>.
+=item $data; user data to pass to C<$func>.
+=item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-row-separator-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-rubber-banding
+
+Enables or disables rubber banding in C<$tree-view>.  If the selection mode
+is C<GTK_SELECTION_MULTIPLE>, rubber banding will allow the user to select
+multiple rows by dragging the mouse.
+
+=begin code
+method set-rubber-banding ( Bool() $enable )
+=end code
+
+=item $enable; C<True> to enable rubber banding.
+
+=begin comment
+
+=head2 Example
+# Example for set-rubber-banding
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-search-column
+
+Sets C<$column> as the column where the interactive search code should
+search in for the current model.
+
+If the search column is set, users can use the “start-interactive-search”
+key binding to bring up search popup. The enable-search property controls
+whether simply typing text will also start an interactive search.
+
+Note that C<$column> refers to a column of the current model. The search
+column is reset to -1 when the model is changed.
+
+=begin code
+method set-search-column ( Int() $column )
+=end code
+
+=item $column; the column of the model to search in, or -1 to disable searching.
+
+=begin comment
+
+=head2 Example
+# Example for set-search-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-search-entry
+
+Sets the entry which the interactive search code will use for this C<$tree-view>.  This is useful when you want to provide a search entry
+in our interface at all time at a fixed position.  Passing undefined for C<$entry> will make the interactive search code use the built-in popup
+entry again.
+
+=begin code
+method set-search-entry ( N-Object() $entry )
+=end code
+
+=item $entry; the entry the interactive search code of C<$tree-view> should use.
+
+=begin comment
+
+=head2 Example
+# Example for set-search-entry
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-search-equal-func
+This function is not yet available
+
+Sets the compare function for the interactive search capabilities; note
+that somewhat like strcmp() returning 0 for equality
+B<Gnome::Gtk4::TreeView>SearchEqualFunc returns C<False> on matches.
+
+=begin code
+method set-search-equal-func ( &search-equal-func, gpointer $search-user-data, … )
+=end code
+
+=item &search-equal-func; the compare function to use during the search. Tthe function must be specified with following signature; C<:( N-Object $model, gint $column, Str $key, N-TreeIter $iter, gpointer $search-data --> gboolean )>.
+=item $search-user-data; user data to pass to C<$search-equal-func>.
+=item search-destroy; Destroy notifier for C<$search-user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-search-equal-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-expanders
+
+Sets whether to draw and enable expanders and indent child rows in C<$tree-view>.  When disabled there will be no expanders visible in trees
+and there will be no way to expand and collapse rows by default.  Also
+note that hiding the expanders will disable the default indentation.  You
+can set a custom indentation in this case using
+C<.set-level-indentation()>.
+This does not have any visible effects for lists.
+
+=begin code
+method set-show-expanders ( Bool() $enabled )
+=end code
+
+=item $enabled; C<True> to enable expander drawing, C<False> otherwise..
+
+=begin comment
+
+=head2 Example
+# Example for set-show-expanders
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tooltip-cell
+
+Sets the tip area of C<$tooltip> to the area C<$path>, C<$column> and C<$cell> have
+in common.  For example if C<$path> is undefined and C<$column> is set, the tip
+area will be set to the full area covered by C<$column>.  See also
+gtk_tooltip_set_tip_area().
+
+Note that if C<$path> is not specified and C<$cell> is set and part of a column
+containing the expander, the tooltip might not show and hide at the correct
+position.  In such cases C<$path> must be set to the current node under the
+mouse cursor for this function to operate correctly.
+
+See also C<.set-tooltip-column()> for a simpler alternative.
+
+=begin code
+method set-tooltip-cell ( N-Object() $tooltip, CArray[N-TreePath] $path, N-Object() $column, N-Object() $cell )
+=end code
+
+=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $path; a B<Gnome::Gtk4::N-TreePath>.
+=item $column; a B<Gnome::Gtk4::TreeViewColumn>.
+=item $cell; a B<Gnome::Gtk4::CellRenderer>.
+
+=begin comment
+
+=head2 Example
+# Example for set-tooltip-cell
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tooltip-column
+
+If you only plan to have simple (text-only) tooltips on full rows, you
+can use this function to have B<Gnome::Gtk4::TreeView> handle these automatically
+for you. C<$column> should be set to the column in C<$tree-view>’s model
+containing the tooltip texts, or -1 to disable this feature.
+
+When enabled, B<GtkWidget:has-tooltip> will be set to C<True> and C<$tree-view> will connect a B<GtkWidget::query-tooltip> signal handler.
+
+Note that the signal handler sets the text with gtk_tooltip_set_markup(),
+so &, <, etc have to be escaped in the text.
+
+=begin code
+method set-tooltip-column ( Int() $column )
+=end code
+
+=item $column; an integer, which is a valid column number for C<$tree-view>’s model.
+
+=begin comment
+
+=head2 Example
+# Example for set-tooltip-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tooltip-row
+
+Sets the tip area of C<$tooltip> to be the area covered by the row at C<$path>.
+See also C<.set-tooltip-column()> for a simpler alternative.
+See also gtk_tooltip_set_tip_area().
+
+=begin code
+method set-tooltip-row ( N-Object() $tooltip, CArray[N-TreePath] $path )
+=end code
+
+=item $tooltip; a B<Gnome::Gtk4::Tooltip>.
+=item $path; a B<Gnome::Gtk4::N-TreePath>.
+
+=begin comment
+
+=head2 Example
+# Example for set-tooltip-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unset-rows-drag-dest
+
+Undoes the effect of
+C<.enable-model-drag-dest()>. Calling this method sets
+B<Gnome::Gtk4::TreeView>:reorderable to C<False>.
+
+=begin code
+method unset-rows-drag-dest ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unset-rows-drag-dest
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unset-rows-drag-source
+
+Undoes the effect of
+C<.enable-model-drag-source()>. Calling this method sets
+B<Gnome::Gtk4::TreeView>:reorderable to C<False>.
+
+=begin code
+method unset-rows-drag-source ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unset-rows-drag-source
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 columns-changed
+
+The number of columns of the treeview has changed.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal columns-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 cursor-changed
+
+The position of the cursor (focused cell) has changed.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal cursor-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 expand-collapse-cursor-row
+
+=begin code
+method handler (
+  gboolean $object,
+  gboolean $p0,
+  gboolean $p1,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $object; .
+=item $p0; .
+=item $p1; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal expand-collapse-cursor-row
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-cursor
+
+The B<Gnome::Gtk4::TreeView>::move-cursor signal is a [keybinding
+signal]B<Gnome::Gtk4::SignalAction> which gets emitted when the user
+presses one of the cursor keys.
+
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control the cursor
+programmatically. In contrast to C<.set-cursor()> and
+C<.set-cursor-on-cell()> when moving horizontally
+B<Gnome::Gtk4::TreeView>::move-cursor does not reset the current selection.
+
+=begin code
+method handler (
+   $step,
+  gint $direction,
+  gboolean $extend,
+  gboolean $modify,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $step; the granularity of the move, as a C<enumeration GtkMovementStep defined in Gnome::Gtk4::T-Enums>.
+    C<GTK_MOVEMENT_LOGICAL_POSITIONS>, C<GTK_MOVEMENT_VISUAL_POSITIONS>,
+    C<GTK_MOVEMENT_DISPLAY_LINES>, C<GTK_MOVEMENT_PAGES> and
+    C<GTK_MOVEMENT_BUFFER_ENDS> are supported.
+    C<GTK_MOVEMENT_LOGICAL_POSITIONS> and C<GTK_MOVEMENT_VISUAL_POSITIONS>
+    are treated identically..
+=item $direction; the direction to move: +1 to move forwards; -1 to move
+    backwards. The resulting movement is undefined for all other values..
+=item $extend; whether to extend the selection.
+=item $modify; whether to modify the selection.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if C<$step> is supported, C<False> otherwise.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 row-activated
+
+The "row-activated" signal is emitted when the method
+[B<method C<$Gtk>.TreeView.row_activated>] is called.
+
+This signal is emitted when the user double-clicks a treeview row with the
+I<activate-on-single-click> property set to C<False>,
+or when the user single-clicks a row when that property set to C<True>.
+
+This signal is also emitted when a non-editable row is selected and one
+of the keys: <kbd>Space</kbd>, <kbd>Shift</kbd>+<kbd>Space</kbd>,
+<kbd>Return</kbd> or <kbd>Enter</kbd> is pressed.
+
+For selection handling refer to the
+[tree widget conceptual overview](section-tree-widget.html)
+as well as B<Gnome::Gtk4::TreeSelection>.
+
+=begin code
+method handler (
+  N-TreePath $path,
+  N-Object $column,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $path; the B<Gnome::Gtk4::N-TreePath> for the activated row.
+=item $column; the B<Gnome::Gtk4::TreeViewColumn> in which the activation occurred.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal row-activated
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 row-collapsed
+
+The given row has been collapsed (child nodes are hidden).
+
+=begin code
+method handler (
+  N-TreeIter $iter,
+  N-TreePath $path,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $iter; the tree iter of the collapsed row.
+=item $path; a tree path that points to the row.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal row-collapsed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 row-expanded
+
+The given row has been expanded (child nodes are shown).
+
+=begin code
+method handler (
+  N-TreeIter $iter,
+  N-TreePath $path,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $iter; the tree iter of the expanded row.
+=item $path; a tree path that points to the row.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal row-expanded
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-all
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal select-all
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-cursor-parent
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal select-cursor-parent
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-cursor-row
+
+=begin code
+method handler (
+  gboolean $object,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $object; .
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal select-cursor-row
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 start-interactive-search
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal start-interactive-search
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 test-collapse-row
+
+The given row is about to be collapsed (hide its children nodes). Use this
+signal if you need to control the collapsibility of individual rows.
+
+=begin code
+method handler (
+  N-TreeIter $iter,
+  N-TreePath $path,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $iter; the tree iter of the row to collapse.
+=item $path; a tree path that points to the row.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<False> to allow collapsing, C<True> to reject
+
+=begin comment
+
+=head2 Example
+# Example for signal test-collapse-row
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 test-expand-row
+
+The given row is about to be expanded (show its children nodes). Use this
+signal if you need to control the expandability of individual rows.
+
+=begin code
+method handler (
+  N-TreeIter $iter,
+  N-TreePath $path,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $iter; the tree iter of the row to expand.
+=item $path; a tree path that points to the row.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<False> to allow expansion, C<True> to reject
+
+=begin comment
+
+=head2 Example
+# Example for signal test-expand-row
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 toggle-cursor-row
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal toggle-cursor-row
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 unselect-all
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeView :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeView> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; 
+
+=begin comment
+
+=head2 Example
+# Example for signal unselect-all
+
+=end comment
+
+=end pod
+

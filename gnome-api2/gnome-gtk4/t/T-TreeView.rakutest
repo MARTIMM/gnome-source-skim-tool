@@ -1,0 +1,41 @@
+=comment Package: Gtk4, C-Source: treeview
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-TreeView:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-TreeView:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkTreeViewDropPosition
+subtest 'GtkTreeViewDropPosition', {
+  is GTK_TREE_VIEW_DROP_BEFORE.value, 0, 'enum GTK_TREE_VIEW_DROP_BEFORE = 0';
+
+  is GTK_TREE_VIEW_DROP_AFTER.value, 1, 'enum GTK_TREE_VIEW_DROP_AFTER = 1';
+
+  is GTK_TREE_VIEW_DROP_INTO_OR_BEFORE.value, 2, 'enum GTK_TREE_VIEW_DROP_INTO_OR_BEFORE = 2';
+
+  is GTK_TREE_VIEW_DROP_INTO_OR_AFTER.value, 3, 'enum GTK_TREE_VIEW_DROP_INTO_OR_AFTER = 3';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
