@@ -1,0 +1,217 @@
+=comment Package: Gtk4, C-Source: treeselection
+use v6.d;
+
+#TL:1:Gnome::Gtk4::TreeSelection:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::N-TreePath:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::TreeSelection:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::TreeSelection $tree-selection;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $tree-selection {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $tree-selection {
+    my N-TreePath $end-path;
+    my N-TreePath $path;
+    my N-TreePath $start-path;
+    my CArray[N-Object] $model;
+    my N-TreeIter $iter;
+    my GtkSelectionMode $type;
+    my gpointer $data;
+    my  $destroy;
+    sub func ( N-Object $selection, N-Object $model, N-TreePath $path, gboolean $path-currently-selected, gpointer $data --> gboolean ) {}
+
+
+#`{{
+    #TM:0:count-selected-rows()
+    ok .count-selected-rows(), '.count-selected-rows()';
+
+    #TM:0:get-selected()
+    is .get-selected( $model, $iter), '…', '.get-selected()';
+
+    #TM:0:get-selected-rows()
+    is .get-selected-rows( $model), '…', '.get-selected-rows()';
+
+    #TM:0:get-tree-view()
+     .get-tree-view(), '…', '.get-tree-view()';
+
+    #TM:0:get-user-data()
+     .get-user-data(), '…', '.get-user-data()';
+
+    #TM:0:iter-is-selected()
+    ok .iter-is-selected( $iter), '.iter-is-selected()';
+
+    #TM:0:path-is-selected()
+    ok .path-is-selected( $path), '.path-is-selected()';
+
+    #TM:0:select-all()
+    ok .select-all(), '.select-all()';
+
+    #TM:0:select-iter()
+    ok .select-iter( $iter), '.select-iter()';
+
+    #TM:0:select-path()
+    ok .select-path( $path), '.select-path()';
+
+    #TM:0:select-range()
+    ok .select-range( $start-path, $end-path), '.select-range()';
+
+    #TM:0:selected-foreach()
+    ok .selected-foreach( $func, $data), '.selected-foreach()';
+
+    #TM:0:set-mode()
+    $type = …;
+    .set-mode( $type);
+    #TM:0:get-mode()
+    is .get-mode(),  $type, '.set-mode() / .get-mode()';
+
+    #TM:0:set-select-function()
+    $func = …;
+    $data = '…';
+    $destroy = '…';
+    .set-select-function( $func, $data, $destroy);
+    #TM:0:get-select-function()
+    is .get-select-function(),  $func, $data, $destroy, '.set-select-function() / .get-select-function()';
+
+    #TM:0:unselect-all()
+    ok .unselect-all(), '.unselect-all()';
+
+    #TM:0:unselect-iter()
+    ok .unselect-iter( $iter), '.unselect-iter()';
+
+    #TM:0:unselect-path()
+    ok .unselect-path( $path), '.unselect-path()';
+
+    #TM:0:unselect-range()
+    ok .unselect-range( $start-path, $end-path), '.unselect-range()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $tree-selection {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::TreeSelection() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::TreeSelection;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::TreeSelection :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::TreeSelection $tree-selection .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $tree-selection.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

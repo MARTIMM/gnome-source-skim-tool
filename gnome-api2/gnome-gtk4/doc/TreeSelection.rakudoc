@@ -1,0 +1,577 @@
+=comment Package: Gtk4, C-Source: treeselection
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TreeSelection
+
+![](images/treeselection.png)
+
+=head1 Description
+
+The selection object for GtkTreeView
+
+The B<Gnome::Gtk4::TreeSelection> object is a helper object to manage the selection
+for a B<Gnome::Gtk4::TreeView> widget.  The B<Gnome::Gtk4::TreeSelection> object is
+automatically created when a new B<Gnome::Gtk4::TreeView> widget is created, and
+cannot exist independently of this widget.  The primary reason the
+B<Gnome::Gtk4::TreeSelection> objects exists is for cleanliness of code and API.
+That is, there is no conceptual reason all these functions could not be
+methods on the B<Gnome::Gtk4::TreeView> widget instead of a separate function.
+
+The B<Gnome::Gtk4::TreeSelection> object is gotten from a B<Gnome::Gtk4::TreeView> by calling
+gtk_tree_view_get_selection().  It can be manipulated to check the
+selection status of the tree, as well as select and deselect individual
+rows.  Selection is done completely view side.  As a result, multiple
+views of the same model can have completely different selections.
+Additionally, you cannot change the selection of a row on the model that
+is not currently displayed by the view without expanding its parents
+first.
+
+One of the important things to remember when monitoring the selection of
+a view is that the B<Gnome::Gtk4::TreeSelection>::changed signal is mostly a hint.
+That is, it may only emit one signal when a range of rows is selected.
+Additionally, it may on occasion emit a B<Gnome::Gtk4::TreeSelection>::changed signal
+when nothing has happened (mostly as a result of programmers calling
+select_row on an already selected row).
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TreeSelection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 count-selected-rows
+
+Returns the number of rows that have been selected in C<$tree>.
+
+=begin code
+method count-selected-rows (--> Int )
+=end code
+
+Return value; The number of rows selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for count-selected-rows
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mode
+
+Gets the selection mode for C<$selection>. See
+C<.set-mode()>.
+
+=begin code
+method get-mode (--> GtkSelectionMode )
+=end code
+
+Return value; the current selection mode. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-select-function
+
+Returns the current selection function.
+
+=begin code
+method get-select-function (-->  )
+=end code
+
+Return value; The function.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-select-function
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected
+
+Sets C<$iter> to the currently selected node if C<$selection> is set to
+C<GTK_SELECTION_SINGLE> or C<GTK_SELECTION_BROWSE>.  C<$iter> may be NULL if you
+just want to test if C<$selection> has any selected nodes.  C<$model> is filled
+with the current model as a convenience.  This function will not work if you
+use C<$selection> is C<GTK_SELECTION_MULTIPLE>.
+
+=begin code
+method get-selected ( N-Object() $model, CArray[N-TreeIter] $iter --> Bool )
+=end code
+
+=item $model; A pointer to set to the B<Gnome::Gtk4::R-TreeModel>.
+=item $iter; The B<Gnome::Gtk4::N-TreeIter>.
+
+Return value; TRUE, if there is a selected node.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-rows
+
+Creates a list of path of all selected rows. Additionally, if you are
+planning on modifying the model after calling this function, you may
+want to convert the returned list into a list of B<Gnome::Gtk4::N-TreeRowReference>s.
+To do this, you can use gtk_tree_row_reference_new().
+
+To free the return value, use:
+=begin comment
+<!-- language="C" -->
+g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
+
+=end comment
+
+=begin code
+method get-selected-rows ( N-Object() $model --> N-List )
+=end code
+
+=item $model; A pointer to set to the B<Gnome::Gtk4::R-TreeModel>.
+
+Return value; A B<Gnome::Glib::N-List> containing a B<Gnome::Gtk4::N-TreePath> for each selected row.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-rows
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tree-view
+
+Returns the tree view associated with C<$selection>.
+
+=begin code
+method get-tree-view (--> N-Object )
+=end code
+
+Return value; A B<Gnome::Gtk4::TreeView>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tree-view
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-user-data
+
+Returns the user data for the selection function.
+
+=begin code
+method get-user-data (--> gpointer )
+=end code
+
+Return value; The user data.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-user-data
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 iter-is-selected
+
+Returns C<True> if the row at C<$iter> is currently selected.
+
+=begin code
+method iter-is-selected ( CArray[N-TreeIter] $iter --> Bool )
+=end code
+
+=item $iter; A valid B<Gnome::Gtk4::N-TreeIter>.
+
+Return value; C<True>, if C<$iter> is selected. 
+
+=begin comment
+
+=head2 Example
+# Example for iter-is-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 path-is-selected
+
+Returns C<True> if the row pointed to by C<$path> is currently selected.  If C<$path>
+does not point to a valid location, C<False> is returned
+
+=begin code
+method path-is-selected ( CArray[N-TreePath] $path --> Bool )
+=end code
+
+=item $path; A B<Gnome::Gtk4::N-TreePath> to check selection on..
+
+Return value; C<True> if C<$path> is selected.. 
+
+=begin comment
+
+=head2 Example
+# Example for path-is-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-all
+
+Selects all the nodes. C<$selection> must be set to C<GTK_SELECTION_MULTIPLE>
+mode.
+
+=begin code
+method select-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for select-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-iter
+
+Selects the specified iterator.
+
+=begin code
+method select-iter ( CArray[N-TreeIter] $iter )
+=end code
+
+=item $iter; The B<Gnome::Gtk4::N-TreeIter> to be selected..
+
+=begin comment
+
+=head2 Example
+# Example for select-iter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-path
+
+Select the row at C<$path>.
+
+=begin code
+method select-path ( CArray[N-TreePath] $path )
+=end code
+
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be selected..
+
+=begin comment
+
+=head2 Example
+# Example for select-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-range
+
+Selects a range of nodes, determined by C<$start-path> and C<$end-path> inclusive. C<$selection> must be set to C<GTK_SELECTION_MULTIPLE> mode.
+
+=begin code
+method select-range ( CArray[N-TreePath] $start-path, CArray[N-TreePath] $end-path )
+=end code
+
+=item $start-path; The initial node of the range..
+=item $end-path; The final node of the range..
+
+=begin comment
+
+=head2 Example
+# Example for select-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 selected-foreach
+
+Calls a function for each selected node. Note that you cannot modify
+the tree or selection from within this function. As a result,
+C<.get-selected-rows()> might be more useful.
+
+=begin code
+method selected-foreach ( &func, gpointer $data )
+=end code
+
+=item &func; The function to call for each selected node.. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreePath $path, N-TreeIter $iter, gpointer $data )>.
+=item $data; user data to pass to the function..
+
+=begin comment
+
+=head2 Example
+# Example for selected-foreach
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-mode
+
+Sets the selection mode of the C<$selection>.  If the previous type was
+C<GTK_SELECTION_MULTIPLE>, then the anchor is kept selected, if it was
+previously selected.
+
+=begin code
+method set-mode ( GtkSelectionMode $type )
+=end code
+
+=item $type; The selection mode.
+
+=begin comment
+
+=head2 Example
+# Example for set-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-select-function
+This function is not yet available
+
+Sets the selection function.
+
+If set, this function is called before any node is selected or unselected,
+giving some control over which nodes are selected. The select function
+should return C<True> if the state of the node may be toggled, and C<False>
+if the state of the node should be left unchanged.
+
+=begin code
+method set-select-function ( &func, gpointer $data, … )
+=end code
+
+=item &func; The selection function. May be undefined. Tthe function must be specified with following signature; C<:( N-Object $selection, N-Object $model, N-TreePath $path, gboolean $path-currently-selected, gpointer $data --> gboolean )>.
+=item $data; The selection function’s data. May be undefined.
+=item destroy; The destroy function for user data.  May be undefined. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-select-function
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-all
+
+Unselects all the nodes.
+
+=begin code
+method unselect-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unselect-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-iter
+
+Unselects the specified iterator.
+
+=begin code
+method unselect-iter ( CArray[N-TreeIter] $iter )
+=end code
+
+=item $iter; The B<Gnome::Gtk4::N-TreeIter> to be unselected..
+
+=begin comment
+
+=head2 Example
+# Example for unselect-iter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-path
+
+Unselects the row at C<$path>.
+
+=begin code
+method unselect-path ( CArray[N-TreePath] $path )
+=end code
+
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be unselected..
+
+=begin comment
+
+=head2 Example
+# Example for unselect-path
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-range
+
+Unselects a range of nodes, determined by C<$start-path> and C<$end-path>
+inclusive.
+
+=begin code
+method unselect-range ( CArray[N-TreePath] $start-path, CArray[N-TreePath] $end-path )
+=end code
+
+=item $start-path; The initial node of the range..
+=item $end-path; The initial node of the range..
+
+=begin comment
+
+=head2 Example
+# Example for unselect-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+Emitted whenever the selection has (possibly) changed. Please note that
+this signal is mostly a hint.  It may only be emitted once when a range
+of rows are selected, and it may occasionally be emitted when nothing
+has happened.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeSelection :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeSelection> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=end pod
+
