@@ -1,0 +1,254 @@
+=comment Package: Gtk4, C-Source: treelistmodel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TreeListModel
+
+![](images/treelistmodel.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::TreeListModel> is a list model that can create child models on demand.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TreeListModel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-treelistmodel
+This function is not yet available
+
+Creates a new empty B<Gnome::Gtk4::TreeListModel> displaying C<$root>
+with all rows collapsed.
+
+=begin code
+method new-treelistmodel ( N-List() $root, Bool() $passthrough, Bool() $autoexpand, &create-func, gpointer $user-data, … --> Gnome::Gtk4::TreeListModel \)
+=end code
+
+=item $root; (transfer ownership: full) The B<Gnome::Gio::R-ListModel> to use as root.
+=item $passthrough; C<True> to pass through items from the models.
+=item $autoexpand; C<True> to set the autoexpand property and expand the C<$root> model.
+=item &create-func; Function to call to create the B<Gnome::Gio::R-ListModel> for the children
+  of an item. Tthe function must be specified with following signature; C<:( gpointer $item, gpointer $user-data --> N-Object )>.
+=item $user-data; Data to pass to C<$create-func>.
+=item user-destroy; Function to call to free C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-treelistmodel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-autoexpand
+
+Gets whether the model is set to automatically expand new rows
+that get added.
+
+This can be either rows added by changes to the underlying
+models or via C<.set-expanded() in class Gnome::Gtk4::TreeListRow>.
+
+=begin code
+method get-autoexpand (--> Bool )
+=end code
+
+Return value; C<True> if the model is set to autoexpand. 
+
+=begin comment
+
+=head2 Example
+# Example for get-autoexpand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-row
+
+Gets the row item corresponding to the child at index C<$position> for C<$self>'s root model.
+
+If C<$position> is greater than the number of children in the root model,
+undefined is returned.
+
+Do not confuse this function with C<.get-row()>.
+
+=begin code
+method get-child-row ( UInt() $position --> N-Object )
+=end code
+
+=item $position; position of the child to get.
+
+Return value; the child in C<$position>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-model
+
+Gets the root model that C<$self> was created with.
+
+=begin code
+method get-model (--> N-List )
+=end code
+
+Return value; the root model. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-passthrough
+
+Gets whether the model is passing through original row items.
+
+If this function returns C<False>, the B<Gnome::Gio::R-ListModel> functions for C<$self>
+return custom B<Gnome::Gtk4::TreeListRow> objects. You need to call
+C<.get-item() in class Gnome::Gtk4::TreeListRow> on these objects to get the original
+item.
+
+If C<True>, the values of the child models are passed through in their
+original state. You then need to call C<.get-row()>
+to get the custom B<Gnome::Gtk4::TreeListRow>s.
+
+=begin code
+method get-passthrough (--> Bool )
+=end code
+
+Return value; C<True> if the model is passing through original row items. 
+
+=begin comment
+
+=head2 Example
+# Example for get-passthrough
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row
+
+Gets the row object for the given row.
+
+If C<$position> is greater than the number of items in C<$self>,
+undefined is returned.
+
+The row object can be used to expand and collapse rows as
+well as to inspect its position in the tree. See its
+documentation for details.
+
+This row object is persistent and will refer to the current
+item as long as the row is present in C<$self>, independent of
+other rows being added or removed.
+
+If C<$self> is set to not be passthrough, this function is
+equivalent to calling g_list_model_get_item().
+
+Do not confuse this function with C<.get-child-row()>.
+
+=begin code
+method get-row ( UInt() $position --> N-Object )
+=end code
+
+=item $position; the position of the row to fetch.
+
+Return value; The row item. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-autoexpand
+
+Sets whether the model should autoexpand.
+
+If set to C<True>, the model will recursively expand all rows that
+get added to the model. This can be either rows added by changes
+to the underlying models or via C<.set-expanded() in class Gnome::Gtk4::TreeListRow>.
+
+=begin code
+method set-autoexpand ( Bool() $autoexpand )
+=end code
+
+=item $autoexpand; C<True> to make the model autoexpand its rows.
+
+=begin comment
+
+=head2 Example
+# Example for set-autoexpand
+
+=end comment
+
+=end pod
+
