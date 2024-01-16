@@ -1,0 +1,44 @@
+=comment Package: Gtk4, C-Source: treeviewcolumn
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-TreeViewColumn
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkTreeViewColumnSizing
+
+The sizing method the column uses to determine its width.  Please note
+that C<GTK_TREE_VIEW_COLUMN_AUTOSIZE> are inefficient for large views, and
+can make columns appear choppy.
+=item C<GTK_TREE_VIEW_COLUMN_GROW_ONLY>; Columns only get bigger in reaction to changes in the model
+=item C<GTK_TREE_VIEW_COLUMN_AUTOSIZE>; Columns resize to be the optimal size every time the model changes.
+=item C<GTK_TREE_VIEW_COLUMN_FIXED>; Columns are a fixed numbers of pixels wide.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 TreeCellDataFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $tree-column, N-Object() $cell, N-Object() $tree-model, CArray[N-TreeIter] $iter, gpointer $data  )
+=end code
+
+=item tree-column; A B<Gnome::Gtk4::TreeViewColumn>
+=item cell; The B<Gnome::Gtk4::CellRenderer> that is being rendered by C<$tree-column>
+=item tree-model; The B<Gnome::Gtk4::R-TreeModel> being rendered
+=item iter; A B<Gnome::Gtk4::N-TreeIter> of the current row rendered
+=item data; user data
+
+=end pod

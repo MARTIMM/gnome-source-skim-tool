@@ -1,0 +1,1344 @@
+=comment Package: Gtk4, C-Source: treeviewcolumn
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TreeViewColumn
+
+![](images/treeviewcolumn.png)
+
+=head1 Description
+
+A visible column in a B<Gnome::Gtk4::TreeView> widget
+
+The B<Gnome::Gtk4::TreeViewColumn> object represents a visible column in a B<Gnome::Gtk4::TreeView> widget.
+It allows to set properties of the column header, and functions as a holding pen
+for the cell renderers which determine how the data in the column is displayed.
+
+Please refer to the [tree widget conceptual overview](section-tree-widget.html)
+for an overview of all the objects and data types related to the tree widget and
+how they work together, and to the B<Gnome::Gtk4::TreeView> documentation for specifics
+about the CSS node structure for treeviews and their headers.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TreeViewColumn
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-treeviewcolumn
+
+Creates a new B<Gnome::Gtk4::TreeViewColumn>.
+
+=begin code
+method new-treeviewcolumn ( --> Gnome::Gtk4::TreeViewColumn \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-treeviewcolumn
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-area
+
+Creates a new B<Gnome::Gtk4::TreeViewColumn> using C<$area> to render its cells.
+
+=begin code
+method new-with-area ( N-Object() $area --> Gnome::Gtk4::TreeViewColumn \)
+=end code
+
+=item $area; the B<Gnome::Gtk4::CellArea> that the newly created column should use to layout cells..
+
+=begin comment
+
+=head2 Example
+# Example for new-with-area
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-attributes
+This function is not yet available
+
+Creates a new B<Gnome::Gtk4::TreeViewColumn> with a number of default values.
+This is equivalent to calling C<.set-title()>,
+C<.pack-start()>, and
+C<.set-attributes()> on the newly created B<Gnome::Gtk4::TreeViewColumn>.
+
+Here’s a simple example:
+=begin comment
+<!-- language="C" -->
+ enum { TEXT_COLUMN, COLOR_COLUMN, N_COLUMNS };
+ // ...
+ {
+   GtkTreeViewColumn *column;
+   GtkCellRenderer   *renderer = gtk_cell_renderer_text_new ();
+ 
+   column = gtk_tree_view_column_new_with_attributes ("Title",
+                                                      renderer,
+                                                      "text", TEXT_COLUMN,
+                                                      "foreground", COLOR_COLUMN,
+                                                      NULL);
+ }
+
+=end comment
+
+=begin code
+method new-with-attributes ( Str $title, N-Object() $cell, … --> Gnome::Gtk4::TreeViewColumn \)
+=end code
+
+=item $title; The title to set the header to.
+=item $cell; The B<Gnome::Gtk4::CellRenderer>.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-with-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-attribute
+
+Adds an attribute mapping to the list in C<$tree-column>.
+
+The C<$column> is the
+column of the model to get a value from, and the C<$attribute> is the
+parameter on C<$cell-renderer> to be set from the value. So for example
+if column 2 of the model contains strings, you could have the
+“text” attribute of a B<Gnome::Gtk4::CellRendererText> get its values from
+column 2.
+
+=begin code
+method add-attribute ( N-Object() $cell-renderer, Str $attribute, Int() $column )
+=end code
+
+=item $cell-renderer; the B<Gnome::Gtk4::CellRenderer> to set attributes on.
+=item $attribute; An attribute on the renderer.
+=item $column; The column position on the model to get the attribute from..
+
+=begin comment
+
+=head2 Example
+# Example for add-attribute
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 cell-get-position
+
+Obtains the horizontal position and size of a cell in a column.
+
+If the  cell is not found in the column, C<$start-pos> and C<$width>
+are not changed and C<False> is returned.
+
+=begin code
+method cell-get-position ( N-Object() $cell-renderer, Array[Int] $x-offset, Array[Int] $width --> Bool )
+=end code
+
+=item $cell-renderer; a B<Gnome::Gtk4::CellRenderer>.
+=item $x-offset; (transfer ownership: full) return location for the horizontal
+  position of C<$cell> within C<$tree-column>.
+=item $width; (transfer ownership: full) return location for the width of C<$cell>.
+
+Return value; C<True> if C<$cell> belongs to C<$tree-column>. 
+
+=begin comment
+
+=head2 Example
+# Example for cell-get-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 cell-get-size
+
+Obtains the width and height needed to render the column.  This is used
+primarily by the B<Gnome::Gtk4::TreeView>.
+
+=begin code
+method cell-get-size ( Array[Int] $x-offset, Array[Int] $y-offset, Array[Int] $width, Array[Int] $height )
+=end code
+
+=item $x-offset; (transfer ownership: full) location to return x offset of a cell relative to C<$cell-area>.
+=item $y-offset; (transfer ownership: full) location to return y offset of a cell relative to C<$cell-area>.
+=item $width; (transfer ownership: full) location to return width needed to render a cell.
+=item $height; (transfer ownership: full) location to return height needed to render a cell.
+
+=begin comment
+
+=head2 Example
+# Example for cell-get-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 cell-is-visible
+
+Returns C<True> if any of the cells packed into the C<$tree-column> are visible.
+For this to be meaningful, you must first initialize the cells with
+C<.cell-set-cell-data()>
+
+=begin code
+method cell-is-visible (--> Bool )
+=end code
+
+Return value; C<True>, if any of the cells packed into the C<$tree-column> are currently visible. 
+
+=begin comment
+
+=head2 Example
+# Example for cell-is-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 cell-set-cell-data
+
+Sets the cell renderer based on the C<$tree-model> and C<$iter>.  That is, for
+every attribute mapping in C<$tree-column>, it will get a value from the set
+column on the C<$iter>, and use that value to set the attribute on the cell
+renderer.  This is used primarily by the B<Gnome::Gtk4::TreeView>.
+
+=begin code
+method cell-set-cell-data ( N-Object() $tree-model, CArray[N-TreeIter] $iter, Bool() $is-expander, Bool() $is-expanded )
+=end code
+
+=item $tree-model; The B<Gnome::Gtk4::R-TreeModel> to get the cell renderers attributes from..
+=item $iter; The B<Gnome::Gtk4::N-TreeIter> to get the cell renderer’s attributes from..
+=item $is-expander; C<True>, if the row has children.
+=item $is-expanded; C<True>, if the row has visible children.
+
+=begin comment
+
+=head2 Example
+# Example for cell-set-cell-data
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear
+
+Unsets all the mappings on all renderers on the C<$tree-column>.
+
+=begin code
+method clear ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for clear
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-attributes
+
+Clears all existing attributes previously set with
+C<.set-attributes()>.
+
+=begin code
+method clear-attributes ( N-Object() $cell-renderer )
+=end code
+
+=item $cell-renderer; a B<Gnome::Gtk4::CellRenderer> to clear the attribute mapping on..
+
+=begin comment
+
+=head2 Example
+# Example for clear-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clicked
+
+Emits the “clicked” signal on the column.  This function will only work if C<$tree-column> is clickable.
+
+=begin code
+method clicked ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for clicked
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 focus-cell
+
+Sets the current keyboard focus to be at C<$cell>, if the column contains
+2 or more editable and activatable cells.
+
+=begin code
+method focus-cell ( N-Object() $cell )
+=end code
+
+=item $cell; A B<Gnome::Gtk4::CellRenderer>.
+
+=begin comment
+
+=head2 Example
+# Example for focus-cell
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-alignment
+
+Returns the current x alignment of C<$tree-column>.  This value can range
+between 0.0 and 1.0.
+
+=begin code
+method get-alignment (--> Num )
+=end code
+
+Return value; The current alignent of C<$tree-column>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-alignment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-button
+
+Returns the button used in the treeview column header
+
+=begin code
+method get-button (--> N-Object )
+=end code
+
+Return value; The button for the column header.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-clickable
+
+Returns C<True> if the user can click on the header for the column.
+
+=begin code
+method get-clickable (--> Bool )
+=end code
+
+Return value; C<True> if user can click the column header.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-clickable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-expand
+
+Returns C<True> if the column expands to fill available space.
+
+=begin code
+method get-expand (--> Bool )
+=end code
+
+Return value; C<True> if the column expands to fill available space.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-fixed-width
+
+Gets the fixed width of the column.  This may not be the actual displayed
+width of the column; for that, use C<.get-width()>.
+
+=begin code
+method get-fixed-width (--> Int )
+=end code
+
+Return value; The fixed width of the column.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-fixed-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-max-width
+
+Returns the maximum width in pixels of the C<$tree-column>, or -1 if no maximum
+width is set.
+
+=begin code
+method get-max-width (--> Int )
+=end code
+
+Return value; The maximum width of the C<$tree-column>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-max-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-min-width
+
+Returns the minimum width in pixels of the C<$tree-column>, or -1 if no minimum
+width is set.
+
+=begin code
+method get-min-width (--> Int )
+=end code
+
+Return value; The minimum width of the C<$tree-column>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-min-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-reorderable
+
+Returns C<True> if the C<$tree-column> can be reordered by the user.
+
+=begin code
+method get-reorderable (--> Bool )
+=end code
+
+Return value; C<True> if the C<$tree-column> can be reordered by the user.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-resizable
+
+Returns C<True> if the C<$tree-column> can be resized by the end user.
+
+=begin code
+method get-resizable (--> Bool )
+=end code
+
+Return value; C<True>, if the C<$tree-column> can be resized.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-resizable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-sizing
+
+Returns the current type of C<$tree-column>.
+
+=begin code
+method get-sizing (--> GtkTreeViewColumnSizing )
+=end code
+
+Return value; The type of C<$tree-column>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-sizing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-sort-column-id
+
+Gets the logical C<$sort-column-id> that the model sorts on
+when this column is selected for sorting.
+
+See C<.set-sort-column-id()>.
+
+=begin code
+method get-sort-column-id (--> Int )
+=end code
+
+Return value; the current C<$sort-column-id> for this column, or -1 if
+  this column can’t be used for sorting. 
+
+=begin comment
+
+=head2 Example
+# Example for get-sort-column-id
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-sort-indicator
+
+Gets the value set by C<.set-sort-indicator()>.
+
+=begin code
+method get-sort-indicator (--> Bool )
+=end code
+
+Return value; whether the sort indicator arrow is displayed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-sort-indicator
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-sort-order
+
+Gets the value set by C<.set-sort-order()>.
+
+=begin code
+method get-sort-order (--> GtkSortType )
+=end code
+
+Return value; the sort order the sort indicator is indicating. 
+
+=begin comment
+
+=head2 Example
+# Example for get-sort-order
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-spacing
+
+Returns the spacing of C<$tree-column>.
+
+=begin code
+method get-spacing (--> Int )
+=end code
+
+Return value; the spacing of C<$tree-column>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-title
+
+Returns the title of the widget.
+
+=begin code
+method get-title (--> Str )
+=end code
+
+Return value; the title of the column. This string should not be
+modified or freed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-title
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tree-view
+
+Returns the B<Gnome::Gtk4::TreeView> wherein C<$tree-column> has been inserted.
+If C<$column> is currently not inserted in any tree view, undefined is
+returned.
+
+=begin code
+method get-tree-view (--> N-Object )
+=end code
+
+Return value; The tree view wherein C<$column>
+  has been inserted. 
+
+=begin comment
+
+=head2 Example
+# Example for get-tree-view
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-visible
+
+Returns C<True> if C<$tree-column> is visible.
+
+=begin code
+method get-visible (--> Bool )
+=end code
+
+Return value; whether the column is visible or not.  If it is visible, then
+the tree will show the column.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-widget
+
+Returns the B<Gnome::Gtk4::Widget> in the button on the column header.
+
+If a custom widget has not been set then undefined is returned.
+
+=begin code
+method get-widget (--> N-Object )
+=end code
+
+Return value; The B<Gnome::Gtk4::Widget> in the column header. 
+
+=begin comment
+
+=head2 Example
+# Example for get-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-width
+
+Returns the current size of C<$tree-column> in pixels.
+
+=begin code
+method get-width (--> Int )
+=end code
+
+Return value; The current width of C<$tree-column>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-x-offset
+
+Returns the current X offset of C<$tree-column> in pixels.
+
+=begin code
+method get-x-offset (--> Int )
+=end code
+
+Return value; The current X offset of C<$tree-column>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-x-offset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-end
+
+Adds the C<$cell> to end of the column. If C<$expand> is C<False>, then the C<$cell>
+is allocated no more space than it needs. Any unused space is divided
+evenly between cells for which C<$expand> is C<True>.
+
+=begin code
+method pack-end ( N-Object() $cell, Bool() $expand )
+=end code
+
+=item $cell; The B<Gnome::Gtk4::CellRenderer>.
+=item $expand; C<True> if C<$cell> is to be given extra space allocated to C<$tree-column>..
+
+=begin comment
+
+=head2 Example
+# Example for pack-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-start
+
+Packs the C<$cell> into the beginning of the column. If C<$expand> is C<False>, then
+the C<$cell> is allocated no more space than it needs. Any unused space is divided
+evenly between cells for which C<$expand> is C<True>.
+
+=begin code
+method pack-start ( N-Object() $cell, Bool() $expand )
+=end code
+
+=item $cell; The B<Gnome::Gtk4::CellRenderer>.
+=item $expand; C<True> if C<$cell> is to be given extra space allocated to C<$tree-column>..
+
+=begin comment
+
+=head2 Example
+# Example for pack-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 queue-resize
+
+Flags the column, and the cell renderers added to this column, to have
+their sizes renegotiated.
+
+=begin code
+method queue-resize ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for queue-resize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-alignment
+
+Sets the alignment of the title or custom widget inside the column header.
+The alignment determines its location inside the button -- 0.0 for left, 0.5
+for center, 1.0 for right.
+
+=begin code
+method set-alignment ( Num() $xalign )
+=end code
+
+=item $xalign; The alignment, which is between [0.0 and 1.0] inclusive..
+
+=begin comment
+
+=head2 Example
+# Example for set-alignment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-attributes
+This function is not yet available
+
+Sets the attributes in the list as the attributes of C<$tree-column>.
+
+The attributes should be in attribute/column order, as in
+C<.add-attribute()>. All existing attributes
+are removed, and replaced with the new attributes.
+
+=begin code
+method set-attributes ( N-Object() $cell-renderer, … )
+=end code
+
+=item $cell-renderer; the B<Gnome::Gtk4::CellRenderer> we’re setting the attributes of.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cell-data-func
+This function is not yet available
+
+Sets the B<Gnome::Gtk4::T-TreeViewColumn> to use for the column.
+
+This
+function is used instead of the standard attributes mapping for
+setting the column value, and should set the value of C<$tree-column>'s
+cell renderer as appropriate.  C<$func> may be undefined to remove an
+older one.
+
+=begin code
+method set-cell-data-func ( N-Object() $cell-renderer, &func, gpointer $func-data, … )
+=end code
+
+=item $cell-renderer; A B<Gnome::Gtk4::CellRenderer>.
+=item &func; The B<Gnome::Gtk4::T-TreeViewColumn> to use.. Tthe function must be specified with following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-TreeIter $iter, gpointer $data )>.
+=item $func-data; The user data for C<$func>..
+=item destroy; The destroy notification for C<$func-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-cell-data-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-clickable
+
+Sets the header to be active if C<$clickable> is C<True>.  When the header is
+active, then it can take keyboard focus, and can be clicked.
+
+=begin code
+method set-clickable ( Bool() $clickable )
+=end code
+
+=item $clickable; C<True> if the header is active..
+
+=begin comment
+
+=head2 Example
+# Example for set-clickable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-expand
+
+Sets the column to take available extra space.  This space is shared equally
+amongst all columns that have the expand set to C<True>.  If no column has this
+option set, then the last column gets all extra space.  By default, every
+column is created with this C<False>.
+
+Along with “fixed-width”, the “expand” property changes when the column is
+resized by the user.
+
+=begin code
+method set-expand ( Bool() $expand )
+=end code
+
+=item $expand; C<True> if the column should expand to fill available space..
+
+=begin comment
+
+=head2 Example
+# Example for set-expand
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-fixed-width
+
+If C<$fixed-width> is not -1, sets the fixed width of C<$tree-column>; otherwise
+unsets it.  The effective value of C<$fixed-width> is clamped between the
+minimum and maximum width of the column; however, the value stored in the
+“fixed-width” property is not clamped.  If the column sizing is
+C<GTK_TREE_VIEW_COLUMN_GROW_ONLY> or C<GTK_TREE_VIEW_COLUMN_AUTOSIZE>, setting
+a fixed width overrides the automatically calculated width.  Note that C<$fixed-width> is only a hint to GTK; the width actually allocated to the
+column may be greater or less than requested.
+
+Along with “expand”, the “fixed-width” property changes when the column is
+resized by the user.
+
+=begin code
+method set-fixed-width ( Int() $fixed-width )
+=end code
+
+=item $fixed-width; The new fixed width, in pixels, or -1..
+
+=begin comment
+
+=head2 Example
+# Example for set-fixed-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-max-width
+
+Sets the maximum width of the C<$tree-column>.  If C<$max-width> is -1, then the
+maximum width is unset.  Note, the column can actually be wider than max
+width if it’s the last column in a view.  In this case, the column expands to
+fill any extra space.
+
+=begin code
+method set-max-width ( Int() $max-width )
+=end code
+
+=item $max-width; The maximum width of the column in pixels, or -1..
+
+=begin comment
+
+=head2 Example
+# Example for set-max-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-min-width
+
+Sets the minimum width of the C<$tree-column>.  If C<$min-width> is -1, then the
+minimum width is unset.
+
+=begin code
+method set-min-width ( Int() $min-width )
+=end code
+
+=item $min-width; The minimum width of the column in pixels, or -1..
+
+=begin comment
+
+=head2 Example
+# Example for set-min-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-reorderable
+
+If C<$reorderable> is C<True>, then the column can be reordered by the end user
+dragging the header.
+
+=begin code
+method set-reorderable ( Bool() $reorderable )
+=end code
+
+=item $reorderable; C<True>, if the column can be reordered..
+
+=begin comment
+
+=head2 Example
+# Example for set-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-resizable
+
+If C<$resizable> is C<True>, then the user can explicitly resize the column by
+grabbing the outer edge of the column button.
+
+If resizable is C<True> and
+sizing mode of the column is C<GTK_TREE_VIEW_COLUMN_AUTOSIZE>, then the sizing
+mode is changed to C<GTK_TREE_VIEW_COLUMN_GROW_ONLY>.
+
+=begin code
+method set-resizable ( Bool() $resizable )
+=end code
+
+=item $resizable; C<True>, if the column can be resized.
+
+=begin comment
+
+=head2 Example
+# Example for set-resizable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sizing
+
+Sets the growth behavior of C<$tree-column> to C<$type>.
+
+=begin code
+method set-sizing ( GtkTreeViewColumnSizing $type )
+=end code
+
+=item $type; The B<Gnome::Gtk4::TreeViewColumn>Sizing..
+
+=begin comment
+
+=head2 Example
+# Example for set-sizing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sort-column-id
+
+Sets the logical C<$sort-column-id> that this column sorts on when this column
+is selected for sorting.  Doing so makes the column header clickable.
+
+=begin code
+method set-sort-column-id ( Int() $sort-column-id )
+=end code
+
+=item $sort-column-id; The C<$sort-column-id> of the model to sort on..
+
+=begin comment
+
+=head2 Example
+# Example for set-sort-column-id
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sort-indicator
+
+Call this function with a C<$setting> of C<True> to display an arrow in
+the header button indicating the column is sorted. Call
+C<.set-sort-order()> to change the direction of
+the arrow.
+
+=begin code
+method set-sort-indicator ( Bool() $setting )
+=end code
+
+=item $setting; C<True> to display an indicator that the column is sorted.
+
+=begin comment
+
+=head2 Example
+# Example for set-sort-indicator
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sort-order
+
+Changes the appearance of the sort indicator.
+
+This does not actually sort the model.  Use
+C<.set-sort-column-id()> if you want automatic sorting
+support.  This function is primarily for custom sorting behavior, and should
+be used in conjunction with gtk_tree_sortable_set_sort_column_id() to do
+that. For custom models, the mechanism will vary.
+
+The sort indicator changes direction to indicate normal sort or reverse sort.
+Note that you must have the sort indicator enabled to see anything when
+calling this function; see C<.set-sort-indicator()>.
+
+=begin code
+method set-sort-order ( GtkSortType $order )
+=end code
+
+=item $order; sort order that the sort indicator should indicate.
+
+=begin comment
+
+=head2 Example
+# Example for set-sort-order
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-spacing
+
+Sets the spacing field of C<$tree-column>, which is the number of pixels to
+place between cell renderers packed into it.
+
+=begin code
+method set-spacing ( Int() $spacing )
+=end code
+
+=item $spacing; distance between cell renderers in pixels..
+
+=begin comment
+
+=head2 Example
+# Example for set-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-title
+
+Sets the title of the C<$tree-column>.  If a custom widget has been set, then
+this value is ignored.
+
+=begin code
+method set-title ( Str $title )
+=end code
+
+=item $title; The title of the C<$tree-column>..
+
+=begin comment
+
+=head2 Example
+# Example for set-title
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-visible
+
+Sets the visibility of C<$tree-column>.
+
+=begin code
+method set-visible ( Bool() $visible )
+=end code
+
+=item $visible; C<True> if the C<$tree-column> is visible..
+
+=begin comment
+
+=head2 Example
+# Example for set-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-widget
+
+Sets the widget in the header to be C<$widget>.  If widget is undefined, then the
+header button is set with a B<Gnome::Gtk4::Label> set to the title of C<$tree-column>.
+
+=begin code
+method set-widget ( N-Object() $widget )
+=end code
+
+=item $widget; A child B<Gnome::Gtk4::Widget>.
+
+=begin comment
+
+=head2 Example
+# Example for set-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 clicked
+
+Emitted when the column's header has been clicked.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::TreeViewColumn :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeViewColumn> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal clicked
+
+=end comment
+
+=end pod
+

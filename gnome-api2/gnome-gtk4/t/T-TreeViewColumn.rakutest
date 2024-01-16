@@ -1,0 +1,39 @@
+=comment Package: Gtk4, C-Source: treeviewcolumn
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-TreeViewColumn:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-TreeViewColumn:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkTreeViewColumnSizing
+subtest 'GtkTreeViewColumnSizing', {
+  is GTK_TREE_VIEW_COLUMN_GROW_ONLY.value, 0, 'enum GTK_TREE_VIEW_COLUMN_GROW_ONLY = 0';
+
+  is GTK_TREE_VIEW_COLUMN_AUTOSIZE.value, 1, 'enum GTK_TREE_VIEW_COLUMN_AUTOSIZE = 1';
+
+  is GTK_TREE_VIEW_COLUMN_FIXED.value, 2, 'enum GTK_TREE_VIEW_COLUMN_FIXED = 2';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

@@ -1,0 +1,352 @@
+=comment Package: Gtk4, C-Source: treeviewcolumn
+use v6.d;
+
+#TL:1:Gnome::Gtk4::TreeViewColumn:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-TreeViewColumn:api<2>;
+use Gnome::Gtk4::TreeViewColumn:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::TreeViewColumn $tree-view-column;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $tree-view-column {
+    my N-Object $cell;
+    my Str $title;
+    my N-Object $area;
+
+#`{{
+    #TC:0:new-treeviewcolumn()
+
+    $tree-view-column .= new-treeviewcolumn();
+    ok .is-valid, '.new-treeviewcolumn()';
+
+    #TC:0:new-with-area()
+    $area = …;
+    $tree-view-column .= new-with-area( $area);
+    ok .is-valid, '.new-with-area( $area)';
+
+    #TC:0:new-with-attributes()
+    $title = 'text';
+    $cell = …;
+    $tree-view-column .= new-with-attributes( $title, $cell);
+    ok .is-valid, '.new-with-attributes( $title, $cell)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $tree-view-column {
+    my N-TreeIter $iter;
+    my gint-ptr $y-offset;
+    my N-Object $cell;
+    my gint-ptr $width;
+    my gint-ptr $x-offset;
+    my Str $attribute;
+    my gint $column;
+    my N-Object $tree-model;
+    my gpointer $func-data;
+    my GtkTreeViewColumnSizing $type;
+    sub func ( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-TreeIter $iter, gpointer $data ) {}
+    my gboolean $clickable;
+    my  $destroy;
+    my gboolean $reorderable;
+    my N-Object $cell-renderer;
+    my gint $sort-column-id;
+    my GtkSortType $order;
+    my gboolean $setting;
+    my gint $spacing;
+    my gint $max-width;
+    my gint-ptr $height;
+    my gboolean $visible;
+    my gboolean $expand;
+    my gboolean $resizable;
+    my gint $fixed-width;
+    my Str $title;
+    my gboolean $is-expanded;
+    my N-Object $widget;
+    my gfloat $xalign;
+    my gint $min-width;
+    my gboolean $is-expander;
+
+
+#`{{
+    #TM:0:add-attribute()
+    ok .add-attribute( $cell-renderer, $attribute, $column), '.add-attribute()';
+
+    #TM:0:cell-get-position()
+    ok .cell-get-position( $cell-renderer, $x-offset, $width), '.cell-get-position()';
+
+    #TM:0:cell-get-size()
+    ok .cell-get-size( $x-offset, $y-offset, $width, $height), '.cell-get-size()';
+
+    #TM:0:cell-is-visible()
+    ok .cell-is-visible(), '.cell-is-visible()';
+
+    #TM:0:cell-set-cell-data()
+    ok .cell-set-cell-data( $tree-model, $iter, $is-expander, $is-expanded), '.cell-set-cell-data()';
+
+    #TM:0:clear()
+    ok .clear(), '.clear()';
+
+    #TM:0:clear-attributes()
+    ok .clear-attributes( $cell-renderer), '.clear-attributes()';
+
+    #TM:0:clicked()
+    ok .clicked(), '.clicked()';
+
+    #TM:0:focus-cell()
+    ok .focus-cell( $cell), '.focus-cell()';
+
+    #TM:0:get-button()
+     .get-button(), '…', '.get-button()';
+
+    #TM:0:get-tree-view()
+     .get-tree-view(), '…', '.get-tree-view()';
+
+    #TM:0:get-width()
+     .get-width(), '…', '.get-width()';
+
+    #TM:0:get-x-offset()
+     .get-x-offset(), '…', '.get-x-offset()';
+
+    #TM:0:pack-end()
+    ok .pack-end( $cell, $expand), '.pack-end()';
+
+    #TM:0:pack-start()
+    ok .pack-start( $cell, $expand), '.pack-start()';
+
+    #TM:0:queue-resize()
+    ok .queue-resize(), '.queue-resize()';
+
+    #TM:0:set-alignment()
+    $xalign = '…';
+    .set-alignment( $xalign);
+    #TM:0:get-alignment()
+    is .get-alignment(),  $xalign, '.set-alignment() / .get-alignment()';
+
+    #TM:0:set-attributes()
+    $cell-renderer = …;
+    .set-attributes( $cell-renderer);
+    ok True, '.set-attributes()';
+
+    #TM:0:set-cell-data-func()
+    $cell-renderer = …;
+    $func = …;
+    $func-data = '…';
+    $destroy = '…';
+    .set-cell-data-func( $cell-renderer, $func, $func-data, $destroy);
+    ok True, '.set-cell-data-func()';
+
+    #TM:0:set-clickable()
+    $clickable = '…';
+    .set-clickable( $clickable);
+    #TM:0:get-clickable()
+    is .get-clickable(),  $clickable, '.set-clickable() / .get-clickable()';
+
+    #TM:0:set-expand()
+    $expand = '…';
+    .set-expand( $expand);
+    #TM:0:get-expand()
+    is .get-expand(),  $expand, '.set-expand() / .get-expand()';
+
+    #TM:0:set-fixed-width()
+    $fixed-width = '…';
+    .set-fixed-width( $fixed-width);
+    #TM:0:get-fixed-width()
+    is .get-fixed-width(),  $fixed-width, '.set-fixed-width() / .get-fixed-width()';
+
+    #TM:0:set-max-width()
+    $max-width = '…';
+    .set-max-width( $max-width);
+    #TM:0:get-max-width()
+    is .get-max-width(),  $max-width, '.set-max-width() / .get-max-width()';
+
+    #TM:0:set-min-width()
+    $min-width = '…';
+    .set-min-width( $min-width);
+    #TM:0:get-min-width()
+    is .get-min-width(),  $min-width, '.set-min-width() / .get-min-width()';
+
+    #TM:0:set-reorderable()
+    $reorderable = '…';
+    .set-reorderable( $reorderable);
+    #TM:0:get-reorderable()
+    is .get-reorderable(),  $reorderable, '.set-reorderable() / .get-reorderable()';
+
+    #TM:0:set-resizable()
+    $resizable = '…';
+    .set-resizable( $resizable);
+    #TM:0:get-resizable()
+    is .get-resizable(),  $resizable, '.set-resizable() / .get-resizable()';
+
+    #TM:0:set-sizing()
+    $type = …;
+    .set-sizing( $type);
+    #TM:0:get-sizing()
+    is .get-sizing(),  $type, '.set-sizing() / .get-sizing()';
+
+    #TM:0:set-sort-column-id()
+    $sort-column-id = '…';
+    .set-sort-column-id( $sort-column-id);
+    #TM:0:get-sort-column-id()
+    is .get-sort-column-id(),  $sort-column-id, '.set-sort-column-id() / .get-sort-column-id()';
+
+    #TM:0:set-sort-indicator()
+    $setting = '…';
+    .set-sort-indicator( $setting);
+    #TM:0:get-sort-indicator()
+    is .get-sort-indicator(),  $setting, '.set-sort-indicator() / .get-sort-indicator()';
+
+    #TM:0:set-sort-order()
+    $order = …;
+    .set-sort-order( $order);
+    #TM:0:get-sort-order()
+    is .get-sort-order(),  $order, '.set-sort-order() / .get-sort-order()';
+
+    #TM:0:set-spacing()
+    $spacing = '…';
+    .set-spacing( $spacing);
+    #TM:0:get-spacing()
+    is .get-spacing(),  $spacing, '.set-spacing() / .get-spacing()';
+
+    #TM:0:set-title()
+    $title = 'text';
+    .set-title( $title);
+    #TM:0:get-title()
+    is .get-title(),  $title, '.set-title() / .get-title()';
+
+    #TM:0:set-visible()
+    $visible = '…';
+    .set-visible( $visible);
+    #TM:0:get-visible()
+    is .get-visible(),  $visible, '.set-visible() / .get-visible()';
+
+    #TM:0:set-widget()
+    $widget = …;
+    .set-widget( $widget);
+    #TM:0:get-widget()
+    is .get-widget(),  $widget, '.set-widget() / .get-widget()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $tree-view-column {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::TreeViewColumn() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::TreeViewColumn;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::TreeViewColumn :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::TreeViewColumn $tree-view-column .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $tree-view-column.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
