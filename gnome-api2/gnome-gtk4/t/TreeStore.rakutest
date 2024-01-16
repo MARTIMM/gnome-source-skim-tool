@@ -1,0 +1,253 @@
+=comment Package: Gtk4, C-Source: treestore
+use v6.d;
+
+#TL:1:Gnome::Gtk4::TreeStore:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
+use Gnome::Gtk4::TreeStore:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::TreeStore $tree-store;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $tree-store {
+    my gint $n-columns;
+    my  $types;
+
+#`{{
+    #TC:0:new-treestore()
+    $n-columns = '…';
+    $tree-store .= new-treestore( $n-columns);
+    ok .is-valid, '.new-treestore( $n-columns)';
+
+    #TC:0:newv()
+    $n-columns = '…';
+    $types = '…';
+    $tree-store .= newv( $n-columns, $types);
+    ok .is-valid, '.newv( $n-columns, $types)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $tree-store {
+    my gint $n-values;
+    my gint $column;
+    my N-TreeIter $position;
+    my  $var-args;
+    my N-TreeIter $iter;
+    my gint $n-columns;
+    my  $types;
+    my N-TreeIter $descendant;
+    my gint-ptr $columns;
+    my N-TreeIter $parent;
+    my N-TreeIter $b;
+    my N-TreeIter $a;
+    my N-TreeIter $sibling;
+    my N-Value $value;
+    my N-Value $values;
+    my gint-ptr $new-order;
+
+
+#`{{
+    #TM:0:append()
+    ok .append( $iter, $parent), '.append()';
+
+    #TM:0:clear()
+    ok .clear(), '.clear()';
+
+    #TM:0:insert()
+    ok .insert( $iter, $parent, $position), '.insert()';
+
+    #TM:0:insert-after()
+    ok .insert-after( $iter, $parent, $sibling), '.insert-after()';
+
+    #TM:0:insert-before()
+    ok .insert-before( $iter, $parent, $sibling), '.insert-before()';
+
+    #TM:0:insert-with-values()
+    ok .insert-with-values( $iter, $parent, $position), '.insert-with-values()';
+
+    #TM:0:insert-with-valuesv()
+    ok .insert-with-valuesv( $iter, $parent, $position, $columns, $values, $n-values), '.insert-with-valuesv()';
+
+    #TM:0:is-ancestor()
+    ok .is-ancestor( $iter, $descendant), '.is-ancestor()';
+
+    #TM:0:iter-depth()
+    ok .iter-depth( $iter), '.iter-depth()';
+
+    #TM:0:iter-is-valid()
+    ok .iter-is-valid( $iter), '.iter-is-valid()';
+
+    #TM:0:move-after()
+    ok .move-after( $iter, $position), '.move-after()';
+
+    #TM:0:move-before()
+    ok .move-before( $iter, $position), '.move-before()';
+
+    #TM:0:prepend()
+    ok .prepend( $iter, $parent), '.prepend()';
+
+    #TM:0:remove()
+    ok .remove( $iter), '.remove()';
+
+    #TM:0:reorder()
+    ok .reorder( $parent, $new-order), '.reorder()';
+
+    #TM:0:set()
+    $iter = '…';
+    .set( $iter);
+    ok True, '.set()';
+
+    #TM:0:set-column-types()
+    $n-columns = '…';
+    $types = '…';
+    .set-column-types( $n-columns, $types);
+    ok True, '.set-column-types()';
+
+    #TM:0:set-valist()
+    $iter = '…';
+    $var-args = '…';
+    .set-valist( $iter, $var-args);
+    ok True, '.set-valist()';
+
+    #TM:0:set-value()
+    $iter = '…';
+    $column = '…';
+    $value = '…';
+    .set-value( $iter, $column, $value);
+    ok True, '.set-value()';
+
+    #TM:0:set-valuesv()
+    $iter = '…';
+    $columns = '…';
+    $values = '…';
+    $n-values = '…';
+    .set-valuesv( $iter, $columns, $values, $n-values);
+    ok True, '.set-valuesv()';
+
+    #TM:0:swap()
+    ok .swap( $a, $b), '.swap()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $tree-store {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::TreeStore() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::TreeStore;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::TreeStore :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::TreeStore $tree-store .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $tree-store.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
