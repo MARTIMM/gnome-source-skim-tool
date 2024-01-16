@@ -3,7 +3,7 @@
 
 Run a test with `prove6 --timer` on the old and new modules. The older tests take much more time than the newer modules, but it does many more tests than in the newer modules. It will take time to have the new tests with about the same number of tests. Anyways, a comparison of apples with pears for the moment.
 
-The number of tests are the top level tests counted, not including those within subtests.
+Important note is that the number of tests are only the top level tests, not including those within subtests. This means that in the api 1 version there are many more tests within the subtests than in the api 2 version. So this is also an unfair comparison until the tests are also in place on the api 2 version.
 
 ## Api 1 tests
 |cc| Date       | Dist      |#c| Files | Tests | secs |
@@ -45,6 +45,7 @@ Legend for compare tables
 | 4| 2024 01 07 | *|   139 |   350 |  111 |
 | 5| 2024 01 08 |  |   154 |   393 |  124 |
 |  | 2024 01 12 |  |   172 |   443 |  149 |
+|  | 2024 01 16 |  |   188 |   485 |  336 |
 
 #### Compare with api 1
 The calculation is to show how much time it would take when the newer version would do the same number of equal tests.
