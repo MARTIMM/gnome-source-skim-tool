@@ -1,0 +1,40 @@
+=comment Package: Gtk4, C-Source: treemodelfilter
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-TreeModelFilter
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 TreeModelFilterVisibleFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $model, CArray[N-TreeIter] $iter, gpointer $data  )
+=end code
+
+=item model; the child model of the B<Gnome::Gtk4::TreeModelFilter>
+=item iter; a B<Gnome::Gtk4::N-TreeIter> pointing to the row in C<$model> whose visibility
+  is determined
+=item data; user data given to C<.set-visible-func()>
+
+=head2 TreeModelFilterModifyFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $model, CArray[N-TreeIter] $iter, CArray[N-Value] $value, Int() $column, gpointer $data  )
+=end code
+
+=item model; the B<Gnome::Gtk4::TreeModelFilter>
+=item iter; a B<Gnome::Gtk4::N-TreeIter> pointing to the row whose display values are determined
+=item value; A B<Gnome::GObject::N-Value> which is already initialized for
+ with the correct type for the column C<$column>.
+=item column; the column whose display value is determined
+=item data; user data given to C<.set-modify-func()>
+
+=end pod
