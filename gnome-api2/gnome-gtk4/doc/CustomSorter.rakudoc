@@ -1,0 +1,116 @@
+=comment Package: Gtk4, C-Source: customsorter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CustomSorter
+
+![](images/customsorter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::CustomSorter> is a B<Gnome::Gtk4::Sorter> implementation that sorts via a callback
+function.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CustomSorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-customsorter
+This function is not yet available
+
+Creates a new B<Gnome::Gtk4::Sorter> that works by calling C<$sort-func> to compare items.
+
+If C<$sort-func> is undefined, all items are considered equal.
+
+=begin code
+method new-customsorter ( …, gpointer $user-data, … --> Gnome::Gtk4::CustomSorter \)
+=end code
+
+=item sort-func; the B<Gnome::Glib::T-DoubleIEEE754> to use for sorting. Note that each argument must be specified as a type followed by its value!
+=item $user-data; user data to pass to C<$sort-func>.
+=item user-destroy; destroy notify for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-customsorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sort-func
+This function is not yet available
+
+Sets (or unsets) the function used for sorting items.
+
+If C<$sort-func> is undefined, all items are considered equal.
+
+If the sort func changes its sorting behavior,
+gtk_sorter_changed() needs to be called.
+
+If a previous function was set, its C<$user-destroy> will be
+called now.
+
+=begin code
+method set-sort-func ( …, gpointer $user-data, … )
+=end code
+
+=item sort-func; function to sort items. Note that each argument must be specified as a type followed by its value!
+=item $user-data; user data to pass to C<$match-func>.
+=item user-destroy; destroy notify for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-sort-func
+
+=end comment
+
+=end pod
+
