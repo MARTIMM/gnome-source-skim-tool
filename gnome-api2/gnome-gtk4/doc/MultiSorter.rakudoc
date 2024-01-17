@@ -1,0 +1,132 @@
+=comment Package: Gtk4, C-Source: multisorter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::MultiSorter
+
+![](images/multisorter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::MultiSorter> combines multiple sorters by trying them
+in turn.
+
+If the first sorter compares two items as equal,
+the second is tried next, and so on.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::MultiSorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-multisorter
+
+Creates a new multi sorter.
+
+This sorter compares items by trying each of the sorters
+in turn, until one returns non-zero. In particular, if
+no sorter has been added to it, it will always compare
+items as equal.
+
+=begin code
+method new-multisorter ( --> Gnome::Gtk4::MultiSorter \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-multisorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append
+
+Add C<$sorter> to C<$self> to use for sorting at the end.
+ C<$self> will consult all existing sorters before it will
+sort with the given C<$sorter>.
+
+=begin code
+method append ( N-Object() $sorter )
+=end code
+
+=item $sorter; (transfer ownership: full) a sorter to add.
+
+=begin comment
+
+=head2 Example
+# Example for append
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes the sorter at the given C<$position> from the list of sorter
+used by C<$self>.
+
+If C<$position> is larger than the number of sorters, nothing happens.
+
+=begin code
+method remove ( UInt() $position )
+=end code
+
+=item $position; position of sorter to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
