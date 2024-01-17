@@ -1,0 +1,217 @@
+=comment Package: Gtk4, C-Source: sorter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Sorter
+
+![](images/sorter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Sorter> is an object to describe sorting criteria.
+
+Its primary user is B<Gnome::Gtk4::SortListModel>
+
+The model will use a sorter to determine the order in which
+its items should appear by calling C<.compare()>
+for pairs of items.
+
+Sorters may change their sorting behavior through their lifetime.
+In that case, they will emit the I<changed> signal
+to notify that the sort order is no longer valid and should be updated
+by calling C<.compare()> again.
+
+GTK provides various pre-made sorter implementations for common sorting
+operations. B<Gnome::Gtk4::ColumnView> has built-in support for sorting lists
+via the I<sorter defined in Gnome::Gtk4::ColumnViewColumn> property, where the user can
+change the sorting by clicking on list headers.
+
+Of course, in particular for large lists, it is also possible to subclass
+B<Gnome::Gtk4::Sorter> and provide one's own sorter.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Sorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 changed
+
+Notifies all users of the sorter that it has changed.
+
+This emits the I<changed> signal. Users
+of the sorter should then update the sort order via
+C<.compare()>.
+
+Depending on the C<$change> parameter, it may be possible to
+update the sort order without a full resorting. Refer to
+the  C<enumeration SorterChange from Gnome::Gtk4::T-Sorter>  documentation for details.
+
+This function is intended for implementors of B<Gnome::Gtk4::Sorter>
+subclasses and should not be called from other functions.
+
+=begin code
+method changed ( GtkSorterChange $change )
+=end code
+
+=item $change; How the sorter changed.
+
+=begin comment
+
+=head2 Example
+# Example for changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compare
+
+Compares two given items according to the sort order implemented
+by the sorter.
+
+Sorters implement a partial order:
+
+* It is reflexive, ie a = a
+* It is antisymmetric, ie if a < b and b < a, then a = b
+* It is transitive, ie given any 3 items with a ≤ b and b ≤ c,
+  then a ≤ c
+
+The sorter may signal it conforms to additional constraints
+via the return value of C<.get-order()>.
+
+=begin code
+method compare ( gpointer $item1, gpointer $item2 --> GtkOrdering )
+=end code
+
+=item $item1; first item to compare.
+=item $item2; second item to compare.
+
+Return value; C<GTK_ORDERING_EQUAL> if C<$item1> == C<$item2>,
+  C<GTK_ORDERING_SMALLER> if C<$item1> < C<$item2>,
+  C<GTK_ORDERING_LARGER> if C<$item1> > C<$item2>. 
+
+=begin comment
+
+=head2 Example
+# Example for compare
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-order
+
+Gets the order that C<$self> conforms to.
+
+See  C<enumeration SorterOrder from Gnome::Gtk4::T-Sorter>  for details
+of the possible return values.
+
+This function is intended to allow optimizations.
+
+=begin code
+method get-order (--> GtkSorterOrder )
+=end code
+
+Return value; The order. 
+
+=begin comment
+
+=head2 Example
+# Example for get-order
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+Emitted whenever the sorter changed.
+
+Users of the sorter should then update the sort order
+again via C<.compare()>.
+
+B<Gnome::Gtk4::SortListModel> handles this signal automatically.
+
+Depending on the C<$change> parameter, it may be possible to update
+the sort order without a full resorting. Refer to the
+ C<enumeration SorterChange from Gnome::Gtk4::T-Sorter>  documentation for details.
+
+=begin code
+method handler (
+   $change,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Sorter :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $change; how the sorter changed.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Sorter> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=end pod
+

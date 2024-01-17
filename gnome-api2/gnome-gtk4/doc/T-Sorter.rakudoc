@@ -1,0 +1,39 @@
+=comment Package: Gtk4, C-Source: sorter
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-Sorter
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkSorterChange
+
+Describes changes in a sorter in more detail and allows users
+to optimize resorting.
+=item C<GTK_SORTER_CHANGE_DIFFERENT>; The sorter change cannot be described
+  by any of the other enumeration values
+=item C<GTK_SORTER_CHANGE_INVERTED>; The sort order was inverted. Comparisons
+  that returned C<GTK_ORDERING_SMALLER> now return C<GTK_ORDERING_LARGER>
+  and vice versa. Other comparisons return the same values as before.
+=item C<GTK_SORTER_CHANGE_LESS_STRICT>; The sorter is less strict: Comparisons
+  may now return C<GTK_ORDERING_EQUAL> that did not do so before.
+=item C<GTK_SORTER_CHANGE_MORE_STRICT>; The sorter is more strict: Comparisons
+  that did return C<GTK_ORDERING_EQUAL> may not do so anymore.
+
+=head2 GtkSorterOrder
+
+Describes the type of order that a B<Gnome::Gtk4::Sorter> may produce.
+=item C<GTK_SORTER_ORDER_PARTIAL>; A partial order. Any C<enumeration GtkOrdering defined in Gnome::Gtk4::T-Enums> is possible.
+=item C<GTK_SORTER_ORDER_NONE>; No order, all elements are considered equal.
+  C<.compare()> will only return C<GTK_ORDERING_EQUAL>.
+=item C<GTK_SORTER_ORDER_TOTAL>; A total order. C<.compare()> will only
+  return C<GTK_ORDERING_EQUAL> if an item is compared with itself. Two
+  different items will never cause this value to be returned.
+=end pod
+
