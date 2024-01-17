@@ -1,0 +1,140 @@
+=comment Package: Gtk4, C-Source: treelistrowsorter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::TreeListRowSorter
+
+![](images/treelistrowsorter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::TreeListRowSorter> is a special-purpose sorter that will apply a given
+sorter to the levels in a tree.
+
+Here is an example for setting up a column view with a tree model and
+a B<GtkTreeListSorter>:
+
+=begin comment
+column_sorter = gtk_column_view_get_sorter (view);
+sorter = gtk_tree_list_row_sorter_new (g_object_ref (column_sorter));
+sort_model = gtk_sort_list_model_new (tree_model, sorter);
+selection = gtk_single_selection_new (sort_model);
+gtk_column_view_set_model (view, G_LIST_MODEL (selection));
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::TreeListRowSorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-treelistrowsorter
+
+Create a special-purpose sorter that applies the sorting
+of C<$sorter> to the levels of a B<Gnome::Gtk4::TreeListModel>.
+
+Note that this sorter relies on I<passthrough defined in Gnome::Gtk4::TreeListModel>
+being C<False> as it can only sort B<Gnome::Gtk4::TreeListRow>s.
+
+=begin code
+method new-treelistrowsorter ( N-Object() $sorter --> Gnome::Gtk4::TreeListRowSorter \)
+=end code
+
+=item $sorter; (transfer ownership: full) a B<Gnome::Gtk4::Sorter>.
+
+=begin comment
+
+=head2 Example
+# Example for new-treelistrowsorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-sorter
+
+Returns the sorter used by C<$self>.
+
+=begin code
+method get-sorter (--> N-Object )
+=end code
+
+Return value; the sorter used. 
+
+=begin comment
+
+=head2 Example
+# Example for get-sorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sorter
+
+Sets the sorter to use for items with the same parent.
+
+This sorter will be passed the I<item defined in Gnome::Gtk4::TreeListRow> of
+the tree list rows passed to C<$self>.
+
+=begin code
+method set-sorter ( N-Object() $sorter )
+=end code
+
+=item $sorter; The sorter to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-sorter
+
+=end comment
+
+=end pod
+
