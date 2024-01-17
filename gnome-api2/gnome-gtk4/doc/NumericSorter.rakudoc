@@ -1,0 +1,174 @@
+=comment Package: Gtk4, C-Source: numericsorter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::NumericSorter
+
+![](images/numericsorter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::NumericSorter> is a B<Gnome::Gtk4::Sorter> that compares numbers.
+
+To obtain the numbers to compare, this sorter evaluates a
+B<Gnome::Gtk4::Expression>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::NumericSorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-numericsorter
+
+Creates a new numeric sorter using the given C<$expression>.
+
+Smaller numbers will be sorted first. You can call
+C<.set-sort-order()> to change this.
+
+=begin code
+method new-numericsorter ( N-Object() $expression --> Gnome::Gtk4::NumericSorter \)
+=end code
+
+=item $expression; (transfer ownership: full) The expression to evaluate.
+
+=begin comment
+
+=head2 Example
+# Example for new-numericsorter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-expression
+
+Gets the expression that is evaluated to obtain numbers from items.
+
+=begin code
+method get-expression (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Expression>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-sort-order
+
+Gets whether this sorter will sort smaller numbers first.
+
+=begin code
+method get-sort-order (--> GtkSortType )
+=end code
+
+Return value; the order of the numbers. 
+
+=begin comment
+
+=head2 Example
+# Example for get-sort-order
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-expression
+
+Sets the expression that is evaluated to obtain numbers from items.
+
+Unless an expression is set on C<$self>, the sorter will always
+compare items as invalid.
+
+The expression must have a return type that can be compared
+numerically, such as C<G_TYPE_INT> or C<G_TYPE_DOUBLE>.
+
+=begin code
+method set-expression ( N-Object() $expression )
+=end code
+
+=item $expression; a B<Gnome::Gtk4::Expression>.
+
+=begin comment
+
+=head2 Example
+# Example for set-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sort-order
+
+Sets whether to sort smaller numbers before larger ones.
+
+=begin code
+method set-sort-order ( GtkSortType $sort-order )
+=end code
+
+=item $sort-order; whether to sort smaller numbers first.
+
+=begin comment
+
+=head2 Example
+# Example for set-sort-order
+
+=end comment
+
+=end pod
+
