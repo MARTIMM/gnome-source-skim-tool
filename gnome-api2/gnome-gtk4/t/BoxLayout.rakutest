@@ -1,0 +1,170 @@
+=comment Package: Gtk4, C-Source: boxlayout
+use v6.d;
+
+#TL:1:Gnome::Gtk4::BoxLayout:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::BoxLayout:api<2>;
+use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::BoxLayout $box-layout;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $box-layout {
+    my GtkOrientation $orientation;
+
+#`{{
+    #TC:0:new-boxlayout()
+    $orientation = …;
+    $box-layout .= new-boxlayout( $orientation);
+    ok .is-valid, '.new-boxlayout( $orientation)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $box-layout {
+    my guint $spacing;
+    my gboolean $homogeneous;
+    my GtkBaselinePosition $position;
+
+
+#`{{
+    #TM:0:set-baseline-position()
+    $position = …;
+    .set-baseline-position( $position);
+    #TM:0:get-baseline-position()
+    is .get-baseline-position(),  $position, '.set-baseline-position() / .get-baseline-position()';
+
+    #TM:0:set-homogeneous()
+    $homogeneous = '…';
+    .set-homogeneous( $homogeneous);
+    #TM:0:get-homogeneous()
+    is .get-homogeneous(),  $homogeneous, '.set-homogeneous() / .get-homogeneous()';
+
+    #TM:0:set-spacing()
+    $spacing = '…';
+    .set-spacing( $spacing);
+    #TM:0:get-spacing()
+    is .get-spacing(),  $spacing, '.set-spacing() / .get-spacing()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $box-layout {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::BoxLayout() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::BoxLayout;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::BoxLayout :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::BoxLayout $box-layout .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $box-layout.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
