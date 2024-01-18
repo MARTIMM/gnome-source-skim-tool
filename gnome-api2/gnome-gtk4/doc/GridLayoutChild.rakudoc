@@ -1,0 +1,225 @@
+=comment Package: Gtk4, C-Source: gridlayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::GridLayoutChild
+
+![](images/gridlayoutchild.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::LayoutChild> subclass for children in a B<Gnome::Gtk4::GridLayout>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GridLayoutChild
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-column
+
+Retrieves the column number to which C<$child> attaches its left side.
+
+=begin code
+method get-column (--> Int )
+=end code
+
+Return value; the column number. 
+
+=begin comment
+
+=head2 Example
+# Example for get-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-column-span
+
+Retrieves the number of columns that C<$child> spans to.
+
+=begin code
+method get-column-span (--> Int )
+=end code
+
+Return value; the number of columns. 
+
+=begin comment
+
+=head2 Example
+# Example for get-column-span
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row
+
+Retrieves the row number to which C<$child> attaches its top side.
+
+=begin code
+method get-row (--> Int )
+=end code
+
+Return value; the row number. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-span
+
+Retrieves the number of rows that C<$child> spans to.
+
+=begin code
+method get-row-span (--> Int )
+=end code
+
+Return value; the number of row. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-span
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-column
+
+Sets the column number to attach the left side of C<$child>.
+
+=begin code
+method set-column ( Int() $column )
+=end code
+
+=item $column; the attach point for C<$child>.
+
+=begin comment
+
+=head2 Example
+# Example for set-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-column-span
+
+Sets the number of columns C<$child> spans to.
+
+=begin code
+method set-column-span ( Int() $span )
+=end code
+
+=item $span; the span of C<$child>.
+
+=begin comment
+
+=head2 Example
+# Example for set-column-span
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row
+
+Sets the row to place C<$child> in.
+
+=begin code
+method set-row ( Int() $row )
+=end code
+
+=item $row; the row for C<$child>.
+
+=begin comment
+
+=head2 Example
+# Example for set-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-span
+
+Sets the number of rows C<$child> spans to.
+
+=begin code
+method set-row-span ( Int() $span )
+=end code
+
+=item $span; the span of C<$child>.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-span
+
+=end comment
+
+=end pod
+
