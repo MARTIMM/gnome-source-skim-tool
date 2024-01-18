@@ -1,0 +1,187 @@
+=comment Package: Gtk4, C-Source: constraintlayout
+use v6.d;
+
+#TL:1:Gnome::Gtk4::ConstraintLayout:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-Error:api<2>;
+#use Gnome::Glib::N-HashTable:api<2>;
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Gtk4::ConstraintLayout:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::ConstraintLayout $constraint-layout;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $constraint-layout {
+
+#`{{
+    #TC:0:new-constraintlayout()
+
+    $constraint-layout .= new-constraintlayout();
+    ok .is-valid, '.new-constraintlayout()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $constraint-layout {
+    my CArray[N-Error] $error;
+#    my N-HashTable  $views;
+    my gsize $n-lines;
+    my gint $hspacing;
+    my gint-ptr $constraint;
+    my CArray[N-Error] $err;
+    my Str $first-view;
+    my N-Object $guide;
+    my gchar-pptr $lines;
+    my gint $vspacing;
+
+
+#`{{
+    #TM:0:add-constraint()
+    ok .add-constraint( $constraint), '.add-constraint()';
+
+    #TM:0:add-constraints-from-description()
+    ok .add-constraints-from-description( $lines, $n-lines, $hspacing, $vspacing, $error, $first-view), '.add-constraints-from-description()';
+
+    #TM:0:add-constraints-from-descriptionv()
+    ok .add-constraints-from-descriptionv( $lines, $n-lines, $hspacing, $vspacing, $views, $err), '.add-constraints-from-descriptionv()';
+
+    #TM:0:add-guide()
+    ok .add-guide( $guide), '.add-guide()';
+
+    #TM:0:observe-constraints()
+    ok .observe-constraints(), '.observe-constraints()';
+
+    #TM:0:observe-guides()
+    ok .observe-guides(), '.observe-guides()';
+
+    #TM:0:remove-all-constraints()
+    ok .remove-all-constraints(), '.remove-all-constraints()';
+
+    #TM:0:remove-constraint()
+    ok .remove-constraint( $constraint), '.remove-constraint()';
+
+    #TM:0:remove-guide()
+    ok .remove-guide( $guide), '.remove-guide()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $constraint-layout {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::ConstraintLayout() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::ConstraintLayout;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::ConstraintLayout :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::ConstraintLayout $constraint-layout .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $constraint-layout.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
