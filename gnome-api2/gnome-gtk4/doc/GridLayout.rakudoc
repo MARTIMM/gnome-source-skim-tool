@@ -1,0 +1,354 @@
+=comment Package: Gtk4, C-Source: gridlayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::GridLayout
+
+![](images/gridlayout.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::GridLayout> is a layout manager which arranges child widgets in
+rows and columns.
+
+Children have an "attach point" defined by the horizontal and vertical
+index of the cell they occupy; children can span multiple rows or columns.
+The layout properties for setting the attach points and spans are set
+using the B<Gnome::Gtk4::GridLayoutChild> associated to each child widget.
+
+The behaviour of B<Gnome::Gtk4::GridLayout> when several children occupy the same
+grid cell is undefined.
+
+B<Gnome::Gtk4::GridLayout> can be used like a B<Gnome::Gtk4::BoxLayout> if all children are
+attached to the same row or column; however, if you only ever need a
+single row or column, you should consider using B<Gnome::Gtk4::BoxLayout>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GridLayout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-gridlayout
+
+Creates a new B<Gnome::Gtk4::GridLayout>.
+
+=begin code
+method new-gridlayout ( --> Gnome::Gtk4::GridLayout \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-gridlayout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-baseline-row
+
+Retrieves the row set with C<.set-baseline-row()>.
+
+=begin code
+method get-baseline-row (--> Int )
+=end code
+
+Return value; the global baseline row. 
+
+=begin comment
+
+=head2 Example
+# Example for get-baseline-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-column-homogeneous
+
+Checks whether all columns of C<$grid> should have the same width.
+
+=begin code
+method get-column-homogeneous (--> Bool )
+=end code
+
+Return value; C<True> if the columns are homogeneous, and C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-column-homogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-column-spacing
+
+Retrieves the spacing set with C<.set-column-spacing()>.
+
+=begin code
+method get-column-spacing (--> UInt )
+=end code
+
+Return value; the spacing between consecutive columns. 
+
+=begin comment
+
+=head2 Example
+# Example for get-column-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-baseline-position
+
+Returns the baseline position of C<$row>.
+
+If no value has been set with
+C<.set-row-baseline-position()>,
+the default value of C<GTK_BASELINE_POSITION_CENTER>
+is returned.
+
+=begin code
+method get-row-baseline-position ( Int() $row --> GtkBaselinePosition )
+=end code
+
+=item $row; a row index.
+
+Return value; the baseline position of C<$row>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-baseline-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-homogeneous
+
+Checks whether all rows of C<$grid> should have the same height.
+
+=begin code
+method get-row-homogeneous (--> Bool )
+=end code
+
+Return value; C<True> if the rows are homogeneous, and C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-homogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-spacing
+
+Retrieves the spacing set with C<.set-row-spacing()>.
+
+=begin code
+method get-row-spacing (--> UInt )
+=end code
+
+Return value; the spacing between consecutive rows. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-baseline-row
+
+Sets which row defines the global baseline for the entire grid.
+
+Each row in the grid can have its own local baseline, but only
+one of those is global, meaning it will be the baseline in the
+parent of the C<$grid>.
+
+=begin code
+method set-baseline-row ( Int() $row )
+=end code
+
+=item $row; the row index.
+
+=begin comment
+
+=head2 Example
+# Example for set-baseline-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-column-homogeneous
+
+Sets whether all columns of C<$grid> should have the same width.
+
+=begin code
+method set-column-homogeneous ( Bool() $homogeneous )
+=end code
+
+=item $homogeneous; C<True> to make columns homogeneous.
+
+=begin comment
+
+=head2 Example
+# Example for set-column-homogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-column-spacing
+
+Sets the amount of space to insert between consecutive columns.
+
+=begin code
+method set-column-spacing ( UInt() $spacing )
+=end code
+
+=item $spacing; the amount of space between columns, in pixels.
+
+=begin comment
+
+=head2 Example
+# Example for set-column-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-baseline-position
+
+Sets how the baseline should be positioned on C<$row> of the
+grid, in case that row is assigned more space than is requested.
+
+=begin code
+method set-row-baseline-position ( Int() $row, GtkBaselinePosition $pos )
+=end code
+
+=item $row; a row index.
+=item $pos; a C<enumeration GtkBaselinePosition defined in Gnome::Gtk4::T-Enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-baseline-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-homogeneous
+
+Sets whether all rows of C<$grid> should have the same height.
+
+=begin code
+method set-row-homogeneous ( Bool() $homogeneous )
+=end code
+
+=item $homogeneous; C<True> to make rows homogeneous.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-homogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-spacing
+
+Sets the amount of space to insert between consecutive rows.
+
+=begin code
+method set-row-spacing ( UInt() $spacing )
+=end code
+
+=item $spacing; the amount of space between rows, in pixels.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-spacing
+
+=end comment
+
+=end pod
+
