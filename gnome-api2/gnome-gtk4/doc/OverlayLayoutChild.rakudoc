@@ -1,0 +1,141 @@
+=comment Package: Gtk4, C-Source: overlaylayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::OverlayLayoutChild
+
+![](images/overlaylayoutchild.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::LayoutChild> subclass for children in a B<Gnome::Gtk4::OverlayLayout>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::OverlayLayoutChild
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-clip-overlay
+
+Retrieves whether the child is clipped.
+
+=begin code
+method get-clip-overlay (--> Bool )
+=end code
+
+Return value; whether the child is clipped. 
+
+=begin comment
+
+=head2 Example
+# Example for get-clip-overlay
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-measure
+
+Retrieves whether the child is measured.
+
+=begin code
+method get-measure (--> Bool )
+=end code
+
+Return value; whether the child is measured. 
+
+=begin comment
+
+=head2 Example
+# Example for get-measure
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-clip-overlay
+
+Sets whether to clip this child.
+
+=begin code
+method set-clip-overlay ( Bool() $clip-overlay )
+=end code
+
+=item $clip-overlay; whether to clip this child.
+
+=begin comment
+
+=head2 Example
+# Example for set-clip-overlay
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-measure
+
+Sets whether to measure this child.
+
+=begin code
+method set-measure ( Bool() $measure )
+=end code
+
+=item $measure; whether to measure this child.
+
+=begin comment
+
+=head2 Example
+# Example for set-measure
+
+=end comment
+
+=end pod
+
