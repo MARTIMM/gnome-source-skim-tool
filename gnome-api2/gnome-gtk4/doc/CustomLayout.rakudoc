@@ -1,0 +1,84 @@
+=comment Package: Gtk4, C-Source: customlayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CustomLayout
+
+![](images/customlayout.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::CustomLayout> uses closures for size negotiation.
+
+A B<GtkCustomLayout >uses closures matching to the old B<Gnome::Gtk4::Widget>
+virtual functions for size negotiation, as a convenience API to
+ease the porting towards the corresponding B<GtkLayoutManager
+virtual functions.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CustomLayout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-customlayout
+
+Creates a new legacy layout manager.
+
+Legacy layout managers map to the old >GtkWidgetB< size negotiation
+virtual functions, and are meant to be used during the transition
+from layout containers to layout manager delegates.
+
+=begin code
+method new-customlayout ( &request-mode, &measure, &allocate --> Gnome::Gtk4::CustomLayout \)
+=end code
+
+=item &request-mode; a function to retrieve
+  the >GtkSizeRequestMode` of the widget using the layout; the
+  default request mode is C<GTK_SIZE_REQUEST_CONSTANT_SIZE>. Tthe function must be specified with following signature; C<:( N-Object $widget --> GEnum )>.
+=item &measure; a function to measure the widget using the layout manager. Tthe function must be specified with following signature; C<:( N-Object $widget, GEnum $orientation, gint $for-size, gint-ptr $minimum, gint-ptr $natural, gint-ptr $minimum-baseline, gint-ptr $natural-baseline )>.
+=item &allocate; a function to allocate the children of the widget using
+  the layout manager. Tthe function must be specified with following signature; C<:( N-Object $widget, gint $width, gint $height, gint $baseline )>.
+
+=begin comment
+
+=head2 Example
+# Example for new-customlayout
+
+=end comment
+
+=end pod
+

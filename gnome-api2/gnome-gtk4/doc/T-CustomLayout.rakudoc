@@ -1,0 +1,50 @@
+=comment Package: Gtk4, C-Source: customlayout
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-CustomLayout
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 CustomMeasureFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $widget, GEnum $orientation, Int() $for-size, Array[Int] $minimum, Array[Int] $natural, Array[Int] $minimum-baseline, Array[Int] $natural-baseline  )
+=end code
+
+=item widget; the widget to be measured
+=item orientation; the direction to be measured
+=item for-size; the size to be measured for
+=item minimum; the measured minimum size of the widget
+=item natural; the measured natural size of the widget
+=item minimum-baseline; the measured minimum baseline of the widget
+=item natural-baseline; the measured natural baseline of the widget
+
+=head2 CustomAllocateFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $widget, Int() $width, Int() $height, Int() $baseline  )
+=end code
+
+=item widget; the widget to allocate
+=item width; the new width of the widget
+=item height; the new height of the widget
+=item baseline; the new baseline of the widget, or -1
+
+=head2 CustomRequestModeFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $widget  )
+=end code
+
+=item widget; the widget to be queried
+
+=end pod
