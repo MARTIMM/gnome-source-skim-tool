@@ -1,0 +1,98 @@
+=comment Package: Gtk4, C-Source: fixedlayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::FixedLayout
+
+![](images/fixedlayout.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::FixedLayout> is a layout manager which can place child widgets
+at fixed positions.
+
+Most applications should never use this layout manager; fixed positioning
+and sizing requires constant recalculations on where children need to be
+positioned and sized. Other layout managers perform this kind of work
+internally so that application developers don't need to do it. Specifically,
+widgets positioned in a fixed layout manager will need to take into account:
+
+=item Themes, which may change widget sizes.
+
+=item Fonts other than the one you used to write the app will of course
+  change the size of widgets containing text; keep in mind that
+  users may use a larger font because of difficulty reading the
+  default, or they may be using a different OS that provides different
+  fonts.
+
+=item Translation of text into other languages changes its size. Also,
+  display of non-English text will use a different font in many
+  cases.
+
+In addition, B<Gnome::Gtk4::FixedLayout> does not pay attention to text direction and
+thus may produce unwanted results if your app is run under right-to-left
+languages such as Hebrew or Arabic. That is: normally GTK will order
+containers appropriately depending on the text direction, e.g. to put labels
+to the right of the thing they label when using an RTL language;
+B<Gnome::Gtk4::FixedLayout> won't be able to do that for you.
+
+Finally, fixed positioning makes it kind of annoying to add/remove UI
+elements, since you have to reposition all the other  elements. This is a
+long-term maintenance problem for your application.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::FixedLayout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-fixedlayout
+
+Creates a new B<Gnome::Gtk4::FixedLayout>.
+
+=begin code
+method new-fixedlayout ( --> Gnome::Gtk4::FixedLayout \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-fixedlayout
+
+=end comment
+
+=end pod
+
