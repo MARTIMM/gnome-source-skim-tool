@@ -1,0 +1,74 @@
+=comment Package: Gtk4, C-Source: binlayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::BinLayout
+
+![](images/binlayout.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::BinLayout> is a B<Gnome::Gtk4::LayoutManager> subclass useful for create "bins" of
+widgets.
+
+B<Gnome::Gtk4::BinLayout> will stack each child of a widget on top of each other,
+using the I<hexpand defined in Gnome::Gtk4::Widget>, I<vexpand defined in Gnome::Gtk4::Widget>,
+I<halign defined in Gnome::Gtk4::Widget>, and I<valign defined in Gnome::Gtk4::Widget> properties
+of each child to determine where they should be positioned.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::BinLayout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-binlayout
+
+Creates a new B<Gnome::Gtk4::BinLayout> instance.
+
+=begin code
+method new-binlayout ( --> Gnome::Gtk4::BinLayout \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-binlayout
+
+=end comment
+
+=end pod
+
