@@ -1,0 +1,108 @@
+=comment Package: Gtk4, C-Source: layoutchild
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::LayoutChild
+
+![](images/layoutchild.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::LayoutChild> is the base class for objects that are meant to hold
+layout properties.
+
+If a B<Gnome::Gtk4::LayoutManager> has per-child properties, like their packing type,
+or the horizontal and vertical span, or the icon name, then the layout
+manager should use a B<Gnome::Gtk4::LayoutChild> implementation to store those properties.
+
+A B<Gnome::Gtk4::LayoutChild> instance is only ever valid while a widget is part
+of a layout.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::LayoutChild
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-widget
+
+Retrieves the B<Gnome::Gtk4::Widget> associated to the given C<$layout-child>.
+
+=begin code
+method get-child-widget (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-layout-manager
+
+Retrieves the B<Gnome::Gtk4::LayoutManager> instance that created the
+given C<$layout-child>.
+
+=begin code
+method get-layout-manager (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::LayoutManager>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-layout-manager
+
+=end comment
+
+=end pod
+
