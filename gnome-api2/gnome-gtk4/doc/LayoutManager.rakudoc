@@ -1,0 +1,265 @@
+=comment Package: Gtk4, C-Source: layoutmanager
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::LayoutManager
+
+![](images/layoutmanager.png)
+
+=head1 Description
+
+Layout managers are delegate classes that handle the preferred size
+and the allocation of a widget.
+
+You typically subclass B<Gnome::Gtk4::LayoutManager> if you want to implement a
+layout policy for the children of a widget, or if you want to determine
+the size of a widget depending on its contents.
+
+Each B<Gnome::Gtk4::Widget> can only have a B<Gnome::Gtk4::LayoutManager> instance associated
+to it at any given time; it is possible, though, to replace the layout
+manager instance using C<.set-layout-manager() in class Gnome::Gtk4::Widget>.
+
+=head3 Layout properties
+
+A layout manager can expose properties for controlling the layout of
+each child, by creating an object type derived from B<Gnome::Gtk4::LayoutChild>
+and installing the properties on it as normal B<Gnome::GObject::Object> properties.
+
+Each B<Gnome::Gtk4::LayoutChild> instance storing the layout properties for a
+specific child is created through the C<.get-layout-child()>
+method; a B<Gnome::Gtk4::LayoutManager> controls the creation of its B<Gnome::Gtk4::LayoutChild>
+instances by overriding the GtkLayoutManagerClass.create_layout_child()
+virtual function. The typical implementation should look like:
+
+=begin comment
+static GtkLayoutChild *
+create_layout_child (GtkLayoutManager *manager,
+                     GtkWidget        *container,
+                     GtkWidget        *child)
+{
+  return g_object_new (your_layout_child_get_type (),
+                       "layout-manager", manager,
+                       "child-widget", child,
+                       NULL);
+}
+
+=end comment
+
+The I<layout-manager defined in Gnome::Gtk4::LayoutChild> and
+I<child-widget defined in Gnome::Gtk4::LayoutChild> properties
+on the newly created B<Gnome::Gtk4::LayoutChild> instance are mandatory. The
+B<Gnome::Gtk4::LayoutManager> will cache the newly created B<Gnome::Gtk4::LayoutChild> instance
+until the widget is removed from its parent, or the parent removes the
+layout manager.
+
+Each B<Gnome::Gtk4::LayoutManager> instance creating a B<Gnome::Gtk4::LayoutChild> should use
+C<.get-layout-child()> every time it needs to query
+the layout properties; each B<Gnome::Gtk4::LayoutChild> instance should call
+C<.layout-changed()> every time a property is
+updated, in order to queue a new size measuring and allocation.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::LayoutManager
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 allocate
+
+Assigns the given C<$width>, C<$height>, and C<$baseline> to
+a C<$widget>, and computes the position and sizes of the children of
+the C<$widget> using the layout management policy of C<$manager>.
+
+=begin code
+method allocate ( N-Object() $widget, Int() $width, Int() $height, Int() $baseline )
+=end code
+
+=item $widget; the B<Gnome::Gtk4::Widget> using C<$manager>.
+=item $width; the new width of the C<$widget>.
+=item $height; the new height of the C<$widget>.
+=item $baseline; the baseline position of the C<$widget>, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for allocate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-layout-child
+
+Retrieves a B<Gnome::Gtk4::LayoutChild> instance for the B<Gnome::Gtk4::LayoutManager>,
+creating one if necessary.
+
+The C<$child> widget must be a child of the widget using C<$manager>.
+
+The B<Gnome::Gtk4::LayoutChild> instance is owned by the B<Gnome::Gtk4::LayoutManager>,
+and is guaranteed to exist as long as C<$child> is a child of the
+B<Gnome::Gtk4::Widget> using the given B<Gnome::Gtk4::LayoutManager>.
+
+=begin code
+method get-layout-child ( N-Object() $child --> N-Object )
+=end code
+
+=item $child; a B<Gnome::Gtk4::Widget>.
+
+Return value; a B<Gnome::Gtk4::LayoutChild>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-layout-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-request-mode
+
+Retrieves the request mode of C<$manager>.
+
+=begin code
+method get-request-mode (--> GtkSizeRequestMode )
+=end code
+
+Return value; a C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-Enums>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-request-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-widget
+
+Retrieves the B<Gnome::Gtk4::Widget> using the given B<Gnome::Gtk4::LayoutManager>.
+
+=begin code
+method get-widget (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 layout-changed
+
+Queues a resize on the B<Gnome::Gtk4::Widget> using C<$manager>, if any.
+
+This function should be called by subclasses of B<Gnome::Gtk4::LayoutManager>
+in response to changes to their layout management policies.
+
+=begin code
+method layout-changed ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for layout-changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 measure
+
+Measures the size of the C<$widget> using C<$manager>, for the
+given C<$orientation> and size.
+
+See the B<Gnome::Gtk4::Widget> documentation on layout management for
+more details.
+
+=begin code
+method measure ( N-Object() $widget, GtkOrientation $orientation, Int() $for-size, Array[Int] $minimum, Array[Int] $natural, Array[Int] $minimum-baseline, Array[Int] $natural-baseline )
+=end code
+
+=item $widget; the B<Gnome::Gtk4::Widget> using C<$manager>.
+=item $orientation; the orientation to measure.
+=item $for-size; Size for the opposite of C<$orientation>; for instance, if
+  the C<$orientation> is C<GTK_ORIENTATION_HORIZONTAL>, this is the height
+  of the widget; if the C<$orientation> is C<GTK_ORIENTATION_VERTICAL>, this
+  is the width of the widget. This allows to measure the height for the
+  given width, and the width for the given height. Use -1 if the size
+  is not known.
+=item $minimum; (transfer ownership: full) the minimum size for the given size and
+  orientation.
+=item $natural; (transfer ownership: full) the natural, or preferred size for the
+  given size and orientation.
+=item $minimum-baseline; (transfer ownership: full) the baseline position for the
+  minimum size.
+=item $natural-baseline; (transfer ownership: full) the baseline position for the
+  natural size.
+
+=begin comment
+
+=head2 Example
+# Example for measure
+
+=end comment
+
+=end pod
+
