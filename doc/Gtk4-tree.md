@@ -131,15 +131,15 @@ GObject                                         Gnome::GObject::Object
 │   ╰── GtkApplication                          Application
 ├── GtkAssistantPage                            AssistantPage
 ├── GtkATContext
-├── GtkLayoutManager
-│   ├── GtkBinLayout
-│   ├── GtkBoxLayout
-│   ├── GtkCenterLayout
-│   ├── GtkConstraintLayout
-│   ├── GtkCustomLayout
-│   ├── GtkFixedLayout
-│   ├── GtkGridLayout
-│   ╰── GtkOverlayLayout
+├── GtkLayoutManager                            LayoutManager
+│   ├── GtkBinLayout                            BinLayout
+│   ├── GtkBoxLayout                            BoxLayout
+│   ├── GtkCenterLayout                         CenterLayout
+│   ├── GtkConstraintLayout                     ConstraintLayout
+│   ├── GtkCustomLayout                         CustomLayout
+│   ├── GtkFixedLayout                          FixedLayout
+│   ├── GtkGridLayout                           GridLayout
+│   ╰── GtkOverlayLayout                        OverlayLayout
 ├── GtkBookmarkList
 ├── GtkBuilderCScope
 ├── GtkBuilder
@@ -151,12 +151,12 @@ GObject                                         Gnome::GObject::Object
 ├── GtkConstraint                               Constraint
 ├── GtkConstraintGuide
 ├── GtkCssProvider                              CssProvider
-├── GtkSorter
-│   ├── GtkCustomSorter
-│   ├── GtkMultiSorter
-│   ├── GtkNumericSorter
-│   ├── GtkStringSorter
-│   ╰── GtkTreeListRowSorter
+├── GtkSorter                                   Sorter
+│   ├── GtkCustomSorter                         CustomSorter
+│   ├── GtkMultiSorter                          MultiSorter
+│   ├── GtkNumericSorter                        NumericSorter
+│   ├── GtkStringSorter                         StringSorter
+│   ╰── GtkTreeListRowSorter                    TreeListRowSorter
 ├── GtkDirectoryList
 ├── GtkEventController
 │   ├── GtkGesture
@@ -186,11 +186,11 @@ GObject                                         Gnome::GObject::Object
 │   ╰── GtkFileChooserNative
 ├── GtkFilterListModel
 ├── GtkFlattenListModel
-├── GtkLayoutChild
-│   ├── GtkGridLayoutChild
-│   ├── GtkOverlayLayoutChild
-│   ├── GtkConstraintLayoutChild
-│   ╰── GtkFixedLayoutChild
+├── GtkLayoutChild                              LayoutChild
+│   ├── GtkGridLayoutChild                      GridLayoutChild
+│   ├── GtkOverlayLayoutChild                   OverlayLayoutChild
+│   ├── GtkConstraintLayoutChild                ConstraintLayoutChild
+│   ╰── GtkFixedLayoutChild                     FixedLayoutChild
 ├── GtkIconTheme                                IconTheme
 ├── GtkIMContext
 │   ├── GtkIMContextSimple
@@ -336,6 +336,7 @@ Gnome::N::TopLevelClassSupport
 ├── T-ShortcutAction
 ├── T-ShortcutsShortcut
 ├── T-Show
+├── T-Sorter
 ├── T-SpinButton
 ├── T-Stack
 ├── T-StyleContext
