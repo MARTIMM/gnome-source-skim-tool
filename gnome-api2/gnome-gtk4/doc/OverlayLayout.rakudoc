@@ -1,0 +1,74 @@
+=comment Package: Gtk4, C-Source: overlaylayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::OverlayLayout
+
+![](images/overlaylayout.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::OverlayLayout> is the layout manager used by B<Gnome::Gtk4::Overlay>.
+
+It places widgets as overlays on top of the main child.
+
+This is not a reusable layout manager, since it expects its widget
+to be a B<Gnome::Gtk4::Overlay>. It only listed here so that its layout
+properties get documented.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::OverlayLayout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-overlaylayout
+
+Creates a new B<Gnome::Gtk4::OverlayLayout> instance.
+
+=begin code
+method new-overlaylayout ( --> Gnome::Gtk4::OverlayLayout \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-overlaylayout
+
+=end comment
+
+=end pod
+
