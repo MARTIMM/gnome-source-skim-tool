@@ -1,0 +1,298 @@
+=comment Package: Gtk4, C-Source: centerlayout
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CenterLayout
+
+![](images/centerlayout.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::CenterLayout> is a layout manager that manages up to three children.
+
+The start widget is allocated at the start of the layout (left in
+left-to-right locales and right in right-to-left ones), and the end
+widget at the end.
+
+The center widget is centered regarding the full width of the layout's.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CenterLayout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-centerlayout
+
+Creates a new B<Gnome::Gtk4::CenterLayout>.
+
+=begin code
+method new-centerlayout ( --> Gnome::Gtk4::CenterLayout \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-centerlayout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-baseline-position
+
+Returns the baseline position of the layout.
+
+=begin code
+method get-baseline-position (--> GtkBaselinePosition )
+=end code
+
+Return value; The current baseline position of C<$self>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-baseline-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-center-widget
+
+Returns the center widget of the layout.
+
+=begin code
+method get-center-widget (--> N-Object )
+=end code
+
+Return value; the current center widget of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-center-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-end-widget
+
+Returns the end widget of the layout.
+
+=begin code
+method get-end-widget (--> N-Object )
+=end code
+
+Return value; the current end widget of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-end-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-orientation
+
+Gets the current orienration of the layout manager.
+
+=begin code
+method get-orientation (--> GtkOrientation )
+=end code
+
+Return value; The current orientation of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-orientation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-start-widget
+
+Returns the start widget fo the layout.
+
+=begin code
+method get-start-widget (--> N-Object )
+=end code
+
+Return value; The current start widget of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-baseline-position
+
+Sets the new baseline position of C<$self>
+
+=begin code
+method set-baseline-position ( GtkBaselinePosition $baseline-position )
+=end code
+
+=item $baseline-position; the new baseline position.
+
+=begin comment
+
+=head2 Example
+# Example for set-baseline-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-center-widget
+
+Sets the new center widget of C<$self>.
+
+To remove the existing center widget, pass undefined.
+
+=begin code
+method set-center-widget ( N-Object() $widget )
+=end code
+
+=item $widget; the new center widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-center-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-end-widget
+
+Sets the new end widget of C<$self>.
+
+To remove the existing center widget, pass undefined.
+
+=begin code
+method set-end-widget ( N-Object() $widget )
+=end code
+
+=item $widget; the new end widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-end-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-orientation
+
+Sets the orientation of C<$self>.
+
+=begin code
+method set-orientation ( GtkOrientation $orientation )
+=end code
+
+=item $orientation; the new orientation.
+
+=begin comment
+
+=head2 Example
+# Example for set-orientation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-start-widget
+
+Sets the new start widget of C<$self>.
+
+To remove the existing start widget, pass undefined.
+
+=begin code
+method set-start-widget ( N-Object() $widget )
+=end code
+
+=item $widget; the new start widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-start-widget
+
+=end comment
+
+=end pod
+
