@@ -405,10 +405,6 @@ method !convert-args ( Mu $v, $p ) {
         $c = $v.Int if $v.defined;
       }
 
-      when .^name ~~ / Distribution '::' Resource / {
-        $c = $v if $v.defined;
-      }
-
       when .^name ~~ / Str / {
         $c = $v.Str if $v.defined;
       }
