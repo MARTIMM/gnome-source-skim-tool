@@ -17,21 +17,34 @@ GObject                                         Gnome::GObject::Object
 ├── GSimplePermission                           SimplePermission
 ├──
 ├──
+```
 
+## Role modules
+
+```
 GInterface
-├── GAction                                     Action
-├── GActionGroup                                ActionGroup
-├── GActionMap                                  ActionMap
+|                                               Gnome::Gio::*
+├── GAction                                     R-Action
+├── GActionGroup                                R-ActionGroup
+├── GActionMap                                  R-ActionMap
 ├── GListModel                                  R-ListModel
 ├── 
 ├──
 ├──
 
+```
+
+## Type modules
+
 Types, constants, standalone functions, etc. generated from gnome sources
-Gnome::Gio::*
-T-Action
-T-File
-T-Ioenums
-T-MenuAttributeIter
-T-MenuModel
+`Gnome::Gtk4::\*`
+
+```
+Gnome::N::TopLevelClassSupport
+|   Gnome::Gio::*
+├── T-Action
+├── T-File
+├── T-Ioenums
+├── T-MenuAttributeIter
+├── T-MenuModel
 ```
