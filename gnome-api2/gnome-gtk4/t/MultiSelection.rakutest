@@ -21,20 +21,20 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Gtk4::MultiSelection $multiselection;
+my Gnome::Gtk4::MultiSelection $multi-selection;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $multiselection {
+  given $multi-selection {
     my N-Object $model;
 
 #`{{
     #TC:0:new-multiselection()
     $model = …;
-    $multiselection .= new-multiselection( $model);
+    $multi-selection .= new-multiselection( $model);
     ok .is-valid, '.new-multiselection( $model)';
 
 }}
@@ -52,7 +52,7 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $multiselection {
+  with $multi-selection {
     my N-Object $model;
 
 
@@ -69,7 +69,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $multiselection {
+  with $multi-selection {
 
 
 #`{{
@@ -132,13 +132,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gtk4::MultiSelection $multiselection .= new;
+  my Gnome::Gtk4::MultiSelection $multi-selection .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $multiselection.register-signal( $sh, 'method', 'signal');
+  $multi-selection.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',

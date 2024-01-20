@@ -10,13 +10,8 @@ use Test;
 use NativeCall;
 
 
-use Gnome::Gtk4::MultiSelection:api<2>;
-ok 1, 'loads MultiSelection using R-SelectionModel';
-done-testing;
-=finish
-
-#use Gnome::Gtk4::N-Bitset:api<2>;
-#use Gnome::Gtk4::SelectionModel:api<2>;
+use Gnome::Gtk4::N-Bitset:api<2>;
+use Gnome::Gtk4::SingleSelection:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -32,13 +27,16 @@ unless %*ENV<raku_test_all>:exists {
 }
 
 #-------------------------------------------------------------------------------
+my Gnome::Gtk4::SingleSelection $r-selection-model .=
+  new-singleselection(N-Object);
+
 subtest 'Method tests', {
-  with $selectionmodel {
-    my guint $n-items;
+  with $r-selection-model {
     my guint $position;
-    my N-Bitset  $mask;
-    my N-Bitset  $selected;
+    my guint $n-items;
     my gboolean $unselect-rest;
+    my N-Bitset $mask;
+    my N-Bitset $selected;
 
 
 #`{{
@@ -135,13 +133,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gtk4::SelectionModel $selectionmodel .= new;
+  my Gnome::Gtk4::SelectionModel $r-selection-model .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $selectionmodel.register-signal( $sh, 'method', 'signal');
+  $r-selection-model.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',
