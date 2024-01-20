@@ -1,0 +1,777 @@
+=comment Package: Gtk4, C-Source: types
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::N-Bitset
+
+![](images/bitset.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::N-Bitset> represents a set of unsigned integers.
+
+Another name for this data structure is "bitmap".
+
+The current implementation is based on [roaring bitmaps](https://roaringbitmap.org/).
+
+A bitset allows adding a set of integers and provides support for set operations
+like unions, intersections and checks for equality or if a value is contained
+in the set. B<Gnome::Gtk4::N-Bitset> also contains various functions to query metadata about
+the bitset, such as the minimum or maximum values or its size.
+
+The fastest way to iterate values in a bitset is  B<Gnome::Gtk4::N-BitsetIter> .
+
+The main use case for B<Gnome::Gtk4::N-Bitset> is implementing complex selections for
+B<Gnome::Gtk4::R-SelectionModel>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Bitset
+
+=end comment
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Bitset
+
+This is an opaque type of which fields are not available.
+
+  class N-Bitset:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-empty
+
+Creates a new empty bitset.
+
+=begin code
+method new-empty ( --> Gnome::Gtk4::Bitset \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-empty
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-range
+
+Creates a bitset with the given range set.
+
+=begin code
+method new-range ( UInt() $start, UInt() $n-items --> Gnome::Gtk4::Bitset \)
+=end code
+
+=item $start; first value to add.
+=item $n-items; number of consecutive values to add.
+
+=begin comment
+
+=head2 Example
+# Example for new-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add
+
+Adds C<$value> to C<$self> if it wasn't part of it before.
+
+=begin code
+method add ( UInt() $value --> Bool )
+=end code
+
+=item $value; value to add.
+
+Return value; C<True> if C<$value> was not part of C<$self> and C<$self>
+  was changed. 
+
+=begin comment
+
+=head2 Example
+# Example for add
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-range
+
+Adds all values from C<$start> (inclusive) to C<$start> + C<$n-items>
+(exclusive) in C<$self>.
+
+=begin code
+method add-range ( UInt() $start, UInt() $n-items )
+=end code
+
+=item $start; first value to add.
+=item $n-items; number of consecutive values to add.
+
+=begin comment
+
+=head2 Example
+# Example for add-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-range-closed
+
+Adds the closed range [ C<$first>, C<$last>], so C<$first>, C<$last> and all
+values in between. C<$first> must be smaller than C<$last>.
+
+=begin code
+method add-range-closed ( UInt() $first, UInt() $last )
+=end code
+
+=item $first; first value to add.
+=item $last; last value to add.
+
+=begin comment
+
+=head2 Example
+# Example for add-range-closed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-rectangle
+
+Interprets the values as a 2-dimensional boolean grid with the given C<$stride>
+and inside that grid, adds a rectangle with the given C<$width> and C<$height>.
+
+=begin code
+method add-rectangle ( UInt() $start, UInt() $width, UInt() $height, UInt() $stride )
+=end code
+
+=item $start; first value to add.
+=item $width; width of the rectangle.
+=item $height; height of the rectangle.
+=item $stride; row stride of the grid.
+
+=begin comment
+
+=head2 Example
+# Example for add-rectangle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains
+
+Checks if the given C<$value> has been added to C<$self>
+
+=begin code
+method contains ( UInt() $value --> Bool )
+=end code
+
+=item $value; the value to check.
+
+Return value; C<True> if C<$self> contains C<$value>. 
+
+=begin comment
+
+=head2 Example
+# Example for contains
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Creates a copy of C<$self>.
+
+=begin code
+method copy (--> CArray[N-Bitset] )
+=end code
+
+Return value; A new bitset that contains the same
+  values as C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 difference
+
+Sets C<$self> to be the symmetric difference of C<$self> and C<$other>.
+
+The symmetric difference is set C<$self> to contain all values that
+were either contained in C<$self> or in C<$other>, but not in both.
+This operation is also called an XOR.
+
+It is allowed for C<$self> and C<$other> to be the same bitset. The bitset
+will be emptied in that case.
+
+=begin code
+method difference ( CArray[N-Bitset] $other )
+=end code
+
+=item $other; the B<Gnome::Gtk4::N-Bitset> to compute the difference from.
+
+=begin comment
+
+=head2 Example
+# Example for difference
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equals
+
+Returns C<True> if C<$self> and C<$other> contain the same values.
+
+=begin code
+method equals ( CArray[N-Bitset] $other --> Bool )
+=end code
+
+=item $other; another B<Gnome::Gtk4::N-Bitset>.
+
+Return value; C<True> if C<$self> and C<$other> contain the same values. 
+
+=begin comment
+
+=head2 Example
+# Example for equals
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-maximum
+
+Returns the largest value in C<$self>.
+
+If C<$self> is empty, 0 is returned.
+
+=begin code
+method get-maximum (--> UInt )
+=end code
+
+Return value; The largest value in C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-maximum
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-minimum
+
+Returns the smallest value in C<$self>.
+
+If C<$self> is empty, B<G_MAXUINT> is returned.
+
+=begin code
+method get-minimum (--> UInt )
+=end code
+
+Return value; The smallest value in C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-minimum
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-nth
+
+Returns the value of the C<$nth> item in self.
+
+If C<$nth> is >= the size of C<$self>, 0 is returned.
+
+=begin code
+method get-nth ( UInt() $nth --> UInt )
+=end code
+
+=item $nth; index of the item to get.
+
+Return value; the value of the C<$nth> item in C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-nth
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-size
+
+Gets the number of values that were added to the set.
+
+For example, if the set is empty, 0 is returned.
+
+Note that this function returns a B<guint64>, because when all
+values are set, the return value is B<G_MAXUINT + 1>. Unless you
+are sure this cannot happen (it can't with B<Gnome::Gio::R-ListModel>), be sure
+to use a 64bit type.
+
+=begin code
+method get-size (--> UInt )
+=end code
+
+Return value; The number of values in the set.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-size-in-range
+
+Gets the number of values that are part of the set from C<$first> to C<$last>
+(inclusive).
+
+Note that this function returns a B<guint64>, because when all values are
+set, the return value is B<G_MAXUINT + 1>. Unless you are sure this cannot
+happen (it can't with B<Gnome::Gio::R-ListModel>), be sure to use a 64bit type.
+
+=begin code
+method get-size-in-range ( UInt() $first, UInt() $last --> UInt )
+=end code
+
+=item $first; the first element to include.
+=item $last; the last element to include.
+
+Return value; The number of values in the set from C<$first> to C<$last>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-size-in-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersect
+
+Sets C<$self> to be the intersection of C<$self> and C<$other>.
+
+In other words, remove all values from C<$self> that are not part of C<$other>.
+
+It is allowed for C<$self> and C<$other> to be the same bitset. Nothing will
+happen in that case.
+
+=begin code
+method intersect ( CArray[N-Bitset] $other )
+=end code
+
+=item $other; the B<Gnome::Gtk4::N-Bitset> to intersect with.
+
+=begin comment
+
+=head2 Example
+# Example for intersect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-empty
+
+Check if no value is contained in bitset.
+
+=begin code
+method is-empty (--> Bool )
+=end code
+
+Return value; C<True> if C<$self> is empty. 
+
+=begin comment
+
+=head2 Example
+# Example for is-empty
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Acquires a reference on the given B<Gnome::Gtk4::N-Bitset>.
+
+=begin code
+method ref (--> CArray[N-Bitset] )
+=end code
+
+Return value; the B<Gnome::Gtk4::N-Bitset> with an additional reference. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes C<$value> from C<$self> if it was part of it before.
+
+=begin code
+method remove ( UInt() $value --> Bool )
+=end code
+
+=item $value; value to add.
+
+Return value; C<True> if C<$value> was part of C<$self> and C<$self>
+  was changed. 
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-all
+
+Removes all values from the bitset so that it is empty again.
+
+=begin code
+method remove-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for remove-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-range
+
+Removes all values from C<$start> (inclusive) to C<$start> + C<$n-items> (exclusive)
+in C<$self>.
+
+=begin code
+method remove-range ( UInt() $start, UInt() $n-items )
+=end code
+
+=item $start; first value to remove.
+=item $n-items; number of consecutive values to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-range-closed
+
+Removes the closed range [ C<$first>, C<$last>], so C<$first>, C<$last> and all
+values in between. C<$first> must be smaller than C<$last>.
+
+=begin code
+method remove-range-closed ( UInt() $first, UInt() $last )
+=end code
+
+=item $first; first value to remove.
+=item $last; last value to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove-range-closed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-rectangle
+
+Interprets the values as a 2-dimensional boolean grid with the given C<$stride>
+and inside that grid, removes a rectangle with the given C<$width> and C<$height>.
+
+=begin code
+method remove-rectangle ( UInt() $start, UInt() $width, UInt() $height, UInt() $stride )
+=end code
+
+=item $start; first value to remove.
+=item $width; width of the rectangle.
+=item $height; height of the rectangle.
+=item $stride; row stride of the grid.
+
+=begin comment
+
+=head2 Example
+# Example for remove-rectangle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 shift-left
+
+Shifts all values in C<$self> to the left by C<$amount>.
+
+Values smaller than C<$amount> are discarded.
+
+=begin code
+method shift-left ( UInt() $amount )
+=end code
+
+=item $amount; amount to shift all values to the left.
+
+=begin comment
+
+=head2 Example
+# Example for shift-left
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 shift-right
+
+Shifts all values in C<$self> to the right by C<$amount>.
+
+Values that end up too large to be held in a #guint are discarded.
+
+=begin code
+method shift-right ( UInt() $amount )
+=end code
+
+=item $amount; amount to shift all values to the right.
+
+=begin comment
+
+=head2 Example
+# Example for shift-right
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 splice
+
+This is a support function for B<Gnome::Gio::R-ListModel> handling, by mirroring
+the B<GlistModel::items-changed> signal.
+
+First, it "cuts" the values from C<$position> to C<$removed> from
+the bitset. That is, it removes all those values and shifts
+all larger values to the left by C<$removed> places.
+
+Then, it "pastes" new room into the bitset by shifting all values
+larger than C<$position> by C<$added> spaces to the right. This frees
+up space that can then be filled.
+
+=begin code
+method splice ( UInt() $position, UInt() $removed, UInt() $added )
+=end code
+
+=item $position; position at which to slice.
+=item $removed; number of values to remove.
+=item $added; number of values to add.
+
+=begin comment
+
+=head2 Example
+# Example for splice
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 subtract
+
+Sets C<$self> to be the subtraction of C<$other> from C<$self>.
+
+In other words, remove all values from C<$self> that are part of C<$other>.
+
+It is allowed for C<$self> and C<$other> to be the same bitset. The bitset
+will be emptied in that case.
+
+=begin code
+method subtract ( CArray[N-Bitset] $other )
+=end code
+
+=item $other; the B<Gnome::Gtk4::N-Bitset> to subtract.
+
+=begin comment
+
+=head2 Example
+# Example for subtract
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 union
+
+Sets C<$self> to be the union of C<$self> and C<$other>.
+
+That is, add all values from C<$other> into C<$self> that weren't part of it.
+
+It is allowed for C<$self> and C<$other> to be the same bitset. Nothing will
+happen in that case.
+
+=begin code
+method union ( CArray[N-Bitset] $other )
+=end code
+
+=item $other; the B<Gnome::Gtk4::N-Bitset> to union with.
+
+=begin comment
+
+=head2 Example
+# Example for union
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Releases a reference on the given B<Gnome::Gtk4::N-Bitset>.
+
+If the reference was the last, the resources associated to the C<$self> are
+freed.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+

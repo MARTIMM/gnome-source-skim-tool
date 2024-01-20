@@ -1,0 +1,179 @@
+=comment Package: Gtk4, C-Source: types
+use v6.d;
+
+#TL:1:Gnome::Gtk4::N-Bitset:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::N-Bitset:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Bitset $n-bitset;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-bitset {
+    my UInt() $start;
+    my UInt() $n-items;
+
+#`{{
+    #TC:0:new-empty()
+
+    $n-bitset .= new-empty();
+    ok .is-valid, '.new-empty()';
+
+    #TC:0:new-range()
+    $start = 42;
+    $n-items = 42;
+    $n-bitset .= new-range( $start, $n-items);
+    ok .is-valid, '.new-range( $start, $n-items)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-bitset {
+    my UInt() $nth;
+    my UInt() $removed;
+    my UInt() $width;
+    my UInt() $n-items;
+    my UInt() $first;
+    my UInt() $start;
+    my UInt() $last;
+    my UInt() $height;
+    my UInt() $position;
+    my UInt() $added;
+    my UInt() $amount;
+    my UInt() $value;
+    my UInt() $stride;
+    my CArray[N-Bitset] $other;
+
+
+#`{{
+    #TM:0:add()
+    ok .add( $value), '.add()';
+
+    #TM:0:add-range()
+    ok .add-range( $start, $n-items), '.add-range()';
+
+    #TM:0:add-range-closed()
+    ok .add-range-closed( $first, $last), '.add-range-closed()';
+
+    #TM:0:add-rectangle()
+    ok .add-rectangle( $start, $width, $height, $stride), '.add-rectangle()';
+
+    #TM:0:contains()
+    ok .contains( $value), '.contains()';
+
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:difference()
+    ok .difference( $other), '.difference()';
+
+    #TM:0:equals()
+    ok .equals( $other), '.equals()';
+
+    #TM:0:get-maximum()
+     .get-maximum(), '…', '.get-maximum()';
+
+    #TM:0:get-minimum()
+     .get-minimum(), '…', '.get-minimum()';
+
+    #TM:0:get-nth()
+    is .get-nth( $nth), '…', '.get-nth()';
+
+    #TM:0:get-size()
+     .get-size(), '…', '.get-size()';
+
+    #TM:0:get-size-in-range()
+    is .get-size-in-range( $first, $last), '…', '.get-size-in-range()';
+
+    #TM:0:intersect()
+    ok .intersect( $other), '.intersect()';
+
+    #TM:0:is-empty()
+    ok .is-empty(), '.is-empty()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:remove()
+    ok .remove( $value), '.remove()';
+
+    #TM:0:remove-all()
+    ok .remove-all(), '.remove-all()';
+
+    #TM:0:remove-range()
+    ok .remove-range( $start, $n-items), '.remove-range()';
+
+    #TM:0:remove-range-closed()
+    ok .remove-range-closed( $first, $last), '.remove-range-closed()';
+
+    #TM:0:remove-rectangle()
+    ok .remove-rectangle( $start, $width, $height, $stride), '.remove-rectangle()';
+
+    #TM:0:shift-left()
+    ok .shift-left( $amount), '.shift-left()';
+
+    #TM:0:shift-right()
+    ok .shift-right( $amount), '.shift-right()';
+
+    #TM:0:splice()
+    ok .splice( $position, $removed, $added), '.splice()';
+
+    #TM:0:subtract()
+    ok .subtract( $other), '.subtract()';
+
+    #TM:0:union()
+    ok .union( $other), '.union()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-bitset {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
