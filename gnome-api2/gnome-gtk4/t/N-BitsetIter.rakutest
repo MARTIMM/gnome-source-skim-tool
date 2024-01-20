@@ -1,0 +1,98 @@
+=comment Package: Gtk4, C-Source: bitset
+use v6.d;
+
+#TL:1:Gnome::Gtk4::N-BitsetIter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::N-Bitset:api<2>;
+use Gnome::Gtk4::N-BitsetIter:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-BitsetIter $n-bitset-iter;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-bitset-iter {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-bitset-iter {
+    my Array[Int] $value;
+
+
+#`{{
+    #TM:0:get-value()
+     .get-value(), '…', '.get-value()';
+
+    #TM:0:is-valid()
+    ok .is-valid(), '.is-valid()';
+
+    #TM:0:next()
+    ok .next( $value), '.next()';
+
+    #TM:0:previous()
+    ok .previous( $value), '.previous()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-bitset-iter {
+    my Array[Int] $value;
+    my UInt() $target;
+    my CArray[N-Bitset] $set;
+    my CArray[N-BitsetIter] $iter;
+
+
+#`{{
+    #TM:0:init-at()
+    ok .init-at( $iter, $set, $target, $value), '.init-at()';
+
+    #TM:0:init-first()
+    ok .init-first( $iter, $set, $value), '.init-first()';
+
+    #TM:0:init-last()
+    ok .init-last( $iter, $set, $value), '.init-last()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

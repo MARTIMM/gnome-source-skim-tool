@@ -1,0 +1,268 @@
+=comment Package: Gtk4, C-Source: bitset
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::N-BitsetIter
+
+![](images/bitsetiter.png)
+
+=head1 Description
+
+An opaque, stack-allocated struct for iterating
+over the elements of a B<Gnome::Gtk4::N-Bitset>.
+
+Before a B<Gnome::Gtk4::N-BitsetIter> can be used, it needs to be initialized with
+C<.BitsetIter.init-first()>, C<.BitsetIter.init-last()>
+or C<.BitsetIter.init-at()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::BitsetIter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-BitsetIter
+
+  class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gchar-pptr $.private-data;
+  }
+
+=item private-data; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Gets the current value that C<$iter> points to.
+
+If C<$iter> is not valid and C<.is-valid()>
+returns C<False>, this function returns 0.
+
+=begin code
+method get-value (--> UInt )
+=end code
+
+Return value; The current value pointer to by C<$iter>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-valid
+
+Checks if C<$iter> points to a valid value.
+
+=begin code
+method is-valid (--> Bool )
+=end code
+
+Return value; C<True> if C<$iter> points to a valid value. 
+
+=begin comment
+
+=head2 Example
+# Example for is-valid
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 next
+
+Moves C<$iter> to the next value in the set.
+
+If it was already pointing to the last value in the set,
+C<False> is returned and C<$iter> is invalidated.
+
+=begin code
+method next ( Array[Int] $value --> Bool )
+=end code
+
+=item $value; (transfer ownership: full) Set to the next value.
+
+Return value; C<True> if a next value existed. 
+
+=begin comment
+
+=head2 Example
+# Example for next
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 previous
+
+Moves C<$iter> to the previous value in the set.
+
+If it was already pointing to the first value in the set,
+C<False> is returned and C<$iter> is invalidated.
+
+=begin code
+method previous ( Array[Int] $value --> Bool )
+=end code
+
+=item $value; (transfer ownership: full) Set to the previous value.
+
+Return value; C<True> if a previous value existed. 
+
+=begin comment
+
+=head2 Example
+# Example for previous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-at
+
+Initializes C<$iter> to point to C<$target>.
+
+If C<$target> is not found, finds the next value after it.
+If no value >= C<$target> exists in C<$set>, this function returns C<False>.
+
+=begin code
+method init-at ( CArray[N-BitsetIter] $iter, CArray[N-Bitset] $set, UInt() $target, Array[Int] $value --> Bool )
+=end code
+
+=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>.
+=item $set; a B<Gnome::Gtk4::N-Bitset>.
+=item $target; target value to start iterating at.
+=item $value; (transfer ownership: full) Set to the found value in C<$set>.
+
+Return value; C<True> if a value was found.. 
+
+=begin comment
+
+=head2 Example
+# Example for init-at
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-first
+
+Initializes an iterator for C<$set> and points it to the first
+value in C<$set>.
+
+If C<$set> is empty, C<False> is returned and C<$value> is set to C<G_MAXUINT>.
+
+=begin code
+method init-first ( CArray[N-BitsetIter] $iter, CArray[N-Bitset] $set, Array[Int] $value --> Bool )
+=end code
+
+=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>.
+=item $set; a B<Gnome::Gtk4::N-Bitset>.
+=item $value; (transfer ownership: full) Set to the first value in C<$set>.
+
+Return value; C<True> if C<$set> isn't empty.. 
+
+=begin comment
+
+=head2 Example
+# Example for init-first
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-last
+
+Initializes an iterator for C<$set> and points it to the last
+value in C<$set>.
+
+If C<$set> is empty, C<False> is returned.
+
+=begin code
+method init-last ( CArray[N-BitsetIter] $iter, CArray[N-Bitset] $set, Array[Int] $value --> Bool )
+=end code
+
+=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>.
+=item $set; a B<Gnome::Gtk4::N-Bitset>.
+=item $value; (transfer ownership: full) Set to the last value in C<$set>.
+
+Return value; C<True> if C<$set> isn't empty.. 
+
+=begin comment
+
+=head2 Example
+# Example for init-last
+
+=end comment
+
+=end pod
+
