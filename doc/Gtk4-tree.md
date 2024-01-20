@@ -288,15 +288,16 @@ These modules are generally inheriting directly from **Gnome::N::TopLevelClassSu
 ```
 GBoxed
 |                                               Gnome::Gtk4::*
-├── GtkBitset
+├── GtkBitset                                   N-Bitset
+├── GtkCssSection
 ├── GtkPaperSize
 ├── GtkTextIter                                 N-TextIter
 ├── GtkTreeIter                                 N-TreeIter
-├── GtkCssSection
 ╰── GtkTreePath                                 N-TreePath
 
 Gnome::N::TopLevelClassSupport
 |   Gnome::Gtk4::*
+├── N-BitsetIter
 ├── N-Border
 ├── N-Requisition
 ├── N-TreeRowReference
@@ -318,6 +319,8 @@ Gnome::N::TopLevelClassSupport
 ├── T-ActivateAction
 ├── T-Application
 ├── T-Assistant
+├── T-Bitset
+├── T-BitsetIter
 ├── T-Dialog
 ├── T-Editable
 ├── T-Entry
