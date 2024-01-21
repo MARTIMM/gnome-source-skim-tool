@@ -1,0 +1,197 @@
+=comment Package: Gsk4, C-Source: enums
+use v6.d;
+
+#TL:1:Gnome::Gsk4::T-Enums:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gsk4::T-Enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GskBlendMode
+subtest 'GskBlendMode', {
+  is GSK_BLEND_MODE_DEFAULT.value, 0, 'enum GSK_BLEND_MODE_DEFAULT = 0';
+
+  is GSK_BLEND_MODE_MULTIPLY.value, 1, 'enum GSK_BLEND_MODE_MULTIPLY = 1';
+
+  is GSK_BLEND_MODE_SCREEN.value, 2, 'enum GSK_BLEND_MODE_SCREEN = 2';
+
+  is GSK_BLEND_MODE_OVERLAY.value, 3, 'enum GSK_BLEND_MODE_OVERLAY = 3';
+
+  is GSK_BLEND_MODE_DARKEN.value, 4, 'enum GSK_BLEND_MODE_DARKEN = 4';
+
+  is GSK_BLEND_MODE_LIGHTEN.value, 5, 'enum GSK_BLEND_MODE_LIGHTEN = 5';
+
+  is GSK_BLEND_MODE_COLOR_DODGE.value, 6, 'enum GSK_BLEND_MODE_COLOR_DODGE = 6';
+
+  is GSK_BLEND_MODE_COLOR_BURN.value, 7, 'enum GSK_BLEND_MODE_COLOR_BURN = 7';
+
+  is GSK_BLEND_MODE_HARD_LIGHT.value, 8, 'enum GSK_BLEND_MODE_HARD_LIGHT = 8';
+
+  is GSK_BLEND_MODE_SOFT_LIGHT.value, 9, 'enum GSK_BLEND_MODE_SOFT_LIGHT = 9';
+
+  is GSK_BLEND_MODE_DIFFERENCE.value, 10, 'enum GSK_BLEND_MODE_DIFFERENCE = 10';
+
+  is GSK_BLEND_MODE_EXCLUSION.value, 11, 'enum GSK_BLEND_MODE_EXCLUSION = 11';
+
+  is GSK_BLEND_MODE_COLOR.value, 12, 'enum GSK_BLEND_MODE_COLOR = 12';
+
+  is GSK_BLEND_MODE_HUE.value, 13, 'enum GSK_BLEND_MODE_HUE = 13';
+
+  is GSK_BLEND_MODE_SATURATION.value, 14, 'enum GSK_BLEND_MODE_SATURATION = 14';
+
+  is GSK_BLEND_MODE_LUMINOSITY.value, 15, 'enum GSK_BLEND_MODE_LUMINOSITY = 15';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GskCorner
+subtest 'GskCorner', {
+  is GSK_CORNER_TOP_LEFT.value, 0, 'enum GSK_CORNER_TOP_LEFT = 0';
+
+  is GSK_CORNER_TOP_RIGHT.value, 1, 'enum GSK_CORNER_TOP_RIGHT = 1';
+
+  is GSK_CORNER_BOTTOM_RIGHT.value, 2, 'enum GSK_CORNER_BOTTOM_RIGHT = 2';
+
+  is GSK_CORNER_BOTTOM_LEFT.value, 3, 'enum GSK_CORNER_BOTTOM_LEFT = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GskGLUniformType
+subtest 'GskGLUniformType', {
+  is GSK_GL_UNIFORM_TYPE_NONE.value, 0, 'enum GSK_GL_UNIFORM_TYPE_NONE = 0';
+
+  is GSK_GL_UNIFORM_TYPE_FLOAT.value, 1, 'enum GSK_GL_UNIFORM_TYPE_FLOAT = 1';
+
+  is GSK_GL_UNIFORM_TYPE_INT.value, 2, 'enum GSK_GL_UNIFORM_TYPE_INT = 2';
+
+  is GSK_GL_UNIFORM_TYPE_UINT.value, 3, 'enum GSK_GL_UNIFORM_TYPE_UINT = 3';
+
+  is GSK_GL_UNIFORM_TYPE_BOOL.value, 4, 'enum GSK_GL_UNIFORM_TYPE_BOOL = 4';
+
+  is GSK_GL_UNIFORM_TYPE_VEC2.value, 5, 'enum GSK_GL_UNIFORM_TYPE_VEC2 = 5';
+
+  is GSK_GL_UNIFORM_TYPE_VEC3.value, 6, 'enum GSK_GL_UNIFORM_TYPE_VEC3 = 6';
+
+  is GSK_GL_UNIFORM_TYPE_VEC4.value, 7, 'enum GSK_GL_UNIFORM_TYPE_VEC4 = 7';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GskRenderNodeType
+subtest 'GskRenderNodeType', {
+  is GSK_NOT_A_RENDER_NODE.value, 0, 'enum GSK_NOT_A_RENDER_NODE = 0';
+
+  is GSK_CONTAINER_NODE.value, 1, 'enum GSK_CONTAINER_NODE = 1';
+
+  is GSK_CAIRO_NODE.value, 2, 'enum GSK_CAIRO_NODE = 2';
+
+  is GSK_COLOR_NODE.value, 3, 'enum GSK_COLOR_NODE = 3';
+
+  is GSK_LINEAR_GRADIENT_NODE.value, 4, 'enum GSK_LINEAR_GRADIENT_NODE = 4';
+
+  is GSK_REPEATING_LINEAR_GRADIENT_NODE.value, 5, 'enum GSK_REPEATING_LINEAR_GRADIENT_NODE = 5';
+
+  is GSK_RADIAL_GRADIENT_NODE.value, 6, 'enum GSK_RADIAL_GRADIENT_NODE = 6';
+
+  is GSK_REPEATING_RADIAL_GRADIENT_NODE.value, 7, 'enum GSK_REPEATING_RADIAL_GRADIENT_NODE = 7';
+
+  is GSK_CONIC_GRADIENT_NODE.value, 8, 'enum GSK_CONIC_GRADIENT_NODE = 8';
+
+  is GSK_BORDER_NODE.value, 9, 'enum GSK_BORDER_NODE = 9';
+
+  is GSK_TEXTURE_NODE.value, 10, 'enum GSK_TEXTURE_NODE = 10';
+
+  is GSK_INSET_SHADOW_NODE.value, 11, 'enum GSK_INSET_SHADOW_NODE = 11';
+
+  is GSK_OUTSET_SHADOW_NODE.value, 12, 'enum GSK_OUTSET_SHADOW_NODE = 12';
+
+  is GSK_TRANSFORM_NODE.value, 13, 'enum GSK_TRANSFORM_NODE = 13';
+
+  is GSK_OPACITY_NODE.value, 14, 'enum GSK_OPACITY_NODE = 14';
+
+  is GSK_COLOR_MATRIX_NODE.value, 15, 'enum GSK_COLOR_MATRIX_NODE = 15';
+
+  is GSK_REPEAT_NODE.value, 16, 'enum GSK_REPEAT_NODE = 16';
+
+  is GSK_CLIP_NODE.value, 17, 'enum GSK_CLIP_NODE = 17';
+
+  is GSK_ROUNDED_CLIP_NODE.value, 18, 'enum GSK_ROUNDED_CLIP_NODE = 18';
+
+  is GSK_SHADOW_NODE.value, 19, 'enum GSK_SHADOW_NODE = 19';
+
+  is GSK_BLEND_NODE.value, 20, 'enum GSK_BLEND_NODE = 20';
+
+  is GSK_CROSS_FADE_NODE.value, 21, 'enum GSK_CROSS_FADE_NODE = 21';
+
+  is GSK_TEXT_NODE.value, 22, 'enum GSK_TEXT_NODE = 22';
+
+  is GSK_BLUR_NODE.value, 23, 'enum GSK_BLUR_NODE = 23';
+
+  is GSK_DEBUG_NODE.value, 24, 'enum GSK_DEBUG_NODE = 24';
+
+  is GSK_GL_SHADER_NODE.value, 25, 'enum GSK_GL_SHADER_NODE = 25';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GskScalingFilter
+subtest 'GskScalingFilter', {
+  is GSK_SCALING_FILTER_LINEAR.value, 0, 'enum GSK_SCALING_FILTER_LINEAR = 0';
+
+  is GSK_SCALING_FILTER_NEAREST.value, 1, 'enum GSK_SCALING_FILTER_NEAREST = 1';
+
+  is GSK_SCALING_FILTER_TRILINEAR.value, 2, 'enum GSK_SCALING_FILTER_TRILINEAR = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GskSerializationError
+subtest 'GskSerializationError', {
+  is GSK_SERIALIZATION_UNSUPPORTED_FORMAT.value, 0, 'enum GSK_SERIALIZATION_UNSUPPORTED_FORMAT = 0';
+
+  is GSK_SERIALIZATION_UNSUPPORTED_VERSION.value, 1, 'enum GSK_SERIALIZATION_UNSUPPORTED_VERSION = 1';
+
+  is GSK_SERIALIZATION_INVALID_DATA.value, 2, 'enum GSK_SERIALIZATION_INVALID_DATA = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GskTransformCategory
+subtest 'GskTransformCategory', {
+  is GSK_TRANSFORM_CATEGORY_UNKNOWN.value, 0, 'enum GSK_TRANSFORM_CATEGORY_UNKNOWN = 0';
+
+  is GSK_TRANSFORM_CATEGORY_ANY.value, 1, 'enum GSK_TRANSFORM_CATEGORY_ANY = 1';
+
+  is GSK_TRANSFORM_CATEGORY_3D.value, 2, 'enum GSK_TRANSFORM_CATEGORY_3D = 2';
+
+  is GSK_TRANSFORM_CATEGORY_2D.value, 3, 'enum GSK_TRANSFORM_CATEGORY_2D = 3';
+
+  is GSK_TRANSFORM_CATEGORY_2D_AFFINE.value, 4, 'enum GSK_TRANSFORM_CATEGORY_2D_AFFINE = 4';
+
+  is GSK_TRANSFORM_CATEGORY_2D_TRANSLATE.value, 5, 'enum GSK_TRANSFORM_CATEGORY_2D_TRANSLATE = 5';
+
+  is GSK_TRANSFORM_CATEGORY_IDENTITY.value, 6, 'enum GSK_TRANSFORM_CATEGORY_IDENTITY = 6';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

@@ -1,0 +1,146 @@
+=comment Package: Gsk4, C-Source: enums
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gsk4::T-Enums
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GskBlendMode
+
+The blend modes available for render nodes.
+
+The implementation of each blend mode is deferred to the
+rendering pipeline.
+
+See <https://www.w3.org/TR/compositing-1/#blending> for more information
+on blending and blend modes.
+=item C<GSK_BLEND_MODE_DEFAULT>; The default blend mode, which specifies no blending
+=item C<GSK_BLEND_MODE_MULTIPLY>; The source color is multiplied by the destination
+  and replaces the destination
+=item C<GSK_BLEND_MODE_SCREEN>; Multiplies the complements of the destination and source
+  color values, then complements the result.
+=item C<GSK_BLEND_MODE_OVERLAY>; Multiplies or screens the colors, depending on the
+  destination color value. This is the inverse of hard-list
+=item C<GSK_BLEND_MODE_DARKEN>; Selects the darker of the destination and source colors
+=item C<GSK_BLEND_MODE_LIGHTEN>; Selects the lighter of the destination and source colors
+=item C<GSK_BLEND_MODE_COLOR_DODGE>; Brightens the destination color to reflect the source color
+=item C<GSK_BLEND_MODE_COLOR_BURN>; Darkens the destination color to reflect the source color
+=item C<GSK_BLEND_MODE_HARD_LIGHT>; Multiplies or screens the colors, depending on the source color value
+=item C<GSK_BLEND_MODE_SOFT_LIGHT>; Darkens or lightens the colors, depending on the source color value
+=item C<GSK_BLEND_MODE_DIFFERENCE>; Subtracts the darker of the two constituent colors from the lighter color
+=item C<GSK_BLEND_MODE_EXCLUSION>; Produces an effect similar to that of the difference mode but lower in contrast
+=item C<GSK_BLEND_MODE_COLOR>; Creates a color with the hue and saturation of the source color and the luminosity of the destination color
+=item C<GSK_BLEND_MODE_HUE>; Creates a color with the hue of the source color and the saturation and luminosity of the destination color
+=item C<GSK_BLEND_MODE_SATURATION>; Creates a color with the saturation of the source color and the hue and luminosity of the destination color
+=item C<GSK_BLEND_MODE_LUMINOSITY>; Creates a color with the luminosity of the source color and the hue and saturation of the destination color
+
+=head2 GskCorner
+
+The corner indices used by B<GskRoundedRect>.
+=item C<GSK_CORNER_TOP_LEFT>; The top left corner
+=item C<GSK_CORNER_TOP_RIGHT>; The top right corner
+=item C<GSK_CORNER_BOTTOM_RIGHT>; The bottom right corner
+=item C<GSK_CORNER_BOTTOM_LEFT>; The bottom left corner
+
+=head2 GskGLUniformType
+
+This defines the types of the uniforms that B<GskGLShaders>
+declare.
+
+It defines both what the type is called in the GLSL shader
+code, and what the corresponding C type is on the Gtk side.
+=item C<GSK_GL_UNIFORM_TYPE_NONE>; No type, used for uninitialized or unspecified values.
+=item C<GSK_GL_UNIFORM_TYPE_FLOAT>; A float uniform
+=item C<GSK_GL_UNIFORM_TYPE_INT>; A GLSL int / gint32 uniform
+=item C<GSK_GL_UNIFORM_TYPE_UINT>; A GLSL uint / guint32 uniform
+=item C<GSK_GL_UNIFORM_TYPE_BOOL>; A GLSL bool / gboolean uniform
+=item C<GSK_GL_UNIFORM_TYPE_VEC2>; A GLSL vec2 / graphene_vec2_t uniform
+=item C<GSK_GL_UNIFORM_TYPE_VEC3>; A GLSL vec3 / graphene_vec3_t uniform
+=item C<GSK_GL_UNIFORM_TYPE_VEC4>; A GLSL vec4 / graphene_vec4_t uniform
+
+=head2 GskRenderNodeType
+
+The type of a node determines what the node is rendering.
+=item C<GSK_NOT_A_RENDER_NODE>; Error type. No node will ever have this type.
+=item C<GSK_CONTAINER_NODE>; A node containing a stack of children
+=item C<GSK_CAIRO_NODE>; A node drawing a B<cairo_surface_t>
+=item C<GSK_COLOR_NODE>; A node drawing a single color rectangle
+=item C<GSK_LINEAR_GRADIENT_NODE>; A node drawing a linear gradient
+=item C<GSK_REPEATING_LINEAR_GRADIENT_NODE>; A node drawing a repeating linear gradient
+=item C<GSK_RADIAL_GRADIENT_NODE>; A node drawing a radial gradient
+=item C<GSK_REPEATING_RADIAL_GRADIENT_NODE>; A node drawing a repeating radial gradient
+=item C<GSK_CONIC_GRADIENT_NODE>; A node drawing a conic gradient
+=item C<GSK_BORDER_NODE>; A node stroking a border around an area
+=item C<GSK_TEXTURE_NODE>; A node drawing a B<Gnome::Gdk4::Texture>
+=item C<GSK_INSET_SHADOW_NODE>; A node drawing an inset shadow
+=item C<GSK_OUTSET_SHADOW_NODE>; A node drawing an outset shadow
+=item C<GSK_TRANSFORM_NODE>; A node that renders its child after applying a matrix transform
+=item C<GSK_OPACITY_NODE>; A node that changes the opacity of its child
+=item C<GSK_COLOR_MATRIX_NODE>; A node that applies a color matrix to every pixel
+=item C<GSK_REPEAT_NODE>; A node that repeats the child's contents
+=item C<GSK_CLIP_NODE>; A node that clips its child to a rectangular area
+=item C<GSK_ROUNDED_CLIP_NODE>; A node that clips its child to a rounded rectangle
+=item C<GSK_SHADOW_NODE>; A node that draws a shadow below its child
+=item C<GSK_BLEND_NODE>; A node that blends two children together
+=item C<GSK_CROSS_FADE_NODE>; A node that cross-fades between two children
+=item C<GSK_TEXT_NODE>; A node containing a glyph string
+=item C<GSK_BLUR_NODE>; A node that applies a blur
+=item C<GSK_DEBUG_NODE>; Debug information that does not affect the rendering
+=item C<GSK_GL_SHADER_NODE>; A node that uses OpenGL fragment shaders to render
+
+=head2 GskScalingFilter
+
+The filters used when scaling texture data.
+
+The actual implementation of each filter is deferred to the
+rendering pipeline.
+=item C<GSK_SCALING_FILTER_LINEAR>; linear interpolation filter
+=item C<GSK_SCALING_FILTER_NEAREST>; nearest neighbor interpolation filter
+=item C<GSK_SCALING_FILTER_TRILINEAR>; linear interpolation along each axis,
+  plus mipmap generation, with linear interpolation along the mipmap
+  levels
+
+=head2 GskSerializationError
+
+Errors that can happen during (de)serialization.
+=item C<GSK_SERIALIZATION_UNSUPPORTED_FORMAT>; The format can not be identified
+=item C<GSK_SERIALIZATION_UNSUPPORTED_VERSION>; The version of the data is not
+  understood
+=item C<GSK_SERIALIZATION_INVALID_DATA>; The given data may not exist in
+  a proper serialization
+
+=head2 GskTransformCategory
+
+The categories of matrices relevant for GSK and GTK.
+
+Note that any category includes matrices of all later categories.
+So if you want to for example check if a matrix is a 2D matrix,
+B<category >= GSK_TRANSFORM_CATEGORY_2D> is the way to do this.
+
+Also keep in mind that rounding errors may cause matrices to not
+conform to their categories. Otherwise, matrix operations done via
+multiplication will not worsen categories. So for the matrix
+multiplication B<C = A * B>, B<category(C) = MIN (category(A), category(B))>.
+=item C<GSK_TRANSFORM_CATEGORY_UNKNOWN>; The category of the matrix has not been
+  determined.
+=item C<GSK_TRANSFORM_CATEGORY_ANY>; Analyzing the matrix concluded that it does
+  not fit in any other category.
+=item C<GSK_TRANSFORM_CATEGORY_3D>; The matrix is a 3D matrix. This means that
+  the w column (the last column) has the values (0, 0, 0, 1).
+=item C<GSK_TRANSFORM_CATEGORY_2D>; The matrix is a 2D matrix. This is equivalent
+  to graphene_matrix_is_2d() returning C<True>. In particular, this
+  means that Cairo can deal with the matrix.
+=item C<GSK_TRANSFORM_CATEGORY_2D_AFFINE>; The matrix is a combination of 2D scale
+  and 2D translation operations. In particular, this means that any
+  rectangle can be transformed exactly using this matrix.
+=item C<GSK_TRANSFORM_CATEGORY_2D_TRANSLATE>; The matrix is a 2D translation.
+=item C<GSK_TRANSFORM_CATEGORY_IDENTITY>; The matrix is the identity matrix.
+=end pod
+
