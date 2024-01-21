@@ -159,9 +159,9 @@ method !check-search-list ( ) {
         >
       }
 
-      when m/^ [ Gtk | Gdk ] 4 / {
+      when m/^ [ Gtk | Gdk | Gsk ] 4 / {
         @*map-search-list = <
-          Gtk Gdk Gsk GdkPixbuf Atk Cairo Pango Gio GObject Glib
+          Gtk Gdk Gsk Graphene GdkPixbuf Atk Cairo Pango Gio GObject Glib
         >
       }
 

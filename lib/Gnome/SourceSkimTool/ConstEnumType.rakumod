@@ -59,6 +59,7 @@ enum SkimSource is export <
   Gdk3 Gdk4 GdkPixbuf GdkPixdata
   Gio Glib GObject
   Gtk3 Gsk4 Gtk4
+  Graphene
   Pango PangoCairo
   GIRepo
 >;

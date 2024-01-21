@@ -229,6 +229,20 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
       );
     }
 
+    when Graphene {
+      $work-data = %(
+        :library<graphene-lib()>,
+        :gir-module-path(SKIMTOOLDATA ~ 'Graphene/'),
+        :raku-package<Gnome::Graphene>,
+        :gnome-name($*gnome-class ?? "G$*gnome-class" !! ''),
+        :gir(GIRROOT ~ 'Graphene-1.0.gir'),
+        :name-prefix<g>,
+        :result-mods(API2MODS ~ 'gnome-graphene/lib/Gnome/Graphene/'),
+        :result-tests(API2MODS ~ 'gnome-graphene/t/'),
+        :result-docs(API2MODS ~ 'gnome-graphene/doc/'),
+      );
+    }
+
     when Cairo {
       $work-data = %(
         :library<cairo-lib()>,
