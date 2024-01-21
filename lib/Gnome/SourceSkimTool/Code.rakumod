@@ -1209,7 +1209,7 @@ method generate-structure (
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!solve.search-name($name);
-#  my Str $class-name = $h0<class-name>;
+#note "$?LINE $name, $h0.gist()";
   my Str $class-name = $!solve.set-object-name( $h0, :name-type(ClassnameType));
   my Str $record-class = $h0<record-class>;
 
