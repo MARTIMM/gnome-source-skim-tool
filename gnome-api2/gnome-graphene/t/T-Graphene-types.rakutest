@@ -1,0 +1,42 @@
+=comment Package: Graphene, C-Source: graphene-types
+use v6.d;
+
+#TL:1:Gnome::Graphene::T-Graphene-types:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::T-Graphene-types:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GRAPHENE_VEC3_LEN
+is GRAPHENE_VEC3_LEN, 3, "constant GRAPHENE_VEC3_LEN = 3";
+
+#TE:1:GRAPHENE_VEC4_LEN
+is GRAPHENE_VEC4_LEN, 4, "constant GRAPHENE_VEC4_LEN = 4";
+
+#TE:1:GRAPHENE_VEC2_LEN
+is GRAPHENE_VEC2_LEN, 2, "constant GRAPHENE_VEC2_LEN = 2";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
