@@ -9,13 +9,14 @@ constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/gnome-sourc
 
 my Hash $test-location = %(
   :Atk<gnome-atk>,
-#  :Cairo<gnome-cairo>,
+  :Cairo<gnome-cairo>,
   :Gtk3<gnome-gtk3>, :Gdk3<gnome-gdk3>,
   :Gtk4<gnome-gtk4>, :Gsk4<gnome-gsk4>, :Gdk4<gnome-gdk4>,
   :GdkPixbuf<gnome-gdkpixbuf>, :Pango<gnome-pango>,
   :Gio<gnome-gio>,
   :Glib<gnome-glib>,
   :GObject<gnome-gobject>,
+  :Graphene<gnome-graphene>,
 );
 
 #-------------------------------------------------------------------------------
@@ -159,6 +160,26 @@ sub run-test (
 
 #-------------------------------------------------------------------------------
 sub set-paths ( Str $distro ) {
+  # Paths to find by Raku
+  my @pth = (
+    "$API2MODS/gnome-native/lib",
+    "$API2MODS/gnome-glib/lib",
+    "$API2MODS/gnome-gobject/lib",
+    "$API2MODS/gnome-gio/lib",
+    "$API2MODS/gnome-gdkpixbuf/lib",
+    "$API2MODS/gnome-pango/lib",
+    "$API2MODS/gnome-cairo/lib",
+    "$API2MODS/gnome-atk/lib",
+    "$API2MODS/gnome-gtk3/lib",
+    "$API2MODS/gnome-gdk3/lib",
+    "$API2MODS/gnome-graphene/lib",
+    "$API2MODS/gnome-gtk4/lib",
+    "$API2MODS/gnome-gdk4/lib",
+    "$API2MODS/gnome-gsk4/lib",
+  );
+  %*ENV<RAKULIB> = @pth.join(',');
+
+#`{{
   my Str $gtk-v = '';
   $gtk-v = '3' if $distro ~~ / 3 /;
   $gtk-v = '4' if $distro ~~ / 4 /;
@@ -175,10 +196,11 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-gio/lib",
         "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
-#        "$API2MODS/gnome-cairo/lib",
+        "$API2MODS/gnome-cairo/lib",
         "$API2MODS/gnome-atk/lib",
         "$API2MODS/gnome-gtk3/lib",
         "$API2MODS/gnome-gdk3/lib",
+        "$API2MODS/gnome-graphene/lib",
       );
     }
 
@@ -190,11 +212,12 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-gio/lib",
         "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
-#        "$API2MODS/gnome-cairo/lib",
+        "$API2MODS/gnome-cairo/lib",
         "$API2MODS/gnome-atk/lib",
         "$API2MODS/gnome-gtk4/lib",
         "$API2MODS/gnome-gdk4/lib",
         "$API2MODS/gnome-gsk4/lib",
+        "$API2MODS/gnome-graphene/lib",
       );
     }
 
@@ -206,7 +229,8 @@ sub set-paths ( Str $distro ) {
         "$API2MODS/gnome-gio/lib",
         "$API2MODS/gnome-gdkpixbuf/lib",
         "$API2MODS/gnome-pango/lib",
-#        "$API2MODS/gnome-cairo/lib",
+        "$API2MODS/gnome-cairo/lib",
+        "$API2MODS/gnome-graphene/lib",
       );
     }
 
@@ -221,4 +245,5 @@ sub set-paths ( Str $distro ) {
   }
 
   %*ENV<RAKULIB> = @pth.join(',');
+}}
 }

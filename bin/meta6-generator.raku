@@ -10,19 +10,20 @@ use META6;
 
 my Str $api2 = $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
 
-check-modules( 'Gtk4',    "$api2/gnome-gtk4/lib");
-check-modules( 'Gdk4',    "$api2/gnome-gdk4/lib");
-check-modules( 'Gsk4',    "$api2/gnome-gsk4/lib");
+check-modules( 'Gtk4',      "$api2/gnome-gtk4/lib");
+check-modules( 'Gdk4',      "$api2/gnome-gdk4/lib");
+check-modules( 'Gsk4',      "$api2/gnome-gsk4/lib");
 
-check-modules( 'Glib',    "$api2/gnome-glib/lib");
-check-modules( 'Gio',     "$api2/gnome-gio/lib");
-check-modules( 'GObject', "$api2/gnome-gobject/lib");
+check-modules( 'Glib',      "$api2/gnome-glib/lib");
+check-modules( 'Gio',       "$api2/gnome-gio/lib");
+check-modules( 'GObject',   "$api2/gnome-gobject/lib");
 
-check-modules( 'Pango',   "$api2/gnome-pango/lib");
-check-modules( 'GdkPixbuf',   "$api2/gnome-gdkpixbuf/lib");
+check-modules( 'Pango',     "$api2/gnome-pango/lib");
+check-modules( 'GdkPixbuf', "$api2/gnome-gdkpixbuf/lib");
 
-check-modules( 'N',       "$api2/gnome-native/lib");
-check-modules( 'Cairo',   "$api2/gnome-cairo/lib");
+check-modules( 'N',         "$api2/gnome-native/lib");
+check-modules( 'Cairo',     "$api2/gnome-cairo/lib");
+check-modules( 'Graphene',  "$api2/gnome-graphene/lib");
 
 #`{{
 

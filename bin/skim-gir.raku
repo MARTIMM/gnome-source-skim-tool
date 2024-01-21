@@ -77,6 +77,6 @@ sub USAGE ( ) {
       package   The Gnome package name used for the class. Select one
                 from this list; Atk Cairo DBus DBusGLib Gdk3 Gdk4
                 GdkPixbuf GdkPixdata Gio Glib GObject Gtk3 Gtk4 Gsk4
-                Pango PangoCairo GIRepo.
+                Pango PangoCairo Grapheme.
   EOHELP
 }

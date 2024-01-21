@@ -25,7 +25,7 @@ method !map-installed-libraries ( ) {
   my %libs-to-map = %(
     :atk(1), :cairo-gobject(2), :cairo(2), :gdk(3), :gdk3(3),  :gdk_pixbuf(2),
     :gio(2), :glib(2), :gobject(2), :gtk(3), :gtk3(3),
-    :gtk4(4), :gsk4(4), :gdk4(4), :pango(1), :pangocairo(1),
+    :gtk4(4), :gsk4(4), :gdk4(4), :graphene(1), :pango(1), :pangocairo(1),
   );
 #note %libs-to-map.perl;
 
@@ -35,10 +35,10 @@ method !map-installed-libraries ( ) {
     #use NativeCall;
 
 
-    #-------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
     unit module Gnome::N::NativeLib:auth<github:MARTIMM>;
 
-    #-------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
     #Note; Libraries for Gsk4 and Gdk4 are in that of Gtk4.
     #      Also Gtk3 and Gdk3 are added.
     EOMAP
@@ -63,8 +63,9 @@ method !map-installed-libraries ( ) {
       sub gsk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
       sub pango-lib ( --> Str )         is export { 'libpango-1.0-0.dll'; }
       sub pangocairo-lib ( --> Str )    is export { 'libpangocairo-1.0-0.dll'; }
+      sub graphene-lib ( --> Str )      is export { 'libgraphene-1.0.dll'; }
 
-      # There is no gdk lib in version 4. It is included in the gtk lib.
+      # There is no gdk nor gsk lib in version 4. It is included in the gtk lib.
       sub gtk4-lib ( --> Str )          is export { 'libgtk-4-0.dll'; }
       EOMAP
   }
@@ -272,17 +273,17 @@ method !build-types-conversion-module ( ) {
   # generate the module text
   my Str $module-text = Q:to/EOMOD_START/;
 
-    #-------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
     # This module is generated at installation time.
     # Please do not change any of the contents of this module.
-    #-------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
 
     use v6.d;
     use NativeCall;
 
     unit package Gnome::N::GlibToRakuTypes:auth<github:MARTIMM>:ver<0.3.0>;
 
-    #-------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
     EOMOD_START
 
   for $c-types.keys.sort -> $gtype-name {
@@ -295,7 +296,7 @@ note "c-type: $gtype-name, raku type: $rtype-name";
   # add integer true/false
   $module-text ~= Q:to/EOMOD_ENUM/;
 
-    #-------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------
     enum gboolean-values is export <false true>;
 
     EOMOD_ENUM
