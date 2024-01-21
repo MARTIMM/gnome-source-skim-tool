@@ -26,7 +26,8 @@ list-dir("$api2/gnome-gsk4/lib");
 
 list-dir("$api2/gnome-gdkpixbuf/lib");
 list-dir("$api2/gnome-pango/lib");
-#list-dir("$api2/gnome-cairo/lib");
+list-dir("$api2/gnome-cairo/lib");
+list-dir("$api2/gnome-graphene/lib");
 
 #`{{
 
