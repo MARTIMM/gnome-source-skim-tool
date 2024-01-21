@@ -1,15 +1,15 @@
 
-#-------------------------------------------------------------------------------
+#---------------------------------------------------------------------------
 # This module is generated at installation time.
 # Please do not change any of the contents of this module.
-#-------------------------------------------------------------------------------
+#---------------------------------------------------------------------------
 
 use v6.d;
 use NativeCall;
 
 unit package Gnome::N::GlibToRakuTypes:auth<github:MARTIMM>:ver<0.3.0>;
 
-#-------------------------------------------------------------------------------
+#---------------------------------------------------------------------------
 constant \GEnum           is export = int32;
 constant \GFlag           is export = uint32;
 constant \GQuark          is export = uint32;
@@ -48,6 +48,6 @@ constant \int-ptr         is export = CArray[int32];
 constant \time_t          is export = int64;
 constant \void-ptr        is export = Pointer[void];
 
-#-------------------------------------------------------------------------------
+#---------------------------------------------------------------------------
 enum gboolean-values is export <false true>;
 
