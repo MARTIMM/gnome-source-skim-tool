@@ -1,0 +1,444 @@
+=comment Package: Gtk4, C-Source: progressbar
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ProgressBar
+
+![](images/progressbar.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ProgressBar> is typically used to display the progress of a long
+running operation.
+
+It provides a visual clue that processing is underway. B<Gnome::Gtk4::ProgressBar>
+can be used in two different modes: percentage mode and activity mode.
+
+![An example GtkProgressBar](progressbar.png)
+
+When an application can determine how much work needs to take place
+(e.g. read a fixed number of bytes from a file) and can monitor its
+progress, it can use the B<Gnome::Gtk4::ProgressBar> in percentage mode and the
+user sees a growing bar indicating the percentage of the work that
+has been completed. In this mode, the application is required to call
+C<.set-fraction()> periodically to update the progress bar.
+
+When an application has no accurate way of knowing the amount of work
+to do, it can use the B<Gnome::Gtk4::ProgressBar> in activity mode, which shows
+activity by a block moving back and forth within the progress area. In
+this mode, the application is required to call C<.pulse()>
+periodically to update the progress bar.
+
+There is quite a bit of flexibility provided to control the appearance
+of the B<Gnome::Gtk4::ProgressBar>. Functions are provided to control the orientation
+of the bar, optional text can be displayed along with the bar, and the
+step size used in activity mode can be set.
+
+=head2 CSS nodes
+
+=begin comment
+progressbar[.osd]
+├── [text]
+╰── trough[.empty][.full]
+    ╰── progress[.pulse]
+
+=end comment
+
+B<Gnome::Gtk4::ProgressBar> has a main CSS node with name progressbar and subnodes with
+names text and trough, of which the latter has a subnode named progress. The
+text subnode is only present if text is shown. The progress subnode has the
+style class .pulse when in activity mode. It gets the style classes .left,
+.right, .top or .bottom added when the progress 'touches' the corresponding
+end of the GtkProgressBar. The .osd class on the progressbar node is for use
+in overlays like the one Epiphany has for page loading progress.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::ProgressBar> uses the C<GTK_ACCESSIBLE_ROLE_PROGRESS_BAR> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ProgressBar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=head3 :build-id
+
+Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+
+  multi method new ( Str :$build-id! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-progressbar
+
+Creates a new B<Gnome::Gtk4::ProgressBar>.
+
+=begin code
+method new-progressbar ( --> Gnome::Gtk4::ProgressBar \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-progressbar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-ellipsize
+
+Returns the ellipsizing position of the progress bar.
+
+See C<.set-ellipsize()>.
+
+=begin code
+method get-ellipsize (--> PangoEllipsizeMode )
+=end code
+
+Return value; C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-Layout>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-ellipsize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-fraction
+
+Returns the current fraction of the task that’s been completed.
+
+=begin code
+method get-fraction (--> Num )
+=end code
+
+Return value; a fraction from 0.0 to 1.0. 
+
+=begin comment
+
+=head2 Example
+# Example for get-fraction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-inverted
+
+Returns whether the progress bar is inverted.
+
+=begin code
+method get-inverted (--> Bool )
+=end code
+
+Return value; C<True> if the progress bar is inverted. 
+
+=begin comment
+
+=head2 Example
+# Example for get-inverted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pulse-step
+
+Retrieves the pulse step.
+
+See C<.set-pulse-step()>.
+
+=begin code
+method get-pulse-step (--> Num )
+=end code
+
+Return value; a fraction from 0.0 to 1.0. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pulse-step
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-show-text
+
+Returns whether the B<Gnome::Gtk4::ProgressBar> shows text.
+
+See C<.set-show-text()>.
+
+=begin code
+method get-show-text (--> Bool )
+=end code
+
+Return value; C<True> if text is shown in the progress bar. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-text
+
+Retrieves the text that is displayed with the progress bar.
+
+The return value is a reference to the text, not a copy of it,
+so will become invalid if you change the text in the progress bar.
+
+=begin code
+method get-text (--> Str )
+=end code
+
+Return value; the text. 
+
+=begin comment
+
+=head2 Example
+# Example for get-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pulse
+
+Indicates that some progress has been made, but you don’t know how much.
+
+Causes the progress bar to enter “activity mode,” where a block
+bounces back and forth. Each call to C<.pulse()>
+causes the block to move by a little bit (the amount of movement
+per pulse is determined by C<.set-pulse-step()>).
+
+=begin code
+method pulse ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for pulse
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-ellipsize
+
+Sets the mode used to ellipsize the text.
+
+The text is ellipsized if there is not enough space
+to render the entire string.
+
+=begin code
+method set-ellipsize ( PangoEllipsizeMode $mode )
+=end code
+
+=item $mode; a C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-Layout>.
+
+=begin comment
+
+=head2 Example
+# Example for set-ellipsize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-fraction
+
+Causes the progress bar to “fill in” the given fraction
+of the bar.
+
+The fraction should be between 0.0 and 1.0, inclusive.
+
+=begin code
+method set-fraction ( Num() $fraction )
+=end code
+
+=item $fraction; fraction of the task that’s been completed.
+
+=begin comment
+
+=head2 Example
+# Example for set-fraction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-inverted
+
+Sets whether the progress bar is inverted.
+
+Progress bars normally grow from top to bottom or left to right.
+Inverted progress bars grow in the opposite direction.
+
+=begin code
+method set-inverted ( Bool() $inverted )
+=end code
+
+=item $inverted; C<True> to invert the progress bar.
+
+=begin comment
+
+=head2 Example
+# Example for set-inverted
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pulse-step
+
+Sets the fraction of total progress bar length to move the
+bouncing block.
+
+The bouncing block is moved when C<.pulse()>
+is called.
+
+=begin code
+method set-pulse-step ( Num() $fraction )
+=end code
+
+=item $fraction; fraction between 0.0 and 1.0.
+
+=begin comment
+
+=head2 Example
+# Example for set-pulse-step
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-show-text
+
+Sets whether the progress bar will show text next to the bar.
+
+The shown text is either the value of the I<text>
+property or, if that is undefined, the I<fraction> value,
+as a percentage.
+
+To make a progress bar that is styled and sized suitably for containing
+text (even if the actual text is blank), set I<show-text>
+to C<True> and I<text> to the empty string (defined).
+
+=begin code
+method set-show-text ( Bool() $show-text )
+=end code
+
+=item $show-text; whether to show text.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-text
+
+Causes the given C<$text> to appear next to the progress bar.
+
+If C<$text> is undefined and I<show-text> is C<True>,
+the current value of I<fraction> will be displayed
+as a percentage.
+
+If C<$text> is non-undefined and I<show-text> is C<True>,
+the text will be displayed. In this case, it will not display the progress
+percentage. If C<$text> is the empty string, the progress bar will still
+be styled and sized suitably for containing text, as long as
+I<show-text> is C<True>.
+
+=begin code
+method set-text ( Str $text )
+=end code
+
+=item $text; a UTF-8 string.
+
+=begin comment
+
+=head2 Example
+# Example for set-text
+
+=end comment
+
+=end pod
+
