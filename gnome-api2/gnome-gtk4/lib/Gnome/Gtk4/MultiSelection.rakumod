@@ -9,6 +9,9 @@ use NativeCall;
 
 
 use Gnome::GObject::Object:api<2>;
+
+use Gnome::Gio::R-ListModel:api<2>;
+
 use Gnome::Gtk4::R-SelectionModel:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
