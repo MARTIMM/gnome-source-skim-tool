@@ -1,0 +1,532 @@
+=comment Package: Gtk4, C-Source: adjustment
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Adjustment
+
+![](images/adjustment.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Adjustment> is a model for a numeric value.
+
+The B<GtkAdjustment has an associated lower and upper bound.
+It also contains step and page increments, and a page size.
+
+Adjustments are used within several GTK widgets, including
+B<Gnome::Gtk4::SpinButton>, B<Gnome::Gtk4::Viewport>, B<Gnome::Gtk4::Scrollbar>
+and B<Gnome::Gtk4::Scale>.
+
+The >GtkAdjustmentB< object does not update the value itself. Instead
+it is left up to the owner of the >GtkAdjustmentB< to control the value.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-adjustment
+
+Creates a new >GtkAdjustmentB<.
+
+=begin code
+method new-adjustment ( Num() $value, Num() $lower, Num() $upper, Num() $step-increment, Num() $page-increment, Num() $page-size --> Gnome::Gtk4::Adjustment \)
+=end code
+
+=item $value; the initial value.
+=item $lower; the minimum value.
+=item $upper; the maximum value.
+=item $step-increment; the step increment.
+=item $page-increment; the page increment.
+=item $page-size; the page size.
+
+=begin comment
+
+=head2 Example
+# Example for new-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clamp-page
+
+Updates the value property to ensure that the range
+between C<$lower> and C<$upper> is in the current page.
+
+The current page goes from >valueB< to >valueB< + >page-sizeB<.
+If the range is larger than the page size, then only the
+start of it will be in the current page.
+
+A I<value-changed> signal will be emitted
+if the value is changed.
+
+=begin code
+method clamp-page ( Num() $lower, Num() $upper )
+=end code
+
+=item $lower; the lower value.
+=item $upper; the upper value.
+
+=begin comment
+
+=head2 Example
+# Example for clamp-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 configure
+
+Sets all properties of the adjustment at once.
+
+Use this function to avoid multiple emissions of the
+I<changed> signal. See
+C<.set-lower()> for an alternative
+way of compressing multiple emissions of
+I<changed> into one.
+
+=begin code
+method configure ( Num() $value, Num() $lower, Num() $upper, Num() $step-increment, Num() $page-increment, Num() $page-size )
+=end code
+
+=item $value; the new value.
+=item $lower; the new minimum value.
+=item $upper; the new maximum value.
+=item $step-increment; the new step increment.
+=item $page-increment; the new page increment.
+=item $page-size; the new page size.
+
+=begin comment
+
+=head2 Example
+# Example for configure
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-lower
+
+Retrieves the minimum value of the adjustment.
+
+=begin code
+method get-lower (--> Num )
+=end code
+
+Return value; The current minimum value of the adjustment. 
+
+=begin comment
+
+=head2 Example
+# Example for get-lower
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-minimum-increment
+
+Gets the smaller of step increment and page increment.
+
+=begin code
+method get-minimum-increment (--> Num )
+=end code
+
+Return value; the minimum increment of C<$adjustment>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-minimum-increment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page-increment
+
+Retrieves the page increment of the adjustment.
+
+=begin code
+method get-page-increment (--> Num )
+=end code
+
+Return value; The current page increment of the adjustment. 
+
+=begin comment
+
+=head2 Example
+# Example for get-page-increment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page-size
+
+Retrieves the page size of the adjustment.
+
+=begin code
+method get-page-size (--> Num )
+=end code
+
+Return value; The current page size of the adjustment. 
+
+=begin comment
+
+=head2 Example
+# Example for get-page-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-step-increment
+
+Retrieves the step increment of the adjustment.
+
+=begin code
+method get-step-increment (--> Num )
+=end code
+
+Return value; The current step increment of the adjustment.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-step-increment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-upper
+
+Retrieves the maximum value of the adjustment.
+
+=begin code
+method get-upper (--> Num )
+=end code
+
+Return value; The current maximum value of the adjustment. 
+
+=begin comment
+
+=head2 Example
+# Example for get-upper
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Gets the current value of the adjustment.
+
+=begin code
+method get-value (--> Num )
+=end code
+
+Return value; The current value of the adjustment. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-lower
+
+Sets the minimum value of the adjustment.
+
+When setting multiple adjustment properties via their individual
+setters, multiple I<changed> signals will
+be emitted. However, since the emission of the
+I<changed> signal is tied to the emission
+of the I<notify> signals of the changed properties, it’s possible
+to compress the I<changed> signals into one
+by calling g_object_freeze_notify() and g_object_thaw_notify()
+around the calls to the individual setters.
+
+Alternatively, using a single g_object_set() for all the properties
+to change, or using C<.configure()> has the same effect.
+
+=begin code
+method set-lower ( Num() $lower )
+=end code
+
+=item $lower; the new minimum value.
+
+=begin comment
+
+=head2 Example
+# Example for set-lower
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-page-increment
+
+Sets the page increment of the adjustment.
+
+See C<.set-lower()> about how to compress
+multiple emissions of the I<changed>
+signal when setting multiple adjustment properties.
+
+=begin code
+method set-page-increment ( Num() $page-increment )
+=end code
+
+=item $page-increment; the new page increment.
+
+=begin comment
+
+=head2 Example
+# Example for set-page-increment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-page-size
+
+Sets the page size of the adjustment.
+
+See C<.set-lower()> about how to compress
+multiple emissions of the I<changed>
+signal when setting multiple adjustment properties.
+
+=begin code
+method set-page-size ( Num() $page-size )
+=end code
+
+=item $page-size; the new page size.
+
+=begin comment
+
+=head2 Example
+# Example for set-page-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-step-increment
+
+Sets the step increment of the adjustment.
+
+See C<.set-lower()> about how to compress
+multiple emissions of the I<changed>
+signal when setting multiple adjustment properties.
+
+=begin code
+method set-step-increment ( Num() $step-increment )
+=end code
+
+=item $step-increment; the new step increment.
+
+=begin comment
+
+=head2 Example
+# Example for set-step-increment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-upper
+
+Sets the maximum value of the adjustment.
+
+Note that values will be restricted by >upper - page-sizeB<
+if the page-size property is nonzero.
+
+See C<.set-lower()> about how to compress
+multiple emissions of the I<changed>
+signal when setting multiple adjustment properties.
+
+=begin code
+method set-upper ( Num() $upper )
+=end code
+
+=item $upper; the new maximum value.
+
+=begin comment
+
+=head2 Example
+# Example for set-upper
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-value
+
+Sets the >GtkAdjustmentB< value.
+
+The value is clamped to lie between I<lower>
+and I<upper>.
+
+Note that for adjustments which are used in a >GtkScrollbarB<,
+the effective range of allowed values goes from
+I<lower> to
+I<upper> - I<page-size>.
+
+=begin code
+method set-value ( Num() $value )
+=end code
+
+=item $value; the new value.
+
+=begin comment
+
+=head2 Example
+# Example for set-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+Emitted when one or more of the >GtkAdjustment` properties have been
+changed.
+
+Note that the I<value> property is
+covered by the I<value-changed> signal.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Adjustment :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Adjustment> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 value-changed
+
+Emitted when the value has been changed.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Adjustment :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Adjustment> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal value-changed
+
+=end comment
+
+=end pod
+
