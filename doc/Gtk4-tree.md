@@ -106,7 +106,7 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkViewport
 │   │   ├── GtkWindowControls
 │   │   ╰── GtkWindowHandle
-│   ├── GtkAdjustment
+│   ├── GtkAdjustment                           Adjustment
 │   ├── GtkCellArea
 │   │   ╰── GtkCellAreaBox
 │   ├── GtkCellRenderer
