@@ -371,7 +371,7 @@ method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
 method !convert-args ( Mu $v, $p ) {
   my $c;
 
-  #note "Argument: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+  note "Argument: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
 
   if $v.can('get-native-object-no-reffing') {
     my N-Object $no = $v.get-native-object-no-reffing;
@@ -429,7 +429,7 @@ method !convert-args ( Mu $v, $p ) {
       }
     }
 
-    #note "Converted; type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
+    note "Converted; type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
   }
 
   $c
