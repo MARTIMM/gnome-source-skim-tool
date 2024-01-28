@@ -1,0 +1,115 @@
+=comment Package: Graphene, C-Source: graphene-point
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Point:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Point:api<2>;
+#use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Point $n-point;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-point {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-point {
+    my CArray[N-Point] $res;
+    my CArray[N-Vec2]  $v;
+    my CArray[N-Point] $b;
+    my Num() $x;
+    my Num() $d-x;
+    my CArray[N-Vec2]  $src;
+    my Num() $d-y;
+    my Num() $y;
+    my Num() $epsilon;
+    my Num() $factor;
+
+
+#`{{
+    #TM:0:distance()
+    ok .distance( $b, $d-x, $d-y), '.distance()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:init()
+    ok .init( $x, $y), '.init()';
+
+    #TM:0:init-from-point()
+    ok .init-from-point( $src), '.init-from-point()';
+
+    #TM:0:init-from-vec2()
+    ok .init-from-vec2( $src), '.init-from-vec2()';
+
+    #TM:0:interpolate()
+    ok .interpolate( $b, $factor, $res), '.interpolate()';
+
+    #TM:0:near()
+    ok .near( $b, $epsilon), '.near()';
+
+    #TM:0:to-vec2()
+    ok .to-vec2( $v), '.to-vec2()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-point {
+
+
+#`{{
+    #TM:0:zero()
+    ok .zero(), '.zero()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

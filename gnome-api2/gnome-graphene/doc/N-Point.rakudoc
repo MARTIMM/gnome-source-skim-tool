@@ -1,0 +1,351 @@
+=comment Package: Graphene, C-Source: graphene-point
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Point
+
+=head1 Description
+
+A point with two coordinates.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Point
+
+  class N-Point:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.x;
+    has gfloat $.y;
+  }
+
+=item x; the X coordinate of the point
+=item y; the Y coordinate of the point
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new #graphene_point_t structure.
+
+The coordinates of the returned point are (0, 0).
+
+It's possible to chain this function with C<.init()>
+or C<.init-from-point()>, e.g.:
+
+=begin comment
+<!-- language="C" -->
+  graphene_point_t *
+  point_new (float x, float y)
+  {
+    return graphene_point_init (graphene_point_alloc (), x, y);
+  }
+
+  graphene_point_t *
+  point_copy (const graphene_point_t *p)
+  {
+    return graphene_point_init_from_point (graphene_point_alloc (), p);
+  }
+
+=end comment
+
+=begin code
+method alloc ( --> Gnome::Graphene::Point \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 distance
+
+Computes the distance between C<$a> and C<$b>.
+
+=begin code
+method distance ( CArray[N-Point] $b, Num() $d-x, Num() $d-y --> Num )
+=end code
+
+=item $b; a #graphene_point_t.
+=item $d-x; (transfer ownership: full) distance component on the X axis.
+=item $d-y; (transfer ownership: full) distance component on the Y axis.
+
+Return value; the distance between the two points. 
+
+=begin comment
+
+=head2 Example
+# Example for distance
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+This function is not yet available
+
+Checks if the two points C<$a> and C<$b> point to the same
+coordinates.
+
+This function accounts for floating point fluctuations; if
+you want to control the fuzziness of the match, you can use
+C<.near()> instead.
+
+=begin code
+method equal ( CArray[N-Point] $b )
+=end code
+
+=item $b; a #graphene_point_t.
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes C<$p> to the given C<$x> and C<$y> coordinates.
+
+It's safe to call this function multiple times.
+
+=begin code
+method init ( Num() $x, Num() $y --> CArray[N-Point] )
+=end code
+
+=item $x; the X coordinate.
+=item $y; the Y coordinate.
+
+Return value; the initialized point. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-point
+
+Initializes C<$p> with the same coordinates of C<$src>.
+
+=begin code
+method init-from-point ( CArray[N-Point] $src --> CArray[N-Point] )
+=end code
+
+=item $src; the #graphene_point_t to use.
+
+Return value; the initialized point. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vec2
+This function is not yet available
+
+Initializes C<$p> with the coordinates inside the given #graphene_vec2_t.
+
+=begin code
+method init-from-vec2 ( CArray[N-Vec2]  $src --> CArray[N-Point] )
+=end code
+
+=item $src; a #graphene_vec2_t.
+
+Return value; the initialized point. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec2
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 interpolate
+
+Linearly interpolates the coordinates of C<$a> and C<$b> using the
+given C<$factor>.
+
+=begin code
+method interpolate ( CArray[N-Point] $b, Num() $factor, CArray[N-Point] $res )
+=end code
+
+=item $b; a #graphene_point_t.
+=item $factor; the linear interpolation factor.
+=item $res; return location for the interpolated
+  point.
+
+=begin comment
+
+=head2 Example
+# Example for interpolate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 near
+This function is not yet available
+
+Checks whether the two points C<$a> and C<$b> are within
+the threshold of C<$epsilon>.
+
+=begin code
+method near ( CArray[N-Point] $b, Num() $epsilon )
+=end code
+
+=item $b; a #graphene_point_t.
+=item $epsilon; threshold between the two points.
+
+=begin comment
+
+=head2 Example
+# Example for near
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-vec2
+This function is not yet available
+
+Stores the coordinates of the given #graphene_point_t into a
+#graphene_vec2_t.
+
+=begin code
+method to-vec2 ( CArray[N-Vec2]  $v )
+=end code
+
+=item $v; return location for the vertex.
+
+=begin comment
+
+=head2 Example
+# Example for to-vec2
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 zero
+
+Returns a point fixed at (0, 0).
+
+=begin code
+method zero (--> CArray[N-Point] )
+=end code
+
+Return value; a fixed point. 
+
+=begin comment
+
+=head2 Example
+# Example for zero
+
+=end comment
+
+=end pod
+
