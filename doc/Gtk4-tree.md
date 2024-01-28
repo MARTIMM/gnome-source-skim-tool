@@ -421,6 +421,7 @@ Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelCl
 ```
 GObject                                         Gnome::GObject::Object
 |                                               Gnome::Gsk::*
+```
 
 # Administration of Graphene types and classes
 
