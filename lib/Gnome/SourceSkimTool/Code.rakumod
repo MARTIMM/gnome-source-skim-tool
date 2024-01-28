@@ -1877,12 +1877,16 @@ method convert-ntype (
     when /g? uint32 '*'/      { $raku-type = 'CArray[uint32]'; }
     when /g? uint64 '*'/      { $raku-type = 'CArray[uint64]'; }
     when /g? size '*'/        { $raku-type = 'CArray[gsize]'; }
+    when /g? float '*'/       { $raku-type = 'CArray[gfloat]'; }
     when /g? double '*'/      { $raku-type = 'CArray[gdouble]'; }
     when /g? pointer '*'/     { $raku-type = 'CArray[gpointer]'; }
     when /:i g? object '*'/   { $raku-type = 'N-Object'; }
 #    when /:i g? pixbuf '*'/   { $raku-type = 'N-Object'; }
 #    when /:i g? error '*'/    { $raku-type = 'N-Object'; }
     when /:i g? quark /       { $raku-type = 'GQuark'; }
+
+    # Graphene
+    when / _Bool /            { $raku-type = 'gboolean'; }
 
     when any(
         <gboolean gchar gdouble gfloat gint gint16 gint32 gint64 gint8 
