@@ -71,7 +71,7 @@ enum ExternalModuleType is export <
 # Used to get proper name strings from a word.
 enum ObjectNameType is export <
   FilenameType FilenameCodeType FilenameDocType FilenameTestType ClassnameType
-  TestVariableType
+  TestVariableType FilenameGirType
 >;
 
 #-------------------------------------------------------------------------------
