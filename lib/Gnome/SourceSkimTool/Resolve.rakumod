@@ -51,7 +51,8 @@ method set-object-name (
     }
 
     when any(
-      FilenameType, FilenameCodeType, FilenameDocType, FilenameTestType
+      FilenameType, FilenameCodeType, FilenameDocType,
+      FilenameTestType, FilenameGirType
     ) {
       if ?$type-letter {
         $object-name = $type-letter ~ '-' ~ $object-map-entry<type-name>;
@@ -71,6 +72,25 @@ method set-object-name (
 
       when FilenameTestType {
         $object-name = [~] $*work-data<result-tests>, $object-name, '.rakutest';
+      }
+
+      when FilenameGirType {
+        # Recalculate typeletter and add other ones, they have been made
+        # different in the gir data environment
+        given $type-letter {
+          when 'N' {
+            if $object-map-entry<gir-type> eq 'record' {
+              $object-name = "R-$object-map-entry<type-name>";
+            }
+            else {
+              $object-name = "U-$object-map-entry<type-name>";
+            }
+          }
+          when 'R' { $object-name = "I-$object-map-entry<type-name>"; }
+          default { $object-name = "C-$object-map-entry<type-name>"; }
+        }
+
+        $object-name = [~] $*work-data<gir-module-path>, $object-name, '.gir';
       }
     }
   }
@@ -165,8 +185,8 @@ method !check-search-list ( ) {
         >
       }
 
-      when 'Gsk4' {
-        @*map-search-list = <Gdk GObject Glib>
+      when m/^ [Gsk4 | Graphene] / {
+        @*map-search-list = <Gdk GObject Glib Graphene>
       }
 
       when 'Gio' {
@@ -194,7 +214,7 @@ method !check-map ( Str $map ) {
       $module-path = SKIMTOOLDATA ~ $map ~ '3/';
     }
 
-    elsif $package ~~ m/ '4' $/ and $map ~~ any(<Gtk Gdk Gsk>) {
+    elsif $package ~~ m/ '4' $/ and $map ~~ any(<Gtk Gdk Gsk Graphene>) {
       $module-path = SKIMTOOLDATA ~ $map ~ '4/';
     }
 

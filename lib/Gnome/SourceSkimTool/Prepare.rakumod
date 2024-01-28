@@ -56,13 +56,22 @@ submethod BUILD ( ) {
     # Exceptions (as always >sic<)
     if $*gnome-class ~~ m/ SList / {
       $*work-data<sub-prefix> = 'g_slist_';
-      $*work-data<raku-class-name> =
-        $*work-data<raku-package> ~ '::SList';
-
+      $*work-data<raku-class-name> = $*work-data<raku-package> ~ '::SList';
     }
 
-    elsif  $*gnome-package ~~ GdkPixbuf {
+    elsif $*gnome-package ~~ GdkPixbuf {
       # done in prepare-work-data()
+    }
+
+    elsif $*gnome-package ~~ Graphene {
+      # done in prepare-work-data()
+      my Str $classname = $*work-data<gnome-name>;
+      $classname ~~ s/^ graphene_ //;
+      $classname ~~ s/ _t $//;
+      $*work-data<raku-class-name> =
+        [~] $*work-data<raku-package>, '::', $classname.tc;
+      $*work-data<raku-name> = $classname.tc;
+      $*work-data<sub-prefix> = "graphene_{$classname}_";
     }
 
     else {
@@ -236,7 +245,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Graphene>,
         :gnome-name($*gnome-class ?? "$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Graphene-1.0.gir'),
-        :name-prefix<g>,
+        :name-prefix(''),
         :result-mods(API2MODS ~ 'gnome-graphene/lib/Gnome/Graphene/'),
         :result-tests(API2MODS ~ 'gnome-graphene/t/'),
         :result-docs(API2MODS ~ 'gnome-graphene/doc/'),
@@ -321,8 +330,9 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
     }
   }
 
-  $work-data<raku-name> = $*gnome-class ?? "$*gnome-class" !! ''
-    unless ?$work-data<raku-name>;
+  $work-data<raku-name> =
+    $*gnome-class ?? "$*gnome-class" !! '' unless ?$work-data<raku-name>;
+
   $work-data<result-code-sections> = $work-data<result-docs> ~ 'code-sections/';
 
   mkdir $work-data<result-mods>, 0o700 unless $work-data<result-mods>.IO.e;

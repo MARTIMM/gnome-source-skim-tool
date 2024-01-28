@@ -56,7 +56,7 @@ method generate-code ( ) {
     if $*verbose;
   $code ~= $!mod.generate-structure(
     |$!mod.init-xpath(
-      'record', "$*work-data<gir-module-path>R-$*gnome-class.gir"
+      'record', $!solve.set-object-name( $h, :name-type(FilenameGirType))
     )
   );
 
