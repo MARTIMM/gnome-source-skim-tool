@@ -1,0 +1,60 @@
+=comment Package: Graphene, C-Source: graphene-config
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Simd4F
+
+=head1 Description
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Simd4f
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Simd4F
+
+  class N-Simd4F:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.x;
+    has gfloat $.y;
+    has gfloat $.z;
+    has gfloat $.w;
+  }
+
+=item x; 
+=item y; 
+=item z; 
+=item w; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
