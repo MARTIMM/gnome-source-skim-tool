@@ -1,7 +1,7 @@
 =comment Package: Graphene, C-Source: graphene-point
 use v6.d;
 
-#TL:1:Gnome::Graphene::T-graphene-point:
+#TL:1:Gnome::Graphene::T-Point:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ use Test;
 
 
 use Gnome::Graphene::N-Point:api<2>;
-use Gnome::Graphene::T-graphene-point:api<2>;
+use Gnome::Graphene::T-Point:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -20,7 +20,7 @@ use Gnome::N::X:api<2>;
 
 
 
-my Gnome::Graphene::T-graphene-point $graphene-point .= new;
+my Gnome::Graphene::T-Point $graphene-point .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $graphene-point {

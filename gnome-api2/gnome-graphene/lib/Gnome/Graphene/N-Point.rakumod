@@ -91,14 +91,14 @@ my Hash $methods = %(
   alloc => %( :type(Constructor), :is-symbol<graphene_point_alloc>, :returns(N-Point), ),
 
   #--[Methods]------------------------------------------------------------------
-  #distance => %(:is-symbol<graphene_point_distance>,  :returns(gfloat), :parameters([N-Point, , ])),
-  #equal => %(:is-symbol<graphene_point_equal>,  :parameters([N-Point])),
+  distance => %(:is-symbol<graphene_point_distance>,  :returns(gfloat), :parameters([N-Point, CArray[gfloat], CArray[gfloat]])),
+  equal => %(:is-symbol<graphene_point_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point])),
   free => %(:is-symbol<graphene_point_free>, ),
   init => %(:is-symbol<graphene_point_init>,  :returns(N-Point), :parameters([gfloat, gfloat])),
   init-from-point => %(:is-symbol<graphene_point_init_from_point>,  :returns(N-Point), :parameters([N-Point])),
   #init-from-vec2 => %(:is-symbol<graphene_point_init_from_vec2>,  :returns(N-Point), :parameters([N-Vec2 ])),
   interpolate => %(:is-symbol<graphene_point_interpolate>,  :parameters([N-Point, gdouble, N-Point])),
-  #near => %(:is-symbol<graphene_point_near>,  :parameters([N-Point, gfloat])),
+  near => %(:is-symbol<graphene_point_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point, gfloat])),
   #to-vec2 => %(:is-symbol<graphene_point_to_vec2>,  :parameters([N-Vec2 ])),
 
   #--[Functions]----------------------------------------------------------------
