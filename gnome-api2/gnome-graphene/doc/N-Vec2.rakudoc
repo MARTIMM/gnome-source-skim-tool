@@ -1,0 +1,656 @@
+=comment Package: Graphene, C-Source: graphene-vec
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Vec2
+
+=head1 Description
+
+A structure capable of holding a vector with two dimensions, x and y.
+
+The contents of the #graphene_vec2_t structure are private and should
+never be accessed directly.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Vec2
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Vec2
+
+  class N-Vec2:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Simd4F _UA_ $.value;
+  }
+
+=item value; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new #graphene_vec2_t structure.
+
+The contents of the returned structure are undefined.
+
+Use C<.init()> to initialize the vector.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Vec2 \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add
+
+Adds each component of the two passed vectors and places
+each result into the components of C<$res>.
+
+=begin code
+method add ( CArray[N-Vec2] $b, CArray[N-Vec2] $res )
+=end code
+
+=item $b; a #graphene_vec2_t.
+=item $res; return location for the result.
+
+=begin comment
+
+=head2 Example
+# Example for add
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 divide
+
+Divides each component of the first operand C<$a> by the corresponding
+component of the second operand C<$b>, and places the results into the
+vector C<$res>.
+
+=begin code
+method divide ( CArray[N-Vec2] $b, CArray[N-Vec2] $res )
+=end code
+
+=item $b; a #graphene_vec2_t.
+=item $res; return location for the result.
+
+=begin comment
+
+=head2 Example
+# Example for divide
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dot
+
+Computes the dot product of the two given vectors.
+
+=begin code
+method dot ( CArray[N-Vec2] $b --> Num )
+=end code
+
+=item $b; a #graphene_vec2_t.
+
+Return value; the dot product of the vectors. 
+
+=begin comment
+
+=head2 Example
+# Example for dot
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+This function is not yet available
+
+Checks whether the two given #graphene_vec2_t are equal.
+
+=begin code
+method equal ( CArray[N-Vec2] $v2 )
+=end code
+
+=item $v2; a #graphene_vec2_t.
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<$v>
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-x
+
+Retrieves the X component of the #graphene_vec2_t.
+
+=begin code
+method get-x (--> Num )
+=end code
+
+Return value; the value of the X component. 
+
+=begin comment
+
+=head2 Example
+# Example for get-x
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-y
+
+Retrieves the Y component of the #graphene_vec2_t.
+
+=begin code
+method get-y (--> Num )
+=end code
+
+Return value; the value of the Y component. 
+
+=begin comment
+
+=head2 Example
+# Example for get-y
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes a #graphene_vec2_t using the given values.
+
+This function can be called multiple times.
+
+=begin code
+method init ( Num() $x, Num() $y --> CArray[N-Vec2] )
+=end code
+
+=item $x; the X field of the vector.
+=item $y; the Y field of the vector.
+
+Return value; the initialized vector. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-float
+
+Initializes C<$v> with the contents of the given array.
+
+=begin code
+method init-from-float ( Num() $src --> CArray[N-Vec2] )
+=end code
+
+=item $src; an array of floating point values
+  with at least two elements.
+
+Return value; the initialized vector. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-float
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vec2
+
+Copies the contents of C<$src> into C<$v>.
+
+=begin code
+method init-from-vec2 ( CArray[N-Vec2] $src --> CArray[N-Vec2] )
+=end code
+
+=item $src; a #graphene_vec2_t.
+
+Return value; the initialized vector. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec2
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 interpolate
+
+Linearly interpolates C<$v1> and C<$v2> using the given C<$factor>.
+
+=begin code
+method interpolate ( CArray[N-Vec2] $v2, Num() $factor, CArray[N-Vec2] $res )
+=end code
+
+=item $v2; a #graphene_vec2_t.
+=item $factor; the interpolation factor.
+=item $res; the interpolated vector.
+
+=begin comment
+
+=head2 Example
+# Example for interpolate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 length
+
+Computes the length of the given vector.
+
+=begin code
+method length (--> Num )
+=end code
+
+Return value; the length of the vector. 
+
+=begin comment
+
+=head2 Example
+# Example for length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 max
+
+Compares the two given vectors and places the maximum
+values of each component into C<$res>.
+
+=begin code
+method max ( CArray[N-Vec2] $b, CArray[N-Vec2] $res )
+=end code
+
+=item $b; a #graphene_vec2_t.
+=item $res; the resulting vector.
+
+=begin comment
+
+=head2 Example
+# Example for max
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 min
+
+Compares the two given vectors and places the minimum
+values of each component into C<$res>.
+
+=begin code
+method min ( CArray[N-Vec2] $b, CArray[N-Vec2] $res )
+=end code
+
+=item $b; a #graphene_vec2_t.
+=item $res; the resulting vector.
+
+=begin comment
+
+=head2 Example
+# Example for min
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 multiply
+
+Multiplies each component of the two passed vectors and places
+each result into the components of C<$res>.
+
+=begin code
+method multiply ( CArray[N-Vec2] $b, CArray[N-Vec2] $res )
+=end code
+
+=item $b; a #graphene_vec2_t.
+=item $res; return location for the result.
+
+=begin comment
+
+=head2 Example
+# Example for multiply
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 near
+This function is not yet available
+
+Compares the two given #graphene_vec2_t vectors and checks
+whether their values are within the given C<$epsilon>.
+
+=begin code
+method near ( CArray[N-Vec2] $v2, Num() $epsilon )
+=end code
+
+=item $v2; a #graphene_vec2_t.
+=item $epsilon; the threshold between the two vectors.
+
+=begin comment
+
+=head2 Example
+# Example for near
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 negate
+
+Negates the given #graphene_vec2_t.
+
+=begin code
+method negate ( CArray[N-Vec2] $res )
+=end code
+
+=item $res; return location for the result vector.
+
+=begin comment
+
+=head2 Example
+# Example for negate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 normalize
+
+Computes the normalized vector for the given vector C<$v>.
+
+=begin code
+method normalize ( CArray[N-Vec2] $res )
+=end code
+
+=item $res; return location for the
+  normalized vector.
+
+=begin comment
+
+=head2 Example
+# Example for normalize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scale
+
+Multiplies all components of the given vector with the given scalar C<$factor>.
+
+=begin code
+method scale ( Num() $factor, CArray[N-Vec2] $res )
+=end code
+
+=item $factor; the scalar factor.
+=item $res; return location for the result vector.
+
+=begin comment
+
+=head2 Example
+# Example for scale
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 subtract
+
+Subtracts from each component of the first operand C<$a> the
+corresponding component of the second operand C<$b> and places
+each result into the components of C<$res>.
+
+=begin code
+method subtract ( CArray[N-Vec2] $b, CArray[N-Vec2] $res )
+=end code
+
+=item $b; a #graphene_vec2_t.
+=item $res; return location for the result.
+
+=begin comment
+
+=head2 Example
+# Example for subtract
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-float
+
+Stores the components of C<$v> into an array.
+
+=begin code
+method to-float ( Num() $dest )
+=end code
+
+=item $dest; return location
+  for an array of floating point values with at least 2 elements.
+
+=begin comment
+
+=head2 Example
+# Example for to-float
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 one
+
+Retrieves a constant vector with (1, 1) components.
+
+=begin code
+method one (--> CArray[N-Vec2] )
+=end code
+
+Return value; the one vector. 
+
+=begin comment
+
+=head2 Example
+# Example for one
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 x-axis
+
+Retrieves a constant vector with (1, 0) components.
+
+=begin code
+method x-axis (--> CArray[N-Vec2] )
+=end code
+
+Return value; the X axis vector. 
+
+=begin comment
+
+=head2 Example
+# Example for x-axis
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 y-axis
+
+Retrieves a constant vector with (0, 1) components.
+
+=begin code
+method y-axis (--> CArray[N-Vec2] )
+=end code
+
+Return value; the Y axis vector. 
+
+=begin comment
+
+=head2 Example
+# Example for y-axis
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 zero
+
+Retrieves a constant vector with (0, 0) components.
+
+=begin code
+method zero (--> CArray[N-Vec2] )
+=end code
+
+Return value; the zero vector. 
+
+=begin comment
+
+=head2 Example
+# Example for zero
+
+=end comment
+
+=end pod
+

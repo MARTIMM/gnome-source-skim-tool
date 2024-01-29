@@ -1,0 +1,86 @@
+=comment Package: Graphene, C-Source: graphene-vec
+use v6.d;
+
+#TL:1:Gnome::Graphene::T-Vec2:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec4:api<2>;
+use Gnome::Graphene::T-Vec2:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Graphene::T-Vec2 $graphene-vec .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $graphene-vec {
+
+
+#`{{
+    #TM:0:vec2-one()
+    ok .vec2-one(), '.vec2-one()';
+
+    #TM:0:vec2-x-axis()
+    ok .vec2-x-axis(), '.vec2-x-axis()';
+
+    #TM:0:vec2-y-axis()
+    ok .vec2-y-axis(), '.vec2-y-axis()';
+
+    #TM:0:vec2-zero()
+    ok .vec2-zero(), '.vec2-zero()';
+
+    #TM:0:vec3-one()
+    ok .vec3-one(), '.vec3-one()';
+
+    #TM:0:vec3-x-axis()
+    ok .vec3-x-axis(), '.vec3-x-axis()';
+
+    #TM:0:vec3-y-axis()
+    ok .vec3-y-axis(), '.vec3-y-axis()';
+
+    #TM:0:vec3-z-axis()
+    ok .vec3-z-axis(), '.vec3-z-axis()';
+
+    #TM:0:vec3-zero()
+    ok .vec3-zero(), '.vec3-zero()';
+
+    #TM:0:vec4-one()
+    ok .vec4-one(), '.vec4-one()';
+
+    #TM:0:vec4-w-axis()
+    ok .vec4-w-axis(), '.vec4-w-axis()';
+
+    #TM:0:vec4-x-axis()
+    ok .vec4-x-axis(), '.vec4-x-axis()';
+
+    #TM:0:vec4-y-axis()
+    ok .vec4-y-axis(), '.vec4-y-axis()';
+
+    #TM:0:vec4-z-axis()
+    ok .vec4-z-axis(), '.vec4-z-axis()';
+
+    #TM:0:vec4-zero()
+    ok .vec4-zero(), '.vec4-zero()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

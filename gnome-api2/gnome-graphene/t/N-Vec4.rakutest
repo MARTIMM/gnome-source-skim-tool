@@ -1,0 +1,186 @@
+=comment Package: Graphene, C-Source: graphene-vec
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Vec4:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec4:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Vec4 $n-vec4;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-vec4 {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-vec4 {
+    my Num() $x;
+    my Num() $epsilon;
+    my CArray[N-Vec4] $v2;
+    my CArray[N-Vec4] $b;
+    my Num() $z;
+    my Num() $w;
+    my Num() $factor;
+    my CArray[N-Vec4] $res;
+    my CArray[N-Vec4] $src;
+    my Num() $dest;
+    my Num() $y;
+
+
+#`{{
+    #TM:0:add()
+    ok .add( $b, $res), '.add()';
+
+    #TM:0:divide()
+    ok .divide( $b, $res), '.divide()';
+
+    #TM:0:dot()
+    ok .dot( $b), '.dot()';
+
+    #TM:0:equal()
+    ok .equal( $v2), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-w()
+     .get-w(), '…', '.get-w()';
+
+    #TM:0:get-x()
+     .get-x(), '…', '.get-x()';
+
+    #TM:0:get-xy()
+    is .get-xy( $res), '…', '.get-xy()';
+
+    #TM:0:get-xyz()
+    is .get-xyz( $res), '…', '.get-xyz()';
+
+    #TM:0:get-y()
+     .get-y(), '…', '.get-y()';
+
+    #TM:0:get-z()
+     .get-z(), '…', '.get-z()';
+
+    #TM:0:init()
+    ok .init( $x, $y, $z, $w), '.init()';
+
+    #TM:0:init-from-float()
+    ok .init-from-float( $src), '.init-from-float()';
+
+    #TM:0:init-from-vec2()
+    ok .init-from-vec2( $src, $z, $w), '.init-from-vec2()';
+
+    #TM:0:init-from-vec3()
+    ok .init-from-vec3( $src, $w), '.init-from-vec3()';
+
+    #TM:0:init-from-vec4()
+    ok .init-from-vec4( $src), '.init-from-vec4()';
+
+    #TM:0:interpolate()
+    ok .interpolate( $v2, $factor, $res), '.interpolate()';
+
+    #TM:0:length()
+    ok .length(), '.length()';
+
+    #TM:0:max()
+    ok .max( $b, $res), '.max()';
+
+    #TM:0:min()
+    ok .min( $b, $res), '.min()';
+
+    #TM:0:multiply()
+    ok .multiply( $b, $res), '.multiply()';
+
+    #TM:0:near()
+    ok .near( $v2, $epsilon), '.near()';
+
+    #TM:0:negate()
+    ok .negate( $res), '.negate()';
+
+    #TM:0:normalize()
+    ok .normalize( $res), '.normalize()';
+
+    #TM:0:scale()
+    ok .scale( $factor, $res), '.scale()';
+
+    #TM:0:subtract()
+    ok .subtract( $b, $res), '.subtract()';
+
+    #TM:0:to-float()
+    ok .to-float( $dest), '.to-float()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-vec4 {
+
+
+#`{{
+    #TM:0:one()
+    ok .one(), '.one()';
+
+    #TM:0:w-axis()
+    ok .w-axis(), '.w-axis()';
+
+    #TM:0:x-axis()
+    ok .x-axis(), '.x-axis()';
+
+    #TM:0:y-axis()
+    ok .y-axis(), '.y-axis()';
+
+    #TM:0:z-axis()
+    ok .z-axis(), '.z-axis()';
+
+    #TM:0:zero()
+    ok .zero(), '.zero()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
