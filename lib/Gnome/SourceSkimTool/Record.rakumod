@@ -26,7 +26,9 @@ submethod BUILD ( ) {
   $!solve .= new;
 
   # load data for this module
-  my Str $file = "$*work-data<gir-module-path>R-$*work-data<raku-name>.gir";
+  my Hash $h = $!solve.search-name($*work-data<gnome-name>);
+  my Str $file = $!solve.set-object-name( $h, :name-type(FilenameGirType));
+# "$*work-data<gir-module-path>R-$*work-data<raku-name>.gir";
   note "Load module data from $file" if $*verbose;
   $!xpath .= new(:$file);
 }
