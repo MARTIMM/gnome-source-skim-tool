@@ -247,7 +247,7 @@ method get-classes-from-gir ( ) {
     if $!map{$entry-name}<gir-type> ~~ any(
          <function constant enumeration bitfield docsection callback>
        ) {
-#      $!map{$entry-name}<type-name> = $type-name;
+      $!map{$entry-name}<type-name> = $type-name;
       $!map{$entry-name}<type-letter> = 'T';
     }
 
@@ -732,14 +732,14 @@ method !get-source-file( XML::Element:D $element --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !check-pixbuf ( Str $name is copy --> Str ) {
-print "$?LINE $name --> ";
+#print "$?LINE $name --> ";
   given $name {
     when 'GdkPixbuf'        { $name = 'Pixbuf'; }
     when m/^ Pixbuf \w+ /   { $name ~~ s/^ Pixbuf //; }
     default                 { }
   }
 
-note $name;
+#note $name;
   $name
 }
 
@@ -752,7 +752,7 @@ method !check-pixbuf-type ( Str $source-filename ) {
     $c .= tc;
     $c ~~ s/ GdkPixbuf //;
     $type-name = ?$c ?? $c !! 'Pixbuf';
-note "$?LINE $source-filename, $c, $type-name";
+#note "$?LINE $source-filename, $c, $type-name";
   }
 
   else {
@@ -767,7 +767,7 @@ note "$?LINE $source-filename, $c, $type-name";
 # a dot. Convert it into two names. E.g.
 #   Widget ==> ( GtkWidget, Gnome::Gtk3::Widget)
 #   Atk.Component ==> ( AtkComponent, Gnome::Atk::Component)
-method !set-names ( Str $naked-gnome-name is copy  --> List ) {
+method !set-names ( Str $naked-gnome-name is copy --> List ) {
 
   my Str $raku-name = $naked-gnome-name;
 
