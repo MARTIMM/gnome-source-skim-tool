@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -96,10 +96,10 @@ my Hash $methods = %(
   free => %(:is-symbol<graphene_point_free>, ),
   init => %(:is-symbol<graphene_point_init>,  :returns(N-Point), :parameters([gfloat, gfloat])),
   init-from-point => %(:is-symbol<graphene_point_init_from_point>,  :returns(N-Point), :parameters([N-Point])),
-  #init-from-vec2 => %(:is-symbol<graphene_point_init_from_vec2>,  :returns(N-Point), :parameters([N-Vec2 ])),
+  init-from-vec2 => %(:is-symbol<graphene_point_init_from_vec2>,  :returns(N-Point), :parameters([N-Vec2])),
   interpolate => %(:is-symbol<graphene_point_interpolate>,  :parameters([N-Point, gdouble, N-Point])),
   near => %(:is-symbol<graphene_point_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point, gfloat])),
-  #to-vec2 => %(:is-symbol<graphene_point_to_vec2>,  :parameters([N-Vec2 ])),
+  to-vec2 => %(:is-symbol<graphene_point_to_vec2>,  :parameters([N-Vec2])),
 
   #--[Functions]----------------------------------------------------------------
   zero => %( :type(Function), :is-symbol<graphene_point_zero>,  :returns(N-Point)),
