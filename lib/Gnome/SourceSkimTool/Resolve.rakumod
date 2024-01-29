@@ -214,7 +214,7 @@ method !check-map ( Str $map ) {
       $module-path = SKIMTOOLDATA ~ $map ~ '3/';
     }
 
-    elsif $package ~~ m/ '4' $/ and $map ~~ any(<Gtk Gdk Gsk Graphene>) {
+    elsif $package ~~ m/ '4' $/ and $map ~~ any(<Gtk Gdk Gsk>) {
       $module-path = SKIMTOOLDATA ~ $map ~ '4/';
     }
 
