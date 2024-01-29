@@ -74,6 +74,8 @@ find . -name '*.raku*' | xargs wc -l
 # Release notes
 * 2024-01-21 0.15.0
   * Introducing `Gnome::Gsk4` and `Gnome::Graphene`.
+  * Graphene vector module have circular dependencies. Extract the N-* structs
+    from these modules.
 
 * 2024-01-12 0.14.1
   * Coerse test works now after updating raku compiler. Version now: 
