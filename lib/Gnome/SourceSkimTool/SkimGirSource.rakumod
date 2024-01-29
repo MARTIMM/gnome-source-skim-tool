@@ -242,7 +242,7 @@ method get-classes-from-gir ( ) {
     # filename with its first letter uppercased.
     my Str $type-name =
       $!fname-class{$!map{$entry-name}<source-filename>} //
-      $!map{$entry-name}<source-filename>.tc;
+        $!map{$entry-name}<source-filename>.tc;
 
     if $!map{$entry-name}<gir-type> ~~ any(
          <function constant enumeration bitfield docsection callback>
