@@ -1,0 +1,472 @@
+=comment Package: Graphene, C-Source: graphene-point3d
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Point3D
+
+=head1 Description
+
+A point with three components: X, Y, and Z.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Point3d
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Point3D
+
+  class N-Point3D:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.x;
+    has gfloat $.y;
+    has gfloat $.z;
+  }
+
+=item x; the X coordinate
+=item y; the Y coordinate
+=item z; the Z coordinate
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a #graphene_point3d_t structure.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Point3d \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 cross
+
+Computes the cross product of the two given #graphene_point3d_t.
+
+=begin code
+method cross ( CArray[N-Point3D] $b, CArray[N-Point3D] $res )
+=end code
+
+=item $b; a #graphene_point3d_t.
+=item $res; return location for the cross
+  product.
+
+=begin comment
+
+=head2 Example
+# Example for cross
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 distance
+
+Computes the distance between the two given #graphene_point3d_t.
+
+=begin code
+method distance ( CArray[N-Point3D] $b, CArray[N-Vec3] $delta --> Num )
+=end code
+
+=item $b; a #graphene_point3d_t.
+=item $delta; return location for the distance
+  components on the X, Y, and Z axis.
+
+Return value; the distance between two points. 
+
+=begin comment
+
+=head2 Example
+# Example for distance
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dot
+
+Computes the dot product of the two given #graphene_point3d_t.
+
+=begin code
+method dot ( CArray[N-Point3D] $b --> Num )
+=end code
+
+=item $b; a #graphene_point3d_t.
+
+Return value; the value of the dot product. 
+
+=begin comment
+
+=head2 Example
+# Example for dot
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+This function is not yet available
+
+Checks whether two given points are equal.
+
+=begin code
+method equal ( CArray[N-Point3D] $b )
+=end code
+
+=item $b; a #graphene_point3d_t.
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated via C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes a #graphene_point3d_t with the given coordinates.
+
+=begin code
+method init ( Num() $x, Num() $y, Num() $z --> CArray[N-Point3D] )
+=end code
+
+=item $x; the X coordinate of the point.
+=item $y; the Y coordinate of the point.
+=item $z; the Z coordinate of the point.
+
+Return value; the initialized #graphene_point3d_t. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-point
+
+Initializes a #graphene_point3d_t using the coordinates of
+another #graphene_point3d_t.
+
+=begin code
+method init-from-point ( CArray[N-Point3D] $src --> CArray[N-Point3D] )
+=end code
+
+=item $src; a #graphene_point3d_t.
+
+Return value; the initialized point. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vec3
+
+Initializes a #graphene_point3d_t using the components
+of a #graphene_vec3_t.
+
+=begin code
+method init-from-vec3 ( CArray[N-Vec3] $v --> CArray[N-Point3D] )
+=end code
+
+=item $v; a #graphene_vec3_t.
+
+Return value; the initialized #graphene_point3d_t. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec3
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 interpolate
+
+Linearly interpolates each component of C<$a> and C<$b> using the
+provided C<$factor>, and places the result in C<$res>.
+
+=begin code
+method interpolate ( CArray[N-Point3D] $b, Num() $factor, CArray[N-Point3D] $res )
+=end code
+
+=item $b; a #graphene_point3d_t.
+=item $factor; the interpolation factor.
+=item $res; the return location for the
+  interpolated #graphene_point3d_t.
+
+=begin comment
+
+=head2 Example
+# Example for interpolate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 length
+
+Computes the length of the vector represented by the
+coordinates of the given #graphene_point3d_t.
+
+=begin code
+method length (--> Num )
+=end code
+
+Return value; the length of the vector represented by the point. 
+
+=begin comment
+
+=head2 Example
+# Example for length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 near
+This function is not yet available
+
+Checks whether the two points are near each other, within
+an C<$epsilon> factor.
+
+=begin code
+method near ( CArray[N-Point3D] $b, Num() $epsilon )
+=end code
+
+=item $b; a #graphene_point3d_t.
+=item $epsilon; fuzzyness factor.
+
+=begin comment
+
+=head2 Example
+# Example for near
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 normalize
+
+Computes the normalization of the vector represented by the
+coordinates of the given #graphene_point3d_t.
+
+=begin code
+method normalize ( CArray[N-Point3D] $res )
+=end code
+
+=item $res; return location for the normalized
+  #graphene_point3d_t.
+
+=begin comment
+
+=head2 Example
+# Example for normalize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 normalize-viewport
+This function is not yet available
+
+Normalizes the coordinates of a #graphene_point3d_t using the
+given viewport and clipping planes.
+
+The coordinates of the resulting #graphene_point3d_t will be
+in the [ -1, 1 ] range.
+
+=begin code
+method normalize-viewport ( CArray[N-Rect]  $viewport, Num() $z-near, Num() $z-far, CArray[N-Point3D] $res )
+=end code
+
+=item $viewport; a #graphene_rect_t representing a viewport.
+=item $z-near; the coordinate of the near clipping plane, or 0 for
+  the default near clipping plane.
+=item $z-far; the coordinate of the far clipping plane, or 1 for the
+  default far clipping plane.
+=item $res; the return location for the
+  normalized #graphene_point3d_t.
+
+=begin comment
+
+=head2 Example
+# Example for normalize-viewport
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scale
+
+Scales the coordinates of the given #graphene_point3d_t by
+the given C<$factor>.
+
+=begin code
+method scale ( Num() $factor, CArray[N-Point3D] $res )
+=end code
+
+=item $factor; the scaling factor.
+=item $res; return location for the scaled point.
+
+=begin comment
+
+=head2 Example
+# Example for scale
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-vec3
+
+Stores the coordinates of a #graphene_point3d_t into a
+#graphene_vec3_t.
+
+=begin code
+method to-vec3 ( CArray[N-Vec3] $v )
+=end code
+
+=item $v; return location for a #graphene_vec3_t.
+
+=begin comment
+
+=head2 Example
+# Example for to-vec3
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 zero
+
+Retrieves a constant point with all three coordinates set to 0.
+
+=begin code
+method zero (--> CArray[N-Point3D] )
+=end code
+
+Return value; a zero point. 
+
+=begin comment
+
+=head2 Example
+# Example for zero
+
+=end comment
+
+=end pod
+

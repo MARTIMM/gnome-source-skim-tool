@@ -1,0 +1,138 @@
+=comment Package: Graphene, C-Source: graphene-point3d
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Point3D:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::N-Vectors:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Point3D $n-point3-d;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-point3-d {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-point3-d {
+    my CArray[N-Point3D] $b;
+    my CArray[N-Point3D] $src;
+    my CArray[N-Vec3] $v;
+    my Num() $z-far;
+    my Num() $z;
+    my CArray[N-Vec3] $delta;
+    my Num() $y;
+    my Num() $z-near;
+    my Num() $factor;
+    my CArray[N-Point3D] $res;
+    my Num() $epsilon;
+    my Num() $x;
+    my CArray[N-Rect]  $viewport;
+
+
+#`{{
+    #TM:0:cross()
+    ok .cross( $b, $res), '.cross()';
+
+    #TM:0:distance()
+    ok .distance( $b, $delta), '.distance()';
+
+    #TM:0:dot()
+    ok .dot( $b), '.dot()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:init()
+    ok .init( $x, $y, $z), '.init()';
+
+    #TM:0:init-from-point()
+    ok .init-from-point( $src), '.init-from-point()';
+
+    #TM:0:init-from-vec3()
+    ok .init-from-vec3( $v), '.init-from-vec3()';
+
+    #TM:0:interpolate()
+    ok .interpolate( $b, $factor, $res), '.interpolate()';
+
+    #TM:0:length()
+    ok .length(), '.length()';
+
+    #TM:0:near()
+    ok .near( $b, $epsilon), '.near()';
+
+    #TM:0:normalize()
+    ok .normalize( $res), '.normalize()';
+
+    #TM:0:normalize-viewport()
+    ok .normalize-viewport( $viewport, $z-near, $z-far, $res), '.normalize-viewport()';
+
+    #TM:0:scale()
+    ok .scale( $factor, $res), '.scale()';
+
+    #TM:0:to-vec3()
+    ok .to-vec3( $v), '.to-vec3()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-point3-d {
+
+
+#`{{
+    #TM:0:zero()
+    ok .zero(), '.zero()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

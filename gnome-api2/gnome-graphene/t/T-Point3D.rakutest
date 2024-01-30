@@ -1,0 +1,42 @@
+=comment Package: Graphene, C-Source: graphene-point3d
+use v6.d;
+
+#TL:1:Gnome::Graphene::T-Point3D:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::T-Point3D:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Graphene::T-Point3D $graphene-point3d .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $graphene-point3d {
+
+
+#`{{
+    #TM:0:point3d-zero()
+    ok .point3d-zero(), '.point3d-zero()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
