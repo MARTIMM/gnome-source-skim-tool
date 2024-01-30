@@ -9,6 +9,7 @@ use NativeCall;
 
 
 use Gnome::Graphene::N-Simd4F:api<2>;
+use Gnome::Graphene::N-Vectors:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,7 +25,7 @@ use Gnome::N::X:api<2>;
 unit class Gnome::Graphene::N-Vec2:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
-
+#`{{
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -43,6 +44,7 @@ class N-Vec2:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
     nativecast( N-Vec2, $no)
   }
 }
+}}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
