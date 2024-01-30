@@ -1,0 +1,181 @@
+=comment Package: Graphene, C-Source: graphene-rect
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Rect:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::N-Vectors:api<2>;
+use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Rect $n-rect;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-rect {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-rect {
+    my Num() $factor;
+    my CArray[N-Rect] $src;
+    my Num() $height;
+    my CArray[N-Rect] $res;
+    my Num() $x;
+    my CArray[N-Point] $p;
+    my CArray[N-Rect] $b;
+    my Num() $d-x;
+    my Num() $s-h;
+    my Num() $s-v;
+    my Num() $d-y;
+    my CArray[N-Vec2] $vertices;
+    my Num() $width;
+    my Num() $y;
+
+
+#`{{
+    #TM:0:contains-point()
+    ok .contains-point( $p), '.contains-point()';
+
+    #TM:0:contains-rect()
+    ok .contains-rect( $b), '.contains-rect()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:expand()
+    ok .expand( $p, $res), '.expand()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-area()
+     .get-area(), '…', '.get-area()';
+
+    #TM:0:get-bottom-left()
+    is .get-bottom-left( $p), '…', '.get-bottom-left()';
+
+    #TM:0:get-bottom-right()
+    is .get-bottom-right( $p), '…', '.get-bottom-right()';
+
+    #TM:0:get-center()
+    is .get-center( $p), '…', '.get-center()';
+
+    #TM:0:get-height()
+     .get-height(), '…', '.get-height()';
+
+    #TM:0:get-top-left()
+    is .get-top-left( $p), '…', '.get-top-left()';
+
+    #TM:0:get-top-right()
+    is .get-top-right( $p), '…', '.get-top-right()';
+
+    #TM:0:get-vertices()
+    is .get-vertices( $vertices), '…', '.get-vertices()';
+
+    #TM:0:get-width()
+     .get-width(), '…', '.get-width()';
+
+    #TM:0:get-x()
+     .get-x(), '…', '.get-x()';
+
+    #TM:0:get-y()
+     .get-y(), '…', '.get-y()';
+
+    #TM:0:init()
+    ok .init( $x, $y, $width, $height), '.init()';
+
+    #TM:0:init-from-rect()
+    ok .init-from-rect( $src), '.init-from-rect()';
+
+    #TM:0:inset()
+    ok .inset( $d-x, $d-y), '.inset()';
+
+    #TM:0:inset-r()
+    ok .inset-r( $d-x, $d-y, $res), '.inset-r()';
+
+    #TM:0:interpolate()
+    ok .interpolate( $b, $factor, $res), '.interpolate()';
+
+    #TM:0:intersection()
+    ok .intersection( $b, $res), '.intersection()';
+
+    #TM:0:normalize()
+    ok .normalize(), '.normalize()';
+
+    #TM:0:normalize-r()
+    ok .normalize-r( $res), '.normalize-r()';
+
+    #TM:0:offset()
+    ok .offset( $d-x, $d-y), '.offset()';
+
+    #TM:0:offset-r()
+    ok .offset-r( $d-x, $d-y, $res), '.offset-r()';
+
+    #TM:0:round-extents()
+    ok .round-extents( $res), '.round-extents()';
+
+    #TM:0:scale()
+    ok .scale( $s-h, $s-v, $res), '.scale()';
+
+    #TM:0:union()
+    ok .union( $b, $res), '.union()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-rect {
+
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+    #TM:0:zero()
+    ok .zero(), '.zero()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
