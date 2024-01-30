@@ -1,0 +1,101 @@
+=comment Package: Graphene, C-Source: graphene-size
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Size:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Size:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Size $n-size;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-size {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-size {
+    my CArray[N-Size] $res;
+    my Num() $height;
+    my CArray[N-Size] $b;
+    my Num() $factor;
+    my CArray[N-Size] $src;
+    my Num() $width;
+
+
+#`{{
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:init()
+    ok .init( $width, $height), '.init()';
+
+    #TM:0:init-from-size()
+    ok .init-from-size( $src), '.init-from-size()';
+
+    #TM:0:interpolate()
+    ok .interpolate( $b, $factor, $res), '.interpolate()';
+
+    #TM:0:scale()
+    ok .scale( $factor, $res), '.scale()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-size {
+
+
+#`{{
+    #TM:0:zero()
+    ok .zero(), '.zero()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

@@ -1,0 +1,252 @@
+=comment Package: Graphene, C-Source: graphene-size
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Size
+
+=head1 Description
+
+A size.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Size
+
+  class N-Size:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.width;
+    has gfloat $.height;
+  }
+
+=item width; the width
+=item height; the height
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new #graphene_size_t.
+
+The contents of the returned value are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Size \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+This function is not yet available
+
+Checks whether the two give #graphene_size_t are equal.
+
+=begin code
+method equal ( CArray[N-Size] $b )
+=end code
+
+=item $b; a #graphene_size_t.
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes a #graphene_size_t using the given C<$width> and C<$height>.
+
+=begin code
+method init ( Num() $width, Num() $height --> CArray[N-Size] )
+=end code
+
+=item $width; the width.
+=item $height; the height.
+
+Return value; the initialized #graphene_size_t. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-size
+
+Initializes a #graphene_size_t using the width and height of
+the given C<$src>.
+
+=begin code
+method init-from-size ( CArray[N-Size] $src --> CArray[N-Size] )
+=end code
+
+=item $src; a #graphene_size_t.
+
+Return value; the initialized #graphene_size_t. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 interpolate
+
+Linearly interpolates the two given #graphene_size_t using the given
+interpolation C<$factor>.
+
+=begin code
+method interpolate ( CArray[N-Size] $b, Num() $factor, CArray[N-Size] $res )
+=end code
+
+=item $b; a #graphene_size_t.
+=item $factor; the linear interpolation factor.
+=item $res; return location for the interpolated size.
+
+=begin comment
+
+=head2 Example
+# Example for interpolate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scale
+
+Scales the components of a #graphene_size_t using the given C<$factor>.
+
+=begin code
+method scale ( Num() $factor, CArray[N-Size] $res )
+=end code
+
+=item $factor; the scaling factor.
+=item $res; return location for the scaled size.
+
+=begin comment
+
+=head2 Example
+# Example for scale
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 zero
+
+A constant pointer to a zero #graphene_size_t, useful for
+equality checks and interpolations.
+
+=begin code
+method zero (--> CArray[N-Size] )
+=end code
+
+Return value; a constant size. 
+
+=begin comment
+
+=head2 Example
+# Example for zero
+
+=end comment
+
+=end pod
+

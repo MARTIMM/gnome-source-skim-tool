@@ -1,0 +1,51 @@
+=comment Package: Graphene, C-Source: graphene-size
+use v6.d;
+
+=begin pod
+=head1 Gnome::Graphene::T-Size
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 size-zero
+
+A constant pointer to a zero #graphene_size_t, useful for
+equality checks and interpolations.
+
+=begin code
+method size-zero (--> CArray[N-Size] )
+=end code
+
+Return value; a constant size. 
+
+=begin comment
+
+=head2 Example
+# Example for size-zero
+
+=end comment
+
+=end pod
+
