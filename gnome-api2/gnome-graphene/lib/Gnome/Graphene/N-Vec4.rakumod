@@ -8,10 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Graphene::N-Simd4F:api<2>;
-use Gnome::Graphene::N-Vectors:api<2>;
-#use Gnome::Graphene::N-Vec2:api<2>;
-#use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -26,28 +24,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Graphene::N-Vec4:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#`{{
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has N-Simd4F $.value;
-
-  submethod BUILD (
-    N-Simd4F :$!value, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Vec4 ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Vec4, $no)
-  }
-}
-}}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------

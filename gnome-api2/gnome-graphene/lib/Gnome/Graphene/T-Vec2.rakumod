@@ -39,6 +39,66 @@ submethod BUILD ( ) {
   $!routine-caller .= new(:library(graphene-lib()));
 }
 
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has N-Simd4F $.value;
+
+  submethod BUILD (
+    N-Simd4F :$!value, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-Vec4 ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-Vec4, $no)
+  }
+}
+
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has N-Simd4F $.value;
+
+  submethod BUILD (
+    N-Simd4F :$!value, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-Vec3 ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-Vec3, $no)
+  }
+}
+
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+class N-Vec2:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has N-Simd4F $.value;
+
+  submethod BUILD (
+    N-Simd4F :$!value, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-Vec2 ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-Vec2, $no)
+  }
+}
+
 #-------------------------------------------------------------------------------
 #--[Standalone functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
