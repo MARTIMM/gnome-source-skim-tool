@@ -51,6 +51,7 @@ method generate-code ( ) {
   note "Set class unit" if $*verbose;
   $code ~= $!mod.set-unit($element);
 
+#`{{
   # Generate a structure into a 'package-path/N-*.rakumod' file
   say "\nGenerate record structure: ", $*work-data<raku-class-name>
     if $*verbose;
@@ -59,7 +60,7 @@ method generate-code ( ) {
       'union', "$*work-data<gir-module-path>R-$*gnome-class.gir"
     )
   );
-
+}}
   # Make a BUILD submethod
   note "Generate BUILD submethod" if $*verbose;
   $code ~= $!mod.make-build-submethod( $element, $!xpath);
@@ -74,6 +75,21 @@ method generate-code ( ) {
   $ctype ~~ s:i/^ $prefix //;
   my Str $fname = "$*work-data<result-mods>/$ctype.rakumod";
   $!mod.save-file( $fname, $code, "union module");
+}
+
+#-------------------------------------------------------------------------------
+# In a <record> there might be constructors, methods, functions or fields
+method generate-union-code ( --> Str ) {
+  # Generate a structure into a 'package-path/N-*.rakumod' file
+  say "\nGenerate record structure: ", $*work-data<raku-class-name>
+    if $*verbose;
+  
+  my Hash $h = $!solve.search-name($*work-data<gnome-name>);
+  $!mod.generate-union(
+    |$!mod.init-xpath(
+      'record', $!solve.set-object-name( $h, :name-type(FilenameGirType))
+    )
+  )
 }
 
 #-------------------------------------------------------------------------------

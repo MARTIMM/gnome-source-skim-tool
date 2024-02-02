@@ -1209,8 +1209,8 @@ method generate-structure (
 
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!solve.search-name($name);
-#note "$?LINE $name, $h0.gist()";
   my Str $class-name = $!solve.set-object-name( $h0, :name-type(ClassnameType));
+note "$?LINE $class-name, $name, $h0.gist()";
   my Str $record-class = $h0<record-class>;
 
 #`{{
@@ -1937,9 +1937,13 @@ method convert-ntype (
 #NOTE changed somewhere? add-import creates cyclic dependency -> make it an Object;
           $raku-type = "$h<record-class>";
           $raku-type = "CArray[$raku-type]" if $is-pointer;
-          my $class-name =
+          my Str $class-name =
             $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
+
+          # Record modules have their structs in type files
+          my Str $type-name = $class-name;
+          $type-name ~~ s/ '::N-' /::T-/;
         }
 
         when 'union' {
@@ -1952,6 +1956,10 @@ method convert-ntype (
           my $class-name =
             $!solve.set-object-name( $h, :name-type(ClassnameType));
           $raku-type ~= ' _UA_' unless self.add-import($class-name);
+
+          # Union modules have their structs in type files
+          my Str $type-name = $class-name;
+          $type-name ~~ s/ '::N-' /::T-/;
         }
 
         when 'constant' {

@@ -42,6 +42,8 @@ method generate-code ( ) {
 
   my Str ( $c, $filename, $class-name, $function-hash);
   my Bool $has-functions = False;
+  my Hash $types-code = %();
+  $types-code<record> = $types-code<union> = '';
 
   for $!filedata.keys {
     # -> $type-name
@@ -97,6 +99,7 @@ method generate-code ( ) {
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
         $raku-module.generate-code;
+        $types-code<record> ~= $raku-module.generate-structure-code;
       }
     }
 
@@ -119,12 +122,12 @@ method generate-code ( ) {
         require ::('Gnome::SourceSkimTool::Union');
         my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
         $raku-module.generate-code;
+        $types-code<union> ~= $raku-module.generate-union-code;
       }
     }
   }
 
 #  my Bool $first = True;
-  my Hash $types-code = %();
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
     next if $gir-type ~~ any(<class interface record union>);
@@ -158,6 +161,24 @@ method generate-code ( ) {
 #note "$?LINE $*work-data<sub-prefix>";
 
     given $gir-type {
+#`{{
+      when 'record' {
+        # Generate a structure into a 'package-path/N-*.rakumod' file
+        say "\nGenerate record structure: ", $*work-data<raku-class-name>
+          if $*verbose;
+        $types-code<record> = $!mod.generate-structure(
+          |$!mod.init-xpath(
+            'record',
+            $!solve.set-object-name( $data, :name-type(FilenameGirType))
+          )
+        );
+      }
+
+      when 'union' {
+
+      }
+}}
+
       when 'constant' {
         my @constants = ();
         for $!filedata<constant>.kv -> $k, $v {
@@ -246,7 +267,9 @@ method generate-code ( ) {
 }}
     }
 
-    $code ~= [~] $types-code<constant> // '',
+    $code ~= [~] $types-code<record> // '',
+                 $types-code<union> // '',
+                 $types-code<constant> // '',
                  $types-code<enumeration> // '',
                  $types-code<bitfield> // '';
 

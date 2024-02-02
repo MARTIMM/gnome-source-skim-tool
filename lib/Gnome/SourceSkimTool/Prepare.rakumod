@@ -71,7 +71,7 @@ submethod BUILD ( ) {
       $*work-data<raku-class-name> =
         [~] $*work-data<raku-package>, '::', $classname.tc;
       $*work-data<raku-name> = $classname.tc;
-      $*work-data<sub-prefix> = "graphene_{$classname}_";
+      $*work-data<sub-prefix> = "graphene_{$classname}_".lc;
     }
 
     else {
