@@ -75,7 +75,7 @@ find . -name '*.raku*' | xargs wc -l
 * 2024-01-21 0.15.0
   * Introducing `Gnome::Gsk4` and `Gnome::Graphene`.
   * Graphene vector module have circular dependencies. Extracted the N-* structs
-    from these modules into **Gnome::Graphene::N-Vectors**.
+    from these modules into **Gnome::Graphene::N-Vectors**. I think that structures, being types, should also go into a type file, those beginning with 'T-'. Also, unions must go there. So for the above extraction, N-Vectors must then be renamed into T-Vec2, T-Vec3 and T-Vec4. The structures are still named and exported as N-Vec2, N-Vec3 and N-Vec4.
 
 * 2024-01-12 0.14.1
   * Coerse test works now after updating raku compiler. Version now: 
