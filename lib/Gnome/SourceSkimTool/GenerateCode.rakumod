@@ -130,7 +130,9 @@ method generate-code ( ) {
 #  my Bool $first = True;
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
   for $!filedata.keys -> $gir-type {
-    next if $gir-type ~~ any(<class interface record union>);
+    # Records and unions must be seen here to generate a type file when
+    # only one of those are available
+    next if $gir-type ~~ any(<class interface>);
     next if $gir-type ~~ any(<callback alias function-macro docsection>);
 
     # Test if gir-type is selected Skip a key if not mentioned on the
@@ -154,8 +156,13 @@ method generate-code ( ) {
 #    $filename = [~] $*work-data<result-mods>, $type-name, '.rakumod';
     $filename =  $!solve.set-object-name( $data, :name-type(FilenameCodeType))
       unless ?$filename;
-    $class-name =  $!solve.set-object-name($data);      #$data<class-name>;
-#    $class-name ~~ s:i/ '::T-' $prefix /::T-/;
+    $class-name = $!solve.set-object-name($data) unless ?$class-name;
+
+    # When there are only records and unions, the names start with 'N-'.
+    # For a types file/class it must start with 'T-'.
+    $filename ~~ s/ '/N-' /\/T-/;
+    $class-name ~~ s/ '::N-' /::T-/;
+
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
 #note "$?LINE $*work-data<sub-prefix>";

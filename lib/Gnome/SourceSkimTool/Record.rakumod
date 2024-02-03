@@ -44,14 +44,15 @@ method generate-code ( ) {
   die "//record elements not found in gir-record-file for $class-name" unless ?$element;
 
   my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
+  if ?$callable-code {
 
-  my Str $code = qq:to/RAKUMOD/;
-    $*command-line
-    use v6.d;
-    RAKUMOD
+    my Str $code = qq:to/RAKUMOD/;
+      $*command-line
+      use v6.d;
+      RAKUMOD
 
-  note "Set class unit" if $*verbose;
-  $code ~= $!mod.set-unit($element);
+    note "Set class unit" if $*verbose;
+    $code ~= $!mod.set-unit($element);
 
 #`{{
   # Generate a structure into a 'package-path/N-*.rakumod' file
@@ -64,15 +65,16 @@ method generate-code ( ) {
   );
 }}
 
-  # Make a BUILD submethod
-  note "Generate BUILD submethod" if $*verbose;  
-  $code ~= $!mod.make-build-submethod( $element, $!xpath);
+    # Make a BUILD submethod
+    note "Generate BUILD submethod" if $*verbose;  
+    $code ~= $!mod.make-build-submethod( $element, $!xpath);
 
-  $code ~= $callable-code if ?$callable-code;
-  $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
+    $code ~= $callable-code;
+    $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
 
-  my Str $fname = $!solve.set-object-name( $h, :name-type(FilenameCodeType));
-  $!mod.save-file( $fname, $code, "record module");
+    my Str $fname = $!solve.set-object-name( $h, :name-type(FilenameCodeType));
+    $!mod.save-file( $fname, $code, "record module");
+  }
 }
 
 #-------------------------------------------------------------------------------

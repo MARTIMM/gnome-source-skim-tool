@@ -42,14 +42,14 @@ method generate-code ( ) {
   my Str $callable-code ~= $!mod.generate-callables( $element, $!xpath);
   if ?$callable-code {
 
-#TL:1:$*work-data<raku-class-name>:
-  my Str $code = qq:to/RAKUMOD/;
-    $*command-line
-    use v6.d;
-    RAKUMOD
+  #TL:1:$*work-data<raku-class-name>:
+    my Str $code = qq:to/RAKUMOD/;
+      $*command-line
+      use v6.d;
+      RAKUMOD
 
-  note "Set class unit" if $*verbose;
-  $code ~= $!mod.set-unit($element);
+    note "Set class unit" if $*verbose;
+    $code ~= $!mod.set-unit($element);
 
 #`{{
   # Generate a structure into a 'package-path/N-*.rakumod' file
@@ -61,20 +61,22 @@ method generate-code ( ) {
     )
   );
 }}
-  # Make a BUILD submethod
-  note "Generate BUILD submethod" if $*verbose;
-  $code ~= $!mod.make-build-submethod( $element, $!xpath);
 
-  $code ~= $callable-code;
-  $code = $!mod.substitute-MODULE-IMPORTS(
-    $code, $*work-data<raku-class-name>
-  );
+    # Make a BUILD submethod
+    note "Generate BUILD submethod" if $*verbose;
+    $code ~= $!mod.make-build-submethod( $element, $!xpath);
 
-  my Str $ctype = $*work-data<gnome-name>;
-  my Str $prefix = $*work-data<name-prefix>;
-  $ctype ~~ s:i/^ $prefix //;
-  my Str $fname = "$*work-data<result-mods>/$ctype.rakumod";
-  $!mod.save-file( $fname, $code, "union module");
+    $code ~= $callable-code;
+    $code = $!mod.substitute-MODULE-IMPORTS(
+      $code, $*work-data<raku-class-name>
+    );
+
+    my Str $ctype = $*work-data<gnome-name>;
+    my Str $prefix = $*work-data<name-prefix>;
+    $ctype ~~ s:i/^ $prefix //;
+    my Str $fname = "$*work-data<result-mods>/$ctype.rakumod";
+    $!mod.save-file( $fname, $code, "union module");
+  }
 }
 
 #-------------------------------------------------------------------------------
