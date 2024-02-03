@@ -6,11 +6,10 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
-use Gnome::Graphene::N-Vectors:api<2>;
 use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::Graphene::N-Vec3:api<2>;
 use Gnome::Graphene::N-Vec4:api<2>;
@@ -53,17 +52,17 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $n-vec4 {
-    my Num() $x;
     my Num() $epsilon;
-    my CArray[N-Vec4] $v2;
-    my CArray[N-Vec4] $b;
-    my Num() $z;
     my Num() $w;
-    my Num() $factor;
-    my CArray[N-Vec4] $res;
-    my CArray[N-Vec4] $src;
     my Num() $dest;
+    my CArray[N-Vec4] $v2;
+    my Num() $z;
+    my CArray[N-Vec4] $src;
     my Num() $y;
+    my CArray[N-Vec4] $b;
+    my Num() $factor;
+    my Num() $x;
+    my CArray[N-Vec4] $res;
 
 
 #`{{

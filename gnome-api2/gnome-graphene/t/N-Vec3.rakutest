@@ -10,7 +10,6 @@ use Test;
 use NativeCall;
 
 
-use Gnome::Graphene::N-Vectors:api<2>;
 use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::Graphene::N-Vec3:api<2>;
 use Gnome::Graphene::N-Vec4:api<2>;
@@ -53,17 +52,17 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $n-vec3 {
-    my Num() $z;
-    my Num() $dest;
-    my Num() $y;
-    my CArray[N-Vec3] $b;
-    my Num() $x;
-    my CArray[N-Vec3] $src;
-    my CArray[N-Vec3] $v2;
-    my Num() $factor;
-    my Num() $epsilon;
-    my CArray[N-Vec3] $res;
     my Num() $w;
+    my CArray[N-Vec3] $res;
+    my Num() $epsilon;
+    my Num() $factor;
+    my Num() $y;
+    my CArray[N-Vec3] $v2;
+    my Num() $z;
+    my CArray[N-Vec3] $b;
+    my CArray[N-Vec3] $src;
+    my Num() $dest;
+    my Num() $x;
 
 
 #`{{

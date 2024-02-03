@@ -6,14 +6,15 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
 use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::Graphene::N-Vec3:api<2>;
 use Gnome::Graphene::N-Vec4:api<2>;
 use Gnome::Graphene::T-Vec2:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -22,7 +23,7 @@ use Gnome::N::X:api<2>;
 
 
 
-my Gnome::Graphene::T-Vec2 $graphene-vec .= new;
+my Gnome::Graphene::N-Vec2 $graphene-vec .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $graphene-vec {
