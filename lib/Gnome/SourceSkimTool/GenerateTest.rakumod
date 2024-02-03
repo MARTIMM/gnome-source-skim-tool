@@ -49,6 +49,8 @@ method generate-test ( ) {
 
   my Str ( $c, $filename, $class-name, $function-hash);
   my Bool $has-functions = False;
+  my Hash $types-code = %();
+  $types-code<record> = $types-code<union> = '';
 
   for $!filedata.keys {
     # -> $type-name
@@ -105,6 +107,7 @@ method generate-test ( ) {
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
         $raku-module.generate-test;
+#        $types-code<record> ~= $raku-module.generate-structure-test;
       }
     }
 
@@ -129,6 +132,7 @@ method generate-test ( ) {
         require ::('Gnome::SourceSkimTool::Union');
         my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
         $raku-module.generate-test;
+#        $types-code<record> ~= $raku-module.generate-union-test;
       }
     }
   }
