@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-point3d
+=comment Package: Graphene, C-Source: point3d
 use v6.d;
 
 #TL:1:Gnome::Graphene::N-Point3D:
@@ -12,7 +12,6 @@ use NativeCall;
 
 use Gnome::Graphene::N-Point3D:api<2>;
 use Gnome::Graphene::N-Rect:api<2>;
-use Gnome::Graphene::N-Vectors:api<2>;
 use Gnome::Graphene::N-Vec3:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,14 +23,14 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-Point3D $n-point3-d;
+my N-Point3D $n-point3d;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-point3-d {
+  given $n-point3d {
 
 #`{{
     #TM:0:alloc()
@@ -52,20 +51,20 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $n-point3-d {
-    my CArray[N-Point3D] $b;
-    my CArray[N-Point3D] $src;
-    my CArray[N-Vec3] $v;
-    my Num() $z-far;
-    my Num() $z;
-    my CArray[N-Vec3] $delta;
+  with $n-point3d {
+    my CArray[N-Rect] $viewport;
     my Num() $y;
+    my Num() $x;
     my Num() $z-near;
     my Num() $factor;
-    my CArray[N-Point3D] $res;
+    my CArray[N-Point3D] $src;
+    my CArray[N-Vec3] $delta;
+    my CArray[N-Vec3] $v;
     my Num() $epsilon;
-    my Num() $x;
-    my CArray[N-Rect]  $viewport;
+    my CArray[N-Point3D] $res;
+    my Num() $z-far;
+    my Num() $z;
+    my CArray[N-Point3D] $b;
 
 
 #`{{
@@ -120,7 +119,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $n-point3-d {
+  with $n-point3d {
 
 
 #`{{

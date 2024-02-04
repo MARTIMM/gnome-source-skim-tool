@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-point3d
+=comment Package: Graphene, C-Source: point3d
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,9 +8,11 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Graphene::N-Rect:api<2>;
-use Gnome::Graphene::N-Vectors:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
 use Gnome::Graphene::N-Vec3:api<2>;
+#use Gnome::Graphene::T-point3d:api<2>;
+#use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -25,28 +27,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Graphene::N-Point3D:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Point3D:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gfloat $.x;
-  has gfloat $.y;
-  has gfloat $.z;
-
-  submethod BUILD (
-    gfloat :$!x, gfloat :$!y, gfloat :$!z, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Point3D ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Point3D, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -106,7 +86,7 @@ my Hash $methods = %(
   length => %(:is-symbol<graphene_point3d_length>,  :returns(gfloat)),
   near => %(:is-symbol<graphene_point3d_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point3D, gfloat])),
   normalize => %(:is-symbol<graphene_point3d_normalize>,  :parameters([N-Point3D])),
-  #normalize-viewport => %(:is-symbol<graphene_point3d_normalize_viewport>,  :parameters([N-Rect , gfloat, gfloat, N-Point3D])),
+  normalize-viewport => %(:is-symbol<graphene_point3d_normalize_viewport>,  :parameters([N-Rect, gfloat, gfloat, N-Point3D])),
   scale => %(:is-symbol<graphene_point3d_scale>,  :parameters([gfloat, N-Point3D])),
   to-vec3 => %(:is-symbol<graphene_point3d_to_vec3>,  :parameters([N-Vec3])),
 

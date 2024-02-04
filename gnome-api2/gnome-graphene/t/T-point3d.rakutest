@@ -1,7 +1,7 @@
-=comment Package: Graphene, C-Source: graphene-point3d
+=comment Package: Graphene, C-Source: point3d
 use v6.d;
 
-#TL:1:Gnome::Graphene::T-Point3D:
+#TL:1:Gnome::Graphene::T-point3d:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -10,8 +10,7 @@ use Test;
 use NativeCall;
 
 
-use Gnome::Graphene::N-Point3D:api<2>;
-use Gnome::Graphene::T-Point3D:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -20,10 +19,10 @@ use Gnome::N::X:api<2>;
 
 
 
-my Gnome::Graphene::T-Point3D $graphene-point3d .= new;
+my Gnome::Graphene::T-point3d $point3d .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $graphene-point3d {
+  with $point3d {
 
 
 #`{{
