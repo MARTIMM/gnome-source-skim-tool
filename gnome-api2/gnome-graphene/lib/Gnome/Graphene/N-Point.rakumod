@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-point
+=comment Package: Graphene, C-Source: point
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,8 +8,9 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Graphene::N-Vectors:api<2>;
-#use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,27 +25,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Graphene::N-Point:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Point:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gfloat $.x;
-  has gfloat $.y;
-
-  submethod BUILD (
-    gfloat :$!x, gfloat :$!y, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Point ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Point, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -79,7 +59,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-  self._fallback-v2( 'free', my Bool $x);
+#  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------

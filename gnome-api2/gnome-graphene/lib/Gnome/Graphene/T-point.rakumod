@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-point
+=comment Package: Graphene, C-Source: point
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -7,7 +7,6 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Graphene::N-Point:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -18,7 +17,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Graphene::T-Point:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Graphene::T-point:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -37,6 +36,27 @@ submethod BUILD ( ) {
   $!routine-caller .= new(:library(graphene-lib()));
 }
 
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+class N-Point:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has gfloat $.x;
+  has gfloat $.y;
+
+  submethod BUILD (
+    gfloat :$!x, gfloat :$!y, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-Point ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-Point, $no)
+  }
+}
+
 #-------------------------------------------------------------------------------
 #--[Standalone functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -44,7 +64,7 @@ submethod BUILD ( ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  point-zero => %( :type(Function), :is-symbol<_point_zero>,  :returns(N-Point)),
+  point-zero => %( :type(Function), :is-symbol<graphene_point_zero>,  :returns(N-Point)),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

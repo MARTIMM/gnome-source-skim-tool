@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-point
+=comment Package: Graphene, C-Source: point
 use v6.d;
 
 #TL:1:Gnome::Graphene::N-Point:
@@ -11,7 +11,6 @@ use NativeCall;
 
 
 use Gnome::Graphene::N-Point:api<2>;
-use Gnome::Graphene::N-Vectors:api<2>;
 use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -52,16 +51,16 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $n-point {
-    my CArray[N-Point] $res;
-    my Num() $y;
-    my Num() $d-y;
-    my CArray[N-Vec2] $src;
-    my Num() $epsilon;
-    my CArray[N-Vec2] $v;
     my Num() $d-x;
     my Num() $x;
     my Num() $factor;
     my CArray[N-Point] $b;
+    my Num() $epsilon;
+    my CArray[N-Point] $res;
+    my Num() $d-y;
+    my Num() $y;
+    my CArray[N-Vec2] $v;
+    my CArray[N-Vec2] $src;
 
 
 #`{{
