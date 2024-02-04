@@ -1,10 +1,15 @@
-=comment Package: Graphene, C-Source: graphene-config
+=comment Package: Graphene, C-Source: config
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Graphene::T-Simd4F:auth<github:MARTIMM>:api<2>;
+use NativeCall;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+
+#-------------------------------------------------------------------------------
+unit class Gnome::Graphene::T-config:auth<github:MARTIMM>:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
