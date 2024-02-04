@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-size
+=comment Package: Graphene, C-Source: size
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+
+use Gnome::Graphene::T-size:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -22,27 +24,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Graphene::N-Size:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Size:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gfloat $.width;
-  has gfloat $.height;
-
-  submethod BUILD (
-    gfloat :$!width, gfloat :$!height, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Size ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Size, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------

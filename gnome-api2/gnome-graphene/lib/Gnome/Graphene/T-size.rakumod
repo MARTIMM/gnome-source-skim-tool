@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-size
+=comment Package: Graphene, C-Source: size
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -7,7 +7,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Graphene::N-Size:api<2>;
+#use Gnome::Graphene::T-size:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -18,7 +18,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Graphene::T-Size:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Graphene::T-size:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -37,6 +37,27 @@ submethod BUILD ( ) {
   $!routine-caller .= new(:library(graphene-lib()));
 }
 
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+class N-Size:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has gfloat $.width;
+  has gfloat $.height;
+
+  submethod BUILD (
+    gfloat :$!width, gfloat :$!height, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-Size ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-Size, $no)
+  }
+}
+
 #-------------------------------------------------------------------------------
 #--[Standalone functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -44,7 +65,7 @@ submethod BUILD ( ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  size-zero => %( :type(Function), :is-symbol<_size_zero>,  :returns(N-Size)),
+  size-zero => %( :type(Function), :is-symbol<graphene_size_zero>,  :returns(N-Size)),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
