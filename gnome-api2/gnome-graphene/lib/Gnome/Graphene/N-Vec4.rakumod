@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-vec
+=comment Package: Graphene, C-Source: vec
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -7,8 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::Graphene::T-vec:api<2>;
 
-use Gnome::Graphene::T-Vec2:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;

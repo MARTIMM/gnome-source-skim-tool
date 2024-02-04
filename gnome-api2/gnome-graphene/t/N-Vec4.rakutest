@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-vec
+=comment Package: Graphene, C-Source: vec
 use v6.d;
 
 #TL:1:Gnome::Graphene::N-Vec4:
@@ -11,8 +11,9 @@ use Test;
 
 
 use Gnome::Graphene::N-Vec2:api<2>;
-use Gnome::Graphene::N-Vec3:api<2>;
 use Gnome::Graphene::N-Vec4:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -52,17 +53,17 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $n-vec4 {
-    my Num() $epsilon;
-    my Num() $w;
-    my Num() $dest;
-    my CArray[N-Vec4] $v2;
-    my Num() $z;
-    my CArray[N-Vec4] $src;
-    my Num() $y;
     my CArray[N-Vec4] $b;
-    my Num() $factor;
+    my CArray[N-Vec4] $v2;
     my Num() $x;
+    my Num() $y;
+    my CArray[N-Vec4] $src;
+    my Num() $z;
     my CArray[N-Vec4] $res;
+    my Num() $w;
+    my Num() $epsilon;
+    my Num() $dest;
+    my Num() $factor;
 
 
 #`{{

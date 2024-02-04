@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-vec
+=comment Package: Graphene, C-Source: vec
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ never be accessed directly.
 
   class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
-    has N-Simd4F _UA_ $.value;
+    has N-Simd4F $.value;
   }
 
 =item value; 

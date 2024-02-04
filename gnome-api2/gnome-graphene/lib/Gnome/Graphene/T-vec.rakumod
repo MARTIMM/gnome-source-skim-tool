@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-vec
+=comment Package: Graphene, C-Source: vec
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -6,8 +6,7 @@ use v6.d;
 
 use NativeCall;
 
-
-use Gnome::Graphene::T-Simd4X4F:api<2>;
+use Gnome::Graphene::T-config:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -19,7 +18,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Graphene::T-Vec4:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Graphene::T-vec:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -43,7 +42,7 @@ submethod BUILD ( ) {
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
   has N-Simd4F $.value;
 
@@ -52,9 +51,9 @@ class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   ) {
   }
 
-  method COERCE ( $no --> N-Vec4 ) {
+  method COERCE ( $no --> N-Vec3 ) {
     note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Vec4, $no)
+    nativecast( N-Vec3, $no)
   }
 }
 
@@ -83,7 +82,7 @@ class N-Vec2:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
   has N-Simd4F $.value;
 
@@ -92,9 +91,9 @@ class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   ) {
   }
 
-  method COERCE ( $no --> N-Vec3 ) {
+  method COERCE ( $no --> N-Vec4 ) {
     note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Vec3, $no)
+    nativecast( N-Vec4, $no)
   }
 }
 
@@ -105,21 +104,21 @@ class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  vec2-one => %( :type(Function), :is-symbol<_vec2_one>,  :returns(N-Vec2)),
-  vec2-x-axis => %( :type(Function), :is-symbol<_vec2_x_axis>,  :returns(N-Vec2)),
-  vec2-y-axis => %( :type(Function), :is-symbol<_vec2_y_axis>,  :returns(N-Vec2)),
-  vec2-zero => %( :type(Function), :is-symbol<_vec2_zero>,  :returns(N-Vec2)),
-  vec3-one => %( :type(Function), :is-symbol<_vec3_one>,  :returns(N-Vec3)),
-  vec3-x-axis => %( :type(Function), :is-symbol<_vec3_x_axis>,  :returns(N-Vec3)),
-  vec3-y-axis => %( :type(Function), :is-symbol<_vec3_y_axis>,  :returns(N-Vec3)),
-  vec3-z-axis => %( :type(Function), :is-symbol<_vec3_z_axis>,  :returns(N-Vec3)),
-  vec3-zero => %( :type(Function), :is-symbol<_vec3_zero>,  :returns(N-Vec3)),
-  vec4-one => %( :type(Function), :is-symbol<_vec4_one>,  :returns(N-Vec4)),
-  vec4-w-axis => %( :type(Function), :is-symbol<_vec4_w_axis>,  :returns(N-Vec4)),
-  vec4-x-axis => %( :type(Function), :is-symbol<_vec4_x_axis>,  :returns(N-Vec4)),
-  vec4-y-axis => %( :type(Function), :is-symbol<_vec4_y_axis>,  :returns(N-Vec4)),
-  vec4-z-axis => %( :type(Function), :is-symbol<_vec4_z_axis>,  :returns(N-Vec4)),
-  vec4-zero => %( :type(Function), :is-symbol<_vec4_zero>,  :returns(N-Vec4)),
+  vec2-one => %( :type(Function), :is-symbol<graphene_vec2_one>,  :returns(N-Vec2)),
+  vec2-x-axis => %( :type(Function), :is-symbol<graphene_vec2_x_axis>,  :returns(N-Vec2)),
+  vec2-y-axis => %( :type(Function), :is-symbol<graphene_vec2_y_axis>,  :returns(N-Vec2)),
+  vec2-zero => %( :type(Function), :is-symbol<graphene_vec2_zero>,  :returns(N-Vec2)),
+  vec3-one => %( :type(Function), :is-symbol<graphene_vec3_one>,  :returns(N-Vec3)),
+  vec3-x-axis => %( :type(Function), :is-symbol<graphene_vec3_x_axis>,  :returns(N-Vec3)),
+  vec3-y-axis => %( :type(Function), :is-symbol<graphene_vec3_y_axis>,  :returns(N-Vec3)),
+  vec3-z-axis => %( :type(Function), :is-symbol<graphene_vec3_z_axis>,  :returns(N-Vec3)),
+  vec3-zero => %( :type(Function), :is-symbol<graphene_vec3_zero>,  :returns(N-Vec3)),
+  vec4-one => %( :type(Function), :is-symbol<graphene_vec4_one>,  :returns(N-Vec4)),
+  vec4-w-axis => %( :type(Function), :is-symbol<graphene_vec4_w_axis>,  :returns(N-Vec4)),
+  vec4-x-axis => %( :type(Function), :is-symbol<graphene_vec4_x_axis>,  :returns(N-Vec4)),
+  vec4-y-axis => %( :type(Function), :is-symbol<graphene_vec4_y_axis>,  :returns(N-Vec4)),
+  vec4-z-axis => %( :type(Function), :is-symbol<graphene_vec4_z_axis>,  :returns(N-Vec4)),
+  vec4-zero => %( :type(Function), :is-symbol<graphene_vec4_zero>,  :returns(N-Vec4)),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
