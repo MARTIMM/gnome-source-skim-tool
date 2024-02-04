@@ -144,6 +144,10 @@ method generate-code ( ) {
 
     next unless ?$data<type-name>;
 #    $data = $!mod.search-name($data<type-name>);
+
+    # When there are only records and unions, the names start with 'N-'.
+    # For a types file/class it must start with 'T-'.
+    $data<type-letter> = 'T';
     $data<package-name> = $*work-data<raku-package>;
 
     $*gnome-class = $data<type-name>;
@@ -157,11 +161,6 @@ method generate-code ( ) {
     $filename =  $!solve.set-object-name( $data, :name-type(FilenameCodeType))
       unless ?$filename;
     $class-name = $!solve.set-object-name($data) unless ?$class-name;
-
-    # When there are only records and unions, the names start with 'N-'.
-    # For a types file/class it must start with 'T-'.
-    $filename ~~ s/ '/N-' /\/T-/;
-    $class-name ~~ s/ '::N-' /::T-/;
 
     $!mod.add-import($class-name);
 #note "$?LINE $gir-type, $filename, $class-name";
@@ -274,8 +273,8 @@ method generate-code ( ) {
 }}
     }
 
-    $code ~= [~] $types-code<record> // '',
-                 $types-code<union> // '',
+    $code ~= [~] $types-code<record>,
+                 $types-code<union>,
                  $types-code<constant> // '',
                  $types-code<enumeration> // '',
                  $types-code<bitfield> // '';

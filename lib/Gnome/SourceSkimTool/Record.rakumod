@@ -83,7 +83,7 @@ method generate-structure-code ( --> Str ) {
   # Generate a structure into a 'package-path/N-*.rakumod' file
   say "\nGenerate record structure: ", $*work-data<raku-class-name>
     if $*verbose;
-  
+
   my Hash $h = $!solve.search-name($*work-data<gnome-name>);
   $!mod.generate-structure(
     |$!mod.init-xpath(

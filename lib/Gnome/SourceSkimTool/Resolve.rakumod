@@ -20,48 +20,33 @@ method set-object-name (
   $object-map-entry<package-name> //= $*work-data<raku-package>;
   $object-map-entry<type-name> //= $*work-data<raku-name>;
 
+  if ?$type-letter and $type-letter eq 'T' {
+     $object-name = 'T-' ~ $object-map-entry<source-filename>;
+  }
+
+  elsif ?$type-letter {
+    $object-name = "$type-letter\-$object-map-entry<type-name>";
+  }
+
+  else {
+    $object-name = $object-map-entry<type-name>;
+  }
+
   given $name-type {
     when ClassnameType {
 #note "$?LINE $object-map-entry.gist()";
 #say Backtrace.new.nice if $object-map-entry<package-name>:!exists;
-
-      if ?$type-letter {
-#        $object-name = $*work-data<raku-package> ~ '::' ~
-        $object-name = $object-map-entry<package-name> ~ '::' ~
-                       $type-letter ~ '-' ~ $object-map-entry<type-name>;
-      }
-
-      else {
-        $object-name = $object-map-entry<package-name> ~ '::' ~
-                       $object-map-entry<type-name>;
-      }
+      $object-name = $object-map-entry<package-name> ~ '::' ~ $object-name;
     }
 
     when TestVariableType {
-      $object-name = $object-map-entry<type-name>;
-      $object-name ~~ s:g/ (<[A..Z]>) /-$0.lc()/;
-
-      if ?$type-letter {
-        $object-name = [~] '$', $type-letter.lc, $object-name;
-      }
-
-      else {
-        $object-name ~~ s/^ '-' /\$/;
-      }
+      $object-name = "\$$object-name".lc;
     }
 
     when any(
       FilenameType, FilenameCodeType, FilenameDocType,
       FilenameTestType, FilenameGirType
     ) {
-      if ?$type-letter {
-        $object-name = $type-letter ~ '-' ~ $object-map-entry<type-name>;
-      }
-
-      else {
-        $object-name = $object-map-entry<type-name>;
-      }
-
       when FilenameCodeType {
         $object-name = [~] $*work-data<result-mods>, $object-name, '.rakumod';
       }
@@ -75,9 +60,19 @@ method set-object-name (
       }
 
       when FilenameGirType {
+note "$?LINE $type-letter, $object-map-entry.gist()";
         # Recalculate typeletter and add other ones, they have been made
         # different in the gir data environment
         given $type-letter {
+          when 'T' {
+            if $object-map-entry<gir-type> eq 'record' {
+              $object-name = "R-$object-map-entry<type-name>";
+            }
+            else {
+              $object-name = "U-$object-map-entry<type-name>";
+            }
+          }
+
           when 'N' {
             if $object-map-entry<gir-type> eq 'record' {
               $object-name = "R-$object-map-entry<type-name>";

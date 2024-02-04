@@ -107,6 +107,7 @@ method generate-test ( ) {
         require ::('Gnome::SourceSkimTool::Record');
         my $raku-module = ::('Gnome::SourceSkimTool::Record').new;
         $raku-module.generate-test;
+# No structure tests yet
 #        $types-code<record> ~= $raku-module.generate-structure-test;
       }
     }
@@ -132,6 +133,7 @@ method generate-test ( ) {
         require ::('Gnome::SourceSkimTool::Union');
         my $raku-module = ::('Gnome::SourceSkimTool::Union').new;
         $raku-module.generate-test;
+# No union tests yet
 #        $types-code<record> ~= $raku-module.generate-union-test;
       }
     }
@@ -141,7 +143,9 @@ method generate-test ( ) {
   my Gnome::SourceSkimTool::Prepare $t-prep;  # .= new;
   for $!filedata.keys -> $gir-type {
 
-    next if $gir-type ~~ any(<class interface record union>);
+    # Records and unions must be seen here to generate a type file when
+    # only one of those are available. Btw, no testing of structures yet.
+    next if $gir-type ~~ any(<class interface>);
     next if $gir-type ~~ any(<callback alias function-macro docsection>);
 
     # Test if gir-type is selected Skip a key if not mentioned on the
@@ -154,6 +158,10 @@ method generate-test ( ) {
 #note "$?LINE $gir-type, $*work-data<raku-package>, ", $data.gist;
 
     next unless ?$data<type-name>;
+
+    # When there are only records and unions, the names start with 'N-'.
+    # For a types file/class it must start with 'T-'.
+    $data<type-letter> = 'T';
     $data<package-name> = $*work-data<raku-package>;
 
 #    my Str $type-name = $data<type-name>;
@@ -168,9 +176,7 @@ method generate-test ( ) {
 #note "$?LINE $gir-type, $filename, $class-name";
 
     given $gir-type {
-      when 'callback' {
-
-      }
+      when 'callback' { }
 
       when 'constant' {
         my @constants = ();

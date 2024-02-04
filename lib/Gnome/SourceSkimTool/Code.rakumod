@@ -1943,7 +1943,7 @@ method convert-ntype (
 
           # Record modules have their structs in type files
           my Str $type-name = $class-name;
-          $type-name ~~ s/ '::N-' /::T-/;
+          $type-name ~~ s/ '::N-' .* $/::T-$h<source-filename>/;
           self.add-import($type-name);
         }
 

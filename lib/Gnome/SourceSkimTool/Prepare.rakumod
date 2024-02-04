@@ -245,7 +245,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :raku-package<Gnome::Graphene>,
         :gnome-name($*gnome-class ?? "$*gnome-class" !! ''),
         :gir(GIRROOT ~ 'Graphene-1.0.gir'),
-        :name-prefix(''),
+        :name-prefix('graphene'),
         :result-mods(API2MODS ~ 'gnome-graphene/lib/Gnome/Graphene/'),
         :result-tests(API2MODS ~ 'gnome-graphene/t/'),
         :result-docs(API2MODS ~ 'gnome-graphene/doc/'),
