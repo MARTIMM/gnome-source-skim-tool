@@ -234,6 +234,7 @@ method get-classes-from-gir ( ) {
   for $!map.keys -> $entry-name {
     next unless $!map{$entry-name}<gir-type>:exists;
 
+#`{{
     # A type name is the bare name of an object without any prefixes of gnome.
     # Those are found on class, interface, record and union. The rest of the
     # gir types must read it from the filename map created above while
@@ -254,6 +255,14 @@ method get-classes-from-gir ( ) {
     elsif $!map{$entry-name}<gir-type> eq 'class' {
       $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
       self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
+    }
+}}
+
+    if $!map{$entry-name}<gir-type> ~~ any(
+         <function constant enumeration bitfield docsection callback>
+    ) {
+       my Str $type-name = $!map{$entry-name}<source-filename>;
+       $!map{$entry-name}<type-letter> = 'T';
     }
 
     # else {} ignore rest
