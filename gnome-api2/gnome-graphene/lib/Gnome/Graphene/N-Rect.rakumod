@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-rect
+=comment Package: Graphene, C-Source: rect
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -7,11 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
 
-use Gnome::Graphene::N-Point:api<2>;
-use Gnome::Graphene::N-Size:api<2>;
-use Gnome::Graphene::N-Vectors:api<2>;
-#use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -26,27 +25,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Graphene::N-Rect:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has N-Point $.origin;
-  has N-Size $.size;
-
-  submethod BUILD (
-    N-Point :$!origin, N-Size :$!size, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Rect ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Rect, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------

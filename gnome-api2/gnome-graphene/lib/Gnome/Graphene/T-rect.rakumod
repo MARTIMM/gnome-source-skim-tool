@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-rect
+=comment Package: Graphene, C-Source: rect
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -6,8 +6,9 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-size:api<2>;
 
-use Gnome::Graphene::N-Rect:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -18,7 +19,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Graphene::T-Rect:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Graphene::T-rect:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -37,6 +38,27 @@ submethod BUILD ( ) {
   $!routine-caller .= new(:library(graphene-lib()));
 }
 
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has N-Point $.origin;
+  has N-Size $.size;
+
+  submethod BUILD (
+    N-Point :$!origin, N-Size :$!size, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-Rect ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-Rect, $no)
+  }
+}
+
 #-------------------------------------------------------------------------------
 #--[Standalone functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -44,8 +66,8 @@ submethod BUILD ( ) {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  rect-alloc => %( :type(Function), :is-symbol<_rect_alloc>,  :returns(N-Rect)),
-  rect-zero => %( :type(Function), :is-symbol<_rect_zero>,  :returns(N-Rect)),
+  rect-alloc => %( :type(Function), :is-symbol<graphene_rect_alloc>,  :returns(N-Rect)),
+  rect-zero => %( :type(Function), :is-symbol<graphene_rect_zero>,  :returns(N-Rect)),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
