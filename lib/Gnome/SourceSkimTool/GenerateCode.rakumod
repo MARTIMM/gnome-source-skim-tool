@@ -273,9 +273,17 @@ method generate-code ( ) {
 }}
     }
 
-    $code ~= [~] $types-code<record>,
-                 $types-code<union>,
-                 $types-code<constant> // '',
+    if ?$types-code<record> {
+      $code ~= pod-header('Record Structure');
+      $code ~= $types-code<record>;
+    }
+
+    if ?$types-code<union> {
+      $code ~= pod-header('Union Structure');
+      $code ~= $types-code<union>;
+    }
+
+    $code ~= [~] $types-code<constant> // '',
                  $types-code<enumeration> // '',
                  $types-code<bitfield> // '';
 

@@ -1236,7 +1236,6 @@ method generate-structure (
 
     $code ~= qq:to/EOREC/;
 
-      {pod-header('Record Structure')}
       class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CStruct') \{
 
       EOREC
@@ -1396,7 +1395,6 @@ method generate-union (
       {pod-header('Module Imports')}
       __MODULE__IMPORTS__
 
-      {pod-header('Union Structure')}
       unit class $union-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CUnion');
 
       EOREC
