@@ -1,0 +1,69 @@
+=comment Package: Graphene, C-Source: point
+use v6.d;
+
+=begin pod
+=head1 Gnome::Graphene::T-point
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Point
+
+  class N-Point:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.x;
+    has gfloat $.y;
+  }
+
+=item x; the X coordinate of the point
+=item y; the Y coordinate of the point
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 point-zero
+
+Returns a point fixed at (0, 0).
+
+=begin code
+method point-zero (--> CArray[N-Point] )
+=end code
+
+Return value; a fixed point. 
+
+=begin comment
+
+=head2 Example
+# Example for point-zero
+
+=end comment
+
+=end pod
+

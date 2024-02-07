@@ -10,7 +10,6 @@ use Gnome::Graphene::T-config:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -37,27 +36,6 @@ submethod BUILD ( ) {
   $!routine-caller .= new(:library(graphene-lib()));
 }
 
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has N-Simd4F $.value;
-
-  submethod BUILD (
-    N-Simd4F :$!value, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Vec3 ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Vec3, $no)
-  }
-}
-
-
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -78,10 +56,6 @@ class N-Vec2:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 }
 
 
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
 class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
   has N-Simd4F $.value;
@@ -94,6 +68,22 @@ class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   method COERCE ( $no --> N-Vec4 ) {
     note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
     nativecast( N-Vec4, $no)
+  }
+}
+
+
+class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has N-Simd4F $.value;
+
+  submethod BUILD (
+    N-Simd4F :$!value, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-Vec3 ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-Vec3, $no)
   }
 }
 

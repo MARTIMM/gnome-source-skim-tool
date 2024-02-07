@@ -1,0 +1,41 @@
+=comment Package: Graphene, C-Source: size
+use v6.d;
+
+#TL:1:Gnome::Graphene::T-size:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Graphene::T-size:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Graphene::T-size $size .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $size {
+
+
+#`{{
+    #TM:0:size-zero()
+    ok .size-zero(), '.size-zero()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

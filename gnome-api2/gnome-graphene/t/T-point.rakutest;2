@@ -1,0 +1,41 @@
+=comment Package: Graphene, C-Source: point
+use v6.d;
+
+#TL:1:Gnome::Graphene::T-point:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Graphene::T-point $point .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $point {
+
+
+#`{{
+    #TM:0:point-zero()
+    ok .point-zero(), '.point-zero()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

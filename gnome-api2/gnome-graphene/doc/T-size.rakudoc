@@ -1,0 +1,70 @@
+=comment Package: Graphene, C-Source: size
+use v6.d;
+
+=begin pod
+=head1 Gnome::Graphene::T-size
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Size
+
+  class N-Size:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.width;
+    has gfloat $.height;
+  }
+
+=item width; the width
+=item height; the height
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 size-zero
+
+A constant pointer to a zero B<Gnome::Graphene::T-size>, useful for
+equality checks and interpolations.
+
+=begin code
+method size-zero (--> CArray[N-Size] )
+=end code
+
+Return value; a constant size. 
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Size
+
+=end comment
+
+=end pod
+

@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-point
+=comment Package: Graphene, C-Source: point
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -18,24 +18,6 @@ A point with two coordinates.
 # Example use of module Gnome::Graphene::Point
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-Point
-
-  class N-Point:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gfloat $.x;
-    has gfloat $.y;
-  }
-
-=item x; the X coordinate of the point
-=item y; the Y coordinate of the point
 
 =end pod
 
@@ -60,7 +42,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 alloc
 
-Allocates a new #graphene_point_t structure.
+Allocates a new B<Gnome::Graphene::N-Point> structure.
 
 The coordinates of the returned point are (0, 0).
 
@@ -114,7 +96,7 @@ Computes the distance between C<$a> and C<$b>.
 method distance ( CArray[N-Point] $b, Num() $d-x, Num() $d-y --> Num )
 =end code
 
-=item $b; a #graphene_point_t.
+=item $b; a B<Gnome::Graphene::N-Point>.
 =item $d-x; (transfer ownership: full) distance component on the X axis.
 =item $d-y; (transfer ownership: full) distance component on the Y axis.
 
@@ -145,7 +127,7 @@ C<.near()> instead.
 method equal ( CArray[N-Point] $b )
 =end code
 
-=item $b; a #graphene_point_t.
+=item $b; a B<Gnome::Graphene::N-Point>.
 
 =begin comment
 
@@ -211,7 +193,7 @@ Initializes C<$p> with the same coordinates of C<$src>.
 method init-from-point ( CArray[N-Point] $src --> CArray[N-Point] )
 =end code
 
-=item $src; the #graphene_point_t to use.
+=item $src; the B<Gnome::Graphene::N-Point> to use.
 
 Return value; the initialized point. 
 
@@ -228,13 +210,13 @@ Return value; the initialized point.
 =begin pod
 =head2 init-from-vec2
 
-Initializes C<$p> with the coordinates inside the given #graphene_vec2_t.
+Initializes C<$p> with the coordinates inside the given B<graphene_vec>2_t.
 
 =begin code
 method init-from-vec2 ( CArray[N-Vec2] $src --> CArray[N-Point] )
 =end code
 
-=item $src; a #graphene_vec2_t.
+=item $src; a B<graphene_vec>2_t.
 
 Return value; the initialized point. 
 
@@ -258,7 +240,7 @@ given C<$factor>.
 method interpolate ( CArray[N-Point] $b, Num() $factor, CArray[N-Point] $res )
 =end code
 
-=item $b; a #graphene_point_t.
+=item $b; a B<Gnome::Graphene::N-Point>.
 =item $factor; the linear interpolation factor.
 =item $res; return location for the interpolated
   point.
@@ -284,7 +266,7 @@ the threshold of C<$epsilon>.
 method near ( CArray[N-Point] $b, Num() $epsilon )
 =end code
 
-=item $b; a #graphene_point_t.
+=item $b; a B<Gnome::Graphene::N-Point>.
 =item $epsilon; threshold between the two points.
 
 =begin comment
@@ -300,8 +282,8 @@ method near ( CArray[N-Point] $b, Num() $epsilon )
 =begin pod
 =head2 to-vec2
 
-Stores the coordinates of the given #graphene_point_t into a
-#graphene_vec2_t.
+Stores the coordinates of the given B<Gnome::Graphene::N-Point> into a
+B<graphene_vec>2_t.
 
 =begin code
 method to-vec2 ( CArray[N-Vec2] $v )

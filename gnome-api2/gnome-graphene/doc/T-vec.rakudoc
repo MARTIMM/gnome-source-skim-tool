@@ -1,0 +1,404 @@
+=comment Package: Graphene, C-Source: vec
+use v6.d;
+
+=begin pod
+=head1 Gnome::Graphene::T-vec
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Vec4
+
+  class N-Vec4:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Simd4F $.value;
+  }
+
+=item value; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Vec3
+
+  class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Simd4F $.value;
+  }
+
+=item value; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Vec2
+
+  class N-Vec2:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Simd4F $.value;
+  }
+
+=item value; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec2-one
+
+Retrieves a constant vector with (1, 1) components.
+
+=begin code
+method vec2-one (--> CArray[N-Vec2] )
+=end code
+
+Return value; the one vector. 
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Vec2
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec2-x-axis
+
+Retrieves a constant vector with (1, 0) components.
+
+=begin code
+method vec2-x-axis (--> CArray[N-Vec2] )
+=end code
+
+Return value; the X axis vector. 
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec2-y-axis
+
+Retrieves a constant vector with (0, 1) components.
+
+=begin code
+method vec2-y-axis (--> CArray[N-Vec2] )
+=end code
+
+Return value; the Y axis vector. 
+
+=begin comment
+
+=head2 Example
+# Example for add
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec2-zero
+
+Retrieves a constant vector with (0, 0) components.
+
+=begin code
+method vec2-zero (--> CArray[N-Vec2] )
+=end code
+
+Return value; the zero vector. 
+
+=begin comment
+
+=head2 Example
+# Example for divide
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec3-one
+
+Provides a constant pointer to a vector with three components,
+all sets to 1.
+
+=begin code
+method vec3-one (--> CArray[N-Vec3] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for dot
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec3-x-axis
+
+Provides a constant pointer to a vector with three components
+with values set to (1, 0, 0).
+
+=begin code
+method vec3-x-axis (--> CArray[N-Vec3] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec3-y-axis
+
+Provides a constant pointer to a vector with three components
+with values set to (0, 1, 0).
+
+=begin code
+method vec3-y-axis (--> CArray[N-Vec3] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec3-z-axis
+
+Provides a constant pointer to a vector with three components
+with values set to (0, 0, 1).
+
+=begin code
+method vec3-z-axis (--> CArray[N-Vec3] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for get-x
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec3-zero
+
+Provides a constant pointer to a vector with three components,
+all sets to 0.
+
+=begin code
+method vec3-zero (--> CArray[N-Vec3] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for get-y
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec4-one
+
+Retrieves a pointer to a B<graphene_vec>4_t with all its
+components set to 1.
+
+=begin code
+method vec4-one (--> CArray[N-Vec4] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec4-w-axis
+
+Retrieves a pointer to a B<graphene_vec>4_t with its
+components set to (0, 0, 0, 1).
+
+=begin code
+method vec4-w-axis (--> CArray[N-Vec4] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-float
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec4-x-axis
+
+Retrieves a pointer to a B<graphene_vec>4_t with its
+components set to (1, 0, 0, 0).
+
+=begin code
+method vec4-x-axis (--> CArray[N-Vec4] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec2
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec4-y-axis
+
+Retrieves a pointer to a B<graphene_vec>4_t with its
+components set to (0, 1, 0, 0).
+
+=begin code
+method vec4-y-axis (--> CArray[N-Vec4] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for interpolate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec4-z-axis
+
+Retrieves a pointer to a B<graphene_vec>4_t with its
+components set to (0, 0, 1, 0).
+
+=begin code
+method vec4-z-axis (--> CArray[N-Vec4] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for length
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 vec4-zero
+
+Retrieves a pointer to a B<graphene_vec>4_t with all its
+components set to 0.
+
+=begin code
+method vec4-zero (--> CArray[N-Vec4] )
+=end code
+
+Return value; a constant vector. 
+
+=begin comment
+
+=head2 Example
+# Example for max
+
+=end comment
+
+=end pod
+

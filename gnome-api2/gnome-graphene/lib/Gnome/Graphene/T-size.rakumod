@@ -7,10 +7,8 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Graphene::T-size:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -36,7 +34,6 @@ submethod BUILD ( ) {
   # Initialize helper
   $!routine-caller .= new(:library(graphene-lib()));
 }
-
 
 #-------------------------------------------------------------------------------
 #--[Record Structure]-----------------------------------------------------------

@@ -1,0 +1,45 @@
+=comment Package: Graphene, C-Source: rect
+use v6.d;
+
+#TL:1:Gnome::Graphene::T-rect:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Graphene::T-rect $rect .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $rect {
+
+
+#`{{
+    #TM:0:rect-alloc()
+    ok .rect-alloc(), '.rect-alloc()';
+
+    #TM:0:rect-zero()
+    ok .rect-zero(), '.rect-zero()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

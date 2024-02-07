@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-rect
+=comment Package: Graphene, C-Source: rect
 use v6.d;
 
 #TL:1:Gnome::Graphene::N-Rect:
@@ -6,14 +6,16 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::Graphene::T-point:api<2>;
 use Gnome::Graphene::T-rect:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -50,20 +52,20 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $n-rect {
-    my Num() $factor;
-    my CArray[N-Rect] $src;
-    my Num() $height;
-    my CArray[N-Rect] $res;
-    my Num() $x;
-    my CArray[N-Point] $p;
-    my CArray[N-Rect] $b;
-    my Num() $d-x;
-    my Num() $s-h;
-    my Num() $s-v;
     my Num() $d-y;
-    my CArray[N-Vec2] $vertices;
     my Num() $width;
+    my Num() $d-x;
+    my CArray[N-Vec2] $vertices;
     my Num() $y;
+    my CArray[N-Rect] $src;
+    my Num() $s-v;
+    my CArray[N-Rect] $res;
+    my CArray[N-Point] $p;
+    my Num() $x;
+    my Num() $height;
+    my Num() $s-h;
+    my CArray[N-Rect] $b;
+    my Num() $factor;
 
 
 #`{{

@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-vec
+=comment Package: Graphene, C-Source: vec
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ use v6.d;
 
 A structure capable of holding a vector with three dimensions: x, y, and z.
 
-The contents of the #graphene_vec3_t structure are private and should
+The contents of the B<graphene_vec>3_t structure are private and should
 never be accessed directly.
 
 =begin comment
@@ -21,22 +21,6 @@ never be accessed directly.
 # Example use of module Gnome::Graphene::Vec3
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-Vec3
-
-  class N-Vec3:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has N-Simd4F _UA_ $.value;
-  }
-
-=item value; 
 
 =end pod
 
@@ -61,7 +45,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 alloc
 
-Allocates a new #graphene_vec3_t structure.
+Allocates a new B<graphene_vec>3_t structure.
 
 The contents of the returned structure are undefined.
 
@@ -98,7 +82,7 @@ Adds each component of the two given vectors.
 method add ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =end code
 
-=item $b; a #graphene_vec3_t.
+=item $b; a B<graphene_vec>3_t.
 =item $res; return location for the resulting vector.
 
 =begin comment
@@ -120,7 +104,7 @@ Computes the cross product of the two given vectors.
 method cross ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =end code
 
-=item $b; a #graphene_vec3_t.
+=item $b; a B<graphene_vec>3_t.
 =item $res; return location for the resulting vector.
 
 =begin comment
@@ -144,7 +128,7 @@ vector C<$res>.
 method divide ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =end code
 
-=item $b; a #graphene_vec3_t.
+=item $b; a B<graphene_vec>3_t.
 =item $res; return location for the resulting vector.
 
 =begin comment
@@ -166,7 +150,7 @@ Computes the dot product of the two given vectors.
 method dot ( CArray[N-Vec3] $b --> Num )
 =end code
 
-=item $b; a #graphene_vec3_t.
+=item $b; a B<graphene_vec>3_t.
 
 Return value; the value of the dot product. 
 
@@ -184,13 +168,13 @@ Return value; the value of the dot product.
 =head2 equal
 This function is not yet available
 
-Checks whether the two given #graphene_vec3_t are equal.
+Checks whether the two given B<graphene_vec>3_t are equal.
 
 =begin code
 method equal ( CArray[N-Vec3] $v2 )
 =end code
 
-=item $v2; a #graphene_vec3_t.
+=item $v2; a B<graphene_vec>3_t.
 
 =begin comment
 
@@ -245,14 +229,14 @@ Return value; the value of the first component of the vector.
 =begin pod
 =head2 get-xy
 
-Creates a #graphene_vec2_t that contains the first and second
-components of the given #graphene_vec3_t.
+Creates a B<graphene_vec>2_t that contains the first and second
+components of the given B<graphene_vec>3_t.
 
 =begin code
 method get-xy ( CArray[N-Vec2] $res )
 =end code
 
-=item $res; return location for a #graphene_vec2_t.
+=item $res; return location for a B<graphene_vec>2_t.
 
 =begin comment
 
@@ -267,14 +251,14 @@ method get-xy ( CArray[N-Vec2] $res )
 =begin pod
 =head2 get-xy0
 
-Creates a #graphene_vec3_t that contains the first two components of
-the given #graphene_vec3_t, and the third component set to 0.
+Creates a B<graphene_vec>3_t that contains the first two components of
+the given B<graphene_vec>3_t, and the third component set to 0.
 
 =begin code
 method get-xy0 ( CArray[N-Vec3] $res )
 =end code
 
-=item $res; return location for a #graphene_vec3_t.
+=item $res; return location for a B<graphene_vec>3_t.
 
 =begin comment
 
@@ -289,7 +273,7 @@ method get-xy0 ( CArray[N-Vec3] $res )
 =begin pod
 =head2 get-xyz0
 
-Converts a #graphene_vec3_t in a #graphene_vec4_t using 0.0
+Converts a B<graphene_vec>3_t in a B<graphene_vec>4_t using 0.0
 as the value for the fourth component of the resulting vector.
 
 =begin code
@@ -311,7 +295,7 @@ method get-xyz0 ( CArray[N-Vec4] $res )
 =begin pod
 =head2 get-xyz1
 
-Converts a #graphene_vec3_t in a #graphene_vec4_t using 1.0
+Converts a B<graphene_vec>3_t in a B<graphene_vec>4_t using 1.0
 as the value for the fourth component of the resulting vector.
 
 =begin code
@@ -333,7 +317,7 @@ method get-xyz1 ( CArray[N-Vec4] $res )
 =begin pod
 =head2 get-xyzw
 
-Converts a #graphene_vec3_t in a #graphene_vec4_t using C<$w> as
+Converts a B<graphene_vec>3_t in a B<graphene_vec>4_t using C<$w> as
 the value of the fourth component of the resulting vector.
 
 =begin code
@@ -398,7 +382,7 @@ Return value; the value of the third component of the vector.
 =begin pod
 =head2 init
 
-Initializes a #graphene_vec3_t using the given values.
+Initializes a B<graphene_vec>3_t using the given values.
 
 This function can be called multiple times.
 
@@ -426,7 +410,7 @@ Return value; a pointer to the initialized
 =begin pod
 =head2 init-from-float
 
-Initializes a #graphene_vec3_t with the values from an array.
+Initializes a B<graphene_vec>3_t with the values from an array.
 
 =begin code
 method init-from-float ( Num() $src --> CArray[N-Vec3] )
@@ -449,14 +433,14 @@ Return value; the initialized vector.
 =begin pod
 =head2 init-from-vec3
 
-Initializes a #graphene_vec3_t with the values of another
-#graphene_vec3_t.
+Initializes a B<graphene_vec>3_t with the values of another
+B<graphene_vec>3_t.
 
 =begin code
 method init-from-vec3 ( CArray[N-Vec3] $src --> CArray[N-Vec3] )
 =end code
 
-=item $src; a #graphene_vec3_t.
+=item $src; a B<graphene_vec>3_t.
 
 Return value; the initialized vector. 
 
@@ -479,7 +463,7 @@ Linearly interpolates C<$v1> and C<$v2> using the given C<$factor>.
 method interpolate ( CArray[N-Vec3] $v2, Num() $factor, CArray[N-Vec3] $res )
 =end code
 
-=item $v2; a #graphene_vec3_t.
+=item $v2; a B<graphene_vec>3_t.
 =item $factor; the interpolation factor.
 =item $res; the interpolated vector.
 
@@ -524,7 +508,7 @@ vector that contains the maximum values.
 method max ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =end code
 
-=item $b; a #graphene_vec3_t.
+=item $b; a B<graphene_vec>3_t.
 =item $res; return location for the result vector.
 
 =begin comment
@@ -547,7 +531,7 @@ vector that contains the minimum values.
 method min ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =end code
 
-=item $b; a #graphene_vec3_t.
+=item $b; a B<graphene_vec>3_t.
 =item $res; return location for the result vector.
 
 =begin comment
@@ -569,7 +553,7 @@ Multiplies each component of the two given vectors.
 method multiply ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =end code
 
-=item $b; a #graphene_vec3_t.
+=item $b; a B<graphene_vec>3_t.
 =item $res; return location for the resulting vector.
 
 =begin comment
@@ -586,14 +570,14 @@ method multiply ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =head2 near
 This function is not yet available
 
-Compares the two given #graphene_vec3_t vectors and checks
+Compares the two given B<graphene_vec>3_t vectors and checks
 whether their values are within the given C<$epsilon>.
 
 =begin code
 method near ( CArray[N-Vec3] $v2, Num() $epsilon )
 =end code
 
-=item $v2; a #graphene_vec3_t.
+=item $v2; a B<graphene_vec>3_t.
 =item $epsilon; the threshold between the two vectors.
 
 =begin comment
@@ -609,7 +593,7 @@ method near ( CArray[N-Vec3] $v2, Num() $epsilon )
 =begin pod
 =head2 negate
 
-Negates the given #graphene_vec3_t.
+Negates the given B<graphene_vec>3_t.
 
 =begin code
 method negate ( CArray[N-Vec3] $res )
@@ -630,7 +614,7 @@ method negate ( CArray[N-Vec3] $res )
 =begin pod
 =head2 normalize
 
-Normalizes the given #graphene_vec3_t.
+Normalizes the given B<graphene_vec>3_t.
 
 =begin code
 method normalize ( CArray[N-Vec3] $res )
@@ -681,7 +665,7 @@ each result into the components of C<$res>.
 method subtract ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =end code
 
-=item $b; a #graphene_vec3_t.
+=item $b; a B<graphene_vec>3_t.
 =item $res; return location for the resulting vector.
 
 =begin comment
@@ -697,7 +681,7 @@ method subtract ( CArray[N-Vec3] $b, CArray[N-Vec3] $res )
 =begin pod
 =head2 to-float
 
-Copies the components of a #graphene_vec3_t into the given array.
+Copies the components of a B<graphene_vec>3_t into the given array.
 
 =begin code
 method to-float ( Num() $dest )

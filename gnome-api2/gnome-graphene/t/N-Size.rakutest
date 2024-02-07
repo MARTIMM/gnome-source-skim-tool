@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-size
+=comment Package: Graphene, C-Source: size
 use v6.d;
 
 #TL:1:Gnome::Graphene::N-Size:
@@ -9,8 +9,9 @@ use v6.d;
 use Test;
 use NativeCall;
 
-use Gnome::Graphene::T-size:api<2>;
 
+use Gnome::Graphene::N-Size:api<2>;
+use Gnome::Graphene::T-size:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -51,11 +52,11 @@ unless %*ENV<raku_test_all>:exists {
 subtest 'Method tests', {
   with $n-size {
     my CArray[N-Size] $res;
-    my Num() $height;
     my CArray[N-Size] $b;
-    my Num() $factor;
-    my CArray[N-Size] $src;
     my Num() $width;
+    my Num() $factor;
+    my Num() $height;
+    my CArray[N-Size] $src;
 
 
 #`{{

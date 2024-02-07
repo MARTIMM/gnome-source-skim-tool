@@ -1,0 +1,93 @@
+=comment Package: Graphene, C-Source: rect
+use v6.d;
+
+=begin pod
+=head1 Gnome::Graphene::T-rect
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Rect
+
+  class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Point $.origin;
+    has N-Size $.size;
+  }
+
+=item origin; the coordinates of the origin of the rectangle
+=item size; the size of the rectangle
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 rect-alloc
+
+Allocates a new B<Gnome::Graphene::T-rect>.
+
+The contents of the returned rectangle are undefined.
+
+=begin code
+method rect-alloc (--> CArray[N-Rect] )
+=end code
+
+Return value; the newly allocated rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Rect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 rect-zero
+
+Returns a degenerate rectangle with origin fixed at (0, 0) and
+a size of 0, 0.
+
+=begin code
+method rect-zero (--> CArray[N-Rect] )
+=end code
+
+Return value; a fixed rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-point
+
+=end comment
+
+=end pod
+

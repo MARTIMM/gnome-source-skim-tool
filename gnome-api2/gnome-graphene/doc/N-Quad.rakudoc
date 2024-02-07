@@ -10,9 +10,9 @@ use v6.d;
 
 =head1 Description
 
-A 4 vertex quadrilateral, as represented by four #graphene_point_t.
+A 4 vertex quadrilateral, as represented by four B<Gnome::Graphene::N-Point>.
 
-The contents of a #graphene_quad_t are private and should never be
+The contents of a B<Gnome::Graphene::N-Quad> are private and should never be
 accessed directly.
 
 =begin comment
@@ -45,7 +45,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 alloc
 
-Allocates a new #graphene_quad_t instance.
+Allocates a new B<Gnome::Graphene::N-Quad> instance.
 
 The contents of the returned instance are undefined.
 
@@ -80,7 +80,7 @@ Computes the bounding rectangle of C<$q> and places it into C<$r>.
 method bounds ( CArray[N-Rect] $r )
 =end code
 
-=item $r; return location for a #graphene_rect_t.
+=item $r; return location for a B<Gnome::Graphene::N-Rect>.
 
 =begin comment
 
@@ -96,13 +96,13 @@ method bounds ( CArray[N-Rect] $r )
 =head2 contains
 This function is not yet available
 
-Checks if the given #graphene_quad_t contains the given #graphene_point_t.
+Checks if the given B<Gnome::Graphene::N-Quad> contains the given B<Gnome::Graphene::N-Point>.
 
 =begin code
 method contains ( CArray[N-Point] $p )
 =end code
 
-=item $p; a #graphene_point_t.
+=item $p; a B<Gnome::Graphene::N-Point>.
 
 =begin comment
 
@@ -137,7 +137,7 @@ method free ( )
 =head2 get-point
 This function is not yet available
 
-Retrieves the point of a #graphene_quad_t at the given index.
+Retrieves the point of a B<Gnome::Graphene::N-Quad> at the given index.
 
 =begin code
 method get-point ( … --> CArray[N-Point] )
@@ -145,7 +145,7 @@ method get-point ( … --> CArray[N-Point] )
 
 =item index; the index of the point to retrieve. Note that each argument must be specified as a type followed by its value!
 
-Return value; a #graphene_point_t. 
+Return value; a B<Gnome::Graphene::N-Point>. 
 
 =begin comment
 
@@ -160,7 +160,7 @@ Return value; a #graphene_point_t.
 =begin pod
 =head2 init
 
-Initializes a #graphene_quad_t with the given points.
+Initializes a B<Gnome::Graphene::N-Quad> with the given points.
 
 =begin code
 method init ( CArray[N-Point] $p1, CArray[N-Point] $p2, CArray[N-Point] $p3, CArray[N-Point] $p4 --> CArray[N-Quad] )
@@ -171,7 +171,7 @@ method init ( CArray[N-Point] $p1, CArray[N-Point] $p2, CArray[N-Point] $p3, CAr
 =item $p3; the third point of the quadrilateral.
 =item $p4; the fourth point of the quadrilateral.
 
-Return value; the initialized #graphene_quad_t. 
+Return value; the initialized B<Gnome::Graphene::N-Quad>. 
 
 =begin comment
 
@@ -186,15 +186,15 @@ Return value; the initialized #graphene_quad_t.
 =begin pod
 =head2 init-from-points
 
-Initializes a #graphene_quad_t using an array of points.
+Initializes a B<Gnome::Graphene::N-Quad> using an array of points.
 
 =begin code
 method init-from-points ( CArray[N-Point] $points --> CArray[N-Quad] )
 =end code
 
-=item $points; an array of 4 #graphene_point_t.
+=item $points; an array of 4 B<Gnome::Graphene::N-Point>.
 
-Return value; the initialized #graphene_quad_t. 
+Return value; the initialized B<Gnome::Graphene::N-Quad>. 
 
 =begin comment
 
@@ -209,16 +209,16 @@ Return value; the initialized #graphene_quad_t.
 =begin pod
 =head2 init-from-rect
 
-Initializes a #graphene_quad_t using the four corners of the
-given #graphene_rect_t.
+Initializes a B<Gnome::Graphene::N-Quad> using the four corners of the
+given B<Gnome::Graphene::N-Rect>.
 
 =begin code
 method init-from-rect ( CArray[N-Rect] $r --> CArray[N-Quad] )
 =end code
 
-=item $r; a #graphene_rect_t.
+=item $r; a B<Gnome::Graphene::N-Rect>.
 
-Return value; the initialized #graphene_quad_t. 
+Return value; the initialized B<Gnome::Graphene::N-Quad>. 
 
 =begin comment
 
