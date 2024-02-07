@@ -33,21 +33,29 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
+  my Bool $available;
   my Str $also = '';
   my Str $ctype = $element.attribs<c:type> // '';
   my Hash $h = $!solve.search-name($ctype) // %();
 
-  # Check for parent class. There are never more than one. When there is
-  # none, pick TopLevelClassSupport
-  my Str $parent = $h<parent-raku-name> // 'Gnome::N::TopLevelClassSupport';
+  # Parenting is only for classes
+  my Bool $is-class = False;
+  my Bool $is-role = False;
+  if $h<gir-type> eq 'class' {
+    $is-class = True;
 
-  # Misc is deprecated so shortcut to Widget. This is only for Gtk3!
-  $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
-  my Bool $available = self.add-import($parent);
-  $also ~= ($available ?? '' !! '#') ~ "also is $parent;\n";
+    # Check for parent class. There are never more than one. When there is
+    # none, pick TopLevelClassSupport
+    my Str $parent = $h<parent-raku-name> // 'Gnome::N::TopLevelClassSupport';
 
-  my Bool $is-role = (($h<gir-type> // '' ) eq 'interface') // False;
-  my Bool $is-class = (($h<gir-type> // '' ) eq 'class') // False;
+    # Misc is deprecated so shortcut to Widget. This is only for Gtk3!
+    $parent = 'Gnome::Gtk3::Widget' if $parent ~~ m/ \:\: Misc $/;
+    $available = self.add-import($parent);
+    $also ~= ($available ?? '' !! '#') ~ "also is $parent;\n";
+  }
+
+  $is-role = (($h<gir-type> // '' ) eq 'interface') // False;
+  
   # If the object is a class
   if $is-class {
     # Check for roles to implement
@@ -55,13 +63,6 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     for @$roles -> $role {
       $available = self.add-import($role);
       $also ~= ($available ?? '' !! '#') ~ "also does $role;\n";
-#`{{ Simplified
-      my Hash $role-h = $!solve.search-name($role);
-      if ?$role-h<class-name> {
-        self.add-import($role-h<class-name>);
-        $also ~= "also does $role-h<class-name>;\n";
-      }
-}}
     }
 
     # The Object module needs some extra classes and roles
@@ -82,7 +83,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
     RAKUMOD
 
-#      unit role $h<class-name>:auth<github:MARTIMM>:api<2>;
+  # Roles
   if $is-role {
     $code ~= qq:to/RAKUMOD/;
       {pod-header('Role Declaration');}
@@ -92,10 +93,11 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
   # Classes, records and unions
   else {
+    my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
 #      unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
     $code ~= qq:to/RAKUMOD/;
       {pod-header('Class Declaration');}
-      unit class { $!solve.set-object-name( $h, :name-type(ClassnameType)) }:auth<github:MARTIMM>:api<2>;
+      unit class $classname\:auth<github:MARTIMM>:api<2>;
       $also
       RAKUMOD
   }
@@ -2100,7 +2102,13 @@ method convert-rtype (
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           my $class-name =
             $!solve.set-object-name( $h, :name-type(ClassnameType));
-          $raku-type ~= ' _UA_' unless self.add-import($class-name);
+          self.add-import($class-name);
+#          $raku-type ~= ' _UA_' unless self.add-import($class-name);
+
+          # Record modules have their structs in type files
+          my Str $type-name = $class-name;
+          $type-name ~~ s/ '::N-' .* $/::T-$h<source-filename>/;
+          self.add-import($type-name);
         }
 
         when 'union' {
@@ -2111,7 +2119,13 @@ method convert-rtype (
           $raku-type = "CArray[$raku-type]" if $is-pointer;
           my $class-name =
             $!solve.set-object-name( $h, :name-type(ClassnameType));
-          $raku-type ~= ' _UA_' unless self.add-import($class-name);
+          self.add-import($class-name);
+#          $raku-type ~= ' _UA_' unless self.add-import($class-name);
+
+          # Union modules have their structs in type files
+          my Str $type-name = $class-name;
+          $type-name ~~ s/ '::N-' /::T-/;
+          self.add-import($type-name);
         }
 
         when 'constant' {

@@ -41,7 +41,8 @@ method generate-code ( ) {
   my Str $class-name = $!solve.set-object-name($h);
 
   my XML::Element $element = $!xpath.find('//namespace/record');
-  die "//record elements not found in gir-record-file for $class-name" unless ?$element;
+  die "//record elements not found in gir-record-file for $class-name"
+    unless ?$element;
 
   my Str $callable-code = $!mod.generate-callables( $element, $!xpath);
   if ?$callable-code {
