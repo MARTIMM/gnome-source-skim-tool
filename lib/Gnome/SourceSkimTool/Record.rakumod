@@ -108,8 +108,8 @@ method generate-doc ( ) {
   note "Document module description" if $*verbose;
   my Str $doc ~= $!grd.get-description( $element, $!xpath);
 
-  note "Document structure" if $*verbose;
-  $doc ~= $!grd.document-structure( $element, $!xpath);
+#  note "Document structure" if $*verbose;
+#  $doc ~= $!grd.document-structure( $element, $!xpath);
 
   note "Document BUILD submethod" if $*verbose;
   $doc ~= $!grd.document-build($element);
@@ -129,6 +129,12 @@ method generate-doc ( ) {
   my Hash $h0 = $!solve.search-name($*work-data<gnome-name>);
   my Str $fname = $!solve.set-object-name( $h0, :name-type(FilenameDocType));
   $!mod.save-file( $fname, $doc, "record documentation");
+}
+
+#-------------------------------------------------------------------------------
+method generate-structure-doc ( --> Str ) {
+  my XML::Element $element = $!xpath.find('//namespace/record');
+  $!grd.document-structure( $element, $!xpath);
 }
 
 #-------------------------------------------------------------------------------

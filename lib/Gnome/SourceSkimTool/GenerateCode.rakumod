@@ -167,24 +167,6 @@ method generate-code ( ) {
 #note "$?LINE $*work-data<sub-prefix>";
 
     given $gir-type {
-#`{{
-      when 'record' {
-        # Generate a structure into a 'package-path/N-*.rakumod' file
-        say "\nGenerate record structure: ", $*work-data<raku-class-name>
-          if $*verbose;
-        $types-code<record> = $!mod.generate-structure(
-          |$!mod.init-xpath(
-            'record',
-            $!solve.set-object-name( $data, :name-type(FilenameGirType))
-          )
-        );
-      }
-
-      when 'union' {
-
-      }
-}}
-
       when 'constant' {
         my @constants = ();
         for $!filedata<constant>.kv -> $k, $v {
