@@ -1,0 +1,108 @@
+=comment Package: Graphene, C-Source: quad
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Quad:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Quad:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-quad:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Quad $n-quad;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-quad {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-quad {
+    my  $index;
+    my CArray[N-Point] $p1;
+    my CArray[N-Rect] $r;
+    my CArray[N-Point] $p2;
+    my CArray[N-Point] $p;
+    my CArray[N-Point] $points;
+    my CArray[N-Point] $p4;
+    my CArray[N-Point] $p3;
+
+
+#`{{
+    #TM:0:bounds()
+    ok .bounds( $r), '.bounds()';
+
+    #TM:0:contains()
+    ok .contains( $p), '.contains()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-point()
+    is .get-point( $index), '…', '.get-point()';
+
+    #TM:0:init()
+    ok .init( $p1, $p2, $p3, $p4), '.init()';
+
+    #TM:0:init-from-points()
+    ok .init-from-points( $points), '.init-from-points()';
+
+    #TM:0:init-from-rect()
+    ok .init-from-rect( $r), '.init-from-rect()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-quad {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
