@@ -643,11 +643,11 @@ method !modify-classes ( Str $text is copy --> Str ) {
 # | [ G <!before [ 'nome' | 'TK' ] > ]
   my token package {
     <!after ['Gnome::' | '%'] >
-    [ Atk | Gtk | Gdk | Gsk | PangoCairo | Pango | Cairo | G
+    [ Atk | Gtk | Gdk | Gsk | PangoCairo | Pango | Cairo | G | graphene_
     ]
   }
 
-  my token classname { <[a..zA..Z]>+ }
+  my token classname { <[a..zA..Z_]>+ }
   my regex class-regex { '#' <package> <classname> }
 
   while $text ~~ m/ <class-regex> / {
