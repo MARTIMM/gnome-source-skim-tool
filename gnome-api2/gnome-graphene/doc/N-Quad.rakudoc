@@ -1,0 +1,231 @@
+=comment Package: Graphene, C-Source: quad
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Quad
+
+=head1 Description
+
+A 4 vertex quadrilateral, as represented by four #graphene_point_t.
+
+The contents of a #graphene_quad_t are private and should never be
+accessed directly.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Quad
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new #graphene_quad_t instance.
+
+The contents of the returned instance are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Quad \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 bounds
+
+Computes the bounding rectangle of C<$q> and places it into C<$r>.
+
+=begin code
+method bounds ( CArray[N-Rect] $r )
+=end code
+
+=item $r; return location for a #graphene_rect_t.
+
+=begin comment
+
+=head2 Example
+# Example for bounds
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains
+This function is not yet available
+
+Checks if the given #graphene_quad_t contains the given #graphene_point_t.
+
+=begin code
+method contains ( CArray[N-Point] $p )
+=end code
+
+=item $p; a #graphene_point_t.
+
+=begin comment
+
+=head2 Example
+# Example for contains
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-point
+This function is not yet available
+
+Retrieves the point of a #graphene_quad_t at the given index.
+
+=begin code
+method get-point ( … --> CArray[N-Point] )
+=end code
+
+=item index; the index of the point to retrieve. Note that each argument must be specified as a type followed by its value!
+
+Return value; a #graphene_point_t. 
+
+=begin comment
+
+=head2 Example
+# Example for get-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes a #graphene_quad_t with the given points.
+
+=begin code
+method init ( CArray[N-Point] $p1, CArray[N-Point] $p2, CArray[N-Point] $p3, CArray[N-Point] $p4 --> CArray[N-Quad] )
+=end code
+
+=item $p1; the first point of the quadrilateral.
+=item $p2; the second point of the quadrilateral.
+=item $p3; the third point of the quadrilateral.
+=item $p4; the fourth point of the quadrilateral.
+
+Return value; the initialized #graphene_quad_t. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-points
+
+Initializes a #graphene_quad_t using an array of points.
+
+=begin code
+method init-from-points ( CArray[N-Point] $points --> CArray[N-Quad] )
+=end code
+
+=item $points; an array of 4 #graphene_point_t.
+
+Return value; the initialized #graphene_quad_t. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-points
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-rect
+
+Initializes a #graphene_quad_t using the four corners of the
+given #graphene_rect_t.
+
+=begin code
+method init-from-rect ( CArray[N-Rect] $r --> CArray[N-Quad] )
+=end code
+
+=item $r; a #graphene_rect_t.
+
+Return value; the initialized #graphene_quad_t. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-rect
+
+=end comment
+
+=end pod
+
