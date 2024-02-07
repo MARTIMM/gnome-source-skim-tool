@@ -296,7 +296,8 @@ method generate-code ( ) {
         }
         RAKUMOD
 
-      $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
+      $code =
+        $!mod.substitute-MODULE-IMPORTS( $code, $class-name, :skip-n-mods);
     }
 
 #    $filename = $*work-data<result-mods> ~ $filename ~ '.rakumod';

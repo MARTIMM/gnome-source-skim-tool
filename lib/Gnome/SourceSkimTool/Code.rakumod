@@ -1633,7 +1633,10 @@ method add-import ( Str $import --> Bool ) {
 #-------------------------------------------------------------------------------
 # Fill in the __MODULE__IMPORTS__ string inserted at the start of the code
 # generation. It is the place where the 'use' statements must come.
-method substitute-MODULE-IMPORTS ( Str $code is copy, *@exclasses --> Str ) {
+method substitute-MODULE-IMPORTS (
+  Str $code is copy, *@exclasses, Bool :$skip-n-mods = False
+  --> Str
+) {
   note "Set modules to import" if $*verbose;
 
   # any() does not support slurpy args
@@ -1641,12 +1644,14 @@ method substitute-MODULE-IMPORTS ( Str $code is copy, *@exclasses --> Str ) {
 
   my $import = '';
   for $*external-modules.kv -> $m, $s {
+    next if $skip-n-mods and $m ~~ m/ '::N-' /;
     $import ~= "use $m;\n" if $s ~~ EMTRakudo;
   }
 
   $import ~= "\n";
 
   for $*external-modules.kv -> $m, $s {
+    next if $skip-n-mods and $m ~~ m/ '::N-' /;
     $import ~= "use $m;\n" if $s ~~ EMTInApi1;
   }
 
@@ -1655,6 +1660,8 @@ method substitute-MODULE-IMPORTS ( Str $code is copy, *@exclasses --> Str ) {
 #note "\n$?LINE ex: @exceptclasses.join(', ')";
   for $*external-modules.keys.sort -> $m {
 #note " $?LINE use $m, $*external-modules{$m}";
+    next if $skip-n-mods and $m ~~ m/ '::N-' /;
+
     if $*external-modules{$m} ~~ EMTNotImplemented {
       $import ~= "#use $m\:api\<2\>;\n";
     }
@@ -2028,6 +2035,9 @@ method convert-rtype (
 #    when /:i g? pixbuf '*'/     { $raku-type = 'N-Object'; }
 #    when /:i g? error '*'/      { $raku-type = 'N-Object'; }
     when /g? pointer '*'/       { $raku-type = 'Array'; }
+
+    # Graphene
+    when / _Bool /              { $raku-type = 'gboolean'; }
 
     # Other packages like those from Cairo or Pango might not have
     # the 'g' prefixed

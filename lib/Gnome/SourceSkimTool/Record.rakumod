@@ -71,7 +71,7 @@ method generate-code ( ) {
     $code ~= $!mod.make-build-submethod( $element, $!xpath);
 
     $code ~= $callable-code;
-    $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name);
+    $code = $!mod.substitute-MODULE-IMPORTS( $code, $class-name, :skip-n-mods);
 
     my Str $fname = $!solve.set-object-name( $h, :name-type(FilenameCodeType));
     $!mod.save-file( $fname, $code, "record module");
