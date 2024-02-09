@@ -9,7 +9,7 @@ use v6.d;
 use Test;
 use NativeCall;
 
-
+use Gnome::Graphene::N-Point:api<2>;
 use Gnome::Graphene::T-point:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
 
@@ -23,20 +23,18 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-Point $n-point;
+my Gnome::Graphene::N-Point ( $n-point1, $n-point2, $n-point3);
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-point {
+  given $n-point1 {
 
-#`{{
-    #TM:0:alloc()
-    ok .alloc(), '.alloc()';
-
-}}
+    #TM:1:alloc()
+    $n-point1 .= alloc;
+    ok $n-point1.is-valid, '.alloc()';
   }
 };
 
@@ -51,40 +49,48 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $n-point {
-    my Num() $d-x;
-    my Num() $x;
-    my Num() $factor;
-    my CArray[N-Point] $b;
-    my Num() $epsilon;
-    my CArray[N-Point] $res;
-    my Num() $d-y;
-    my Num() $y;
-    my CArray[N-Vec2] $v;
-    my CArray[N-Vec2] $src;
+  $n-point1.init( 5.0, 5.0);
 
+  #TM:1:init()
+  $n-point2 .= alloc;
+  $n-point2.init( 11.0, 9.0);
+  my N-Point() $p = $n-point2.get-native-object;
+  is $p.x, 11e0, '.init() x: ' ~ $p.x;
+  is $p.y, 9e0, '.init() y: ' ~ $p.y;
+
+  #TM:1:distance()
+  my $a-dx = CArray[gfloat].new(0e0);
+  my $a-dy = CArray[gfloat].new(0e0);
+  is-approx $n-point1.distance( $n-point2, $a-dx, $a-dy),
+            sqrt(36+16), '.distance()';
+  is $a-dx[0], 6, '.distance(), x diff: ' ~ $a-dx[0];
+  is $a-dy[0], 4, '.distance(), y diff: ' ~ $a-dy[0];
+
+  #TM:1:init-from-point()
+  $n-point3 .= alloc;
+  $n-point3.init-from-point($n-point2);
+  $p = $n-point3.get-native-object;
+  is $p.x, 11e0, '.init-from-point() x: ' ~ $p.x;
+  
+  #TM:1:equal()
+  ok $n-point2.equal($n-point3), '.equal()';
+
+  #TM:1:interpolate()
+  my N-Point $pref .= new;
+  $n-point1.interpolate( $n-point2, 2e0, $pref);
+
+  # Twice as far from x=5 to x=11 -> + 6
+  is $pref.x, 17e0, '.interpolate() x 11 + 6: ' ~ $pref.x;
+  # Twice as far from y=5 to y=9 -> +4
+  is $pref.y, 13e0, '.interpolate() y 9 + 4: ' ~ $pref.y;
+
+  #TM:1:free(), implicit
+  $n-point2.clear-object();
+  ok !$n-point2.is-valid, '.free()';
 
 #`{{
-    #TM:0:distance()
-    ok .distance( $b, $d-x, $d-y), '.distance()';
-
-    #TM:0:equal()
-    ok .equal( $b), '.equal()';
-
-    #TM:0:free()
-    ok .free(), '.free()';
-
-    #TM:0:init()
-    ok .init( $x, $y), '.init()';
-
-    #TM:0:init-from-point()
-    ok .init-from-point( $src), '.init-from-point()';
-
     #TM:0:init-from-vec2()
     ok .init-from-vec2( $src), '.init-from-vec2()';
-
-    #TM:0:interpolate()
-    ok .interpolate( $b, $factor, $res), '.interpolate()';
 
     #TM:0:near()
     ok .near( $b, $epsilon), '.near()';
@@ -93,12 +99,11 @@ subtest 'Method tests', {
     ok .to-vec2( $v), '.to-vec2()';
 
 }}
-  }
 };
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $n-point {
+  with $n-point1 {
 
 
 #`{{

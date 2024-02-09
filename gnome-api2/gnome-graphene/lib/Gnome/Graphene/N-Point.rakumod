@@ -8,21 +8,22 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::Graphene::T-point:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
-use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Graphene::N-Point:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -57,7 +58,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -67,21 +68,21 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  alloc => %( :type(Constructor), :is-symbol<graphene_point_alloc>, :returns(N-Point), ),
+  alloc => %( :type(Constructor), :is-symbol<graphene_point_alloc>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  distance => %(:is-symbol<graphene_point_distance>,  :returns(gfloat), :parameters([N-Point, CArray[gfloat], CArray[gfloat]])),
-  equal => %(:is-symbol<graphene_point_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point])),
+  distance => %(:is-symbol<graphene_point_distance>,  :returns(gfloat), :parameters([N-Object, CArray[gfloat], CArray[gfloat]])),
+  equal => %(:is-symbol<graphene_point_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   free => %(:is-symbol<graphene_point_free>, ),
-  init => %(:is-symbol<graphene_point_init>,  :returns(N-Point), :parameters([gfloat, gfloat])),
-  init-from-point => %(:is-symbol<graphene_point_init_from_point>,  :returns(N-Point), :parameters([N-Point])),
-  init-from-vec2 => %(:is-symbol<graphene_point_init_from_vec2>,  :returns(N-Point), :parameters([N-Vec2])),
-  interpolate => %(:is-symbol<graphene_point_interpolate>,  :parameters([N-Point, gdouble, N-Point])),
-  near => %(:is-symbol<graphene_point_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point, gfloat])),
+  init => %(:is-symbol<graphene_point_init>,  :returns(N-Object), :parameters([gfloat, gfloat])),
+  init-from-point => %(:is-symbol<graphene_point_init_from_point>,  :returns(N-Object), :parameters([N-Object])),
+  init-from-vec2 => %(:is-symbol<graphene_point_init_from_vec2>,  :returns(N-Object), :parameters([N-Vec2])),
+  interpolate => %(:is-symbol<graphene_point_interpolate>,  :parameters([N-Object, gdouble, N-Object])),
+  near => %(:is-symbol<graphene_point_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gfloat])),
   to-vec2 => %(:is-symbol<graphene_point_to_vec2>,  :parameters([N-Vec2])),
 
   #--[Functions]----------------------------------------------------------------
-  zero => %( :type(Function), :is-symbol<graphene_point_zero>,  :returns(N-Point)),
+  zero => %( :type(Function), :is-symbol<graphene_point_zero>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------
