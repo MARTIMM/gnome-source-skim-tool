@@ -69,7 +69,7 @@ submethod BUILD ( Str :$!library, Str :$!sub-prefix = '' ) {
 #-------------------------------------------------------------------------------
 method gtk-initialize ( ) {
 
-  note "Initialize Gtk" if $Gnome::N::x-debug;
+  note "\nInitialize Gtk" if $Gnome::N::x-debug;
 
   if $!library ~~ / 3 / {
     # must setup gtk otherwise Raku will crash
@@ -123,7 +123,7 @@ sub _init_check_v4 ( --> gboolean )
 multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
 #say Backtrace.new.nice;
 
-  printf "\ncalling $name\n" if $Gnome::N::x-debug;
+  printf "\n\ncalling $name" if $Gnome::N::x-debug;
 
   my Hash $routine := $methods{$name};
   my Array $arguments = [|@arguments];
@@ -158,20 +158,18 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
   if ?$routine<function-address>{$func-pattern} {
     note "Reuse native function address of $name\()" if $Gnome::N::x-debug;
     $c = $routine<function-address>{$func-pattern};
-#note "$?LINE c: $name {$c.WHICH}";
   }
 
   else {
     note "Get native function address of $name\()" if $Gnome::N::x-debug;
     $c = self!native-function( $name, $parameters, $routine);
-#note "$?LINE c: $name {$c.WHICH}";
     $routine<function-address>{$func-pattern} = $c;
   }
 
   note "Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
     if $Gnome::N::x-debug;
 
-  self.convert-return( $c(|$native-args), $routine);
+  self.convert-return( $c(|$native-args), $routine)
 }
 
 #-------------------------------------------------------------------------------
@@ -182,7 +180,7 @@ multi method call-native-sub (
 ) {
 #say Backtrace.new.nice;
 
-  printf "\ncalling $name, $native-object\n" if $Gnome::N::x-debug;
+  printf "\n\ncalling $name, $native-object" if $Gnome::N::x-debug;
 
   my Hash $routine := $methods{$name};
 
@@ -232,7 +230,7 @@ multi method call-native-sub (
   note "Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
     if $Gnome::N::x-debug;
 
-  self.convert-return( $c(|$native-args), $routine);
+  self.convert-return( $c(|$native-args), $routine)
 }
 
 #-------------------------------------------------------------------------------
@@ -307,7 +305,15 @@ method !native-function (
     }
 
     else {
-      @parameterList.push: Parameter.new(type => $p);
+      # Structures and unions must be converted into N-Object. Just another
+      # type of pointer.
+#      if $p.^name ~~ m/ '::N-' / {
+#        @parameterList.push: Parameter.new(type => N-Object);
+#      }
+
+#      else {
+        @parameterList.push: Parameter.new(type => $p);
+#      }
     }
   }
 
@@ -361,8 +367,8 @@ method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
     $routine-name = ($sub-prefix // $!sub-prefix) ~ $routine-name;
   }
 
-  note "Routine name $name, $routine-name, $routine.gist()"
-    if $Gnome::N::x-debug;
+#  note "Routine name $name, $routine-name, $routine.gist()"
+#    if $Gnome::N::x-debug;
 
   $routine-name
 }
@@ -372,7 +378,7 @@ method !convert-args ( Mu $v, $p ) {
   my $c;
 
   note "Argument: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
-
+#`{{
   if $v.can('get-native-object-no-reffing') {
     my N-Object $no = $v.get-native-object-no-reffing;
     $c = $no;
@@ -381,6 +387,7 @@ method !convert-args ( Mu $v, $p ) {
   }
 
   else {
+}}
     given $p {
       # May be used to receive an array of strings or to provide one.
       when gchar-pptr {
@@ -397,23 +404,55 @@ method !convert-args ( Mu $v, $p ) {
         $c = CArray[N-GError].new(N-GError); #($p.new);
       }
 
-      when .^name ~~ / num / {
+      # Prevent accidents with e.g. CArray[num32] in below tests
+      when .^name ~~ / CArray / {
+        $c = $v;
+      }
+
+      when .^name ~~ / <|w> num / {
         $c = $v.Num if $v.defined;
       }
 
-      when .^name ~~ / int / {
+      when .^name ~~ / <|w> int / {
         $c = $v.Int if $v.defined;
       }
 
       when .^name ~~ / Str / {
         $c = $v.Str if $v.defined;
       }
-
 #`{{
-      when N-Object {
-        my N-Object $no = $v.get-native-object-no-reffing;
-        $c = $no;
+      when .^name ~~ / '::N-' / {
+note "$?LINE $_.gist()";
+#        my $no = $v.get-native-object-no-reffing;
+#        $c = $no;
+        if $v.^can('get-native-object-no-reffing') {
+          $c = $v.get-native-object-no-reffing;
+        }
+        else {
+          $c = $v;
+        }
+note "$?LINE $c.gist()";
       }
+}}
+
+      when N-Object {
+        if $v.^can('get-native-object-no-reffing') {
+          $c = $v.get-native-object-no-reffing;
+        }
+
+        else {
+          # If the provided argument is a structure or union object other
+          # than a N-Object, we must convert it.
+          if $v.^name !~~ / 'N-Object' / {
+            $c = nativecast( N-Object, $v);
+          }
+
+          else {
+            $c = $v;
+          }
+        }
+      }
+#`{{
       when Signature {
         die X::Gnome.new(
           :message('Signature of callback routine does not match')
@@ -427,7 +466,7 @@ method !convert-args ( Mu $v, $p ) {
       default {
         $c = $v;
       }
-    }
+#    }
 
     note "Converted; type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
   }
