@@ -1,4 +1,4 @@
-=comment Package: Graphene, C-Source: graphene-rect
+=comment Package: Graphene, C-Source: rect
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -12,16 +12,16 @@ use v6.d;
 
 The location and size of a rectangle region.
 
-The width and height of a #graphene_rect_t can be negative; for instance,
-a #graphene_rect_t with an origin of [ 0, 0 ] and a size of [ 10, 10 ] is
-equivalent to a #graphene_rect_t with an origin of [ 10, 10 ] and a size
+The width and height of a B<Gnome::Graphene::N-Rect> can be negative; for instance,
+a B<Gnome::Graphene::N-Rect> with an origin of [ 0, 0 ] and a size of [ 10, 10 ] is
+equivalent to a B<Gnome::Graphene::N-Rect> with an origin of [ 10, 10 ] and a size
 of [ -10, -10 ].
 
 Application code can normalize rectangles using C<.normalize()>;
 this function will ensure that the width and height of a rectangle are
-positive values. All functions taking a #graphene_rect_t as an argument
+positive values. All functions taking a B<Gnome::Graphene::N-Rect> as an argument
 will internally operate on a normalized copy; all functions returning a
-#graphene_rect_t will always return a normalized rectangle.
+B<Gnome::Graphene::N-Rect> will always return a normalized rectangle.
 
 =begin comment
 
@@ -29,24 +29,6 @@ will internally operate on a normalized copy; all functions returning a
 # Example use of module Gnome::Graphene::Rect
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-Rect
-
-  class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has N-Point $.origin;
-    has N-Size $.size;
-  }
-
-=item origin; the coordinates of the origin of the rectangle
-=item size; the size of the rectangle
 
 =end pod
 
@@ -78,15 +60,16 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 contains-point
-This function is not yet available
 
-Checks whether a #graphene_rect_t contains the given coordinates.
+Checks whether a B<Gnome::Graphene::N-Rect> contains the given coordinates.
 
 =begin code
-method contains-point ( CArray[N-Point] $p )
+method contains-point ( CArray[N-Point] $p --> gboolean )
 =end code
 
-=item $p; a #graphene_point_t.
+=item $p; a B<Gnome::Graphene::N-Point>.
+
+Return value; B<true> if the rectangle contains the point. 
 
 =begin comment
 
@@ -100,16 +83,17 @@ method contains-point ( CArray[N-Point] $p )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 contains-rect
-This function is not yet available
 
-Checks whether a #graphene_rect_t fully contains the given
+Checks whether a B<Gnome::Graphene::N-Rect> fully contains the given
 rectangle.
 
 =begin code
-method contains-rect ( CArray[N-Rect] $b )
+method contains-rect ( CArray[N-Rect] $b --> gboolean )
 =end code
 
-=item $b; a #graphene_rect_t.
+=item $b; a B<Gnome::Graphene::N-Rect>.
+
+Return value; B<true> if the rectangle C<$a> fully contains C<$b>. 
 
 =begin comment
 
@@ -123,15 +107,16 @@ method contains-rect ( CArray[N-Rect] $b )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 equal
-This function is not yet available
 
 Checks whether the two given rectangle are equal.
 
 =begin code
-method equal ( CArray[N-Rect] $b )
+method equal ( CArray[N-Rect] $b --> gboolean )
 =end code
 
-=item $b; a #graphene_rect_t.
+=item $b; a B<Gnome::Graphene::N-Rect>.
+
+Return value; B<true> if the rectangles are equal. 
 
 =begin comment
 
@@ -146,13 +131,13 @@ method equal ( CArray[N-Rect] $b )
 =begin pod
 =head2 expand
 
-Expands a #graphene_rect_t to contain the given #graphene_point_t.
+Expands a B<Gnome::Graphene::N-Rect> to contain the given B<Gnome::Graphene::N-Point>.
 
 =begin code
 method expand ( CArray[N-Point] $p, CArray[N-Rect] $res )
 =end code
 
-=item $p; a #graphene_point_t.
+=item $p; a B<Gnome::Graphene::N-Point>.
 =item $res; return location for the expanded rectangle.
 
 =begin comment
@@ -214,7 +199,7 @@ Retrieves the coordinates of the bottom-left corner of the given rectangle.
 method get-bottom-left ( CArray[N-Point] $p )
 =end code
 
-=item $p; return location for a #graphene_point_t.
+=item $p; return location for a B<Gnome::Graphene::N-Point>.
 
 =begin comment
 
@@ -235,7 +220,7 @@ Retrieves the coordinates of the bottom-right corner of the given rectangle.
 method get-bottom-right ( CArray[N-Point] $p )
 =end code
 
-=item $p; return location for a #graphene_point_t.
+=item $p; return location for a B<Gnome::Graphene::N-Point>.
 
 =begin comment
 
@@ -256,7 +241,7 @@ Retrieves the coordinates of the center of the given rectangle.
 method get-center ( CArray[N-Point] $p )
 =end code
 
-=item $p; return location for a #graphene_point_t.
+=item $p; return location for a B<Gnome::Graphene::N-Point>.
 
 =begin comment
 
@@ -298,7 +283,7 @@ Retrieves the coordinates of the top-left corner of the given rectangle.
 method get-top-left ( CArray[N-Point] $p )
 =end code
 
-=item $p; return location for a #graphene_point_t.
+=item $p; return location for a B<Gnome::Graphene::N-Point>.
 
 =begin comment
 
@@ -319,7 +304,7 @@ Retrieves the coordinates of the top-right corner of the given rectangle.
 method get-top-right ( CArray[N-Point] $p )
 =end code
 
-=item $p; return location for a #graphene_point_t.
+=item $p; return location for a B<Gnome::Graphene::N-Point>.
 
 =begin comment
 
@@ -334,14 +319,14 @@ method get-top-right ( CArray[N-Point] $p )
 =begin pod
 =head2 get-vertices
 
-Computes the four vertices of a #graphene_rect_t.
+Computes the four vertices of a B<Gnome::Graphene::N-Rect>.
 
 =begin code
 method get-vertices ( CArray[N-Vec2] $vertices )
 =end code
 
 =item $vertices; return location for an array
- of 4 #graphene_vec2_t.
+ of 4 B<graphene_vec>2_t.
 
 =begin comment
 
@@ -421,9 +406,9 @@ Return value; the normalized Y coordinate of the rectangle.
 =begin pod
 =head2 init
 
-Initializes the given #graphene_rect_t with the given values.
+Initializes the given B<Gnome::Graphene::N-Rect> with the given values.
 
-This function will implicitly normalize the #graphene_rect_t
+This function will implicitly normalize the B<Gnome::Graphene::N-Rect>
 before returning.
 
 =begin code
@@ -452,14 +437,14 @@ Return value; the initialized rectangle.
 
 Initializes C<$r> using the given C<$src> rectangle.
 
-This function will implicitly normalize the #graphene_rect_t
+This function will implicitly normalize the B<Gnome::Graphene::N-Rect>
 before returning.
 
 =begin code
 method init-from-rect ( CArray[N-Rect] $src --> CArray[N-Rect] )
 =end code
 
-=item $src; a #graphene_rect_t.
+=item $src; a B<Gnome::Graphene::N-Rect>.
 
 Return value; the initialized rectangle. 
 
@@ -556,7 +541,7 @@ rectangles.
 method interpolate ( CArray[N-Rect] $b, Num() $factor, CArray[N-Rect] $res )
 =end code
 
-=item $b; a #graphene_rect_t.
+=item $b; a B<Gnome::Graphene::N-Rect>.
 =item $factor; the linear interpolation factor.
 =item $res; return location for the
   interpolated rectangle.
@@ -573,7 +558,6 @@ method interpolate ( CArray[N-Rect] $b, Num() $factor, CArray[N-Rect] $res )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 intersection
-This function is not yet available
 
 Computes the intersection of the two given rectangles.
 
@@ -585,12 +569,14 @@ If the two rectangles do not intersect, C<$res> will contain
 a degenerate rectangle with origin in (0, 0) and a size of 0.
 
 =begin code
-method intersection ( CArray[N-Rect] $b, CArray[N-Rect] $res )
+method intersection ( CArray[N-Rect] $b, CArray[N-Rect] $res --> gboolean )
 =end code
 
-=item $b; a #graphene_rect_t.
+=item $b; a B<Gnome::Graphene::N-Rect>.
 =item $res; return location for
-  a #graphene_rect_t.
+  a B<Gnome::Graphene::N-Rect>.
+
+Return value; B<true> if the two rectangles intersect. 
 
 =begin comment
 
@@ -785,8 +771,8 @@ The union in the image above is the blue outline.
 method union ( CArray[N-Rect] $b, CArray[N-Rect] $res )
 =end code
 
-=item $b; a #graphene_rect_t.
-=item $res; return location for a #graphene_rect_t.
+=item $b; a B<Gnome::Graphene::N-Rect>.
+=item $res; return location for a B<Gnome::Graphene::N-Rect>.
 
 =begin comment
 
@@ -809,7 +795,7 @@ method union ( CArray[N-Rect] $b, CArray[N-Rect] $res )
 =begin pod
 =head2 alloc
 
-Allocates a new #graphene_rect_t.
+Allocates a new B<Gnome::Graphene::N-Rect>.
 
 The contents of the returned rectangle are undefined.
 
