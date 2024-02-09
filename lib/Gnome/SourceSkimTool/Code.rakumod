@@ -91,7 +91,20 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
       RAKUMOD
   }
 
-  # Classes, records and unions
+  # Records and unions
+  elsif $h<gir-type> ~~ m/ [record | union] / {
+    my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
+    self.add-import('Gnome::N::TopLevelClassSupport');
+    $also ~= 'also is Gnome::N::TopLevelClassSupport;' ~ "\n";
+
+    $code ~= qq:to/RAKUMOD/;
+      {pod-header('Structure Declaration');}
+      unit class $classname\:auth<github:MARTIMM>:api<2>;
+      $also
+      RAKUMOD
+  }
+
+  # Classes
   else {
     my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
 #      unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
