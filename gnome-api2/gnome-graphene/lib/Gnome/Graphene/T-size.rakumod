@@ -9,6 +9,7 @@ use NativeCall;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -62,7 +63,7 @@ class N-Size:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  size-zero => %( :type(Function), :is-symbol<graphene_size_zero>,  :returns(N-Size)),
+  size-zero => %( :type(Function), :is-symbol<graphene_size_zero>,  :returns(N-Object)),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

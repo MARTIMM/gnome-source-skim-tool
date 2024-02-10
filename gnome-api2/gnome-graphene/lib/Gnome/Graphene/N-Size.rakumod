@@ -11,15 +11,18 @@ use NativeCall;
 use Gnome::Graphene::T-size:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Graphene::N-Size:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -54,7 +57,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -64,18 +67,18 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  alloc => %( :type(Constructor), :is-symbol<graphene_size_alloc>, :returns(N-Size), ),
+  alloc => %( :type(Constructor), :is-symbol<graphene_size_alloc>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  equal => %(:is-symbol<graphene_size_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Size])),
+  equal => %(:is-symbol<graphene_size_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   free => %(:is-symbol<graphene_size_free>, ),
-  init => %(:is-symbol<graphene_size_init>,  :returns(N-Size), :parameters([gfloat, gfloat])),
-  init-from-size => %(:is-symbol<graphene_size_init_from_size>,  :returns(N-Size), :parameters([N-Size])),
-  interpolate => %(:is-symbol<graphene_size_interpolate>,  :parameters([N-Size, gdouble, N-Size])),
-  scale => %(:is-symbol<graphene_size_scale>,  :parameters([gfloat, N-Size])),
+  init => %(:is-symbol<graphene_size_init>,  :returns(N-Object), :parameters([gfloat, gfloat])),
+  init-from-size => %(:is-symbol<graphene_size_init_from_size>,  :returns(N-Object), :parameters([N-Object])),
+  interpolate => %(:is-symbol<graphene_size_interpolate>,  :parameters([N-Object, gdouble, N-Object])),
+  scale => %(:is-symbol<graphene_size_scale>,  :parameters([gfloat, N-Object])),
 
   #--[Functions]----------------------------------------------------------------
-  zero => %( :type(Function), :is-symbol<graphene_size_zero>,  :returns(N-Size)),
+  zero => %( :type(Function), :is-symbol<graphene_size_zero>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------

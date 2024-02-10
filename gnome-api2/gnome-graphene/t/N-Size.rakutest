@@ -22,21 +22,16 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-Size $n-size;
+my Gnome::Graphene::N-Size ( $size, $size2);
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-size {
-
-#`{{
-    #TM:0:alloc()
-    ok .alloc(), '.alloc()';
-
-}}
-  }
+  #TM:1:alloc()
+  $size .= alloc();
+  ok $size.is-valid, '.alloc()';
 };
 
 #-------------------------------------------------------------------------------
@@ -50,41 +45,50 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $n-size {
+#  with $n-size {
     my CArray[N-Size] $res;
     my CArray[N-Size] $b;
-    my Num() $width;
-    my Num() $factor;
-    my Num() $height;
+    my Num() $width = 10e2;
+    my Num() $height = 20e3;
+    my Num() $factor = 5e-1;
     my CArray[N-Size] $src;
 
+    #TM:1:init()
+    $size.init( $width, $height);
+    my N-Size() $n-size = $size.get-native-object;
+    is $n-size.width, 1000e0, '.init() width: ' ~ $n-size.width;
+    is $n-size.height, 20000e0, '.init() height: ' ~ $n-size.height;
+
+    #TM:1:init-from-size()
+    $size2 .= alloc;
+    $size2.init-from-size($size);
+    $n-size = $size2.get-native-object;
+    is $n-size.width, 1000e0, '.init-from-size() width: ' ~ $n-size.width;
+
+    #TM:1:equal()
+    ok $size.equal($size2), '.equal()';
+
+    #TM:1:scale()
+    $size.scale( $factor, $n-size);
+    is $n-size.width, 5e2, '.scale() width: ' ~ $n-size.width;
+    is $n-size.height, 1e4, '.scale() width: ' ~ $n-size.height;
+
+    #TM:1:free() indirect call
+    $size2.clear-object;
+    ok !$size2.is-valid, '.free()';
 
 #`{{
-    #TM:0:equal()
-    ok .equal( $b), '.equal()';
-
-    #TM:0:free()
-    ok .free(), '.free()';
-
-    #TM:0:init()
-    ok .init( $width, $height), '.init()';
-
-    #TM:0:init-from-size()
-    ok .init-from-size( $src), '.init-from-size()';
-
     #TM:0:interpolate()
     ok .interpolate( $b, $factor, $res), '.interpolate()';
 
-    #TM:0:scale()
-    ok .scale( $factor, $res), '.scale()';
 
 }}
-  }
+#  }
 };
 
 #-------------------------------------------------------------------------------
-subtest 'Function tests', {
-  with $n-size {
+#subtest 'Function tests', {
+#  with $n-size {
 
 
 #`{{
@@ -92,8 +96,8 @@ subtest 'Function tests', {
     ok .zero(), '.zero()';
 
 }}
-  }
-};
+#  }
+#};
 
 #-------------------------------------------------------------------------------
 done-testing;
