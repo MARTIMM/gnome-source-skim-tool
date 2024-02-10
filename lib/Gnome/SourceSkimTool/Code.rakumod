@@ -1657,14 +1657,14 @@ method substitute-MODULE-IMPORTS (
 
   my $import = '';
   for $*external-modules.kv -> $m, $s {
-    next if $skip-n-mods and $m ~~ m/ '::N-' /;
+    next if $skip-n-mods and $m !~~ m/ '::N-Object' / and $m ~~ m/ '::N-' /;
     $import ~= "use $m;\n" if $s ~~ EMTRakudo;
   }
 
   $import ~= "\n";
 
   for $*external-modules.kv -> $m, $s {
-    next if $skip-n-mods and $m ~~ m/ '::N-' /;
+    next if $skip-n-mods and $m !~~ m/ '::N-Object' / and $m ~~ m/ '::N-' /;
     $import ~= "use $m;\n" if $s ~~ EMTInApi1;
   }
 
@@ -1673,7 +1673,7 @@ method substitute-MODULE-IMPORTS (
 #note "\n$?LINE ex: @exceptclasses.join(', ')";
   for $*external-modules.keys.sort -> $m {
 #note " $?LINE use $m, $*external-modules{$m}";
-    next if $skip-n-mods and $m ~~ m/ '::N-' /;
+    next if $skip-n-mods and $m !~~ m/ '::N-Object' / and $m ~~ m/ '::N-' /;
 
     if $*external-modules{$m} ~~ EMTNotImplemented {
       $import ~= "#use $m\:api\<2\>;\n";
@@ -1955,8 +1955,11 @@ method convert-ntype (
 
         when 'record' {
 #note "$?LINE record $orig-ctype $h.gist()";
-          $raku-type = $h<record-class>;
-          $raku-type = "CArray[$raku-type]" if $is-pointer;
+#          $raku-type = $h<record-class>;
+#          $raku-type = "CArray[$raku-type]" if $is-pointer;
+          $raku-type = 'N-Object';
+          self.add-import('Gnome::N::N-Object');
+
           my Str $class-name =
             $!solve.set-object-name( $h, :name-type(ClassnameType));
           self.add-import($class-name);
@@ -1971,9 +1974,11 @@ method convert-ntype (
 #NOTE changed somewhere? add-import creates cyclic dependency -> make it an Object;
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<class-name>);
-#          $raku-type = 'N-Object';
-          $raku-type = $h<record-class>;
-          $raku-type = "CArray[$raku-type]" if $is-pointer;
+#          $raku-type = $h<record-class>;
+#          $raku-type = "CArray[$raku-type]" if $is-pointer;
+          $raku-type = 'N-Object';
+          self.add-import('Gnome::N::N-Object');
+
           my $class-name =
             $!solve.set-object-name( $h, :name-type(ClassnameType));
           self.add-import($class-name);
@@ -2120,9 +2125,11 @@ method convert-rtype (
 #note "$?LINE record $orig-ctype $h.gist()";
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
-#          $raku-type = 'N-Object';
-          $raku-type = "$h<record-class>";
-          $raku-type = "CArray[$raku-type]" if $is-pointer;
+#          $raku-type = "$h<record-class>";
+#          $raku-type = "CArray[$raku-type]" if $is-pointer;
+          $raku-type = 'N-Object';
+          self.add-import('Gnome::N::N-Object');
+
           my $class-name =
             $!solve.set-object-name( $h, :name-type(ClassnameType));
           self.add-import($class-name);
@@ -2137,9 +2144,11 @@ method convert-rtype (
         when 'union' {
 #          $raku-type = "N-$h<gnome-name>";
 #          self.add-import($h<structure-name>);
-#          $raku-type = 'N-Object';
-          $raku-type = "$h<record-class>";
-          $raku-type = "CArray[$raku-type]" if $is-pointer;
+#          $raku-type = "$h<record-class>";
+#          $raku-type = "CArray[$raku-type]" if $is-pointer;
+          $raku-type = 'N-Object';
+          self.add-import('Gnome::N::N-Object');
+
           my $class-name =
             $!solve.set-object-name( $h, :name-type(ClassnameType));
           self.add-import($class-name);
