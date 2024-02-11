@@ -13,15 +13,18 @@ use Gnome::Graphene::T-rect:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Graphene::N-Rect:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -56,7 +59,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -64,41 +67,42 @@ method native-object-unref ( $n-native-object ) {
 #-------------------------------------------------------------------------------
 
 my Hash $methods = %(
+  #--[Constructors]-------------------------------------------------------------
+  alloc => %( :type(Constructor), :is-symbol<graphene_rect_alloc>,  :returns(N-Object)),
 
   #--[Methods]------------------------------------------------------------------
-  contains-point => %(:is-symbol<graphene_rect_contains_point>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point])),
-  contains-rect => %(:is-symbol<graphene_rect_contains_rect>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Rect])),
-  equal => %(:is-symbol<graphene_rect_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Rect])),
-  expand => %(:is-symbol<graphene_rect_expand>,  :parameters([N-Point, N-Rect])),
+  contains-point => %(:is-symbol<graphene_rect_contains_point>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  contains-rect => %(:is-symbol<graphene_rect_contains_rect>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  equal => %(:is-symbol<graphene_rect_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  expand => %(:is-symbol<graphene_rect_expand>,  :parameters([N-Object, N-Object])),
   free => %(:is-symbol<graphene_rect_free>, ),
   get-area => %(:is-symbol<graphene_rect_get_area>,  :returns(gfloat)),
-  get-bottom-left => %(:is-symbol<graphene_rect_get_bottom_left>,  :parameters([N-Point])),
-  get-bottom-right => %(:is-symbol<graphene_rect_get_bottom_right>,  :parameters([N-Point])),
-  get-center => %(:is-symbol<graphene_rect_get_center>,  :parameters([N-Point])),
+  get-bottom-left => %(:is-symbol<graphene_rect_get_bottom_left>,  :parameters([N-Object])),
+  get-bottom-right => %(:is-symbol<graphene_rect_get_bottom_right>,  :parameters([N-Object])),
+  get-center => %(:is-symbol<graphene_rect_get_center>,  :parameters([N-Object])),
   get-height => %(:is-symbol<graphene_rect_get_height>,  :returns(gfloat)),
-  get-top-left => %(:is-symbol<graphene_rect_get_top_left>,  :parameters([N-Point])),
-  get-top-right => %(:is-symbol<graphene_rect_get_top_right>,  :parameters([N-Point])),
-  get-vertices => %(:is-symbol<graphene_rect_get_vertices>,  :parameters([N-Vec2])),
+  get-top-left => %(:is-symbol<graphene_rect_get_top_left>,  :parameters([N-Object])),
+  get-top-right => %(:is-symbol<graphene_rect_get_top_right>,  :parameters([N-Object])),
+  get-vertices => %(:is-symbol<graphene_rect_get_vertices>,  :parameters([N-Object])),
   get-width => %(:is-symbol<graphene_rect_get_width>,  :returns(gfloat)),
   get-x => %(:is-symbol<graphene_rect_get_x>,  :returns(gfloat)),
   get-y => %(:is-symbol<graphene_rect_get_y>,  :returns(gfloat)),
-  init => %(:is-symbol<graphene_rect_init>,  :returns(N-Rect), :parameters([gfloat, gfloat, gfloat, gfloat])),
-  init-from-rect => %(:is-symbol<graphene_rect_init_from_rect>,  :returns(N-Rect), :parameters([N-Rect])),
-  inset => %(:is-symbol<graphene_rect_inset>,  :returns(N-Rect), :parameters([gfloat, gfloat])),
-  inset-r => %(:is-symbol<graphene_rect_inset_r>,  :parameters([gfloat, gfloat, N-Rect])),
-  interpolate => %(:is-symbol<graphene_rect_interpolate>,  :parameters([N-Rect, gdouble, N-Rect])),
-  intersection => %(:is-symbol<graphene_rect_intersection>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Rect, N-Rect])),
-  normalize => %(:is-symbol<graphene_rect_normalize>,  :returns(N-Rect)),
-  normalize-r => %(:is-symbol<graphene_rect_normalize_r>,  :parameters([N-Rect])),
-  offset => %(:is-symbol<graphene_rect_offset>,  :returns(N-Rect), :parameters([gfloat, gfloat])),
-  offset-r => %(:is-symbol<graphene_rect_offset_r>,  :parameters([gfloat, gfloat, N-Rect])),
-  round-extents => %(:is-symbol<graphene_rect_round_extents>,  :parameters([N-Rect])),
-  scale => %(:is-symbol<graphene_rect_scale>,  :parameters([gfloat, gfloat, N-Rect])),
-  union => %(:is-symbol<graphene_rect_union>,  :parameters([N-Rect, N-Rect])),
+  init => %(:is-symbol<graphene_rect_init>,  :returns(N-Object), :parameters([gfloat, gfloat, gfloat, gfloat])),
+  init-from-rect => %(:is-symbol<graphene_rect_init_from_rect>,  :returns(N-Object), :parameters([N-Object])),
+  inset => %(:is-symbol<graphene_rect_inset>,  :returns(N-Object), :parameters([gfloat, gfloat])),
+  inset-r => %(:is-symbol<graphene_rect_inset_r>,  :parameters([gfloat, gfloat, N-Object])),
+  interpolate => %(:is-symbol<graphene_rect_interpolate>,  :parameters([N-Object, gdouble, N-Object])),
+  intersection => %(:is-symbol<graphene_rect_intersection>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object])),
+  normalize => %(:is-symbol<graphene_rect_normalize>,  :returns(N-Object)),
+  normalize-r => %(:is-symbol<graphene_rect_normalize_r>,  :parameters([N-Object])),
+  offset => %(:is-symbol<graphene_rect_offset>,  :returns(N-Object), :parameters([gfloat, gfloat])),
+  offset-r => %(:is-symbol<graphene_rect_offset_r>,  :parameters([gfloat, gfloat, N-Object])),
+  round-extents => %(:is-symbol<graphene_rect_round_extents>,  :parameters([N-Object])),
+  scale => %(:is-symbol<graphene_rect_scale>,  :parameters([gfloat, gfloat, N-Object])),
+  union => %(:is-symbol<graphene_rect_union>,  :parameters([N-Object, N-Object])),
 
   #--[Functions]----------------------------------------------------------------
-  alloc => %( :type(Function), :is-symbol<graphene_rect_alloc>,  :returns(N-Rect)),
-  zero => %( :type(Function), :is-symbol<graphene_rect_zero>,  :returns(N-Rect)),
+  zero => %( :type(Function), :is-symbol<graphene_rect_zero>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------

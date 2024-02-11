@@ -9,13 +9,13 @@ use v6.d;
 use Test;
 use NativeCall;
 
-
-use Gnome::Graphene::N-Point:api<2>;
+#use Gnome::Graphene::N-Point:api<2>;
 use Gnome::Graphene::N-Rect:api<2>;
-use Gnome::Graphene::N-Vec2:api<2>;
+#use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::Graphene::T-point:api<2>;
 use Gnome::Graphene::T-rect:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
+use Gnome::Graphene::T-size:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -26,18 +26,18 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-Rect $n-rect;
+my Gnome::Graphene::N-Rect ( $rect, $rect2);
+my N-Rect() $n-rect;
+my N-Point() $n-point;
+my N-Size() $n-size;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-rect {
-
-#`{{
-}}
-  }
+  $rect .= alloc;
+  ok $rect.is-valid, '.alloc';
 };
 
 #-------------------------------------------------------------------------------
@@ -51,22 +51,57 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $n-rect {
     my Num() $d-y;
-    my Num() $width;
+    my Num() $width = 5e0;
+    my Num() $height = 5e0;
     my Num() $d-x;
     my CArray[N-Vec2] $vertices;
-    my Num() $y;
+    my Num() $x = 10e0;
+    my Num() $y = 10e0;
     my CArray[N-Rect] $src;
     my Num() $s-v;
     my CArray[N-Rect] $res;
     my CArray[N-Point] $p;
-    my Num() $x;
-    my Num() $height;
     my Num() $s-h;
     my CArray[N-Rect] $b;
     my Num() $factor;
 
+#Gnome::N::debug(:on);
+    #TM:1:init()
+    $rect.init( $x, $y, $width, $height);
+
+    #TM:1:get-x()
+    is $rect.get-x(), $x, '.get-x()';
+
+    #TM:1:get-y()
+    is $rect.get-y(), $y, '.get-y()';
+
+    #TM:1:get-width()
+    is $rect.get-width(), $width, '.get-width()';
+
+    #TM:1:get-height()
+    is $rect.get-height(), $height, '.get-height()';
+
+    #TM::init-from-rect()
+    $rect2 .= alloc;
+    $rect2.init-from-rect($rect);
+    is $rect2.get-height(), $height, '.init-from-rect()';
+
+    #TM:1:equal()
+    ok $rect.equal($rect2), '.equal()';
+
+    #TM:1:get-center()
+    $n-point .= new;
+    $rect.get-center($n-point);
+    is $n-point.x, $x + ½ * $width, '.get-center()';
+
+    #TM:1:get-area()
+    is $rect.get-area($n-point), $width * $height, '.area()';
+
+
+    #TM:1:free() implicit
+    $rect2.clear-object;
+    ok !$rect2.is-valid, '.free()';
 
 #`{{
     #TM:0:contains-point()
@@ -75,17 +110,8 @@ subtest 'Method tests', {
     #TM:0:contains-rect()
     ok .contains-rect( $b), '.contains-rect()';
 
-    #TM:0:equal()
-    ok .equal( $b), '.equal()';
-
     #TM:0:expand()
     ok .expand( $p, $res), '.expand()';
-
-    #TM:0:free()
-    ok .free(), '.free()';
-
-    #TM:0:get-area()
-     .get-area(), '…', '.get-area()';
 
     #TM:0:get-bottom-left()
     is .get-bottom-left( $p), '…', '.get-bottom-left()';
@@ -93,11 +119,6 @@ subtest 'Method tests', {
     #TM:0:get-bottom-right()
     is .get-bottom-right( $p), '…', '.get-bottom-right()';
 
-    #TM:0:get-center()
-    is .get-center( $p), '…', '.get-center()';
-
-    #TM:0:get-height()
-     .get-height(), '…', '.get-height()';
 
     #TM:0:get-top-left()
     is .get-top-left( $p), '…', '.get-top-left()';
@@ -107,21 +128,6 @@ subtest 'Method tests', {
 
     #TM:0:get-vertices()
     is .get-vertices( $vertices), '…', '.get-vertices()';
-
-    #TM:0:get-width()
-     .get-width(), '…', '.get-width()';
-
-    #TM:0:get-x()
-     .get-x(), '…', '.get-x()';
-
-    #TM:0:get-y()
-     .get-y(), '…', '.get-y()';
-
-    #TM:0:init()
-    ok .init( $x, $y, $width, $height), '.init()';
-
-    #TM:0:init-from-rect()
-    ok .init-from-rect( $src), '.init-from-rect()';
 
     #TM:0:inset()
     ok .inset( $d-x, $d-y), '.inset()';
@@ -157,7 +163,7 @@ subtest 'Method tests', {
     ok .union( $b, $res), '.union()';
 
 }}
-  }
+#  }
 };
 
 #-------------------------------------------------------------------------------

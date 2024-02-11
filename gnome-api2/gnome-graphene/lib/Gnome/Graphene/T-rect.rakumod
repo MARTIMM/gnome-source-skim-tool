@@ -6,11 +6,10 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Graphene::T-point:api<2>;
-use Gnome::Graphene::T-size:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -43,13 +42,15 @@ submethod BUILD ( ) {
 
 class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
-  has N-Point $.origin;
-  has N-Size $.size;
+  has N-Object $.origin;
+  has N-Object $.size;
 
-  submethod BUILD (
-    N-Point :$!origin, N-Size :$!size, 
+  submethod TWEAK (
+    N-Object :$origin, N-Object :$size, 
   ) {
-  }
+    $!origin := $origin if ?$origin;
+  $!size := $size if ?$size;
+}
 
   method COERCE ( $no --> N-Rect ) {
     note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
@@ -64,8 +65,8 @@ class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  rect-alloc => %( :type(Function), :is-symbol<graphene_rect_alloc>,  :returns(N-Rect)),
-  rect-zero => %( :type(Function), :is-symbol<graphene_rect_zero>,  :returns(N-Rect)),
+  rect-alloc => %( :type(Function), :is-symbol<graphene_rect_alloc>,  :returns(N-Object)),
+  rect-zero => %( :type(Function), :is-symbol<graphene_rect_zero>,  :returns(N-Object)),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
