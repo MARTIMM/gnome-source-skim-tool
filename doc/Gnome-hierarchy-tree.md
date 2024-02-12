@@ -355,6 +355,8 @@ Gnome::N::TopLevelClassSupport
 
 ```
 
+---
+
 # Administration of Gio types and classes
 
 Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelClassSupport**
@@ -412,6 +414,7 @@ Gnome::N::TopLevelClassSupport
 ├── T-MenuModel
 ```
 
+---
 # Administration of Gsk types and classes
 
 Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelClassSupport**
@@ -421,8 +424,49 @@ Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelCl
 ```
 GObject                                         Gnome::GObject::Object
 |                                               Gnome::Gsk::*
+├── Renderer
+│   ├── CairoRenderer
+│   ├── GLRenderer
+│   ├── NglRenderer
+│   ├── VulkanRenderer
+├── GLShader
+
+GObjectTypeInstance
+├── RenderNode
+│   ├── BlendNode
+│   ├── BlurNode
+│   ├── BorderNode
+│   ├── CairoNode
+│   ├── ClipNode
+│   ├── ColorMatrixNode
+│   ├── ColorNode
+│   ├── ConicGradientNode
+│   ├── ContainerNode
+│   ├── CrossFadeNode
+│   ├── DebugNode
+│   ├── FillNode
+│   ├── GLShaderNode
+│   ├── InsetShadowNode
+│   ├── LinearGradientNode
+│   ├── MaskNode
+│   ├── OpacityNode
+│   ├── OutsetShadowNode
+│   ├── RadialGradientNode
+│   ├── RepeatNode
+│   ├── RepeatingLinearGradientNode
+│   ├── RepeatingRadialGradientNode
+│   ├── RoundedClipNode
+│   ├── ShadowNode
+│   ├── StrokeNode
+│   ├── SubsurfaceNode
+│   ├── TextNode
+│   ├── TextureNode
+│   ├── TextureScaleNode
+│   ├── TransformNode}
+
 ```
 
+---
 # Administration of Graphene types and classes
 
 Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelClassSupport**
