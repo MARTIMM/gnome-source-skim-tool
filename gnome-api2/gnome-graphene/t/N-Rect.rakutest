@@ -51,18 +51,14 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-    my Num() $d-y;
-    my Num() $width = 5e0;
-    my Num() $height = 5e0;
-    my Num() $d-x;
-    my CArray[N-Vec2] $vertices;
     my Num() $x = 10e0;
     my Num() $y = 10e0;
+    my Num() $width = 5e0;
+    my Num() $height = 5e0;
+    my CArray[N-Vec2] $vertices;
     my CArray[N-Rect] $src;
-    my Num() $s-v;
     my CArray[N-Rect] $res;
     my CArray[N-Point] $p;
-    my Num() $s-h;
     my CArray[N-Rect] $b;
     my Num() $factor;
 
