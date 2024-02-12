@@ -1,0 +1,194 @@
+=comment Package: Gsk4, C-Source: types
+use v6.d;
+
+#TL:1:Gnome::Gsk4::T-types:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Glib::N-String:api<2>;
+#use Gnome::Glib::T-string:api<2>;
+use Gnome::Graphene::N-Matrix:api<2>;
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::T-matrix:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::Gsk4::T-enums:api<2>;
+use Gnome::Gsk4::T-types:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gsk4::T-types $t-types;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $t-types {
+
+#`{{
+    #TC:0:new-transform()
+
+    $t-types .= new-transform();
+    ok .is-valid, '.new-transform()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $t-types {
+    my N-Object $string;
+    my N-Object $axis;
+    my Num() $factor-y;
+    my Num() $out-xx;
+    my Num() $out-dx;
+    my N-Object $point;
+    my Num() $out-skew-y;
+    my Num() $out-dy;
+    my Num() $out-xy;
+    my N-Object $second;
+    my Num() $skew-x;
+    my Num() $factor-x;
+    my N-Object $matrix;
+    my Num() $out-angle;
+    my Num() $skew-y;
+    my Num() $angle;
+    my Num() $depth;
+    my Num() $out-yy;
+    my Num() $out-yx;
+    my N-Object $out-matrix;
+    my Num() $out-skew-x;
+    my N-Object $out-point;
+    my Num() $out-scale-x;
+    my N-Object $other;
+    my Num() $out-scale-y;
+    my N-Object $rect;
+    my N-Object $out-rect;
+    my Num() $factor-z;
+
+
+#`{{
+    #TM:0:equal()
+    ok .equal( $second), '.equal()';
+
+    #TM:0:get-category()
+     .get-category(), '…', '.get-category()';
+
+    #TM:0:invert()
+    ok .invert(), '.invert()';
+
+    #TM:0:matrix()
+    ok .matrix( $matrix), '.matrix()';
+
+    #TM:0:perspective()
+    ok .perspective( $depth), '.perspective()';
+
+    #TM:0:print()
+    ok .print( $string), '.print()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:rotate()
+    ok .rotate( $angle), '.rotate()';
+
+    #TM:0:rotate-3d()
+    ok .rotate-3d( $angle, $axis), '.rotate-3d()';
+
+    #TM:0:scale()
+    ok .scale( $factor-x, $factor-y), '.scale()';
+
+    #TM:0:scale-3d()
+    ok .scale-3d( $factor-x, $factor-y, $factor-z), '.scale-3d()';
+
+    #TM:0:skew()
+    ok .skew( $skew-x, $skew-y), '.skew()';
+
+    #TM:0:to-2d()
+    ok .to-2d( $out-xx, $out-yx, $out-xy, $out-yy, $out-dx, $out-dy), '.to-2d()';
+
+    #TM:0:to-2d-components()
+    ok .to-2d-components( $out-skew-x, $out-skew-y, $out-scale-x, $out-scale-y, $out-angle, $out-dx, $out-dy), '.to-2d-components()';
+
+    #TM:0:to-affine()
+    ok .to-affine( $out-scale-x, $out-scale-y, $out-dx, $out-dy), '.to-affine()';
+
+    #TM:0:to-matrix()
+    ok .to-matrix( $out-matrix), '.to-matrix()';
+
+    #TM:0:to-string()
+    ok .to-string(), '.to-string()';
+
+    #TM:0:to-translate()
+    ok .to-translate( $out-dx, $out-dy), '.to-translate()';
+
+    #TM:0:transform()
+    ok .transform( $other), '.transform()';
+
+    #TM:0:transform-bounds()
+    ok .transform-bounds( $rect, $out-rect), '.transform-bounds()';
+
+    #TM:0:transform-point()
+    ok .transform-point( $point, $out-point), '.transform-point()';
+
+    #TM:0:translate()
+    ok .translate( $point), '.translate()';
+
+    #TM:0:translate-3d()
+    ok .translate-3d( $point), '.translate-3d()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $t-types {
+    my N-Object $out-transform;
+    my Str $string;
+
+
+#`{{
+    #TM:0:parse()
+    ok .parse( $string, $out-transform), '.parse()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
