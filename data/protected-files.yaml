@@ -93,13 +93,20 @@ GdkPixbuf:
 Graphene:
   c:
   - N-Point                     # native-object-unref
-  - N-rect                      # native-object-unref
-#  - T-rect                      # import
-  - T-vec                       # import
+  - N-Point3D                   # native-object-unref
+  - N-Rect                      # native-object-unref, alloc == constructor
+  - N-Size                      # native-object-unref
+  - N-Quad                      # native-object-unref
+  - N-Vec2                      # native-object-unref
+  - N-Vec3                      # native-object-unref
+  - N-Vec4                      # native-object-unref
 
   t:
   - N-Point
   - N-Point3D
+  - N-Quad
+  - N-Rect
+  - N-Size
   - N-Vec2
   - N-Vec3
   - N-Vec4
