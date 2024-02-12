@@ -11,15 +11,18 @@ use NativeCall;
 use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Graphene::N-Vec4:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -54,7 +57,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -64,44 +67,44 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  alloc => %( :type(Constructor), :is-symbol<graphene_vec4_alloc>, :returns(N-Vec4), ),
+  alloc => %( :type(Constructor), :is-symbol<graphene_vec4_alloc>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add => %(:is-symbol<graphene_vec4_add>,  :parameters([N-Vec4, N-Vec4])),
-  divide => %(:is-symbol<graphene_vec4_divide>,  :parameters([N-Vec4, N-Vec4])),
-  dot => %(:is-symbol<graphene_vec4_dot>,  :returns(gfloat), :parameters([N-Vec4])),
-  equal => %(:is-symbol<graphene_vec4_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Vec4])),
+  add => %(:is-symbol<graphene_vec4_add>,  :parameters([N-Object, N-Object])),
+  divide => %(:is-symbol<graphene_vec4_divide>,  :parameters([N-Object, N-Object])),
+  dot => %(:is-symbol<graphene_vec4_dot>,  :returns(gfloat), :parameters([N-Object])),
+  equal => %(:is-symbol<graphene_vec4_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   free => %(:is-symbol<graphene_vec4_free>, ),
   get-w => %(:is-symbol<graphene_vec4_get_w>,  :returns(gfloat)),
   get-x => %(:is-symbol<graphene_vec4_get_x>,  :returns(gfloat)),
-  get-xy => %(:is-symbol<graphene_vec4_get_xy>,  :parameters([N-Vec2])),
-  get-xyz => %(:is-symbol<graphene_vec4_get_xyz>,  :parameters([N-Vec3])),
+  get-xy => %(:is-symbol<graphene_vec4_get_xy>,  :parameters([N-Object])),
+  get-xyz => %(:is-symbol<graphene_vec4_get_xyz>,  :parameters([N-Object])),
   get-y => %(:is-symbol<graphene_vec4_get_y>,  :returns(gfloat)),
   get-z => %(:is-symbol<graphene_vec4_get_z>,  :returns(gfloat)),
-  init => %(:is-symbol<graphene_vec4_init>,  :returns(N-Vec4), :parameters([gfloat, gfloat, gfloat, gfloat])),
-  init-from-float => %(:is-symbol<graphene_vec4_init_from_float>,  :returns(N-Vec4), :parameters([CArray[gfloat]])),
-  init-from-vec2 => %(:is-symbol<graphene_vec4_init_from_vec2>,  :returns(N-Vec4), :parameters([N-Vec2, gfloat, gfloat])),
-  init-from-vec3 => %(:is-symbol<graphene_vec4_init_from_vec3>,  :returns(N-Vec4), :parameters([N-Vec3, gfloat])),
-  init-from-vec4 => %(:is-symbol<graphene_vec4_init_from_vec4>,  :returns(N-Vec4), :parameters([N-Vec4])),
-  interpolate => %(:is-symbol<graphene_vec4_interpolate>,  :parameters([N-Vec4, gdouble, N-Vec4])),
+  init => %(:is-symbol<graphene_vec4_init>,  :returns(N-Object), :parameters([gfloat, gfloat, gfloat, gfloat])),
+  init-from-float => %(:is-symbol<graphene_vec4_init_from_float>,  :returns(N-Object), :parameters([CArray[gfloat]])),
+  init-from-vec2 => %(:is-symbol<graphene_vec4_init_from_vec2>,  :returns(N-Object), :parameters([N-Object, gfloat, gfloat])),
+  init-from-vec3 => %(:is-symbol<graphene_vec4_init_from_vec3>,  :returns(N-Object), :parameters([N-Object, gfloat])),
+  init-from-vec4 => %(:is-symbol<graphene_vec4_init_from_vec4>,  :returns(N-Object), :parameters([N-Object])),
+  interpolate => %(:is-symbol<graphene_vec4_interpolate>,  :parameters([N-Object, gdouble, N-Object])),
   length => %(:is-symbol<graphene_vec4_length>,  :returns(gfloat)),
-  max => %(:is-symbol<graphene_vec4_max>,  :parameters([N-Vec4, N-Vec4])),
-  min => %(:is-symbol<graphene_vec4_min>,  :parameters([N-Vec4, N-Vec4])),
-  multiply => %(:is-symbol<graphene_vec4_multiply>,  :parameters([N-Vec4, N-Vec4])),
-  near => %(:is-symbol<graphene_vec4_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Vec4, gfloat])),
-  negate => %(:is-symbol<graphene_vec4_negate>,  :parameters([N-Vec4])),
-  normalize => %(:is-symbol<graphene_vec4_normalize>,  :parameters([N-Vec4])),
-  scale => %(:is-symbol<graphene_vec4_scale>,  :parameters([gfloat, N-Vec4])),
-  subtract => %(:is-symbol<graphene_vec4_subtract>,  :parameters([N-Vec4, N-Vec4])),
+  max => %(:is-symbol<graphene_vec4_max>,  :parameters([N-Object, N-Object])),
+  min => %(:is-symbol<graphene_vec4_min>,  :parameters([N-Object, N-Object])),
+  multiply => %(:is-symbol<graphene_vec4_multiply>,  :parameters([N-Object, N-Object])),
+  near => %(:is-symbol<graphene_vec4_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gfloat])),
+  negate => %(:is-symbol<graphene_vec4_negate>,  :parameters([N-Object])),
+  normalize => %(:is-symbol<graphene_vec4_normalize>,  :parameters([N-Object])),
+  scale => %(:is-symbol<graphene_vec4_scale>,  :parameters([gfloat, N-Object])),
+  subtract => %(:is-symbol<graphene_vec4_subtract>,  :parameters([N-Object, N-Object])),
   to-float => %(:is-symbol<graphene_vec4_to_float>,  :parameters([CArray[gfloat]])),
 
   #--[Functions]----------------------------------------------------------------
-  one => %( :type(Function), :is-symbol<graphene_vec4_one>,  :returns(N-Vec4)),
-  w-axis => %( :type(Function), :is-symbol<graphene_vec4_w_axis>,  :returns(N-Vec4)),
-  x-axis => %( :type(Function), :is-symbol<graphene_vec4_x_axis>,  :returns(N-Vec4)),
-  y-axis => %( :type(Function), :is-symbol<graphene_vec4_y_axis>,  :returns(N-Vec4)),
-  z-axis => %( :type(Function), :is-symbol<graphene_vec4_z_axis>,  :returns(N-Vec4)),
-  zero => %( :type(Function), :is-symbol<graphene_vec4_zero>,  :returns(N-Vec4)),
+  one => %( :type(Function), :is-symbol<graphene_vec4_one>,  :returns(N-Object)),
+  w-axis => %( :type(Function), :is-symbol<graphene_vec4_w_axis>,  :returns(N-Object)),
+  x-axis => %( :type(Function), :is-symbol<graphene_vec4_x_axis>,  :returns(N-Object)),
+  y-axis => %( :type(Function), :is-symbol<graphene_vec4_y_axis>,  :returns(N-Object)),
+  z-axis => %( :type(Function), :is-symbol<graphene_vec4_z_axis>,  :returns(N-Object)),
+  zero => %( :type(Function), :is-symbol<graphene_vec4_zero>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------

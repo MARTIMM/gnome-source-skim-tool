@@ -11,15 +11,18 @@ use NativeCall;
 use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Graphene::N-Vec2:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -54,7 +57,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -64,36 +67,36 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  alloc => %( :type(Constructor), :is-symbol<graphene_vec2_alloc>, :returns(N-Vec2), ),
+  alloc => %( :type(Constructor), :is-symbol<graphene_vec2_alloc>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add => %(:is-symbol<graphene_vec2_add>,  :parameters([N-Vec2, N-Vec2])),
-  divide => %(:is-symbol<graphene_vec2_divide>,  :parameters([N-Vec2, N-Vec2])),
-  dot => %(:is-symbol<graphene_vec2_dot>,  :returns(gfloat), :parameters([N-Vec2])),
-  equal => %(:is-symbol<graphene_vec2_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Vec2])),
+  add => %(:is-symbol<graphene_vec2_add>,  :parameters([N-Object, N-Object])),
+  divide => %(:is-symbol<graphene_vec2_divide>,  :parameters([N-Object, N-Object])),
+  dot => %(:is-symbol<graphene_vec2_dot>,  :returns(gfloat), :parameters([N-Object])),
+  equal => %(:is-symbol<graphene_vec2_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   free => %(:is-symbol<graphene_vec2_free>, ),
   get-x => %(:is-symbol<graphene_vec2_get_x>,  :returns(gfloat)),
   get-y => %(:is-symbol<graphene_vec2_get_y>,  :returns(gfloat)),
-  init => %(:is-symbol<graphene_vec2_init>,  :returns(N-Vec2), :parameters([gfloat, gfloat])),
-  init-from-float => %(:is-symbol<graphene_vec2_init_from_float>,  :returns(N-Vec2), :parameters([CArray[gfloat]])),
-  init-from-vec2 => %(:is-symbol<graphene_vec2_init_from_vec2>,  :returns(N-Vec2), :parameters([N-Vec2])),
-  interpolate => %(:is-symbol<graphene_vec2_interpolate>,  :parameters([N-Vec2, gdouble, N-Vec2])),
+  init => %(:is-symbol<graphene_vec2_init>,  :returns(N-Object), :parameters([gfloat, gfloat])),
+  init-from-float => %(:is-symbol<graphene_vec2_init_from_float>,  :returns(N-Object), :parameters([CArray[gfloat]])),
+  init-from-vec2 => %(:is-symbol<graphene_vec2_init_from_vec2>,  :returns(N-Object), :parameters([N-Object])),
+  interpolate => %(:is-symbol<graphene_vec2_interpolate>,  :parameters([N-Object, gdouble, N-Object])),
   length => %(:is-symbol<graphene_vec2_length>,  :returns(gfloat)),
-  max => %(:is-symbol<graphene_vec2_max>,  :parameters([N-Vec2, N-Vec2])),
-  min => %(:is-symbol<graphene_vec2_min>,  :parameters([N-Vec2, N-Vec2])),
-  multiply => %(:is-symbol<graphene_vec2_multiply>,  :parameters([N-Vec2, N-Vec2])),
-  near => %(:is-symbol<graphene_vec2_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Vec2, gfloat])),
-  negate => %(:is-symbol<graphene_vec2_negate>,  :parameters([N-Vec2])),
-  normalize => %(:is-symbol<graphene_vec2_normalize>,  :parameters([N-Vec2])),
-  scale => %(:is-symbol<graphene_vec2_scale>,  :parameters([gfloat, N-Vec2])),
-  subtract => %(:is-symbol<graphene_vec2_subtract>,  :parameters([N-Vec2, N-Vec2])),
+  max => %(:is-symbol<graphene_vec2_max>,  :parameters([N-Object, N-Object])),
+  min => %(:is-symbol<graphene_vec2_min>,  :parameters([N-Object, N-Object])),
+  multiply => %(:is-symbol<graphene_vec2_multiply>,  :parameters([N-Object, N-Object])),
+  near => %(:is-symbol<graphene_vec2_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gfloat])),
+  negate => %(:is-symbol<graphene_vec2_negate>,  :parameters([N-Object])),
+  normalize => %(:is-symbol<graphene_vec2_normalize>,  :parameters([N-Object])),
+  scale => %(:is-symbol<graphene_vec2_scale>,  :parameters([gfloat, N-Object])),
+  subtract => %(:is-symbol<graphene_vec2_subtract>,  :parameters([N-Object, N-Object])),
   to-float => %(:is-symbol<graphene_vec2_to_float>,  :parameters([CArray[gfloat]])),
 
   #--[Functions]----------------------------------------------------------------
-  one => %( :type(Function), :is-symbol<graphene_vec2_one>,  :returns(N-Vec2)),
-  x-axis => %( :type(Function), :is-symbol<graphene_vec2_x_axis>,  :returns(N-Vec2)),
-  y-axis => %( :type(Function), :is-symbol<graphene_vec2_y_axis>,  :returns(N-Vec2)),
-  zero => %( :type(Function), :is-symbol<graphene_vec2_zero>,  :returns(N-Vec2)),
+  one => %( :type(Function), :is-symbol<graphene_vec2_one>,  :returns(N-Object)),
+  x-axis => %( :type(Function), :is-symbol<graphene_vec2_x_axis>,  :returns(N-Object)),
+  y-axis => %( :type(Function), :is-symbol<graphene_vec2_y_axis>,  :returns(N-Object)),
+  zero => %( :type(Function), :is-symbol<graphene_vec2_zero>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------

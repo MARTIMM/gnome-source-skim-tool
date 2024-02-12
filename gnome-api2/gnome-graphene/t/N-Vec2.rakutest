@@ -6,10 +6,10 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
-
+use Gnome::Graphene::N-Vec2:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -22,6 +22,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
+my Gnome::Graphene::N-Vec2 ( $vec, $vec2, $vec3);
 my N-Vec2 $n-vec2;
 
 #-------------------------------------------------------------------------------
@@ -29,13 +30,11 @@ my N-Vec2 $n-vec2;
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-vec2 {
+  given $vec {
 
-#`{{
-    #TM:0:alloc()
-    ok .alloc(), '.alloc()';
-
-}}
+    #TM:1:alloc()
+    $vec .= alloc;
+    ok .is-valid, '.alloc()';
   }
 };
 
@@ -50,16 +49,40 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $n-vec2 {
-    my Num() $y;
-    my CArray[N-Vec2] $src;
-    my Num() $dest;
-    my CArray[N-Vec2] $v2;
-    my CArray[N-Vec2] $res;
-    my Num() $x;
+  with $vec {
+    my Num() $y = 10;
+    my Num() $x = 10;
     my Num() $factor;
-    my Num() $epsilon;
-    my CArray[N-Vec2] $b;
+#    my Num() $epsilon;
+#    my N-Object $res;
+#    my N-Object $b;
+
+    #TM:1:init()
+    lives-ok { .init( $x, $y); }, '.init()';
+
+    #TM:1:get-x()
+    is .get-x(), $x, '.get-x()';
+
+    #TM:1:get-y()
+    is .get-y(), $y, '.get-y()';
+
+    #TM:1:init-from-float()
+    $vec2 .= alloc;
+    my $float-points = CArray[gfloat].new( 11e-1, 22e1);
+    $vec2.init-from-float($float-points);
+    is-approx $vec2.get-x, 1.1e0, '.init-from-float()';
+
+    #TM:1:init-from-vec2()
+    $vec3 .= alloc;
+    lives-ok { $vec3.init-from-vec2($vec2); }, '.init-from-vec2()';
+
+    #TM:1:equal()
+    ok $vec3.equal($vec2), '.equal()';
+
+
+    #TM:1:free() implicit
+    .clear-object;
+    ok !.is-valid, '.free()';
 
 
 #`{{
@@ -71,27 +94,6 @@ subtest 'Method tests', {
 
     #TM:0:dot()
     ok .dot( $b), '.dot()';
-
-    #TM:0:equal()
-    ok .equal( $v2), '.equal()';
-
-    #TM:0:free()
-    ok .free(), '.free()';
-
-    #TM:0:get-x()
-     .get-x(), '…', '.get-x()';
-
-    #TM:0:get-y()
-     .get-y(), '…', '.get-y()';
-
-    #TM:0:init()
-    ok .init( $x, $y), '.init()';
-
-    #TM:0:init-from-float()
-    ok .init-from-float( $src), '.init-from-float()';
-
-    #TM:0:init-from-vec2()
-    ok .init-from-vec2( $src), '.init-from-vec2()';
 
     #TM:0:interpolate()
     ok .interpolate( $v2, $factor, $res), '.interpolate()';
@@ -132,7 +134,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $n-vec2 {
+  with $vec {
 
 
 #`{{
