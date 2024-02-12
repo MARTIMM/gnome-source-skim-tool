@@ -26,6 +26,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
+my Gnome::Graphene::N-Quad ( $quad, $quad2, $quad3);
 my N-Quad $n-quad;
 
 #-------------------------------------------------------------------------------
@@ -33,12 +34,13 @@ my N-Quad $n-quad;
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-quad {
+  given $quad {
+
+    #TM:1:alloc()
+    $quad .= alloc;
+    ok .is-valid, '.alloc()';
 
 #`{{
-    #TM:0:alloc()
-    ok .alloc(), '.alloc()';
-
 }}
   }
 };
@@ -54,38 +56,65 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $n-quad {
+  with $quad {
     my  $index;
-    my CArray[N-Point] $p1;
-    my CArray[N-Rect] $r;
-    my CArray[N-Point] $p2;
-    my CArray[N-Point] $p;
+    my Gnome::Graphene::N-Point ( $p1, $p2, $p3, $p4);
+    my Gnome::Graphene::N-Rect $rect;
+    my N-Rect $n-rect .= new;
     my CArray[N-Point] $points;
-    my CArray[N-Point] $p4;
-    my CArray[N-Point] $p3;
+    my Num() $x = 10e0;
+    my Num() $y = 10e0;
+    my Num() $width = 5e0;
+    my Num() $height = 5e0;
+
+    #TM:1:init()
+#Gnome::N::debug(:on);
+    $p1 .= alloc; $p1.init( 11, 1);
+    $p2 .= alloc; $p2.init( 20, 2);
+    $p3 .= alloc; $p3.init( 21, 10);
+    $p4 .= alloc; $p4.init( 9, 9);
+    lives-ok { .init( $p1, $p2, $p3, $p4); }, '.init()';
+
+    #TM:1:init-from-points()
+    $quad2 .= alloc;
+    $points = CArray[N-Point].new(
+      nativecast( N-Point, $p1.get-native-object),
+      nativecast( N-Point, $p2.get-native-object),
+      nativecast( N-Point, $p3.get-native-object),
+      nativecast( N-Point, $p4.get-native-object)
+    );
+    lives-ok { $quad2.init-from-points($points); }, '.init-from-points()';
+
+    #TM:1:init-from-rect()
+    $rect .= alloc;
+    $quad3 .= alloc;
+    $rect.init( $x, $y, $width, $height);
+    lives-ok { $quad3.init-from-rect($rect); }, '.init-from-rect()';
+    $rect.clear-object;
+
+    #TM:1:bounds()
+    .bounds($n-rect);
+    $rect .= new(:native-object($n-rect));
+    is $rect.get-x, 9e0, '.bounds() x: ' ~ $rect.get-x;
+    is $rect.get-y, 1e0, '.bounds() y: ' ~ $rect.get-y;
+
+    #TM:1:contains()
+#    loop ( my Int $cx = 7; $cx < 24; $cx++ ) {
+#      $p4.init( $cx, 9);
+#      diag " \$p = ( $cx, 9) " ~ .contains($p4).Str;
+#    }
+
+    $p4.init( 15, 9);
+    ok .contains($p4), '.contains() ( 15, 9)';
 
 
+    #TM:1:free() implicit
+    .clear-object;
+    ok !.is-valid, '.free()';
 #`{{
-    #TM:0:bounds()
-    ok .bounds( $r), '.bounds()';
-
-    #TM:0:contains()
-    ok .contains( $p), '.contains()';
-
-    #TM:0:free()
-    ok .free(), '.free()';
 
     #TM:0:get-point()
     is .get-point( $index), '…', '.get-point()';
-
-    #TM:0:init()
-    ok .init( $p1, $p2, $p3, $p4), '.init()';
-
-    #TM:0:init-from-points()
-    ok .init-from-points( $points), '.init-from-points()';
-
-    #TM:0:init-from-rect()
-    ok .init-from-rect( $r), '.init-from-rect()';
 
 }}
   }
@@ -93,7 +122,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $n-quad {
+  with $quad {
 
 
 #`{{

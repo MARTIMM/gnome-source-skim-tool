@@ -7,24 +7,24 @@ use v6.d;
 
 use NativeCall;
 
-
-use Gnome::Graphene::N-Point:api<2>;
-use Gnome::Graphene::N-Rect:api<2>;
 use Gnome::Graphene::T-point:api<2>;
 use Gnome::Graphene::T-quad:api<2>;
 use Gnome::Graphene::T-rect:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Graphene::N-Quad:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -59,7 +59,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -69,16 +69,16 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  alloc => %( :type(Constructor), :is-symbol<graphene_quad_alloc>, :returns(N-Quad), ),
+  alloc => %( :type(Constructor), :is-symbol<graphene_quad_alloc>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  bounds => %(:is-symbol<graphene_quad_bounds>,  :parameters([N-Rect])),
-  contains => %(:is-symbol<graphene_quad_contains>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point])),
+  bounds => %(:is-symbol<graphene_quad_bounds>,  :parameters([N-Object])),
+  contains => %(:is-symbol<graphene_quad_contains>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   free => %(:is-symbol<graphene_quad_free>, ),
-  #get-point => %(:is-symbol<graphene_quad_get_point>,  :returns(N-Point)),
-  init => %(:is-symbol<graphene_quad_init>,  :returns(N-Quad), :parameters([N-Point, N-Point, N-Point, N-Point])),
-  init-from-points => %(:is-symbol<graphene_quad_init_from_points>,  :returns(N-Quad), :parameters([N-Point])),
-  init-from-rect => %(:is-symbol<graphene_quad_init_from_rect>,  :returns(N-Quad), :parameters([N-Rect])),
+  #get-point => %(:is-symbol<graphene_quad_get_point>,  :returns(N-Object)),
+  init => %(:is-symbol<graphene_quad_init>,  :returns(N-Object), :parameters([N-Object, N-Object, N-Object, N-Object])),
+  init-from-points => %(:is-symbol<graphene_quad_init_from_points>,  :returns(N-Object), :parameters([N-Object])),
+  init-from-rect => %(:is-symbol<graphene_quad_init_from_rect>,  :returns(N-Object), :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------
