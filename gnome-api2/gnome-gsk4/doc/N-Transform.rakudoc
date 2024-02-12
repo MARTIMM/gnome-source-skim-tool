@@ -1,0 +1,756 @@
+=comment Package: Gsk4, C-Source: types
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::N-Transform
+
+=head1 Description
+
+B<Gnome::Gsk4::N-Transform> is an object to describe transform matrices.
+
+Unlike B<Gnome::Graphene::N-Matrix>, B<Gnome::Gsk4::N-Transform> retains the steps in how
+a transform was constructed, and allows inspecting them. It is modeled
+after the way CSS describes transforms.
+
+B<Gnome::Gsk4::N-Transform> objects are immutable and cannot be changed after creation.
+This means code can safely expose them as properties of objects without
+having to worry about others changing them.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::Transform
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-transform
+
+No documentation of method new.
+
+=begin code
+method new-transform ( --> Gnome::Gsk4::Transform \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-transform
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks two transforms for equality.
+
+=begin code
+method equal ( N-Object $second --> Bool )
+=end code
+
+=item $second; the second transform
+
+Return value; C<True> if the two transforms perform the same operation. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-category
+
+Returns the category this transform belongs to.
+
+=begin code
+method get-category (--> GskTransformCategory )
+=end code
+
+Return value; The category of the transform. 
+
+=begin comment
+
+=head2 Example
+# Example for get-category
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invert
+
+Inverts the given transform.
+
+If C<$self> is not invertible, undefined is returned.
+Note that inverting undefined also returns undefined, which is
+the correct inverse of undefined. If you need to differentiate
+between those cases, you should check C<$self> is defined
+before calling this function.
+
+=begin code
+method invert (--> N-Object )
+=end code
+
+Return value; The inverted transform. 
+
+=begin comment
+
+=head2 Example
+# Example for invert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 matrix
+
+Multiplies C<$next> with the given C<$matrix>.
+
+=begin code
+method matrix ( N-Object $matrix --> N-Object )
+=end code
+
+=item $matrix; the matrix to multiply C<$next> with
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 perspective
+
+Applies a perspective projection transform.
+
+This transform scales points in X and Y based on their Z value,
+scaling points with positive Z values away from the origin, and
+those with negative Z values towards the origin. Points
+on the z=0 plane are unchanged.
+
+=begin code
+method perspective ( Num() $depth --> N-Object )
+=end code
+
+=item $depth; distance of the z=0 plane. Lower values give a more
+  flattened pyramid and therefore a more pronounced
+  perspective effect..
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for perspective
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 print
+
+Converts C<$self> into a human-readable string representation suitable
+for printing.
+
+The result of this function can later be parsed with
+C<.Transform.parse()>.
+
+=begin code
+method print ( N-Object $string )
+=end code
+
+=item $string; The string to print into
+
+=begin comment
+
+=head2 Example
+# Example for print
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Acquires a reference on the given B<Gnome::Gsk4::N-Transform>.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gsk4::N-Transform> with an additional reference. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 rotate
+
+Rotates C<$next> C<$angle> degrees in 2D - or in 3D-speak, around the z axis.
+
+=begin code
+method rotate ( Num() $angle --> N-Object )
+=end code
+
+=item $angle; the rotation angle, in degrees (clockwise).
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for rotate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 rotate-3d
+
+Rotates C<$next> C<$angle> degrees around C<$axis>.
+
+For a rotation in 2D space, use C<.rotate()>
+
+=begin code
+method rotate-3d ( Num() $angle, N-Object $axis --> N-Object )
+=end code
+
+=item $angle; the rotation angle, in degrees (clockwise).
+=item $axis; The rotation axis
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for rotate-3d
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scale
+
+Scales C<$next> in 2-dimensional space by the given factors.
+
+Use C<.scale-3d()> to scale in all 3 dimensions.
+
+=begin code
+method scale ( Num() $factor-x, Num() $factor-y --> N-Object )
+=end code
+
+=item $factor-x; scaling factor on the X axis.
+=item $factor-y; scaling factor on the Y axis.
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for scale
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scale-3d
+
+Scales C<$next> by the given factors.
+
+=begin code
+method scale-3d ( Num() $factor-x, Num() $factor-y, Num() $factor-z --> N-Object )
+=end code
+
+=item $factor-x; scaling factor on the X axis.
+=item $factor-y; scaling factor on the Y axis.
+=item $factor-z; scaling factor on the Z axis.
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for scale-3d
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 skew
+
+Applies a skew transform.
+
+=begin code
+method skew ( Num() $skew-x, Num() $skew-y --> N-Object )
+=end code
+
+=item $skew-x; skew factor, in degrees, on the X axis.
+=item $skew-y; skew factor, in degrees, on the Y axis.
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for skew
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-2d
+
+Converts a B<Gnome::Gsk4::N-Transform> to a 2D transformation matrix.
+ C<$self> must be a 2D transformation. If you are not
+sure, use C<.get-category()> >=
+%GSK_TRANSFORM_CATEGORY_2D to check.
+
+The returned values have the following layout:
+
+=begin comment
+  | xx yx |   |  a  b  0 |
+  | xy yy | = |  c  d  0 |
+  | dx dy |   | tx ty  1 |
+
+=end comment
+
+This function can be used to convert between a B<Gnome::Gsk4::N-Transform>
+and a matrix type from other 2D drawing libraries, in particular
+Cairo.
+
+=begin code
+method to-2d ( Num() $out-xx, Num() $out-yx, Num() $out-xy, Num() $out-yy, Num() $out-dx, Num() $out-dy )
+=end code
+
+=item $out-xx; (transfer ownership: full) return location for the xx member.
+=item $out-yx; (transfer ownership: full) return location for the yx member.
+=item $out-xy; (transfer ownership: full) return location for the xy member.
+=item $out-yy; (transfer ownership: full) return location for the yy member.
+=item $out-dx; (transfer ownership: full) return location for the x0 member.
+=item $out-dy; (transfer ownership: full) return location for the y0 member.
+
+=begin comment
+
+=head2 Example
+# Example for to-2d
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-2d-components
+
+Converts a B<Gnome::Gsk4::N-Transform> to 2D transformation factors.
+
+To recreate an equivalent transform from the factors returned
+by this function, use
+
+    gsk_transform_skew (
+        gsk_transform_scale (
+            gsk_transform_rotate (
+                gsk_transform_translate (NULL, &GRAPHENE_POINT_T (dx, dy)),
+                angle),
+            scale_x, scale_y),
+        skew_x, skew_y)
+ C<$self> must be a 2D transformation. If you are not sure, use
+
+    C<.get-category()> >= %GSK_TRANSFORM_CATEGORY_2D
+
+to check.
+
+=begin code
+method to-2d-components ( Num() $out-skew-x, Num() $out-skew-y, Num() $out-scale-x, Num() $out-scale-y, Num() $out-angle, Num() $out-dx, Num() $out-dy )
+=end code
+
+=item $out-skew-x; (transfer ownership: full) return location for the skew factor
+  in the  x direction.
+=item $out-skew-y; (transfer ownership: full) return location for the skew factor
+  in the  y direction.
+=item $out-scale-x; (transfer ownership: full) return location for the scale
+  factor in the x direction.
+=item $out-scale-y; (transfer ownership: full) return location for the scale
+  factor in the y direction.
+=item $out-angle; (transfer ownership: full) return location for the rotation angle.
+=item $out-dx; (transfer ownership: full) return location for the translation
+  in the x direction.
+=item $out-dy; (transfer ownership: full) return location for the translation
+  in the y direction.
+
+=begin comment
+
+=head2 Example
+# Example for to-2d-components
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-affine
+
+Converts a B<Gnome::Gsk4::N-Transform> to 2D affine transformation factors.
+
+To recreate an equivalent transform from the factors returned
+by this function, use
+
+    gsk_transform_scale (gsk_transform_translate (NULL,
+                                                  &GRAPHENE_POINT_T (dx, dy)),
+                         sx, sy)
+ C<$self> must be a 2D affine transformation. If you are not
+sure, use
+
+    C<.get-category()> >= %GSK_TRANSFORM_CATEGORY_2D_AFFINE
+
+to check.
+
+=begin code
+method to-affine ( Num() $out-scale-x, Num() $out-scale-y, Num() $out-dx, Num() $out-dy )
+=end code
+
+=item $out-scale-x; (transfer ownership: full) return location for the scale
+  factor in the x direction.
+=item $out-scale-y; (transfer ownership: full) return location for the scale
+  factor in the y direction.
+=item $out-dx; (transfer ownership: full) return location for the translation
+  in the x direction.
+=item $out-dy; (transfer ownership: full) return location for the translation
+  in the y direction.
+
+=begin comment
+
+=head2 Example
+# Example for to-affine
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-matrix
+
+Computes the actual value of C<$self> and stores it in C<$out-matrix>.
+
+The previous value of C<$out-matrix> will be ignored.
+
+=begin code
+method to-matrix ( N-Object $out-matrix )
+=end code
+
+=item $out-matrix; The matrix to set
+
+=begin comment
+
+=head2 Example
+# Example for to-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-string
+
+Converts a matrix into a string that is suitable for printing.
+
+The resulting string can be parsed with C<.Transform.parse()>.
+
+This is a wrapper around C<.print()>.
+
+=begin code
+method to-string (--> Str )
+=end code
+
+Return value; A new string for C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-translate
+
+Converts a B<Gnome::Gsk4::N-Transform> to a translation operation.
+ C<$self> must be a 2D transformation. If you are not
+sure, use
+
+    C<.get-category()> >= %GSK_TRANSFORM_CATEGORY_2D_TRANSLATE
+
+to check.
+
+=begin code
+method to-translate ( Num() $out-dx, Num() $out-dy )
+=end code
+
+=item $out-dx; (transfer ownership: full) return location for the translation
+  in the x direction.
+=item $out-dy; (transfer ownership: full) return location for the translation
+  in the y direction.
+
+=begin comment
+
+=head2 Example
+# Example for to-translate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 transform
+
+Applies all the operations from C<$other> to C<$next>.
+
+=begin code
+method transform ( N-Object $other --> N-Object )
+=end code
+
+=item $other; Transform to apply
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for transform
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 transform-bounds
+
+Transforms a B<Gnome::Graphene::N-Rect> using the given transform C<$self>.
+
+The result is the bounding box containing the coplanar quad.
+
+=begin code
+method transform-bounds ( N-Object $rect, N-Object $out-rect )
+=end code
+
+=item $rect; a B<Gnome::Graphene::N-Rect>
+=item $out-rect; return location for the bounds
+  of the transformed rectangle
+
+=begin comment
+
+=head2 Example
+# Example for transform-bounds
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 transform-point
+
+Transforms a B<Gnome::Graphene::N-Point> using the given transform C<$self>.
+
+=begin code
+method transform-point ( N-Object $point, N-Object $out-point )
+=end code
+
+=item $point; a B<Gnome::Graphene::N-Point>
+=item $out-point; return location for
+  the transformed point
+
+=begin comment
+
+=head2 Example
+# Example for transform-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 translate
+
+Translates C<$next> in 2-dimensional space by C<$point>.
+
+=begin code
+method translate ( N-Object $point --> N-Object )
+=end code
+
+=item $point; the point to translate the transform by
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for translate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 translate-3d
+
+Translates C<$next> by C<$point>.
+
+=begin code
+method translate-3d ( N-Object $point --> N-Object )
+=end code
+
+=item $point; the point to translate the transform by
+
+Return value; The new transform. 
+
+=begin comment
+
+=head2 Example
+# Example for translate-3d
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Releases a reference on the given B<Gnome::Gsk4::N-Transform>.
+
+If the reference was the last, the resources associated to the C<$self> are
+freed.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 parse
+
+Parses the given C<$string> into a transform and puts it in C<$out-transform>.
+
+Strings printed via C<.to-string()>
+can be read in again successfully using this function.
+
+If C<$string> does not describe a valid transform, C<False> is
+returned and undefined is put in C<$out-transform>.
+
+=begin code
+method parse ( Str $string, N-Object $out-transform --> Bool )
+=end code
+
+=item $string; the string to parse.
+=item $out-transform; (transfer ownership: full) The location to put the transform in
+
+Return value; C<True> if C<$string> described a valid transform.. 
+
+=begin comment
+
+=head2 Example
+# Example for parse
+
+=end comment
+
+=end pod
+

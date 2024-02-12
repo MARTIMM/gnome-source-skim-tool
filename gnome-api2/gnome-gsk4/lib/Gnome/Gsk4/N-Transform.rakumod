@@ -8,9 +8,17 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Glib::N-String:api<2>;
-#use Gnome::Gsk4::N-Transform:api<2>;
-use Gnome::Gsk4::T-Enums:api<2>;
+#use Gnome::Glib::T-string:api<2>;
+
+use Gnome::Graphene::T-matrix:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+
+use Gnome::Gsk4::T-enums:api<2>;
+use Gnome::Gsk4::T-types:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -20,18 +28,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gsk4::N-Transform:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-# This is an opaque type of which fields are not available.
-class N-Transform:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -76,36 +77,36 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-transform => %( :type(Constructor), :is-symbol<gsk_transform_new>, :returns(N-Transform ), ),
+  new-transform => %( :type(Constructor), :is-symbol<gsk_transform_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  #equal => %(:is-symbol<gsk_transform_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Transform ])),
-  #get-category => %(:is-symbol<gsk_transform_get_category>,  :returns(GEnum), :cnv-return(GskTransformCategory)),
-  #invert => %(:is-symbol<gsk_transform_invert>,  :returns(N-Transform )),
-  #matrix => %(:is-symbol<gsk_transform_matrix>,  :returns(N-Transform )),
-  #perspective => %(:is-symbol<gsk_transform_perspective>,  :returns(N-Transform ), :parameters([gfloat])),
-  #print => %(:is-symbol<gsk_transform_print>,  :parameters([N-String ])),
-  #ref => %(:is-symbol<gsk_transform_ref>,  :returns(N-Transform )),
-  #rotate => %(:is-symbol<gsk_transform_rotate>,  :returns(N-Transform ), :parameters([gfloat])),
-  #rotate-3d => %(:is-symbol<gsk_transform_rotate_3d>,  :returns(N-Transform ), :parameters([gfloat, ])),
-  #scale => %(:is-symbol<gsk_transform_scale>,  :returns(N-Transform ), :parameters([gfloat, gfloat])),
-  #scale-3d => %(:is-symbol<gsk_transform_scale_3d>,  :returns(N-Transform ), :parameters([gfloat, gfloat, gfloat])),
-  #skew => %(:is-symbol<gsk_transform_skew>,  :returns(N-Transform ), :parameters([gfloat, gfloat])),
-  #to-2d => %(:is-symbol<gsk_transform_to_2d>,  :parameters([, , , , , ])),
-  #to-2d-components => %(:is-symbol<gsk_transform_to_2d_components>,  :parameters([, , , , , , ])),
-  #to-affine => %(:is-symbol<gsk_transform_to_affine>,  :parameters([, , , ])),
-  #to-matrix => %(:is-symbol<gsk_transform_to_matrix>, ),
-  #to-string => %(:is-symbol<gsk_transform_to_string>,  :returns(Str)),
-  #to-translate => %(:is-symbol<gsk_transform_to_translate>,  :parameters([, ])),
-  #transform => %(:is-symbol<gsk_transform_transform>,  :returns(N-Transform ), :parameters([N-Transform ])),
-  #transform-bounds => %(:is-symbol<gsk_transform_transform_bounds>,  :parameters([, ])),
-  #transform-point => %(:is-symbol<gsk_transform_transform_point>,  :parameters([, ])),
-  #translate => %(:is-symbol<gsk_transform_translate>,  :returns(N-Transform )),
-  #translate-3d => %(:is-symbol<gsk_transform_translate_3d>,  :returns(N-Transform )),
-  #unref => %(:is-symbol<gsk_transform_unref>, ),
+  equal => %(:is-symbol<gsk_transform_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
+  get-category => %(:is-symbol<gsk_transform_get_category>,  :returns(GEnum), :cnv-return(GskTransformCategory )),
+  invert => %(:is-symbol<gsk_transform_invert>,  :returns(N-Object)),
+  matrix => %(:is-symbol<gsk_transform_matrix>,  :returns(N-Object), :parameters([N-Object])),
+  perspective => %(:is-symbol<gsk_transform_perspective>,  :returns(N-Object), :parameters([gfloat])),
+  print => %(:is-symbol<gsk_transform_print>,  :parameters([N-Object])),
+  ref => %(:is-symbol<gsk_transform_ref>,  :returns(N-Object)),
+  rotate => %(:is-symbol<gsk_transform_rotate>,  :returns(N-Object), :parameters([gfloat])),
+  rotate3d => %(:is-symbol<gsk_transform_rotate_3d>,  :returns(N-Object), :parameters([gfloat, N-Object])),
+  scale => %(:is-symbol<gsk_transform_scale>,  :returns(N-Object), :parameters([gfloat, gfloat])),
+  scale3d => %(:is-symbol<gsk_transform_scale_3d>,  :returns(N-Object), :parameters([gfloat, gfloat, gfloat])),
+  skew => %(:is-symbol<gsk_transform_skew>,  :returns(N-Object), :parameters([gfloat, gfloat])),
+  to2d => %(:is-symbol<gsk_transform_to_2d>,  :parameters([CArray[gfloat], CArray[gfloat], CArray[gfloat], CArray[gfloat], CArray[gfloat], CArray[gfloat]])),
+  to2d-components => %(:is-symbol<gsk_transform_to_2d_components>,  :parameters([CArray[gfloat], CArray[gfloat], CArray[gfloat], CArray[gfloat], CArray[gfloat], CArray[gfloat], CArray[gfloat]])),
+  to-affine => %(:is-symbol<gsk_transform_to_affine>,  :parameters([CArray[gfloat], CArray[gfloat], CArray[gfloat], CArray[gfloat]])),
+  to-matrix => %(:is-symbol<gsk_transform_to_matrix>,  :parameters([N-Object])),
+  to-string => %(:is-symbol<gsk_transform_to_string>,  :returns(Str)),
+  to-translate => %(:is-symbol<gsk_transform_to_translate>,  :parameters([CArray[gfloat], CArray[gfloat]])),
+  transform => %(:is-symbol<gsk_transform_transform>,  :returns(N-Object), :parameters([N-Object])),
+  transform-bounds => %(:is-symbol<gsk_transform_transform_bounds>,  :parameters([N-Object, N-Object])),
+  transform-point => %(:is-symbol<gsk_transform_transform_point>,  :parameters([N-Object, N-Object])),
+  translate => %(:is-symbol<gsk_transform_translate>,  :returns(N-Object), :parameters([N-Object])),
+  translate3d => %(:is-symbol<gsk_transform_translate_3d>,  :returns(N-Object), :parameters([N-Object])),
+  unref => %(:is-symbol<gsk_transform_unref>, ),
 
   #--[Functions]----------------------------------------------------------------
-  #parse => %( :type(Function), :is-symbol<gsk_transform_parse>,  :returns(gboolean), :parameters([ Str, CArray[N-Transform] ])),
+  parse => %( :type(Function), :is-symbol<gsk_transform_parse>,  :returns(gboolean), :parameters([ Str, N-Object])),
 );
 
 #-------------------------------------------------------------------------------
