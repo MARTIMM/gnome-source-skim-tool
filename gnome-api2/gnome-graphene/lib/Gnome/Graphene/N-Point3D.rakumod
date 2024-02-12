@@ -8,8 +8,6 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Graphene::N-Rect:api<2>;
-use Gnome::Graphene::N-Vec3:api<2>;
 use Gnome::Graphene::T-point3d:api<2>;
 use Gnome::Graphene::T-rect:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
@@ -17,14 +15,16 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Graphene::N-Point3D:auth<github:MARTIMM>:api<2>;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -59,7 +59,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -69,27 +69,27 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  alloc => %( :type(Constructor), :is-symbol<graphene_point3d_alloc>, :returns(N-Point3D), ),
+  alloc => %( :type(Constructor), :is-symbol<graphene_point3d_alloc>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  cross => %(:is-symbol<graphene_point3d_cross>,  :parameters([N-Point3D, N-Point3D])),
-  distance => %(:is-symbol<graphene_point3d_distance>,  :returns(gfloat), :parameters([N-Point3D, N-Vec3])),
-  dot => %(:is-symbol<graphene_point3d_dot>,  :returns(gfloat), :parameters([N-Point3D])),
-  equal => %(:is-symbol<graphene_point3d_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point3D])),
+  cross => %(:is-symbol<graphene_point3d_cross>,  :parameters([N-Object, N-Object])),
+  distance => %(:is-symbol<graphene_point3d_distance>,  :returns(gfloat), :parameters([N-Object, N-Object])),
+  dot => %(:is-symbol<graphene_point3d_dot>,  :returns(gfloat), :parameters([N-Object])),
+  equal => %(:is-symbol<graphene_point3d_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   free => %(:is-symbol<graphene_point3d_free>, ),
-  init => %(:is-symbol<graphene_point3d_init>,  :returns(N-Point3D), :parameters([gfloat, gfloat, gfloat])),
-  init-from-point => %(:is-symbol<graphene_point3d_init_from_point>,  :returns(N-Point3D), :parameters([N-Point3D])),
-  init-from-vec3 => %(:is-symbol<graphene_point3d_init_from_vec3>,  :returns(N-Point3D), :parameters([N-Vec3])),
-  interpolate => %(:is-symbol<graphene_point3d_interpolate>,  :parameters([N-Point3D, gdouble, N-Point3D])),
+  init => %(:is-symbol<graphene_point3d_init>,  :returns(N-Object), :parameters([gfloat, gfloat, gfloat])),
+  init-from-point => %(:is-symbol<graphene_point3d_init_from_point>,  :returns(N-Object), :parameters([N-Object])),
+  init-from-vec3 => %(:is-symbol<graphene_point3d_init_from_vec3>,  :returns(N-Object), :parameters([N-Object])),
+  interpolate => %(:is-symbol<graphene_point3d_interpolate>,  :parameters([N-Object, gdouble, N-Object])),
   length => %(:is-symbol<graphene_point3d_length>,  :returns(gfloat)),
-  near => %(:is-symbol<graphene_point3d_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Point3D, gfloat])),
-  normalize => %(:is-symbol<graphene_point3d_normalize>,  :parameters([N-Point3D])),
-  normalize-viewport => %(:is-symbol<graphene_point3d_normalize_viewport>,  :parameters([N-Rect, gfloat, gfloat, N-Point3D])),
-  scale => %(:is-symbol<graphene_point3d_scale>,  :parameters([gfloat, N-Point3D])),
-  to-vec3 => %(:is-symbol<graphene_point3d_to_vec3>,  :parameters([N-Vec3])),
+  near => %(:is-symbol<graphene_point3d_near>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, gfloat])),
+  normalize => %(:is-symbol<graphene_point3d_normalize>,  :parameters([N-Object])),
+  normalize-viewport => %(:is-symbol<graphene_point3d_normalize_viewport>,  :parameters([N-Object, gfloat, gfloat, N-Object])),
+  scale => %(:is-symbol<graphene_point3d_scale>,  :parameters([gfloat, N-Object])),
+  to-vec3 => %(:is-symbol<graphene_point3d_to_vec3>,  :parameters([N-Object])),
 
   #--[Functions]----------------------------------------------------------------
-  zero => %( :type(Function), :is-symbol<graphene_point3d_zero>,  :returns(N-Point3D)),
+  zero => %( :type(Function), :is-symbol<graphene_point3d_zero>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------

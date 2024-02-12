@@ -9,6 +9,7 @@ use NativeCall;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 
@@ -63,7 +64,7 @@ class N-Point3D:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  point3d-zero => %( :type(Function), :is-symbol<graphene_point3d_zero>,  :returns(N-Point3D)),
+  point3d-zero => %( :type(Function), :is-symbol<graphene_point3d_zero>,  :returns(N-Object)),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

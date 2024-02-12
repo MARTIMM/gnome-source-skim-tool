@@ -9,6 +9,10 @@ use v6.d;
 use Test;
 use NativeCall;
 
+use Gnome::Graphene::N-Point3D:api<2>;
+#use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
 
 use Gnome::Graphene::T-point3d:api<2>;
 use Gnome::Graphene::T-rect:api<2>;
@@ -25,19 +29,18 @@ use Gnome::N::X:api<2>;
 
 #Gnome::N::debug(:on);
 my N-Point3D $n-point3d;
+my Gnome::Graphene::N-Point3D ( $point3d, $point3d1);
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-point3d {
+  given $point3d {
 
-#`{{
     #TM:0:alloc()
-    ok .alloc(), '.alloc()';
-
-}}
+    $point3d .= alloc;
+    ok .is-valid, '.alloc()';
   }
 };
 
@@ -52,21 +55,38 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $n-point3d {
-    my CArray[N-Rect] $viewport;
-    my Num() $y;
-    my Num() $x;
-    my Num() $z-near;
+  with $point3d {
+    my Num() $x = 10;
+    my Num() $y = 11;
+    my Num() $z = 0;
     my Num() $factor;
-    my CArray[N-Point3D] $src;
-    my CArray[N-Vec3] $delta;
-    my CArray[N-Vec3] $v;
-    my Num() $epsilon;
-    my CArray[N-Point3D] $res;
-    my Num() $z-far;
-    my Num() $z;
-    my CArray[N-Point3D] $b;
+#    my CArray[N-Rect] $viewport;
+#    my CArray[N-Point3D] $src;
+#    my CArray[N-Vec3] $delta;
+#    my CArray[N-Vec3] $v;
+#    my Num() $epsilon;
+#    my CArray[N-Point3D] $res;
+#    my Num() $z-near;
+#    my Num() $z-far;
+#    my CArray[N-Point3D] $b;
 
+    #TM:1:init()
+    lives-ok { .init( $x, $y, $z); }, '.init()';
+
+    #TM:1:length()
+    is-approx .length, sqrt(100 + 121), '.length()';
+
+    #TM:1:init-from-point()
+    $point3d1 .= alloc;
+    lives-ok { $point3d1.init-from-point($point3d) }, '.init-from-point()';
+
+    #TM:1:equal()
+    ok .equal($point3d1), '.equal()';
+
+
+    #TM:1:free() implicit
+    .clear-object;
+    ok !.is-valid, '.free()';
 
 #`{{
     #TM:0:cross()
@@ -78,26 +98,12 @@ subtest 'Method tests', {
     #TM:0:dot()
     ok .dot( $b), '.dot()';
 
-    #TM:0:equal()
-    ok .equal( $b), '.equal()';
-
-    #TM:0:free()
-    ok .free(), '.free()';
-
-    #TM:0:init()
-    ok .init( $x, $y, $z), '.init()';
-
-    #TM:0:init-from-point()
-    ok .init-from-point( $src), '.init-from-point()';
 
     #TM:0:init-from-vec3()
     ok .init-from-vec3( $v), '.init-from-vec3()';
 
     #TM:0:interpolate()
     ok .interpolate( $b, $factor, $res), '.interpolate()';
-
-    #TM:0:length()
-    ok .length(), '.length()';
 
     #TM:0:near()
     ok .near( $b, $epsilon), '.near()';
@@ -120,7 +126,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $n-point3d {
+  with $point3d {
 
 
 #`{{
