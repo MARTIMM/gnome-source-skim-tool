@@ -67,7 +67,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
