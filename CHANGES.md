@@ -24,8 +24,6 @@
   * See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
   * https://docs.raku.org/language/compilation#$*REPO
 
-* TODO Check failing COERCE of gnome classes.
-
 * GdkPixdata is deprecated. Not needed to implement.
 
 ### Testing command with timing -o for dump to file
@@ -76,7 +74,8 @@ find . -name '*.raku*' | xargs wc -l
   * Introducing `Gnome::Gsk4` and `Gnome::Graphene`.
   * Graphene vector module have circular dependencies. Extracted the N-* structs
     from these modules into **Gnome::Graphene::N-Vectors**. I think that structures, being types, should also go into a type file, those beginning with 'T-'. Also, unions must go there. So for the above extraction, N-Vectors must then be renamed into T-Vec2, T-Vec3 and T-Vec4. The structures are still named and exported as N-Vec2, N-Vec3 and N-Vec4.
-  * After some search on the internet I found a blog which supports my feeling that Graphene and Gsk are working together in such a way that Cairo is not necessary anymore to implement for the Gtk 4 version. Found it [in this blog](https://blog.gtk.org/2023/09/19/paths-in-gtk/) where the first line states "It is no secret that we want to get rid of cairo as the drawing API in GTK, so we can move more of our drawing onto the GPU.". An interesting article by the way.
+  * After some search on the internet I found a blog which supports my feeling that Graphene and Gsk are working together in such a way that Cairo is not necessary anymore to implement for the Gtk 4 version. Found it [in this blog](https://blog.gtk.org/2023/09/19/paths-in-gtk/) where the first line states "It is no secret that we want to get rid of cairo as the drawing API in GTK, so we can move more of our drawing onto the GPU.".
+  An interesting article by the way. To do the drawing, there is [this blog](https://blog.gtk.org/2020/04/24/custom-widgets-in-gtk-4-drawing/)
 
 * 2024-01-12 0.14.1
   * Coerse test works now after updating raku compiler. Version now: 
