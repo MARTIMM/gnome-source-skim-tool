@@ -1,0 +1,348 @@
+=comment Package: Graphene, C-Source: matrix
+use v6.d;
+
+#TL:1:Gnome::Graphene::T-matrix:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Graphene::N-Box:api<2>;
+#use Gnome::Graphene::N-Euler:api<2>;
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Quad:api<2>;
+#use Gnome::Graphene::N-Quaternion:api<2>;
+#use Gnome::Graphene::N-Ray:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+#use Gnome::Graphene::N-Sphere:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec4:api<2>;
+#use Gnome::Graphene::T-box:api<2>;
+#use Gnome::Graphene::T-euler:api<2>;
+use Gnome::Graphene::T-matrix:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-quad:api<2>;
+#use Gnome::Graphene::T-quaternion:api<2>;
+#use Gnome::Graphene::T-ray:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+#use Gnome::Graphene::T-sphere:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Graphene::T-matrix $t-matrix;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $t-matrix {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $t-matrix {
+    my Num() $z-near;
+    my N-Object $e;
+    my N-Object $point;
+    my Num() $y0;
+    my Num() $factor-z;
+    my N-Object $src;
+    my Num() $fovy;
+    my N-Object $s;
+    my N-Object $axis;
+    my N-Object $perspective;
+    my N-Object $shear;
+    my Num() $x0;
+    my Num() $x;
+    my Num() $xx;
+    my Num() $y;
+    my  $col;
+    my N-Object $bounds;
+    my  $row;
+    my Num() $epsilon;
+    my N-Object $v0;
+    my Num() $yy;
+    my N-Object $v1;
+    my Num() $bottom;
+    my N-Object $center;
+    my N-Object $modelview;
+    my N-Object $v2;
+    my Num() $factor;
+    my Num() $x-skew;
+    my N-Object $v3;
+    my  $index;
+    my N-Object $b;
+    my N-Object $v;
+    my Num() $xy;
+    my Num() $z-far;
+    my N-Object $up;
+    my N-Object $r;
+    my N-Object $translate;
+    my Num() $right;
+    my N-Object $q;
+    my N-Object $eye;
+    my Num() $factor-x;
+    my Num() $y-skew;
+    my N-Object $pos;
+    my Num() $aspect;
+    my Num() $yx;
+    my Num() $top;
+    my N-Object $res;
+    my Num() $z;
+    my N-Object $scale;
+    my Num() $depth;
+    my Num() $factor-y;
+    my N-Object $rotate;
+    my Num() $angle;
+    my N-Object $p;
+    my Num() $left;
+
+
+#`{{
+    #TM:0:decompose()
+    ok .decompose( $translate, $scale, $rotate, $shear, $perspective), '.decompose()';
+
+    #TM:0:determinant()
+    ok .determinant(), '.determinant()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:equal-fast()
+    ok .equal-fast( $b), '.equal-fast()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-row()
+    is .get-row( $index, $res), '…', '.get-row()';
+
+    #TM:0:get-value()
+    is .get-value( $row, $col), '…', '.get-value()';
+
+    #TM:0:get-x-scale()
+     .get-x-scale(), '…', '.get-x-scale()';
+
+    #TM:0:get-x-translation()
+     .get-x-translation(), '…', '.get-x-translation()';
+
+    #TM:0:get-y-scale()
+     .get-y-scale(), '…', '.get-y-scale()';
+
+    #TM:0:get-y-translation()
+     .get-y-translation(), '…', '.get-y-translation()';
+
+    #TM:0:get-z-scale()
+     .get-z-scale(), '…', '.get-z-scale()';
+
+    #TM:0:get-z-translation()
+     .get-z-translation(), '…', '.get-z-translation()';
+
+    #TM:0:init-from-2d()
+    ok .init-from-2d( $xx, $yx, $xy, $yy, $x0, $y0), '.init-from-2d()';
+
+    #TM:0:init-from-float()
+    ok .init-from-float( $v), '.init-from-float()';
+
+    #TM:0:init-from-matrix()
+    ok .init-from-matrix( $src), '.init-from-matrix()';
+
+    #TM:0:init-from-vec4()
+    ok .init-from-vec4( $v0, $v1, $v2, $v3), '.init-from-vec4()';
+
+    #TM:0:init-frustum()
+    ok .init-frustum( $left, $right, $bottom, $top, $z-near, $z-far), '.init-frustum()';
+
+    #TM:0:init-identity()
+    ok .init-identity(), '.init-identity()';
+
+    #TM:0:init-look-at()
+    ok .init-look-at( $eye, $center, $up), '.init-look-at()';
+
+    #TM:0:init-ortho()
+    ok .init-ortho( $left, $right, $top, $bottom, $z-near, $z-far), '.init-ortho()';
+
+    #TM:0:init-perspective()
+    ok .init-perspective( $fovy, $aspect, $z-near, $z-far), '.init-perspective()';
+
+    #TM:0:init-rotate()
+    ok .init-rotate( $angle, $axis), '.init-rotate()';
+
+    #TM:0:init-scale()
+    ok .init-scale( $x, $y, $z), '.init-scale()';
+
+    #TM:0:init-skew()
+    ok .init-skew( $x-skew, $y-skew), '.init-skew()';
+
+    #TM:0:init-translate()
+    ok .init-translate( $p), '.init-translate()';
+
+    #TM:0:interpolate()
+    ok .interpolate( $b, $factor, $res), '.interpolate()';
+
+    #TM:0:inverse()
+    ok .inverse( $res), '.inverse()';
+
+    #TM:0:is-2d()
+    ok .is-2d(), '.is-2d()';
+
+    #TM:0:is-backface-visible()
+    ok .is-backface-visible(), '.is-backface-visible()';
+
+    #TM:0:is-identity()
+    ok .is-identity(), '.is-identity()';
+
+    #TM:0:is-singular()
+    ok .is-singular(), '.is-singular()';
+
+    #TM:0:multiply()
+    ok .multiply( $b, $res), '.multiply()';
+
+    #TM:0:near()
+    ok .near( $b, $epsilon), '.near()';
+
+    #TM:0:normalize()
+    ok .normalize( $res), '.normalize()';
+
+    #TM:0:perspective()
+    ok .perspective( $depth, $res), '.perspective()';
+
+    #TM:0:print()
+    ok .print(), '.print()';
+
+    #TM:0:project-point()
+    ok .project-point( $p, $res), '.project-point()';
+
+    #TM:0:project-rect()
+    ok .project-rect( $r, $res), '.project-rect()';
+
+    #TM:0:project-rect-bounds()
+    ok .project-rect-bounds( $r, $res), '.project-rect-bounds()';
+
+    #TM:0:rotate()
+    ok .rotate( $angle, $axis), '.rotate()';
+
+    #TM:0:rotate-euler()
+    ok .rotate-euler( $e), '.rotate-euler()';
+
+    #TM:0:rotate-quaternion()
+    ok .rotate-quaternion( $q), '.rotate-quaternion()';
+
+    #TM:0:rotate-x()
+    ok .rotate-x( $angle), '.rotate-x()';
+
+    #TM:0:rotate-y()
+    ok .rotate-y( $angle), '.rotate-y()';
+
+    #TM:0:rotate-z()
+    ok .rotate-z( $angle), '.rotate-z()';
+
+    #TM:0:scale()
+    ok .scale( $factor-x, $factor-y, $factor-z), '.scale()';
+
+    #TM:0:skew-xy()
+    ok .skew-xy( $factor), '.skew-xy()';
+
+    #TM:0:skew-xz()
+    ok .skew-xz( $factor), '.skew-xz()';
+
+    #TM:0:skew-yz()
+    ok .skew-yz( $factor), '.skew-yz()';
+
+    #TM:0:to-2d()
+    ok .to-2d( $xx, $yx, $xy, $yy, $x0, $y0), '.to-2d()';
+
+    #TM:0:to-float()
+    ok .to-float( $v), '.to-float()';
+
+    #TM:0:transform-bounds()
+    ok .transform-bounds( $r, $res), '.transform-bounds()';
+
+    #TM:0:transform-box()
+    ok .transform-box( $b, $res), '.transform-box()';
+
+    #TM:0:transform-point()
+    ok .transform-point( $p, $res), '.transform-point()';
+
+    #TM:0:transform-point3d()
+    ok .transform-point3d( $p, $res), '.transform-point3d()';
+
+    #TM:0:transform-ray()
+    ok .transform-ray( $r, $res), '.transform-ray()';
+
+    #TM:0:transform-rect()
+    ok .transform-rect( $r, $res), '.transform-rect()';
+
+    #TM:0:transform-sphere()
+    ok .transform-sphere( $s, $res), '.transform-sphere()';
+
+    #TM:0:transform-vec3()
+    ok .transform-vec3( $v, $res), '.transform-vec3()';
+
+    #TM:0:transform-vec4()
+    ok .transform-vec4( $v, $res), '.transform-vec4()';
+
+    #TM:0:translate()
+    ok .translate( $pos), '.translate()';
+
+    #TM:0:transpose()
+    ok .transpose( $res), '.transpose()';
+
+    #TM:0:unproject-point3d()
+    ok .unproject-point3d( $modelview, $point, $res), '.unproject-point3d()';
+
+    #TM:0:untransform-bounds()
+    ok .untransform-bounds( $r, $bounds, $res), '.untransform-bounds()';
+
+    #TM:0:untransform-point()
+    ok .untransform-point( $p, $bounds, $res), '.untransform-point()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $t-matrix {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
