@@ -1,0 +1,184 @@
+=comment Package: Graphene, C-Source: box
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Box:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Box:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+#use Gnome::Graphene::N-Sphere:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::T-box:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+#use Gnome::Graphene::T-sphere:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Box $n-box;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-box {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-box {
+    my N-Object $center;
+    my N-Object $b;
+    my N-Object $vectors;
+    my N-Object $vec;
+    my N-Object $res;
+    my N-Object $max;
+    my N-Object $points;
+    my N-Object $sphere;
+    my N-Object $vertices;
+    my  $n-points;
+    my N-Object $src;
+    my  $n-vectors;
+    my N-Object $size;
+    my N-Object $point;
+    my N-Object $min;
+    my Num() $scalar;
+
+
+#`{{
+    #TM:0:contains-box()
+    ok .contains-box( $b), '.contains-box()';
+
+    #TM:0:contains-point()
+    ok .contains-point( $point), '.contains-point()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:expand()
+    ok .expand( $point, $res), '.expand()';
+
+    #TM:0:expand-scalar()
+    ok .expand-scalar( $scalar, $res), '.expand-scalar()';
+
+    #TM:0:expand-vec3()
+    ok .expand-vec3( $vec, $res), '.expand-vec3()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-bounding-sphere()
+    is .get-bounding-sphere( $sphere), '…', '.get-bounding-sphere()';
+
+    #TM:0:get-center()
+    is .get-center( $center), '…', '.get-center()';
+
+    #TM:0:get-depth()
+     .get-depth(), '…', '.get-depth()';
+
+    #TM:0:get-height()
+     .get-height(), '…', '.get-height()';
+
+    #TM:0:get-max()
+    is .get-max( $max), '…', '.get-max()';
+
+    #TM:0:get-min()
+    is .get-min( $min), '…', '.get-min()';
+
+    #TM:0:get-size()
+    is .get-size( $size), '…', '.get-size()';
+
+    #TM:0:get-vertices()
+    is .get-vertices( $vertices), '…', '.get-vertices()';
+
+    #TM:0:get-width()
+     .get-width(), '…', '.get-width()';
+
+    #TM:0:init()
+    ok .init( $min, $max), '.init()';
+
+    #TM:0:init-from-box()
+    ok .init-from-box( $src), '.init-from-box()';
+
+    #TM:0:init-from-points()
+    ok .init-from-points( $n-points, $points), '.init-from-points()';
+
+    #TM:0:init-from-vec3()
+    ok .init-from-vec3( $min, $max), '.init-from-vec3()';
+
+    #TM:0:init-from-vectors()
+    ok .init-from-vectors( $n-vectors, $vectors), '.init-from-vectors()';
+
+    #TM:0:intersection()
+    ok .intersection( $b, $res), '.intersection()';
+
+    #TM:0:union()
+    ok .union( $b, $res), '.union()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-box {
+
+
+#`{{
+    #TM:0:empty()
+    ok .empty(), '.empty()';
+
+    #TM:0:infinite()
+    ok .infinite(), '.infinite()';
+
+    #TM:0:minus-one()
+    ok .minus-one(), '.minus-one()';
+
+    #TM:0:one()
+    ok .one(), '.one()';
+
+    #TM:0:one-minus-one()
+    ok .one-minus-one(), '.one-minus-one()';
+
+    #TM:0:zero()
+    ok .zero(), '.zero()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

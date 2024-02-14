@@ -1,0 +1,57 @@
+=comment Package: Graphene, C-Source: box
+use v6.d;
+
+#TL:1:Gnome::Graphene::T-box:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Graphene::N-Box:api<2>;
+use Gnome::Graphene::T-box:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Graphene::T-box $box .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $box {
+
+
+#`{{
+    #TM:0:box-empty()
+    ok .box-empty(), '.box-empty()';
+
+    #TM:0:box-infinite()
+    ok .box-infinite(), '.box-infinite()';
+
+    #TM:0:box-minus-one()
+    ok .box-minus-one(), '.box-minus-one()';
+
+    #TM:0:box-one()
+    ok .box-one(), '.box-one()';
+
+    #TM:0:box-one-minus-one()
+    ok .box-one-minus-one(), '.box-one-minus-one()';
+
+    #TM:0:box-zero()
+    ok .box-zero(), '.box-zero()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

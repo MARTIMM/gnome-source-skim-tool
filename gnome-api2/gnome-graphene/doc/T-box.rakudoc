@@ -1,0 +1,189 @@
+=comment Package: Graphene, C-Source: box
+use v6.d;
+
+=begin pod
+=head1 Gnome::Graphene::T-box
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Box
+
+  class N-Box:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Object $.min;
+    has N-Object $.max;
+  }
+
+=item min; 
+=item max; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 box-empty
+
+A degenerate B<Gnome::Graphene::T-box> that can only be expanded.
+
+The returned value is owned by Graphene and should not be modified or freed.
+
+=begin code
+method box-empty (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Graphene::T-box>. 
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Box
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 box-infinite
+
+A degenerate B<Gnome::Graphene::T-box> that cannot be expanded.
+
+The returned value is owned by Graphene and should not be modified or freed.
+
+=begin code
+method box-infinite (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Graphene::T-box>. 
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 box-minus-one
+
+A B<Gnome::Graphene::T-box> with the minimum vertex set at (-1, -1, -1) and the
+maximum vertex set at (0, 0, 0).
+
+The returned value is owned by Graphene and should not be modified or freed.
+
+=begin code
+method box-minus-one (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Graphene::T-box>. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-box
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 box-one
+
+A B<Gnome::Graphene::T-box> with the minimum vertex set at (0, 0, 0) and the
+maximum vertex set at (1, 1, 1).
+
+The returned value is owned by Graphene and should not be modified or freed.
+
+=begin code
+method box-one (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Graphene::T-box>. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 box-one-minus-one
+
+A B<Gnome::Graphene::T-box> with the minimum vertex set at (-1, -1, -1) and the
+maximum vertex set at (1, 1, 1).
+
+The returned value is owned by Graphene and should not be modified or freed.
+
+=begin code
+method box-one-minus-one (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Graphene::T-box>. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 box-zero
+
+A B<Gnome::Graphene::T-box> with both the minimum and maximum vertices set at (0, 0, 0).
+
+The returned value is owned by Graphene and should not be modified or freed.
+
+=begin code
+method box-zero (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Graphene::T-box>. 
+
+=begin comment
+
+=head2 Example
+# Example for expand
+
+=end comment
+
+=end pod
+
