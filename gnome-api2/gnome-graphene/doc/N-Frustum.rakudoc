@@ -1,0 +1,284 @@
+=comment Package: Graphene, C-Source: frustum
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Frustum
+
+=head1 Description
+
+A 3D volume delimited by 2D clip planes.
+
+The contents of the B<Gnome::Graphene::N-Frustum> are private, and should not be
+modified directly.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Frustum
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new B<Gnome::Graphene::N-Frustum> structure.
+
+The contents of the returned structure are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Frustum \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains-point
+
+Checks whether a point is inside the volume defined by the given
+B<Gnome::Graphene::N-Frustum>.
+
+=begin code
+method contains-point ( N-Object $point --> gboolean )
+=end code
+
+=item $point; a B<graphene_point>3d_t
+
+Return value; B<true> if the point is inside the frustum. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks whether the two given B<Gnome::Graphene::N-Frustum> are equal.
+
+=begin code
+method equal ( N-Object $b --> gboolean )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Frustum>
+
+Return value; B<true> if the given frustums are equal. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-planes
+
+Retrieves the planes that define the given B<Gnome::Graphene::N-Frustum>.
+
+=begin code
+method get-planes ( N-Object $planes )
+=end code
+
+=item $planes; return location for an array
+  of 6 B<Gnome::Graphene::N-Plane>
+
+=begin comment
+
+=head2 Example
+# Example for get-planes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes the given B<Gnome::Graphene::N-Frustum> using the provided
+clipping planes.
+
+=begin code
+method init ( N-Object $p0, N-Object $p1, N-Object $p2, N-Object $p3, N-Object $p4, N-Object $p5 --> N-Object )
+=end code
+
+=item $p0; a clipping plane
+=item $p1; a clipping plane
+=item $p2; a clipping plane
+=item $p3; a clipping plane
+=item $p4; a clipping plane
+=item $p5; a clipping plane
+
+Return value; the initialized frustum. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-frustum
+
+Initializes the given B<Gnome::Graphene::N-Frustum> using the clipping
+planes of another B<Gnome::Graphene::N-Frustum>.
+
+=begin code
+method init-from-frustum ( N-Object $src --> N-Object )
+=end code
+
+=item $src; a B<Gnome::Graphene::N-Frustum>
+
+Return value; the initialized frustum. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-frustum
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-matrix
+
+Initializes a B<Gnome::Graphene::N-Frustum> using the given C<$matrix>.
+
+=begin code
+method init-from-matrix ( N-Object $matrix --> N-Object )
+=end code
+
+=item $matrix; a B<Gnome::Graphene::N-Matrix>
+
+Return value; the initialized frustum. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersects-box
+
+Checks whether the given C<$box> intersects a plane of
+a B<Gnome::Graphene::N-Frustum>.
+
+=begin code
+method intersects-box ( N-Object $box --> gboolean )
+=end code
+
+=item $box; a B<Gnome::Graphene::N-Box>
+
+Return value; B<true> if the box intersects the frustum. 
+
+=begin comment
+
+=head2 Example
+# Example for intersects-box
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersects-sphere
+
+Checks whether the given C<$sphere> intersects a plane of
+a B<Gnome::Graphene::N-Frustum>.
+
+=begin code
+method intersects-sphere ( N-Object $sphere --> gboolean )
+=end code
+
+=item $sphere; a B<Gnome::Graphene::N-Sphere>
+
+Return value; B<true> if the sphere intersects the frustum. 
+
+=begin comment
+
+=head2 Example
+# Example for intersects-sphere
+
+=end comment
+
+=end pod
+

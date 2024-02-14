@@ -1,0 +1,125 @@
+=comment Package: Graphene, C-Source: frustum
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Frustum:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Box:api<2>;
+use Gnome::Graphene::N-Frustum:api<2>;
+use Gnome::Graphene::N-Matrix:api<2>;
+use Gnome::Graphene::N-Plane:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Sphere:api<2>;
+use Gnome::Graphene::T-box:api<2>;
+use Gnome::Graphene::T-frustum:api<2>;
+use Gnome::Graphene::T-matrix:api<2>;
+use Gnome::Graphene::T-plane:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-sphere:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Frustum $n-frustum;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-frustum {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-frustum {
+    my N-Object $b;
+    my N-Object $p5;
+    my N-Object $p3;
+    my N-Object $src;
+    my N-Object $box;
+    my N-Object $sphere;
+    my N-Object $matrix;
+    my N-Object $p0;
+    my N-Object $p4;
+    my N-Object $p2;
+    my N-Object $planes;
+    my N-Object $p1;
+    my N-Object $point;
+
+
+#`{{
+    #TM:0:contains-point()
+    ok .contains-point( $point), '.contains-point()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-planes()
+    is .get-planes( $planes), '…', '.get-planes()';
+
+    #TM:0:init()
+    ok .init( $p0, $p1, $p2, $p3, $p4, $p5), '.init()';
+
+    #TM:0:init-from-frustum()
+    ok .init-from-frustum( $src), '.init-from-frustum()';
+
+    #TM:0:init-from-matrix()
+    ok .init-from-matrix( $matrix), '.init-from-matrix()';
+
+    #TM:0:intersects-box()
+    ok .intersects-box( $box), '.intersects-box()';
+
+    #TM:0:intersects-sphere()
+    ok .intersects-sphere( $sphere), '.intersects-sphere()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-frustum {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
