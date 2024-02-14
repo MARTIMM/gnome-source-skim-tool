@@ -1,0 +1,572 @@
+=comment Package: Graphene, C-Source: euler
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Euler
+
+=head1 Description
+
+Describe a rotation using Euler angles.
+
+The contents of the B<Gnome::Graphene::N-Euler> structure are private
+and should never be accessed directly.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Euler
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new B<Gnome::Graphene::N-Euler>.
+
+The contents of the returned structure are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Euler \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks if two B<Gnome::Graphene::N-Euler> are equal.
+
+=begin code
+method equal ( N-Object $b --> gboolean )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Euler>
+
+Return value; B<true> if the two B<Gnome::Graphene::N-Euler> are equal. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-alpha
+
+Retrieves the first component of the Euler angle vector,
+depending on the order of rotation.
+
+See also: C<.get-x()>
+
+=begin code
+method get-alpha (--> Num )
+=end code
+
+Return value; the first component of the Euler angle vector, in radians. 
+
+=begin comment
+
+=head2 Example
+# Example for get-alpha
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-beta
+
+Retrieves the second component of the Euler angle vector,
+depending on the order of rotation.
+
+See also: C<.get-y()>
+
+=begin code
+method get-beta (--> Num )
+=end code
+
+Return value; the second component of the Euler angle vector, in radians. 
+
+=begin comment
+
+=head2 Example
+# Example for get-beta
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-gamma
+
+Retrieves the third component of the Euler angle vector,
+depending on the order of rotation.
+
+See also: C<.get-z()>
+
+=begin code
+method get-gamma (--> Num )
+=end code
+
+Return value; the third component of the Euler angle vector, in radians. 
+
+=begin comment
+
+=head2 Example
+# Example for get-gamma
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-order
+
+Retrieves the order used to apply the rotations described in the
+B<Gnome::Graphene::N-Euler> structure, when converting to and from other
+structures, like B<Gnome::Graphene::N-Quaternion> and B<Gnome::Graphene::N-Matrix>.
+
+This function does not return the C<GRAPHENE_EULER_ORDER_DEFAULT>
+enumeration value; it will return the effective order of rotation
+instead.
+
+=begin code
+method get-order (--> graphene_euler_order_t )
+=end code
+
+Return value; the order used to apply the rotations. 
+
+=begin comment
+
+=head2 Example
+# Example for get-order
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-x
+
+Retrieves the rotation angle on the X axis, in degrees.
+
+=begin code
+method get-x (--> Num )
+=end code
+
+Return value; the rotation angle. 
+
+=begin comment
+
+=head2 Example
+# Example for get-x
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-y
+
+Retrieves the rotation angle on the Y axis, in degrees.
+
+=begin code
+method get-y (--> Num )
+=end code
+
+Return value; the rotation angle. 
+
+=begin comment
+
+=head2 Example
+# Example for get-y
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-z
+
+Retrieves the rotation angle on the Z axis, in degrees.
+
+=begin code
+method get-z (--> Num )
+=end code
+
+Return value; the rotation angle. 
+
+=begin comment
+
+=head2 Example
+# Example for get-z
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes a B<Gnome::Graphene::N-Euler> using the given angles.
+
+The order of the rotations is C<GRAPHENE_EULER_ORDER_DEFAULT>.
+
+=begin code
+method init ( Num() $x, Num() $y, Num() $z --> N-Object )
+=end code
+
+=item $x; rotation angle on the X axis, in degrees.
+=item $y; rotation angle on the Y axis, in degrees.
+=item $z; rotation angle on the Z axis, in degrees.
+
+Return value; the initialized B<Gnome::Graphene::N-Euler>. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-euler
+
+Initializes a B<Gnome::Graphene::N-Euler> using the angles and order of
+another B<Gnome::Graphene::N-Euler>.
+
+If the B<Gnome::Graphene::N-Euler> C<$src> is undefined, this function is equivalent
+to calling C<.init()> with all angles set to 0.
+
+=begin code
+method init-from-euler ( N-Object $src --> N-Object )
+=end code
+
+=item $src; a B<Gnome::Graphene::N-Euler>
+
+Return value; the initialized B<Gnome::Graphene::N-Euler>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-euler
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-matrix
+
+Initializes a B<Gnome::Graphene::N-Euler> using the given rotation matrix.
+
+If the B<Gnome::Graphene::N-Matrix> C<$m> is undefined, the B<Gnome::Graphene::N-Euler> will
+be initialized with all angles set to 0.
+
+=begin code
+method init-from-matrix ( N-Object $m, graphene_euler_order_t $order --> N-Object )
+=end code
+
+=item $m; a rotation matrix
+=item $order; the order used to apply the rotations.
+
+Return value; the initialized B<Gnome::Graphene::N-Euler>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-quaternion
+
+Initializes a B<Gnome::Graphene::N-Euler> using the given normalized quaternion.
+
+If the B<Gnome::Graphene::N-Quaternion> C<$q> is undefined, the B<Gnome::Graphene::N-Euler> will
+be initialized with all angles set to 0.
+
+=begin code
+method init-from-quaternion ( N-Object $q, graphene_euler_order_t $order --> N-Object )
+=end code
+
+=item $q; a normalized B<Gnome::Graphene::N-Quaternion>
+=item $order; the order used to apply the rotations.
+
+Return value; the initialized B<Gnome::Graphene::N-Euler>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-quaternion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-radians
+
+Initializes a B<Gnome::Graphene::N-Euler> using the given angles
+and order of rotation.
+
+=begin code
+method init-from-radians ( Num() $x, Num() $y, Num() $z, graphene_euler_order_t $order --> N-Object )
+=end code
+
+=item $x; rotation angle on the X axis, in radians.
+=item $y; rotation angle on the Y axis, in radians.
+=item $z; rotation angle on the Z axis, in radians.
+=item $order; order of rotations.
+
+Return value; the initialized B<Gnome::Graphene::N-Euler>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-radians
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vec3
+
+Initializes a B<Gnome::Graphene::N-Euler> using the angles contained in a
+B<graphene_vec>3_t.
+
+If the B<graphene_vec>3_t C<$v> is undefined, the B<Gnome::Graphene::N-Euler> will be
+initialized with all angles set to 0.
+
+=begin code
+method init-from-vec3 ( N-Object $v, graphene_euler_order_t $order --> N-Object )
+=end code
+
+=item $v; a B<graphene_vec>3_t containing the rotation
+  angles in degrees
+=item $order; the order used to apply the rotations.
+
+Return value; the initialized B<Gnome::Graphene::N-Euler>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec3
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-with-order
+
+Initializes a B<Gnome::Graphene::N-Euler> with the given angles and C<$order>.
+
+=begin code
+method init-with-order ( Num() $x, Num() $y, Num() $z, graphene_euler_order_t $order --> N-Object )
+=end code
+
+=item $x; rotation angle on the X axis, in degrees.
+=item $y; rotation angle on the Y axis, in degrees.
+=item $z; rotation angle on the Z axis, in degrees.
+=item $order; the order used to apply the rotations.
+
+Return value; the initialized B<Gnome::Graphene::N-Euler>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-with-order
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 reorder
+
+Reorders a B<Gnome::Graphene::N-Euler> using C<$order>.
+
+This function is equivalent to creating a B<Gnome::Graphene::N-Quaternion> from the
+given B<Gnome::Graphene::N-Euler>, and then converting the quaternion into another
+B<Gnome::Graphene::N-Euler>.
+
+=begin code
+method reorder ( graphene_euler_order_t $order, N-Object $res )
+=end code
+
+=item $order; the new order.
+=item $res; return location for the reordered
+  B<Gnome::Graphene::N-Euler>
+
+=begin comment
+
+=head2 Example
+# Example for reorder
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-matrix
+
+Converts a B<Gnome::Graphene::N-Euler> into a transformation matrix expressing
+the extrinsic composition of rotations described by the Euler angles.
+
+The rotations are applied over the reference frame axes in the order
+associated with the B<Gnome::Graphene::N-Euler>; for instance, if the order
+used to initialize C<$e> is C<GRAPHENE_EULER_ORDER_XYZ>:
+
+ * the first rotation moves the body around the X axis with
+   an angle φ
+ * the second rotation moves the body around the Y axis with
+   an angle of ϑ
+ * the third rotation moves the body around the Z axis with
+   an angle of ψ
+
+The rotation sign convention is right-handed, to preserve compatibility
+between Euler-based, quaternion-based, and angle-axis-based rotations.
+
+=begin code
+method to-matrix ( N-Object $res )
+=end code
+
+=item $res; return location for a B<Gnome::Graphene::N-Matrix>
+
+=begin comment
+
+=head2 Example
+# Example for to-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-quaternion
+
+Converts a B<Gnome::Graphene::N-Euler> into a B<Gnome::Graphene::N-Quaternion>.
+
+=begin code
+method to-quaternion ( N-Object $res )
+=end code
+
+=item $res; return location for a B<Gnome::Graphene::N-Quaternion>
+
+=begin comment
+
+=head2 Example
+# Example for to-quaternion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-vec3
+
+Retrieves the angles of a B<Gnome::Graphene::N-Euler> and initializes a
+B<graphene_vec>3_t with them.
+
+=begin code
+method to-vec3 ( N-Object $res )
+=end code
+
+=item $res; return location for a B<graphene_vec>3_t
+
+=begin comment
+
+=head2 Example
+# Example for to-vec3
+
+=end comment
+
+=end pod
+
