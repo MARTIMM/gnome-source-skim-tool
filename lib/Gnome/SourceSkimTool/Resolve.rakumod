@@ -14,7 +14,6 @@ method set-object-name (
   Hash $object-map-entry, ObjectNameType :$name-type = ClassnameType,
   --> Str
 ) {
-#note "$?LINE $name-type.Str()";
   my Str $object-name;
   my Str $type-letter = $object-map-entry<type-letter> // '';
   $object-map-entry<package-name> //= $*work-data<raku-package>;
@@ -32,9 +31,10 @@ method set-object-name (
     $object-name = $object-map-entry<type-name>;
   }
 
+note "$?LINE $object-name, $object-map-entry.gist()" if $object-map-entry<source-filename> eq 'box';
+
   given $name-type {
     when ClassnameType {
-#note "$?LINE $object-map-entry.gist()";
 #say Backtrace.new.nice if $object-map-entry<package-name>:!exists;
       $object-name = $object-map-entry<package-name> ~ '::' ~ $object-name;
     }
@@ -60,7 +60,7 @@ method set-object-name (
       }
 
       when FilenameGirType {
-note "$?LINE $type-letter, $object-map-entry.gist()";
+#note "$?LINE $type-letter, $object-map-entry.gist()";
         # Recalculate typeletter and add other ones, they have been made
         # different in the gir data environment
         given $type-letter {

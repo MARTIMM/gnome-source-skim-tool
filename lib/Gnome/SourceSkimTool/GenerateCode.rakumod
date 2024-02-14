@@ -226,7 +226,9 @@ method generate-code ( ) {
       use v6.d;
       RAKUMOD
 
-    $code ~= $!mod.set-unit-for-file( $class-name, $has-functions);
+    $code ~= $!mod.set-unit-for-file(
+      $class-name, $has-functions, (?$types-code<record> or ?$types-code<union>)
+    );
     $code ~= $c ~ "\n" if ?$c;
 
     if $has-functions {
@@ -256,11 +258,21 @@ method generate-code ( ) {
     }
 
     if ?$types-code<record> {
+      # At least the following entries must be there
+      $!mod.add-import('NativeCall');
+      $!mod.add-import('Gnome::N::GlibToRakuTypes');
+      $!mod.add-import('Gnome::N::N-Object');
+
       $code ~= pod-header('Record Structure');
       $code ~= $types-code<record>;
     }
 
     if ?$types-code<union> {
+      # At least the following entries must be there
+      $!mod.add-import('NativeCall');
+      $!mod.add-import('Gnome::N::GlibToRakuTypes');
+      $!mod.add-import('Gnome::N::N-Object');
+
       $code ~= pod-header('Union Structure');
       $code ~= $types-code<union>;
     }
@@ -295,7 +307,9 @@ method generate-code ( ) {
           }
         }
         RAKUMOD
+    }
 
+    if $has-functions or (?$types-code<record> or ?$types-code<union>) {
       $code =
         $!mod.substitute-MODULE-IMPORTS( $code, $class-name, :skip-n-mods);
     }

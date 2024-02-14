@@ -122,11 +122,14 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 # This setup is for types like standalone functions, bitfield, constants and
 # enumerations. There is no need for inheritence, BUILD, signals or
 # properties.
-method set-unit-for-file ( Str $class-name, Bool $has-functions --> Str ) {
+method set-unit-for-file (
+  Str $class-name, Bool $has-functions = False, Bool $has-structs = False
+  --> Str
+) {
 
   my Str $code = '';
 
-  if $has-functions {
+  if $has-functions or $has-structs {
     $code ~= qq:to/RAKUMOD/;
     {pod-header('Module Imports')}
     __MODULE__IMPORTS__
@@ -1399,6 +1402,7 @@ method generate-union (
   my Str $code = qq:to/RAKUMOD/;
     $*command-line
     use v6.d;
+
     RAKUMOD
 
   my @fields = $xpath.find( 'field', :start($element), :to-list);
