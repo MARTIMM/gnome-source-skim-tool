@@ -1,0 +1,449 @@
+=comment Package: Graphene, C-Source: triangle
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Triangle
+
+=head1 Description
+
+A triangle.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Triangle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new B<Gnome::Graphene::N-Triangle>.
+
+The contents of the returned structure are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Triangle \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains-point
+
+Checks whether the given triangle C<$t> contains the point C<$p>.
+
+=begin code
+method contains-point ( N-Object $p --> gboolean )
+=end code
+
+=item $p; a B<graphene_point>3d_t
+
+Return value; B<true> if the point is inside the triangle. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks whether the two given B<Gnome::Graphene::N-Triangle> are equal.
+
+=begin code
+method equal ( N-Object $b --> gboolean )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Triangle>
+
+Return value; B<true> if the triangles are equal. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-area
+
+Computes the area of the given B<Gnome::Graphene::N-Triangle>.
+
+=begin code
+method get-area (--> Num )
+=end code
+
+Return value; the area of the triangle. 
+
+=begin comment
+
+=head2 Example
+# Example for get-area
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-barycoords
+
+Computes the [barycentric coordinates](http://en.wikipedia.org/wiki/Barycentric_coordinate_system)
+of the given point C<$p>.
+
+The point C<$p> must lie on the same plane as the triangle C<$t>; if the
+point is not coplanar, the result of this function is undefined.
+
+If we place the origin in the coordinates of the triangle's A point,
+the barycentric coordinates are B<u>, which is on the AC vector; and B<v>
+which is on the AB vector:
+
+![](triangle-barycentric.png)
+
+The returned B<graphene_vec>2_t contains the following values, in order:
+
+=item B<res.x = u>
+=item B<res.y = v>
+
+=begin code
+method get-barycoords ( N-Object $p, N-Object $res --> gboolean )
+=end code
+
+=item $p; a B<graphene_point>3d_t
+=item $res; return location for the vector
+  with the barycentric coordinates
+
+Return value; B<true> if the barycentric coordinates are valid. 
+
+=begin comment
+
+=head2 Example
+# Example for get-barycoords
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-bounding-box
+
+Computes the bounding box of the given B<Gnome::Graphene::N-Triangle>.
+
+=begin code
+method get-bounding-box ( N-Object $res )
+=end code
+
+=item $res; return location for the box
+
+=begin comment
+
+=head2 Example
+# Example for get-bounding-box
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-midpoint
+
+Computes the coordinates of the midpoint of the given B<Gnome::Graphene::N-Triangle>.
+
+The midpoint G is the [centroid](https://en.wikipedia.org/wiki/Centroid#Triangle_centroid)
+of the triangle, i.e. the intersection of its medians.
+
+=begin code
+method get-midpoint ( N-Object $res )
+=end code
+
+=item $res; return location for the coordinates of
+  the midpoint
+
+=begin comment
+
+=head2 Example
+# Example for get-midpoint
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-normal
+
+Computes the normal vector of the given B<Gnome::Graphene::N-Triangle>.
+
+=begin code
+method get-normal ( N-Object $res )
+=end code
+
+=item $res; return location for the normal vector
+
+=begin comment
+
+=head2 Example
+# Example for get-normal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-plane
+
+Computes the plane based on the vertices of the given B<Gnome::Graphene::N-Triangle>.
+
+=begin code
+method get-plane ( N-Object $res )
+=end code
+
+=item $res; return location for the plane
+
+=begin comment
+
+=head2 Example
+# Example for get-plane
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-points
+
+Retrieves the three vertices of the given B<Gnome::Graphene::N-Triangle> and returns
+their coordinates as B<graphene_point>3d_t.
+
+=begin code
+method get-points ( N-Object $a, N-Object $b, N-Object $c )
+=end code
+
+=item $a; return location for the coordinates
+  of the first vertex
+=item $b; return location for the coordinates
+  of the second vertex
+=item $c; return location for the coordinates
+  of the third vertex
+
+=begin comment
+
+=head2 Example
+# Example for get-points
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-uv
+
+Computes the UV coordinates of the given point C<$p>.
+
+The point C<$p> must lie on the same plane as the triangle C<$t>; if the point
+is not coplanar, the result of this function is undefined. If C<$p> is undefined,
+the point will be set in (0, 0, 0).
+
+The UV coordinates will be placed in the C<$res> vector:
+
+=item B<res.x = u>
+=item B<res.y = v>
+
+See also: C<.get-barycoords()>
+
+=begin code
+method get-uv ( N-Object $p, N-Object $uv-a, N-Object $uv-b, N-Object $uv-c, N-Object $res --> gboolean )
+=end code
+
+=item $p; a B<graphene_point>3d_t
+=item $uv-a; the UV coordinates of the first point
+=item $uv-b; the UV coordinates of the second point
+=item $uv-c; the UV coordinates of the third point
+=item $res; a vector containing the UV coordinates
+  of the given point C<$p>
+
+Return value; B<true> if the coordinates are valid. 
+
+=begin comment
+
+=head2 Example
+# Example for get-uv
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-vertices
+
+Retrieves the three vertices of the given B<Gnome::Graphene::N-Triangle>.
+
+=begin code
+method get-vertices ( N-Object $a, N-Object $b, N-Object $c )
+=end code
+
+=item $a; return location for the first vertex
+=item $b; return location for the second vertex
+=item $c; return location for the third vertex
+
+=begin comment
+
+=head2 Example
+# Example for get-vertices
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-float
+
+Initializes a B<Gnome::Graphene::N-Triangle> using the three given arrays
+of floating point values, each representing the coordinates of
+a point in 3D space.
+
+=begin code
+method init-from-float ( Num() $a, Num() $b, Num() $c --> N-Object )
+=end code
+
+=item $a; an array of 3 floating point values.
+=item $b; an array of 3 floating point values.
+=item $c; an array of 3 floating point values.
+
+Return value; the initialized B<Gnome::Graphene::N-Triangle>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-float
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-point3d
+
+Initializes a B<Gnome::Graphene::N-Triangle> using the three given 3D points.
+
+=begin code
+method init-from-point3d ( N-Object $a, N-Object $b, N-Object $c --> N-Object )
+=end code
+
+=item $a; a B<graphene_point>3d_t
+=item $b; a B<graphene_point>3d_t
+=item $c; a B<graphene_point>3d_t
+
+Return value; the initialized B<Gnome::Graphene::N-Triangle>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-point3d
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vec3
+
+Initializes a B<Gnome::Graphene::N-Triangle> using the three given vectors.
+
+=begin code
+method init-from-vec3 ( N-Object $a, N-Object $b, N-Object $c --> N-Object )
+=end code
+
+=item $a; a B<graphene_vec>3_t
+=item $b; a B<graphene_vec>3_t
+=item $c; a B<graphene_vec>3_t
+
+Return value; the initialized B<Gnome::Graphene::N-Triangle>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec3
+
+=end comment
+
+=end pod
+

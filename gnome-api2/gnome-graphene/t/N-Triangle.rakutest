@@ -1,0 +1,137 @@
+=comment Package: Graphene, C-Source: triangle
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Triangle:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Box:api<2>;
+#use Gnome::Graphene::N-Plane:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Triangle:api<2>;
+use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::T-box:api<2>;
+#use Gnome::Graphene::T-plane:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-triangle:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Triangle $n-triangle;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-triangle {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-triangle {
+    my N-Object $uv-a;
+    my N-Object $uv-b;
+    my N-Object $b;
+    my N-Object $res;
+    my N-Object $a;
+    my N-Object $p;
+    my N-Object $c;
+    my N-Object $uv-c;
+
+
+#`{{
+    #TM:0:contains-point()
+    ok .contains-point( $p), '.contains-point()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-area()
+     .get-area(), '…', '.get-area()';
+
+    #TM:0:get-barycoords()
+    is .get-barycoords( $p, $res), '…', '.get-barycoords()';
+
+    #TM:0:get-bounding-box()
+    is .get-bounding-box( $res), '…', '.get-bounding-box()';
+
+    #TM:0:get-midpoint()
+    is .get-midpoint( $res), '…', '.get-midpoint()';
+
+    #TM:0:get-normal()
+    is .get-normal( $res), '…', '.get-normal()';
+
+    #TM:0:get-plane()
+    is .get-plane( $res), '…', '.get-plane()';
+
+    #TM:0:get-points()
+    is .get-points( $a, $b, $c), '…', '.get-points()';
+
+    #TM:0:get-uv()
+    is .get-uv( $p, $uv-a, $uv-b, $uv-c, $res), '…', '.get-uv()';
+
+    #TM:0:get-vertices()
+    is .get-vertices( $a, $b, $c), '…', '.get-vertices()';
+
+    #TM:0:init-from-float()
+    ok .init-from-float( $a, $b, $c), '.init-from-float()';
+
+    #TM:0:init-from-point3d()
+    ok .init-from-point3d( $a, $b, $c), '.init-from-point3d()';
+
+    #TM:0:init-from-vec3()
+    ok .init-from-vec3( $a, $b, $c), '.init-from-vec3()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-triangle {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
