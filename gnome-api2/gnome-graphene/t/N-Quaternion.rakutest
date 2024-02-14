@@ -1,0 +1,169 @@
+=comment Package: Graphene, C-Source: quaternion
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Quaternion:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Graphene::N-Euler:api<2>;
+use Gnome::Graphene::N-Matrix:api<2>;
+use Gnome::Graphene::N-Quaternion:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec4:api<2>;
+use Gnome::Graphene::T-euler:api<2>;
+use Gnome::Graphene::T-matrix:api<2>;
+use Gnome::Graphene::T-quaternion:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Quaternion $n-quaternion;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-quaternion {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-quaternion {
+    my Num() $rad-z;
+    my N-Object $src;
+    my Num() $factor;
+    my Num() $x;
+    my Num() $deg-z;
+    my Num() $rad-x;
+    my Num() $angle;
+    my N-Object $e;
+    my N-Object $b;
+    my Num() $deg-y;
+    my Num() $y;
+    my Num() $z;
+    my Num() $w;
+    my N-Object $axis;
+    my N-Object $res;
+    my Num() $deg-x;
+    my Num() $rad-y;
+    my N-Object $m;
+
+
+#`{{
+    #TM:0:add()
+    ok .add( $b, $res), '.add()';
+
+    #TM:0:dot()
+    ok .dot( $b), '.dot()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:init()
+    ok .init( $x, $y, $z, $w), '.init()';
+
+    #TM:0:init-from-angle-vec3()
+    ok .init-from-angle-vec3( $angle, $axis), '.init-from-angle-vec3()';
+
+    #TM:0:init-from-angles()
+    ok .init-from-angles( $deg-x, $deg-y, $deg-z), '.init-from-angles()';
+
+    #TM:0:init-from-euler()
+    ok .init-from-euler( $e), '.init-from-euler()';
+
+    #TM:0:init-from-matrix()
+    ok .init-from-matrix( $m), '.init-from-matrix()';
+
+    #TM:0:init-from-quaternion()
+    ok .init-from-quaternion( $src), '.init-from-quaternion()';
+
+    #TM:0:init-from-radians()
+    ok .init-from-radians( $rad-x, $rad-y, $rad-z), '.init-from-radians()';
+
+    #TM:0:init-from-vec4()
+    ok .init-from-vec4( $src), '.init-from-vec4()';
+
+    #TM:0:init-identity()
+    ok .init-identity(), '.init-identity()';
+
+    #TM:0:invert()
+    ok .invert( $res), '.invert()';
+
+    #TM:0:multiply()
+    ok .multiply( $b, $res), '.multiply()';
+
+    #TM:0:normalize()
+    ok .normalize( $res), '.normalize()';
+
+    #TM:0:scale()
+    ok .scale( $factor, $res), '.scale()';
+
+    #TM:0:slerp()
+    ok .slerp( $b, $factor, $res), '.slerp()';
+
+    #TM:0:to-angle-vec3()
+    ok .to-angle-vec3( $angle, $axis), '.to-angle-vec3()';
+
+    #TM:0:to-angles()
+    ok .to-angles( $deg-x, $deg-y, $deg-z), '.to-angles()';
+
+    #TM:0:to-matrix()
+    ok .to-matrix( $m), '.to-matrix()';
+
+    #TM:0:to-radians()
+    ok .to-radians( $rad-x, $rad-y, $rad-z), '.to-radians()';
+
+    #TM:0:to-vec4()
+    ok .to-vec4( $res), '.to-vec4()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-quaternion {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

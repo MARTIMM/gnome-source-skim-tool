@@ -1,0 +1,622 @@
+=comment Package: Graphene, C-Source: quaternion
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Quaternion
+
+=head1 Description
+
+A quaternion.
+
+The contents of the B<Gnome::Graphene::N-Quaternion> structure are private
+and should never be accessed directly.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Quaternion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new B<Gnome::Graphene::N-Quaternion>.
+
+The contents of the returned value are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Quaternion \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add
+
+Adds two B<Gnome::Graphene::N-Quaternion> C<$a> and C<$b>.
+
+=begin code
+method add ( N-Object $b, N-Object $res )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Quaternion>
+=item $res; the result of the operation
+
+=begin comment
+
+=head2 Example
+# Example for add
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 dot
+
+Computes the dot product of two B<Gnome::Graphene::N-Quaternion>.
+
+=begin code
+method dot ( N-Object $b --> Num )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Quaternion>
+
+Return value; the value of the dot products. 
+
+=begin comment
+
+=head2 Example
+# Example for dot
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks whether the given quaternions are equal.
+
+=begin code
+method equal ( N-Object $b --> gboolean )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Quaternion>
+
+Return value; B<true> if the quaternions are equal. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Releases the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes a B<Gnome::Graphene::N-Quaternion> using the given four values.
+
+=begin code
+method init ( Num() $x, Num() $y, Num() $z, Num() $w --> N-Object )
+=end code
+
+=item $x; the first component of the quaternion.
+=item $y; the second component of the quaternion.
+=item $z; the third component of the quaternion.
+=item $w; the fourth component of the quaternion.
+
+Return value; the initialized quaternion. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-angle-vec3
+
+Initializes a B<Gnome::Graphene::N-Quaternion> using an C<$angle> on a
+specific C<$axis>.
+
+=begin code
+method init-from-angle-vec3 ( Num() $angle, N-Object $axis --> N-Object )
+=end code
+
+=item $angle; the rotation on a given axis, in degrees.
+=item $axis; the axis of rotation, expressed as a vector
+
+Return value; the initialized quaternion. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-angle-vec3
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-angles
+
+Initializes a B<Gnome::Graphene::N-Quaternion> using the values of
+the [Euler angles](http://en.wikipedia.org/wiki/Euler_angles)
+on each axis.
+
+See also: C<.init-from-euler()>
+
+=begin code
+method init-from-angles ( Num() $deg-x, Num() $deg-y, Num() $deg-z --> N-Object )
+=end code
+
+=item $deg-x; rotation angle on the X axis (yaw), in degrees.
+=item $deg-y; rotation angle on the Y axis (pitch), in degrees.
+=item $deg-z; rotation angle on the Z axis (roll), in degrees.
+
+Return value; the initialized quaternion. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-angles
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-euler
+
+Initializes a B<Gnome::Graphene::N-Quaternion> using the given B<Gnome::Graphene::N-Euler>.
+
+=begin code
+method init-from-euler ( N-Object $e --> N-Object )
+=end code
+
+=item $e; a B<Gnome::Graphene::N-Euler>
+
+Return value; the initialized B<Gnome::Graphene::N-Quaternion>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-euler
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-matrix
+
+Initializes a B<Gnome::Graphene::N-Quaternion> using the rotation components
+of a transformation matrix.
+
+=begin code
+method init-from-matrix ( N-Object $m --> N-Object )
+=end code
+
+=item $m; a B<Gnome::Graphene::N-Matrix>
+
+Return value; the initialized quaternion. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-quaternion
+
+Initializes a B<Gnome::Graphene::N-Quaternion> with the values from C<$src>.
+
+=begin code
+method init-from-quaternion ( N-Object $src --> N-Object )
+=end code
+
+=item $src; a B<Gnome::Graphene::N-Quaternion>
+
+Return value; the initialized quaternion. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-quaternion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-radians
+
+Initializes a B<Gnome::Graphene::N-Quaternion> using the values of
+the [Euler angles](http://en.wikipedia.org/wiki/Euler_angles)
+on each axis.
+
+See also: C<.init-from-euler()>
+
+=begin code
+method init-from-radians ( Num() $rad-x, Num() $rad-y, Num() $rad-z --> N-Object )
+=end code
+
+=item $rad-x; rotation angle on the X axis (yaw), in radians.
+=item $rad-y; rotation angle on the Y axis (pitch), in radians.
+=item $rad-z; rotation angle on the Z axis (roll), in radians.
+
+Return value; the initialized quaternion. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-radians
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vec4
+
+Initializes a B<Gnome::Graphene::N-Quaternion> with the values from C<$src>.
+
+=begin code
+method init-from-vec4 ( N-Object $src --> N-Object )
+=end code
+
+=item $src; a B<graphene_vec>4_t
+
+Return value; the initialized quaternion. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec4
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-identity
+
+Initializes a B<Gnome::Graphene::N-Quaternion> using the identity
+transformation.
+
+=begin code
+method init-identity (--> N-Object )
+=end code
+
+Return value; the initialized quaternion. 
+
+=begin comment
+
+=head2 Example
+# Example for init-identity
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invert
+
+Inverts a B<Gnome::Graphene::N-Quaternion>, and returns the conjugate
+quaternion of C<$q>.
+
+=begin code
+method invert ( N-Object $res )
+=end code
+
+=item $res; return location for the inverted
+  quaternion
+
+=begin comment
+
+=head2 Example
+# Example for invert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 multiply
+
+Multiplies two B<Gnome::Graphene::N-Quaternion> C<$a> and C<$b>.
+
+=begin code
+method multiply ( N-Object $b, N-Object $res )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Quaternion>
+=item $res; the result of the operation
+
+=begin comment
+
+=head2 Example
+# Example for multiply
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 normalize
+
+Normalizes a B<Gnome::Graphene::N-Quaternion>.
+
+=begin code
+method normalize ( N-Object $res )
+=end code
+
+=item $res; return location for the normalized
+  quaternion
+
+=begin comment
+
+=head2 Example
+# Example for normalize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scale
+
+Scales all the elements of a B<Gnome::Graphene::N-Quaternion> C<$q> using
+the given scalar factor.
+
+=begin code
+method scale ( Num() $factor, N-Object $res )
+=end code
+
+=item $factor; a scaling factor.
+=item $res; the result of the operation
+
+=begin comment
+
+=head2 Example
+# Example for scale
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 slerp
+
+Interpolates between the two given quaternions using a spherical
+linear interpolation, or [SLERP](http://en.wikipedia.org/wiki/Slerp),
+using the given interpolation C<$factor>.
+
+=begin code
+method slerp ( N-Object $b, Num() $factor, N-Object $res )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Quaternion>
+=item $factor; the linear interpolation factor.
+=item $res; return location for the interpolated
+  quaternion
+
+=begin comment
+
+=head2 Example
+# Example for slerp
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-angle-vec3
+
+Converts a quaternion into an C<$angle>, C<$axis> pair.
+
+=begin code
+method to-angle-vec3 ( Num() $angle, N-Object $axis )
+=end code
+
+=item $angle; (transfer ownership: full) return location for the angle, in degrees.
+=item $axis; return location for the rotation axis
+
+=begin comment
+
+=head2 Example
+# Example for to-angle-vec3
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-angles
+
+Converts a B<Gnome::Graphene::N-Quaternion> to its corresponding rotations
+on the [Euler angles](http://en.wikipedia.org/wiki/Euler_angles)
+on each axis.
+
+=begin code
+method to-angles ( Num() $deg-x, Num() $deg-y, Num() $deg-z )
+=end code
+
+=item $deg-x; (transfer ownership: full) return location for the rotation angle on
+  the X axis (yaw), in degrees.
+=item $deg-y; (transfer ownership: full) return location for the rotation angle on
+  the Y axis (pitch), in degrees.
+=item $deg-z; (transfer ownership: full) return location for the rotation angle on
+  the Z axis (roll), in degrees.
+
+=begin comment
+
+=head2 Example
+# Example for to-angles
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-matrix
+
+Converts a quaternion into a transformation matrix expressing
+the rotation defined by the B<Gnome::Graphene::N-Quaternion>.
+
+=begin code
+method to-matrix ( N-Object $m )
+=end code
+
+=item $m; a B<Gnome::Graphene::N-Matrix>
+
+=begin comment
+
+=head2 Example
+# Example for to-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-radians
+
+Converts a B<Gnome::Graphene::N-Quaternion> to its corresponding rotations
+on the [Euler angles](http://en.wikipedia.org/wiki/Euler_angles)
+on each axis.
+
+=begin code
+method to-radians ( Num() $rad-x, Num() $rad-y, Num() $rad-z )
+=end code
+
+=item $rad-x; (transfer ownership: full) return location for the rotation angle on
+  the X axis (yaw), in radians.
+=item $rad-y; (transfer ownership: full) return location for the rotation angle on
+  the Y axis (pitch), in radians.
+=item $rad-z; (transfer ownership: full) return location for the rotation angle on
+  the Z axis (roll), in radians.
+
+=begin comment
+
+=head2 Example
+# Example for to-radians
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-vec4
+
+Copies the components of a B<Gnome::Graphene::N-Quaternion> into a
+B<graphene_vec>4_t.
+
+=begin code
+method to-vec4 ( N-Object $res )
+=end code
+
+=item $res; return location for a
+  B<graphene_vec>4_t
+
+=begin comment
+
+=head2 Example
+# Example for to-vec4
+
+=end comment
+
+=end pod
+
