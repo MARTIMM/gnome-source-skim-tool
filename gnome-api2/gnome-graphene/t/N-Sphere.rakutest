@@ -1,0 +1,127 @@
+=comment Package: Graphene, C-Source: sphere
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Sphere:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Graphene::N-Box:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Sphere:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::T-box:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-sphere:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Sphere $n-sphere;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-sphere {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-sphere {
+    my Num() $radius;
+    my N-Object $center;
+    my N-Object $points;
+    my  $n-vectors;
+    my  $n-points;
+    my N-Object $point;
+    my N-Object $box;
+    my N-Object $res;
+    my N-Object $b;
+    my N-Object $vectors;
+
+
+#`{{
+    #TM:0:contains-point()
+    ok .contains-point( $point), '.contains-point()';
+
+    #TM:0:distance()
+    ok .distance( $point), '.distance()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-bounding-box()
+    is .get-bounding-box( $box), '…', '.get-bounding-box()';
+
+    #TM:0:get-center()
+    is .get-center( $center), '…', '.get-center()';
+
+    #TM:0:get-radius()
+     .get-radius(), '…', '.get-radius()';
+
+    #TM:0:init()
+    ok .init( $center, $radius), '.init()';
+
+    #TM:0:init-from-points()
+    ok .init-from-points( $n-points, $points, $center), '.init-from-points()';
+
+    #TM:0:init-from-vectors()
+    ok .init-from-vectors( $n-vectors, $vectors, $center), '.init-from-vectors()';
+
+    #TM:0:is-empty()
+    ok .is-empty(), '.is-empty()';
+
+    #TM:0:translate()
+    ok .translate( $point, $res), '.translate()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-sphere {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

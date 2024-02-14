@@ -1,0 +1,353 @@
+=comment Package: Graphene, C-Source: sphere
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Sphere
+
+=head1 Description
+
+A sphere, represented by its center and radius.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Sphere
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new B<Gnome::Graphene::N-Sphere>.
+
+The contents of the newly allocated structure are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Sphere \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains-point
+
+Checks whether the given C<$point> is contained in the volume
+of a B<Gnome::Graphene::N-Sphere>.
+
+=begin code
+method contains-point ( N-Object $point --> gboolean )
+=end code
+
+=item $point; a B<graphene_point>3d_t
+
+Return value; B<true> if the sphere contains the point. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 distance
+
+Computes the distance of the given C<$point> from the surface of
+a B<Gnome::Graphene::N-Sphere>.
+
+=begin code
+method distance ( N-Object $point --> Num )
+=end code
+
+=item $point; a B<graphene_point>3d_t
+
+Return value; the distance of the point. 
+
+=begin comment
+
+=head2 Example
+# Example for distance
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks whether two B<Gnome::Graphene::N-Sphere> are equal.
+
+=begin code
+method equal ( N-Object $b --> gboolean )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Sphere>
+
+Return value; B<true> if the spheres are equal. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-bounding-box
+
+Computes the bounding box capable of containing the
+given B<Gnome::Graphene::N-Sphere>.
+
+=begin code
+method get-bounding-box ( N-Object $box )
+=end code
+
+=item $box; return location for the bounding box
+
+=begin comment
+
+=head2 Example
+# Example for get-bounding-box
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-center
+
+Retrieves the coordinates of the center of a B<Gnome::Graphene::N-Sphere>.
+
+=begin code
+method get-center ( N-Object $center )
+=end code
+
+=item $center; return location for the coordinates of
+  the center
+
+=begin comment
+
+=head2 Example
+# Example for get-center
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-radius
+
+Retrieves the radius of a B<Gnome::Graphene::N-Sphere>.
+
+=begin code
+method get-radius (--> Num )
+=end code
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-radius
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes the given B<Gnome::Graphene::N-Sphere> with the given C<$center> and C<$radius>.
+
+=begin code
+method init ( N-Object $center, Num() $radius --> N-Object )
+=end code
+
+=item $center; the coordinates of the center of the sphere, or undefined
+  for a center in (0, 0, 0)
+=item $radius; the radius of the sphere.
+
+Return value; the initialized B<Gnome::Graphene::N-Sphere>. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-points
+This function is not yet available
+
+Initializes the given B<Gnome::Graphene::N-Sphere> using the given array
+of 3D coordinates so that the sphere includes them.
+
+The center of the sphere can either be specified, or will be center
+of the 3D volume that encompasses all C<$points>.
+
+=begin code
+method init-from-points ( …, N-Object $points, N-Object $center --> N-Object )
+=end code
+
+=item n-points; the number of B<graphene_point>3d_t in the C<$points> array. Note that each argument must be specified as a type followed by its value!
+=item $points; an array of B<graphene_point>3d_t
+=item $center; the center of the sphere
+
+Return value; the initialized B<Gnome::Graphene::N-Sphere>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-points
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vectors
+This function is not yet available
+
+Initializes the given B<Gnome::Graphene::N-Sphere> using the given array
+of 3D coordinates so that the sphere includes them.
+
+The center of the sphere can either be specified, or will be center
+of the 3D volume that encompasses all C<$vectors>.
+
+=begin code
+method init-from-vectors ( …, N-Object $vectors, N-Object $center --> N-Object )
+=end code
+
+=item n-vectors; the number of B<graphene_vec>3_t in the C<$vectors> array. Note that each argument must be specified as a type followed by its value!
+=item $vectors; an array of B<graphene_vec>3_t
+=item $center; the center of the sphere
+
+Return value; the initialized B<Gnome::Graphene::N-Sphere>. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vectors
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-empty
+
+Checks whether the sphere has a zero radius.
+
+=begin code
+method is-empty (--> gboolean )
+=end code
+
+Return value; B<true> if the sphere is empty. 
+
+=begin comment
+
+=head2 Example
+# Example for is-empty
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 translate
+
+Translates the center of the given B<Gnome::Graphene::N-Sphere> using the C<$point>
+coordinates as the delta of the translation.
+
+=begin code
+method translate ( N-Object $point, N-Object $res )
+=end code
+
+=item $point; the coordinates of the translation
+=item $res; return location for the translated sphere
+
+=begin comment
+
+=head2 Example
+# Example for translate
+
+=end comment
+
+=end pod
+
