@@ -1,0 +1,131 @@
+=comment Package: Graphene, C-Source: plane
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Plane:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Graphene::N-Matrix:api<2>;
+use Gnome::Graphene::N-Plane:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec4:api<2>;
+use Gnome::Graphene::T-matrix:api<2>;
+use Gnome::Graphene::T-plane:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Plane $n-plane;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-plane {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-plane {
+    my N-Object $res;
+    my N-Object $c;
+    my N-Object $matrix;
+    my N-Object $src;
+    my N-Object $normal-matrix;
+    my N-Object $normal;
+    my N-Object $point;
+    my Num() $constant;
+    my N-Object $a;
+    my N-Object $b;
+
+
+#`{{
+    #TM:0:distance()
+    ok .distance( $point), '.distance()';
+
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-constant()
+     .get-constant(), '…', '.get-constant()';
+
+    #TM:0:get-normal()
+    is .get-normal( $normal), '…', '.get-normal()';
+
+    #TM:0:init()
+    ok .init( $normal, $constant), '.init()';
+
+    #TM:0:init-from-plane()
+    ok .init-from-plane( $src), '.init-from-plane()';
+
+    #TM:0:init-from-point()
+    ok .init-from-point( $normal, $point), '.init-from-point()';
+
+    #TM:0:init-from-points()
+    ok .init-from-points( $a, $b, $c), '.init-from-points()';
+
+    #TM:0:init-from-vec4()
+    ok .init-from-vec4( $src), '.init-from-vec4()';
+
+    #TM:0:negate()
+    ok .negate( $res), '.negate()';
+
+    #TM:0:normalize()
+    ok .normalize( $res), '.normalize()';
+
+    #TM:0:transform()
+    ok .transform( $matrix, $normal-matrix, $res), '.transform()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-plane {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

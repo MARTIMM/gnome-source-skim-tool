@@ -1,0 +1,386 @@
+=comment Package: Graphene, C-Source: plane
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Plane
+
+=head1 Description
+
+A 2D plane that extends infinitely in a 3D volume.
+
+The contents of the B<Gnome::Graphene::N-Plane> are private, and should not be
+modified directly.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Plane
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new B<Gnome::Graphene::N-Plane> structure.
+
+The contents of the returned structure are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Plane \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 distance
+
+Computes the distance of C<$point> from a B<Gnome::Graphene::N-Plane>.
+
+=begin code
+method distance ( N-Object $point --> Num )
+=end code
+
+=item $point; a B<graphene_point>3d_t
+
+Return value; the distance of the given B<graphene_point>3d_t from the plane. 
+
+=begin comment
+
+=head2 Example
+# Example for distance
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks whether the two given B<Gnome::Graphene::N-Plane> are equal.
+
+=begin code
+method equal ( N-Object $b --> gboolean )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Plane>
+
+Return value; B<true> if the given planes are equal. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-constant
+
+Retrieves the distance along the normal vector of the
+given B<Gnome::Graphene::N-Plane> from the origin.
+
+=begin code
+method get-constant (--> Num )
+=end code
+
+Return value; the constant value of the plane. 
+
+=begin comment
+
+=head2 Example
+# Example for get-constant
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-normal
+
+Retrieves the normal vector pointing towards the origin of the
+given B<Gnome::Graphene::N-Plane>.
+
+=begin code
+method get-normal ( N-Object $normal )
+=end code
+
+=item $normal; return location for the normal vector
+
+=begin comment
+
+=head2 Example
+# Example for get-normal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes the given B<Gnome::Graphene::N-Plane> using the given C<$normal> vector
+and C<$constant> values.
+
+=begin code
+method init ( N-Object $normal, Num() $constant --> N-Object )
+=end code
+
+=item $normal; a unit length normal vector defining the plane
+  pointing towards the origin; if unset, we use the X axis by default
+=item $constant; the distance from the origin to the plane along the
+  normal vector; the sign determines the half-space occupied by the
+  plane.
+
+Return value; the initialized plane. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-plane
+
+Initializes the given B<Gnome::Graphene::N-Plane> using the normal
+vector and constant of another B<Gnome::Graphene::N-Plane>.
+
+=begin code
+method init-from-plane ( N-Object $src --> N-Object )
+=end code
+
+=item $src; a B<Gnome::Graphene::N-Plane>
+
+Return value; the initialized plane. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-plane
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-point
+
+Initializes the given B<Gnome::Graphene::N-Plane> using the given normal vector
+and an arbitrary co-planar point.
+
+=begin code
+method init-from-point ( N-Object $normal, N-Object $point --> N-Object )
+=end code
+
+=item $normal; a normal vector defining the plane pointing towards the origin
+=item $point; a B<graphene_point>3d_t
+
+Return value; the initialized plane. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-points
+
+Initializes the given B<Gnome::Graphene::N-Plane> using the 3 provided co-planar
+points.
+
+The winding order is counter-clockwise, and determines which direction
+the normal vector will point.
+
+=begin code
+method init-from-points ( N-Object $a, N-Object $b, N-Object $c --> N-Object )
+=end code
+
+=item $a; a B<graphene_point>3d_t
+=item $b; a B<graphene_point>3d_t
+=item $c; a B<graphene_point>3d_t
+
+Return value; the initialized plane. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-points
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vec4
+
+Initializes the given B<Gnome::Graphene::N-Plane> using the components of
+the given B<graphene_vec>4_t vector.
+
+=begin code
+method init-from-vec4 ( N-Object $src --> N-Object )
+=end code
+
+=item $src; a B<graphene_vec>4_t containing the normal vector in its first
+  three components, and the distance in its fourth component
+
+Return value; the initialized plane. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec4
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 negate
+
+Negates the normal vector and constant of a B<Gnome::Graphene::N-Plane>, effectively
+mirroring the plane across the origin.
+
+=begin code
+method negate ( N-Object $res )
+=end code
+
+=item $res; return location for the negated plane
+
+=begin comment
+
+=head2 Example
+# Example for negate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 normalize
+
+Normalizes the vector of the given B<Gnome::Graphene::N-Plane>,
+and adjusts the constant accordingly.
+
+=begin code
+method normalize ( N-Object $res )
+=end code
+
+=item $res; return location for the normalized plane
+
+=begin comment
+
+=head2 Example
+# Example for normalize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 transform
+
+Transforms a B<Gnome::Graphene::N-Plane> C<$p> using the given C<$matrix>
+and C<$normal-matrix>.
+
+If C<$normal-matrix> is undefined, a transformation matrix for the plane
+normal will be computed from C<$matrix>. If you are transforming
+multiple planes using the same C<$matrix> it's recommended to compute
+the normal matrix beforehand to avoid incurring in the cost of
+recomputing it every time.
+
+=begin code
+method transform ( N-Object $matrix, N-Object $normal-matrix, N-Object $res )
+=end code
+
+=item $matrix; a B<Gnome::Graphene::N-Matrix>
+=item $normal-matrix; a B<Gnome::Graphene::N-Matrix>
+=item $res; the transformed plane
+
+=begin comment
+
+=head2 Example
+# Example for transform
+
+=end comment
+
+=end pod
+
