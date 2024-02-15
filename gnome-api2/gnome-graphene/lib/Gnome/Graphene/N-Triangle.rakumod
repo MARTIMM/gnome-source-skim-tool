@@ -9,7 +9,7 @@ use NativeCall;
 
 
 use Gnome::Graphene::T-box:api<2>;
-#use Gnome::Graphene::T-plane:api<2>;
+use Gnome::Graphene::T-plane:api<2>;
 use Gnome::Graphene::T-point3d:api<2>;
 use Gnome::Graphene::T-triangle:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
@@ -61,7 +61,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
