@@ -9,8 +9,9 @@ use NativeCall;
 
 
 use Gnome::Graphene::T-box:api<2>;
+use Gnome::Graphene::T-point:api<2>;
 use Gnome::Graphene::T-point3d:api<2>;
-#use Gnome::Graphene::T-sphere:api<2>;
+use Gnome::Graphene::T-sphere:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -60,7 +61,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -91,9 +92,9 @@ my Hash $methods = %(
   get-width => %(:is-symbol<graphene_box_get_width>,  :returns(gfloat)),
   init => %(:is-symbol<graphene_box_init>,  :returns(N-Object), :parameters([N-Object, N-Object])),
   init-from-box => %(:is-symbol<graphene_box_init_from_box>,  :returns(N-Object), :parameters([N-Object])),
-  #init-from-points => %(:is-symbol<graphene_box_init_from_points>,  :returns(N-Object), :parameters([, N-Object])),
+  init-from-points => %(:is-symbol<graphene_box_init_from_points>,  :returns(N-Object), :parameters([ int, CArray[N-Point]])),
   init-from-vec3 => %(:is-symbol<graphene_box_init_from_vec3>,  :returns(N-Object), :parameters([N-Object, N-Object])),
-  #init-from-vectors => %(:is-symbol<graphene_box_init_from_vectors>,  :returns(N-Object), :parameters([, N-Object])),
+  init-from-vectors => %(:is-symbol<graphene_box_init_from_vectors>,  :returns(N-Object), :parameters([ int, CArray[N-Vec3]])),
   intersection => %(:is-symbol<graphene_box_intersection>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, N-Object])),
   union => %(:is-symbol<graphene_box_union>,  :parameters([N-Object, N-Object])),
 

@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::Graphene::T-euler:api<2>;
 use Gnome::Graphene::T-matrix:api<2>;
-#use Gnome::Graphene::T-quaternion:api<2>;
+use Gnome::Graphene::T-quaternion:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -60,7 +60,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
+  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
