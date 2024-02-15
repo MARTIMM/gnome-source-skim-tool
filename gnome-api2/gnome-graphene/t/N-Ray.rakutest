@@ -1,0 +1,148 @@
+=comment Package: Graphene, C-Source: ray
+use v6.d;
+
+#TL:1:Gnome::Graphene::N-Ray:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Graphene::N-Box:api<2>;
+use Gnome::Graphene::N-Plane:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Ray:api<2>;
+use Gnome::Graphene::N-Sphere:api<2>;
+use Gnome::Graphene::N-Triangle:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::T-box:api<2>;
+use Gnome::Graphene::T-plane:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-ray:api<2>;
+use Gnome::Graphene::T-sphere:api<2>;
+use Gnome::Graphene::T-triangle:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Ray $n-ray;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-ray {
+
+#`{{
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-ray {
+    my N-Object $t;
+    my N-Object $direction;
+    my Num() $t-out;
+    my N-Object $origin;
+    my N-Object $position;
+    my N-Object $b;
+    my N-Object $s;
+    my N-Object $p;
+    my N-Object $res;
+    my N-Object $src;
+
+
+#`{{
+    #TM:0:equal()
+    ok .equal( $b), '.equal()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-closest-point-to-point()
+    is .get-closest-point-to-point( $p, $res), '…', '.get-closest-point-to-point()';
+
+    #TM:0:get-direction()
+    is .get-direction( $direction), '…', '.get-direction()';
+
+    #TM:0:get-distance-to-plane()
+    is .get-distance-to-plane( $p), '…', '.get-distance-to-plane()';
+
+    #TM:0:get-distance-to-point()
+    is .get-distance-to-point( $p), '…', '.get-distance-to-point()';
+
+    #TM:0:get-origin()
+    is .get-origin( $origin), '…', '.get-origin()';
+
+    #TM:0:get-position-at()
+    is .get-position-at( $t, $position), '…', '.get-position-at()';
+
+    #TM:0:init()
+    ok .init( $origin, $direction), '.init()';
+
+    #TM:0:init-from-ray()
+    ok .init-from-ray( $src), '.init-from-ray()';
+
+    #TM:0:init-from-vec3()
+    ok .init-from-vec3( $origin, $direction), '.init-from-vec3()';
+
+    #TM:0:intersect-box()
+    ok .intersect-box( $b, $t-out), '.intersect-box()';
+
+    #TM:0:intersect-sphere()
+    ok .intersect-sphere( $s, $t-out), '.intersect-sphere()';
+
+    #TM:0:intersect-triangle()
+    ok .intersect-triangle( $t, $t-out), '.intersect-triangle()';
+
+    #TM:0:intersects-box()
+    ok .intersects-box( $b), '.intersects-box()';
+
+    #TM:0:intersects-sphere()
+    ok .intersects-sphere( $s), '.intersects-sphere()';
+
+    #TM:0:intersects-triangle()
+    ok .intersects-triangle( $t), '.intersects-triangle()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-ray {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

@@ -1,0 +1,482 @@
+=comment Package: Graphene, C-Source: ray
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Graphene::N-Ray
+
+=head1 Description
+
+A ray emitted from an origin in a given direction.
+
+The contents of the B<Gnome::Graphene::N-Ray> structure are private, and should not
+be modified directly.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Graphene::Ray
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 alloc
+
+Allocates a new B<Gnome::Graphene::N-Ray> structure.
+
+The contents of the returned structure are undefined.
+
+=begin code
+method alloc ( --> Gnome::Graphene::Ray \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for alloc
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Checks whether the two given B<Gnome::Graphene::N-Ray> are equal.
+
+=begin code
+method equal ( N-Object $b --> gboolean )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Ray>
+
+Return value; B<true> if the given rays are equal. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the resources allocated by C<.alloc()>.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-closest-point-to-point
+
+Computes the point on the given B<Gnome::Graphene::N-Ray> that is closest to the
+given point C<$p>.
+
+=begin code
+method get-closest-point-to-point ( N-Object $p, N-Object $res )
+=end code
+
+=item $p; a B<graphene_point>3d_t
+=item $res; return location for the closest point3d
+
+=begin comment
+
+=head2 Example
+# Example for get-closest-point-to-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-direction
+
+Retrieves the direction of the given B<Gnome::Graphene::N-Ray>.
+
+=begin code
+method get-direction ( N-Object $direction )
+=end code
+
+=item $direction; return location for the direction
+
+=begin comment
+
+=head2 Example
+# Example for get-direction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-distance-to-plane
+
+Computes the distance of the origin of the given B<Gnome::Graphene::N-Ray> from the
+given plane.
+
+If the ray does not intersect the plane, this function returns B<INFINITY>.
+
+=begin code
+method get-distance-to-plane ( N-Object $p --> Num )
+=end code
+
+=item $p; a B<Gnome::Graphene::N-Plane>
+
+Return value; the distance of the origin of the ray from the plane. 
+
+=begin comment
+
+=head2 Example
+# Example for get-distance-to-plane
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-distance-to-point
+
+Computes the distance of the closest approach between the
+given B<Gnome::Graphene::N-Ray> C<$r> and the point C<$p>.
+
+The closest approach to a ray from a point is the distance
+between the point and the projection of the point on the
+ray itself.
+
+=begin code
+method get-distance-to-point ( N-Object $p --> Num )
+=end code
+
+=item $p; a B<graphene_point>3d_t
+
+Return value; the distance of the point. 
+
+=begin comment
+
+=head2 Example
+# Example for get-distance-to-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-origin
+
+Retrieves the origin of the given B<Gnome::Graphene::N-Ray>.
+
+=begin code
+method get-origin ( N-Object $origin )
+=end code
+
+=item $origin; return location for the origin
+
+=begin comment
+
+=head2 Example
+# Example for get-origin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-position-at
+
+Retrieves the coordinates of a point at the distance C<$t> along the
+given B<Gnome::Graphene::N-Ray>.
+
+=begin code
+method get-position-at ( Num() $t, N-Object $position )
+=end code
+
+=item $t; the distance along the ray.
+=item $position; return location for the position
+
+=begin comment
+
+=head2 Example
+# Example for get-position-at
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes the given B<Gnome::Graphene::N-Ray> using the given C<$origin>
+and C<$direction> values.
+
+=begin code
+method init ( N-Object $origin, N-Object $direction --> N-Object )
+=end code
+
+=item $origin; the origin of the ray
+=item $direction; the direction vector
+
+Return value; the initialized ray. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-ray
+
+Initializes the given B<Gnome::Graphene::N-Ray> using the origin and direction
+values of another B<Gnome::Graphene::N-Ray>.
+
+=begin code
+method init-from-ray ( N-Object $src --> N-Object )
+=end code
+
+=item $src; a B<Gnome::Graphene::N-Ray>
+
+Return value; the initialized ray. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-ray
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-vec3
+
+Initializes the given B<Gnome::Graphene::N-Ray> using the given vectors.
+
+=begin code
+method init-from-vec3 ( N-Object $origin, N-Object $direction --> N-Object )
+=end code
+
+=item $origin; a B<graphene_vec>3_t
+=item $direction; a B<graphene_vec>3_t
+
+Return value; the initialized ray. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-vec3
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersect-box
+
+Intersects the given B<Gnome::Graphene::N-Ray> C<$r> with the given
+B<Gnome::Graphene::N-Box> C<$b>.
+
+=begin code
+method intersect-box ( N-Object $b, Num() $t-out --> graphene_ray_intersection_kind_t )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Box>
+=item $t-out; (transfer ownership: full) the distance of the point on the ray that intersects the box.
+
+Return value; the type of intersection. 
+
+=begin comment
+
+=head2 Example
+# Example for intersect-box
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersect-sphere
+
+Intersects the given B<Gnome::Graphene::N-Ray> C<$r> with the given
+B<Gnome::Graphene::N-Sphere> C<$s>.
+
+=begin code
+method intersect-sphere ( N-Object $s, Num() $t-out --> graphene_ray_intersection_kind_t )
+=end code
+
+=item $s; a B<Gnome::Graphene::N-Sphere>
+=item $t-out; (transfer ownership: full) the distance of the point on the ray that intersects the sphere.
+
+Return value; the type of intersection. 
+
+=begin comment
+
+=head2 Example
+# Example for intersect-sphere
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersect-triangle
+
+Intersects the given B<Gnome::Graphene::N-Ray> C<$r> with the given
+B<Gnome::Graphene::N-Triangle> C<$t>.
+
+=begin code
+method intersect-triangle ( N-Object $t, Num() $t-out --> graphene_ray_intersection_kind_t )
+=end code
+
+=item $t; a B<Gnome::Graphene::N-Triangle>
+=item $t-out; (transfer ownership: full) the distance of the point on the ray that intersects the triangle.
+
+Return value; the type of intersection. 
+
+=begin comment
+
+=head2 Example
+# Example for intersect-triangle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersects-box
+
+Checks whether the given B<Gnome::Graphene::N-Ray> C<$r> intersects the
+given B<Gnome::Graphene::N-Box> C<$b>.
+
+See also: C<.intersect-box()>
+
+=begin code
+method intersects-box ( N-Object $b --> gboolean )
+=end code
+
+=item $b; a B<Gnome::Graphene::N-Box>
+
+Return value; B<true> if the ray intersects the box. 
+
+=begin comment
+
+=head2 Example
+# Example for intersects-box
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersects-sphere
+
+Checks if the given B<Gnome::Graphene::N-Ray> C<$r> intersects the
+given B<Gnome::Graphene::N-Sphere> C<$s>.
+
+See also: C<.intersect-sphere()>
+
+=begin code
+method intersects-sphere ( N-Object $s --> gboolean )
+=end code
+
+=item $s; a B<Gnome::Graphene::N-Sphere>
+
+Return value; B<true> if the ray intersects the sphere. 
+
+=begin comment
+
+=head2 Example
+# Example for intersects-sphere
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersects-triangle
+
+Checks whether the given B<Gnome::Graphene::N-Ray> C<$r> intersects the
+given B<Gnome::Graphene::N-Triangle> C<$b>.
+
+See also: C<.intersect-triangle()>
+
+=begin code
+method intersects-triangle ( N-Object $t --> gboolean )
+=end code
+
+=item $t; a B<Gnome::Graphene::N-Triangle>
+
+Return value; B<true> if the ray intersects the triangle. 
+
+=begin comment
+
+=head2 Example
+# Example for intersects-triangle
+
+=end comment
+
+=end pod
+
