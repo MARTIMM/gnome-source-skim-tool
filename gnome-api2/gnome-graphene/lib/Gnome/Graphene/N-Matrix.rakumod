@@ -8,16 +8,16 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Graphene::T-box:api<2>;
-#use Gnome::Graphene::T-euler:api<2>;
+use Gnome::Graphene::T-box:api<2>;
+use Gnome::Graphene::T-euler:api<2>;
 use Gnome::Graphene::T-matrix:api<2>;
 use Gnome::Graphene::T-point:api<2>;
 use Gnome::Graphene::T-point3d:api<2>;
 use Gnome::Graphene::T-quad:api<2>;
-#use Gnome::Graphene::T-quaternion:api<2>;
-#use Gnome::Graphene::T-ray:api<2>;
+use Gnome::Graphene::T-quaternion:api<2>;
+use Gnome::Graphene::T-ray:api<2>;
 use Gnome::Graphene::T-rect:api<2>;
-#use Gnome::Graphene::T-sphere:api<2>;
+use Gnome::Graphene::T-sphere:api<2>;
 use Gnome::Graphene::T-vec:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
