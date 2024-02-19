@@ -1,0 +1,140 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::ColorMatrixNode
+
+=head1 Description
+
+A render node controlling the color matrix of its single child node.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::ColorMatrixNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-colormatrixnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will drawn the C<$child> with C<$color-matrix>.
+
+In particular, the node will transform the operation
+
+    pixel = color_matrix * pixel + color_offset
+
+for every pixel.
+
+=begin code
+method new-colormatrixnode ( N-Object() $child, N-Object $color-matrix, N-Object $color-offset --> Gnome::Gsk4::ColorMatrixNode \)
+=end code
+
+=item $child; The node to draw.
+=item $color-matrix; The matrix to apply
+=item $color-offset; Values to add to the color
+
+=begin comment
+
+=head2 Example
+# Example for new-colormatrixnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child node that is getting its colors modified by the given C<$node>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; The child that is getting its colors modified. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color-matrix
+
+Retrieves the color matrix used by the C<$node>.
+
+=begin code
+method get-color-matrix (--> N-Object )
+=end code
+
+Return value; a 4x4 color matrix. 
+
+=begin comment
+
+=head2 Example
+# Example for get-color-matrix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color-offset
+
+Retrieves the color offset used by the C<$node>.
+
+=begin code
+method get-color-offset (--> N-Object )
+=end code
+
+Return value; a color vector. 
+
+=begin comment
+
+=head2 Example
+# Example for get-color-offset
+
+=end comment
+
+=end pod
+
