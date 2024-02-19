@@ -1,0 +1,119 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::CairoNode
+
+=head1 Description
+
+A render node for a Cairo surface.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::CairoNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-caironode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will render a cairo surface
+into the area given by C<$bounds>.
+
+You can draw to the cairo surface using C<.get-draw-context()>.
+
+=begin code
+method new-caironode ( N-Object $bounds --> Gnome::Gsk4::CairoNode \)
+=end code
+
+=item $bounds; the rectangle to render to
+
+=begin comment
+
+=head2 Example
+# Example for new-caironode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-draw-context
+
+Creates a Cairo context for drawing using the surface associated
+to the render node.
+
+If no surface exists yet, a surface will be created optimized for
+rendering to C<$renderer>.
+
+=begin code
+method get-draw-context (--> N-Object )
+=end code
+
+Return value; a Cairo context used for drawing; use
+  cairo_destroy() when done drawing. 
+
+=begin comment
+
+=head2 Example
+# Example for get-draw-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-surface
+
+Retrieves the Cairo surface used by the render node.
+
+=begin code
+method get-surface (--> N-Object )
+=end code
+
+Return value; a Cairo surface. 
+
+=begin comment
+
+=head2 Example
+# Example for get-surface
+
+=end comment
+
+=end pod
+
