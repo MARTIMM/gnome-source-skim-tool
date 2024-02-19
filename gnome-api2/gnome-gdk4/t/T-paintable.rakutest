@@ -1,7 +1,7 @@
 =comment Package: Gdk4, C-Source: paintable
 use v6.d;
 
-#TL:1:Gnome::Gdk4::T-Paintable:
+#TL:1:Gnome::Gdk4::T-paintable:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ use Test;
 use NativeCall;
 
 
-use Gnome::Gdk4::T-Paintable:api<2>;
+use Gnome::Gdk4::T-paintable:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -30,7 +30,7 @@ subtest 'GdkPaintableFlags', {
 };
 
 
-my Gnome::Gdk4::T-Paintable $paintable .= new;
+my Gnome::Gdk4::T-paintable $paintable .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $paintable {

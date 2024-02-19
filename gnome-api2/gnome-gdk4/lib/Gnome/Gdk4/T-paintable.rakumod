@@ -17,7 +17,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gdk4::T-Paintable:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gdk4::T-paintable:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
