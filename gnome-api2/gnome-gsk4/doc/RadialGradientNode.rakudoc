@@ -1,0 +1,232 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::RadialGradientNode
+
+=head1 Description
+
+A render node for a radial gradient.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::RadialGradientNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-radialgradientnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that draws a radial gradient.
+
+The radial gradient
+starts around C<$center>. The size of the gradient is dictated by C<$hradius>
+in horizontal orientation and by C<$vradius> in vertial orientation.
+
+=begin code
+method new-radialgradientnode ( N-Object $bounds, N-Object $center, Num() $hradius, Num() $vradius, Num() $start, Num() $end, N-Object $color-stops, Int() $n-color-stops --> Gnome::Gsk4::RadialGradientNode \)
+=end code
+
+=item $bounds; the bounds of the node
+=item $center; the center of the gradient
+=item $hradius; the horizontal radius.
+=item $vradius; the vertical radius.
+=item $start; a percentage >= 0 that defines the start of the gradient around C<$center>.
+=item $end; a percentage >= 0 that defines the end of the gradient around C<$center>.
+=item $color-stops; a pointer to an array of
+  B<Gnome::Gsk4::N-ColorStop> defining the gradient. The offsets of all color stops
+  must be increasing. The first stop's offset must be >= 0 and the last
+  stop's offset must be <= 1.
+=item $n-color-stops; the number of elements in C<$color-stops>.
+
+=begin comment
+
+=head2 Example
+# Example for new-radialgradientnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-center
+
+Retrieves the center pointer for the gradient.
+
+=begin code
+method get-center (--> N-Object )
+=end code
+
+Return value; the center point for the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-center
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color-stops
+
+Retrieves the color stops in the gradient.
+
+=begin code
+method get-color-stops ( Array[gsize] $n-stops --> N-Object )
+=end code
+
+=item $n-stops; (transfer ownership: full) the number of color stops in the returned array.
+
+Return value; the color stops in the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-color-stops
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-end
+
+Retrieves the end value for the gradient.
+
+=begin code
+method get-end (--> Num )
+=end code
+
+Return value; the end value for the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-hradius
+
+Retrieves the horizonal radius for the gradient.
+
+=begin code
+method get-hradius (--> Num )
+=end code
+
+Return value; the horizontal radius for the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-hradius
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-color-stops
+
+Retrieves the number of color stops in the gradient.
+
+=begin code
+method get-n-color-stops (--> Int )
+=end code
+
+Return value; the number of color stops. 
+
+=begin comment
+
+=head2 Example
+# Example for get-n-color-stops
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-start
+
+Retrieves the start value for the gradient.
+
+=begin code
+method get-start (--> Num )
+=end code
+
+Return value; the start value for the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-vradius
+
+Retrieves the vertical radius for the gradient.
+
+=begin code
+method get-vradius (--> Num )
+=end code
+
+Return value; the vertical radius for the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-vradius
+
+=end comment
+
+=end pod
+
