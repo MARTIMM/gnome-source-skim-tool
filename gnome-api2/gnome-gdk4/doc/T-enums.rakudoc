@@ -1,10 +1,13 @@
-# Package: Gdk4, C-Source: enums
+=comment Package: Gdk4, C-Source: enums
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gdk4::T-Enums
+=head1 Gnome::Gdk4::T-enums
 =end pod
 
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 =begin pod
 =head1 Constants
@@ -13,22 +16,28 @@ use v6.d;
 
 Defines all possible DND actions.
 
-This can be used in C<.status() defined in Drop> messages when any drop can be accepted or a more specific drop method is not yet known.
+This can be used in C<.status() in class Gnome::Gdk4::Drop> messages when any drop
+can be accepted or a more specific drop method is not yet known.
 
 =head2 GDK_MODIFIER_MASK
 
-A mask covering all entries in I<GdkModifierType>.
+A mask covering all entries in C<bit field GdkModifierType defined in Gnome::Gdk4::T-enums>.
 =end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 =begin pod
 =head1 Enumerations
-
 
 =head2 GdkAxisUse
 
 Defines how device axes are interpreted by GTK.
 
-Note that the X and Y axes are not really needed; pointer devices report their location via the x/y members of events regardless. Whether X and Y are present as axes depends on the GDK backend.
+Note that the X and Y axes are not really needed; pointer devices
+report their location via the x/y members of events regardless. Whether
+X and Y are present as axes depends on the GDK backend.
 =item C<GDK_AXIS_IGNORE>; the axis is ignored.
 =item C<GDK_AXIS_X>; the axis is used as the x axis.
 =item C<GDK_AXIS_Y>; the axis is used as the y axis.
@@ -45,7 +54,7 @@ Note that the X and Y axes are not really needed; pointer devices report their l
 
 =head2 GdkGLError
 
-Error enumeration for I<GdkGLContext>.
+Error enumeration for B<Gnome::Gdk4::GLContext>.
 =item C<GDK_GL_ERROR_NOT_AVAILABLE>; OpenGL support is not available
 =item C<GDK_GL_ERROR_UNSUPPORTED_FORMAT>; The requested visual format is not supported
 =item C<GDK_GL_ERROR_UNSUPPORTED_PROFILE>; The requested profile is not supported
@@ -54,7 +63,7 @@ Error enumeration for I<GdkGLContext>.
 
 =head2 GdkGravity
 
-Defines the reference point of a surface and is used in I<GdkPopupLayout>.
+Defines the reference point of a surface and is used in B<Gnome::Gdk4::N-PopupLayout>.
 =item C<GDK_GRAVITY_NORTH_WEST>; the reference point is at the top left corner.
 =item C<GDK_GRAVITY_NORTH>; the reference point is in the middle of the top edge.
 =item C<GDK_GRAVITY_NORTH_EAST>; the reference point is at the top right corner.
@@ -69,21 +78,23 @@ Defines the reference point of a surface and is used in I<GdkPopupLayout>.
 
 =head2 GdkMemoryFormat
 
-I<GdkMemoryFormat> describes formats that image data can have in memory.
+C<enumeration GdkMemoryFormat defined in Gnome::Gdk4::T-enums> describes formats that image data can have in memory.
 
 It describes formats by listing the contents of the memory passed to it.
-So GDK_MEMORY_A8R8G8B8 will be 1 byte (8 bits) of alpha, followed by a byte each of red, green and blue. It is not endian-dependent, so CAIRO_FORMAT_ARGB32 is represented by different I<GdkMemoryFormats>
+So GDK_MEMORY_A8R8G8B8 will be 1 byte (8 bits) of alpha, followed by a
+byte each of red, green and blue. It is not endian-dependent, so
+CAIRO_FORMAT_ARGB32 is represented by different B<GdkMemoryFormats>
 on architectures with different endiannesses.
 
 Its naming is modelled after
 [VkFormat](https://www.khronos.org/registry/vulkan/specs/1.0/html/vkspec.html#VkFormat)
 for details).
 =item C<GDK_MEMORY_B8G8R8A8_PREMULTIPLIED>; 4 bytes; for blue, green, red, alpha.
- The color values are premultiplied with the alpha value.
+  The color values are premultiplied with the alpha value.
 =item C<GDK_MEMORY_A8R8G8B8_PREMULTIPLIED>; 4 bytes; for alpha, red, green, blue.
- The color values are premultiplied with the alpha value.
+  The color values are premultiplied with the alpha value.
 =item C<GDK_MEMORY_R8G8B8A8_PREMULTIPLIED>; 4 bytes; for red, green, blue, alpha
- The color values are premultiplied with the alpha value.
+  The color values are premultiplied with the alpha value.
 =item C<GDK_MEMORY_B8G8R8A8>; 4 bytes; for blue, green, red, alpha.
 =item C<GDK_MEMORY_A8R8G8B8>; 4 bytes; for alpha, red, green, blue.
 =item C<GDK_MEMORY_R8G8B8A8>; 4 bytes; for red, green, blue, alpha.
@@ -92,37 +103,40 @@ for details).
 =item C<GDK_MEMORY_B8G8R8>; 3 bytes; for blue, green, red. The data is opaque.
 =item C<GDK_MEMORY_R16G16B16>; 3 guint16 values; for red, green, blue. Since: 4.6
 =item C<GDK_MEMORY_R16G16B16A16_PREMULTIPLIED>; 4 guint16 values; for red, green,
- blue, alpha. The color values are premultiplied with the alpha value.
+  blue, alpha. The color values are premultiplied with the alpha value.
  Since: 4.6
 =item C<GDK_MEMORY_R16G16B16A16>; 4 guint16 values; for red, green, blue, alpha.
  Since: 4.6
 =item C<GDK_MEMORY_R16G16B16_FLOAT>; 3 half-float values; for red, green, blue.
- The data is opaque. Since: 4.6
+  The data is opaque. Since: 4.6
 =item C<GDK_MEMORY_R16G16B16A16_FLOAT_PREMULTIPLIED>; 4 half-float values; for
- red, green, blue and alpha. The color values are premultiplied with
- the alpha value. Since: 4.6
+  red, green, blue and alpha. The color values are premultiplied with
+  the alpha value. Since: 4.6
 =item C<GDK_MEMORY_R16G16B16A16_FLOAT>; 4 half-float values; for red, green,
- blue and alpha. Since: 4.6
+  blue and alpha. Since: 4.6
 =item C<GDK_MEMORY_R32G32B32_FLOAT>; 
 =item C<GDK_MEMORY_R32G32B32A32_FLOAT_PREMULTIPLIED>; 4 float values; for
- red, green, blue and alpha. The color values are premultiplied with
- the alpha value. Since: 4.6
+  red, green, blue and alpha. The color values are premultiplied with
+  the alpha value. Since: 4.6
 =item C<GDK_MEMORY_R32G32B32A32_FLOAT>; 4 float values; for red, green, blue and
- alpha. Since: 4.6
+  alpha. Since: 4.6
 =item C<GDK_MEMORY_N_FORMATS>; The number of formats. This value will change as
- more formats get added, so do not rely on its concrete integer.
+  more formats get added, so do not rely on its concrete integer.
 
 =head2 GdkVulkanError
 
-Error enumeration for I<GdkVulkanContext>.
+Error enumeration for B<Gnome::Gdk4::VulkanContext>.
 =item C<GDK_VULKAN_ERROR_UNSUPPORTED>; Vulkan is not supported on this backend or has not been
- compiled in.
+  compiled in.
 =item C<GDK_VULKAN_ERROR_NOT_AVAILABLE>; Vulkan support is not available on this Surface
 =end pod
 
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 =begin pod
 =head1 Bitfields
-
 
 =head2 GdkAxisFlags
 
@@ -142,25 +156,28 @@ Flags describing the current capabilities of a device/tool.
 
 =head2 GdkDragAction
 
-Used in I<GdkDrop> and I<GdkDrag> to indicate the actions that the destination can and should do with the dropped data.
+Used in B<Gnome::Gdk4::Drop> and B<Gnome::Gdk4::Drag> to indicate the actions that the
+destination can and should do with the dropped data.
 
 =item C<GDK_ACTION_COPY>; Copy the data.
 =item C<GDK_ACTION_MOVE>; Move the data, i.e. first copy it, then delete
- it from the source using the DELETE target of the X selection protocol.
+  it from the source using the DELETE target of the X selection protocol.
 =item C<GDK_ACTION_LINK>; Add a link to the data. Note that this is only
- useful if source and destination agree on what it means, and is not
- supported on all platforms.
+  useful if source and destination agree on what it means, and is not
+  supported on all platforms.
 =item C<GDK_ACTION_ASK>; Ask the user what to do with the data.
 
 =head2 GdkModifierType
 
-Flags to indicate the state of modifier keys and mouse buttons in events.
+Flags to indicate the state of modifier keys and mouse buttons
+in events.
 
 Typical modifier keys are Shift, Control, Meta, Super, Hyper, Alt, Compose,
 Apple, CapsLock or ShiftLock.
 
-Note that GDK may add internal values to events which include values outside of this enumeration. Your code should preserve and ignore them. You can use
-%GDK_MODIFIER_MASK to remove all private values.
+Note that GDK may add internal values to events which include values outside
+of this enumeration. Your code should preserve and ignore them.  You can use
+C<GDK_MODIFIER_MASK> to remove all private values.
 
 =item C<GDK_SHIFT_MASK>; the Shift key.
 =item C<GDK_LOCK_MASK>; a Lock key (depending on the modifier mapping of the
