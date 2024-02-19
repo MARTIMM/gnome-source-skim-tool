@@ -9,12 +9,12 @@ use v6.d;
 use NativeCall;
 use Test;
 
-use Gnome::Gdk4::Texture:api<2>;
-use Gnome::Gdk4::T-Paintable:api<2>;
+use Gnome::Glib::N-Error:api<2>;
 
 use Gnome::Gio::File:api<2>;
 
-#use Gnome::Glib::N-Error:api<2>;
+use Gnome::Gdk4::Texture:api<2>;
+use Gnome::Gdk4::T-paintable:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -31,22 +31,25 @@ unless %*ENV<raku_test_all>:exists {
 }
 
 #-------------------------------------------------------------------------------
-my Str $filename = 't/Data/gtk-raku.png';
-my Gnome::Gio::File $file .= new-for-path($filename);
-#my $err = CArray[N-Error].new(N-Error);
-my Gnome::Gdk4::Texture $r-paintable .= new-from-file( $file, Pointer);
-
 subtest 'Method tests', {
+
+#  my Gnome::Gio::File $file .= new-for-path('t/Data/gt-k-raku.png');
+  my Gnome::Gio::File $file .= new-for-path('t/Data/gtk-raku.png');
+
+  my $e = CArray[N-Error].new(N-Error);
+  my Gnome::Gdk4::Texture $r-paintable .= new-from-file( $file, $e);
+  ok !$e[0], 'Texture initialized for paintable role test';
+
   with $r-paintable {
-    my CArray[gdouble] $concrete-height;
-    my gdouble $height;
     my gdouble $specified-width;
-    my gdouble $default-width;
     my gdouble $default-height;
-    my gdouble $width;
-    my gdouble $specified-height;
-    my CArray[gdouble] $concrete-width;
     my N-Object $snapshot;
+    my gdouble $height;
+    my gdouble $specified-height;
+    my CArray[gdouble] $concrete-height;
+    my gdouble $default-width;
+    my gdouble $width;
+    my CArray[gdouble] $concrete-width;
 
 
 #`{{
@@ -136,13 +139,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gdk4::Paintable $r--paintable .= new;
+  my Gnome::Gdk4::Paintable $r-paintable .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $r--paintable.register-signal( $sh, 'method', 'signal');
+  $r-paintable.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',
