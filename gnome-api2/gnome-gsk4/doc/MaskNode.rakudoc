@@ -1,0 +1,138 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::MaskNode
+
+=head1 Description
+
+A render node masking one child node with another.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::MaskNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-masknode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will mask a given node by another.
+
+The C<$mask-mode> determines how the 'mask values' are derived from
+the colors of the C<$mask>. Applying the mask consists of multiplying
+the 'mask value' with the alpha of the source.
+
+=begin code
+method new-masknode ( N-Object() $source, N-Object() $mask, GskMaskMode $mask-mode --> Gnome::Gsk4::MaskNode \)
+=end code
+
+=item $source; The source node to be drawn.
+=item $mask; The node to be used as mask.
+=item $mask-mode; The mask mode to use.
+
+=begin comment
+
+=head2 Example
+# Example for new-masknode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mask
+
+Retrieves the mask B<Gnome::Gsk4::RenderNode> child of the C<$node>.
+
+=begin code
+method get-mask (--> N-Object )
+=end code
+
+Return value; the mask child node. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mask
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mask-mode
+
+Retrieves the mask mode used by C<$node>.
+
+=begin code
+method get-mask-mode (--> GskMaskMode )
+=end code
+
+Return value; the mask mode. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mask-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-source
+
+Retrieves the source B<Gnome::Gsk4::RenderNode> child of the C<$node>.
+
+=begin code
+method get-source (--> N-Object )
+=end code
+
+Return value; the source child node. 
+
+=begin comment
+
+=head2 Example
+# Example for get-source
+
+=end comment
+
+=end pod
+
