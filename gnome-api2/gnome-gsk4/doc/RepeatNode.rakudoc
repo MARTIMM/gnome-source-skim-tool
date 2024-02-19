@@ -1,0 +1,115 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::RepeatNode
+
+=head1 Description
+
+A render node repeating its single child node.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::RepeatNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-repeatnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will repeat the drawing of C<$child> across
+the given C<$bounds>.
+
+=begin code
+method new-repeatnode ( N-Object $bounds, N-Object() $child, N-Object $child-bounds --> Gnome::Gsk4::RepeatNode \)
+=end code
+
+=item $bounds; The bounds of the area to be painted
+=item $child; The child to repeat.
+=item $child-bounds; The area of the child to repeat or undefined to
+    use the child's bounds
+
+=begin comment
+
+=head2 Example
+# Example for new-repeatnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Retrieves the child of C<$node>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-bounds
+
+Retrieves the bounding rectangle of the child of C<$node>.
+
+=begin code
+method get-child-bounds (--> N-Object )
+=end code
+
+Return value; a bounding rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child-bounds
+
+=end comment
+
+=end pod
+
