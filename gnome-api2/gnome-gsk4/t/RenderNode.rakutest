@@ -1,0 +1,184 @@
+=comment Package: Gsk4, C-Source: rendernode
+use v6.d;
+
+#TL:1:Gnome::Gsk4::RenderNode:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Cairo::N-Context:api<2>;
+#use Gnome::Cairo::T-undefined-module-name:api<2>;
+#use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::N-Error:api<2>;
+#use Gnome::Glib::T-array:api<2>;
+#use Gnome::Glib::T-error:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+#use Gnome::Gsk4::N-ParseLocation:api<2>;
+use Gnome::Gsk4::RenderNode:api<2>;
+use Gnome::Gsk4::T-enums:api<2>;
+use Gnome::Gsk4::T-rendernode:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gsk4::RenderNode $rendernode;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $rendernode {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $rendernode {
+    my Str $filename;
+    my CArray[N-Error] $err;
+    my N-Object $cr;
+    my N-Object $bounds;
+
+
+#`{{
+    #TM:0:draw()
+    ok .draw( $cr), '.draw()';
+
+    #TM:0:get-bounds()
+    is .get-bounds( $bounds), '…', '.get-bounds()';
+
+    #TM:0:get-node-type()
+     .get-node-type(), '…', '.get-node-type()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:serialize()
+    ok .serialize(), '.serialize()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+    #TM:0:write-to-file()
+    ok .write-to-file( $filename, $err), '.write-to-file()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $rendernode {
+    my N-Object $bytes;
+    my gpointer $user-data;
+    sub error-func ( N-Object $start, N-Object $end, N-Object $error, gpointer $user-data ) {}
+
+
+#`{{
+    #TM:0:deserialize()
+    ok .deserialize( $bytes, $error-func, $user-data), '.deserialize()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gsk4::RenderNode() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gsk4::RenderNode;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gsk4::RenderNode :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gsk4::RenderNode $rendernode .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $rendernode.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

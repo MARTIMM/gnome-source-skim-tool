@@ -1,0 +1,208 @@
+=comment Package: Gsk4, C-Source: rendernode
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gsk4::T-rendernode
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-ParseLocation
+
+  class N-ParseLocation:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gsize $.bytes;
+    has gsize $.chars;
+    has gsize $.lines;
+    has gsize $.line-bytes;
+    has gsize $.line-chars;
+  }
+
+=item bytes; the offset of the location in the parse buffer, as bytes
+=item chars; the offset of the location in the parse buffer, as characters
+=item lines; the line of the location in the parse buffer
+=item line-bytes; the position in the line, as bytes
+=item line-chars; the position in the line, as characters
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-ColorStop
+
+  class N-ColorStop:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.offset;
+    has N-Object $.color;
+  }
+
+=item offset; the offset of the color stop
+=item color; the color at the given offset
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Shadow
+
+  class N-Shadow:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Object $.color;
+    has gfloat $.dx;
+    has gfloat $.dy;
+    has gfloat $.radius;
+  }
+
+=item color; the color of the shadow
+=item dx; the horizontal offset of the shadow
+=item dy; the vertical offset of the shadow
+=item radius; the radius of the shadow
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 ParseErrorFunc
+
+=head3 Signature
+=begin code
+:(  N-Object $start, N-Object $end, N-Object $error, gpointer $user-data  )
+=end code
+
+=item start; start of the error location
+=item end; end of the error location
+=item error; the error
+=item user-data; user data
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-dup-render-node
+
+Retrieves the B<Gnome::Gsk4::RenderNode> stored inside the given B<value>, and acquires
+a reference to it.
+
+=begin code
+method value-dup-render-node ( N-Object $value --> N-Object )
+=end code
+
+=item $value; a  B<Value>  initialized with type B<GSK_TYPE_RENDER_NODE>
+
+Return value; a B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for value-dup-render-node
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-get-render-node
+
+Retrieves the B<Gnome::Gsk4::RenderNode> stored inside the given B<value>.
+
+=begin code
+method value-get-render-node ( N-Object $value --> N-Object )
+=end code
+
+=item $value; a B<Gnome::GObject::N-Value> initialized with type B<GSK_TYPE_RENDER_NODE>
+
+Return value; a B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for value-get-render-node
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-set-render-node
+
+Stores the given B<Gnome::Gsk4::RenderNode> inside B<value>.
+
+The  B<Value>  will acquire a reference to the B<node>.
+
+=begin code
+method value-set-render-node ( N-Object $value, N-Object() $node )
+=end code
+
+=item $value; a  B<Value>  initialized with type B<GSK_TYPE_RENDER_NODE>
+=item $node; a B<Gnome::Gsk4::RenderNode>.
+
+=begin comment
+
+=head2 Example
+# Example for value-set-render-node
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-take-render-node
+
+Stores the given B<Gnome::Gsk4::RenderNode> inside B<value>.
+
+This function transfers the ownership of the B<node> to the B<Gnome::GObject::N-Value>.
+
+=begin code
+method value-take-render-node ( N-Object $value, N-Object() $node )
+=end code
+
+=item $value; a  B<Value>  initialized with type B<GSK_TYPE_RENDER_NODE>
+=item $node; (transfer ownership: full) a B<Gnome::Gsk4::RenderNode>.
+
+=begin comment
+
+=head2 Example
+# Example for value-take-render-node
+
+=end comment
+
+=end pod
+

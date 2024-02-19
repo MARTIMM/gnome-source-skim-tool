@@ -1,0 +1,54 @@
+=comment Package: Gsk4, C-Source: rendernode
+use v6.d;
+
+#TL:1:Gnome::Gsk4::T-rendernode:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::GObject::N-Value:api<2>;
+#use Gnome::GObject::T-value:api<2>;
+use Gnome::Gsk4::T-rendernode:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gsk4::T-rendernode $rendernode .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $rendernode {
+    my N-Object $node;
+    my N-Object $value;
+
+
+#`{{
+    #TM:0:value-dup-render-node()
+    ok .value-dup-render-node( $value), '.value-dup-render-node()';
+
+    #TM:0:value-get-render-node()
+    ok .value-get-render-node( $value), '.value-get-render-node()';
+
+    #TM:0:value-set-render-node()
+    ok .value-set-render-node( $value, $node), '.value-set-render-node()';
+
+    #TM:0:value-take-render-node()
+    ok .value-take-render-node( $value, $node), '.value-take-render-node()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

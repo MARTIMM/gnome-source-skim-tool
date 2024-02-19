@@ -1,0 +1,271 @@
+=comment Package: Gsk4, C-Source: rendernode
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::RenderNode
+
+=head1 Description
+
+B<Gnome::Gsk4::RenderNode> is the basic block in a scene graph to be
+rendered using B<Gnome::Gsk4::Renderer>.
+
+Each node has a parent, except the top-level node; each node may have
+children nodes.
+
+Each node has an associated drawing surface, which has the size of
+the rectangle set when creating it.
+
+Render nodes are meant to be transient; once they have been associated
+to a B<Gnome::Gsk4::Renderer> it's safe to release any reference you have on
+them. All B<Gnome::Gsk4::RenderNode>s are immutable, you can only specify their
+properties during construction.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::RenderNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 draw
+
+Draw the contents of C<$node> to the given cairo context.
+
+Typically, you'll use this function to implement fallback rendering
+of B<Gnome::Gsk4::RenderNode>s on an intermediate Cairo context, instead of using
+the drawing context associated to a B<Gnome::Gdk4::Surface>'s rendering buffer.
+
+For advanced nodes that cannot be supported using Cairo, in particular
+for nodes doing 3D operations, this function may fail.
+
+=begin code
+method draw ( N-Object $cr )
+=end code
+
+=item $cr; cairo context to draw to
+
+=begin comment
+
+=head2 Example
+# Example for draw
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-bounds
+
+Retrieves the boundaries of the C<$node>.
+
+The node will not draw outside of its boundaries.
+
+=begin code
+method get-bounds ( N-Object $bounds )
+=end code
+
+=item $bounds; return location for the boundaries
+
+=begin comment
+
+=head2 Example
+# Example for get-bounds
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-node-type
+
+Returns the type of the C<$node>.
+
+=begin code
+method get-node-type (--> GskRenderNodeType )
+=end code
+
+Return value; the type of the B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-node-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Acquires a reference on the given B<Gnome::Gsk4::RenderNode>.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gsk4::RenderNode> with an additional reference. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 serialize
+
+Serializes the C<$node> for later deserialization via
+C<.deserialize()>. No guarantees are made about the format
+used other than that the same version of GTK will be able to deserialize
+the result of a call to C<.serialize()> and
+C<.deserialize()> will correctly reject files it cannot open
+that were created with previous versions of GTK.
+
+The intended use of this functions is testing, benchmarking and debugging.
+The format is not meant as a permanent storage format.
+
+=begin code
+method serialize (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Glib::N-Bytes> representing the node.. 
+
+=begin comment
+
+=head2 Example
+# Example for serialize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Releases a reference on the given B<Gnome::Gsk4::RenderNode>.
+
+If the reference was the last, the resources associated to the C<$node> are
+freed.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 write-to-file
+
+This function is equivalent to calling C<.serialize()>
+followed by C<.file-set-contents() in package Gnome::GLib>.
+
+See those two functions for details on the arguments.
+
+It is mostly intended for use inside a debugger to quickly dump a render
+node to a file for later inspection.
+
+=begin code
+method write-to-file ( Str $filename, CArray[N-Error] $err --> Bool )
+=end code
+
+=item $filename; the file to save it to..
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; C<True> if saving was successful. 
+
+=begin comment
+
+=head2 Example
+# Example for write-to-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 deserialize
+
+Loads data previously created via C<.serialize()>.
+
+For a discussion of the supported format, see that function.
+
+=begin code
+method deserialize ( N-Object $bytes, &error-func, gpointer $user-data --> N-Object )
+=end code
+
+=item $bytes; the bytes containing the data
+=item &error-func; Callback on parsing errors. Tthe function must be specified with following signature; C<:( N-Object $start, N-Object $end, N-Object $error, gpointer $user-data )>.
+=item $user-data; user_data for C<$error-func>.
+
+Return value; a new B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for deserialize
+
+=end comment
+
+=end pod
+
