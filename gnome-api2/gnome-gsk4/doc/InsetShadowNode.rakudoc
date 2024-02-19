@@ -1,0 +1,201 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::InsetShadowNode
+
+=head1 Description
+
+A render node for an inset shadow.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::InsetShadowNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-insetshadownode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will render an inset shadow
+into the box given by C<$outline>.
+
+=begin code
+method new-insetshadownode ( N-Object $outline, N-Object $color, Num() $dx, Num() $dy, Num() $spread, Num() $blur-radius --> Gnome::Gsk4::InsetShadowNode \)
+=end code
+
+=item $outline; outline of the region containing the shadow
+=item $color; color of the shadow
+=item $dx; horizontal offset of shadow.
+=item $dy; vertical offset of shadow.
+=item $spread; how far the shadow spreads towards the inside.
+=item $blur-radius; how much blur to apply to the shadow.
+
+=begin comment
+
+=head2 Example
+# Example for new-insetshadownode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-blur-radius
+
+Retrieves the blur radius to apply to the shadow.
+
+=begin code
+method get-blur-radius (--> Num )
+=end code
+
+Return value; the blur radius, in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-blur-radius
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color
+
+Retrieves the color of the inset shadow.
+
+=begin code
+method get-color (--> N-Object )
+=end code
+
+Return value; the color of the shadow. 
+
+=begin comment
+
+=head2 Example
+# Example for get-color
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-dx
+
+Retrieves the horizontal offset of the inset shadow.
+
+=begin code
+method get-dx (--> Num )
+=end code
+
+Return value; an offset, in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-dx
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-dy
+
+Retrieves the vertical offset of the inset shadow.
+
+=begin code
+method get-dy (--> Num )
+=end code
+
+Return value; an offset, in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-dy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-outline
+
+Retrieves the outline rectangle of the inset shadow.
+
+=begin code
+method get-outline (--> N-Object )
+=end code
+
+Return value; a rounded rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for get-outline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-spread
+
+Retrieves how much the shadow spreads inwards.
+
+=begin code
+method get-spread (--> Num )
+=end code
+
+Return value; the size of the shadow, in pixels. 
+
+=begin comment
+
+=head2 Example
+# Example for get-spread
+
+=end comment
+
+=end pod
+
