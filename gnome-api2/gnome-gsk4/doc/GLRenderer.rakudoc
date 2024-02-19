@@ -1,0 +1,57 @@
+=comment Package: Gsk4, C-Source: glrenderer
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::GLRenderer
+
+=head1 Description
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::GLRenderer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-glrenderer
+
+Creates a new B<Gnome::Gsk4::Renderer> using the new OpenGL renderer.
+
+=begin code
+method new-glrenderer ( --> Gnome::Gsk4::GLRenderer \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-glrenderer
+
+=end comment
+
+=end pod
+
