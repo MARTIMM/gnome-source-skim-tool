@@ -1,0 +1,246 @@
+=comment Package: Gsk4, C-Source: renderer
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::Renderer
+
+=head1 Description
+
+B<Gnome::Gsk4::Renderer> is a class that renders a scene graph defined via a
+tree of B<Gnome::Gsk4::RenderNode> instances.
+
+Typically you will use a B<Gnome::Gsk4::Renderer> instance to repeatedly call
+C<.render()> to update the contents of its associated
+B<Gnome::Gdk4::Surface>.
+
+It is necessary to realize a B<Gnome::Gsk4::Renderer> instance using
+C<.realize()> before calling C<.render()>,
+in order to create the appropriate windowing system resources needed
+to render the scene.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::Renderer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-surface
+
+Creates an appropriate B<Gnome::Gsk4::Renderer> instance for the given C<$surface>.
+
+If the B<GSK_RENDERER> environment variable is set, GSK will
+try that renderer first, before trying the backend-specific
+default. The ultimate fallback is the cairo renderer.
+
+The renderer will be realized before it is returned.
+
+=begin code
+method new-for-surface ( N-Object() $surface --> Gnome::Gsk4::Renderer \)
+=end code
+
+=item $surface; a B<Gnome::Gdk4::Surface>.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-surface
+
+Retrieves the B<Gnome::Gdk4::Surface> set using gsk_enderer_realize().
+
+If the renderer has not been realized yet, undefined will be returned.
+
+=begin code
+method get-surface (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gdk4::Surface>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-realized
+
+Checks whether the C<$renderer> is realized or not.
+
+=begin code
+method is-realized (--> Bool )
+=end code
+
+Return value; C<True> if the B<Gnome::Gsk4::Renderer> was realized, and C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for is-realized
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 realize
+
+Creates the resources needed by the C<$renderer> to render the scene
+graph.
+
+Since GTK 4.6, the surface may be undefined, which allows using
+renderers without having to create a surface.
+
+Note that it is mandatory to call C<.unrealize()> before
+destroying the renderer.
+
+=begin code
+method realize ( N-Object() $surface, CArray[N-Error] $err --> Bool )
+=end code
+
+=item $surface; the B<Gnome::Gdk4::Surface> renderer will be used on.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; Whether the renderer was successfully realized. 
+
+=begin comment
+
+=head2 Example
+# Example for realize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 render
+
+Renders the scene graph, described by a tree of B<Gnome::Gsk4::RenderNode> instances
+to the renderer's surface,  ensuring that the given C<$region> gets redrawn.
+
+If the renderer has no associated surface, this function does nothing.
+
+Renderers must ensure that changes of the contents given by the C<$root>
+node as well as the area given by C<$region> are redrawn. They are however
+free to not redraw any pixel outside of C<$region> if they can guarantee that
+it didn't change.
+
+The C<$renderer> will acquire a reference on the B<Gnome::Gsk4::RenderNode> tree while
+the rendering is in progress.
+
+=begin code
+method render ( N-Object() $root, N-Object $region )
+=end code
+
+=item $root; a B<Gnome::Gsk4::RenderNode>.
+=item $region; the B<Gnome::Cairo::N-Context> that must be redrawn or undefined
+  for the whole window
+
+=begin comment
+
+=head2 Example
+# Example for render
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 render-texture
+
+Renders the scene graph, described by a tree of B<Gnome::Gsk4::RenderNode> instances,
+to a B<Gnome::Gdk4::Texture>.
+
+The C<$renderer> will acquire a reference on the B<Gnome::Gsk4::RenderNode> tree while
+the rendering is in progress.
+
+If you want to apply any transformations to C<$root>, you should put it into a
+transform node and pass that node instead.
+
+=begin code
+method render-texture ( N-Object() $root, N-Object $viewport --> N-Object )
+=end code
+
+=item $root; a B<Gnome::Gsk4::RenderNode>.
+=item $viewport; the section to draw or undefined to use C<$root>'s bounds
+
+Return value; a B<Gnome::Gdk4::Texture> with the rendered contents of C<$root>.. 
+
+=begin comment
+
+=head2 Example
+# Example for render-texture
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unrealize
+
+Releases all the resources created by C<.realize()>.
+
+=begin code
+method unrealize ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unrealize
+
+=end comment
+
+=end pod
+
