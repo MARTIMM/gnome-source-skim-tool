@@ -1,0 +1,75 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::RepeatingRadialGradientNode
+
+=head1 Description
+
+A render node for a repeating radial gradient.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::RepeatingRadialGradientNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-repeatingradialgradientnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that draws a repeating radial gradient.
+
+The radial gradient starts around C<$center>. The size of the gradient
+is dictated by C<$hradius> in horizontal orientation and by C<$vradius>
+in vertial orientation.
+
+=begin code
+method new-repeatingradialgradientnode ( N-Object $bounds, N-Object $center, Num() $hradius, Num() $vradius, Num() $start, Num() $end, N-Object $color-stops, Int() $n-color-stops --> Gnome::Gsk4::RepeatingRadialGradientNode \)
+=end code
+
+=item $bounds; the bounds of the node
+=item $center; the center of the gradient
+=item $hradius; the horizontal radius.
+=item $vradius; the vertical radius.
+=item $start; a percentage >= 0 that defines the start of the gradient around C<$center>.
+=item $end; a percentage >= 0 that defines the end of the gradient around C<$center>.
+=item $color-stops; a pointer to an array of
+  B<Gnome::Gsk4::N-ColorStop> defining the gradient. The offsets of all color stops
+  must be increasing. The first stop's offset must be >= 0 and the last
+  stop's offset must be <= 1.
+=item $n-color-stops; the number of elements in C<$color-stops>.
+
+=begin comment
+
+=head2 Example
+# Example for new-repeatingradialgradientnode
+
+=end comment
+
+=end pod
+
