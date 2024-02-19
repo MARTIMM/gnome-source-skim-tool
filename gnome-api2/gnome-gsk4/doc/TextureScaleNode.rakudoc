@@ -1,0 +1,124 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::TextureScaleNode
+
+=head1 Description
+
+A render node for a B<Gnome::Gdk4::Texture>.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::TextureScaleNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-texturescalenode
+
+Creates a node that scales the texture to the size given by the
+bounds using the filter and then places it at the bounds' position.
+
+Note that further scaling and other transformations which are
+applied to the node will apply linear filtering to the resulting
+texture, as usual.
+
+This node is intended for tight control over scaling applied
+to a texture, such as in image editors and requires the
+application to be aware of the whole render tree as further
+transforms may be applied that conflict with the desired effect
+of this node.
+
+=begin code
+method new-texturescalenode ( N-Object() $texture, N-Object $bounds, GskScalingFilter $filter --> Gnome::Gsk4::TextureScaleNode \)
+=end code
+
+=item $texture; the texture to scale.
+=item $bounds; the size of the texture to scale to
+=item $filter; how to scale the texture.
+
+=begin comment
+
+=head2 Example
+# Example for new-texturescalenode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-filter
+
+Retrieves the C<enumeration GskScalingFilter defined in Gnome::Gsk4::T-enums> used when creating this B<Gnome::Gsk4::RenderNode>.
+
+=begin code
+method get-filter (--> GskScalingFilter )
+=end code
+
+Return value; the C<enumeration GskScalingFilter defined in Gnome::Gsk4::T-enums>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-filter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-texture
+
+Retrieves the B<Gnome::Gdk4::Texture> used when creating this B<Gnome::Gsk4::RenderNode>.
+
+=begin code
+method get-texture (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gdk4::Texture>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-texture
+
+=end comment
+
+=end pod
+
