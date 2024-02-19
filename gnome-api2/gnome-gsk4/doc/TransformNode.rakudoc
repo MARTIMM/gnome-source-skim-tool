@@ -1,0 +1,113 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::TransformNode
+
+=head1 Description
+
+A render node applying a B<Gnome::Gsk4::N-Transform> to its single child node.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::TransformNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-transformnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will transform the given C<$child>
+with the given C<$transform>.
+
+=begin code
+method new-transformnode ( N-Object() $child, N-Object $transform --> Gnome::Gsk4::TransformNode \)
+=end code
+
+=item $child; The node to transform.
+=item $transform; The transform to apply
+
+=begin comment
+
+=head2 Example
+# Example for new-transformnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child node that is getting transformed by the given C<$node>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; The child that is getting transformed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-transform
+
+Retrieves the B<Gnome::Gsk4::N-Transform> used by the C<$node>.
+
+=begin code
+method get-transform (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gsk4::N-Transform>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-transform
+
+=end comment
+
+=end pod
+
