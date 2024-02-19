@@ -1,0 +1,339 @@
+=comment Package: Gsk4, C-Source: glshader
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::N-ShaderArgsBuilder
+
+=head1 Description
+
+An object to build the uniforms data for a B<Gnome::Gsk4::GLShader>.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::ShaderArgsBuilder
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-shaderargsbuilder
+
+Allocates a builder that can be used to construct a new uniform data
+chunk.
+
+=begin code
+method new-shaderargsbuilder ( N-Object() $shader, N-Object $initial-values --> Gnome::Gsk4::ShaderArgsBuilder \)
+=end code
+
+=item $shader; a B<Gnome::Gsk4::GLShader>.
+=item $initial-values; optional B<Gnome::Glib::N-Bytes> with initial values
+
+=begin comment
+
+=head2 Example
+# Example for new-shaderargsbuilder
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free-to-args
+
+Creates a new B<Gnome::Glib::N-Bytes> args from the current state of the
+given C<$builder>, and frees the C<$builder> instance.
+
+Any uniforms of the shader that have not been explicitly set
+on the C<$builder> are zero-initialized.
+
+=begin code
+method free-to-args (--> N-Object )
+=end code
+
+Return value; the newly allocated buffer with
+  all the args added to C<$builder>. 
+
+=begin comment
+
+=head2 Example
+# Example for free-to-args
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Increases the reference count of a B<Gnome::Gsk4::N-ShaderArgsBuilder> by one.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the passed in B<Gnome::Gsk4::N-ShaderArgsBuilder>. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-bool
+
+Sets the value of the uniform C<$idx>.
+
+The uniform must be of bool type.
+
+=begin code
+method set-bool ( Int() $idx, Bool() $value )
+=end code
+
+=item $idx; index of the uniform.
+=item $value; value to set the uniform to.
+
+=begin comment
+
+=head2 Example
+# Example for set-bool
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-float
+
+Sets the value of the uniform C<$idx>.
+
+The uniform must be of float type.
+
+=begin code
+method set-float ( Int() $idx, Num() $value )
+=end code
+
+=item $idx; index of the uniform.
+=item $value; value to set the uniform to.
+
+=begin comment
+
+=head2 Example
+# Example for set-float
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-int
+
+Sets the value of the uniform C<$idx>.
+
+The uniform must be of int type.
+
+=begin code
+method set-int ( Int() $idx, Int() $value )
+=end code
+
+=item $idx; index of the uniform.
+=item $value; value to set the uniform to.
+
+=begin comment
+
+=head2 Example
+# Example for set-int
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-uint
+
+Sets the value of the uniform C<$idx>.
+
+The uniform must be of uint type.
+
+=begin code
+method set-uint ( Int() $idx, UInt() $value )
+=end code
+
+=item $idx; index of the uniform.
+=item $value; value to set the uniform to.
+
+=begin comment
+
+=head2 Example
+# Example for set-uint
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vec2
+
+Sets the value of the uniform C<$idx>.
+
+The uniform must be of vec2 type.
+
+=begin code
+method set-vec2 ( Int() $idx, N-Object $value )
+=end code
+
+=item $idx; index of the uniform.
+=item $value; value to set the uniform too
+
+=begin comment
+
+=head2 Example
+# Example for set-vec2
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vec3
+
+Sets the value of the uniform C<$idx>.
+
+The uniform must be of vec3 type.
+
+=begin code
+method set-vec3 ( Int() $idx, N-Object $value )
+=end code
+
+=item $idx; index of the uniform.
+=item $value; value to set the uniform too
+
+=begin comment
+
+=head2 Example
+# Example for set-vec3
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vec4
+
+Sets the value of the uniform C<$idx>.
+
+The uniform must be of vec4 type.
+
+=begin code
+method set-vec4 ( Int() $idx, N-Object $value )
+=end code
+
+=item $idx; index of the uniform.
+=item $value; value to set the uniform too
+
+=begin comment
+
+=head2 Example
+# Example for set-vec4
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-args
+
+Creates a new B<Gnome::Glib::N-Bytes> args from the current state of the
+given C<$builder>.
+
+Any uniforms of the shader that have not been explicitly set on
+the C<$builder> are zero-initialized.
+
+The given B<Gnome::Gsk4::N-ShaderArgsBuilder> is reset once this function returns;
+you cannot call this function multiple times on the same C<$builder> instance.
+
+This function is intended primarily for bindings. C code should use
+C<.free-to-args()>.
+
+=begin code
+method to-args (--> N-Object )
+=end code
+
+Return value; the newly allocated buffer with
+  all the args added to C<$builder>. 
+
+=begin comment
+
+=head2 Example
+# Example for to-args
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Decreases the reference count of a B<GskShaderArgBuilder> by one.
+
+If the resulting reference count is zero, frees the builder.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+

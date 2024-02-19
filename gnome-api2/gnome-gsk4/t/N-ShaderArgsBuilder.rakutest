@@ -1,0 +1,142 @@
+=comment Package: Gsk4, C-Source: glshader
+use v6.d;
+
+#TL:1:Gnome::Gsk4::N-ShaderArgsBuilder:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::Glib::N-Bytes:api<2>;
+#use Gnome::Glib::T-array:api<2>;
+use Gnome::Graphene::N-Vec2:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec4:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
+use Gnome::Gsk4::N-ShaderArgsBuilder:api<2>;
+use Gnome::Gsk4::T-glshader:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-ShaderArgsBuilder $n-shaderargsbuilder;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-shaderargsbuilder {
+    my N-Object $initial-values;
+    my N-Object() $shader;
+
+#`{{
+    #TC:0:new-shaderargsbuilder()
+    $shader = …;
+    $initial-values = …;
+    $n-shaderargsbuilder .= new-shaderargsbuilder( $shader, $initial-values);
+    ok .is-valid, '.new-shaderargsbuilder( $shader, $initial-values)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-shaderargsbuilder {
+    my Int() $idx;
+    my N-Object $value;
+
+
+#`{{
+    #TM:0:free-to-args()
+    ok .free-to-args(), '.free-to-args()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:set-bool()
+    $idx = -42;
+    $value = True;
+    .set-bool( $idx, $value);
+    ok True, '.set-bool()';
+
+    #TM:0:set-float()
+    $idx = -42;
+    $value = 42.42;
+    .set-float( $idx, $value);
+    ok True, '.set-float()';
+
+    #TM:0:set-int()
+    $idx = -42;
+    $value = -42;
+    .set-int( $idx, $value);
+    ok True, '.set-int()';
+
+    #TM:0:set-uint()
+    $idx = -42;
+    $value = 42;
+    .set-uint( $idx, $value);
+    ok True, '.set-uint()';
+
+    #TM:0:set-vec2()
+    $idx = -42;
+    $value = …;
+    .set-vec2( $idx, $value);
+    ok True, '.set-vec2()';
+
+    #TM:0:set-vec3()
+    $idx = -42;
+    $value = …;
+    .set-vec3( $idx, $value);
+    ok True, '.set-vec3()';
+
+    #TM:0:set-vec4()
+    $idx = -42;
+    $value = …;
+    .set-vec4( $idx, $value);
+    ok True, '.set-vec4()';
+
+    #TM:0:to-args()
+    ok .to-args(), '.to-args()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-shaderargsbuilder {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
