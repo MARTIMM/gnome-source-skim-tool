@@ -1,0 +1,173 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#TL:1:Gnome::Gsk4::GLShaderNode:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Glib::N-Bytes:api<2>;
+#use Gnome::Glib::T-array:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Gsk4::GLShaderNode:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gsk4::GLShaderNode $glshadernode;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $glshadernode {
+    my N-Object $shader;
+    my N-Object $args;
+    my guint $n-children;
+    my N-Object $bounds;
+    my CArray[N-Object] $children;
+
+#`{{
+    #TC:0:new-glshadernode()
+    $shader = …;
+    $bounds = …;
+    $args = …;
+    $children = '…';
+    $n-children = '…';
+    $glshadernode .= new-glshadernode( $shader, $bounds, $args, $children, $n-children);
+    ok .is-valid, '.new-glshadernode( $shader, $bounds, $args, $children, $n-children)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $glshadernode {
+    my guint $idx;
+
+
+#`{{
+    #TM:0:get-args()
+     .get-args(), '…', '.get-args()';
+
+    #TM:0:get-child()
+    is .get-child( $idx), '…', '.get-child()';
+
+    #TM:0:get-n-children()
+     .get-n-children(), '…', '.get-n-children()';
+
+    #TM:0:get-shader()
+     .get-shader(), '…', '.get-shader()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $glshadernode {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gsk4::GLShaderNode() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gsk4::GLShaderNode;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gsk4::GLShaderNode :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gsk4::GLShaderNode $glshadernode .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $glshadernode.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
