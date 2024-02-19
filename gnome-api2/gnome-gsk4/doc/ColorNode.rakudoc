@@ -1,0 +1,92 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::ColorNode
+
+=head1 Description
+
+A render node for a solid color.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::ColorNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-colornode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will render the color specified by C<$rgba> into
+the area given by C<$bounds>.
+
+=begin code
+method new-colornode ( N-Object $rgba, N-Object $bounds --> Gnome::Gsk4::ColorNode \)
+=end code
+
+=item $rgba; a B<Gnome::Gdk4::N-RGBA> specifying a color
+=item $bounds; the rectangle to render the color into
+
+=begin comment
+
+=head2 Example
+# Example for new-colornode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color
+
+Retrieves the color of the given C<$node>.
+
+=begin code
+method get-color (--> N-Object )
+=end code
+
+Return value; the color of the node. 
+
+=begin comment
+
+=head2 Example
+# Example for get-color
+
+=end comment
+
+=end pod
+
