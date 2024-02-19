@@ -31,7 +31,7 @@ method set-object-name (
     $object-name = $object-map-entry<type-name>;
   }
 
-note "$?LINE $object-name, $object-map-entry.gist()" if $object-map-entry<source-filename> eq 'box';
+#note "$?LINE $object-name, $object-map-entry.gist()" if $object-map-entry<source-filename> eq 'box';
 
   given $name-type {
     when ClassnameType {
