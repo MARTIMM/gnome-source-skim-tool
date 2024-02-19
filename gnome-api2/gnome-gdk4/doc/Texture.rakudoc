@@ -79,7 +79,6 @@ method new-for-pixbuf ( N-Object() $pixbuf --> Gnome::Gdk4::Texture \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-from-bytes
-This function is not yet available
 
 Creates a new texture by loading an image from memory,
 
@@ -93,10 +92,10 @@ and C<.run-in-thread() in class Gnome::Gio::Task> to avoid blocking the main thr
 while loading a big image.
 
 =begin code
-method new-from-bytes ( CArray[N-Bytes]  $bytes, CArray[N-Error] $err --> Gnome::Gdk4::Texture \)
+method new-from-bytes ( N-Object $bytes, CArray[N-Error] $err --> Gnome::Gdk4::Texture \)
 =end code
 
-=item $bytes; a B<Gnome::Glib::N-Bytes> containing the data to load.
+=item $bytes; a B<Gnome::Glib::N-Bytes> containing the data to load
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -333,7 +332,6 @@ Return value; C<True> if saving succeeded, C<False> on failure..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 save-to-png-bytes
-This function is not yet available
 
 Store the given C<$texture> in memory as a PNG file.
 
@@ -351,7 +349,7 @@ might also want to consider C<.save-to-tiff-bytes()>
 instead.
 
 =begin code
-method save-to-png-bytes (--> CArray[N-Bytes]  )
+method save-to-png-bytes (--> N-Object )
 =end code
 
 Return value; a newly allocated B<Gnome::Glib::N-Bytes> containing PNG data. 
@@ -393,7 +391,6 @@ Return value; C<True> if saving succeeded, C<False> on failure..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 save-to-tiff-bytes
-This function is not yet available
 
 Store the given C<$texture> in memory as a TIFF file.
 
@@ -409,7 +406,7 @@ smaller size and a more portable format, you might want to
 use C<.save-to-png-bytes()>.
 
 =begin code
-method save-to-tiff-bytes (--> CArray[N-Bytes]  )
+method save-to-tiff-bytes (--> N-Object )
 =end code
 
 Return value; a newly allocated B<Gnome::Glib::N-Bytes> containing TIFF data. 

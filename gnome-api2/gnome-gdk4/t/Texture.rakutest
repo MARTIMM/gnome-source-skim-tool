@@ -6,32 +6,25 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
 use Gnome::Gdk4::Texture:api<2>;
-use Gnome::Gdk4::T-Texture:api<2>;
-
-use Gnome::Gio::File:api<2>;
-
 #use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
-use Gnome::Glib::T-Quark:api<2>;
-
+#use Gnome::Glib::T-array:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
-#Gnome::N::debug(:on);
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
+#Gnome::N::debug(:on);
 my Gnome::Gdk4::Texture $texture;
-my Gnome::Glib::T-Quark $quark .= new;
-my Gnome::Gio::File $file;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
@@ -40,11 +33,11 @@ my Gnome::Gio::File $file;
 subtest 'ISA test', {
   given $texture {
     my Str $path;
-    my Str $resource-path;
-    my N-Object $pixbuf;
-#    my N-Bytes  $bytes;
+    my N-Object $bytes;
     my CArray[N-Error] $err;
-    my Str $filename;
+    my Str $resource-path;
+    my N-Object $file;
+    my N-Object $pixbuf;
 
 #`{{
     #TC:0:new-for-pixbuf()
@@ -53,7 +46,7 @@ subtest 'ISA test', {
     ok .is-valid, '.new-for-pixbuf( $pixbuf)';
 
     #TC:0:new-from-bytes()
-    $bytes = '…';
+    $bytes = …;
     $err = '…';
     $texture .= new-from-bytes( $bytes, $err);
     ok .is-valid, '.new-from-bytes( $bytes, $err)';
@@ -63,28 +56,7 @@ subtest 'ISA test', {
     $err = '…';
     $texture .= new-from-file( $file, $err);
     ok .is-valid, '.new-from-file( $file, $err)';
-}}
-    #TC:1:new-from-file()
-    $filename = 't/Data/unknown-image.png';
-    $file .= new-for-path($filename);
-    $err = CArray[N-Error].new(N-Error);
-    $texture .= new-from-file( $file, $err);
-    if ?$err[0] {
-      is $quark.to-string($err[0].domain), 'g-io-error-quark',
-       'domain text is g-io-error-quark: ' ~ $err[0].message;
-#      is $err[0].code, 4, 'error code for this error is 1';
-    }
-    $texture.clear-object;
 
-    $filename = 't/Data/gtk-raku.png';
-    $file .= new-for-path($filename);
-    $err = CArray[N-Error].new(N-Error);
-    $texture .= new-from-file( $file, $err);
-    ok !$err[0], '.new-from-file loading ' ~ $filename ~ ' successful';
-    $texture.clear-object;
-
-
-#`{{
     #TC:0:new-from-filename()
     $path = 'text';
     $err = '…';

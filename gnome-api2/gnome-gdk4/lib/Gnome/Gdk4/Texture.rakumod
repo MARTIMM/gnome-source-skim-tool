@@ -9,9 +9,10 @@ use NativeCall;
 
 
 use Gnome::GObject::Object:api<2>;
-#use Gnome::Gdk4::R-Paintable:api<2>;
+use Gnome::Gdk4::R-Paintable:api<2>;
 #use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
+#use Gnome::Glib::T-array:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -25,7 +26,7 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gdk4::Texture:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
-#also does Gnome::Gdk4::R-Paintable;
+also does Gnome::Gdk4::R-Paintable;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -46,10 +47,8 @@ submethod BUILD ( *%options ) {
   unless $signals-added {
     
     # Signals from interfaces
-#`{{
     self._add_gdk_paintable_signal_types($?CLASS.^name)
       if self.^can('_add_gdk_paintable_signal_types');
-}}
     $signals-added = True;
   }
 
@@ -75,7 +74,7 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-for-pixbuf => %( :type(Constructor), :is-symbol<gdk_texture_new_for_pixbuf>, :returns(N-Object), :parameters([ N-Object])),
-  #new-from-bytes => %( :type(Constructor), :is-symbol<gdk_texture_new_from_bytes>, :returns(N-Object), :parameters([ N-Bytes , CArray[N-Error]])),
+  new-from-bytes => %( :type(Constructor), :is-symbol<gdk_texture_new_from_bytes>, :returns(N-Object), :parameters([ N-Object, CArray[N-Error]])),
   new-from-file => %( :type(Constructor), :is-symbol<gdk_texture_new_from_file>, :returns(N-Object), :parameters([ N-Object, CArray[N-Error]])),
   new-from-filename => %( :type(Constructor), :is-symbol<gdk_texture_new_from_filename>, :returns(N-Object), :parameters([ Str, CArray[N-Error]])),
   new-from-resource => %( :type(Constructor), :is-symbol<gdk_texture_new_from_resource>, :returns(N-Object), :parameters([ Str])),
@@ -85,9 +84,9 @@ my Hash $methods = %(
   get-height => %(:is-symbol<gdk_texture_get_height>,  :returns(gint)),
   get-width => %(:is-symbol<gdk_texture_get_width>,  :returns(gint)),
   save-to-png => %(:is-symbol<gdk_texture_save_to_png>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  #save-to-png-bytes => %(:is-symbol<gdk_texture_save_to_png_bytes>,  :returns(N-Bytes )),
+  save-to-png-bytes => %(:is-symbol<gdk_texture_save_to_png_bytes>,  :returns(N-Object)),
   save-to-tiff => %(:is-symbol<gdk_texture_save_to_tiff>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  #save-to-tiff-bytes => %(:is-symbol<gdk_texture_save_to_tiff_bytes>,  :returns(N-Bytes )),
+  save-to-tiff-bytes => %(:is-symbol<gdk_texture_save_to_tiff_bytes>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------
@@ -125,13 +124,11 @@ method _fallback-v2 (
   else {
     my $r;
     my $native-object = self.get-native-object-no-reffing;
-#`{{
     $r = self._do_gdk_paintable_fallback-v2(
       $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
     ) if self.^can('_do_gdk_paintable_fallback-v2');
     return $r if $_fallback-v2-ok;
 
-}}
     callsame;
   }
 }
