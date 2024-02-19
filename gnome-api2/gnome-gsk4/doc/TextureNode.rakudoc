@@ -1,0 +1,91 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::TextureNode
+
+=head1 Description
+
+A render node for a B<Gnome::Gdk4::Texture>.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::TextureNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-texturenode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will render the given C<$texture> into the area given by C<$bounds>.
+
+=begin code
+method new-texturenode ( N-Object() $texture, N-Object $bounds --> Gnome::Gsk4::TextureNode \)
+=end code
+
+=item $texture; the B<Gnome::Gdk4::Texture>.
+=item $bounds; the rectangle to render the texture into
+
+=begin comment
+
+=head2 Example
+# Example for new-texturenode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-texture
+
+Retrieves the B<Gnome::Gdk4::Texture> used when creating this B<Gnome::Gsk4::RenderNode>.
+
+=begin code
+method get-texture (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gdk4::Texture>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-texture
+
+=end comment
+
+=end pod
+
