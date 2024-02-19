@@ -1,0 +1,203 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::TextNode
+
+=head1 Description
+
+A render node drawing a set of glyphs.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::TextNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-textnode
+
+Creates a render node that renders the given glyphs.
+
+Note that C<$color> may not be used if the font contains
+color glyphs.
+
+=begin code
+method new-textnode ( N-Object() $font, N-Object $glyphs, N-Object $color, N-Object $offset --> Gnome::Gsk4::TextNode \)
+=end code
+
+=item $font; the B<Gnome::Pango::Font> containing the glyphs.
+=item $glyphs; the B<Gnome::Pango::N-GlyphString> to render
+=item $color; the foreground color to render with
+=item $offset; offset of the baseline
+
+=begin comment
+
+=head2 Example
+# Example for new-textnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color
+
+Retrieves the color used by the text C<$node>.
+
+=begin code
+method get-color (--> N-Object )
+=end code
+
+Return value; the text color. 
+
+=begin comment
+
+=head2 Example
+# Example for get-color
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-font
+
+Returns the font used by the text C<$node>.
+
+=begin code
+method get-font (--> N-Object )
+=end code
+
+Return value; the font. 
+
+=begin comment
+
+=head2 Example
+# Example for get-font
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-glyphs
+
+Retrieves the glyph information in the C<$node>.
+
+=begin code
+method get-glyphs ( Array[Int] $n-glyphs --> N-Object )
+=end code
+
+=item $n-glyphs; (transfer ownership: full) the number of glyphs returned.
+
+Return value; the glyph information. 
+
+=begin comment
+
+=head2 Example
+# Example for get-glyphs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-num-glyphs
+
+Retrieves the number of glyphs in the text node.
+
+=begin code
+method get-num-glyphs (--> UInt )
+=end code
+
+Return value; the number of glyphs. 
+
+=begin comment
+
+=head2 Example
+# Example for get-num-glyphs
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-offset
+
+Retrieves the offset applied to the text.
+
+=begin code
+method get-offset (--> N-Object )
+=end code
+
+Return value; a point with the horizontal and vertical offsets. 
+
+=begin comment
+
+=head2 Example
+# Example for get-offset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 has-color-glyphs
+
+Checks whether the text C<$node> has color glyphs.
+
+=begin code
+method has-color-glyphs (--> Bool )
+=end code
+
+Return value; C<True> if the text node has color glyphs. 
+
+=begin comment
+
+=head2 Example
+# Example for has-color-glyphs
+
+=end comment
+
+=end pod
+

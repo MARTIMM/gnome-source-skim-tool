@@ -1,0 +1,180 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#TL:1:Gnome::Gsk4::TextNode:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gdk4::N-RGBA:api<2>;
+#use Gnome::Gdk4::T-rgba:api<2>;
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Gsk4::TextNode:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+#use Gnome::Pango::N-GlyphInfo:api<2>;
+#use Gnome::Pango::N-GlyphString:api<2>;
+#use Gnome::Pango::T-glyph:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gsk4::TextNode $textnode;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $textnode {
+    my N-Object $color;
+    my N-Object $glyphs;
+    my N-Object $offset;
+    my N-Object $font;
+
+#`{{
+    #TC:0:new-textnode()
+    $font = …;
+    $glyphs = …;
+    $color = …;
+    $offset = …;
+    $textnode .= new-textnode( $font, $glyphs, $color, $offset);
+    ok .is-valid, '.new-textnode( $font, $glyphs, $color, $offset)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $textnode {
+    my gint-ptr $n-glyphs;
+
+
+#`{{
+    #TM:0:get-color()
+     .get-color(), '…', '.get-color()';
+
+    #TM:0:get-font()
+     .get-font(), '…', '.get-font()';
+
+    #TM:0:get-glyphs()
+    is .get-glyphs( $n-glyphs), '…', '.get-glyphs()';
+
+    #TM:0:get-num-glyphs()
+     .get-num-glyphs(), '…', '.get-num-glyphs()';
+
+    #TM:0:get-offset()
+     .get-offset(), '…', '.get-offset()';
+
+    #TM:0:has-color-glyphs()
+    ok .has-color-glyphs(), '.has-color-glyphs()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $textnode {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gsk4::TextNode() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gsk4::TextNode;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gsk4::TextNode :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gsk4::TextNode $textnode .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $textnode.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
