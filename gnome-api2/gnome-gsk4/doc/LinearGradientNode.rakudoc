@@ -1,0 +1,163 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::LinearGradientNode
+
+=head1 Description
+
+A render node for a linear gradient.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::LinearGradientNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-lineargradientnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will create a linear gradient from the given
+points and color stops, and render that into the area given by C<$bounds>.
+
+=begin code
+method new-lineargradientnode ( N-Object $bounds, N-Object $start, N-Object $end, N-Object $color-stops, Int() $n-color-stops --> Gnome::Gsk4::LinearGradientNode \)
+=end code
+
+=item $bounds; the rectangle to render the linear gradient into
+=item $start; the point at which the linear gradient will begin
+=item $end; the point at which the linear gradient will finish
+=item $color-stops; a pointer to an array of
+  B<Gnome::Gsk4::N-ColorStop> defining the gradient. The offsets of all color stops
+  must be increasing. The first stop's offset must be >= 0 and the last
+  stop's offset must be <= 1.
+=item $n-color-stops; the number of elements in C<$color-stops>.
+
+=begin comment
+
+=head2 Example
+# Example for new-lineargradientnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color-stops
+
+Retrieves the color stops in the gradient.
+
+=begin code
+method get-color-stops ( Array[gsize] $n-stops --> N-Object )
+=end code
+
+=item $n-stops; (transfer ownership: full) the number of color stops in the returned array.
+
+Return value; the color stops in the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-color-stops
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-end
+
+Retrieves the final point of the linear gradient.
+
+=begin code
+method get-end (--> N-Object )
+=end code
+
+Return value; the final point. 
+
+=begin comment
+
+=head2 Example
+# Example for get-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-color-stops
+
+Retrieves the number of color stops in the gradient.
+
+=begin code
+method get-n-color-stops (--> Int )
+=end code
+
+Return value; the number of color stops. 
+
+=begin comment
+
+=head2 Example
+# Example for get-n-color-stops
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-start
+
+Retrieves the initial point of the linear gradient.
+
+=begin code
+method get-start (--> N-Object )
+=end code
+
+Return value; the initial point. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start
+
+=end comment
+
+=end pod
+
