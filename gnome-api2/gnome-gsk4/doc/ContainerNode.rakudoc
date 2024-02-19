@@ -1,0 +1,116 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::ContainerNode
+
+=head1 Description
+
+A render node that can contain other render nodes.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::ContainerNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-containernode
+
+Creates a new B<Gnome::Gsk4::RenderNode> instance for holding the given C<$children>.
+
+The new node will acquire a reference to each of the children.
+
+=begin code
+method new-containernode ( N-Object() $children, UInt() $n-children --> Gnome::Gsk4::ContainerNode \)
+=end code
+
+=item $children; The children of the node.
+=item $n-children; Number of children in the C<$children> array.
+
+=begin comment
+
+=head2 Example
+# Example for new-containernode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets one of the children of C<$container>.
+
+=begin code
+method get-child ( UInt() $idx --> N-Object )
+=end code
+
+=item $idx; the position of the child to get.
+
+Return value; the C<$idx>'th child of C<$container>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-children
+
+Retrieves the number of direct children of C<$node>.
+
+=begin code
+method get-n-children (--> UInt )
+=end code
+
+Return value; the number of children of the B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-n-children
+
+=end comment
+
+=end pod
+
