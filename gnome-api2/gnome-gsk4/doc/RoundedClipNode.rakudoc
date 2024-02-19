@@ -1,0 +1,113 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::RoundedClipNode
+
+=head1 Description
+
+A render node applying a rounded rectangle clip to its single child.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::RoundedClipNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-roundedclipnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will clip the C<$child> to the area
+given by C<$clip>.
+
+=begin code
+method new-roundedclipnode ( N-Object() $child, N-Object $clip --> Gnome::Gsk4::RoundedClipNode \)
+=end code
+
+=item $child; The node to draw.
+=item $clip; The clip to apply
+
+=begin comment
+
+=head2 Example
+# Example for new-roundedclipnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child node that is getting clipped by the given C<$node>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; The child that is getting clipped. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-clip
+
+Retrieves the rounded rectangle used to clip the contents of the C<$node>.
+
+=begin code
+method get-clip (--> N-Object )
+=end code
+
+Return value; a rounded rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for get-clip
+
+=end comment
+
+=end pod
+
