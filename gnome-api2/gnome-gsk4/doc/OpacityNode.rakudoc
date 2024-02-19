@@ -1,0 +1,112 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::OpacityNode
+
+=head1 Description
+
+A render node controlling the opacity of its single child node.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::OpacityNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-opacitynode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will drawn the C<$child> with reduced C<$opacity>.
+
+=begin code
+method new-opacitynode ( N-Object() $child, Num() $opacity --> Gnome::Gsk4::OpacityNode \)
+=end code
+
+=item $child; The node to draw.
+=item $opacity; The opacity to apply.
+
+=begin comment
+
+=head2 Example
+# Example for new-opacitynode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child node that is getting opacityed by the given C<$node>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; The child that is getting opacityed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-opacity
+
+Gets the transparency factor for an opacity node.
+
+=begin code
+method get-opacity (--> Num )
+=end code
+
+Return value; the opacity factor. 
+
+=begin comment
+
+=head2 Example
+# Example for get-opacity
+
+=end comment
+
+=end pod
+
