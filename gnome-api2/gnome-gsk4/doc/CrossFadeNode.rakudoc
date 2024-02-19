@@ -1,0 +1,135 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::CrossFadeNode
+
+=head1 Description
+
+A render node cross fading between two child nodes.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::CrossFadeNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-crossfadenode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will do a cross-fade between C<$start> and C<$end>.
+
+=begin code
+method new-crossfadenode ( N-Object() $start, N-Object() $end, Num() $progress --> Gnome::Gsk4::CrossFadeNode \)
+=end code
+
+=item $start; The start node to be drawn.
+=item $end; The node to be cross_fadeed onto the C<$start> node.
+=item $progress; How far the fade has progressed from start to end. The value will
+    be clamped to the range [0 ... 1].
+
+=begin comment
+
+=head2 Example
+# Example for new-crossfadenode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-end-child
+
+Retrieves the child B<Gnome::Gsk4::RenderNode> at the end of the cross-fade.
+
+=begin code
+method get-end-child (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-end-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-progress
+
+Retrieves the progress value of the cross fade.
+
+=begin code
+method get-progress (--> Num )
+=end code
+
+Return value; the progress value, between 0 and 1. 
+
+=begin comment
+
+=head2 Example
+# Example for get-progress
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-start-child
+
+Retrieves the child B<Gnome::Gsk4::RenderNode> at the beginning of the cross-fade.
+
+=begin code
+method get-start-child (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gsk4::RenderNode>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start-child
+
+=end comment
+
+=end pod
+
