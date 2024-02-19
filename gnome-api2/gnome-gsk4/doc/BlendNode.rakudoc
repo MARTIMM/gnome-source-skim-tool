@@ -1,0 +1,135 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::BlendNode
+
+=head1 Description
+
+A render node applying a blending function between its two child nodes.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::BlendNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-blendnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will use C<$blend-mode> to blend the C<$top>
+node onto the C<$bottom> node.
+
+=begin code
+method new-blendnode ( N-Object() $bottom, N-Object() $top, GskBlendMode $blend-mode --> Gnome::Gsk4::BlendNode \)
+=end code
+
+=item $bottom; The bottom node to be drawn.
+=item $top; The node to be blended onto the C<$bottom> node.
+=item $blend-mode; The blend mode to use.
+
+=begin comment
+
+=head2 Example
+# Example for new-blendnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-blend-mode
+
+Retrieves the blend mode used by C<$node>.
+
+=begin code
+method get-blend-mode (--> GskBlendMode )
+=end code
+
+Return value; the blend mode. 
+
+=begin comment
+
+=head2 Example
+# Example for get-blend-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-bottom-child
+
+Retrieves the bottom B<Gnome::Gsk4::RenderNode> child of the C<$node>.
+
+=begin code
+method get-bottom-child (--> N-Object )
+=end code
+
+Return value; the bottom child node. 
+
+=begin comment
+
+=head2 Example
+# Example for get-bottom-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-top-child
+
+Retrieves the top B<Gnome::Gsk4::RenderNode> child of the C<$node>.
+
+=begin code
+method get-top-child (--> N-Object )
+=end code
+
+Return value; the top child node. 
+
+=begin comment
+
+=head2 Example
+# Example for get-top-child
+
+=end comment
+
+=end pod
+
