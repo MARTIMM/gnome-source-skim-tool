@@ -351,15 +351,59 @@ Gnome::N::TopLevelClassSupport
 ├── T-TreeSortable
 ├── T-TreeView
 ├── T-TreeViewColumn
+```
 
+---
+
+# ADministration of Gdk version 4 types and classes
+
+## Class modules
+
+```
+GObject                                         Gnome::GObject::Object
+|                                               Gnome::Gdk4::*
+├── GdkTexture                                  Texture
+|   ├── GdkGLTexture
+|   ╰── GdkMemoryTexture
+├── GdkSnapshot                                 Snapshot
+```
+
+## Role modules
+
+```
+GInterface
+|
+├── GdkPaintable                                R-Paintable
+```
+
+## Other type classes
+These modules are generally inheriting directly from **Gnome::N::TopLevelClassSupport**
+
+```
+GBoxed
+|                                               Gnome::Gtk4::*
+├── GdkRectangle                                N-Rectangle
+├── GdkRGBA                                     N-RGBA
+
+```
+
+## Type modules
+
+Types, constants, standalone functions, etc. generated from gnome sources
+`Gnome::Gsk4::\*`
+
+```
+Gnome::N::TopLevelClassSupport
+|   Gnome::Gsk4::*
+├── T-enums
+├── T-paintable
+├── T-texture
 
 ```
 
 ---
 
 # Administration of Gio types and classes
-
-Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelClassSupport**
 
 ## Class modules
 
