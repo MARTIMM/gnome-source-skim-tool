@@ -1,0 +1,192 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::ConicGradientNode
+
+=head1 Description
+
+A render node for a conic gradient.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::ConicGradientNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-conicgradientnode
+
+Creates a B<Gnome::Gsk4::RenderNode> that draws a conic gradient.
+
+The conic gradient
+starts around C<$center> in the direction of C<$rotation>. A rotation of 0 means
+that the gradient points up. Color stops are then added clockwise.
+
+=begin code
+method new-conicgradientnode ( N-Object $bounds, N-Object $center, Num() $rotation, N-Object $color-stops, Int() $n-color-stops --> Gnome::Gsk4::ConicGradientNode \)
+=end code
+
+=item $bounds; the bounds of the node
+=item $center; the center of the gradient
+=item $rotation; the rotation of the gradient in degrees.
+=item $color-stops; a pointer to an array of
+  B<Gnome::Gsk4::N-ColorStop> defining the gradient. The offsets of all color stops
+  must be increasing. The first stop's offset must be >= 0 and the last
+  stop's offset must be <= 1.
+=item $n-color-stops; the number of elements in C<$color-stops>.
+
+=begin comment
+
+=head2 Example
+# Example for new-conicgradientnode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-angle
+
+Retrieves the angle for the gradient in radians, normalized in [0, 2 * PI].
+
+The angle is starting at the top and going clockwise, as expressed
+in the css specification:
+
+    angle = 90 - C<.get-rotation()>
+
+=begin code
+method get-angle (--> Num )
+=end code
+
+Return value; the angle for the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-angle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-center
+
+Retrieves the center pointer for the gradient.
+
+=begin code
+method get-center (--> N-Object )
+=end code
+
+Return value; the center point for the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-center
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color-stops
+
+Retrieves the color stops in the gradient.
+
+=begin code
+method get-color-stops ( Array[gsize] $n-stops --> N-Object )
+=end code
+
+=item $n-stops; (transfer ownership: full) the number of color stops in the returned array.
+
+Return value; the color stops in the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-color-stops
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-color-stops
+
+Retrieves the number of color stops in the gradient.
+
+=begin code
+method get-n-color-stops (--> Int )
+=end code
+
+Return value; the number of color stops. 
+
+=begin comment
+
+=head2 Example
+# Example for get-n-color-stops
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-rotation
+
+Retrieves the rotation for the gradient in degrees.
+
+=begin code
+method get-rotation (--> Num )
+=end code
+
+Return value; the rotation for the gradient. 
+
+=begin comment
+
+=head2 Example
+# Example for get-rotation
+
+=end comment
+
+=end pod
+
