@@ -1,0 +1,69 @@
+=comment Package: Gsk4, C-Source: cairorenderer
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::CairoRenderer
+
+=head1 Description
+
+A GSK renderer that is using cairo.
+
+Since it is using cairo, this renderer cannot support
+3D transformations.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::CairoRenderer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cairorenderer
+
+Creates a new Cairo renderer.
+
+The Cairo renderer is the fallback renderer drawing in ways similar
+to how GTK 3 drew its content. Its primary use is as comparison tool.
+
+The Cairo renderer is incomplete. It cannot render 3D transformed
+content and will instead render an error marker. Its usage should be
+avoided.
+
+=begin code
+method new-cairorenderer ( --> Gnome::Gsk4::CairoRenderer \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cairorenderer
+
+=end comment
+
+=end pod
+
