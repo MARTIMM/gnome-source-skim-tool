@@ -1,0 +1,142 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::BorderNode
+
+=head1 Description
+
+A render node for a border.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::BorderNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-bordernode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will stroke a border rectangle inside the
+given C<$outline>.
+
+The 4 sides of the border can have different widths and colors.
+
+=begin code
+method new-bordernode ( N-Object $outline, Num() $border-width, N-Object $border-color --> Gnome::Gsk4::BorderNode \)
+=end code
+
+=item $outline; a B<Gnome::Gsk4::N-RoundedRect> describing the outline of the border
+=item $border-width; the stroke width of the border on
+    the top, right, bottom and left side respectively..
+=item $border-color; the color used on the top, right,
+    bottom and left side.
+
+=begin comment
+
+=head2 Example
+# Example for new-bordernode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-colors
+
+Retrieves the colors of the border.
+
+=begin code
+method get-colors (--> N-Object )
+=end code
+
+Return value; an array of 4 B<Gnome::Gdk4::N-RGBA> structs
+    for the top, right, bottom and left color of the border. 
+
+=begin comment
+
+=head2 Example
+# Example for get-colors
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-outline
+
+Retrieves the outline of the border.
+
+=begin code
+method get-outline (--> N-Object )
+=end code
+
+Return value; the outline of the border. 
+
+=begin comment
+
+=head2 Example
+# Example for get-outline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-widths
+
+Retrieves the stroke widths of the border.
+
+=begin code
+method get-widths (--> Num )
+=end code
+
+Return value; an array of 4 floats
+  for the top, right, bottom and left stroke width of the border,
+  respectively. 
+
+=begin comment
+
+=head2 Example
+# Example for get-widths
+
+=end comment
+
+=end pod
+
