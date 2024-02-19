@@ -1,0 +1,136 @@
+=comment Package: Gsk4, C-Source: rendernodeimpl
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gsk4::ShadowNode
+
+=head1 Description
+
+A render node drawing one or more shadows behind its single child node.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::ShadowNode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-shadownode
+
+Creates a B<Gnome::Gsk4::RenderNode> that will draw a C<$child> with the given C<$shadows> below it.
+
+=begin code
+method new-shadownode ( N-Object() $child, N-Object $shadows, Int() $n-shadows --> Gnome::Gsk4::ShadowNode \)
+=end code
+
+=item $child; The node to draw.
+=item $shadows; The shadows to apply
+=item $n-shadows; number of entries in the C<$shadows> array.
+
+=begin comment
+
+=head2 Example
+# Example for new-shadownode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Retrieves the child B<Gnome::Gsk4::RenderNode> of the shadow C<$node>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child render node. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-n-shadows
+
+Retrieves the number of shadows in the C<$node>.
+
+=begin code
+method get-n-shadows (--> Int )
+=end code
+
+Return value; the number of shadows.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-n-shadows
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-shadow
+
+Retrieves the shadow data at the given index C<$i>.
+
+=begin code
+method get-shadow ( Int() $i --> N-Object )
+=end code
+
+=item $i; the given index.
+
+Return value; the shadow data. 
+
+=begin comment
+
+=head2 Example
+# Example for get-shadow
+
+=end comment
+
+=end pod
+
