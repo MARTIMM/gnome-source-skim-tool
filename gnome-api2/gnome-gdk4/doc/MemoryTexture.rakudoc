@@ -1,0 +1,68 @@
+=comment Package: Gdk4, C-Source: memorytexture
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gdk4::MemoryTexture
+
+=head1 Description
+
+A B<Gnome::Gdk4::Texture> representing image data in memory.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::MemoryTexture
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-memorytexture
+
+Creates a new texture for a blob of image data.
+
+The B<Gnome::Glib::N-Bytes> must contain C<$stride> × C<$height> pixels
+in the given format.
+
+=begin code
+method new-memorytexture ( Int() $width, Int() $height, GdkMemoryFormat $format, N-Object $bytes, Int() $stride --> Gnome::Gdk4::MemoryTexture \)
+=end code
+
+=item $width; the width of the texture.
+=item $height; the height of the texture.
+=item $format; the format of the data.
+=item $bytes; the B<Gnome::Glib::N-Bytes> containing the pixel data
+=item $stride; rowstride for the data.
+
+=begin comment
+
+=head2 Example
+# Example for new-memorytexture
+
+=end comment
+
+=end pod
+
