@@ -9,7 +9,7 @@ use NativeCall;
 
 
 use Gnome::Gdk4::N-Rectangle:api<2>;
-use Gnome::Gdk4::T-Enums:api<2>;
+use Gnome::Gdk4::T-enums:api<2>;
 use Gnome::Gtk4::R-CellEditable:api<2>;
 use Gnome::Gtk4::R-Editable:api<2>;
 use Gnome::Gtk4::T-Entry:api<2>;
