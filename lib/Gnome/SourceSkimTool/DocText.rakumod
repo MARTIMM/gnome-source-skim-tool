@@ -174,7 +174,7 @@ CONTROL {
     if ?$external-examples {
 #note "$?LINE $example-file, $examples.keys.elems()";
       for $examples.keys -> $ex-key {
-        my Str $t = $external-examples{$ex-key};
+        my Str $t = $external-examples{$ex-key} // '';
 #note "$?LINE $ex-key, ", ?$t;
         $text ~~ s/ $ex-key /$t/;
       }
