@@ -1,7 +1,7 @@
-# Command to generate: generate.raku -t -c Glib slist
+=comment Package: Glib, C-Source: slist
 use v6.d;
 
-#TL:1:Gnome::Glib::SList:
+#TL:1:Gnome::Glib::N-SList:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -9,9 +9,8 @@ use v6.d;
 use NativeCall;
 use Test;
 
-
 use Gnome::Glib::N-SList:api<2>;
-use Gnome::Glib::T-SList:api<2>;
+use Gnome::Glib::T-slist:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -23,7 +22,6 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Glib::N-SList $slist .= new;
 
 # Helpers to get data in and out
 my @keep = ();
@@ -32,6 +30,20 @@ sub pack ( Int $n --> gpointer ) {
   @keep.push($o);
   nativecast( gpointer, $o)
 }
+
+my N-SList $n-slist;
+my Gnome::Glib::N-SList $slist;
+
+#`{{
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-slist {
+
+  }
+};
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -44,123 +56,155 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $slist {
-    sub func ( gpointer $src, gpointer $data --> gpointer ) {}
-    my gpointer $data;
-    my Int() $position;
+  with $n-slist {
+
+  }
+};
+}}
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+
+  given $slist .= new {
+#    sub func ( gpointer $src, gpointer $data --> gpointer ) {}
+
+    my N-SList() $n-gspos;
+    my N-SList() $l;
+
     my UInt() $n;
-    my gpointer $user-data;
-    my N-SList() $list2;
     my N-SList() $sibling;
-    my N-SList() $llink;
-    sub free-func ( gpointer $data ) {}
+    sub compare-func ( gpointer $a, gpointer $b, gpointer $user-data --> gint ) {}
     my N-SList() $link;
-    sub compare-func ( gpointer $a, gpointer $b --> gint ) {}
+    my gpointer $data;
+    my N-SList() $slist;
+    sub free-func ( gpointer $data ) {}
+    sub func ( gpointer $a, gpointer $b, gpointer $user-data --> gint ) {}
+    my N-SList() $llink;
+    my N-SList() $list2;
+    my N-SList() $list;
+    my gpointer $user-data;
+    my Int() $position;
+    my N-SList() $list1;
 
-    my N-SList $n-gspos;
-    my N-SList $N-SList;
-    my N-SList $l;
-
+ 
     #TM:1:append
     for ^10 -> $i {
-      $N-SList = .append( $N-SList, pack($i));
+      $n-slist = .append( $n-slist, pack($i));
     }
     #TM:1:length
-    is .length($N-SList), 10, '.append()';
+    is .length($n-slist), 10, '.append()';
+ 
 
 #`{{
-    #TM:0:sort-with-data()
-    ok .sort-with-data( $compare-func, $user-data), '.sort-with-data()';
+    #TM:0:alloc()
+    ok .alloc(), '.alloc()';
 
-    #TM:0:sort()
-    ok .sort( $compare-func), '.sort()';
+    #TM:0:append()
+    ok .append( $list, $data), '.append()';
 
-    #TM:0:reverse()
-    ok .reverse(), '.reverse()';
+    #TM:0:concat()
+    ok .concat( $list1, $list2), '.concat()';
 
-    #TM:0:remove-link()
-    ok .remove-link( $link-), '.remove-link()';
+    #TM:0:copy()
+    ok .copy( $list), '.copy()';
 
-    #TM:0:remove-all()
-    ok .remove-all( $data), '.remove-all()';
+    #TM:0:copy-deep()
+    ok .copy-deep( $list, $func, $user-data), '.copy-deep()';
 
-    #TM:0:remove()
-    ok .remove( $data), '.remove()';
+    #TM:0:delete-link()
+    ok .delete-link( $list, $link), '.delete-link()';
+
+    #TM:0:find()
+    ok .find( $list, $data), '.find()';
+
+    #TM:0:find-custom()
+    ok .find-custom( $list, $data, $func), '.find-custom()';
+
+    #TM:0:foreach()
+    ok .foreach( $list, $func, $user-data), '.foreach()';
+
+    #TM:0:free()
+    ok .free( $list), '.free()';
+
+    #TM:0:free-full()
+    ok .free-full( $list, $free-func), '.free-full()';
+
+    #TM:0:free1()
+    ok .free1( $list), '.free1()';
+
+    #TM:0:index()
+    ok .index( $list, $data), '.index()';
 }}
 
-    #TM:1:prepend()
-    $N-SList = .prepend( $N-SList, $data = pack(100));
-    is .length($N-SList), 11, '.prepend()';
-
-    #TM:1:position()
-    $n = 5;
-    $l = .nth( $N-SList, $n);
-    is .position( $N-SList, $l), $n, '.position()';
-
-    #TM:1:nth-data()
-    my Pointer[gint32] $p =
-      nativecast( Pointer[gint32], .nth-data( $N-SList, $n));
-    is $p.deref, 4, '.nth-data()';
-
 #`{{
-    #TM:0:nth()
-    ok .nth( $n), '.nth()';
-
-    #TM:0:last()
-    ok .last(), '.last()';
-
-    #TM:0:insert-sorted-with-data()
-    ok .insert-sorted-with-data( $data, $func, $user-data), '.insert-sorted-with-data()';
-
-    #TM:0:insert-sorted()
-    ok .insert-sorted( $data, $func), '.insert-sorted()';
+    #TM:0:insert()
+    ok .insert( $list, $data, $position), '.insert()';
 
     #TM:0:insert-before()
-    ok .insert-before( $sibling, $data), '.insert-before()';
+    ok .insert-before( $slist, $sibling, $data), '.insert-before()';
 
-    #TM:0:insert()
-    ok .insert( $data, $position), '.insert()';
+    #TM:0:insert-sorted()
+    ok .insert-sorted( $list, $data, $func), '.insert-sorted()';
+
+    #TM:0:insert-sorted-with-data()
+    ok .insert-sorted-with-data( $list, $data, $func, $user-data), '.insert-sorted-with-data()';
+
+    #TM:0:last()
+    ok .last( $list), '.last()';
+
+    #TM:0:length()
+    ok .length( $list), '.length()';
 }}
+    #TM:1:prepend()
+    $n-slist = .prepend( $n-slist, $data = pack(100));
+    is .length($n-slist), 11, '.prepend()';
+ 
+    #TM:1:position()
+    $n = 5;
+    $l = .nth( $n-slist, $n);
+    is .position( $n-slist, $l), $n, '.position()';
+ 
+    #TM:1:nth-data()
+    my Pointer[gint32] $p =
+      nativecast( Pointer[gint32], .nth-data( $n-slist, $n));
+    is $p.deref, 4, '.nth-data()';
 
     #TM:1:index()
     # $data is prepended => position is 0
-    $position = .index( $N-SList, $data);
+    $position = .index( $n-slist, $data);
     is $position, 0, '.index()';
 
-
 #`{{
-    #TM:0:free-full()
-    ok .free-full( $free-func), '.free-full()';
 
-    #TM:0:free-one()
-    ok .free-one(), '.free-one()';
+    #TM:0:nth()
+    ok .nth( $list, $n), '.nth()';
 
-    #TM:0:free()
-    ok .free(), '.free()';
+    #TM:0:nth-data()
+    ok .nth-data( $list, $n), '.nth-data()';
 
-    #TM:0:foreach()
-    ok .foreach( $func, $user-data), '.foreach()';
+    #TM:0:position()
+    ok .position( $list, $llink), '.position()';
 
-    #TM:0:find-custom()
-    ok .find-custom( $data, $func), '.find-custom()';
+    #TM:0:prepend()
+    ok .prepend( $list, $data), '.prepend()';
 
-    #TM:0:find()
-    ok .find( $data), '.find()';
+    #TM:0:remove()
+    ok .remove( $list, $data), '.remove()';
 
-    #TM:0:delete-link()
-    ok .delete-link( $link-), '.delete-link()';
+    #TM:0:remove-all()
+    ok .remove-all( $list, $data), '.remove-all()';
 
-    #TM:0:copy-deep()
-    ok .copy-deep( $func, $user-data), '.copy-deep()';
+    #TM:0:remove-link()
+    ok .remove-link( $list, $link), '.remove-link()';
 
-    #TM:0:copy()
-    ok .copy(), '.copy()';
+    #TM:0:reverse()
+    ok .reverse( $list), '.reverse()';
 
-    #TM:0:concat()
-    ok .concat( $list2), '.concat()';
+    #TM:0:sort()
+    ok .sort( $list, $compare-func), '.sort()';
 
-    #TM:0:alloc()
-    ok .alloc(), '.alloc()';
+    #TM:0:sort-with-data()
+    ok .sort-with-data( $list, $compare-func, $user-data), '.sort-with-data()';
 
 }}
   }

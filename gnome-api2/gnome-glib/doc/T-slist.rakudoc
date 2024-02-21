@@ -1,0 +1,73 @@
+=comment Package: Glib, C-Source: slist
+use v6.d;
+
+=begin pod
+=head1 Gnome::Glib::T-slist
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-SList
+
+  class N-SList:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gpointer $.data;
+    has N-Object $.next;
+  }
+
+=item data; holds the element's data, which can be a pointer to any kind
+       of data, or any integer value using the
+       Type Conversion Macros
+=item next; contains the link to the next element in the list.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-slist
+
+Clears a pointer to a B<Gnome::Glib::T-slist>, freeing it and, optionally, freeing its elements using C<$destroy>.
+ C<$slist-ptr> must be a valid pointer. If C<$slist-ptr> points to a null B<Gnome::Glib::T-slist>, this does nothing.
+
+=begin code
+method clear-slist ( N-SList() $slist-ptr, &destroy )
+=end code
+
+=item $slist-ptr; a B<Gnome::Glib::T-slist> return location.
+=item &destroy; the function to pass to C<.free-full()> or undefined to not free elements. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+=begin comment
+
+=head2 Example
+# Example for clear-slist
+
+=end comment
+
+=end pod
+

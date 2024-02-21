@@ -7,6 +7,7 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::Glib::T-slist:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -17,32 +18,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Glib::N-SList:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-SList:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gpointer $.data;
-  has N-SList $.next;
-
-  submethod BUILD (
-    gpointer :$!data, N-SList :$!next, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-SList ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-SList, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
