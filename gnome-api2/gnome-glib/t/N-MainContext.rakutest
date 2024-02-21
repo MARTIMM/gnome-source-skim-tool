@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -t Glib main
+=comment Package: Glib, C-Source: main
 use v6.d;
 
 #TL:1:Gnome::Glib::N-MainContext:
@@ -6,15 +6,16 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
 use Gnome::Glib::N-MainContext:api<2>;
 #use Gnome::Glib::N-PollFD:api<2>;
 #use Gnome::Glib::N-Source:api<2>;
 #use Gnome::Glib::N-SourceFuncs:api<2>;
-#use Gnome::Glib::T-Main:api<2>;
+use Gnome::Glib::T-main:api<2>;
+#use Gnome::Glib::T-poll:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -25,25 +26,25 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-MainContext $maincontext;
+my N-MainContext $n-maincontext;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $maincontext {
+  given $n-maincontext {
     my UInt $flags;
 
 #`{{
     #TC:0:new-maincontext()
 
-    $maincontext .= new-maincontext();
+    $n-maincontext .= new-maincontext();
     ok .is-valid, '.new-maincontext()';
 
     #TC:0:new-with-flags()
     $flags = …;
-    $maincontext .= new-with-flags( $flags);
+    $n-maincontext .= new-with-flags( $flags);
     ok .is-valid, '.new-with-flags( $flags)';
 
 }}
@@ -61,21 +62,21 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $maincontext {
-    my gpointer $user-data;
-    my Array[Int] $timeout;
-    my gpointer $data;
-#    my CArray[N-SourceFuncs]  $funcs;
-#    sub func ( N-PollFD  $ufds, guint $nfsd, gint $timeout --> gint )  {}
-    my UInt() $source-id;
-    my Array[Int] $priority;
-    sub function ( gpointer $user-data --> gboolean ) {}
-    my Bool() $may-block;
-    my Int() $max-priority;
-#    my CArray[N-PollFD]  $fds;
+  with $n-maincontext {
+    sub func ( N-Object $ufds, guint $nfsd, gint $timeout --> gint ) {}
     my Int() $n-fds;
+    my Array[Int] $timeout;
+    my N-Object $fd;
+    my UInt() $source-id;
+    my gpointer $data;
+    my gpointer $user-data;
     sub notify ( gpointer $data ) {}
-#    my CArray[N-PollFD]  $fd;
+    my Int() $max-priority;
+    my N-Object $fds;
+    my N-Object $funcs;
+    my Bool() $may-block;
+    sub function ( gpointer $user-data --> gboolean ) {}
+    my Array[Int] $priority;
 
 
 #`{{
@@ -154,7 +155,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $maincontext {
+  with $n-maincontext {
 
 
 #`{{

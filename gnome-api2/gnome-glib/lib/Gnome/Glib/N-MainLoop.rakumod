@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-MainContext:api<2>;
+use Gnome::Glib::T-main:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -18,18 +18,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Glib::N-MainLoop:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-# This is an opaque type of which fields are not available.
-class N-MainLoop:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -74,20 +67,22 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-mainloop => %( :type(Constructor), :is-symbol<g_main_loop_new>, :returns(N-MainLoop), :parameters([ N-MainContext, gboolean])),
+  new-mainloop => %( :type(Constructor), :is-symbol<g_main_loop_new>, :returns(N-Object), :parameters([ N-Object, gboolean])),
 
   #--[Methods]------------------------------------------------------------------
-  get-context => %(:is-symbol<g_main_loop_get_context>,  :returns(N-MainContext)),
+  get-context => %(:is-symbol<g_main_loop_get_context>,  :returns(N-Object)),
   is-running => %(:is-symbol<g_main_loop_is_running>,  :returns(gboolean), :cnv-return(Bool)),
   quit => %(:is-symbol<g_main_loop_quit>, ),
-  ref => %(:is-symbol<g_main_loop_ref>,  :returns(N-MainLoop)),
+  ref => %(:is-symbol<g_main_loop_ref>,  :returns(N-Object)),
   run => %(:is-symbol<g_main_loop_run>, ),
   unref => %(:is-symbol<g_main_loop_unref>, ),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+method _fallback-v2 (
+  Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -95,11 +90,11 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
         :library(glib-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
-        )
+        ),
+        |%options
       );
     }
 

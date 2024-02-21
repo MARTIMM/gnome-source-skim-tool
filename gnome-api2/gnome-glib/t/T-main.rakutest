@@ -1,18 +1,18 @@
-# Command to generate: generate.raku -v -d -t Glib main
+=comment Package: Glib, C-Source: main
 use v6.d;
 
-#TL:1:Gnome::Glib::T-Main:
+#TL:1:Gnome::Glib::T-main:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
+use Gnome::Glib::N-MainContext:api<2>;
 #use Gnome::Glib::N-Source:api<2>;
-#use Gnome::Glib::N-SourceCallbackFuncs:api<2>;
-use Gnome::Glib::T-Main:api<2>;
+use Gnome::Glib::T-main:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -25,17 +25,14 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 subtest 'constants', {
-#TE:1:G_SOURCE_CONTINUE
-is G_SOURCE_CONTINUE, true, "constant G_SOURCE_CONTINUE = true";
-
 #TE:1:G_SOURCE_REMOVE
 is G_SOURCE_REMOVE, false, "constant G_SOURCE_REMOVE = false";
 
-#TE:1:G_PRIORITY_HIGH_IDLE
-is G_PRIORITY_HIGH_IDLE, 100, "constant G_PRIORITY_HIGH_IDLE = 100";
-
 #TE:1:G_PRIORITY_LOW
 is G_PRIORITY_LOW, 300, "constant G_PRIORITY_LOW = 300";
+
+#TE:1:G_SOURCE_CONTINUE
+is G_SOURCE_CONTINUE, true, "constant G_SOURCE_CONTINUE = true";
 
 #TE:1:G_PRIORITY_HIGH
 is G_PRIORITY_HIGH, -100, "constant G_PRIORITY_HIGH = -100";
@@ -46,32 +43,28 @@ is G_PRIORITY_DEFAULT, 0, "constant G_PRIORITY_DEFAULT = 0";
 #TE:1:G_PRIORITY_DEFAULT_IDLE
 is G_PRIORITY_DEFAULT_IDLE, 200, "constant G_PRIORITY_DEFAULT_IDLE = 200";
 
-};
-
-#-------------------------------------------------------------------------------
-#--[Bitfields]------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-#TE:1:GMainContextFlags
-subtest 'GMainContextFlags', {
-  is G_MAIN_CONTEXT_FLAGS_NONE.value, 0, 'bitfield G_MAIN_CONTEXT_FLAGS_NONE = 0';
-
-  is G_MAIN_CONTEXT_FLAGS_OWNERLESS_POLLING.value, 1, 'bitfield G_MAIN_CONTEXT_FLAGS_OWNERLESS_POLLING = 1';
+#TE:1:G_PRIORITY_HIGH_IDLE
+is G_PRIORITY_HIGH_IDLE, 100, "constant G_PRIORITY_HIGH_IDLE = 100";
 
 };
 
 
-my Gnome::Glib::T-Main $main .= new;
+my Gnome::Glib::T-main $main .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $main {
-    my gint-ptr $tag-ptr;
-    sub clear-func ( guint $handle-id ) {}
+    sub function ( gpointer $user-data ) {}
     my guint $interval;
-    sub function ( gpointer $user-data --> gboolean ) {}
-    my gint $priority;
-    sub notify ( gpointer $data ) {}
-    my gpointer $data;
     my  $pid;
+    my N-Object $funcs;
+    sub clear-func ( guint $handle-id ) {}
+    my gint-ptr $tag-ptr;
+    my gpointer $data;
+    my Str $name;
+    my gint $priority;
+    my gpointer $user-data;
+    sub notify ( gpointer $data ) {}
+    my guint $tag;
 
 
 #`{{
@@ -99,17 +92,43 @@ subtest 'Function tests', {
     #TM:0:idle-add-full()
     ok .idle-add-full( $priority, $function, $data, $notify), '.idle-add-full()';
 
+    #TM:0:idle-add-once()
+    ok .idle-add-once( $function, $data), '.idle-add-once()';
+
     #TM:0:idle-remove-by-data()
     ok .idle-remove-by-data( $data), '.idle-remove-by-data()';
 
     #TM:0:idle-source-new()
     ok .idle-source-new(), '.idle-source-new()';
 
+    #TM:0:main-context-default()
+    ok .main-context-default(), '.main-context-default()';
+
+    #TM:0:main-context-get-thread-default()
+    ok .main-context-get-thread-default(), '.main-context-get-thread-default()';
+
+    #TM:0:main-context-ref-thread-default()
+    ok .main-context-ref-thread-default(), '.main-context-ref-thread-default()';
+
     #TM:0:main-current-source()
     ok .main-current-source(), '.main-current-source()';
+}}
 
-    #TM:0:main-depth()
-    ok .main-depth(), '.main-depth()';
+    #TM:1:main-depth()
+    is .main-depth(), 0, '.main-depth()';
+
+#`{{
+    #TM:0:source-remove()
+    ok .source-remove( $tag), '.source-remove()';
+
+    #TM:0:source-remove-by-funcs-user-data()
+    ok .source-remove-by-funcs-user-data( $funcs, $user-data), '.source-remove-by-funcs-user-data()';
+
+    #TM:0:source-remove-by-user-data()
+    ok .source-remove-by-user-data( $user-data), '.source-remove-by-user-data()';
+
+    #TM:0:source-set-name-by-id()
+    ok .source-set-name-by-id( $tag, $name), '.source-set-name-by-id()';
 
     #TM:0:timeout-add()
     ok .timeout-add( $interval, $function, $data), '.timeout-add()';
@@ -117,11 +136,17 @@ subtest 'Function tests', {
     #TM:0:timeout-add-full()
     ok .timeout-add-full( $priority, $interval, $function, $data, $notify), '.timeout-add-full()';
 
+    #TM:0:timeout-add-once()
+    ok .timeout-add-once( $interval, $function, $data), '.timeout-add-once()';
+
     #TM:0:timeout-add-seconds()
     ok .timeout-add-seconds( $interval, $function, $data), '.timeout-add-seconds()';
 
     #TM:0:timeout-add-seconds-full()
     ok .timeout-add-seconds-full( $priority, $interval, $function, $data, $notify), '.timeout-add-seconds-full()';
+
+    #TM:0:timeout-add-seconds-once()
+    ok .timeout-add-seconds-once( $interval, $function, $data), '.timeout-add-seconds-once()';
 
     #TM:0:timeout-source-new()
     ok .timeout-source-new( $interval), '.timeout-source-new()';
@@ -131,6 +156,17 @@ subtest 'Function tests', {
 
 }}
   }
+};
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GMainContextFlags
+subtest 'GMainContextFlags', {
+  is G_MAIN_CONTEXT_FLAGS_NONE.value, 0, 'bitfield G_MAIN_CONTEXT_FLAGS_NONE = 0';
+
+  is G_MAIN_CONTEXT_FLAGS_OWNERLESS_POLLING.value, 1, 'bitfield G_MAIN_CONTEXT_FLAGS_OWNERLESS_POLLING = 1';
+
 };
 
 

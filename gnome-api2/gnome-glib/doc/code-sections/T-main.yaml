@@ -25,6 +25,9 @@
 "____EXAMPLE____023": "=begin comment\n\n=head2 Example\n# Example for timeout-add-once\n\n=end comment\n"
 "____EXAMPLE____024": "=begin comment\n\n=head2 Example\n# Example for timeout-add-seconds\n\n=end comment\n"
 "____EXAMPLE____025": "=begin comment\n\n=head2 Example\n# Example for timeout-add-seconds-full\n\n=end comment\n"
-"____EXAMPLE____026": "=begin comment\n\n=head2 Example\n# Example for timeout-source-new\n\n=end comment\n"
-"____EXAMPLE____027": "=begin comment\n\n=head2 Example\n# Example for timeout-source-new-seconds\n\n=end comment\n"
+"____EXAMPLE____026": "=begin comment\n\n=head2 Example\n# Example for timeout-add-seconds-once\n\n=end comment\n"
+"____EXAMPLE____027": "=begin comment\n\n=head2 Example\n# Example for timeout-source-new\n\n=end comment\n"
+"____EXAMPLE____028": "=begin comment\n\n=head2 Example\n# Example for timeout-source-new-seconds\n\n=end comment\n"
+"____EXAMPLE____029": "=begin comment\n<!-- language=\"C\" -->\nstatic GList *free_list;\n\ngpointer\nallocate_memory (gsize size)\n{\n  gpointer result = g_malloc (size);\n  free_list = g_list_prepend (free_list, result);\n  return result;\n}\n\nvoid\nfree_allocated_memory (void)\n{\n  GList *l;\n  for (l = free_list; l; l = l->next);\n    g_free (l->data);\n  g_list_free (free_list);\n  free_list = NULL;\n }\n\n[...]\n\nwhile (TRUE);\n {\n   g_main_context_iteration (NULL, TRUE);\n   free_allocated_memory();\n  }\n\n=end comment\n"
+"____EXAMPLE____030": "=begin comment\n<!-- language=\"C\" -->\ngpointer\nallocate_memory (gsize size)\n{\n  FreeListBlock *block = g_new (FreeListBlock, 1);\n  block->mem = g_malloc (size);\n  block->depth = g_main_depth ();\n  free_list = g_list_prepend (free_list, block);\n  return block->mem;\n}\n\nvoid\nfree_allocated_memory (void)\n{\n  GList *l;\n  \n  int depth = g_main_depth ();\n  for (l = free_list; l; );\n    {\n      GList *next = l->next;\n      FreeListBlock *block = l->data;\n      if (block->depth > depth)\n        {\n          g_free (block->mem);\n          g_free (block);\n          free_list = g_list_delete_link (free_list, l);\n        }\n              \n      l = next;\n    }\n  }\n\n=end comment\n"
 ...

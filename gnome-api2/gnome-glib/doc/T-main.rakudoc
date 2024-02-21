@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Glib::T-MainContext
+=head1 Gnome::Glib::T-main
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -17,6 +17,117 @@ use v6.d;
 Initialization of a type class is simple and only needed when the standalone functions are used.
 
   method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-MainLoop
+
+This is an opaque type of which fields are not available.
+
+  class N-MainLoop:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-MainContext
+
+This is an opaque type of which fields are not available.
+
+  class N-MainContext:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-SourceCallbackFuncs
+
+  class N-SourceCallbackFuncs:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has $.ref;
+    has $.unref;
+    has $.get;
+  }
+
+=item ref; 
+=item unref; 
+=item get; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-SourceFuncs
+
+  class N-SourceFuncs:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has $.prepare;
+    has $.check;
+    has $.dispatch;
+    has $.finalize;
+    has  $.closure-callback;           # ( gpointer $user-data --> gboolean )
+    has  $.closure-marshal;           # ( )
+  }
+
+=item prepare; 
+=item check; 
+=item dispatch; 
+=item finalize; 
+=item closure-callback; . Enumeration of type ( gpointer $user-data --> gboolean ).
+=item closure-marshal; . Enumeration of type ( ).
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Source
+
+  class N-Source:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gpointer $.callback-data;
+    has N-Object $.callback-funcs;
+    has N-Object $.source-funcs;
+    has guint $.ref-count;
+    has N-Object $.context;
+    has gint $.priority;
+    has guint $.flags;
+    has guint $.source-id;
+    has N-Object $.poll-fds;
+    has N-Object $.prev;
+    has N-Object $.next;
+    has Str $.name;
+    has  $.priv;
+  }
+
+=item callback-data; 
+=item callback-funcs; 
+=item source-funcs; 
+=item ref-count; 
+=item context; 
+=item priority; 
+=item flags; 
+=item source-id; 
+=item poll-fds; 
+=item prev; 
+=item next; 
+=item name; 
+=item priv; 
 
 =end pod
 
@@ -46,13 +157,13 @@ g_idle_add().
 
 Use this for high priority event sources.
 
-It is not used within GLib or GTK+.
+It is not used within GLib or GTK.
 
 =head2 G_PRIORITY_HIGH_IDLE
 
 Use this for high priority idle functions.
 
-GTK+ uses C<G_PRIORITY_HIGH_IDLE> + 10 for resizing operations,
+GTK uses C<G_PRIORITY_HIGH_IDLE> + 10 for resizing operations,
 and C<G_PRIORITY_HIGH_IDLE> + 20 for redrawing operations. (This is
 done to ensure that any pending resizes are processed before any
 pending redraws, so that widgets are not redrawn twice unnecessarily.)
@@ -61,16 +172,16 @@ pending redraws, so that widgets are not redrawn twice unnecessarily.)
 
 Use this for very low priority background tasks.
 
-It is not used within GLib or GTK+.
+It is not used within GLib or GTK.
 
 =head2 G_SOURCE_CONTINUE
 
-Use this macro as the return value of a B<Gnome::Glib::T-MainContext> to leave
+Use this macro as the return value of a B<Gnome::Glib::T-main> to leave
 the B<Gnome::Glib::N-Source> in the main loop.
 
 =head2 G_SOURCE_REMOVE
 
-Use this macro as the return value of a B<Gnome::Glib::T-MainContext> to remove
+Use this macro as the return value of a B<Gnome::Glib::T-main> to remove
 the B<Gnome::Glib::N-Source> from the main loop.
 =end pod
 
@@ -83,7 +194,7 @@ the B<Gnome::Glib::N-Source> from the main loop.
 
 =head2 GMainContextFlags
 
-Flags to pass to C<.new-with-flags()> which affect the behaviour
+Flags to pass to C<.context-new-with-flags()> which affect the behaviour
 of a B<Gnome::Glib::N-MainContext>.
 
 =item C<G_MAIN_CONTEXT_FLAGS_NONE>; Default behaviour.
@@ -99,43 +210,6 @@ other event loops.
 
 =begin pod
 =head1 Callback Functions
-=head2 ChildWatchFunc
-
-=head3 Signature
-=begin code
-:( $pid, Int() $wait-status, gpointer $user-data  )
-=end code
-
-=item pid; the process id of the child process
-=item wait-status; Status information about the child process, encoded
-              in a platform-specific manner
-=item user-data; user data passed to g_child_watch_add()
-
-=head2 ClearHandleFunc
-
-=head3 Signature
-=begin code
-:(  UInt() $handle-id  )
-=end code
-
-=item handle-id; the handle ID to clear
-
-=head2 SourceDisposeFunc
-
-=head3 Signature
-=begin code
-:(  CArray[N-Source] _UA_ $source  )
-=end code
-
-=item source; B<Gnome::Glib::N-Source> that is currently being disposed
-
-=head2 SourceDummyMarshal
-
-=head3 Signature
-=begin code
-:( )
-=end code
-
 =head2 SourceOnceFunc
 
 =head3 Signature
@@ -156,6 +230,43 @@ other event loops.
 =item user-data; data passed to the function, set when the source was
     created with one of the above functions
 
+=head2 SourceDisposeFunc
+
+=head3 Signature
+=begin code
+:(  N-Object $source  )
+=end code
+
+=item source; B<Gnome::Glib::N-Source> that is currently being disposed
+
+=head2 ClearHandleFunc
+
+=head3 Signature
+=begin code
+:(  UInt() $handle-id  )
+=end code
+
+=item handle-id; the handle ID to clear
+
+=head2 ChildWatchFunc
+
+=head3 Signature
+=begin code
+:( $pid, Int() $wait-status, gpointer $user-data  )
+=end code
+
+=item pid; the process id of the child process
+=item wait-status; Status information about the child process, encoded
+              in a platform-specific manner
+=item user-data; user data passed to g_child_watch_add()
+
+=head2 SourceDummyMarshal
+
+=head3 Signature
+=begin code
+:( )
+=end code
+
 =end pod
 #-------------------------------------------------------------------------------
 #--[Standalone Functions]-------------------------------------------------------
@@ -167,9 +278,8 @@ other event loops.
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 child-watch-add
+This function is not yet available
 
 Sets a function to be called when the child indicated by C<$pid>
 exits, at a default priority, C<G_PRIORITY_DEFAULT>.
@@ -178,7 +288,7 @@ If you obtain C<$pid> from g_spawn_async() or g_spawn_async_with_pipes()
 you will need to pass C<G_SPAWN_DO_NOT_REAP_CHILD> as flag to
 the spawn function for the child watching to work.
 
-Note that on platforms where B<Gnome::Glib::MainContext> must be explicitly closed
+Note that on platforms where B<Gnome::Glib::Main> must be explicitly closed
 (see g_spawn_close_pid()) C<$pid> must not be closed while the
 source is still active. Typically, you will want to call
 g_spawn_close_pid() in the callback function for the source.
@@ -191,12 +301,6 @@ This internally creates a main loop source using
 g_child_watch_source_new() and attaches it to the main loop context
 using g_source_attach(). You can do these steps manually if you
 need greater control.
-=begin comment
-
-=head2 Example
-# Example for child-watch-add
-
-=end comment
 
 =begin code
 method child-watch-add ( …, &function, gpointer $data --> UInt )
@@ -210,13 +314,19 @@ method child-watch-add ( …, &function, gpointer $data --> UInt )
 
 Return value; the ID (greater than 0) of the event source.. 
 
+=begin comment
+
+=head2 Example
+# Example for child-watch-add
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 child-watch-add-full
+This function is not yet available
 
 Sets a function to be called when the child indicated by C<$pid>
 exits, at the priority C<$priority>.
@@ -229,7 +339,7 @@ In many programs, you will want to call g_spawn_check_wait_status()
 in the callback to determine whether or not the child exited
 successfully.
 
-Also, note that on platforms where B<Gnome::Glib::MainContext> must be explicitly closed
+Also, note that on platforms where B<Gnome::Glib::Main> must be explicitly closed
 (see g_spawn_close_pid()) C<$pid> must not be closed while the source
 is still active.  Typically, you should invoke g_spawn_close_pid()
 in the callback function for the source.
@@ -242,12 +352,6 @@ This internally creates a main loop source using
 g_child_watch_source_new() and attaches it to the main loop context
 using g_source_attach(). You can do these steps manually if you
 need greater control.
-=begin comment
-
-=head2 Example
-# Example for child-watch-add-full
-
-=end comment
 
 =begin code
 method child-watch-add-full ( Int() $priority, …, &function, gpointer $data, &notify --> UInt )
@@ -263,13 +367,19 @@ Windows a handle for a process (which doesn't have to be a child).. Note that ea
 
 Return value; the ID (greater than 0) of the event source.. 
 
+=begin comment
+
+=head2 Example
+# Example for child-watch-add-full
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 child-watch-source-new
+This function is not yet available
 
 Creates a new child_watch source.
 
@@ -280,7 +390,7 @@ executed.
 Note that child watch sources can only be used in conjunction with
 B<g_spawn...> when the C<G_SPAWN_DO_NOT_REAP_CHILD> flag is used.
 
-Note that on platforms where B<Gnome::Glib::MainContext> must be explicitly closed
+Note that on platforms where B<Gnome::Glib::Main> must be explicitly closed
 (see g_spawn_close_pid()) C<$pid> must not be closed while the
 source is still active. Typically, you will want to call
 g_spawn_close_pid() in the callback function for the source.
@@ -296,6 +406,14 @@ due to limitations in POSIX process interfaces:
   mechanism, including B<waitpid(pid, ...)> or a second child-watch
   source for the same C<$pid>
 * the application must not ignore B<SIGCHLD>
+* Before 2.78, the application could not send a signal (B<kill()>) to the
+  watched C<$pid> in a race free manner. Since 2.78, you can do that while the
+  associated B<Gnome::Glib::N-MainContext> is acquired.
+* Before 2.78, even after destroying the B<Gnome::Glib::N-Source>, you could not
+  be sure that C<$pid> wasn't already reaped. Hence, it was also not
+  safe to B<kill()> or B<waitpid()> on the process ID after the child watch
+  source was gone. Destroying the source before it fired made it
+  impossible to reliably reap the process.
 
 If any of those conditions are not met, this and related APIs will
 not work correctly. This can often be diagnosed via a GLib warning
@@ -303,15 +421,9 @@ stating that B<ECHILD> was received by B<waitpid>.
 
 Calling B<waitpid> for specific processes other than C<$pid> remains a
 valid thing to do.
-=begin comment
-
-=head2 Example
-# Example for child-watch-source-new
-
-=end comment
 
 =begin code
-method child-watch-source-new ( … --> CArray[N-Source]  )
+method child-watch-source-new ( … --> N-Object )
 =end code
 
 =item pid; process to watch. On POSIX the positive pid of a child process. On
@@ -319,15 +431,21 @@ Windows a handle for a process (which doesn't have to be a child).. Note that ea
 
 Return value; the newly-created child watch source. 
 
+=begin comment
+
+=head2 Example
+# Example for child-watch-source-new
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 clear-handle-id
 
 Clears a numeric handler, such as a B<Gnome::Glib::N-Source> ID.
- C<$tag_ptr> must be a valid pointer to the variable holding the handler.
+ C<$tag-ptr> must be a valid pointer to the variable holding the handler.
 
 If the ID is zero then this function does nothing.
 Otherwise, clear_func() is called with the ID as a parameter, and the tag is
@@ -335,12 +453,6 @@ set to zero.
 
 A macro is also included that allows this function to be used without
 pointer casts.
-=begin comment
-
-=head2 Example
-# Example for clear-handle-id
-
-=end comment
 
 =begin code
 method clear-handle-id ( Array[Int] $tag-ptr, &clear-func )
@@ -349,17 +461,29 @@ method clear-handle-id ( Array[Int] $tag-ptr, &clear-func )
 =item $tag-ptr; a pointer to the handler ID.
 =item &clear-func; the function to call to clear the handler. Tthe function must be specified with following signature; C<:( guint $handle-id )>.
 
+=begin comment
+
+=head2 Example
+# Example for clear-handle-id
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 get-current-time
 
 Equivalent to the UNIX gettimeofday() function, but portable.
 
 You may find g_get_real_time() to be more convenient.
+
+=begin code
+method get-current-time ( N-Object $result )
+=end code
+
+=item $result; B<Gnome::Glib::N-TimeVal> structure in which to store current time.
+
 =begin comment
 
 =head2 Example
@@ -367,17 +491,10 @@ You may find g_get_real_time() to be more convenient.
 
 =end comment
 
-=begin code
-method get-current-time ( CArray[N-TimeVal]  $result )
-=end code
-
-=item $result; B<Gnome::Glib::N-TimeVal> structure in which to store current time..
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-monotonic-time
 
 Queries the system monotonic time.
@@ -390,12 +507,6 @@ suspended.
 We try to use the clock that corresponds as closely as possible to
 the passage of time as measured by system calls such as poll() but it
 may not always be possible to do this.
-=begin comment
-
-=head2 Example
-# Example for get-monotonic-time
-
-=end comment
 
 =begin code
 method get-monotonic-time (--> Int )
@@ -403,11 +514,17 @@ method get-monotonic-time (--> Int )
 
 Return value; the monotonic time, in microseconds. 
 
+=begin comment
+
+=head2 Example
+# Example for get-monotonic-time
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-real-time
 
 Queries the system wall-clock time.
@@ -419,12 +536,6 @@ B<Gnome::Glib::N-TimeVal>.
 You should only use this call if you are actually interested in the real
 wall-clock time.  g_get_monotonic_time() is probably more useful for
 measuring intervals.
-=begin comment
-
-=head2 Example
-# Example for get-real-time
-
-=end comment
 
 =begin code
 method get-real-time (--> Int )
@@ -432,11 +543,17 @@ method get-real-time (--> Int )
 
 Return value; the number of microseconds since January 1, 1970 UTC.. 
 
+=begin comment
+
+=head2 Example
+# Example for get-real-time
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 idle-add
 
 Adds a function to be called whenever there are no higher priority
@@ -453,12 +570,6 @@ and attaches it to the global B<Gnome::Glib::N-MainContext> using g_source_attac
 the callback will be invoked in whichever thread is running that main
 context. You can do these steps manually if you need greater control or to
 use a custom main context.
-=begin comment
-
-=head2 Example
-# Example for idle-add
-
-=end comment
 
 =begin code
 method idle-add ( &function, gpointer $data --> UInt )
@@ -469,11 +580,17 @@ method idle-add ( &function, gpointer $data --> UInt )
 
 Return value; the ID (greater than 0) of the event source.. 
 
+=begin comment
+
+=head2 Example
+# Example for idle-add
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 idle-add-full
 
 Adds a function to be called whenever there are no higher priority
@@ -490,12 +607,6 @@ and attaches it to the global B<Gnome::Glib::N-MainContext> using g_source_attac
 the callback will be invoked in whichever thread is running that main
 context. You can do these steps manually if you need greater control or to
 use a custom main context.
-=begin comment
-
-=head2 Example
-# Example for idle-add-full
-
-=end comment
 
 =begin code
 method idle-add-full ( Int() $priority, &function, gpointer $data, &notify --> UInt )
@@ -509,11 +620,17 @@ method idle-add-full ( Int() $priority, &function, gpointer $data, &notify --> U
 
 Return value; the ID (greater than 0) of the event source.. 
 
+=begin comment
+
+=head2 Example
+# Example for idle-add-full
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 idle-add-once
 
 Adds a function to be called whenever there are no higher priority
@@ -524,12 +641,6 @@ The function will only be called once and then the source will be
 automatically removed from the main context.
 
 This function otherwise behaves like g_idle_add().
-=begin comment
-
-=head2 Example
-# Example for idle-add-once
-
-=end comment
 
 =begin code
 method idle-add-once ( &function, gpointer $data --> UInt )
@@ -540,20 +651,20 @@ method idle-add-once ( &function, gpointer $data --> UInt )
 
 Return value; the ID (greater than 0) of the event source. 
 
+=begin comment
+
+=head2 Example
+# Example for idle-add-once
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 idle-remove-by-data
 
 Removes the idle function with the given data.
-=begin comment
-
-=head2 Example
-# Example for idle-remove-by-data
-
-=end comment
 
 =begin code
 method idle-remove-by-data ( gpointer $data --> Bool )
@@ -563,12 +674,17 @@ method idle-remove-by-data ( gpointer $data --> Bool )
 
 Return value; C<True> if an idle source was found and removed.. 
 
+=begin comment
+
+=head2 Example
+# Example for idle-remove-by-data
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 idle-source-new
 
 Creates a new idle source.
@@ -578,6 +694,13 @@ and must be added to one with g_source_attach() before it will be
 executed. Note that the default priority for idle sources is
 C<G_PRIORITY_DEFAULT_IDLE>, as compared to other sources which
 have a default priority of C<G_PRIORITY_DEFAULT>.
+
+=begin code
+method idle-source-new (--> N-Object )
+=end code
+
+Return value; the newly-created idle source. 
+
 =begin comment
 
 =head2 Example
@@ -585,23 +708,23 @@ have a default priority of C<G_PRIORITY_DEFAULT>.
 
 =end comment
 
-=begin code
-method idle-source-new (--> CArray[N-Source]  )
-=end code
-
-Return value; the newly-created idle source. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 main-context-default
 
-Returns the global default main context. This is the main context
+Returns the global-default main context. This is the main context
 used for main loop functions when a main loop is not explicitly
 specified, and corresponds to the "main" main loop. See also
-C<.get-thread-default()>.
+C<.context-get-thread-default()>.
+
+=begin code
+method main-context-default (--> N-Object )
+=end code
+
+Return value; the global-default main context.. 
+
 =begin comment
 
 =head2 Example
@@ -609,30 +732,31 @@ C<.get-thread-default()>.
 
 =end comment
 
-=begin code
-method main-context-default (--> CArray[N-MainContext] )
-=end code
-
-Return value; the global default main context.. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 main-context-get-thread-default
 
 Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread. Asynchronous
 operations that want to be able to be run in contexts other than
 the default one should call this method or
-C<.ref-thread-default()> to get a B<Gnome::Glib::N-MainContext> to add
+C<.context-ref-thread-default()> to get a B<Gnome::Glib::N-MainContext> to add
 their B<GSources> to. (Note that even in single-threaded
 programs applications may sometimes want to temporarily push a
 non-default context, so it is not safe to assume that this will
 always return undefined if you are running in the default thread.)
 
 If you need to hold a reference on the context, use
-C<.ref-thread-default()> instead.
+C<.context-ref-thread-default()> instead.
+
+=begin code
+method main-context-get-thread-default (--> N-Object )
+=end code
+
+Return value; the thread-default B<Gnome::Glib::N-MainContext>, or
+undefined if the thread-default context is the global-default main context.. 
+
 =begin comment
 
 =head2 Example
@@ -640,26 +764,26 @@ C<.ref-thread-default()> instead.
 
 =end comment
 
-=begin code
-method main-context-get-thread-default (--> CArray[N-MainContext] )
-=end code
-
-Return value; the thread-default B<Gnome::Glib::N-MainContext>, or
-undefined if the thread-default context is the global default context.. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 main-context-ref-thread-default
 
 Gets the thread-default B<Gnome::Glib::N-MainContext> for this thread, as with
-C<.get-thread-default()>, but also adds a reference to
-it with C<.ref()>. In addition, unlike
-C<.get-thread-default()>, if the thread-default context
-is the global default context, this will return that B<Gnome::Glib::N-MainContext>
+C<.context-get-thread-default()>, but also adds a reference to
+it with C<.context-ref()>. In addition, unlike
+C<.context-get-thread-default()>, if the thread-default context
+is the global-default context, this will return that B<Gnome::Glib::N-MainContext>
 (with a ref added to it) rather than returning undefined.
+
+=begin code
+method main-context-ref-thread-default (--> N-Object )
+=end code
+
+Return value; the thread-default B<Gnome::Glib::N-MainContext>. Unref
+    with C<.context-unref()> when you are done with it.. 
+
 =begin comment
 
 =head2 Example
@@ -667,22 +791,20 @@ is the global default context, this will return that B<Gnome::Glib::N-MainContex
 
 =end comment
 
-=begin code
-method main-context-ref-thread-default (--> CArray[N-MainContext] )
-=end code
-
-Return value; the thread-default B<Gnome::Glib::N-MainContext>. Unref
-    with C<.unref()> when you are done with it.. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 main-current-source
 
 Returns the currently firing source for this thread.
+
+=begin code
+method main-current-source (--> N-Object )
+=end code
+
+Return value; The currently firing source or undefined.. 
+
 =begin comment
 
 =head2 Example
@@ -690,31 +812,25 @@ Returns the currently firing source for this thread.
 
 =end comment
 
-=begin code
-method main-current-source (--> CArray[N-Source]  )
-=end code
-
-Return value; The currently firing source or undefined.. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 main-depth
 
 Returns the depth of the stack of calls to
-C<.dispatch()> on any B<Gnome::Glib::N-MainContext> in the current thread.
- That is, when called from the toplevel, it gives 0. When
-called from within a callback from C<.iteration()>
-(or g_main_loop_run(), etc.) it returns 1. When called from within
-a callback to a recursive call to C<.iteration()>,
+C<.context-dispatch()> on any B<Gnome::Glib::N-MainContext> in the current thread.
+That is, when called from the toplevel, it gives 0. When
+called from within a callback from C<.context-iteration()>
+(or C<.loop-run()>, etc.) it returns 1. When called from within
+a callback to a recursive call to C<.context-iteration()>,
 it returns 2. And so forth.
 
 This function is useful in a situation like the following:
 Imagine an extremely simple "garbage collected" system.
 
-|[<!-- language="C" -->
+=begin comment
+<!-- language="C" -->
 static GList *free_list;
 
 gpointer
@@ -742,16 +858,18 @@ while (TRUE);
    g_main_context_iteration (NULL, TRUE);
    free_allocated_memory();
   }
-]|
+
+=end comment
 
 This works from an application, however, if you want to do the same
 thing from a library, it gets more difficult, since you no longer
 control the main loop. You might think you can simply use an idle
 function to make the call to free_allocated_memory(), but that
 doesn't work, since the idle function could be called from a
-recursive callback. This can be fixed by using g_main_depth()
+recursive callback. This can be fixed by using C<.depth()>
 
-|[<!-- language="C" -->
+=begin comment
+<!-- language="C" -->
 gpointer
 allocate_memory (gsize size)
 {
@@ -782,14 +900,15 @@ free_allocated_memory (void)
       l = next;
     }
   }
-]|
 
-There is a temptation to use g_main_depth() to solve
+=end comment
+
+There is a temptation to use C<.depth()> to solve
 problems with reentrancy. For instance, while waiting for data
 to be received from the network in response to a menu item,
 the menu item might be selected again. It might seem that
 one could make the menu item's callback return immediately
-and do nothing if g_main_depth() returns a value greater than 1.
+and do nothing if C<.depth()> returns a value greater than 1.
 However, this should be avoided since the user then sees selecting
 the menu item do nothing. Furthermore, you'll find yourself adding
 these checks all over your code, since there are doubtless many,
@@ -804,12 +923,6 @@ following techniques:
    arbitrary  callbacks. Instead, structure your code so that you
    simply return to the main loop and then get called again when
    there is more work to do.
-=begin comment
-
-=head2 Example
-# Example for main-depth
-
-=end comment
 
 =begin code
 method main-depth (--> Int )
@@ -817,11 +930,17 @@ method main-depth (--> Int )
 
 Return value; The main loop recursion level in the current thread. 
 
+=begin comment
+
+=head2 Example
+# Example for main-depth
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 source-remove
 
 Removes the source with the given ID from the default main context. You must
@@ -843,12 +962,6 @@ idle may already have run and been removed by the time this function
 is called on its (now invalid) source ID.  This source ID may have
 been reissued, leading to the operation being performed against the
 wrong source.
-=begin comment
-
-=head2 Example
-# Example for source-remove
-
-=end comment
 
 =begin code
 method source-remove ( UInt() $tag --> Bool )
@@ -858,17 +971,32 @@ method source-remove ( UInt() $tag --> Bool )
 
 Return value; C<True> if the source was found and removed.. 
 
+=begin comment
+
+=head2 Example
+# Example for source-remove
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 source-remove-by-funcs-user-data
 
 Removes a source from the default main loop context given the
 source functions and user data. If multiple sources exist with the
 same source functions and user data, only one will be destroyed.
+
+=begin code
+method source-remove-by-funcs-user-data ( N-Object $funcs, gpointer $user-data --> Bool )
+=end code
+
+=item $funcs; The C<$source-funcs> passed to g_source_new()
+=item $user-data; the user data for the callback.
+
+Return value; C<True> if a source was found and removed.. 
+
 =begin comment
 
 =head2 Example
@@ -876,31 +1004,15 @@ same source functions and user data, only one will be destroyed.
 
 =end comment
 
-=begin code
-method source-remove-by-funcs-user-data ( CArray[N-SourceFuncs]  $funcs, gpointer $user-data --> Bool )
-=end code
-
-=item $funcs; The C<$source_funcs> passed to g_source_new().
-=item $user-data; the user data for the callback.
-
-Return value; C<True> if a source was found and removed.. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 source-remove-by-user-data
 
 Removes a source from the default main loop context given the user
 data for the callback. If multiple sources exist with the same user
 data, only one will be destroyed.
-=begin comment
-
-=head2 Example
-# Example for source-remove-by-user-data
-
-=end comment
 
 =begin code
 method source-remove-by-user-data ( gpointer $user-data --> Bool )
@@ -910,11 +1022,17 @@ method source-remove-by-user-data ( gpointer $user-data --> Bool )
 
 Return value; C<True> if a source was found and removed.. 
 
+=begin comment
+
+=head2 Example
+# Example for source-remove-by-user-data
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 source-set-name-by-id
 
 Sets the name of a source using its ID.
@@ -933,12 +1051,6 @@ idle may already have run and been removed by the time this function
 is called on its (now invalid) source ID.  This source ID may have
 been reissued, leading to the operation being performed against the
 wrong source.
-=begin comment
-
-=head2 Example
-# Example for source-set-name-by-id
-
-=end comment
 
 =begin code
 method source-set-name-by-id ( UInt() $tag, Str $name )
@@ -947,11 +1059,17 @@ method source-set-name-by-id ( UInt() $tag, Str $name )
 =item $tag; a B<Gnome::Glib::N-Source> ID.
 =item $name; debug name for the source.
 
+=begin comment
+
+=head2 Example
+# Example for source-set-name-by-id
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 timeout-add
 
 Sets a function to be called at regular intervals, with the default
@@ -986,12 +1104,6 @@ It is safe to call this function from any thread.
 
 The interval given is in terms of monotonic time, not wall clock
 time.  See g_get_monotonic_time().
-=begin comment
-
-=head2 Example
-# Example for timeout-add
-
-=end comment
 
 =begin code
 method timeout-add ( UInt() $interval, &function, gpointer $data --> UInt )
@@ -1004,11 +1116,17 @@ method timeout-add ( UInt() $interval, &function, gpointer $data --> UInt )
 
 Return value; the ID (greater than 0) of the event source.. 
 
+=begin comment
+
+=head2 Example
+# Example for timeout-add
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 timeout-add-full
 
 Sets a function to be called at regular intervals, with the given
@@ -1035,12 +1153,6 @@ use a custom main context.
 
 The interval given is in terms of monotonic time, not wall clock time.
 See g_get_monotonic_time().
-=begin comment
-
-=head2 Example
-# Example for timeout-add-full
-
-=end comment
 
 =begin code
 method timeout-add-full ( Int() $priority, UInt() $interval, &function, gpointer $data, &notify --> UInt )
@@ -1056,11 +1168,17 @@ method timeout-add-full ( Int() $priority, UInt() $interval, &function, gpointer
 
 Return value; the ID (greater than 0) of the event source.. 
 
+=begin comment
+
+=head2 Example
+# Example for timeout-add-full
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 timeout-add-once
 
 Sets a function to be called after C<$interval> milliseconds have elapsed,
@@ -1070,12 +1188,6 @@ The given C<$function> is called once and then the source will be automatically
 removed from the main context.
 
 This function otherwise behaves like g_timeout_add().
-=begin comment
-
-=head2 Example
-# Example for timeout-add-once
-
-=end comment
 
 =begin code
 method timeout-add-once ( UInt() $interval, &function, gpointer $data --> UInt )
@@ -1088,11 +1200,17 @@ method timeout-add-once ( UInt() $interval, &function, gpointer $data --> UInt )
 
 Return value; the ID (greater than 0) of the event source. 
 
+=begin comment
+
+=head2 Example
+# Example for timeout-add-once
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 timeout-add-seconds
 
 Sets a function to be called at regular intervals with the default
@@ -1118,12 +1236,6 @@ on how to handle the return value and memory management of C<$data>.
 
 The interval given is in terms of monotonic time, not wall clock
 time.  See g_get_monotonic_time().
-=begin comment
-
-=head2 Example
-# Example for timeout-add-seconds
-
-=end comment
 
 =begin code
 method timeout-add-seconds ( UInt() $interval, &function, gpointer $data --> UInt )
@@ -1135,11 +1247,17 @@ method timeout-add-seconds ( UInt() $interval, &function, gpointer $data --> UIn
 
 Return value; the ID (greater than 0) of the event source.. 
 
+=begin comment
+
+=head2 Example
+# Example for timeout-add-seconds
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 timeout-add-seconds-full
 
 Sets a function to be called at regular intervals, with C<$priority>.
@@ -1181,12 +1299,6 @@ It is safe to call this function from any thread.
 
 The interval given is in terms of monotonic time, not wall clock
 time.  See g_get_monotonic_time().
-=begin comment
-
-=head2 Example
-# Example for timeout-add-seconds-full
-
-=end comment
 
 =begin code
 method timeout-add-seconds-full ( Int() $priority, UInt() $interval, &function, gpointer $data, &notify --> UInt )
@@ -1201,12 +1313,42 @@ method timeout-add-seconds-full ( Int() $priority, UInt() $interval, &function, 
 
 Return value; the ID (greater than 0) of the event source.. 
 
+=begin comment
+
+=head2 Example
+# Example for timeout-add-seconds-full
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
+=head2 timeout-add-seconds-once
 
+This function behaves like g_timeout_add_once() but with a range in seconds.
+
+=begin code
+method timeout-add-seconds-once ( UInt() $interval, &function, gpointer $data --> UInt )
+=end code
+
+=item $interval; the time after which the function will be called, in seconds.
+=item &function; function to call. Tthe function must be specified with following signature; C<:( gpointer $user-data )>.
+=item $data; data to pass to C<$function>.
+
+Return value; the ID (greater than 0) of the event source. 
+
+=begin comment
+
+=head2 Example
+# Example for timeout-add-seconds-once
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 timeout-source-new
 
 Creates a new timeout source.
@@ -1217,6 +1359,15 @@ executed.
 
 The interval given is in terms of monotonic time, not wall clock
 time.  See g_get_monotonic_time().
+
+=begin code
+method timeout-source-new ( UInt() $interval --> N-Object )
+=end code
+
+=item $interval; the timeout interval in milliseconds..
+
+Return value; the newly-created timeout source. 
+
 =begin comment
 
 =head2 Example
@@ -1224,20 +1375,10 @@ time.  See g_get_monotonic_time().
 
 =end comment
 
-=begin code
-method timeout-source-new ( UInt() $interval --> CArray[N-Source]  )
-=end code
-
-=item $interval; the timeout interval in milliseconds..
-
-Return value; the newly-created timeout source. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 timeout-source-new-seconds
 
 Creates a new timeout source.
@@ -1251,20 +1392,21 @@ in seconds.
 
 The interval given is in terms of monotonic time, not wall clock time.
 See g_get_monotonic_time().
+
+=begin code
+method timeout-source-new-seconds ( UInt() $interval --> N-Object )
+=end code
+
+=item $interval; the timeout interval in seconds.
+
+Return value; the newly-created timeout source. 
+
 =begin comment
 
 =head2 Example
 # Example for timeout-source-new-seconds
 
 =end comment
-
-=begin code
-method timeout-source-new-seconds ( UInt() $interval --> CArray[N-Source]  )
-=end code
-
-=item $interval; the timeout interval in seconds.
-
-Return value; the newly-created timeout source. 
 
 =end pod
 

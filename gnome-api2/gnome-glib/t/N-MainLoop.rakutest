@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -d -t Glib main
+=comment Package: Glib, C-Source: main
 use v6.d;
 
 #TL:1:Gnome::Glib::N-MainLoop:
@@ -12,6 +12,7 @@ use Test;
 
 use Gnome::Glib::N-MainContext:api<2>;
 use Gnome::Glib::N-MainLoop:api<2>;
+use Gnome::Glib::T-main:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -22,22 +23,22 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-MainLoop $mainloop;
+my N-MainLoop $n-mainloop;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $mainloop {
-    my CArray[N-MainContext] $context;
+  given $n-mainloop {
     my Bool() $is-running;
+    my N-Object $context;
 
 #`{{
     #TC:0:new-mainloop()
-    $context = '…';
+    $context = …;
     $is-running = True;
-    $mainloop .= new-mainloop( $context, $is-running);
+    $n-mainloop .= new-mainloop( $context, $is-running);
     ok .is-valid, '.new-mainloop( $context, $is-running)';
 
 }}
@@ -55,7 +56,7 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $mainloop {
+  with $n-mainloop {
 
 
 #`{{
@@ -83,7 +84,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $mainloop {
+  with $n-mainloop {
 
 
 #`{{

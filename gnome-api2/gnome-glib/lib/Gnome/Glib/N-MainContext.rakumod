@@ -8,10 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-#use Gnome::Glib::N-PollFD:api<2>;
-#use Gnome::Glib::N-Source:api<2>;
-#use Gnome::Glib::N-SourceFuncs:api<2>;
-#use Gnome::Glib::T-MainContext:api<2>;
+use Gnome::Glib::T-main:api<2>;
+#use Gnome::Glib::T-poll:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -21,18 +19,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Glib::N-MainContext:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-# This is an opaque type of which fields are not available.
-class N-MainContext:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -77,18 +68,18 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-maincontext => %( :type(Constructor), :is-symbol<g_main_context_new>, :returns(N-MainContext), ),
-  new-with-flags => %( :type(Constructor), :is-symbol<g_main_context_new_with_flags>, :returns(N-MainContext), :parameters([ GFlag])),
+  new-maincontext => %( :type(Constructor), :is-symbol<g_main_context_new>, :returns(N-Object), ),
+  new-with-flags => %( :type(Constructor), :is-symbol<g_main_context_new_with_flags>, :returns(N-Object), :parameters([ GFlag])),
 
   #--[Methods]------------------------------------------------------------------
   acquire => %(:is-symbol<g_main_context_acquire>,  :returns(gboolean), :cnv-return(Bool)),
-  #add-poll => %(:is-symbol<g_main_context_add_poll>,  :parameters([N-PollFD , gint])),
-  #check => %(:is-symbol<g_main_context_check>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, N-PollFD , gint])),
+  add-poll => %(:is-symbol<g_main_context_add_poll>,  :parameters([N-Object, gint])),
+  check => %(:is-symbol<g_main_context_check>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, N-Object, gint])),
   dispatch => %(:is-symbol<g_main_context_dispatch>, ),
-  #find-source-by-funcs-user-data => %(:is-symbol<g_main_context_find_source_by_funcs_user_data>,  :returns(N-Source ), :parameters([N-SourceFuncs , gpointer])),
-  #find-source-by-id => %(:is-symbol<g_main_context_find_source_by_id>,  :returns(N-Source ), :parameters([guint])),
-  #find-source-by-user-data => %(:is-symbol<g_main_context_find_source_by_user_data>,  :returns(N-Source ), :parameters([gpointer])),
-  #get-poll-func => %(:is-symbol<g_main_context_get_poll_func>,  :returns(), :cnv-return(( N-PollFD  $ufds, guint $nfsd, gint $timeout --> gint ) )),
+  find-source-by-funcs-user-data => %(:is-symbol<g_main_context_find_source_by_funcs_user_data>,  :returns(N-Object), :parameters([N-Object, gpointer])),
+  find-source-by-id => %(:is-symbol<g_main_context_find_source_by_id>,  :returns(N-Object), :parameters([guint])),
+  find-source-by-user-data => %(:is-symbol<g_main_context_find_source_by_user_data>,  :returns(N-Object), :parameters([gpointer])),
+#  get-poll-func => %(:is-symbol<g_main_context_get_poll_func>,  :returns(), :cnv-return(( N-Object $ufds, guint $nfsd, gint $timeout --> gint ))),
   invoke => %(:is-symbol<g_main_context_invoke>,  :parameters([:( gpointer $user-data --> gboolean ), gpointer])),
   invoke-full => %(:is-symbol<g_main_context_invoke_full>,  :parameters([gint, :( gpointer $user-data --> gboolean ), gpointer, :( gpointer $data )])),
   is-owner => %(:is-symbol<g_main_context_is_owner>,  :returns(gboolean), :cnv-return(Bool)),
@@ -97,23 +88,25 @@ my Hash $methods = %(
   pop-thread-default => %(:is-symbol<g_main_context_pop_thread_default>, ),
   prepare => %(:is-symbol<g_main_context_prepare>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr])),
   push-thread-default => %(:is-symbol<g_main_context_push_thread_default>, ),
-  #query => %(:is-symbol<g_main_context_query>,  :returns(gint), :parameters([gint, gint-ptr, N-PollFD , gint])),
-  ref => %(:is-symbol<g_main_context_ref>,  :returns(N-MainContext)),
+  query => %(:is-symbol<g_main_context_query>,  :returns(gint), :parameters([gint, gint-ptr, N-Object, gint])),
+  ref => %(:is-symbol<g_main_context_ref>,  :returns(N-Object)),
   release => %(:is-symbol<g_main_context_release>, ),
-  #remove-poll => %(:is-symbol<g_main_context_remove_poll>,  :parameters([N-PollFD ])),
-  #set-poll-func => %(:is-symbol<g_main_context_set_poll_func>,  :parameters([:( N-PollFD  $ufds, guint $nfsd, gint $timeout --> gint ) ])),
+  remove-poll => %(:is-symbol<g_main_context_remove_poll>,  :parameters([N-Object])),
+  set-poll-func => %(:is-symbol<g_main_context_set_poll_func>,  :parameters([:( N-Object $ufds, guint $nfsd, gint $timeout --> gint )])),
   unref => %(:is-symbol<g_main_context_unref>, ),
   wakeup => %(:is-symbol<g_main_context_wakeup>, ),
 
   #--[Functions]----------------------------------------------------------------
-  default => %( :type(Function), :is-symbol<g_main_context_default>,  :returns(N-MainContext)),
-  get-thread-default => %( :type(Function), :is-symbol<g_main_context_get_thread_default>,  :returns(N-MainContext)),
-  ref-thread-default => %( :type(Function), :is-symbol<g_main_context_ref_thread_default>,  :returns(N-MainContext)),
+  default => %( :type(Function), :is-symbol<g_main_context_default>,  :returns(N-Object)),
+  get-thread-default => %( :type(Function), :is-symbol<g_main_context_get_thread_default>,  :returns(N-Object)),
+  ref-thread-default => %( :type(Function), :is-symbol<g_main_context_ref_thread_default>,  :returns(N-Object)),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+method _fallback-v2 (
+  Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -121,11 +114,11 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
         :library(glib-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
-        )
+        ),
+        |%options
       );
     }
 
