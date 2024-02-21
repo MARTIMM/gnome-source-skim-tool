@@ -75,6 +75,7 @@ find . -name '*.raku*' | xargs wc -l
 * 2024-02-19 0.16.0
   * Finished with Graphene and Gsk4 but needs more tests.
   * Start to look into Gdk4 to make use of Paintable and Snapshot.
+  * Regenerated Glib modules to get the records correct. Because of this, many depending modules have to reflect those changes.
 
 * 2024-01-21 0.15.0
   * Introducing `Gnome::Gsk4` and `Gnome::Graphene`.
