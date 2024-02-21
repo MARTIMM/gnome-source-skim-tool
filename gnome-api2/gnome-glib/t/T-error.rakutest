@@ -1,0 +1,100 @@
+# Command to generate: generate.raku -t Glib error
+use v6.d;
+
+#TL:1:Gnome::Glib::T-Error:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-error:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+#Gnome::N::debug(:on);
+
+my Gnome::Glib::T-error $error .= new;
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $error {
+    my Str $prefix;
+    my CArray[N-Error] $err;
+    my gint $code;
+    my GQuark $domain;
+    my Str $format;
+    my CArray[N-Error] $dest;
+    my Str $message;
+    my N-Error $src;
+
+    my N-Error $n-error;
+
+    my $e = CArray[N-Error].new(N-Error);
+
+    #TB:1:set-error-literal()
+    $domain = 45444;
+    $code = 1012342;
+    $message = 'my error';
+
+#Gnome::N::debug(:on);
+    .set-error-literal( $e, $domain, $code, $message);
+#note $e[0].gist;
+    is $e[0].domain, 45444, '.set-error-literal()';
+
+    #TB:1:set-error()
+    $e = CArray[N-Error].new(N-Error);
+    $domain = 87654;
+    $code = 7987;
+    $format = 'my %d%dnd error';
+
+    .set-error( $e, $domain, $code, $format, gint32, 2, gint32, 2);
+    is $e[0].message, sprintf( $format, 2, 2), '.set-error() with added gint32';
+
+    # Other method to describe extra arguments
+    $e = CArray[N-Error].new(N-Error);
+    .set-error( $e, $domain, $code, $format, gint32, 3, gint32, 2);
+    is $e[0].message, sprintf( $format, 3, 2), '.set-error() with added gint32';
+
+    $e = CArray[N-Error].new(N-Error);
+    $format = 'illegal value %4.2f';
+    .set-error( $e, $domain, $code, $format, gdouble, 32e-1);
+    is $e[0].message, sprintf( $format, 32e-1), '.set-error() with added gdouble';
+
+#`{{
+
+    #TM:0:propagate-prefixed-error()
+    ok .propagate-prefixed-error( $dest, $src, $format), '.propagate-prefixed-error()';
+
+    #TM:0:propagate-error()
+    ok .propagate-error( $dest, $src), '.propagate-error()';
+
+    #TM:0:prefix-error-literal()
+    ok .prefix-error-literal( $err, $prefix), '.prefix-error-literal()';
+}}
+
+    #TM:1:prefix-error()
+    $e = CArray[N-Error].new(N-Error);
+    $domain = 87600;
+    $code = 7;
+    $format = 'your %dnd error';
+    .set-error( $e, $domain, $code, ", I did warn ye!");
+    .prefix-error( $e, $format, gint32, 2);
+    is $e[0].message, sprintf( $format ~ ", I did warn ye!", 2), '.prefix-error() with added gint32';
+
+    #TM:1:clear-error()
+    lives-ok { .clear-error($e); }, '.clear-error()';
+    ok !$e[0].defined, 'error cleared';
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
