@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Glib::T-Quark
+=head1 Gnome::Glib::T-quark
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -90,18 +90,18 @@ Return value; a canonical representation for the string.
 =begin pod
 =head2 quark-from-static-string
 
-Gets the B<Gnome::Glib::Quark> identifying the given (static) string. If the
-string does not currently have an associated B<Gnome::Glib::Quark>, a new B<Gnome::Glib::Quark>
+Gets the B<Gnome::Glib::quark> identifying the given (static) string. If the
+string does not currently have an associated B<Gnome::Glib::quark>, a new B<Gnome::Glib::quark>
 is created, linked to the given string.
 
 Note that this function is identical to C<.from-string()> except
-that if a new B<Gnome::Glib::Quark> is created the string itself is used rather
+that if a new B<Gnome::Glib::quark> is created the string itself is used rather
 than a copy. This saves memory, but can only be used if the string
 will continue to exist until the program terminates. It can be used
 with statically allocated strings in the main program, but not with
 statically allocated memory in dynamically loaded modules, if you
 expect to ever unload the module again (e.g. do not use this
-function in GTK+ theme engines).
+function in GTK theme engines).
 
 This function must not be used before library constructors have finished
 running. In particular, this means it cannot be used to initialize global
@@ -113,7 +113,7 @@ method quark-from-static-string ( Str $string --> UInt )
 
 =item $string; a string.
 
-Return value; the B<Gnome::Glib::Quark> identifying the string, or 0 if C<$string> is undefined. 
+Return value; the B<Gnome::Glib::quark> identifying the string, or 0 if C<$string> is undefined. 
 
 =begin comment
 
@@ -128,8 +128,8 @@ Return value; the B<Gnome::Glib::Quark> identifying the string, or 0 if C<$strin
 =begin pod
 =head2 quark-from-string
 
-Gets the B<Gnome::Glib::Quark> identifying the given string. If the string does
-not currently have an associated B<Gnome::Glib::Quark>, a new B<Gnome::Glib::Quark> is created,
+Gets the B<Gnome::Glib::quark> identifying the given string. If the string does
+not currently have an associated B<Gnome::Glib::quark>, a new B<Gnome::Glib::quark> is created,
 using a copy of the string.
 
 This function must not be used before library constructors have finished
@@ -142,7 +142,7 @@ method quark-from-string ( Str $string --> UInt )
 
 =item $string; a string.
 
-Return value; the B<Gnome::Glib::Quark> identifying the string, or 0 if C<$string> is undefined. 
+Return value; the B<Gnome::Glib::quark> identifying the string, or 0 if C<$string> is undefined. 
 
 =begin comment
 
@@ -157,15 +157,15 @@ Return value; the B<Gnome::Glib::Quark> identifying the string, or 0 if C<$strin
 =begin pod
 =head2 quark-to-string
 
-Gets the string associated with the given B<Gnome::Glib::Quark>.
+Gets the string associated with the given B<Gnome::Glib::quark>.
 
 =begin code
 method quark-to-string ( UInt $quark --> Str )
 =end code
 
-=item $quark; a B<Gnome::Glib::Quark>..
+=item $quark; a B<Gnome::Glib::quark>..
 
-Return value; the string associated with the B<Gnome::Glib::Quark>. 
+Return value; the string associated with the B<Gnome::Glib::quark>. 
 
 =begin comment
 
@@ -180,8 +180,8 @@ Return value; the string associated with the B<Gnome::Glib::Quark>.
 =begin pod
 =head2 quark-try-string
 
-Gets the B<Gnome::Glib::Quark> associated with the given string, or 0 if string is
-undefined or it has no associated B<Gnome::Glib::Quark>.
+Gets the B<Gnome::Glib::quark> associated with the given string, or 0 if string is
+undefined or it has no associated B<Gnome::Glib::quark>.
 
 If you want the GQuark to be created if it doesn't already exist,
 use C<.from-string()> or C<.from-static-string()>.
@@ -195,8 +195,8 @@ method quark-try-string ( Str $string --> UInt )
 
 =item $string; a string.
 
-Return value; the B<Gnome::Glib::Quark> associated with the string, or 0 if C<$string> is
-    undefined or there is no B<Gnome::Glib::Quark> associated with it. 
+Return value; the B<Gnome::Glib::quark> associated with the string, or 0 if C<$string> is
+    undefined or there is no B<Gnome::Glib::quark> associated with it. 
 
 =begin comment
 
