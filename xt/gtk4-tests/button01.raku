@@ -7,6 +7,7 @@ use Gnome::Gtk4::Window:api<2>;
 #use Gnome::Gtk4::Grid:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
@@ -15,7 +16,7 @@ constant \Window = Gnome::Gtk4::Window;
 constant \Button = Gnome::Gtk4::Button;
 
 
-my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop;
+my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop( N-Object, True);
 
 class SH {
   method stopit ( --> gboolean ) {
