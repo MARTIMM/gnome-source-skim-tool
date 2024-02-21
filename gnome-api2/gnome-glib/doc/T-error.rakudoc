@@ -1,0 +1,271 @@
+=comment Package: Glib, C-Source: error
+use v6.d;
+
+=begin pod
+=head1 Gnome::Glib::T-error
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Error
+
+  class N-Error:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has GQuark $.domain;
+    has gint $.code;
+    has Str $.message;
+  }
+
+=item domain; error domain, e.g. C<G_FILE_ERROR>
+=item code; error code, e.g. C<G_FILE_ERROR_NOENT>
+=item message; human-readable informative error message
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 ErrorClearFunc
+
+=head3 Signature
+=begin code
+:(  N-Object $error  )
+=end code
+
+=item error; extended error to clear
+
+=head2 ErrorInitFunc
+
+=head3 Signature
+=begin code
+:(  N-Object $error  )
+=end code
+
+=item error; extended error
+
+=head2 ErrorCopyFunc
+
+=head3 Signature
+=begin code
+:(  N-Object $src-error, N-Object $dest-error  )
+=end code
+
+=item src-error; source extended error
+=item dest-error; destination extended error
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-error
+
+If C<$err> or * C<$err> is undefined, does nothing. Otherwise,
+calls C<.free()> on * C<$err> and sets * C<$err> to undefined.
+
+=begin code
+method clear-error ( CArray[N-Error] $err )
+=end code
+
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+=begin comment
+
+=head2 Example
+# Example for clear-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prefix-error
+This function is not yet available
+
+Formats a string according to C<$format> and prefix it to an existing
+error message. If C<$err> is undefined (ie: no error variable) then do
+nothing.
+
+If * C<$err> is undefined (ie: an error variable is present but there is no
+error condition) then also do nothing.
+
+=begin code
+method prefix-error ( N-Object $err, Str $format, … )
+=end code
+
+=item $err; (transfer ownership: full) a return location for a B<Gnome::Glib::T-error>
+=item $format; printf()-style format string.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for prefix-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prefix-error-literal
+
+Prefixes C<$prefix> to an existing error message. If C<$err> or * C<$err> is
+undefined (i.e.: no error variable) then do nothing.
+
+=begin code
+method prefix-error-literal ( N-Object $err, Str $prefix )
+=end code
+
+=item $err; a return location for a B<Gnome::Glib::T-error>, or undefined
+=item $prefix; string to prefix C<$err> with.
+
+=begin comment
+
+=head2 Example
+# Example for prefix-error-literal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 propagate-error
+
+If C<$dest> is undefined, free C<$src>; otherwise, moves C<$src> into * C<$dest>.
+The error variable C<$dest> points to must be undefined.
+ C<$src> must be non-undefined.
+
+Note that C<$src> is no longer valid after this call. If you want
+to keep using the same GError*, you need to set it to undefined
+after calling this function on it.
+
+=begin code
+method propagate-error ( N-Object $dest, N-Object $src )
+=end code
+
+=item $dest; (transfer ownership: full) error return location
+=item $src; (transfer ownership: full) error to move into the return location
+
+=begin comment
+
+=head2 Example
+# Example for propagate-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 propagate-prefixed-error
+This function is not yet available
+
+If C<$dest> is undefined, free C<$src>; otherwise, moves C<$src> into * C<$dest>.
+* C<$dest> must be undefined. After the move, add a prefix as with
+g_prefix_error().
+
+=begin code
+method propagate-prefixed-error ( N-Object $dest, N-Object $src, Str $format, … )
+=end code
+
+=item $dest; error return location
+=item $src; error to move into the return location
+=item $format; printf()-style format string.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for propagate-prefixed-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-error
+This function is not yet available
+
+Does nothing if C<$err> is undefined; if C<$err> is non-undefined, then * C<$err>
+must be undefined. A new B<Gnome::Glib::T-error> is created and assigned to * C<$err>.
+
+=begin code
+method set-error ( N-Object $err, UInt $domain, Int() $code, Str $format, … )
+=end code
+
+=item $err; (transfer ownership: full) a return location for a B<Gnome::Glib::T-error>
+=item $domain; error domain.
+=item $code; error code.
+=item $format; printf()-style format.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-error-literal
+
+Does nothing if C<$err> is undefined; if C<$err> is non-undefined, then * C<$err>
+must be undefined. A new B<Gnome::Glib::T-error> is created and assigned to * C<$err>.
+Unlike g_set_error(), C<$message> is not a printf()-style format string.
+Use this function if C<$message> contains text you don't have control over,
+that could include printf() escape sequences.
+
+=begin code
+method set-error-literal ( N-Object $err, UInt $domain, Int() $code, Str $message )
+=end code
+
+=item $err; (transfer ownership: full) a return location for a B<Gnome::Glib::T-error>
+=item $domain; error domain.
+=item $code; error code.
+=item $message; error message.
+
+=begin comment
+
+=head2 Example
+# Example for set-error-literal
+
+=end comment
+
+=end pod
+

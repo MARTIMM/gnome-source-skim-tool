@@ -11,6 +11,8 @@ use NativeCall;
 
 
 use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-error:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -95,7 +97,7 @@ subtest 'Method tests', {
     ok .matches( $domain, $code), '.matches()';
 
     #TM:1:copy()
-    my N-Error $e = .copy();
+    my N-Error() $e = .copy();
     is $e.domain, $domain, '.copy()';
 
     #TM:1:free()

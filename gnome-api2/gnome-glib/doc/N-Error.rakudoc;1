@@ -1,0 +1,280 @@
+=comment Package: Glib, C-Source: error
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Glib::N-Error
+
+=head1 Description
+
+The B<Gnome::Glib::N-Error> structure contains information about
+an error that has occurred.
+
+=head2 Example
+
+=begin code
+my GQuark $domain = 45444;
+my Int $code = 1012342;
+my Str $message = 'my error';
+
+my Gnome::Glib::N-Error $error .= new-error( $domain, $code, $message);
+say $error.matches( $domain, $code), '.matches()';    # True
+$error.free;
+say $error.matches( $domain, $code);                  # False
+=end code
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-error
+This function is not yet available
+
+Creates a new B<Gnome::Glib::N-Error> with the given C<$domain> and C<$code>,
+and a message formatted with C<$format>.
+
+=begin code
+method new-error ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib::Error \)
+=end code
+
+=item $domain; error domain.
+=item $code; error code.
+=item $format; printf()-style format for error message.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-literal
+
+Creates a new B<Gnome::Glib::N-Error>; unlike C<.new-error()>, C<$message> is
+not a printf()-style format string. Use this function if C<$message> contains text you don't have control over,
+that could include printf() escape sequences.
+
+=begin code
+method new-literal ( UInt $domain, Int() $code, Str $message --> Gnome::Glib::Error \)
+=end code
+
+=item $domain; error domain.
+=item $code; error code.
+=item $message; error message.
+
+=begin comment
+
+=head2 Example
+# Example for new-literal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-valist
+This function is not yet available
+
+Creates a new B<Gnome::Glib::N-Error> with the given C<$domain> and C<$code>,
+and a message formatted with C<$format>.
+
+=begin code
+method new-valist ( UInt $domain, Int() $code, Str $format, … --> Gnome::Glib::Error \)
+=end code
+
+=item $domain; error domain.
+=item $code; error code.
+=item $format; printf()-style format for error message.
+=item args; #va_list of parameters for the message format. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-valist
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Makes a copy of C<$error>.
+
+=begin code
+method copy (--> N-Object )
+=end code
+
+Return value; a new B<Gnome::Glib::N-Error>. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees a B<Gnome::Glib::N-Error> and associated resources.
+
+=begin code
+method free ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 matches
+
+Returns C<True> if C<$error> matches C<$domain> and C<$code>, C<False>
+otherwise. In particular, when C<$error> is undefined, C<False> will
+be returned.
+
+If C<$domain> contains a B<FAILED> (or otherwise generic) error code,
+you should generally not check for it explicitly, but should
+instead treat any not-explicitly-recognized error code as being
+equivalent to the B<FAILED> code. This way, if the domain is
+extended in the future to provide a more specific error code for
+a certain case, your code will still work.
+
+=begin code
+method matches ( UInt $domain, Int() $code --> Bool )
+=end code
+
+=item $domain; an error domain.
+=item $code; an error code.
+
+Return value; whether C<$error> has C<$domain> and C<$code>. 
+
+=begin comment
+
+=head2 Example
+# Example for matches
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 domain-register
+
+This function registers an extended B<Gnome::Glib::N-Error> domain. C<$error-type-name> will be duplicated. Otherwise does the same as
+C<.domain-register-static()>.
+
+=begin code
+method domain-register ( Str $error-type-name, Int() $error-type-private-size, &error-type-init, &error-type-copy, &error-type-clear --> UInt )
+=end code
+
+=item $error-type-name; string to create a B<Gnome::Glib::Error> from.
+=item $error-type-private-size; size of the private error data in bytes.
+=item &error-type-init; function initializing fields of the private error data. Tthe function must be specified with following signature; C<:( N-Object $error )>.
+=item &error-type-copy; function copying fields of the private error data. Tthe function must be specified with following signature; C<:( N-Object $src-error, N-Object $dest-error )>.
+=item &error-type-clear; function freeing fields of the private error data. Tthe function must be specified with following signature; C<:( N-Object $error )>.
+
+Return value; B<Gnome::Glib::Error> representing the error domain. 
+
+=begin comment
+
+=head2 Example
+# Example for domain-register
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 domain-register-static
+
+This function registers an extended B<Gnome::Glib::N-Error> domain.
+ C<$error-type-name> should not be freed. C<$error-type-private-size> must
+be greater than 0.
+ C<$error-type-init> receives an initialized B<Gnome::Glib::N-Error> and should then initialize
+the private data.
+ C<$error-type-copy> is a function that receives both original and a copy
+B<Gnome::Glib::N-Error> and should copy the fields of the private error data. The standard
+B<Gnome::Glib::N-Error> fields are already handled.
+ C<$error-type-clear> receives the pointer to the error, and it should free the
+fields of the private error data. It should not free the struct itself though.
+
+Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it
+already takes care of passing valid information to this function.
+
+=begin code
+method domain-register-static ( Str $error-type-name, Int() $error-type-private-size, &error-type-init, &error-type-copy, &error-type-clear --> UInt )
+=end code
+
+=item $error-type-name; static string to create a B<Gnome::Glib::Error> from.
+=item $error-type-private-size; size of the private error data in bytes.
+=item &error-type-init; function initializing fields of the private error data. Tthe function must be specified with following signature; C<:( N-Object $error )>.
+=item &error-type-copy; function copying fields of the private error data. Tthe function must be specified with following signature; C<:( N-Object $src-error, N-Object $dest-error )>.
+=item &error-type-clear; function freeing fields of the private error data. Tthe function must be specified with following signature; C<:( N-Object $error )>.
+
+Return value; B<Gnome::Glib::Error> representing the error domain. 
+
+=begin comment
+
+=head2 Example
+# Example for domain-register-static
+
+=end comment
+
+=end pod
+

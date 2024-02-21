@@ -8,6 +8,7 @@ use v6.d;
 use NativeCall;
 
 
+use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -17,33 +18,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Glib::N-Error:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Error:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has GQuark $.domain;
-  has gint $.code;
-  has Str $.message;
-
-  submethod BUILD (
-    GQuark :$!domain, gint :$!code, Str :$!message, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-Error ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Error, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -88,23 +67,25 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-error => %( :type(Constructor), :is-symbol<g_error_new>, :returns(N-Error), :variable-list, :parameters([ GQuark, gint, Str])),
-  new-literal => %( :type(Constructor), :is-symbol<g_error_new_literal>, :returns(N-Error), :parameters([ GQuark, gint, Str])),
-  #new-valist => %( :type(Constructor), :is-symbol<g_error_new_valist>, :returns(N-Error), :parameters([ GQuark, gint, Str, ])),
+  new-error => %( :type(Constructor), :is-symbol<g_error_new>, :returns(N-Object), :variable-list, :parameters([ GQuark, gint, Str])),
+  new-literal => %( :type(Constructor), :is-symbol<g_error_new_literal>, :returns(N-Object), :parameters([ GQuark, gint, Str])),
+  #new-valist => %( :type(Constructor), :is-symbol<g_error_new_valist>, :returns(N-Object), :parameters([ GQuark, gint, Str, ])),
 
   #--[Methods]------------------------------------------------------------------
-  copy => %(:is-symbol<g_error_copy>,  :returns(N-Error)),
+  copy => %(:is-symbol<g_error_copy>,  :returns(N-Object)),
   free => %(:is-symbol<g_error_free>, ),
   matches => %(:is-symbol<g_error_matches>,  :returns(gboolean), :cnv-return(Bool), :parameters([GQuark, gint])),
 
   #--[Functions]----------------------------------------------------------------
-  domain-register => %( :type(Function), :is-symbol<g_error_domain_register>,  :returns(GQuark), :parameters([ Str, gsize, :( N-Error $error ), :( N-Error $src-error, N-Error $dest-error ), :( N-Error $error )])),
-  domain-register-static => %( :type(Function), :is-symbol<g_error_domain_register_static>,  :returns(GQuark), :parameters([ Str, gsize, :( N-Error $error ), :( N-Error $src-error, N-Error $dest-error ), :( N-Error $error )])),
+  domain-register => %( :type(Function), :is-symbol<g_error_domain_register>,  :returns(GQuark), :parameters([ Str, gsize, :( N-Object $error ), :( N-Object $src-error, N-Object $dest-error ), :( N-Object $error )])),
+  domain-register-static => %( :type(Function), :is-symbol<g_error_domain_register_static>,  :returns(GQuark), :parameters([ Str, gsize, :( N-Object $error ), :( N-Object $src-error, N-Object $dest-error ), :( N-Object $error )])),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+method _fallback-v2 (
+  Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -112,11 +93,11 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
         :library(glib-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
-        )
+        ),
+        |%options
       );
     }
 
