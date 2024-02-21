@@ -60,7 +60,7 @@ method set-object-name (
       }
 
       when FilenameGirType {
-#note "$?LINE $type-letter, $object-map-entry.gist()";
+#note "\n$?LINE $type-letter, $object-map-entry.gist()";
         # Recalculate typeletter and add other ones, they have been made
         # different in the gir data environment
         given $type-letter {
@@ -81,6 +81,7 @@ method set-object-name (
               $object-name = "U-$object-map-entry<type-name>";
             }
           }
+
           when 'R' { $object-name = "I-$object-map-entry<type-name>"; }
           default { $object-name = "C-$object-map-entry<type-name>"; }
         }
@@ -119,6 +120,8 @@ method get-data-from-filename ( Str $filename --> Hash ) {
 #-------------------------------------------------------------------------------
 method search-name ( Str $name is copy --> Hash ) {
 
+#note "$?LINE search-name $name";
+
   self!check-search-list;
 
   my Str $raku-package = $*work-data<raku-package>;
@@ -129,6 +132,7 @@ method search-name ( Str $name is copy --> Hash ) {
 
   my Hash $h = %();
   for @*map-search-list -> $map-name {
+#note "$?LINE $map-name";
     self!check-map($map-name);
 
 #note "$?LINE: Search for $name in map $map-name";
@@ -143,15 +147,17 @@ method search-name ( Str $name is copy --> Hash ) {
     # Get the Hash from the object maps
     $h = $*object-maps{$map-name}{$name}
          // $*object-maps{$map-name}{$map-name ~ $name};
-    if $map-name ~~ /G [d || s || t] k $/ and $raku-package ~~ /$<v>=[\d+] $/ {
-      $h<package-name> = "Gnome\:\:$map-name" ~ $<v>.Str;
+    if $map-name ~~ m/G [d || s || t] k $/ {
+      if $raku-package ~~ /$<v>=[\d+] $/ {
+        $h<package-name> = "Gnome\:\:$map-name" ~ $/<v>.Str;
+      }
     }
 
     else {
       $h<package-name> = "Gnome\:\:$map-name";
     }
 
-#note "$?LINE $map-name, $raku-package, $h<package-name>";
+#note "$?LINE $map-name, $name, $raku-package, $h<package-name>";
 
     # Add package name to this hash
 #    $h<raku-package> = $*other-work-data{$map-name}<raku-package>;
@@ -195,7 +201,15 @@ method !check-search-list ( ) {
       when m/ Cairo | Pango / {
         @*map-search-list = <Cairo Pango GObject Glib>
       }
-    }
+
+      when 'GObject' {
+        @*map-search-list = <GObject Glib>
+      }
+
+      when 'Glib' {
+        @*map-search-list = ('Glib',)
+      }
+     }
   }
 }
 

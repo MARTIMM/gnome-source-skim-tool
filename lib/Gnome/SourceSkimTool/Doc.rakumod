@@ -851,8 +851,8 @@ method document-enumerations ( @enum-names --> Str ) {
 
     my Str $name = $enum-name;
     $name ~~ s/^ $package //;
-#}}
-note "$?LINE $package, $enum-name, $name";
+
+#note "$?LINE $package, $enum-name, $name";
 
     # Get the XML element of the enum data
     my XML::Element $e = $xpath.find(
@@ -919,8 +919,8 @@ method document-bitfield ( @bitfield-names --> Str ) {
 
     my Str $name = $bitfield-name;
     $name ~~ s/^ $package //;
-#}}
-note "$?LINE $package, $bitfield-name, $name";
+
+#note "$?LINE $package, $bitfield-name, $name";
 
     # Get the XML element of the bitfield data
     my XML::Element $e = $xpath.find(
