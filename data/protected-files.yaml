@@ -1,19 +1,22 @@
 Glib:
   c:
-  - N-Variant               # modified sub new-variant-with-variant
-  - T-Error                 # bug in g_clear_error()
+  - N-Bytes
   - N-SList                 # native subs generated wrong
+  - N-Variant               # modified sub new-variant-with-variant
+  - T-error                 # bug in g_clear_error()
   d:
   - N-List                  # modified record class names
   - N-Error                 # modified record class names
   - N-SList                 # modified record class names
   - N-Variant               # modified sub new-variant-with-variant
+  - T-array
   - T-List                  # modified record class names
   t:
   - N-Error
   - N-List
+  - N-SList
   - N-Variant
-  - T-Error
+  - T-error
   - T-List
 
 GObject:
@@ -86,13 +89,16 @@ Pango:
   - Context
   - N-Rectangle
 
+Gdk4:
+  t: []
+
 GdkPixbuf:
   t:
   - Pixbuf
 
-Gsk:
+Gsk4:
   c:
-  - N-Transform                 # renamed some routines like rotate-3d
+  - N-Transform                 # renamed some routines like rotate3d
   t:
   - N-Transform
 
