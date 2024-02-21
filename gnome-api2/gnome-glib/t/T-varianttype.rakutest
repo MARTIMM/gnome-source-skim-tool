@@ -1,0 +1,48 @@
+=comment Package: Glib, C-Source: varianttype
+use v6.d;
+
+#TL:1:Gnome::Glib::T-varianttype:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::T-varianttype:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Glib::T-varianttype $varianttype .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $varianttype {
+    my Str $limit;
+    my Str $type-string;
+    my gchar-pptr $endptr;
+    my Str $string;
+
+
+#`{{
+    #TM:0:variant-type-string-is-valid()
+    ok .variant-type-string-is-valid( $type-string), '.variant-type-string-is-valid()';
+
+    #TM:0:variant-type-string-scan()
+    ok .variant-type-string-scan( $string, $limit, $endptr), '.variant-type-string-scan()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

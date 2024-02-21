@@ -1,7 +1,6 @@
-# Command to generate: generate.raku -v -c -t Glib varianttype
+=comment Package: Glib, C-Source: varianttype
 use v6.d;
 
-#TL:1:Gnome::Glib::VariantType:
 #TL:1:Gnome::Glib::N-VariantType:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -10,7 +9,9 @@ use v6.d;
 use Test;
 use NativeCall;
 
+
 use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::Glib::T-varianttype:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -21,7 +22,6 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Glib::N-VariantType $varianttype;
 my N-VariantType $n-varianttype;
 
 #-------------------------------------------------------------------------------
@@ -29,43 +29,42 @@ my N-VariantType $n-varianttype;
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $varianttype {
+  given $n-varianttype {
     my N-Object $items;
-    my N-Object $element;
-    my N-Object $key;
-    my Int() $length;
-    my N-Object $value;
     my Str $type-string;
-
-    #TC:1:new-varianttype()
-    $type-string = 'b';
-    $varianttype .= new-varianttype($type-string);
-    ok .is-valid, '.new-varianttype($type-string)';
-
-    #TC:1:new-array()
-    $element = $varianttype.get-native-object;  # a native object
-    $varianttype .= new-array($element);
-    ok .is-valid, '.new-array($element)';
+    my N-Object $key;
+    my N-Object $value;
+    my Int() $length;
+    my N-Object $element;
 
 #`{{
+    #TC:0:new-varianttype()
+    $type-string = 'text';
+    $n-varianttype .= new-varianttype( $type-string);
+    ok .is-valid, '.new-varianttype( $type-string)';
+
+    #TC:0:new-array()
+    $element = …;
+    $n-varianttype .= new-array( $element);
+    ok .is-valid, '.new-array( $element)';
+
     #TC:0:new-dict-entry()
-    $key = …;  # a native object
-    $value = …;  # a native object
-    $varianttype .= new-dict-entry( $key, $value);
+    $key = …;
+    $value = …;
+    $n-varianttype .= new-dict-entry( $key, $value);
     ok .is-valid, '.new-dict-entry( $key, $value)';
-}}
 
-    #TC:1:new-maybe()
-    #$element = …;  # a native object
-    $varianttype .= new-maybe($element);
-    ok .is-valid, '.new-maybe($element)';
+    #TC:0:new-maybe()
+    $element = …;
+    $n-varianttype .= new-maybe( $element);
+    ok .is-valid, '.new-maybe( $element)';
 
-#`{{
     #TC:0:new-tuple()
-    $items = …;  # a native object
+    $items = …;
     $length = -42;
-    $varianttype .= new-tuple( $items, $length);
+    $n-varianttype .= new-tuple( $items, $length);
     ok .is-valid, '.new-tuple( $items, $length)';
+
 }}
   }
 };
@@ -81,9 +80,10 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $varianttype {
+  with $n-varianttype {
     my gpointer $type2;
     my N-Object $supertype;
+
 
 #`{{
     #TM:0:copy()
@@ -109,24 +109,15 @@ subtest 'Method tests', {
 
     #TM:0:hash()
     ok .hash(), '.hash()';
-}}
 
-
-    #TM:1:is-array()
-    my $element = $varianttype.get-native-object;  # a native object
-    $varianttype .= new-array($element);
+    #TM:0:is-array()
     ok .is-array(), '.is-array()';
 
-    #TM:1:is-container()
-    ok .is-container(), '.is-container()';
-
-    my Str $type-string = 'b';
-    $varianttype .= new-varianttype($type-string);
-    #TM:1:is-basic()
+    #TM:0:is-basic()
     ok .is-basic(), '.is-basic()';
 
-
-#`{{
+    #TM:0:is-container()
+    ok .is-container(), '.is-container()';
 
     #TM:0:is-definite()
     ok .is-definite(), '.is-definite()';
@@ -167,11 +158,11 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $varianttype {
+  with $n-varianttype {
     my Array[Str] $endptr;
+    my Str $limit;
     my Str $string;
     my Str $type-string;
-    my Str $limit;
 
 
 #`{{
