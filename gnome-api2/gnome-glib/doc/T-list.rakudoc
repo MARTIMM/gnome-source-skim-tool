@@ -1,0 +1,75 @@
+=comment Package: Glib, C-Source: list
+use v6.d;
+
+=begin pod
+=head1 Gnome::Glib::T-list
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-List
+
+  class N-List:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gpointer $.data;
+    has N-Object $.next;
+    has N-Object $.prev;
+  }
+
+=item data; holds the element's data, which can be a pointer to any kind
+       of data, or any integer value using the
+       Type Conversion Macros
+=item next; contains the link to the next element in the list
+=item prev; contains the link to the previous element in the list
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 clear-list
+
+Clears a pointer to a B<Gnome::Glib::T-list>, freeing it and, optionally, freeing its elements using C<$destroy>.
+ C<$list-ptr> must be a valid pointer. If C<$list-ptr> points to a null B<Gnome::Glib::T-list>, this does nothing.
+
+=begin code
+method clear-list ( N-List() $list-ptr, &destroy )
+=end code
+
+=item $list-ptr; a B<Gnome::Glib::T-list> return location.
+=item &destroy; the function to pass to C<.free-full()> or undefined to not free elements. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+=begin comment
+
+=head2 Example
+# Example for clear-list
+
+=end comment
+
+=end pod
+

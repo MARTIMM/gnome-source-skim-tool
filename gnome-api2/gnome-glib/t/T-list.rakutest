@@ -10,13 +10,13 @@ use NativeCall;
 use Test;
 
 use Gnome::Glib::N-List:api<2>;
-use Gnome::Glib::T-List:api<2>;
+use Gnome::Glib::T-list:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
-#my Gnome::Glib::N-List $n-list .= new;
+my Gnome::Glib::N-List $list .= new;
 
 #-------------------------------------------------------------------------------
 # Pack and store data to prevent garbage collecting
@@ -37,16 +37,15 @@ sub destroy ( gpointer $np ) {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  my Gnome::Glib::T-List $t-list .= new;
-  my Gnome::Glib::N-List $n-list .= new;
-  my N-List $N-List;
+  my Gnome::Glib::T-list $t-list .= new;
+  my N-List() $n-list;
 
   #TB:1:clear-list()
   for ^10 -> $i {
-    $N-List = $n-list.append( $N-List, pack($i));
+    $n-list = $list.append( $n-list, pack($i));
   }
 
-  my $list-ptr = CArray[N-List].new($N-List);
+  my $list-ptr = CArray[N-List].new($n-list);
   $t-list.clear-list( $list-ptr, &destroy);
   is $destroyed, '0123456789', '.clear-list()';
 };
