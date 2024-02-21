@@ -1,0 +1,928 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Glib::N-PtrArray
+
+=head1 Description
+
+Contains the public fields of a pointer array.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Glib::PtrArray
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add
+
+Adds a pointer to the end of the pointer array. The array will grow
+in size automatically if necessary.
+
+=begin code
+method add ( N-Object $array, gpointer $data )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $data; the pointer to add.
+
+=begin comment
+
+=head2 Example
+# Example for add
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Makes a full (deep) copy of a B<Gnome::Glib::N-PtrArray>.
+ C<$func>, as a B<Gnome::Glib::T-types>, takes two arguments, the data to be copied
+and a C<$user-data> pointer. On common processor architectures, it's safe to
+pass undefined as C<$user-data> if the copy function takes only one argument. You
+may get compiler warnings from this though if compiling with GCC’s
+B<-Wcast-function-type> warning.
+
+If C<$func> is undefined, then only the pointers (and not what they are
+pointing to) are copied to the new B<Gnome::Glib::N-PtrArray>.
+
+The copy of C<$array> will have the same B<Gnome::Glib::T-types> for its elements as C<$array>.
+
+=begin code
+method copy ( N-Object $array, &func, gpointer $user-data --> N-Object )
+=end code
+
+=item $array; B<Gnome::Glib::N-PtrArray> to duplicate
+=item &func; a copy function used to copy every element in the array. Tthe function must be specified with following signature; C<:( gpointer $src, gpointer $data --> gpointer )>.
+=item $user-data; user data passed to the copy function C<$func>, or undefined.
+
+Return value; a deep copy of the initial B<Gnome::Glib::N-PtrArray>.. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 extend
+
+Adds all pointers of C<$array> to the end of the array C<$array-to-extend>.
+The array will grow in size automatically if needed. C<$array-to-extend> is
+modified in-place.
+ C<$func>, as a B<Gnome::Glib::T-types>, takes two arguments, the data to be copied
+and a C<$user-data> pointer. On common processor architectures, it's safe to
+pass undefined as C<$user-data> if the copy function takes only one argument. You
+may get compiler warnings from this though if compiling with GCC’s
+B<-Wcast-function-type> warning.
+
+If C<$func> is undefined, then only the pointers (and not what they are
+pointing to) are copied to the new B<Gnome::Glib::N-PtrArray>.
+
+=begin code
+method extend ( N-Object $array-to-extend, N-Object $array, &func, gpointer $user-data )
+=end code
+
+=item $array-to-extend; a B<Gnome::Glib::N-PtrArray>.
+=item $array; a B<Gnome::Glib::N-PtrArray> to add to the end of C<$array-to-extend>.
+=item &func; a copy function used to copy every element in the array. Tthe function must be specified with following signature; C<:( gpointer $src, gpointer $data --> gpointer )>.
+=item $user-data; user data passed to the copy function C<$func>, or undefined.
+
+=begin comment
+
+=head2 Example
+# Example for extend
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 extend-and-steal
+
+Adds all the pointers in C<$array> to the end of C<$array-to-extend>, transferring
+ownership of each element from C<$array> to C<$array-to-extend> and modifying C<$array-to-extend> in-place. C<$array> is then freed.
+
+As with C<.free()>, C<$array> will be destroyed if its reference count
+is 1. If its reference count is higher, it will be decremented and the
+length of C<$array> set to zero.
+
+=begin code
+method extend-and-steal ( N-Object $array-to-extend, N-Object $array )
+=end code
+
+=item $array-to-extend; a B<Gnome::Glib::N-PtrArray>.
+=item $array; (transfer ownership: container) a B<Gnome::Glib::N-PtrArray> to add to the end of
+    C<$array-to-extend>.
+
+=begin comment
+
+=head2 Example
+# Example for extend-and-steal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 find
+
+Checks whether C<$needle> exists in C<$haystack>. If the element is found, C<True> is
+returned and the element’s index is returned in C<$index-> (if non-undefined).
+Otherwise, C<False> is returned and C<$index-> is undefined. If C<$needle> exists
+multiple times in C<$haystack>, the index of the first instance is returned.
+
+This does pointer comparisons only. If you want to use more complex equality
+checks, such as string comparisons, use C<.find-with-equal-func()>.
+
+=begin code
+method find ( N-Object $haystack, gpointer $needle, Array[Int] $index --> Bool )
+=end code
+
+=item $haystack; pointer array to be searched
+=item $needle; pointer to look for.
+=item $index; (transfer ownership: full) return location for the index of
+   the element, if found.
+
+Return value; C<True> if C<$needle> is one of the elements of C<$haystack>. 
+
+=begin comment
+
+=head2 Example
+# Example for find
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 find-with-equal-func
+
+Checks whether C<$needle> exists in C<$haystack>, using the given C<$equal-func>.
+If the element is found, C<True> is returned and the element’s index is
+returned in C<$index-> (if non-undefined). Otherwise, C<False> is returned and C<$index->
+is undefined. If C<$needle> exists multiple times in C<$haystack>, the index of
+the first instance is returned.
+ C<$equal-func> is called with the element from the array as its first parameter,
+and C<$needle> as its second parameter. If C<$equal-func> is undefined, pointer
+equality is used.
+
+=begin code
+method find-with-equal-func ( N-Object $haystack, gpointer $needle, &equal-func, Array[Int] $index --> Bool )
+=end code
+
+=item $haystack; pointer array to be searched
+=item $needle; pointer to look for.
+=item &equal-func; the function to call for each element, which should
+   return C<True> when the desired element is found; or undefined to use pointer
+   equality. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b --> gboolean )>.
+=item $index; (transfer ownership: full) return location for the index of
+   the element, if found.
+
+Return value; C<True> if C<$needle> is one of the elements of C<$haystack>. 
+
+=begin comment
+
+=head2 Example
+# Example for find-with-equal-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 foreach
+
+Calls a function for each element of a B<Gnome::Glib::N-PtrArray>. C<$func> must not
+add elements to or remove elements from the array.
+
+=begin code
+method foreach ( N-Object $array, &func, gpointer $user-data )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item &func; the function to call for each array element. Tthe function must be specified with following signature; C<:( gpointer $data, gpointer $user-data )>.
+=item $user-data; user data to pass to the function.
+
+=begin comment
+
+=head2 Example
+# Example for foreach
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the memory allocated for the B<Gnome::Glib::N-PtrArray>. If C<$free-seg> is C<True>
+it frees the memory block holding the elements as well. Pass C<False>
+if you want to free the B<Gnome::Glib::N-PtrArray> wrapper but preserve the
+underlying array for use elsewhere. If the reference count of C<$array>
+is greater than one, the B<Gnome::Glib::N-PtrArray> wrapper is preserved but the
+size of C<$array> will be set to zero.
+
+If array contents point to dynamically-allocated memory, they should
+be freed separately if C<$free-seg> is C<True> and no B<Gnome::Glib::T-types>
+function has been set for C<$array>.
+
+This function is not thread-safe. If using a B<Gnome::Glib::N-PtrArray> from multiple
+threads, use only the atomic C<.ref()> and C<.unref()>
+functions.
+
+=begin code
+method free ( N-Object $array, Bool() $free-seg --> Array )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $free-seg; if C<True> the actual pointer array is freed as well.
+
+Return value; the pointer array if C<$free-seg> is
+    C<False>, otherwise undefined. The pointer array should be freed using g_free().. 
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+Inserts an element into the pointer array at the given index. The
+array will grow in size automatically if necessary.
+
+=begin code
+method insert ( N-Object $array, Int() $index, gpointer $data )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $index; the index to place the new element at, or -1 to append.
+=item $data; the pointer to add..
+
+=begin comment
+
+=head2 Example
+# Example for insert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new
+
+Creates a new B<Gnome::Glib::N-PtrArray> with a reference count of 1.
+
+=begin code
+method new (--> N-Object )
+=end code
+
+Return value; the new B<Gnome::Glib::N-PtrArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for new
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-full
+
+Creates a new B<Gnome::Glib::N-PtrArray> with C<$reserved-size> pointers preallocated
+and a reference count of 1. This avoids frequent reallocation, if
+you are going to add many pointers to the array. Note however that
+the size of the array is still 0. It also set C<$element-free-func>
+for freeing each element when the array is destroyed either via
+C<.unref()>, when C<.free()> is called with C<$free-segment> set to C<True> or when removing elements.
+
+=begin code
+method new-full ( UInt() $reserved-size, &element-free-func --> N-Object )
+=end code
+
+=item $reserved-size; number of pointers preallocated.
+=item &element-free-func; A function to free elements with
+    destroy C<$array> or undefined. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+Return value; A new B<Gnome::Glib::N-PtrArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for new-full
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-free-func
+
+Creates a new B<Gnome::Glib::N-PtrArray> with a reference count of 1 and use C<$element-free-func> for freeing each element when the array is destroyed
+either via C<.unref()>, when C<.free()> is called with C<$free-segment> set to C<True> or when removing elements.
+
+=begin code
+method new-with-free-func ( &element-free-func --> N-Object )
+=end code
+
+=item &element-free-func; A function to free elements with
+    destroy C<$array> or undefined. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+Return value; A new B<Gnome::Glib::N-PtrArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for new-with-free-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Atomically increments the reference count of C<$array> by one.
+This function is thread-safe and may be called from any thread.
+
+=begin code
+method ref ( N-Object $array --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+
+Return value; The passed in B<Gnome::Glib::N-PtrArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes the first occurrence of the given pointer from the pointer
+array. The following elements are moved down one place. If C<$array>
+has a non-undefined B<Gnome::Glib::T-types> function it is called for the
+removed element.
+
+It returns C<True> if the pointer was removed, or C<False> if the
+pointer was not found.
+
+=begin code
+method remove ( N-Object $array, gpointer $data --> Bool )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $data; the pointer to remove.
+
+Return value; C<True> if the pointer is removed, C<False> if the pointer
+    is not found in the array. 
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-fast
+
+Removes the first occurrence of the given pointer from the pointer
+array. The last element in the array is used to fill in the space,
+so this function does not preserve the order of the array. But it
+is faster than C<.remove()>. If C<$array> has a non-undefined
+B<Gnome::Glib::T-types> function it is called for the removed element.
+
+It returns C<True> if the pointer was removed, or C<False> if the
+pointer was not found.
+
+=begin code
+method remove-fast ( N-Object $array, gpointer $data --> Bool )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $data; the pointer to remove.
+
+Return value; C<True> if the pointer was found in the array. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-fast
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-index
+
+Removes the pointer at the given index from the pointer array.
+The following elements are moved down one place. If C<$array> has
+a non-undefined B<Gnome::Glib::T-types> function it is called for the removed
+element. If so, the return value from this function will potentially point
+to freed memory (depending on the B<Gnome::Glib::T-types> implementation).
+
+=begin code
+method remove-index ( N-Object $array, UInt() $index --> gpointer )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $index; the index of the pointer to remove.
+
+Return value; the pointer which was removed. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-index-fast
+
+Removes the pointer at the given index from the pointer array.
+The last element in the array is used to fill in the space, so
+this function does not preserve the order of the array. But it
+is faster than C<.remove-index()>. If C<$array> has a non-undefined
+B<Gnome::Glib::T-types> function it is called for the removed element. If so, the
+return value from this function will potentially point to freed memory
+(depending on the B<Gnome::Glib::T-types> implementation).
+
+=begin code
+method remove-index-fast ( N-Object $array, UInt() $index --> gpointer )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $index; the index of the pointer to remove.
+
+Return value; the pointer which was removed. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-index-fast
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-range
+
+Removes the given number of pointers starting at the given index
+from a B<Gnome::Glib::N-PtrArray>. The following elements are moved to close the
+gap. If C<$array> has a non-undefined B<Gnome::Glib::T-types> function it is
+called for the removed elements.
+
+=begin code
+method remove-range ( N-Object $array, UInt() $index, UInt() $length --> N-Object )
+=end code
+
+=item $array; a C<$GPtrArray>
+=item $index; the index of the first pointer to remove.
+=item $length; the number of pointers to remove.
+
+Return value; the C<$array>. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-free-func
+
+Sets a function for freeing each element when C<$array> is destroyed
+either via C<.unref()>, when C<.free()> is called
+with C<$free-segment> set to C<True> or when removing elements.
+
+=begin code
+method set-free-func ( N-Object $array, &element-free-func )
+=end code
+
+=item $array; A B<Gnome::Glib::N-PtrArray>
+=item &element-free-func; A function to free elements with
+    destroy C<$array> or undefined. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+=begin comment
+
+=head2 Example
+# Example for set-free-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-size
+
+Sets the size of the array. When making the array larger,
+newly-added elements will be set to undefined. When making it smaller,
+if C<$array> has a non-undefined B<Gnome::Glib::T-types> function then it will be
+called for the removed elements.
+
+=begin code
+method set-size ( N-Object $array, Int() $length )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $length; the new length of the pointer array.
+
+=begin comment
+
+=head2 Example
+# Example for set-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sized-new
+
+Creates a new B<Gnome::Glib::N-PtrArray> with C<$reserved-size> pointers preallocated
+and a reference count of 1. This avoids frequent reallocation, if
+you are going to add many pointers to the array. Note however that
+the size of the array is still 0.
+
+=begin code
+method sized-new ( UInt() $reserved-size --> N-Object )
+=end code
+
+=item $reserved-size; number of pointers preallocated.
+
+Return value; the new B<Gnome::Glib::N-PtrArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for sized-new
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort
+
+Sorts the array, using C<$compare-func> which should be a qsort()-style
+comparison function (returns less than zero for first arg is less
+than second arg, zero for equal, greater than zero if irst arg is
+greater than second arg).
+
+Note that the comparison function for C<.sort()> doesn't
+take the pointers from the array as arguments, it takes pointers to
+the pointers in the array. Here is a full example of usage:
+
+=begin comment
+<!-- language="C" -->
+typedef struct
+{
+  gchar *name;
+  gint size;
+} FileListEntry;
+
+static gint
+sort_filelist (gconstpointer a, gconstpointer b)
+{
+  const FileListEntry *entry1 = *((FileListEntry **) a);
+  const FileListEntry *entry2 = *((FileListEntry **) b);
+
+  return g_ascii_strcasecmp (entry1->name, entry2->name);
+}
+
+…
+g_autoptr (GPtrArray) file_list = NULL;
+
+// initialize file_list array and load with many FileListEntry entries
+...
+// now sort it with
+g_ptr_array_sort (file_list, sort_filelist);
+
+=end comment
+
+This is guaranteed to be a stable sort since version 2.32.
+
+=begin code
+method sort ( N-Object $array, &compare-func )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item &compare-func; comparison function. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b --> gint )>.
+
+=begin comment
+
+=head2 Example
+# Example for sort
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort-with-data
+
+Like C<.sort()>, but the comparison function has an extra
+user data argument.
+
+Note that the comparison function for C<.sort-with-data()>
+doesn't take the pointers from the array as arguments, it takes
+pointers to the pointers in the array. Here is a full example of use:
+
+=begin comment
+<!-- language="C" -->
+typedef enum { SORT_NAME, SORT_SIZE } SortMode;
+
+typedef struct
+{
+  gchar *name;
+  gint size;
+} FileListEntry;
+
+static gint
+sort_filelist (gconstpointer a, gconstpointer b, gpointer user_data)
+{
+  gint order;
+  const SortMode sort_mode = GPOINTER_TO_INT (user_data);
+  const FileListEntry *entry1 = *((FileListEntry **) a);
+  const FileListEntry *entry2 = *((FileListEntry **) b);
+
+  switch (sort_mode)
+    {
+    case SORT_NAME:
+      order = g_ascii_strcasecmp (entry1->name, entry2->name);
+      break;
+    case SORT_SIZE:
+      order = entry1->size - entry2->size;
+      break;
+    default:
+      order = 0;
+      break;
+    }
+  return order;
+}
+
+...
+g_autoptr (GPtrArray) file_list = NULL;
+SortMode sort_mode;
+
+// initialize file_list array and load with many FileListEntry entries
+...
+// now sort it with
+sort_mode = SORT_NAME;
+g_ptr_array_sort_with_data (file_list,
+                            sort_filelist,
+                            GINT_TO_POINTER (sort_mode));
+
+=end comment
+
+This is guaranteed to be a stable sort since version 2.32.
+
+=begin code
+method sort-with-data ( N-Object $array, &compare-func, gpointer $user-data )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item &compare-func; comparison function. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b, gpointer $user-data --> gint )>.
+=item $user-data; data to pass to C<$compare-func>.
+
+=begin comment
+
+=head2 Example
+# Example for sort-with-data
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 steal
+
+Frees the data in the array and resets the size to zero, while
+the underlying array is preserved for use elsewhere and returned
+to the caller.
+
+Even if set, the B<Gnome::Glib::T-types> function will never be called
+on the current contents of the array and the caller is
+responsible for freeing the array elements.
+
+An example of use:
+=begin comment
+<!-- language="C" -->
+g_autoptr(GPtrArray) chunk_buffer = g_ptr_array_new_with_free_func (g_bytes_unref);
+
+// Some part of your application appends a number of chunks to the pointer array.
+g_ptr_array_add (chunk_buffer, g_bytes_new_static ("hello", 5));
+g_ptr_array_add (chunk_buffer, g_bytes_new_static ("world", 5));
+
+…
+
+// Periodically, the chunks need to be sent as an array-and-length to some
+// other part of the program.
+GBytes **chunks;
+gsize n_chunks;
+
+chunks = g_ptr_array_steal (chunk_buffer, &n_chunks);
+for (gsize i = 0; i < n_chunks; i++)
+  {
+    // Do something with each chunk here, and then free them, since
+    // g_ptr_array_steal() transfers ownership of all the elements and the
+    // array to the caller.
+    …
+
+    g_bytes_unref (chunks[i]);
+  }
+
+g_free (chunks);
+
+// After calling g_ptr_array_steal(), the pointer array can be reused for the
+// next set of chunks.
+g_assert (chunk_buffer->len == 0);
+
+=end comment
+
+=begin code
+method steal ( N-Object $array, Array[gsize] $len --> Array )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>.
+=item $len; (transfer ownership: full) pointer to retrieve the number of
+   elements of the original array.
+
+Return value; the element data, which should be
+    freed using g_free(). This may be undefined if the array doesn’t have any
+    elements (i.e. if B<*len> is zero).. 
+
+=begin comment
+
+=head2 Example
+# Example for steal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 steal-index
+
+Removes the pointer at the given index from the pointer array.
+The following elements are moved down one place. The B<Gnome::Glib::T-types> for C<$array> is *not* called on the removed element; ownership is transferred to
+the caller of this function.
+
+=begin code
+method steal-index ( N-Object $array, UInt() $index --> gpointer )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $index; the index of the pointer to steal.
+
+Return value; the pointer which was removed. 
+
+=begin comment
+
+=head2 Example
+# Example for steal-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 steal-index-fast
+
+Removes the pointer at the given index from the pointer array.
+The last element in the array is used to fill in the space, so
+this function does not preserve the order of the array. But it
+is faster than C<.steal-index()>. The B<Gnome::Glib::T-types> for C<$array> is
+*not* called on the removed element; ownership is transferred to the caller
+of this function.
+
+=begin code
+method steal-index-fast ( N-Object $array, UInt() $index --> gpointer )
+=end code
+
+=item $array; a B<Gnome::Glib::N-PtrArray>
+=item $index; the index of the pointer to steal.
+
+Return value; the pointer which was removed. 
+
+=begin comment
+
+=head2 Example
+# Example for steal-index-fast
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Atomically decrements the reference count of C<$array> by one. If the
+reference count drops to 0, the effect is the same as calling
+C<.free()> with C<$free-segment> set to C<True>. This function
+is thread-safe and may be called from any thread.
+
+=begin code
+method unref ( N-Object $array )
+=end code
+
+=item $array; A B<Gnome::Glib::N-PtrArray>
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+

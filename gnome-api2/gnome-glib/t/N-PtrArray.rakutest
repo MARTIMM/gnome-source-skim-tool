@@ -1,0 +1,181 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#TL:1:Gnome::Glib::N-PtrArray:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-PtrArray:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-PtrArray $n-ptrarray;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-ptrarray {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-ptrarray {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-ptrarray {
+    sub func ( gpointer $data, gpointer $user-data ) {}
+    my N-Object $array-to-extend;
+    my Array[gsize] $len;
+    sub equal-func ( gpointer $a, gpointer $b --> gboolean ) {}
+    my UInt() $reserved-size;
+    my UInt() $index;
+    my gpointer $needle;
+    my Bool() $free-seg;
+    my Int() $length;
+    my gpointer $data;
+    my N-Object $array;
+    my gpointer $user-data;
+    sub element-free-func ( gpointer $data ) {}
+    sub compare-func ( gpointer $a, gpointer $b, gpointer $user-data --> gint ) {}
+    my N-Object $haystack;
+
+
+#`{{
+    #TM:0:add()
+    ok .add( $array, $data), '.add()';
+
+    #TM:0:copy()
+    ok .copy( $array, $func, $user-data), '.copy()';
+
+    #TM:0:extend()
+    ok .extend( $array-to-extend, $array, $func, $user-data), '.extend()';
+
+    #TM:0:extend-and-steal()
+    ok .extend-and-steal( $array-to-extend, $array), '.extend-and-steal()';
+
+    #TM:0:find()
+    ok .find( $haystack, $needle, $index), '.find()';
+
+    #TM:0:find-with-equal-func()
+    ok .find-with-equal-func( $haystack, $needle, $equal-func, $index), '.find-with-equal-func()';
+
+    #TM:0:foreach()
+    ok .foreach( $array, $func, $user-data), '.foreach()';
+
+    #TM:0:free()
+    ok .free( $array, $free-seg), '.free()';
+
+    #TM:0:insert()
+    ok .insert( $array, $index, $data), '.insert()';
+
+    #TC:0:new-ptrarray()
+
+    $n-ptrarray .= new-ptrarray();
+    ok .is-valid, '.new-ptrarray()';
+
+    #TC:0:new-full()
+    $reserved-size = 42;
+    $element-free-func = …;
+    $n-ptrarray .= new-full( $reserved-size, $element-free-func);
+    ok .is-valid, '.new-full( $reserved-size, $element-free-func)';
+
+    #TC:0:new-with-free-func()
+    $element-free-func = …;
+    $n-ptrarray .= new-with-free-func( $element-free-func);
+    ok .is-valid, '.new-with-free-func( $element-free-func)';
+
+    #TM:0:ref()
+    ok .ref( $array), '.ref()';
+
+    #TM:0:remove()
+    ok .remove( $array, $data), '.remove()';
+
+    #TM:0:remove-fast()
+    ok .remove-fast( $array, $data), '.remove-fast()';
+
+    #TM:0:remove-index()
+    ok .remove-index( $array, $index), '.remove-index()';
+
+    #TM:0:remove-index-fast()
+    ok .remove-index-fast( $array, $index), '.remove-index-fast()';
+
+    #TM:0:remove-range()
+    ok .remove-range( $array, $index, $length), '.remove-range()';
+
+    #TM:0:set-free-func()
+    $array = …;
+    $element-free-func = …;
+    .set-free-func( $array, $element-free-func);
+    ok True, '.set-free-func()';
+
+    #TM:0:set-size()
+    $array = …;
+    $length = -42;
+    .set-size( $array, $length);
+    ok True, '.set-size()';
+
+    #TM:0:sized-new()
+    ok .sized-new( $reserved-size), '.sized-new()';
+
+    #TM:0:sort()
+    ok .sort( $array, $compare-func), '.sort()';
+
+    #TM:0:sort-with-data()
+    ok .sort-with-data( $array, $compare-func, $user-data), '.sort-with-data()';
+
+    #TM:0:steal()
+    ok .steal( $array, $len), '.steal()';
+
+    #TM:0:steal-index()
+    ok .steal-index( $array, $index), '.steal-index()';
+
+    #TM:0:steal-index-fast()
+    ok .steal-index-fast( $array, $index), '.steal-index-fast()';
+
+    #TM:0:unref()
+    ok .unref( $array), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

@@ -1,0 +1,96 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#TL:1:Gnome::Glib::T-array:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-Array:api<2>;
+use Gnome::Glib::N-ByteArray:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Glib::T-array $array .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $array {
+    my gsize $len;
+    my gboolean $clear;
+    my N-Object $array;
+    sub element-free-func ( gpointer $data ) {}
+    my gint-ptr $index;
+    sub copy-func ( gpointer $src, gpointer $data --> gpointer ) {}
+    my gpointer $copy-func-user-data;
+    sub equal-func ( gpointer $a, gpointer $b --> gboolean ) {}
+    my N-Object $haystack;
+    my gsize $element-size;
+    my CArray[gpointer] $data;
+    my gpointer $needle;
+    my gboolean $free-segment;
+
+
+#`{{
+    #TM:0:array-new-take()
+    ok .array-new-take( $data, $len, $clear, $element-size), '.array-new-take()';
+
+    #TM:0:array-new-take-zero-terminated()
+    ok .array-new-take-zero-terminated( $data, $clear, $element-size), '.array-new-take-zero-terminated()';
+
+    #TM:0:byte-array-free()
+    ok .byte-array-free( $array, $free-segment), '.byte-array-free()';
+
+    #TM:0:byte-array-free-to-bytes()
+    ok .byte-array-free-to-bytes( $array), '.byte-array-free-to-bytes()';
+
+    #TM:0:byte-array-new()
+    ok .byte-array-new(), '.byte-array-new()';
+
+    #TM:0:byte-array-new-take()
+    ok .byte-array-new-take( $data, $len), '.byte-array-new-take()';
+
+    #TM:0:byte-array-steal()
+    ok .byte-array-steal( $array, $len), '.byte-array-steal()';
+
+    #TM:0:byte-array-unref()
+    ok .byte-array-unref( $array), '.byte-array-unref()';
+
+    #TM:0:ptr-array-find()
+    ok .ptr-array-find( $haystack, $needle, $index), '.ptr-array-find()';
+
+    #TM:0:ptr-array-find-with-equal-func()
+    ok .ptr-array-find-with-equal-func( $haystack, $needle, $equal-func, $index), '.ptr-array-find-with-equal-func()';
+
+    #TM:0:ptr-array-new-from-array()
+    ok .ptr-array-new-from-array( $data, $len, $copy-func, $copy-func-user-data, $element-free-func), '.ptr-array-new-from-array()';
+
+    #TM:0:ptr-array-new-from-null-terminated-array()
+    ok .ptr-array-new-from-null-terminated-array( $data, $copy-func, $copy-func-user-data, $element-free-func), '.ptr-array-new-from-null-terminated-array()';
+
+    #TM:0:ptr-array-new-take()
+    ok .ptr-array-new-take( $data, $len, $element-free-func), '.ptr-array-new-take()';
+
+    #TM:0:ptr-array-new-take-null-terminated()
+    ok .ptr-array-new-take-null-terminated( $data, $element-free-func), '.ptr-array-new-take-null-terminated()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

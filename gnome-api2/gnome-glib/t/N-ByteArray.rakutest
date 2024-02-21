@@ -1,0 +1,138 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#TL:1:Gnome::Glib::N-ByteArray:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-ByteArray:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-ByteArray $n-bytearray;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-bytearray {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-bytearray {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-bytearray {
+    my Array[Int] $data;
+    my Array[gsize] $len;
+    my UInt() $reserved-size;
+    my UInt() $index;
+    my UInt() $length;
+    sub compare-func ( gpointer $a, gpointer $b, gpointer $user-data --> gint ) {}
+    my N-Object $array;
+    my gpointer $user-data;
+    my Bool() $free-segment;
+
+
+#`{{
+    #TM:0:append()
+    ok .append( $array, $data, $len), '.append()';
+
+    #TM:0:free()
+    ok .free( $array, $free-segment), '.free()';
+
+    #TM:0:free-to-bytes()
+    ok .free-to-bytes( $array), '.free-to-bytes()';
+
+    #TC:0:new-bytearray()
+
+    $n-bytearray .= new-bytearray();
+    ok .is-valid, '.new-bytearray()';
+
+    #TC:0:new-take()
+    $data = '…';
+    $len = -42;
+    $n-bytearray .= new-take( $data, $len);
+    ok .is-valid, '.new-take( $data, $len)';
+
+    #TM:0:prepend()
+    ok .prepend( $array, $data, $len), '.prepend()';
+
+    #TM:0:ref()
+    ok .ref( $array), '.ref()';
+
+    #TM:0:remove-index()
+    ok .remove-index( $array, $index), '.remove-index()';
+
+    #TM:0:remove-index-fast()
+    ok .remove-index-fast( $array, $index), '.remove-index-fast()';
+
+    #TM:0:remove-range()
+    ok .remove-range( $array, $index, $length), '.remove-range()';
+
+    #TM:0:set-size()
+    $array = …;
+    $length = 42;
+    .set-size( $array, $length);
+    ok True, '.set-size()';
+
+    #TM:0:sized-new()
+    ok .sized-new( $reserved-size), '.sized-new()';
+
+    #TM:0:sort()
+    ok .sort( $array, $compare-func), '.sort()';
+
+    #TM:0:sort-with-data()
+    ok .sort-with-data( $array, $compare-func, $user-data), '.sort-with-data()';
+
+    #TM:0:steal()
+    ok .steal( $array, $len), '.steal()';
+
+    #TM:0:unref()
+    ok .unref( $array), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

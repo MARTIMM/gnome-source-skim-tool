@@ -1,0 +1,496 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Glib::N-Bytes
+
+=head1 Description
+
+A simple refcounted data type representing an immutable sequence of zero or
+more bytes from an unspecified origin.
+
+The purpose of a B<Gnome::Glib::N-Bytes> is to keep the memory region that it holds
+alive for as long as anyone holds a reference to the bytes.  When
+the last reference count is dropped, the memory is released. Multiple
+unrelated callers can use byte data in the B<Gnome::Glib::N-Bytes> without coordinating
+their activities, resting assured that the byte data will not change or
+move while they hold a reference.
+
+A B<Gnome::Glib::N-Bytes> can come from many different origins that may have
+different procedures for freeing the memory region.  Examples are
+memory from g_malloc(), from memory slices, from a B<Gnome::Glib::N-MappedFile> or
+memory from other allocators.
+
+B<Gnome::Glib::N-Bytes> work well as keys in B<Gnome::Glib::N-HashTable>. Use C<.equal()> and
+C<.hash()> as parameters to g_hash_table_new() or g_hash_table_new_full().
+B<Gnome::Glib::N-Bytes> can also be used as keys in a B<Gnome::Glib::N-Tree> by passing the C<.compare()>
+function to g_tree_new().
+
+The data pointed to by this bytes must not be modified. For a mutable
+array of bytes see B<Gnome::Glib::N-ByteArray>. Use C<.unref-to-array()> to create a
+mutable array for a B<Gnome::Glib::N-Bytes> sequence. To create an immutable B<Gnome::Glib::N-Bytes> from
+a mutable B<Gnome::Glib::N-ByteArray>, use the g_byte_array_free_to_bytes() function.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Glib::Bytes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-bytes
+
+Creates a new B<Gnome::Glib::N-Bytes> from C<$data>.
+ C<$data> is copied. If C<$size> is 0, C<$data> may be undefined.
+
+=begin code
+method new-bytes ( gpointer $data, Int() $size --> Gnome::Glib::Bytes \)
+=end code
+
+=item $data; 
+       the data to be used for the bytes.
+=item $size; the size of C<$data>.
+
+=begin comment
+
+=head2 Example
+# Example for new-bytes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-static
+
+Creates a new B<Gnome::Glib::N-Bytes> from static data.
+ C<$data> must be static (ie: never modified or freed). It may be undefined if C<$size>
+is 0.
+
+=begin code
+method new-static ( gpointer $data, Int() $size --> Gnome::Glib::Bytes \)
+=end code
+
+=item $data; (transfer ownership: full) 
+       the data to be used for the bytes.
+=item $size; the size of C<$data>.
+
+=begin comment
+
+=head2 Example
+# Example for new-static
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-take
+
+Creates a new B<Gnome::Glib::N-Bytes> from C<$data>.
+
+After this call, C<$data> belongs to the bytes and may no longer be
+modified by the caller.  g_free() will be called on C<$data> when the
+bytes is no longer in use. Because of this C<$data> must have been created by
+a call to g_malloc(), g_malloc0() or g_realloc() or by one of the many
+functions that wrap these calls (such as g_new(), g_strdup(), etc).
+
+For creating B<Gnome::Glib::N-Bytes> with memory from other allocators, see
+C<.new-with-free-func()>.
+ C<$data> may be undefined if C<$size> is 0.
+
+=begin code
+method new-take ( gpointer $data, Int() $size --> Gnome::Glib::Bytes \)
+=end code
+
+=item $data; (transfer ownership: full) 
+       the data to be used for the bytes.
+=item $size; the size of C<$data>.
+
+=begin comment
+
+=head2 Example
+# Example for new-take
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-free-func
+
+Creates a B<Gnome::Glib::N-Bytes> from C<$data>.
+
+When the last reference is dropped, C<$free-func> will be called with the C<$user-data> argument.
+ C<$data> must not be modified after this call is made until C<$free-func> has
+been called to indicate that the bytes is no longer in use.
+ C<$data> may be undefined if C<$size> is 0.
+
+=begin code
+method new-with-free-func ( gpointer $data, Int() $size, &free-func, gpointer $user-data --> Gnome::Glib::Bytes \)
+=end code
+
+=item $data; 
+       the data to be used for the bytes.
+=item $size; the size of C<$data>.
+=item &free-func; the function to call to release the data. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+=item $user-data; data to pass to C<$free-func>.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-free-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 compare
+
+Compares the two B<Gnome::Glib::N-Bytes> values.
+
+This function can be used to sort GBytes instances in lexicographical order.
+
+If C<$bytes1> and C<$bytes2> have different length but the shorter one is a
+prefix of the longer one then the shorter one is considered to be less than
+the longer one. Otherwise the first byte where both differ is used for
+comparison. If C<$bytes1> has a smaller value at that position it is
+considered less, otherwise greater than C<$bytes2>.
+
+=begin code
+method compare ( gpointer $bytes2 --> Int )
+=end code
+
+=item $bytes2; a pointer to a B<Gnome::Glib::N-Bytes> to compare with C<$bytes1>.
+
+Return value; a negative value if C<$bytes1> is less than C<$bytes2>, a positive value
+         if C<$bytes1> is greater than C<$bytes2>, and zero if C<$bytes1> is equal to
+         C<$bytes2>. 
+
+=begin comment
+
+=head2 Example
+# Example for compare
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 equal
+
+Compares the two B<Gnome::Glib::N-Bytes> values being pointed to and returns
+C<True> if they are equal.
+
+This function can be passed to g_hash_table_new() as the C<$key-equal-func>
+parameter, when using non-undefined B<Gnome::Glib::N-Bytes> pointers as keys in a B<Gnome::Glib::N-HashTable>.
+
+=begin code
+method equal ( gpointer $bytes2 --> Bool )
+=end code
+
+=item $bytes2; a pointer to a B<Gnome::Glib::N-Bytes> to compare with C<$bytes1>.
+
+Return value; C<True> if the two keys match.. 
+
+=begin comment
+
+=head2 Example
+# Example for equal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-data
+
+Get the byte data in the B<Gnome::Glib::N-Bytes>. This data should not be modified.
+
+This function will always return the same pointer for a given B<Gnome::Glib::N-Bytes>.
+
+undefined may be returned if C<$size> is 0. This is not guaranteed, as the B<Gnome::Glib::N-Bytes>
+may represent an empty string with C<$data> non-undefined and C<$size> as 0. undefined will
+not be returned if C<$size> is non-zero.
+
+=begin code
+method get-data ( Array[gsize] $size --> gpointer )
+=end code
+
+=item $size; (transfer ownership: full) location to return size of byte data.
+
+Return value; 
+         a pointer to the byte data, or undefined. 
+
+=begin comment
+
+=head2 Example
+# Example for get-data
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-region
+
+Gets a pointer to a region in C<$bytes>.
+
+The region starts at C<$offset> many bytes from the start of the data
+and contains C<$n-elements> many elements of C<$element-size> size.
+ C<$n-elements> may be zero, but C<$element-size> must always be non-zero.
+Ideally, C<$element-size> is a static constant (eg: sizeof a struct).
+
+This function does careful bounds checking (including checking for
+arithmetic overflows) and returns a non-undefined pointer if the
+specified region lies entirely within the C<$bytes>. If the region is
+in some way out of range, or if an overflow has occurred, then undefined
+is returned.
+
+Note: it is possible to have a valid zero-size region. In this case,
+the returned pointer will be equal to the base pointer of the data of C<$bytes>, plus C<$offset>.  This will be non-undefined except for the case
+where C<$bytes> itself was a zero-sized region.  Since it is unlikely
+that you will be using this function to check for a zero-sized region
+in a zero-sized C<$bytes>, undefined effectively always means "error".
+
+=begin code
+method get-region ( Int() $element-size, Int() $offset, Int() $n-elements --> gpointer )
+=end code
+
+=item $element-size; a non-zero element size.
+=item $offset; an offset to the start of the region within the C<$bytes>.
+=item $n-elements; the number of elements in the region.
+
+Return value; the requested region, or undefined in case of an error. 
+
+=begin comment
+
+=head2 Example
+# Example for get-region
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-size
+
+Get the size of the byte data in the B<Gnome::Glib::N-Bytes>.
+
+This function will always return the same value for a given B<Gnome::Glib::N-Bytes>.
+
+=begin code
+method get-size (--> Int )
+=end code
+
+Return value; the size. 
+
+=begin comment
+
+=head2 Example
+# Example for get-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 hash
+
+Creates an integer hash code for the byte data in the B<Gnome::Glib::N-Bytes>.
+
+This function can be passed to g_hash_table_new() as the C<$key-hash-func>
+parameter, when using non-undefined B<Gnome::Glib::N-Bytes> pointers as keys in a B<Gnome::Glib::N-HashTable>.
+
+=begin code
+method hash (--> UInt )
+=end code
+
+Return value; a hash value corresponding to the key.. 
+
+=begin comment
+
+=head2 Example
+# Example for hash
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-bytes
+
+Creates a B<Gnome::Glib::N-Bytes> which is a subsection of another B<Gnome::Glib::N-Bytes>. The C<$offset> + C<$length> may not be longer than the size of C<$bytes>.
+
+A reference to C<$bytes> will be held by the newly created B<Gnome::Glib::N-Bytes> until
+the byte data is no longer needed.
+
+Since 2.56, if C<$offset> is 0 and C<$length> matches the size of C<$bytes>, then C<$bytes> will be returned with the reference count incremented by 1. If C<$bytes>
+is a slice of another B<Gnome::Glib::N-Bytes>, then the resulting B<Gnome::Glib::N-Bytes> will reference
+the same B<Gnome::Glib::N-Bytes> instead of C<$bytes>. This allows consumers to simplify the
+usage of B<Gnome::Glib::N-Bytes> when asynchronously writing to streams.
+
+=begin code
+method new-from-bytes ( Int() $offset, Int() $length --> N-Object )
+=end code
+
+=item $offset; offset which subsection starts at.
+=item $length; length of subsection.
+
+Return value; a new B<Gnome::Glib::N-Bytes>. 
+
+=begin comment
+
+=head2 Example
+# Example for new-from-bytes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Increase the reference count on C<$bytes>.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Glib::N-Bytes>. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Releases a reference on C<$bytes>.  This may result in the bytes being
+freed. If C<$bytes> is undefined, it will return immediately.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref-to-array
+
+Unreferences the bytes, and returns a new mutable B<Gnome::Glib::N-ByteArray> containing
+the same byte data.
+
+As an optimization, the byte data is transferred to the array without copying
+if this was the last reference to bytes and bytes was created with
+C<.new-bytes()>, C<.new-take()> or g_byte_array_free_to_bytes(). In all
+other cases the data is copied.
+
+Do not use it if C<$bytes> contains more than C<G_MAXUINT>
+bytes. B<Gnome::Glib::N-ByteArray> stores the length of its data in #guint, which
+may be shorter than #gsize, that C<$bytes> is using.
+
+=begin code
+method unref-to-array (--> N-Object )
+=end code
+
+Return value; a new mutable B<Gnome::Glib::N-ByteArray> containing the same byte data. 
+
+=begin comment
+
+=head2 Example
+# Example for unref-to-array
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref-to-data
+
+Unreferences the bytes, and returns a pointer the same byte data
+contents.
+
+As an optimization, the byte data is returned without copying if this was
+the last reference to bytes and bytes was created with C<.new-bytes()>,
+C<.new-take()> or g_byte_array_free_to_bytes(). In all other cases the
+data is copied.
+
+=begin code
+method unref-to-data ( Array[gsize] $size --> gpointer )
+=end code
+
+=item $size; (transfer ownership: full) location to place the length of the returned data.
+
+Return value; a pointer to the same byte data, which should be
+         freed with g_free(). 
+
+=begin comment
+
+=head2 Example
+# Example for unref-to-data
+
+=end comment
+
+=end pod
+

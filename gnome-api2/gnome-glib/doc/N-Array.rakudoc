@@ -1,0 +1,644 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Glib::N-Array
+
+=head1 Description
+
+Contains the public fields of a GArray.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Glib::Array
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append-vals
+
+Adds C<$len> elements onto the end of the array.
+
+=begin code
+method append-vals ( N-Object $array, gpointer $data, UInt() $len --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>
+=item $data; a pointer to the elements to append to the end of the array.
+=item $len; the number of elements to append.
+
+Return value; the B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for append-vals
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 binary-search
+
+Checks whether C<$target> exists in C<$array> by performing a binary
+search based on the given comparison function C<$compare-func> which
+get pointers to items as arguments. If the element is found, C<True>
+is returned and the element’s index is returned in C<$out-match-index>
+(if non-undefined). Otherwise, C<False> is returned and C<$out-match-index>
+is undefined. If C<$target> exists multiple times in C<$array>, the index
+of the first instance is returned. This search is using a binary
+search, so the C<$array> must absolutely be sorted to return a correct
+result (if not, the function may produce false-negative).
+
+This example defines a comparison function and search an element in a B<Gnome::Glib::N-Array>:
+=begin comment
+<!-- language="C" -->
+static gint*
+cmpint (gconstpointer a, gconstpointer b)
+{
+  const gint *_a = a;
+  const gint *_b = b;
+
+  return *_a - *_b;
+}
+...
+gint i = 424242;
+guint matched_index;
+gboolean result = g_array_binary_search (garray, &i, cmpint, &matched_index);
+...
+
+=end comment
+
+=begin code
+method binary-search ( N-Object $array, gpointer $target, &compare-func, Array[Int] $out-match-index --> Bool )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>.
+=item $target; a pointer to the item to look up..
+=item &compare-func; A B<Gnome::Glib::T-types> used to locate C<$target>.. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b --> gint )>.
+=item $out-match-index; (transfer ownership: full) return location
+   for the index of the element, if found..
+
+Return value; C<True> if C<$target> is one of the elements of C<$array>, C<False> otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for binary-search
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 copy
+
+Create a shallow copy of a B<Gnome::Glib::N-Array>. If the array elements consist of
+pointers to data, the pointers are copied but the actual data is not.
+
+=begin code
+method copy ( N-Object $array --> N-Object )
+=end code
+
+=item $array; A B<Gnome::Glib::N-Array>.
+
+Return value; A copy of C<$array>.. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the memory allocated for the B<Gnome::Glib::N-Array>. If C<$free-segment> is
+C<True> it frees the memory block holding the elements as well. Pass
+C<False> if you want to free the B<Gnome::Glib::N-Array> wrapper but preserve the
+underlying array for use elsewhere. If the reference count of C<$array> is greater than one, the B<Gnome::Glib::N-Array> wrapper is preserved but
+the size of  C<$array> will be set to zero.
+
+If array contents point to dynamically-allocated memory, they should
+be freed separately if C<$free-seg> is C<True> and no C<$clear-func>
+function has been set for C<$array>.
+
+This function is not thread-safe. If using a B<Gnome::Glib::N-Array> from multiple
+threads, use only the atomic C<.ref()> and C<.unref()>
+functions.
+
+=begin code
+method free ( N-Object $array, Bool() $free-segment --> Str )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>
+=item $free-segment; if C<True> the actual element data is freed as well.
+
+Return value; the element data if C<$free-segment> is C<False>, otherwise
+    undefined. The element data should be freed using g_free().. 
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-element-size
+
+Gets the size of the elements in C<$array>.
+
+=begin code
+method get-element-size ( N-Object $array --> UInt )
+=end code
+
+=item $array; A B<Gnome::Glib::N-Array>
+
+Return value; Size of each element, in bytes. 
+
+=begin comment
+
+=head2 Example
+# Example for get-element-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert-vals
+
+Inserts C<$len> elements into a B<Gnome::Glib::N-Array> at the given index.
+
+If C<$index-> is greater than the array’s current length, the array is expanded.
+The elements between the old end of the array and the newly inserted elements
+will be initialised to zero if the array was configured to clear elements;
+otherwise their values will be undefined.
+
+If C<$index-> is less than the array’s current length, new entries will be
+inserted into the array, and the existing entries above C<$index-> will be moved
+upwards.
+ C<$data> may be undefined if (and only if) C<$len> is zero. If C<$len> is zero, this
+function is a no-op.
+
+=begin code
+method insert-vals ( N-Object $array, UInt() $index, gpointer $data, UInt() $len --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>
+=item $index; the index to place the elements at.
+=item $data; a pointer to the elements to insert.
+=item $len; the number of elements to insert.
+
+Return value; the B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for insert-vals
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new
+
+Creates a new B<Gnome::Glib::N-Array> with a reference count of 1.
+
+=begin code
+method new ( Bool() $zero-terminated, Bool() $clear, UInt() $element-size --> N-Object )
+=end code
+
+=item $zero-terminated; C<True> if the array should have an extra element at
+    the end which is set to 0.
+=item $clear; C<True> if B<Gnome::Glib::N-Array> elements should be automatically cleared
+    to 0 when they are allocated.
+=item $element-size; the size of each element in bytes.
+
+Return value; the new B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for new
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend-vals
+
+Adds C<$len> elements onto the start of the array.
+ C<$data> may be undefined if (and only if) C<$len> is zero. If C<$len> is zero, this
+function is a no-op.
+
+This operation is slower than C<.append-vals()> since the
+existing elements in the array have to be moved to make space for
+the new elements.
+
+=begin code
+method prepend-vals ( N-Object $array, gpointer $data, UInt() $len --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>
+=item $data; a pointer to the elements to prepend to the start of the array.
+=item $len; the number of elements to prepend, which may be zero.
+
+Return value; the B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for prepend-vals
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Atomically increments the reference count of C<$array> by one.
+This function is thread-safe and may be called from any thread.
+
+=begin code
+method ref ( N-Object $array --> N-Object )
+=end code
+
+=item $array; A B<Gnome::Glib::N-Array>
+
+Return value; The passed in B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-index
+
+Removes the element at the given index from a B<Gnome::Glib::N-Array>. The following
+elements are moved down one place.
+
+=begin code
+method remove-index ( N-Object $array, UInt() $index --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>
+=item $index; the index of the element to remove.
+
+Return value; the B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-index-fast
+
+Removes the element at the given index from a B<Gnome::Glib::N-Array>. The last
+element in the array is used to fill in the space, so this function
+does not preserve the order of the B<Gnome::Glib::N-Array>. But it is faster than
+C<.remove-index()>.
+
+=begin code
+method remove-index-fast ( N-Object $array, UInt() $index --> N-Object )
+=end code
+
+=item $array; a C<$GArray>
+=item $index; the index of the element to remove.
+
+Return value; the B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-index-fast
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-range
+
+Removes the given number of elements starting at the given index
+from a B<Gnome::Glib::N-Array>.  The following elements are moved to close the gap.
+
+=begin code
+method remove-range ( N-Object $array, UInt() $index, UInt() $length --> N-Object )
+=end code
+
+=item $array; a C<$GArray>
+=item $index; the index of the first element to remove.
+=item $length; the number of elements to remove.
+
+Return value; the B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-clear-func
+
+Sets a function to clear an element of C<$array>.
+
+The C<$clear-func> will be called when an element in the array
+data segment is removed and when the array is freed and data
+segment is deallocated as well. C<$clear-func> will be passed a
+pointer to the element to clear, rather than the element itself.
+
+Note that in contrast with other uses of B<Gnome::Glib::T-types>
+functions, C<$clear-func> is expected to clear the contents of
+the array element it is given, but not free the element itself.
+
+=begin comment
+<!-- language="C" -->
+typedef struct
+{
+  gchar *str;
+  GObject *obj;
+} ArrayElement;
+
+static void
+array_element_clear (ArrayElement *element)
+{
+  g_clear_pointer (&element->str, g_free);
+  g_clear_object (&element->obj);
+}
+
+// main code
+GArray *garray = g_array_new (FALSE, FALSE, sizeof (ArrayElement));
+g_array_set_clear_func (garray, (GDestroyNotify) array_element_clear);
+// assign data to the structure
+g_array_free (garray, TRUE);
+
+=end comment
+
+=begin code
+method set-clear-func ( N-Object $array, &clear-func )
+=end code
+
+=item $array; A B<Gnome::Glib::N-Array>
+=item &clear-func; a function to clear an element of C<$array>. Tthe function must be specified with following signature; C<:( gpointer $data )>.
+
+=begin comment
+
+=head2 Example
+# Example for set-clear-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-size
+
+Sets the size of the array, expanding it if necessary. If the array
+was created with C<$clear-> set to C<True>, the new elements are set to 0.
+
+=begin code
+method set-size ( N-Object $array, UInt() $length --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>
+=item $length; the new size of the B<Gnome::Glib::N-Array>.
+
+Return value; the B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for set-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sized-new
+
+Creates a new B<Gnome::Glib::N-Array> with C<$reserved-size> elements preallocated and
+a reference count of 1. This avoids frequent reallocation, if you
+are going to add many elements to the array. Note however that the
+size of the array is still 0.
+
+=begin code
+method sized-new ( Bool() $zero-terminated, Bool() $clear, UInt() $element-size, UInt() $reserved-size --> N-Object )
+=end code
+
+=item $zero-terminated; C<True> if the array should have an extra element at
+    the end with all bits cleared.
+=item $clear; C<True> if all bits in the array should be cleared to 0 on
+    allocation.
+=item $element-size; size of each element in the array.
+=item $reserved-size; number of elements preallocated.
+
+Return value; the new B<Gnome::Glib::N-Array>. 
+
+=begin comment
+
+=head2 Example
+# Example for sized-new
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort
+
+Sorts a B<Gnome::Glib::N-Array> using C<$compare-func> which should be a qsort()-style
+comparison function (returns less than zero for first arg is less
+than second arg, zero for equal, greater zero if first arg is
+greater than second arg).
+
+This is guaranteed to be a stable sort since version 2.32.
+
+=begin code
+method sort ( N-Object $array, &compare-func )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>
+=item &compare-func; comparison function. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b --> gint )>.
+
+=begin comment
+
+=head2 Example
+# Example for sort
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort-with-data
+
+Like C<.sort()>, but the comparison function receives an extra
+user data argument.
+
+This is guaranteed to be a stable sort since version 2.32.
+
+There used to be a comment here about making the sort stable by
+using the addresses of the elements in the comparison function.
+This did not actually work, so any such code should be removed.
+
+=begin code
+method sort-with-data ( N-Object $array, &compare-func, gpointer $user-data )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>
+=item &compare-func; comparison function. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b, gpointer $user-data --> gint )>.
+=item $user-data; data to pass to C<$compare-func>.
+
+=begin comment
+
+=head2 Example
+# Example for sort-with-data
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 steal
+
+Frees the data in the array and resets the size to zero, while
+the underlying array is preserved for use elsewhere and returned
+to the caller.
+
+If the array was created with the C<$zero-terminate> property
+set to C<True>, the returned data is zero terminated too.
+
+If array elements contain dynamically-allocated memory,
+the array elements should also be freed by the caller.
+
+A short example of use:
+=begin comment
+<!-- language="C" -->
+...
+gpointer data;
+gsize data_len;
+data = g_array_steal (some_array, &data_len);
+...
+
+=end comment
+
+=begin code
+method steal ( N-Object $array, Array[gsize] $len --> gpointer )
+=end code
+
+=item $array; a B<Gnome::Glib::N-Array>.
+=item $len; (transfer ownership: full) pointer to retrieve the number of
+   elements of the original array.
+
+Return value; the element data, which should be
+    freed using g_free().. 
+
+=begin comment
+
+=head2 Example
+# Example for steal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Atomically decrements the reference count of C<$array> by one. If the
+reference count drops to 0, all memory allocated by the array is
+released. This function is thread-safe and may be called from any
+thread.
+
+=begin code
+method unref ( N-Object $array )
+=end code
+
+=item $array; A B<Gnome::Glib::N-Array>
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+

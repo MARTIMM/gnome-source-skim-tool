@@ -1,0 +1,154 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#TL:1:Gnome::Glib::N-Array:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-Array:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Array $n-array;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-array {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-array {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-array {
+    my Array[Int] $out-match-index;
+    my gpointer $data;
+    my UInt() $reserved-size;
+    my gpointer $user-data;
+    my UInt() $index;
+    sub clear-func ( gpointer $data ) {}
+    my gpointer $target;
+    my UInt() $element-size;
+    my Bool() $free-segment;
+    my Array[gsize] $len;
+    my N-Object $array;
+    sub compare-func ( gpointer $a, gpointer $b, gpointer $user-data --> gint ) {}
+    my Bool() $clear;
+    my Bool() $zero-terminated;
+    my UInt() $length;
+
+
+#`{{
+    #TM:0:append-vals()
+    ok .append-vals( $array, $data, $len), '.append-vals()';
+
+    #TM:0:binary-search()
+    ok .binary-search( $array, $target, $compare-func, $out-match-index), '.binary-search()';
+
+    #TM:0:copy()
+    ok .copy( $array), '.copy()';
+
+    #TM:0:free()
+    ok .free( $array, $free-segment), '.free()';
+
+    #TM:0:get-element-size()
+    is .get-element-size( $array), '…', '.get-element-size()';
+
+    #TM:0:insert-vals()
+    ok .insert-vals( $array, $index, $data, $len), '.insert-vals()';
+
+    #TC:0:new-array()
+    $zero-terminated = True;
+    $clear = True;
+    $element-size = 42;
+    $n-array .= new-array( $zero-terminated, $clear, $element-size);
+    ok .is-valid, '.new-array( $zero-terminated, $clear, $element-size)';
+
+    #TM:0:prepend-vals()
+    ok .prepend-vals( $array, $data, $len), '.prepend-vals()';
+
+    #TM:0:ref()
+    ok .ref( $array), '.ref()';
+
+    #TM:0:remove-index()
+    ok .remove-index( $array, $index), '.remove-index()';
+
+    #TM:0:remove-index-fast()
+    ok .remove-index-fast( $array, $index), '.remove-index-fast()';
+
+    #TM:0:remove-range()
+    ok .remove-range( $array, $index, $length), '.remove-range()';
+
+    #TM:0:set-clear-func()
+    $array = …;
+    $clear-func = …;
+    .set-clear-func( $array, $clear-func);
+    ok True, '.set-clear-func()';
+
+    #TM:0:set-size()
+    $array = …;
+    $length = 42;
+    .set-size( $array, $length);
+    ok True, '.set-size()';
+
+    #TM:0:sized-new()
+    ok .sized-new( $zero-terminated, $clear, $element-size, $reserved-size), '.sized-new()';
+
+    #TM:0:sort()
+    ok .sort( $array, $compare-func), '.sort()';
+
+    #TM:0:sort-with-data()
+    ok .sort-with-data( $array, $compare-func, $user-data), '.sort-with-data()';
+
+    #TM:0:steal()
+    ok .steal( $array, $len), '.steal()';
+
+    #TM:0:unref()
+    ok .unref( $array), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

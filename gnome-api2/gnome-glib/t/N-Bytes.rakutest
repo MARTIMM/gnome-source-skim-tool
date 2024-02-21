@@ -1,0 +1,145 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#TL:1:Gnome::Glib::N-Bytes:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Glib::N-ByteArray:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-Bytes $n-bytes;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-bytes {
+    my gpointer $data;
+    sub free-func ( gpointer $data ) {}
+    my Int() $size;
+    my gpointer $user-data;
+
+#`{{
+    #TC:0:new-bytes()
+    $data = '…';
+    $size = -42;
+    $n-bytes .= new-bytes( $data, $size);
+    ok .is-valid, '.new-bytes( $data, $size)';
+
+    #TC:0:new-static()
+    $data = '…';
+    $size = -42;
+    $n-bytes .= new-static( $data, $size);
+    ok .is-valid, '.new-static( $data, $size)';
+
+    #TC:0:new-take()
+    $data = '…';
+    $size = -42;
+    $n-bytes .= new-take( $data, $size);
+    ok .is-valid, '.new-take( $data, $size)';
+
+    #TC:0:new-with-free-func()
+    $data = '…';
+    $size = -42;
+    $free-func = …;
+    $user-data = '…';
+    $n-bytes .= new-with-free-func( $data, $size, $free-func, $user-data);
+    ok .is-valid, '.new-with-free-func( $data, $size, $free-func, $user-data)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-bytes {
+    my Int() $element-size;
+    my Array[gsize] $size;
+    my Int() $offset;
+    my Int() $n-elements;
+    my gpointer $bytes2;
+    my Int() $length;
+
+
+#`{{
+    #TM:0:compare()
+    ok .compare( $bytes2), '.compare()';
+
+    #TM:0:equal()
+    ok .equal( $bytes2), '.equal()';
+
+    #TM:0:get-data()
+    is .get-data( $size), '…', '.get-data()';
+
+    #TM:0:get-region()
+    is .get-region( $element-size, $offset, $n-elements), '…', '.get-region()';
+
+    #TM:0:get-size()
+     .get-size(), '…', '.get-size()';
+
+    #TM:0:hash()
+    ok .hash(), '.hash()';
+
+    #TC:0:new-from-bytes()
+    $offset = -42;
+    $length = -42;
+    $n-bytes .= new-from-bytes( $offset, $length);
+    ok .is-valid, '.new-from-bytes( $offset, $length)';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+    #TM:0:unref-to-array()
+    ok .unref-to-array(), '.unref-to-array()';
+
+    #TM:0:unref-to-data()
+    ok .unref-to-data( $size), '.unref-to-data()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-bytes {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+

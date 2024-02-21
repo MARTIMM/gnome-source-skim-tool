@@ -1,0 +1,467 @@
+=comment Package: Glib, C-Source: array
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Glib::N-ByteArray
+
+=head1 Description
+
+Contains the public fields of a GByteArray.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Glib::ByteArray
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append
+
+Adds the given bytes to the end of the B<Gnome::Glib::N-ByteArray>.
+The array will grow in size automatically if necessary.
+
+=begin code
+method append ( N-Object $array, Array[Int] $data, UInt() $len --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>
+=item $data; the byte data to be added.
+=item $len; the number of bytes to add.
+
+Return value; the B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for append
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free
+
+Frees the memory allocated by the B<Gnome::Glib::N-ByteArray>. If C<$free-segment> is
+C<True> it frees the actual byte data. If the reference count of C<$array> is greater than one, the B<Gnome::Glib::N-ByteArray> wrapper is preserved but
+the size of C<$array> will be set to zero.
+
+=begin code
+method free ( N-Object $array, Bool() $free-segment --> Array[Int] )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>
+=item $free-segment; if C<True> the actual byte data is freed as well.
+
+Return value; the element data if C<$free-segment> is C<False>, otherwise
+         undefined.  The element data should be freed using g_free().. 
+
+=begin comment
+
+=head2 Example
+# Example for free
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free-to-bytes
+
+Transfers the data from the B<Gnome::Glib::N-ByteArray> into a new immutable B<Gnome::Glib::N-Bytes>.
+
+The B<Gnome::Glib::N-ByteArray> is freed unless the reference count of C<$array> is greater
+than one, the B<Gnome::Glib::N-ByteArray> wrapper is preserved but the size of C<$array>
+will be set to zero.
+
+This is identical to using g_bytes_new_take() and C<.free()>
+together.
+
+=begin code
+method free-to-bytes ( N-Object $array --> N-Object )
+=end code
+
+=item $array; (transfer ownership: full) a B<Gnome::Glib::N-ByteArray>
+
+Return value; a new immutable B<Gnome::Glib::N-Bytes> representing same
+    byte data that was in the array. 
+
+=begin comment
+
+=head2 Example
+# Example for free-to-bytes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new
+
+Creates a new B<Gnome::Glib::N-ByteArray> with a reference count of 1.
+
+=begin code
+method new (--> N-Object )
+=end code
+
+Return value; the new B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for new
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-take
+
+Create byte array containing the data. The data will be owned by the array
+and will be freed with g_free(), i.e. it could be allocated using g_strdup().
+
+Do not use it if C<$len> is greater than C<G_MAXUINT>. B<Gnome::Glib::N-ByteArray>
+stores the length of its data in #guint, which may be shorter than
+#gsize.
+
+=begin code
+method new-take ( Array[Int] $data, Int() $len --> N-Object )
+=end code
+
+=item $data; (transfer ownership: full) byte data for the array.
+=item $len; length of C<$data>.
+
+Return value; a new B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for new-take
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend
+
+Adds the given data to the start of the B<Gnome::Glib::N-ByteArray>.
+The array will grow in size automatically if necessary.
+
+=begin code
+method prepend ( N-Object $array, Array[Int] $data, UInt() $len --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>
+=item $data; the byte data to be added.
+=item $len; the number of bytes to add.
+
+Return value; the B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for prepend
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Atomically increments the reference count of C<$array> by one.
+This function is thread-safe and may be called from any thread.
+
+=begin code
+method ref ( N-Object $array --> N-Object )
+=end code
+
+=item $array; A B<Gnome::Glib::N-ByteArray>
+
+Return value; The passed in B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-index
+
+Removes the byte at the given index from a B<Gnome::Glib::N-ByteArray>.
+The following bytes are moved down one place.
+
+=begin code
+method remove-index ( N-Object $array, UInt() $index --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>
+=item $index; the index of the byte to remove.
+
+Return value; the B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-index-fast
+
+Removes the byte at the given index from a B<Gnome::Glib::N-ByteArray>. The last
+element in the array is used to fill in the space, so this function
+does not preserve the order of the B<Gnome::Glib::N-ByteArray>. But it is faster
+than C<.remove-index()>.
+
+=begin code
+method remove-index-fast ( N-Object $array, UInt() $index --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>
+=item $index; the index of the byte to remove.
+
+Return value; the B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-index-fast
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-range
+
+Removes the given number of bytes starting at the given index from a
+B<Gnome::Glib::N-ByteArray>.  The following elements are moved to close the gap.
+
+=begin code
+method remove-range ( N-Object $array, UInt() $index, UInt() $length --> N-Object )
+=end code
+
+=item $array; a C<$GByteArray>
+=item $index; the index of the first byte to remove.
+=item $length; the number of bytes to remove.
+
+Return value; the B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-range
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-size
+
+Sets the size of the B<Gnome::Glib::N-ByteArray>, expanding it if necessary.
+
+=begin code
+method set-size ( N-Object $array, UInt() $length --> N-Object )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>
+=item $length; the new size of the B<Gnome::Glib::N-ByteArray>.
+
+Return value; the B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for set-size
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sized-new
+
+Creates a new B<Gnome::Glib::N-ByteArray> with C<$reserved-size> bytes preallocated.
+This avoids frequent reallocation, if you are going to add many
+bytes to the array. Note however that the size of the array is still
+0.
+
+=begin code
+method sized-new ( UInt() $reserved-size --> N-Object )
+=end code
+
+=item $reserved-size; number of bytes preallocated.
+
+Return value; the new B<Gnome::Glib::N-ByteArray>. 
+
+=begin comment
+
+=head2 Example
+# Example for sized-new
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort
+
+Sorts a byte array, using C<$compare-func> which should be a
+qsort()-style comparison function (returns less than zero for first
+arg is less than second arg, zero for equal, greater than zero if
+first arg is greater than second arg).
+
+If two array elements compare equal, their order in the sorted array
+is undefined. If you want equal elements to keep their order (i.e.
+you want a stable sort) you can write a comparison function that,
+if two elements would otherwise compare equal, compares them by
+their addresses.
+
+=begin code
+method sort ( N-Object $array, &compare-func )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>
+=item &compare-func; comparison function. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b --> gint )>.
+
+=begin comment
+
+=head2 Example
+# Example for sort
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 sort-with-data
+
+Like C<.sort()>, but the comparison function takes an extra
+user data argument.
+
+=begin code
+method sort-with-data ( N-Object $array, &compare-func, gpointer $user-data )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>
+=item &compare-func; comparison function. Tthe function must be specified with following signature; C<:( gpointer $a, gpointer $b, gpointer $user-data --> gint )>.
+=item $user-data; data to pass to C<$compare-func>.
+
+=begin comment
+
+=head2 Example
+# Example for sort-with-data
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 steal
+
+Frees the data in the array and resets the size to zero, while
+the underlying array is preserved for use elsewhere and returned
+to the caller.
+
+=begin code
+method steal ( N-Object $array, Array[gsize] $len --> Array[Int] )
+=end code
+
+=item $array; a B<Gnome::Glib::N-ByteArray>.
+=item $len; (transfer ownership: full) pointer to retrieve the number of
+   elements of the original array.
+
+Return value; the element data, which should be
+    freed using g_free().. 
+
+=begin comment
+
+=head2 Example
+# Example for steal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Atomically decrements the reference count of C<$array> by one. If the
+reference count drops to 0, all memory allocated by the array is
+released. This function is thread-safe and may be called from any
+thread.
+
+=begin code
+method unref ( N-Object $array )
+=end code
+
+=item $array; A B<Gnome::Glib::N-ByteArray>
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+
