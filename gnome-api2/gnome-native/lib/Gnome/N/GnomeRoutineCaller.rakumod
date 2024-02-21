@@ -603,7 +603,7 @@ method !adjust-data ( Array $arguments, Array $parameters --> List ) {
         )
       }
 
-      note "extend list with a $type.gist() followed $value.gist()"
+      note "extend argument list with $value.gist() $type.gist()"
         if $Gnome::N::x-debug;
 
       $new-arguments.push: $value;
