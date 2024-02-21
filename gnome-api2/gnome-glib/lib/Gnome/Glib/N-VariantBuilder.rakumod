@@ -9,6 +9,7 @@ use NativeCall;
 
 
 use Gnome::Glib::T-variant:api<2>;
+#use Gnome::Glib::T-varianttype:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -21,7 +22,7 @@ use Gnome::N::X:api<2>;
 #--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Glib::N-VariantIter:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Glib::N-VariantBuilder:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -41,13 +42,13 @@ submethod BUILD ( *%options ) {
   $!routine-caller .= new(:library(glib-lib()));
 
   # Prevent creating wrong widgets
-  if self.^name eq 'Gnome::Glib::VariantIter' {
+  if self.^name eq 'Gnome::Glib::VariantBuilder' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
-    self._set-class-info('GVariantIter');
+    self._set-class-info('GVariantBuilder');
   }
 }
 
@@ -66,14 +67,20 @@ method native-object-unref ( $n-native-object ) {
 
 my Hash $methods = %(
 
+  #--[Constructors]-------------------------------------------------------------
+  new-variantbuilder => %( :type(Constructor), :is-symbol<g_variant_builder_new>, :returns(N-Object), :parameters([ N-Object])),
+
   #--[Methods]------------------------------------------------------------------
-  copy => %(:is-symbol<g_variant_iter_copy>,  :returns(N-Object)),
-  free => %(:is-symbol<g_variant_iter_free>, ),
-  init => %(:is-symbol<g_variant_iter_init>,  :returns(gsize), :parameters([N-Object])),
-  loop => %(:is-symbol<g_variant_iter_loop>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  n-children => %(:is-symbol<g_variant_iter_n_children>,  :returns(gsize)),
-  next => %(:is-symbol<g_variant_iter_next>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  next-value => %(:is-symbol<g_variant_iter_next_value>,  :returns(N-Object)),
+  add => %(:is-symbol<g_variant_builder_add>, :variable-list,  :parameters([Str])),
+  add-parsed => %(:is-symbol<g_variant_builder_add_parsed>, :variable-list,  :parameters([Str])),
+  add-value => %(:is-symbol<g_variant_builder_add_value>,  :parameters([N-Object])),
+  clear => %(:is-symbol<g_variant_builder_clear>, ),
+  close => %(:is-symbol<g_variant_builder_close>, ),
+  end => %(:is-symbol<g_variant_builder_end>,  :returns(N-Object)),
+  init => %(:is-symbol<g_variant_builder_init>,  :parameters([N-Object])),
+  open => %(:is-symbol<g_variant_builder_open>,  :parameters([N-Object])),
+  ref => %(:is-symbol<g_variant_builder_ref>,  :returns(N-Object)),
+  unref => %(:is-symbol<g_variant_builder_unref>, ),
 );
 
 #-------------------------------------------------------------------------------

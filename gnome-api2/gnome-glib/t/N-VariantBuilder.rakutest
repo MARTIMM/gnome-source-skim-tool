@@ -1,7 +1,7 @@
 =comment Package: Glib, C-Source: variant
 use v6.d;
 
-#TL:1:Gnome::Glib::N-VariantIter:
+#TL:1:Gnome::Glib::N-VariantBuilder:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -11,8 +11,10 @@ use NativeCall;
 
 
 use Gnome::Glib::N-Variant:api<2>;
-use Gnome::Glib::N-VariantIter:api<2>;
+use Gnome::Glib::N-VariantBuilder:api<2>;
+use Gnome::Glib::N-VariantType:api<2>;
 use Gnome::Glib::T-variant:api<2>;
+#use Gnome::Glib::T-varianttype:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -23,16 +25,22 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-VariantIter $n-variantiter;
+my N-VariantBuilder $n-variantbuilder;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $n-variantiter {
+  given $n-variantbuilder {
+    my N-Object $type;
 
 #`{{
+    #TC:0:new-variantbuilder()
+    $type = …;
+    $n-variantbuilder .= new-variantbuilder( $type);
+    ok .is-valid, '.new-variantbuilder( $type)';
+
 }}
   }
 };
@@ -48,32 +56,43 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $n-variantiter {
+  with $n-variantbuilder {
+    my Str $format;
+    my N-Object $type;
     my N-Object $value;
     my Str $format-string;
 
 
 #`{{
-    #TM:0:copy()
-    ok .copy(), '.copy()';
+    #TM:0:add()
+    ok .add( $format-string), '.add()';
 
-    #TM:0:free()
-    ok .free(), '.free()';
+    #TM:0:add-parsed()
+    ok .add-parsed( $format), '.add-parsed()';
+
+    #TM:0:add-value()
+    ok .add-value( $value), '.add-value()';
+
+    #TM:0:clear()
+    ok .clear(), '.clear()';
+
+    #TM:0:close()
+    ok .close(), '.close()';
+
+    #TM:0:end()
+    ok .end(), '.end()';
 
     #TM:0:init()
-    ok .init( $value), '.init()';
+    ok .init( $type), '.init()';
 
-    #TM:0:loop()
-    ok .loop( $format-string), '.loop()';
+    #TM:0:open()
+    ok .open( $type), '.open()';
 
-    #TM:0:n-children()
-    ok .n-children(), '.n-children()';
+    #TM:0:ref()
+    ok .ref(), '.ref()';
 
-    #TM:0:next()
-    ok .next( $format-string), '.next()';
-
-    #TM:0:next-value()
-    ok .next-value(), '.next-value()';
+    #TM:0:unref()
+    ok .unref(), '.unref()';
 
 }}
   }
@@ -81,7 +100,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $n-variantiter {
+  with $n-variantbuilder {
 
 
 #`{{

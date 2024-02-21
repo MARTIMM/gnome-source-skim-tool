@@ -1,0 +1,106 @@
+=comment Package: Glib, C-Source: varianttype
+use v6.d;
+
+=begin pod
+=head1 Gnome::Glib::T-varianttype
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-VariantType
+
+This is an opaque type of which fields are not available.
+
+  class N-VariantType:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 variant-type-string-is-valid
+
+Checks if C<$type-string> is a valid GVariant type string.  This call is
+equivalent to calling g_variant_type_string_scan() and confirming
+that the following character is a nul terminator.
+
+=begin code
+method variant-type-string-is-valid ( Str $type-string --> Bool )
+=end code
+
+=item $type-string; a pointer to any string.
+
+Return value; C<True> if C<$type-string> is exactly one valid type string
+
+Since 2.24. 
+
+=begin comment
+
+=head2 Example
+# Example for variant-type-string-is-valid
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 variant-type-string-scan
+
+Scan for a single complete and valid GVariant type string in C<$string>.
+The memory pointed to by C<$limit> (or bytes beyond it) is never
+accessed.
+
+If a valid type string is found, C<$endptr> is updated to point to the
+first character past the end of the string that was found and C<True>
+is returned.
+
+If there is no valid type string starting at C<$string>, or if the type
+string does not end before C<$limit> then C<False> is returned.
+
+For the simple case of checking if a string is a valid type string,
+see g_variant_type_string_is_valid().
+
+=begin code
+method variant-type-string-scan ( Str $string, Str $limit, Array[Str] $endptr --> Bool )
+=end code
+
+=item $string; a pointer to any string.
+=item $limit; the end of C<$string>, or undefined.
+=item $endptr; (transfer ownership: full) location to store the end pointer, or undefined.
+
+Return value; C<True> if a valid type string was found. 
+
+=begin comment
+
+=head2 Example
+# Example for variant-type-string-scan
+
+=end comment
+
+=end pod
+

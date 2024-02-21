@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -v -t Glib variant
+=comment Package: Glib, C-Source: variant
 use v6.d;
 
 #TL:1:Gnome::Glib::N-VariantDict:
@@ -6,11 +6,15 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
+use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::N-VariantDict:api<2>;
+use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::Glib::T-variant:api<2>;
+#use Gnome::Glib::T-varianttype:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -21,20 +25,20 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-VariantDict $variantdict;
+my N-VariantDict $n-variantdict;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $variantdict {
+  given $n-variantdict {
     my N-Object $from-asv;
 
 #`{{
     #TC:0:new-variantdict()
-    $from-asv = …;  # a native object
-    $variantdict .= new-variantdict( $from-asv);
+    $from-asv = …;
+    $n-variantdict .= new-variantdict( $from-asv);
     ok .is-valid, '.new-variantdict( $from-asv)';
 
 }}
@@ -52,11 +56,11 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $variantdict {
-    my N-Object $value;
-    my Str $key;
-    my Str $format-string;
+  with $n-variantdict {
     my N-Object $expected-type;
+    my Str $format-string;
+    my Str $key;
+    my N-Object $value;
     my N-Object $from-asv;
 
 
@@ -100,7 +104,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $variantdict {
+  with $n-variantdict {
 
 
 #`{{

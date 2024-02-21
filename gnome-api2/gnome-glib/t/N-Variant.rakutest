@@ -9,10 +9,16 @@ use v6.d;
 use Test;
 use NativeCall;
 
-
+use Gnome::Glib::N-Bytes:api<2>;
+#use Gnome::Glib::N-String:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::N-VariantIter:api<2>;
 use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::Glib::T-error:api<2>;
+#use Gnome::Glib::T-string:api<2>;
+use Gnome::Glib::T-variant:api<2>;
+use Gnome::Glib::T-varianttype:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -51,7 +57,7 @@ subtest 'ISA test', {
     my Int() $n-elements;
     my Int() $size;
     my N-Object $element-type;
-    my $value;
+    my Gnome::Glib::N-Variant $value;
     my Int() $n-children;
     my Bool() $trusted;
     sub notify ( gpointer $data ) {}
@@ -59,6 +65,7 @@ subtest 'ISA test', {
     my Int() $element-size;
     my N-Object $key;
 
+#Gnome::N::debug(:on);
     #TC:1:new-variant()
     $format-string = 'i';
     $variant .= new-variant( $format-string, gint32, 40);
@@ -233,6 +240,7 @@ subtest 'ISA test', {
     ok .is-valid, '.new-va( $format-string, $endptr, $app)';
 }}
 
+#Gnome::N::debug(:on);
     #TC:1:new-variant-with-variant()
     $format-string = 'i';
     $value = Gnome::Glib::N-Variant.new-variant( $format-string, gint32, 40);
@@ -475,13 +483,14 @@ subtest 'Function tests', {
     ok .is-signature( $string), '.is-signature()';
 }}
 
+#Gnome::N::debug(:on);
     #TM:1:parse()
     my Str $type-string = 'u';
     $varianttype .= new-varianttype($type-string);
     $text = '10';
 #    $limit = Str;
 #    $endptr = Pointer[Str].new;
-    my N-Variant $nv = .parse( $varianttype, $text, Str, Pointer, Pointer);
+    my $nv = .parse( $varianttype, $text, Str, Pointer, Pointer);
 #note "$?LINE $r.gist()";
     my Gnome::Glib::N-Variant $v .= new(:native-object($nv));
     is $v.get-uint32, 10, '.parse()';

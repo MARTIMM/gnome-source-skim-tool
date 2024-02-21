@@ -1,7 +1,7 @@
-# Command to generate: generate.raku -v -t Glib variant
+=comment Package: Glib, C-Source: variant
 use v6.d;
 
-#TL:1:Gnome::Glib::T-Variant:
+#TL:1:Gnome::Glib::T-variant:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -10,14 +10,49 @@ use Test;
 use NativeCall;
 
 
-use Gnome::Glib::N-Variant:api<2>;
-use Gnome::Glib::T-Variant:api<2>;
+use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-error:api<2>;
+use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::Glib::T-varianttype:api<2>;
+use Gnome::Glib::T-variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
 
+
+
+my Gnome::Glib::T-variant $variant .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $variant {
+    my gchar-pptr $endptr;
+    my N-Object $error;
+    my Str $source-str;
+    my Str $limit;
+    my CArray[N-Error] $err;
+    my N-Object $type;
+    my Str $string;
+    my Str $text;
+
+
+#`{{
+    #TM:0:variant-is-object-path()
+    ok .variant-is-object-path( $string), '.variant-is-object-path()';
+
+    #TM:0:variant-is-signature()
+    ok .variant-is-signature( $string), '.variant-is-signature()';
+
+    #TM:0:variant-parse()
+    ok .variant-parse( $type, $text, $limit, $endptr, $err), '.variant-parse()';
+
+    #TM:0:variant-parse-error-print-context()
+    ok .variant-parse-error-print-context( $error, $source-str), '.variant-parse-error-print-context()';
+
+}}
+  }
+};
 
 #-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------

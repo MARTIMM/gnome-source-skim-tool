@@ -23,22 +23,6 @@ using the following functions.
 =end pod
 
 #-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-VariantIter
-
-  class N-VariantIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gchar-pptr $.x;
-  }
-
-=item x; 
-
-=end pod
-
-#-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
@@ -66,7 +50,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 copy
-This function is not yet available
 
 Creates a new heap-allocated B<Gnome::Glib::N-VariantIter> to iterate over the
 container that was being iterated over by C<$iter>.  Iteration begins on
@@ -80,7 +63,7 @@ A reference is taken to the container that C<$iter> is iterating over
 and will be related only when C<.free()> is called.
 
 =begin code
-method copy (--> CArray[N-VariantIter] )
+method copy (--> N-Object )
 =end code
 
 Return value; a new heap-allocated B<Gnome::Glib::N-VariantIter>. 
@@ -97,14 +80,13 @@ Return value; a new heap-allocated B<Gnome::Glib::N-VariantIter>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 free
-This function is not yet available
 
 Frees a heap-allocated B<Gnome::Glib::N-VariantIter>.  Only call this function on
 iterators that were returned by C<.new-variantiter()> or
 C<.copy()>.
 
 =begin code
-method free ()
+method free ( )
 =end code
 
 =begin comment
@@ -119,7 +101,6 @@ method free ()
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 init
-This function is not yet available
 
 Initialises (without allocating) a B<Gnome::Glib::N-VariantIter>.  C<$iter> may be
 completely uninitialised prior to this call; its old value is
@@ -129,10 +110,10 @@ The iterator remains valid for as long as C<$value> exists, and need not
 be freed in any way.
 
 =begin code
-method init ( CArray[N-Variant] $value --> Int)
+method init ( N-Object $value --> Int )
 =end code
 
-=item $value; a container B<Gnome::Glib::N-Variant>.
+=item $value; a container B<Gnome::Glib::N-Variant>
 
 Return value; the number of items in C<$value>. 
 
@@ -151,7 +132,7 @@ Return value; the number of items in C<$value>.
 This function is not yet available
 
 Gets the next item in the container and unpacks it into the variable
-argument list according to C<$format_string>, returning C<True>.
+argument list according to C<$format-string>, returning C<True>.
 
 If no more items remain then C<False> is returned.
 
@@ -208,13 +189,13 @@ For example, if you are only looping over simple integer and string
 types, C<.next()> is definitely preferred.  For string
 types, use the '&' prefix to avoid allocating any memory at all (and
 thereby avoiding the need to free anything as well).
- C<$format_string> determines the C types that are used for unpacking
+ C<$format-string> determines the C types that are used for unpacking
 the values and also determines if the values are copied or borrowed.
 
 See the section on GVariant format strings.
 
 =begin code
-method loop ( Str $format-string, … --> Bool)
+method loop ( Str $format-string, … --> Bool )
 =end code
 
 =item $format-string; a GVariant format string.
@@ -235,7 +216,6 @@ Return value; C<True> if a value was unpacked, or C<False> if there was no
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 n-children
-This function is not yet available
 
 Queries the number of child items in the container that we are
 iterating over.  This is the total number of items -- not the number
@@ -244,7 +224,7 @@ of items remaining.
 This function might be useful for preallocation of arrays.
 
 =begin code
-method n-children (--> Int)
+method n-children (--> Int )
 =end code
 
 Return value; the number of children in the container. 
@@ -264,7 +244,7 @@ Return value; the number of children in the container.
 This function is not yet available
 
 Gets the next item in the container and unpacks it into the variable
-argument list according to C<$format_string>, returning C<True>.
+argument list according to C<$format-string>, returning C<True>.
 
 If no more items remain then C<False> is returned.
 
@@ -300,13 +280,13 @@ Here is an example for memory management with C<.next()>:
 
 For a solution that is likely to be more convenient to C programmers
 when dealing with loops, see C<.loop()>.
- C<$format_string> determines the C types that are used for unpacking
+ C<$format-string> determines the C types that are used for unpacking
 the values and also determines if the values are copied or borrowed.
 
 See the section on GVariant format strings.
 
 =begin code
-method next ( Str $format-string, … --> Bool)
+method next ( Str $format-string, … --> Bool )
 =end code
 
 =item $format-string; a GVariant format string.
@@ -326,7 +306,6 @@ Return value; C<True> if a value was unpacked, or C<False> if there as no value.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 next-value
-This function is not yet available
 
 Gets the next item in the container.  If no more items remain then
 undefined is returned.
@@ -359,7 +338,7 @@ Here is an example for iterating with C<.next-value()>:
 =end comment
 
 =begin code
-method next-value (--> CArray[N-Variant])
+method next-value (--> N-Object )
 =end code
 
 Return value; a B<Gnome::Glib::N-Variant>, or undefined. 

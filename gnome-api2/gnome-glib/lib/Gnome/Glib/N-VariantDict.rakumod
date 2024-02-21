@@ -1,4 +1,4 @@
-# Package: Glib, C-Source: variant
+=comment Package: Glib, C-Source: variant
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,8 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-Variant:api<2>;
-use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::Glib::T-variant:api<2>;
+#use Gnome::Glib::T-varianttype:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -19,18 +19,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Glib::N-VariantDict:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-# This is an opaque type of which fields are not available.
-class N-VariantDict:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -75,25 +68,27 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-variantdict => %( :type(Constructor), :is-symbol<g_variantdict_new>, :returns(N-VariantDict), :parameters([ N-Variant])),
+  new-variantdict => %( :type(Constructor), :is-symbol<g_variant_dict_new>, :returns(N-Object), :parameters([ N-Object])),
 
   #--[Methods]------------------------------------------------------------------
-  clear => %(:is-symbol<g_variantdict_clear>, ),
-  contains => %(:is-symbol<g_variantdict_contains>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  end => %(:is-symbol<g_variantdict_end>,  :returns(N-Variant)),
-  init => %(:is-symbol<g_variantdict_init>,  :parameters([N-Variant])),
-  insert => %(:is-symbol<g_variantdict_insert>, :variable-list,  :parameters([Str, Str])),
-  insert-value => %(:is-symbol<g_variantdict_insert_value>,  :parameters([Str, N-Variant])),
-  lookup => %(:is-symbol<g_variantdict_lookup>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
-  lookup-value => %(:is-symbol<g_variantdict_lookup_value>,  :returns(N-Variant), :parameters([Str, N-VariantType])),
-  ref => %(:is-symbol<g_variantdict_ref>,  :returns(N-VariantDict)),
-  remove => %(:is-symbol<g_variantdict_remove>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  unref => %(:is-symbol<g_variantdict_unref>, ),
+  clear => %(:is-symbol<g_variant_dict_clear>, ),
+  contains => %(:is-symbol<g_variant_dict_contains>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
+  end => %(:is-symbol<g_variant_dict_end>,  :returns(N-Object)),
+  init => %(:is-symbol<g_variant_dict_init>,  :parameters([N-Object])),
+  insert => %(:is-symbol<g_variant_dict_insert>, :variable-list,  :parameters([Str, Str])),
+  insert-value => %(:is-symbol<g_variant_dict_insert_value>,  :parameters([Str, N-Object])),
+  lookup => %(:is-symbol<g_variant_dict_lookup>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
+  lookup-value => %(:is-symbol<g_variant_dict_lookup_value>,  :returns(N-Object), :parameters([Str, N-Object])),
+  ref => %(:is-symbol<g_variant_dict_ref>,  :returns(N-Object)),
+  remove => %(:is-symbol<g_variant_dict_remove>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
+  unref => %(:is-symbol<g_variant_dict_unref>, ),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+method _fallback-v2 (
+  Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -101,11 +96,11 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
         :library(glib-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
-        )
+        ),
+        |%options
       );
     }
 

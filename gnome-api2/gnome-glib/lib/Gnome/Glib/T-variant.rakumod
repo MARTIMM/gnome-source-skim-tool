@@ -1,4 +1,4 @@
-# Package: Glib, C-Source: variant
+=comment Package: Glib, C-Source: variant
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -7,9 +7,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-Error:api<2>;
-use Gnome::Glib::N-Variant:api<2>;
-use Gnome::Glib::N-VariantType:api<2>;
+use Gnome::Glib::T-error:api<2>;
+#use Gnome::Glib::T-varianttype:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -20,7 +19,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Glib::T-Variant:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Glib::T-variant:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -40,6 +39,43 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+# This is an opaque type of which fields are not available.
+class N-VariantBuilder:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+# This is an opaque type of which fields are not available.
+class N-VariantDict:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
+
+
+class N-VariantIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has gchar-pptr $.x;
+
+  submethod BUILD (
+    gchar-pptr :$!x, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-VariantIter ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-VariantIter, $no)
+  }
+}
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+# This is an opaque type of which fields are not available.
+class N-Variant:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
+
+#-------------------------------------------------------------------------------
 #--[Enumerations]---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 enum GVariantParseError is export <
@@ -55,8 +91,8 @@ my Hash $methods = %(
   #--[Functions]----------------------------------------------------------------
   variant-is-object-path => %( :type(Function), :is-symbol<g_variant_is_object_path>,  :returns(gboolean), :parameters([Str])),
   variant-is-signature => %( :type(Function), :is-symbol<g_variant_is_signature>,  :returns(gboolean), :parameters([Str])),
-  variant-parse => %( :type(Function), :is-symbol<g_variant_parse>,  :returns(N-Variant), :parameters([ N-VariantType, Str, Str, gchar-pptr])),
-  variant-parse-error-print-context => %( :type(Function), :is-symbol<g_variant_parse_error_print_context>,  :returns(Str), :parameters([ N-Error, Str])),
+  variant-parse => %( :type(Function), :is-symbol<g_variant_parse>,  :returns(N-Object), :parameters([ N-Object, Str, Str, gchar-pptr, CArray[N-Error]])),
+  variant-parse-error-print-context => %( :type(Function), :is-symbol<g_variant_parse_error_print_context>,  :returns(Str), :parameters([ N-Object, Str])),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
