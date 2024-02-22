@@ -56,7 +56,7 @@ enum SkimSource is export <
   Atk
   Cairo
   DBus DBusGLib
-  Gdk3 Gdk4 GdkPixbuf GdkPixdata
+  Gdk3 Gdk4 GdkPixbuf
   Gio Glib GObject
   Gtk3 Gsk4 Gtk4
   Graphene
