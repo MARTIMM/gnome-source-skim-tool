@@ -1,8 +1,8 @@
-=comment Package: GdkPixbuf, C-Source: gdk-pixbuf-core
+=comment Package: GdkPixbuf, C-Source: core
 use v6.d;
 
 =begin pod
-=head1 Gnome::GdkPixbuf::T-Core
+=head1 Gnome::GdkPixbuf::T-core
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ For now both cases fall back to a bilevel clipping mask.
  will be created and used to draw the image.  Pixels below 0.5 opacity
  will be considered fully transparent, and all others will be
  considered fully opaque.
-=item C<GDK_PIXBUF_ALPHA_FULL>; For now falls back to B<GDK>_PIXBUF_ALPHA_BILEVEL.
+=item C<GDK_PIXBUF_ALPHA_FULL>; For now falls back to B<GDK_PIXBUF_ALPHA_BILEVEL>.
  In the future it will do full alpha compositing.
 
 =head2 GdkPixbufError
