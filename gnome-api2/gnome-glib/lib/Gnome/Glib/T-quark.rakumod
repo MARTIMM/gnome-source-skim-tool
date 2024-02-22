@@ -46,10 +46,10 @@ my Hash $methods = %(
   #--[Functions]----------------------------------------------------------------
   intern-static-string => %( :type(Function), :is-symbol<g_intern_static_string>,  :returns(Str), :parameters([Str])),
   intern-string => %( :type(Function), :is-symbol<g_intern_string>,  :returns(Str), :parameters([Str])),
-  quark-from-static-string => %( :type(Function), :is-symbol<g_quark_from_static_string>,  :returns(GQuark), :parameters([Str])),
-  quark-from-string => %( :type(Function), :is-symbol<g_quark_from_string>,  :returns(GQuark), :parameters([Str])),
-  quark-to-string => %( :type(Function), :is-symbol<g_quark_to_string>,  :returns(Str), :parameters([GQuark])),
-  quark-try-string => %( :type(Function), :is-symbol<g_quark_try_string>,  :returns(GQuark), :parameters([Str])),
+  from-static-string => %( :type(Function), :is-symbol<g_quark_from_static_string>,  :returns(GQuark), :parameters([Str])),
+  from-string => %( :type(Function), :is-symbol<g_quark_from_string>,  :returns(GQuark), :parameters([Str])),
+  to-string => %( :type(Function), :is-symbol<g_quark_to_string>,  :returns(Str), :parameters([GQuark])),
+  try-string => %( :type(Function), :is-symbol<g_quark_try_string>,  :returns(GQuark), :parameters([Str])),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
