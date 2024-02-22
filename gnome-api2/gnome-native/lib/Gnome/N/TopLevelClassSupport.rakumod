@@ -121,7 +121,7 @@ submethod BUILD ( *%options ) {
   if ? %options<native-object> {
 
     # check if Raku object was provided instead of native object
-    my N-Object() $no = %options<native-object>;
+    my N-Object(Mu) $no = %options<native-object>;
     if ?$no and $no.^can('_get-native-object') {
       # reference counting done automatically if needed
       # by the same child class where import is requested.
