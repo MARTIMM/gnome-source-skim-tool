@@ -723,13 +723,17 @@ method !get-source-file( XML::Element:D $element --> Str ) {
 
         # In Gtk and Gdk for version 3, the filenames are having the prefix
         # 'gtk' or 'gdk' before it. Glib, GObject and Gio have a 'g' prefixed.
-        # Graphene has 'graphene-'.
+        # Graphene has 'graphene-' and GdkPixbuf has 'gdk-pixbuf-'.
         if $*gnome-package.Str ~~ any(<
           Gtk3 Gdk3 Gtk4 Gdk4 Gsk4 Glib GObject Gio Atk
-          Graphene Pango GdkPixbuf
+          Graphene Pango
         >) {
           my $name-prefix = $*work-data<name-prefix>;
           $module-filename ~~ s/^ $name-prefix <[_-]>? //;
+        }
+
+        else { # GdkPixbuf
+          $module-filename ~~ s/^ 'gdk-pixbuf-' //;
         }
       }
 
