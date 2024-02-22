@@ -10,12 +10,17 @@ use NativeCall;
 
 use Gnome::GObject::Object:api<2>;
 #use Gnome::GdkPixbuf::N-Format:api<2>;
-use Gnome::GdkPixbuf::T-Core:api<2>;
-#use Gnome::GdkPixbuf::T-Transform:api<2>;
-#use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::GdkPixbuf::T-core:api<2>;
+#use Gnome::GdkPixbuf::T-io:api<2>;
+#use Gnome::GdkPixbuf::T-transform:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
 #use Gnome::Glib::N-HashTable:api<2>;
 use Gnome::Glib::N-SList:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::Glib::T-error:api<2>;
+#use Gnome::Glib::T-hash:api<2>;
+use Gnome::Glib::T-slist:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -64,8 +69,8 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-gdkpixbuf => %( :type(Constructor), :is-symbol<gdk_pixbuf_new>, :returns(N-Object), :parameters([ GEnum, gboolean, gint, gint, gint])),
-  #new-from-bytes => %( :type(Constructor), :is-symbol<gdk_pixbuf_new_from_bytes>, :returns(N-Object), :parameters([ N-Bytes , GEnum, gboolean, gint, gint, gint, gint])),
+  new-gdkpixbuf => %( :type(Constructor), :is-symbol<gdk_pixbuf_new>, :returns(N-Object), :parameters([ GEnum, gboolean, gint, gint, gint])),
+  new-from-bytes => %( :type(Constructor), :is-symbol<gdk_pixbuf_new_from_bytes>, :returns(N-Object), :parameters([ N-Object, GEnum, gboolean, gint, gint, gint, gint])),
   #new-from-data => %( :type(Constructor), :is-symbol<gdk_pixbuf_new_from_data>, :returns(N-Object), :parameters([ Str, GEnum, gboolean, gint, gint, gint, gint, , gpointer])),
   new-from-file => %( :type(Constructor), :is-symbol<gdk_pixbuf_new_from_file>, :returns(N-Object), :parameters([ Str, CArray[N-Error]])),
   new-from-file-at-scale => %( :type(Constructor), :is-symbol<gdk_pixbuf_new_from_file_at_scale>, :returns(N-Object), :parameters([ Str, gint, gint, gboolean, CArray[N-Error]])),
@@ -90,28 +95,28 @@ my Hash $methods = %(
   flip => %(:is-symbol<gdk_pixbuf_flip>,  :returns(N-Object), :parameters([gboolean])),
   get-bits-per-sample => %(:is-symbol<gdk_pixbuf_get_bits_per_sample>,  :returns(gint)),
   get-byte-length => %(:is-symbol<gdk_pixbuf_get_byte_length>,  :returns(gsize)),
-  get-colorspace => %(:is-symbol<gdk_pixbuf_get_colorspace>,  :returns(GEnum), :cnv-return(GdkColorspace )),
+  get-colorspace => %(:is-symbol<gdk_pixbuf_get_colorspace>,  :returns(GEnum), :cnv-return(GdkColorspace)),
   get-has-alpha => %(:is-symbol<gdk_pixbuf_get_has_alpha>,  :returns(gboolean), :cnv-return(Bool)),
   get-height => %(:is-symbol<gdk_pixbuf_get_height>,  :returns(gint)),
   get-n-channels => %(:is-symbol<gdk_pixbuf_get_n_channels>,  :returns(gint)),
   get-option => %(:is-symbol<gdk_pixbuf_get_option>,  :returns(Str), :parameters([Str])),
-  #get-options => %(:is-symbol<gdk_pixbuf_get_options>,  :returns(N-HashTable )),
+  get-options => %(:is-symbol<gdk_pixbuf_get_options>,  :returns(N-Object)),
   get-pixels => %(:is-symbol<gdk_pixbuf_get_pixels>,  :returns(Str)),
   get-pixels-with-length => %(:is-symbol<gdk_pixbuf_get_pixels_with_length>,  :returns(Str), :parameters([gint-ptr])),
   get-rowstride => %(:is-symbol<gdk_pixbuf_get_rowstride>,  :returns(gint)),
   get-width => %(:is-symbol<gdk_pixbuf_get_width>,  :returns(gint)),
   new-subpixbuf => %(:is-symbol<gdk_pixbuf_new_subpixbuf>,  :returns(N-Object), :parameters([gint, gint, gint, gint])),
-  #read-pixel-bytes => %(:is-symbol<gdk_pixbuf_read_pixel_bytes>,  :returns(N-Bytes )),
+  read-pixel-bytes => %(:is-symbol<gdk_pixbuf_read_pixel_bytes>,  :returns(N-Object)),
   #read-pixels => %(:is-symbol<gdk_pixbuf_read_pixels>, ),
   remove-option => %(:is-symbol<gdk_pixbuf_remove_option>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
   #rotate-simple => %(:is-symbol<gdk_pixbuf_rotate_simple>,  :returns(N-Object), :parameters([GEnum])),
   saturate-and-pixelate => %(:is-symbol<gdk_pixbuf_saturate_and_pixelate>,  :parameters([N-Object, gfloat, gboolean])),
-  save => %(:is-symbol<gdk_pixbuf_save>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str, CArray[N-Error]])),
-  save-to-buffer => %(:is-symbol<gdk_pixbuf_save_to_buffer>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([gchar-pptr, CArray[gsize], Str, CArray[N-Error]])),
+  save => %(:is-symbol<gdk_pixbuf_save>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str, N-Object])),
+  save-to-buffer => %(:is-symbol<gdk_pixbuf_save_to_buffer>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([gchar-pptr, CArray[gsize], Str, N-Object])),
   save-to-bufferv => %(:is-symbol<gdk_pixbuf_save_to_bufferv>,  :returns(gboolean), :cnv-return(Bool), :parameters([gchar-pptr, CArray[gsize], Str, gchar-pptr, gchar-pptr, CArray[N-Error]])),
-  save-to-callback => %(:is-symbol<gdk_pixbuf_save_to_callback>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([:( Str $buf, gsize $count, CArray[N-Error] $error, gpointer $data --> gboolean ), gpointer, Str, CArray[N-Error]])),
-  save-to-callbackv => %(:is-symbol<gdk_pixbuf_save_to_callbackv>,  :returns(gboolean), :cnv-return(Bool), :parameters([:( Str $buf, gsize $count, CArray[N-Error] $error, gpointer $data --> gboolean ), gpointer, Str, gchar-pptr, gchar-pptr, CArray[N-Error]])),
-  save-to-stream => %(:is-symbol<gdk_pixbuf_save_to_stream>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, Str, N-Object, CArray[N-Error]])),
+  save-to-callback => %(:is-symbol<gdk_pixbuf_save_to_callback>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([:( Str $buf, gsize $count, N-Object $error, gpointer $data --> gboolean ), gpointer, Str, N-Object])),
+  save-to-callbackv => %(:is-symbol<gdk_pixbuf_save_to_callbackv>,  :returns(gboolean), :cnv-return(Bool), :parameters([:( Str $buf, gsize $count, N-Object $error, gpointer $data --> gboolean ), gpointer, Str, gchar-pptr, gchar-pptr, CArray[N-Error]])),
+  save-to-stream => %(:is-symbol<gdk_pixbuf_save_to_stream>, :variable-list,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, Str, N-Object, N-Object])),
   #save-to-stream-async => %(:is-symbol<gdk_pixbuf_save_to_stream_async>, :variable-list,  :parameters([N-Object, Str, N-Object, , gpointer])),
   save-to-streamv => %(:is-symbol<gdk_pixbuf_save_to_streamv>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, Str, gchar-pptr, gchar-pptr, N-Object, CArray[N-Error]])),
   #save-to-streamv-async => %(:is-symbol<gdk_pixbuf_save_to_streamv_async>,  :parameters([N-Object, Str, gchar-pptr, gchar-pptr, N-Object, , gpointer])),
@@ -121,11 +126,11 @@ my Hash $methods = %(
   set-option => %(:is-symbol<gdk_pixbuf_set_option>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
 
   #--[Functions]----------------------------------------------------------------
-  #calculate-rowstride => %( :type(Function), :is-symbol<gdk_pixbuf_calculate_rowstride>,  :returns(gint), :parameters([ GdkColorspace , gboolean, gint, gint, gint])),
-  #get-file-info => %( :type(Function), :is-symbol<gdk_pixbuf_get_file_info>,  :returns(N-Format ), :parameters([ Str, gint-ptr, gint-ptr])),
+  calculate-rowstride => %( :type(Function), :is-symbol<gdk_pixbuf_calculate_rowstride>,  :returns(gint), :parameters([ GdkColorspace, gboolean, gint, gint, gint])),
+  get-file-info => %( :type(Function), :is-symbol<gdk_pixbuf_get_file_info>,  :returns(N-Object), :parameters([ Str, gint-ptr, gint-ptr])),
   #get-file-info-async => %( :type(Function), :is-symbol<gdk_pixbuf_get_file_info_async>,  :parameters([ Str, N-Object, , gpointer])),
-  #get-file-info-finish => %( :type(Function), :is-symbol<gdk_pixbuf_get_file_info_finish>,  :returns(N-Format ), :parameters([ N-Object, gint-ptr, gint-ptr, CArray[N-Error]])),
-  get-formats => %( :type(Function), :is-symbol<gdk_pixbuf_get_formats>,  :returns(N-SList)),
+  get-file-info-finish => %( :type(Function), :is-symbol<gdk_pixbuf_get_file_info_finish>,  :returns(N-Object), :parameters([ N-Object, gint-ptr, gint-ptr, CArray[N-Error]])),
+  get-formats => %( :type(Function), :is-symbol<gdk_pixbuf_get_formats>,  :returns(N-Object)),
   init-modules => %( :type(Function), :is-symbol<gdk_pixbuf_init_modules>,  :returns(gboolean), :parameters([ Str, CArray[N-Error]])),
   #new-from-stream-async => %( :type(Function), :is-symbol<gdk_pixbuf_new_from_stream_async>,  :parameters([ N-Object, N-Object, , gpointer])),
   #new-from-stream-at-scale-async => %( :type(Function), :is-symbol<gdk_pixbuf_new_from_stream_at_scale_async>,  :parameters([ N-Object, gint, gint, gboolean, N-Object, , gpointer])),

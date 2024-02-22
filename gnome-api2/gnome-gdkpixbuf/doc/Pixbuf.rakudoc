@@ -34,7 +34,7 @@ data will not be freed.
 The [B<ctor C<$GdkPixbuf>.Pixbuf.new>] constructor function can be used
 as a convenience to create a pixbuf with an empty buffer; this is
 equivalent to allocating a data buffer using B<malloc()> and then
-wrapping it with B<gdk_pixbuf_new_from_data()>. The B<gdk_pixbuf_new()>
+wrapping it with B<C<.new-from-data()>>. The B<C<.new-pixbuf()>>
 function will compute an optimal rowstride so that rendering can be
 performed with an efficient algorithm.
 
@@ -177,7 +177,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-gdkpixbuf
-This function is not yet available
 
 Creates a new >GdkPixbufB< structure and allocates a buffer for it.
 
@@ -187,7 +186,7 @@ The buffer has an optimal rowstride. Note that the buffer is not cleared;
 you will have to fill it completely yourself.
 
 =begin code
-method new-gdkpixbuf ( GdkColorspace  $colorspace, Bool() $has-alpha, Int() $bits-per-sample, Int() $width, Int() $height --> Gnome::GdkPixbuf::Pixbuf \)
+method new-gdkpixbuf ( GdkColorspace $colorspace, Bool() $has-alpha, Int() $bits-per-sample, Int() $width, Int() $height --> Gnome::GdkPixbuf::Pixbuf \)
 =end code
 
 =item $colorspace; Color space for image.
@@ -208,20 +207,19 @@ method new-gdkpixbuf ( GdkColorspace  $colorspace, Bool() $has-alpha, Int() $bit
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-from-bytes
-This function is not yet available
 
 Creates a new B<Gnome::GdkPixbuf::Pixbuf> out of in-memory readonly image data.
 
 Currently only RGB images with 8 bits per sample are supported.
 
-This is the >GBytesB< variant of gdk_pixbuf_new_from_data(), useful
+This is the >GBytesB< variant of C<.new-from-data()>, useful
 for language bindings.
 
 =begin code
-method new-from-bytes ( CArray[N-Bytes]  $data, GdkColorspace  $colorspace, Bool() $has-alpha, Int() $bits-per-sample, Int() $width, Int() $height, Int() $rowstride --> Gnome::GdkPixbuf::Pixbuf \)
+method new-from-bytes ( N-Object $data, GdkColorspace $colorspace, Bool() $has-alpha, Int() $bits-per-sample, Int() $width, Int() $height, Int() $rowstride --> Gnome::GdkPixbuf::Pixbuf \)
 =end code
 
-=item $data; Image data in 8-bit/sample packed format inside a B<Gnome::Glib::N-Bytes>.
+=item $data; Image data in 8-bit/sample packed format inside a B<Gnome::Glib::N-Bytes>
 =item $colorspace; Colorspace for the image data.
 =item $has-alpha; Whether the data has an opacity channel.
 =item $bits-per-sample; Number of bits per sample.
@@ -241,7 +239,6 @@ method new-from-bytes ( CArray[N-Bytes]  $data, GdkColorspace  $colorspace, Bool
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-from-data
-This function is not yet available
 
 Creates a new B<Gnome::GdkPixbuf::Pixbuf> out of in-memory image data.
 
@@ -256,7 +253,7 @@ it is its responsibility to free the pixel array.
 See also: C<.new-from-bytes() in class Gnome::GdkPixbuf::Pixbuf>
 
 =begin code
-method new-from-data ( Str $data, GdkColorspace  $colorspace, Bool() $has-alpha, Int() $bits-per-sample, Int() $width, Int() $height, Int() $rowstride, &destroy-fn, gpointer $destroy-fn-data --> Gnome::GdkPixbuf::Pixbuf \)
+method new-from-data ( Str $data, GdkColorspace $colorspace, Bool() $has-alpha, Int() $bits-per-sample, Int() $width, Int() $height, Int() $rowstride, &destroy-fn, gpointer $destroy-fn-data --> Gnome::GdkPixbuf::Pixbuf \)
 =end code
 
 =item $data; Image data in 8-bit/sample packed format.
@@ -559,7 +556,7 @@ Use C<Pointer> when you want to ignore the error.
 =head2 new-from-stream-finish
 
 Finishes an asynchronous pixbuf creation operation started with
-gdk_pixbuf_new_from_stream_async().
+C<.new-from-stream-async()>.
 
 =begin code
 method new-from-stream-finish ( N-Object() $async-result, CArray[N-Error] $err --> Gnome::GdkPixbuf::Pixbuf \)
@@ -735,7 +732,7 @@ image.
 If the source image has no alpha channel, and C<$overall-alpha> is 255, a fast
 path is used which omits the alpha blending and just performs the scaling.
 
-See gdk_pixbuf_composite_color_simple() for a simpler variant of this
+See C<.composite-color-simple()> for a simpler variant of this
 function suitable for many tasks.
 
 =begin code
@@ -808,7 +805,7 @@ Creates a new >GdkPixbufB< with a copy of the information in the specified
 >pixbufB<.
 
 Note that this does not copy the options set on the original >GdkPixbufB<,
-use gdk_pixbuf_copy_options() for this.
+use C<.copy-options()> for this.
 
 =begin code
 method copy (--> N-Object )
@@ -985,7 +982,7 @@ Return value; The length of the pixel data..
 Queries the color space of a pixbuf.
 
 =begin code
-method get-colorspace (--> GdkColorspace  )
+method get-colorspace (--> GdkColorspace )
 =end code
 
 Return value; Color space.. 
@@ -1067,7 +1064,7 @@ Return value; Number of channels..
 =head2 get-option
 
 Looks up C<$key> in the list of options that may have been attached to the C<$pixbuf> when it was loaded, or that may have been attached by another
-function using gdk_pixbuf_set_option().
+function using C<.set-option()>.
 
 For instance, the ANI loader provides "Title" and "Artist" options.
 The ICO, XBM, and XPM loaders provide "x_hot" and "y_hot" hot-spot
@@ -1101,14 +1098,13 @@ Return value; the value associated with >keyB<.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-options
-This function is not yet available
 
 Returns a >GHashTableB< with a list of all the options that may have been
 attached to the >pixbufB< when it was loaded, or that may have been
 attached by another function using C<.set-option() in class Gnome::GdkPixbuf::Pixbuf>.
 
 =begin code
-method get-options (--> CArray[N-HashTable]  )
+method get-options (--> N-Object )
 =end code
 
 Return value; a B<Gnome::Glib::N-HashTable>
@@ -1260,16 +1256,15 @@ Return value; a new pixbuf.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 read-pixel-bytes
-This function is not yet available
 
 Provides a B<Gnome::Glib::N-Bytes> buffer containing the raw pixel data; the data
 must not be modified.
 
 This function allows skipping the implicit copy that must be made
-if gdk_pixbuf_get_pixels() is called on a read-only pixbuf.
+if C<.get-pixels()> is called on a read-only pixbuf.
 
 =begin code
-method read-pixel-bytes (--> CArray[N-Bytes]  )
+method read-pixel-bytes (--> N-Object )
 =end code
 
 Return value; A new reference to a read-only copy of
@@ -1293,7 +1288,7 @@ Return value; A new reference to a read-only copy of
 Provides a read-only pointer to the raw pixel data.
 
 This function allows skipping the implicit copy that must be made
-if gdk_pixbuf_get_pixels() is called on a read-only pixbuf.
+if C<.get-pixels()> is called on a read-only pixbuf.
 
 =begin code
 method read-pixels (--> Array[Int] )
@@ -1477,12 +1472,12 @@ parameter. When the ICO saver is given "x_hot" and "y_hot" parameters,
 it produces a CUR instead of an ICO.
 
 =begin code
-method save ( Str $filename, Str $type, CArray[N-Error] $error, … --> Bool )
+method save ( Str $filename, Str $type, N-Object $error, … --> Bool )
 =end code
 
 =item $filename; name of file to save..
 =item $type; name of file format..
-=item $error; return location for error.
+=item $error; return location for error
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 Return value; C<True> on success, and C<False> otherwise. 
@@ -1504,7 +1499,7 @@ This function is not yet available
 Saves pixbuf to a new buffer in format >typeB<, which is currently "jpeg",
 "png", "tiff", "ico" or "bmp".
 
-This is a convenience function that uses >gdk_pixbuf_save_to_callback()B<
+This is a convenience function that uses >C<.save-to-callback()>B<
 to do the real work.
 
 Note that the buffer is not >NULB<-terminated and may contain embedded >NULB<
@@ -1514,17 +1509,17 @@ If C<$error> is set, C<False> will be returned and C<$buffer> will be set to
 undefined. Possible errors include those in the >GDK_PIXBUF_ERRORB<
 domain.
 
-See >gdk_pixbuf_save()B< for more details.
+See >C<.save()>B< for more details.
 
 =begin code
-method save-to-buffer ( Array[Str] $buffer, Array[gsize] $buffer-size, Str $type, CArray[N-Error] $error, … --> Bool )
+method save-to-buffer ( Array[Str] $buffer, Array[gsize] $buffer-size, Str $type, N-Object $error, … --> Bool )
 =end code
 
 =item $buffer; (transfer ownership: full) location to receive a pointer
   to the new buffer..
 =item $buffer-size; (transfer ownership: full) location to receive the size of the new buffer..
 =item $type; name of file format..
-=item $error; return location for error, or undefined.
+=item $error; return location for error, or undefined
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 Return value; whether an error was set. 
@@ -1542,7 +1537,7 @@ Return value; whether an error was set.
 =begin pod
 =head2 save-to-bufferv
 
-Vector version of >gdk_pixbuf_save_to_buffer()B<.
+Vector version of >C<.save-to-buffer()>B<.
 
 Saves pixbuf to a new buffer in format C<$type>, which is currently "jpeg",
 "tiff", "png", "ico" or "bmp".
@@ -1592,14 +1587,14 @@ function generates.
 See C<.save() in class Gnome::GdkPixbuf::Pixbuf> for more details.
 
 =begin code
-method save-to-callback ( &save-func, gpointer $user-data, Str $type, CArray[N-Error] $error, … --> Bool )
+method save-to-callback ( &save-func, gpointer $user-data, Str $type, N-Object $error, … --> Bool )
 =end code
 
 =item &save-func; a function that is called to save each block of data that
-  the save routine generates.. Tthe function must be specified with following signature; C<:( Str $buf, gsize $count, CArray[N-Error] $error, gpointer $data --> gboolean )>.
+  the save routine generates.. Tthe function must be specified with following signature; C<:( Str $buf, gsize $count, N-Object $error, gpointer $data --> gboolean )>.
 =item $user-data; user data to pass to the save function..
 =item $type; name of file format..
-=item $error; return location for error, or undefined.
+=item $error; return location for error, or undefined
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 Return value; whether an error was set. 
@@ -1617,7 +1612,7 @@ Return value; whether an error was set.
 =begin pod
 =head2 save-to-callbackv
 
-Vector version of >gdk_pixbuf_save_to_callback()B<.
+Vector version of >C<.save-to-callback()>B<.
 
 Saves pixbuf to a callback in format C<$type>, which is currently "jpeg",
 "png", "tiff", "ico" or "bmp".
@@ -1631,7 +1626,7 @@ method save-to-callbackv ( &save-func, gpointer $user-data, Str $type, Array[Str
 =end code
 
 =item &save-func; a function that is called to save each block of data that
-  the save routine generates.. Tthe function must be specified with following signature; C<:( Str $buf, gsize $count, CArray[N-Error] $error, gpointer $data --> gboolean )>.
+  the save routine generates.. Tthe function must be specified with following signature; C<:( Str $buf, gsize $count, N-Object $error, gpointer $data --> gboolean )>.
 =item $user-data; user data to pass to the save function..
 =item $type; name of file format..
 =item $option-keys; name of options to set.
@@ -1659,7 +1654,7 @@ This function is not yet available
 Saves >pixbufB< to an output stream.
 
 Supported file formats are currently "jpeg", "tiff", "png", "ico" or
-"bmp". See >gdk_pixbuf_save_to_buffer()B< for more details.
+"bmp". See >C<.save-to-buffer()>B< for more details.
 
 The >cancellableB< can be used to abort the operation from another
 thread. If the operation was cancelled, the error >G_IO_ERROR_CANCELLEDB<
@@ -1669,13 +1664,13 @@ and >G_IO_ERRORB< domains.
 The stream is not closed at the end of this call.
 
 =begin code
-method save-to-stream ( N-Object() $stream, Str $type, N-Object() $cancellable, CArray[N-Error] $error, … --> Bool )
+method save-to-stream ( N-Object() $stream, Str $type, N-Object() $cancellable, N-Object $error, … --> Bool )
 =end code
 
 =item $stream; a >GOutputStreamB< to save the pixbuf to.
 =item $type; name of file format.
 =item $cancellable; optional >GCancellableB< object, undefined to ignore.
-=item $error; return location for error, or undefined.
+=item $error; return location for error, or undefined
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 Return value; C<True> if the pixbuf was saved successfully, C<False> if an
@@ -1697,12 +1692,12 @@ This function is not yet available
 
 Saves >pixbufB< to an output stream asynchronously.
 
-For more details see gdk_pixbuf_save_to_stream(), which is the synchronous
+For more details see C<.save-to-stream()>, which is the synchronous
 version of this function.
 
 When the operation is finished, >callbackB< will be called in the main thread.
 
-You can then call gdk_pixbuf_save_to_stream_finish() to get the result of
+You can then call C<.save-to-stream-finish()> to get the result of
 the operation.
 
 =begin code
@@ -1768,12 +1763,12 @@ This function is not yet available
 
 Saves >pixbufB< to an output stream asynchronously.
 
-For more details see gdk_pixbuf_save_to_streamv(), which is the synchronous
+For more details see C<.save-to-streamv()>, which is the synchronous
 version of this function.
 
 When the operation is finished, >callbackB< will be called in the main thread.
 
-You can then call gdk_pixbuf_save_to_stream_finish() to get the result of
+You can then call C<.save-to-stream-finish()> to get the result of
 the operation.
 
 =begin code
@@ -1801,7 +1796,7 @@ method save-to-streamv-async ( N-Object() $stream, Str $type, Array[Str] $option
 =begin pod
 =head2 savev
 
-Vector version of >gdk_pixbuf_save()B<.
+Vector version of >C<.save()>B<.
 
 Saves pixbuf to a file in >typeB<, which is currently "jpeg", "png", "tiff", "ico" or "bmp".
 
@@ -1841,9 +1836,9 @@ Creates a transformation of the source image C<$src> by scaling by C<$scale-x> a
 then renders the rectangle ( C<$dest-x>, C<$dest-y>, C<$dest-width>, C<$dest-height>) of the resulting image onto the destination image
 replacing the previous contents.
 
-Try to use gdk_pixbuf_scale_simple() first; this function is
+Try to use C<.scale-simple()> first; this function is
 the industrial-strength power tool you can fall back to, if
-gdk_pixbuf_scale_simple() isn't powerful enough.
+C<.scale-simple()> isn't powerful enough.
 
 If the source rectangle overlaps the destination rectangle on the
 same pixbuf, it will be overwritten during the scaling which
@@ -1954,7 +1949,6 @@ Return value; C<True> on success.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 calculate-rowstride
-This function is not yet available
 
 Calculates the rowstride that an image created with those values would
 have.
@@ -1963,7 +1957,7 @@ This function is useful for front-ends and backends that want to check
 image values without needing to create a >GdkPixbufB<.
 
 =begin code
-method calculate-rowstride ( GdkColorspace  $colorspace, Bool() $has-alpha, Int() $bits-per-sample, Int() $width, Int() $height --> Int )
+method calculate-rowstride ( GdkColorspace $colorspace, Bool() $has-alpha, Int() $bits-per-sample, Int() $width, Int() $height --> Int )
 =end code
 
 =item $colorspace; Color space for image.
@@ -1986,12 +1980,11 @@ Return value; the rowstride for the given values, or -1 in case of error..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-file-info
-This function is not yet available
 
 Parses an image file far enough to determine its format and size.
 
 =begin code
-method get-file-info ( Str $filename, Array[Int] $width, Array[Int] $height --> CArray[N-Format]  )
+method get-file-info ( Str $filename, Array[Int] $width, Array[Int] $height --> N-Object )
 =end code
 
 =item $filename; The name of the file to identify..
@@ -2018,11 +2011,11 @@ This function is not yet available
 Asynchronously parses an image file far enough to determine its
 format and size.
 
-For more details see gdk_pixbuf_get_file_info(), which is the synchronous
+For more details see C<.get-file-info()>, which is the synchronous
 version of this function.
 
 When the operation is finished, C<$callback> will be called in the
-main thread. You can then call gdk_pixbuf_get_file_info_finish() to
+main thread. You can then call C<.get-file-info-finish()> to
 get the result of the operation.
 
 =begin code
@@ -2046,13 +2039,12 @@ method get-file-info-async ( Str $filename, N-Object() $cancellable, …, gpoint
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-file-info-finish
-This function is not yet available
 
 Finishes an asynchronous pixbuf parsing operation started with
-gdk_pixbuf_get_file_info_async().
+C<.get-file-info-async()>.
 
 =begin code
-method get-file-info-finish ( N-Object() $async-result, Array[Int] $width, Array[Int] $height, CArray[N-Error] $err --> CArray[N-Format]  )
+method get-file-info-finish ( N-Object() $async-result, Array[Int] $width, Array[Int] $height, CArray[N-Error] $err --> N-Object )
 =end code
 
 =item $async-result; a >GAsyncResultB<.
@@ -2142,11 +2134,11 @@ This function is not yet available
 
 Creates a new pixbuf by asynchronously loading an image from an input stream.
 
-For more details see gdk_pixbuf_new_from_stream(), which is the synchronous
+For more details see C<.new-from-stream()>, which is the synchronous
 version of this function.
 
 When the operation is finished, C<$callback> will be called in the main thread.
-You can then call gdk_pixbuf_new_from_stream_finish() to get the result of
+You can then call C<.new-from-stream-finish()> to get the result of
 the operation.
 
 =begin code
@@ -2174,11 +2166,11 @@ This function is not yet available
 
 Creates a new pixbuf by asynchronously loading an image from an input stream.
 
-For more details see gdk_pixbuf_new_from_stream_at_scale(), which is the synchronous
+For more details see C<.new-from-stream-at-scale()>, which is the synchronous
 version of this function.
 
 When the operation is finished, C<$callback> will be called in the main thread.
-You can then call gdk_pixbuf_new_from_stream_finish() to get the result of the operation.
+You can then call C<.new-from-stream-finish()> to get the result of the operation.
 
 =begin code
 method new-from-stream-at-scale-async ( N-Object() $stream, Int() $width, Int() $height, Bool() $preserve-aspect-ratio, N-Object() $cancellable, …, gpointer $user-data )
@@ -2206,7 +2198,7 @@ method new-from-stream-at-scale-async ( N-Object() $stream, Int() $width, Int() 
 =head2 save-to-stream-finish
 
 Finishes an asynchronous pixbuf save operation started with
-gdk_pixbuf_save_to_stream_async().
+C<.save-to-stream-async()>.
 
 =begin code
 method save-to-stream-finish ( N-Object() $async-result, CArray[N-Error] $err --> Bool )

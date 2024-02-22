@@ -6,21 +6,21 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
 #use Gnome::GdkPixbuf::N-Format:api<2>;
 use Gnome::GdkPixbuf::Pixbuf:api<2>;
 use Gnome::GdkPixbuf::T-core:api<2>;
-#use Gnome::GdkPixbuf::T-Transform:api<2>;
-
-#use Gnome::Glib::N-Bytes:api<2>;
+#use Gnome::GdkPixbuf::T-io:api<2>;
+#use Gnome::GdkPixbuf::T-transform:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
-use Gnome::Glib::T-error:api<2>;
-use Gnome::Glib::T-quark:api<2>;
 #use Gnome::Glib::N-HashTable:api<2>;
-
+use Gnome::Glib::T-array:api<2>;
+use Gnome::Glib::T-error:api<2>;
+#use Gnome::Glib::T-hash:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -31,31 +31,30 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::GdkPixbuf::Pixbuf $gdkpixbuf;
-my Gnome::Glib::T-quark $quark .= new;
+my Gnome::GdkPixbuf::Pixbuf $pixbuf;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $gdkpixbuf {
-    my gboolean $has-alpha;
-    my N-Object $async-result;
-    my N-Object $cancellable;
-    my gint $bits-per-sample;
-    my gchar-pptr $data;
-    my N-Object $stream;
-    my Str $filename;
-    my Str $resource-path;
-    my gboolean $preserve-aspect-ratio;
-    my gpointer $destroy-fn-data;
-    my gint $width;
-    sub destroy-fn ( Str $pixels, gpointer $data ) {}
+  given $pixbuf {
+    my gint $height;
     my CArray[N-Error] $err;
     my gint $rowstride;
-    my gint $height;
-    my GdkColorspace  $colorspace;
+    sub destroy-fn ( Str $pixels, gpointer $data ) {}
+    my gpointer $destroy-fn-data;
+    my gboolean $preserve-aspect-ratio;
+    my N-Object $stream;
+    my gint $width;
+    my gchar-pptr $data;
+    my GdkColorspace $colorspace;
+    my N-Object $cancellable;
+    my gint $bits-per-sample;
+    my Str $resource-path;
+    my Str $filename;
+    my N-Object $async-result;
+    my gboolean $has-alpha;
 
 #`{{
     #TC:0:new-gdkpixbuf()
@@ -64,18 +63,18 @@ subtest 'ISA test', {
     $bits-per-sample = '…';
     $width = '…';
     $height = '…';
-    $gdkpixbuf .= new-gdkpixbuf( $colorspace, $has-alpha, $bits-per-sample, $width, $height);
+    $pixbuf .= new-gdkpixbuf( $colorspace, $has-alpha, $bits-per-sample, $width, $height);
     ok .is-valid, '.new-gdkpixbuf( $colorspace, $has-alpha, $bits-per-sample, $width, $height)';
 
     #TC:0:new-from-bytes()
-    $data = '…';
+    $data = …;
     $colorspace = …;
     $has-alpha = '…';
     $bits-per-sample = '…';
     $width = '…';
     $height = '…';
     $rowstride = '…';
-    $gdkpixbuf .= new-from-bytes( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride);
+    $pixbuf .= new-from-bytes( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride);
     ok .is-valid, '.new-from-bytes( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride)';
 
     #TC:0:new-from-data()
@@ -88,67 +87,36 @@ subtest 'ISA test', {
     $rowstride = '…';
     $destroy-fn = …;
     $destroy-fn-data = '…';
-    $gdkpixbuf .= new-from-data( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride, $destroy-fn, $destroy-fn-data);
+    $pixbuf .= new-from-data( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride, $destroy-fn, $destroy-fn-data);
     ok .is-valid, '.new-from-data( $data, $colorspace, $has-alpha, $bits-per-sample, $width, $height, $rowstride, $destroy-fn, $destroy-fn-data)';
-  }}
 
+    #TC:0:new-from-file()
+    $filename = 'text';
+    $err = '…';
+    $pixbuf .= new-from-file( $filename, $err);
+    ok .is-valid, '.new-from-file( $filename, $err)';
 
-    #TC:1:new-from-file()
-    $filename = 't/Data/unknown-image.png';
-    $err = CArray[N-Error].new(N-Error);
-    $gdkpixbuf .= new-from-file( $filename, $err);
-    nok .is-valid,
-      '.new-from-file( $filename, $err): failed to load ' ~ $filename;
-    if ?$err[0] {
-      is $quark.to-string($err[0].domain), 'g-file-error-quark',
-       'domain text is g-file-error-quark';
-      is $err[0].code, 4, 'error code for this error is 4';
-    }
-    $gdkpixbuf.clear-object;
-
-    $filename = 't/Data/some-test-file.xyz';
-    $err = CArray[N-Error].new(N-Error);
-    $gdkpixbuf .= new-from-file( 't/Data/some-test-file.xyz', $err);
-    nok .is-valid,
-      '.new-from-file( $filename, $err): failed to load ' ~ $filename;
-    if ?$err[0] {
-      is GdkPixbufError($err[0].code),
-        GDK_PIXBUF_ERROR_UNKNOWN_TYPE,
-        'error code for this error is ' ~ GdkPixbufError($err[0].code);
-    }
-    $gdkpixbuf.clear-object;
-
-    $filename = 't/Data/gtk-raku.png';
-    $err = CArray[N-Error].new(N-Error);
-    $gdkpixbuf .= new-from-file( $filename, $err);
-    ok !$err[0], '.new-from-file loading ' ~ $filename ~ ' successful';
-    $gdkpixbuf.clear-object;
-
-    #TC:1:new-from-file-at-scale()
-    $filename = 't/Data/gtk-raku.png';
-    $width = 100;
-    $height = 100;
-    $preserve-aspect-ratio = True;
-    $err = CArray[N-Error].new(N-Error);
-    $gdkpixbuf .= new-from-file-at-scale(
-      $filename, $width, $height, $preserve-aspect-ratio, $err
-    );
+    #TC:0:new-from-file-at-scale()
+    $filename = 'text';
+    $width = '…';
+    $height = '…';
+    $preserve-aspect-ratio = '…';
+    $err = '…';
+    $pixbuf .= new-from-file-at-scale( $filename, $width, $height, $preserve-aspect-ratio, $err);
     ok .is-valid, '.new-from-file-at-scale( $filename, $width, $height, $preserve-aspect-ratio, $err)';
 
-    #TC:1:new-from-file-at-size()
-    $filename = 't/Data/gtk-raku.png';
-    $width = 100;
-    $height = 100;
-    $err = CArray[N-Error].new(N-Error);
-    $gdkpixbuf .= new-from-file-at-size( $filename, $width, $height, $err);
+    #TC:0:new-from-file-at-size()
+    $filename = 'text';
+    $width = '…';
+    $height = '…';
+    $err = '…';
+    $pixbuf .= new-from-file-at-size( $filename, $width, $height, $err);
     ok .is-valid, '.new-from-file-at-size( $filename, $width, $height, $err)';
-    $gdkpixbuf.clear-object;
 
-#`{{
     #TC:0:new-from-resource()
     $resource-path = 'text';
     $err = '…';
-    $gdkpixbuf .= new-from-resource( $resource-path, $err);
+    $pixbuf .= new-from-resource( $resource-path, $err);
     ok .is-valid, '.new-from-resource( $resource-path, $err)';
 
     #TC:0:new-from-resource-at-scale()
@@ -157,14 +125,14 @@ subtest 'ISA test', {
     $height = '…';
     $preserve-aspect-ratio = '…';
     $err = '…';
-    $gdkpixbuf .= new-from-resource-at-scale( $resource-path, $width, $height, $preserve-aspect-ratio, $err);
+    $pixbuf .= new-from-resource-at-scale( $resource-path, $width, $height, $preserve-aspect-ratio, $err);
     ok .is-valid, '.new-from-resource-at-scale( $resource-path, $width, $height, $preserve-aspect-ratio, $err)';
 
     #TC:0:new-from-stream()
     $stream = …;
     $cancellable = …;
     $err = '…';
-    $gdkpixbuf .= new-from-stream( $stream, $cancellable, $err);
+    $pixbuf .= new-from-stream( $stream, $cancellable, $err);
     ok .is-valid, '.new-from-stream( $stream, $cancellable, $err)';
 
     #TC:0:new-from-stream-at-scale()
@@ -174,18 +142,18 @@ subtest 'ISA test', {
     $preserve-aspect-ratio = '…';
     $cancellable = …;
     $err = '…';
-    $gdkpixbuf .= new-from-stream-at-scale( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $err);
+    $pixbuf .= new-from-stream-at-scale( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $err);
     ok .is-valid, '.new-from-stream-at-scale( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $err)';
 
     #TC:0:new-from-stream-finish()
     $async-result = …;
     $err = '…';
-    $gdkpixbuf .= new-from-stream-finish( $async-result, $err);
+    $pixbuf .= new-from-stream-finish( $async-result, $err);
     ok .is-valid, '.new-from-stream-finish( $async-result, $err)';
 
     #TC:0:new-from-xpm-data()
     $data = '…';
-    $gdkpixbuf .= new-from-xpm-data( $data);
+    $pixbuf .= new-from-xpm-data( $data);
     ok .is-valid, '.new-from-xpm-data( $data)';
 
 }}
@@ -203,58 +171,54 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $gdkpixbuf {
-    my gint $overall-alpha;
-    my CArray[N-Error] $error;
-    my gchar-pptr $option-values;
-    my gint $width;
-    my gint $dest-height;
-    my guint32 $color1;
-    my N-Object $dest;
-    my gint $src-x;
-    my Str $type;
-    my CArray[gsize] $buffer-size;
-    my gdouble $offset-x;
-    my gint $dest-width;
-#    my GdkPixbufRotation  $angle;
-    my CArray[N-Error] $err;
-    my gchar-pptr $buffer;
+  with $pixbuf {
     my Str $value;
-    my gint $height;
-    my  $callback;
-    my gfloat $saturation;
-    my gboolean $substitute-color;
-    my gint $check-size;
-    my Str $key;
-    my guint32 $color2;
-    my guchar $g;
-    my gdouble $scale-x;
-    my gint $check-y;
-    my gint $dest-y;
-    my gdouble $offset-y;
-    my guchar $b;
-    my N-Object $cancellable;
-    my gpointer $user-data;
-    my N-Object $dest-pixbuf;
     my gchar-pptr $option-keys;
-    my gint $dest-x;
-    my gint-ptr $length;
-    my gboolean $pixelate;
-    my Str $filename;
-    my gint $check-x;
-    my guchar $r;
-    my gdouble $scale-y;
+    my guchar $b;
+    my gpointer $user-data;
+    my gint $check-y;
+    my gchar-pptr $option-values;
     my gint $src-y;
-#    my GdkInterpType  $interp-type;
+    my guint32 $color1;
+    my gint $dest-y;
+    my gint-ptr $length;
+    my gboolean $substitute-color;
     my guint32 $pixel;
+    my guchar $r;
+    my Str $type;
+    my  $callback;
+    my gint $dest-x;
+    my guint32 $color2;
+    my gboolean $pixelate;
     my gboolean $horizontal;
-    sub save-func ( Str $buf, gsize $count, CArray[N-Error] $error, gpointer $data --> gboolean ) {}
+    my gint $overall-alpha;
+    my GdkPixbufRotation  $angle;
     my N-Object $stream;
+    my gfloat $saturation;
+    my guchar $g;
+    my Str $filename;
+    my gchar-pptr $buffer;
+    my gint $dest-width;
+    my gint $check-x;
+    my GdkInterpType  $interp-type;
+    my gint $width;
+    my gint $check-size;
+    my gint $dest-height;
+    sub save-func ( Str $buf, gsize $count, N-Object $error, gpointer $data --> gboolean ) {}
+    my gdouble $offset-y;
+    my CArray[gsize] $buffer-size;
+    my CArray[N-Error] $err;
+    my N-Object $cancellable;
+    my gint $src-x;
+    my N-Object $error;
+    my N-Object $dest;
+    my N-Object $dest-pixbuf;
+    my gdouble $offset-x;
+    my gdouble $scale-y;
+    my gint $height;
+    my gdouble $scale-x;
+    my Str $key;
 
-
-    $filename = 't/Data/gtk-raku.png';
-    $err = CArray[N-Error].new(N-Error);
-    $gdkpixbuf .= new-from-file( $filename, $err);
 
 #`{{
     #TM:0:add-alpha()
@@ -286,24 +250,22 @@ subtest 'Method tests', {
 
     #TM:0:flip()
     ok .flip( $horizontal), '.flip()';
-}}
 
-    #TM:1:get-bits-per-sample()
-    is .get-bits-per-sample(), 8, '.get-bits-per-sample()';
+    #TM:0:get-bits-per-sample()
+     .get-bits-per-sample(), '…', '.get-bits-per-sample()';
 
-    #TM:1:get-byte-length()
-    is .get-byte-length(), 192 * 197 * 4, '.get-byte-length()';
+    #TM:0:get-byte-length()
+     .get-byte-length(), '…', '.get-byte-length()';
 
-    #TM:1:get-colorspace()
-    is .get-colorspace(), GDK_COLORSPACE_RGB, '.get-colorspace()';
+    #TM:0:get-colorspace()
+     .get-colorspace(), '…', '.get-colorspace()';
 
-    #TM:1:get-has-alpha()
-    ok .get-has-alpha(), '.get-has-alpha()';
+    #TM:0:get-has-alpha()
+     .get-has-alpha(), '…', '.get-has-alpha()';
 
-    #TM:1:get-height()
-    is .get-height(), 197, '.get-height()';
+    #TM:0:get-height()
+     .get-height(), '…', '.get-height()';
 
-#`{{
     #TM:0:get-n-channels()
      .get-n-channels(), '…', '.get-n-channels()';
 
@@ -315,21 +277,19 @@ subtest 'Method tests', {
 
     #TM:0:get-pixels-with-length()
     is .get-pixels-with-length( $length), '…', '.get-pixels-with-length()';
-}}
 
-    #TM:1:get-rowstride()
-    is .get-rowstride(), 192 * 4, '.get-rowstride()';
+    #TM:0:get-rowstride()
+     .get-rowstride(), '…', '.get-rowstride()';
 
-    #TM:1:get-width()
-    is .get-width(), 192, '.get-width()';
+    #TM:0:get-width()
+     .get-width(), '…', '.get-width()';
 
-#`{{
     #TC:0:new-subpixbuf()
     $src-x = '…';
     $src-y = '…';
     $width = '…';
     $height = '…';
-    $gdkpixbuf .= new-subpixbuf( $src-x, $src-y, $width, $height);
+    $pixbuf .= new-subpixbuf( $src-x, $src-y, $width, $height);
     ok .is-valid, '.new-subpixbuf( $src-x, $src-y, $width, $height)';
 
     #TM:0:read-pixel-bytes()
@@ -396,21 +356,21 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $gdkpixbuf {
-    my Str $path;
-    my  $callback;
-    my Int() $height;
-    my Str $filename;
-    my N-Object() $cancellable;
-    my Int() $bits-per-sample;
-    my Bool() $has-alpha;
-    my N-Object() $async-result;
-    my Bool() $preserve-aspect-ratio;
-    my Int() $width;
-    my N-Object() $stream;
+  with $pixbuf {
     my gpointer $user-data;
-    my GdkColorspace  $colorspace;
+    my Bool() $preserve-aspect-ratio;
+    my  $callback;
+    my Int() $bits-per-sample;
+    my Int() $height;
+    my GdkColorspace $colorspace;
+    my Str $path;
+    my N-Object() $async-result;
+    my N-Object() $cancellable;
+    my Bool() $has-alpha;
+    my N-Object() $stream;
     my CArray[N-Error] $err;
+    my Str $filename;
+    my Int() $width;
 
 
 #`{{
@@ -437,7 +397,7 @@ subtest 'Function tests', {
     $cancellable = …;
     $callback = '…';
     $user-data = '…';
-    $gdkpixbuf .= new-from-stream-async( $stream, $cancellable, $callback, $user-data);
+    $pixbuf .= new-from-stream-async( $stream, $cancellable, $callback, $user-data);
     ok .is-valid, '.new-from-stream-async( $stream, $cancellable, $callback, $user-data)';
 
     #TC:0:new-from-stream-at-scale-async()
@@ -448,7 +408,7 @@ subtest 'Function tests', {
     $cancellable = …;
     $callback = '…';
     $user-data = '…';
-    $gdkpixbuf .= new-from-stream-at-scale-async( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $callback, $user-data);
+    $pixbuf .= new-from-stream-at-scale-async( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $callback, $user-data);
     ok .is-valid, '.new-from-stream-at-scale-async( $stream, $width, $height, $preserve-aspect-ratio, $cancellable, $callback, $user-data)';
 
     #TM:0:save-to-stream-finish()
@@ -513,13 +473,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::GdkPixbuf::Pixbuf $gdkpixbuf .= new;
+  my Gnome::GdkPixbuf::Pixbuf $pixbuf .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $gdkpixbuf.register-signal( $sh, 'method', 'signal');
+  $pixbuf.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',
