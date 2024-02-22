@@ -7,12 +7,13 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::GObject::Object:api<2>;
+
 #use Gnome::GdkPixbuf::N-Format:api<2>;
 use Gnome::GdkPixbuf::T-core:api<2>;
 #use Gnome::GdkPixbuf::T-io:api<2>;
 #use Gnome::GdkPixbuf::T-transform:api<2>;
+
 use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::N-Error:api<2>;
 #use Gnome::Glib::N-HashTable:api<2>;
@@ -21,6 +22,7 @@ use Gnome::Glib::T-array:api<2>;
 use Gnome::Glib::T-error:api<2>;
 #use Gnome::Glib::T-hash:api<2>;
 use Gnome::Glib::T-slist:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -126,7 +128,7 @@ my Hash $methods = %(
   set-option => %(:is-symbol<gdk_pixbuf_set_option>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, Str])),
 
   #--[Functions]----------------------------------------------------------------
-  calculate-rowstride => %( :type(Function), :is-symbol<gdk_pixbuf_calculate_rowstride>,  :returns(gint), :parameters([ GdkColorspace, gboolean, gint, gint, gint])),
+  calculate-rowstride => %( :type(Function), :is-symbol<gdk_pixbuf_calculate_rowstride>,  :returns(gint), :parameters([ GEnum, gboolean, gint, gint, gint])),
   get-file-info => %( :type(Function), :is-symbol<gdk_pixbuf_get_file_info>,  :returns(N-Object), :parameters([ Str, gint-ptr, gint-ptr])),
   #get-file-info-async => %( :type(Function), :is-symbol<gdk_pixbuf_get_file_info_async>,  :parameters([ Str, N-Object, , gpointer])),
   get-file-info-finish => %( :type(Function), :is-symbol<gdk_pixbuf_get_file_info_finish>,  :returns(N-Object), :parameters([ N-Object, gint-ptr, gint-ptr, CArray[N-Error]])),
