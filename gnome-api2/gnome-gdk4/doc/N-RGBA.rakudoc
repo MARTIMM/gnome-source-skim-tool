@@ -10,10 +10,10 @@ use v6.d;
 
 =head1 Description
 
-A U<Gnome::Gdk4::N-RGBA> is used to represent a color, in a way that is compatible
+A B<Gnome::Gdk4::N-RGBA> is used to represent a color, in a way that is compatible
 with cairo’s notion of color.
 
-U<Gnome::Gdk4::N-RGBA> is a convenient way to pass colors around. It’s based on
+B<Gnome::Gdk4::N-RGBA> is a convenient way to pass colors around. It’s based on
 cairo’s way to deal with colors and mirrors its behavior. All values
 are in the range from 0.0 to 1.0 inclusive. So the color
 (0.0, 0.0, 0.0, 0.0) represents transparent black and
@@ -26,29 +26,6 @@ be clamped to this range when drawing.
 # Example use of module Gnome::Gdk4::RGBA
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-RGBA
-
-  class N-RGBA:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gfloat $.red;
-    has gfloat $.green;
-    has gfloat $.blue;
-    has gfloat $.alpha;
-  }
-
-=item red; The intensity of the red channel from 0.0 to 1.0 inclusive
-=item green; The intensity of the green channel from 0.0 to 1.0 inclusive
-=item blue; The intensity of the blue channel from 0.0 to 1.0 inclusive
-=item alpha; The opacity of the color from 0.0 for completely translucent to
-  1.0 for opaque
 
 =end pod
 
@@ -81,15 +58,15 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 copy
 
-Makes a copy of a U<Gnome::Gdk4::N-RGBA>.
+Makes a copy of a B<Gnome::Gdk4::N-RGBA>.
 
 The result must be freed through C<.free()>.
 
 =begin code
-method copy (--> CArray[N-RGBA] )
+method copy (--> N-Object )
 =end code
 
-Return value; A newly allocated U<Gnome::Gdk4::N-RGBA>, with the same contents as C<$rgba>. 
+Return value; A newly allocated B<Gnome::Gdk4::N-RGBA>, with the same contents as C<$rgba>. 
 
 =begin comment
 
@@ -104,13 +81,13 @@ Return value; A newly allocated U<Gnome::Gdk4::N-RGBA>, with the same contents a
 =begin pod
 =head2 equal
 
-Compares two U<Gnome::Gdk4::N-RGBA> colors.
+Compares two B<Gnome::Gdk4::N-RGBA> colors.
 
 =begin code
 method equal ( gpointer $p2 --> Bool )
 =end code
 
-=item $p2; another U<Gnome::Gdk4::N-RGBA>.
+=item $p2; another B<Gnome::Gdk4::N-RGBA>.
 
 Return value; C<True> if the two colors compare equal. 
 
@@ -127,7 +104,7 @@ Return value; C<True> if the two colors compare equal.
 =begin pod
 =head2 free
 
-Frees a U<Gnome::Gdk4::N-RGBA>.
+Frees a B<Gnome::Gdk4::N-RGBA>.
 
 =begin code
 method free ( )
@@ -147,7 +124,7 @@ method free ( )
 =head2 hash
 
 A hash function suitable for using for a hash
-table that stores U<Gnome::Gdk4::N-RGBA>s.
+table that stores B<Gnome::Gdk4::N-RGBA>s.
 
 =begin code
 method hash (--> UInt )

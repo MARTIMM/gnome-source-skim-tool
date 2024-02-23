@@ -11,6 +11,7 @@ use NativeCall;
 
 
 use Gnome::Gdk4::N-RGBA:api<2>;
+use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -21,14 +22,14 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my N-RGBA $rgba;
+my N-RGBA $n-rgba;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $rgba {
+  given $n-rgba {
 
 #`{{
 }}
@@ -46,7 +47,7 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $rgba {
+  with $n-rgba {
     my Str $spec;
     my gpointer $p2;
 
@@ -82,7 +83,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $rgba {
+  with $n-rgba {
 
 
 #`{{

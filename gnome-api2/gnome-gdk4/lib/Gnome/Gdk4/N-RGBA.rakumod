@@ -8,6 +8,7 @@ use v6.d;
 use NativeCall;
 
 
+use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -17,34 +18,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gdk4::N-RGBA:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-RGBA:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gfloat $.red;
-  has gfloat $.green;
-  has gfloat $.blue;
-  has gfloat $.alpha;
-
-  submethod BUILD (
-    gfloat :$!red, gfloat :$!green, gfloat :$!blue, gfloat :$!alpha, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-RGBA ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-RGBA, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -89,7 +67,7 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  copy => %(:is-symbol<gdk_r_g_b_a_copy>,  :returns(N-RGBA)),
+  copy => %(:is-symbol<gdk_r_g_b_a_copy>,  :returns(N-Object)),
   equal => %(:is-symbol<gdk_r_g_b_a_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([gpointer])),
   free => %(:is-symbol<gdk_r_g_b_a_free>, ),
   hash => %(:is-symbol<gdk_r_g_b_a_hash>,  :returns(guint)),

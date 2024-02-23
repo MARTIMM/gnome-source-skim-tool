@@ -1,0 +1,30 @@
+=comment Package: Gdk4, C-Source: rgba
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gdk4::T-rgba
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-RGBA
+
+  class N-RGBA:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gfloat $.red;
+    has gfloat $.green;
+    has gfloat $.blue;
+    has gfloat $.alpha;
+  }
+
+=item red; The intensity of the red channel from 0.0 to 1.0 inclusive
+=item green; The intensity of the green channel from 0.0 to 1.0 inclusive
+=item blue; The intensity of the blue channel from 0.0 to 1.0 inclusive
+=item alpha; The opacity of the color from 0.0 for completely translucent to
+  1.0 for opaque
+
+=end pod
+
