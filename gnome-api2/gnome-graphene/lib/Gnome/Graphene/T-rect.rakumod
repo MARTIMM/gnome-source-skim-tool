@@ -45,12 +45,12 @@ class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   has N-Object $.origin;
   has N-Object $.size;
 
-  submethod TWEAK (
-    N-Object :$origin, N-Object :$size, 
+  submethod BUILD (
+    N-Object() :$origin, N-Object() :$size, 
   ) {
     $!origin := $origin if ?$origin;
-  $!size := $size if ?$size;
-}
+    $!size := $size if ?$size;
+  }
 
   method COERCE ( $no --> N-Rect ) {
     note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
