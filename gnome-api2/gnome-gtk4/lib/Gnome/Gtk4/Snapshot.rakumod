@@ -7,22 +7,39 @@ use v6.d;
 
 use NativeCall;
 
-
 #use Gnome::Cairo::N-Context:api<2>;
+#use Gnome::Cairo::T-undefined-module-name:api<2>;
 
 use Gnome::GObject::Object:api<2>;
 
 use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
-use Gnome::Gdk4::Snapshot:api<2>;
 
-#use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
+
+use Gnome::Graphene::N-Matrix:api<2>;
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::N-Size:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec4:api<2>;
+use Gnome::Graphene::T-matrix:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Graphene::T-size:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
 
 #use Gnome::Gsk4::N-ColorStop:api<2>;
 #use Gnome::Gsk4::N-RoundedRect:api<2>;
 #use Gnome::Gsk4::N-Shadow:api<2>;
-#use Gnome::Gsk4::N-Transform:api<2>;
-#use Gnome::Gsk4::T-Enums:api<2>;
+use Gnome::Gsk4::N-Transform:api<2>;
+use Gnome::Gsk4::T-enums:api<2>;
+use Gnome::Gsk4::T-rendernode:api<2>;
+#use Gnome::Gsk4::T-roundedrect:api<2>;
+use Gnome::Gsk4::T-types:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -30,7 +47,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
-use Gnome::Pango::T-Direction:api<2>;
+#use Gnome::Pango::T-direction:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -38,7 +55,7 @@ use Gnome::Pango::T-Direction:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::Snapshot:auth<github:MARTIMM>:api<2>;
-also is Gnome::Gdk4::Snapshot;
+also is Gnome::GObject::Object;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -77,52 +94,52 @@ my Hash $methods = %(
   new-snapshot => %( :type(Constructor), :is-symbol<gtk_snapshot_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  #append-border => %(:is-symbol<gtk_snapshot_append_border>,  :parameters([N-RoundedRect , , N-RGBA])),
-  #append-cairo => %(:is-symbol<gtk_snapshot_append_cairo>,  :returns(N-_t )),
-  append-color => %(:is-symbol<gtk_snapshot_append_color>,  :parameters([N-RGBA, N-Object])),
-  #append-conic-gradient => %(:is-symbol<gtk_snapshot_append_conic_gradient>,  :parameters([, , gfloat, N-ColorStop , gsize])),
-  #append-inset-shadow => %(:is-symbol<gtk_snapshot_append_inset_shadow>,  :parameters([N-RoundedRect , N-RGBA, gfloat, gfloat, gfloat, gfloat])),
-  append-layout => %(:is-symbol<gtk_snapshot_append_layout>,  :parameters([N-Object, N-RGBA])),
-  #append-linear-gradient => %(:is-symbol<gtk_snapshot_append_linear_gradient>,  :parameters([, , , N-ColorStop , gsize])),
+  append-border => %(:is-symbol<gtk_snapshot_append_border>,  :parameters([N-Object, CArray[gfloat], N-Object])),
+  append-cairo => %(:is-symbol<gtk_snapshot_append_cairo>,  :returns(N-Object), :parameters([N-Object])),
+  append-color => %(:is-symbol<gtk_snapshot_append_color>,  :parameters([N-Object, N-Object])),
+  append-conic-gradient => %(:is-symbol<gtk_snapshot_append_conic_gradient>,  :parameters([N-Object, N-Object, gfloat, N-Object, gsize])),
+  append-inset-shadow => %(:is-symbol<gtk_snapshot_append_inset_shadow>,  :parameters([N-Object, N-Object, gfloat, gfloat, gfloat, gfloat])),
+  append-layout => %(:is-symbol<gtk_snapshot_append_layout>,  :parameters([N-Object, N-Object])),
+  append-linear-gradient => %(:is-symbol<gtk_snapshot_append_linear_gradient>,  :parameters([N-Object, N-Object, N-Object, N-Object, gsize])),
   append-node => %(:is-symbol<gtk_snapshot_append_node>,  :parameters([N-Object])),
-  #append-outset-shadow => %(:is-symbol<gtk_snapshot_append_outset_shadow>,  :parameters([N-RoundedRect , N-RGBA, gfloat, gfloat, gfloat, gfloat])),
-  #append-radial-gradient => %(:is-symbol<gtk_snapshot_append_radial_gradient>,  :parameters([, , gfloat, gfloat, gfloat, gfloat, N-ColorStop , gsize])),
-  #append-repeating-linear-gradient => %(:is-symbol<gtk_snapshot_append_repeating_linear_gradient>,  :parameters([, , , N-ColorStop , gsize])),
-  #append-repeating-radial-gradient => %(:is-symbol<gtk_snapshot_append_repeating_radial_gradient>,  :parameters([, , gfloat, gfloat, gfloat, gfloat, N-ColorStop , gsize])),
-  #append-texture => %(:is-symbol<gtk_snapshot_append_texture>,  :parameters([N-Object, ])),
+  append-outset-shadow => %(:is-symbol<gtk_snapshot_append_outset_shadow>,  :parameters([N-Object, N-Object, gfloat, gfloat, gfloat, gfloat])),
+  append-radial-gradient => %(:is-symbol<gtk_snapshot_append_radial_gradient>,  :parameters([N-Object, N-Object, gfloat, gfloat, gfloat, gfloat, N-Object, gsize])),
+  append-repeating-linear-gradient => %(:is-symbol<gtk_snapshot_append_repeating_linear_gradient>,  :parameters([N-Object, N-Object, N-Object, N-Object, gsize])),
+  append-repeating-radial-gradient => %(:is-symbol<gtk_snapshot_append_repeating_radial_gradient>,  :parameters([N-Object, N-Object, gfloat, gfloat, gfloat, gfloat, N-Object, gsize])),
+  append-texture => %(:is-symbol<gtk_snapshot_append_texture>,  :parameters([N-Object, N-Object])),
   free-to-node => %(:is-symbol<gtk_snapshot_free_to_node>,  :returns(N-Object)),
-  #free-to-paintable => %(:is-symbol<gtk_snapshot_free_to_paintable>,  :returns(N-Object)),
+  free-to-paintable => %(:is-symbol<gtk_snapshot_free_to_paintable>,  :returns(N-Object), :parameters([N-Object])),
   gl-shader-pop-texture => %(:is-symbol<gtk_snapshot_gl_shader_pop_texture>, ),
   perspective => %(:is-symbol<gtk_snapshot_perspective>,  :parameters([gfloat])),
   pop => %(:is-symbol<gtk_snapshot_pop>, ),
-  #push-blend => %(:is-symbol<gtk_snapshot_push_blend>,  :parameters([GEnum])),
+  push-blend => %(:is-symbol<gtk_snapshot_push_blend>,  :parameters([GEnum])),
   push-blur => %(:is-symbol<gtk_snapshot_push_blur>,  :parameters([gdouble])),
-  #push-clip => %(:is-symbol<gtk_snapshot_push_clip>, ),
-  #push-color-matrix => %(:is-symbol<gtk_snapshot_push_color_matrix>,  :parameters([, ])),
+  push-clip => %(:is-symbol<gtk_snapshot_push_clip>,  :parameters([N-Object])),
+  push-color-matrix => %(:is-symbol<gtk_snapshot_push_color_matrix>,  :parameters([N-Object, N-Object])),
   push-cross-fade => %(:is-symbol<gtk_snapshot_push_cross_fade>,  :parameters([gdouble])),
   push-debug => %(:is-symbol<gtk_snapshot_push_debug>, :variable-list,  :parameters([Str])),
-  #push-gl-shader => %(:is-symbol<gtk_snapshot_push_gl_shader>,  :parameters([N-Object, , N-Bytes ])),
+  push-gl-shader => %(:is-symbol<gtk_snapshot_push_gl_shader>,  :parameters([N-Object, N-Object, N-Object])),
   push-opacity => %(:is-symbol<gtk_snapshot_push_opacity>,  :parameters([gdouble])),
-  #push-repeat => %(:is-symbol<gtk_snapshot_push_repeat>,  :parameters([, ])),
-  #push-rounded-clip => %(:is-symbol<gtk_snapshot_push_rounded_clip>,  :parameters([N-RoundedRect ])),
-  #push-shadow => %(:is-symbol<gtk_snapshot_push_shadow>,  :parameters([N-Shadow , gsize])),
-  render-background => %(:is-symbol<gtk_snapshot_render_background>,  :parameters([N-Object, gdouble, gdouble, gdouble, gdouble])),
-  render-focus => %(:is-symbol<gtk_snapshot_render_focus>,  :parameters([N-Object, gdouble, gdouble, gdouble, gdouble])),
-  render-frame => %(:is-symbol<gtk_snapshot_render_frame>,  :parameters([N-Object, gdouble, gdouble, gdouble, gdouble])),
-  render-insertion-cursor => %(:is-symbol<gtk_snapshot_render_insertion_cursor>,  :parameters([N-Object, gdouble, gdouble, N-Object, gint, GEnum])),
-  render-layout => %(:is-symbol<gtk_snapshot_render_layout>,  :parameters([N-Object, gdouble, gdouble, N-Object])),
+  push-repeat => %(:is-symbol<gtk_snapshot_push_repeat>,  :parameters([N-Object, N-Object])),
+  push-rounded-clip => %(:is-symbol<gtk_snapshot_push_rounded_clip>,  :parameters([N-Object])),
+  push-shadow => %(:is-symbol<gtk_snapshot_push_shadow>,  :parameters([N-Object, gsize])),
+  #render-background => %(:is-symbol<gtk_snapshot_render_background>,  :parameters([, gdouble, gdouble, gdouble, gdouble])),
+  #render-focus => %(:is-symbol<gtk_snapshot_render_focus>,  :parameters([, gdouble, gdouble, gdouble, gdouble])),
+  #render-frame => %(:is-symbol<gtk_snapshot_render_frame>,  :parameters([, gdouble, gdouble, gdouble, gdouble])),
+  #render-insertion-cursor => %(:is-symbol<gtk_snapshot_render_insertion_cursor>,  :parameters([, gdouble, gdouble, N-Object, gint, GEnum])),
+  #render-layout => %(:is-symbol<gtk_snapshot_render_layout>,  :parameters([, gdouble, gdouble, N-Object])),
   restore => %(:is-symbol<gtk_snapshot_restore>, ),
   rotate => %(:is-symbol<gtk_snapshot_rotate>,  :parameters([gfloat])),
-  #rotate3d => %(:is-symbol<gtk_snapshot_rotate_3d>,  :parameters([gfloat, ])),
+  rotate3d => %(:is-symbol<gtk_snapshot_rotate_3d>,  :parameters([gfloat, N-Object])),
   save => %(:is-symbol<gtk_snapshot_save>, ),
   scale => %(:is-symbol<gtk_snapshot_scale>,  :parameters([gfloat, gfloat])),
   scale3d => %(:is-symbol<gtk_snapshot_scale_3d>,  :parameters([gfloat, gfloat, gfloat])),
   to-node => %(:is-symbol<gtk_snapshot_to_node>,  :returns(N-Object)),
-  to-paintable => %(:is-symbol<gtk_snapshot_to_paintable>,  :returns(N-Object)  :parameters([N-Object],)),
-  #transform => %(:is-symbol<gtk_snapshot_transform>,  :parameters([N-Transform ])),
-  #transform-matrix => %(:is-symbol<gtk_snapshot_transform_matrix>, ),
-  #translate => %(:is-symbol<gtk_snapshot_translate>, ),
-  #translate3d => %(:is-symbol<gtk_snapshot_translate_3d>, ),
+  to-paintable => %(:is-symbol<gtk_snapshot_to_paintable>,  :returns(N-Object), :parameters([N-Object])),
+  transform => %(:is-symbol<gtk_snapshot_transform>,  :parameters([N-Object])),
+  transform-matrix => %(:is-symbol<gtk_snapshot_transform_matrix>,  :parameters([N-Object])),
+  translate => %(:is-symbol<gtk_snapshot_translate>,  :parameters([N-Object])),
+  translate3d => %(:is-symbol<gtk_snapshot_translate_3d>,  :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------
