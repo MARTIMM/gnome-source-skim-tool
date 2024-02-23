@@ -13,6 +13,7 @@ use NativeCall;
 use Gnome::GObject::Object:api<2>;
 
 use Gnome::Gdk4::N-RGBA:api<2>;
+use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::Gdk4::Snapshot:api<2>;
 
 #use Gnome::Glib::N-Bytes:api<2>;
@@ -78,7 +79,7 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   #append-border => %(:is-symbol<gtk_snapshot_append_border>,  :parameters([N-RoundedRect , , N-RGBA])),
   #append-cairo => %(:is-symbol<gtk_snapshot_append_cairo>,  :returns(N-_t )),
-  #append-color => %(:is-symbol<gtk_snapshot_append_color>,  :parameters([N-RGBA, ])),
+  append-color => %(:is-symbol<gtk_snapshot_append_color>,  :parameters([N-RGBA, N-Object])),
   #append-conic-gradient => %(:is-symbol<gtk_snapshot_append_conic_gradient>,  :parameters([, , gfloat, N-ColorStop , gsize])),
   #append-inset-shadow => %(:is-symbol<gtk_snapshot_append_inset_shadow>,  :parameters([N-RoundedRect , N-RGBA, gfloat, gfloat, gfloat, gfloat])),
   append-layout => %(:is-symbol<gtk_snapshot_append_layout>,  :parameters([N-Object, N-RGBA])),
