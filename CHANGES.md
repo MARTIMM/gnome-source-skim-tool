@@ -72,6 +72,9 @@ find . -name '*.raku*' | xargs wc -l
 * TDDO Improve documentation. Make use of RakuDoc which is not yet available.
 
 # Release notes
+* 2024-02-23 0.16.1
+  * Finally managed to do some drawing using graphene, gdk, gtk and gsk.
+
 * 2024-02-19 0.16.0
   * Finished with Graphene and Gsk4 but needs more tests.
   * Start to look into Gdk4 to make use of Paintable and Snapshot.
