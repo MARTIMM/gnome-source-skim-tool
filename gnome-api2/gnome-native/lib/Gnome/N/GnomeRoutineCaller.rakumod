@@ -156,12 +156,12 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
   my Callable $c;
   $routine<function-address> = %() unless $routine<function-address>:exists;
   if ?$routine<function-address>{$func-pattern} {
-    note "Reuse native function address of $name\()" if $Gnome::N::x-debug;
+    note "\nReuse native function address of $name\()" if $Gnome::N::x-debug;
     $c = $routine<function-address>{$func-pattern};
   }
 
   else {
-    note "Get native function address of $name\()" if $Gnome::N::x-debug;
+    note "\nGet native function address of $name\()" if $Gnome::N::x-debug;
     $c = self!native-function( $name, $parameters, $routine);
     $routine<function-address>{$func-pattern} = $c;
   }
