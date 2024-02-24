@@ -45,7 +45,7 @@ class N-Point:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   has gfloat $.y;
 
   submethod BUILD (
-    gfloat :$!x, gfloat :$!y, 
+    Num() :$!x, Num() :$!y, 
   ) {
   }
 

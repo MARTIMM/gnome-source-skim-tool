@@ -6,6 +6,8 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::Graphene::T-size:api<2>;
+use Gnome::Graphene::T-point:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -42,11 +44,11 @@ submethod BUILD ( ) {
 
 class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
-  has N-Object $.origin;
-  has N-Object $.size;
+  HAS N-Point $.origin;
+  HAS N-Size $.size;
 
   submethod BUILD (
-    N-Object() :$origin, N-Object() :$size, 
+    N-Point() :$origin, N-Size() :$size, 
   ) {
     $!origin := $origin if ?$origin;
     $!size := $size if ?$size;
