@@ -73,7 +73,8 @@ find . -name '*.raku*' | xargs wc -l
 
 # Release notes
 * 2024-02-23 0.16.1
-  * Finally managed to do some drawing using graphene, gdk, gtk and gsk.
+  * Finally managed to do some drawing using graphene, gdk, gtk and gsk. Image of a test found [here from a blog](https://blog.gtk.org/2020/04/24/custom-widgets-in-gtk-4-drawing/): ![drawing1](./doc/drawing1.png).
+  * In a second drawing experiment I managed to use the [Cairo distro of Timo](https://github.com/timo/cairo-p6): ![drawing2](./doc/drawing2.png).
 
 * 2024-02-19 0.16.0
   * Finished with Graphene and Gsk4 but needs more tests.
