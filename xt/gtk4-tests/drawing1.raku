@@ -2,24 +2,12 @@
 use v6.d;
 use NativeCall;
 
-use Gnome::Graphene::N-Size:api<2>;
 use Gnome::Graphene::T-size:api<2>;
 use Gnome::Graphene::N-Rect:api<2>;
-use Gnome::Graphene::T-rect:api<2>;
-use Gnome::Graphene::T-point:api<2>;
 
 use Gnome::Glib::N-MainLoop:api<2>;
-use Gnome::Glib::N-Bytes:api<2>;
-use Gnome::Glib::T-array:api<2>;
-use Gnome::Glib::N-ByteArray:api<2>;
 
-use Gnome::GdkPixbuf::Pixbuf:api<2>;
-use Gnome::GdkPixbuf::T-core:api<2>;
-
-use Gnome::Gdk4::MemoryTexture:api<2>;
 use Gnome::Gdk4::Texture:api<2>;
-use Gnome::Gdk4::T-enums:api<2>;
-use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
 
 use Gnome::Gtk4::Snapshot:api<2>;
@@ -29,14 +17,10 @@ use Gnome::Gtk4::Grid:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
-use Gnome::N::X:api<2>;
+#use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
 #-------------------------------------------------------------------------------
-
-constant \Window = Gnome::Gtk4::Window;
-
-
 my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop( N-Object, True);
 
 #-------------------------------------------------------------------------------
@@ -54,8 +38,6 @@ class SH {
 }
 
 #-------------------------------------------------------------------------------
-my SH $sh .= new;
-
 my Num() $width = 100;
 my Num() $height = 100;
 my Num() $w = $width/2;
@@ -84,24 +66,23 @@ $snapshot.append-color( $y, $rect4);
 
 
 
+# Now we are finished drawing and create a texture to be able to set an image. A
+# texture has the paintable role.
 my N-Size() $n-size .= new( :$width, :$height);
-#note "$?LINE $n-size.gist()";
 my Gnome::Gdk4::Texture() $texture = $snapshot.to-paintable($n-size);
-#note "$?LINE $texture.get-width(), $texture.get-height()";
 
 with my Gnome::Gtk4::Image $image .= new-from-paintable($texture) {
   .set-size-request( $width, $height);
 }
 
-#Gnome::N::debug(:on);
 with my Gnome::Gtk4::Grid $grid .= new-grid {
   .set-margin-start($w);
   .set-margin-top($h);
   .attach( $image, 0, 0, 1, 1);
 }
 
-with my Window $window .= new-window {
-  .register-signal( $sh, 'stopit', 'close-request');
+with my Gnome::Gtk4::Window $window .= new-window {
+  .register-signal( SH.new, 'stopit', 'close-request');
   .set-title('My new window');
   .set-child($grid);
   .set-size-request( 200, 200);
@@ -116,6 +97,25 @@ say 'done it';
 
 
 
+
+
+
+
+
+=finish
+
+#use Gnome::Graphene::N-Size:api<2>;
+#use Gnome::Graphene::T-rect:api<2>;
+#use Gnome::Graphene::T-point:api<2>;
+#use Gnome::Glib::N-Bytes:api<2>;
+#use Gnome::Glib::T-array:api<2>;
+#use Gnome::Glib::N-ByteArray:api<2>;
+#use Gnome::GdkPixbuf::Pixbuf:api<2>;
+#use Gnome::GdkPixbuf::T-core:api<2>;
+#use Gnome::Gdk4::T-enums:api<2>;
+#use Gnome::Gdk4::MemoryTexture:api<2>;
+#use Gnome::Gdk4::N-RGBA:api<2>;
+
 my N-Rect() $n-rect1 .= new(
   :origin(N-Point.new( :x(0e0), :y(0e0))),
   :size( N-Size.new( :width($w), :height($h)))
@@ -124,11 +124,6 @@ my N-Rect() $n-rect1 .= new(
 note "$?LINE $n-rect1.gist()";
 
 
-
-
-
-
-=finish
 
 my N-Rect() $n-rect1 .= new(
   :origin(N-Point.new( :x(0e0), :y(0e0))),
