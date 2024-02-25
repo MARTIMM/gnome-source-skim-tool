@@ -7,15 +7,14 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::Gdk4::T-rgba:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
-
 
 #-------------------------------------------------------------------------------
 #--[Structure Declaration]------------------------------------------------------
@@ -67,14 +66,14 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  copy => %(:is-symbol<gdk_r_g_b_a_copy>,  :returns(N-Object)),
-  equal => %(:is-symbol<gdk_r_g_b_a_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([gpointer])),
-  free => %(:is-symbol<gdk_r_g_b_a_free>, ),
-  hash => %(:is-symbol<gdk_r_g_b_a_hash>,  :returns(guint)),
-  is-clear => %(:is-symbol<gdk_r_g_b_a_is_clear>,  :returns(gboolean), :cnv-return(Bool)),
-  is-opaque => %(:is-symbol<gdk_r_g_b_a_is_opaque>,  :returns(gboolean), :cnv-return(Bool)),
-  parse => %(:is-symbol<gdk_r_g_b_a_parse>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
-  to-string => %(:is-symbol<gdk_r_g_b_a_to_string>,  :returns(Str)),
+  copy => %(:is-symbol<gdk_rgba_copy>,  :returns(N-Object)),
+  equal => %(:is-symbol<gdk_rgba_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([gpointer])),
+  free => %(:is-symbol<gdk_rgba_free>, ),
+  hash => %(:is-symbol<gdk_rgba_hash>,  :returns(guint)),
+  is-clear => %(:is-symbol<gdk_rgba_is_clear>,  :returns(gboolean), :cnv-return(Bool)),
+  is-opaque => %(:is-symbol<gdk_rgba_is_opaque>,  :returns(gboolean), :cnv-return(Bool)),
+  parse => %(:is-symbol<gdk_rgba_parse>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str])),
+  to-string => %(:is-symbol<gdk_rgba_to_string>,  :returns(Str)),
 );
 
 #-------------------------------------------------------------------------------
