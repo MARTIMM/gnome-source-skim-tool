@@ -71,18 +71,39 @@ sub check-modules ( Str $name, Str $cdir ) {
       .<source-url> = "git://github.com/MARTIMM/gnome-{$name.lc}-api2.git";
 
       if $name ~~ 'Gtk4' {
-        # Gnome::Gdk4:api<2> Gnome::Gsk4:api<2>
         .<description> = "Modules for package Gnome\::Gtk4\:api<2>. The language binding to GNOME’s user interface toolkit version 4";
+        .<depends> = [  "Gnome::Gdk4$dep-pfix", "Gnome::Gsk4$dep-pfix",
+          "Gnome::Gio$dep-pfix", "Gnome::GObject$dep-pfix",
+          "Gnome::Glib$dep-pfix", "Gnome::N$dep-pfix"
+        ];
+      }
+
+      elsif $name ~~ 'Gsk4' {
+        .<description> = "Modules for package Gnome\::Gsk4\:api<2>.";
+        .<depends> = [  "Gnome::Graphene$dep-pfix", "Gnome::Gio$dep-pfix",
+          "Gnome::GObject$dep-pfix",
+          "Gnome::Glib$dep-pfix", "Gnome::N$dep-pfix"
+        ];
+      }
+
+      elsif $name ~~ 'Graphene' {
+        .<description> = "Modules for package Gnome\::Graphene\:api<2>.";
         .<depends> = [  "Gnome::Gio$dep-pfix", "Gnome::GObject$dep-pfix",
           "Gnome::Glib$dep-pfix", "Gnome::N$dep-pfix"
         ];
       }
 
-#      elsif $name ~~ 'Gsk4' { }
-#      elsif $name ~~ 'Gdk4' { }
+      elsif $name ~~ 'Gdk4' {
+        .<description> = "Modules for package Gnome\::Gdk4\:api<2>.";
+        .<depends> = [  "Gnome::Gio$dep-pfix", "Gnome::GObject$dep-pfix",
+          "Gnome::Glib$dep-pfix", "Gnome::N$dep-pfix"
+        ];
+      }
 
 #      elsif $name ~~ 'Gtk3' { }
+
 #      elsif $name ~~ 'Gdk3' { }
+
       elsif $name ~~ 'GdkPixbuf' {
         .<tags> = [ 'Gnome', $name, 'image', 'animation', 'video'];
         .<description> = "Modules for Gnome::Pixbuf:api<2>. Graphical media loading and manipulation";
