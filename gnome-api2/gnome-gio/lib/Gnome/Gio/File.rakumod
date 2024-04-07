@@ -12,7 +12,6 @@ use NativeCall;
 use Gnome::Gio::T-Ioenums:api<2>;
 
 #use Gnome::Glib::N-Bytes:api<2>;
-use Gnome::Glib::N-Error:api<2>;
 use Gnome::Glib::T-error:api<2>;
 use Gnome::GObject::Object:api<2>;
 
