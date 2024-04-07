@@ -1,4 +1,4 @@
-# Administration of Gtk version 4 modules
+# Administration of Gtk version 4
 
 Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelClassSupport**
 
@@ -355,35 +355,80 @@ Gnome::N::TopLevelClassSupport
 
 ---
 
-# ADministration of Gdk version 4 types and classes
-
+# ADministration of Gdk version 4
 ## Class modules
 
 ```
 GObject                                         Gnome::GObject::Object
 |                                               Gnome::Gdk4::*
-├── GdkTexture                                  Texture
-|   ├── GdkGLTexture
-|   ╰── GdkMemoryTexture
-├── GdkSnapshot                                 Snapshot
+├── Gio.AppLaunchContext
+|   ├── AppLaunchContext
+├── DrawContext
+|   ├── CairoContext
+|   ├── GLContext
+|   ├── VulkanContext
+├── Clipboard
+├── ContentDeserializer
+├── ContentProvider
+├── ContentSerializer
+├── Cursor
+├── Device
+├── DeviceTool
+├── Display
+├── DisplayManager
+├── Texture                                     Texture
+|   ├── DmabufTexture
+|   ├── GLTexture
+|   ╰── MemoryTexture
+├── DmabufTextureBuilder
+├── Drag
+├── Drop
+├── FrameClock
+├── GLTextureBuilder
+├── Monitor
+├── Seat
+├── Snapshot                                    Snapshot
+├── Surface
+
+
+GObject.TypeInstance
+├── Event
+|   ├── ButtonEvent
+|   ├── CrossingEvent
+|   ├── DNDEvent
+|   ├── DeleteEvent
+|   ├── FocusEvent
+|   ├── GrabBrokenEvent
+|   ├── KeyEvent
+|   ├── MotionEvent
+|   ├── PadEvent
+|   ├── ProximityEvent
+|   ├── ScrollEvent
+|   ├── TouchEvent
+|   ├── TouchpadEvent
+
 ```
 
 ## Role modules
 
 ```
 GInterface
-|
-├── GdkPaintable                                R-Paintable
+|                                            Gnome::Gdk4::*
+├── DevicePad
+├── DragSurface
+├── Paintable                                R-Paintable
+├── Popup
+├── Toplevel
 ```
 
 ## Other type classes
-These modules are generally inheriting directly from **Gnome::N::TopLevelClassSupport**
-
+These modules are generally inheriting directly from **Gnome::N::TopLevelClassSupport**. Most of them are just structures with sometimes an API.
+<!--https://docs.gtk.org/gdk4/index.html-->
 ```
 GBoxed
-|                                               Gnome::Gtk4::*
-├── GdkRectangle                                N-Rectangle
-├── GdkRGBA                                     N-RGBA
+|                                            Gnome::Gdk4::*
+├── GdkRectangle                             N-Rectangle
+├── GdkRGBA                                  N-RGBA
 
 ```
 
@@ -403,7 +448,7 @@ Gnome::N::TopLevelClassSupport
 
 ---
 
-# Administration of Gio types and classes
+# Administration of Gio
 
 ## Class modules
 
