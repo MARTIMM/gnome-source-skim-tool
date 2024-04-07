@@ -47,12 +47,10 @@ method generate-code ( ) {
   note "Set role unit" if $*verbose;
   $code ~= $!mod.set-unit( $element, :callables(?$callables));
 
-  if ?$callables {
-    # Roles do not have a BUILD
-    note "Generate role initialization method" if $*verbose;  
-    $code ~= $!mod.generate-role-init( $element, $!xpath);
-    $code ~= $callables;
-  }
+  # Roles do not have a BUILD
+  note "Generate role initialization method" if $*verbose;  
+  $code ~= $!mod.generate-role-init( $element, $!xpath);
+  $code ~= $callables;
 
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 

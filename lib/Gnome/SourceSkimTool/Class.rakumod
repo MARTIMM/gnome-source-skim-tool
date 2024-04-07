@@ -46,12 +46,10 @@ method generate-code ( ) {
   note "Set class unit" if $*verbose;
   $code ~= $!mod.set-unit( $element, :callables(?$callables));
 
-  if ?$callables {
-    # Make a BUILD submethod
-    note "Generate BUILD" if $*verbose;
-    $code ~= $!mod.make-build-submethod( $element, $!xpath);
-    $code ~= $callables;
-  }
+  # Make a BUILD submethod
+  note "Generate BUILD" if $*verbose;
+  $code ~= $!mod.make-build-submethod( $element, $!xpath);
+  $code ~= $callables;
 
   $code = $!mod.substitute-MODULE-IMPORTS( $code, $*work-data<raku-class-name>);
 
