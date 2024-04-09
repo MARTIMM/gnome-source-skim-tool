@@ -129,19 +129,19 @@ sub USAGE ( ) {
               file. Result is put in directory below '{API2MODS}'. Using the
               file 'types' in package 'Gdk3' it generates files 'N-GdkPoint.
               rakumod', 'N-GdkRectangle.rakumod', 'Rectangle.rakumod' and
-              'T-Types.rakumod' in the 'gnome-gdk3/lib/Gnome/Gdk3' tree.
+              'T-types.rakumod' in the 'gnome-gdk3/lib/Gnome/Gdk3' tree.
       d       Generate a Raku pod documentation file for all gir-types found
               in the file. Result is put in directory below '{API2MODS}'.
               The file 'value' with package 'GObject' generates
               'N-GValue.rakudoc' and 'Value.rakudoc' in the 'gnome-gobject/doc'
-              tree to document the modules 'T-Value.rakumod' and
+              tree to document the modules 'T-value.rakumod' and
               'Value.rakumod' respectively.
       h       Show this info. (or any other non existant option ;-)
       t       Generate a test file for all gir-types found in the
               file. The file 'aboutdialog' in 'Gtk3' generates files
-              'AboutDialog.rakutest' and 'T-AboutDialog.rakutest' in the
+              'AboutDialog.rakutest' and 'T-aboutdialog.rakutest' in the
               'gnome-gtk3/t' tree to test the modules 'AboutDialog.rakumod'
-              and 'T-Aboutdialog.rakumod'.
+              and 'T-aboutdialog.rakumod'.
       v       Show some extra info while stumping. Default False.
 
     Arguments

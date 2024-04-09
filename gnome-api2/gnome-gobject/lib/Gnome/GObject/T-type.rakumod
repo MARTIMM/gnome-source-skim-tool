@@ -1,4 +1,4 @@
-#TL:1:Gnome::GObject::T-Type:
+#TL:1:Gnome::GObject::T-type:
 
 use v6.d;
 
