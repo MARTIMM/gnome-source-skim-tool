@@ -1,0 +1,183 @@
+=comment Package: Gtk4, C-Source: eventcontroller
+use v6.d;
+
+#TL:1:Gnome::Gtk4::EventController:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Gtk4::EventController:api<2>;
+#use Gnome::Gtk4::T-enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::EventController $eventcontroller;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $eventcontroller {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $eventcontroller {
+    my GtkPropagationLimit  $limit;
+    my GtkPropagationPhase  $phase;
+    my Str $name;
+
+
+#`{{
+    #TM:0:get-current-event()
+     .get-current-event(), '…', '.get-current-event()';
+
+    #TM:0:get-current-event-device()
+     .get-current-event-device(), '…', '.get-current-event-device()';
+
+    #TM:0:get-current-event-state()
+     .get-current-event-state(), '…', '.get-current-event-state()';
+
+    #TM:0:get-current-event-time()
+     .get-current-event-time(), '…', '.get-current-event-time()';
+
+    #TM:0:get-widget()
+     .get-widget(), '…', '.get-widget()';
+
+    #TM:0:reset()
+    ok .reset(), '.reset()';
+
+    #TM:0:set-name()
+    $name = 'text';
+    .set-name( $name);
+    #TM:0:get-name()
+    is .get-name(),  $name, '.set-name() / .get-name()';
+
+    #TM:0:set-propagation-limit()
+    $limit = …;
+    .set-propagation-limit( $limit);
+    #TM:0:get-propagation-limit()
+    is .get-propagation-limit(),  $limit, '.set-propagation-limit() / .get-propagation-limit()';
+
+    #TM:0:set-propagation-phase()
+    $phase = …;
+    .set-propagation-phase( $phase);
+    #TM:0:get-propagation-phase()
+    is .get-propagation-phase(),  $phase, '.set-propagation-phase() / .get-propagation-phase()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $eventcontroller {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::EventController() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::EventController;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::EventController :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::EventController $eventcontroller .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $eventcontroller.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

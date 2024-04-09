@@ -1,0 +1,342 @@
+=comment Package: Gtk4, C-Source: eventcontroller
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::EventController
+
+![](images/eventcontroller.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::EventController> is the base class for event controllers.
+
+These are ancillary objects associated to widgets, which react
+to B<GdkEvents>, and possibly trigger actions as a consequence.
+
+Event controllers are added to a widget with
+C<.add-controller() in class Gnome::Gtk4::Widget>. It is rarely necessary to
+explicitly remove a controller with C<.remove-controller() in class Gnome::Gtk4::Widget>.
+
+See the chapter on [input handling](input-handling.html) for
+an overview of the basic concepts, such as the capture and bubble
+phases of even propagation.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::EventController
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-event
+
+Returns the event that is currently being handled by the controller.
+
+At other times, undefined is returned.
+
+=begin code
+method get-current-event (--> N-Object )
+=end code
+
+Return value; the event that is currently
+  handled by C<$controller>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-event
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-event-device
+
+Returns the device of the event that is currently being
+handled by the controller.
+
+At other times, undefined is returned.
+
+=begin code
+method get-current-event-device (--> N-Object )
+=end code
+
+Return value; device of the event is
+  currently handled by C<$controller>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-event-device
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-event-state
+
+Returns the modifier state of the event that is currently being
+handled by the controller.
+
+At other times, 0 is returned.
+
+=begin code
+method get-current-event-state (--> UInt )
+=end code
+
+Return value; modifier state of the event is currently handled by C<$controller>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-event-state
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-event-time
+
+Returns the timestamp of the event that is currently being
+handled by the controller.
+
+At other times, 0 is returned.
+
+=begin code
+method get-current-event-time (--> UInt )
+=end code
+
+Return value; timestamp of the event is currently handled by C<$controller>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-event-time
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-name
+
+Gets the name of C<$controller>.
+
+=begin code
+method get-name (--> Str )
+=end code
+
+Return value; The controller name. 
+
+=begin comment
+
+=head2 Example
+# Example for get-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-propagation-limit
+This function is not yet available
+
+Gets the propagation limit of the event controller.
+
+=begin code
+method get-propagation-limit (--> GtkPropagationLimit  )
+=end code
+
+Return value; the propagation limit. 
+
+=begin comment
+
+=head2 Example
+# Example for get-propagation-limit
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-propagation-phase
+This function is not yet available
+
+Gets the propagation phase at which C<$controller> handles events.
+
+=begin code
+method get-propagation-phase (--> GtkPropagationPhase  )
+=end code
+
+Return value; the propagation phase. 
+
+=begin comment
+
+=head2 Example
+# Example for get-propagation-phase
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-widget
+
+Returns the B<Gnome::Gtk4::Widget> this controller relates to.
+
+=begin code
+method get-widget (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 reset
+
+Resets the C<$controller> to a clean state.
+
+=begin code
+method reset ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for reset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-name
+
+Sets a name on the controller that can be used for debugging.
+
+=begin code
+method set-name ( Str $name )
+=end code
+
+=item $name; a name for C<$controller>.
+
+=begin comment
+
+=head2 Example
+# Example for set-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-propagation-limit
+This function is not yet available
+
+Sets the event propagation limit on the event controller.
+
+If the limit is set to C<GTK_LIMIT_SAME_NATIVE>, the controller
+won't handle events that are targeted at widgets on a different
+surface, such as popovers.
+
+=begin code
+method set-propagation-limit ( GtkPropagationLimit  $limit )
+=end code
+
+=item $limit; the propagation limit.
+
+=begin comment
+
+=head2 Example
+# Example for set-propagation-limit
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-propagation-phase
+This function is not yet available
+
+Sets the propagation phase at which a controller handles events.
+
+If C<$phase> is C<GTK_PHASE_NONE>, no automatic event handling will be
+performed, but other additional gesture maintenance will.
+
+=begin code
+method set-propagation-phase ( GtkPropagationPhase  $phase )
+=end code
+
+=item $phase; a propagation phase.
+
+=begin comment
+
+=head2 Example
+# Example for set-propagation-phase
+
+=end comment
+
+=end pod
+
