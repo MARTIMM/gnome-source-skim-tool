@@ -1,0 +1,63 @@
+=comment Package: Gtk4, C-Source: builder
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-builder:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::T-builder:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkBuilderError
+subtest 'GtkBuilderError', {
+  is GTK_BUILDER_ERROR_INVALID_TYPE_FUNCTION.value, 0, 'enum GTK_BUILDER_ERROR_INVALID_TYPE_FUNCTION = 0';
+
+  is GTK_BUILDER_ERROR_UNHANDLED_TAG.value, 1, 'enum GTK_BUILDER_ERROR_UNHANDLED_TAG = 1';
+
+  is GTK_BUILDER_ERROR_MISSING_ATTRIBUTE.value, 2, 'enum GTK_BUILDER_ERROR_MISSING_ATTRIBUTE = 2';
+
+  is GTK_BUILDER_ERROR_INVALID_ATTRIBUTE.value, 3, 'enum GTK_BUILDER_ERROR_INVALID_ATTRIBUTE = 3';
+
+  is GTK_BUILDER_ERROR_INVALID_TAG.value, 4, 'enum GTK_BUILDER_ERROR_INVALID_TAG = 4';
+
+  is GTK_BUILDER_ERROR_MISSING_PROPERTY_VALUE.value, 5, 'enum GTK_BUILDER_ERROR_MISSING_PROPERTY_VALUE = 5';
+
+  is GTK_BUILDER_ERROR_INVALID_VALUE.value, 6, 'enum GTK_BUILDER_ERROR_INVALID_VALUE = 6';
+
+  is GTK_BUILDER_ERROR_VERSION_MISMATCH.value, 7, 'enum GTK_BUILDER_ERROR_VERSION_MISMATCH = 7';
+
+  is GTK_BUILDER_ERROR_DUPLICATE_ID.value, 8, 'enum GTK_BUILDER_ERROR_DUPLICATE_ID = 8';
+
+  is GTK_BUILDER_ERROR_OBJECT_TYPE_REFUSED.value, 9, 'enum GTK_BUILDER_ERROR_OBJECT_TYPE_REFUSED = 9';
+
+  is GTK_BUILDER_ERROR_TEMPLATE_MISMATCH.value, 10, 'enum GTK_BUILDER_ERROR_TEMPLATE_MISMATCH = 10';
+
+  is GTK_BUILDER_ERROR_INVALID_PROPERTY.value, 11, 'enum GTK_BUILDER_ERROR_INVALID_PROPERTY = 11';
+
+  is GTK_BUILDER_ERROR_INVALID_SIGNAL.value, 12, 'enum GTK_BUILDER_ERROR_INVALID_SIGNAL = 12';
+
+  is GTK_BUILDER_ERROR_INVALID_ID.value, 13, 'enum GTK_BUILDER_ERROR_INVALID_ID = 13';
+
+  is GTK_BUILDER_ERROR_INVALID_FUNCTION.value, 14, 'enum GTK_BUILDER_ERROR_INVALID_FUNCTION = 14';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

@@ -1,0 +1,46 @@
+=comment Package: Gtk4, C-Source: builder
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-builder
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkBuilderError
+
+Error codes that identify various errors that can occur while using
+B<Gnome::Gtk4::Builder>.
+=item C<GTK_BUILDER_ERROR_INVALID_TYPE_FUNCTION>; A type-func attribute didn’t name
+ a function that returns a B<Gnome::GObject::Builder>.
+=item C<GTK_BUILDER_ERROR_UNHANDLED_TAG>; The input contained a tag that B<Gnome::Gtk4::Builder>
+ can’t handle.
+=item C<GTK_BUILDER_ERROR_MISSING_ATTRIBUTE>; An attribute that is required by
+ B<Gnome::Gtk4::Builder> was missing.
+=item C<GTK_BUILDER_ERROR_INVALID_ATTRIBUTE>; B<Gnome::Gtk4::Builder> found an attribute that
+ it doesn’t understand.
+=item C<GTK_BUILDER_ERROR_INVALID_TAG>; B<Gnome::Gtk4::Builder> found a tag that
+ it doesn’t understand.
+=item C<GTK_BUILDER_ERROR_MISSING_PROPERTY_VALUE>; A required property value was
+ missing.
+=item C<GTK_BUILDER_ERROR_INVALID_VALUE>; B<Gnome::Gtk4::Builder> couldn’t parse
+ some attribute value.
+=item C<GTK_BUILDER_ERROR_VERSION_MISMATCH>; The input file requires a newer version
+ of GTK.
+=item C<GTK_BUILDER_ERROR_DUPLICATE_ID>; An object id occurred twice.
+=item C<GTK_BUILDER_ERROR_OBJECT_TYPE_REFUSED>; A specified object type is of the same type or
+ derived from the type of the composite class being extended with builder XML.
+=item C<GTK_BUILDER_ERROR_TEMPLATE_MISMATCH>; The wrong type was specified in a composite class’s template XML
+=item C<GTK_BUILDER_ERROR_INVALID_PROPERTY>; The specified property is unknown for the object class.
+=item C<GTK_BUILDER_ERROR_INVALID_SIGNAL>; The specified signal is unknown for the object class.
+=item C<GTK_BUILDER_ERROR_INVALID_ID>; An object id is unknown.
+=item C<GTK_BUILDER_ERROR_INVALID_FUNCTION>; A function could not be found. This often happens
+  when symbols are set to be kept private. Compiling code with -rdynamic or using the
+  B<gmodule-export-2.0> pkgconfig module can fix this problem.
+=end pod
+

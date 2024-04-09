@@ -1,0 +1,254 @@
+=comment Package: Gtk4, C-Source: builder
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Builder:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::GObject::N-Closure:api<2>;
+use Gnome::GObject::N-Value:api<2>;
+#use Gnome::GObject::T-closure:api<2>;
+#use Gnome::GObject::T-value:api<2>;
+use Gnome::Glib::T-error:api<2>;
+use Gnome::Glib::N-SList:api<2>;
+use Gnome::Glib::T-slist:api<2>;
+use Gnome::Gtk4::Builder:api<2>;
+#use Gnome::Gtk4::T-builderscope:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Builder $builder;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $builder {
+    my Str $string;
+    my gssize $length;
+    my Str $resource-path;
+    my Str $filename;
+
+#`{{
+    #TC:0:new-builder()
+
+    $builder .= new-builder();
+    ok .is-valid, '.new-builder()';
+
+    #TC:0:new-from-file()
+    $filename = 'text';
+    $builder .= new-from-file( $filename);
+    ok .is-valid, '.new-from-file( $filename)';
+
+    #TC:0:new-from-resource()
+    $resource-path = 'text';
+    $builder .= new-from-resource( $resource-path);
+    ok .is-valid, '.new-from-resource( $resource-path)';
+
+    #TC:0:new-from-string()
+    $string = 'text';
+    $length = '…';
+    $builder .= new-from-string( $string, $length);
+    ok .is-valid, '.new-from-string( $string, $length)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $builder {
+    my N-Object $scope;
+    my GType $template-type;
+    my N-Object $pspec;
+    my Str $string;
+    my CArray[N-Error] $err;
+    my Str $domain;
+    my gssize $length;
+    my GType $type;
+    my Str $name;
+    my Str $type-name;
+    my N-Object $object;
+    my Str $function-name;
+    my gchar-pptr $object-ids;
+    my Str $buffer;
+    my GFlag $flags;
+    my Str $resource-path;
+    my N-Object $value;
+    my Str $filename;
+    my N-Object $current-object;
+
+
+#`{{
+    #TM:0:add-from-file()
+    ok .add-from-file( $filename, $err), '.add-from-file()';
+
+    #TM:0:add-from-resource()
+    ok .add-from-resource( $resource-path, $err), '.add-from-resource()';
+
+    #TM:0:add-from-string()
+    ok .add-from-string( $buffer, $length, $err), '.add-from-string()';
+
+    #TM:0:add-objects-from-file()
+    ok .add-objects-from-file( $filename, $object-ids, $err), '.add-objects-from-file()';
+
+    #TM:0:add-objects-from-resource()
+    ok .add-objects-from-resource( $resource-path, $object-ids, $err), '.add-objects-from-resource()';
+
+    #TM:0:add-objects-from-string()
+    ok .add-objects-from-string( $buffer, $length, $object-ids, $err), '.add-objects-from-string()';
+
+    #TM:0:create-closure()
+    ok .create-closure( $function-name, $flags, $object, $err), '.create-closure()';
+
+    #TM:0:expose-object()
+    ok .expose-object( $name, $object), '.expose-object()';
+
+    #TM:0:extend-with-template()
+    ok .extend-with-template( $object, $template-type, $buffer, $length, $err), '.extend-with-template()';
+
+    #TM:0:get-object()
+    is .get-object( $name), '…', '.get-object()';
+
+    #TM:0:get-objects()
+     .get-objects(), '…', '.get-objects()';
+
+    #TM:0:get-type-from-name()
+    is .get-type-from-name( $type-name), '…', '.get-type-from-name()';
+
+    #TM:0:set-current-object()
+    $current-object = …;
+    .set-current-object( $current-object);
+    #TM:0:get-current-object()
+    is .get-current-object(),  $current-object, '.set-current-object() / .get-current-object()';
+
+    #TM:0:set-scope()
+    $scope = …;
+    .set-scope( $scope);
+    #TM:0:get-scope()
+    is .get-scope(),  $scope, '.set-scope() / .get-scope()';
+
+    #TM:0:set-translation-domain()
+    $domain = 'text';
+    .set-translation-domain( $domain);
+    #TM:0:get-translation-domain()
+    is .get-translation-domain(),  $domain, '.set-translation-domain() / .get-translation-domain()';
+
+    #TM:0:value-from-string()
+    ok .value-from-string( $pspec, $string, $value, $err), '.value-from-string()';
+
+    #TM:0:value-from-string-type()
+    ok .value-from-string-type( $type, $string, $value, $err), '.value-from-string-type()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $builder {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Builder() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Builder;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Builder :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Builder $builder .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $builder.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
