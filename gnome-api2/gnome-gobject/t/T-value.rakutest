@@ -1,0 +1,63 @@
+=comment Package: GObject, C-Source: value
+use v6.d;
+
+#TL:1:Gnome::GObject::T-value:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::GObject::T-value:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::GObject::T-value $value .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $value {
+    sub transform-func ( N-Object $src-value, N-Object $dest-value ) {}
+    my GType $dest-type;
+    my GType $src-type;
+
+
+#`{{
+    #TM:0:value-register-transform-func()
+    ok .value-register-transform-func( $src-type, $dest-type, $transform-func), '.value-register-transform-func()';
+
+    #TM:0:value-type-compatible()
+    ok .value-type-compatible( $src-type, $dest-type), '.value-type-compatible()';
+
+    #TM:0:value-type-transformable()
+    ok .value-type-transformable( $src-type, $dest-type), '.value-type-transformable()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:G_VALUE_NOCOPY_CONTENTS
+is G_VALUE_NOCOPY_CONTENTS, 134217728, "constant G_VALUE_NOCOPY_CONTENTS = 134217728";
+
+#TE:1:G_VALUE_INTERNED_STRING
+is G_VALUE_INTERNED_STRING, 268435456, "constant G_VALUE_INTERNED_STRING = 268435456";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

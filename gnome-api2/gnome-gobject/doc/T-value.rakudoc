@@ -1,0 +1,163 @@
+=comment Package: GObject, C-Source: value
+use v6.d;
+
+=begin pod
+=head1 Gnome::GObject::T-value
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Value
+
+  class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has GType $.g-type;
+    has gchar-pptr $.data;
+  }
+
+=item g-type; 
+=item data; 
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constants
+
+=head2 G_VALUE_INTERNED_STRING
+
+For string values, indicates that the string contained is canonical and will
+exist for the duration of the process. See C<.set-interned-string()>.
+
+=head2 G_VALUE_NOCOPY_CONTENTS
+
+If passed to G_VALUE_COLLECT(), allocated data won't be copied
+but used verbatim. This does not affect ref-counted types like
+objects. This does not affect usage of C<.copy()>, the data will
+be copied if it is not ref-counted.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 ValueTransform
+
+=head3 Signature
+=begin code
+:(  N-Object $src-value, N-Object $dest-value  )
+=end code
+
+=item src-value; Source value.
+=item dest-value; Target value.
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-register-transform-func
+
+Registers a value transformation function for use in C<.transform()>.
+A previously registered transformation function for C<$src-type> and C<$dest-type>
+will be replaced.
+
+=begin code
+method value-register-transform-func ( GType $src-type, GType $dest-type, &transform-func )
+=end code
+
+=item $src-type; Source type..
+=item $dest-type; Target type..
+=item &transform-func; a function which transforms values of type C<$src-type>
+ into value of type C<$dest-type>. Tthe function must be specified with following signature; C<:( N-Object $src-value, N-Object $dest-value )>.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::GObject::Value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-type-compatible
+
+Returns whether a B<Gnome::GObject::T-value> of type C<$src-type> can be copied into
+a B<Gnome::GObject::T-value> of type C<$dest-type>.
+
+=begin code
+method value-type-compatible ( GType $src-type, GType $dest-type --> Bool )
+=end code
+
+=item $src-type; source type to be copied..
+=item $dest-type; destination type for copying..
+
+Return value; C<True> if C<.copy()> is possible with C<$src-type> and C<$dest-type>.. 
+
+=begin comment
+
+=head2 Example
+# Example for copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-type-transformable
+
+Check whether C<.transform()> is able to transform values
+of type C<$src-type> into values of type C<$dest-type>. Note that for
+the types to be transformable, they must be compatible or a
+transformation function must be registered.
+
+=begin code
+method value-type-transformable ( GType $src-type, GType $dest-type --> Bool )
+=end code
+
+=item $src-type; Source type..
+=item $dest-type; Target type..
+
+Return value; C<True> if the transformation is possible, C<False> otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for dup-boxed
+
+=end comment
+
+=end pod
+

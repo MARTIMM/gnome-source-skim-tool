@@ -1,4 +1,4 @@
-# Package: GObject, C-Source: value
+=comment Package: GObject, C-Source: value
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -7,7 +7,6 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::GObject::N-Value:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -18,7 +17,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::GObject::T-Value:auth<github:MARTIMM>:api<2>;
+unit class Gnome::GObject::T-value:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -38,6 +37,26 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+  has GType $.g-type;
+  has gchar-pptr $.data;
+
+  submethod BUILD (
+    GType :$!g-type, gchar-pptr :$!data, 
+  ) {
+  }
+
+  method COERCE ( $no --> N-Value ) {
+    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
+    nativecast( N-Value, $no)
+  }
+}
+
+#-------------------------------------------------------------------------------
 #--[Constants]------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 constant G_VALUE_INTERNED_STRING is export = 268435456;
@@ -50,7 +69,7 @@ constant G_VALUE_NOCOPY_CONTENTS is export = 134217728;
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  value-register-transform-func => %( :type(Function), :is-symbol<g_value_register_transform_func>,  :parameters([ GType, GType, :( N-Value $src-value, N-Value $dest-value )])),
+  value-register-transform-func => %( :type(Function), :is-symbol<g_value_register_transform_func>,  :parameters([ GType, GType, :( N-Object $src-value, N-Object $dest-value )])),
   value-type-compatible => %( :type(Function), :is-symbol<g_value_type_compatible>,  :returns(gboolean), :parameters([ GType, GType])),
   value-type-transformable => %( :type(Function), :is-symbol<g_value_type_transformable>,  :returns(gboolean), :parameters([ GType, GType])),
 
