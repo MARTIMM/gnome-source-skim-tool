@@ -14,11 +14,18 @@ use Test;
 use Gnome::GObject::N-Value:api<2>;
 #use Gnome::GObject::T-closure:api<2>;
 #use Gnome::GObject::T-value:api<2>;
-use Gnome::Glib::T-error:api<2>;
+
 use Gnome::Glib::N-SList:api<2>;
 use Gnome::Glib::T-slist:api<2>;
+use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-error:api<2>;
+#use Gnome::Glib::T-quark:api<2>;
+
 use Gnome::Gtk4::Builder:api<2>;
 #use Gnome::Gtk4::T-builderscope:api<2>;
+use Gnome::Gtk4::Button:api<2>;
+use Gnome::Gtk4::Label:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -40,31 +47,28 @@ subtest 'ISA test', {
     my Str $string;
     my gssize $length;
     my Str $resource-path;
-    my Str $filename;
+    my Str $filename = 't/data/builder-test.ui';
 
-#`{{
-    #TC:0:new-builder()
-
+    #TC:1:new-builder()
     $builder .= new-builder();
     ok .is-valid, '.new-builder()';
 
-    #TC:0:new-from-file()
-    $filename = 'text';
-    $builder .= new-from-file( $filename);
-    ok .is-valid, '.new-from-file( $filename)';
+    #TC:1:new-from-file()
+    $builder .= new-from-file($filename);
+    ok .is-valid, '.new-from-file($filename)';
 
+#`{{
     #TC:0:new-from-resource()
     $resource-path = 'text';
     $builder .= new-from-resource( $resource-path);
     ok .is-valid, '.new-from-resource( $resource-path)';
+}}
 
-    #TC:0:new-from-string()
-    $string = 'text';
-    $length = '…';
+    #TC:1:new-from-string()
+    $string = $filename.IO.slurp;
+    $length = $string.chars;
     $builder .= new-from-string( $string, $length);
     ok .is-valid, '.new-from-string( $string, $length)';
-
-}}
   }
 };
 
@@ -97,20 +101,38 @@ subtest 'Method tests', {
     my GFlag $flags;
     my Str $resource-path;
     my N-Object $value;
-    my Str $filename;
+    my Str $filename = 't/data/builder-test.ui';
     my N-Object $current-object;
 
 
-#`{{
-    #TM:0:add-from-file()
-    ok .add-from-file( $filename, $err), '.add-from-file()';
+#Gnome::N::debug(:on);
+    #TM:1:add-from-file()
+    $builder .= new-builder();
+    $err = CArray[N-Error].new(N-Error);
+    nok .add-from-file( 'wrong.file', $err), '.add-from-file() fail';
+    ok ?$err[0].message, $err[0].message;
+#    my Gnome::Glib::T-quark $quark .= new;
+#    note $quark.to-string($err[0].domain);
 
+    $err = CArray[N-Error].new(N-Error);
+    ok .add-from-file( $filename, $err), '.add-from-file()';
+    nok ?$err[0], 'No error returned';
+
+#my Gnome::Glib::N-Error $e;
+
+#`{{
     #TM:0:add-from-resource()
     ok .add-from-resource( $resource-path, $err), '.add-from-resource()';
+}}
 
-    #TM:0:add-from-string()
-    ok .add-from-string( $buffer, $length, $err), '.add-from-string()';
+    #TM:1:add-from-string()
+    $builder .= new-builder();
+    $err = CArray[N-Error].new(N-Error);
+    $string = $filename.IO.slurp;
+    $length = $string.chars;
+    ok .add-from-string( $string, $length, $err), '.add-from-string()';
 
+#`{{
     #TM:0:add-objects-from-file()
     ok .add-objects-from-file( $filename, $object-ids, $err), '.add-objects-from-file()';
 
@@ -167,6 +189,19 @@ subtest 'Method tests', {
 };
 
 #-------------------------------------------------------------------------------
+subtest 'build-id test', {
+  my Gnome::Gtk4::Button $b .= new(:build-id<my-button-1>);
+  is $b.get-label, 'button text', ':build-id<my-button-1>';
+  my Gnome::Gtk4::Label $l .= new(:build-id<my-label-1>);
+  is $l.get-label, 'label for entry', ':build-id<my-label-1>';
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $builder {
 
@@ -175,11 +210,6 @@ subtest 'Function tests', {
 }}
   }
 };
-
-#-------------------------------------------------------------------------------
-done-testing;
-
-=finish
 
 #-------------------------------------------------------------------------------
 subtest 'Signals …', {

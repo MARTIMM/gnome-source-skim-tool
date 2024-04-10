@@ -105,12 +105,19 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      return self.bless(
+      # Changed from generated code. Purpose is to store builder object in
+      # an array in the TopLevelClassSupport. Later the module Object can
+      # process the :build-id using these objects.
+      my $builder = self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
         ),
         |%options
       );
+
+      self._set-builder($builder);
+
+      return $builder
     }
 
     elsif $methods{$name}<type>:exists and $methods{$name}<type> eq 'Function' {
