@@ -142,7 +142,7 @@ GObject                                         Gnome::GObject::Object
 │   ╰── GtkOverlayLayout                        OverlayLayout
 ├── GtkBookmarkList
 ├── GtkBuilderCScope
-├── GtkBuilder
+├── GtkBuilder                                  Builder
 ├── GtkListItemFactory                          ListItemFactory
 │   ├── GtkBuilderListItemFactory               BuilderListItemFactory
 │   ╰── GtkSignalListItemFactory                SignalListItemFactory
@@ -158,7 +158,7 @@ GObject                                         Gnome::GObject::Object
 │   ├── GtkStringSorter                         StringSorter
 │   ╰── GtkTreeListRowSorter                    TreeListRowSorter
 ├── GtkDirectoryList
-├── GtkEventController
+├── GtktEvenController                          EvenController
 │   ├── GtkGesture
 │   │   ├── GtkGestureSingle
 │   │   │   ├── GtkDragSource
