@@ -501,6 +501,7 @@ method _set-native-object ( Mu $native-object ) {
     $!n-native-object = $no;
     $!is-valid = True;
 
+#`{{
     # If test mode is triggered by Gnome::T
     if ?$test-mode {
       # test if object is from Cairo. Skip if True.
@@ -540,6 +541,7 @@ method _set-native-object ( Mu $native-object ) {
         }
       }
     }
+}}
   }
 
   # The list classes may have an undefined structure and still be valid
@@ -578,7 +580,7 @@ Used by B<Gnome::Gtk3::Builder> to register itself. Its purpose is twofold
 =end pod
 
 #tm:4:_set-builder:
-method _set-builder ( $builder ) {
+method _set-builder ( Mu $builder ) {
   $builders.push($builder);
 }
 
