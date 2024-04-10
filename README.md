@@ -21,7 +21,7 @@ The generated modules will be the same but with `:api<2>` tagged on it. The stru
 * `Gnome::<package>::<class>` for classes. This is like before except that some types are moved into the `Gnome::<package>::T-<class>` modules.
 * `Gnome::<package>::R-<class>` for interfaces, i.e. roles. This is a change from older module but does not have any impact because these role modules can not be used standalone.
 * `Gnome::<package>::N-<class>` for functions working on records (structures) and unions. The record and union structures are, like every other type, stored in `Gnome::<package>::T-<class>` modules.
-* `Gnome::<package>::T-<class>` for structures, types, standalone functions and constants. All items are exported so every type name can be used on its own without prefixing its package name. E.g. The module **Gnome::Glib::T-error** exports the structure `N-Error`. The exception is from **Gnome::N::N-GObject** which exports `N-GObject` because that structure is used on all levels.
+* `Gnome::<package>::T-<class>` for structures, types, standalone functions and constants. All items are exported so every type name can be used on its own without prefixing its package name. E.g. The module **Gnome::Glib::T-error** exports the structure `N-Error`. The exception is from **Gnome::N::N-Object** which exports `N-Object` because that structure is used on all levels.
 
 ## Description
 
