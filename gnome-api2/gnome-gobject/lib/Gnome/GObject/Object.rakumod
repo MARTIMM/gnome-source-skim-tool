@@ -56,6 +56,7 @@ submethod BUILD ( *%options ) {
   # Initialize helper
   $!routine-caller .= new(:library(gobject-lib()));
 
+#`{{
   # Prevent creating wrong widgets
   if self.^name eq 'Gnome::GObject::Object' {
     # If already initialized using ':$native-object', ':$build-id', or
@@ -65,8 +66,57 @@ submethod BUILD ( *%options ) {
     # only after creating the native-object, the gtype is known
     self._set-class-info('GObject');
   }
+}}
+
+  if self.is-valid { }
+    elsif %options<native-object>:exists { }
+
+  #`{{
+    note: thought about moving this test to Widget because the interface
+    Buildable is hooked up there. This is not correct, because, after studying
+    the Buider code, I saw that gtk_builder_expose_object() makes use of
+    object_set_name() before inserting the object in a hash table.
+    object_set_name() makes use of gtk_buildable_set_name() if the object
+    inherits from Widget, otherwise it uses the g_object_set_data_full() to set
+    the id onto the native object. This means that every object inheriting from
+    here (=Object) can have an id set and thus retrieved here.
+  }}
+  elsif ? %options<build-id> {
+    my N-Object $native-object;
+    note "gobject build-id: %options<build-id>" if $Gnome::N::x-debug;
+    my Array $builders = self._get-builders;
+    for @$builders -> $builder {
+
+      $native-object = $builder.get-object(%options<build-id>) // N-Object;
+      
+      # .get-object() does not increase object refcount, do it here if found.
+      if ?$native-object {
+        $native-object = self.native-object-ref($native-object);
+        last
+      }
+    }
+
+    if ? $native-object {
+      note "store native object: ", self.^name, ', ', $native-object
+        if $Gnome::N::x-debug;
+
+      self._set-native-object($native-object);
+    }
+
+    else {
+      note "builder id '%options<build-id>' not found in any of the builders"
+        if $Gnome::N::x-debug;
+
+      die X::Gnome.new(
+        :message(
+          "Builder id '%options<build-id>' not found in any of the builders"
+        )
+      );
+    }
+  }
 }
 
+#`{{ Already in role Gnome::N::GObjectSupport
 # Next two methods need checks for proper referencing or cleanup 
 method native-object-ref ( $n-native-object ) {
   $n-native-object
@@ -75,6 +125,7 @@ method native-object-ref ( $n-native-object ) {
 method native-object-unref ( $n-native-object ) {
 #  self._fallback-v2( 'free', my Bool $x);
 }
+}}
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------

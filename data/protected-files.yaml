@@ -23,7 +23,7 @@ Glib:
 GObject:
   c:
   - N-Value                 # modified
-  - Object
+  - Object                  # modify Build submethod
   d:
   - InitiallyUnowned
   - Object
@@ -43,6 +43,7 @@ Gio:
 Gtk4:
   c:
   - CustomLayout            # TODO new-customlayout
+  - Builder                 # modified _fallback-v2 to store native builder object
   - ListBase                # modified to process roles
   - Snapshot                # Many problems
   - TreeView
