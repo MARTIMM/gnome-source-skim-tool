@@ -5,7 +5,12 @@
   "authors": [
     "Marcel Timmerman"
   ],
-  "depends": null,
+  "depends": [
+    "Gnome::Gio:api<2>",
+    "Gnome::GObject:api<2>",
+    "Gnome::Glib:api<2>",
+    "Gnome::N:api<2>"
+  ],
   "description": null,
   "license": "Artistic-2.0",
   "meta-version": "2",
@@ -17,6 +22,7 @@
     "Gnome::Gdk4::R-Paintable": "lib/Gnome/Gdk4/R-Paintable.rakumod",
     "Gnome::Gdk4::Snapshot": "lib/Gnome/Gdk4/Snapshot.rakumod",
     "Gnome::Gdk4::T-enums": "lib/Gnome/Gdk4/T-enums.rakumod",
+    "Gnome::Gdk4::T-keysyms": "lib/Gnome/Gdk4/T-keysyms.rakumod",
     "Gnome::Gdk4::T-paintable": "lib/Gnome/Gdk4/T-paintable.rakumod",
     "Gnome::Gdk4::T-rgba": "lib/Gnome/Gdk4/T-rgba.rakumod",
     "Gnome::Gdk4::T-texture": "lib/Gnome/Gdk4/T-texture.rakumod",
@@ -24,12 +30,6 @@
   },
   "raku": "6.d",
   "resources": [
-  ],
-  "depends": [
-    "Gnome::Gio:api<2>",
-    "Gnome::GObject:api<2>",
-    "Gnome::Glib:api<2>",
-    "Gnome::N:api<2>"
   ],
   "source-url": "git://github.com/MARTIMM/gnome-gdk4-api2.git",
   "support": {
@@ -39,5 +39,5 @@
     "Gnome",
     "Gdk4"
   ],
-  "version": "0.1.7"
+  "version": "0.1.8"
 }
