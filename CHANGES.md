@@ -100,7 +100,7 @@ find . -name '*.raku*' | xargs wc -l
     Below a little example to show where user options can be provided;
     ```
     use Gnome::Gtk4::Label:api<2>;
-    use Gnome::Gtk4::T-Enums:api<2>;
+    use Gnome::Gtk4::T-enums:api<2>;
 
     class MyLabel is Gnome::Gtk4::Label {
       submethod BUILD ( *%options ) {
