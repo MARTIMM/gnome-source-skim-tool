@@ -797,7 +797,7 @@ method document-constants ( @constants --> Str ) {
       '//constant[@name="' ~ $name ~ '"]', :!to-list
     );
 
-    $doc ~= $xpath.find( 'doc/text()', :start($e), :!to-list).Str // '';
+    $doc ~= ($xpath.find( 'doc/text()', :start($e), :!to-list) // '').Str;
     $doc ~= "\n";
   }
 
