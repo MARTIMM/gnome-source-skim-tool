@@ -443,7 +443,11 @@ note "$?LINE $c.gist()";
         else {
           # If the provided argument is a structure or union object other
           # than a N-Object, we must convert it.
-          if $v.^name !~~ / 'N-Object' / {
+          if $v ~~ Any {
+            $c = N-Object;
+          }
+
+          elsif $v.^name !~~ / 'N-Object' / {
             $c = nativecast( N-Object, $v);
           }
 
