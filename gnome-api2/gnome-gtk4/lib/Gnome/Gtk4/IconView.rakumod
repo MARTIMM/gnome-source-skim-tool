@@ -16,7 +16,7 @@ use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::N-TreePath:api<2>;
 use Gnome::Gtk4::R-CellLayout:api<2>;
 #use Gnome::Gtk4::R-Scrollable:api<2>;
-use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 #use Gnome::Gtk4::T-IconView:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;

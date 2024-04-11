@@ -12,7 +12,7 @@ use Gnome::GObject::InitiallyUnowned:api<2>;
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-CellLayout:api<2>;
-use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-TreeViewColumn:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;

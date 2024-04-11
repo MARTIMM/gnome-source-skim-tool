@@ -23,6 +23,7 @@ use Gnome::Glib::T-error:api<2>;
 
 use Gnome::Gtk4::Builder:api<2>;
 #use Gnome::Gtk4::T-builderscope:api<2>;
+use Gnome::Gtk4::Window:api<2>;
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::Gtk4::Label:api<2>;
 
@@ -190,6 +191,8 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'build-id test', {
+  my Gnome::Gtk4::Window $w .= new(:build-id<my-window>);
+  is $w.get-title, 'My Window', ':build-id<my-window>';
   my Gnome::Gtk4::Button $b .= new(:build-id<my-button-1>);
   is $b.get-label, 'button text', ':build-id<my-button-1>';
   my Gnome::Gtk4::Label $l .= new(:build-id<my-label-1>);

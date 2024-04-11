@@ -47,7 +47,7 @@ only ever get -1 passed as the for_size value to its
 The geometry management system will query a widget hierarchy in
 only one orientation at a time. When widgets are initially queried
 for their minimum sizes it is generally done in two initial passes
-in the  C<enumeration SizeRequestMode from Gnome::Gtk4::T-Enums>  chosen by the toplevel.
+in the  C<enumeration SizeRequestMode from Gnome::Gtk4::T-enums>  chosen by the toplevel.
 
 For example, when queried in the normal C<GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH> mode:
 
@@ -80,7 +80,7 @@ to avoid re-querying for the same sizes in one allocation cycle.
 
 If a widget does move content around to intelligently use up the
 allocated size then it must support the request in both
-C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-Enums>s even if the widget in question only
+C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-enums>s even if the widget in question only
 trades sizes in a single orientation.
 
 For instance, a B<Gnome::Gtk4::Label> that does height-for-width word wrapping
@@ -2174,7 +2174,7 @@ allocation capabilities.
 method get-request-mode (--> GtkSizeRequestMode )
 =end code
 
-Return value; The C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-Enums> preferred by C<$widget>.. 
+Return value; The C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-enums> preferred by C<$widget>.. 
 
 =begin comment
 
@@ -3078,7 +3078,7 @@ C<.child-focus()> on the widget’s toplevel.
 
 The default I<keynav-failed> handler returns
 C<False> for C<GTK_DIR_TAB_FORWARD> and C<GTK_DIR_TAB_BACKWARD>.
-For the other values of C<enumeration GtkDirectionType defined in Gnome::Gtk4::T-Enums> it returns C<True>.
+For the other values of C<enumeration GtkDirectionType defined in Gnome::Gtk4::T-enums> it returns C<True>.
 
 Whenever the default handler returns C<True>, it also calls
 C<.error-bell()> to notify the user of the
@@ -4197,7 +4197,7 @@ method set-opacity ( Num() $opacity )
 Sets how C<$widget> treats content that is drawn outside the
 widget's content area.
 
-See the definition of  C<enumeration Overflow from Gnome::Gtk4::T-Enums>  for details.
+See the definition of  C<enumeration Overflow from Gnome::Gtk4::T-enums>  for details.
 
 This setting is provided for widget implementations and
 should not be used by application code.

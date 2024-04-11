@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::R-CellEditable:api<2>;
 use Gnome::Gtk4::R-CellLayout:api<2>;
-use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;

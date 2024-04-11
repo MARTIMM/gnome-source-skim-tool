@@ -13,7 +13,7 @@ use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
 
 use Gnome::Gtk4::N-Border:api<2>;
-use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-StyleContext:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;

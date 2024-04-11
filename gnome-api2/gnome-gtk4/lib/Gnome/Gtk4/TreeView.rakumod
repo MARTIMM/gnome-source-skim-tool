@@ -16,7 +16,7 @@ use Gnome::Glib::N-List:api<2>;
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::N-TreePath:api<2>;
 use Gnome::Gtk4::R-Scrollable:api<2>;
-use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-TreeView:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 

@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gdk4::T-enums:api<2>;
 #use Gnome::Gtk4::EventController:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
-use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
