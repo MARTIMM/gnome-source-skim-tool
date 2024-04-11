@@ -1,22 +1,38 @@
 =comment Package: Gtk4, C-Source: enums
 use v6.d;
 
-#TL:1:Gnome::Gtk4::T-Enums:
+#TL:1:Gnome::Gtk4::T-enums:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
 
-use Gnome::Gtk4::T-Enums:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
 
+
+
+my Gnome::Gtk4::T-enums $enums .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $enums {
+    my gint $cmpfunc-result;
+
+
+#`{{
+    #TM:0:ordering-from-cmpfunc()
+    ok .ordering-from-cmpfunc( $cmpfunc-result), '.ordering-from-cmpfunc()';
+
+}}
+  }
+};
 
 #-------------------------------------------------------------------------------
 #--[Bitfields]------------------------------------------------------------------
@@ -48,6 +64,17 @@ subtest 'GtkInputHints', {
   is GTK_INPUT_HINT_NO_EMOJI.value, 1024, 'bitfield GTK_INPUT_HINT_NO_EMOJI = 1024';
 
   is GTK_INPUT_HINT_PRIVATE.value, 2048, 'bitfield GTK_INPUT_HINT_PRIVATE = 2048';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkListScrollFlags
+subtest 'GtkListScrollFlags', {
+  is GTK_LIST_SCROLL_NONE.value, 0, 'bitfield GTK_LIST_SCROLL_NONE = 0';
+
+  is GTK_LIST_SCROLL_FOCUS.value, 1, 'bitfield GTK_LIST_SCROLL_FOCUS = 1';
+
+  is GTK_LIST_SCROLL_SELECT.value, 2, 'bitfield GTK_LIST_SCROLL_SELECT = 2';
 
 };
 
@@ -99,20 +126,14 @@ subtest 'GtkStateFlags', {
 
 };
 
-
-my Gnome::Gtk4::T-Enums $enums .= new;
 #-------------------------------------------------------------------------------
-subtest 'Function tests', {
-  with $enums {
-    my gint $cmpfunc-result;
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
+subtest 'constants', {
+#TE:1:GTK_ACCESSIBLE_VALUE_UNDEFINED
+is GTK_ACCESSIBLE_VALUE_UNDEFINED, -1, "constant GTK_ACCESSIBLE_VALUE_UNDEFINED = -1";
 
-#`{{
-    #TM:0:ordering-from-cmpfunc()
-    ok .ordering-from-cmpfunc( $cmpfunc-result), '.ordering-from-cmpfunc()';
-
-}}
-  }
 };
 
 #-------------------------------------------------------------------------------
@@ -386,6 +407,10 @@ subtest 'GtkAccessibleRole', {
 
   is GTK_ACCESSIBLE_ROLE_WINDOW.value, 77, 'enum GTK_ACCESSIBLE_ROLE_WINDOW = 77';
 
+  is GTK_ACCESSIBLE_ROLE_TOGGLE_BUTTON.value, 78, 'enum GTK_ACCESSIBLE_ROLE_TOGGLE_BUTTON = 78';
+
+  is GTK_ACCESSIBLE_ROLE_APPLICATION.value, 79, 'enum GTK_ACCESSIBLE_ROLE_APPLICATION = 79';
+
 };
 
 #-------------------------------------------------------------------------------
@@ -420,6 +445,8 @@ subtest 'GtkAccessibleState', {
 
   is GTK_ACCESSIBLE_STATE_SELECTED.value, 7, 'enum GTK_ACCESSIBLE_STATE_SELECTED = 7';
 
+  is GTK_ACCESSIBLE_STATE_VISITED.value, 8, 'enum GTK_ACCESSIBLE_STATE_VISITED = 8';
+
 };
 
 #-------------------------------------------------------------------------------
@@ -444,7 +471,11 @@ subtest 'GtkAlign', {
 
   is GTK_ALIGN_CENTER.value, 3, 'enum GTK_ALIGN_CENTER = 3';
 
-  is GTK_ALIGN_BASELINE.value, 4, 'enum GTK_ALIGN_BASELINE = 4';
+  is GTK_ALIGN_BASELINE_FILL.value, 4, 'enum GTK_ALIGN_BASELINE_FILL = 4';
+
+  is GTK_ALIGN_BASELINE.value, 5, 'enum GTK_ALIGN_BASELINE = 5';
+
+  is GTK_ALIGN_BASELINE_CENTER.value, 6, 'enum GTK_ALIGN_BASELINE_CENTER = 6';
 
 };
 
@@ -688,6 +719,17 @@ subtest 'GtkLevelBarMode', {
   is GTK_LEVEL_BAR_MODE_CONTINUOUS.value, 0, 'enum GTK_LEVEL_BAR_MODE_CONTINUOUS = 0';
 
   is GTK_LEVEL_BAR_MODE_DISCRETE.value, 1, 'enum GTK_LEVEL_BAR_MODE_DISCRETE = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkListTabBehavior
+subtest 'GtkListTabBehavior', {
+  is GTK_LIST_TAB_ALL.value, 0, 'enum GTK_LIST_TAB_ALL = 0';
+
+  is GTK_LIST_TAB_ITEM.value, 1, 'enum GTK_LIST_TAB_ITEM = 1';
+
+  is GTK_LIST_TAB_CELL.value, 2, 'enum GTK_LIST_TAB_CELL = 2';
 
 };
 
@@ -1116,16 +1158,6 @@ subtest 'GtkWrapMode', {
   is GTK_WRAP_WORD.value, 2, 'enum GTK_WRAP_WORD = 2';
 
   is GTK_WRAP_WORD_CHAR.value, 3, 'enum GTK_WRAP_WORD_CHAR = 3';
-
-};
-
-#-------------------------------------------------------------------------------
-#--[Constants]------------------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-subtest 'constants', {
-#TE:1:GTK_ACCESSIBLE_VALUE_UNDEFINED
-is GTK_ACCESSIBLE_VALUE_UNDEFINED, -1, "constant GTK_ACCESSIBLE_VALUE_UNDEFINED = -1";
 
 };
 
