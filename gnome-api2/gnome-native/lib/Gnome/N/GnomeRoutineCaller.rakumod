@@ -483,7 +483,7 @@ multi method convert-return ( $v, Hash $routine ) {
   my $c;
   my $p = $routine<returns>;
 
-  #note "Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+  note "$?LINE Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
 
   # Use 'given' because $p is a type and is always undefined
   given $p {
@@ -534,7 +534,7 @@ multi method convert-return ( $v, Hash $routine ) {
 multi method convert-return ( $v, $p ) {
   my $c;
 
-  #note "Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+  note "$?LINE Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
 
   # Use 'given' because $p is a type and is always undefined
   given $p {      

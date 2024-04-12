@@ -30,7 +30,7 @@ my Gnome::Gtk4::Assistant $assistant;
 
 subtest 'ISA test', {
   $assistant .= new-assistant;
-  $assistantpage = Gnome::Gtk4::AssistantPage.new(:native-object($assistant.get-page));
+  $assistantpage .= new(:native-object($assistant.get-page));
   given $assistantpage {
     nok .is-valid, '$assistant.get-page(): no page set';
   }
