@@ -1358,7 +1358,6 @@ TODO can we have callback fields in a structure?
   else {
     # Generate structure as a pointer when no fields are documented
     $code ~= qq:to/EOREC/;
-      {pod-header('Record Structure')}
       # This is an opaque type of which fields are not available.
       class $record-class\:auth<github:MARTIMM>\:api<2> is export is repr\('CPointer') \{ \}
 
