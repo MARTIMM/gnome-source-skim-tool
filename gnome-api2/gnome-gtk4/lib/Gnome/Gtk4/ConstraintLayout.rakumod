@@ -8,9 +8,9 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-Error:api<2>;
-#use Gnome::Glib::N-HashTable:api<2>;
-use Gnome::Glib::N-List:api<2>;
+use Gnome::Glib::T-error:api<2>;
+#use Gnome::Glib::T-hashtable:api<2>;
+use Gnome::Glib::T-list:api<2>;
 use Gnome::Gtk4::LayoutManager:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;

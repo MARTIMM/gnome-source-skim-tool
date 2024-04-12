@@ -7,10 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::Gdk4::T-rgba:api<2>;
 
-use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gtk4::R-ColorChooser:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;

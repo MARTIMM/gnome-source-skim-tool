@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Gdk4::N-RGBA:api<2>;
+use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;

@@ -7,20 +7,21 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::Gdk4::T-types:api<2>;
 
-use Gnome::Gdk4::N-Rectangle:api<2>;
 #use Gnome::Gtk4::N-TextIter:api<2>;
 #use Gnome::Gtk4::R-Scrollable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 #use Gnome::Gtk4::T-TextView:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
-use Gnome::Pango::N-TabArray:api<2>;
 
+use Gnome::Pango::N-TabArray:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Class Declaration]----------------------------------------------------------

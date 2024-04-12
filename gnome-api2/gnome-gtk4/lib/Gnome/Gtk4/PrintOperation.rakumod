@@ -7,12 +7,14 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::GObject::Object:api<2>;
-use Gnome::Glib::N-Error:api<2>;
+
+use Gnome::Glib::T-error:api<2>;
+
 use Gnome::Gtk4::R-PrintOperationPreview:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-PrintOperation:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;

@@ -11,6 +11,7 @@ use NativeCall;
 use Gnome::GObject::Object:api<2>;
 #use Gnome::Glib::N-String:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::T-variant:api<2>;
 use Gnome::Gtk4::T-ActivateAction:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;

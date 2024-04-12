@@ -10,9 +10,11 @@ use NativeCall;
 
 #use Gnome::Gdk4::N-ContentFormats:api<2>;
 use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
 
-use Gnome::Glib::N-List:api<2>;
+use Gnome::Glib::T-list:api<2>;
+
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::N-TreePath:api<2>;
 use Gnome::Gtk4::R-Scrollable:api<2>;

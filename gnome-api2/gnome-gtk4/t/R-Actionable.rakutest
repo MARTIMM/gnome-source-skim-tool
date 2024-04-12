@@ -9,12 +9,15 @@ use NativeCall;
 use Test;
 
 use Gnome::Gtk4::Button:api<2>;
+
 use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::T-variant:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+#Gnome::N::debug(:on);
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -43,8 +46,10 @@ subtest 'Method tests', {
 
     #TM:1:set-action-target-value()
     $target-value .= new-variant( 'u', uint32, 42);
-    .set-action-target-value($target-value);
+    .set-action-target-value($target-value.get-native-object);
+
     #TM:1:get-action-target-value()
+    $target-value.clear-object;
     $target-value .= new(:native-object(.get-action-target-value()));
     is $target-value.get-uint32, 42, '.set-action-target-value() / .get-action-target-value()';
 #`{{
