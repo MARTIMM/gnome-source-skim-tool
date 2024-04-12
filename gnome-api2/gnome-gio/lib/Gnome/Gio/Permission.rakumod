@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-error:api<2>;
 use Gnome::GObject::Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
