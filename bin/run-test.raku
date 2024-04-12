@@ -123,9 +123,25 @@ sub run-test (
     $test-file = 't/';
     chdir($test-dir.IO.parent);
 
-    my Str $cmd = "$prog --ignore-exit --trap '$test-file'";
+    my Str $cmd = "$prog --ignore-exit '$test-file'";
     note "\nRun command '$cmd' in directory $*CWD.Str()";
-    shell $cmd;   #, :out, :err;
+
+    for dir($test-file).sort -> $f {
+      next unless $f.Str ~~ m/ rakutest $/;
+
+      try {
+        my Proc $p = shell "$prog --ignore-exit --trap '$f'", :out, :err;
+        for $p.out.lines -> $l {
+          note $l unless $l ~~ m/^ 'Result: ' | 'All tests ' | 'Files=' /;
+        }
+        for $p.err.lines -> $l {
+          note $l;
+        }
+
+        $p.out.close;
+        $p.err.close;
+      }
+    }
   }
 
   elsif $test-location{$distro}:exists and $test-file.IO.r {
