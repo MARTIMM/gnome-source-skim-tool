@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: AboutDialog
+=comment Package: Gtk4, C-Source: aboutdialog
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -12,35 +12,35 @@ use v6.d;
 
 =head1 Description
 
-The C<gettext()> offers a simple way to display information about
+The B<Gnome::Gtk4::AboutDialog> offers a simple way to display information about
 a program.
 
 The shown information includes the programs' logo, name, copyright,
 website and license. It is also possible to give credits to the authors,
 documenters, translators and artists who have worked on the program.
 
-An about dialog is typically opened when the user selects the I<About>
-option from the I<Help> menu. All parts of the dialog are optional.
+An about dialog is typically opened when the user selects the B<About>
+option from the B<Help> menu. All parts of the dialog are optional.
 
 ![An example GtkAboutDialog](aboutdialog.png)
 
-About dialogs often contain links and email addresses. I<GtkAboutDialog>
+About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog>
 displays these as clickable links. By default, it calls C<.show-uri()>
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
 To specify a person with an email address, use a string like
-I<Edgar Allan Poe <edgar\x0040poe.com>>. To specify a website with a title,
-use a string like I<GTK team https://www.gtk.org>.
+B<Edgar Allan Poe <edgar C<$poe>.com>>. To specify a website with a title,
+use a string like B<GTK team https://www.gtk.org>.
 
-To make constructing a I<GtkAboutDialog> as convenient as possible, you can
+To make constructing a B<Gnome::Gtk4::AboutDialog> as convenient as possible, you can
 use the function C<.show-about-dialog()> which constructs and shows
 a dialog and keeps it around so that it can be shown again.
 
-Note that GTK sets a default title of I<_("About C<s>")> on the dialog
-window (where I<C<s>> is replaced by the name of the application, but in
+Note that GTK sets a default title of B<_("About C<s>")> on the dialog
+window (where B<C<s>> is replaced by the name of the application, but in
 order to ensure proper translation of the title, applications should
-set the title property explicitly when constructing a I<GtkAboutDialog>,
+set the title property explicitly when constructing a B<Gnome::Gtk4::AboutDialog>,
 as shown in the following example:
 
 =begin code
@@ -63,8 +63,8 @@ $about.hide;  # application returns here when buttons
 
 =head3 CSS nodes
 
-I<GtkAboutDialog> has a single CSS node with the name I<window> and style
-class I<.aboutdialog>.
+B<Gnome::Gtk4::AboutDialog> has a single CSS node with the name B<window> and style
+class B<.aboutdialog>.
 
 =begin comment
 =head2 Uml Diagram
@@ -93,30 +93,24 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-aboutdialog
 
-Creates a new I<GtkAboutDialog>.
+Creates a new B<Gnome::Gtk4::AboutDialog>.
+
+=begin code
+method new-aboutdialog ( --> Gnome::Gtk4::AboutDialog \)
+=end code
+
 =begin comment
 
 =head2 Example
 # Example for new-aboutdialog
 
 =end comment
-
-=begin code
-method new-aboutdialog ( --> Gnome::Gtk4::AboutDialog \)
-=end code
 
 =end pod
 
@@ -130,16 +124,9 @@ method new-aboutdialog ( --> Gnome::Gtk4::AboutDialog \)
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 add-credit-section
 
 Creates a new section in the "Credits" page.
-=begin comment
-
-=head2 Example
-# Example for add-credit-section
-
-=end comment
 
 =begin code
 method add-credit-section ( Str $section-name, Array[Str] $people )
@@ -148,21 +135,21 @@ method add-credit-section ( Str $section-name, Array[Str] $people )
 =item $section-name; The name of the section.
 =item $people; The people who belong to that section.
 
+=begin comment
+
+=head2 Example
+# Example for add-credit-section
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-artists
 
 Returns the names of the artists which are displayed
 in the credits page.
-=begin comment
-
-=head2 Example
-# Example for get-artists
-
-=end comment
 
 =begin code
 method get-artists (--> Array[Str] )
@@ -171,21 +158,21 @@ method get-artists (--> Array[Str] )
 Return value; A
   string array containing the artists. 
 
+=begin comment
+
+=head2 Example
+# Example for get-artists
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-authors
 
 Returns the names of the authors which are displayed
 in the credits page.
-=begin comment
-
-=head2 Example
-# Example for get-authors
-
-=end comment
 
 =begin code
 method get-authors (--> Array[Str] )
@@ -194,20 +181,20 @@ method get-authors (--> Array[Str] )
 Return value; A
   string array containing the authors. 
 
+=begin comment
+
+=head2 Example
+# Example for get-authors
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-comments
 
 Returns the comments string.
-=begin comment
-
-=head2 Example
-# Example for get-comments
-
-=end comment
 
 =begin code
 method get-comments (--> Str )
@@ -215,20 +202,20 @@ method get-comments (--> Str )
 
 Return value; The comments. 
 
+=begin comment
+
+=head2 Example
+# Example for get-comments
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-copyright
 
 Returns the copyright string.
-=begin comment
-
-=head2 Example
-# Example for get-copyright
-
-=end comment
 
 =begin code
 method get-copyright (--> Str )
@@ -236,21 +223,21 @@ method get-copyright (--> Str )
 
 Return value; The copyright string. 
 
+=begin comment
+
+=head2 Example
+# Example for get-copyright
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-documenters
 
 Returns the name of the documenters which are displayed
 in the credits page.
-=begin comment
-
-=head2 Example
-# Example for get-documenters
-
-=end comment
 
 =begin code
 method get-documenters (--> Array[Str] )
@@ -259,20 +246,20 @@ method get-documenters (--> Array[Str] )
 Return value; A
   string array containing the documenters. 
 
+=begin comment
+
+=head2 Example
+# Example for get-documenters
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-license
 
 Returns the license information.
-=begin comment
-
-=head2 Example
-# Example for get-license
-
-=end comment
 
 =begin code
 method get-license (--> Str )
@@ -280,14 +267,27 @@ method get-license (--> Str )
 
 Return value; The license information. 
 
+=begin comment
+
+=head2 Example
+# Example for get-license
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-license-type
 
 Retrieves the license type.
+
+=begin code
+method get-license-type (--> GtkLicense )
+=end code
+
+Return value; a  C<enumeration License from Gnome::Gtk4::T-aboutdialog>  value. 
+
 =begin comment
 
 =head2 Example
@@ -295,26 +295,13 @@ Retrieves the license type.
 
 =end comment
 
-=begin code
-method get-license-type (--> GtkLicense )
-=end code
-
-Return value; a  C<enumeration License from Gnome::Gtk4::T-AboutDialog>  value. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-logo
 
 Returns the paintable displayed as logo in the about dialog.
-=begin comment
-
-=head2 Example
-# Example for get-logo
-
-=end comment
 
 =begin code
 method get-logo (--> N-Object )
@@ -324,20 +311,20 @@ Return value; the paintable displayed as
   logo or undefined if the logo is unset or has been set via
   C<.set-logo-icon-name()>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-logo
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-logo-icon-name
 
 Returns the icon name displayed as logo in the about dialog.
-=begin comment
-
-=head2 Example
-# Example for get-logo-icon-name
-
-=end comment
 
 =begin code
 method get-logo-icon-name (--> Str )
@@ -346,20 +333,20 @@ method get-logo-icon-name (--> Str )
 Return value; the icon name displayed as logo,
   or undefined if the logo has been set via C<.set-logo()>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-logo-icon-name
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-program-name
 
 Returns the program name displayed in the about dialog.
-=begin comment
-
-=head2 Example
-# Example for get-program-name
-
-=end comment
 
 =begin code
 method get-program-name (--> Str )
@@ -367,20 +354,20 @@ method get-program-name (--> Str )
 
 Return value; The program name. 
 
+=begin comment
+
+=head2 Example
+# Example for get-program-name
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-system-information
 
 Returns the system information that is shown in the about dialog.
-=begin comment
-
-=head2 Example
-# Example for get-system-information
-
-=end comment
 
 =begin code
 method get-system-information (--> Str )
@@ -388,21 +375,21 @@ method get-system-information (--> Str )
 
 Return value; the system information. 
 
+=begin comment
+
+=head2 Example
+# Example for get-system-information
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-translator-credits
 
 Returns the translator credits string which is displayed
 in the credits page.
-=begin comment
-
-=head2 Example
-# Example for get-translator-credits
-
-=end comment
 
 =begin code
 method get-translator-credits (--> Str )
@@ -410,20 +397,20 @@ method get-translator-credits (--> Str )
 
 Return value; The translator credits string. 
 
+=begin comment
+
+=head2 Example
+# Example for get-translator-credits
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-version
 
 Returns the version string.
-=begin comment
-
-=head2 Example
-# Example for get-version
-
-=end comment
 
 =begin code
 method get-version (--> Str )
@@ -431,20 +418,20 @@ method get-version (--> Str )
 
 Return value; The version string. 
 
+=begin comment
+
+=head2 Example
+# Example for get-version
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-website
 
 Returns the website URL.
-=begin comment
-
-=head2 Example
-# Example for get-website
-
-=end comment
 
 =begin code
 method get-website (--> Str )
@@ -452,20 +439,20 @@ method get-website (--> Str )
 
 Return value; The website URL. 
 
+=begin comment
+
+=head2 Example
+# Example for get-website
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-website-label
 
 Returns the label used for the website link.
-=begin comment
-
-=head2 Example
-# Example for get-website-label
-
-=end comment
 
 =begin code
 method get-website-label (--> Str )
@@ -473,21 +460,21 @@ method get-website-label (--> Str )
 
 Return value; The label used for the website link. 
 
+=begin comment
+
+=head2 Example
+# Example for get-website-label
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-wrap-license
 
 Returns whether the license text in the about dialog is
 automatically wrapped.
-=begin comment
-
-=head2 Example
-# Example for get-wrap-license
-
-=end comment
 
 =begin code
 method get-wrap-license (--> Bool )
@@ -495,21 +482,21 @@ method get-wrap-license (--> Bool )
 
 Return value; C<True> if the license text is wrapped. 
 
+=begin comment
+
+=head2 Example
+# Example for get-wrap-license
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-artists
 
 Sets the names of the artists to be displayed
 in the "Credits" page.
-=begin comment
-
-=head2 Example
-# Example for set-artists
-
-=end comment
 
 =begin code
 method set-artists ( Array[Str] $artists )
@@ -518,21 +505,21 @@ method set-artists ( Array[Str] $artists )
 =item $artists; the authors of the artwork
   of the application.
 
+=begin comment
+
+=head2 Example
+# Example for set-artists
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-authors
 
 Sets the names of the authors which are displayed
 in the "Credits" page of the about dialog.
-=begin comment
-
-=head2 Example
-# Example for set-authors
-
-=end comment
 
 =begin code
 method set-authors ( Array[Str] $authors )
@@ -540,22 +527,22 @@ method set-authors ( Array[Str] $authors )
 
 =item $authors; the authors of the application.
 
+=begin comment
+
+=head2 Example
+# Example for set-authors
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-comments
 
 Sets the comments string to display in the about dialog.
 
 This should be a short string of one or two lines.
-=begin comment
-
-=head2 Example
-# Example for set-comments
-
-=end comment
 
 =begin code
 method set-comments ( Str $comments )
@@ -563,22 +550,22 @@ method set-comments ( Str $comments )
 
 =item $comments; a comments string.
 
+=begin comment
+
+=head2 Example
+# Example for set-comments
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-copyright
 
 Sets the copyright string to display in the about dialog.
 
 This should be a short string of one or two lines.
-=begin comment
-
-=head2 Example
-# Example for set-copyright
-
-=end comment
 
 =begin code
 method set-copyright ( Str $copyright )
@@ -586,21 +573,21 @@ method set-copyright ( Str $copyright )
 
 =item $copyright; the copyright string.
 
+=begin comment
+
+=head2 Example
+# Example for set-copyright
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-documenters
 
 Sets the names of the documenters which are displayed
 in the "Credits" page.
-=begin comment
-
-=head2 Example
-# Example for set-documenters
-
-=end comment
 
 =begin code
 method set-documenters ( Array[Str] $documenters )
@@ -609,23 +596,23 @@ method set-documenters ( Array[Str] $documenters )
 =item $documenters; the authors of the documentation
   of the application.
 
+=begin comment
+
+=head2 Example
+# Example for set-documenters
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-license
 
 Sets the license information to be displayed in the
 about dialog.
 
-If I<license> is undefined, the license page is hidden.
-=begin comment
-
-=head2 Example
-# Example for set-license
-
-=end comment
+If B<license> is undefined, the license page is hidden.
 
 =begin code
 method set-license ( Str $license )
@@ -633,11 +620,17 @@ method set-license ( Str $license )
 
 =item $license; the license information.
 
+=begin comment
+
+=head2 Example
+# Example for set-license
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-license-type
 
 Sets the license of the application showing the about dialog from a
@@ -645,12 +638,6 @@ list of known licenses.
 
 This function overrides the license set using
 C<.set-license()>.
-=begin comment
-
-=head2 Example
-# Example for set-license-type
-
-=end comment
 
 =begin code
 method set-license-type ( GtkLicense $license-type )
@@ -658,14 +645,27 @@ method set-license-type ( GtkLicense $license-type )
 
 =item $license-type; the type of license.
 
+=begin comment
+
+=head2 Example
+# Example for set-license-type
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-logo
 
 Sets the logo in the about dialog.
+
+=begin code
+method set-logo ( N-Object() $logo )
+=end code
+
+=item $logo; a B<Gnome::Gdk4::R-Paintable>.
+
 =begin comment
 
 =head2 Example
@@ -673,26 +673,13 @@ Sets the logo in the about dialog.
 
 =end comment
 
-=begin code
-method set-logo ( N-Object() $logo )
-=end code
-
-=item $logo; a I<GdkPaintable>.
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-logo-icon-name
 
 Sets the icon name to be displayed as logo in the about dialog.
-=begin comment
-
-=head2 Example
-# Example for set-logo-icon-name
-
-=end comment
 
 =begin code
 method set-logo-icon-name ( Str $icon-name )
@@ -700,23 +687,23 @@ method set-logo-icon-name ( Str $icon-name )
 
 =item $icon-name; an icon name.
 
+=begin comment
+
+=head2 Example
+# Example for set-logo-icon-name
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-program-name
 
 Sets the name to display in the about dialog.
 
-If I<name> is not set, the string returned
-by C<g_get_application_name()> is used.
-=begin comment
-
-=head2 Example
-# Example for set-program-name
-
-=end comment
+If B<name> is not set, the string returned
+by B<g_get_application_name()> is used.
 
 =begin code
 method set-program-name ( Str $name )
@@ -724,26 +711,26 @@ method set-program-name ( Str $name )
 
 =item $name; the program name.
 
+=begin comment
+
+=head2 Example
+# Example for set-program-name
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-system-information
 
 Sets the system information to be displayed in the about
 dialog.
 
-If I<system_information> is undefined, the system information
+If B<system_information> is undefined, the system information
 page is hidden.
 
 See I<system-information>.
-=begin comment
-
-=head2 Example
-# Example for set-system-information
-
-=end comment
 
 =begin code
 method set-system-information ( Str $system-information )
@@ -751,11 +738,17 @@ method set-system-information ( Str $system-information )
 
 =item $system-information; system information.
 
+=begin comment
+
+=head2 Example
+# Example for set-system-information
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-translator-credits
 
 Sets the translator credits string which is displayed in
@@ -763,7 +756,7 @@ the credits page.
 
 The intended use for this string is to display the translator
 of the language which is currently used in the user interface.
-Using C<gettext()>, a simple way to achieve that is to mark the
+Using B<gettext()>, a simple way to achieve that is to mark the
 string for translation:
 
 =begin comment
@@ -771,16 +764,10 @@ my Gnome::Gtk3::AboutDialog $about .= new-about-dialog;
 $about.set-translator-credits("translator-credits"));
 =end comment
 
-It is a good idea to use the customary I<msgid> “translator-credits”
+It is a good idea to use the customary B<msgid> “translator-credits”
 for this purpose, since translators will already know the purpose of
-that I<msgid>, and since I<GtkAboutDialog> will detect if “translator-credits”
+that B<msgid>, and since B<Gnome::Gtk4::AboutDialog> will detect if “translator-credits”
 is untranslated and omit translator credits.
-=begin comment
-
-=head2 Example
-# Example for set-translator-credits
-
-=end comment
 
 =begin code
 method set-translator-credits ( Str $translator-credits )
@@ -788,20 +775,20 @@ method set-translator-credits ( Str $translator-credits )
 
 =item $translator-credits; the translator credits.
 
+=begin comment
+
+=head2 Example
+# Example for set-translator-credits
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-version
 
 Sets the version string to display in the about dialog.
-=begin comment
-
-=head2 Example
-# Example for set-version
-
-=end comment
 
 =begin code
 method set-version ( Str $version )
@@ -809,14 +796,27 @@ method set-version ( Str $version )
 
 =item $version; the version string.
 
+=begin comment
+
+=head2 Example
+# Example for set-version
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-website
 
 Sets the URL to use for the website link.
+
+=begin code
+method set-website ( Str $website )
+=end code
+
+=item $website; a URL string starting with B<http://>.
+
 =begin comment
 
 =head2 Example
@@ -824,26 +824,13 @@ Sets the URL to use for the website link.
 
 =end comment
 
-=begin code
-method set-website ( Str $website )
-=end code
-
-=item $website; a URL string starting with I<http://>.
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-website-label
 
 Sets the label to be used for the website link.
-=begin comment
-
-=head2 Example
-# Example for set-website-label
-
-=end comment
 
 =begin code
 method set-website-label ( Str $website-label )
@@ -851,27 +838,34 @@ method set-website-label ( Str $website-label )
 
 =item $website-label; the label used for the website link.
 
+=begin comment
+
+=head2 Example
+# Example for set-website-label
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-wrap-license
 
 Sets whether the license text in the about dialog should be
 automatically wrapped.
-=begin comment
-
-=head2 Example
-# Example for set-wrap-license
-
-=end comment
 
 =begin code
 method set-wrap-license ( Bool() $wrap-license )
 =end code
 
 =item $wrap-license; whether to wrap the license.
+
+=begin comment
+
+=head2 Example
+# Example for set-wrap-license
+
+=end comment
 
 =end pod
 
@@ -889,12 +883,6 @@ Emitted every time a URL is activated.
 
 Applications may connect to it to override the default behaviour,
 which is to call C<.show-uri()>.
-=begin comment
-
-=head2 Example
-# Example for signal activate-link
-
-=end comment
 
 =begin code
 method handler (
@@ -914,6 +902,13 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 Return value; C<True> if the link has been activated
+
+=begin comment
+
+=head2 Example
+# Example for signal activate-link
+
+=end comment
 
 =end pod
 
