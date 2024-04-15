@@ -81,12 +81,12 @@ submethod BUILD ( *%options ) {
     the id onto the native object. This means that every object inheriting from
     here (=Object) can have an id set and thus retrieved here.
   }}
+  #`{{
   elsif ? %options<build-id> {
     my N-Object $native-object;
     note "gobject build-id: %options<build-id>" if $Gnome::N::x-debug;
     my Array $builders = self._get-builders;
     for @$builders -> $builder {
-
       $native-object = $builder.get-object(%options<build-id>) // N-Object;
       
       # .get-object() does not increase object refcount, do it here if found.
@@ -114,6 +114,7 @@ submethod BUILD ( *%options ) {
       );
     }
   }
+  }}
 }
 
 #`{{ Already in role Gnome::N::GObjectSupport
