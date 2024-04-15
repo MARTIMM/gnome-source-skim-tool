@@ -379,7 +379,7 @@ GObject                                         Gnome::GObject::Object
 ├── Texture                                     Texture
 |   ├── DmabufTexture
 |   ├── GLTexture
-|   ╰── MemoryTexture
+|   ╰── MemoryTexture                           MemoryTexture
 ├── DmabufTextureBuilder
 ├── Drag
 ├── Drop
@@ -427,6 +427,7 @@ These modules are generally inheriting directly from **Gnome::N::TopLevelClassSu
 ```
 GBoxed
 |                                            Gnome::Gdk4::*
+├──                                          N-ContentFormats
 ├── GdkRectangle                             N-Rectangle
 ├── GdkRGBA                                  N-RGBA
 
@@ -435,14 +436,18 @@ GBoxed
 ## Type modules
 
 Types, constants, standalone functions, etc. generated from gnome sources
-`Gnome::Gsk4::\*`
+`Gnome::Gdk4::\*`
 
 ```
 Gnome::N::TopLevelClassSupport
 |   Gnome::Gsk4::*
 ├── T-enums
+├── T-keysyms
 ├── T-paintable
+├── T-rgba
 ├── T-texture
+├── T-types
+
 
 ```
 
