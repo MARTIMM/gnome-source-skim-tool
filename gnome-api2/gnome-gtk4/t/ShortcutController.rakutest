@@ -36,11 +36,10 @@ subtest 'ISA test', {
   given $shortcutcontroller {
     my N-List() $model;
 
-#`{{
-    #TC:0:new-shortcutcontroller()
-
+    #TC:1:new-shortcutcontroller()
     $shortcutcontroller .= new-shortcutcontroller();
     ok .is-valid, '.new-shortcutcontroller()';
+#`{{
 
     #TC:0:new-for-model()
     $model = '…';

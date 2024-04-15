@@ -9,9 +9,11 @@ use NativeCall;
 
 
 use Gnome::Gdk4::T-enums:api<2>;
-#use Gnome::Gtk4::EventController:api<2>;
+
+use Gnome::Gtk4::EventController:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,7 +26,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::ShortcutController:auth<github:MARTIMM>:api<2>;
-#also is Gnome::Gtk4::EventController;
+also is Gnome::Gtk4::EventController;
 also does Gnome::Gtk4::R-Buildable;
 
 #-------------------------------------------------------------------------------

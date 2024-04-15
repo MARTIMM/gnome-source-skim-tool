@@ -7,9 +7,10 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::Glib::T-variant:api<2>;
+
 use Gnome::Gtk4::ShortcutAction:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -58,7 +59,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  #new-callbackaction => %( :type(Constructor), :is-symbol<gtk_callback_action_new>, :returns(N-Object), :parameters([ , gpointer, ])),
+  new-callbackaction => %( :type(Constructor), :is-symbol<gtk_callback_action_new>, :returns(N-Object), :parameters([ :( N-Object, N-Object, gpointer), gpointer, N-Object])),
 );
 
 #-------------------------------------------------------------------------------
