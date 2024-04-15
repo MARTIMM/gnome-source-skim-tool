@@ -95,7 +95,7 @@ find . -name '*.raku*' | xargs wc -l
   An interesting article by the way. To do the drawing, there is [this blog](https://blog.gtk.org/2020/04/24/custom-widgets-in-gtk-4-drawing/)
 
 * 2024-01-12 0.14.1
-  * Coerse test works now after updating raku compiler. Version now: 
+  * Coerce test works now after updating raku compiler. Version now: 
   `v2023.12-41-gbafa5ad46. Implementing the Raku® Programming Language v6.d. Built on MoarVM version 2023.12-14-gc3fea4f58.
 
 * 2024-01-10 0.14.0
