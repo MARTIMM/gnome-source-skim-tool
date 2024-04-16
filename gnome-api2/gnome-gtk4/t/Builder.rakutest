@@ -190,6 +190,7 @@ subtest 'Method tests', {
 };
 
 #-------------------------------------------------------------------------------
+#`{{ :build-id is dropped since 2024-04-15 version 0.16.2
 subtest 'build-id test', {
   my Gnome::Gtk4::Window $w .= new(:build-id<my-window>);
   is $w.get-title, 'My Window', ':build-id<my-window>';
@@ -198,6 +199,7 @@ subtest 'build-id test', {
   my Gnome::Gtk4::Label $l .= new(:build-id<my-label-1>);
   is $l.get-label, 'label for entry', ':build-id<my-label-1>';
 };
+}}
 
 #-------------------------------------------------------------------------------
 done-testing;
