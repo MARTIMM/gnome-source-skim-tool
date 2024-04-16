@@ -21,7 +21,7 @@ use Gnome::N::X:api<2>;
 #--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::N-Bitset:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::N-ScrollInfo:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -41,13 +41,13 @@ submethod BUILD ( *%options ) {
   $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
-  if self.^name eq 'Gnome::Gtk4::Bitset' {
+  if self.^name eq 'Gnome::Gtk4::ScrollInfo' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
-    self._set-class-info('GtkBitset');
+    self._set-class-info('GtkScrollInfo');
   }
 }
 
@@ -67,37 +67,15 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-empty => %( :type(Constructor), :is-symbol<gtk_bitset_new_empty>, :returns(N-Object), ),
-  new-range => %( :type(Constructor), :is-symbol<gtk_bitset_new_range>, :returns(N-Object), :parameters([ guint, guint])),
+  new-scrollinfo => %( :type(Constructor), :is-symbol<gtk_scroll_info_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add => %(:is-symbol<gtk_bitset_add>,  :returns(gboolean), :cnv-return(Bool), :parameters([guint])),
-  add-range => %(:is-symbol<gtk_bitset_add_range>,  :parameters([guint, guint])),
-  add-range-closed => %(:is-symbol<gtk_bitset_add_range_closed>,  :parameters([guint, guint])),
-  add-rectangle => %(:is-symbol<gtk_bitset_add_rectangle>,  :parameters([guint, guint, guint, guint])),
-  contains => %(:is-symbol<gtk_bitset_contains>,  :returns(gboolean), :cnv-return(Bool), :parameters([guint])),
-  copy => %(:is-symbol<gtk_bitset_copy>,  :returns(N-Object)),
-  difference => %(:is-symbol<gtk_bitset_difference>,  :parameters([N-Object])),
-  equals => %(:is-symbol<gtk_bitset_equals>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  get-maximum => %(:is-symbol<gtk_bitset_get_maximum>,  :returns(guint)),
-  get-minimum => %(:is-symbol<gtk_bitset_get_minimum>,  :returns(guint)),
-  get-nth => %(:is-symbol<gtk_bitset_get_nth>,  :returns(guint), :parameters([guint])),
-  get-size => %(:is-symbol<gtk_bitset_get_size>,  :returns(guint64)),
-  get-size-in-range => %(:is-symbol<gtk_bitset_get_size_in_range>,  :returns(guint64), :parameters([guint, guint])),
-  intersect => %(:is-symbol<gtk_bitset_intersect>,  :parameters([N-Object])),
-  is-empty => %(:is-symbol<gtk_bitset_is_empty>,  :returns(gboolean), :cnv-return(Bool)),
-  ref => %(:is-symbol<gtk_bitset_ref>,  :returns(N-Object)),
-  remove => %(:is-symbol<gtk_bitset_remove>,  :returns(gboolean), :cnv-return(Bool), :parameters([guint])),
-  remove-all => %(:is-symbol<gtk_bitset_remove_all>, ),
-  remove-range => %(:is-symbol<gtk_bitset_remove_range>,  :parameters([guint, guint])),
-  remove-range-closed => %(:is-symbol<gtk_bitset_remove_range_closed>,  :parameters([guint, guint])),
-  remove-rectangle => %(:is-symbol<gtk_bitset_remove_rectangle>,  :parameters([guint, guint, guint, guint])),
-  shift-left => %(:is-symbol<gtk_bitset_shift_left>,  :parameters([guint])),
-  shift-right => %(:is-symbol<gtk_bitset_shift_right>,  :parameters([guint])),
-  splice => %(:is-symbol<gtk_bitset_splice>,  :parameters([guint, guint, guint])),
-  subtract => %(:is-symbol<gtk_bitset_subtract>,  :parameters([N-Object])),
-  union => %(:is-symbol<gtk_bitset_union>,  :parameters([N-Object])),
-  unref => %(:is-symbol<gtk_bitset_unref>, ),
+  get-enable-horizontal => %(:is-symbol<gtk_scroll_info_get_enable_horizontal>,  :returns(gboolean), :cnv-return(Bool)),
+  get-enable-vertical => %(:is-symbol<gtk_scroll_info_get_enable_vertical>,  :returns(gboolean), :cnv-return(Bool)),
+  ref => %(:is-symbol<gtk_scroll_info_ref>,  :returns(N-Object)),
+  set-enable-horizontal => %(:is-symbol<gtk_scroll_info_set_enable_horizontal>,  :parameters([gboolean])),
+  set-enable-vertical => %(:is-symbol<gtk_scroll_info_set_enable_vertical>,  :parameters([gboolean])),
+  unref => %(:is-symbol<gtk_scroll_info_unref>, ),
 );
 
 #-------------------------------------------------------------------------------

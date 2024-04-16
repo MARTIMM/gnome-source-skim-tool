@@ -1,0 +1,36 @@
+=comment Package: Gtk4, C-Source: types
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-types:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-types:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'constants', {
+#TE:1:GTK_INVALID_LIST_POSITION
+is GTK_INVALID_LIST_POSITION, 4294967295, "constant GTK_INVALID_LIST_POSITION = 4294967295";
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

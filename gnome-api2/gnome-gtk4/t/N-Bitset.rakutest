@@ -11,6 +11,7 @@ use Test;
 
 
 use Gnome::Gtk4::N-Bitset:api<2>;
+use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -60,20 +61,20 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $n-bitset {
-    my UInt() $nth;
-    my UInt() $removed;
-    my UInt() $width;
-    my UInt() $n-items;
-    my UInt() $first;
-    my UInt() $start;
-    my UInt() $last;
-    my UInt() $height;
-    my UInt() $position;
-    my UInt() $added;
-    my UInt() $amount;
-    my UInt() $value;
     my UInt() $stride;
-    my CArray[N-Bitset] $other;
+    my UInt() $start;
+    my UInt() $nth;
+    my N-Object $other;
+    my UInt() $removed;
+    my UInt() $first;
+    my UInt() $value;
+    my UInt() $height;
+    my UInt() $amount;
+    my UInt() $n-items;
+    my UInt() $position;
+    my UInt() $width;
+    my UInt() $last;
+    my UInt() $added;
 
 
 #`{{

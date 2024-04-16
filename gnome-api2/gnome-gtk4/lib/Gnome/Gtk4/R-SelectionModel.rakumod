@@ -9,6 +9,7 @@ use NativeCall;
 
 
 use Gnome::Gtk4::N-Bitset:api<2>;
+use Gnome::Gtk4::T-types:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
