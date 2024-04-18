@@ -8,7 +8,8 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Gtk4::N-Bitset:api<2>;
+use Gnome::Gtk4::T-bitset:api<2>;
+use Gnome::Gtk4::T-types:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -18,31 +19,11 @@ use Gnome::N::X:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gtk4::N-BitsetIter:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has gchar-pptr $.private-data;
-
-  submethod BUILD (
-    gchar-pptr :$!private-data, 
-  ) {
-  }
-
-  method COERCE ( $no --> N-BitsetIter ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-BitsetIter, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -93,9 +74,9 @@ my Hash $methods = %(
   previous => %(:is-symbol<gtk_bitset_iter_previous>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint-ptr])),
 
   #--[Functions]----------------------------------------------------------------
-  init-at => %( :type(Function), :is-symbol<gtk_bitset_iter_init_at>,  :returns(gboolean), :parameters([ N-BitsetIter, N-Bitset, guint, gint-ptr])),
-  init-first => %( :type(Function), :is-symbol<gtk_bitset_iter_init_first>,  :returns(gboolean), :parameters([ N-BitsetIter, N-Bitset, gint-ptr])),
-  init-last => %( :type(Function), :is-symbol<gtk_bitset_iter_init_last>,  :returns(gboolean), :parameters([ N-BitsetIter, N-Bitset, gint-ptr])),
+  init-at => %( :type(Function), :is-symbol<gtk_bitset_iter_init_at>,  :returns(gboolean), :parameters([ N-Object, N-Object, guint, gint-ptr])),
+  init-first => %( :type(Function), :is-symbol<gtk_bitset_iter_init_first>,  :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr])),
+  init-last => %( :type(Function), :is-symbol<gtk_bitset_iter_init_last>,  :returns(gboolean), :parameters([ N-Object, N-Object, gint-ptr])),
 );
 
 #-------------------------------------------------------------------------------
