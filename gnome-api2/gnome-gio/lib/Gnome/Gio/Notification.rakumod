@@ -7,10 +7,12 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::GObject::Object:api<2>;
+
 use Gnome::Gio::T-Ioenums:api<2>;
-use Gnome::Glib::N-Variant:api<2>;
+
+use Gnome::Glib::T-variant:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;

@@ -11,9 +11,9 @@ use Gnome::GObject::Object:api<2>;
 
 use Gnome::Gio::R-Action:api<2>;
 
-use Gnome::Glib::N-Variant:api<2>;
+#use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::T-variant:api<2>;
-use Gnome::Glib::N-VariantType:api<2>;
+#use Gnome::Glib::N-VariantType:api<2>;
 use Gnome::Glib::T-varianttype:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
@@ -97,6 +97,7 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
       );
 
       # Check the function name. 
+      my $r = $routine-caller.call-native-sub( $name, @arguments, $methods);
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
