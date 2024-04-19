@@ -28,6 +28,7 @@ unless %*ENV<raku_test_all>:exists {
 }
 
 #-------------------------------------------------------------------------------
+#Gnome::N::debug(:on);
 subtest 'Method tests', {
   my Str $uri = 'https://developer.gnome.org/gio/2.62/GFile.html';
   my Gnome::Gio::File $file .= new-for-uri($uri);

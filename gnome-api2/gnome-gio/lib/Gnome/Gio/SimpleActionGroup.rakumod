@@ -7,10 +7,11 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::GObject::Object:api<2>;
+
 use Gnome::Gio::R-ActionGroup:api<2>;
 use Gnome::Gio::R-ActionMap:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
