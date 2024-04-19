@@ -435,7 +435,7 @@ note "$?LINE $c.gist()";
       }
 }}
 
-      when N-Object {
+      when $p.^name ~~ m/ 'N-' / or $p ~~ Pointer {
         if $v.^can('get-native-object-no-reffing') {
           $c = $v.get-native-object-no-reffing;
         }
@@ -471,9 +471,9 @@ note "$?LINE $c.gist()";
         $c = $v;
       }
 #    }
-
-    note "Converted; type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
   }
+
+  note "Converted; type: $c.^name(), value: $c.gist()" if $Gnome::N::x-debug;
 
   $c
 }
