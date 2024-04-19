@@ -903,6 +903,7 @@ method get-standalone-functions (
 
   my @methods = ();
   for @$function-names -> $name {
+#note "\n$?LINE $name";
     my XML::Element $element =
       $xpath.find( '//function[@name="' ~ $name ~ '"]', :!to-list);
 #note "$?LINE ", '//function[@name="' ~ $name ~ '"] ', ($element//'-').Str;
@@ -916,6 +917,7 @@ method get-standalone-functions (
   }
 
   for @methods -> $cn {
+#note "\n$?LINE $cn";
     my ( $function-name, %h) = self!get-method-data( $cn, :$xpath, :$user-side);
 
     # Function names which are returned emptied, are assumably internal
@@ -1773,7 +1775,7 @@ method !get-method-data (
   # It is possible that there is a 'throws' option which, when 1, needs
   # an extra argument to store an error object.
   if $e.attribs<throws>:exists and $e.attribs<throws> eq '1' {
-    self.add-import('Gnome::Glib::N-Error');
+    self.add-import('Gnome::Glib::T-error');
     @parameters.push: %(
       :name<err>, :type<CArray[N-Error]>, :raku-type<CArray[N-Error]>,
     );
@@ -1890,7 +1892,6 @@ method convert-ntype (
   my Str $raku-type = '';
   with $ctype {
 
-#TODO int/num/pointers as '$x is rw'
     # ignore const
     when /g? char '**'/       { $raku-type = 'gchar-pptr'; }
     when /g? char '*'/        { $raku-type = 'Str'; }
@@ -1944,7 +1945,7 @@ method convert-ntype (
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = $!solve.search-name($ctype);
-#note "  $?LINE $is-pointer, $ctype, $h.gist()";
+#note "  $?LINE $is-pointer, $ctype, $h<gir-type>";
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-Object';
@@ -1957,7 +1958,7 @@ method convert-ntype (
         }
 
         when 'record' {
-#note "$?LINE record $orig-ctype $h.gist()";
+#note "  $?LINE record $orig-ctype $h.gist()";
 #          $raku-type = $h<record-class>;
 #          $raku-type = "CArray[$raku-type]" if $is-pointer;
           $raku-type = 'N-Object';
@@ -2026,7 +2027,7 @@ method convert-ntype (
     }
   }
 
-#note "\n$?LINE $ctype, $raku-type";
+#note "\n$?LINE convert $ctype --> $raku-type";
   $raku-type
 }
 
@@ -2053,8 +2054,8 @@ method convert-rtype (
     when /g? uint \d* '*'/      { $raku-type = 'Array[UInt]'; }
     when /g? size '*'/          { $raku-type = 'Array[gsize]'; }
 #    when /:i g? error '*'/      { $raku-type = 'Array[N-Error]'; }
-#    when /:i g? pixbuf '*'/     { $raku-type = 'N-Object'; }
 #    when /:i g? error '*'/      { $raku-type = 'N-Object'; }
+#    when /:i g? pixbuf '*'/     { $raku-type = 'N-Object'; }
     when /g? pointer '*'/       { $raku-type = 'Array'; }
 
     # Graphene
@@ -2204,6 +2205,7 @@ method convert-rtype (
       }
     }
   }
+#note "\n$?LINE $ctype, $raku-type";
 
   $raku-type
 }
