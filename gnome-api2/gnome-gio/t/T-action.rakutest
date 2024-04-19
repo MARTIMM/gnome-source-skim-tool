@@ -1,19 +1,21 @@
 =comment Package: Gio, C-Source: action
 use v6.d;
 
-#TL:1:Gnome::Gio::T-Action:
+#TL:1:Gnome::Gio::T-action:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use Test;
 use NativeCall;
+use Test;
 
+use Gnome::Gio::T-action:api<2>;
 
-use Gnome::Gio::T-Action:api<2>;
 use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-error:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::T-variant:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -22,14 +24,14 @@ use Gnome::N::X:api<2>;
 
 
 
-my Gnome::Gio::T-Action $action .= new;
+my Gnome::Gio::T-action $action .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $action {
-    my N-Variant $target-value;
-    my Str $action-name;
-    my Str $detailed-name;
     my CArray[N-Error] $err;
+    my N-Object $target-value;
+    my Str $detailed-name;
+    my Str $action-name;
 
 
 #`{{

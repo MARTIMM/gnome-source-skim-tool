@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gio::T-Action
+=head1 Gnome::Gio::T-action
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -31,11 +31,11 @@ Initialization of a type class is simple and only needed when the standalone fun
 =begin pod
 =head2 action-name-is-valid
 
-Checks if C<$action_name> is valid.
- C<$action_name> is valid if it consists only of alphanumeric characters,
+Checks if C<$action-name> is valid.
+ C<$action-name> is valid if it consists only of alphanumeric characters,
 plus '-' and '.'.  The empty string is not a valid action name.
 
-It is an error to call this function with a non-utf8 C<$action_name>. C<$action_name> must not be undefined.
+It is an error to call this function with a non-utf8 C<$action-name>. C<$action-name> must not be undefined.
 
 =begin code
 method action-name-is-valid ( Str $action-name --> Bool )
@@ -43,7 +43,7 @@ method action-name-is-valid ( Str $action-name --> Bool )
 
 =item $action-name; a potential action name.
 
-Return value; C<True> if C<$action_name> is valid. 
+Return value; C<True> if C<$action-name> is valid. 
 
 =begin comment
 
@@ -84,12 +84,12 @@ For strings, this third format must be used if * target value is
 empty or contains characters other than alphanumerics, '-' and '.'.
 
 =begin code
-method action-parse-detailed-name ( Str $detailed-name, Array[Str] $action-name, CArray[N-Variant] $target-value, CArray[N-Error] $err --> Bool )
+method action-parse-detailed-name ( Str $detailed-name, Array[Str] $action-name, N-Object $target-value, CArray[N-Error] $err --> Bool )
 =end code
 
 =item $detailed-name; a detailed action name.
 =item $action-name; (transfer ownership: full) the action name.
-=item $target-value; (transfer ownership: full) the target value, or undefined for no target.
+=item $target-value; (transfer ownership: full) the target value, or undefined for no target
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -109,23 +109,23 @@ Return value; C<True> if successful, else C<False> with C<$error> set.
 =begin pod
 =head2 action-print-detailed-name
 
-Formats a detailed action name from C<$action_name> and C<$target_value>.
+Formats a detailed action name from C<$action-name> and C<$target-value>.
 
 It is an error to call this function with an invalid action name.
 
 This function is the opposite of C<.parse-detailed-name()>.
-It will produce a string that can be parsed back to the C<$action_name>
-and C<$target_value> by that function.
+It will produce a string that can be parsed back to the C<$action-name>
+and C<$target-value> by that function.
 
 See that function for the types of strings that will be printed by
 this function.
 
 =begin code
-method action-print-detailed-name ( Str $action-name, CArray[N-Variant] $target-value --> Str )
+method action-print-detailed-name ( Str $action-name, N-Object $target-value --> Str )
 =end code
 
 =item $action-name; a valid action name.
-=item $target-value; a B<Gnome::Glib::N-Variant> target value, or undefined.
+=item $target-value; a B<Gnome::Glib::N-Variant> target value, or undefined
 
 Return value; a detailed format string. 
 

@@ -6,10 +6,9 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::Glib::T-variant:api<2>;
+use Gnome::Glib::T-error:api<2>;
 
-#use Gnome::Gio::T-Action:api<2>;
-use Gnome::Glib::N-Error:api<2>;
-use Gnome::Glib::N-Variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -20,7 +19,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gio::T-Action:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gio::T-action:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -47,8 +46,8 @@ my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
   action-name-is-valid => %( :type(Function), :is-symbol<g_action_name_is_valid>,  :returns(gboolean), :parameters([Str])),
-  action-parse-detailed-name => %( :type(Function), :is-symbol<g_action_parse_detailed_name>,  :returns(gboolean), :parameters([ Str, gchar-pptr, CArray[N-Variant], CArray[N-Error]])),
-  action-print-detailed-name => %( :type(Function), :is-symbol<g_action_print_detailed_name>,  :returns(Str), :parameters([ Str, N-Variant])),
+  action-parse-detailed-name => %( :type(Function), :is-symbol<g_action_parse_detailed_name>,  :returns(gboolean), :parameters([ Str, gchar-pptr, N-Object, CArray[N-Error]])),
+  action-print-detailed-name => %( :type(Function), :is-symbol<g_action_print_detailed_name>,  :returns(Str), :parameters([ Str, N-Object])),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
