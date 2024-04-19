@@ -1,20 +1,16 @@
-=comment Package: Gio, C-Source: File
+=comment Package: Gio, C-Source: file
 use v6.d;
 
-#TL:1:Gnome::Gio::T-File:
+#TL:1:Gnome::Gio::T-file:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
-use Gnome::Gio::File:api<2>;
-#use Gnome::Gio::N-FileAttributeInfoList:api<2>;
-use Gnome::Gio::T-File:api<2>;
-use Gnome::Gio::T-Ioenums:api<2>;
-#use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Gio::T-file:api<2>;
 use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,23 +20,23 @@ use Gnome::N::X:api<2>;
 
 
 
-my Gnome::Gio::T-File $file .= new;
+my Gnome::Gio::T-file $file .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $file {
-    my CArray[N-Error] $err;
-    my Str $cwd;
-    my N-Object $cancellable;
-    my N-Object $result;
-    my Str $path;
-    my Str $tmpl;
-    my gpointer $user-data;
-    my Str $parse-name;
+    my Str $uri;
     my Str $arg;
     my gint $io-priority;
-    my Str $uri;
-    my CArray[N-Object] $iostream;
+    my N-Object $result;
+    my Str $cwd;
+    my gpointer $user-data;
     sub callback ( N-Object $source-object, N-Object $res, gpointer $user-data ) {}
+    my N-Object $cancellable;
+    my Str $path;
+    my Str $parse-name;
+    my CArray[N-Object] $iostream;
+    my CArray[N-Error] $err;
+    my Str $tmpl;
 
 
 #`{{

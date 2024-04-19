@@ -7,7 +7,6 @@ use v6.d;
 
 use NativeCall;
 
-
 #use Gnome::Gio::N-FileAttributeInfoList:api<2>;
 use Gnome::Gio::T-Ioenums:api<2>;
 

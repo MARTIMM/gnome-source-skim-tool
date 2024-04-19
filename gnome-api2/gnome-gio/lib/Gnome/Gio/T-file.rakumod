@@ -1,4 +1,4 @@
-=comment Package: Gio, C-Source: File
+=comment Package: Gio, C-Source: file
 use v6.d;
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
@@ -6,8 +6,8 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Glib::T-error:api<2>;
 
+use Gnome::Glib::T-error:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -18,7 +18,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gio::T-File:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gio::T-file:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-=comment Package: Gio, C-Source: File
+=comment Package: Gio, C-Source: file
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ path, "." or ".." path segments, etc) does not create different B<GFiles>.
 Many B<Gnome::Gio::File> operations have both synchronous and asynchronous versions
 to suit your application. Asynchronous versions of synchronous functions
 simply have _async() appended to their function names. The asynchronous
-I/O functions call a B<Gnome::Gio::T-FileAttributeMatcher> which is then used to finalize
+I/O functions call a B<Gnome::Gio::T-iotypes> which is then used to finalize
 the operation, producing a GAsyncResult which is then passed to the
 function's matching _finish() operation.
 
@@ -303,10 +303,10 @@ Use C<Pointer> when you want to ignore the error.
 =begin pod
 =head2 parse-name
 
-Constructs a B<Gnome::Gio::File> with the given C<$parse_name> (i.e. something
+Constructs a B<Gnome::Gio::File> with the given C<$parse-name> (i.e. something
 given by C<.get-parse-name()>). This operation never fails,
 but the returned object might not support any I/O operation if
-the C<$parse_name> cannot be parsed.
+the C<$parse-name> cannot be parsed.
 
 =begin code
 method parse-name ( Str $parse-name --> Gnome::Gio::File \)
@@ -334,6 +334,7 @@ method parse-name ( Str $parse-name --> Gnome::Gio::File \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 append-to
+This function is not yet available
 
 Gets an output stream for appending data to the file.
 If the file doesn't already exist it is created.
@@ -357,7 +358,7 @@ possible too, and depend on what kind of filesystem the file is on.
 method append-to ( UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> N-Object )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -379,6 +380,7 @@ Return value; a B<Gnome::Gio::FileOutputStream>, or undefined on error.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 append-to-async
+This function is not yet available
 
 Asynchronously opens C<$file> for appending.
 
@@ -393,11 +395,11 @@ of the operation.
 method append-to-async ( UInt $flags, Int() $io-priority, N-Object() $cancellable, &callback, gpointer $user-data )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -442,6 +444,7 @@ Return value; a valid B<Gnome::Gio::FileOutputStream>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 build-attribute-list-for-copy
+This function is not yet available
 
 Prepares the file attribute query string for copying to C<$file>.
 
@@ -457,7 +460,7 @@ stages (e.g., for recursive move of a directory).
 method build-attribute-list-for-copy ( UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> Str )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -479,6 +482,7 @@ Return value; an attribute query string for C<.query-info()>,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 copy
+This function is not yet available
 
 Copies the file C<$source> to the location specified by C<$destination>.
 Can not handle recursive copies of directories.
@@ -497,8 +501,8 @@ If C<$cancellable> is defined, then the operation can be cancelled by
 triggering the cancellable object from another thread. If the operation
 was cancelled, the error C<G_IO_ERROR_CANCELLED> will be returned.
 
-If C<$progress_callback> is defined, then the operation can be monitored
-by setting this to a B<Gnome::Gio::T-FileAttributeMatcher> function. C<$progress_callback_data> will be passed to this function. It is guaranteed
+If C<$progress-callback> is defined, then the operation can be monitored
+by setting this to a B<Gnome::Gio::T-iotypes> function. C<$progress-callback-data> will be passed to this function. It is guaranteed
 that this callback will be called after all data has been transferred with
 the total number of bytes copied during the operation.
 
@@ -524,12 +528,12 @@ method copy ( N-Object() $destination, UInt $flags, N-Object() $cancellable, &pr
 =end code
 
 =item $destination; destination B<Gnome::Gio::File>.
-=item $flags; set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item &progress-callback; function to callback with
   progress information, or undefined if progress information is not needed. Tthe function must be specified with following signature; C<:(  $current-num-bytes,  $total-num-bytes, gpointer $user-data )>.
-=item $progress-callback-data; user data to pass to C<$progress_callback>.
+=item $progress-callback-data; user data to pass to C<$progress-callback>.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -548,11 +552,12 @@ Return value; C<True> on success, C<False> otherwise..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 copy-async
+This function is not yet available
 
 Copies the file C<$source> to the location specified by C<$destination>
 asynchronously. For details of the behaviour, see C<.copy()>.
 
-If C<$progress_callback> is defined, then that function that will be called
+If C<$progress-callback> is defined, then that function that will be called
 just like in C<.copy()>. The callback will run in the default main context
 of the thread calling C<.copy-async()> — the same context as C<$callback> is
 run in.
@@ -565,14 +570,14 @@ method copy-async ( N-Object() $destination, UInt $flags, Int() $io-priority, N-
 =end code
 
 =item $destination; destination B<Gnome::Gio::File>.
-=item $flags; set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item &progress-callback; function to callback with progress
   information, or undefined if progress information is not needed. Tthe function must be specified with following signature; C<:(  $current-num-bytes,  $total-num-bytes, gpointer $user-data )>.
-=item $progress-callback-data; user data to pass to C<$progress_callback>.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item $progress-callback-data; user data to pass to C<$progress-callback>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
 =begin comment
@@ -587,6 +592,7 @@ method copy-async ( N-Object() $destination, UInt $flags, Int() $io-priority, N-
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 copy-attributes
+This function is not yet available
 
 Copies the file attributes from C<$source> to C<$destination>.
 
@@ -602,7 +608,7 @@ method copy-attributes ( N-Object() $destination, UInt $flags, N-Object() $cance
 =end code
 
 =item $destination; a B<Gnome::Gio::File> to copy attributes to.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -650,6 +656,7 @@ Return value; a C<True> on success, C<False> on error..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 create
+This function is not yet available
 
 Creates a new file and returns an output stream for writing to it.
 The file must not already exist.
@@ -675,7 +682,7 @@ of filesystem the file is on.
 method create ( UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> N-Object )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -698,6 +705,7 @@ Return value; a B<Gnome::Gio::FileOutputStream> for the newly created
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 create-async
+This function is not yet available
 
 Asynchronously creates a new file and returns an output stream
 for writing to it. The file must not already exist.
@@ -713,11 +721,11 @@ of the operation.
 method create-async ( UInt $flags, Int() $io-priority, N-Object() $cancellable, &callback, gpointer $user-data )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -761,6 +769,7 @@ Return value; a B<Gnome::Gio::FileOutputStream> or undefined on error.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 create-readwrite
+This function is not yet available
 
 Creates a new file and returns a stream for reading and
 writing to it. The file must not already exist.
@@ -790,7 +799,7 @@ streaming, rather than just opening for reading or writing.
 method create-readwrite ( UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> N-Object )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -813,6 +822,7 @@ Return value; a B<Gnome::Gio::FileIOStream> for the newly created
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 create-readwrite-async
+This function is not yet available
 
 Asynchronously creates a new file and returns a stream
 for reading and writing to it. The file must not already exist.
@@ -828,11 +838,11 @@ the result of the operation.
 method create-readwrite-async ( UInt $flags, Int() $io-priority, N-Object() $cancellable, &callback, gpointer $user-data )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -937,7 +947,7 @@ method delete-async ( Int() $io-priority, N-Object() $cancellable, &callback, gp
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -1010,9 +1020,10 @@ Return value; a new B<Gnome::Gio::File> that is a duplicate
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 eject-mountable-with-operation
+This function is not yet available
 
 Starts an asynchronous eject on a mountable.
-When this operation has completed, C<$callback> will be called with C<$user_user> data, and the operation can be finalized with
+When this operation has completed, C<$callback> will be called with C<$user-user> data, and the operation can be finalized with
 C<.eject-mountable-with-operation-finish()>.
 
 If C<$cancellable> is defined, then the operation can be cancelled by
@@ -1028,7 +1039,7 @@ method eject-mountable-with-operation ( UInt $flags, N-Object() $mount-operation
   or undefined to avoid user interaction.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied, or undefined. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -1072,6 +1083,7 @@ Return value; C<True> if the C<$file> was ejected successfully.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 enumerate-children
+This function is not yet available
 
 Gets the requested information about the files in a directory.
 The result is a B<Gnome::Gio::FileEnumerator> object that will give out
@@ -1104,7 +1116,7 @@ method enumerate-children ( Str $attributes, UInt $flags, N-Object() $cancellabl
 =end code
 
 =item $attributes; an attribute query string.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -1126,6 +1138,7 @@ Return value; A B<Gnome::Gio::FileEnumerator> if successful,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 enumerate-children-async
+This function is not yet available
 
 Asynchronously gets the requested information about the files
 in a directory. The result is a B<Gnome::Gio::FileEnumerator> object that will
@@ -1143,11 +1156,11 @@ method enumerate-children-async ( Str $attributes, UInt $flags, Int() $io-priori
 =end code
 
 =item $attributes; an attribute query string.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the
   request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -1274,7 +1287,7 @@ method find-enclosing-mount-async ( Int() $io-priority, N-Object() $cancellable,
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -1384,7 +1397,7 @@ Return value; a B<Gnome::Gio::File> to a child specified by C<$name>.
 =begin pod
 =head2 get-child-for-display-name
 
-Gets the child of C<$file> for a given C<$display_name> (i.e. a UTF-8
+Gets the child of C<$file> for a given C<$display-name> (i.e. a UTF-8
 version of the name). If this function fails, it returns undefined
 and C<$error> will be set. This is very useful when constructing a
 B<Gnome::Gio::File> for a new file and the user entered the filename in the
@@ -1746,7 +1759,6 @@ Return value; C<True> if C<$file> is native.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 load-bytes
-This function is not yet available
 
 Loads the contents of C<$file> and returns it as B<Gnome::Glib::N-Bytes>.
 
@@ -1754,14 +1766,14 @@ If C<$file> is a resource:// based URI, the resulting bytes will reference the
 embedded resource instead of a copy. Otherwise, this is equivalent to calling
 C<.load-contents()> and g_bytes_new_take().
 
-For resources, C<$etag_out> will be set to undefined.
+For resources, C<$etag-out> will be set to undefined.
 
 The data contained in the resulting B<Gnome::Glib::N-Bytes> is always zero-terminated, but
 this is not included in the B<Gnome::Glib::N-Bytes> length. The resulting B<Gnome::Glib::N-Bytes> should be
 freed with g_bytes_unref() when no longer in use.
 
 =begin code
-method load-bytes ( N-Object() $cancellable, Array[Str] $etag-out, CArray[N-Error] $err --> CArray[N-Bytes]  )
+method load-bytes ( N-Object() $cancellable, Array[Str] $etag-out, CArray[N-Error] $err --> N-Object )
 =end code
 
 =item $cancellable; a B<Gnome::Gio::Cancellable> or undefined.
@@ -1801,7 +1813,7 @@ method load-bytes-async ( N-Object() $cancellable, &callback, gpointer $user-dat
 =end code
 
 =item $cancellable; a B<Gnome::Gio::Cancellable> or undefined.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the
   request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -1817,11 +1829,10 @@ method load-bytes-async ( N-Object() $cancellable, &callback, gpointer $user-dat
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 load-bytes-finish
-This function is not yet available
 
 Completes an asynchronous request to C<.load-bytes-async()>.
 
-For resources, C<$etag_out> will be set to undefined.
+For resources, C<$etag-out> will be set to undefined.
 
 The data contained in the resulting B<Gnome::Glib::N-Bytes> is always zero-terminated, but
 this is not included in the B<Gnome::Glib::N-Bytes> length. The resulting B<Gnome::Glib::N-Bytes> should be
@@ -1830,7 +1841,7 @@ freed with g_bytes_unref() when no longer in use.
 See C<.load-bytes()> for more information.
 
 =begin code
-method load-bytes-finish ( N-Object() $result, Array[Str] $etag-out, CArray[N-Error] $err --> CArray[N-Bytes]  )
+method load-bytes-finish ( N-Object() $result, Array[Str] $etag-out, CArray[N-Error] $err --> N-Object )
 =end code
 
 =item $result; a B<Gnome::Gio::R-AsyncResult> provided to the callback.
@@ -1913,7 +1924,7 @@ method load-contents-async ( N-Object() $cancellable, &callback, gpointer $user-
 =end code
 
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
 =begin comment
@@ -1932,7 +1943,7 @@ method load-contents-async ( N-Object() $cancellable, &callback, gpointer $user-
 Finishes an asynchronous load of the C<$file>'s contents.
 The contents are placed in C<$contents>, and C<$length> is set to the
 size of the C<$contents> string. The C<$contents> should be freed with
-g_free() when no longer needed. If C<$etag_out> is present, it will be
+g_free() when no longer needed. If C<$etag-out> is present, it will be
 set to the new entity tag for the C<$file>.
 
 =begin code
@@ -1965,13 +1976,13 @@ Return value; C<True> if the load was successful. If C<False> and C<$error> is
 =begin pod
 =head2 load-partial-contents-async
 
-Reads the partial contents of a file. A B<Gnome::Gio::T-FileAttributeMatcher> should
+Reads the partial contents of a file. A B<Gnome::Gio::T-iotypes> should
 be used to stop reading from the file when appropriate, else this
 function will behave exactly as C<.load-contents-async()>. This
 operation can be finished by C<.load-partial-contents-finish()>.
 
-Users of this function should be aware that C<$user_data> is passed to
-both the C<$read_more_callback> and the C<$callback>.
+Users of this function should be aware that C<$user-data> is passed to
+both the C<$read-more-callback> and the C<$callback>.
 
 If C<$cancellable> is defined, then the operation can be cancelled by
 triggering the cancellable object from another thread. If the operation
@@ -1983,9 +1994,9 @@ method load-partial-contents-async ( N-Object() $cancellable, &read-more-callbac
 
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
 =item &read-more-callback; a
-  B<Gnome::Gio::T-FileAttributeMatcher> to receive partial data
+  B<Gnome::Gio::T-iotypes> to receive partial data
   and to specify whether further data should be read. Tthe function must be specified with following signature; C<:( Str $file-contents,  $file-size, gpointer $user-data --> gboolean )>.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to the callback functions.
 
@@ -2086,7 +2097,7 @@ method make-directory-async ( Int() $io-priority, N-Object() $cancellable, &call
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -2170,7 +2181,7 @@ otherwise..
 =begin pod
 =head2 make-symbolic-link
 
-Creates a symbolic link named C<$file> which contains the string C<$symlink_value>.
+Creates a symbolic link named C<$file> which contains the string C<$symlink-value>.
 
 If C<$cancellable> is defined, then the operation can be cancelled by
 triggering the cancellable object from another thread. If the operation
@@ -2202,6 +2213,7 @@ Return value; C<True> on the creation of a new symlink, C<False> otherwise..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 measure-disk-usage
+This function is not yet available
 
 Recursively measures the disk usage of C<$file>.
 
@@ -2213,22 +2225,22 @@ By default, errors are only reported against the toplevel file
 itself.  Errors found while recursing are silently ignored, unless
 C<G_FILE_MEASURE_REPORT_ANY_ERROR> is given in C<$flags>.
 
-The returned size, C<$disk_usage>, is in bytes and should be formatted
+The returned size, C<$disk-usage>, is in bytes and should be formatted
 with g_format_size() in order to get something reasonable for showing
 in a user interface.
- C<$progress_callback> and C<$progress_data> can be given to request
+ C<$progress-callback> and C<$progress-data> can be given to request
 periodic progress updates while scanning.  See the documentation for
-B<Gnome::Gio::T-FileAttributeMatcher> for information about when and how the
+B<Gnome::Gio::T-iotypes> for information about when and how the
 callback will be invoked.
 
 =begin code
 method measure-disk-usage ( UInt $flags, N-Object() $cancellable, &progress-callback, gpointer $progress-data, Array[Int] $disk-usage, Array[Int] $num-dirs, Array[Int] $num-files, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $flags; B<Gnome::Gio::T-Ioenums>.
+=item $flags; B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable>.
-=item &progress-callback; a B<Gnome::Gio::T-FileAttributeMatcher>. Tthe function must be specified with following signature; C<:( gboolean $reporting, guint64 $current-size, guint64 $num-dirs, guint64 $num-files, gpointer $user-data )>.
-=item $progress-data; user_data for C<$progress_callback>.
+=item &progress-callback; a B<Gnome::Gio::T-iotypes>. Tthe function must be specified with following signature; C<:( gboolean $reporting, guint64 $current-size, guint64 $num-dirs, guint64 $num-files, gpointer $user-data )>.
+=item $progress-data; user_data for C<$progress-callback>.
 =item $disk-usage; (transfer ownership: full) the number of bytes of disk space used.
 =item $num-dirs; (transfer ownership: full) the number of directories encountered.
 =item $num-files; (transfer ownership: full) the number of non-directories encountered.
@@ -2251,6 +2263,7 @@ Return value; C<True> if successful, with the out parameters set.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 measure-disk-usage-async
+This function is not yet available
 
 Recursively measures the disk usage of C<$file>.
 
@@ -2261,12 +2274,12 @@ there for more information.
 method measure-disk-usage-async ( UInt $flags, Int() $io-priority, N-Object() $cancellable, &progress-callback, gpointer $progress-data, &callback, gpointer $user-data )
 =end code
 
-=item $flags; B<Gnome::Gio::T-Ioenums>.
+=item $flags; B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable>.
-=item &progress-callback; a B<Gnome::Gio::T-FileAttributeMatcher>. Tthe function must be specified with following signature; C<:( gboolean $reporting, guint64 $current-size, guint64 $num-dirs, guint64 $num-files, gpointer $user-data )>.
-=item $progress-data; user_data for C<$progress_callback>.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when complete. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &progress-callback; a B<Gnome::Gio::T-iotypes>. Tthe function must be specified with following signature; C<:( gboolean $reporting, guint64 $current-size, guint64 $num-dirs, guint64 $num-files, gpointer $user-data )>.
+=item $progress-data; user_data for C<$progress-callback>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when complete. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
 =begin comment
@@ -2290,7 +2303,7 @@ more information.
 method measure-disk-usage-finish ( N-Object() $result, Array[Int] $disk-usage, Array[Int] $num-dirs, Array[Int] $num-files, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $result; the B<Gnome::Gio::R-AsyncResult> passed to your B<Gnome::Gio::T-FileAttributeMatcher>.
+=item $result; the B<Gnome::Gio::R-AsyncResult> passed to your B<Gnome::Gio::T-iotypes>.
 =item $disk-usage; (transfer ownership: full) the number of bytes of disk space used.
 =item $num-dirs; (transfer ownership: full) the number of directories encountered.
 =item $num-files; (transfer ownership: full) the number of non-directories encountered.
@@ -2313,6 +2326,7 @@ Return value; C<True> if successful, with the out parameters set.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 monitor
+This function is not yet available
 
 Obtains a file or directory monitor for the given file,
 depending on the type of the file.
@@ -2325,7 +2339,7 @@ was cancelled, the error C<G_IO_ERROR_CANCELLED> will be returned.
 method monitor ( UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> N-Object )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -2348,6 +2362,7 @@ Return value; a B<Gnome::Gio::FileMonitor> for the given C<$file>,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 monitor-directory
+This function is not yet available
 
 Obtains a directory monitor for the given file.
 This may fail if directory monitoring is not supported.
@@ -2366,7 +2381,7 @@ you must register individual watches with C<.monitor()>.
 method monitor-directory ( UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> N-Object )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -2389,6 +2404,7 @@ Return value; a B<Gnome::Gio::FileMonitor> for the given C<$file>,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 monitor-file
+This function is not yet available
 
 Obtains a file monitor for the given file. If no file notification
 mechanism exists, then regular polling of the file is used.
@@ -2409,7 +2425,7 @@ backend and/or filesystem type.
 method monitor-file ( UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> N-Object )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -2432,11 +2448,12 @@ Return value; a B<Gnome::Gio::FileMonitor> for the given C<$file>,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 mount-enclosing-volume
+This function is not yet available
 
-Starts a C<$mount_operation>, mounting the volume that contains
+Starts a C<$mount-operation>, mounting the volume that contains
 the file C<$location>.
 
-When this operation has completed, C<$callback> will be called with C<$user_user> data, and the operation can be finalized with
+When this operation has completed, C<$callback> will be called with C<$user-user> data, and the operation can be finalized with
 C<.mount-enclosing-volume-finish()>.
 
 If C<$cancellable> is defined, then the operation can be cancelled by
@@ -2452,7 +2469,7 @@ method mount-enclosing-volume ( UInt $flags, N-Object() $mount-operation, N-Obje
   or undefined to avoid user interaction.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied, or undefined. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -2496,9 +2513,10 @@ Return value; C<True> if successful. If an error has occurred,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 mount-mountable
+This function is not yet available
 
 Mounts a file of type G_FILE_TYPE_MOUNTABLE.
-Using C<$mount_operation>, you can request callbacks when, for instance,
+Using C<$mount-operation>, you can request callbacks when, for instance,
 passwords are needed during authentication.
 
 If C<$cancellable> is defined, then the operation can be cancelled by
@@ -2518,7 +2536,7 @@ method mount-mountable ( UInt $flags, N-Object() $mount-operation, N-Object() $c
   or undefined to avoid user interaction.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied, or undefined. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -2564,6 +2582,7 @@ Return value; a B<Gnome::Gio::File> or undefined on error.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 move
+This function is not yet available
 
 Tries to move the file or directory C<$source> to the location specified
 by C<$destination>. If native move operations are supported then this is
@@ -2578,8 +2597,8 @@ If C<$cancellable> is defined, then the operation can be cancelled by
 triggering the cancellable object from another thread. If the operation
 was cancelled, the error C<G_IO_ERROR_CANCELLED> will be returned.
 
-If C<$progress_callback> is defined, then the operation can be monitored
-by setting this to a B<Gnome::Gio::T-FileAttributeMatcher> function. C<$progress_callback_data> will be passed to this function. It is
+If C<$progress-callback> is defined, then the operation can be monitored
+by setting this to a B<Gnome::Gio::T-iotypes> function. C<$progress-callback-data> will be passed to this function. It is
 guaranteed that this callback will be called after all data has been
 transferred with the total number of bytes copied during the operation.
 
@@ -2603,10 +2622,10 @@ method move ( N-Object() $destination, UInt $flags, N-Object() $cancellable, &pr
 =end code
 
 =item $destination; B<Gnome::Gio::File> pointing to the destination location.
-=item $flags; set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &progress-callback; B<Gnome::Gio::T-FileAttributeMatcher>
+=item &progress-callback; B<Gnome::Gio::T-iotypes>
   function for updates. Tthe function must be specified with following signature; C<:(  $current-num-bytes,  $total-num-bytes, gpointer $user-data )>.
 =item $progress-callback-data; gpointer to user data for
   the callback function.
@@ -2628,10 +2647,11 @@ Return value; C<True> on successful move, C<False> otherwise..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 move-async
+This function is not yet available
 
 Asynchronously moves a file C<$source> to the location of C<$destination>. For details of the behaviour, see C<.move()>.
 
-If C<$progress_callback> is defined, then that function that will be called
+If C<$progress-callback> is defined, then that function that will be called
 just like in C<.move()>. The callback will run in the default main context
 of the thread calling C<.move-async()> — the same context as C<$callback> is
 run in.
@@ -2644,15 +2664,15 @@ method move-async ( N-Object() $destination, UInt $flags, Int() $io-priority, N-
 =end code
 
 =item $destination; B<Gnome::Gio::File> pointing to the destination location.
-=item $flags; set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &progress-callback; B<Gnome::Gio::T-FileAttributeMatcher>
+=item &progress-callback; B<Gnome::Gio::T-iotypes>
   function for updates. Tthe function must be specified with following signature; C<:(  $current-num-bytes,  $total-num-bytes, gpointer $user-data )>.
 =item $progress-callback-data; gpointer to user data for
   the callback function.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -2754,7 +2774,7 @@ method open-readwrite-async ( Int() $io-priority, N-Object() $cancellable, &call
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -2842,7 +2862,7 @@ method poll-mountable ( N-Object() $cancellable, &callback, gpointer $user-data 
 =end code
 
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied, or undefined. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -2930,7 +2950,7 @@ method query-default-handler-async ( Int() $io-priority, N-Object() $cancellable
 
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the request is done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; data to pass to C<$callback>.
 
 =begin comment
@@ -3019,22 +3039,23 @@ Return value; C<True> if the file exists (and can be detected without error),
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 query-file-type
+This function is not yet available
 
-Utility function to inspect the B<Gnome::Gio::T-Ioenums> of a file. This is
+Utility function to inspect the B<Gnome::Gio::T-ioenums> of a file. This is
 implemented using C<.query-info()> and as such does blocking I/O.
 
 The primary use case of this method is to check if a file is
 a regular file, directory, or symlink.
 
 =begin code
-method query-file-type ( UInt $flags, N-Object() $cancellable --> GFileType )
+method query-file-type ( UInt $flags, N-Object() $cancellable --> GFileType  )
 =end code
 
-=item $flags; a set of B<Gnome::Gio::T-Ioenums> passed to C<.query-info()>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums> passed to C<.query-info()>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 
-Return value; The B<Gnome::Gio::T-Ioenums> of the file and C<G_FILE_TYPE_UNKNOWN>
+Return value; The B<Gnome::Gio::T-ioenums> of the file and C<G_FILE_TYPE_UNKNOWN>
   if the file does not exist. 
 
 =begin comment
@@ -3123,7 +3144,7 @@ method query-filesystem-info-async ( Str $attributes, Int() $io-priority, N-Obje
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -3168,6 +3189,7 @@ Return value; B<Gnome::Gio::FileInfo> for given C<$file>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 query-info
+This function is not yet available
 
 Gets the requested information about specified C<$file>.
 The result is a B<Gnome::Gio::FileInfo> object that contains key-value
@@ -3205,7 +3227,7 @@ method query-info ( Str $attributes, UInt $flags, N-Object() $cancellable, CArra
 =end code
 
 =item $attributes; an attribute query string.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -3227,6 +3249,7 @@ Return value; a B<Gnome::Gio::FileInfo> for the given C<$file>, or undefined
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 query-info-async
+This function is not yet available
 
 Asynchronously gets the requested information about specified C<$file>.
 The result is a B<Gnome::Gio::FileInfo> object that contains key-value attributes
@@ -3243,11 +3266,11 @@ method query-info-async ( Str $attributes, UInt $flags, Int() $io-priority, N-Ob
 =end code
 
 =item $attributes; an attribute query string.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the
   request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -3292,7 +3315,6 @@ Return value; B<Gnome::Gio::FileInfo> for given C<$file>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 query-settable-attributes
-This function is not yet available
 
 Obtain the list of settable attributes for the file.
 
@@ -3306,7 +3328,7 @@ triggering the cancellable object from another thread. If the operation
 was cancelled, the error C<G_IO_ERROR_CANCELLED> will be returned.
 
 =begin code
-method query-settable-attributes ( N-Object() $cancellable, CArray[N-Error] $err --> CArray[N-FileAttributeInfoList]  )
+method query-settable-attributes ( N-Object() $cancellable, CArray[N-Error] $err --> N-Object )
 =end code
 
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
@@ -3331,7 +3353,6 @@ Return value; a B<Gnome::Gio::N-FileAttributeInfoList> describing the settable a
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 query-writable-namespaces
-This function is not yet available
 
 Obtain the list of attribute namespaces where new attributes
 can be created by a user. An example of this is extended
@@ -3342,7 +3363,7 @@ triggering the cancellable object from another thread. If the operation
 was cancelled, the error C<G_IO_ERROR_CANCELLED> will be returned.
 
 =begin code
-method query-writable-namespaces ( N-Object() $cancellable, CArray[N-Error] $err --> CArray[N-FileAttributeInfoList]  )
+method query-writable-namespaces ( N-Object() $cancellable, CArray[N-Error] $err --> N-Object )
 =end code
 
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
@@ -3421,7 +3442,7 @@ method read-async ( Int() $io-priority, N-Object() $cancellable, &callback, gpoi
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -3465,6 +3486,7 @@ Return value; a B<Gnome::Gio::FileInputStream> or undefined on error.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 replace
+This function is not yet available
 
 Returns an output stream for overwriting the file, possibly
 creating a backup copy of the file first. If the file doesn't exist,
@@ -3495,10 +3517,10 @@ after you've finished writing and closed the B<Gnome::Gio::FileOutputStream>. Wh
 you load a new file you can use C<.input-stream-query-info()> to
 get the etag of the file.
 
-If C<$make_backup> is C<True>, this function will attempt to make a
+If C<$make-backup> is C<True>, this function will attempt to make a
 backup of the current file before overwriting it. If this fails
 a C<G_IO_ERROR_CANT_CREATE_BACKUP> error will be returned. If you
-want to replace anyway, try again with C<$make_backup> set to C<False>.
+want to replace anyway, try again with C<$make-backup> set to C<False>.
 
 If the file is a directory the C<G_IO_ERROR_IS_DIRECTORY> error will
 be returned, and if the file is some other form of non-regular file
@@ -3515,7 +3537,7 @@ method replace ( Str $etag, Bool() $make-backup, UInt $flags, N-Object() $cancel
 =item $etag; an optional entity tag
   for the current B<Gnome::Gio::File>, or #NULL to ignore.
 =item $make-backup; C<True> if a backup should be created.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -3537,6 +3559,7 @@ Return value; a B<Gnome::Gio::FileOutputStream> or undefined on error.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 replace-async
+This function is not yet available
 
 Asynchronously overwrites the file, replacing the contents,
 possibly creating a backup copy of the file first.
@@ -3555,11 +3578,11 @@ method replace-async ( Str $etag, Bool() $make-backup, UInt $flags, Int() $io-pr
 =item $etag; an entity tag for the current B<Gnome::Gio::File>,
   or undefined to ignore.
 =item $make-backup; C<True> if a backup should be created.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -3575,13 +3598,14 @@ method replace-async ( Str $etag, Bool() $make-backup, UInt $flags, Int() $io-pr
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 replace-contents
+This function is not yet available
 
 Replaces the contents of C<$file> with C<$contents> of C<$length> bytes.
 
 If C<$etag> is specified (defined), any existing file must have that etag,
 or the error C<G_IO_ERROR_WRONG_ETAG> will be returned.
 
-If C<$make_backup> is C<True>, this function will attempt to make a backup
+If C<$make-backup> is C<True>, this function will attempt to make a backup
 of C<$file>. Internally, it uses C<.replace()>, so will try to replace the
 file contents in the safest way possible. For example, atomic renames are
 used when replacing local files’ contents.
@@ -3590,7 +3614,7 @@ If C<$cancellable> is defined, then the operation can be cancelled by
 triggering the cancellable object from another thread. If the operation
 was cancelled, the error C<G_IO_ERROR_CANCELLED> will be returned.
 
-The returned C<$new_etag> can be used to verify that the file hasn't
+The returned C<$new-etag> can be used to verify that the file hasn't
 changed the next time it is saved over.
 
 =begin code
@@ -3602,7 +3626,7 @@ method replace-contents ( Str $contents, Int() $length, Str $etag, Bool() $make-
 =item $etag; the old entity-tag for the document,
   or undefined.
 =item $make-backup; C<True> if a backup should be created.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $new-etag; (transfer ownership: full) a location to a new entity tag
   for the document. This should be freed with g_free() when no longer
   needed, or undefined.
@@ -3626,18 +3650,19 @@ Return value; C<True> if successful. If an error has occurred, this function
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 replace-contents-async
+This function is not yet available
 
 Starts an asynchronous replacement of C<$file> with the given C<$contents> of C<$length> bytes. C<$etag> will replace the document's
 current entity tag.
 
-When this operation has completed, C<$callback> will be called with C<$user_user> data, and the operation can be finalized with
+When this operation has completed, C<$callback> will be called with C<$user-user> data, and the operation can be finalized with
 C<.replace-contents-finish()>.
 
 If C<$cancellable> is defined, then the operation can be cancelled by
 triggering the cancellable object from another thread. If the operation
 was cancelled, the error C<G_IO_ERROR_CANCELLED> will be returned.
 
-If C<$make_backup> is C<True>, this function will attempt to
+If C<$make-backup> is C<True>, this function will attempt to
 make a backup of C<$file>.
 
 Note that no copy of C<$contents> will be made, so it must stay valid
@@ -3653,9 +3678,9 @@ method replace-contents-async ( Str $contents, Int() $length, Str $etag, Bool() 
 =item $length; the length of C<$contents> in bytes.
 =item $etag; a new entity tag for the C<$file>, or undefined.
 =item $make-backup; C<True> if a backup should be created.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
 =begin comment
@@ -3677,19 +3702,19 @@ This function will keep a ref on C<$contents> until the operation is done.
 Unlike C<.replace-contents-async()> this allows forgetting about the
 content without waiting for the callback.
 
-When this operation has completed, C<$callback> will be called with C<$user_user> data, and the operation can be finalized with
+When this operation has completed, C<$callback> will be called with C<$user-user> data, and the operation can be finalized with
 C<.replace-contents-finish()>.
 
 =begin code
-method replace-contents-bytes-async ( CArray[N-Bytes]  $contents, Str $etag, Bool() $make-backup, UInt $flags, N-Object() $cancellable, &callback, gpointer $user-data )
+method replace-contents-bytes-async ( N-Object $contents, Str $etag, Bool() $make-backup, UInt $flags, N-Object() $cancellable, &callback, gpointer $user-data )
 =end code
 
-=item $contents; a B<Gnome::Glib::N-Bytes>.
+=item $contents; a B<Gnome::Glib::N-Bytes>
 =item $etag; a new entity tag for the C<$file>, or undefined.
 =item $make-backup; C<True> if a backup should be created.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
 =begin comment
@@ -3706,7 +3731,7 @@ method replace-contents-bytes-async ( CArray[N-Bytes]  $contents, Str $etag, Boo
 =head2 replace-contents-finish
 
 Finishes an asynchronous replace of the given C<$file>. See
-C<.replace-contents-async()>. Sets C<$new_etag> to the new entity
+C<.replace-contents-async()>. Sets C<$new-etag> to the new entity
 tag for the document, if present.
 
 =begin code
@@ -3763,6 +3788,7 @@ Return value; a B<Gnome::Gio::FileOutputStream>, or undefined on error.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 replace-readwrite
+This function is not yet available
 
 Returns an output stream for overwriting the file in readwrite mode,
 possibly creating a backup copy of the file first. If the file doesn't
@@ -3782,7 +3808,7 @@ method replace-readwrite ( Str $etag, Bool() $make-backup, UInt $flags, N-Object
 =item $etag; an optional entity tag
   for the current B<Gnome::Gio::File>, or #NULL to ignore.
 =item $make-backup; C<True> if a backup should be created.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -3804,6 +3830,7 @@ Return value; a B<Gnome::Gio::FileIOStream> or undefined on error.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 replace-readwrite-async
+This function is not yet available
 
 Asynchronously overwrites the file in read-write mode,
 replacing the contents, possibly creating a backup copy
@@ -3823,11 +3850,11 @@ method replace-readwrite-async ( Str $etag, Bool() $make-backup, UInt $flags, In
 =item $etag; an entity tag for the current B<Gnome::Gio::File>,
   or undefined to ignore.
 =item $make-backup; C<True> if a backup should be created.
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -3876,7 +3903,7 @@ Resolves a relative path for C<$file> to an absolute path.
 
 This call does no blocking I/O.
 
-If the C<$relative_path> is an absolute path name, the resolution
+If the C<$relative-path> is an absolute path name, the resolution
 is done absolutely (without taking C<$file> path as base).
 
 =begin code
@@ -3899,25 +3926,26 @@ Return value; a B<Gnome::Gio::File> for the resolved path..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attribute
+This function is not yet available
 
-Sets an attribute in the file with attribute name C<$attribute> to C<$value_p>.
+Sets an attribute in the file with attribute name C<$attribute> to C<$value-p>.
 
 Some attributes can be unset by setting C<$type> to
-C<G_FILE_ATTRIBUTE_TYPE_INVALID> and C<$value_p> to undefined.
+C<G_FILE_ATTRIBUTE_TYPE_INVALID> and C<$value-p> to undefined.
 
 If C<$cancellable> is defined, then the operation can be cancelled by
 triggering the cancellable object from another thread. If the operation
 was cancelled, the error C<G_IO_ERROR_CANCELLED> will be returned.
 
 =begin code
-method set-attribute ( Str $attribute, GFileAttributeType $type, gpointer $value-p, UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> Bool )
+method set-attribute ( Str $attribute, GFileAttributeType  $type, gpointer $value-p, UInt $flags, N-Object() $cancellable, CArray[N-Error] $err --> Bool )
 =end code
 
 =item $attribute; a string containing the attribute's name.
 =item $type; The type of the attribute.
 =item $value-p; a pointer to the value (or the pointer
   itself if the type is a pointer type).
-=item $flags; a set of B<Gnome::Gio::T-Ioenums>.
+=item $flags; a set of B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -3938,6 +3966,7 @@ Return value; C<True> if the attribute was set, C<False> otherwise..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attribute-byte-string
+This function is not yet available
 
 Sets C<$attribute> of type C<G_FILE_ATTRIBUTE_TYPE_BYTE_STRING> to C<$value>.
 If C<$attribute> is of a different type, this operation will fail,
@@ -3953,7 +3982,7 @@ method set-attribute-byte-string ( Str $attribute, Str $value, UInt $flags, N-Ob
 
 =item $attribute; a string containing the attribute's name.
 =item $value; a string containing the attribute's new value.
-=item $flags; a B<Gnome::Gio::T-Ioenums>.
+=item $flags; a B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -3975,6 +4004,7 @@ Return value; C<True> if the C<$attribute> was successfully set to C<$value>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attribute-int32
+This function is not yet available
 
 Sets C<$attribute> of type %G_FILE_ATTRIBUTE_TYPE_INT32 to C<$value>.
 If C<$attribute> is of a different type, this operation will fail.
@@ -3989,7 +4019,7 @@ method set-attribute-int32 ( Str $attribute, Int() $value, UInt $flags, N-Object
 
 =item $attribute; a string containing the attribute's name.
 =item $value; a #gint32 containing the attribute's new value.
-=item $flags; a B<Gnome::Gio::T-Ioenums>.
+=item $flags; a B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -4011,6 +4041,7 @@ Return value; C<True> if the C<$attribute> was successfully set to C<$value>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attribute-int64
+This function is not yet available
 
 Sets C<$attribute> of type %G_FILE_ATTRIBUTE_TYPE_INT64 to C<$value>.
 If C<$attribute> is of a different type, this operation will fail.
@@ -4025,7 +4056,7 @@ method set-attribute-int64 ( Str $attribute, Int() $value, UInt $flags, N-Object
 
 =item $attribute; a string containing the attribute's name.
 =item $value; a #guint64 containing the attribute's new value.
-=item $flags; a B<Gnome::Gio::T-Ioenums>.
+=item $flags; a B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -4046,6 +4077,7 @@ Return value; C<True> if the C<$attribute> was successfully set, C<False> otherw
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attribute-string
+This function is not yet available
 
 Sets C<$attribute> of type C<G_FILE_ATTRIBUTE_TYPE_STRING> to C<$value>.
 If C<$attribute> is of a different type, this operation will fail.
@@ -4060,7 +4092,7 @@ method set-attribute-string ( Str $attribute, Str $value, UInt $flags, N-Object(
 
 =item $attribute; a string containing the attribute's name.
 =item $value; a string containing the attribute's value.
-=item $flags; B<Gnome::Gio::T-Ioenums>.
+=item $flags; B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -4081,6 +4113,7 @@ Return value; C<True> if the C<$attribute> was successfully set, C<False> otherw
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attribute-uint32
+This function is not yet available
 
 Sets C<$attribute> of type %G_FILE_ATTRIBUTE_TYPE_UINT32 to C<$value>.
 If C<$attribute> is of a different type, this operation will fail.
@@ -4095,7 +4128,7 @@ method set-attribute-uint32 ( Str $attribute, UInt() $value, UInt $flags, N-Obje
 
 =item $attribute; a string containing the attribute's name.
 =item $value; a #guint32 containing the attribute's new value.
-=item $flags; a B<Gnome::Gio::T-Ioenums>.
+=item $flags; a B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -4117,6 +4150,7 @@ Return value; C<True> if the C<$attribute> was successfully set to C<$value>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attribute-uint64
+This function is not yet available
 
 Sets C<$attribute> of type %G_FILE_ATTRIBUTE_TYPE_UINT64 to C<$value>.
 If C<$attribute> is of a different type, this operation will fail.
@@ -4131,7 +4165,7 @@ method set-attribute-uint64 ( Str $attribute, UInt() $value, UInt $flags, N-Obje
 
 =item $attribute; a string containing the attribute's name.
 =item $value; a #guint64 containing the attribute's new value.
-=item $flags; a B<Gnome::Gio::T-Ioenums>.
+=item $flags; a B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -4153,6 +4187,7 @@ Return value; C<True> if the C<$attribute> was successfully set to C<$value>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attributes-async
+This function is not yet available
 
 Asynchronously sets the attributes of C<$file> with C<$info>.
 
@@ -4168,11 +4203,11 @@ method set-attributes-async ( N-Object() $info, UInt $flags, Int() $io-priority,
 =end code
 
 =item $info; a B<Gnome::Gio::FileInfo>.
-=item $flags; a B<Gnome::Gio::T-Ioenums>.
+=item $flags; a B<Gnome::Gio::T-ioenums>.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher>. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &callback; a B<Gnome::Gio::T-iotypes>. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; a #gpointer.
 
 =begin comment
@@ -4214,6 +4249,7 @@ Return value; C<True> if the attributes were set correctly, C<False> otherwise..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attributes-from-info
+This function is not yet available
 
 Tries to set all attributes in the B<Gnome::Gio::FileInfo> on the target
 values, not stopping on the first error.
@@ -4233,7 +4269,7 @@ method set-attributes-from-info ( N-Object() $info, UInt $flags, N-Object() $can
 =end code
 
 =item $info; a B<Gnome::Gio::FileInfo>.
-=item $flags; B<Gnome::Gio::T-Ioenums>.
+=item $flags; B<Gnome::Gio::T-ioenums>.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
 =item $err; Error object. When defined, an error can be returned when there is one.
@@ -4316,7 +4352,7 @@ method set-display-name-async ( Str $display-name, Int() $io-priority, N-Object(
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -4360,9 +4396,10 @@ Return value; a B<Gnome::Gio::File> or undefined on error.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 start-mountable
+This function is not yet available
 
 Starts a file of type C<G_FILE_TYPE_MOUNTABLE>.
-Using C<$start_operation>, you can request callbacks when, for instance,
+Using C<$start-operation>, you can request callbacks when, for instance,
 passwords are needed during authentication.
 
 If C<$cancellable> is defined, then the operation can be cancelled by
@@ -4380,7 +4417,7 @@ method start-mountable ( UInt $flags, N-Object() $start-operation, N-Object() $c
 =item $flags; flags affecting the operation.
 =item $start-operation; a B<Gnome::Gio::MountOperation>, or undefined to avoid user interaction.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is satisfied, or undefined. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the request is satisfied, or undefined. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
 =begin comment
@@ -4425,6 +4462,7 @@ otherwise..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 stop-mountable
+This function is not yet available
 
 Stops a file of type C<G_FILE_TYPE_MOUNTABLE>.
 
@@ -4445,7 +4483,7 @@ method stop-mountable ( UInt $flags, N-Object() $mount-operation, N-Object() $ca
   or undefined to avoid user interaction..
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied, or undefined. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -4559,7 +4597,7 @@ method trash-async ( Int() $io-priority, N-Object() $cancellable, &callback, gpo
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 
@@ -4602,6 +4640,7 @@ Return value; C<True> on successful trash, C<False> otherwise..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unmount-mountable-with-operation
+This function is not yet available
 
 Unmounts a file of type C<G_FILE_TYPE_MOUNTABLE>.
 
@@ -4622,7 +4661,7 @@ method unmount-mountable-with-operation ( UInt $flags, N-Object() $mount-operati
   or undefined to avoid user interaction.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object,
   undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call
+=item &callback; a B<Gnome::Gio::T-iotypes> to call
   when the request is satisfied, or undefined. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; the data to pass to callback function.
 

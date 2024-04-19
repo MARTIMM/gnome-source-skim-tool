@@ -1,8 +1,8 @@
-=comment Package: Gio, C-Source: File
+=comment Package: Gio, C-Source: file
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gio::T-File
+=head1 Gnome::Gio::T-file
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ method file-new-tmp-async ( Str $tmpl, Int() $io-priority, N-Object() $cancellab
   name, as in C<.open-tmp()>, or undefined for a default template.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the request is done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; data to pass to C<$callback>.
 
 =begin comment
@@ -237,7 +237,7 @@ method file-new-tmp-dir-async ( Str $tmpl, Int() $io-priority, N-Object() $cance
   name, as in g_dir_make_tmp(), or undefined for a default template.
 =item $io-priority; the I/O priority of the request.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore.
-=item &callback; a B<Gnome::Gio::T-FileAttributeMatcher> to call when the request is done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
+=item &callback; a B<Gnome::Gio::T-iotypes> to call when the request is done. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $user-data )>.
 =item $user-data; data to pass to C<$callback>.
 
 =begin comment
@@ -309,10 +309,10 @@ Return value; a new B<Gnome::Gio::File>.
 =begin pod
 =head2 file-parse-name
 
-Constructs a B<Gnome::Gio::File> with the given C<$parse_name> (i.e. something
+Constructs a B<Gnome::Gio::File> with the given C<$parse-name> (i.e. something
 given by C<.get-parse-name()>). This operation never fails,
 but the returned object might not support any I/O operation if
-the C<$parse_name> cannot be parsed.
+the C<$parse-name> cannot be parsed.
 
 =begin code
 method file-parse-name ( Str $parse-name --> N-Object )
