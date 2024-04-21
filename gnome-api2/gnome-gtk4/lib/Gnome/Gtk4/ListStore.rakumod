@@ -7,15 +7,16 @@ use v6.d;
 
 use NativeCall;
 
-
-use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
 use Gnome::GObject::Object:api<2>;
+
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
 use Gnome::Gtk4::R-TreeDragDest:api<2>;
 use Gnome::Gtk4::R-TreeDragSource:api<2>;
 use Gnome::Gtk4::R-TreeModel:api<2>;
 use Gnome::Gtk4::R-TreeSortable:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;

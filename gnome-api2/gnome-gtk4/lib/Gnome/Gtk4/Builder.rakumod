@@ -9,7 +9,7 @@ use NativeCall;
 
 
 #use Gnome::GObject::N-Closure:api<2>;
-use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
 use Gnome::GObject::Object:api<2>;
 #use Gnome::GObject::T-closure:api<2>;
 #use Gnome::GObject::T-value:api<2>;
