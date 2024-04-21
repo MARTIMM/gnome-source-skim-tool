@@ -10,7 +10,7 @@ use Gnome::Gio::T-Ioenums:api<2>;
 
 use Gnome::Gtk4::Application:api<2>;
 use Gnome::Gtk4::ApplicationWindow:api<2>;
-#use Gnome::Gtk4::T-Application:api<2>;
+#use Gnome::Gtk4::T-application:api<2>;
 
 constant \Application = Gnome::Gtk4::Application;
 constant \ApplicationWindow = Gnome::Gtk4::ApplicationWindow;

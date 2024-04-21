@@ -13,7 +13,7 @@ use Gnome::Gio::T-ioenums:api<2>;
 use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-list:api<2>;
 
-use Gnome::Gtk4::T-Application:api<2>;
+use Gnome::Gtk4::T-application:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
