@@ -7,9 +7,10 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::T-variant:api<2>;
+
+use Gnome::GObject::T-value:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -26,26 +27,6 @@ use Gnome::N::X:api<2>;
 unit class Gnome::GObject::N-Value:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has GType $.g-type is rw;
-  has gint64 $!g-data;
-
-  submethod TWEAK {
-    $!g-type = 0;
-    $!g-data = 0;
-  }
-
-  method COERCE ( $no --> N-Value ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-Value, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
