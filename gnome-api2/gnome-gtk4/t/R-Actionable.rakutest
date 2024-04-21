@@ -37,7 +37,7 @@ subtest 'Method tests', {
     my Str $action-name;
     my Str $detailed-action-name;
 #    my N-Object $target-value;
-    my Gnome::Glib::N-Variant $target-value;
+    my Gnome::Glib::N-Variant() $target-value;
 
     #TM:1:set-detailed-action-name()
     $detailed-action-name = 'app.text';
@@ -46,11 +46,12 @@ subtest 'Method tests', {
 
     #TM:1:set-action-target-value()
     $target-value .= new-variant( 'u', uint32, 42);
-    .set-action-target-value($target-value.get-native-object);
+    .set-action-target-value($target-value);
 
     #TM:1:get-action-target-value()
     $target-value.clear-object;
     $target-value .= new(:native-object(.get-action-target-value()));
+    # TODO coercion: $target-value = .get-action-target-value;
     is $target-value.get-uint32, 42, '.set-action-target-value() / .get-action-target-value()';
 #`{{
     #TM:0:set-action-target()
