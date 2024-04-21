@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 use Gnome::Gio::Application:api<2>;
-use Gnome::Gio::T-Ioenums:api<2>;
+use Gnome::Gio::T-ioenums:api<2>;
 
 use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-list:api<2>;

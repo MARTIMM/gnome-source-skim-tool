@@ -9,7 +9,7 @@ use NativeCall;
 
 use Gnome::GObject::Object:api<2>;
 
-use Gnome::Gio::T-Ioenums:api<2>;
+use Gnome::Gio::T-ioenums:api<2>;
 
 use Gnome::Glib::T-variant:api<2>;
 

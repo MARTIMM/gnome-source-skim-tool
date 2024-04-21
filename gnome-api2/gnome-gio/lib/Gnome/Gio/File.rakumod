@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 #use Gnome::Gio::N-FileAttributeInfoList:api<2>;
-use Gnome::Gio::T-Ioenums:api<2>;
+use Gnome::Gio::T-ioenums:api<2>;
 
 #use Gnome::Glib::N-Bytes:api<2>;
 use Gnome::Glib::T-error:api<2>;

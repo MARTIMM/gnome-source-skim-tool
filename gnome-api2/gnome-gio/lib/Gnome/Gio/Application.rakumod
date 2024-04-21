@@ -11,7 +11,7 @@ use Gnome::GObject::Object:api<2>;
 
 use Gnome::Gio::R-ActionGroup:api<2>;
 use Gnome::Gio::R-ActionMap:api<2>;
-use Gnome::Gio::T-Ioenums:api<2>;
+use Gnome::Gio::T-ioenums:api<2>;
 
 use Gnome::Glib::N-Error:api<2>;
 use Gnome::Glib::T-error:api<2>;
