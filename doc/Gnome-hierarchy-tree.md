@@ -501,11 +501,11 @@ Types, constants, standalone functions, etc. generated from gnome sources
 ```
 Gnome::N::TopLevelClassSupport
 |   Gnome::Gio::*
-├── T-Action
-├── T-File
-├── T-Ioenums
-├── T-MenuAttributeIter
-├── T-MenuModel
+├── T-action
+├── T-file
+├── T-ioenums
+├── T-menuattributeiter
+├── T-menumodel
 ```
 
 ---
