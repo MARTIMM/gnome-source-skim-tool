@@ -1,0 +1,53 @@
+=comment Package: Gtk4, C-Source: bitset
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-bitset:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::N-Bitset:api<2>;
+use Gnome::Gtk4::T-bitset:api<2>;
+use Gnome::Gtk4::T-types:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gtk4::T-bitset $bitset .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $bitset {
+    my gint-ptr $value;
+    my N-Object $iter;
+    my guint $target;
+    my N-Object $set;
+
+
+#`{{
+    #TM:0:bitset-iter-init-at()
+    ok .bitset-iter-init-at( $iter, $set, $target, $value), '.bitset-iter-init-at()';
+
+    #TM:0:bitset-iter-init-first()
+    ok .bitset-iter-init-first( $iter, $set, $value), '.bitset-iter-init-first()';
+
+    #TM:0:bitset-iter-init-last()
+    ok .bitset-iter-init-last( $iter, $set, $value), '.bitset-iter-init-last()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

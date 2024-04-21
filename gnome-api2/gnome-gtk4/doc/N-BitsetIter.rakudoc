@@ -36,22 +36,6 @@ or C<.BitsetIter.init-at()>.
 =end pod
 
 #-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-BitsetIter
-
-  class N-BitsetIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gchar-pptr $.private-data;
-  }
-
-=item private-data; 
-
-=end pod
-
-#-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
@@ -191,11 +175,11 @@ If C<$target> is not found, finds the next value after it.
 If no value >= C<$target> exists in C<$set>, this function returns C<False>.
 
 =begin code
-method init-at ( CArray[N-BitsetIter] $iter, CArray[N-Bitset] $set, UInt() $target, Array[Int] $value --> Bool )
+method init-at ( N-Object $iter, N-Object $set, UInt() $target, Array[Int] $value --> Bool )
 =end code
 
-=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>.
-=item $set; a B<Gnome::Gtk4::N-Bitset>.
+=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>
+=item $set; a B<Gnome::Gtk4::N-Bitset>
 =item $target; target value to start iterating at.
 =item $value; (transfer ownership: full) Set to the found value in C<$set>.
 
@@ -220,11 +204,11 @@ value in C<$set>.
 If C<$set> is empty, C<False> is returned and C<$value> is set to C<G_MAXUINT>.
 
 =begin code
-method init-first ( CArray[N-BitsetIter] $iter, CArray[N-Bitset] $set, Array[Int] $value --> Bool )
+method init-first ( N-Object $iter, N-Object $set, Array[Int] $value --> Bool )
 =end code
 
-=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>.
-=item $set; a B<Gnome::Gtk4::N-Bitset>.
+=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>
+=item $set; a B<Gnome::Gtk4::N-Bitset>
 =item $value; (transfer ownership: full) Set to the first value in C<$set>.
 
 Return value; C<True> if C<$set> isn't empty.. 
@@ -248,11 +232,11 @@ value in C<$set>.
 If C<$set> is empty, C<False> is returned.
 
 =begin code
-method init-last ( CArray[N-BitsetIter] $iter, CArray[N-Bitset] $set, Array[Int] $value --> Bool )
+method init-last ( N-Object $iter, N-Object $set, Array[Int] $value --> Bool )
 =end code
 
-=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>.
-=item $set; a B<Gnome::Gtk4::N-Bitset>.
+=item $iter; a pointer to an uninitialized B<Gnome::Gtk4::N-BitsetIter>
+=item $set; a B<Gnome::Gtk4::N-Bitset>
 =item $value; (transfer ownership: full) Set to the last value in C<$set>.
 
 Return value; C<True> if C<$set> isn't empty.. 
