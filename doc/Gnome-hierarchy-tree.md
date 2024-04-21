@@ -314,13 +314,14 @@ Types, constants, standalone functions, etc. generated from gnome sources
 ```
 Gnome::N::TopLevelClassSupport
 |   Gnome::Gtk4::*
-├── T-AboutDialog
+├── T-aboutdialog
 ├── T-Accessible
 ├── T-ActivateAction
-├── T-Application
+├── T-application
 ├── T-Assistant
 ├── T-Bitset
 ├── T-BitsetIter
+├── T-builder
 ├── T-Dialog
 ├── T-Editable
 ├── T-Entry
@@ -351,6 +352,7 @@ Gnome::N::TopLevelClassSupport
 ├── T-TreeSortable
 ├── T-TreeView
 ├── T-TreeViewColumn
+├── T-types
 ```
 
 ---
