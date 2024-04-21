@@ -10,7 +10,7 @@ use NativeCall;
 
 #use :api<2>;
 #use Gnome::GObject::N-Closure:api<2>;
-use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
 #use Gnome::GObject::T-Binding:api<2>;
 use Gnome::N::GObjectSupport:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;

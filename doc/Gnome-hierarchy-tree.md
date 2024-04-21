@@ -315,12 +315,11 @@ Types, constants, standalone functions, etc. generated from gnome sources
 Gnome::N::TopLevelClassSupport
 |   Gnome::Gtk4::*
 ├── T-aboutdialog
-├── T-Accessible
-├── T-ActivateAction
+├── T-accessible
+├── T-activateaction
 ├── T-application
 ├── T-Assistant
-├── T-Bitset
-├── T-BitsetIter
+├── T-bitset
 ├── T-builder
 ├── T-Dialog
 ├── T-Editable
