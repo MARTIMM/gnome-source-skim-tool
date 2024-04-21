@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gio::T-Ioenums
+=head1 Gnome::Gio::T-ioenums
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ Message types used in B<Gnome::Gio::DBusMessage>.
 
 =head2 GDataStreamByteOrder
 
-B<Gnome::Gio::T-Ioenums> is used to ensure proper endianness of streaming data sources
+B<Gnome::Gio::T-ioenums> is used to ensure proper endianness of streaming data sources
 across various machine architectures.
 =item C<G_DATA_STREAM_BYTE_ORDER_BIG_ENDIAN>; Selects Big Endian byte order.
 =item C<G_DATA_STREAM_BYTE_ORDER_LITTLE_ENDIAN>; Selects Little Endian byte order.
@@ -138,7 +138,7 @@ across various machine architectures.
 
 =head2 GDataStreamNewlineType
 
-B<Gnome::Gio::T-Ioenums> is used when checking for or setting the line endings for a given file.
+B<Gnome::Gio::T-ioenums> is used when checking for or setting the line endings for a given file.
 =item C<G_DATA_STREAM_NEWLINE_TYPE_LF>; Selects "LF" line endings, common on most modern UNIX platforms.
 =item C<G_DATA_STREAM_NEWLINE_TYPE_CR>; Selects "CR" line endings.
 =item C<G_DATA_STREAM_NEWLINE_TYPE_CR_LF>; Selects "CR, LF" line ending, common on Microsoft Windows.
@@ -222,7 +222,7 @@ use B<Gnome::Gio::FileInfo> and C<G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK> to deter
 whether a file is a symlink or not. This is due to the fact that NTFS does
 not have a single filesystem object type for symbolic links - it has
 files that symlink to files, and directories that symlink to directories.
-B<Gnome::Gio::T-Ioenums> enumeration cannot precisely represent this important distinction,
+B<Gnome::Gio::T-ioenums> enumeration cannot precisely represent this important distinction,
 which is why all Windows symlinks will continue to be reported as
 C<G_FILE_TYPE_REGULAR> or C<G_FILE_TYPE_DIRECTORY>.
 =item C<G_FILE_TYPE_UNKNOWN>; File's type is unknown.
@@ -265,10 +265,10 @@ if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_FAILED))
 but should instead treat all unrecognized error codes the same as
 C<G_IO_ERROR_FAILED>.
 
-See also B<Gnome::Gio::T-Ioenums> for a cheaper way of returning
+See also B<Gnome::Gio::T-ioenums> for a cheaper way of returning
 C<G_IO_ERROR_WOULD_BLOCK> to callers without allocating a B<Gnome::Glib::N-Error>.
 =item C<G_IO_ERROR_FAILED>; Generic error condition for when an operation fails
-    and no more specific B<Gnome::Gio::T-Ioenums> value is defined.
+    and no more specific B<Gnome::Gio::T-ioenums> value is defined.
 =item C<G_IO_ERROR_NOT_FOUND>; File not found.
 =item C<G_IO_ERROR_EXISTS>; File already exists.
 =item C<G_IO_ERROR_IS_DIRECTORY>; File is a directory.
@@ -343,7 +343,7 @@ Flags for use with g_io_module_scope_new().
 Memory availability warning levels.
 
 Note that because new values might be added, it is recommended that applications check
-B<Gnome::Gio::T-Ioenums> as ranges, for example:
+B<Gnome::Gio::T-ioenums> as ranges, for example:
 =begin comment
 <!-- language="C" -->
 if (warning_level > G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
@@ -354,7 +354,7 @@ if (warning_level > G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
 =item C<G_MEMORY_MONITOR_WARNING_LEVEL_LOW>; Memory on the device is low, processes
   should free up unneeded resources (for example, in-memory caches) so they can
   be used elsewhere.
-=item C<G_MEMORY_MONITOR_WARNING_LEVEL_MEDIUM>; Same as C<$G_MEMORY_MONITOR_WARNING_LEVEL_LOW>
+=item C<G_MEMORY_MONITOR_WARNING_LEVEL_MEDIUM>; Same as C<$G-MEMORY-MONITOR-WARNING-LEVEL-LOW>
   but the device has even less free memory, so processes should try harder to free
   up unneeded resources. If your process does not need to stay running, it is a
   good time for it to quit.
@@ -363,7 +363,7 @@ if (warning_level > G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
 
 =head2 GMountOperationResult
 
-B<Gnome::Gio::T-Ioenums> is returned as a result when a request for
+B<Gnome::Gio::T-ioenums> is returned as a result when a request for
 information is send by the mounting operation.
 =item C<G_MOUNT_OPERATION_HANDLED>; The request was fulfilled and the
     user specified data is now available
@@ -404,7 +404,7 @@ Priority levels for B<GNotifications>.
 
 =head2 GPasswordSave
 
-B<Gnome::Gio::T-Ioenums> is used to indicate the lifespan of a saved password.
+B<Gnome::Gio::T-ioenums> is used to indicate the lifespan of a saved password.
 
 B<Gvfs> stores passwords in the Gnome keyring when this flag allows it
 to, and later retrieves it again from there.
@@ -637,7 +637,7 @@ TLS-related routine.
 
 =head2 GTlsInteractionResult
 
-B<Gnome::Gio::T-Ioenums> is returned by various functions in B<Gnome::Gio::TlsInteraction>
+B<Gnome::Gio::T-ioenums> is returned by various functions in B<Gnome::Gio::TlsInteraction>
 when finishing an interaction request.
 =item C<G_TLS_INTERACTION_UNHANDLED>; The interaction was unhandled (i.e. not
     implemented).
@@ -767,7 +767,7 @@ Flags used to define the behaviour of a B<Gnome::Gio::Application>.
 
 =head2 GAskPasswordFlags
 
-B<Gnome::Gio::T-Ioenums> are used to request specific information from the
+B<Gnome::Gio::T-ioenums> are used to request specific information from the
 user, or to notify the user of their choices in an authentication
 situation.
 

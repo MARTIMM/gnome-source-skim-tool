@@ -1,0 +1,1276 @@
+=comment Package: Gio, C-Source: ioenums
+use v6.d;
+
+#TL:1:Gnome::Gio::T-ioenums:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gio::T-ioenums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GAppInfoCreateFlags
+subtest 'GAppInfoCreateFlags', {
+  is G_APP_INFO_CREATE_NONE.value, 0, 'bitfield G_APP_INFO_CREATE_NONE = 0';
+
+  is G_APP_INFO_CREATE_NEEDS_TERMINAL.value, 1, 'bitfield G_APP_INFO_CREATE_NEEDS_TERMINAL = 1';
+
+  is G_APP_INFO_CREATE_SUPPORTS_URIS.value, 2, 'bitfield G_APP_INFO_CREATE_SUPPORTS_URIS = 2';
+
+  is G_APP_INFO_CREATE_SUPPORTS_STARTUP_NOTIFICATION.value, 4, 'bitfield G_APP_INFO_CREATE_SUPPORTS_STARTUP_NOTIFICATION = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GApplicationFlags
+subtest 'GApplicationFlags', {
+  is G_APPLICATION_FLAGS_NONE.value, 0, 'bitfield G_APPLICATION_FLAGS_NONE = 0';
+
+  is G_APPLICATION_DEFAULT_FLAGS.value, 0, 'bitfield G_APPLICATION_DEFAULT_FLAGS = 0';
+
+  is G_APPLICATION_IS_SERVICE.value, 1, 'bitfield G_APPLICATION_IS_SERVICE = 1';
+
+  is G_APPLICATION_IS_LAUNCHER.value, 2, 'bitfield G_APPLICATION_IS_LAUNCHER = 2';
+
+  is G_APPLICATION_HANDLES_OPEN.value, 4, 'bitfield G_APPLICATION_HANDLES_OPEN = 4';
+
+  is G_APPLICATION_HANDLES_COMMAND_LINE.value, 8, 'bitfield G_APPLICATION_HANDLES_COMMAND_LINE = 8';
+
+  is G_APPLICATION_SEND_ENVIRONMENT.value, 16, 'bitfield G_APPLICATION_SEND_ENVIRONMENT = 16';
+
+  is G_APPLICATION_NON_UNIQUE.value, 32, 'bitfield G_APPLICATION_NON_UNIQUE = 32';
+
+  is G_APPLICATION_CAN_OVERRIDE_APP_ID.value, 64, 'bitfield G_APPLICATION_CAN_OVERRIDE_APP_ID = 64';
+
+  is G_APPLICATION_ALLOW_REPLACEMENT.value, 128, 'bitfield G_APPLICATION_ALLOW_REPLACEMENT = 128';
+
+  is G_APPLICATION_REPLACE.value, 256, 'bitfield G_APPLICATION_REPLACE = 256';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GAskPasswordFlags
+subtest 'GAskPasswordFlags', {
+  is G_ASK_PASSWORD_NEED_PASSWORD.value, 1, 'bitfield G_ASK_PASSWORD_NEED_PASSWORD = 1';
+
+  is G_ASK_PASSWORD_NEED_USERNAME.value, 2, 'bitfield G_ASK_PASSWORD_NEED_USERNAME = 2';
+
+  is G_ASK_PASSWORD_NEED_DOMAIN.value, 4, 'bitfield G_ASK_PASSWORD_NEED_DOMAIN = 4';
+
+  is G_ASK_PASSWORD_SAVING_SUPPORTED.value, 8, 'bitfield G_ASK_PASSWORD_SAVING_SUPPORTED = 8';
+
+  is G_ASK_PASSWORD_ANONYMOUS_SUPPORTED.value, 16, 'bitfield G_ASK_PASSWORD_ANONYMOUS_SUPPORTED = 16';
+
+  is G_ASK_PASSWORD_TCRYPT.value, 32, 'bitfield G_ASK_PASSWORD_TCRYPT = 32';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GBusNameOwnerFlags
+subtest 'GBusNameOwnerFlags', {
+  is G_BUS_NAME_OWNER_FLAGS_NONE.value, 0, 'bitfield G_BUS_NAME_OWNER_FLAGS_NONE = 0';
+
+  is G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT.value, 1, 'bitfield G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT = 1';
+
+  is G_BUS_NAME_OWNER_FLAGS_REPLACE.value, 2, 'bitfield G_BUS_NAME_OWNER_FLAGS_REPLACE = 2';
+
+  is G_BUS_NAME_OWNER_FLAGS_DO_NOT_QUEUE.value, 4, 'bitfield G_BUS_NAME_OWNER_FLAGS_DO_NOT_QUEUE = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GBusNameWatcherFlags
+subtest 'GBusNameWatcherFlags', {
+  is G_BUS_NAME_WATCHER_FLAGS_NONE.value, 0, 'bitfield G_BUS_NAME_WATCHER_FLAGS_NONE = 0';
+
+  is G_BUS_NAME_WATCHER_FLAGS_AUTO_START.value, 1, 'bitfield G_BUS_NAME_WATCHER_FLAGS_AUTO_START = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GConverterFlags
+subtest 'GConverterFlags', {
+  is G_CONVERTER_NO_FLAGS.value, 0, 'bitfield G_CONVERTER_NO_FLAGS = 0';
+
+  is G_CONVERTER_INPUT_AT_END.value, 1, 'bitfield G_CONVERTER_INPUT_AT_END = 1';
+
+  is G_CONVERTER_FLUSH.value, 2, 'bitfield G_CONVERTER_FLUSH = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusCallFlags
+subtest 'GDBusCallFlags', {
+  is G_DBUS_CALL_FLAGS_NONE.value, 0, 'bitfield G_DBUS_CALL_FLAGS_NONE = 0';
+
+  is G_DBUS_CALL_FLAGS_NO_AUTO_START.value, 1, 'bitfield G_DBUS_CALL_FLAGS_NO_AUTO_START = 1';
+
+  is G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION.value, 2, 'bitfield G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusCapabilityFlags
+subtest 'GDBusCapabilityFlags', {
+  is G_DBUS_CAPABILITY_FLAGS_NONE.value, 0, 'bitfield G_DBUS_CAPABILITY_FLAGS_NONE = 0';
+
+  is G_DBUS_CAPABILITY_FLAGS_UNIX_FD_PASSING.value, 1, 'bitfield G_DBUS_CAPABILITY_FLAGS_UNIX_FD_PASSING = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusConnectionFlags
+subtest 'GDBusConnectionFlags', {
+  is G_DBUS_CONNECTION_FLAGS_NONE.value, 0, 'bitfield G_DBUS_CONNECTION_FLAGS_NONE = 0';
+
+  is G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT.value, 1, 'bitfield G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT = 1';
+
+  is G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER.value, 2, 'bitfield G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER = 2';
+
+  is G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS.value, 4, 'bitfield G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS = 4';
+
+  is G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION.value, 8, 'bitfield G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION = 8';
+
+  is G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING.value, 16, 'bitfield G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING = 16';
+
+  is G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER.value, 32, 'bitfield G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER = 32';
+
+  is G_DBUS_CONNECTION_FLAGS_CROSS_NAMESPACE.value, 64, 'bitfield G_DBUS_CONNECTION_FLAGS_CROSS_NAMESPACE = 64';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusInterfaceSkeletonFlags
+subtest 'GDBusInterfaceSkeletonFlags', {
+  is G_DBUS_INTERFACE_SKELETON_FLAGS_NONE.value, 0, 'bitfield G_DBUS_INTERFACE_SKELETON_FLAGS_NONE = 0';
+
+  is G_DBUS_INTERFACE_SKELETON_FLAGS_HANDLE_METHOD_INVOCATIONS_IN_THREAD.value, 1, 'bitfield G_DBUS_INTERFACE_SKELETON_FLAGS_HANDLE_METHOD_INVOCATIONS_IN_THREAD = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusMessageFlags
+subtest 'GDBusMessageFlags', {
+  is G_DBUS_MESSAGE_FLAGS_NONE.value, 0, 'bitfield G_DBUS_MESSAGE_FLAGS_NONE = 0';
+
+  is G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED.value, 1, 'bitfield G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED = 1';
+
+  is G_DBUS_MESSAGE_FLAGS_NO_AUTO_START.value, 2, 'bitfield G_DBUS_MESSAGE_FLAGS_NO_AUTO_START = 2';
+
+  is G_DBUS_MESSAGE_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION.value, 4, 'bitfield G_DBUS_MESSAGE_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusObjectManagerClientFlags
+subtest 'GDBusObjectManagerClientFlags', {
+  is G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE.value, 0, 'bitfield G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE = 0';
+
+  is G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_DO_NOT_AUTO_START.value, 1, 'bitfield G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_DO_NOT_AUTO_START = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusPropertyInfoFlags
+subtest 'GDBusPropertyInfoFlags', {
+  is G_DBUS_PROPERTY_INFO_FLAGS_NONE.value, 0, 'bitfield G_DBUS_PROPERTY_INFO_FLAGS_NONE = 0';
+
+  is G_DBUS_PROPERTY_INFO_FLAGS_READABLE.value, 1, 'bitfield G_DBUS_PROPERTY_INFO_FLAGS_READABLE = 1';
+
+  is G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE.value, 2, 'bitfield G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusProxyFlags
+subtest 'GDBusProxyFlags', {
+  is G_DBUS_PROXY_FLAGS_NONE.value, 0, 'bitfield G_DBUS_PROXY_FLAGS_NONE = 0';
+
+  is G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES.value, 1, 'bitfield G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES = 1';
+
+  is G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS.value, 2, 'bitfield G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS = 2';
+
+  is G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START.value, 4, 'bitfield G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START = 4';
+
+  is G_DBUS_PROXY_FLAGS_GET_INVALIDATED_PROPERTIES.value, 8, 'bitfield G_DBUS_PROXY_FLAGS_GET_INVALIDATED_PROPERTIES = 8';
+
+  is G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION.value, 16, 'bitfield G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION = 16';
+
+  is G_DBUS_PROXY_FLAGS_NO_MATCH_RULE.value, 32, 'bitfield G_DBUS_PROXY_FLAGS_NO_MATCH_RULE = 32';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusSendMessageFlags
+subtest 'GDBusSendMessageFlags', {
+  is G_DBUS_SEND_MESSAGE_FLAGS_NONE.value, 0, 'bitfield G_DBUS_SEND_MESSAGE_FLAGS_NONE = 0';
+
+  is G_DBUS_SEND_MESSAGE_FLAGS_PRESERVE_SERIAL.value, 1, 'bitfield G_DBUS_SEND_MESSAGE_FLAGS_PRESERVE_SERIAL = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusServerFlags
+subtest 'GDBusServerFlags', {
+  is G_DBUS_SERVER_FLAGS_NONE.value, 0, 'bitfield G_DBUS_SERVER_FLAGS_NONE = 0';
+
+  is G_DBUS_SERVER_FLAGS_RUN_IN_THREAD.value, 1, 'bitfield G_DBUS_SERVER_FLAGS_RUN_IN_THREAD = 1';
+
+  is G_DBUS_SERVER_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS.value, 2, 'bitfield G_DBUS_SERVER_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS = 2';
+
+  is G_DBUS_SERVER_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER.value, 4, 'bitfield G_DBUS_SERVER_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusSignalFlags
+subtest 'GDBusSignalFlags', {
+  is G_DBUS_SIGNAL_FLAGS_NONE.value, 0, 'bitfield G_DBUS_SIGNAL_FLAGS_NONE = 0';
+
+  is G_DBUS_SIGNAL_FLAGS_NO_MATCH_RULE.value, 1, 'bitfield G_DBUS_SIGNAL_FLAGS_NO_MATCH_RULE = 1';
+
+  is G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_NAMESPACE.value, 2, 'bitfield G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_NAMESPACE = 2';
+
+  is G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_PATH.value, 4, 'bitfield G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_PATH = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusSubtreeFlags
+subtest 'GDBusSubtreeFlags', {
+  is G_DBUS_SUBTREE_FLAGS_NONE.value, 0, 'bitfield G_DBUS_SUBTREE_FLAGS_NONE = 0';
+
+  is G_DBUS_SUBTREE_FLAGS_DISPATCH_TO_UNENUMERATED_NODES.value, 1, 'bitfield G_DBUS_SUBTREE_FLAGS_DISPATCH_TO_UNENUMERATED_NODES = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDriveStartFlags
+subtest 'GDriveStartFlags', {
+  is G_DRIVE_START_NONE.value, 0, 'bitfield G_DRIVE_START_NONE = 0';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileAttributeInfoFlags
+subtest 'GFileAttributeInfoFlags', {
+  is G_FILE_ATTRIBUTE_INFO_NONE.value, 0, 'bitfield G_FILE_ATTRIBUTE_INFO_NONE = 0';
+
+  is G_FILE_ATTRIBUTE_INFO_COPY_WITH_FILE.value, 1, 'bitfield G_FILE_ATTRIBUTE_INFO_COPY_WITH_FILE = 1';
+
+  is G_FILE_ATTRIBUTE_INFO_COPY_WHEN_MOVED.value, 2, 'bitfield G_FILE_ATTRIBUTE_INFO_COPY_WHEN_MOVED = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileCopyFlags
+subtest 'GFileCopyFlags', {
+  is G_FILE_COPY_NONE.value, 0, 'bitfield G_FILE_COPY_NONE = 0';
+
+  is G_FILE_COPY_OVERWRITE.value, 1, 'bitfield G_FILE_COPY_OVERWRITE = 1';
+
+  is G_FILE_COPY_BACKUP.value, 2, 'bitfield G_FILE_COPY_BACKUP = 2';
+
+  is G_FILE_COPY_NOFOLLOW_SYMLINKS.value, 4, 'bitfield G_FILE_COPY_NOFOLLOW_SYMLINKS = 4';
+
+  is G_FILE_COPY_ALL_METADATA.value, 8, 'bitfield G_FILE_COPY_ALL_METADATA = 8';
+
+  is G_FILE_COPY_NO_FALLBACK_FOR_MOVE.value, 16, 'bitfield G_FILE_COPY_NO_FALLBACK_FOR_MOVE = 16';
+
+  is G_FILE_COPY_TARGET_DEFAULT_PERMS.value, 32, 'bitfield G_FILE_COPY_TARGET_DEFAULT_PERMS = 32';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileCreateFlags
+subtest 'GFileCreateFlags', {
+  is G_FILE_CREATE_NONE.value, 0, 'bitfield G_FILE_CREATE_NONE = 0';
+
+  is G_FILE_CREATE_PRIVATE.value, 1, 'bitfield G_FILE_CREATE_PRIVATE = 1';
+
+  is G_FILE_CREATE_REPLACE_DESTINATION.value, 2, 'bitfield G_FILE_CREATE_REPLACE_DESTINATION = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileMeasureFlags
+subtest 'GFileMeasureFlags', {
+  is G_FILE_MEASURE_NONE.value, 0, 'bitfield G_FILE_MEASURE_NONE = 0';
+
+  is G_FILE_MEASURE_REPORT_ANY_ERROR.value, 2, 'bitfield G_FILE_MEASURE_REPORT_ANY_ERROR = 2';
+
+  is G_FILE_MEASURE_APPARENT_SIZE.value, 4, 'bitfield G_FILE_MEASURE_APPARENT_SIZE = 4';
+
+  is G_FILE_MEASURE_NO_XDEV.value, 8, 'bitfield G_FILE_MEASURE_NO_XDEV = 8';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileMonitorFlags
+subtest 'GFileMonitorFlags', {
+  is G_FILE_MONITOR_NONE.value, 0, 'bitfield G_FILE_MONITOR_NONE = 0';
+
+  is G_FILE_MONITOR_WATCH_MOUNTS.value, 1, 'bitfield G_FILE_MONITOR_WATCH_MOUNTS = 1';
+
+  is G_FILE_MONITOR_SEND_MOVED.value, 2, 'bitfield G_FILE_MONITOR_SEND_MOVED = 2';
+
+  is G_FILE_MONITOR_WATCH_HARD_LINKS.value, 4, 'bitfield G_FILE_MONITOR_WATCH_HARD_LINKS = 4';
+
+  is G_FILE_MONITOR_WATCH_MOVES.value, 8, 'bitfield G_FILE_MONITOR_WATCH_MOVES = 8';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileQueryInfoFlags
+subtest 'GFileQueryInfoFlags', {
+  is G_FILE_QUERY_INFO_NONE.value, 0, 'bitfield G_FILE_QUERY_INFO_NONE = 0';
+
+  is G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS.value, 1, 'bitfield G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GIOStreamSpliceFlags
+subtest 'GIOStreamSpliceFlags', {
+  is G_IO_STREAM_SPLICE_NONE.value, 0, 'bitfield G_IO_STREAM_SPLICE_NONE = 0';
+
+  is G_IO_STREAM_SPLICE_CLOSE_STREAM1.value, 1, 'bitfield G_IO_STREAM_SPLICE_CLOSE_STREAM1 = 1';
+
+  is G_IO_STREAM_SPLICE_CLOSE_STREAM2.value, 2, 'bitfield G_IO_STREAM_SPLICE_CLOSE_STREAM2 = 2';
+
+  is G_IO_STREAM_SPLICE_WAIT_FOR_BOTH.value, 4, 'bitfield G_IO_STREAM_SPLICE_WAIT_FOR_BOTH = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GMountMountFlags
+subtest 'GMountMountFlags', {
+  is G_MOUNT_MOUNT_NONE.value, 0, 'bitfield G_MOUNT_MOUNT_NONE = 0';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GMountUnmountFlags
+subtest 'GMountUnmountFlags', {
+  is G_MOUNT_UNMOUNT_NONE.value, 0, 'bitfield G_MOUNT_UNMOUNT_NONE = 0';
+
+  is G_MOUNT_UNMOUNT_FORCE.value, 1, 'bitfield G_MOUNT_UNMOUNT_FORCE = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GOutputStreamSpliceFlags
+subtest 'GOutputStreamSpliceFlags', {
+  is G_OUTPUT_STREAM_SPLICE_NONE.value, 0, 'bitfield G_OUTPUT_STREAM_SPLICE_NONE = 0';
+
+  is G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE.value, 1, 'bitfield G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE = 1';
+
+  is G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET.value, 2, 'bitfield G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GResourceFlags
+subtest 'GResourceFlags', {
+  is G_RESOURCE_FLAGS_NONE.value, 0, 'bitfield G_RESOURCE_FLAGS_NONE = 0';
+
+  is G_RESOURCE_FLAGS_COMPRESSED.value, 1, 'bitfield G_RESOURCE_FLAGS_COMPRESSED = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GResourceLookupFlags
+subtest 'GResourceLookupFlags', {
+  is G_RESOURCE_LOOKUP_FLAGS_NONE.value, 0, 'bitfield G_RESOURCE_LOOKUP_FLAGS_NONE = 0';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSocketMsgFlags
+subtest 'GSocketMsgFlags', {
+  is G_SOCKET_MSG_NONE.value, 0, 'bitfield G_SOCKET_MSG_NONE = 0';
+
+  is G_SOCKET_MSG_OOB.value, 1, 'bitfield G_SOCKET_MSG_OOB = 1';
+
+  is G_SOCKET_MSG_PEEK.value, 2, 'bitfield G_SOCKET_MSG_PEEK = 2';
+
+  is G_SOCKET_MSG_DONTROUTE.value, 4, 'bitfield G_SOCKET_MSG_DONTROUTE = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSubprocessFlags
+subtest 'GSubprocessFlags', {
+  is G_SUBPROCESS_FLAGS_NONE.value, 0, 'bitfield G_SUBPROCESS_FLAGS_NONE = 0';
+
+  is G_SUBPROCESS_FLAGS_STDIN_PIPE.value, 1, 'bitfield G_SUBPROCESS_FLAGS_STDIN_PIPE = 1';
+
+  is G_SUBPROCESS_FLAGS_STDIN_INHERIT.value, 2, 'bitfield G_SUBPROCESS_FLAGS_STDIN_INHERIT = 2';
+
+  is G_SUBPROCESS_FLAGS_STDOUT_PIPE.value, 4, 'bitfield G_SUBPROCESS_FLAGS_STDOUT_PIPE = 4';
+
+  is G_SUBPROCESS_FLAGS_STDOUT_SILENCE.value, 8, 'bitfield G_SUBPROCESS_FLAGS_STDOUT_SILENCE = 8';
+
+  is G_SUBPROCESS_FLAGS_STDERR_PIPE.value, 16, 'bitfield G_SUBPROCESS_FLAGS_STDERR_PIPE = 16';
+
+  is G_SUBPROCESS_FLAGS_STDERR_SILENCE.value, 32, 'bitfield G_SUBPROCESS_FLAGS_STDERR_SILENCE = 32';
+
+  is G_SUBPROCESS_FLAGS_STDERR_MERGE.value, 64, 'bitfield G_SUBPROCESS_FLAGS_STDERR_MERGE = 64';
+
+  is G_SUBPROCESS_FLAGS_INHERIT_FDS.value, 128, 'bitfield G_SUBPROCESS_FLAGS_INHERIT_FDS = 128';
+
+  is G_SUBPROCESS_FLAGS_SEARCH_PATH_FROM_ENVP.value, 256, 'bitfield G_SUBPROCESS_FLAGS_SEARCH_PATH_FROM_ENVP = 256';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTestDBusFlags
+subtest 'GTestDBusFlags', {
+  is G_TEST_DBUS_NONE.value, 0, 'bitfield G_TEST_DBUS_NONE = 0';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsCertificateFlags
+subtest 'GTlsCertificateFlags', {
+  is G_TLS_CERTIFICATE_NO_FLAGS.value, 0, 'bitfield G_TLS_CERTIFICATE_NO_FLAGS = 0';
+
+  is G_TLS_CERTIFICATE_UNKNOWN_CA.value, 1, 'bitfield G_TLS_CERTIFICATE_UNKNOWN_CA = 1';
+
+  is G_TLS_CERTIFICATE_BAD_IDENTITY.value, 2, 'bitfield G_TLS_CERTIFICATE_BAD_IDENTITY = 2';
+
+  is G_TLS_CERTIFICATE_NOT_ACTIVATED.value, 4, 'bitfield G_TLS_CERTIFICATE_NOT_ACTIVATED = 4';
+
+  is G_TLS_CERTIFICATE_EXPIRED.value, 8, 'bitfield G_TLS_CERTIFICATE_EXPIRED = 8';
+
+  is G_TLS_CERTIFICATE_REVOKED.value, 16, 'bitfield G_TLS_CERTIFICATE_REVOKED = 16';
+
+  is G_TLS_CERTIFICATE_INSECURE.value, 32, 'bitfield G_TLS_CERTIFICATE_INSECURE = 32';
+
+  is G_TLS_CERTIFICATE_GENERIC_ERROR.value, 64, 'bitfield G_TLS_CERTIFICATE_GENERIC_ERROR = 64';
+
+  is G_TLS_CERTIFICATE_VALIDATE_ALL.value, 127, 'bitfield G_TLS_CERTIFICATE_VALIDATE_ALL = 127';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsDatabaseVerifyFlags
+subtest 'GTlsDatabaseVerifyFlags', {
+  is G_TLS_DATABASE_VERIFY_NONE.value, 0, 'bitfield G_TLS_DATABASE_VERIFY_NONE = 0';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsPasswordFlags
+subtest 'GTlsPasswordFlags', {
+  is G_TLS_PASSWORD_NONE.value, 0, 'bitfield G_TLS_PASSWORD_NONE = 0';
+
+  is G_TLS_PASSWORD_RETRY.value, 2, 'bitfield G_TLS_PASSWORD_RETRY = 2';
+
+  is G_TLS_PASSWORD_MANY_TRIES.value, 4, 'bitfield G_TLS_PASSWORD_MANY_TRIES = 4';
+
+  is G_TLS_PASSWORD_FINAL_TRY.value, 8, 'bitfield G_TLS_PASSWORD_FINAL_TRY = 8';
+
+  is G_TLS_PASSWORD_PKCS11_USER.value, 16, 'bitfield G_TLS_PASSWORD_PKCS11_USER = 16';
+
+  is G_TLS_PASSWORD_PKCS11_SECURITY_OFFICER.value, 32, 'bitfield G_TLS_PASSWORD_PKCS11_SECURITY_OFFICER = 32';
+
+  is G_TLS_PASSWORD_PKCS11_CONTEXT_SPECIFIC.value, 64, 'bitfield G_TLS_PASSWORD_PKCS11_CONTEXT_SPECIFIC = 64';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GBusType
+subtest 'GBusType', {
+  is G_BUS_TYPE_STARTER.value, 0, 'enum G_BUS_TYPE_STARTER = 0';
+
+  is G_BUS_TYPE_NONE.value, 1, 'enum G_BUS_TYPE_NONE = 1';
+
+  is G_BUS_TYPE_SYSTEM.value, 2, 'enum G_BUS_TYPE_SYSTEM = 2';
+
+  is G_BUS_TYPE_SESSION.value, 3, 'enum G_BUS_TYPE_SESSION = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GConverterResult
+subtest 'GConverterResult', {
+  is G_CONVERTER_ERROR.value, 0, 'enum G_CONVERTER_ERROR = 0';
+
+  is G_CONVERTER_CONVERTED.value, 1, 'enum G_CONVERTER_CONVERTED = 1';
+
+  is G_CONVERTER_FINISHED.value, 2, 'enum G_CONVERTER_FINISHED = 2';
+
+  is G_CONVERTER_FLUSHED.value, 3, 'enum G_CONVERTER_FLUSHED = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GCredentialsType
+subtest 'GCredentialsType', {
+  is G_CREDENTIALS_TYPE_INVALID.value, 0, 'enum G_CREDENTIALS_TYPE_INVALID = 0';
+
+  is G_CREDENTIALS_TYPE_LINUX_UCRED.value, 1, 'enum G_CREDENTIALS_TYPE_LINUX_UCRED = 1';
+
+  is G_CREDENTIALS_TYPE_FREEBSD_CMSGCRED.value, 2, 'enum G_CREDENTIALS_TYPE_FREEBSD_CMSGCRED = 2';
+
+  is G_CREDENTIALS_TYPE_OPENBSD_SOCKPEERCRED.value, 3, 'enum G_CREDENTIALS_TYPE_OPENBSD_SOCKPEERCRED = 3';
+
+  is G_CREDENTIALS_TYPE_SOLARIS_UCRED.value, 4, 'enum G_CREDENTIALS_TYPE_SOLARIS_UCRED = 4';
+
+  is G_CREDENTIALS_TYPE_NETBSD_UNPCBID.value, 5, 'enum G_CREDENTIALS_TYPE_NETBSD_UNPCBID = 5';
+
+  is G_CREDENTIALS_TYPE_APPLE_XUCRED.value, 6, 'enum G_CREDENTIALS_TYPE_APPLE_XUCRED = 6';
+
+  is G_CREDENTIALS_TYPE_WIN32_PID.value, 7, 'enum G_CREDENTIALS_TYPE_WIN32_PID = 7';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusError
+subtest 'GDBusError', {
+  is G_DBUS_ERROR_FAILED.value, 0, 'enum G_DBUS_ERROR_FAILED = 0';
+
+  is G_DBUS_ERROR_NO_MEMORY.value, 1, 'enum G_DBUS_ERROR_NO_MEMORY = 1';
+
+  is G_DBUS_ERROR_SERVICE_UNKNOWN.value, 2, 'enum G_DBUS_ERROR_SERVICE_UNKNOWN = 2';
+
+  is G_DBUS_ERROR_NAME_HAS_NO_OWNER.value, 3, 'enum G_DBUS_ERROR_NAME_HAS_NO_OWNER = 3';
+
+  is G_DBUS_ERROR_NO_REPLY.value, 4, 'enum G_DBUS_ERROR_NO_REPLY = 4';
+
+  is G_DBUS_ERROR_IO_ERROR.value, 5, 'enum G_DBUS_ERROR_IO_ERROR = 5';
+
+  is G_DBUS_ERROR_BAD_ADDRESS.value, 6, 'enum G_DBUS_ERROR_BAD_ADDRESS = 6';
+
+  is G_DBUS_ERROR_NOT_SUPPORTED.value, 7, 'enum G_DBUS_ERROR_NOT_SUPPORTED = 7';
+
+  is G_DBUS_ERROR_LIMITS_EXCEEDED.value, 8, 'enum G_DBUS_ERROR_LIMITS_EXCEEDED = 8';
+
+  is G_DBUS_ERROR_ACCESS_DENIED.value, 9, 'enum G_DBUS_ERROR_ACCESS_DENIED = 9';
+
+  is G_DBUS_ERROR_AUTH_FAILED.value, 10, 'enum G_DBUS_ERROR_AUTH_FAILED = 10';
+
+  is G_DBUS_ERROR_NO_SERVER.value, 11, 'enum G_DBUS_ERROR_NO_SERVER = 11';
+
+  is G_DBUS_ERROR_TIMEOUT.value, 12, 'enum G_DBUS_ERROR_TIMEOUT = 12';
+
+  is G_DBUS_ERROR_NO_NETWORK.value, 13, 'enum G_DBUS_ERROR_NO_NETWORK = 13';
+
+  is G_DBUS_ERROR_ADDRESS_IN_USE.value, 14, 'enum G_DBUS_ERROR_ADDRESS_IN_USE = 14';
+
+  is G_DBUS_ERROR_DISCONNECTED.value, 15, 'enum G_DBUS_ERROR_DISCONNECTED = 15';
+
+  is G_DBUS_ERROR_INVALID_ARGS.value, 16, 'enum G_DBUS_ERROR_INVALID_ARGS = 16';
+
+  is G_DBUS_ERROR_FILE_NOT_FOUND.value, 17, 'enum G_DBUS_ERROR_FILE_NOT_FOUND = 17';
+
+  is G_DBUS_ERROR_FILE_EXISTS.value, 18, 'enum G_DBUS_ERROR_FILE_EXISTS = 18';
+
+  is G_DBUS_ERROR_UNKNOWN_METHOD.value, 19, 'enum G_DBUS_ERROR_UNKNOWN_METHOD = 19';
+
+  is G_DBUS_ERROR_TIMED_OUT.value, 20, 'enum G_DBUS_ERROR_TIMED_OUT = 20';
+
+  is G_DBUS_ERROR_MATCH_RULE_NOT_FOUND.value, 21, 'enum G_DBUS_ERROR_MATCH_RULE_NOT_FOUND = 21';
+
+  is G_DBUS_ERROR_MATCH_RULE_INVALID.value, 22, 'enum G_DBUS_ERROR_MATCH_RULE_INVALID = 22';
+
+  is G_DBUS_ERROR_SPAWN_EXEC_FAILED.value, 23, 'enum G_DBUS_ERROR_SPAWN_EXEC_FAILED = 23';
+
+  is G_DBUS_ERROR_SPAWN_FORK_FAILED.value, 24, 'enum G_DBUS_ERROR_SPAWN_FORK_FAILED = 24';
+
+  is G_DBUS_ERROR_SPAWN_CHILD_EXITED.value, 25, 'enum G_DBUS_ERROR_SPAWN_CHILD_EXITED = 25';
+
+  is G_DBUS_ERROR_SPAWN_CHILD_SIGNALED.value, 26, 'enum G_DBUS_ERROR_SPAWN_CHILD_SIGNALED = 26';
+
+  is G_DBUS_ERROR_SPAWN_FAILED.value, 27, 'enum G_DBUS_ERROR_SPAWN_FAILED = 27';
+
+  is G_DBUS_ERROR_SPAWN_SETUP_FAILED.value, 28, 'enum G_DBUS_ERROR_SPAWN_SETUP_FAILED = 28';
+
+  is G_DBUS_ERROR_SPAWN_CONFIG_INVALID.value, 29, 'enum G_DBUS_ERROR_SPAWN_CONFIG_INVALID = 29';
+
+  is G_DBUS_ERROR_SPAWN_SERVICE_INVALID.value, 30, 'enum G_DBUS_ERROR_SPAWN_SERVICE_INVALID = 30';
+
+  is G_DBUS_ERROR_SPAWN_SERVICE_NOT_FOUND.value, 31, 'enum G_DBUS_ERROR_SPAWN_SERVICE_NOT_FOUND = 31';
+
+  is G_DBUS_ERROR_SPAWN_PERMISSIONS_INVALID.value, 32, 'enum G_DBUS_ERROR_SPAWN_PERMISSIONS_INVALID = 32';
+
+  is G_DBUS_ERROR_SPAWN_FILE_INVALID.value, 33, 'enum G_DBUS_ERROR_SPAWN_FILE_INVALID = 33';
+
+  is G_DBUS_ERROR_SPAWN_NO_MEMORY.value, 34, 'enum G_DBUS_ERROR_SPAWN_NO_MEMORY = 34';
+
+  is G_DBUS_ERROR_UNIX_PROCESS_ID_UNKNOWN.value, 35, 'enum G_DBUS_ERROR_UNIX_PROCESS_ID_UNKNOWN = 35';
+
+  is G_DBUS_ERROR_INVALID_SIGNATURE.value, 36, 'enum G_DBUS_ERROR_INVALID_SIGNATURE = 36';
+
+  is G_DBUS_ERROR_INVALID_FILE_CONTENT.value, 37, 'enum G_DBUS_ERROR_INVALID_FILE_CONTENT = 37';
+
+  is G_DBUS_ERROR_SELINUX_SECURITY_CONTEXT_UNKNOWN.value, 38, 'enum G_DBUS_ERROR_SELINUX_SECURITY_CONTEXT_UNKNOWN = 38';
+
+  is G_DBUS_ERROR_ADT_AUDIT_DATA_UNKNOWN.value, 39, 'enum G_DBUS_ERROR_ADT_AUDIT_DATA_UNKNOWN = 39';
+
+  is G_DBUS_ERROR_OBJECT_PATH_IN_USE.value, 40, 'enum G_DBUS_ERROR_OBJECT_PATH_IN_USE = 40';
+
+  is G_DBUS_ERROR_UNKNOWN_OBJECT.value, 41, 'enum G_DBUS_ERROR_UNKNOWN_OBJECT = 41';
+
+  is G_DBUS_ERROR_UNKNOWN_INTERFACE.value, 42, 'enum G_DBUS_ERROR_UNKNOWN_INTERFACE = 42';
+
+  is G_DBUS_ERROR_UNKNOWN_PROPERTY.value, 43, 'enum G_DBUS_ERROR_UNKNOWN_PROPERTY = 43';
+
+  is G_DBUS_ERROR_PROPERTY_READ_ONLY.value, 44, 'enum G_DBUS_ERROR_PROPERTY_READ_ONLY = 44';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusMessageByteOrder
+subtest 'GDBusMessageByteOrder', {
+  is G_DBUS_MESSAGE_BYTE_ORDER_BIG_ENDIAN.value, 0, 'enum G_DBUS_MESSAGE_BYTE_ORDER_BIG_ENDIAN = 0';
+
+  is G_DBUS_MESSAGE_BYTE_ORDER_LITTLE_ENDIAN.value, 1, 'enum G_DBUS_MESSAGE_BYTE_ORDER_LITTLE_ENDIAN = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusMessageHeaderField
+subtest 'GDBusMessageHeaderField', {
+  is G_DBUS_MESSAGE_HEADER_FIELD_INVALID.value, 0, 'enum G_DBUS_MESSAGE_HEADER_FIELD_INVALID = 0';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_PATH.value, 1, 'enum G_DBUS_MESSAGE_HEADER_FIELD_PATH = 1';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_INTERFACE.value, 2, 'enum G_DBUS_MESSAGE_HEADER_FIELD_INTERFACE = 2';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_MEMBER.value, 3, 'enum G_DBUS_MESSAGE_HEADER_FIELD_MEMBER = 3';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_ERROR_NAME.value, 4, 'enum G_DBUS_MESSAGE_HEADER_FIELD_ERROR_NAME = 4';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_REPLY_SERIAL.value, 5, 'enum G_DBUS_MESSAGE_HEADER_FIELD_REPLY_SERIAL = 5';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_DESTINATION.value, 6, 'enum G_DBUS_MESSAGE_HEADER_FIELD_DESTINATION = 6';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_SENDER.value, 7, 'enum G_DBUS_MESSAGE_HEADER_FIELD_SENDER = 7';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_SIGNATURE.value, 8, 'enum G_DBUS_MESSAGE_HEADER_FIELD_SIGNATURE = 8';
+
+  is G_DBUS_MESSAGE_HEADER_FIELD_NUM_UNIX_FDS.value, 9, 'enum G_DBUS_MESSAGE_HEADER_FIELD_NUM_UNIX_FDS = 9';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDBusMessageType
+subtest 'GDBusMessageType', {
+  is G_DBUS_MESSAGE_TYPE_INVALID.value, 0, 'enum G_DBUS_MESSAGE_TYPE_INVALID = 0';
+
+  is G_DBUS_MESSAGE_TYPE_METHOD_CALL.value, 1, 'enum G_DBUS_MESSAGE_TYPE_METHOD_CALL = 1';
+
+  is G_DBUS_MESSAGE_TYPE_METHOD_RETURN.value, 2, 'enum G_DBUS_MESSAGE_TYPE_METHOD_RETURN = 2';
+
+  is G_DBUS_MESSAGE_TYPE_ERROR.value, 3, 'enum G_DBUS_MESSAGE_TYPE_ERROR = 3';
+
+  is G_DBUS_MESSAGE_TYPE_SIGNAL.value, 4, 'enum G_DBUS_MESSAGE_TYPE_SIGNAL = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDataStreamByteOrder
+subtest 'GDataStreamByteOrder', {
+  is G_DATA_STREAM_BYTE_ORDER_BIG_ENDIAN.value, 0, 'enum G_DATA_STREAM_BYTE_ORDER_BIG_ENDIAN = 0';
+
+  is G_DATA_STREAM_BYTE_ORDER_LITTLE_ENDIAN.value, 1, 'enum G_DATA_STREAM_BYTE_ORDER_LITTLE_ENDIAN = 1';
+
+  is G_DATA_STREAM_BYTE_ORDER_HOST_ENDIAN.value, 2, 'enum G_DATA_STREAM_BYTE_ORDER_HOST_ENDIAN = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDataStreamNewlineType
+subtest 'GDataStreamNewlineType', {
+  is G_DATA_STREAM_NEWLINE_TYPE_LF.value, 0, 'enum G_DATA_STREAM_NEWLINE_TYPE_LF = 0';
+
+  is G_DATA_STREAM_NEWLINE_TYPE_CR.value, 1, 'enum G_DATA_STREAM_NEWLINE_TYPE_CR = 1';
+
+  is G_DATA_STREAM_NEWLINE_TYPE_CR_LF.value, 2, 'enum G_DATA_STREAM_NEWLINE_TYPE_CR_LF = 2';
+
+  is G_DATA_STREAM_NEWLINE_TYPE_ANY.value, 3, 'enum G_DATA_STREAM_NEWLINE_TYPE_ANY = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GDriveStartStopType
+subtest 'GDriveStartStopType', {
+  is G_DRIVE_START_STOP_TYPE_UNKNOWN.value, 0, 'enum G_DRIVE_START_STOP_TYPE_UNKNOWN = 0';
+
+  is G_DRIVE_START_STOP_TYPE_SHUTDOWN.value, 1, 'enum G_DRIVE_START_STOP_TYPE_SHUTDOWN = 1';
+
+  is G_DRIVE_START_STOP_TYPE_NETWORK.value, 2, 'enum G_DRIVE_START_STOP_TYPE_NETWORK = 2';
+
+  is G_DRIVE_START_STOP_TYPE_MULTIDISK.value, 3, 'enum G_DRIVE_START_STOP_TYPE_MULTIDISK = 3';
+
+  is G_DRIVE_START_STOP_TYPE_PASSWORD.value, 4, 'enum G_DRIVE_START_STOP_TYPE_PASSWORD = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GEmblemOrigin
+subtest 'GEmblemOrigin', {
+  is G_EMBLEM_ORIGIN_UNKNOWN.value, 0, 'enum G_EMBLEM_ORIGIN_UNKNOWN = 0';
+
+  is G_EMBLEM_ORIGIN_DEVICE.value, 1, 'enum G_EMBLEM_ORIGIN_DEVICE = 1';
+
+  is G_EMBLEM_ORIGIN_LIVEMETADATA.value, 2, 'enum G_EMBLEM_ORIGIN_LIVEMETADATA = 2';
+
+  is G_EMBLEM_ORIGIN_TAG.value, 3, 'enum G_EMBLEM_ORIGIN_TAG = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileAttributeStatus
+subtest 'GFileAttributeStatus', {
+  is G_FILE_ATTRIBUTE_STATUS_UNSET.value, 0, 'enum G_FILE_ATTRIBUTE_STATUS_UNSET = 0';
+
+  is G_FILE_ATTRIBUTE_STATUS_SET.value, 1, 'enum G_FILE_ATTRIBUTE_STATUS_SET = 1';
+
+  is G_FILE_ATTRIBUTE_STATUS_ERROR_SETTING.value, 2, 'enum G_FILE_ATTRIBUTE_STATUS_ERROR_SETTING = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileAttributeType
+subtest 'GFileAttributeType', {
+  is G_FILE_ATTRIBUTE_TYPE_INVALID.value, 0, 'enum G_FILE_ATTRIBUTE_TYPE_INVALID = 0';
+
+  is G_FILE_ATTRIBUTE_TYPE_STRING.value, 1, 'enum G_FILE_ATTRIBUTE_TYPE_STRING = 1';
+
+  is G_FILE_ATTRIBUTE_TYPE_BYTE_STRING.value, 2, 'enum G_FILE_ATTRIBUTE_TYPE_BYTE_STRING = 2';
+
+  is G_FILE_ATTRIBUTE_TYPE_BOOLEAN.value, 3, 'enum G_FILE_ATTRIBUTE_TYPE_BOOLEAN = 3';
+
+  is G_FILE_ATTRIBUTE_TYPE_UINT32.value, 4, 'enum G_FILE_ATTRIBUTE_TYPE_UINT32 = 4';
+
+  is G_FILE_ATTRIBUTE_TYPE_INT32.value, 5, 'enum G_FILE_ATTRIBUTE_TYPE_INT32 = 5';
+
+  is G_FILE_ATTRIBUTE_TYPE_UINT64.value, 6, 'enum G_FILE_ATTRIBUTE_TYPE_UINT64 = 6';
+
+  is G_FILE_ATTRIBUTE_TYPE_INT64.value, 7, 'enum G_FILE_ATTRIBUTE_TYPE_INT64 = 7';
+
+  is G_FILE_ATTRIBUTE_TYPE_OBJECT.value, 8, 'enum G_FILE_ATTRIBUTE_TYPE_OBJECT = 8';
+
+  is G_FILE_ATTRIBUTE_TYPE_STRINGV.value, 9, 'enum G_FILE_ATTRIBUTE_TYPE_STRINGV = 9';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileMonitorEvent
+subtest 'GFileMonitorEvent', {
+  is G_FILE_MONITOR_EVENT_CHANGED.value, 0, 'enum G_FILE_MONITOR_EVENT_CHANGED = 0';
+
+  is G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT.value, 1, 'enum G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT = 1';
+
+  is G_FILE_MONITOR_EVENT_DELETED.value, 2, 'enum G_FILE_MONITOR_EVENT_DELETED = 2';
+
+  is G_FILE_MONITOR_EVENT_CREATED.value, 3, 'enum G_FILE_MONITOR_EVENT_CREATED = 3';
+
+  is G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED.value, 4, 'enum G_FILE_MONITOR_EVENT_ATTRIBUTE_CHANGED = 4';
+
+  is G_FILE_MONITOR_EVENT_PRE_UNMOUNT.value, 5, 'enum G_FILE_MONITOR_EVENT_PRE_UNMOUNT = 5';
+
+  is G_FILE_MONITOR_EVENT_UNMOUNTED.value, 6, 'enum G_FILE_MONITOR_EVENT_UNMOUNTED = 6';
+
+  is G_FILE_MONITOR_EVENT_MOVED.value, 7, 'enum G_FILE_MONITOR_EVENT_MOVED = 7';
+
+  is G_FILE_MONITOR_EVENT_RENAMED.value, 8, 'enum G_FILE_MONITOR_EVENT_RENAMED = 8';
+
+  is G_FILE_MONITOR_EVENT_MOVED_IN.value, 9, 'enum G_FILE_MONITOR_EVENT_MOVED_IN = 9';
+
+  is G_FILE_MONITOR_EVENT_MOVED_OUT.value, 10, 'enum G_FILE_MONITOR_EVENT_MOVED_OUT = 10';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFileType
+subtest 'GFileType', {
+  is G_FILE_TYPE_UNKNOWN.value, 0, 'enum G_FILE_TYPE_UNKNOWN = 0';
+
+  is G_FILE_TYPE_REGULAR.value, 1, 'enum G_FILE_TYPE_REGULAR = 1';
+
+  is G_FILE_TYPE_DIRECTORY.value, 2, 'enum G_FILE_TYPE_DIRECTORY = 2';
+
+  is G_FILE_TYPE_SYMBOLIC_LINK.value, 3, 'enum G_FILE_TYPE_SYMBOLIC_LINK = 3';
+
+  is G_FILE_TYPE_SPECIAL.value, 4, 'enum G_FILE_TYPE_SPECIAL = 4';
+
+  is G_FILE_TYPE_SHORTCUT.value, 5, 'enum G_FILE_TYPE_SHORTCUT = 5';
+
+  is G_FILE_TYPE_MOUNTABLE.value, 6, 'enum G_FILE_TYPE_MOUNTABLE = 6';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GFilesystemPreviewType
+subtest 'GFilesystemPreviewType', {
+  is G_FILESYSTEM_PREVIEW_TYPE_IF_ALWAYS.value, 0, 'enum G_FILESYSTEM_PREVIEW_TYPE_IF_ALWAYS = 0';
+
+  is G_FILESYSTEM_PREVIEW_TYPE_IF_LOCAL.value, 1, 'enum G_FILESYSTEM_PREVIEW_TYPE_IF_LOCAL = 1';
+
+  is G_FILESYSTEM_PREVIEW_TYPE_NEVER.value, 2, 'enum G_FILESYSTEM_PREVIEW_TYPE_NEVER = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GIOErrorEnum
+subtest 'GIOErrorEnum', {
+  is G_IO_ERROR_FAILED.value, 0, 'enum G_IO_ERROR_FAILED = 0';
+
+  is G_IO_ERROR_NOT_FOUND.value, 1, 'enum G_IO_ERROR_NOT_FOUND = 1';
+
+  is G_IO_ERROR_EXISTS.value, 2, 'enum G_IO_ERROR_EXISTS = 2';
+
+  is G_IO_ERROR_IS_DIRECTORY.value, 3, 'enum G_IO_ERROR_IS_DIRECTORY = 3';
+
+  is G_IO_ERROR_NOT_DIRECTORY.value, 4, 'enum G_IO_ERROR_NOT_DIRECTORY = 4';
+
+  is G_IO_ERROR_NOT_EMPTY.value, 5, 'enum G_IO_ERROR_NOT_EMPTY = 5';
+
+  is G_IO_ERROR_NOT_REGULAR_FILE.value, 6, 'enum G_IO_ERROR_NOT_REGULAR_FILE = 6';
+
+  is G_IO_ERROR_NOT_SYMBOLIC_LINK.value, 7, 'enum G_IO_ERROR_NOT_SYMBOLIC_LINK = 7';
+
+  is G_IO_ERROR_NOT_MOUNTABLE_FILE.value, 8, 'enum G_IO_ERROR_NOT_MOUNTABLE_FILE = 8';
+
+  is G_IO_ERROR_FILENAME_TOO_LONG.value, 9, 'enum G_IO_ERROR_FILENAME_TOO_LONG = 9';
+
+  is G_IO_ERROR_INVALID_FILENAME.value, 10, 'enum G_IO_ERROR_INVALID_FILENAME = 10';
+
+  is G_IO_ERROR_TOO_MANY_LINKS.value, 11, 'enum G_IO_ERROR_TOO_MANY_LINKS = 11';
+
+  is G_IO_ERROR_NO_SPACE.value, 12, 'enum G_IO_ERROR_NO_SPACE = 12';
+
+  is G_IO_ERROR_INVALID_ARGUMENT.value, 13, 'enum G_IO_ERROR_INVALID_ARGUMENT = 13';
+
+  is G_IO_ERROR_PERMISSION_DENIED.value, 14, 'enum G_IO_ERROR_PERMISSION_DENIED = 14';
+
+  is G_IO_ERROR_NOT_SUPPORTED.value, 15, 'enum G_IO_ERROR_NOT_SUPPORTED = 15';
+
+  is G_IO_ERROR_NOT_MOUNTED.value, 16, 'enum G_IO_ERROR_NOT_MOUNTED = 16';
+
+  is G_IO_ERROR_ALREADY_MOUNTED.value, 17, 'enum G_IO_ERROR_ALREADY_MOUNTED = 17';
+
+  is G_IO_ERROR_CLOSED.value, 18, 'enum G_IO_ERROR_CLOSED = 18';
+
+  is G_IO_ERROR_CANCELLED.value, 19, 'enum G_IO_ERROR_CANCELLED = 19';
+
+  is G_IO_ERROR_PENDING.value, 20, 'enum G_IO_ERROR_PENDING = 20';
+
+  is G_IO_ERROR_READ_ONLY.value, 21, 'enum G_IO_ERROR_READ_ONLY = 21';
+
+  is G_IO_ERROR_CANT_CREATE_BACKUP.value, 22, 'enum G_IO_ERROR_CANT_CREATE_BACKUP = 22';
+
+  is G_IO_ERROR_WRONG_ETAG.value, 23, 'enum G_IO_ERROR_WRONG_ETAG = 23';
+
+  is G_IO_ERROR_TIMED_OUT.value, 24, 'enum G_IO_ERROR_TIMED_OUT = 24';
+
+  is G_IO_ERROR_WOULD_RECURSE.value, 25, 'enum G_IO_ERROR_WOULD_RECURSE = 25';
+
+  is G_IO_ERROR_BUSY.value, 26, 'enum G_IO_ERROR_BUSY = 26';
+
+  is G_IO_ERROR_WOULD_BLOCK.value, 27, 'enum G_IO_ERROR_WOULD_BLOCK = 27';
+
+  is G_IO_ERROR_HOST_NOT_FOUND.value, 28, 'enum G_IO_ERROR_HOST_NOT_FOUND = 28';
+
+  is G_IO_ERROR_WOULD_MERGE.value, 29, 'enum G_IO_ERROR_WOULD_MERGE = 29';
+
+  is G_IO_ERROR_FAILED_HANDLED.value, 30, 'enum G_IO_ERROR_FAILED_HANDLED = 30';
+
+  is G_IO_ERROR_TOO_MANY_OPEN_FILES.value, 31, 'enum G_IO_ERROR_TOO_MANY_OPEN_FILES = 31';
+
+  is G_IO_ERROR_NOT_INITIALIZED.value, 32, 'enum G_IO_ERROR_NOT_INITIALIZED = 32';
+
+  is G_IO_ERROR_ADDRESS_IN_USE.value, 33, 'enum G_IO_ERROR_ADDRESS_IN_USE = 33';
+
+  is G_IO_ERROR_PARTIAL_INPUT.value, 34, 'enum G_IO_ERROR_PARTIAL_INPUT = 34';
+
+  is G_IO_ERROR_INVALID_DATA.value, 35, 'enum G_IO_ERROR_INVALID_DATA = 35';
+
+  is G_IO_ERROR_DBUS_ERROR.value, 36, 'enum G_IO_ERROR_DBUS_ERROR = 36';
+
+  is G_IO_ERROR_HOST_UNREACHABLE.value, 37, 'enum G_IO_ERROR_HOST_UNREACHABLE = 37';
+
+  is G_IO_ERROR_NETWORK_UNREACHABLE.value, 38, 'enum G_IO_ERROR_NETWORK_UNREACHABLE = 38';
+
+  is G_IO_ERROR_CONNECTION_REFUSED.value, 39, 'enum G_IO_ERROR_CONNECTION_REFUSED = 39';
+
+  is G_IO_ERROR_PROXY_FAILED.value, 40, 'enum G_IO_ERROR_PROXY_FAILED = 40';
+
+  is G_IO_ERROR_PROXY_AUTH_FAILED.value, 41, 'enum G_IO_ERROR_PROXY_AUTH_FAILED = 41';
+
+  is G_IO_ERROR_PROXY_NEED_AUTH.value, 42, 'enum G_IO_ERROR_PROXY_NEED_AUTH = 42';
+
+  is G_IO_ERROR_PROXY_NOT_ALLOWED.value, 43, 'enum G_IO_ERROR_PROXY_NOT_ALLOWED = 43';
+
+  is G_IO_ERROR_BROKEN_PIPE.value, 44, 'enum G_IO_ERROR_BROKEN_PIPE = 44';
+
+  is G_IO_ERROR_CONNECTION_CLOSED.value, 45, 'enum G_IO_ERROR_CONNECTION_CLOSED = 45';
+
+  is G_IO_ERROR_NOT_CONNECTED.value, 46, 'enum G_IO_ERROR_NOT_CONNECTED = 46';
+
+  is G_IO_ERROR_MESSAGE_TOO_LARGE.value, 47, 'enum G_IO_ERROR_MESSAGE_TOO_LARGE = 47';
+
+  is G_IO_ERROR_NO_SUCH_DEVICE.value, 48, 'enum G_IO_ERROR_NO_SUCH_DEVICE = 48';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GIOModuleScopeFlags
+subtest 'GIOModuleScopeFlags', {
+  is G_IO_MODULE_SCOPE_NONE.value, 0, 'enum G_IO_MODULE_SCOPE_NONE = 0';
+
+  is G_IO_MODULE_SCOPE_BLOCK_DUPLICATES.value, 1, 'enum G_IO_MODULE_SCOPE_BLOCK_DUPLICATES = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GMemoryMonitorWarningLevel
+subtest 'GMemoryMonitorWarningLevel', {
+  is G_MEMORY_MONITOR_WARNING_LEVEL_LOW.value, 0, 'enum G_MEMORY_MONITOR_WARNING_LEVEL_LOW = 0';
+
+  is G_MEMORY_MONITOR_WARNING_LEVEL_MEDIUM.value, 1, 'enum G_MEMORY_MONITOR_WARNING_LEVEL_MEDIUM = 1';
+
+  is G_MEMORY_MONITOR_WARNING_LEVEL_CRITICAL.value, 2, 'enum G_MEMORY_MONITOR_WARNING_LEVEL_CRITICAL = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GMountOperationResult
+subtest 'GMountOperationResult', {
+  is G_MOUNT_OPERATION_HANDLED.value, 0, 'enum G_MOUNT_OPERATION_HANDLED = 0';
+
+  is G_MOUNT_OPERATION_ABORTED.value, 1, 'enum G_MOUNT_OPERATION_ABORTED = 1';
+
+  is G_MOUNT_OPERATION_UNHANDLED.value, 2, 'enum G_MOUNT_OPERATION_UNHANDLED = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GNetworkConnectivity
+subtest 'GNetworkConnectivity', {
+  is G_NETWORK_CONNECTIVITY_LOCAL.value, 0, 'enum G_NETWORK_CONNECTIVITY_LOCAL = 0';
+
+  is G_NETWORK_CONNECTIVITY_LIMITED.value, 1, 'enum G_NETWORK_CONNECTIVITY_LIMITED = 1';
+
+  is G_NETWORK_CONNECTIVITY_PORTAL.value, 2, 'enum G_NETWORK_CONNECTIVITY_PORTAL = 2';
+
+  is G_NETWORK_CONNECTIVITY_FULL.value, 3, 'enum G_NETWORK_CONNECTIVITY_FULL = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GNotificationPriority
+subtest 'GNotificationPriority', {
+  is G_NOTIFICATION_PRIORITY_NORMAL.value, 0, 'enum G_NOTIFICATION_PRIORITY_NORMAL = 0';
+
+  is G_NOTIFICATION_PRIORITY_LOW.value, 1, 'enum G_NOTIFICATION_PRIORITY_LOW = 1';
+
+  is G_NOTIFICATION_PRIORITY_HIGH.value, 2, 'enum G_NOTIFICATION_PRIORITY_HIGH = 2';
+
+  is G_NOTIFICATION_PRIORITY_URGENT.value, 3, 'enum G_NOTIFICATION_PRIORITY_URGENT = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GPasswordSave
+subtest 'GPasswordSave', {
+  is G_PASSWORD_SAVE_NEVER.value, 0, 'enum G_PASSWORD_SAVE_NEVER = 0';
+
+  is G_PASSWORD_SAVE_FOR_SESSION.value, 1, 'enum G_PASSWORD_SAVE_FOR_SESSION = 1';
+
+  is G_PASSWORD_SAVE_PERMANENTLY.value, 2, 'enum G_PASSWORD_SAVE_PERMANENTLY = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GPollableReturn
+subtest 'GPollableReturn', {
+  is G_POLLABLE_RETURN_FAILED.value, 0, 'enum G_POLLABLE_RETURN_FAILED = 0';
+
+  is G_POLLABLE_RETURN_OK.value, 1, 'enum G_POLLABLE_RETURN_OK = 1';
+
+  is G_POLLABLE_RETURN_WOULD_BLOCK.value, 2, 'enum G_POLLABLE_RETURN_WOULD_BLOCK = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GResolverError
+subtest 'GResolverError', {
+  is G_RESOLVER_ERROR_NOT_FOUND.value, 0, 'enum G_RESOLVER_ERROR_NOT_FOUND = 0';
+
+  is G_RESOLVER_ERROR_TEMPORARY_FAILURE.value, 1, 'enum G_RESOLVER_ERROR_TEMPORARY_FAILURE = 1';
+
+  is G_RESOLVER_ERROR_INTERNAL.value, 2, 'enum G_RESOLVER_ERROR_INTERNAL = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GResolverRecordType
+subtest 'GResolverRecordType', {
+  is G_RESOLVER_RECORD_SRV.value, 0, 'enum G_RESOLVER_RECORD_SRV = 0';
+
+  is G_RESOLVER_RECORD_MX.value, 1, 'enum G_RESOLVER_RECORD_MX = 1';
+
+  is G_RESOLVER_RECORD_TXT.value, 2, 'enum G_RESOLVER_RECORD_TXT = 2';
+
+  is G_RESOLVER_RECORD_SOA.value, 3, 'enum G_RESOLVER_RECORD_SOA = 3';
+
+  is G_RESOLVER_RECORD_NS.value, 4, 'enum G_RESOLVER_RECORD_NS = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GResourceError
+subtest 'GResourceError', {
+  is G_RESOURCE_ERROR_NOT_FOUND.value, 0, 'enum G_RESOURCE_ERROR_NOT_FOUND = 0';
+
+  is G_RESOURCE_ERROR_INTERNAL.value, 1, 'enum G_RESOURCE_ERROR_INTERNAL = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSocketClientEvent
+subtest 'GSocketClientEvent', {
+  is G_SOCKET_CLIENT_RESOLVING.value, 0, 'enum G_SOCKET_CLIENT_RESOLVING = 0';
+
+  is G_SOCKET_CLIENT_RESOLVED.value, 1, 'enum G_SOCKET_CLIENT_RESOLVED = 1';
+
+  is G_SOCKET_CLIENT_CONNECTING.value, 2, 'enum G_SOCKET_CLIENT_CONNECTING = 2';
+
+  is G_SOCKET_CLIENT_CONNECTED.value, 3, 'enum G_SOCKET_CLIENT_CONNECTED = 3';
+
+  is G_SOCKET_CLIENT_PROXY_NEGOTIATING.value, 4, 'enum G_SOCKET_CLIENT_PROXY_NEGOTIATING = 4';
+
+  is G_SOCKET_CLIENT_PROXY_NEGOTIATED.value, 5, 'enum G_SOCKET_CLIENT_PROXY_NEGOTIATED = 5';
+
+  is G_SOCKET_CLIENT_TLS_HANDSHAKING.value, 6, 'enum G_SOCKET_CLIENT_TLS_HANDSHAKING = 6';
+
+  is G_SOCKET_CLIENT_TLS_HANDSHAKED.value, 7, 'enum G_SOCKET_CLIENT_TLS_HANDSHAKED = 7';
+
+  is G_SOCKET_CLIENT_COMPLETE.value, 8, 'enum G_SOCKET_CLIENT_COMPLETE = 8';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSocketFamily
+subtest 'GSocketFamily', {
+  is G_SOCKET_FAMILY_INVALID.value, 0, 'enum G_SOCKET_FAMILY_INVALID = 0';
+
+  is G_SOCKET_FAMILY_UNIX.value, 1, 'enum G_SOCKET_FAMILY_UNIX = 1';
+
+  is G_SOCKET_FAMILY_IPV4.value, 2, 'enum G_SOCKET_FAMILY_IPV4 = 2';
+
+  is G_SOCKET_FAMILY_IPV6.value, 3, 'enum G_SOCKET_FAMILY_IPV6 = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSocketListenerEvent
+subtest 'GSocketListenerEvent', {
+  is G_SOCKET_LISTENER_BINDING.value, 0, 'enum G_SOCKET_LISTENER_BINDING = 0';
+
+  is G_SOCKET_LISTENER_BOUND.value, 1, 'enum G_SOCKET_LISTENER_BOUND = 1';
+
+  is G_SOCKET_LISTENER_LISTENING.value, 2, 'enum G_SOCKET_LISTENER_LISTENING = 2';
+
+  is G_SOCKET_LISTENER_LISTENED.value, 3, 'enum G_SOCKET_LISTENER_LISTENED = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSocketProtocol
+subtest 'GSocketProtocol', {
+  is G_SOCKET_PROTOCOL_UNKNOWN.value, 0, 'enum G_SOCKET_PROTOCOL_UNKNOWN = 0';
+
+  is G_SOCKET_PROTOCOL_DEFAULT.value, 1, 'enum G_SOCKET_PROTOCOL_DEFAULT = 1';
+
+  is G_SOCKET_PROTOCOL_TCP.value, 2, 'enum G_SOCKET_PROTOCOL_TCP = 2';
+
+  is G_SOCKET_PROTOCOL_UDP.value, 3, 'enum G_SOCKET_PROTOCOL_UDP = 3';
+
+  is G_SOCKET_PROTOCOL_SCTP.value, 4, 'enum G_SOCKET_PROTOCOL_SCTP = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GSocketType
+subtest 'GSocketType', {
+  is G_SOCKET_TYPE_INVALID.value, 0, 'enum G_SOCKET_TYPE_INVALID = 0';
+
+  is G_SOCKET_TYPE_STREAM.value, 1, 'enum G_SOCKET_TYPE_STREAM = 1';
+
+  is G_SOCKET_TYPE_DATAGRAM.value, 2, 'enum G_SOCKET_TYPE_DATAGRAM = 2';
+
+  is G_SOCKET_TYPE_SEQPACKET.value, 3, 'enum G_SOCKET_TYPE_SEQPACKET = 3';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsAuthenticationMode
+subtest 'GTlsAuthenticationMode', {
+  is G_TLS_AUTHENTICATION_NONE.value, 0, 'enum G_TLS_AUTHENTICATION_NONE = 0';
+
+  is G_TLS_AUTHENTICATION_REQUESTED.value, 1, 'enum G_TLS_AUTHENTICATION_REQUESTED = 1';
+
+  is G_TLS_AUTHENTICATION_REQUIRED.value, 2, 'enum G_TLS_AUTHENTICATION_REQUIRED = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsCertificateRequestFlags
+subtest 'GTlsCertificateRequestFlags', {
+  is G_TLS_CERTIFICATE_REQUEST_NONE.value, 0, 'enum G_TLS_CERTIFICATE_REQUEST_NONE = 0';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsChannelBindingError
+subtest 'GTlsChannelBindingError', {
+  is G_TLS_CHANNEL_BINDING_ERROR_NOT_IMPLEMENTED.value, 0, 'enum G_TLS_CHANNEL_BINDING_ERROR_NOT_IMPLEMENTED = 0';
+
+  is G_TLS_CHANNEL_BINDING_ERROR_INVALID_STATE.value, 1, 'enum G_TLS_CHANNEL_BINDING_ERROR_INVALID_STATE = 1';
+
+  is G_TLS_CHANNEL_BINDING_ERROR_NOT_AVAILABLE.value, 2, 'enum G_TLS_CHANNEL_BINDING_ERROR_NOT_AVAILABLE = 2';
+
+  is G_TLS_CHANNEL_BINDING_ERROR_NOT_SUPPORTED.value, 3, 'enum G_TLS_CHANNEL_BINDING_ERROR_NOT_SUPPORTED = 3';
+
+  is G_TLS_CHANNEL_BINDING_ERROR_GENERAL_ERROR.value, 4, 'enum G_TLS_CHANNEL_BINDING_ERROR_GENERAL_ERROR = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsChannelBindingType
+subtest 'GTlsChannelBindingType', {
+  is G_TLS_CHANNEL_BINDING_TLS_UNIQUE.value, 0, 'enum G_TLS_CHANNEL_BINDING_TLS_UNIQUE = 0';
+
+  is G_TLS_CHANNEL_BINDING_TLS_SERVER_END_POINT.value, 1, 'enum G_TLS_CHANNEL_BINDING_TLS_SERVER_END_POINT = 1';
+
+  is G_TLS_CHANNEL_BINDING_TLS_EXPORTER.value, 2, 'enum G_TLS_CHANNEL_BINDING_TLS_EXPORTER = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsDatabaseLookupFlags
+subtest 'GTlsDatabaseLookupFlags', {
+  is G_TLS_DATABASE_LOOKUP_NONE.value, 0, 'enum G_TLS_DATABASE_LOOKUP_NONE = 0';
+
+  is G_TLS_DATABASE_LOOKUP_KEYPAIR.value, 1, 'enum G_TLS_DATABASE_LOOKUP_KEYPAIR = 1';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsError
+subtest 'GTlsError', {
+  is G_TLS_ERROR_UNAVAILABLE.value, 0, 'enum G_TLS_ERROR_UNAVAILABLE = 0';
+
+  is G_TLS_ERROR_MISC.value, 1, 'enum G_TLS_ERROR_MISC = 1';
+
+  is G_TLS_ERROR_BAD_CERTIFICATE.value, 2, 'enum G_TLS_ERROR_BAD_CERTIFICATE = 2';
+
+  is G_TLS_ERROR_NOT_TLS.value, 3, 'enum G_TLS_ERROR_NOT_TLS = 3';
+
+  is G_TLS_ERROR_HANDSHAKE.value, 4, 'enum G_TLS_ERROR_HANDSHAKE = 4';
+
+  is G_TLS_ERROR_CERTIFICATE_REQUIRED.value, 5, 'enum G_TLS_ERROR_CERTIFICATE_REQUIRED = 5';
+
+  is G_TLS_ERROR_EOF.value, 6, 'enum G_TLS_ERROR_EOF = 6';
+
+  is G_TLS_ERROR_INAPPROPRIATE_FALLBACK.value, 7, 'enum G_TLS_ERROR_INAPPROPRIATE_FALLBACK = 7';
+
+  is G_TLS_ERROR_BAD_CERTIFICATE_PASSWORD.value, 8, 'enum G_TLS_ERROR_BAD_CERTIFICATE_PASSWORD = 8';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsInteractionResult
+subtest 'GTlsInteractionResult', {
+  is G_TLS_INTERACTION_UNHANDLED.value, 0, 'enum G_TLS_INTERACTION_UNHANDLED = 0';
+
+  is G_TLS_INTERACTION_HANDLED.value, 1, 'enum G_TLS_INTERACTION_HANDLED = 1';
+
+  is G_TLS_INTERACTION_FAILED.value, 2, 'enum G_TLS_INTERACTION_FAILED = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsProtocolVersion
+subtest 'GTlsProtocolVersion', {
+  is G_TLS_PROTOCOL_VERSION_UNKNOWN.value, 0, 'enum G_TLS_PROTOCOL_VERSION_UNKNOWN = 0';
+
+  is G_TLS_PROTOCOL_VERSION_SSL_3_0.value, 1, 'enum G_TLS_PROTOCOL_VERSION_SSL_3_0 = 1';
+
+  is G_TLS_PROTOCOL_VERSION_TLS_1_0.value, 2, 'enum G_TLS_PROTOCOL_VERSION_TLS_1_0 = 2';
+
+  is G_TLS_PROTOCOL_VERSION_TLS_1_1.value, 3, 'enum G_TLS_PROTOCOL_VERSION_TLS_1_1 = 3';
+
+  is G_TLS_PROTOCOL_VERSION_TLS_1_2.value, 4, 'enum G_TLS_PROTOCOL_VERSION_TLS_1_2 = 4';
+
+  is G_TLS_PROTOCOL_VERSION_TLS_1_3.value, 5, 'enum G_TLS_PROTOCOL_VERSION_TLS_1_3 = 5';
+
+  is G_TLS_PROTOCOL_VERSION_DTLS_1_0.value, 6, 'enum G_TLS_PROTOCOL_VERSION_DTLS_1_0 = 6';
+
+  is G_TLS_PROTOCOL_VERSION_DTLS_1_2.value, 7, 'enum G_TLS_PROTOCOL_VERSION_DTLS_1_2 = 7';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GTlsRehandshakeMode
+subtest 'GTlsRehandshakeMode', {
+  is G_TLS_REHANDSHAKE_NEVER.value, 0, 'enum G_TLS_REHANDSHAKE_NEVER = 0';
+
+  is G_TLS_REHANDSHAKE_SAFELY.value, 1, 'enum G_TLS_REHANDSHAKE_SAFELY = 1';
+
+  is G_TLS_REHANDSHAKE_UNSAFELY.value, 2, 'enum G_TLS_REHANDSHAKE_UNSAFELY = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GUnixSocketAddressType
+subtest 'GUnixSocketAddressType', {
+  is G_UNIX_SOCKET_ADDRESS_INVALID.value, 0, 'enum G_UNIX_SOCKET_ADDRESS_INVALID = 0';
+
+  is G_UNIX_SOCKET_ADDRESS_ANONYMOUS.value, 1, 'enum G_UNIX_SOCKET_ADDRESS_ANONYMOUS = 1';
+
+  is G_UNIX_SOCKET_ADDRESS_PATH.value, 2, 'enum G_UNIX_SOCKET_ADDRESS_PATH = 2';
+
+  is G_UNIX_SOCKET_ADDRESS_ABSTRACT.value, 3, 'enum G_UNIX_SOCKET_ADDRESS_ABSTRACT = 3';
+
+  is G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED.value, 4, 'enum G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED = 4';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GZlibCompressorFormat
+subtest 'GZlibCompressorFormat', {
+  is G_ZLIB_COMPRESSOR_FORMAT_ZLIB.value, 0, 'enum G_ZLIB_COMPRESSOR_FORMAT_ZLIB = 0';
+
+  is G_ZLIB_COMPRESSOR_FORMAT_GZIP.value, 1, 'enum G_ZLIB_COMPRESSOR_FORMAT_GZIP = 1';
+
+  is G_ZLIB_COMPRESSOR_FORMAT_RAW.value, 2, 'enum G_ZLIB_COMPRESSOR_FORMAT_RAW = 2';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
