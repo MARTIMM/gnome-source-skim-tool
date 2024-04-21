@@ -19,6 +19,7 @@ has Hash $!other;
 has XML::XPath $!xp;
 
 has Hash $!fname-class;
+has Instant $!gir-modification-time;
 
 #-------------------------------------------------------------------------------
 submethod BUILD ( ) {
@@ -71,12 +72,11 @@ method get-classes-from-gir ( ) {
     my $attrs = $element.attribs;
     next if $attribs<moved-to>:exists;
 
-    # Map an element into the repo-object-map. Returns True if
-    # element is deprecated or is a *class, *iface, *interface or *private type.
-    next if self!map-element(
-      $element, $namespace-name, $symbol-prefix, $id-prefix
-    );
-
+    # Map an element into the repo-object-map.
+    ## Returns True if
+    ## element is deprecated or is a *class, *iface, *interface or *private type.
+    #next if
+    self!map-element( $element, $namespace-name, $symbol-prefix, $id-prefix);
     my Str $element-name = self.test-for-oddities( $element.name, $attrs);
     given $element-name {
 
@@ -84,7 +84,9 @@ method get-classes-from-gir ( ) {
       when 'class' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
-        unless $xml-file.IO.e {
+        unless
+          !$xml-file.IO.e or $xml-file.IO.modified > $!gir-modification-time
+        {
           my Str $xml = qq:to/EOXML/;
             <?xml version="1.0"?>
             <!--
@@ -116,7 +118,9 @@ method get-classes-from-gir ( ) {
       when 'record' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
-        unless $xml-file.IO.e {
+        unless
+          !$xml-file.IO.e or $xml-file.IO.modified > $!gir-modification-time
+        {
           my Str $name-prefix = $*work-data<name-prefix>;
           $name ~~ s:i/^ $name-prefix //;
 
@@ -148,7 +152,9 @@ method get-classes-from-gir ( ) {
           $name ~~ s:i/^ $name-prefix //;
 
           my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
-          unless $xml-file.IO.e {
+          unless
+            !$xml-file.IO.e or $xml-file.IO.modified > $!gir-modification-time
+          {
             my Str $xml = qq:to/EOXML/;
               <?xml version="1.0"?>
               <!--
@@ -174,7 +180,9 @@ method get-classes-from-gir ( ) {
       when 'interface' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
-        unless $xml-file.IO.e {
+        unless
+          !$xml-file.IO.e or $xml-file.IO.modified > $!gir-modification-time
+        {
           my Str $xml = qq:to/EOXML/;
             <?xml version="1.0"?>
             <!--
@@ -351,9 +359,9 @@ method set-implentors ( Str $entry-name, Str $role-class-name is copy ) {
 method !map-element (
   XML::Element $element, Str $namespace-name,
   Str $symbol-prefix is copy, Str $id-prefix
-  --> Bool
+#  --> Bool
 ) {
-  my Bool $deprecated = False;
+#  my Bool $deprecated = False;
   my Str ( $source-filename, $class-name, $gnome-name);
 
   # Get attribute hash
@@ -386,12 +394,12 @@ method !map-element (
   given $element-name {
     when 'class' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
+#      $deprecated = ($source-filename eq 'deprecated');
 
-      # Version 3 has the deprecated class between Widget and several other
-      # classes. Keep it in. The generator will then substitute the Misc class
-      # with the Widget class.
-      return $deprecated if ( $deprecated and $attrs<name> ne 'Misc' );
+      ## Version 3 has the deprecated class between Widget and several other
+      ## classes. Keep it in. The generator will then substitute the Misc class
+      ## with the Widget class.
+#      return $deprecated if ( $deprecated and $attrs<name> ne 'Misc' );
 
       my Str $type-name = self!check-pixbuf($attrs<name>);
       $class-name = $*work-data<raku-package> ~ '::' ~ $type-name;
@@ -427,8 +435,8 @@ method !map-element (
     # 'role'
     when 'interface' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Str $np = $*work-data<name-prefix>;
 
@@ -452,8 +460,8 @@ method !map-element (
     # 'struct'
     when 'record' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Str $type-name = self!check-pixbuf($attrs<name>);
       my Str $record-class = 'N-' ~ $type-name;
@@ -478,8 +486,8 @@ method !map-element (
 
     when 'union' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Str $type-name = self!check-pixbuf($attrs<name>);
       my Str $union-class = 'N-' ~ $type-name;
@@ -506,11 +514,11 @@ method !map-element (
     # interface, record or union. The functions must be added to a type module
     when 'function' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Str $type-name = self!check-pixbuf($source-filename);
-      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name.lc;
 
       my Str $function-name = $attrs<name>;
 
@@ -527,8 +535,8 @@ method !map-element (
 
     when 'constant' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       # Search for type elements in constant
       my Hash $const-type-attribs;
@@ -541,7 +549,7 @@ method !map-element (
       }
 
       my Str $type-name = self!check-pixbuf-type($source-filename);
-      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name.lc;
 
       $!map{$ctype} = %(
         :gir-type<constant>,
@@ -558,12 +566,11 @@ method !map-element (
     # 'enum'
     when 'enumeration' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Str $type-name = self!check-pixbuf-type($source-filename);
-      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
-note "$?LINE $source-filename, $type-name, $class-name";
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name.lc;
 
       $!map{$ctype} = %(
         :gir-type<enumeration>,
@@ -577,11 +584,11 @@ note "$?LINE $source-filename, $type-name, $class-name";
 
     when 'bitfield' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Str $type-name = self!check-pixbuf-type($source-filename);
-      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name.lc;
 
       $!map{$ctype} = %(
         :gir-type<bitfield>,
@@ -595,8 +602,8 @@ note "$?LINE $source-filename, $type-name, $class-name";
 
     when 'docsection' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Str $type-name = self!check-pixbuf-type($source-filename);
       $class-name = $*work-data<raku-package> ~ '::' ~ 'D-' ~ $type-name;
@@ -612,11 +619,11 @@ note "$?LINE $source-filename, $type-name, $class-name";
 
     when 'callback' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Str $type-name = self!check-pixbuf-type($source-filename);
-      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name;
+      $class-name = $*work-data<raku-package> ~ '::' ~ 'T-' ~ $type-name.lc;
       my Str $callback-name = $attrs<name>;
       $!map{$ctype} = %(
         :gir-type<callback>,
@@ -632,8 +639,8 @@ note "$?LINE $source-filename, $type-name, $class-name";
     # 'typedef'
     when 'alias' {
       $source-filename = self!get-source-file($element);
-      $deprecated = ($source-filename eq 'deprecated');
-      return $deprecated if $deprecated;
+#      $deprecated = ($source-filename eq 'deprecated');
+#      return $deprecated if $deprecated;
 
       my Hash $alias-type-attribs;
       for $element.nodes -> $n {
@@ -660,7 +667,7 @@ note "$?LINE $source-filename, $type-name, $class-name";
     }
   }
 
-  $deprecated
+#  $deprecated
 }
 
 #-------------------------------------------------------------------------------
@@ -711,19 +718,19 @@ method !get-source-file( XML::Element:D $element --> Str ) {
     if ?$sp {
       # get name of file, drop extension and remove a few letters from front
       $module-filename = $sp.attribs<filename>;
-      if $module-filename ~~ m/ deprecated / {
-        $module-filename = 'deprecated';
-      }
+#      if $module-filename ~~ m/ deprecated / {
+#        $module-filename = 'deprecated';
+#      }
 
-      else {
+#      else {
         $module-filename = $module-filename.IO.basename;
         # drop extension and optional version postfixes
         $module-filename ~~ s/ \. <-[\.]>+ $//;
         $module-filename ~~ s/ <[-.\d]>+ $//;
 
-        # In Gtk and Gdk for version 3, the filenames are having the prefix
-        # 'gtk' or 'gdk' before it. Glib, GObject and Gio have a 'g' prefixed.
-        # Graphene has 'graphene-' and GdkPixbuf has 'gdk-pixbuf-'.
+        # In Gtk and Gdk for version 3 and 4, the filenames are having the
+        # prefix 'gtk' or 'gdk' before it. Glib, GObject and Gio have a 'g'
+        # prefixed. Graphene has 'graphene-' and GdkPixbuf has 'gdk-pixbuf-'.
         if $*gnome-package.Str ~~ any(<
           Gtk3 Gdk3 Gtk4 Gdk4 Gsk4 Glib GObject Gio Atk
           Graphene Pango
@@ -735,7 +742,7 @@ method !get-source-file( XML::Element:D $element --> Str ) {
         else { # GdkPixbuf
           $module-filename ~~ s/^ 'gdk-pixbuf-' //;
         }
-      }
+#      }
 
       last;
     }
@@ -855,6 +862,7 @@ method !save-map ( ) {
 #-------------------------------------------------------------------------------
 method load-gir-file ( ) {
   my Str $file = $*work-data<gir>;
+  $!gir-modification-time = $file.IO.modified;
   $!xp .= new(:$file);
 }
 
