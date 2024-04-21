@@ -7,14 +7,14 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::GObject::T-value:api<2>;
 
-use Gnome::GObject::N-Value:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
-use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -35,11 +35,11 @@ my Hash $methods = %(
   reset-relation => %(:is-symbol<gtk_accessible_reset_relation>,  :parameters([GEnum])),
   reset-state => %(:is-symbol<gtk_accessible_reset_state>,  :parameters([GEnum])),
   update-property => %(:is-symbol<gtk_accessible_update_property>, :variable-list,  :parameters([GEnum])),
-  update-property-value => %(:is-symbol<gtk_accessible_update_property_value>,  :parameters([gint, GEnum, N-Value])),
+  update-property-value => %(:is-symbol<gtk_accessible_update_property_value>,  :parameters([gint, GEnum, N-Object])),
   update-relation => %(:is-symbol<gtk_accessible_update_relation>, :variable-list,  :parameters([GEnum])),
-  update-relation-value => %(:is-symbol<gtk_accessible_update_relation_value>,  :parameters([gint, GEnum, N-Value])),
+  update-relation-value => %(:is-symbol<gtk_accessible_update_relation_value>,  :parameters([gint, GEnum, N-Object])),
   update-state => %(:is-symbol<gtk_accessible_update_state>, :variable-list,  :parameters([GEnum])),
-  update-state-value => %(:is-symbol<gtk_accessible_update_state_value>,  :parameters([gint, GEnum, N-Value])),
+  update-state-value => %(:is-symbol<gtk_accessible_update_state_value>,  :parameters([gint, GEnum, N-Object])),
 );
 
 #-------------------------------------------------------------------------------

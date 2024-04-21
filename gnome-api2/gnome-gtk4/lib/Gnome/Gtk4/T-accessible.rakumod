@@ -6,9 +6,10 @@ use v6.d;
 
 use NativeCall;
 
+use Gnome::GObject::T-value:api<2>;
 
-use Gnome::GObject::N-Value:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -19,7 +20,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::T-Accessible:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::T-accessible:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
@@ -39,15 +40,22 @@ submethod BUILD ( ) {
 }
 
 #-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+enum GtkAccessiblePlatformState is export <
+  GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSABLE GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSED GTK_ACCESSIBLE_PLATFORM_STATE_ACTIVE 
+>;
+
+#-------------------------------------------------------------------------------
 #--[Standalone functions]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  accessible-property-init-value => %( :type(Function), :is-symbol<gtk_accessible_property_init_value>,  :parameters([ GtkAccessibleProperty, N-Value])),
-  accessible-relation-init-value => %( :type(Function), :is-symbol<gtk_accessible_relation_init_value>,  :parameters([ GtkAccessibleRelation, N-Value])),
-  accessible-state-init-value => %( :type(Function), :is-symbol<gtk_accessible_state_init_value>,  :parameters([ GtkAccessibleState, N-Value])),
+  accessible-property-init-value => %( :type(Function), :is-symbol<gtk_accessible_property_init_value>,  :parameters([ GtkAccessibleProperty, N-Object])),
+  accessible-relation-init-value => %( :type(Function), :is-symbol<gtk_accessible_relation_init_value>,  :parameters([ GtkAccessibleRelation, N-Object])),
+  accessible-state-init-value => %( :type(Function), :is-symbol<gtk_accessible_state_init_value>,  :parameters([ GtkAccessibleState, N-Object])),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

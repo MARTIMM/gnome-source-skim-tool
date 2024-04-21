@@ -1,0 +1,111 @@
+=comment Package: Gtk4, C-Source: accessible
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-accessible
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkAccessiblePlatformState
+
+The various platform states which can be queried
+using C<.get-platform-state()>.
+=item C<GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSABLE>; whether the accessible can be focused
+=item C<GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSED>; whether the accessible has focus
+=item C<GTK_ACCESSIBLE_PLATFORM_STATE_ACTIVE>; whether the accessible is active
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 accessible-property-init-value
+
+No documentation of method.
+
+=begin code
+method accessible-property-init-value ( GtkAccessibleProperty $property, N-Object $value )
+=end code
+
+=item $property; .
+=item $value; 
+
+=begin comment
+
+=head2 Example
+# Example for accessible-property-init-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 accessible-relation-init-value
+
+No documentation of method.
+
+=begin code
+method accessible-relation-init-value ( GtkAccessibleRelation $relation, N-Object $value )
+=end code
+
+=item $relation; .
+=item $value; 
+
+=begin comment
+
+=head2 Example
+# Example for accessible-relation-init-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 accessible-state-init-value
+
+No documentation of method.
+
+=begin code
+method accessible-state-init-value ( GtkAccessibleState $state, N-Object $value )
+=end code
+
+=item $state; .
+=item $value; 
+
+=begin comment
+
+=head2 Example
+# Example for accessible-state-init-value
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,68 @@
+=comment Package: Gtk4, C-Source: accessible
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-accessible:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
+
+use Gnome::Gtk4::T-accessible:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkAccessiblePlatformState
+subtest 'GtkAccessiblePlatformState', {
+  is GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSABLE.value, 0, 'enum GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSABLE = 0';
+
+  is GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSED.value, 1, 'enum GTK_ACCESSIBLE_PLATFORM_STATE_FOCUSED = 1';
+
+  is GTK_ACCESSIBLE_PLATFORM_STATE_ACTIVE.value, 2, 'enum GTK_ACCESSIBLE_PLATFORM_STATE_ACTIVE = 2';
+
+};
+
+
+my Gnome::Gtk4::T-accessible $accessible .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $accessible {
+    my GtkAccessibleProperty $property;
+    my GtkAccessibleRelation $relation;
+    my GtkAccessibleState $state;
+    my N-Object $value;
+
+
+#`{{
+    #TM:0:accessible-property-init-value()
+    ok .accessible-property-init-value( $property, $value), '.accessible-property-init-value()';
+
+    #TM:0:accessible-relation-init-value()
+    ok .accessible-relation-init-value( $relation, $value), '.accessible-relation-init-value()';
+
+    #TM:0:accessible-state-init-value()
+    ok .accessible-state-init-value( $state, $value), '.accessible-state-init-value()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
