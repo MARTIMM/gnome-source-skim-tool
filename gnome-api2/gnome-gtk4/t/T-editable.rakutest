@@ -1,7 +1,7 @@
 =comment Package: Gtk4, C-Source: editable
 use v6.d;
 
-#TL:1:Gnome::Gtk4::T-Editable:
+#TL:1:Gnome::Gtk4::T-editable:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ use Test;
 use Gnome::GObject::N-Value:api<2>;
 use Gnome::GObject::T-value:api<2>;
 
-use Gnome::Gtk4::T-Editable:api<2>;
+use Gnome::Gtk4::T-editable:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -46,7 +46,7 @@ subtest 'GtkEditableProperties', {
 };
 
 
-my Gnome::Gtk4::T-Editable $editable .= new;
+my Gnome::Gtk4::T-editable $editable .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $editable {
