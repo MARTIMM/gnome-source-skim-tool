@@ -41,7 +41,7 @@ Clicking a button that was added as an action widget will emit the
 I<response> signal with a response ID that you specified.
 GTK will never assign a meaning to positive response IDs; these are
 entirely user-defined. But for convenience, you can use the response
-IDs in the  C<enumeration ResponseType from Gnome::Gtk4::T-Dialog>  enumeration (these all have values
+IDs in the  C<enumeration ResponseType from Gnome::Gtk4::T-dialog>  enumeration (these all have values
 less than zero). If a dialog receives a delete event, the
 I<response> signal will be emitted with the
 C<GTK_RESPONSE_DELETE_EVENT> response ID.
@@ -210,7 +210,7 @@ destroyed along with its transient parent, or make it use a headerbar.
 Button text/response ID pairs should be listed in pairs, with a undefined
 pointer ending the list. Button text can be arbitrary text. A response
 ID can be any positive number, or one of the values in the
- C<enumeration ResponseType from Gnome::Gtk4::T-Dialog>  enumeration. If the user clicks one of these
+ C<enumeration ResponseType from Gnome::Gtk4::T-dialog>  enumeration. If the user clicks one of these
 buttons, B<Gnome::Gtk4::Dialog> will emit the I<response> signal
 with the corresponding response ID.
 
@@ -243,7 +243,7 @@ method new-with-buttons ( Str $title, N-Object() $parent, UInt $flags, Str $firs
 
 =item $title; Title of the dialog.
 =item $parent; Transient parent of the dialog.
-=item $flags; from C<bit field GtkDialogFlags defined in Gnome::Gtk4::T-Dialog>.
+=item $flags; from C<bit field GtkDialogFlags defined in Gnome::Gtk4::T-dialog>.
 =item $first-button-text; text to go in first button.
 =item $…; ….
 
