@@ -21,7 +21,7 @@ through the pages, and controls the page flow to collect the data needed
 for the operation.
 
 B<Gnome::Gtk4::Assistant> handles which buttons to show and to make sensitive based
-on page sequence knowledge and the  C<enumeration AssistantPageType from Gnome::Gtk4::T-Assistant>  of each
+on page sequence knowledge and the  C<enumeration AssistantPageType from Gnome::Gtk4::T-assistant>  of each
 page in addition to state information like the *completed* and *committed*
 page statuses.
 
@@ -562,7 +562,7 @@ next visible page.
 method set-forward-page-func ( &page-func, gpointer $data, … )
 =end code
 
-=item &page-func; the U<Gnome::Gtk4::T-Assistant>, or undefined
+=item &page-func; the U<Gnome::Gtk4::T-assistant>, or undefined
   to use the default one. Tthe function must be specified with following signature; C<:( gint $current-page, gpointer $data --> gint )>.
 =item $data; user data for C<$page_func>.
 =item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!

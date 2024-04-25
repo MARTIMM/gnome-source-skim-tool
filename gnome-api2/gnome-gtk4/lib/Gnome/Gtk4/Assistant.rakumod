@@ -8,7 +8,7 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::Gtk4::T-Assistant:api<2>;
+use Gnome::Gtk4::T-assistant:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
