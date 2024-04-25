@@ -1,7 +1,7 @@
 # Command to generate: generate.raku -v -c -t Gtk4 show
 use v6.d;
 
-#TL:1:Gnome::Gtk4::T-Show:
+#TL:1:Gnome::Gtk4::T-show:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -10,14 +10,14 @@ use NativeCall;
 use Test;
 
 
-use Gnome::Gtk4::T-Show:api<2>;
+use Gnome::Gtk4::T-show:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 
 #-------------------------------------------------------------------------------
-my Gnome::Gtk4::T-Show $show .= new;
+my Gnome::Gtk4::T-show $show .= new;
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
