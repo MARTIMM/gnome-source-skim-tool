@@ -39,9 +39,7 @@ subtest 'ISA test', {
     $ratio = 0.8;
     $obey-child = False;
     $aspectframe .= new-aspectframe( $xalign, $yalign, $ratio, $obey-child);
-    ok .is-valid, '.new-aspectframe( $xalign, $yalign, $ratio, $obey-child)';
-note 'xalign:                            ', .get-xalign;
-note 'yalign == xalign is bug in Gnome!: ', .get-yalign;
+    ok .is-valid, '.new-aspectframe()';
   }
 };
 
@@ -86,19 +84,20 @@ subtest 'Method tests', {
     #TM:1:set-xalign()
     $xalign = 0.6.Num;
     .set-xalign($xalign);
-#note 'xalign: ', .get-xalign;
-#note 'yalign: ', .get-yalign;
     #TM:1:get-xalign()
-    is-approx .get-xalign(), $xalign, '.set-xalign() / .get-xalign()';
+    is-approx my $xa = .get-xalign(), $xalign, '.set-xalign() / .get-xalign()';
 
     #TM:1:set-yalign()
     $yalign = 0.4.Num;
     .set-yalign($yalign);
-#note 'xalign: ', .get-xalign;
-#note 'yalign: ', .get-yalign;
-# Bug in version gtk 4.9.4
-#    #TM:0:get-yalign()
-#    is-approx .get-yalign(), $yalign, '.set-yalign() / .get-yalign()';
+    #TM:1:get-yalign()
+    if $xa == my $ya = .get-yalign() {
+      skip "Older version Gtk 4 has a bug here; $ya should not be $xa";
+    }
+
+    else {
+      is-approx $ya, $yalign, '.set-yalign() / .get-yalign()';
+    }
   }
 };
 
