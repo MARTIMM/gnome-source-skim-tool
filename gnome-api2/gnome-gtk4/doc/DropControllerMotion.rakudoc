@@ -1,0 +1,245 @@
+=comment Package: Gtk4, C-Source: dropcontrollermotion
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::DropControllerMotion
+
+![](images/dropcontrollermotion.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::DropControllerMotion> is an event controller tracking
+the pointer during Drag-and-Drop operations.
+
+It is modeled after B<Gnome::Gtk4::EventControllerMotion> so if you
+have used that, this should feel really familiar.
+
+This controller is not able to accept drops, use B<Gnome::Gtk4::DropTarget>
+for that purpose.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::DropControllerMotion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-dropcontrollermotion
+
+Creates a new event controller that will handle pointer motion
+events during drag and drop.
+
+=begin code
+method new-dropcontrollermotion ( --> Gnome::Gtk4::DropControllerMotion \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-dropcontrollermotion
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains-pointer
+
+Returns if a Drag-and-Drop operation is within the widget C<$self> or one of its children.
+
+=begin code
+method contains-pointer (--> Bool )
+=end code
+
+Return value; C<True> if a dragging pointer is within C<$self> or one of its children.. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-pointer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-drop
+
+Returns the B<Gnome::Gdk4::Drop> of a current Drag-and-Drop operation
+over the widget of C<$self>.
+
+=begin code
+method get-drop (--> N-Object )
+=end code
+
+Return value; The B<Gnome::Gdk4::Drop> currently
+  happening within C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-drop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-pointer
+
+Returns if a Drag-and-Drop operation is within the widget C<$self>, not one of its children.
+
+=begin code
+method is-pointer (--> Bool )
+=end code
+
+Return value; C<True> if a dragging pointer is within C<$self> but
+  not one of its children. 
+
+=begin comment
+
+=head2 Example
+# Example for is-pointer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 enter
+
+Signals that the pointer has entered the widget.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropControllerMotion :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; coordinates of pointer location.
+=item $y; coordinates of pointer location.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropControllerMotion> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal enter
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 leave
+
+Signals that the pointer has left the widget.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropControllerMotion :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropControllerMotion> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal leave
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 motion
+
+Emitted when the pointer moves inside the widget.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropControllerMotion :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the x coordinate.
+=item $y; the y coordinate.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropControllerMotion> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal motion
+
+=end comment
+
+=end pod
+
