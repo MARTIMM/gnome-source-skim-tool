@@ -10,7 +10,7 @@ use NativeCall;
 
 use Gnome::Gtk4::Dialog:api<2>;
 use Gnome::Gtk4::R-FileChooser:api<2>;
-use Gnome::Gtk4::T-FileChooser:api<2>;
+use Gnome::Gtk4::T-filechooser:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;

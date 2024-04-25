@@ -17,7 +17,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gtk4::T-FileChooser:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Gtk4::T-filechooser:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
