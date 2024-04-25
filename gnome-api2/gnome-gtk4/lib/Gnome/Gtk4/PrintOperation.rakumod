@@ -13,7 +13,7 @@ use Gnome::Glib::T-error:api<2>;
 
 use Gnome::Gtk4::R-PrintOperationPreview:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-use Gnome::Gtk4::T-PrintOperation:api<2>;
+use Gnome::Gtk4::T-printoperation:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
