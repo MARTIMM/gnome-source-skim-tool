@@ -12,7 +12,7 @@ use Gnome::Gdk4::T-enums:api<2>;
 
 use Gnome::Gtk4::R-CellEditable:api<2>;
 use Gnome::Gtk4::R-Editable:api<2>;
-use Gnome::Gtk4::T-Entry:api<2>;
+use Gnome::Gtk4::T-entry:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-Image:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
