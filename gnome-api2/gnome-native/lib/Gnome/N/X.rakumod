@@ -58,52 +58,67 @@ its state.
 =begin pod
 =head2 Gnome::N::deprecate
 
-Set a deprecation message when the trait DEPRECATED on classes and methods is not sufficient enaugh. Like those, a message is generated when the X module ends, i.e. when your application exits (hopefully ;-).
+Set a deprecation message whith the Raku trait 'is DEPRECATED' on classes and methods is not sufficient enough. Like those, a message is generated when the X module ends, i.e. when your application exits (hopefully ;-).
 
   sub Gnome::N::deprecate (
-    Str $old-method, Str $new-method,
-    Str $since-version, Str $remove-version
+    Str $old, Str $new,
+    Str $since-version, Str $remove-version,
+    Str :$gnome-lib = '', Bool :$class = False
   )
 
-=item $old-method; Method as it was used.
-=item $new-method; New method or way to use.
+=item $old; Method or class as it was used.
+=item $new; New method or class or way to use or non when no replacement is made.
 =item $since-version; When it was deprecated. Version is from package wherein the module/class and method is defined.
 =item $remove-version; Version of package when the method will be removed.
+=item When $gnome-lib is set, the $remove-version is the version of the gnome lib and $remove-version is ignored.
 
 =end pod
 
   #TM:1:deprecate():
   my $x-deprecated = %();
   our &Gnome::N::deprecate = sub (
-    Str $old-method, Str $new-method,
-    Str $deprecate-version, Str $remove-version
+    Str $old, Str $new,
+    Str $deprecate-version, Str $remove-version,
+    Str :$gnome-lib = '', Bool :$class = False
   ) {
 
     my Str $cf-file;
     my $cf-line;
-    for ^10 -> $cfi {
-      $cf-file = callframe($cfi).file;
-      next if $cf-file ~~ m/ 'Gnome::' || '/Mu.' || '/moar' /;
+    for ^100 -> $cfi {
+      try {
+        $cf-file = callframe($cfi).file;
+        next if $cf-file ~~ m/ | '.nqp'
+                               | '.moarvm'
+                               | 'Gnome::N::X'
+                               | 'Mu.rakumod'
+                             /;
+note "$?LINE deprecate callframe; {$cf-file.IO.basename} {callframe($cfi).line}";
 
-      $cf-line = callframe($cfi).line();
-      last;
+        $cf-line = callframe($cfi).line();
+
+        CATCH {
+          # No callframe at level …
+          #.note;
+          last;
+        }
+      }
     }
 
     # found this one before?
-    if !$x-deprecated{$cf-file}{"$old-method $new-method"} {
+    if !$x-deprecated{$cf-file}{"$old $new"} {
       $cf-file ~~ s/ \( <-[)]>+ \) .* //;
       $cf-file ~~ s/$*HOME/~/;
 
       my %message-data = %(
-        :$cf-file, :$cf-line, :$old-method, :$new-method,
-        :$deprecate-version, :$remove-version
+        :$cf-file, :$cf-line, :$old, :$new,
+        :$deprecate-version, :$remove-version, :$gnome-lib, :$class
       );
 
-      $x-deprecated{$cf-file}{"$old-method $new-method"} = %message-data;
+      $x-deprecated{$cf-file}{"$old $new"} = %message-data;
     }
 
     else {
-      my %message-data := $x-deprecated{$cf-file}{"$old-method $new-method"};
+      my %message-data := $x-deprecated{$cf-file}{"$old $new"};
       %message-data{'cf-line'} ~= ", $cf-line"
         unless %message-data{'cf-line'} ~~ m/ <?wb> $cf-line <?wb> /;
     }
@@ -116,13 +131,43 @@ Set a deprecation message when the trait DEPRECATED on classes and methods is no
       for $x-deprecated.keys.sort -> $file {
         for $x-deprecated{$file}.keys.sort -> $m {
           my %message-data := $x-deprecated{$file}{$m};
+          my Str $message = '';
+          if %message-data<class> {
+            $message ~= "Class %message-data<old> is deprecated";
+          }
+
+          else {
+            $message ~= "Method %message-data<old> is deprecated";
+          }
+
+          if ?%message-data<gnome-lib> {
+            $message ~= " in %message-data<gnome-lib> library since version %message-data<deprecate-version>.\n";
+          }
+
+          else {
+            $message ~= " since version %message-data<deprecate-version>.\n";
+            if ?%message-data<remove-version> and %message-data<class> {
+              $message ~= "This class will be removed after version %message-data<remove-version>.\n";
+            }
+
+            elsif ?%message-data<remove-version> {
+              $message ~= "Method will be removed from this class after version %message-data<remove-version>.\n";
+            }
+
+            if ?%message-data<new> {
+              $message ~= "Please use %message-data<new> instead.\n";
+            }
+          }
+
+          $message ~= "Found in file %message-data<cf-file> at lines %message-data<cf-line>.\n";
+#`{{
           note Q:qq:to/EOTXT/;
-            Method '%message-data{"old-method"}' is deprecated in favor of '%message-data{"new-method"}'
+            Method '%message-data<old> is deprecated in favor of '%message-data{"new-method"}'
             Deprecated since version %message-data{"deprecate-version"} and will be removed at version %message-data{"remove-version"}
             Found in file %message-data{'cf-file'} at lines %message-data{'cf-line'}
           EOTXT
-
-          note '-' x 80;
+}}
+          note $message, "\n", '-' x 80;
         }
       }
 
