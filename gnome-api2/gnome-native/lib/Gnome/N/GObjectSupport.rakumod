@@ -103,7 +103,6 @@ $signal-name; The name of the event to be handled. Each gtk object has its own s
 %user-options; Any other user data in whatever type provided as one or more named arguments. These arguments are provided to the user handler when an event for the handler is fired. The names starting with '_' are reserved to provide other info to the user.
 
 The following reserved named arguments are available;
-  =item C<:$_widget>; The instance which registered the signal.
   =item C<:$_handler-id>; The handler id which is returned from the registration
   =item C<:$_native-object>; The native object provided by the caller.
   =begin code
@@ -218,11 +217,7 @@ method register-signal (
 
     return False unless ?$signal-type;
 
-    # self can't be closed over
-    my $current-object = self;
-
     my %named-args = %user-options;
-    %named-args<_widget> = $current-object;
     %named-args<_handler-id> = $handler-id;
 
     sub w0 ( N-Object $w, gpointer $d ) is export {
@@ -427,16 +422,8 @@ method _convert_g_signal_connect_object (
   # then process all parameters of the callback. Skip the first which is the
   # instance which is not needed in the argument list to the handler.
   for $user-handler.signature.params[1..*-1] -> $p {
-
-    # named argument. test for '$_widget` and deprecate the use of it. then skip
-    if $p.named {
-      Gnome::N::deprecate(
-        'named argument :$_widget', ':$_native-object', '0.19.8', '0.21.0'
-      ) if $p.name eq '$_widget';
-
-      next;
-    }
-
+    # Named arguments are skipped. Also skip undefined names.
+    next if $p.named;
     next if $p.name ~~ Nil;       # seems to be possible
     next if $p.name eq '%_';      # only at the end I think
 
