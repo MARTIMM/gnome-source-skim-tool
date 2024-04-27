@@ -76,44 +76,51 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   }
 
   self.add-import('Gnome::N::GnomeRoutineCaller') if ?$callables;
+
+  my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
+  my Str $unit-header = '';
+  my Str $unit-type = '';
+
+  # Find out if class is deprecated
+  my Str $depr-msg = '';
+  if ?$h<deprecated> {
+    self.add-import('Gnome::N');
+    $depr-msg = [~] 'Gnome::N::deprecate(', "\n",
+      "  '$classname', ', Str, ',\n  ", "'", $h<deprecated-version>//'', "'",
+      ', Str,', "\n  ", ':class, :gnome-lib(', $*work-data<library>, ')', "\n);\n";
+  }
+
+
+  # Roles
+  if $is-role {
+    $unit-header ~= pod-header('Role Declaration');
+    $unit-type = 'role';
+  }
+
+  # Records and unions
+  elsif $h<gir-type> ~~ m/ [record | union] / {
+    self.add-import('Gnome::N::TopLevelClassSupport');
+    $also ~= 'also is Gnome::N::TopLevelClassSupport;' ~ "\n";
+    $unit-header ~= pod-header('Structure Declaration');
+  }
+
+  # Classes
+  else {
+    $unit-header ~= pod-header('Class Declaration');
+  }
+
+  # Generate import section to be filled in later, and start unit.
   my Str $code = qq:to/RAKUMOD/;
 
     {pod-header('Module Imports')}
     __MODULE__IMPORTS__
 
+    $unit-header
+    unit class $classname\:auth<github:MARTIMM>:api<2>;
+    $also
+
+    $depr-msg
     RAKUMOD
-
-  # Roles
-  if $is-role {
-    $code ~= qq:to/RAKUMOD/;
-      {pod-header('Role Declaration');}
-      unit role { $!solve.set-object-name( $h, :name-type(ClassnameType)) }:auth<github:MARTIMM>:api<2>;
-      RAKUMOD
-  }
-
-  # Records and unions
-  elsif $h<gir-type> ~~ m/ [record | union] / {
-    my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
-    self.add-import('Gnome::N::TopLevelClassSupport');
-    $also ~= 'also is Gnome::N::TopLevelClassSupport;' ~ "\n";
-
-    $code ~= qq:to/RAKUMOD/;
-      {pod-header('Structure Declaration');}
-      unit class $classname\:auth<github:MARTIMM>:api<2>;
-      $also
-      RAKUMOD
-  }
-
-  # Classes
-  else {
-    my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
-#      unit class $*work-data<raku-class-name>:auth<github:MARTIMM>:api<2>;
-    $code ~= qq:to/RAKUMOD/;
-      {pod-header('Class Declaration');}
-      unit class $classname\:auth<github:MARTIMM>:api<2>;
-      $also
-      RAKUMOD
-  }
 
   $code
 }
@@ -540,8 +547,8 @@ method get-native-subs (
 
   for @subs -> $native-sub {
     # Skip deprecated methods
-    next if $native-sub.attribs<deprecated>:exists and
-            $native-sub.attribs<deprecated> eq '1';
+    #next if $native-sub.attribs<deprecated>:exists and
+    #        $native-sub.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) =
       self!get-method-data( $native-sub, :$xpath, :$user-side);
