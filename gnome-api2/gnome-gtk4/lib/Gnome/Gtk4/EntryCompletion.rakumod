@@ -10,8 +10,8 @@ use NativeCall;
 
 use Gnome::GObject::Object:api<2>;
 use Gnome::Gtk4::N-TreeIter:api<2>;
-use Gnome::Gtk4::R-Buildable:api<2>;
-use Gnome::Gtk4::R-CellLayout:api<2>;
+#use Gnome::Gtk4::T-treemodel:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -25,8 +25,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::EntryCompletion:auth<github:MARTIMM>:api<2>;
 also is Gnome::GObject::Object;
-also does Gnome::Gtk4::R-Buildable;
-also does Gnome::Gtk4::R-CellLayout;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -43,19 +41,20 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::EntryCompletion', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
       :w0<no-matches>,
       :w1<insert-prefix>,
-      :w2<match-selected cursor-on-match>,
+      :w2<cursor-on-match match-selected>,
     );
-
-    # Signals from interfaces
-    self._add_gtk_buildable_signal_types($?CLASS.^name)
-      if self.^can('_add_gtk_buildable_signal_types');
-    self._add_gtk_cell_layout_signal_types($?CLASS.^name)
-      if self.^can('_add_gtk_cell_layout_signal_types');
     $signals-added = True;
   }
 
@@ -99,7 +98,7 @@ my Hash $methods = %(
   insert-prefix => %(:is-symbol<gtk_entry_completion_insert_prefix>, ),
   set-inline-completion => %(:is-symbol<gtk_entry_completion_set_inline_completion>,  :parameters([gboolean])),
   set-inline-selection => %(:is-symbol<gtk_entry_completion_set_inline_selection>,  :parameters([gboolean])),
-  #set-match-func => %(:is-symbol<gtk_entry_completion_set_match_func>,  :parameters([:( N-Object $completion, Str $key, N-TreeIter $iter, gpointer $user-data --> gboolean ), gpointer, ])),
+  #set-match-func => %(:is-symbol<gtk_entry_completion_set_match_func>,  :parameters([:( N-Object $completion, Str $key, N-Object $iter, gpointer $user-data --> gboolean ), gpointer, ])),
   set-minimum-key-length => %(:is-symbol<gtk_entry_completion_set_minimum_key_length>,  :parameters([gint])),
   set-model => %(:is-symbol<gtk_entry_completion_set_model>,  :parameters([N-Object])),
   set-popup-completion => %(:is-symbol<gtk_entry_completion_set_popup_completion>,  :parameters([gboolean])),
@@ -141,18 +140,6 @@ method _fallback-v2 (
   }
 
   else {
-    my $r;
-    my $native-object = self.get-native-object-no-reffing;
-    $r = self._do_gtk_buildable_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    ) if self.^can('_do_gtk_buildable_fallback-v2');
-    return $r if $_fallback-v2-ok;
-
-    $r = self._do_gtk_cell_layout_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    ) if self.^can('_do_gtk_cell_layout_fallback-v2');
-    return $r if $_fallback-v2-ok;
-
     callsame;
   }
 }
