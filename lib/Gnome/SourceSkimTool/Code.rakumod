@@ -81,15 +81,16 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   my Str $unit-header = '';
   my Str $unit-type = '';
 
+#`{{
   # Find out if class is deprecated
   my Str $depr-msg = '';
   if ?$h<deprecated> {
     self.add-import('Gnome::N');
-    $depr-msg = [~] 'Gnome::N::deprecate(', "\n",
+    $depr-msg = [~] "\n", 'Gnome::N::deprecate(', "\n",
       "  '$classname', ', Str, ',\n  ", "'", $h<deprecated-version>//'', "'",
       ', Str,', "\n  ", ':class, :gnome-lib(', $*work-data<library>, ')', "\n);\n";
   }
-
+}}
 
   # Roles
   if $is-role {
@@ -118,10 +119,9 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
     $unit-header
     unit class $classname\:auth<github:MARTIMM>:api<2>;
     $also
-
-    $depr-msg
     RAKUMOD
 
+    #$depr-msg
   $code
 }
 
@@ -153,6 +153,91 @@ method set-unit-for-file (
 
   $code ~= "also is Gnome::N::TopLevelClassSupport;\n" if $has-functions;
 #  $code ~= "\n";
+
+  $code
+}
+
+#-------------------------------------------------------------------------------
+method make-build-submethod (
+  XML::Element $element, XML::XPath $xpath --> Str
+) {
+  my Str $ctype = $element.attribs<c:type>//'';
+  my Hash $h = $!solve.search-name($ctype)//%();
+
+  # Find out if class is deprecated
+  my Str $depr-msg = '';
+  if ?$h<deprecated> {
+    my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
+    self.add-import('Gnome::N');
+    $depr-msg = [~] "\n  ", 'Gnome::N::deprecate(', "\n    ",
+      "'$classname', ', Str, ',\n    ", "'", $h<deprecated-version>//'', "'",
+      ', Str,', "\n    ", ':class, :gnome-lib(', $*work-data<library>, ')', "  \n  );\n";
+  }
+
+  # Signal administration
+  my Str $role-signals = self.get-role-signals($h);
+  my Str $signal-admin = self.get-signal-admin(
+    $element, $xpath, $role-signals
+  );
+
+  my Str $c = '';
+  if ?$signal-admin {
+    $c ~= q:to/EOBUILD/;
+
+      # Add signal registration helper
+      my Bool $signals-added = False;
+      EOBUILD
+  }
+
+  # Generate code for signal admin and init of callable helper
+  my Str $code = qq:to/EOBUILD/;
+    {pod-header('BUILD variables');}
+    # Define callable helper
+    has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
+    $c
+    {pod-header('BUILD submethod');}
+    submethod BUILD \( *\%options \) \{
+    $depr-msg
+    $signal-admin
+      # Initialize helper
+      \$\!routine-caller .= new\(:library\($*work-data<library>\)\);
+
+    EOBUILD
+
+  # >> In older versions, here was the test for inheritance <<
+  $code ~= [~] '  # Prevent creating wrong widgets', "\n",
+          '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
+
+  self.add-import('Gnome::N::X');
+  $code ~= q:to/EOBUILD/;
+        # If already initialized using ':$native-object', ':$build-id', or
+        # any '.new*()' constructor, the object is valid.
+        note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
+    EOBUILD
+
+  $code ~= qq:to/EOBUILD/;
+
+      # only after creating the native-object, the gtype is known
+      self._set-class-info\('$*work-data<gnome-name>'\);
+    \}
+  \}
+  EOBUILD
+
+  # Check for parent class. When there is none, TopLevelClassSupport is set
+  # and we need additional code
+  unless ?$h<parent-raku-name> {
+    $code ~= q:to/EOBUILD/;
+
+      # Next two methods need checks for proper referencing or cleanup 
+      method native-object-ref ( $n-native-object ) {
+        $n-native-object
+      }
+
+      method native-object-unref ( $n-native-object ) {
+      #  self._fallback-v2( 'free', my Bool $x);
+      }
+      EOBUILD
+  }
 
   $code
 }
@@ -297,80 +382,6 @@ method generate-callables (
   }
 
   $code = $c;
-
-  $code
-}
-
-#-------------------------------------------------------------------------------
-method make-build-submethod (
-  XML::Element $element, XML::XPath $xpath --> Str
-) {
-  my Str $ctype = $element.attribs<c:type>//'';
-  my Hash $h = $!solve.search-name($ctype)//%();
-
-  # Signal administration
-  my Str $role-signals = self.get-role-signals($h);
-  my Str $signal-admin = self.get-signal-admin(
-    $element, $xpath, $role-signals
-  );
-
-  my Str $c = '';
-  if ?$signal-admin {
-    $c ~= q:to/EOBUILD/;
-
-      # Add signal registration helper
-      my Bool $signals-added = False;
-      EOBUILD
-  }
-
-  # Generate code for signal admin and init of callable helper
-  my Str $code = qq:to/EOBUILD/;
-    {pod-header('BUILD variables');}
-    # Define callable helper
-    has Gnome::N::GnomeRoutineCaller \$\!routine-caller;
-    $c
-    {pod-header('BUILD submethod');}
-    submethod BUILD \( *\%options \) \{
-    $signal-admin
-      # Initialize helper
-      \$\!routine-caller .= new\(:library\($*work-data<library>\)\);
-
-    EOBUILD
-
-  # >> In older versions, here was the test for inheritance <<
-  $code ~= [~] '  # Prevent creating wrong widgets', "\n",
-          '  if self.^name eq ', "'$*work-data<raku-class-name>'", ' {', "\n";
-
-  self.add-import('Gnome::N::X');
-  $code ~= q:to/EOBUILD/;
-        # If already initialized using ':$native-object', ':$build-id', or
-        # any '.new*()' constructor, the object is valid.
-        note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
-    EOBUILD
-
-  $code ~= qq:to/EOBUILD/;
-
-      # only after creating the native-object, the gtype is known
-      self._set-class-info\('$*work-data<gnome-name>'\);
-    \}
-  \}
-  EOBUILD
-
-  # Check for parent class. When there is none, TopLevelClassSupport is set
-  # and we need additional code
-  unless ?$h<parent-raku-name> {
-    $code ~= q:to/EOBUILD/;
-
-      # Next two methods need checks for proper referencing or cleanup 
-      method native-object-ref ( $n-native-object ) {
-        $n-native-object
-      }
-
-      method native-object-unref ( $n-native-object ) {
-      #  self._fallback-v2( 'free', my Bool $x);
-      }
-      EOBUILD
-  }
 
   $code
 }
@@ -917,8 +928,8 @@ method get-standalone-functions (
 
     # Skip empty elements deprecated functions
     next unless ?$element;
-    next if $element.attribs<deprecated>:exists and
-            $element.attribs<deprecated> eq '1';
+    #next if $element.attribs<deprecated>:exists and
+    #        $element.attribs<deprecated> eq '1';
 
     @methods.push: $element
   }
@@ -949,8 +960,8 @@ method get-callback-function ( Str $function-name --> Hash ) {
 
   # Skip empty elements deprecated functions
   return %() unless ?$element;
-  return %() if $element.attribs<deprecated>:exists and
-                $element.attribs<deprecated> eq '1';
+  #return %() if $element.attribs<deprecated>:exists and
+  #              $element.attribs<deprecated> eq '1';
 
 #  my Hash $h = self!get-callback-data( $element, :$xpath);
 #  $h<function-name> = $function-name;
@@ -1525,7 +1536,7 @@ method signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my @signal-info = $xpath.find( 'glib:signal', :start($element), :to-list);
   for @signal-info -> $si {
     my Hash $attribs = $si.attribs;
-    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
+    #next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
 
     # Get signal name and number of parameters (this becomes its level).
     my Str $signal-name = $attribs<name>;
@@ -2377,7 +2388,7 @@ method get-constructors (
 
   for @constructors -> $cn {
     # Skip deprecated constructors
-    next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
+    #next if $cn.attribs<deprecated>:exists and $cn.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) =
       self!get-constructor-data( $cn, :$xpath, :$user-side);
@@ -2517,8 +2528,8 @@ method get-functions (
 
   for @methods -> $function {
     # Skip deprecated methods
-    next if $function.attribs<deprecated>:exists and
-            $function.attribs<deprecated> eq '1';
+    #next if $function.attribs<deprecated>:exists and
+    #        $function.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) =
       self!get-method-data( $function, :$xpath, :$user-side);
@@ -2543,8 +2554,8 @@ method get-methods (
 
   for @methods -> XML::Element $function {
     # Skip deprecated methods
-    next if $function.attribs<deprecated>:exists and
-            $function.attribs<deprecated> eq '1';
+    #next if $function.attribs<deprecated>:exists and
+    #        $function.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) =
       self!get-method-data( $function, :$xpath, :$user-side);
