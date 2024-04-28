@@ -126,6 +126,15 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
   printf "\n\ncalling $name" if $Gnome::N::x-debug;
 
   my Hash $routine := $methods{$name};
+
+  if ?$routine<deprecated> {
+    Gnome::N::deprecate(
+      "\.$name\()", ', Str, ',
+      $routine<deprecated-version> // Str, Str,
+      :!class, :gnome-lib($!library)  
+    );
+  }
+
   my Array $arguments = [|@arguments];
   my Array $native-args;
   my Array $parameters =
@@ -183,6 +192,14 @@ multi method call-native-sub (
   printf "\n\ncalling $name, $native-object" if $Gnome::N::x-debug;
 
   my Hash $routine := $methods{$name};
+
+  if ?$routine<deprecated> {
+    Gnome::N::deprecate(
+      "\.$name\()", ', Str, ',
+      $routine<deprecated-version> // Str, Str,
+      :!class, :gnome-lib($!library)  
+    );
+  }
 
   my Array $arguments = [|@arguments];
   my Array $native-args;
