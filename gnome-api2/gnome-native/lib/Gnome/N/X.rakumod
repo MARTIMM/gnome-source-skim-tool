@@ -86,15 +86,17 @@ Set a deprecation message whith the Raku trait 'is DEPRECATED' on classes and me
     my $cf-line;
     for ^100 -> $cfi {
       try {
-        $cf-file = callframe($cfi).file;
+        my $cf = callframe($cfi);
+        $cf-file = $cf.file;
         next if $cf-file ~~ m/ | '.nqp'
                                | '.moarvm'
-                               | 'Gnome::N::X'
+                               | 'Gnome::'
                                | 'Mu.rakumod'
                              /;
-note "$?LINE deprecate callframe; {$cf-file.IO.basename} {callframe($cfi).line}";
 
-        $cf-line = callframe($cfi).line();
+#note "$?LINE callframe; {$cf-file.IO.basename} {$cf.annotations}";
+        $cf-line = $cf.line();
+        last;
 
         CATCH {
           # No callframe at level …
@@ -131,16 +133,24 @@ note "$?LINE deprecate callframe; {$cf-file.IO.basename} {callframe($cfi).line}"
       for $x-deprecated.keys.sort -> $file {
         for $x-deprecated{$file}.keys.sort -> $m {
           my %message-data := $x-deprecated{$file}{$m};
+          my Bool $native = ?%message-data<gnome-lib>;
+
           my Str $message = '';
           if %message-data<class> {
-            $message ~= "Class %message-data<old> is deprecated";
+            if $native {
+              $message ~= "The native representation of class %message-data<old> is deprecated";
+            }
+
+            else {
+              $message ~= "Class %message-data<old> is deprecated";
+            }
           }
 
           else {
             $message ~= "Method %message-data<old> is deprecated";
           }
 
-          if ?%message-data<gnome-lib> {
+          if $native {
             $message ~= " in %message-data<gnome-lib> library since version %message-data<deprecate-version>.\n";
           }
 
