@@ -75,17 +75,18 @@ subtest 'Method tests', {
 
 #`{{
     #TM:0:complete()
-    ok .complete(), '.complete()';
+    lives-ok .complete(), '.complete()';
 
     #TM:0:compute-prefix()
     ok .compute-prefix( $key), '.compute-prefix()';
 
     #TM:0:get-completion-prefix()
      .get-completion-prefix(), '…', '.get-completion-prefix()';
-
+}}
     #TM:0:get-entry()
-     .get-entry(), '…', '.get-entry()';
-
+    lives-ok { my $e = .get-entry() }, '.get-entry()';
+    #, '…', '.get-entry()';
+#`{{
     #TM:0:insert-prefix()
     ok .insert-prefix(), '.insert-prefix()';
 
