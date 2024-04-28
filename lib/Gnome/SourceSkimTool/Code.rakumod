@@ -523,7 +523,6 @@ method !generate-constructors ( Hash $hcs --> Str ) {
     $is-symbol ~~ s:g/ '-' /_/;
     $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
 
-#note "$?LINE $function-name, $is-symbol";
     # Change the name of 'new' into 'new-<classname.lc>'. E.g. new-button.
     if $function-name eq 'new' {
       my Str $name-prefix = $*work-data<name-prefix>;
@@ -532,12 +531,17 @@ method !generate-constructors ( Hash $hcs --> Str ) {
       $function-name ~= '-' ~ $gname.lc;
     }
 
-
+    # Add deprecation parameters
+    my Str $dep-str = '';
+    if $curr-function<deprecated> {
+      $dep-str = [~] ':deprecated', ', :deprecated-version<',
+                     $curr-function<deprecated-version>, '>, ';
+    }
 
     my $xtype = $curr-function<return-raku-type>;
     $code ~= [~] '  ', $temp-inhibit, $function-name,
                 ' => %( :type(Constructor), ', $is-symbol,
-                ':returns(', $xtype, '), ',
+                ':returns(', $xtype, '), ', $dep-str,
                 $variable-list, $parameters, "),\n";
 
     # drop last comma from arg list
@@ -705,8 +709,15 @@ method !generate-methods ( Hash $hcs --> Str ) {
     $is-symbol ~~ s:g/ '-' /_/;
     $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
 
+    # Add deprecation parameters
+    my Str $dep-str = '';
+    if $curr-function<deprecated> {
+      $dep-str = [~] ':deprecated', ', :deprecated-version<',
+                     $curr-function<deprecated-version>, '>, ';
+    }
+
     $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %(', $is-symbol,
-             $variable-list, $returns, $cnv-return, $par-list, "),\n";
+             $variable-list, $returns, $cnv-return, $par-list, $dep-str, "),\n";
 
     # drop last comma from arg list
     $code ~~ s/ '),)' /))/;
@@ -899,9 +910,16 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
     $is-symbol ~~ s:g/ '-' /_/;
     $is-symbol = ':is-symbol<' ~ $is-symbol ~ '>, ';
 
+    # Add deprecation parameters
+    my Str $dep-str = '';
+    if $curr-function<deprecated> {
+      $dep-str = [~] ':deprecated', ', :deprecated-version<',
+                     $curr-function<deprecated-version>, '>, ';
+    }
+
     $code ~= [~] '  ', $temp-inhibit, $function-name,
              ' => %( :type(Function), ', $is-symbol, $variable-list, $returns,
-             $par-list, "),\n";
+             $par-list, $dep-str, "),\n";
 
     # drop last comma from arg list
     $code ~~ s/ '),)' /))/;
@@ -1801,9 +1819,13 @@ method !get-method-data (
 
 #note "  $?LINE $function-name, miss types: $missing-type";
 
+  my Bool $deprecated = ?$e.attribs<deprecated>;
+  my Str $deprecated-version =
+    $deprecated ?? $e.attribs<deprecated-version> !! '';
+
   ( $function-name, %(
       :@parameters, :$variable-list, :$rv-type, :$return-raku-type,
-      :$missing-type
+      :$missing-type, :$deprecated, :$deprecated-version,
 #      :$return-raku-rtype,
 #      :$rv-transfer-ownership,
     )
