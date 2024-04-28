@@ -147,7 +147,13 @@ Set a deprecation message whith the Raku trait 'is DEPRECATED' on classes and me
           }
 
           else {
-            $message ~= "Method %message-data<old> is deprecated";
+            if $native {
+              $message ~= "The native representation of method %message-data<old> is deprecated";
+            }
+
+            else {
+              $message ~= "Method %message-data<old> is deprecated";
+            }
           }
 
           if $native {
