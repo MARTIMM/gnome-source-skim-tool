@@ -171,7 +171,8 @@ method make-build-submethod (
     self.add-import('Gnome::N');
     $depr-msg = [~] "\n  ", 'Gnome::N::deprecate(', "\n    ",
       "'$classname', ', Str, ',\n    ", "'", $h<deprecated-version>//'', "'",
-      ', Str,', "\n    ", ':class, :gnome-lib(', $*work-data<library>, ')', "  \n  );\n";
+      ', Str,', "\n    ", ':class, :gnome-lib(', $*work-data<library>, ')',
+      "  \n  );\n";
   }
 
   # Signal administration
@@ -480,32 +481,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
       last if $parameter<raku-type> eq '…';
       # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
       my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
-#      $par-list ~= ", $rnt0";
-#`{{
-      if $curr-function<variable-list> {
-        # When variable list, the last type is '…', Finish the pattern.
-        if $parameter<raku-type> eq '…' {
-          # A pattern consists of a character key and some value of an unknown
-          # type. This repeats until user data is exhausted. Then end with a 0.
-          # The first argument in the pattern is a string (mostly) then a value
-          # followed by the type of that value. Take glib types!
-
-          #TODO investigate if this is always true in gnome variable lists.
-          $pattern ~= "$pattern-starter, Nil]), ";
-          last;
-        }
-
-        else {
-          # The $par-list will have the non-repetative arguments
-          $par-list ~= ", $pattern-starter" if ?$pattern-starter;
-          $pattern-starter = $rnt0;
-        }
-      }
-
-      else {
-}}
-        $par-list ~= ", $rnt0";
-#      }
+      $par-list ~= ", $rnt0";
     }
 
     # Remove first comma
@@ -644,34 +620,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
           # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
           # Here we only need the type.
           my ( $rnt0, $rnt1) = $xtype.split(':');
-#        $par-list ~= ", $rnt0";
-
-#`{{
-          if $curr-function<variable-list> {
-            # When variable list, the last type is '…', Finish the pattern.
-            if $parameter<raku-type> eq '…' {
-              # A pattern consists of a character key and some value of an 
-              # unknown type. This repeats until user data is exhausted.
-              # Then end with a 0. The first argument in the pattern is a string
-              # (mostly) then a value followed by the type of that value. Take
-              # glib types!
-
-              #TODO investigate if this is always true in gnome variable lists.
-              $pattern ~= "$pattern-starter, Nil]), ";
-              last;
-            }
-
-            else {
-              # The $par-list will have the non-repetative arguments
-              $par-list ~= ", $pattern-starter" if ?$pattern-starter;
-              $pattern-starter = $rnt0;
-            }
-          }
-
-          else {
-}}
-            $par-list ~= ", $rnt0";
-#          }
+          $par-list ~= ", $rnt0";
         }
       }
     }
@@ -797,28 +746,6 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
         }
       }
 
-#`{{
-      if $curr-function<variable-list> {
-        # When variable list, the last type is '…', Finish the pattern.
-        if $parameter<raku-type> eq '…' {
-          # A pattern consists of a character key and some value of an unknown
-          # type. This repeats until user data is exhausted. Then end with a 0.
-          # The first argument in the pattern is a string (mostly) then a value
-          # followed by the type of that value. Take glib types!
-
-          #TODO investigate if this is always true in gnome variable lists.
-          $pattern ~= "$pattern-starter, Nil]), ";
-          last;
-        }
-
-        else {
-          # The $par-list will have the non-repetative arguments
-          $par-list ~= ", $pattern-starter" if ?$pattern-starter;
-          $pattern-starter = $rnt0;
-        }
-      }
-
-}}
       else {
         $par-list ~= ", $xtype";
       }
@@ -916,7 +843,6 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
       $dep-str = [~] ':deprecated', ', :deprecated-version<',
                      $curr-function<deprecated-version>, '>, ';
     }
-
     $code ~= [~] '  ', $temp-inhibit, $function-name,
              ' => %( :type(Function), ', $is-symbol, $variable-list, $returns,
              $par-list, $dep-str, "),\n";
