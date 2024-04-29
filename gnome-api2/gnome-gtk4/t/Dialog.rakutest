@@ -26,6 +26,10 @@ use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 my Gnome::Gtk4::Dialog $dialog;
 
+# Gnome module is deprecated since 4.10
+done-testing;
+=finish
+
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -51,9 +55,6 @@ subtest 'ISA test', {
       Str, 'Cancel', GEnum, GTK_RESPONSE_REJECT
     );
     ok .is-valid, '.new-with-buttons( $title, $parent, $flags, $first-button-text, "…")';
-
-#`{{
-}}
   }
 };
 
