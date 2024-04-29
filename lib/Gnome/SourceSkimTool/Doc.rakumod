@@ -91,11 +91,19 @@ method !set-example ( --> Str ) {
 
 #-------------------------------------------------------------------------------
 method document-build ( XML::Element $element --> Str ) {
+
+  my Str $ctype = $element.attribs<c:type>//'';
+  my Hash $h = $!solve.search-name($ctype)//%();
+  my Str $depr-note = self.set-deprecation-message( $h, :class);
+  
+
   my Str $doc = Q:c:to/EOBUILD/;
 
     {pod-header('Class Initialization')}
     =begin pod
     =head1 Class initialization
+
+    {$depr-note}
 
     =head2 new
     EOBUILD
@@ -111,6 +119,7 @@ method document-build ( XML::Element $element --> Str ) {
 
     EOBUILD
 
+#`{{
   # Build id only used for widgets. We can test for inheritable because
   # it intices the same set of objects
   my Str $ctype = $element.attribs<c:type>//'';
@@ -125,6 +134,7 @@ method document-build ( XML::Element $element --> Str ) {
         multi method new ( Str :$build-id! )
       EOBUILD
   }
+}}
 
   $doc ~= "\n=end pod\n\n";
   $doc
@@ -147,6 +157,7 @@ method document-constructors (
 
   for $hcs.keys.sort -> $method-name is copy {
     my Hash $curr-function := $hcs{$method-name};
+    my Str $depr-note = self.set-deprecation-message($curr-function);
 
     $method-name = $!mod.cleanup-id($method-name);
 #note "$?LINE $method-name, $hcs.gist()";
@@ -190,6 +201,8 @@ method document-constructors (
       {$curr-function<missing-type> ?? "This function is not yet available"
                                     !! ''
       }
+      
+      $depr-note
 
       $method-doc
 
@@ -240,9 +253,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
   for $hcs.keys.sort -> $native-sub is copy {
     my Hash $curr-function := $hcs{$native-sub};
 
-#    $native-sub = $!mod.cleanup-id($native-sub);
-
-#note "\n$?LINE $native-sub, $curr-function.gist()";
+    my Str $depr-note = self.set-deprecation-message($curr-function);
 
     my Str $native-sub-doc = $curr-function<function-doc>;
     $native-sub-doc = "No documentation of method.\n" unless ?$native-sub-doc;
@@ -316,7 +327,8 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
       =begin pod
       =head2 $native-sub
       {$curr-function<missing-type> ?? "This function is not yet available" !! ''}
-
+      
+      $depr-note
 
       $native-sub-doc
 
@@ -339,17 +351,10 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 method document-structure (
   XML::Element $element, XML::XPath $xpath --> Str
 ) {
-#`{{
-  my $temp-external-modules = $*external-modules;
-  $*external-modules = %(
-    :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
-    'Gnome::N::N-Object' => EMTInApi2,
-    'Gnome::N::GlibToRakuTypes' => EMTInApi2,
-  );
-}}
-
   my Str $name = $*work-data<gnome-name>;
   my Hash $h0 = $!solve.search-name($name);
+  my Str $depr-note = self.set-deprecation-message($h0);
+
 #  my Str $class-name = $h0<class-name>;
   my Str $class-name = $!solve.set-object-name( $h0, :name-type(ClassnameType));
   my Str $record-class = $h0<record-class>;
@@ -444,12 +449,17 @@ method get-native-subs (
   my @subs = $xpath.find( $routine-type, :start($element), :to-list);
 
   for @subs -> $native-sub {
-    # Skip deprecated methods
-    next if $native-sub.attribs<deprecated>:exists and
-            $native-sub.attribs<deprecated> eq '1';
+#    # Skip deprecated methods
+#    next if $native-sub.attribs<deprecated>:exists and
+#            $native-sub.attribs<deprecated> eq '1';
 
     my ( $function-name, %h) =
       self!get-method-data( $native-sub, :$xpath, :$user-side);
+
+    if ?$native-sub.attribs<deprecated> {
+      %h<deprecated> = True;
+      %h<deprecated-version> = $native-sub.attribs<deprecated-version> // '';
+    }
 
     # Function names which are returned emptied, are assumably internal
     next unless ?$function-name and ?%h;
@@ -630,7 +640,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
   my Hash $signals = %();
   for @signal-info -> $si {
     my Hash $attribs = $si.attribs;
-    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
+#    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
 
     # Signal documentation
     my Str $signal-name = $attribs<name>;
@@ -746,11 +756,6 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
         EOSIG
       $doc ~= $returns-doc;
       $doc ~= "\n$ex-key\n";
-
-#`{{
-      $doc ~= "Return value \(transfer ownership: $curr-signal<return-ntype> \($curr-signal<transfer-ownership>); $curr-signal<rv-doc>\n"
-            if $curr-signal<return-ntype> ne 'void';
-}}
     }
 
     $doc ~= "=end pod\n\n";
@@ -761,6 +766,7 @@ method document-signals ( XML::Element $element, XML::XPath $xpath --> Hash ) {
 
   $sig-info
 }
+
 
 #-------------------------------------------------------------------------------
 method document-constants ( @constants --> Str ) {
@@ -1049,14 +1055,6 @@ method !get-callback-data (
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $!mod.cleanup-id($attribs<name>);
 
-#`{{
-    # When '…', there will be no type for that parameter. It means that
-    # a variable argument list is used ending in a Nil.
-    if $parameter-name eq '…' {
-      $type = $raku-type = '…';
-      $variable-list = True;
-    }
-}}
     my Hash $ph = %( :name($parameter-name), :$type, :$raku-type);
     $ph<allow-none> = $attribs<allow-none>.Bool;
     $ph<nullable> = $attribs<nullable>.Bool;
@@ -1085,12 +1083,6 @@ method !document-cb ( Str $callback-name, Hash $cb-data --> Str ) {
   my Str $par-list = '';
   for @($cb-data<parameters>) -> $parameter {
     my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
-#`{{
-    if $rnt0 ~~ / _UA_ $/ {
-      $available = False;
-      $rnt0 ~~ s/ _UA_ $//;
-    }
-}}
     my Str $parameter-name = $parameter<name>;
     $parameter-name ~~ s/ '-' $//;
     $par-list ~= ", $rnt0 \$$parameter-name";
@@ -1105,12 +1097,6 @@ method !document-cb ( Str $callback-name, Hash $cb-data --> Str ) {
   my $xtype = $cb-data<return-raku-type>;
   my ( $rnt0, $rnt1) = $xtype.split(':');
   if ?$rnt0 and $rnt0 ne 'void' {
-#`{{
-    if $rnt0 ~~ / _UA_ $/ {
-      $available = False;
-      $rnt0 ~~ s/ _UA_ $//;
-    }
-}}
     $returns = $rnt0;
   }
 
@@ -1210,334 +1196,18 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
   $result
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=finish
-
-
 #-------------------------------------------------------------------------------
-method start-document ( Str $type-letter = '' --> Str ) {
-#`{{
-  my Str $name = '';
-  my Str $author = '';
-  my Version $version = v0.1.0;
-  my Str $title = '';
-  my Str $subtitle = '';
-  my Str $raku-version = "$*RAKU.version(), $*RAKU.compiler.version()";
-
-  my META6 $meta;
-  my Str $meta-file = [~] './gnome-api2/gnome-', $*gnome-package.Str.lc,
-                          '/META6.json';
-  if $meta-file.IO.e {
-    $meta .= new(:file($meta-file));
-
-    $name = $meta<name>;
-    $author = $meta<author>;
-    $version = $meta<version>;
-    $title = $*work-data<raku-class-name>;
-    $subtitle = $meta<description>;
+# Return a message depending on data found in the Hash.
+method set-deprecation-message ( Hash $h, Bool :$class --> Str ) {
+  my Str $depr-note = '';
+  my Str $type = $class ?? 'class' !! 'routine';
+  if ?$h<deprecated> {
+    $depr-note = "B<Note: The native version of this $type is deprecated in $*work-data<library>";
+    my Str $depr-since = $h<deprecated-version> // '';
+    $depr-note ~= " since version $depr-since" if ?$depr-since;
+    $depr-note ~= '>';
   }
 
-  qq:to/RAKUDOC/;
-    use v6.d;
-
-    =begin pod
-    =head2 Project Description
-    =item B<Distribution:> $name
-    =item B<Project description:> $subtitle
-    =item B<Project version:> $version.Str()
-    =item B<Rakudo version:> $raku-version
-    =item B<Author:> $author
-    =end pod
-
-    RAKUDOC
-}}
-
-  my Str $class-name = $!solve.set-object-name(
-    %( :$type-letter, :type-name($*work-data<raku-name>))
-  );
-  "$*command-line\nuse v6.d;\n\n=begin pod\n=head1 $class-name\n=end pod\n"
+  $depr-note
 }
-
-#-------------------------------------------------------------------------------
-method !set-inherit-example ( XML::Element $element --> Str ) {
-
-  my Str $doc = '';
-  my Str $ctype = $element.attribs<c:type>//'';
-  my Hash $h = $!solve.search-name($ctype)//%();
-
-  if $h<inheritable> {
-    # Code like {'...'} is inserted here and there to prevent interpretation
-    $doc = qq:to/EOINHERIT/;
-
-      =head2 Inheriting this class
-
-      Inheriting is done in a special way in that it needs a call from new\() to get the native object created by the class you are inheriting from.
-
-        use $*work-data<raku-class-name>;
-
-        unit class MyGuiClass;
-        also is $*work-data<raku-class-name>;
-
-        submethod new \( \|c ) \{
-          # let the {$*work-data<raku-class-name>} class process the options
-          self\.bless\( :{$element.attribs<c:type>//''}, \|c);
-        \}
-
-        submethod BUILD \( ... ) \{
-          ...
-        \}
-
-      EOINHERIT
-  }
-
-  $doc
-}
-
-
-
-#-------------------------------------------------------------------------------
-# NOTE For now, skip property documentation
-
-method document-properties (
-  XML::Element $element, XML::XPath $xpath --> Str
-) {
-  my Str $doc = '';
-
-  my @property-info = $xpath.find( 'property', :start($element), :to-list);
-
-  my Hash $properties = %();
-  for @property-info -> $pi {
-    my Hash $attribs = $pi.attribs;
-    next if $attribs<deprecated>:exists and  $attribs<deprecated> == 1;
-
-    # Property documentation
-    my Str $property-name = $attribs<name>;
-    my Bool $writable = $attribs<writable>.Bool;
-
-    my Str ( $pgetter, $psetter);
-    if $attribs<getter>:exists {
-      $pgetter = $attribs<getter>;
-      $pgetter ~~ s:g/ '_' /-/;
-      $pgetter = "C<.$pgetter\()>";
-    }
-
-    if $attribs<setter>:exists {
-      $psetter = $attribs<setter>;
-      $psetter ~~ s:g/ '_' /-/;
-      $psetter = "C<.$psetter\()>";
-    }
-
-    my Str $transfer-ownership = $attribs<transfer-ownership>;
-
-    my Str ( $pdoc, $type, $raku-type) =
-      self.get-doc-type( $pi, $xpath, :!user-side);
-    my Str $g-type = self.gobject-value-type($raku-type);
-note "$?LINE $property-name, $type, $raku-type, $g-type";
-    $properties{$property-name} = %(
-      :$pdoc, :$writable, :$type, :$raku-type, :$g-type,
-      :$pgetter, :$psetter, :$transfer-ownership
-    );
-  }
-
-  return '' unless $properties.keys.elems;
-
-  $doc ~= qq:to/EOSIG/;
-
-    {pod-header('Property Documentation')}
-    =begin pod
-    =head1 Properties
-
-    Please note that this information is not really necessary to use or know
-    about because there are routines to get or set its value for many of
-    those properties.
-    EOSIG
-
-  for $properties.keys.sort -> $property-name {
-    my Hash $curr-property := $properties{$property-name};
-#      =comment #TP:0:$property-name:
-    $doc ~= qq:to/EOSIG/;
-
-      {HLPODSEPARATOR}
-      =head3 $property-name
-      EOSIG
-
-#say "$?LINE props $property-name: $curr-property.gist()";
-
-    if $curr-property<pdoc> ~~ m/^ \s* $/ {
-      $doc ~= "\nThere is no documentation for this property\n\n";
-    }
-
-    else {
-      $doc ~= "\n$curr-property<pdoc>\n\n";
-    }
-
-    $doc ~= "=item B<Gnome::GObject::Value> for this property is $curr-property<g-type>.\n";
-
-    $doc ~= "=item The native type is $curr-property<raku-type>.\n";
-
-    if $curr-property<writable> {
-      $doc ~= "=item Property is readable and writable\n";
-    }
-
-    else {
-      $doc ~= "=item Property is readonly\n";
-    }
-
-    $doc ~= "=item Getter method is $curr-property<pgetter>\n"
-      if ?$curr-property<pgetter>;
-
-    $doc ~= "=item Setter method is $curr-property<psetter>\n"
-      if ?$curr-property<psetter>;
-  }
-
-  $doc ~= "\n=end pod\n\n";
-
-  $doc
-}
-
-
-NOTE For now, skip property documentation
-
-#-------------------------------------------------------------------------------
-method gobject-value-type ( Str $ctype is copy --> Str ) {
-
-  my $g-type = '';
-
-  $ctype ~~ s:g/ '*' //;
-  with $ctype {
-    when 'gboolean' {
-      $g-type = 'G_TYPE_BOOLEAN';
-    }
-
-    when 'gchar' {
-      $g-type = 'G_TYPE_CHAR';
-    }
-
-    when 'gdouble' {
-      $g-type = 'G_TYPE_DOUBLE';
-    }
-    
-    when 'gfloat' {
-      $g-type = 'G_TYPE_FLOAT';
-    }
-    
-    when 'gint' {
-      $g-type = 'G_TYPE_INT';
-    }
-    
-#    when 'gint16' {
-#      $g-type = '';
-#    }
-    
-#    when 'gint32' {
-#      $g-type = '';
-#    }
-
-    when 'gint64' {
-      $g-type = 'G_TYPE_INT64';
-    }
-
-    when 'gint8' {
-      $g-type = 'G_TYPE_CHAR';
-    }
-
-    when 'glong' {
-      $g-type = 'G_TYPE_LONG';
-    }
-
-    when 'gpointer' {
-      $g-type = 'G_TYPE_POINTER';
-    }
-    
-#    when 'gshort' {
-#      $g-type = '';
-#    }
-    
-#    when 'gsize' {
-#      $g-type = '';
-#    }
-    
-#    when 'gssize' {
-#      $g-type = '';
-#    }
-    
-    when 'guchar' {
-      $g-type = 'G_TYPE_UCHAR';
-    }
-    
-    when 'guint' {
-      $g-type = 'G_TYPE_UINT';
-    }
-    
-#    when 'guint16' {
-#      $g-type = '';
-#    }
-    
-#    when 'guint32' {
-#      $g-type = '';
-#    }
-    
-    when 'guint64' {
-      $g-type = 'G_TYPE_UINT64';
-    }
-    
-    when 'guint8' {
-      $g-type = 'G_TYPE_UCHAR';
-    }
-    
-    when 'gulong' {
-      $g-type = 'G_TYPE_ULONG';
-    }
-    
-#    when 'gunichar' {
-#      $g-type = '';
-#    }
-    
-#    when 'gushort' {
-#      $g-type = '';
-#    }
-       
-#    when 'gushort' {
-#      $g-type = '';
-#    }
-    
-#    when 'gushort' {
-#      $g-type = '';
-#    }
- 
-    when / GEnum ':' / {
-      $g-type = 'G_TYPE_ENUM';
-    }
- 
-    when / GFlag ':' / {
-      $g-type = 'G_TYPE_FLAGS';
-    }
-
-    default {
-      my Hash $h = $!solve.search-name($ctype);
-      if ?$h<gir-type> {
-        $g-type = 'G_TYPE_ENUM' if $h<gir-type> eq 'enumeration';
-        $g-type = 'G_TYPE_FLAGS' if $h<gir-type> eq 'bitfield';
-        $g-type = 'G_TYPE_OBJECT' if $h<gir-type> eq 'class';
-      }
-    }
-  }
-
-  $g-type
-}
-
 
