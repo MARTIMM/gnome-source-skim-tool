@@ -42,7 +42,7 @@ While the B<Gnome::Gtk4::EntryCompletion> signals
 I<match-selected> and
 I<cursor-on-match> take the original model
 and an iter pointing to that model as arguments, other callbacks and
-signals (such as B<Gnome::Gtk4::T-CellLayout> or
+signals (such as B<Gnome::Gtk4::T-celllayout> or
 I<apply-attributes) defined in CellArea>
 will generally take the filter model as argument. As long as you are
 only calling C<.get() in class Gnome::Gtk4::R-TreeModel>, this will make no difference to
@@ -74,6 +74,8 @@ matching iter.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -87,6 +89,8 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-entrycompletion
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::EntryCompletion> object.
 
@@ -106,6 +110,8 @@ method new-entrycompletion ( --> Gnome::Gtk4::EntryCompletion \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-area
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::EntryCompletion> object using the
 specified C<$area>.
@@ -140,6 +146,8 @@ method new-with-area ( N-Object() $area --> Gnome::Gtk4::EntryCompletion \)
 =begin pod
 =head2 complete
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Requests a completion operation, or in other words a refiltering of the
 current list with completions, using the current key.
 
@@ -161,6 +169,8 @@ method complete ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 compute-prefix
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Computes the common prefix that is shared by all rows in C<$completion>
 that start with C<$key>.
@@ -191,6 +201,8 @@ Return value; The common prefix all rows
 =begin pod
 =head2 get-completion-prefix
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Get the original text entered by the user that triggered
 the completion or undefined if there’s no completion ongoing.
 
@@ -213,6 +225,8 @@ Return value; the prefix for the current completion.
 =begin pod
 =head2 get-entry
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the entry C<$completion> has been attached to.
 
 =begin code
@@ -233,6 +247,8 @@ Return value; The entry C<$completion> has been attached to.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-inline-completion
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns whether the common prefix of the possible completions should
 be automatically inserted in the entry.
@@ -256,6 +272,8 @@ Return value; C<True> if inline completion is turned on.
 =begin pod
 =head2 get-inline-selection
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if inline-selection mode is turned on.
 
 =begin code
@@ -277,6 +295,8 @@ Return value; C<True> if inline-selection mode is on.
 =begin pod
 =head2 get-minimum-key-length
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the minimum key length as set for C<$completion>.
 
 =begin code
@@ -297,6 +317,8 @@ Return value; The currently used minimum key length.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-model
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the model the B<Gnome::Gtk4::EntryCompletion> is using as data source.
 
@@ -321,6 +343,8 @@ Return value; A B<Gnome::Gtk4::R-TreeModel>.
 =begin pod
 =head2 get-popup-completion
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns whether the completions should be presented in a popup window.
 
 =begin code
@@ -341,6 +365,8 @@ Return value; C<True> if popup completion is turned on.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-popup-set-width
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns whether the completion popup window will be resized to the
 width of the entry.
@@ -365,6 +391,8 @@ Return value; C<True> if the popup window will be resized to the width of
 =begin pod
 =head2 get-popup-single-match
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns whether the completion popup window will appear even if there is
 only a single match.
 
@@ -388,6 +416,8 @@ Return value; C<True> if the popup window will appear regardless of the
 =begin pod
 =head2 get-text-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the column in the model of C<$completion> to get strings from.
 
 =begin code
@@ -409,6 +439,8 @@ Return value; the column containing the strings.
 =begin pod
 =head2 insert-prefix
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Requests a prefix insertion.
 
 =begin code
@@ -427,6 +459,8 @@ method insert-prefix ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-inline-completion
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether the common prefix of the possible completions should
 be automatically inserted in the entry.
@@ -449,6 +483,8 @@ method set-inline-completion ( Bool() $inline-completion )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-inline-selection
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether it is possible to cycle through the possible completions
 inside the entry.
@@ -473,6 +509,8 @@ method set-inline-selection ( Bool() $inline-selection )
 =head2 set-match-func
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the match function for C<$completion> to be C<$func>.
 
 The match function is used to determine if a row should or
@@ -482,7 +520,7 @@ should not be in the completion list.
 method set-match-func ( &func, gpointer $func-data, … )
 =end code
 
-=item &func; the B<Gnome::Gtk4::EntryCompletion>MatchFunc to use. Tthe function must be specified with following signature; C<:( N-Object $completion, Str $key, N-TreeIter $iter, gpointer $user-data --> gboolean )>.
+=item &func; the B<Gnome::Gtk4::EntryCompletion>MatchFunc to use. Tthe function must be specified with following signature; C<:( N-Object $completion, Str $key, N-Object $iter, gpointer $user-data --> gboolean )>.
 =item $func-data; user data for C<$func>.
 =item func-notify; destroy notify for C<$func-data>.. Note that each argument must be specified as a type followed by its value!
 
@@ -498,6 +536,8 @@ method set-match-func ( &func, gpointer $func-data, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-minimum-key-length
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Requires the length of the search key for C<$completion> to be at least C<$length>.
 
@@ -524,6 +564,8 @@ method set-minimum-key-length ( Int() $length )
 =begin pod
 =head2 set-model
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the model for a B<Gnome::Gtk4::EntryCompletion>.
 
 If C<$completion> already has a model set, it will remove it
@@ -549,6 +591,8 @@ method set-model ( N-Object() $model )
 =begin pod
 =head2 set-popup-completion
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets whether the completions should be presented in a popup window.
 
 =begin code
@@ -569,6 +613,8 @@ method set-popup-completion ( Bool() $popup-completion )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-popup-set-width
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether the completion popup window will be resized to be the same
 width as the entry.
@@ -591,6 +637,8 @@ method set-popup-set-width ( Bool() $popup-set-width )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-popup-single-match
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether the completion popup window will appear even if there is
 only a single match.
@@ -616,6 +664,8 @@ method set-popup-single-match ( Bool() $popup-single-match )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-text-column
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Convenience function for setting up the most used case of this code: a
 completion list with just strings.
@@ -666,7 +716,7 @@ C<.set-model()>.
 =begin code
 method handler (
   N-Object $model,
-  N-TreeIter $iter,
+  N-Object $iter,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::EntryCompletion :$_widget,
@@ -745,7 +795,7 @@ C<.set-model()>.
 =begin code
 method handler (
   N-Object $model,
-  N-TreeIter $iter,
+  N-Object $iter,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::EntryCompletion :$_widget,
