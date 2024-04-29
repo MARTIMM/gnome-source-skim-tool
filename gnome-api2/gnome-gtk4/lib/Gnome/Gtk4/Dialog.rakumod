@@ -7,9 +7,10 @@ use v6.d;
 
 use NativeCall;
 
+
 use Gnome::Gtk4::T-dialog:api<2>;
 use Gnome::Gtk4::Window:api<2>;
-
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -39,6 +40,13 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::Dialog', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
@@ -69,20 +77,20 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-dialog => %( :type(Constructor), :is-symbol<gtk_dialog_new>, :returns(N-Object), ),
-  new-with-buttons => %( :type(Constructor), :is-symbol<gtk_dialog_new_with_buttons>, :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GFlag, Str])),
+  new-dialog => %( :type(Constructor), :is-symbol<gtk_dialog_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  new-with-buttons => %( :type(Constructor), :is-symbol<gtk_dialog_new_with_buttons>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ Str, N-Object, GFlag, Str])),
 
   #--[Methods]------------------------------------------------------------------
-  add-action-widget => %(:is-symbol<gtk_dialog_add_action_widget>,  :parameters([N-Object, gint])),
-  add-button => %(:is-symbol<gtk_dialog_add_button>,  :returns(N-Object), :parameters([Str, gint])),
-  add-buttons => %(:is-symbol<gtk_dialog_add_buttons>, :variable-list,  :parameters([Str])),
-  get-content-area => %(:is-symbol<gtk_dialog_get_content_area>,  :returns(N-Object)),
-  get-header-bar => %(:is-symbol<gtk_dialog_get_header_bar>,  :returns(N-Object)),
-  get-response-for-widget => %(:is-symbol<gtk_dialog_get_response_for_widget>,  :returns(gint), :parameters([N-Object])),
-  get-widget-for-response => %(:is-symbol<gtk_dialog_get_widget_for_response>,  :returns(N-Object), :parameters([gint])),
-  response => %(:is-symbol<gtk_dialog_response>,  :parameters([gint])),
-  set-default-response => %(:is-symbol<gtk_dialog_set_default_response>,  :parameters([gint])),
-  set-response-sensitive => %(:is-symbol<gtk_dialog_set_response_sensitive>,  :parameters([gint, gboolean])),
+  add-action-widget => %(:is-symbol<gtk_dialog_add_action_widget>,  :parameters([N-Object, gint]),:deprecated, :deprecated-version<4.10>, ),
+  add-button => %(:is-symbol<gtk_dialog_add_button>,  :returns(N-Object), :parameters([Str, gint]),:deprecated, :deprecated-version<4.10>, ),
+  add-buttons => %(:is-symbol<gtk_dialog_add_buttons>, :variable-list,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
+  get-content-area => %(:is-symbol<gtk_dialog_get_content_area>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
+  get-header-bar => %(:is-symbol<gtk_dialog_get_header_bar>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
+  get-response-for-widget => %(:is-symbol<gtk_dialog_get_response_for_widget>,  :returns(gint), :parameters([N-Object]),:deprecated, :deprecated-version<4.10>, ),
+  get-widget-for-response => %(:is-symbol<gtk_dialog_get_widget_for_response>,  :returns(N-Object), :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
+  response => %(:is-symbol<gtk_dialog_response>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
+  set-default-response => %(:is-symbol<gtk_dialog_set_default_response>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
+  set-response-sensitive => %(:is-symbol<gtk_dialog_set_response_sensitive>,  :parameters([gint, gboolean]),:deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -97,7 +105,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

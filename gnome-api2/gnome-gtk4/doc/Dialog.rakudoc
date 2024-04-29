@@ -97,12 +97,12 @@ quick_message (GtkWindow *parent, char *message)
 
 =head2 GtkDialog as GtkBuildable
 
-The B<Gnome::Gtk4::Dialog> implementation of the U<Gnome::Gtk4::R-Buildable> interface exposes the C<$content_area> as an internal child with the name “content_area”.
+The B<Gnome::Gtk4::Dialog> implementation of the B<Gnome::Gtk4::R-Buildable> interface exposes the C<$content-area> as an internal child with the name “content_area”.
 
 B<Gnome::Gtk4::Dialog> supports a custom B<<action-widgets>> element, which can contain
 multiple B<<action-widget>> elements. The “response” attribute specifies a
 numeric response, and the content of the element is the id of widget
-(which should be a child of the dialogs C<$action_area>). To mark a response
+(which should be a child of the dialogs C<$action-area>). To mark a response
 as default, set the “default” attribute of the B<<action-widget>> element
 to true.
 
@@ -158,6 +158,8 @@ B<Gnome::Gtk4::Dialog> uses the C<GTK_ACCESSIBLE_ROLE_DIALOG> role.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -166,22 +168,18 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-dialog
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a new dialog box.
 
 Widgets should not be packed into the B<Gnome::Gtk4::Window>
-directly, but into the C<$content_area> and C<$action_area>,
+directly, but into the C<$content-area> and C<$action-area>,
 as described above.
 
 =begin code
@@ -201,6 +199,8 @@ method new-dialog ( --> Gnome::Gtk4::Dialog \)
 =begin pod
 =head2 new-with-buttons
 This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::Dialog> with the given title and transient parent.
 
@@ -238,14 +238,14 @@ dialog = gtk_dialog_new_with_buttons ("My dialog",
 =end comment
 
 =begin code
-method new-with-buttons ( Str $title, N-Object() $parent, UInt $flags, Str $first-button-text --> Gnome::Gtk4::Dialog \)
+method new-with-buttons ( Str $title, N-Object() $parent, UInt $flags, Str $first-button-text, … --> Gnome::Gtk4::Dialog \)
 =end code
 
 =item $title; Title of the dialog.
 =item $parent; Transient parent of the dialog.
 =item $flags; from C<bit field GtkDialogFlags defined in Gnome::Gtk4::T-dialog>.
 =item $first-button-text; text to go in first button.
-=item $…; ….
+=item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
 
@@ -268,6 +268,8 @@ method new-with-buttons ( Str $title, N-Object() $parent, UInt $flags, Str $firs
 =begin pod
 =head2 add-action-widget
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds an activatable widget to the action area of a B<Gnome::Gtk4::Dialog>.
 
 GTK connects a signal handler that will emit the
@@ -276,7 +278,7 @@ is activated. The widget is appended to the end of the dialog’s action
 area.
 
 If you want to add a non-activatable widget, simply pack it into
-the C<$action_area> field of the B<Gnome::Gtk4::Dialog> struct.
+the C<$action-area> field of the B<Gnome::Gtk4::Dialog> struct.
 
 =begin code
 method add-action-widget ( N-Object() $child, Int() $response-id )
@@ -298,10 +300,12 @@ method add-action-widget ( N-Object() $child, Int() $response-id )
 =begin pod
 =head2 add-button
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds a button with the given text.
 
 GTK arranges things so that clicking the button will emit the
-I<response> signal with the given C<$response_id>.
+I<response> signal with the given C<$response-id>.
 The button is appended to the end of the dialog’s action area.
 The button widget is returned, but usually you don’t need it.
 
@@ -328,6 +332,8 @@ Return value; the B<Gnome::Gtk4::Button> widget that was added.
 =head2 add-buttons
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds multiple buttons.
 
 This is the same as calling C<.add-button()>
@@ -336,11 +342,11 @@ as with C<.new-with-buttons()>. Each button must have both
 text and response ID.
 
 =begin code
-method add-buttons ( Str $first-button-text )
+method add-buttons ( Str $first-button-text, … )
 =end code
 
 =item $first-button-text; button text.
-=item $…; ….
+=item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
 
@@ -354,6 +360,8 @@ method add-buttons ( Str $first-button-text )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-content-area
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the content area of C<$dialog>.
 
@@ -375,6 +383,8 @@ Return value; the content area B<Gnome::Gtk4::Box>..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-header-bar
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the header bar of C<$dialog>.
 
@@ -399,6 +409,8 @@ Return value; the header bar.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-response-for-widget
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the response id of a widget in the action area
 of a dialog.
@@ -425,6 +437,8 @@ Return value; the response id of C<$widget>, or C<GTK_RESPONSE_NONE>
 =begin pod
 =head2 get-widget-for-response
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the widget button that uses the given response ID in the action area
 of a dialog.
 
@@ -435,7 +449,7 @@ method get-widget-for-response ( Int() $response-id --> N-Object )
 =item $response-id; the response ID used by the C<$dialog> widget.
 
 Return value; the C<$widget> button that uses the given
-  C<$response_id>. 
+  C<$response-id>. 
 
 =begin comment
 
@@ -449,6 +463,8 @@ Return value; the C<$widget> button that uses the given
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 response
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Emits the I<response> signal with the given response ID.
 
@@ -473,6 +489,8 @@ method response ( Int() $response-id )
 =begin pod
 =head2 set-default-response
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the default widget for the dialog based on the response ID.
 
 Pressing “Enter” normally activates the default widget.
@@ -496,10 +514,12 @@ method set-default-response ( Int() $response-id )
 =begin pod
 =head2 set-response-sensitive
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 A convenient way to sensitize/desensitize dialog buttons.
 
 Calls B<gtk_widget_set_sensitive (widget, C<$setting>)>
-for each widget in the dialog’s action area with the given C<$response_id>.
+for each widget in the dialog’s action area with the given C<$response-id>.
 
 =begin code
 method set-response-sensitive ( Int() $response-id, Bool() $setting )
