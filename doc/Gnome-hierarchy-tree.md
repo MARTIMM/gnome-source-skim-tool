@@ -326,7 +326,7 @@ Gnome::N::TopLevelClassSupport
 ├── T-entry
 ├── T-enums
 ├── T-filechooser
-├── T-FontChooser
+├── T-fontchooser
 ├── T-IconPaintable
 ├── T-IconView
 ├── T-Image

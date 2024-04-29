@@ -197,7 +197,7 @@ multi method call-native-sub (
     Gnome::N::deprecate(
       "\.$name\()", ', Str, ',
       $routine<deprecated-version> // Str, Str,
-      :!class, :gnome-lib($!library)  
+      :!class, :gnome-lib($!library)
     );
   }
 
