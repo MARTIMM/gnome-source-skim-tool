@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-CellLayout
+=head1 Gnome::Gtk4::T-celllayout
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -15,13 +15,13 @@ use v6.d;
 
 =head3 Signature
 =begin code
-:(  N-Object() $cell-layout, N-Object() $cell, N-Object() $tree-model, CArray[N-TreeIter] $iter, gpointer $data  )
+:(  N-Object() $cell-layout, N-Object() $cell, N-Object() $tree-model, N-Object $iter, gpointer $data  )
 =end code
 
-=item cell-layout; a U<Gnome::Gtk4::R-CellLayout>
+=item cell-layout; a B<Gnome::Gtk4::R-CellLayout>
 =item cell; the cell renderer whose value is to be set
 =item tree-model; the model
-=item iter; a U<Gnome::Gtk4::N-TreeIter> indicating the row to set the value for
-=item data; user data passed to C<.set-cell-data-func()>
+=item iter; a B<Gnome::Gtk4::N-TreeIter> indicating the row to set the value for
+=item data; user data passed to gtk_cell_layout_set_cell_data_func()
 
 =end pod
