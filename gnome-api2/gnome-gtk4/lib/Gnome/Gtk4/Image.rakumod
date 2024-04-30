@@ -9,7 +9,7 @@ use NativeCall;
 
 
 use Gnome::Gtk4::T-enums:api<2>;
-use Gnome::Gtk4::T-Image:api<2>;
+use Gnome::Gtk4::T-image:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
