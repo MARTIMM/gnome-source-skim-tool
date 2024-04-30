@@ -77,6 +77,7 @@ find . -name '*.raku*' | xargs wc -l
     ```
     my Gnome::Gtk4::Button() $button = $builder.get-object('my-button');
     ```
+  * Renamed T- files to all lowercase except for the letter T. Done this because it was difficult to generate a proper camelcase name and because the contents is a mix of exported declarations.
 
 * 2024-02-23 0.16.1
   * Finally managed to do some drawing using graphene, gdk, gtk and gsk. Image of a test found [here from a blog](https://blog.gtk.org/2020/04/24/custom-widgets-in-gtk-4-drawing/): ![drawing1](./doc/drawing1.png).
@@ -96,7 +97,7 @@ find . -name '*.raku*' | xargs wc -l
 
 * 2024-01-12 0.14.1
   * Coerce test works now after updating raku compiler. Version now: 
-  `v2023.12-41-gbafa5ad46. Implementing the Raku® Programming Language v6.d. Built on MoarVM version 2023.12-14-gc3fea4f58.
+  `v2023.12-41-gbafa5ad46. Implementing the Raku® Programming Language v6.d. Built on MoarVM version 2023.12-14-gc3fea4f58.`
 
 * 2024-01-10 0.14.0
   * Adding more and more modules to several distro's
