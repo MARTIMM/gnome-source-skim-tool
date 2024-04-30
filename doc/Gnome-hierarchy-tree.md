@@ -329,7 +329,7 @@ Gnome::N::TopLevelClassSupport
 ├── T-fontchooser
 ├── T-iconpaintable
 ├── T-iconview
-├── T-Image
+├── T-image
 ├── T-LevelBar
 ├── T-MessageDialog
 ├── T-native
