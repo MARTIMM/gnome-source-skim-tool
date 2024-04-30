@@ -7,16 +7,20 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::GObject::Object:api<2>;
+
 #use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-error:api<2>;
 use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-slist:api<2>;
 use Gnome::Glib::N-SList:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+
 #use Gnome::Pango::N-AttrList:api<2>;
 #use Gnome::Pango::N-FontDescription:api<2>;
 use Gnome::Pango::N-LayoutIter:api<2>;
