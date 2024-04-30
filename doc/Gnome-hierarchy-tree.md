@@ -327,8 +327,8 @@ Gnome::N::TopLevelClassSupport
 ├── T-enums
 ├── T-filechooser
 ├── T-fontchooser
-├── T-IconPaintable
-├── T-IconView
+├── T-iconpaintable
+├── T-iconview
 ├── T-Image
 ├── T-LevelBar
 ├── T-MessageDialog
