@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::Dialog:api<2>;
 use Gnome::Gtk4::T-dialog:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-#use Gnome::Gtk4::T-MessageDialog:api<2>;
+#use Gnome::Gtk4::T-messagedialog:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
