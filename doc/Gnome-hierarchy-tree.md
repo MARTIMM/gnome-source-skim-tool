@@ -330,10 +330,10 @@ Gnome::N::TopLevelClassSupport
 ├── T-iconpaintable
 ├── T-iconview
 ├── T-image
-├── T-LevelBar
-├── T-MessageDialog
+├── T-levelbar
+├── T-messagedialog
 ├── T-native
-├── T-Notebook
+├── T-notebook
 ├── T-printoperation
 ├── T-ScrolledWindow
 ├── T-ShortcutAction
