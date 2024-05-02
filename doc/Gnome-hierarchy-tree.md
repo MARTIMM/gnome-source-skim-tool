@@ -335,7 +335,7 @@ Gnome::N::TopLevelClassSupport
 ├── T-native
 ├── T-notebook
 ├── T-printoperation
-├── T-ScrolledWindow
+├── T-scrolledwindow
 ├── T-ShortcutAction
 ├── T-ShortcutsShortcut
 ├── T-show
