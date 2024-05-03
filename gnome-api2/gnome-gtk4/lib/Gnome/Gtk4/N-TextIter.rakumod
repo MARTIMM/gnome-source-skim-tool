@@ -9,7 +9,7 @@ use NativeCall;
 
 
 use Gnome::Glib::T-slist:api<2>;
-use Gnome::Gtk4::T-TextIter:api<2>;
+use Gnome::Gtk4::T-textiter:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
