@@ -336,12 +336,12 @@ Gnome::N::TopLevelClassSupport
 ├── T-notebook
 ├── T-printoperation
 ├── T-scrolledwindow
-├── T-ShortcutAction
-├── T-ShortcutsShortcut
+├── T-shortcutaction
+├── T-shortcutsshortcut
 ├── T-show
-├── T-Sorter
-├── T-SpinButton
-├── T-Stack
+├── T-sorter
+├── T-spinbutton
+├── T-stack
 ├── T-StyleContext
 ├── T-StyleProvider
 ├── T-TextIter
