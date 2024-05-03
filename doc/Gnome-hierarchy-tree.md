@@ -347,10 +347,10 @@ Gnome::N::TopLevelClassSupport
 ├── T-textiter
 ├── T-textview
 ├── T-treedragdest
-├── T-TreeIter
-├── T-TreeSortable
-├── T-TreeView
-├── T-TreeViewColumn
+├── T-treeiter
+├── T-treesortable
+├── T-treeview
+├── T-treeviewcolumn
 ├── T-types
 ```
 
