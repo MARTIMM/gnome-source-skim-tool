@@ -344,8 +344,8 @@ Gnome::N::TopLevelClassSupport
 ├── T-stack
 ├── T-stylecontext
 ├── T-styleprovider
-├── T-TextIter
-├── T-TextView
+├── T-textiter
+├── T-textview
 ├── T-treedragdest
 ├── T-TreeIter
 ├── T-TreeSortable
