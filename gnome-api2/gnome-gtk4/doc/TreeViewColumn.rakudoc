@@ -923,7 +923,7 @@ method set-attributes ( N-Object() $cell-renderer, … )
 =head2 set-cell-data-func
 This function is not yet available
 
-Sets the B<Gnome::Gtk4::T-TreeViewColumn> to use for the column.
+Sets the B<Gnome::Gtk4::T-treeviewcolumn> to use for the column.
 
 This
 function is used instead of the standard attributes mapping for
@@ -936,7 +936,7 @@ method set-cell-data-func ( N-Object() $cell-renderer, &func, gpointer $func-dat
 =end code
 
 =item $cell-renderer; A B<Gnome::Gtk4::CellRenderer>.
-=item &func; The B<Gnome::Gtk4::T-TreeViewColumn> to use.. Tthe function must be specified with following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-TreeIter $iter, gpointer $data )>.
+=item &func; The B<Gnome::Gtk4::T-treeviewcolumn> to use.. Tthe function must be specified with following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-TreeIter $iter, gpointer $data )>.
 =item $func-data; The user data for C<$func>..
 =item destroy; The destroy notification for C<$func-data>. Note that each argument must be specified as a type followed by its value!
 
