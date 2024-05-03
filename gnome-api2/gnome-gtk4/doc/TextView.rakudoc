@@ -273,7 +273,7 @@ Converts buffer coordinates to window coordinates.
 method buffer-to-window-coords ( GtkTextWindowType  $win, Int() $buffer-x, Int() $buffer-y, Array[Int] $window-x, Array[Int] $window-y )
 =end code
 
-=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-TextView>.
+=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-textview>.
 =item $buffer-x; buffer x coordinate.
 =item $buffer-y; buffer y coordinate.
 =item $window-x; (transfer ownership: full) window x coordinate return location.
@@ -545,7 +545,7 @@ C<GTK_TEXT_WINDOW_TOP>, or C<GTK_TEXT_WINDOW_BOTTOM>.
 method get-gutter ( GtkTextWindowType  $win --> N-Object )
 =end code
 
-=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-TextView>.
+=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-textview>.
 
 Return value; a B<Gnome::Gtk4::Widget>. 
 
@@ -1594,7 +1594,7 @@ C<GTK_TEXT_WINDOW_TOP>, or C<GTK_TEXT_WINDOW_BOTTOM>.
 method set-gutter ( GtkTextWindowType  $win, N-Object() $widget )
 =end code
 
-=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-TextView>.
+=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-textview>.
 =item $widget; a B<Gnome::Gtk4::Widget>.
 
 =begin comment
@@ -1973,7 +1973,7 @@ coordinates.
 method window-to-buffer-coords ( GtkTextWindowType  $win, Int() $window-x, Int() $window-y, Array[Int] $buffer-x, Array[Int] $buffer-y )
 =end code
 
-=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-TextView>.
+=item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-textview>.
 =item $window-x; window x coordinate.
 =item $window-y; window y coordinate.
 =item $buffer-x; (transfer ownership: full) buffer x coordinate return location.

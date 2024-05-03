@@ -12,7 +12,7 @@ use Gnome::Gdk4::T-types:api<2>;
 #use Gnome::Gtk4::N-TextIter:api<2>;
 #use Gnome::Gtk4::R-Scrollable:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-#use Gnome::Gtk4::T-TextView:api<2>;
+#use Gnome::Gtk4::T-textview:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
