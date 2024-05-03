@@ -11,7 +11,7 @@ use NativeCall;
 use Gnome::Gtk4::R-CellEditable:api<2>;
 use Gnome::Gtk4::R-Editable:api<2>;
 use Gnome::Gtk4::R-Orientable:api<2>;
-#use Gnome::Gtk4::T-SpinButton:api<2>;
+#use Gnome::Gtk4::T-spinbutton:api<2>;
 use Gnome::Gtk4::Widget:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
