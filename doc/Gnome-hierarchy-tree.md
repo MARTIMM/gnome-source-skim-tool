@@ -342,8 +342,8 @@ Gnome::N::TopLevelClassSupport
 ├── T-sorter
 ├── T-spinbutton
 ├── T-stack
-├── T-StyleContext
-├── T-StyleProvider
+├── T-stylecontext
+├── T-styleprovider
 ├── T-TextIter
 ├── T-TextView
 ├── T-treedragdest
