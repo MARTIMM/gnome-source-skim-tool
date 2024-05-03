@@ -11,7 +11,7 @@ use Gnome::GObject::T-value:api<2>;
 
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::N-TreePath:api<2>;
-use Gnome::Gtk4::T-TreeIter:api<2>;
+use Gnome::Gtk4::T-treeiter:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;

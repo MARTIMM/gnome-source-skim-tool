@@ -1,7 +1,7 @@
 =comment Package: Gtk4, C-Source: treemodel
 use v6.d;
 
-#TL:1:Gnome::Gtk4::T-TreeIter:
+#TL:1:Gnome::Gtk4::T-treeiter:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ use NativeCall;
 
 use Gnome::Gtk4::N-TreeIter:api<2>;
 use Gnome::Gtk4::N-TreePath:api<2>;
-use Gnome::Gtk4::T-TreeIter:api<2>;
+use Gnome::Gtk4::T-treeiter:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -32,7 +32,7 @@ subtest 'GtkTreeModelFlags', {
 };
 
 
-my Gnome::Gtk4::T-TreeIter $treemodel .= new;
+my Gnome::Gtk4::T-treeiter $treemodel .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $treemodel {
