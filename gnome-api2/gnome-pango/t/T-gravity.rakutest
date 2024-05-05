@@ -1,7 +1,7 @@
 # Command to generate: generate.raku -c -t Pango gravity
 use v6.d;
 
-#TL:1:Gnome::Pango::T-Gravity:
+#TL:1:Gnome::Pango::T-gravity:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -15,13 +15,13 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-Matrix:api<2>;
-use Gnome::Pango::T-Gravity:api<2>;
+use Gnome::Pango::T-gravity:api<2>;
 #use Gnome::Pango::T-Script:api<2>;
 
 
 
 
-my Gnome::Pango::T-Gravity $gravity .= new;
+my Gnome::Pango::T-gravity $gravity .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $gravity {

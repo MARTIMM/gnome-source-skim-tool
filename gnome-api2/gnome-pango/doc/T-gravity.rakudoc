@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Pango::T-Gravity
+=head1 Gnome::Pango::T-gravity
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -28,19 +28,19 @@ Initialization of a type class is simple and only needed when the standalone fun
 
 =head2 PangoGravity
 
-C<enumeration PangoGravity defined in Gnome::Pango::T-Gravity> represents the orientation of glyphs in a segment
+C<enumeration PangoGravity defined in Gnome::Pango::T-gravity> represents the orientation of glyphs in a segment
 of text.
 
 This is useful when rendering vertical text layouts. In those situations,
 the layout is rotated using a non-identity  B<Gnome::Pango::N-Matrix> , and then
-glyph orientation is controlled using C<enumeration PangoGravity defined in Gnome::Pango::T-Gravity>.
+glyph orientation is controlled using C<enumeration PangoGravity defined in Gnome::Pango::T-gravity>.
 
 Not every value in this enumeration makes sense for every usage of
-C<enumeration PangoGravity defined in Gnome::Pango::T-Gravity>; for example, C<PANGO_GRAVITY_AUTO> only can be passed to
+C<enumeration PangoGravity defined in Gnome::Pango::T-gravity>; for example, C<PANGO_GRAVITY_AUTO> only can be passed to
 C<.set-base-gravity() in class Gnome::Pango::Context> and can only be returned by
 C<.get-base-gravity() in class Gnome::Pango::Context>.
 
-See also:  C<enumeration GravityHint from Gnome::Pango::T-Gravity> 
+See also:  C<enumeration GravityHint from Gnome::Pango::T-gravity> 
 =item C<PANGO_GRAVITY_SOUTH>; Glyphs stand upright (default) <img align="right" valign="center" src="m-south.png">
 =item C<PANGO_GRAVITY_EAST>; Glyphs are rotated 90 degrees counter-clockwise. <img align="right" valign="center" src="m-east.png">
 =item C<PANGO_GRAVITY_NORTH>; Glyphs are upside-down. <img align="right" valign="cener" src="m-north.png">
@@ -49,12 +49,12 @@ See also:  C<enumeration GravityHint from Gnome::Pango::T-Gravity>
 
 =head2 PangoGravityHint
 
-C<enumeration PangoGravityHint defined in Gnome::Pango::T-Gravity> defines how horizontal scripts should behave in a
+C<enumeration PangoGravityHint defined in Gnome::Pango::T-gravity> defines how horizontal scripts should behave in a
 vertical context.
 
 That is, English excerpts in a vertical paragraph for example.
 
-See also  C<enumeration Gravity from Gnome::Pango::T-Gravity> 
+See also  C<enumeration Gravity from Gnome::Pango::T-gravity> 
 =item C<PANGO_GRAVITY_HINT_NATURAL>; scripts will take their natural gravity based
   on the base gravity and the script.  This is the default.
 =item C<PANGO_GRAVITY_HINT_STRONG>; always use the base gravity set, regardless of
@@ -178,7 +178,7 @@ with C<$script> and C<$wide>..
 =begin pod
 =head2 gravity-to-rotation
 
-Converts a C<enumeration PangoGravity defined in Gnome::Pango::T-Gravity> value to its natural rotation in radians.
+Converts a C<enumeration PangoGravity defined in Gnome::Pango::T-gravity> value to its natural rotation in radians.
 
 Note that C<.rotate() in class Gnome::Pango::N-Matrix> takes angle in degrees, not radians.
 So, to call [method C<$Pango>.Matrix,rotate] with the output of this function
