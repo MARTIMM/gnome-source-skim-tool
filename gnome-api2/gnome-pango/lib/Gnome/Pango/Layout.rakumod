@@ -28,7 +28,7 @@ use Gnome::Pango::N-LayoutLine:api<2>;
 #use Gnome::Pango::N-LogAttr:api<2>;
 #use Gnome::Pango::N-Rectangle:api<2>;
 #use Gnome::Pango::N-TabArray:api<2>;
-use Gnome::Pango::T-Direction:api<2>;
+use Gnome::Pango::T-direction:api<2>;
 use Gnome::Pango::T-Layout:api<2>;
 
 
