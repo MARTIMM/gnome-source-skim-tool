@@ -18,7 +18,7 @@ use Gnome::Pango::N-TabArray:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Pango::T-TabArray:auth<github:MARTIMM>:api<2>;
+unit class Gnome::Pango::T-tabarray:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------

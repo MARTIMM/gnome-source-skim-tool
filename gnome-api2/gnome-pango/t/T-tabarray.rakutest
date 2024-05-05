@@ -1,7 +1,7 @@
 =comment Package: Pango, C-Source: tabs
 use v6.d;
 
-#TL:1:Gnome::Pango::T-TabArray:
+#TL:1:Gnome::Pango::T-tabarray:
 #-------------------------------------------------------------------------------
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::N-TabArray:api<2>;
-use Gnome::Pango::T-TabArray:api<2>;
+use Gnome::Pango::T-tabarray:api<2>;
 
 
 
@@ -35,7 +35,7 @@ subtest 'PangoTabAlign', {
 };
 
 
-my Gnome::Pango::T-TabArray $tabs .= new;
+my Gnome::Pango::T-tabarray $tabs .= new;
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
   with $tabs {
