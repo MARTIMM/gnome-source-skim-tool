@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Pango::T-Direction
+=head1 Gnome::Pango::T-direction
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -14,11 +14,11 @@ use v6.d;
 
 =head2 PangoDirection
 
-C<enumeration PangoDirection defined in Gnome::Pango::T-Direction> represents a direction in the Unicode bidirectional
+C<enumeration PangoDirection defined in Gnome::Pango::T-direction> represents a direction in the Unicode bidirectional
 algorithm.
 
 Not every value in this enumeration makes sense for every usage of
-C<enumeration PangoDirection defined in Gnome::Pango::T-Direction>; for example, the return value of [func C<$unichar_direction>]
+C<enumeration PangoDirection defined in Gnome::Pango::T-direction>; for example, the return value of [func C<$unichar_direction>]
 and [func C<$find_base_dir>] cannot be B<PANGO_DIRECTION_WEAK_LTR> or
 B<PANGO_DIRECTION_WEAK_RTL>, since every character is either neutral
 or has a strong direction; on the other hand B<PANGO_DIRECTION_NEUTRAL>
@@ -26,11 +26,11 @@ doesn't make sense to pass to [func C<$itemize_with_base_dir>].
 
 The B<PANGO_DIRECTION_TTB_LTR>, B<PANGO_DIRECTION_TTB_RTL> values come from
 an earlier interpretation of this enumeration as the writing direction
-of a block of text and are no longer used. See C<enumeration PangoGravity defined in Gnome::Pango::T-Gravity> for how
+of a block of text and are no longer used. See C<enumeration PangoGravity defined in Gnome::Pango::T-gravity> for how
 vertical text is handled in Pango.
 
 If you are interested in text direction, you should really use fribidi
-directly. C<enumeration PangoDirection defined in Gnome::Pango::T-Direction> is only retained because it is used in some
+directly. C<enumeration PangoDirection defined in Gnome::Pango::T-direction> is only retained because it is used in some
 public apis.
 =item C<PANGO_DIRECTION_LTR>; A strong left-to-right direction
 =item C<PANGO_DIRECTION_RTL>; A strong right-to-left direction
