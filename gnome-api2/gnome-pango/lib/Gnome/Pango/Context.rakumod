@@ -18,8 +18,8 @@ use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-FontMetrics:api<2>;
 #use Gnome::Pango::N-Language:api<2>;
 #use Gnome::Pango::N-Matrix:api<2>;
-use Gnome::Pango::T-Direction:api<2>;
-use Gnome::Pango::T-Gravity:api<2>;
+use Gnome::Pango::T-direction:api<2>;
+use Gnome::Pango::T-gravity:api<2>;
 
 
 #-------------------------------------------------------------------------------
