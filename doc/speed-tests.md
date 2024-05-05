@@ -34,7 +34,7 @@ Legend for compare tables
 * **Diff**; difference in seconds compared to real value of new version tests
 
 
-### Tests for the `Gnome::Gtk4` distro
+### Tests for the `Gnome::Gtk4:api<2>` distro
 
 |cc| Date       |#c| Files | Tests | secs |
 |--|------------|--|-------|-------|------|
@@ -46,8 +46,9 @@ Legend for compare tables
 | 5| 2024 01 08 |  |   154 |   393 |  124 |
 |  | 2024 01 12 |  |   172 |   443 |  149 |
 |  | 2024 01 16 |  |   188 |   485 |  336 |
+|  | 2024 05 05 |  |   220 |   574 |  267 |
 
-#### Compare with api 1
+#### Compare with `Gnome::Gtk3:api<1>`
 The calculation is to show how much time it would take when the newer version would do the same number of equal tests.
 
 | o vs n |  Comp | secs | Diff | Speedup % |
