@@ -72,6 +72,9 @@ find . -name '*.raku*' | xargs wc -l
 * TDDO Improve documentation. Make use of RakuDoc which is not yet available.
 
 # Release notes
+* 2024-05-19 0.16.3
+  * Changed module **Gnome::Gio::ApplicationCommandLine** by adding a new method `.done()`. This available since version 2.8 of the Gio library.
+
 * 2024-04-15 0.16.2
   * Removed .new(:$build-id) mechanism because it is just as easy to do with
     ```
