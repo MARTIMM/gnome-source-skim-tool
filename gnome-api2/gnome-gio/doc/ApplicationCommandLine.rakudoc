@@ -11,28 +11,31 @@ use v6.d;
 =head1 Description
 
 B<Gnome::Gio::ApplicationCommandLine> represents a command-line invocation of
-an application.  It is created by B<Gnome::Gio::Application> and emitted
-in the  I<command-line defined in Gnome::Gio::ApplicationCommandLine> signal and virtual function.
+an application.
+
+It is created by B<Gnome::Gio::ApplicationCommandLine> and emitted
+in the [signal C<$Gio>.Application::command-line] signal and virtual function.
 
 The class contains the list of arguments that the program was invoked
-with.  It is also possible to query if the commandline invocation was
+with. It is also possible to query if the commandline invocation was
 local (ie: the current process is running in direct response to the
 invocation) or remote (ie: some other process forwarded the
 commandline to this process).
 
-The GApplicationCommandLine object can provide the C<$argc> and C<$argv>
-parameters for use with the B<GOptionContext> command-line parsing API,
+The B<Gnome::Gio::ApplicationCommandLine> object can provide the C<$argc> and C<$argv>
+parameters for use with the  B<OptionContext>  command-line parsing API,
 with the C<.get-arguments()> function. See gapplication-example-cmdline3.c
 for an example.
 
 The exit status of the originally-invoked process may be set and
-messages can be printed to stdout or stderr of that process.  The
-lifecycle of the originally-invoked process is tied to the lifecycle
-of this object (ie: the process exits when the last reference is
-dropped).
+messages can be printed to stdout or stderr of that process.
+
+For remote invocation, the originally-invoked process exits when
+C<.done()> method is called. This method is
+also automatically called when the object is disposed.
 
 The main use for B<Gnome::Gio::ApplicationCommandLine> (and the
- I<command-line defined in Gnome::Gio::ApplicationCommandLine> signal) is 'Emacs server' like use cases:
+[signal C<$Gio>.Application::command-line] signal) is 'Emacs server' like use cases:
 You can set the B<EDITOR> environment variable to have e.g. git use
 your favourite editor to edit commit messages, and if you already
 have an instance of the editor running, the editing will happen
@@ -41,137 +44,29 @@ aspect of this use case is that the process that gets started by git
 does not return until the editing is done.
 
 Normally, the commandline is completely handled in the
- I<command-line defined in Gnome::Gio::ApplicationCommandLine> handler. The launching instance exits
+[signal C<$Gio>.Application::command-line] handler. The launching instance exits
 once the signal handler in the primary instance has returned, and
 the return value of the signal handler becomes the exit status
 of the launching instance.
-=begin comment
-<!-- language="C" -->
-static int
-command_line (GApplication            *application,
-              GApplicationCommandLine *cmdline)
-{
-  gchar **argv;
-  gint argc;
-  gint i;
-
-  argv = g_application_command_line_get_arguments (cmdline, &argc);
-
-  g_application_command_line_print (cmdline,
-                                    "This text is written back\n"
-                                    "to stdout of the caller\n");
-
-  for (i = 0; i < argc; i++)
-    g_print ("argument %d: %s\n", i, argv[i]);
-
-  g_strfreev (argv);
-
-  return 0;
-}
-
-=end comment
 
 The complete example can be found here:
 [gapplication-example-cmdline.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline.c)
 
 In more complicated cases, the handling of the commandline can be
 split between the launcher and the primary instance.
-=begin comment
-<!-- language="C" -->
-static gboolean
- test_local_cmdline (GApplication   *application,
-                     gchar        ***arguments,
-                     gint           *exit_status)
-{
-  gint i, j;
-  gchar **argv;
-
-  argv = *arguments;
-
-  if (argv[0] == NULL)
-    {
-      *exit_status = 0;
-      return FALSE;
-    }
-
-  i = 1;
-  while (argv[i])
-    {
-      if (g_str_has_prefix (argv[i], "--local-"))
-        {
-          g_print ("handling argument %s locally\n", argv[i]);
-          g_free (argv[i]);
-          for (j = i; argv[j]; j++)
-            argv[j] = argv[j + 1];
-        }
-      else
-        {
-          g_print ("not handling argument %s locally\n", argv[i]);
-          i++;
-        }
-    }
-
-  *exit_status = 0;
-
-  return FALSE;
-}
-
-static void
-test_application_class_init (TestApplicationClass *class)
-{
-  G_APPLICATION_CLASS (class)->local_command_line = test_local_cmdline;
-
-  ...
-}
-
-=end comment
 
 In this example of split commandline handling, options that start
 with B<--local-> are handled locally, all other options are passed
-to the  I<command-line defined in Gnome::Gio::ApplicationCommandLine> handler which runs in the primary
+to the [signal C<$Gio>.Application::command-line] handler which runs in the primary
 instance.
 
 The complete example can be found here:
 [gapplication-example-cmdline2.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline2.c)
 
-If handling the commandline requires a lot of work, it may
-be better to defer it.
-=begin comment
-<!-- language="C" -->
-static gboolean
-my_cmdline_handler (gpointer data)
-{
-  GApplicationCommandLine *cmdline = data;
-
-  // do the heavy lifting in an idle
-
-  g_application_command_line_set_exit_status (cmdline, 0);
-  g_object_unref (cmdline); // this releases the application
-
-  return G_SOURCE_REMOVE;
-}
-
-static int
-command_line (GApplication            *application,
-              GApplicationCommandLine *cmdline)
-{
-  // keep the application running until we are done with this commandline
-  g_application_hold (application);
-
-  g_object_set_data_full (G_OBJECT (cmdline),
-                          "application", application,
-                          (GDestroyNotify)g_application_release);
-
-  g_object_ref (cmdline);
-  g_idle_add (my_cmdline_handler, cmdline);
-
-  return 0;
-}
-
-=end comment
+If handling the commandline requires a lot of work, it may be better to defer it.
 
 In this example the commandline is not completely handled before
-the  I<command-line defined in Gnome::Gio::ApplicationCommandLine> handler returns. Instead, we keep
+the [signal C<$Gio>.Application::command-line] handler returns. Instead, we keep
 a reference to the B<Gnome::Gio::ApplicationCommandLine> object and handle it
 later (in this example, in an idle). Note that it is necessary to
 hold the application until you are done with the commandline.
@@ -250,6 +145,39 @@ Return value; a new B<Gnome::Gio::File>.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 done
+
+Signals that command line processing is completed.
+
+For remote invocation, it causes the invoking process to terminate.
+
+For local invocation, it does nothing.
+
+This method should be called in the [signal C<$Gio>.Application::command-line]
+handler, after the exit status is set and all messages are printed.
+
+After this call, C<.set-exit-status()> has no effect.
+Subsequent calls to this method are no-ops.
+
+This method is automatically called when the B<Gnome::Gio::ApplicationCommandLine>
+object is disposed — so you can omit the call in non-garbage collected
+languages.
+
+=begin code
+method done ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for get-arguments
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-arguments
 
 Gets the list of arguments that was passed on the command line.
@@ -276,7 +204,7 @@ Return value;
 =begin comment
 
 =head2 Example
-# Example for get-arguments
+# Example for get-cwd
 
 =end comment
 
@@ -304,7 +232,7 @@ Return value; the current directory, or undefined.
 =begin comment
 
 =head2 Example
-# Example for get-cwd
+# Example for get-environ
 
 =end comment
 
@@ -340,7 +268,7 @@ Return value;
 =begin comment
 
 =head2 Example
-# Example for get-environ
+# Example for get-exit-status
 
 =end comment
 
@@ -362,7 +290,7 @@ Return value; the exit status.
 =begin comment
 
 =head2 Example
-# Example for get-exit-status
+# Example for get-is-remote
 
 =end comment
 
@@ -383,7 +311,7 @@ Return value; C<True> if the invocation was remote.
 =begin comment
 
 =head2 Example
-# Example for get-is-remote
+# Example for get-options-dict
 
 =end comment
 
@@ -393,7 +321,7 @@ Return value; C<True> if the invocation was remote.
 =begin pod
 =head2 get-options-dict
 
-Gets the options there were passed to g_application_command_line().
+Gets the options that were passed to g_application_command_line().
 
 If you did not override local_command_line() then these are the same
 options that were parsed according to the B<GOptionEntrys> added to the
@@ -403,8 +331,11 @@ modified from your GApplication::handle-local-options handler.
 If no options were sent then an empty dictionary is returned so that
 you don't need to check for undefined.
 
+The data has been passed via an untrusted external process, so the types of
+all values must be checked before being used.
+
 =begin code
-method get-options-dict (--> CArray[N-VariantDict] )
+method get-options-dict (--> N-Object )
 =end code
 
 Return value; a B<Gnome::Glib::N-VariantDict> with the options. 
@@ -412,7 +343,7 @@ Return value; a B<Gnome::Glib::N-VariantDict> with the options.
 =begin comment
 
 =head2 Example
-# Example for get-options-dict
+# Example for get-platform-data
 
 =end comment
 
@@ -429,10 +360,13 @@ context in which the invocation occurred.  It typically contains
 information like the current working directory and the startup
 notification ID.
 
+It comes from an untrusted external process and hence the types of all
+values must be validated before being used.
+
 For local invocation, it will be undefined.
 
 =begin code
-method get-platform-data (--> CArray[N-Variant] )
+method get-platform-data (--> N-Object )
 =end code
 
 Return value; the platform data, or undefined. 
@@ -440,7 +374,7 @@ Return value; the platform data, or undefined.
 =begin comment
 
 =head2 Example
-# Example for get-platform-data
+# Example for get-stdin
 
 =end comment
 
@@ -470,7 +404,7 @@ Return value; a B<Gnome::Gio::InputStream> for stdin.
 =begin comment
 
 =head2 Example
-# Example for get-stdin
+# Example for getenv
 
 =end comment
 
@@ -503,7 +437,7 @@ Return value; the value of the variable, or undefined if unset or unsent.
 =begin comment
 
 =head2 Example
-# Example for getenv
+# Example for print
 
 =end comment
 
@@ -531,7 +465,32 @@ method print ( Str $format, … )
 =begin comment
 
 =head2 Example
-# Example for print
+# Example for printerr
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 print-literal
+
+Prints a message using the stdout print handler in the invoking process.
+
+Unlike C<.print()>, C<$message> is not a B<printf()>-style
+format string. Use this function if C<$message> contains text you don't have
+control over, that could include B<printf()> escape sequences.
+
+=begin code
+method print-literal ( Str $message )
+=end code
+
+=item $message; the message.
+
+=begin comment
+
+=head2 Example
+# Example for set-exit-status
 
 =end comment
 
@@ -557,9 +516,96 @@ method printerr ( Str $format, … )
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
+<!-- language="C" -->
+static int
+command_line (GApplication            *application,
+              GApplicationCommandLine *cmdline)
+{
+  gchar **argv;
+  gint argc;
+  gint i;
 
-=head2 Example
-# Example for printerr
+  argv = g_application_command_line_get_arguments (cmdline, &argc);
+
+  g_application_command_line_print (cmdline,
+                                    "This text is written back\n"
+                                    "to stdout of the caller\n");
+
+  for (i = 0; i < argc; i++)
+    g_print ("argument %d: %s\n", i, argv[i]);
+
+  g_strfreev (argv);
+
+  return 0;
+}
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 printerr-literal
+
+Prints a message using the stderr print handler in the invoking process.
+
+Unlike C<.printerr()>, C<$message> is not
+a B<printf()>-style format string. Use this function if C<$message> contains text
+you don't have control over, that could include B<printf()> escape sequences.
+
+=begin code
+method printerr-literal ( Str $message )
+=end code
+
+=item $message; the message.
+
+=begin comment
+<!-- language="C" -->
+static gboolean
+ test_local_cmdline (GApplication   *application,
+                     gchar        ***arguments,
+                     gint           *exit_status)
+{
+  gint i, j;
+  gchar **argv;
+
+  argv = *arguments;
+
+  if (argv[0] == NULL)
+    {
+      *exit_status = 0;
+      return FALSE;
+    }
+
+  i = 1;
+  while (argv[i])
+    {
+      if (g_str_has_prefix (argv[i], "--local-"))
+        {
+          g_print ("handling argument %s locally\n", argv[i]);
+          g_free (argv[i]);
+          for (j = i; argv[j]; j++)
+            argv[j] = argv[j + 1];
+        }
+      else
+        {
+          g_print ("not handling argument %s locally\n", argv[i]);
+          i++;
+        }
+    }
+
+  *exit_status = 0;
+
+  return FALSE;
+}
+
+static void
+test_application_class_init (TestApplicationClass *class)
+{
+  G_APPLICATION_CLASS (class)->local_command_line = test_local_cmdline;
+
+  ...
+}
 
 =end comment
 
@@ -591,6 +637,9 @@ have been 'successful' in a certain sense, and the exit status is
 always zero.  If the application use count is zero, though, the exit
 status of the local B<Gnome::Gio::ApplicationCommandLine> is used.
 
+This method is a no-op if C<.done()> has
+been called.
+
 =begin code
 method set-exit-status ( Int() $exit-status )
 =end code
@@ -598,9 +647,36 @@ method set-exit-status ( Int() $exit-status )
 =item $exit-status; the exit status.
 
 =begin comment
+<!-- language="C" -->
+static gboolean
+my_cmdline_handler (gpointer data)
+{
+  GApplicationCommandLine *cmdline = data;
 
-=head2 Example
-# Example for set-exit-status
+  // do the heavy lifting in an idle
+
+  g_application_command_line_set_exit_status (cmdline, 0);
+  g_object_unref (cmdline); // this releases the application
+
+  return G_SOURCE_REMOVE;
+}
+
+static int
+command_line (GApplication            *application,
+              GApplicationCommandLine *cmdline)
+{
+  // keep the application running until we are done with this commandline
+  g_application_hold (application);
+
+  g_object_set_data_full (G_OBJECT (cmdline),
+                          "application", application,
+                          (GDestroyNotify)g_application_release);
+
+  g_object_ref (cmdline);
+  g_idle_add (my_cmdline_handler, cmdline);
+
+  return 0;
+}
 
 =end comment
 

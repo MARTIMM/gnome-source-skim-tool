@@ -6,14 +6,14 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
 use Gnome::Gio::ApplicationCommandLine:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
-use Gnome::Glib::T-variant:api<2>;
 use Gnome::Glib::N-VariantDict:api<2>;
+use Gnome::Glib::T-variant:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -24,14 +24,14 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Gio::ApplicationCommandLine $application-command-line;
+my Gnome::Gio::ApplicationCommandLine $applicationcommandline;
 
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 subtest 'ISA test', {
-  given $application-command-line {
+  given $applicationcommandline {
 
 #`{{
 }}
@@ -49,17 +49,21 @@ unless %*ENV<raku_test_all>:exists {
 
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
-  with $application-command-line {
+  with $applicationcommandline {
     my Str $format;
-    my gint $exit-status;
     my Str $name;
-    my gint-ptr $argc;
     my Str $arg;
+    my gint-ptr $argc;
+    my gint $exit-status;
+    my Str $message;
 
 
 #`{{
     #TM:0:create-file-for-arg()
     ok .create-file-for-arg( $arg), '.create-file-for-arg()';
+
+    #TM:0:done()
+    ok .done(), '.done()';
 
     #TM:0:get-arguments()
     is .get-arguments( $argc), '…', '.get-arguments()';
@@ -88,8 +92,14 @@ subtest 'Method tests', {
     #TM:0:print()
     ok .print( $format), '.print()';
 
+    #TM:0:print-literal()
+    ok .print-literal( $message), '.print-literal()';
+
     #TM:0:printerr()
     ok .printerr( $format), '.printerr()';
+
+    #TM:0:printerr-literal()
+    ok .printerr-literal( $message), '.printerr-literal()';
 
     #TM:0:set-exit-status()
     $exit-status = '…';
@@ -103,7 +113,7 @@ subtest 'Method tests', {
 
 #-------------------------------------------------------------------------------
 subtest 'Function tests', {
-  with $application-command-line {
+  with $applicationcommandline {
 
 
 #`{{
@@ -166,13 +176,13 @@ subtest 'Signals …', {
     }
   }
 
-  my Gnome::Gio::ApplicationCommandLine $application-command-line .= new;
+  my Gnome::Gio::ApplicationCommandLine $applicationcommandline .= new;
 
   #my Gnome::Gtk3::Window $w .= new;
   #$w.add($m);
 
   my SignalHandlers $sh .= new;
-  $application-command-line.register-signal( $sh, 'method', 'signal');
+  $applicationcommandline.register-signal( $sh, 'method', 'signal');
 
   my Promise $p = $i.start-thread(
     $sh, 'signal-emitter',

@@ -7,12 +7,11 @@ use v6.d;
 
 use NativeCall;
 
+
 use Gnome::GObject::Object:api<2>;
-
-use Gnome::Glib::N-Variant:api<2>;
+#use Gnome::Glib::N-Variant:api<2>;
+#use Gnome::Glib::N-VariantDict:api<2>;
 use Gnome::Glib::T-variant:api<2>;
-use Gnome::Glib::N-VariantDict:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -40,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gio-lib()));
 
@@ -62,17 +62,20 @@ my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
   create-file-for-arg => %(:is-symbol<g_application_command_line_create_file_for_arg>,  :returns(N-Object), :parameters([Str])),
+  done => %(:is-symbol<g_application_command_line_done>, ),
   get-arguments => %(:is-symbol<g_application_command_line_get_arguments>,  :returns(gchar-pptr), :parameters([gint-ptr])),
   get-cwd => %(:is-symbol<g_application_command_line_get_cwd>,  :returns(Str)),
   get-environ => %(:is-symbol<g_application_command_line_get_environ>,  :returns(gchar-pptr)),
   get-exit-status => %(:is-symbol<g_application_command_line_get_exit_status>,  :returns(gint)),
   get-is-remote => %(:is-symbol<g_application_command_line_get_is_remote>,  :returns(gboolean), :cnv-return(Bool)),
-  get-options-dict => %(:is-symbol<g_application_command_line_get_options_dict>,  :returns(N-VariantDict)),
-  get-platform-data => %(:is-symbol<g_application_command_line_get_platform_data>,  :returns(N-Variant)),
+  get-options-dict => %(:is-symbol<g_application_command_line_get_options_dict>,  :returns(N-Object)),
+  get-platform-data => %(:is-symbol<g_application_command_line_get_platform_data>,  :returns(N-Object)),
   get-stdin => %(:is-symbol<g_application_command_line_get_stdin>,  :returns(N-Object)),
   getenv => %(:is-symbol<g_application_command_line_getenv>,  :returns(Str), :parameters([Str])),
   print => %(:is-symbol<g_application_command_line_print>, :variable-list,  :parameters([Str])),
+  print-literal => %(:is-symbol<g_application_command_line_print_literal>,  :parameters([Str])),
   printerr => %(:is-symbol<g_application_command_line_printerr>, :variable-list,  :parameters([Str])),
+  printerr-literal => %(:is-symbol<g_application_command_line_printerr_literal>,  :parameters([Str])),
   set-exit-status => %(:is-symbol<g_application_command_line_set_exit_status>,  :parameters([gint])),
 );
 
