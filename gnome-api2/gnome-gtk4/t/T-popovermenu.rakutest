@@ -1,0 +1,35 @@
+=comment Package: Gtk4, C-Source: popovermenu
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-popovermenu:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-popovermenu:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkPopoverMenuFlags
+subtest 'GtkPopoverMenuFlags', {
+  is GTK_POPOVER_MENU_NESTED.value, 1, 'bitfield GTK_POPOVER_MENU_NESTED = 1';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
