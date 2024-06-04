@@ -1,0 +1,550 @@
+=comment Package: Gtk4, C-Source: expander
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Expander
+
+![](images/expander.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Expander> allows the user to reveal its child by clicking
+on an expander triangle.
+
+![An example GtkExpander](expander.png)
+
+This is similar to the triangles used in a B<Gnome::Gtk4::TreeView>.
+
+Normally you use an expander as you would use a frame; you create
+the child widget and use C<.set-child()> to add it
+to the expander. When the expander is toggled, it will take care of
+showing and hiding the child automatically.
+
+=head2 Special Usage
+
+There are situations in which you may prefer to show and hide the
+expanded widget yourself, such as when you want to actually create
+the widget at expansion time. In this case, create a B<Gnome::Gtk4::Expander>
+but do not add a child to it. The expander widget has an
+I<expanded> property which can be used to
+monitor its expansion state. You should watch this property with
+a signal connection as follows:
+
+=begin comment
+static void
+expander_callback (GObject    *object,
+                   GParamSpec *param_spec,
+                   gpointer    user_data)
+{
+  GtkExpander *expander;
+
+  expander = GTK_EXPANDER (object);
+
+  if (gtk_expander_get_expanded (expander))
+    {
+      // Show or create widgets
+    }
+  else
+    {
+      // Hide or destroy widgets
+    }
+}
+
+static void
+create_expander (void)
+{
+  GtkWidget *expander = gtk_expander_new_with_mnemonic ("_More Options");
+  g_signal_connect (expander, "notify::expanded",
+                    G_CALLBACK (expander_callback), NULL);
+
+  // ...
+}
+
+=end comment
+
+=head2 GtkExpander as GtkBuildable
+
+The B<Gnome::Gtk4::Expander> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+placing a child in the label position by specifying “label” as the
+“type” attribute of a B<<child>> element. A normal content child can be
+specified without specifying a B<<child>> type attribute.
+
+An example of a UI definition fragment with GtkExpander:
+
+=begin comment
+<object class="GtkExpander">
+  <child type="label">
+    <object class="GtkLabel" id="expander-label"/>
+  </child>
+  <child>
+    <object class="GtkEntry" id="expander-content"/>
+  </child>
+</object>
+
+=end comment
+
+=head2 CSS nodes
+
+=begin comment
+expander-widget
+╰── box
+    ├── title
+    │   ├── expander
+    │   ╰── <label widget>
+    ╰── <child>
+
+=end comment
+
+B<Gnome::Gtk4::Expander> has a main node B<expander-widget>, and subnode B<box> containing
+the title and child widget. The box subnode B<title> contains node B<expander>,
+i.e. the expand/collapse arrow; then the label widget if any. The arrow of an
+expander that is showing its child gets the B<:checked> pseudoclass set on it.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::Expander> uses the C<GTK_ACCESSIBLE_ROLE_BUTTON> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Expander
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-expander
+
+Creates a new expander using C<$label> as the text of the label.
+
+=begin code
+method new-expander ( Str $label --> Gnome::Gtk4::Expander \)
+=end code
+
+=item $label; the text of the label.
+
+=begin comment
+
+=head2 Example
+# Example for new-expander
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-with-mnemonic
+
+Creates a new expander using C<$label> as the text of the label.
+
+If characters in C<$label> are preceded by an underscore, they are
+underlined. If you need a literal underscore character in a label,
+use “__” (two underscores). The first underlined character represents
+a keyboard accelerator called a mnemonic.
+
+Pressing Alt and that key activates the button.
+
+=begin code
+method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Expander \)
+=end code
+
+=item $label; the text of the label with an underscore
+  in front of the mnemonic character.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-mnemonic
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$expander>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child widget of C<$expander>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-expanded
+
+Queries a B<Gnome::Gtk4::Expander> and returns its current state.
+
+Returns C<True> if the child widget is revealed.
+
+=begin code
+method get-expanded (--> Bool )
+=end code
+
+Return value; the current state of the expander. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expanded
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-label
+
+Fetches the text from a label widget.
+
+This is including any embedded underlines indicating mnemonics and
+Pango markup, as set by C<.set-label()>. If the label
+text has not been set the return value will be undefined. This will be the
+case if you create an empty button with gtk_button_new() to use as a
+container.
+
+=begin code
+method get-label (--> Str )
+=end code
+
+Return value; The text of the label widget. This string is owned
+  by the widget and must not be modified or freed.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-label-widget
+
+Retrieves the label widget for the frame.
+
+=begin code
+method get-label-widget (--> N-Object )
+=end code
+
+Return value; the label widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-label-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-resize-toplevel
+
+Returns whether the expander will resize the toplevel widget
+containing the expander upon resizing and collapsing.
+
+=begin code
+method get-resize-toplevel (--> Bool )
+=end code
+
+Return value; the “resize toplevel” setting.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-resize-toplevel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-use-markup
+
+Returns whether the label’s text is interpreted as Pango markup.
+
+=begin code
+method get-use-markup (--> Bool )
+=end code
+
+Return value; C<True> if the label’s text will be parsed for markup. 
+
+=begin comment
+
+=head2 Example
+# Example for get-use-markup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-use-underline
+
+Returns whether an underline in the text indicates a mnemonic.
+
+=begin code
+method get-use-underline (--> Bool )
+=end code
+
+Return value; C<True> if an embedded underline in the expander
+  label indicates the mnemonic accelerator keys. 
+
+=begin comment
+
+=head2 Example
+# Example for get-use-underline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child widget of C<$expander>.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; the child widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-expanded
+
+Sets the state of the expander.
+
+Set to C<True>, if you want the child widget to be revealed,
+and C<False> if you want the child widget to be hidden.
+
+=begin code
+method set-expanded ( Bool() $expanded )
+=end code
+
+=item $expanded; whether the child widget is revealed.
+
+=begin comment
+
+=head2 Example
+# Example for set-expanded
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label
+
+Sets the text of the label of the expander to C<$label>.
+
+This will also clear any previously set labels.
+
+=begin code
+method set-label ( Str $label )
+=end code
+
+=item $label; a string.
+
+=begin comment
+
+=head2 Example
+# Example for set-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label-widget
+
+Set the label widget for the expander.
+
+This is the widget that will appear embedded alongside
+the expander arrow.
+
+=begin code
+method set-label-widget ( N-Object() $label-widget )
+=end code
+
+=item $label-widget; the new label widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-label-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-resize-toplevel
+
+Sets whether the expander will resize the toplevel widget
+containing the expander upon resizing and collapsing.
+
+=begin code
+method set-resize-toplevel ( Bool() $resize-toplevel )
+=end code
+
+=item $resize-toplevel; whether to resize the toplevel.
+
+=begin comment
+
+=head2 Example
+# Example for set-resize-toplevel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-use-markup
+
+Sets whether the text of the label contains Pango markup.
+
+=begin code
+method set-use-markup ( Bool() $use-markup )
+=end code
+
+=item $use-markup; C<True> if the label’s text should be parsed for markup.
+
+=begin comment
+
+=head2 Example
+# Example for set-use-markup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-use-underline
+
+If true, an underline in the text indicates a mnemonic.
+
+=begin code
+method set-use-underline ( Bool() $use-underline )
+=end code
+
+=item $use-underline; C<True> if underlines in the text indicate mnemonics.
+
+=begin comment
+
+=head2 Example
+# Example for set-use-underline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Activates the B<Gnome::Gtk4::Expander>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Expander :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Expander> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=end pod
+
