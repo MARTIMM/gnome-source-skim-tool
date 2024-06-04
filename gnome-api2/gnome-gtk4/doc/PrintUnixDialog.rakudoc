@@ -1,0 +1,512 @@
+=comment Package: Gtk4, C-Source: printunixdialog
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::PrintUnixDialog
+
+![](images/printunixdialog.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::PrintUnixDialog> implements a print dialog for platforms
+which don’t provide a native print dialog, like Unix.
+
+![An example GtkPrintUnixDialog](printdialog.png)
+
+It can be used very much like any other GTK dialog, at the cost of
+the portability offered by the high-level printing API with
+B<Gnome::Gtk4::PrintOperation>.
+
+In order to print something with B<Gnome::Gtk4::PrintUnixDialog>, you need to
+use C<.get-selected-printer()> to obtain a
+B<Gnome::Gtk4::Printer> object and use it to construct a B<Gnome::Gtk4::PrintJob>
+using C<.newprintunixdialog() in class Gnome::Gtk4::PrintJob>.
+
+B<Gnome::Gtk4::PrintUnixDialog> uses the following response values:
+
+=item C<GTK_RESPONSE_OK>: for the “Print” button
+=item C<GTK_RESPONSE_APPLY>: for the “Preview” button
+=item C<GTK_RESPONSE_CANCEL>: for the “Cancel” button
+
+=head2 GtkPrintUnixDialog as GtkBuildable
+
+The B<Gnome::Gtk4::PrintUnixDialog> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+exposes its C<$notebook> internal children with the name “notebook”.
+
+An example of a B<Gnome::Gtk4::PrintUnixDialog> UI definition fragment:
+
+=begin comment
+<object class="GtkPrintUnixDialog" id="dialog1">
+  <child internal-child="notebook">
+    <object class="GtkNotebook" id="notebook">
+      <child>
+        <object type="GtkNotebookPage">
+          <property name="tab_expand">False</property>
+          <property name="tab_fill">False</property>
+          <property name="tab">
+            <object class="GtkLabel" id="tablabel">
+              <property name="label">Tab label</property>
+            </object>
+          </property>
+          <property name="child">
+            <object class="GtkLabel" id="tabcontent">
+              <property name="label">Content on notebook tab</property>
+            </object>
+          </property>
+        </object>
+      </child>
+    </object>
+  </child>
+</object>
+
+=end comment
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::PrintUnixDialog> has a single CSS node with name window. The style classes
+dialog and print are added.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::PrintUnixDialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-printunixdialog
+
+Creates a new B<Gnome::Gtk4::PrintUnixDialog>.
+
+=begin code
+method new-printunixdialog ( Str $title, N-Object() $parent --> Gnome::Gtk4::PrintUnixDialog \)
+=end code
+
+=item $title; Title of the dialog.
+=item $parent; Transient parent of the dialog.
+
+=begin comment
+
+=head2 Example
+# Example for new-printunixdialog
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-custom-tab
+
+Adds a custom tab to the print dialog.
+
+=begin code
+method add-custom-tab ( N-Object() $child, N-Object() $tab-label )
+=end code
+
+=item $child; the widget to put in the custom tab.
+=item $tab-label; the widget to use as tab label.
+
+=begin comment
+
+=head2 Example
+# Example for add-custom-tab
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-page
+
+Gets the current page of the B<Gnome::Gtk4::PrintUnixDialog>.
+
+=begin code
+method get-current-page (--> Int )
+=end code
+
+Return value; the current page of C<$dialog>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-embed-page-setup
+
+Gets whether to embed the page setup.
+
+=begin code
+method get-embed-page-setup (--> Bool )
+=end code
+
+Return value; whether to embed the page setup. 
+
+=begin comment
+
+=head2 Example
+# Example for get-embed-page-setup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-selection
+
+Gets whether there is a selection.
+
+=begin code
+method get-has-selection (--> Bool )
+=end code
+
+Return value; whether there is a selection. 
+
+=begin comment
+
+=head2 Example
+# Example for get-has-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-manual-capabilities
+This function is not yet available
+
+Gets the capabilities that have been set on this B<Gnome::Gtk4::PrintUnixDialog>.
+
+=begin code
+method get-manual-capabilities (--> UInt )
+=end code
+
+Return value; the printing capabilities. 
+
+=begin comment
+
+=head2 Example
+# Example for get-manual-capabilities
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page-setup
+
+Gets the page setup that is used by the B<Gnome::Gtk4::PrintUnixDialog>.
+
+=begin code
+method get-page-setup (--> N-Object )
+=end code
+
+Return value; the page setup of C<$dialog>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-page-setup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-page-setup-set
+
+Gets whether a page setup was set by the user.
+
+=begin code
+method get-page-setup-set (--> Bool )
+=end code
+
+Return value; whether a page setup was set by user.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-page-setup-set
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-printer
+
+Gets the currently selected printer.
+
+=begin code
+method get-selected-printer (--> N-Object )
+=end code
+
+Return value; the currently selected printer. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-printer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-settings
+
+Gets a new B<Gnome::Gtk4::PrintSettings> object that represents the
+current values in the print dialog.
+
+Note that this creates a new object, and you need to unref
+it if don’t want to keep it.
+
+=begin code
+method get-settings (--> N-Object )
+=end code
+
+Return value; a new B<Gnome::Gtk4::PrintSettings> object with the values from C<$dialog>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-settings
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-support-selection
+
+Gets whether the print dialog allows user to print a selection.
+
+=begin code
+method get-support-selection (--> Bool )
+=end code
+
+Return value; whether the application supports print of selection. 
+
+=begin comment
+
+=head2 Example
+# Example for get-support-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-current-page
+
+Sets the current page number.
+
+If C<$current-page> is not -1, this enables the current page choice
+for the range of pages to print.
+
+=begin code
+method set-current-page ( Int() $current-page )
+=end code
+
+=item $current-page; the current page number..
+
+=begin comment
+
+=head2 Example
+# Example for set-current-page
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-embed-page-setup
+
+Embed page size combo box and orientation combo box into page setup page.
+
+=begin code
+method set-embed-page-setup ( Bool() $embed )
+=end code
+
+=item $embed; embed page setup selection.
+
+=begin comment
+
+=head2 Example
+# Example for set-embed-page-setup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-has-selection
+
+Sets whether a selection exists.
+
+=begin code
+method set-has-selection ( Bool() $has-selection )
+=end code
+
+=item $has-selection; C<True> indicates that a selection exists.
+
+=begin comment
+
+=head2 Example
+# Example for set-has-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-manual-capabilities
+This function is not yet available
+
+This lets you specify the printing capabilities your application
+supports.
+
+For instance, if you can handle scaling the output then you pass
+C<GTK_PRINT_CAPABILITY_SCALE>. If you don’t pass that, then the dialog
+will only let you select the scale if the printing system automatically
+handles scaling.
+
+=begin code
+method set-manual-capabilities ( UInt $capabilities )
+=end code
+
+=item $capabilities; the printing capabilities of your application.
+
+=begin comment
+
+=head2 Example
+# Example for set-manual-capabilities
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-page-setup
+
+Sets the page setup of the B<Gnome::Gtk4::PrintUnixDialog>.
+
+=begin code
+method set-page-setup ( N-Object() $page-setup )
+=end code
+
+=item $page-setup; a B<Gnome::Gtk4::PageSetup>.
+
+=begin comment
+
+=head2 Example
+# Example for set-page-setup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-settings
+
+Sets the B<Gnome::Gtk4::PrintSettings> for the B<Gnome::Gtk4::PrintUnixDialog>.
+
+Typically, this is used to restore saved print settings
+from a previous print operation before the print dialog
+is shown.
+
+=begin code
+method set-settings ( N-Object() $settings )
+=end code
+
+=item $settings; a B<Gnome::Gtk4::PrintSettings>.
+
+=begin comment
+
+=head2 Example
+# Example for set-settings
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-support-selection
+
+Sets whether the print dialog allows user to print a selection.
+
+=begin code
+method set-support-selection ( Bool() $support-selection )
+=end code
+
+=item $support-selection; C<True> to allow print selection.
+
+=begin comment
+
+=head2 Example
+# Example for set-support-selection
+
+=end comment
+
+=end pod
+
