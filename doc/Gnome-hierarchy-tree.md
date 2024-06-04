@@ -45,9 +45,9 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkDrawingArea                      DrawingArea
 │   │   ├── GtkDropDown                         DropDown
 │   │   ├── GtkEditableLabel                    EditableLabel
-│   │   ├── GtkPopover
-│   │   │   ├── GtkEmojiChooser
-│   │   │   ╰── GtkPopoverMenu
+│   │   ├── GtkPopover                          Popover
+│   │   │   ├── GtkEmojiChooser                 EmojiChooser
+│   │   │   ╰── GtkPopoverMenu                  PopoverMenu
 │   │   ├── GtkEntry                            Entry
 │   │   ├── GtkExpander
 │   │   ├── GtkFileChooserWidget                FileChooserWidget
