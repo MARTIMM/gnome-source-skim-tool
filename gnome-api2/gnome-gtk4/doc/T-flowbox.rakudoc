@@ -1,0 +1,56 @@
+=comment Package: Gtk4, C-Source: flowbox
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-flowbox
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 FlowBoxCreateWidgetFunc
+
+=head3 Signature
+=begin code
+:(  gpointer $item, gpointer $user-data  )
+=end code
+
+=item item; the item from the model for which to create a widget for
+=item user-data; user data from gtk_flow_box_bind_model()
+
+=head2 FlowBoxSortFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $child1, N-Object() $child2, gpointer $user-data  )
+=end code
+
+=item child1; the first child
+=item child2; the second child
+=item user-data; user data
+
+=head2 FlowBoxForeachFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $box, N-Object() $child, gpointer $user-data  )
+=end code
+
+=item box; a B<Gnome::Gtk4::FlowBox>
+=item child; a B<Gnome::Gtk4::FlowBoxChild>
+=item user-data; user data
+
+=head2 FlowBoxFilterFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $child, gpointer $user-data  )
+=end code
+
+=item child; a B<Gnome::Gtk4::FlowBoxChild> that may be filtered
+=item user-data; user data
+
+=end pod

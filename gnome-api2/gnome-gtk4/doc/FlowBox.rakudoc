@@ -1,0 +1,1193 @@
+=comment Package: Gtk4, C-Source: flowbox
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::FlowBox
+
+![](images/flowbox.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::FlowBox> puts child widgets in reflowing grid.
+
+For instance, with the horizontal orientation, the widgets will be
+arranged from left to right, starting a new row under the previous
+row when necessary. Reducing the width in this case will require more
+rows, so a larger height will be requested.
+
+Likewise, with the vertical orientation, the widgets will be arranged
+from top to bottom, starting a new column to the right when necessary.
+Reducing the height will require more columns, so a larger width will
+be requested.
+
+The size request of a B<Gnome::Gtk4::FlowBox> alone may not be what you expect;
+if you need to be able to shrink it along both axes and dynamically
+reflow its children, you may have to wrap it in a B<Gnome::Gtk4::ScrolledWindow>
+to enable that.
+
+The children of a B<Gnome::Gtk4::FlowBox> can be dynamically sorted and filtered.
+
+Although a B<Gnome::Gtk4::FlowBox> must have only B<Gnome::Gtk4::FlowBoxChild> children, you
+can add any kind of widget to it via C<.insert()>, and a
+B<Gnome::Gtk4::FlowBoxChild> widget will automatically be inserted between the box
+and the widget.
+
+Also see B<Gnome::Gtk4::ListBox>.
+
+=head2 CSS nodes
+
+=begin comment
+flowbox
+├── flowboxchild
+│   ╰── <child>
+├── flowboxchild
+│   ╰── <child>
+┊
+╰── [rubberband]
+
+=end comment
+
+B<Gnome::Gtk4::FlowBox> uses a single CSS node with name flowbox. B<Gnome::Gtk4::FlowBoxChild>
+uses a single CSS node with name flowboxchild. For rubberband selection,
+a subnode with name rubberband is used.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::FlowBox> uses the C<GTK_ACCESSIBLE_ROLE_GRID> role, and B<Gnome::Gtk4::FlowBoxChild>
+uses the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::FlowBox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-flowbox
+
+Creates a B<Gnome::Gtk4::FlowBox>.
+
+=begin code
+method new-flowbox ( --> Gnome::Gtk4::FlowBox \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-flowbox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 append
+
+Adds C<$child> to the end of C<$self>.
+
+If a sort function is set, the widget will
+actually be inserted at the calculated position.
+
+See also: C<.insert()>.
+
+=begin code
+method append ( N-Object() $child )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to add.
+
+=begin comment
+
+=head2 Example
+# Example for append
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 bind-model
+This function is not yet available
+
+Binds C<$model> to C<$box>.
+
+If C<$box> was already bound to a model, that previous binding is
+destroyed.
+
+The contents of C<$box> are cleared and then filled with widgets that
+represent items from C<$model>. C<$box> is updated whenever C<$model> changes.
+If C<$model> is undefined, C<$box> is left empty.
+
+It is undefined to add or remove widgets directly (for example, with
+C<.insert()>) while C<$box> is bound to a model.
+
+Note that using a model is incompatible with the filtering and sorting
+functionality in B<Gnome::Gtk4::FlowBox>. When using a model, filtering and sorting
+should be implemented by the model.
+
+=begin code
+method bind-model ( N-List() $model, &create-widget-func, gpointer $user-data, … )
+=end code
+
+=item $model; the B<Gnome::Gio::R-ListModel> to be bound to C<$box>.
+=item &create-widget-func; a function that creates widgets for items. Tthe function must be specified with following signature; C<:( gpointer $item, gpointer $user-data --> N-Object )>.
+=item $user-data; user data passed to C<$create-widget-func>.
+=item user-data-free-func; function for freeing C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for bind-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-activate-on-single-click
+
+Returns whether children activate on single clicks.
+
+=begin code
+method get-activate-on-single-click (--> Bool )
+=end code
+
+Return value; C<True> if children are activated on single click,
+  C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-activate-on-single-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-at-index
+
+Gets the nth child in the C<$box>.
+
+=begin code
+method get-child-at-index ( Int() $idx --> N-Object )
+=end code
+
+=item $idx; the position of the child.
+
+Return value; the child widget, which will
+  always be a B<Gnome::Gtk4::FlowBoxChild> or undefined in case no child widget
+  with the given index exists.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child-at-index
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child-at-pos
+
+Gets the child in the ( C<$x>, C<$y>) position.
+
+Both C<$x> and C<$y> are assumed to be relative to the origin of C<$box>.
+
+=begin code
+method get-child-at-pos ( Int() $x, Int() $y --> N-Object )
+=end code
+
+=item $x; the x coordinate of the child.
+=item $y; the y coordinate of the child.
+
+Return value; the child widget, which will
+  always be a B<Gnome::Gtk4::FlowBoxChild> or undefined in case no child widget
+  exists for the given x and y coordinates.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child-at-pos
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-column-spacing
+
+Gets the horizontal spacing.
+
+=begin code
+method get-column-spacing (--> UInt )
+=end code
+
+Return value; the horizontal spacing. 
+
+=begin comment
+
+=head2 Example
+# Example for get-column-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-homogeneous
+
+Returns whether the box is homogeneous.
+
+=begin code
+method get-homogeneous (--> Bool )
+=end code
+
+Return value; C<True> if the box is homogeneous.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-homogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-max-children-per-line
+
+Gets the maximum number of children per line.
+
+=begin code
+method get-max-children-per-line (--> UInt )
+=end code
+
+Return value; the maximum number of children per line. 
+
+=begin comment
+
+=head2 Example
+# Example for get-max-children-per-line
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-min-children-per-line
+
+Gets the minimum number of children per line.
+
+=begin code
+method get-min-children-per-line (--> UInt )
+=end code
+
+Return value; the minimum number of children per line. 
+
+=begin comment
+
+=head2 Example
+# Example for get-min-children-per-line
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-spacing
+
+Gets the vertical spacing.
+
+=begin code
+method get-row-spacing (--> UInt )
+=end code
+
+Return value; the vertical spacing. 
+
+=begin comment
+
+=head2 Example
+# Example for get-row-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-children
+
+Creates a list of all selected children.
+
+=begin code
+method get-selected-children (--> N-List )
+=end code
+
+Return value; 
+  A B<Gnome::Glib::N-List> containing the B<Gnome::Gtk4::Widget> for each selected child.
+  Free with g_list_free() when done.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-children
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selection-mode
+
+Gets the selection mode of C<$box>.
+
+=begin code
+method get-selection-mode (--> GtkSelectionMode )
+=end code
+
+Return value; the C<enumeration GtkSelectionMode defined in Gnome::Gtk4::T-enums>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selection-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 insert
+
+Inserts the C<$widget> into C<$box> at C<$position>.
+
+If a sort function is set, the widget will actually be inserted
+at the calculated position.
+
+If C<$position> is -1, or larger than the total number of children
+in the C<$box>, then the C<$widget> will be appended to the end.
+
+=begin code
+method insert ( N-Object() $widget, Int() $position )
+=end code
+
+=item $widget; the B<Gnome::Gtk4::Widget> to add.
+=item $position; the position to insert C<$child> in.
+
+=begin comment
+
+=head2 Example
+# Example for insert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invalidate-filter
+
+Updates the filtering for all children.
+
+Call this function when the result of the filter
+function on the C<$box> is changed due to an external
+factor. For instance, this would be used if the
+filter function just looked for a specific search
+term, and the entry with the string has changed.
+
+=begin code
+method invalidate-filter ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for invalidate-filter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 invalidate-sort
+
+Updates the sorting for all children.
+
+Call this when the result of the sort function on C<$box> is changed due to an external factor.
+
+=begin code
+method invalidate-sort ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for invalidate-sort
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 prepend
+
+Adds C<$child> to the start of C<$self>.
+
+If a sort function is set, the widget will
+actually be inserted at the calculated position.
+
+See also: C<.insert()>.
+
+=begin code
+method prepend ( N-Object() $child )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to add.
+
+=begin comment
+
+=head2 Example
+# Example for prepend
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove
+
+Removes a child from C<$box>.
+
+=begin code
+method remove ( N-Object() $widget )
+=end code
+
+=item $widget; the child widget to remove.
+
+=begin comment
+
+=head2 Example
+# Example for remove
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-all
+
+Removes all children from C<$box>.
+
+This function does nothing if C<$box> is backed by a model.
+
+=begin code
+method remove-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for remove-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-all
+
+Select all children of C<$box>, if the selection
+mode allows it.
+
+=begin code
+method select-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for select-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 select-child
+
+Selects a single child of C<$box>, if the selection
+mode allows it.
+
+=begin code
+method select-child ( N-Object() $child )
+=end code
+
+=item $child; a child of C<$box>.
+
+=begin comment
+
+=head2 Example
+# Example for select-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 selected-foreach
+
+Calls a function for each selected child.
+
+Note that the selection cannot be modified from within
+this function.
+
+=begin code
+method selected-foreach ( &func, gpointer $data )
+=end code
+
+=item &func; the function to call for each selected child. Tthe function must be specified with following signature; C<:( N-Object $box, N-Object $child, gpointer $user-data )>.
+=item $data; user data to pass to the function.
+
+=begin comment
+
+=head2 Example
+# Example for selected-foreach
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-activate-on-single-click
+
+If C<$single> is C<True>, children will be activated when you click
+on them, otherwise you need to double-click.
+
+=begin code
+method set-activate-on-single-click ( Bool() $single )
+=end code
+
+=item $single; C<True> to emit child-activated on a single click.
+
+=begin comment
+
+=head2 Example
+# Example for set-activate-on-single-click
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-column-spacing
+
+Sets the horizontal space to add between children.
+
+=begin code
+method set-column-spacing ( UInt() $spacing )
+=end code
+
+=item $spacing; the spacing to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-column-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-filter-func
+This function is not yet available
+
+By setting a filter function on the C<$box> one can decide dynamically
+which of the children to show.
+
+For instance, to implement a search function that only shows the
+children matching the search terms.
+
+The C<$filter-func> will be called for each child after the call, and
+it will continue to be called each time a child changes (via
+C<.changed() in class Gnome::Gtk4::FlowBoxChild>) or when
+C<.invalidate-filter()> is called.
+
+Note that using a filter function is incompatible with using a model
+(see C<.bind-model()>).
+
+=begin code
+method set-filter-func ( &filter-func, gpointer $user-data, … )
+=end code
+
+=item &filter-func; callback that
+  lets you filter which children to show. Tthe function must be specified with following signature; C<:( N-Object $child, gpointer $user-data --> gboolean )>.
+=item $user-data; user data passed to C<$filter-func>.
+=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-filter-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hadjustment
+
+Hooks up an adjustment to focus handling in C<$box>.
+
+The adjustment is also used for autoscrolling during
+rubberband selection. See C<.get-hadjustment() in class Gnome::Gtk4::ScrolledWindow>
+for a typical way of obtaining the adjustment, and
+C<.set-vadjustment()> for setting the vertical
+adjustment.
+
+The adjustments have to be in pixel units and in the same
+coordinate system as the allocation for immediate children
+of the box.
+
+=begin code
+method set-hadjustment ( N-Object() $adjustment )
+=end code
+
+=item $adjustment; an adjustment which should be adjusted
+   when the focus is moved among the descendents of C<$container>.
+
+=begin comment
+
+=head2 Example
+# Example for set-hadjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-homogeneous
+
+Sets whether or not all children of C<$box> are given
+equal space in the box.
+
+=begin code
+method set-homogeneous ( Bool() $homogeneous )
+=end code
+
+=item $homogeneous; C<True> to create equal allotments,
+  C<False> for variable allotments.
+
+=begin comment
+
+=head2 Example
+# Example for set-homogeneous
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-max-children-per-line
+
+Sets the maximum number of children to request and
+allocate space for in C<$box>’s orientation.
+
+Setting the maximum number of children per line
+limits the overall natural size request to be no more
+than C<$n-children> children long in the given orientation.
+
+=begin code
+method set-max-children-per-line ( UInt() $n-children )
+=end code
+
+=item $n-children; the maximum number of children per line.
+
+=begin comment
+
+=head2 Example
+# Example for set-max-children-per-line
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-min-children-per-line
+
+Sets the minimum number of children to line up
+in C<$box>’s orientation before flowing.
+
+=begin code
+method set-min-children-per-line ( UInt() $n-children )
+=end code
+
+=item $n-children; the minimum number of children per line.
+
+=begin comment
+
+=head2 Example
+# Example for set-min-children-per-line
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-spacing
+
+Sets the vertical space to add between children.
+
+=begin code
+method set-row-spacing ( UInt() $spacing )
+=end code
+
+=item $spacing; the spacing to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-row-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-selection-mode
+
+Sets how selection works in C<$box>.
+
+=begin code
+method set-selection-mode ( GtkSelectionMode $mode )
+=end code
+
+=item $mode; the new selection mode.
+
+=begin comment
+
+=head2 Example
+# Example for set-selection-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-sort-func
+This function is not yet available
+
+By setting a sort function on the C<$box>, one can dynamically
+reorder the children of the box, based on the contents of
+the children.
+
+The C<$sort-func> will be called for each child after the call,
+and will continue to be called each time a child changes (via
+C<.changed() in class Gnome::Gtk4::FlowBoxChild>) and when
+C<.invalidate-sort()> is called.
+
+Note that using a sort function is incompatible with using a model
+(see C<.bind-model()>).
+
+=begin code
+method set-sort-func ( &sort-func, gpointer $user-data, … )
+=end code
+
+=item &sort-func; the sort function. Tthe function must be specified with following signature; C<:( N-Object $child1, N-Object $child2, gpointer $user-data --> gint )>.
+=item $user-data; user data passed to C<$sort-func>.
+=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-sort-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-vadjustment
+
+Hooks up an adjustment to focus handling in C<$box>.
+
+The adjustment is also used for autoscrolling during
+rubberband selection. See C<.get-vadjustment() in class Gnome::Gtk4::ScrolledWindow>
+for a typical way of obtaining the adjustment, and
+C<.set-hadjustment()> for setting the horizontal
+adjustment.
+
+The adjustments have to be in pixel units and in the same
+coordinate system as the allocation for immediate children
+of the box.
+
+=begin code
+method set-vadjustment ( N-Object() $adjustment )
+=end code
+
+=item $adjustment; an adjustment which should be adjusted
+   when the focus is moved among the descendents of C<$container>.
+
+=begin comment
+
+=head2 Example
+# Example for set-vadjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-all
+
+Unselect all children of C<$box>, if the selection
+mode allows it.
+
+=begin code
+method unselect-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unselect-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unselect-child
+
+Unselects a single child of C<$box>, if the selection
+mode allows it.
+
+=begin code
+method unselect-child ( N-Object() $child )
+=end code
+
+=item $child; a child of C<$box>.
+
+=begin comment
+
+=head2 Example
+# Example for unselect-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate-cursor-child
+
+Emitted when the user activates the C<$box>.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::FlowBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate-cursor-child
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 child-activated
+
+Emitted when a child has been activated by the user.
+
+=begin code
+method handler (
+  N-Object $child,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::FlowBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $child; the child that is activated.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal child-activated
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 move-cursor
+
+Emitted when the user initiates a cursor movement.
+
+This is a [keybinding signal](class.SignalAction.html).
+Applications should not connect to it, but may emit it with
+g_signal_emit_by_name() if they need to control the cursor
+programmatically.
+
+The default bindings for this signal come in two variants,
+the variant with the Shift modifier extends the selection,
+the variant without the Shift modifier does not.
+There are too many key combinations to list them all here.
+
+=item <kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd>
+  move by individual children
+=item <kbd>Home</kbd>, <kbd>End</kbd> move to the ends of the box
+=item <kbd>PgUp</kbd>, <kbd>PgDn</kbd> move vertically by pages
+
+=begin code
+method handler (
+   $step,
+  gint $count,
+  gboolean $extend,
+  gboolean $modify,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::FlowBox :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $step; the granularity of the move, as a C<enumeration GtkMovementStep defined in Gnome::Gtk4::T-enums>.
+=item $count; the number of C<$step> units to move.
+=item $extend; whether to extend the selection.
+=item $modify; whether to modify the selection.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> to stop other handlers from being invoked for the event.
+C<False> to propagate the event further.
+
+=begin comment
+
+=head2 Example
+# Example for signal move-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 select-all
+
+Emitted to select all children of the box,
+if the selection mode permits it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal is <kbd>Ctrl</kbd>-<kbd>a</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::FlowBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal select-all
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 selected-children-changed
+
+Emitted when the set of selected children changes.
+
+Use C<.selected-foreach()> or
+C<.get-selected-children()> to obtain the
+selected children.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::FlowBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal selected-children-changed
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 toggle-cursor-child
+
+Emitted to toggle the selection of the child that has the focus.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>Ctrl</kbd>-<kbd>Space</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::FlowBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggle-cursor-child
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 unselect-all
+
+Emitted to unselect all children of the box,
+if the selection mode permits it.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal is <kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>a</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::FlowBox :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::FlowBox> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal unselect-all
+
+=end comment
+
+=end pod
+

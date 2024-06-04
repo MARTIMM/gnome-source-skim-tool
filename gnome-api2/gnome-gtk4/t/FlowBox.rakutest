@@ -1,0 +1,285 @@
+=comment Package: Gtk4, C-Source: flowbox
+use v6.d;
+
+#TL:1:Gnome::Gtk4::FlowBox:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Glib::T-list:api<2>;
+use Gnome::Gtk4::FlowBox:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::FlowBox $flowbox;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $flowbox {
+
+#`{{
+    #TC:0:new-flowbox()
+
+    $flowbox .= new-flowbox();
+    ok .is-valid, '.new-flowbox()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $flowbox {
+    my  $destroy;
+    sub filter-func ( N-Object $child, gpointer $user-data --> gboolean ) {}
+    my gint $position;
+    my guint $spacing;
+    my N-Object $model;
+    sub sort-func ( N-Object $child1, N-Object $child2, gpointer $user-data --> gint ) {}
+    my N-Object $adjustment;
+    my N-Object $child;
+    my gpointer $data;
+    my gint $idx;
+    my gint $x;
+    sub create-widget-func ( gpointer $item, gpointer $user-data --> N-Object ) {}
+    my gpointer $user-data;
+    my guint $n-children;
+    sub func ( N-Object $box, N-Object $child, gpointer $user-data ) {}
+    my gboolean $single;
+    my gboolean $homogeneous;
+    my gint $y;
+    my  $user-data-free-func;
+    my N-Object $widget;
+    my GtkSelectionMode $mode;
+
+
+#`{{
+    #TM:0:append()
+    ok .append( $child), '.append()';
+
+    #TM:0:bind-model()
+    ok .bind-model( $model, $create-widget-func, $user-data, $user-data-free-func), '.bind-model()';
+
+    #TM:0:get-child-at-index()
+    is .get-child-at-index( $idx), '…', '.get-child-at-index()';
+
+    #TM:0:get-child-at-pos()
+    is .get-child-at-pos( $x, $y), '…', '.get-child-at-pos()';
+
+    #TM:0:get-selected-children()
+     .get-selected-children(), '…', '.get-selected-children()';
+
+    #TM:0:insert()
+    ok .insert( $widget, $position), '.insert()';
+
+    #TM:0:invalidate-filter()
+    ok .invalidate-filter(), '.invalidate-filter()';
+
+    #TM:0:invalidate-sort()
+    ok .invalidate-sort(), '.invalidate-sort()';
+
+    #TM:0:prepend()
+    ok .prepend( $child), '.prepend()';
+
+    #TM:0:remove()
+    ok .remove( $widget), '.remove()';
+
+    #TM:0:remove-all()
+    ok .remove-all(), '.remove-all()';
+
+    #TM:0:select-all()
+    ok .select-all(), '.select-all()';
+
+    #TM:0:select-child()
+    ok .select-child( $child), '.select-child()';
+
+    #TM:0:selected-foreach()
+    ok .selected-foreach( $func, $data), '.selected-foreach()';
+
+    #TM:0:set-activate-on-single-click()
+    $single = '…';
+    .set-activate-on-single-click( $single);
+    #TM:0:get-activate-on-single-click()
+    is .get-activate-on-single-click(),  $single, '.set-activate-on-single-click() / .get-activate-on-single-click()';
+
+    #TM:0:set-column-spacing()
+    $spacing = '…';
+    .set-column-spacing( $spacing);
+    #TM:0:get-column-spacing()
+    is .get-column-spacing(),  $spacing, '.set-column-spacing() / .get-column-spacing()';
+
+    #TM:0:set-filter-func()
+    $filter-func = …;
+    $user-data = '…';
+    $destroy = '…';
+    .set-filter-func( $filter-func, $user-data, $destroy);
+    ok True, '.set-filter-func()';
+
+    #TM:0:set-hadjustment()
+    $adjustment = …;
+    .set-hadjustment( $adjustment);
+    ok True, '.set-hadjustment()';
+
+    #TM:0:set-homogeneous()
+    $homogeneous = '…';
+    .set-homogeneous( $homogeneous);
+    #TM:0:get-homogeneous()
+    is .get-homogeneous(),  $homogeneous, '.set-homogeneous() / .get-homogeneous()';
+
+    #TM:0:set-max-children-per-line()
+    $n-children = '…';
+    .set-max-children-per-line( $n-children);
+    #TM:0:get-max-children-per-line()
+    is .get-max-children-per-line(),  $n-children, '.set-max-children-per-line() / .get-max-children-per-line()';
+
+    #TM:0:set-min-children-per-line()
+    $n-children = '…';
+    .set-min-children-per-line( $n-children);
+    #TM:0:get-min-children-per-line()
+    is .get-min-children-per-line(),  $n-children, '.set-min-children-per-line() / .get-min-children-per-line()';
+
+    #TM:0:set-row-spacing()
+    $spacing = '…';
+    .set-row-spacing( $spacing);
+    #TM:0:get-row-spacing()
+    is .get-row-spacing(),  $spacing, '.set-row-spacing() / .get-row-spacing()';
+
+    #TM:0:set-selection-mode()
+    $mode = …;
+    .set-selection-mode( $mode);
+    #TM:0:get-selection-mode()
+    is .get-selection-mode(),  $mode, '.set-selection-mode() / .get-selection-mode()';
+
+    #TM:0:set-sort-func()
+    $sort-func = …;
+    $user-data = '…';
+    $destroy = '…';
+    .set-sort-func( $sort-func, $user-data, $destroy);
+    ok True, '.set-sort-func()';
+
+    #TM:0:set-vadjustment()
+    $adjustment = …;
+    .set-vadjustment( $adjustment);
+    ok True, '.set-vadjustment()';
+
+    #TM:0:unselect-all()
+    ok .unselect-all(), '.unselect-all()';
+
+    #TM:0:unselect-child()
+    ok .unselect-child( $child), '.unselect-child()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $flowbox {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::FlowBox() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::FlowBox;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::FlowBox :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::FlowBox $flowbox .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $flowbox.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
