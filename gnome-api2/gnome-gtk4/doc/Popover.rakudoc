@@ -1,0 +1,684 @@
+=comment Package: Gtk4, C-Source: popover
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Popover
+
+![](images/popover.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Popover> is a bubble-like context popup.
+
+![An example GtkPopover](popover.png)
+
+It is primarily meant to provide context-dependent information
+or options. Popovers are attached to a parent widget. By default,
+they point to the whole widget area, although this behavior can be
+changed with C<.set-pointing-to()>.
+
+The position of a popover relative to the widget it is attached to
+can also be changed with C<.set-position()>
+
+By default, B<Gnome::Gtk4::Popover> performs a grab, in order to ensure input
+events get redirected to it while it is shown, and also so the popover
+is dismissed in the expected situations (clicks outside the popover,
+or the Escape key being pressed). If no such modal behavior is desired
+on a popover, C<.set-autohide()> may be called on it to
+tweak its behavior.
+
+=head3 GtkPopover as menu replacement
+
+B<Gnome::Gtk4::Popover> is often used to replace menus. The best was to do this
+is to use the B<Gnome::Gtk4::PopoverMenu> subclass which supports being
+populated from a B<Gnome::Gio::MenuModel> with C<.new-from-model() in class Gnome::Gtk4::PopoverMenu>.
+
+=begin comment
+<section>
+  <attribute name="display-hint">horizontal-buttons</attribute>
+  <item>
+    <attribute name="label">Cut</attribute>
+    <attribute name="action">app.cut</attribute>
+    <attribute name="verb-icon">edit-cut-symbolic</attribute>
+  </item>
+  <item>
+    <attribute name="label">Copy</attribute>
+    <attribute name="action">app.copy</attribute>
+    <attribute name="verb-icon">edit-copy-symbolic</attribute>
+  </item>
+  <item>
+    <attribute name="label">Paste</attribute>
+    <attribute name="action">app.paste</attribute>
+    <attribute name="verb-icon">edit-paste-symbolic</attribute>
+  </item>
+</section>
+
+=end comment
+
+=head2 CSS nodes
+
+=begin comment
+popover.background[.menu]
+├── arrow
+╰── contents
+    ╰── <child>
+
+=end comment
+
+B<Gnome::Gtk4::Popover> has a main node with name B<popover>, an arrow with name B<arrow>,
+and another node for the content named B<contents>. The B<popover> node always
+gets the B<.background> style class. It also gets the B<.menu> style class
+if the popover is menu-like, e.g. is a B<Gnome::Gtk4::PopoverMenu>.
+
+Particular uses of B<Gnome::Gtk4::Popover>, such as touch selection popups or
+magnifiers in B<Gnome::Gtk4::Entry> or B<Gnome::Gtk4::TextView> get style classes like
+B<.touch-selection> or B<.magnifier> to differentiate from plain popovers.
+
+When styling a popover directly, the B<popover> node should usually
+not have any background. The visible part of the popover can have
+a shadow. To specify it in CSS, set the box-shadow of the B<contents> node.
+
+Note that, in order to accomplish appropriate arrow visuals, B<Gnome::Gtk4::Popover>
+uses custom drawing for the B<arrow> node. This makes it possible for the
+arrow to change its shape dynamically, but it also limits the possibilities
+of styling it using CSS. In particular, the B<arrow> gets drawn over the
+B<content> node's border and shadow, so they look like one shape, which
+means that the border width of the B<content> node and the B<arrow> node should
+be the same. The arrow also does not support any border shape other than
+solid, no border-radius, only one border width (border-bottom-width is
+used) and no box-shadow.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Popover
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-popover
+
+Creates a new B<Gnome::Gtk4::Popover>.
+
+=begin code
+method new-popover ( --> Gnome::Gtk4::Popover \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-popover
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-autohide
+
+Returns whether the popover is modal.
+
+See C<.set-autohide()> for the
+implications of this.
+
+=begin code
+method get-autohide (--> Bool )
+=end code
+
+Return value; C<True> if C<$popover> is modal. 
+
+=begin comment
+
+=head2 Example
+# Example for get-autohide
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cascade-popdown
+
+Returns whether the popover will close after a modal child is closed.
+
+=begin code
+method get-cascade-popdown (--> Bool )
+=end code
+
+Return value; C<True> if C<$popover> will close after a modal child.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-cascade-popdown
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$popover>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child widget of C<$popover>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-arrow
+
+Gets whether this popover is showing an arrow
+pointing at the widget that it is relative to.
+
+=begin code
+method get-has-arrow (--> Bool )
+=end code
+
+Return value; whether the popover has an arrow. 
+
+=begin comment
+
+=head2 Example
+# Example for get-has-arrow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mnemonics-visible
+
+Gets whether mnemonics are visible.
+
+=begin code
+method get-mnemonics-visible (--> Bool )
+=end code
+
+Return value; C<True> if mnemonics are supposed to be visible
+  in this popover. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mnemonics-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-offset
+
+Gets the offset previous set with C<.set-offset()()>.
+
+=begin code
+method get-offset ( Array[Int] $x-offset, Array[Int] $y-offset )
+=end code
+
+=item $x-offset; (transfer ownership: full) a location for the x_offset.
+=item $y-offset; (transfer ownership: full) a location for the y_offset.
+
+=begin comment
+
+=head2 Example
+# Example for get-offset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-pointing-to
+
+Gets the rectangle that the popover points to.
+
+If a rectangle to point to has been set, this function will
+return C<True> and fill in C<$rect> with such rectangle, otherwise
+it will return C<False> and fill in C<$rect> with the parent
+widget coordinates.
+
+=begin code
+method get-pointing-to ( N-Object $rect --> Bool )
+=end code
+
+=item $rect; location to store the rectangle
+
+Return value; C<True> if a rectangle to point to was set.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-pointing-to
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-position
+
+Returns the preferred position of C<$popover>.
+
+=begin code
+method get-position (--> GtkPositionType )
+=end code
+
+Return value; The preferred position.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popdown
+
+Pops C<$popover> down.
+
+This may have the side-effect of closing a parent popover
+as well. See I<cascade-popdown>.
+
+=begin code
+method popdown ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for popdown
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popup
+
+Pops C<$popover> up.
+
+=begin code
+method popup ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for popup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 present
+
+Allocate a size for the B<Gnome::Gtk4::Popover>.
+
+This function needs to be called in size-allocate by widgets
+who have a B<Gnome::Gtk4::Popover> as child. When using a layout manager,
+this is happening automatically.
+
+To make a popover appear on screen, use C<.popup()>.
+
+=begin code
+method present ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for present
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-autohide
+
+Sets whether C<$popover> is modal.
+
+A modal popover will grab the keyboard focus on it when being
+displayed. Focus will wrap around within the popover. Clicking
+outside the popover area or pressing Esc will dismiss the popover.
+
+Called this function on an already showing popup with a new
+autohide value different from the current one, will cause the
+popup to be hidden.
+
+=begin code
+method set-autohide ( Bool() $autohide )
+=end code
+
+=item $autohide; C<True> to dismiss the popover on outside clicks.
+
+=begin comment
+
+=head2 Example
+# Example for set-autohide
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cascade-popdown
+
+If C<$cascade-popdown> is C<True>, the popover will be
+closed when a child modal popover is closed.
+
+If C<False>, C<$popover> will stay visible.
+
+=begin code
+method set-cascade-popdown ( Bool() $cascade-popdown )
+=end code
+
+=item $cascade-popdown; C<True> if the popover should follow a child closing.
+
+=begin comment
+
+=head2 Example
+# Example for set-cascade-popdown
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child widget of C<$popover>.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; the child widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-default-widget
+
+Sets the default widget of a B<Gnome::Gtk4::Popover>.
+
+The default widget is the widget that’s activated when the user
+presses Enter in a dialog (for example). This function sets or
+unsets the default widget for a B<Gnome::Gtk4::Popover>.
+
+=begin code
+method set-default-widget ( N-Object() $widget )
+=end code
+
+=item $widget; a child widget of C<$popover> to set as
+  the default, or undefined to unset the default widget for the popover.
+
+=begin comment
+
+=head2 Example
+# Example for set-default-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-has-arrow
+
+Sets whether this popover should draw an arrow
+pointing at the widget it is relative to.
+
+=begin code
+method set-has-arrow ( Bool() $has-arrow )
+=end code
+
+=item $has-arrow; C<True> to draw an arrow.
+
+=begin comment
+
+=head2 Example
+# Example for set-has-arrow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-mnemonics-visible
+
+Sets whether mnemonics should be visible.
+
+=begin code
+method set-mnemonics-visible ( Bool() $mnemonics-visible )
+=end code
+
+=item $mnemonics-visible; the new value.
+
+=begin comment
+
+=head2 Example
+# Example for set-mnemonics-visible
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-offset
+
+Sets the offset to use when calculating the position
+of the popover.
+
+These values are used when preparing the  B<Gnome::Gdk4::N-PopupLayout> 
+for positioning the popover.
+
+=begin code
+method set-offset ( Int() $x-offset, Int() $y-offset )
+=end code
+
+=item $x-offset; the x offset to adjust the position by.
+=item $y-offset; the y offset to adjust the position by.
+
+=begin comment
+
+=head2 Example
+# Example for set-offset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-pointing-to
+
+Sets the rectangle that C<$popover> points to.
+
+This is in the coordinate space of the C<$popover> parent.
+
+=begin code
+method set-pointing-to ( N-Object $rect )
+=end code
+
+=item $rect; rectangle to point to
+
+=begin comment
+
+=head2 Example
+# Example for set-pointing-to
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-position
+
+Sets the preferred position for C<$popover> to appear.
+
+If the C<$popover> is currently visible, it will be immediately
+updated.
+
+This preference will be respected where possible, although
+on lack of space (eg. if close to the window edges), the
+B<Gnome::Gtk4::Popover> may choose to appear on the opposite side.
+
+=begin code
+method set-position ( GtkPositionType $position )
+=end code
+
+=item $position; preferred popover position.
+
+=begin comment
+
+=head2 Example
+# Example for set-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate-default
+
+Emitted whend the user activates the default widget.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Popover :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Popover> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate-default
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 closed
+
+Emitted when the popover is closed.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Popover :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Popover> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal closed
+
+=end comment
+
+=end pod
+
