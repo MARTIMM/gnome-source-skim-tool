@@ -1,0 +1,133 @@
+=comment Package: Gtk4, C-Source: emojichooser
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::EmojiChooser
+
+![](images/emojichooser.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::EmojiChooser> is used by text widgets such as B<Gnome::Gtk4::Entry> or
+B<Gnome::Gtk4::TextView> to let users insert Emoji characters.
+
+![An example GtkEmojiChooser](emojichooser.png)
+
+B<Gnome::Gtk4::EmojiChooser> emits the I<emoji-picked>
+signal when an Emoji is selected.
+
+=head2 CSS nodes
+
+=begin comment
+popover
+├── box.emoji-searchbar
+│   ╰── entry.search
+╰── box.emoji-toolbar
+    ├── button.image-button.emoji-section
+    ├── ...
+    ╰── button.image-button.emoji-section
+
+=end comment
+
+Every B<Gnome::Gtk4::EmojiChooser> consists of a main node called popover.
+The contents of the popover are largely implementation defined
+and supposed to inherit general styles.
+The top searchbar used to search emoji and gets the .emoji-searchbar
+style class itself.
+The bottom toolbar used to switch between different emoji categories
+consists of buttons with the .emoji-section style class and gets the
+.emoji-toolbar style class itself.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::EmojiChooser
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-emojichooser
+
+Creates a new B<Gnome::Gtk4::EmojiChooser>.
+
+=begin code
+method new-emojichooser ( --> Gnome::Gtk4::EmojiChooser \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-emojichooser
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 emoji-picked
+
+Emitted when the user selects an Emoji.
+
+=begin code
+method handler (
+  Str $text,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::EmojiChooser :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $text; the Unicode sequence for the picked Emoji, in UTF-8.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::EmojiChooser> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal emoji-picked
+
+=end comment
+
+=end pod
+
