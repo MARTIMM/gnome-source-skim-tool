@@ -72,7 +72,9 @@ subtest 'Method tests', {
     #TM:1:add-credit-section()
     $section-name = 'piano players';
     $people = [ 'lou de haringboer', 'kniertje'];
-    ok .add-credit-section( $section-name, $people), '.add-credit-section()';
+    lives-ok {
+      .add-credit-section( $section-name, $people);
+    }, '.add-credit-section()';
 
     #TM:1:set-artists()
     $artists = [ 'mt++3', 'pietje puk3'];
