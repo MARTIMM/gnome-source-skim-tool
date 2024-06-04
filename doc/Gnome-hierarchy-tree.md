@@ -49,11 +49,11 @@ GObject                                         Gnome::GObject::Object
 │   │   │   ├── GtkEmojiChooser                 EmojiChooser
 │   │   │   ╰── GtkPopoverMenu                  PopoverMenu
 │   │   ├── GtkEntry                            Entry
-│   │   ├── GtkExpander
+│   │   ├── GtkExpander                         Expander
 │   │   ├── GtkFileChooserWidget                FileChooserWidget
 │   │   ├── GtkFixed                            Fixed
-│   │   ├── GtkFlowBox
-│   │   ├── GtkFlowBoxChild
+│   │   ├── GtkFlowBox                          FlowBox
+│   │   ├── GtkFlowBoxChild                     FlowBoxChild
 │   │   ├── GtkFontButton
 │   │   ├── GtkFontChooserWidget                FontChooserWidget
 │   │   ├── GtkFrame                            Frame
