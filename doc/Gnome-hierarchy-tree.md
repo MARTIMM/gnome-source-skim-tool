@@ -17,7 +17,7 @@ GObject                                         Gnome::GObject::Object
 │   │   │   │   ├── GtkFontChooserDialog        FontChooserDialog
 │   │   │   │   ├── GtkMessageDialog            MessageDialog
 │   │   │   │   ├── GtkPageSetupUnixDialog      PageSetupUnixDialog
-│   │   │   │   ╰── GtkPrintUnixDialog
+│   │   │   │   ╰── GtkPrintUnixDialog          PrintUnixDialog
 │   │   │   ├── GtkApplicationWindow            ApplicationWindow
 │   │   │   ├── GtkAssistant                    Assistant
 │   │   │   ╰── GtkShortcutsWindow              ShortcutsWindow
