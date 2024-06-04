@@ -11,7 +11,8 @@ use NativeCall;
 use Gnome::Gtk4::Dialog:api<2>;
 use Gnome::Gtk4::T-dialog:api<2>;
 use Gnome::Gtk4::T-enums:api<2>;
-#use Gnome::Gtk4::T-messagedialog:api<2>;
+use Gnome::Gtk4::T-messagedialog:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -39,6 +40,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::MessageDialog', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -60,14 +68,14 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-messagedialog => %( :type(Constructor), :is-symbol<gtk_message_dialog_new>, :returns(N-Object), :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
-  new-with-markup => %( :type(Constructor), :is-symbol<gtk_message_dialog_new_with_markup>, :returns(N-Object), :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
+  new-messagedialog => %( :type(Constructor), :is-symbol<gtk_message_dialog_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
+  new-with-markup => %( :type(Constructor), :is-symbol<gtk_message_dialog_new_with_markup>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ N-Object, GFlag, GEnum, GEnum, Str])),
 
   #--[Methods]------------------------------------------------------------------
-  format-secondary-markup => %(:is-symbol<gtk_message_dialog_format_secondary_markup>, :variable-list,  :parameters([Str])),
-  format-secondary-text => %(:is-symbol<gtk_message_dialog_format_secondary_text>, :variable-list,  :parameters([Str])),
-  get-message-area => %(:is-symbol<gtk_message_dialog_get_message_area>,  :returns(N-Object)),
-  set-markup => %(:is-symbol<gtk_message_dialog_set_markup>,  :parameters([Str])),
+  format-secondary-markup => %(:is-symbol<gtk_message_dialog_format_secondary_markup>, :variable-list,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
+  format-secondary-text => %(:is-symbol<gtk_message_dialog_format_secondary_text>, :variable-list,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
+  get-message-area => %(:is-symbol<gtk_message_dialog_get_message_area>,  :returns(N-Object),:deprecated, :deprecated-version<4.10>, ),
+  set-markup => %(:is-symbol<gtk_message_dialog_set_markup>,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -75,7 +83,6 @@ my Hash $methods = %(
 method _fallback-v2 (
   Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
 ) {
-  note "Try to find method $name" if  $Gnome::N::x-debug;
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -83,7 +90,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)

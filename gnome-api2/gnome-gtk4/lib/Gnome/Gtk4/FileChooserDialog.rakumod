@@ -9,8 +9,8 @@ use NativeCall;
 
 
 use Gnome::Gtk4::Dialog:api<2>;
-use Gnome::Gtk4::R-FileChooser:api<2>;
 use Gnome::Gtk4::T-filechooser:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -24,7 +24,6 @@ use Gnome::N::X:api<2>;
 
 unit class Gnome::Gtk4::FileChooserDialog:auth<github:MARTIMM>:api<2>;
 also is Gnome::Gtk4::Dialog;
-also does Gnome::Gtk4::R-FileChooser;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -33,22 +32,18 @@ also does Gnome::Gtk4::R-FileChooser;
 # Define callable helper
 has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
-# Add signal registration helper
-my Bool $signals-added = False;
-
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
-  # Add signal administration info.
-  unless $signals-added {
-    
-    # Signals from interfaces
-    self._add_gtk_file_chooser_signal_types($?CLASS.^name)
-      if self.^can('_add_gtk_file_chooser_signal_types');
-    $signals-added = True;
-  }
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::FileChooserDialog', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -71,7 +66,7 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-filechooserdialog => %( :type(Constructor), :is-symbol<gtk_file_chooser_dialog_new>, :returns(N-Object), :variable-list, :parameters([ Str, N-Object, GEnum, Str])),
+  new-filechooserdialog => %( :type(Constructor), :is-symbol<gtk_file_chooser_dialog_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, :variable-list, :parameters([ Str, N-Object, GEnum, Str])),
 );
 
 #-------------------------------------------------------------------------------
@@ -107,13 +102,6 @@ method _fallback-v2 (
   }
 
   else {
-    my $r;
-    my $native-object = self.get-native-object-no-reffing;
-    $r = self._do_gtk_file_chooser_fallback-v2(
-      $name, $_fallback-v2-ok, $!routine-caller, @arguments, $native-object
-    ) if self.^can('_do_gtk_file_chooser_fallback-v2');
-    return $r if $_fallback-v2-ok;
-
     callsame;
   }
 }
