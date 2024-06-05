@@ -135,6 +135,9 @@ Set a deprecation message whith the Raku trait 'is DEPRECATED' on classes and me
           my %message-data := $x-deprecated{$file}{$m};
           my Bool $native = ?%message-data<gnome-lib>;
 
+          # Ignore deprecation messages of gnome when they're gett'n in yur head
+          next if %*ENV<IGNORE_GNOME_DEPRECATION_MESSAGES>:exists and $native;
+
           my Str $message = '';
           if %message-data<class> {
             if $native {
