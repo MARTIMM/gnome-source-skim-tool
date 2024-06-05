@@ -1,0 +1,211 @@
+=comment Package: Gtk4, C-Source: viewport
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Viewport
+
+![](images/viewport.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Viewport> implements scrollability for widgets that lack their
+own scrolling capabilities.
+
+Use B<Gnome::Gtk4::Viewport> to scroll child widgets such as B<Gnome::Gtk4::Grid>,
+B<Gnome::Gtk4::Box>, and so on.
+
+The B<Gnome::Gtk4::Viewport> will start scrolling content only if allocated
+less than the child widget’s minimum size in a given orientation.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::Viewport> has a single CSS node with name B<viewport>.
+
+=head2 Accessibility
+
+Until GTK 4.10, B<Gnome::Gtk4::Viewport> used the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+Starting from GTK 4.12, B<Gnome::Gtk4::Viewport> uses the B<GTK_ACCESSIBLE_ROLE_GENERIC> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Viewport
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-viewport
+
+Creates a new B<Gnome::Gtk4::Viewport>.
+
+The new viewport uses the given adjustments, or default
+adjustments if none are given.
+
+=begin code
+method new-viewport ( N-Object() $hadjustment, N-Object() $vadjustment --> Gnome::Gtk4::Viewport \)
+=end code
+
+=item $hadjustment; horizontal adjustment.
+=item $vadjustment; vertical adjustment.
+
+=begin comment
+
+=head2 Example
+# Example for new-viewport
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$viewport>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child widget of C<$viewport>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-scroll-to-focus
+
+Gets whether the viewport is scrolling to keep the focused
+child in view.
+
+=begin code
+method get-scroll-to-focus (--> Bool )
+=end code
+
+Return value; C<True> if the viewport keeps the focus child scrolled to view. 
+
+=begin comment
+
+=head2 Example
+# Example for get-scroll-to-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to
+
+Scrolls a descendant of the viewport into view.
+
+The viewport and the descendant must be visible and mapped for
+this function to work, otherwise no scrolling will be performed.
+
+=begin code
+method scroll-to ( N-Object() $descendant, N-Object $scroll )
+=end code
+
+=item $descendant; a descendant widget of the viewport.
+=item $scroll; (transfer ownership: full) details of how to perform
+  the scroll operation or NULL to scroll into view
+
+=begin comment
+
+=head2 Example
+# Example for scroll-to
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child widget of C<$viewport>.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; the child widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-scroll-to-focus
+
+Sets whether the viewport should automatically scroll
+to keep the focused child in view.
+
+=begin code
+method set-scroll-to-focus ( Bool() $scroll-to-focus )
+=end code
+
+=item $scroll-to-focus; whether to keep the focus widget scrolled to view.
+
+=begin comment
+
+=head2 Example
+# Example for set-scroll-to-focus
+
+=end comment
+
+=end pod
+
