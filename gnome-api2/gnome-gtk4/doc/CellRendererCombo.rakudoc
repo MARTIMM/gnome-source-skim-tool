@@ -1,0 +1,140 @@
+=comment Package: Gtk4, C-Source: cellrenderercombo
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CellRendererCombo
+
+![](images/cellrenderercombo.png)
+
+=head1 Description
+
+Renders a combobox in a cell
+
+B<Gnome::Gtk4::CellRendererCombo> renders text in a cell like B<Gnome::Gtk4::CellRendererText> from
+which it is derived. But while B<Gnome::Gtk4::CellRendererText> offers a simple entry to
+edit the text, B<Gnome::Gtk4::CellRendererCombo> offers a B<Gnome::Gtk4::ComboBox>
+widget to edit the text. The values to display in the combo box are taken from
+the tree model specified in the B<Gnome::Gtk4::CellRendererCombo>:model property.
+
+The combo cell renderer takes care of adding a text cell renderer to the combo
+box and sets it to display the column specified by its
+B<Gnome::Gtk4::CellRendererCombo>:text-column property. Further properties of the combo box
+can be set in a handler for the B<GtkCellRenderer::editing-started> signal.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellRendererCombo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cellrenderercombo
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::CellRendererCombo>.
+Adjust how text is drawn using object properties.
+Object properties can be set globally (with g_object_set()).
+Also, with B<Gnome::Gtk4::TreeViewColumn>, you can bind a property to a value
+in a B<Gnome::Gtk4::R-TreeModel>. For example, you can bind the “text” property
+on the cell renderer to a string value in the model, thus rendering
+a different string in each row of the B<Gnome::Gtk4::TreeView>.
+
+=begin code
+method new-cellrenderercombo ( --> Gnome::Gtk4::CellRendererCombo \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cellrenderercombo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+This signal is emitted each time after the user selected an item in
+the combo box, either by using the mouse or the arrow keys.  Contrary
+to GtkComboBox, GtkCellRendererCombo::changed is not emitted for
+changes made to a selected item in the entry.  The argument C<$new-iter>
+corresponds to the newly selected item in the combo box and it is relative
+to the GtkTreeModel set via the model property on GtkCellRendererCombo.
+
+Note that as soon as you change the model displayed in the tree view,
+the tree view will immediately cease the editing operating.  This
+means that you most probably want to refrain from changing the model
+until the combo cell renderer emits the edited or editing_canceled signal.
+
+=begin code
+method handler (
+  Str $path-string,
+  N-Object $new-iter,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::CellRendererCombo :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $path-string; a string of the path identifying the edited cell
+              (relative to the tree view model).
+=item $new-iter; the new iter selected in the combo box
+           (relative to the combo box model).
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRendererCombo> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=end pod
+
