@@ -1,0 +1,147 @@
+=comment Package: Gtk4, C-Source: cellrendereraccel
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CellRendererAccel
+
+![](images/cellrendereraccel.png)
+
+=head1 Description
+
+Renders a keyboard accelerator in a cell
+
+B<Gnome::Gtk4::CellRendererAccel> displays a keyboard accelerator (i.e. a key
+combination like B<Control + a>). If the cell renderer is editable,
+the accelerator can be changed by simply typing the new combination.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellRendererAccel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cellrendereraccel
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::CellRendererAccel>.
+
+=begin code
+method new-cellrendereraccel ( --> Gnome::Gtk4::CellRendererAccel \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cellrendereraccel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 accel-cleared
+
+Gets emitted when the user has removed the accelerator.
+
+=begin code
+method handler (
+  Str $path-string,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::CellRendererAccel :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $path-string; the path identifying the row of the edited cell.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRendererAccel> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal accel-cleared
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 accel-edited
+
+Gets emitted when the user has selected a new accelerator.
+
+=begin code
+method handler (
+  Str $path-string,
+  guint $accel-key,
+   $accel-mods,
+  guint $hardware-keycode,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::CellRendererAccel :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $path-string; the path identifying the row of the edited cell.
+=item $accel-key; the new accelerator keyval.
+=item $accel-mods; the new acclerator modifier mask.
+=item $hardware-keycode; the keycode of the new accelerator.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRendererAccel> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal accel-edited
+
+=end comment
+
+=end pod
+

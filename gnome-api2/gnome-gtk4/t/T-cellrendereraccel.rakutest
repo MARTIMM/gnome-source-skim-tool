@@ -1,0 +1,37 @@
+=comment Package: Gtk4, C-Source: cellrendereraccel
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-cellrendereraccel:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-cellrendereraccel:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkCellRendererAccelMode
+subtest 'GtkCellRendererAccelMode', {
+  is GTK_CELL_RENDERER_ACCEL_MODE_GTK.value, 0, 'enum GTK_CELL_RENDERER_ACCEL_MODE_GTK = 0';
+
+  is GTK_CELL_RENDERER_ACCEL_MODE_OTHER.value, 1, 'enum GTK_CELL_RENDERER_ACCEL_MODE_OTHER = 1';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
