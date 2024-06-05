@@ -1,0 +1,204 @@
+=comment Package: Gtk4, C-Source: cellareabox
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CellAreaBox
+
+![](images/cellareabox.png)
+
+=head1 Description
+
+A cell area that renders GtkCellRenderers into a row or a column
+
+The B<Gnome::Gtk4::CellAreaBox> renders cell renderers into a row or a column
+depending on its C<enumeration GtkOrientation defined in Gnome::Gtk4::T-enums>.
+
+GtkCellAreaBox uses a notion of packing. Packing
+refers to adding cell renderers with reference to a particular position
+in a B<Gnome::Gtk4::CellAreaBox>. There are two reference positions: the
+start and the end of the box.
+When the B<Gnome::Gtk4::CellAreaBox> is oriented in the C<GTK_ORIENTATION_VERTICAL>
+orientation, the start is defined as the top of the box and the end is
+defined as the bottom. In the C<GTK_ORIENTATION_HORIZONTAL> orientation
+start is defined as the left side and the end is defined as the right
+side.
+
+Alignments of B<Gnome::Gtk4::CellRenderer>s rendered in adjacent rows can be
+configured by configuring the B<Gnome::Gtk4::CellAreaBox> align child cell property
+with gtk_cell_area_cell_set_property() or by specifying the "align"
+argument to C<.pack-start()> and C<.pack-end()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellAreaBox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cellareabox
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::CellAreaBox>.
+
+=begin code
+method new-cellareabox ( --> Gnome::Gtk4::CellAreaBox \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cellareabox
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-spacing
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Gets the spacing added between cell renderers.
+
+=begin code
+method get-spacing (--> Int )
+=end code
+
+Return value; the space added between cell renderers in C<$box>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-spacing
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-end
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Adds C<$renderer> to C<$box>, packed with reference to the end of C<$box>.
+
+The C<$renderer> is packed after (away from end of) any other
+B<Gnome::Gtk4::CellRenderer> packed with reference to the end of C<$box>.
+
+=begin code
+method pack-end ( N-Object() $renderer, Bool() $expand, Bool() $align, Bool() $fixed )
+=end code
+
+=item $renderer; the B<Gnome::Gtk4::CellRenderer> to add.
+=item $expand; whether C<$renderer> should receive extra space when the area receives
+more than its natural size.
+=item $align; whether C<$renderer> should be aligned in adjacent rows.
+=item $fixed; whether C<$renderer> should have the same size in all rows.
+
+=begin comment
+
+=head2 Example
+# Example for pack-end
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 pack-start
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Adds C<$renderer> to C<$box>, packed with reference to the start of C<$box>.
+
+The C<$renderer> is packed after any other B<Gnome::Gtk4::CellRenderer> packed
+with reference to the start of C<$box>.
+
+=begin code
+method pack-start ( N-Object() $renderer, Bool() $expand, Bool() $align, Bool() $fixed )
+=end code
+
+=item $renderer; the B<Gnome::Gtk4::CellRenderer> to add.
+=item $expand; whether C<$renderer> should receive extra space when the area receives
+more than its natural size.
+=item $align; whether C<$renderer> should be aligned in adjacent rows.
+=item $fixed; whether C<$renderer> should have the same size in all rows.
+
+=begin comment
+
+=head2 Example
+# Example for pack-start
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-spacing
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Sets the spacing to add between cell renderers in C<$box>.
+
+=begin code
+method set-spacing ( Int() $spacing )
+=end code
+
+=item $spacing; the space to add between B<Gnome::Gtk4::CellRenderer>s.
+
+=begin comment
+
+=head2 Example
+# Example for set-spacing
+
+=end comment
+
+=end pod
+
