@@ -1,0 +1,60 @@
+=comment Package: Gtk4, C-Source: cellrenderer
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-cellrenderer:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-cellrenderer:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkCellRendererState
+subtest 'GtkCellRendererState', {
+  is GTK_CELL_RENDERER_SELECTED.value, 1, 'bitfield GTK_CELL_RENDERER_SELECTED = 1';
+
+  is GTK_CELL_RENDERER_PRELIT.value, 2, 'bitfield GTK_CELL_RENDERER_PRELIT = 2';
+
+  is GTK_CELL_RENDERER_INSENSITIVE.value, 4, 'bitfield GTK_CELL_RENDERER_INSENSITIVE = 4';
+
+  is GTK_CELL_RENDERER_SORTED.value, 8, 'bitfield GTK_CELL_RENDERER_SORTED = 8';
+
+  is GTK_CELL_RENDERER_FOCUSED.value, 16, 'bitfield GTK_CELL_RENDERER_FOCUSED = 16';
+
+  is GTK_CELL_RENDERER_EXPANDABLE.value, 32, 'bitfield GTK_CELL_RENDERER_EXPANDABLE = 32';
+
+  is GTK_CELL_RENDERER_EXPANDED.value, 64, 'bitfield GTK_CELL_RENDERER_EXPANDED = 64';
+
+};
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkCellRendererMode
+subtest 'GtkCellRendererMode', {
+  is GTK_CELL_RENDERER_MODE_INERT.value, 0, 'enum GTK_CELL_RENDERER_MODE_INERT = 0';
+
+  is GTK_CELL_RENDERER_MODE_ACTIVATABLE.value, 1, 'enum GTK_CELL_RENDERER_MODE_ACTIVATABLE = 1';
+
+  is GTK_CELL_RENDERER_MODE_EDITABLE.value, 2, 'enum GTK_CELL_RENDERER_MODE_EDITABLE = 2';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

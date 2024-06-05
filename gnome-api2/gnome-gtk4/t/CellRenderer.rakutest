@@ -1,0 +1,258 @@
+=comment Package: Gtk4, C-Source: cellrenderer
+use v6.d;
+
+#TL:1:Gnome::Gtk4::CellRenderer:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+use Gnome::Gtk4::CellRenderer:api<2>;
+use Gnome::Gtk4::N-Requisition:api<2>;
+use Gnome::Gtk4::T-cellrenderer:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
+#use Gnome::Gtk4::T-widget:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::CellRenderer $cellrenderer;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $cellrenderer {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $cellrenderer {
+    my gint $ypad;
+    my N-Object $aligned-area;
+    my gboolean $canceled;
+    my gboolean $is-expander;
+    my N-Object $event;
+    my N-Object $snapshot;
+    my N-Object $cell-area;
+    my gint $xpad;
+    my N-Object $background-area;
+    my gint-ptr $natural-width;
+    my gboolean $visible;
+    my GFlag $cell-state;
+    my gint $width;
+    my gboolean $is-expanded;
+    my gint-ptr $minimum-size;
+    my Str $path;
+    my gint-ptr $minimum-width;
+    my gint-ptr $minimum-height;
+    my gint-ptr $natural-size;
+    my gint-ptr $natural-height;
+    my N-Object $widget;
+    my gboolean $sensitive;
+    my gfloat $yalign;
+    my GFlag $flags;
+    my gint $height;
+    my gfloat $xalign;
+
+
+#`{{
+    #TM:0:activate()
+    ok .activate( $event, $widget, $path, $background-area, $cell-area, $flags), '.activate()';
+
+    #TM:0:get-aligned-area()
+    is .get-aligned-area( $widget, $flags, $cell-area, $aligned-area), '…', '.get-aligned-area()';
+
+    #TM:0:get-preferred-height()
+    is .get-preferred-height( $widget, $minimum-size, $natural-size), '…', '.get-preferred-height()';
+
+    #TM:0:get-preferred-height-for-width()
+    is .get-preferred-height-for-width( $widget, $width, $minimum-height, $natural-height), '…', '.get-preferred-height-for-width()';
+
+    #TM:0:get-preferred-size()
+    is .get-preferred-size( $widget, $minimum-size, $natural-size), '…', '.get-preferred-size()';
+
+    #TM:0:get-preferred-width()
+    is .get-preferred-width( $widget, $minimum-size, $natural-size), '…', '.get-preferred-width()';
+
+    #TM:0:get-preferred-width-for-height()
+    is .get-preferred-width-for-height( $widget, $height, $minimum-width, $natural-width), '…', '.get-preferred-width-for-height()';
+
+    #TM:0:get-request-mode()
+     .get-request-mode(), '…', '.get-request-mode()';
+
+    #TM:0:get-state()
+    is .get-state( $widget, $cell-state), '…', '.get-state()';
+
+    #TM:0:is-activatable()
+    ok .is-activatable(), '.is-activatable()';
+
+    #TM:0:set-alignment()
+    $xalign = '…';
+    $yalign = '…';
+    .set-alignment( $xalign, $yalign);
+    #TM:0:get-alignment()
+    is .get-alignment(),  $xalign, $yalign, '.set-alignment() / .get-alignment()';
+
+    #TM:0:set-fixed-size()
+    $width = '…';
+    $height = '…';
+    .set-fixed-size( $width, $height);
+    #TM:0:get-fixed-size()
+    is .get-fixed-size(),  $width, $height, '.set-fixed-size() / .get-fixed-size()';
+
+    #TM:0:set-is-expanded()
+    $is-expanded = '…';
+    .set-is-expanded( $is-expanded);
+    #TM:0:get-is-expanded()
+    is .get-is-expanded(),  $is-expanded, '.set-is-expanded() / .get-is-expanded()';
+
+    #TM:0:set-is-expander()
+    $is-expander = '…';
+    .set-is-expander( $is-expander);
+    #TM:0:get-is-expander()
+    is .get-is-expander(),  $is-expander, '.set-is-expander() / .get-is-expander()';
+
+    #TM:0:set-padding()
+    $xpad = '…';
+    $ypad = '…';
+    .set-padding( $xpad, $ypad);
+    #TM:0:get-padding()
+    is .get-padding(),  $xpad, $ypad, '.set-padding() / .get-padding()';
+
+    #TM:0:set-sensitive()
+    $sensitive = '…';
+    .set-sensitive( $sensitive);
+    #TM:0:get-sensitive()
+    is .get-sensitive(),  $sensitive, '.set-sensitive() / .get-sensitive()';
+
+    #TM:0:set-visible()
+    $visible = '…';
+    .set-visible( $visible);
+    #TM:0:get-visible()
+    is .get-visible(),  $visible, '.set-visible() / .get-visible()';
+
+    #TM:0:snapshot()
+    ok .snapshot( $snapshot, $widget, $background-area, $cell-area, $flags), '.snapshot()';
+
+    #TM:0:start-editing()
+    ok .start-editing( $event, $widget, $path, $background-area, $cell-area, $flags), '.start-editing()';
+
+    #TM:0:stop-editing()
+    ok .stop-editing( $canceled), '.stop-editing()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $cellrenderer {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::CellRenderer() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::CellRenderer;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::CellRenderer :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::CellRenderer $cellrenderer .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $cellrenderer.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
