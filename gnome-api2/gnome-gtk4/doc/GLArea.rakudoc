@@ -1,0 +1,765 @@
+=comment Package: Gtk4, C-Source: glarea
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::GLArea
+
+![](images/glarea.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::GLArea> is a widget that allows drawing with OpenGL.
+
+![An example GtkGLArea](glarea.png)
+
+B<Gnome::Gtk4::GLArea> sets up its own B<Gnome::Gdk4::GLContext>, and creates a custom
+GL framebuffer that the widget will do GL rendering onto. It also ensures
+that this framebuffer is the default GL rendering target when rendering.
+The completed rendering is integrated into the larger GTK scene graph as
+a texture.
+
+In order to draw, you have to connect to the I<render>
+signal, or subclass B<Gnome::Gtk4::GLArea> and override the GtkGLAreaClass.render
+virtual function.
+
+The B<Gnome::Gtk4::GLArea> widget ensures that the B<Gnome::Gdk4::GLContext> is associated with
+the widget's drawing area, and it is kept updated when the size and
+position of the drawing area changes.
+
+=head3 Drawing with GtkGLArea
+
+The simplest way to draw using OpenGL commands in a B<Gnome::Gtk4::GLArea> is to
+create a widget instance and connect to the I<render> signal:
+
+The B<render()> function will be called when the B<Gnome::Gtk4::GLArea> is ready
+for you to draw its content:
+
+The initial contents of the framebuffer are transparent.
+
+B<B<B<c
+static gboolean
+render (GtkGLArea *area, GdkGLContext *context)
+{
+  // inside this function it's safe to use GL; the given
+  // GdkGLContext has been made current to the drawable
+  // surface used by the >GtkGLArea> and the viewport has
+  // already been set to be the size of the allocation
+
+  // we can start by clearing the buffer
+  glClearColor (0, 0, 0, 0);
+  glClear (GL_COLOR_BUFFER_BIT);
+
+  // draw your object
+  // draw_an_object ();
+
+  // we completed our drawing; the draw commands will be
+  // flushed at the end of the signal emission chain, and
+  // the buffers will be drawn on the window
+  return TRUE;
+}
+
+void setup_glarea (void)
+{
+  // create a GtkGLArea instance
+  GtkWidget *gl_area = gtk_gl_area_new ();
+
+  // connect to the "render" signal
+  g_signal_connect (gl_area, "render", G_CALLBACK (render), NULL);
+}
+>B<B<
+
+If you need to initialize OpenGL state, e.g. buffer objects or
+shaders, you should use the I<realize defined in Widget> signal;
+you can use the I<unrealize defined in Widget> signal to clean up.
+Since the >GdkGLContext> creation and initialization may fail, you
+will need to check for errors, using C<.get-error()>.
+
+An example of how to safely initialize the GL state is:
+
+=begin comment
+static void
+on_realize (GtkGLarea *area)
+{
+  // We need to make the context current if we want to
+  // call GL API
+  gtk_gl_area_make_current (area);
+
+  // If there were errors during the initialization or
+  // when trying to make the context current, this
+  // function will return a GError for you to catch
+  if (gtk_gl_area_get_error (area) != NULL)
+    return;
+
+  // You can also use gtk_gl_area_set_error() in order
+  // to show eventual initialization errors on the
+  // GtkGLArea widget itself
+  GError *internal_error = NULL;
+  init_buffer_objects (&error);
+  if (error != NULL)
+    {
+      gtk_gl_area_set_error (area, error);
+      g_error_free (error);
+      return;
+    }
+
+  init_shaders (&error);
+  if (error != NULL)
+    {
+      gtk_gl_area_set_error (area, error);
+      g_error_free (error);
+      return;
+    }
+}
+
+=end comment
+
+If you need to change the options for creating the B<Gnome::Gdk4::GLContext>
+you should use the I<create-context> signal.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GLArea
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-glarea
+
+Creates a new B<Gnome::Gtk4::GLArea> widget.
+
+=begin code
+method new-glarea ( --> Gnome::Gtk4::GLArea \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-glarea
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 attach-buffers
+
+Binds buffers to the framebuffer.
+
+Ensures that the C<$area> framebuffer object is made the current draw
+and read target, and that all the required buffers for the C<$area>
+are created and bound to the framebuffer.
+
+This function is automatically called before emitting the
+I<render> signal, and doesn't normally need to be
+called by application code.
+
+=begin code
+method attach-buffers ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for attach-buffers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-allowed-apis
+This function is not yet available
+
+Gets the allowed APIs.
+
+See C<.set-allowed-apis()>.
+
+=begin code
+method get-allowed-apis (--> UInt )
+=end code
+
+Return value; the allowed APIs. 
+
+=begin comment
+
+=head2 Example
+# Example for get-allowed-apis
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-api
+This function is not yet available
+
+Gets the API that is currently in use.
+
+If the GL area has not been realized yet, 0 is returned.
+
+=begin code
+method get-api (--> UInt )
+=end code
+
+Return value; the currently used API. 
+
+=begin comment
+
+=head2 Example
+# Example for get-api
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-auto-render
+
+Returns whether the area is in auto render mode or not.
+
+=begin code
+method get-auto-render (--> Bool )
+=end code
+
+Return value; C<True> if the C<$area> is auto rendering, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-auto-render
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-context
+
+Retrieves the B<Gnome::Gdk4::GLContext> used by C<$area>.
+
+=begin code
+method get-context (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gdk4::GLContext>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-error
+
+Gets the current error set on the C<$area>.
+
+=begin code
+method get-error (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Glib::N-Error>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-depth-buffer
+
+Returns whether the area has a depth buffer.
+
+=begin code
+method get-has-depth-buffer (--> Bool )
+=end code
+
+Return value; C<True> if the C<$area> has a depth buffer, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-has-depth-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-stencil-buffer
+
+Returns whether the area has a stencil buffer.
+
+=begin code
+method get-has-stencil-buffer (--> Bool )
+=end code
+
+Return value; C<True> if the C<$area> has a stencil buffer, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-has-stencil-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-required-version
+
+Retrieves the required version of OpenGL.
+
+See C<.set-required-version()>.
+
+=begin code
+method get-required-version ( Array[Int] $major, Array[Int] $minor )
+=end code
+
+=item $major; (transfer ownership: full) return location for the required major version.
+=item $minor; (transfer ownership: full) return location for the required minor version.
+
+=begin comment
+
+=head2 Example
+# Example for get-required-version
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-use-es
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
+
+Returns whether the B<Gnome::Gtk4::GLArea> should use OpenGL ES.
+
+See C<.set-use-es()>.
+
+=begin code
+method get-use-es (--> Bool )
+=end code
+
+Return value; C<True> if the B<Gnome::Gtk4::GLArea> should create an OpenGL ES context
+  and C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-use-es
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 make-current
+
+Ensures that the B<Gnome::Gdk4::GLContext> used by C<$area> is associated with
+the B<Gnome::Gtk4::GLArea>.
+
+This function is automatically called before emitting the
+I<render> signal, and doesn't normally need
+to be called by application code.
+
+=begin code
+method make-current ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for make-current
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 queue-render
+
+Marks the currently rendered data (if any) as invalid, and queues
+a redraw of the widget.
+
+This ensures that the I<render> signal
+is emitted during the draw.
+
+This is only needed when C<.set-auto-render()> has
+been called with a C<False> value. The default behaviour is to
+emit I<render> on each draw.
+
+=begin code
+method queue-render ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for queue-render
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-allowed-apis
+This function is not yet available
+
+Sets the allowed APIs to create a context with.
+
+You should check I<api> before drawing
+with either API.
+
+By default, all APIs are allowed.
+
+=begin code
+method set-allowed-apis ( UInt $apis )
+=end code
+
+=item $apis; the allowed APIs.
+
+=begin comment
+
+=head2 Example
+# Example for set-allowed-apis
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-auto-render
+
+Sets whether the B<Gnome::Gtk4::GLArea> is in auto render mode.
+
+If C<$auto-render> is C<True> the I<render> signal will
+be emitted every time the widget draws. This is the default and is
+useful if drawing the widget is faster.
+
+If C<$auto-render> is C<False> the data from previous rendering is kept
+around and will be used for drawing the widget the next time,
+unless the window is resized. In order to force a rendering
+C<.queue-render()> must be called. This mode is
+useful when the scene changes seldom, but takes a long time to redraw.
+
+=begin code
+method set-auto-render ( Bool() $auto-render )
+=end code
+
+=item $auto-render; a boolean.
+
+=begin comment
+
+=head2 Example
+# Example for set-auto-render
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-error
+
+Sets an error on the area which will be shown instead of the
+GL rendering.
+
+This is useful in the I<create-context>
+signal if GL context creation fails.
+
+=begin code
+method set-error ( N-Object $error )
+=end code
+
+=item $error; a new B<Gnome::Glib::N-Error>, or undefined to unset the error
+
+=begin comment
+
+=head2 Example
+# Example for set-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-has-depth-buffer
+
+Sets whether the B<Gnome::Gtk4::GLArea> should use a depth buffer.
+
+If C<$has-depth-buffer> is C<True> the widget will allocate and
+enable a depth buffer for the target framebuffer. Otherwise
+there will be none.
+
+=begin code
+method set-has-depth-buffer ( Bool() $has-depth-buffer )
+=end code
+
+=item $has-depth-buffer; C<True> to add a depth buffer.
+
+=begin comment
+
+=head2 Example
+# Example for set-has-depth-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-has-stencil-buffer
+
+Sets whether the B<Gnome::Gtk4::GLArea> should use a stencil buffer.
+
+If C<$has-stencil-buffer> is C<True> the widget will allocate and
+enable a stencil buffer for the target framebuffer. Otherwise
+there will be none.
+
+=begin code
+method set-has-stencil-buffer ( Bool() $has-stencil-buffer )
+=end code
+
+=item $has-stencil-buffer; C<True> to add a stencil buffer.
+
+=begin comment
+
+=head2 Example
+# Example for set-has-stencil-buffer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-required-version
+
+Sets the required version of OpenGL to be used when creating
+the context for the widget.
+
+This function must be called before the area has been realized.
+
+=begin code
+method set-required-version ( Int() $major, Int() $minor )
+=end code
+
+=item $major; the major version.
+=item $minor; the minor version.
+
+=begin comment
+
+=head2 Example
+# Example for set-required-version
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-use-es
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
+
+Sets whether the C<$area> should create an OpenGL or an OpenGL ES context.
+
+You should check the capabilities of the B<Gnome::Gdk4::GLContext> before drawing
+with either API.
+
+=begin code
+method set-use-es ( Bool() $use-es )
+=end code
+
+=item $use-es; whether to use OpenGL or OpenGL ES.
+
+=begin comment
+
+=head2 Example
+# Example for set-use-es
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 create-context
+
+Emitted when the widget is being realized.
+
+This allows you to override how the GL context is created.
+This is useful when you want to reuse an existing GL context,
+or if you want to try creating different kinds of GL options.
+
+If context creation fails then the signal handler can use
+C<.set-error()> to register a more detailed error
+of how the construction failed.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GLArea :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GLArea> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal create-context
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 render
+
+Emitted every time the contents of the B<Gnome::Gtk4::GLArea> should be redrawn.
+
+The C<$context> is bound to the C<$area> prior to emitting this function,
+and the buffers are painted to the window once the emission terminates.
+
+=begin code
+method handler (
+   $context,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GLArea :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $context; the B<Gnome::Gdk4::GLContext> used by C<$area>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GLArea> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> to stop other handlers from being invoked for the event.
+  C<False> to propagate the event further.
+
+=begin comment
+
+=head2 Example
+# Example for signal render
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 resize
+
+Emitted once when the widget is realized, and then each time the widget
+is changed while realized.
+
+This is useful in order to keep GL state up to date with the widget size,
+like for instance camera properties which may depend on the width/height
+ratio.
+
+The GL context for the area is guaranteed to be current when this signal
+is emitted.
+
+The default handler sets up the GL viewport.
+
+=begin code
+method handler (
+  gint $width,
+  gint $height,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::GLArea :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $width; the width of the viewport.
+=item $height; the height of the viewport.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GLArea> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal resize
+
+=end comment
+
+=end pod
+
