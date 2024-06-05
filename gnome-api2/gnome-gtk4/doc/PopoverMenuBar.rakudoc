@@ -1,0 +1,201 @@
+=comment Package: Gtk4, C-Source: popovermenubar
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::PopoverMenuBar
+
+![](images/popovermenubar.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::PopoverMenuBar> presents a horizontal bar of items that pop
+up popover menus when clicked.
+
+![An example GtkPopoverMenuBar](menubar.png)
+
+The only way to create instances of B<Gnome::Gtk4::PopoverMenuBar> is
+from a B<Gnome::Gio::MenuModel>.
+
+=head2 CSS nodes
+
+=begin comment
+menubar
+├── item[.active]
+┊   ╰── popover
+╰── item
+    ╰── popover
+
+=end comment
+
+B<Gnome::Gtk4::PopoverMenuBar> has a single CSS node with name menubar, below which
+each item has its CSS node, and below that the corresponding popover.
+
+The item whose popover is currently open gets the .active
+style class.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::PopoverMenuBar> uses the C<GTK_ACCESSIBLE_ROLE_MENU_BAR> role,
+the menu items use the C<GTK_ACCESSIBLE_ROLE_MENU_ITEM> role and
+the menus use the C<GTK_ACCESSIBLE_ROLE_MENU> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::PopoverMenuBar
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-model
+
+Creates a B<Gnome::Gtk4::PopoverMenuBar> from a B<Gnome::Gio::MenuModel>.
+
+=begin code
+method new-from-model ( N-Object() $model --> Gnome::Gtk4::PopoverMenuBar \)
+=end code
+
+=item $model; a B<Gnome::Gio::MenuModel>.
+
+=begin comment
+
+=head2 Example
+# Example for new-from-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-child
+
+Adds a custom widget to a generated menubar.
+
+For this to work, the menu model of C<$bar> must have an
+item with a B<custom> attribute that matches C<$id>.
+
+=begin code
+method add-child ( N-Object() $child, Str $id --> Bool )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to add.
+=item $id; the ID to insert C<$child> at.
+
+Return value; C<True> if C<$id> was found and the widget added. 
+
+=begin comment
+
+=head2 Example
+# Example for add-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-menu-model
+
+Returns the model from which the contents of C<$bar> are taken.
+
+=begin code
+method get-menu-model (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gio::MenuModel>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-menu-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 remove-child
+
+Removes a widget that has previously been added with
+C<.add-child()>.
+
+=begin code
+method remove-child ( N-Object() $child --> Bool )
+=end code
+
+=item $child; the B<Gnome::Gtk4::Widget> to remove.
+
+Return value; C<True> if the widget was removed. 
+
+=begin comment
+
+=head2 Example
+# Example for remove-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-menu-model
+
+Sets a menu model from which C<$bar> should take
+its contents.
+
+=begin code
+method set-menu-model ( N-Object() $model )
+=end code
+
+=item $model; a B<Gnome::Gio::MenuModel>.
+
+=begin comment
+
+=head2 Example
+# Example for set-menu-model
+
+=end comment
+
+=end pod
+
