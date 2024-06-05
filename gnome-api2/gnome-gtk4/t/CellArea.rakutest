@@ -1,0 +1,325 @@
+=comment Package: Gtk4, C-Source: cellarea
+use v6.d;
+
+#TL:1:Gnome::Gtk4::CellArea:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
+use Gnome::Gdk4::N-Rectangle:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Glib::T-list:api<2>;
+use Gnome::Gtk4::CellArea:api<2>;
+use Gnome::Gtk4::N-TreeIter:api<2>;
+#use Gnome::Gtk4::T-cellrenderer:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
+#use Gnome::Gtk4::T-treemodel:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::CellArea $cellarea;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $cellarea {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $cellarea {
+    my gint $width;
+    my gboolean $is-expanded;
+    my gint $x;
+    my gboolean $edit-only;
+    my GtkDirectionType $direction;
+    my gint $y;
+    my N-Object $cell-area;
+    my GFlag $flags;
+    my N-Object $alloc-area;
+    my gint-ptr $minimum-size;
+    my N-Object $tree-model;
+    my gint $height;
+    my gint-ptr $natural-size;
+    my N-Object $event;
+    my Str $first-property-name;
+    my GtkOrientation $orientation;
+    my N-Object $value;
+    my gboolean $paint-focus;
+    my gint-ptr $natural-width;
+    my N-Object $background-area;
+    my N-Object $snapshot;
+    sub callback ( N-Object $renderer, N-Object $cell-area, N-Object $cell-background, gpointer $data --> gboolean ) {}
+    my gpointer $callback-data;
+    my N-Object $widget;
+    my gboolean $canceled;
+    my N-Object $allocation;
+    my gint $column;
+    my gint-ptr $minimum-height;
+    my gint-ptr $natural-height;
+    my Str $first-prop-name;
+    my N-Object $iter;
+    my N-Object $inner-area;
+    my gint-ptr $minimum-width;
+    my N-Object $context;
+    my Str $property-name;
+    my gboolean $is-expander;
+    my gint $for-size;
+    my Str $attribute;
+    my N-Object $sibling;
+    my  $var-args;
+    my N-Object $renderer;
+
+
+#`{{
+    #TM:0:activate()
+    ok .activate( $context, $widget, $cell-area, $flags, $edit-only), '.activate()';
+
+    #TM:0:activate-cell()
+    ok .activate-cell( $widget, $renderer, $event, $cell-area, $flags), '.activate-cell()';
+
+    #TM:0:add()
+    ok .add( $renderer), '.add()';
+
+    #TM:0:add-focus-sibling()
+    ok .add-focus-sibling( $renderer, $sibling), '.add-focus-sibling()';
+
+    #TM:0:add-with-properties()
+    ok .add-with-properties( $renderer, $first-prop-name), '.add-with-properties()';
+
+    #TM:0:apply-attributes()
+    ok .apply-attributes( $tree-model, $iter, $is-expander, $is-expanded), '.apply-attributes()';
+
+    #TM:0:attribute-connect()
+    ok .attribute-connect( $renderer, $attribute, $column), '.attribute-connect()';
+
+    #TM:0:attribute-disconnect()
+    ok .attribute-disconnect( $renderer, $attribute), '.attribute-disconnect()';
+
+    #TM:0:attribute-get-column()
+    ok .attribute-get-column( $renderer, $attribute), '.attribute-get-column()';
+
+    #TM:0:cell-get()
+    ok .cell-get( $renderer, $first-prop-name), '.cell-get()';
+
+    #TM:0:cell-get-property()
+    ok .cell-get-property( $renderer, $property-name, $value), '.cell-get-property()';
+
+    #TM:0:cell-get-valist()
+    ok .cell-get-valist( $renderer, $first-property-name, $var-args), '.cell-get-valist()';
+
+    #TM:0:cell-set()
+    ok .cell-set( $renderer, $first-prop-name), '.cell-set()';
+
+    #TM:0:cell-set-property()
+    ok .cell-set-property( $renderer, $property-name, $value), '.cell-set-property()';
+
+    #TM:0:cell-set-valist()
+    ok .cell-set-valist( $renderer, $first-property-name, $var-args), '.cell-set-valist()';
+
+    #TM:0:copy-context()
+    ok .copy-context( $context), '.copy-context()';
+
+    #TM:0:create-context()
+    ok .create-context(), '.create-context()';
+
+    #TM:0:event()
+    ok .event( $context, $widget, $event, $cell-area, $flags), '.event()';
+
+    #TM:0:focus()
+    ok .focus( $direction), '.focus()';
+
+    #TM:0:foreach()
+    ok .foreach( $callback, $callback-data), '.foreach()';
+
+    #TM:0:foreach-alloc()
+    ok .foreach-alloc( $context, $widget, $cell-area, $background-area, $callback, $callback-data), '.foreach-alloc()';
+
+    #TM:0:get-cell-allocation()
+    is .get-cell-allocation( $context, $widget, $renderer, $cell-area, $allocation), '…', '.get-cell-allocation()';
+
+    #TM:0:get-cell-at-position()
+    is .get-cell-at-position( $context, $widget, $cell-area, $x, $y, $alloc-area), '…', '.get-cell-at-position()';
+
+    #TM:0:get-current-path-string()
+     .get-current-path-string(), '…', '.get-current-path-string()';
+
+    #TM:0:get-edit-widget()
+     .get-edit-widget(), '…', '.get-edit-widget()';
+
+    #TM:0:get-edited-cell()
+     .get-edited-cell(), '…', '.get-edited-cell()';
+
+    #TM:0:get-focus-from-sibling()
+    is .get-focus-from-sibling( $renderer), '…', '.get-focus-from-sibling()';
+
+    #TM:0:get-focus-siblings()
+    is .get-focus-siblings( $renderer), '…', '.get-focus-siblings()';
+
+    #TM:0:get-preferred-height()
+    is .get-preferred-height( $context, $widget, $minimum-height, $natural-height), '…', '.get-preferred-height()';
+
+    #TM:0:get-preferred-height-for-width()
+    is .get-preferred-height-for-width( $context, $widget, $width, $minimum-height, $natural-height), '…', '.get-preferred-height-for-width()';
+
+    #TM:0:get-preferred-width()
+    is .get-preferred-width( $context, $widget, $minimum-width, $natural-width), '…', '.get-preferred-width()';
+
+    #TM:0:get-preferred-width-for-height()
+    is .get-preferred-width-for-height( $context, $widget, $height, $minimum-width, $natural-width), '…', '.get-preferred-width-for-height()';
+
+    #TM:0:get-request-mode()
+     .get-request-mode(), '…', '.get-request-mode()';
+
+    #TM:0:has-renderer()
+    ok .has-renderer( $renderer), '.has-renderer()';
+
+    #TM:0:inner-cell-area()
+    ok .inner-cell-area( $widget, $cell-area, $inner-area), '.inner-cell-area()';
+
+    #TM:0:is-activatable()
+    ok .is-activatable(), '.is-activatable()';
+
+    #TM:0:is-focus-sibling()
+    ok .is-focus-sibling( $renderer, $sibling), '.is-focus-sibling()';
+
+    #TM:0:remove()
+    ok .remove( $renderer), '.remove()';
+
+    #TM:0:remove-focus-sibling()
+    ok .remove-focus-sibling( $renderer, $sibling), '.remove-focus-sibling()';
+
+    #TM:0:request-renderer()
+    ok .request-renderer( $renderer, $orientation, $widget, $for-size, $minimum-size, $natural-size), '.request-renderer()';
+
+    #TM:0:set-focus-cell()
+    $renderer = …;
+    .set-focus-cell( $renderer);
+    #TM:0:get-focus-cell()
+    is .get-focus-cell(),  $renderer, '.set-focus-cell() / .get-focus-cell()';
+
+    #TM:0:snapshot()
+    ok .snapshot( $context, $widget, $snapshot, $background-area, $cell-area, $flags, $paint-focus), '.snapshot()';
+
+    #TM:0:stop-editing()
+    ok .stop-editing( $canceled), '.stop-editing()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $cellarea {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::CellArea() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::CellArea;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::CellArea :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::CellArea $cellarea .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $cellarea.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

@@ -1,0 +1,38 @@
+=comment Package: Gtk4, C-Source: cellarea
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-cellarea
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 CellCallback
+
+=head3 Signature
+=begin code
+:(  N-Object() $renderer, gpointer $data  )
+=end code
+
+=item renderer; the cell renderer to operate on
+=item data; user-supplied data
+
+=head2 CellAllocCallback
+
+=head3 Signature
+=begin code
+:(  N-Object() $renderer, N-Object $cell-area, N-Object $cell-background, gpointer $data  )
+=end code
+
+=item renderer; the cell renderer to operate on
+=item cell-area; the area allocated to C<$renderer> inside the rectangle
+  provided to gtk_cell_area_foreach_alloc().
+=item cell-background; the background area for C<$renderer> inside the
+  background area provided to gtk_cell_area_foreach_alloc().
+=item data; user-supplied data
+
+=end pod
