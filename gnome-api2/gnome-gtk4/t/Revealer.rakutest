@@ -1,0 +1,179 @@
+=comment Package: Gtk4, C-Source: revealer
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Revealer:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::Revealer:api<2>;
+use Gnome::Gtk4::T-revealer:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Revealer $revealer;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $revealer {
+
+#`{{
+    #TC:0:new-revealer()
+
+    $revealer .= new-revealer();
+    ok .is-valid, '.new-revealer()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $revealer {
+    my N-Object $child;
+    my GtkRevealerTransitionType $transition;
+    my guint $duration;
+    my gboolean $reveal-child;
+
+
+#`{{
+    #TM:0:get-child-revealed()
+     .get-child-revealed(), '…', '.get-child-revealed()';
+
+    #TM:0:set-child()
+    $child = …;
+    .set-child( $child);
+    #TM:0:get-child()
+    is .get-child(),  $child, '.set-child() / .get-child()';
+
+    #TM:0:set-reveal-child()
+    $reveal-child = '…';
+    .set-reveal-child( $reveal-child);
+    #TM:0:get-reveal-child()
+    is .get-reveal-child(),  $reveal-child, '.set-reveal-child() / .get-reveal-child()';
+
+    #TM:0:set-transition-duration()
+    $duration = '…';
+    .set-transition-duration( $duration);
+    #TM:0:get-transition-duration()
+    is .get-transition-duration(),  $duration, '.set-transition-duration() / .get-transition-duration()';
+
+    #TM:0:set-transition-type()
+    $transition = …;
+    .set-transition-type( $transition);
+    #TM:0:get-transition-type()
+    is .get-transition-type(),  $transition, '.set-transition-type() / .get-transition-type()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $revealer {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Revealer() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Revealer;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Revealer :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Revealer $revealer .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $revealer.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
