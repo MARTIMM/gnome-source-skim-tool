@@ -1,0 +1,401 @@
+=comment Package: Gtk4, C-Source: video
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Video
+
+![](images/video.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::Video> is a widget to show a B<Gnome::Gtk4::MediaStream> with media controls.
+
+![An example GtkVideo](video.png)
+
+The controls are available separately as B<Gnome::Gtk4::MediaControls>.
+If you just want to display a video without controls, you can treat it
+like any other paintable and for example put it into a B<Gnome::Gtk4::Picture>.
+
+B<Gnome::Gtk4::Video> aims to cover use cases such as previews, embedded animations,
+etc. It supports autoplay, looping, and simple media controls. It does
+not have support for video overlays, multichannel audio, device
+selection, or input. If you are writing a full-fledged video player,
+you may want to use the B<Gnome::Gdk4::R-Paintable> API and a media framework
+such as Gstreamer directly.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Video
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-video
+
+Creates a new empty B<Gnome::Gtk4::Video>.
+
+=begin code
+method new-video ( --> Gnome::Gtk4::Video \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-video
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-file
+
+Creates a B<Gnome::Gtk4::Video> to play back the given C<$file>.
+
+=begin code
+method new-for-file ( N-Object() $file --> Gnome::Gtk4::Video \)
+=end code
+
+=item $file; a B<Gnome::Gio::R-File>.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-filename
+
+Creates a B<Gnome::Gtk4::Video> to play back the given C<$filename>.
+
+This is a utility function that calls C<.new-for-file()>,
+See that function for details.
+
+=begin code
+method new-for-filename ( Str $filename --> Gnome::Gtk4::Video \)
+=end code
+
+=item $filename; filename to play back.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-filename
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-media-stream
+
+Creates a B<Gnome::Gtk4::Video> to play back the given C<$stream>.
+
+=begin code
+method new-for-media-stream ( N-Object() $stream --> Gnome::Gtk4::Video \)
+=end code
+
+=item $stream; a B<Gnome::Gtk4::MediaStream>.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-media-stream
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-resource
+
+Creates a B<Gnome::Gtk4::Video> to play back the resource at the
+given C<$resource-path>.
+
+This is a utility function that calls C<.new-for-file()>.
+
+=begin code
+method new-for-resource ( Str $resource-path --> Gnome::Gtk4::Video \)
+=end code
+
+=item $resource-path; resource path to play back.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-resource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-autoplay
+
+Returns C<True> if videos have been set to loop.
+
+=begin code
+method get-autoplay (--> Bool )
+=end code
+
+Return value; C<True> if streams should autoplay. 
+
+=begin comment
+
+=head2 Example
+# Example for get-autoplay
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-file
+
+Gets the file played by C<$self> or undefined if not playing back
+a file.
+
+=begin code
+method get-file (--> N-Object )
+=end code
+
+Return value; The file played by C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-loop
+
+Returns C<True> if videos have been set to loop.
+
+=begin code
+method get-loop (--> Bool )
+=end code
+
+Return value; C<True> if streams should loop. 
+
+=begin comment
+
+=head2 Example
+# Example for get-loop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-media-stream
+
+Gets the media stream managed by C<$self> or undefined if none.
+
+=begin code
+method get-media-stream (--> N-Object )
+=end code
+
+Return value; The media stream managed by C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-media-stream
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-autoplay
+
+Sets whether C<$self> automatically starts playback when it
+becomes visible or when a new file gets loaded.
+
+=begin code
+method set-autoplay ( Bool() $autoplay )
+=end code
+
+=item $autoplay; whether media streams should autoplay.
+
+=begin comment
+
+=head2 Example
+# Example for set-autoplay
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-file
+
+Makes C<$self> play the given C<$file>.
+
+=begin code
+method set-file ( N-Object() $file )
+=end code
+
+=item $file; the file to play.
+
+=begin comment
+
+=head2 Example
+# Example for set-file
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-filename
+
+Makes C<$self> play the given C<$filename>.
+
+This is a utility function that calls C<.set-file()>,
+
+=begin code
+method set-filename ( Str $filename )
+=end code
+
+=item $filename; the filename to play.
+
+=begin comment
+
+=head2 Example
+# Example for set-filename
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-loop
+
+Sets whether new files loaded by C<$self> should be set to loop.
+
+=begin code
+method set-loop ( Bool() $loop )
+=end code
+
+=item $loop; whether media streams should loop.
+
+=begin comment
+
+=head2 Example
+# Example for set-loop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-media-stream
+
+Sets the media stream to be played back.
+ C<$self> will take full control of managing the media stream. If you
+want to manage a media stream yourself, consider using a
+B<Gnome::Gtk4::Picture> for display.
+
+If you want to display a file, consider using C<.set-file()>
+instead.
+
+=begin code
+method set-media-stream ( N-Object() $stream )
+=end code
+
+=item $stream; The media stream to play or undefined to unset.
+
+=begin comment
+
+=head2 Example
+# Example for set-media-stream
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-resource
+
+Makes C<$self> play the resource at the given C<$resource-path>.
+
+This is a utility function that calls C<.set-file()>.
+
+=begin code
+method set-resource ( Str $resource-path )
+=end code
+
+=item $resource-path; the resource to set.
+
+=begin comment
+
+=head2 Example
+# Example for set-resource
+
+=end comment
+
+=end pod
+
