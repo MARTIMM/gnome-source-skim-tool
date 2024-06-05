@@ -24,6 +24,7 @@ Legend for test tables
 
 * **cc**; compare code for next table
 * **#c**; rough number of files to be compiled. **.** ⅓ of total, **-** half, **+** ⅔, **\*** all files
+* **Tests** number of top level tests done. Tests in `subtest ( )` are not counted by `prove6`
 * **secs**; Number of seconds to run. Some tests needed a `sleep()` which is not working time really.
 
 Legend for compare tables
@@ -36,8 +37,8 @@ Legend for compare tables
 
 ### Tests for the `Gnome::Gtk4:api<2>` distro
 
-|cc| Date       |#c| Files | Tests | secs |
-|--|------------|--|-------|-------|------|
+|cc| Date       |#c| Files | Tests | secs | Note
+|--|------------|--|-------|-------|------|------
 | 1| 2023 12 28 |  |    97 |   249 |   78 |
 |  | 2023 12 28 | -|    97 |   249 |  171 |
 | 2| 2023 12 30 |  |   128 |   318 |  106 |
@@ -47,6 +48,8 @@ Legend for compare tables
 |  | 2024 01 12 |  |   172 |   443 |  149 |
 |  | 2024 01 16 |  |   188 |   485 |  336 |
 |  | 2024 05 05 |  |   220 |   574 |  267 |
+|  | 2024 06 05 | *|   238 |   624 |  420 | A change in Gnome::N
+|  | 2024 06 05 |  |   238 |   624 |  179 |
 
 #### Compare with `Gnome::Gtk3:api<1>`
 The calculation is to show how much time it would take when the newer version would do the same number of equal tests.

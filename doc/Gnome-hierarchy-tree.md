@@ -102,10 +102,10 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkTextView                         TextView
 │   │   ├── GtkTreeExpander                     TreeExpander
 │   │   ├── GtkTreeView                         TreeView
-│   │   ├── GtkVideo
-│   │   ├── GtkViewport
-│   │   ├── GtkWindowControls
-│   │   ╰── GtkWindowHandle
+│   │   ├── GtkVideo                            Video
+│   │   ├── GtkViewport                         Viewport
+│   │   ├── GtkWindowControls                   WindowControls
+│   │   ╰── GtkWindowHandle                     WindowHandle
 │   ├── GtkAdjustment                           Adjustment
 │   ├── GtkCellArea
 │   │   ╰── GtkCellAreaBox
