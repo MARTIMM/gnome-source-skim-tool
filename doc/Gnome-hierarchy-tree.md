@@ -107,13 +107,13 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkWindowControls                   WindowControls
 │   │   ╰── GtkWindowHandle                     WindowHandle
 │   ├── GtkAdjustment                           Adjustment
-│   ├── GtkCellArea
-│   │   ╰── GtkCellAreaBox
-│   ├── GtkCellRenderer
-│   │   ├── GtkCellRendererText
-│   │   │   ├── GtkCellRendererAccel
-│   │   │   ├── GtkCellRendererCombo
-│   │   │   ╰── GtkCellRendererSpin
+│   ├── GtkCellArea                             CellArea
+│   │   ╰── GtkCellAreaBox                      CellAreaBox
+│   ├── GtkCellRenderer                         CellRenderer
+│   │   ├── GtkCellRendererText                 CellRendererText
+│   │   │   ├── GtkCellRendererAccel            CellRendererAccel
+│   │   │   ├── GtkCellRendererCombo            CellRendererCombo
+│   │   │   ╰── GtkCellRendererSpin             CellRendererSpin
 │   │   ├── GtkCellRendererPixbuf
 │   │   ├── GtkCellRendererProgress
 │   │   ├── GtkCellRendererSpinner
