@@ -14,7 +14,7 @@ use v6.d;
 
 B<Gnome::Gtk4::Separator> is a horizontal or vertical separator widget.
 
-![An example GtkSeparator](separators.png)
+![An example GtkSeparator](separator.png)
 
 A B<Gnome::Gtk4::Separator> can be used to group the widgets within a window.
 It displays a line with a shadow to make it appear sunken into the
@@ -59,12 +59,6 @@ B<Gnome::Gtk4::Separator> uses the C<GTK_ACCESSIBLE_ROLE_SEPARATOR> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
