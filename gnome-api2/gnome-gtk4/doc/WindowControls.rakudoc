@@ -1,0 +1,250 @@
+=comment Package: Gtk4, C-Source: windowcontrols
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::WindowControls
+
+![](images/windowcontrols.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::WindowControls> shows window frame controls.
+
+Typical window frame controls are minimize, maximize and close buttons,
+and the window icon.
+
+![An example GtkWindowControls](windowcontrols.png)
+
+B<Gnome::Gtk4::WindowControls> only displays start or end side of the controls (see
+I<side>), so it's intended to be always used
+in pair with another B<Gnome::Gtk4::WindowControls> for the opposite side, for example:
+
+=begin comment
+<object class="GtkBox">
+  <child>
+    <object class="GtkWindowControls">
+      <property name="side">start</property>
+    </object>
+  </child>
+
+  ...
+
+  <child>
+    <object class="GtkWindowControls">
+      <property name="side">end</property>
+    </object>
+  </child>
+</object>
+
+=end comment
+
+=head2 CSS nodes
+
+=begin comment
+windowcontrols
+├── [image.icon]
+├── [button.minimize]
+├── [button.maximize]
+╰── [button.close]
+
+=end comment
+
+A B<Gnome::Gtk4::WindowControls>' CSS node is called windowcontrols. It contains
+subnodes corresponding to each title button. Which of the title buttons
+exist and where they are placed exactly depends on the desktop environment
+and I<decoration-layout> value.
+
+When I<empty> is C<True>, it gets the .empty
+style class.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::WindowControls> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::WindowControls
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-windowcontrols
+
+Creates a new B<Gnome::Gtk4::WindowControls>.
+
+=begin code
+method new-windowcontrols ( GtkPackType $side --> Gnome::Gtk4::WindowControls \)
+=end code
+
+=item $side; the side.
+
+=begin comment
+
+=head2 Example
+# Example for new-windowcontrols
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-decoration-layout
+
+Gets the decoration layout of this B<Gnome::Gtk4::WindowControls>.
+
+=begin code
+method get-decoration-layout (--> Str )
+=end code
+
+Return value; the decoration layout or undefined if it is unset. 
+
+=begin comment
+
+=head2 Example
+# Example for get-decoration-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-empty
+
+Gets whether the widget has any window buttons.
+
+=begin code
+method get-empty (--> Bool )
+=end code
+
+Return value; C<True> if the widget has window buttons, otherwise C<False>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-empty
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-side
+
+Gets the side to which this B<Gnome::Gtk4::WindowControls> instance belongs.
+
+=begin code
+method get-side (--> GtkPackType )
+=end code
+
+Return value; the side. 
+
+=begin comment
+
+=head2 Example
+# Example for get-side
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-decoration-layout
+
+Sets the decoration layout for the title buttons.
+
+This overrides the I<gtk-decoration-layout defined in Gnome::Gtk4::Settings>
+setting.
+
+The format of the string is button names, separated by commas.
+A colon separates the buttons that should appear on the left
+from those on the right. Recognized button names are minimize,
+maximize, close and icon (the window icon).
+
+For example, “icon:minimize,maximize,close” specifies a icon
+on the left, and minimize, maximize and close buttons on the right.
+
+If I<side> value is C<$GTK-PACK-START>, C<$self>
+will display the part before the colon, otherwise after that.
+
+=begin code
+method set-decoration-layout ( Str $layout )
+=end code
+
+=item $layout; a decoration layout, or undefined to unset the layout.
+
+=begin comment
+
+=head2 Example
+# Example for set-decoration-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-side
+
+Determines which part of decoration layout the B<Gnome::Gtk4::WindowControls> uses.
+
+See I<decoration-layout>.
+
+=begin code
+method set-side ( GtkPackType $side )
+=end code
+
+=item $side; a side.
+
+=begin comment
+
+=head2 Example
+# Example for set-side
+
+=end comment
+
+=end pod
+
