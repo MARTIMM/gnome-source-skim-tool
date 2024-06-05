@@ -1,0 +1,818 @@
+=comment Package: Gtk4, C-Source: menubutton
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::MenuButton
+
+![](images/menubutton.png)
+
+=head1 Description
+
+The B<Gnome::Gtk4::MenuButton> widget is used to display a popup when clicked.
+
+![An example GtkMenuButton](menu-button.png)
+
+This popup can be provided either as a B<Gnome::Gtk4::Popover> or as an abstract
+B<Gnome::Gio::MenuModel>.
+
+The B<Gnome::Gtk4::MenuButton> widget can show either an icon (set with the
+I<icon-name> property) or a label (set with the
+I<label> property). If neither is explicitly set,
+a B<Gnome::Gtk4::Image> is automatically created, using an arrow image oriented
+according to I<direction> or the generic
+“open-menu-symbolic” icon if the direction is not set.
+
+The positioning of the popup is determined by the
+I<direction> property of the menu button.
+
+For menus, the I<halign defined in Gnome::Gtk4::Widget> and I<valign defined in Gnome::Gtk4::Widget>
+properties of the menu are also taken into account. For example, when the
+direction is C<GTK_ARROW_DOWN> and the horizontal alignment is C<GTK_ALIGN_START>,
+the menu will be positioned below the button, with the starting edge
+(depending on the text direction) of the menu aligned with the starting
+edge of the button. If there is not enough space below the button, the
+menu is popped up above the button instead. If the alignment would move
+part of the menu offscreen, it is “pushed in”.
+
+|           | start                | center                | end                |
+| -         | ---                  | ---                   | ---                |
+| **down**  | ![](down-start.png)  | ![](down-center.png)  | ![](down-end.png)  |
+| **up**    | ![](up-start.png)    | ![](up-center.png)    | ![](up-end.png)    |
+| **left**  | ![](left-start.png)  | ![](left-center.png)  | ![](left-end.png)  |
+| **right** | ![](right-start.png) | ![](right-center.png) | ![](right-end.png) |
+
+=head2 CSS nodes
+
+=begin comment
+menubutton
+╰── button.toggle
+    ╰── <content>
+         ╰── [arrow]
+
+=end comment
+
+B<Gnome::Gtk4::MenuButton> has a single CSS node with name B<menubutton>
+which contains a B<button> node with a B<.toggle> style class.
+
+If the button contains an icon, it will have the B<.image-button> style class,
+if it contains text, it will have B<.text-button> style class. If an arrow is
+visible in addition to an icon, text or a custom child, it will also have
+B<.arrow-button> style class.
+
+Inside the toggle button content, there is an B<arrow> node for
+the indicator, which will carry one of the B<.none>, B<.up>, B<.down>,
+B<.left> or B<.right> style classes to indicate the direction that
+the menu will appear in. The CSS is expected to provide a suitable
+image for each of these cases using the B<-gtk-icon-source> property.
+
+Optionally, the B<menubutton> node can carry the B<.circular> style class
+to request a round appearance.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::MenuButton> uses the C<GTK_ACCESSIBLE_ROLE_BUTTON> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::MenuButton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-menubutton
+
+Creates a new B<Gnome::Gtk4::MenuButton> widget with downwards-pointing
+arrow as the only child.
+
+You can replace the child widget with another B<Gnome::Gtk4::Widget>
+should you wish to.
+
+=begin code
+method new-menubutton ( --> Gnome::Gtk4::MenuButton \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-menubutton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active
+
+Returns whether the menu button is active.
+
+=begin code
+method get-active (--> Bool )
+=end code
+
+Return value; TRUE if the button is active. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-always-show-arrow
+
+Gets whether to show a dropdown arrow even when using an icon or a custom
+child.
+
+=begin code
+method get-always-show-arrow (--> Bool )
+=end code
+
+Return value; whether to show a dropdown arrow even when using an icon or a custom
+child.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-always-show-arrow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-can-shrink
+
+Retrieves whether the button can be smaller than the natural
+size of its contents.
+
+=begin code
+method get-can-shrink (--> Bool )
+=end code
+
+Return value; true if the button can shrink, and false otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for get-can-shrink
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$menu-button>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child widget of C<$menu-button>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-direction
+
+Returns the direction the popup will be pointing at when popped up.
+
+=begin code
+method get-direction (--> GtkArrowType )
+=end code
+
+Return value; a C<enumeration GtkArrowType defined in Gnome::Gtk4::T-enums> value. 
+
+=begin comment
+
+=head2 Example
+# Example for get-direction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-frame
+
+Returns whether the button has a frame.
+
+=begin code
+method get-has-frame (--> Bool )
+=end code
+
+Return value; C<True> if the button has a frame. 
+
+=begin comment
+
+=head2 Example
+# Example for get-has-frame
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-name
+
+Gets the name of the icon shown in the button.
+
+=begin code
+method get-icon-name (--> Str )
+=end code
+
+Return value; the name of the icon shown in the button. 
+
+=begin comment
+
+=head2 Example
+# Example for get-icon-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-label
+
+Gets the label shown in the button
+
+=begin code
+method get-label (--> Str )
+=end code
+
+Return value; the label shown in the button. 
+
+=begin comment
+
+=head2 Example
+# Example for get-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-menu-model
+
+Returns the B<Gnome::Gio::MenuModel> used to generate the popup.
+
+=begin code
+method get-menu-model (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gio::MenuModel>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-menu-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-popover
+
+Returns the B<Gnome::Gtk4::Popover> that pops out of the button.
+
+If the button is not using a B<Gnome::Gtk4::Popover>, this function
+returns undefined.
+
+=begin code
+method get-popover (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Popover> or undefined. 
+
+=begin comment
+
+=head2 Example
+# Example for get-popover
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-primary
+
+Returns whether the menu button acts as a primary menu.
+
+=begin code
+method get-primary (--> Bool )
+=end code
+
+Return value; C<True> if the button is a primary menu. 
+
+=begin comment
+
+=head2 Example
+# Example for get-primary
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-use-underline
+
+Returns whether an embedded underline in the text indicates a
+mnemonic.
+
+=begin code
+method get-use-underline (--> Bool )
+=end code
+
+Return value; C<True> whether an embedded underline in the text indicates
+  the mnemonic accelerator keys.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-use-underline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popdown
+
+Dismiss the menu.
+
+=begin code
+method popdown ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for popdown
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 popup
+
+Pop up the menu.
+
+=begin code
+method popup ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for popup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-active
+
+Sets whether the menu button is active.
+
+=begin code
+method set-active ( Bool() $active )
+=end code
+
+=item $active; whether the menu button is active.
+
+=begin comment
+
+=head2 Example
+# Example for set-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-always-show-arrow
+
+Sets whether to show a dropdown arrow even when using an icon or a custom
+child.
+
+=begin code
+method set-always-show-arrow ( Bool() $always-show-arrow )
+=end code
+
+=item $always-show-arrow; whether to show a dropdown arrow even when using an icon
+or a custom child.
+
+=begin comment
+
+=head2 Example
+# Example for set-always-show-arrow
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-can-shrink
+
+Sets whether the button size can be smaller than the natural size of
+its contents.
+
+For text buttons, setting C<$can-shrink> to true will ellipsize the label.
+
+For icon buttons, this function has no effect.
+
+=begin code
+method set-can-shrink ( Bool() $can-shrink )
+=end code
+
+=item $can-shrink; whether the button can shrink.
+
+=begin comment
+
+=head2 Example
+# Example for set-can-shrink
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child widget of C<$menu-button>.
+
+Setting a child resets I<label> and
+I<icon-name>.
+
+If I<always-show-arrow> is set to C<True> and
+I<direction> is not B<GTK_ARROW_NONE>, a dropdown arrow
+will be shown next to the child.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; the child widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-create-popup-func
+This function is not yet available
+
+Sets C<$func> to be called when a popup is about to be shown.
+ C<$func> should use one of
+
+=item C<.set-popover()>
+=item C<.set-menu-model()>
+
+to set a popup for C<$menu-button>.
+If C<$func> is non-undefined, C<$menu-button> will always be sensitive.
+
+Using this function will not reset the menu widget attached to C<$menu-button>. Instead, this can be done manually in C<$func>.
+
+=begin code
+method set-create-popup-func ( &func, gpointer $user-data, … )
+=end code
+
+=item &func; function to call when a popup is about to
+  be shown, but none has been provided via other means, or undefined
+  to reset to default behavior.. Tthe function must be specified with following signature; C<:( N-Object $menu-button, gpointer $user-data )>.
+=item $user-data; user data to pass to C<$func>..
+=item destroy-notify; destroy notify for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-create-popup-func
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-direction
+
+Sets the direction in which the popup will be popped up.
+
+If the button is automatically populated with an arrow icon,
+its direction will be changed to match.
+
+If the does not fit in the available space in the given direction,
+GTK will its best to keep it inside the screen and fully visible.
+
+If you pass C<GTK_ARROW_NONE> for a C<$direction>, the popup will behave
+as if you passed C<GTK_ARROW_DOWN> (although you won’t see any arrows).
+
+=begin code
+method set-direction ( GtkArrowType $direction )
+=end code
+
+=item $direction; a C<enumeration GtkArrowType defined in Gnome::Gtk4::T-enums>.
+
+=begin comment
+
+=head2 Example
+# Example for set-direction
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-has-frame
+
+Sets the style of the button.
+
+=begin code
+method set-has-frame ( Bool() $has-frame )
+=end code
+
+=item $has-frame; whether the button should have a visible frame.
+
+=begin comment
+
+=head2 Example
+# Example for set-has-frame
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-icon-name
+
+Sets the name of an icon to show inside the menu button.
+
+Setting icon name resets I<label> and
+I<child>.
+
+If I<always-show-arrow> is set to C<True> and
+I<direction> is not B<GTK_ARROW_NONE>, a dropdown arrow
+will be shown next to the icon.
+
+=begin code
+method set-icon-name ( Str $icon-name )
+=end code
+
+=item $icon-name; the icon name.
+
+=begin comment
+
+=head2 Example
+# Example for set-icon-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label
+
+Sets the label to show inside the menu button.
+
+Setting a label resets I<icon-name> and
+I<child>.
+
+If I<direction> is not B<GTK_ARROW_NONE>, a dropdown
+arrow will be shown next to the label.
+
+=begin code
+method set-label ( Str $label )
+=end code
+
+=item $label; the label.
+
+=begin comment
+
+=head2 Example
+# Example for set-label
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-menu-model
+
+Sets the B<Gnome::Gio::MenuModel> from which the popup will be constructed.
+
+If C<$menu-model> is undefined, the button is disabled.
+
+A B<Gnome::Gtk4::Popover> will be created from the menu model with
+C<.new-from-model() in class Gnome::Gtk4::PopoverMenu>. Actions will be connected
+as documented for this function.
+
+If I<popover> is already set, it will be
+dissociated from the C<$menu-button>, and the property is set to undefined.
+
+=begin code
+method set-menu-model ( N-Object() $menu-model )
+=end code
+
+=item $menu-model; a B<Gnome::Gio::MenuModel>, or undefined to unset and disable the
+  button.
+
+=begin comment
+
+=head2 Example
+# Example for set-menu-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-popover
+
+Sets the B<Gnome::Gtk4::Popover> that will be popped up when the C<$menu-button> is clicked.
+
+If C<$popover> is undefined, the button is disabled.
+
+If I<menu-model> is set, the menu model is dissociated
+from the C<$menu-button>, and the property is set to undefined.
+
+=begin code
+method set-popover ( N-Object() $popover )
+=end code
+
+=item $popover; a B<Gnome::Gtk4::Popover>, or undefined to unset and disable the button.
+
+=begin comment
+
+=head2 Example
+# Example for set-popover
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-primary
+
+Sets whether menu button acts as a primary menu.
+
+Primary menus can be opened with the <kbd>F10</kbd> key.
+
+=begin code
+method set-primary ( Bool() $primary )
+=end code
+
+=item $primary; whether the menubutton should act as a primary menu.
+
+=begin comment
+
+=head2 Example
+# Example for set-primary
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-use-underline
+
+If true, an underline in the text indicates a mnemonic.
+
+=begin code
+method set-use-underline ( Bool() $use-underline )
+=end code
+
+=item $use-underline; C<True> if underlines in the text indicate mnemonics.
+
+=begin comment
+
+=head2 Example
+# Example for set-use-underline
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted to when the menu button is activated.
+
+The B<::activate> signal on B<Gnome::Gtk4::MenuButton> is an action signal and
+emitting it causes the button to pop up its menu.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::MenuButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::MenuButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=end pod
+

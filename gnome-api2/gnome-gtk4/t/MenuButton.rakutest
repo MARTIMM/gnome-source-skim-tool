@@ -1,0 +1,248 @@
+=comment Package: Gtk4, C-Source: menubutton
+use v6.d;
+
+#TL:1:Gnome::Gtk4::MenuButton:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::MenuButton:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::MenuButton $menubutton;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $menubutton {
+
+#`{{
+    #TC:0:new-menubutton()
+
+    $menubutton .= new-menubutton();
+    ok .is-valid, '.new-menubutton()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $menubutton {
+    sub func ( N-Object $menu-button, gpointer $user-data ) {}
+    my gboolean $always-show-arrow;
+    my gboolean $use-underline;
+    my gboolean $active;
+    my  $destroy-notify;
+    my gpointer $user-data;
+    my Str $label;
+    my gboolean $has-frame;
+    my N-Object $child;
+    my Str $icon-name;
+    my GtkArrowType $direction;
+    my N-Object $menu-model;
+    my N-Object $popover;
+    my gboolean $can-shrink;
+    my gboolean $primary;
+
+
+#`{{
+    #TM:0:popdown()
+    ok .popdown(), '.popdown()';
+
+    #TM:0:popup()
+    ok .popup(), '.popup()';
+
+    #TM:0:set-active()
+    $active = '…';
+    .set-active( $active);
+    #TM:0:get-active()
+    is .get-active(),  $active, '.set-active() / .get-active()';
+
+    #TM:0:set-always-show-arrow()
+    $always-show-arrow = '…';
+    .set-always-show-arrow( $always-show-arrow);
+    #TM:0:get-always-show-arrow()
+    is .get-always-show-arrow(),  $always-show-arrow, '.set-always-show-arrow() / .get-always-show-arrow()';
+
+    #TM:0:set-can-shrink()
+    $can-shrink = '…';
+    .set-can-shrink( $can-shrink);
+    #TM:0:get-can-shrink()
+    is .get-can-shrink(),  $can-shrink, '.set-can-shrink() / .get-can-shrink()';
+
+    #TM:0:set-child()
+    $child = …;
+    .set-child( $child);
+    #TM:0:get-child()
+    is .get-child(),  $child, '.set-child() / .get-child()';
+
+    #TM:0:set-create-popup-func()
+    $func = …;
+    $user-data = '…';
+    $destroy-notify = '…';
+    .set-create-popup-func( $func, $user-data, $destroy-notify);
+    ok True, '.set-create-popup-func()';
+
+    #TM:0:set-direction()
+    $direction = …;
+    .set-direction( $direction);
+    #TM:0:get-direction()
+    is .get-direction(),  $direction, '.set-direction() / .get-direction()';
+
+    #TM:0:set-has-frame()
+    $has-frame = '…';
+    .set-has-frame( $has-frame);
+    #TM:0:get-has-frame()
+    is .get-has-frame(),  $has-frame, '.set-has-frame() / .get-has-frame()';
+
+    #TM:0:set-icon-name()
+    $icon-name = 'text';
+    .set-icon-name( $icon-name);
+    #TM:0:get-icon-name()
+    is .get-icon-name(),  $icon-name, '.set-icon-name() / .get-icon-name()';
+
+    #TM:0:set-label()
+    $label = 'text';
+    .set-label( $label);
+    #TM:0:get-label()
+    is .get-label(),  $label, '.set-label() / .get-label()';
+
+    #TM:0:set-menu-model()
+    $menu-model = …;
+    .set-menu-model( $menu-model);
+    #TM:0:get-menu-model()
+    is .get-menu-model(),  $menu-model, '.set-menu-model() / .get-menu-model()';
+
+    #TM:0:set-popover()
+    $popover = …;
+    .set-popover( $popover);
+    #TM:0:get-popover()
+    is .get-popover(),  $popover, '.set-popover() / .get-popover()';
+
+    #TM:0:set-primary()
+    $primary = '…';
+    .set-primary( $primary);
+    #TM:0:get-primary()
+    is .get-primary(),  $primary, '.set-primary() / .get-primary()';
+
+    #TM:0:set-use-underline()
+    $use-underline = '…';
+    .set-use-underline( $use-underline);
+    #TM:0:get-use-underline()
+    is .get-use-underline(),  $use-underline, '.set-use-underline() / .get-use-underline()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $menubutton {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::MenuButton() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::MenuButton;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::MenuButton :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::MenuButton $menubutton .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $menubutton.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
