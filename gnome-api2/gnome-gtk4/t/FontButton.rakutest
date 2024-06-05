@@ -1,0 +1,181 @@
+=comment Package: Gtk4, C-Source: fontbutton
+use v6.d;
+
+#TL:1:Gnome::Gtk4::FontButton:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::FontButton:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::FontButton $fontbutton;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $fontbutton {
+    my Str $fontname;
+
+#`{{
+    #TC:0:new-fontbutton()
+
+    $fontbutton .= new-fontbutton();
+    ok .is-valid, '.new-fontbutton()';
+
+    #TC:0:new-with-font()
+    $fontname = 'text';
+    $fontbutton .= new-with-font( $fontname);
+    ok .is-valid, '.new-with-font( $fontname)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $fontbutton {
+    my Str $title;
+    my gboolean $modal;
+    my gboolean $use-size;
+    my gboolean $use-font;
+
+
+#`{{
+    #TM:0:set-modal()
+    $modal = '…';
+    .set-modal( $modal);
+    #TM:0:get-modal()
+    is .get-modal(),  $modal, '.set-modal() / .get-modal()';
+
+    #TM:0:set-title()
+    $title = 'text';
+    .set-title( $title);
+    #TM:0:get-title()
+    is .get-title(),  $title, '.set-title() / .get-title()';
+
+    #TM:0:set-use-font()
+    $use-font = '…';
+    .set-use-font( $use-font);
+    #TM:0:get-use-font()
+    is .get-use-font(),  $use-font, '.set-use-font() / .get-use-font()';
+
+    #TM:0:set-use-size()
+    $use-size = '…';
+    .set-use-size( $use-size);
+    #TM:0:get-use-size()
+    is .get-use-size(),  $use-size, '.set-use-size() / .get-use-size()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $fontbutton {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::FontButton() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::FontButton;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::FontButton :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::FontButton $fontbutton .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $fontbutton.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
