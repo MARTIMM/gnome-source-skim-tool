@@ -1,0 +1,131 @@
+=comment Package: Gtk4, C-Source: windowhandle
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::WindowHandle
+
+![](images/windowhandle.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::WindowHandle> is a titlebar area widget.
+
+When added into a window, it can be dragged to move the window, and handles
+right click, double click and middle click as expected of a titlebar.
+
+=head2 CSS nodes
+
+B<Gnome::Gtk4::WindowHandle> has a single CSS node with the name B<windowhandle>.
+
+=head2 Accessibility
+
+Until GTK 4.10, B<Gnome::Gtk4::WindowHandle> used the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+Starting from GTK 4.12, B<Gnome::Gtk4::WindowHandle> uses the B<GTK_ACCESSIBLE_ROLE_GENERIC> role.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::WindowHandle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-windowhandle
+
+Creates a new B<Gnome::Gtk4::WindowHandle>.
+
+=begin code
+method new-windowhandle ( --> Gnome::Gtk4::WindowHandle \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-windowhandle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$self>.
+
+=begin code
+method get-child (--> N-Object )
+=end code
+
+Return value; the child widget of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-child
+
+Sets the child widget of C<$self>.
+
+=begin code
+method set-child ( N-Object() $child )
+=end code
+
+=item $child; the child widget.
+
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
+=end pod
+
