@@ -54,10 +54,10 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkFixed                            Fixed
 │   │   ├── GtkFlowBox                          FlowBox
 │   │   ├── GtkFlowBoxChild                     FlowBoxChild
-│   │   ├── GtkFontButton
+│   │   ├── GtkFontButton                       FontButton
 │   │   ├── GtkFontChooserWidget                FontChooserWidget
 │   │   ├── GtkFrame                            Frame
-│   │   ├── GtkGLArea
+│   │   ├── GtkGLArea                           GLArea
 │   │   ├── GtkGrid                             Grid
 │   │   ├── GtkListBase                         ListBase
 │   │   │   ├── GtkGridView                     GridView
@@ -69,25 +69,25 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkLabel                            Label
 │   │   ├── GtkListBox                          ListBox
 │   │   ├── GtkListBoxRow                       ListBoxRow
-│   │   ├── GtkMediaControls
-│   │   ├── GtkMenuButton
+│   │   ├── GtkMediaControls                    MediaControls
+│   │   ├── GtkMenuButton                       MenuButton
 │   │   ├── GtkNotebook                         Notebook
-│   │   ├── GtkOverlay
+│   │   ├── GtkOverlay                          Overlay
 │   │   ├── GtkPaned                            Paned
 │   │   ├── GtkPasswordEntry                    PasswordEntry
 │   │   ├── GtkPicture                          Picture
-│   │   ├── GtkPopoverMenuBar
+│   │   ├── GtkPopoverMenuBar                   PopoverMenuBar
 │   │   ├── GtkProgressBar                      ProgressBar
 │   │   ├── GtkRange                            Range
 │   │   │   ╰── GtkScale                        Scale
-│   │   ├── GtkRevealer
-│   │   ├── GtkScaleButton
-│   │   │   ╰── GtkVolumeButton
+│   │   ├── GtkRevealer                         Revealer
+│   │   ├── GtkScaleButton                      ScaleButton
+│   │   │   ╰── GtkVolumeButton                 VolumeButton
 │   │   ├── GtkScrollbar                        Scrollbar
 │   │   ├── GtkScrolledWindow                   ScrolledWindow
 │   │   ├── GtkSearchBar                        SearchBar
 │   │   ├── GtkSearchEntry                      SearchEntry
-│   │   ├── GtkSeparator
+│   │   ├── GtkSeparator                        Separator
 │   │   ├── GtkShortcutLabel                    ShortcutLabel
 │   │   ├── GtkShortcutsShortcut                ShortcutsShortcut
 │   │   ├── GtkSpinButton                       SpinButton
