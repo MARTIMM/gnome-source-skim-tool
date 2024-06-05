@@ -1,0 +1,186 @@
+=comment Package: Gtk4, C-Source: scalebutton
+use v6.d;
+
+#TL:1:Gnome::Gtk4::ScaleButton:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gtk4::ScaleButton:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::ScaleButton $scalebutton;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $scalebutton {
+    my gchar-pptr $icons;
+    my gdouble $max;
+    my gdouble $min;
+    my gdouble $step;
+
+#`{{
+    #TC:0:new-scalebutton()
+    $min = '…';
+    $max = '…';
+    $step = '…';
+    $icons = '…';
+    $scalebutton .= new-scalebutton( $min, $max, $step, $icons);
+    ok .is-valid, '.new-scalebutton( $min, $max, $step, $icons)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $scalebutton {
+    my gchar-pptr $icons;
+    my gdouble $value;
+    my N-Object $adjustment;
+
+
+#`{{
+    #TM:0:get-active()
+     .get-active(), '…', '.get-active()';
+
+    #TM:0:get-minus-button()
+     .get-minus-button(), '…', '.get-minus-button()';
+
+    #TM:0:get-plus-button()
+     .get-plus-button(), '…', '.get-plus-button()';
+
+    #TM:0:get-popup()
+     .get-popup(), '…', '.get-popup()';
+
+    #TM:0:set-adjustment()
+    $adjustment = …;
+    .set-adjustment( $adjustment);
+    #TM:0:get-adjustment()
+    is .get-adjustment(),  $adjustment, '.set-adjustment() / .get-adjustment()';
+
+    #TM:0:set-icons()
+    $icons = '…';
+    .set-icons( $icons);
+    ok True, '.set-icons()';
+
+    #TM:0:set-value()
+    $value = '…';
+    .set-value( $value);
+    #TM:0:get-value()
+    is .get-value(),  $value, '.set-value() / .get-value()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $scalebutton {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::ScaleButton() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::ScaleButton;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::ScaleButton :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::ScaleButton $scalebutton .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $scalebutton.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

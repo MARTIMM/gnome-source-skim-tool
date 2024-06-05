@@ -1,0 +1,405 @@
+=comment Package: Gtk4, C-Source: scalebutton
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::ScaleButton
+
+![](images/scalebutton.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::ScaleButton> provides a button which pops up a scale widget.
+
+This kind of widget is commonly used for volume controls in multimedia
+applications, and GTK provides a B<Gnome::Gtk4::VolumeButton> subclass that
+is tailored for this use case.
+
+=head2 CSS nodes
+
+=begin comment
+scalebutton.scale
+╰── button.toggle
+    ╰── <icon>
+
+=end comment
+
+B<Gnome::Gtk4::ScaleButton> has a single CSS node with name scalebutton and B<.scale>
+style class, and contains a B<button> node with a B<.toggle> style class.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ScaleButton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-scalebutton
+
+Creates a B<Gnome::Gtk4::ScaleButton>.
+
+The new scale button has a range between C<$min> and C<$max>,
+with a stepping of C<$step>.
+
+=begin code
+method new-scalebutton ( Num() $min, Num() $max, Num() $step, Array[Str] $icons --> Gnome::Gtk4::ScaleButton \)
+=end code
+
+=item $min; the minimum value of the scale (usually 0).
+=item $max; the maximum value of the scale (usually 100).
+=item $step; the stepping of value when a scroll-wheel event,
+  or up/down arrow event occurs (usually 2).
+=item $icons; a icon array names, or undefined if you want to set the list
+  later with C<.set-icons()>.
+
+=begin comment
+
+=head2 Example
+# Example for new-scalebutton
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active
+
+Queries a B<Gnome::Gtk4::ScaleButton> and returns its current state.
+
+Returns C<True> if the scale button is pressed in and C<False>
+if it is raised.
+
+=begin code
+method get-active (--> Bool )
+=end code
+
+Return value; whether the button is pressed. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-adjustment
+
+Gets the B<Gnome::Gtk4::Adjustment> associated with the B<Gnome::Gtk4::ScaleButton>’s scale.
+
+See C<.get-adjustment() in class Gnome::Gtk4::Range> for details.
+
+=begin code
+method get-adjustment (--> N-Object )
+=end code
+
+Return value; the adjustment associated with the scale. 
+
+=begin comment
+
+=head2 Example
+# Example for get-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-minus-button
+
+Retrieves the minus button of the B<Gnome::Gtk4::ScaleButton>.
+
+=begin code
+method get-minus-button (--> N-Object )
+=end code
+
+Return value; the minus button
+  of the B<Gnome::Gtk4::ScaleButton>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-minus-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-plus-button
+
+Retrieves the plus button of the B<GtkScaleButton.>
+
+=begin code
+method get-plus-button (--> N-Object )
+=end code
+
+Return value; the plus button
+  of the B<Gnome::Gtk4::ScaleButton>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-plus-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-popup
+
+Retrieves the popup of the B<Gnome::Gtk4::ScaleButton>.
+
+=begin code
+method get-popup (--> N-Object )
+=end code
+
+Return value; the popup of the B<Gnome::Gtk4::ScaleButton>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-popup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Gets the current value of the scale button.
+
+=begin code
+method get-value (--> Num )
+=end code
+
+Return value; current value of the scale button. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-adjustment
+
+Sets the B<Gnome::Gtk4::Adjustment> to be used as a model
+for the B<Gnome::Gtk4::ScaleButton>’s scale.
+
+See C<.set-adjustment() in class Gnome::Gtk4::Range> for details.
+
+=begin code
+method set-adjustment ( N-Object() $adjustment )
+=end code
+
+=item $adjustment; a B<Gnome::Gtk4::Adjustment>.
+
+=begin comment
+
+=head2 Example
+# Example for set-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-icons
+
+Sets the icons to be used by the scale button.
+
+=begin code
+method set-icons ( Array[Str] $icons )
+=end code
+
+=item $icons; a icon array names.
+
+=begin comment
+
+=head2 Example
+# Example for set-icons
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-value
+
+Sets the current value of the scale.
+
+If the value is outside the minimum or maximum range values,
+it will be clamped to fit inside them.
+
+The scale button emits the I<value-changed>
+signal if the value changes.
+
+=begin code
+method set-value ( Num() $value )
+=end code
+
+=item $value; new value of the scale button.
+
+=begin comment
+
+=head2 Example
+# Example for set-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 popdown
+
+Emitted to dismiss the popup.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>Escape</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ScaleButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScaleButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal popdown
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 popup
+
+Emitted to popup the scale widget.
+
+This is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are <kbd>Space</kbd>,
+<kbd>Enter</kbd> and <kbd>Return</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ScaleButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScaleButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal popup
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 value-changed
+
+Emitted when the value field has changed.
+
+=begin code
+method handler (
+  gdouble $value,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::ScaleButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $value; the new value.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScaleButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal value-changed
+
+=end comment
+
+=end pod
+
