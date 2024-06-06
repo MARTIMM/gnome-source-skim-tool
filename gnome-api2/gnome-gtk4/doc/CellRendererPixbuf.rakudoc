@@ -1,0 +1,91 @@
+=comment Package: Gtk4, C-Source: cellrendererpixbuf
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CellRendererPixbuf
+
+![](images/cellrendererpixbuf.png)
+
+=head1 Description
+
+Renders a pixbuf in a cell
+
+A B<Gnome::Gtk4::CellRendererPixbuf> can be used to render an image in a cell. It allows
+to render either a given B<Gnome::GdkPixbuf::Pixbuf> (set via the
+B<GtkCellRendererPixbuf:pixbuf> property) or a named icon (set via the
+B<GtkCellRendererPixbuf:icon-name> property).
+
+To support the tree view, B<Gnome::Gtk4::CellRendererPixbuf> also supports rendering two
+alternative pixbufs, when the B<GtkCellRenderer:is-expander> property is C<True>.
+If the B<GtkCellRenderer:is-expanded property> is C<True> and the
+B<GtkCellRendererPixbuf:pixbuf-expander-open> property is set to a pixbuf, it
+renders that pixbuf, if the B<GtkCellRenderer:is-expanded> property is C<False>
+and the B<GtkCellRendererPixbuf:pixbuf-expander-closed> property is set to a
+pixbuf, it renders that one.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellRendererPixbuf
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cellrendererpixbuf
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::CellRendererPixbuf>. Adjust rendering
+parameters using object properties. Object properties can be set
+globally (with g_object_set()). Also, with B<Gnome::Gtk4::TreeViewColumn>, you
+can bind a property to a value in a B<Gnome::Gtk4::R-TreeModel>. For example, you
+can bind the “pixbuf” property on the cell renderer to a pixbuf value
+in the model, thus rendering a different image in each row of the
+B<Gnome::Gtk4::TreeView>.
+
+=begin code
+method new-cellrendererpixbuf ( --> Gnome::Gtk4::CellRendererPixbuf \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cellrendererpixbuf
+
+=end comment
+
+=end pod
+
