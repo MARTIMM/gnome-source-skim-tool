@@ -1,0 +1,205 @@
+=comment Package: Gtk4, C-Source: filter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::Filter
+
+![](images/filter.png)
+
+=head1 Description
+
+A B<Gnome::Gtk4::Filter> object describes the filtering to be performed by a
+B<Gnome::Gtk4::FilterListModel>.
+
+The model will use the filter to determine if it should include items
+or not by calling C<.match()> for each item and only
+keeping the ones that the function returns C<True> for.
+
+Filters may change what items they match through their lifetime. In that
+case, they will emit the I<changed> signal to notify
+that previous filter results are no longer valid and that items should
+be checked again via C<.match()>.
+
+GTK provides various pre-made filter implementations for common filtering
+operations. These filters often include properties that can be linked to
+various widgets to easily allow searches.
+
+However, in particular for large lists or complex search methods, it is
+also possible to subclass B<Gnome::Gtk4::Filter> and provide one's own filter.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::Filter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 changed
+
+Notifies all users of the filter that it has changed.
+
+This emits the I<changed> signal. Users
+of the filter should then check items again via
+C<.match()>.
+
+Depending on the C<$change> parameter, not all items need to
+be changed, but only some. Refer to the  C<enumeration FilterChange from Gnome::Gtk4::T-filter> 
+documentation for details.
+
+This function is intended for implementors of B<Gnome::Gtk4::Filter>
+subclasses and should not be called from other functions.
+
+=begin code
+method changed ( GtkFilterChange $change )
+=end code
+
+=item $change; How the filter changed.
+
+=begin comment
+
+=head2 Example
+# Example for changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-strictness
+
+Gets the known strictness of C<$filters>.
+
+If the strictness is not known, C<GTK_FILTER_MATCH_SOME> is returned.
+
+This value may change after emission of the I<changed>
+signal.
+
+This function is meant purely for optimization purposes, filters can
+choose to omit implementing it, but B<Gnome::Gtk4::FilterListModel> uses it.
+
+=begin code
+method get-strictness (--> GtkFilterMatch )
+=end code
+
+Return value; the strictness of C<$self>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-strictness
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 match
+
+Checks if the given C<$item> is matched by the filter or not.
+
+=begin code
+method match ( gpointer $item --> Bool )
+=end code
+
+=item $item; The item to check.
+
+Return value; C<True> if the filter matches the item and a filter model should
+  keep it, C<False> if not.. 
+
+=begin comment
+
+=head2 Example
+# Example for match
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 changed
+
+Emitted whenever the filter changed.
+
+Users of the filter should then check items again via
+C<.match()>.
+
+B<Gnome::Gtk4::FilterListModel> handles this signal automatically.
+
+Depending on the C<$change> parameter, not all items need
+to be checked, but only some. Refer to the  C<enumeration FilterChange from Gnome::Gtk4::T-filter> 
+documentation for details.
+
+=begin code
+method handler (
+   $change,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Filter :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $change; how the filter changed.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Filter> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal changed
+
+=end comment
+
+=end pod
+

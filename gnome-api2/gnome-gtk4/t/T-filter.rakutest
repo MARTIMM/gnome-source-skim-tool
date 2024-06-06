@@ -1,0 +1,50 @@
+=comment Package: Gtk4, C-Source: filter
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-filter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-filter:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkFilterChange
+subtest 'GtkFilterChange', {
+  is GTK_FILTER_CHANGE_DIFFERENT.value, 0, 'enum GTK_FILTER_CHANGE_DIFFERENT = 0';
+
+  is GTK_FILTER_CHANGE_LESS_STRICT.value, 1, 'enum GTK_FILTER_CHANGE_LESS_STRICT = 1';
+
+  is GTK_FILTER_CHANGE_MORE_STRICT.value, 2, 'enum GTK_FILTER_CHANGE_MORE_STRICT = 2';
+
+};
+
+#-------------------------------------------------------------------------------
+#TE:1:GtkFilterMatch
+subtest 'GtkFilterMatch', {
+  is GTK_FILTER_MATCH_SOME.value, 0, 'enum GTK_FILTER_MATCH_SOME = 0';
+
+  is GTK_FILTER_MATCH_NONE.value, 1, 'enum GTK_FILTER_MATCH_NONE = 1';
+
+  is GTK_FILTER_MATCH_ALL.value, 2, 'enum GTK_FILTER_MATCH_ALL = 2';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

@@ -1,0 +1,46 @@
+=comment Package: Gtk4, C-Source: filter
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gtk4::T-filter
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkFilterChange
+
+Describes changes in a filter in more detail and allows objects
+using the filter to optimize refiltering items.
+
+If you are writing an implementation and are not sure which
+value to pass, C<GTK_FILTER_CHANGE_DIFFERENT> is always a correct
+choice.
+=item C<GTK_FILTER_CHANGE_DIFFERENT>; The filter change cannot be
+  described with any of the other enumeration values.
+=item C<GTK_FILTER_CHANGE_LESS_STRICT>; The filter is less strict than
+  it was before: All items that it used to return C<True> for
+  still return C<True>, others now may, too.
+=item C<GTK_FILTER_CHANGE_MORE_STRICT>; The filter is more strict than
+  it was before: All items that it used to return C<False> for
+  still return C<False>, others now may, too.
+
+=head2 GtkFilterMatch
+
+Describes the known strictness of a filter.
+
+Note that for filters where the strictness is not known,
+C<GTK_FILTER_MATCH_SOME> is always an acceptable value,
+even if a filter does match all or no items.
+=item C<GTK_FILTER_MATCH_SOME>; The filter matches some items,
+  C<.match()> may return C<True> or C<False>
+=item C<GTK_FILTER_MATCH_NONE>; The filter does not match any item,
+  C<.match()> will always return C<False>.
+=item C<GTK_FILTER_MATCH_ALL>; The filter matches all items,
+  C<.match()> will alays return C<True>.
+=end pod
+
