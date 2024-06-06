@@ -1,0 +1,84 @@
+=comment Package: Gtk4, C-Source: cellrendererspinner
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CellRendererSpinner
+
+![](images/cellrendererspinner.png)
+
+=head1 Description
+
+Renders a spinning animation in a cell
+
+B<Gnome::Gtk4::CellRendererSpinner> renders a spinning animation in a cell, very
+similar to B<Gnome::Gtk4::Spinner>. It can often be used as an alternative
+to a B<Gnome::Gtk4::CellRendererProgress> for displaying indefinite activity,
+instead of actual progress.
+
+To start the animation in a cell, set the B<GtkCellRendererSpinner:active>
+property to C<True> and increment the B<GtkCellRendererSpinner:pulse> property
+at regular intervals. The usual way to set the cell renderer properties
+for each cell is to bind them to columns in your tree model using e.g.
+gtk_tree_view_column_add_attribute().
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellRendererSpinner
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cellrendererspinner
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns a new cell renderer which will show a spinner to indicate
+activity.
+
+=begin code
+method new-cellrendererspinner ( --> Gnome::Gtk4::CellRendererSpinner \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cellrendererspinner
+
+=end comment
+
+=end pod
+
