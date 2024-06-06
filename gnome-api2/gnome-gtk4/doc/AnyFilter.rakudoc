@@ -1,0 +1,76 @@
+=comment Package: Gtk4, C-Source: multifilter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::AnyFilter
+
+![](images/anyfilter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::AnyFilter> matches an item when at least one of its filters matches.
+
+To add filters to a B<Gnome::Gtk4::AnyFilter>, use C<.append() in class Gnome::Gtk4::MultiFilter>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::AnyFilter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-anyfilter
+
+Creates a new empty "any" filter.
+
+Use C<.append() in class Gnome::Gtk4::MultiFilter> to add filters to it.
+
+This filter matches an item if any of the filters added to it
+matches the item. In particular, this means that if no filter
+has been added to it, the filter matches no item.
+
+=begin code
+method new-anyfilter ( --> Gnome::Gtk4::AnyFilter \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-anyfilter
+
+=end comment
+
+=end pod
+
