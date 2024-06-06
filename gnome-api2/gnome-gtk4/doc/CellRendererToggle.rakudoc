@@ -1,0 +1,279 @@
+=comment Package: Gtk4, C-Source: cellrenderertoggle
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::CellRendererToggle
+
+![](images/cellrenderertoggle.png)
+
+=head1 Description
+
+Renders a toggle button in a cell
+
+B<Gnome::Gtk4::CellRendererToggle> renders a toggle button in a cell. The
+button is drawn as a radio or a checkbutton, depending on the
+B<GtkCellRendererToggle:radio> property.
+When activated, it emits the B<GtkCellRendererToggle::toggled> signal.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::CellRendererToggle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-cellrenderertoggle
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::CellRendererToggle>. Adjust rendering
+parameters using object properties. Object properties can be set
+globally (with g_object_set()). Also, with B<Gnome::Gtk4::TreeViewColumn>, you
+can bind a property to a value in a B<Gnome::Gtk4::R-TreeModel>. For example, you
+can bind the “active” property on the cell renderer to a boolean value
+in the model, thus causing the check button to reflect the state of
+the model.
+
+=begin code
+method new-cellrenderertoggle ( --> Gnome::Gtk4::CellRendererToggle \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-cellrenderertoggle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-activatable
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns whether the cell renderer is activatable. See
+C<.set-activatable()>.
+
+=begin code
+method get-activatable (--> Bool )
+=end code
+
+Return value; C<True> if the cell renderer is activatable.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-activatable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-active
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns whether the cell renderer is active. See
+C<.set-active()>.
+
+=begin code
+method get-active (--> Bool )
+=end code
+
+Return value; C<True> if the cell renderer is active.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-radio
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns whether we’re rendering radio toggles rather than checkboxes.
+
+=begin code
+method get-radio (--> Bool )
+=end code
+
+Return value; C<True> if we’re rendering radio toggles rather than checkboxes. 
+
+=begin comment
+
+=head2 Example
+# Example for get-radio
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-activatable
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Makes the cell renderer activatable.
+
+=begin code
+method set-activatable ( Bool() $setting )
+=end code
+
+=item $setting; the value to set..
+
+=begin comment
+
+=head2 Example
+# Example for set-activatable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-active
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Activates or deactivates a cell renderer.
+
+=begin code
+method set-active ( Bool() $setting )
+=end code
+
+=item $setting; the value to set..
+
+=begin comment
+
+=head2 Example
+# Example for set-active
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-radio
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+If C<$radio> is C<True>, the cell renderer renders a radio toggle
+(i.e. a toggle in a group of mutually-exclusive toggles).
+If C<False>, it renders a check toggle (a standalone boolean option).
+This can be set globally for the cell renderer, or changed just
+before rendering each cell in the model (for B<Gnome::Gtk4::TreeView>, you set
+up a per-row setting using B<Gnome::Gtk4::TreeViewColumn> to associate model
+columns with cell renderer properties).
+
+=begin code
+method set-radio ( Bool() $radio )
+=end code
+
+=item $radio; C<True> to make the toggle look like a radio button.
+
+=begin comment
+
+=head2 Example
+# Example for set-radio
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 toggled
+
+The I<toggled> signal is emitted when the cell is toggled.
+
+It is the responsibility of the application to update the model
+with the correct value to store at C<$path>.  Often this is simply the
+opposite of the value currently stored at C<$path>.
+
+=begin code
+method handler (
+  Str $path,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::CellRendererToggle :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $path; string representation of B<Gnome::Gtk4::N-TreePath> describing the
+       event location.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRendererToggle> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal toggled
+
+=end comment
+
+=end pod
+
