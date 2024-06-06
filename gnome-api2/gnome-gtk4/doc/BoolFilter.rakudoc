@@ -1,0 +1,167 @@
+=comment Package: Gtk4, C-Source: boolfilter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::BoolFilter
+
+![](images/boolfilter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::BoolFilter> evaluates a boolean B<Gnome::Gtk4::Expression>
+to determine whether to include items.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::BoolFilter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-boolfilter
+
+Creates a new bool filter.
+
+=begin code
+method new-boolfilter ( N-Object() $expression --> Gnome::Gtk4::BoolFilter \)
+=end code
+
+=item $expression; (transfer ownership: full) The expression to evaluate.
+
+=begin comment
+
+=head2 Example
+# Example for new-boolfilter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-expression
+
+Gets the expression that the filter uses to evaluate if
+an item should be filtered.
+
+=begin code
+method get-expression (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Expression>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-invert
+
+Returns whether the filter inverts the expression.
+
+=begin code
+method get-invert (--> Bool )
+=end code
+
+Return value; C<True> if the filter inverts. 
+
+=begin comment
+
+=head2 Example
+# Example for get-invert
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-expression
+
+Sets the expression that the filter uses to check if items
+should be filtered.
+
+The expression must have a value type of C<G_TYPE_BOOLEAN>.
+
+=begin code
+method set-expression ( N-Object() $expression )
+=end code
+
+=item $expression; a B<Gnome::Gtk4::Expression>.
+
+=begin comment
+
+=head2 Example
+# Example for set-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-invert
+
+Sets whether the filter should invert the expression.
+
+=begin code
+method set-invert ( Bool() $invert )
+=end code
+
+=item $invert; C<True> to invert.
+
+=begin comment
+
+=head2 Example
+# Example for set-invert
+
+=end comment
+
+=end pod
+
