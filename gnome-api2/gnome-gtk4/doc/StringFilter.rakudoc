@@ -1,0 +1,266 @@
+=comment Package: Gtk4, C-Source: stringfilter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::StringFilter
+
+![](images/stringfilter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::StringFilter> determines whether to include items by comparing
+strings to a fixed search term.
+
+The strings are obtained from the items by evaluating a B<Gnome::Gtk4::Expression>
+set with C<.set-expression()>, and they are
+compared against a search term set with C<.set-search()>.
+
+B<Gnome::Gtk4::StringFilter> has several different modes of comparison - it
+can match the whole string, just a prefix, or any substring. Use
+C<.set-match-mode()> choose a mode.
+
+It is also possible to make case-insensitive comparisons, with
+C<.set-ignore-case()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::StringFilter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-stringfilter
+
+Creates a new string filter.
+
+You will want to set up the filter by providing a string to search for
+and by providing a property to look up on the item.
+
+=begin code
+method new-stringfilter ( N-Object() $expression --> Gnome::Gtk4::StringFilter \)
+=end code
+
+=item $expression; (transfer ownership: full) The expression to evaluate.
+
+=begin comment
+
+=head2 Example
+# Example for new-stringfilter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-expression
+
+Gets the expression that the string filter uses to
+obtain strings from items.
+
+=begin code
+method get-expression (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gtk4::Expression>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-ignore-case
+
+Returns whether the filter ignores case differences.
+
+=begin code
+method get-ignore-case (--> Bool )
+=end code
+
+Return value; C<True> if the filter ignores case. 
+
+=begin comment
+
+=head2 Example
+# Example for get-ignore-case
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-match-mode
+
+Returns the match mode that the filter is using.
+
+=begin code
+method get-match-mode (--> GtkStringFilterMatchMode )
+=end code
+
+Return value; the match mode of the filter. 
+
+=begin comment
+
+=head2 Example
+# Example for get-match-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-search
+
+Gets the search term.
+
+=begin code
+method get-search (--> Str )
+=end code
+
+Return value; The search term. 
+
+=begin comment
+
+=head2 Example
+# Example for get-search
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-expression
+
+Sets the expression that the string filter uses to
+obtain strings from items.
+
+The expression must have a value type of C<G_TYPE_STRING>.
+
+=begin code
+method set-expression ( N-Object() $expression )
+=end code
+
+=item $expression; a B<Gnome::Gtk4::Expression>.
+
+=begin comment
+
+=head2 Example
+# Example for set-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-ignore-case
+
+Sets whether the filter ignores case differences.
+
+=begin code
+method set-ignore-case ( Bool() $ignore-case )
+=end code
+
+=item $ignore-case; C<True> to ignore case.
+
+=begin comment
+
+=head2 Example
+# Example for set-ignore-case
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-match-mode
+
+Sets the match mode for the filter.
+
+=begin code
+method set-match-mode ( GtkStringFilterMatchMode $mode )
+=end code
+
+=item $mode; the new match mode.
+
+=begin comment
+
+=head2 Example
+# Example for set-match-mode
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-search
+
+Sets the string to search for.
+
+=begin code
+method set-search ( Str $search )
+=end code
+
+=item $search; The string to search for
+  or undefined to clear the search.
+
+=begin comment
+
+=head2 Example
+# Example for set-search
+
+=end comment
+
+=end pod
+

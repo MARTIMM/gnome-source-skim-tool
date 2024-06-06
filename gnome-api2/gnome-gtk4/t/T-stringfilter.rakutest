@@ -1,0 +1,39 @@
+=comment Package: Gtk4, C-Source: stringfilter
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-stringfilter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gtk4::T-stringfilter:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkStringFilterMatchMode
+subtest 'GtkStringFilterMatchMode', {
+  is GTK_STRING_FILTER_MATCH_MODE_EXACT.value, 0, 'enum GTK_STRING_FILTER_MATCH_MODE_EXACT = 0';
+
+  is GTK_STRING_FILTER_MATCH_MODE_SUBSTRING.value, 1, 'enum GTK_STRING_FILTER_MATCH_MODE_SUBSTRING = 1';
+
+  is GTK_STRING_FILTER_MATCH_MODE_PREFIX.value, 2, 'enum GTK_STRING_FILTER_MATCH_MODE_PREFIX = 2';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
