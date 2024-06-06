@@ -114,10 +114,10 @@ GObject                                         Gnome::GObject::Object
 │   │   │   ├── GtkCellRendererAccel            CellRendererAccel
 │   │   │   ├── GtkCellRendererCombo            CellRendererCombo
 │   │   │   ╰── GtkCellRendererSpin             CellRendererSpin
-│   │   ├── GtkCellRendererPixbuf
-│   │   ├── GtkCellRendererProgress
-│   │   ├── GtkCellRendererSpinner
-│   │   ╰── GtkCellRendererToggle
+│   │   ├── GtkCellRendererPixbuf               CellRendererPixbuf
+│   │   ├── GtkCellRendererProgress             CellRendererProgress
+│   │   ├── GtkCellRendererSpinner              CellRendererSpinner
+│   │   ╰── GtkCellRendererToggle               CellRendererToggle
 │   ╰── GtkTreeViewColumn                       TreeViewColumn
 ├── GtkFilter
 │   ├── GtkMultiFilter
