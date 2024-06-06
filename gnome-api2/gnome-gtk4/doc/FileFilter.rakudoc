@@ -1,0 +1,351 @@
+=comment Package: Gtk4, C-Source: filefilter
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::FileFilter
+
+![](images/filefilter.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::FileFilter> filters files by name or mime type.
+
+B<Gnome::Gtk4::FileFilter> can be used to restrict the files being shown in a
+B<Gnome::Gtk4::R-FileChooser>. Files can be filtered based on their name (with
+C<.add-pattern()> or C<.add-suffix()>)
+or on their mime type (with C<.add-mime-type()>).
+
+Filtering by mime types handles aliasing and subclassing of mime
+types; e.g. a filter for text/plain also matches a file with mime
+type application/rtf, since application/rtf is a subclass of
+text/plain. Note that B<Gnome::Gtk4::FileFilter> allows wildcards for the
+subtype of a mime type, so you can e.g. filter for image/\*.
+
+Normally, file filters are used by adding them to a B<Gnome::Gtk4::R-FileChooser>
+(see C<.add-filter() in class Gnome::Gtk4::R-FileChooser>), but it is also possible to
+manually use a file filter on any B<Gnome::Gtk4::FilterListModel> containing
+B<Gnome::Gio::FileInfo> objects.
+
+=head2 GtkFileFilter as GtkBuildable
+
+The B<Gnome::Gtk4::FileFilter> implementation of the B<Gnome::Gtk4::R-Buildable> interface
+supports adding rules using the B<<mime-types>> and B<<patterns>> and
+B<<suffixes>> elements and listing the rules within. Specifying a
+B<<mime-type>> or B<<pattern>> or B<<suffix>> has the same effect as
+as calling
+C<.add-mime-type()> or
+C<.add-pattern()> or
+C<.add-suffix()>.
+
+An example of a UI definition fragment specifying B<Gnome::Gtk4::FileFilter>
+rules:
+=begin comment
+<object class="GtkFileFilter">
+  <property name="name" translatable="yes">Text and Images</property>
+  <mime-types>
+    <mime-type>text/plain</mime-type>
+    <mime-type>image/ *</mime-type>
+  </mime-types>
+  <patterns>
+    <pattern>*.txt</pattern>
+  </patterns>
+  <suffixes>
+    <suffix>png</suffix>
+  </suffixes>
+</object>
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::FileFilter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-filefilter
+
+Creates a new B<Gnome::Gtk4::FileFilter> with no rules added to it.
+
+Such a filter doesn’t accept any files, so is not
+particularly useful until you add rules with
+C<.add-mime-type()>,
+C<.add-pattern()>,
+C<.add-suffix()> or
+C<.add-pixbuf-formats()>.
+
+To create a filter that accepts any file, use:
+=begin comment
+GtkFileFilter *filter = gtk_file_filter_new ();
+gtk_file_filter_add_pattern (filter, "*");
+
+=end comment
+
+=begin code
+method new-filefilter ( --> Gnome::Gtk4::FileFilter \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-filefilter
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-gvariant
+
+Deserialize a file filter from a B<Gnome::Glib::N-Variant>.
+
+The variant must be in the format produced by
+C<.to-gvariant()>.
+
+=begin code
+method new-from-gvariant ( N-Object $variant --> Gnome::Gtk4::FileFilter \)
+=end code
+
+=item $variant; an B<a{sv}> B<Gnome::Glib::N-Variant>
+
+=begin comment
+
+=head2 Example
+# Example for new-from-gvariant
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-mime-type
+
+Adds a rule allowing a given mime type to C<$filter>.
+
+=begin code
+method add-mime-type ( Str $mime-type )
+=end code
+
+=item $mime-type; name of a MIME type.
+
+=begin comment
+
+=head2 Example
+# Example for add-mime-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-pattern
+
+Adds a rule allowing a shell style glob to a filter.
+
+Note that it depends on the platform whether pattern
+matching ignores case or not. On Windows, it does, on
+other platforms, it doesn't.
+
+=begin code
+method add-pattern ( Str $pattern )
+=end code
+
+=item $pattern; a shell style glob.
+
+=begin comment
+
+=head2 Example
+# Example for add-pattern
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-pixbuf-formats
+
+Adds a rule allowing image files in the formats supported
+by GdkPixbuf.
+
+This is equivalent to calling C<.add-mime-type()>
+for all the supported mime types.
+
+=begin code
+method add-pixbuf-formats ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for add-pixbuf-formats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-suffix
+
+Adds a suffix match rule to a filter.
+
+This is similar to adding a match for the pattern
+"*. C<$suffix>".
+
+In contrast to pattern matches, suffix matches
+are *always* case-insensitive.
+
+=begin code
+method add-suffix ( Str $suffix )
+=end code
+
+=item $suffix; filename suffix to match.
+
+=begin comment
+
+=head2 Example
+# Example for add-suffix
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-attributes
+
+Gets the attributes that need to be filled in for the B<Gnome::Gio::FileInfo>
+passed to this filter.
+
+This function will not typically be used by applications;
+it is intended principally for use in the implementation
+of B<Gnome::Gtk4::R-FileChooser>.
+
+=begin code
+method get-attributes (--> Array[Str] )
+=end code
+
+Return value; the attributes. 
+
+=begin comment
+
+=head2 Example
+# Example for get-attributes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-name
+
+Gets the human-readable name for the filter.
+
+See C<.set-name()>.
+
+=begin code
+method get-name (--> Str )
+=end code
+
+Return value; The human-readable name of the filter. 
+
+=begin comment
+
+=head2 Example
+# Example for get-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-name
+
+Sets a human-readable name of the filter.
+
+This is the string that will be displayed in the file chooser
+if there is a selectable list of filters.
+
+=begin code
+method set-name ( Str $name )
+=end code
+
+=item $name; the human-readable-name for the filter, or undefined
+  to remove any existing name..
+
+=begin comment
+
+=head2 Example
+# Example for set-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-gvariant
+
+Serialize a file filter to an B<a{sv}> variant.
+
+=begin code
+method to-gvariant (--> N-Object )
+=end code
+
+Return value; a new, floating, B<Gnome::Glib::N-Variant>. 
+
+=begin comment
+
+=head2 Example
+# Example for to-gvariant
+
+=end comment
+
+=end pod
+

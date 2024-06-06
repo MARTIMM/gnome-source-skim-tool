@@ -1,0 +1,183 @@
+=comment Package: Gtk4, C-Source: filefilter
+use v6.d;
+
+#TL:1:Gnome::Gtk4::FileFilter:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Glib::N-Variant:api<2>;
+use Gnome::Glib::T-variant:api<2>;
+use Gnome::Gtk4::FileFilter:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::FileFilter $filefilter;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $filefilter {
+    my N-Object $variant;
+
+#`{{
+    #TC:0:new-filefilter()
+
+    $filefilter .= new-filefilter();
+    ok .is-valid, '.new-filefilter()';
+
+    #TC:0:new-from-gvariant()
+    $variant = …;
+    $filefilter .= new-from-gvariant( $variant);
+    ok .is-valid, '.new-from-gvariant( $variant)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $filefilter {
+    my Str $pattern;
+    my Str $suffix;
+    my Str $mime-type;
+    my Str $name;
+
+
+#`{{
+    #TM:0:add-mime-type()
+    ok .add-mime-type( $mime-type), '.add-mime-type()';
+
+    #TM:0:add-pattern()
+    ok .add-pattern( $pattern), '.add-pattern()';
+
+    #TM:0:add-pixbuf-formats()
+    ok .add-pixbuf-formats(), '.add-pixbuf-formats()';
+
+    #TM:0:add-suffix()
+    ok .add-suffix( $suffix), '.add-suffix()';
+
+    #TM:0:get-attributes()
+     .get-attributes(), '…', '.get-attributes()';
+
+    #TM:0:set-name()
+    $name = 'text';
+    .set-name( $name);
+    #TM:0:get-name()
+    is .get-name(),  $name, '.set-name() / .get-name()';
+
+    #TM:0:to-gvariant()
+    ok .to-gvariant(), '.to-gvariant()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $filefilter {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::FileFilter() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::FileFilter;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::FileFilter :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::FileFilter $filefilter .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $filefilter.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
