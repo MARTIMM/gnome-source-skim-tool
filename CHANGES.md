@@ -72,6 +72,10 @@ find . -name '*.raku*' | xargs wc -l
 * TDDO Improve documentation. Make use of RakuDoc which is not yet available.
 
 # Release notes
+* 2024-06-20 0.16.4
+  * Regenerated ComboBox* for its deprecation message.
+  * Generated several new modules
+
 * 2024-05-19 0.16.3
   * Changed module **Gnome::Gio::ApplicationCommandLine** by adding a new method `.done()`. This available since version 2.8 of the Gio library.
 
