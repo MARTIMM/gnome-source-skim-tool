@@ -35,11 +35,11 @@ using C<.get-active-text()>.
 You should not call C<.set-model() in class Gnome::Gtk4::ComboBox> or attempt to pack more
 cells into this combo box via its B<Gnome::Gtk4::R-CellLayout> interface.
 
-=head2 GtkComboBoxText as GtkBuildable
+=head3 GtkComboBoxText as GtkBuildable
 
 The B<Gnome::Gtk4::ComboBoxText> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
-adding items directly using the <items> element and specifying <item>
-elements for each item. Each <item> element can specify the “id”
+adding items directly using the B<<items>> element and specifying B<<item>>
+elements for each item. Each B<<item>> element can specify the “id”
 corresponding to the appended text and also supports the regular
 translation attributes “translatable”, “context” and “comments”.
 
@@ -55,7 +55,7 @@ Here is a UI definition fragment specifying B<Gnome::Gtk4::ComboBoxText> items:
 
 =end comment
 
-=head2 CSS nodes
+=head3 CSS nodes
 
 =begin comment
 combobox
@@ -93,6 +93,8 @@ children, and the .linked class to the node of its internal box.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -101,17 +103,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-comboboxtext
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::ComboBoxText>.
 
@@ -131,6 +129,8 @@ method new-comboboxtext ( --> Gnome::Gtk4::ComboBoxText \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-entry
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::ComboBoxText> with an entry.
 
@@ -159,6 +159,8 @@ method new-with-entry ( --> Gnome::Gtk4::ComboBoxText \)
 =begin pod
 =head2 append
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Appends C<$text> to the list of strings stored in C<$combo-box>.
 
 If C<$id> is non-undefined then it is used as the ID of the row.
@@ -186,6 +188,8 @@ method append ( Str $id, Str $text )
 =begin pod
 =head2 append-text
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Appends C<$text> to the list of strings stored in C<$combo-box>.
 
 This is the same as calling C<.insert-text()>
@@ -209,6 +213,8 @@ method append-text ( Str $text )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-active-text
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the currently active string in C<$combo-box>.
 
@@ -238,6 +244,8 @@ Return value; a newly allocated
 =begin pod
 =head2 insert
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Inserts C<$text> at C<$position> in the list of strings stored in C<$combo-box>.
 
 If C<$id> is non-undefined then it is used as the ID of the row.
@@ -266,6 +274,8 @@ method insert ( Int() $position, Str $id, Str $text )
 =begin pod
 =head2 insert-text
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Inserts C<$text> at C<$position> in the list of strings stored in C<$combo-box>.
 
 If C<$position> is negative then C<$text> is appended.
@@ -292,6 +302,8 @@ method insert-text ( Int() $position, Str $text )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 prepend
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Prepends C<$text> to the list of strings stored in C<$combo-box>.
 
@@ -320,6 +332,8 @@ method prepend ( Str $id, Str $text )
 =begin pod
 =head2 prepend-text
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Prepends C<$text> to the list of strings stored in C<$combo-box>.
 
 This is the same as calling C<.insert-text()>
@@ -344,6 +358,8 @@ method prepend-text ( Str $text )
 =begin pod
 =head2 remove
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Removes the string at C<$position> from C<$combo-box>.
 
 =begin code
@@ -364,6 +380,8 @@ method remove ( Int() $position )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 remove-all
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Removes all the text entries from the combo box.
 

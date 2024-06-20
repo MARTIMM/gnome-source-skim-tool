@@ -71,7 +71,7 @@ It contains a box with the .linked class. That box contains an entry and
 a button, both with the .combo class added. The button also contains another
 node with name arrow.
 
-=head2 Accessibility
+=head3 Accessibility
 
 B<Gnome::Gtk4::ComboBox> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
 
@@ -98,6 +98,8 @@ B<Gnome::Gtk4::ComboBox> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -106,17 +108,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-combobox
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new empty B<Gnome::Gtk4::ComboBox>.
 
@@ -136,6 +134,8 @@ method new-combobox ( --> Gnome::Gtk4::ComboBox \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-entry
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new empty B<Gnome::Gtk4::ComboBox> with an entry.
 
@@ -160,6 +160,8 @@ method new-with-entry ( --> Gnome::Gtk4::ComboBox \)
 =begin pod
 =head2 new-with-model
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a new B<Gnome::Gtk4::ComboBox> with a model.
 
 =begin code
@@ -180,6 +182,8 @@ method new-with-model ( N-Object() $model --> Gnome::Gtk4::ComboBox \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-model-and-entry
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new empty B<Gnome::Gtk4::ComboBox> with an entry and a model.
 
@@ -212,6 +216,8 @@ method new-with-model-and-entry ( N-Object() $model --> Gnome::Gtk4::ComboBox \)
 =begin pod
 =head2 get-active
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the index of the currently active item.
 
 If the model is a non-flat treemodel, and the active item is not
@@ -238,6 +244,8 @@ Return value; An integer which is the index of the currently active item,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-active-id
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the ID of the active row of C<$combo-box>.
 
@@ -272,15 +280,17 @@ Return value; the ID of the active row.
 =begin pod
 =head2 get-active-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$iter> to point to the currently active item.
 
 If no item is active, C<$iter> is left unchanged.
 
 =begin code
-method get-active-iter ( CArray[N-TreeIter] $iter --> Bool )
+method get-active-iter ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; A B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; A B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True> if C<$iter> was set, C<False> otherwise. 
 
@@ -296,6 +306,8 @@ Return value; C<True> if C<$iter> was set, C<False> otherwise.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-button-sensitivity
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns whether the combo box sets the dropdown button
 sensitive or not when there are no items in the model.
@@ -323,6 +335,8 @@ Return value; C<GTK_SENSITIVITY_ON> if the dropdown button
 =begin pod
 =head2 get-child
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the child widget of C<$combo-box>.
 
 =begin code
@@ -343,6 +357,8 @@ Return value; the child widget of C<$combo-box>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-entry-text-column
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the column which C<$combo-box> is using to get the strings
 from to display in the internal entry.
@@ -366,6 +382,8 @@ Return value; A column in the data source model of C<$combo-box>..
 =begin pod
 =head2 get-has-entry
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns whether the combo box has an entry.
 
 =begin code
@@ -386,6 +404,8 @@ Return value; whether there is an entry in C<$combo-box>..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-id-column
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the column which C<$combo-box> is using to get string IDs
 for values from.
@@ -409,6 +429,8 @@ Return value; A column in the data source model of C<$combo-box>..
 =begin pod
 =head2 get-model
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the B<Gnome::Gtk4::R-TreeModel> of C<$combo-box>.
 
 =begin code
@@ -431,6 +453,8 @@ Return value; A B<Gnome::Gtk4::R-TreeModel> which was passed
 =begin pod
 =head2 get-popup-fixed-width
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets whether the popup uses a fixed width.
 
 =begin code
@@ -451,6 +475,8 @@ Return value; C<True> if the popup uses a fixed width.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-row-separator-func
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the current row separator function.
 
@@ -473,6 +499,8 @@ Return value; the current row separator function..
 =begin pod
 =head2 popdown
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Hides the menu or dropdown list of C<$combo-box>.
 
 This function is mostly intended for use by accessibility technologies;
@@ -494,6 +522,8 @@ method popdown ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 popup
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Pops up the menu or dropdown list of C<$combo-box>.
 
@@ -518,6 +548,8 @@ method popup ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 popup-for-device
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Pops up the menu of C<$combo-box>.
 
@@ -545,6 +577,8 @@ method popup-for-device ( N-Object() $device )
 =begin pod
 =head2 set-active
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the active item of C<$combo-box> to be the item at C<$index>.
 
 =begin code
@@ -566,6 +600,8 @@ method set-active ( Int() $index )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-active-id
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Changes the active row of C<$combo-box> to the one that has an ID equal to C<$active-id>.
 
@@ -599,15 +635,17 @@ Return value; C<True> if a row with a matching ID was found. If a undefined
 =begin pod
 =head2 set-active-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the current active item to be the one referenced by C<$iter>.
 
 If C<$iter> is undefined, the active item is unset.
 
 =begin code
-method set-active-iter ( CArray[N-TreeIter] $iter )
+method set-active-iter ( N-Object $iter )
 =end code
 
-=item $iter; The B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; The B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 
@@ -621,6 +659,8 @@ method set-active-iter ( CArray[N-TreeIter] $iter )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-button-sensitivity
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether the dropdown button of the combo box should update
 its sensitivity depending on the model contents.
@@ -644,6 +684,8 @@ method set-button-sensitivity ( GtkSensitivityType $sensitivity )
 =begin pod
 =head2 set-child
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the child widget of C<$combo-box>.
 
 =begin code
@@ -664,6 +706,8 @@ method set-child ( N-Object() $child )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-entry-text-column
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the model column which C<$combo-box> should use to get strings
 from to be C<$text-column>.
@@ -697,6 +741,8 @@ method set-entry-text-column ( Int() $text-column )
 =begin pod
 =head2 set-id-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the model column which C<$combo-box> should use to get string IDs
 for values from.
 
@@ -721,6 +767,8 @@ method set-id-column ( Int() $id-column )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-model
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the model used by C<$combo-box> to be C<$model>.
 
@@ -750,6 +798,8 @@ method set-model ( N-Object() $model )
 =begin pod
 =head2 set-popup-fixed-width
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Specifies whether the popup’s width should be a fixed width.
 
 If C<$fixed> is C<True>, the popup's width is set to match the
@@ -775,6 +825,8 @@ method set-popup-fixed-width ( Bool() $fixed )
 =head2 set-row-separator-func
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the row separator function, which is used to determine
 whether a row should be drawn as a separator.
 
@@ -785,7 +837,7 @@ This is the default value.
 method set-row-separator-func ( &func, gpointer $data, … )
 =end code
 
-=item &func; a B<Gnome::Gtk4::T-treeview>. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreeIter $iter, gpointer $data --> gboolean )>.
+=item &func; a B<Gnome::Gtk4::T-treeview>. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $iter, gpointer $data --> gboolean )>.
 =item $data; user data to pass to C<$func>.
 =item destroy; destroy notifier for C<$data>. Note that each argument must be specified as a type followed by its value!
 

@@ -9,6 +9,7 @@ use NativeCall;
 
 
 use Gnome::Gtk4::ComboBox:api<2>;
+#use Gnome::N:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -36,6 +37,13 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::ComboBoxText', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -57,19 +65,19 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-comboboxtext => %( :type(Constructor), :is-symbol<gtk_combo_box_text_new>, :returns(N-Object), ),
-  new-with-entry => %( :type(Constructor), :is-symbol<gtk_combo_box_text_new_with_entry>, :returns(N-Object), ),
+  new-comboboxtext => %( :type(Constructor), :is-symbol<gtk_combo_box_text_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  new-with-entry => %( :type(Constructor), :is-symbol<gtk_combo_box_text_new_with_entry>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
 
   #--[Methods]------------------------------------------------------------------
-  append => %(:is-symbol<gtk_combo_box_text_append>,  :parameters([Str, Str])),
-  append-text => %(:is-symbol<gtk_combo_box_text_append_text>,  :parameters([Str])),
-  get-active-text => %(:is-symbol<gtk_combo_box_text_get_active_text>,  :returns(Str)),
-  insert => %(:is-symbol<gtk_combo_box_text_insert>,  :parameters([gint, Str, Str])),
-  insert-text => %(:is-symbol<gtk_combo_box_text_insert_text>,  :parameters([gint, Str])),
-  prepend => %(:is-symbol<gtk_combo_box_text_prepend>,  :parameters([Str, Str])),
-  prepend-text => %(:is-symbol<gtk_combo_box_text_prepend_text>,  :parameters([Str])),
-  remove => %(:is-symbol<gtk_combo_box_text_remove>,  :parameters([gint])),
-  remove-all => %(:is-symbol<gtk_combo_box_text_remove_all>, ),
+  append => %(:is-symbol<gtk_combo_box_text_append>,  :parameters([Str, Str]),:deprecated, :deprecated-version<4.10>, ),
+  append-text => %(:is-symbol<gtk_combo_box_text_append_text>,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
+  get-active-text => %(:is-symbol<gtk_combo_box_text_get_active_text>,  :returns(Str),:deprecated, :deprecated-version<4.10>, ),
+  insert => %(:is-symbol<gtk_combo_box_text_insert>,  :parameters([gint, Str, Str]),:deprecated, :deprecated-version<4.10>, ),
+  insert-text => %(:is-symbol<gtk_combo_box_text_insert_text>,  :parameters([gint, Str]),:deprecated, :deprecated-version<4.10>, ),
+  prepend => %(:is-symbol<gtk_combo_box_text_prepend>,  :parameters([Str, Str]),:deprecated, :deprecated-version<4.10>, ),
+  prepend-text => %(:is-symbol<gtk_combo_box_text_prepend_text>,  :parameters([Str]),:deprecated, :deprecated-version<4.10>, ),
+  remove => %(:is-symbol<gtk_combo_box_text_remove>,  :parameters([gint]),:deprecated, :deprecated-version<4.10>, ),
+  remove-all => %(:is-symbol<gtk_combo_box_text_remove_all>, :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
