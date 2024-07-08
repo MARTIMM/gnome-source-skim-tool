@@ -1,0 +1,258 @@
+=comment Package: Gtk4, C-Source: gesturesingle
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::GestureSingle
+
+![](images/gesturesingle.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::GestureSingle> is a B<GtkGestures> subclass optimized for singe-touch
+and mouse gestures.
+
+Under interaction, these gestures stick to the first interacting sequence,
+which is accessible through C<.get-current-sequence()>
+while the gesture is being interacted with.
+
+By default gestures react to both C<GDK_BUTTON_PRIMARY> and touch events.
+C<.set-touch-only()> can be used to change the
+touch behavior. Callers may also specify a different mouse button number
+to interact with through C<.set-button()>, or react
+to any mouse button by setting it to 0. While the gesture is active, the
+button being currently pressed can be known through
+C<.get-current-button()>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::GestureSingle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-button
+
+Returns the button number C<$gesture> listens for.
+
+If this is 0, the gesture reacts to any button press.
+
+=begin code
+method get-button (--> UInt )
+=end code
+
+Return value; The button number, or 0 for any button. 
+
+=begin comment
+
+=head2 Example
+# Example for get-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-button
+
+Returns the button number currently interacting
+with C<$gesture>, or 0 if there is none.
+
+=begin code
+method get-current-button (--> UInt )
+=end code
+
+Return value; The current button number. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-sequence
+
+Returns the event sequence currently interacting with C<$gesture>.
+
+This is only meaningful if C<.is-active() in class Gnome::Gtk4::Gesture>
+returns C<True>.
+
+=begin code
+method get-current-sequence (--> N-Object )
+=end code
+
+Return value; the current sequence. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-sequence
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-exclusive
+
+Gets whether a gesture is exclusive.
+
+For more information, see C<.set-exclusive()>.
+
+=begin code
+method get-exclusive (--> Bool )
+=end code
+
+Return value; Whether the gesture is exclusive. 
+
+=begin comment
+
+=head2 Example
+# Example for get-exclusive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-touch-only
+
+Returns C<True> if the gesture is only triggered by touch events.
+
+=begin code
+method get-touch-only (--> Bool )
+=end code
+
+Return value; C<True> if the gesture only handles touch events. 
+
+=begin comment
+
+=head2 Example
+# Example for get-touch-only
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-button
+
+Sets the button number C<$gesture> listens to.
+
+If non-0, every button press from a different button
+number will be ignored. Touch events implicitly match
+with button 1.
+
+=begin code
+method set-button ( UInt() $button )
+=end code
+
+=item $button; button number to listen to, or 0 for any button.
+
+=begin comment
+
+=head2 Example
+# Example for set-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-exclusive
+
+Sets whether C<$gesture> is exclusive.
+
+An exclusive gesture will only handle pointer and "pointer emulated"
+touch events, so at any given time, there is only one sequence able
+to interact with those.
+
+=begin code
+method set-exclusive ( Bool() $exclusive )
+=end code
+
+=item $exclusive; C<True> to make C<$gesture> exclusive.
+
+=begin comment
+
+=head2 Example
+# Example for set-exclusive
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-touch-only
+
+Sets whether to handle only touch events.
+
+If C<$touch-only> is C<True>, C<$gesture> will only handle events of type
+C<GDK_TOUCH_BEGIN>, C<GDK_TOUCH_UPDATE> or C<GDK_TOUCH_END>. If C<False>,
+mouse events will be handled too.
+
+=begin code
+method set-touch-only ( Bool() $touch-only )
+=end code
+
+=item $touch-only; whether C<$gesture> handles only touch events.
+
+=begin comment
+
+=head2 Example
+# Example for set-touch-only
+
+=end comment
+
+=end pod
+
