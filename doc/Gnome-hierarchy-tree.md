@@ -371,7 +371,7 @@ GObject                                         Gnome::GObject::Object
 |   ├── VulkanContext
 ├── Clipboard
 ├── ContentDeserializer
-├── ContentProvider
+├── ContentProvider                             ContentProvider
 ├── ContentSerializer
 ├── Cursor
 ├── Device
