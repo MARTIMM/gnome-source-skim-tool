@@ -159,9 +159,9 @@ GObject                                         Gnome::GObject::Object
 │   ╰── GtkTreeListRowSorter                    TreeListRowSorter
 ├── GtkDirectoryList
 ├── GtktEvenController                          EvenController
-│   ├── GtkGesture
-│   │   ├── GtkGestureSingle
-│   │   │   ├── GtkDragSource
+│   ├── GtkGesture                              Gesture
+│   │   ├── GtkGestureSingle                    GestureSingle
+│   │   │   ├── GtkDragSource                   DragSource
 │   │   │   ├── GtkGestureClick
 │   │   │   ├── GtkGestureDrag
 │   │   │   │   ╰── GtkGesturePan
