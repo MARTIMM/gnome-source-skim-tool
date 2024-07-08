@@ -1,0 +1,363 @@
+=comment Package: Gdk4, C-Source: contentprovider
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gdk4::ContentProvider
+
+=head1 Description
+
+A B<Gnome::Gdk4::ContentProvider> is used to provide content for the clipboard or
+for drag-and-drop operations in a number of formats.
+
+To create a B<Gnome::Gdk4::ContentProvider>, use C<.new-for-value()>
+or C<.new-for-bytes()>.
+
+GDK knows how to handle common text and image formats out-of-the-box. See
+B<Gnome::Gdk4::ContentSerializer> and B<Gnome::Gdk4::ContentDeserializer> if you want
+to add support for application-specific data formats.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::ContentProvider
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-bytes
+
+Create a content provider that provides the given C<$bytes> as data for
+the given C<$mime-type>.
+
+=begin code
+method new-for-bytes ( Str $mime-type, N-Object $bytes --> Gnome::Gdk4::ContentProvider \)
+=end code
+
+=item $mime-type; the mime type.
+=item $bytes; a B<Gnome::Glib::N-Bytes> with the data for C<$mime-type>
+
+=begin comment
+
+=head2 Example
+# Example for new-for-bytes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-value
+
+Create a content provider that provides the given C<$value>.
+
+=begin code
+method new-for-value ( N-Object $value --> Gnome::Gdk4::ContentProvider \)
+=end code
+
+=item $value; a B<Gnome::GObject::N-Value>
+
+=begin comment
+
+=head2 Example
+# Example for new-for-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-typed
+This function is not yet available
+
+Create a content provider that provides the value of the given C<$type>.
+
+The value is provided using G_VALUE_COLLECT(), so the same rules
+apply as when calling g_object_new() or g_object_set().
+
+=begin code
+method new-typed ( GType $type, … --> Gnome::Gdk4::ContentProvider \)
+=end code
+
+=item $type; Type of value to follow.
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-typed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-union
+
+Creates a content provider that represents all the given C<$providers>.
+
+Whenever data needs to be written, the union provider will try the given C<$providers> in the given order and the first one supporting a format will
+be chosen to provide it.
+
+This allows an easy way to support providing data in different formats.
+For example, an image may be provided by its file and by the image
+contents with a call such as
+=begin comment
+gdk_content_provider_new_union ((GdkContentProvider *[2]) {
+                                  gdk_content_provider_new_typed (G_TYPE_FILE, file),
+                                  gdk_content_provider_new_typed (G_TYPE_TEXTURE, texture)
+                                }, 2);
+
+=end comment
+
+=begin code
+method new-union ( N-Object() $providers, Int() $n-providers --> Gnome::Gdk4::ContentProvider \)
+=end code
+
+=item $providers; (transfer ownership: full) 
+  The B<Gnome::Gdk4::ContentProvider>s to present the union of.
+=item $n-providers; the number of providers.
+
+=begin comment
+
+=head2 Example
+# Example for new-union
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 content-changed
+
+Emits the I<content-changed> signal.
+
+=begin code
+method content-changed ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for content-changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Gets the contents of C<$provider> stored in C<$value>.
+
+The C<$value> will have been initialized to the B<Gnome::GObject::ContentProvider> the value should be
+provided in. This given B<Gnome::GObject::ContentProvider> does not need to be listed in the formats
+returned by C<.ref-formats()>. However, if the
+given B<Gnome::GObject::ContentProvider> is not supported, this operation can fail and
+B<G_IO_ERROR_NOT_SUPPORTED> will be reported.
+
+=begin code
+method get-value ( N-Object $value, CArray[N-Error] $err --> Bool )
+=end code
+
+=item $value; the B<Gnome::GObject::N-Value> to fill
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; C<True> if the value was set successfully. Otherwise
+  C<$error> will be set to describe the failure.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref-formats
+
+Gets the formats that the provider can provide its current contents in.
+
+=begin code
+method ref-formats (--> N-Object )
+=end code
+
+Return value; The formats of the provider. 
+
+=begin comment
+
+=head2 Example
+# Example for ref-formats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref-storable-formats
+
+Gets the formats that the provider suggests other applications to store
+the data in.
+
+An example of such an application would be a clipboard manager.
+
+This can be assumed to be a subset of C<.ref-formats()>.
+
+=begin code
+method ref-storable-formats (--> N-Object )
+=end code
+
+Return value; The storable formats of the provider. 
+
+=begin comment
+
+=head2 Example
+# Example for ref-storable-formats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 write-mime-type-async
+This function is not yet available
+
+Asynchronously writes the contents of C<$provider> to C<$stream> in the given C<$mime-type>.
+
+When the operation is finished C<$callback> will be called. You must then call
+C<.write-mime-type-finish()> to get the result
+of the operation.
+
+The given mime type does not need to be listed in the formats returned by
+C<.ref-formats()>. However, if the given B<Gnome::GObject::ContentProvider> is
+not supported, B<G_IO_ERROR_NOT_SUPPORTED> will be reported.
+
+The given C<$stream> will not be closed.
+
+=begin code
+method write-mime-type-async ( Str $mime-type, N-Object() $stream, Int() $io-priority, N-Object() $cancellable, …, gpointer $user-data )
+=end code
+
+=item $mime-type; the mime type to provide the data in.
+=item $stream; the B<Gnome::Gio::OutputStream> to write to.
+=item $io-priority; I/O priority of the request..
+=item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore..
+=item callback; callback to call when the request is satisfied. Note that each argument must be specified as a type followed by its value!
+=item $user-data; the data to pass to callback function.
+
+=begin comment
+
+=head2 Example
+# Example for write-mime-type-async
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 write-mime-type-finish
+
+Finishes an asynchronous write operation.
+
+See C<.write-mime-type-async()>.
+
+=begin code
+method write-mime-type-finish ( N-Object() $result, CArray[N-Error] $err --> Bool )
+=end code
+
+=item $result; a B<Gnome::Gio::R-AsyncResult>.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; C<True> if the operation was completed successfully. Otherwise
+  C<$error> will be set to describe the failure.. 
+
+=begin comment
+
+=head2 Example
+# Example for write-mime-type-finish
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 content-changed
+
+Emitted whenever the content provided by this provider has changed.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::ContentProvider :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::ContentProvider> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal content-changed
+
+=end comment
+
+=end pod
+

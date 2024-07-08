@@ -1,0 +1,204 @@
+=comment Package: Gdk4, C-Source: contentprovider
+use v6.d;
+
+#TL:1:Gnome::Gdk4::ContentProvider:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
+use Gnome::Gdk4::ContentProvider:api<2>;
+use Gnome::Gdk4::N-ContentFormats:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::Glib::T-error:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gdk4::ContentProvider $contentprovider;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $contentprovider {
+    my gsize $n-providers;
+    my GType $type;
+    my Str $mime-type;
+    my N-Object $value;
+    my N-Object $bytes;
+    my CArray[N-Object] $providers;
+
+#`{{
+    #TC:0:new-for-bytes()
+    $mime-type = 'text';
+    $bytes = …;
+    $contentprovider .= new-for-bytes( $mime-type, $bytes);
+    ok .is-valid, '.new-for-bytes( $mime-type, $bytes)';
+
+    #TC:0:new-for-value()
+    $value = …;
+    $contentprovider .= new-for-value( $value);
+    ok .is-valid, '.new-for-value( $value)';
+
+    #TC:0:new-typed()
+    $type = '…';
+    $contentprovider .= new-typed( $type);
+    ok .is-valid, '.new-typed( $type)';
+
+    #TC:0:new-union()
+    $providers = '…';
+    $n-providers = '…';
+    $contentprovider .= new-union( $providers, $n-providers);
+    ok .is-valid, '.new-union( $providers, $n-providers)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $contentprovider {
+    my gint $io-priority;
+    my gpointer $user-data;
+    my N-Object $value;
+    my  $callback;
+    my N-Object $result;
+    my Str $mime-type;
+    my N-Object $stream;
+    my N-Object $cancellable;
+    my CArray[N-Error] $err;
+
+
+#`{{
+    #TM:0:content-changed()
+    ok .content-changed(), '.content-changed()';
+
+    #TM:0:get-value()
+    is .get-value( $value, $err), '…', '.get-value()';
+
+    #TM:0:ref-formats()
+    ok .ref-formats(), '.ref-formats()';
+
+    #TM:0:ref-storable-formats()
+    ok .ref-storable-formats(), '.ref-storable-formats()';
+
+    #TM:0:write-mime-type-async()
+    ok .write-mime-type-async( $mime-type, $stream, $io-priority, $cancellable, $callback, $user-data), '.write-mime-type-async()';
+
+    #TM:0:write-mime-type-finish()
+    ok .write-mime-type-finish( $result, $err), '.write-mime-type-finish()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $contentprovider {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gdk4::ContentProvider() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gdk4::ContentProvider;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gdk4::ContentProvider :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gdk4::ContentProvider $contentprovider .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $contentprovider.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
