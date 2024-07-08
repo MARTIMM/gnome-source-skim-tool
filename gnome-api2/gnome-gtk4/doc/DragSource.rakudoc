@@ -1,0 +1,475 @@
+=comment Package: Gtk4, C-Source: dragsource
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::DragSource
+
+![](images/dragsource.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::DragSource> is an event controller to initiate Drag-And-Drop operations.
+
+B<Gnome::Gtk4::DragSource> can be set up with the necessary
+ingredients for a DND operation ahead of time. This includes
+the source for the data that is being transferred, in the form
+of a B<Gnome::Gdk4::ContentProvider>, the desired action, and the icon to
+use during the drag operation. After setting it up, the drag
+source must be added to a widget as an event controller, using
+C<.add-controller() in class Gnome::Gtk4::Widget>.
+
+=begin comment
+static void
+my_widget_init (MyWidget *self)
+{
+  GtkDragSource *drag_source = gtk_drag_source_new ();
+
+  g_signal_connect (drag_source, "prepare", G_CALLBACK (on_drag_prepare), self);
+  g_signal_connect (drag_source, "drag-begin", G_CALLBACK (on_drag_begin), self);
+
+  gtk_widget_add_controller (GTK_WIDGET (self), GTK_EVENT_CONTROLLER (drag_source));
+}
+
+=end comment
+
+Setting up the content provider and icon ahead of time only makes
+sense when the data does not change. More commonly, you will want
+to set them up just in time. To do so, B<Gnome::Gtk4::DragSource> has
+I<prepare> and I<drag-begin>
+signals.
+
+The I<prepare> signal is emitted before a drag is started, and
+can be used to set the content provider and actions that the
+drag should be started with.
+
+=begin comment
+static GdkContentProvider *
+on_drag_prepare (GtkDragSource *source,
+                 double         x,
+                 double         y,
+                 MyWidget      *self)
+{
+  // This widget supports two types of content: GFile objects
+  // and GdkPixbuf objects; GTK will handle the serialization
+  // of these types automatically
+  GFile *file = my_widget_get_file (self);
+  GdkPixbuf *pixbuf = my_widget_get_pixbuf (self);
+
+  return gdk_content_provider_new_union ((GdkContentProvider *[2]) {
+      gdk_content_provider_new_typed (G_TYPE_FILE, file),
+      gdk_content_provider_new_typed (GDK_TYPE_PIXBUF, pixbuf),
+    }, 2);
+}
+
+=end comment
+
+The I<drag-begin> signal is emitted after the B<Gnome::Gdk4::Drag> object has
+been created, and can be used to set up the drag icon.
+
+=begin comment
+static void
+on_drag_begin (GtkDragSource *source,
+               GdkDrag       *drag,
+               MyWidget      *self)
+{
+  // Set the widget as the drag icon
+  GdkPaintable *paintable = gtk_widget_paintable_new (GTK_WIDGET (self));
+  gtk_drag_source_set_icon (source, paintable, 0, 0);
+  g_object_unref (paintable);
+}
+
+=end comment
+
+During the DND operation, B<Gnome::Gtk4::DragSource> emits signals that
+can be used to obtain updates about the status of the operation,
+but it is not normally necessary to connect to any signals,
+except for one case: when the supported actions include
+C<GDK_ACTION_MOVE>, you need to listen for the
+I<drag-end> signal and delete the
+data after it has been transferred.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::DragSource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-dragsource
+
+Creates a new B<Gnome::Gtk4::DragSource> object.
+
+=begin code
+method new-dragsource ( --> Gnome::Gtk4::DragSource \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-dragsource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 drag-cancel
+
+Cancels a currently ongoing drag operation.
+
+=begin code
+method drag-cancel ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for drag-cancel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-actions
+
+Gets the actions that are currently set on the B<Gnome::Gtk4::DragSource>.
+
+=begin code
+method get-actions (--> UInt )
+=end code
+
+Return value; the actions set on C<$source>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-actions
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-content
+
+Gets the current content provider of a B<Gnome::Gtk4::DragSource>.
+
+=begin code
+method get-content (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gdk4::ContentProvider> of C<$source>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-content
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-drag
+
+Returns the underlying B<Gnome::Gdk4::Drag> object for an ongoing drag.
+
+=begin code
+method get-drag (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gdk4::Drag> of the current
+  drag operation. 
+
+=begin comment
+
+=head2 Example
+# Example for get-drag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-actions
+
+Sets the actions on the B<Gnome::Gtk4::DragSource>.
+
+During a DND operation, the actions are offered to potential
+drop targets. If C<$actions> include C<GDK_ACTION_MOVE>, you need
+to listen to the I<drag-end> signal and
+handle C<$delete-data> being C<True>.
+
+This function can be called before a drag is started,
+or in a handler for the I<prepare> signal.
+
+=begin code
+method set-actions ( UInt $actions )
+=end code
+
+=item $actions; the actions to offer.
+
+=begin comment
+
+=head2 Example
+# Example for set-actions
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-content
+
+Sets a content provider on a B<Gnome::Gtk4::DragSource>.
+
+When the data is requested in the cause of a DND operation,
+it will be obtained from the content provider.
+
+This function can be called before a drag is started,
+or in a handler for the I<prepare> signal.
+
+You may consider setting the content provider back to
+undefined in a I<drag-end> signal handler.
+
+=begin code
+method set-content ( N-Object() $content )
+=end code
+
+=item $content; a B<Gnome::Gdk4::ContentProvider>.
+
+=begin comment
+
+=head2 Example
+# Example for set-content
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-icon
+
+Sets a paintable to use as icon during DND operations.
+
+The hotspot coordinates determine the point on the icon
+that gets aligned with the hotspot of the cursor.
+
+If C<$paintable> is undefined, a default icon is used.
+
+This function can be called before a drag is started, or in
+a I<prepare> or
+I<drag-begin> signal handler.
+
+=begin code
+method set-icon ( N-Object() $paintable, Int() $hot-x, Int() $hot-y )
+=end code
+
+=item $paintable; the B<Gnome::Gdk4::R-Paintable> to use as icon.
+=item $hot-x; the hotspot X coordinate on the icon.
+=item $hot-y; the hotspot Y coordinate on the icon.
+
+=begin comment
+
+=head2 Example
+# Example for set-icon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 drag-begin
+
+Emitted on the drag source when a drag is started.
+
+It can be used to e.g. set a custom drag icon with
+C<.set-icon()>.
+
+=begin code
+method handler (
+   $drag,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DragSource :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $drag; the B<Gnome::Gdk4::Drag> object.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DragSource> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal drag-begin
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 drag-cancel
+
+Emitted on the drag source when a drag has failed.
+
+The signal handler may handle a failed drag operation based on
+the type of error. It should return C<True> if the failure has been handled
+and the default "drag operation failed" animation should not be shown.
+
+=begin code
+method handler (
+   $drag,
+   $reason,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DragSource :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $drag; the B<Gnome::Gdk4::Drag> object.
+=item $reason; information on why the drag failed.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DragSource> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if the failed drag operation has been already handled
+
+=begin comment
+
+=head2 Example
+# Example for signal drag-cancel
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 drag-end
+
+Emitted on the drag source when a drag is finished.
+
+A typical reason to connect to this signal is to undo
+things done in I<prepare> or
+I<drag-begin> handlers.
+
+=begin code
+method handler (
+   $drag,
+  gboolean $delete-data,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DragSource :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $drag; the B<Gnome::Gdk4::Drag> object.
+=item $delete-data; C<True> if the drag was performing C<GDK_ACTION_MOVE>,
+   and the data should be deleted.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DragSource> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal drag-end
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 prepare
+
+Emitted when a drag is about to be initiated.
+
+It returns the B<Gnome::Gdk4::ContentProvider> to use for the drag that is about
+to start. The default handler for this signal returns the value of
+the I<content> property, so if you set up that
+property ahead of time, you don't need to connect to this signal.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DragSource :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the X coordinate of the drag starting point.
+=item $y; the Y coordinate of the drag starting point.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DragSource> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal prepare
+
+=end comment
+
+=end pod
+

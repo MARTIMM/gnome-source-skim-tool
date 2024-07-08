@@ -1,0 +1,178 @@
+=comment Package: Gtk4, C-Source: dragsource
+use v6.d;
+
+#TL:1:Gnome::Gtk4::DragSource:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Gtk4::DragSource:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::DragSource $dragsource;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $dragsource {
+
+#`{{
+    #TC:0:new-dragsource()
+
+    $dragsource .= new-dragsource();
+    ok .is-valid, '.new-dragsource()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $dragsource {
+    my GFlag $actions;
+    my N-Object $content;
+    my gint $hot-y;
+    my N-Object $paintable;
+    my gint $hot-x;
+
+
+#`{{
+    #TM:0:drag-cancel()
+    ok .drag-cancel(), '.drag-cancel()';
+
+    #TM:0:get-drag()
+     .get-drag(), '…', '.get-drag()';
+
+    #TM:0:set-actions()
+    $actions = …;
+    .set-actions( $actions);
+    #TM:0:get-actions()
+    is .get-actions(),  $actions, '.set-actions() / .get-actions()';
+
+    #TM:0:set-content()
+    $content = …;
+    .set-content( $content);
+    #TM:0:get-content()
+    is .get-content(),  $content, '.set-content() / .get-content()';
+
+    #TM:0:set-icon()
+    $paintable = …;
+    $hot-x = '…';
+    $hot-y = '…';
+    .set-icon( $paintable, $hot-x, $hot-y);
+    ok True, '.set-icon()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $dragsource {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::DragSource() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::DragSource;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::DragSource :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::DragSource $dragsource .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $dragsource.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
