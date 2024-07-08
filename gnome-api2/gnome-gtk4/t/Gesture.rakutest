@@ -1,0 +1,210 @@
+=comment Package: Gtk4, C-Source: gesture
+use v6.d;
+
+#TL:1:Gnome::Gtk4::Gesture:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Gdk4::N-EventSequence:api<2>;
+use Gnome::Gdk4::N-Rectangle:api<2>;
+#use Gnome::Gdk4::T-events:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+use Gnome::Glib::N-List:api<2>;
+use Gnome::Glib::T-list:api<2>;
+use Gnome::Gtk4::Gesture:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::Gesture $gesture;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $gesture {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $gesture {
+    my N-Object $gesture;
+    my N-Object $other;
+    my N-Object $rect;
+    my CArray[gdouble] $y;
+    my CArray[gdouble] $x;
+    my GtkEventSequenceState $state;
+    my N-Object $sequence;
+
+
+#`{{
+    #TM:0:get-bounding-box()
+    is .get-bounding-box( $rect), '…', '.get-bounding-box()';
+
+    #TM:0:get-bounding-box-center()
+    is .get-bounding-box-center( $x, $y), '…', '.get-bounding-box-center()';
+
+    #TM:0:get-device()
+     .get-device(), '…', '.get-device()';
+
+    #TM:0:get-group()
+     .get-group(), '…', '.get-group()';
+
+    #TM:0:get-last-event()
+    is .get-last-event( $sequence), '…', '.get-last-event()';
+
+    #TM:0:get-last-updated-sequence()
+     .get-last-updated-sequence(), '…', '.get-last-updated-sequence()';
+
+    #TM:0:get-point()
+    is .get-point( $sequence, $x, $y), '…', '.get-point()';
+
+    #TM:0:get-sequences()
+     .get-sequences(), '…', '.get-sequences()';
+
+    #TM:0:group()
+    ok .group( $gesture), '.group()';
+
+    #TM:0:handles-sequence()
+    ok .handles-sequence( $sequence), '.handles-sequence()';
+
+    #TM:0:is-active()
+    ok .is-active(), '.is-active()';
+
+    #TM:0:is-grouped-with()
+    ok .is-grouped-with( $other), '.is-grouped-with()';
+
+    #TM:0:is-recognized()
+    ok .is-recognized(), '.is-recognized()';
+
+    #TM:0:set-sequence-state()
+    $sequence = …;
+    $state = …;
+    .set-sequence-state( $sequence, $state);
+    #TM:0:get-sequence-state()
+    is .get-sequence-state(),  $sequence, $state, '.set-sequence-state() / .get-sequence-state()';
+
+    #TM:0:set-state()
+    $state = …;
+    .set-state( $state);
+    ok True, '.set-state()';
+
+    #TM:0:ungroup()
+    ok .ungroup(), '.ungroup()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $gesture {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::Gesture() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::Gesture;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::Gesture :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::Gesture $gesture .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $gesture.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
