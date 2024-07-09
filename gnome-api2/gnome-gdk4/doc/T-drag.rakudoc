@@ -1,0 +1,71 @@
+=comment Package: Gdk4, C-Source: drag
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gdk4::T-drag
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GdkDragCancelReason
+
+Used in B<Gnome::Gdk4::Drag> to the reason of a cancelled DND operation.
+=item C<GDK_DRAG_CANCEL_NO_TARGET>; There is no suitable drop target.
+=item C<GDK_DRAG_CANCEL_USER_CANCELLED>; Drag cancelled by the user
+=item C<GDK_DRAG_CANCEL_ERROR>; Unspecified error.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 drag-action-is-unique
+
+Checks if C<$action> represents a single action or includes
+multiple actions.
+
+When C<$action> is 0 - ie no action was given, C<True>
+is returned.
+
+=begin code
+method drag-action-is-unique ( UInt $action --> Bool )
+=end code
+
+=item $action; a C<bit field GdkDragAction defined in Gnome::Gdk4::T-enums>.
+
+Return value; C<True> if exactly one action was given. 
+
+=begin comment
+
+=head2 Example
+# Example for drag-action-is-unique
+
+=end comment
+
+=end pod
+

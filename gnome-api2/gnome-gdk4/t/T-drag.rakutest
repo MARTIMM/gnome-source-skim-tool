@@ -1,0 +1,56 @@
+=comment Package: Gdk4, C-Source: drag
+use v6.d;
+
+#TL:1:Gnome::Gdk4::T-drag:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gdk4::T-drag:api<2>;
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GdkDragCancelReason
+subtest 'GdkDragCancelReason', {
+  is GDK_DRAG_CANCEL_NO_TARGET.value, 0, 'enum GDK_DRAG_CANCEL_NO_TARGET = 0';
+
+  is GDK_DRAG_CANCEL_USER_CANCELLED.value, 1, 'enum GDK_DRAG_CANCEL_USER_CANCELLED = 1';
+
+  is GDK_DRAG_CANCEL_ERROR.value, 2, 'enum GDK_DRAG_CANCEL_ERROR = 2';
+
+};
+
+
+my Gnome::Gdk4::T-drag $drag .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $drag {
+    my GFlag $action;
+
+
+#`{{
+    #TM:0:drag-action-is-unique()
+    ok .drag-action-is-unique( $action), '.drag-action-is-unique()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

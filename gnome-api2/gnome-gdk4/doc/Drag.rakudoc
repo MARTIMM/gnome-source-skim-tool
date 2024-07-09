@@ -1,0 +1,427 @@
+=comment Package: Gdk4, C-Source: drag
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gdk4::Drag
+
+=head1 Description
+
+The B<Gnome::Gdk4::Drag> object represents the source of an ongoing DND operation.
+
+A B<Gnome::Gdk4::Drag> is created when a drag is started, and stays alive for duration of
+the DND operation. After a drag has been started with C<.Drag.begin()>,
+the caller gets informed about the status of the ongoing drag operation
+with signals on the B<Gnome::Gdk4::Drag> object.
+
+GTK provides a higher level abstraction based on top of these functions,
+and so they are not normally needed in GTK applications. See the
+"Drag and Drop" section of the GTK documentation for more information.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::Drag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 drop-done
+
+Informs GDK that the drop ended.
+
+Passing C<False> for C<$success> may trigger a drag cancellation
+animation.
+
+This function is called by the drag source, and should be the
+last call before dropping the reference to the C<$drag>.
+
+The B<Gnome::Gdk4::Drag> will only take the first C<.drop-done()>
+call as effective, if this function is called multiple times,
+all subsequent calls will be ignored.
+
+=begin code
+method drop-done ( Bool() $success )
+=end code
+
+=item $success; whether the drag was ultimatively successful.
+
+=begin comment
+
+=head2 Example
+# Example for drop-done
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-actions
+
+Determines the bitmask of possible actions proposed by the source.
+
+=begin code
+method get-actions (--> UInt )
+=end code
+
+Return value; the C<bit field GdkDragAction defined in Gnome::Gdk4::T-enums> flags. 
+
+=begin comment
+
+=head2 Example
+# Example for get-actions
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-content
+
+Returns the B<Gnome::Gdk4::ContentProvider> associated to the B<Gnome::Gdk4::Drag> object.
+
+=begin code
+method get-content (--> N-Object )
+=end code
+
+Return value; The B<Gnome::Gdk4::ContentProvider> associated to C<$drag>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-content
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-device
+
+Returns the B<Gnome::Gdk4::Device> associated to the B<Gnome::Gdk4::Drag> object.
+
+=begin code
+method get-device (--> N-Object )
+=end code
+
+Return value; The B<Gnome::Gdk4::Device> associated to C<$drag>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-device
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-display
+
+Gets the B<Gnome::Gdk4::Display> that the drag object was created for.
+
+=begin code
+method get-display (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gdk4::Display>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-display
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-drag-surface
+
+Returns the surface on which the drag icon should be rendered
+during the drag operation.
+
+Note that the surface may not be available until the drag operation
+has begun. GDK will move the surface in accordance with the ongoing
+drag operation. The surface is owned by C<$drag> and will be destroyed
+when the drag operation is over.
+
+=begin code
+method get-drag-surface (--> N-Object )
+=end code
+
+Return value; the drag surface. 
+
+=begin comment
+
+=head2 Example
+# Example for get-drag-surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-formats
+
+Retrieves the formats supported by this B<Gnome::Gdk4::Drag> object.
+
+=begin code
+method get-formats (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gdk4::N-ContentFormats>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-formats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-selected-action
+
+Determines the action chosen by the drag destination.
+
+=begin code
+method get-selected-action (--> UInt )
+=end code
+
+Return value; a C<bit field GdkDragAction defined in Gnome::Gdk4::T-enums> value. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-action
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-surface
+
+Returns the B<Gnome::Gdk4::Surface> where the drag originates.
+
+=begin code
+method get-surface (--> N-Object )
+=end code
+
+Return value; The B<Gnome::Gdk4::Surface> where the drag originates. 
+
+=begin comment
+
+=head2 Example
+# Example for get-surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hotspot
+
+Sets the position of the drag surface that will be kept
+under the cursor hotspot.
+
+Initially, the hotspot is at the top left corner of the drag surface.
+
+=begin code
+method set-hotspot ( Int() $hot-x, Int() $hot-y )
+=end code
+
+=item $hot-x; x coordinate of the drag surface hotspot.
+=item $hot-y; y coordinate of the drag surface hotspot.
+
+=begin comment
+
+=head2 Example
+# Example for set-hotspot
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 begin
+
+Starts a drag and creates a new drag context for it.
+
+This function is called by the drag source. After this call, you
+probably want to set up the drag icon using the surface returned
+by C<.get-drag-surface()>.
+
+This function returns a reference to the B<Gnome::Gdk4::Drag> object,
+but GTK keeps its own reference as well, as long as the DND operation
+is going on.
+
+Note: if C<$actions> include C<GDK_ACTION_MOVE>, you need to listen for
+the I<dnd-finished> signal and delete the data at
+the source if C<.get-selected-action()> returns
+C<GDK_ACTION_MOVE>.
+
+=begin code
+method begin ( N-Object() $surface, N-Object() $device, N-Object() $content, UInt $actions, Num() $dx, Num() $dy --> N-Object )
+=end code
+
+=item $surface; the source surface for this drag.
+=item $device; the device that controls this drag.
+=item $content; the offered content.
+=item $actions; the actions supported by this drag.
+=item $dx; the x offset to C<$device>'s position where the drag nominally started.
+=item $dy; the y offset to C<$device>'s position where the drag nominally started.
+
+Return value; a newly created B<Gnome::Gdk4::Drag>. 
+
+=begin comment
+
+=head2 Example
+# Example for begin
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 cancel
+
+Emitted when the drag operation is cancelled.
+
+=begin code
+method handler (
+   $reason,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Drag :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $reason; The reason the drag was cancelled.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Drag> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal cancel
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 dnd-finished
+
+Emitted when the destination side has finished reading all data.
+
+The drag object can now free all miscellaneous data.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Drag :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Drag> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal dnd-finished
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 drop-performed
+
+Emitted when the drop operation is performed on an accepting client.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Drag :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Drag> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal drop-performed
+
+=end comment
+
+=end pod
+
