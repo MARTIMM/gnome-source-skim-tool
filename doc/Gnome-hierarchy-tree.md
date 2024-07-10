@@ -383,8 +383,8 @@ GObject                                         Gnome::GObject::Object
 |   ├── GLTexture
 |   ╰── MemoryTexture                           MemoryTexture
 ├── DmabufTextureBuilder
-├── Drag
-├── Drop
+├── Drag                                        Drag
+├── Drop                                        Drop
 ├── FrameClock
 ├── GLTextureBuilder
 ├── Monitor
