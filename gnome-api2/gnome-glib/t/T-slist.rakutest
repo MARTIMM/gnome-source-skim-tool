@@ -38,7 +38,7 @@ sub destroy ( gpointer $np ) {
 subtest 'Function tests', {
   my Gnome::Glib::T-slist $t-slist .= new;
   my Gnome::Glib::N-SList $n-slist .= new;
-  my N-SList $N-SList;
+  my N-SList() $N-SList;
 
   #TM:0:clear-slist()
   for ^10 -> $i {

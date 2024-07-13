@@ -452,7 +452,17 @@ note "$?LINE $c.gist()";
       }
 }}
 
-      when $p.^name ~~ m/ 'N-' / or $p ~~ Pointer {
+      when $p ~~ Pointer {
+        if $v.^name !~~ 'Pointer' {
+          $c = nativecast( Pointer, $v);
+        }
+
+        else {
+          $c = $v;
+        }
+      }
+
+      when $p.^name ~~ m/ 'N-' / {
         if $v.^can('get-native-object-no-reffing') {
           $c = $v.get-native-object-no-reffing;
         }
@@ -460,7 +470,7 @@ note "$?LINE $c.gist()";
         else {
           # If the provided argument is a structure or union object other
           # than a N-Object, we must convert it.
-          if $v ~~ Any {
+          if !$v.defined {
             $c = N-Object;
           }
 

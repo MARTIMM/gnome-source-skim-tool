@@ -55,8 +55,8 @@ class N-List:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
     N-Object :$next, N-Object :$prev, 
   ) {
     $!next := $next if ?$next;
-  $!prev := $prev if ?$prev;
-}
+    $!prev := $prev if ?$prev;
+  }
 
   method COERCE ( $no --> N-List ) {
     note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;

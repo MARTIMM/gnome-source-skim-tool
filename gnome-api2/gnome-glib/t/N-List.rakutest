@@ -16,6 +16,7 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+#Gnome::N::debug(:on);
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
@@ -58,17 +59,25 @@ unless %*ENV<raku_test_all>:exists {
     my gpointer $data;
     my Int() $position;
     my N-List() $n-list;
+#    my N-List() $n-list-root;
 
     $data = .make-pointer( gint, 101);
 
+#Gnome::N::debug(:on);
+
     #TM:1:append
+#    $n-list = .append( $n-list-root, my $pi = pack(0));
+#note $n-list.gist;
     for ^10 -> $i {
+      #$n-list = nativecast( N-List, .append( $n-list, pack($i)));
       $n-list = .append( $n-list, pack($i));
+#note $n-list.gist;
     }
+#Gnome::N::debug(:off);
 
     #TM:1:length
     is .length($n-list), 10, '.length() / .append()';
-
+#exit;
     #TB:1:last()
     #TB:1:position()
     my N-List() $l = .last($n-list);

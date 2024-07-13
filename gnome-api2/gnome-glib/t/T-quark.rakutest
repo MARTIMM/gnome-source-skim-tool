@@ -10,7 +10,8 @@ use NativeCall;
 use Test;
 
 
-use Gnome::Glib::T-Quark:api<2>;
+use Gnome::Glib::T-quark:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -20,7 +21,7 @@ use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 
-my Gnome::Glib::T-Quark $quark .= new;
+my Gnome::Glib::T-quark $quark .= new;
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $quark {

@@ -16,6 +16,7 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+#Gnome::N::debug(:on);
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
@@ -31,8 +32,7 @@ sub pack ( Int $n --> gpointer ) {
   nativecast( gpointer, $o)
 }
 
-my N-SList $n-slist;
-my Gnome::Glib::N-SList $slist;
+my Gnome::Glib::N-SList() $slist .= new;
 
 #`{{
 #-------------------------------------------------------------------------------
@@ -44,6 +44,7 @@ subtest 'ISA test', {
 
   }
 };
+}}
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -54,6 +55,7 @@ unless %*ENV<raku_test_all>:exists {
   exit;
 }
 
+#`{{
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $n-slist {
@@ -85,9 +87,11 @@ subtest 'Function tests', {
     my gpointer $user-data;
     my Int() $position;
     my N-SList() $list1;
+    my N-SList() $n-slist;
 
  
-    #TM:1:append
+#Gnome::N::debug(:on);
+   #TM:1:append
     for ^10 -> $i {
       $n-slist = .append( $n-slist, pack($i));
     }
