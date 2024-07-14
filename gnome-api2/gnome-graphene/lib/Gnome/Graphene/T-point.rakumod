@@ -44,10 +44,7 @@ class N-Point:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   has gfloat $.x;
   has gfloat $.y;
 
-  submethod BUILD (
-    Num() :$!x, Num() :$!y, 
-  ) {
-  }
+  submethod BUILD ( Num() :$!x = 0e0, Num() :$!y = 0e0 ) {  }
 
   method COERCE ( $no --> N-Point ) {
     note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
