@@ -42,12 +42,14 @@ submethod BUILD ( ) {
 
 class N-Value:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 
-  has GType $.g-type;
+  has GType $.g-type is rw;
   has gchar-pptr $.data;
 
-  submethod BUILD (
-    GType :$!g-type, gchar-pptr :$!data, 
-  ) {
+  submethod BUILD ( GType :$!g-type ) {
+  }
+
+  submethod TWEAK ( gchar-pptr :$data ) {
+    $!data := $data if ? $data;
   }
 
   method COERCE ( $no --> N-Value ) {
