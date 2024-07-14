@@ -16,7 +16,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 #use Gnome::Pango::N-AttrList:api<2>;
-use Gnome::Pango::T-Layout:api<2>;
+use Gnome::Pango::T-layout:api<2>;
 
 
 #-------------------------------------------------------------------------------
