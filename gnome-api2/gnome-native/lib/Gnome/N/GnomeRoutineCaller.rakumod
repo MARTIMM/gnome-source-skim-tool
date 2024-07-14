@@ -453,7 +453,11 @@ note "$?LINE $c.gist()";
 }}
 
       when $p ~~ Pointer {
-        if $v.^name !~~ 'Pointer' {
+        if $v.^can('get-native-object-no-reffing') {
+          $c = $v.get-native-object-no-reffing;
+        }
+
+        elsif $v.^name !~~ 'Pointer' {
           $c = nativecast( Pointer, $v);
         }
 
