@@ -392,6 +392,8 @@ method set-routine-name ( Str $name, Hash $routine, Str :$sub-prefix --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !convert-args ( Mu $v, $p ) {
+#  say Backtrace.new.nice;
+
   my $c;
 
   note "\nArgument: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
