@@ -1,11 +1,11 @@
-#!/usr/bin/env raku
+#!/usr/bin/env -S raku -Ilib
 
 use v6.d;
 use YAMLish;
 use Gnome::SourceSkimTool::Prepare;
 
 #-------------------------------------------------------------------------------
-constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2';
+constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/genome-api2/gnome-api2';
 
 my Hash $test-location = %(
   :Atk<gnome-atk>,

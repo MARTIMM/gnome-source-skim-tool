@@ -1,4 +1,4 @@
-#!/usr/bin/env rakudo
+#!/usr/bin/env -S rakudo -Ilib
 
 use v6.d;
 use META6;
@@ -8,7 +8,7 @@ use META6;
 #my @changed = ();
 #my @created = ();
 
-my Str $api2 = $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
+my Str $api2 = $*HOME ~ '/Languages/Raku/Projects/gnome-api2/gnome-api2/';
 
 check-modules( 'Gtk4',      "$api2/gnome-gtk4/lib");
 check-modules( 'Gdk4',      "$api2/gnome-gdk4/lib");

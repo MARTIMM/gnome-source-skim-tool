@@ -1,4 +1,4 @@
-#!/usr/bin/env rakudo
+#!/usr/bin/env -S rakudo -Ilib
 
 use Gnome::SourceSkimTool::ConstEnumType;
 #use Gnome::SourceSkimTool::Prepare;
