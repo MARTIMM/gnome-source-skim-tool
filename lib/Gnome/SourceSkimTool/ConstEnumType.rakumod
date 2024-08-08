@@ -5,7 +5,7 @@ use v6.d;
 
 #-------------------------------------------------------------------------------
 constant SKIMTOOLROOT is export =
-  $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/data/';
+  $*HOME ~ '/Languages/Raku/Projects/gnome-api2/data/';
 #  $*HOME ~ '/.config/io.github.martimm.source-skim-tool/';
 
 mkdir SKIMTOOLROOT, 0o700 unless SKIMTOOLROOT.IO ~~ :e;
