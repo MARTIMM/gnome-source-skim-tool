@@ -1,0 +1,594 @@
+=comment Package: Gtk4, C-Source: droptarget
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gtk4::DropTarget
+
+![](images/droptarget.png)
+
+=head1 Description
+
+B<Gnome::Gtk4::DropTarget> is an event controller to receive Drag-and-Drop operations.
+
+The most basic way to use a B<Gnome::Gtk4::DropTarget> to receive drops on a
+widget is to create it via C<.newdroptarget()>, passing in the
+B<Gnome::GObject::DropTarget> of the data you want to receive and connect to the
+I<drop> signal to receive the data:
+
+=begin comment
+static gboolean
+on_drop (GtkDropTarget *target,
+         const GValue  *value,
+         double         x,
+         double         y,
+         gpointer       data)
+{
+  MyWidget *self = data;
+
+  // Call the appropriate setter depending on the type of data
+  // that we received
+  if (G_VALUE_HOLDS (value, G_TYPE_FILE))
+    my_widget_set_file (self, g_value_get_object (value));
+  else if (G_VALUE_HOLDS (value, GDK_TYPE_PIXBUF))
+    my_widget_set_pixbuf (self, g_value_get_object (value));
+  else
+    return FALSE;
+
+  return TRUE;
+}
+
+static void
+my_widget_init (MyWidget *self)
+{
+  GtkDropTarget *target =
+    gtk_drop_target_new (G_TYPE_INVALID, GDK_ACTION_COPY);
+
+  // This widget accepts two types of drop types: GFile objects
+  // and GdkPixbuf objects
+  gtk_drop_target_set_gtypes (target, (GType [2]) {
+    G_TYPE_FILE,
+    GDK_TYPE_PIXBUF,
+  }, 2);
+
+  g_signal_connect (target, "drop", G_CALLBACK (on_drop), self);
+  gtk_widget_add_controller (GTK_WIDGET (self), GTK_EVENT_CONTROLLER (target));
+}
+
+=end comment
+
+B<Gnome::Gtk4::DropTarget> supports more options, such as:
+
+ * rejecting potential drops via the I<accept> signal
+   and the C<.reject()> function to let other drop
+   targets handle the drop
+ * tracking an ongoing drag operation before the drop via the
+   I<enter>, I<motion> and
+   I<leave> signals
+ * configuring how to receive data by setting the
+   I<preload> property and listening for its
+   availability via the I<value> property
+
+However, B<Gnome::Gtk4::DropTarget> is ultimately modeled in a synchronous way
+and only supports data transferred via B<Gnome::GObject::DropTarget>. If you want full control
+over an ongoing drop, the B<Gnome::Gtk4::DropTargetAsync> object gives you
+this ability.
+
+While a pointer is dragged over the drop target's widget and the drop
+has not been rejected, that widget will receive the
+C<GTK_STATE_FLAG_DROP_ACTIVE> state, which can be used to style the widget.
+
+If you are not interested in receiving the drop, but just want to update
+UI state during a Drag-and-Drop operation (e.g. switching tabs), you can
+use B<Gnome::Gtk4::DropControllerMotion>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::DropTarget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-droptarget
+
+Creates a new B<Gnome::Gtk4::DropTarget> object.
+
+If the drop target should support more than 1 type, pass
+C<G_TYPE_INVALID> for C<$type> and then call
+C<.set-gtypes()>.
+
+=begin code
+method new-droptarget ( GType $type, UInt $actions --> Gnome::Gtk4::DropTarget \)
+=end code
+
+=item $type; The supported type or C<G_TYPE_INVALID>.
+=item $actions; the supported actions.
+
+=begin comment
+
+=head2 Example
+# Example for new-droptarget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-actions
+
+Gets the actions that this drop target supports.
+
+=begin code
+method get-actions (--> UInt )
+=end code
+
+Return value; the actions that this drop target supports. 
+
+=begin comment
+
+=head2 Example
+# Example for get-actions
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-current-drop
+
+Gets the currently handled drop operation.
+
+If no drop operation is going on, undefined is returned.
+
+=begin code
+method get-current-drop (--> N-Object )
+=end code
+
+Return value; The current drop. 
+
+=begin comment
+
+=head2 Example
+# Example for get-current-drop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-drop
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.4>
+
+Gets the currently handled drop operation.
+
+If no drop operation is going on, undefined is returned.
+
+=begin code
+method get-drop (--> N-Object )
+=end code
+
+Return value; The current drop. 
+
+=begin comment
+
+=head2 Example
+# Example for get-drop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-formats
+
+Gets the data formats that this drop target accepts.
+
+If the result is undefined, all formats are expected to be supported.
+
+=begin code
+method get-formats (--> N-Object )
+=end code
+
+Return value; the supported data formats. 
+
+=begin comment
+
+=head2 Example
+# Example for get-formats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-gtypes
+This function is not yet available
+
+Gets the list of supported B<Gnome::GObject::DropTarget>s that can be dropped on the target.
+
+If no types have been set, undefined will be returned.
+
+=begin code
+method get-gtypes ( Array[gsize] $n-types )
+=end code
+
+=item $n-types; (transfer ownership: full) the number of B<Gnome::GObject::DropTarget>s contained in the
+  return value.
+
+=begin comment
+
+=head2 Example
+# Example for get-gtypes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-preload
+
+Gets whether data should be preloaded on hover.
+
+=begin code
+method get-preload (--> Bool )
+=end code
+
+Return value; C<True> if drop data should be preloaded. 
+
+=begin comment
+
+=head2 Example
+# Example for get-preload
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-value
+
+Gets the current drop data, as a B<Gnome::GObject::N-Value>.
+
+=begin code
+method get-value (--> N-Object )
+=end code
+
+Return value; The current drop data. 
+
+=begin comment
+
+=head2 Example
+# Example for get-value
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 reject
+
+Rejects the ongoing drop operation.
+
+If no drop operation is ongoing, i.e when I<current-drop>
+is undefined, this function does nothing.
+
+This function should be used when delaying the decision
+on whether to accept a drag or not until after reading
+the data.
+
+=begin code
+method reject ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for reject
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-actions
+
+Sets the actions that this drop target supports.
+
+=begin code
+method set-actions ( UInt $actions )
+=end code
+
+=item $actions; the supported actions.
+
+=begin comment
+
+=head2 Example
+# Example for set-actions
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-gtypes
+This function is not yet available
+
+Sets the supported B<Gnome::GObject::DropTarget>s for this drop target.
+
+=begin code
+method set-gtypes ( …, Int() $n-types )
+=end code
+
+=item types; all supported B<Gnome::GObject::DropTarget>s
+  that can be dropped on the target. Note that each argument must be specified as a type followed by its value!
+=item $n-types; number of C<$types>.
+
+=begin comment
+
+=head2 Example
+# Example for set-gtypes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-preload
+
+Sets whether data should be preloaded on hover.
+
+=begin code
+method set-preload ( Bool() $preload )
+=end code
+
+=item $preload; C<True> to preload drop data.
+
+=begin comment
+
+=head2 Example
+# Example for set-preload
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 accept
+
+Emitted on the drop site when a drop operation is about to begin.
+
+If the drop is not accepted, C<False> will be returned and the drop target
+will ignore the drop. If C<True> is returned, the drop is accepted for now
+but may be rejected later via a call to C<.reject()>
+or ultimately by returning C<False> from a I<drop>
+handler.
+
+The default handler for this signal decides whether to accept the drop
+based on the formats provided by the C<$drop>.
+
+If the decision whether the drop will be accepted or rejected depends
+on the data, this function should return C<True>, the
+I<preload> property should be set and the value
+should be inspected via the I<notify>:value signal, calling
+C<.reject()> if required.
+
+=begin code
+method handler (
+   $drop,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropTarget :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $drop; the B<Gnome::Gdk4::Drop>.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if C<$drop> is accepted
+
+=begin comment
+
+=head2 Example
+# Example for signal accept
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 drop
+
+Emitted on the drop site when the user drops the data onto the widget.
+
+The signal handler must determine whether the pointer position is in
+a drop zone or not. If it is not in a drop zone, it returns C<False>
+and no further processing is necessary.
+
+Otherwise, the handler returns C<True>. In this case, this handler will
+accept the drop. The handler is responsible for using the given C<$value>
+and performing the drop operation.
+
+=begin code
+method handler (
+   $value,
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropTarget :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $value; the B<Gnome::GObject::N-Value> being dropped.
+=item $x; the x coordinate of the current pointer position.
+=item $y; the y coordinate of the current pointer position.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; whether the drop was accepted at the given pointer position
+
+=begin comment
+
+=head2 Example
+# Example for signal drop
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 enter
+
+Emitted on the drop site when the pointer enters the widget.
+
+It can be used to set up custom highlighting.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropTarget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the x coordinate of the current pointer position.
+=item $y; the y coordinate of the current pointer position.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal enter
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 leave
+
+Emitted on the drop site when the pointer leaves the widget.
+
+Its main purpose it to undo things done in
+I<enter>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropTarget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal leave
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 motion
+
+Emitted while the pointer is moving over the drop target.
+
+=begin code
+method handler (
+  gdouble $x,
+  gdouble $y,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::DropTarget :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $x; the x coordinate of the current pointer position.
+=item $y; the y coordinate of the current pointer position.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropTarget> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal motion
+
+=end comment
+
+=end pod
+

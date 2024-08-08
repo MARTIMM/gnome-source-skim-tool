@@ -1,0 +1,193 @@
+=comment Package: Gtk4, C-Source: droptarget
+use v6.d;
+
+#TL:1:Gnome::Gtk4::DropTarget:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
+use Gnome::Gdk4::N-ContentFormats:api<2>;
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+use Gnome::Gtk4::DropTarget:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gtk4::DropTarget $droptarget;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $droptarget {
+    my GFlag $actions;
+    my GType $type;
+
+#`{{
+    #TC:0:new-droptarget()
+    $type = '…';
+    $actions = …;
+    $droptarget .= new-droptarget( $type, $actions);
+    ok .is-valid, '.new-droptarget( $type, $actions)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $droptarget {
+    my GFlag $actions;
+    my gsize $n-types;
+    my  $types;
+    my gboolean $preload;
+
+
+#`{{
+    #TM:0:get-current-drop()
+     .get-current-drop(), '…', '.get-current-drop()';
+
+    #TM:0:get-drop()
+     .get-drop(), '…', '.get-drop()';
+
+    #TM:0:get-formats()
+     .get-formats(), '…', '.get-formats()';
+
+    #TM:0:get-value()
+     .get-value(), '…', '.get-value()';
+
+    #TM:0:reject()
+    ok .reject(), '.reject()';
+
+    #TM:0:set-actions()
+    $actions = …;
+    .set-actions( $actions);
+    #TM:0:get-actions()
+    is .get-actions(),  $actions, '.set-actions() / .get-actions()';
+
+    #TM:0:set-gtypes()
+    $types = '…';
+    $n-types = '…';
+    .set-gtypes( $types, $n-types);
+    #TM:0:get-gtypes()
+    is .get-gtypes(),  $types, $n-types, '.set-gtypes() / .get-gtypes()';
+
+    #TM:0:set-preload()
+    $preload = '…';
+    .set-preload( $preload);
+    #TM:0:get-preload()
+    is .get-preload(),  $preload, '.set-preload() / .get-preload()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $droptarget {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gtk4::DropTarget() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gtk4::DropTarget;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gtk4::DropTarget :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gtk4::DropTarget $droptarget .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $droptarget.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
