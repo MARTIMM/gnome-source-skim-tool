@@ -455,7 +455,7 @@ method _convert_g_signal_connect_object (
 
   # create parameter list for call to g_signal_connect_object
   my @parameterList = (
-    Parameter.new(type => N-Object),     # $instance
+    Parameter.new(type => N-Object),      # $instance
     Parameter.new(type => Str),           # $detailed-signal
     Parameter.new(                        # wrapper around $user-handler
       :type(Callable),
@@ -476,38 +476,48 @@ method _convert_g_signal_connect_object (
   state $ptr = cglobal( gobject-lib(), 'g_signal_connect_object', Pointer);
 
   my Callable $f = nativecast( $signature, $ptr);
-#note "F: $f.gist()";
+#note "$?LINE F: $f.gist()";
 
   note [~] "Calling: .g_signal_connect_object\(\n",
     "  $instance.gist(),\n",
     "  '$detailed-signal',\n",
     "  $provided-handler.gist(),\n",
-    "  gpointer,\n",
+    "  Pointer,\n",
 #    "  OpaquePointer,\n",
     "  0\n",
     ');'  if $Gnome::N::x-debug;
 
   # returns the signal id
 
-#note "F: $instance.gist(), $detailed-signal, $provided-handler.gist()";
-  $f( $instance, $detailed-signal, $provided-handler, gpointer, 0)
+#note "$?LINE F: $instance.gist(), $detailed-signal, $provided-handler.gist()";
+  my $v = $f( $instance, $detailed-signal, $provided-handler, Pointer, 0);
+#note "$?LINE V: $v, ", $v.WHAT;
+  $v
 }
 
 #-------------------------------------------------------------------------------
 method !convert-type ( Mu $type, Bool :$type-only = False --> Any ) {
   my $converted-type;
 
-#note 'type: ', $type.^name;
-  given $type.^name {
-    when Bool { $converted-type = gboolean; }
-    when UInt { $converted-type = guint; }
-    when Int { $converted-type = gint; }
-    when Num { $converted-type = gfloat; }
-    when Rat { $converted-type = gdouble; }
+  # Get the type name and drop the coercion marks
+  my $t = $type.^name;
+  $t ~~ s/\(.*?\)//;
+
+#note "$?LINE type: $type-only, ", $type.^name, ", $t";
+  given $t {
+    when 'Bool' { $converted-type = gboolean; }
+    when 'UInt' { $converted-type = guint; }
+    when 'Int' { $converted-type = gint; }
+    when 'Num' { $converted-type = gfloat; }
+    when 'Rat' { $converted-type = gdouble; }
+#    when 'Pointer' { $converted-type = Pointer; }
+    when 'Str' { $converted-type = gchar-ptr; }
     when /^ Gnome '::' / { $converted-type = N-Object; }
+
     default { $converted-type = $type; }
   }
 
+#note "$?LINE converted type: $t -> ", $converted-type.^name;
   if $type-only {
     $converted-type
   }
