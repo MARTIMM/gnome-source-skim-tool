@@ -1,0 +1,100 @@
+=comment Package: Gio, C-Source: fileicon
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::FileIcon
+
+=head1 Description
+
+B<Gnome::Gio::FileIcon> specifies an icon by pointing to an image file
+to be used as icon.
+
+It implements B<Gnome::Gio::FileIcon>.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::FileIcon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-fileicon
+
+Creates a new icon for a file.
+
+=begin code
+method new-fileicon ( N-Object() $file --> Gnome::Gio::FileIcon \)
+=end code
+
+=item $file; a B<Gnome::Gio::R-File>..
+
+=begin comment
+
+=head2 Example
+# Example for new-fileicon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-file
+
+Gets the B<Gnome::Gio::R-File> associated with the given C<$icon>.
+
+=begin code
+method get-file (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gio::R-File>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-file
+
+=end comment
+
+=end pod
+
