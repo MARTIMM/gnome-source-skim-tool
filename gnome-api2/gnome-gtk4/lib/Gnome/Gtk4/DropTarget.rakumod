@@ -83,12 +83,12 @@ my Hash $methods = %(
   get-current-drop => %(:is-symbol<gtk_drop_target_get_current_drop>,  :returns(N-Object)),
   get-drop => %(:is-symbol<gtk_drop_target_get_drop>,  :returns(N-Object),:deprecated, :deprecated-version<4.4>, ),
   get-formats => %(:is-symbol<gtk_drop_target_get_formats>,  :returns(N-Object)),
-  #get-gtypes => %(:is-symbol<gtk_drop_target_get_gtypes>,  :parameters([CArray[gsize]])),
+  get-gtypes => %(:is-symbol<gtk_drop_target_get_gtypes>,  :parameters([CArray[GType], gsize])),
   get-preload => %(:is-symbol<gtk_drop_target_get_preload>,  :returns(gboolean), :cnv-return(Bool)),
   get-value => %(:is-symbol<gtk_drop_target_get_value>,  :returns(N-Object)),
   reject => %(:is-symbol<gtk_drop_target_reject>, ),
   set-actions => %(:is-symbol<gtk_drop_target_set_actions>,  :parameters([GFlag])),
-  #set-gtypes => %(:is-symbol<gtk_drop_target_set_gtypes>,  :parameters([, gsize])),
+  set-gtypes => %(:is-symbol<gtk_drop_target_set_gtypes>,  :parameters([ CArray[GType], gsize])),
   set-preload => %(:is-symbol<gtk_drop_target_set_preload>,  :parameters([gboolean])),
 );
 
