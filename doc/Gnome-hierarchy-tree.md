@@ -172,7 +172,7 @@ GObject                                         Gnome::GObject::Object
 │   │   ╰── GtkGestureZoom
 │   ├── GtkDropControllerMotion                 DropControllerMotion
 │   ├── GtkDropTargetAsync
-│   ├── GtkDropTarget
+│   ├── GtkDropTarget                           DropTarget
 │   ├── GtkEventControllerKey
 │   ├── GtkEventControllerFocus
 │   ├── GtkEventControllerLegacy
@@ -371,7 +371,7 @@ GObject                                         Gnome::GObject::Object
 |   ├── VulkanContext
 ├── Clipboard
 ├── ContentDeserializer
-├── ContentProvider                             ContentProvider
+├── paintable                             ContentProvider
 ├── ContentSerializer
 ├── Cursor
 ├── Device
@@ -517,7 +517,7 @@ GObject                                         Gnome::GObject::Object
               TcpWrapperConnection
           UnixConnection
       TlsConnection
-  FileIcon
+  FileIcon                                      *
   FileInfo
   FileMonitor
   FilenameCompleter
