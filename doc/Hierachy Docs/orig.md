@@ -430,6 +430,8 @@ These modules are generally inheriting directly from **Gnome::N::TopLevelClassSu
 GBoxed
 |                                            Gnome::Gdk4::*
 ├──                                          N-ContentFormats
+├──                                          N-ContentFormatsBuilder
+├──                                          N-FileList
 ├── GdkRectangle                             N-Rectangle
 ├── GdkRGBA                                  N-RGBA
 
@@ -443,6 +445,7 @@ Types, constants, standalone functions, etc. generated from gnome sources
 ```
 Gnome::N::TopLevelClassSupport
 |   Gnome::Gsk4::*
+├── T-contentformats
 ├── T-enums
 ├── T-keysyms
 ├── T-paintable
