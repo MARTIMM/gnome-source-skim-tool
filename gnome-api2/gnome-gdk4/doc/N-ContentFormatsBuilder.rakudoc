@@ -1,0 +1,230 @@
+=comment Package: Gdk4, C-Source: contentformats
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gdk4::N-ContentFormatsBuilder
+
+=head1 Description
+
+A B<Gnome::Gdk4::N-ContentFormatsBuilder> is an auxiliary struct used to create
+new B<Gnome::Gdk4::N-ContentFormats>, and should not be kept around.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::ContentFormatsBuilder
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-contentformatsbuilder
+
+Create a new B<Gnome::Gdk4::N-ContentFormatsBuilder> object.
+
+The resulting builder would create an empty B<Gnome::Gdk4::N-ContentFormats>.
+Use addition functions to add types to it.
+
+=begin code
+method new-contentformatsbuilder ( --> Gnome::Gdk4::ContentFormatsBuilder \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-contentformatsbuilder
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-formats
+
+Appends all formats from C<$formats> to C<$builder>, skipping those that
+already exist.
+
+=begin code
+method add-formats ( N-Object $formats )
+=end code
+
+=item $formats; the formats to add
+
+=begin comment
+
+=head2 Example
+# Example for add-formats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-gtype
+
+Appends C<$type> to C<$builder> if it has not already been added.
+
+=begin code
+method add-gtype ( GType $type )
+=end code
+
+=item $type; a B<Gnome::GObject::ContentFormatsBuilder>.
+
+=begin comment
+
+=head2 Example
+# Example for add-gtype
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-mime-type
+
+Appends C<$mime-type> to C<$builder> if it has not already been added.
+
+=begin code
+method add-mime-type ( Str $mime-type )
+=end code
+
+=item $mime-type; a mime type.
+
+=begin comment
+
+=head2 Example
+# Example for add-mime-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 free-to-formats
+
+Creates a new B<Gnome::Gdk4::N-ContentFormats> from the current state of the
+given C<$builder>, and frees the C<$builder> instance.
+
+=begin code
+method free-to-formats (--> N-Object )
+=end code
+
+Return value; the newly created B<Gnome::Gdk4::N-ContentFormats>
+  with all the formats added to C<$builder>. 
+
+=begin comment
+
+=head2 Example
+# Example for free-to-formats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Acquires a reference on the given C<$builder>.
+
+This function is intended primarily for bindings.
+B<Gnome::Gdk4::N-ContentFormatsBuilder> objects should not be kept around.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the given B<Gnome::Gdk4::N-ContentFormatsBuilder>
+  with its reference count increased. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-formats
+
+Creates a new B<Gnome::Gdk4::N-ContentFormats> from the given C<$builder>.
+
+The given B<Gnome::Gdk4::N-ContentFormatsBuilder> is reset once this function returns;
+you cannot call this function multiple times on the same C<$builder> instance.
+
+This function is intended primarily for bindings. C code should use
+C<.free-to-formats()>.
+
+=begin code
+method to-formats (--> N-Object )
+=end code
+
+Return value; the newly created B<Gnome::Gdk4::N-ContentFormats>
+  with all the formats added to C<$builder>. 
+
+=begin comment
+
+=head2 Example
+# Example for to-formats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Releases a reference on the given C<$builder>.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,103 @@
+=comment Package: Gdk4, C-Source: contentformats
+use v6.d;
+
+#TL:1:Gnome::Gdk4::N-ContentFormatsBuilder:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+use Gnome::Gdk4::N-ContentFormats:api<2>;
+use Gnome::Gdk4::N-ContentFormatsBuilder:api<2>;
+use Gnome::Gdk4::T-contentformats:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my N-ContentFormatsBuilder $n-contentformatsbuilder;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $n-contentformatsbuilder {
+
+#`{{
+    #TC:0:new-contentformatsbuilder()
+
+    $n-contentformatsbuilder .= new-contentformatsbuilder();
+    ok .is-valid, '.new-contentformatsbuilder()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $n-contentformatsbuilder {
+    my Str $mime-type;
+    my N-Object $formats;
+    my GType $type;
+
+
+#`{{
+    #TM:0:add-formats()
+    ok .add-formats( $formats), '.add-formats()';
+
+    #TM:0:add-gtype()
+    ok .add-gtype( $type), '.add-gtype()';
+
+    #TM:0:add-mime-type()
+    ok .add-mime-type( $mime-type), '.add-mime-type()';
+
+    #TM:0:free-to-formats()
+    ok .free-to-formats(), '.free-to-formats()';
+
+    #TM:0:ref()
+    ok .ref(), '.ref()';
+
+    #TM:0:to-formats()
+    ok .to-formats(), '.to-formats()';
+
+    #TM:0:unref()
+    ok .unref(), '.unref()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $n-contentformatsbuilder {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
