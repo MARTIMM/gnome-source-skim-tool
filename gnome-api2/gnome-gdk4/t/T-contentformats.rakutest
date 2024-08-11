@@ -1,0 +1,47 @@
+=comment Package: Gdk4, C-Source: contentformats
+use v6.d;
+
+#TL:1:Gnome::Gdk4::T-contentformats:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::Gdk4::N-ContentFormats:api<2>;
+use Gnome::Gdk4::T-contentformats:api<2>;
+use Gnome::Gdk4::T-types:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gdk4::T-contentformats $contentformats .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $contentformats {
+    my Str $string;
+
+
+#`{{
+    #TM:0:content-formats-parse()
+    ok .content-formats-parse( $string), '.content-formats-parse()';
+
+    #TM:0:intern-mime-type()
+    ok .intern-mime-type( $string), '.intern-mime-type()';
+
+}}
+  }
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

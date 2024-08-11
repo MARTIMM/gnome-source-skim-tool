@@ -1,0 +1,112 @@
+=comment Package: Gdk4, C-Source: contentformats
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gdk4::T-contentformats
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-FileList
+
+This is an opaque type of which fields are not available.
+
+  class N-FileList:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-ContentFormatsBuilder
+
+This is an opaque type of which fields are not available.
+
+  class N-ContentFormatsBuilder:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 content-formats-parse
+
+Parses the given C<$string> into B<Gnome::Gdk4::N-ContentFormats> and
+returns the formats.
+
+Strings printed via C<.to-string() in class Gnome::Gdk4::N-ContentFormats>
+can be read in again successfully using this function.
+
+If C<$string> does not describe valid content formats, undefined
+is returned.
+
+=begin code
+method content-formats-parse ( Str $string --> N-Object )
+=end code
+
+=item $string; the string to parse.
+
+Return value; the content formats if C<$string> is valid. 
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::FileList
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intern-mime-type
+
+Canonicalizes the given mime type and interns the result.
+
+If C<$string> is not a valid mime type, undefined is returned instead.
+See RFC 2048 for the syntax if mime types.
+
+=begin code
+method intern-mime-type ( Str $string --> Str )
+=end code
+
+=item $string; string of a potential mime type.
+
+Return value; An interned string for the canonicalized
+  mime type or undefined if the string wasn't a valid mime type. 
+
+=begin comment
+
+=head2 Example
+# Example for get-files
+
+=end comment
+
+=end pod
+
