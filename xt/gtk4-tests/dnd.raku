@@ -2,8 +2,9 @@
 # -Ignome-api2/gnome-gtk4/lib 
 
 use v6.d;
-#use lib './lib', './gnome-api2/gnome-gtk4/lib', './gnome-api2/gnome-native/lib';
 #use lib 'lib';
+#use lib './gnome-api2/gnome-gtk4/lib';
+use lib './gnome-api2/gnome-native/lib';
 
 use NativeCall;
 
@@ -23,6 +24,7 @@ use Gnome::Gtk4::Grid:api<2>;
 
 use Gnome::Gdk4::Drag:api<2>;
 use Gnome::Gdk4::ContentProvider:api<2>;
+#use Gnome::Gdk4::ContentFormats;
 use Gnome::Gdk4::T-enums:api<2>;
 
 #use Gnome::Gio::File:api<2>;
@@ -79,8 +81,12 @@ class Helper {
     Gnome::Gtk4::Picture :$pic
     --> Bool
   ) {
+#Gnome::N::debug(:on);
     note "$?LINE drop: $v.gist(), $x, $y";
     my Bool $drop-ok = False;
+
+#    my Gnome::Gdk4::ContentFormats() $cf = $dt.get-formats;
+#    note "$?LINE ", 
 
     if $v.g-type == $pic.get-class-gtype {
  #     my CArray[Str] $s = $v.data;
@@ -88,6 +94,7 @@ class Helper {
       $drop-ok = True;
     }
 
+#Gnome::N::debug(:off);
     $drop-ok;
   }
 }
@@ -115,6 +122,8 @@ with my Gnome::Gtk4::Window $window .= new-window {
   .register-signal( $helper, 'exit', 'close-request');
   .show;
 }
+
+Gnome::N::debug(:on);
 
 $main-loop.run;
 say 'done it';
