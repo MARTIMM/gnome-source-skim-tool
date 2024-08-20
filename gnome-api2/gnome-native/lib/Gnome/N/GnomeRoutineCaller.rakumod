@@ -555,8 +555,8 @@ multi method convert-return ( $v, Hash $routine ) {
     }
   }
 
-  #note "Converted return; type: $c.^name(), value: $c.gist()"
-  #  if $Gnome::N::x-debug;
+  note "Converted return; type: $c.^name(), value: $c.gist()"
+    if $Gnome::N::x-debug;
 
   $c
 }
