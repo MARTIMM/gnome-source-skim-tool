@@ -21,7 +21,7 @@ sub graphene-lib ( --> Str )       is export { 'libgraphene-1.0.so.0'; }
 sub gtk-lib ( --> Str )            is export { 'libgtk-3.so.0'; }
 sub gtk3-lib ( --> Str )           is export { 'libgtk-3.so.0'; }
 sub gdk4-lib ( --> Str )           is export { 'libgtk-4.so.1'; }
-sub gsk4-lib ( --> Str )           is export { 'libgtk-4.so.1'; }
 sub gtk4-lib ( --> Str )           is export { 'libgtk-4.so.1'; }
+sub gsk4-lib ( --> Str )           is export { 'libgtk-4.so.1'; }
 sub pango-lib ( --> Str )          is export { 'libpango-1.0.so.0'; }
 sub pangocairo-lib ( --> Str )     is export { 'libpangocairo-1.0.so.0'; }

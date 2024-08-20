@@ -43,7 +43,7 @@ has $!n-native-object;
 has Bool $.is-valid = False;
 
 # keep track of native class types and names
-has UInt $!class-gtype;
+has GType $!class-gtype;
 has Str $!class-name;
 has Str $!class-name-of-sub;
 
