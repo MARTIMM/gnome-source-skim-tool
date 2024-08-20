@@ -204,11 +204,21 @@ method register-signal (
     # search for signal name defined by this class as well as its parent classes
     my Str $signal-type;
     my Str $module-name;
+    my Str $signal-name-check;
+    if $signal-name ~~ m/^ $<signal-name> = [ <-[:]>+ ]
+                           [ '::' .* ]?
+                       $/
+    {
+      $signal-name-check = $/<signal-name>.Str;
+    }
+
     my @module-names = self.^name, |(map( {.^name}, self.^parents));
     for @module-names -> $mn {
       note "  search in class: $mn, $signal-name" if $Gnome::N::x-debug;
-      if $signal-types{$mn}:exists and $signal-types{$mn}{$signal-name}:exists {
-        $signal-type = $signal-types{$mn}{$signal-name};
+      if $signal-types{$mn}:exists
+         and $signal-types{$mn}{$signal-name-check}:exists
+      {
+        $signal-type = $signal-types{$mn}{$signal-name-check};
         $module-name = $mn;
         note "  found key '$signal-type' for $mn" if $Gnome::N::x-debug;
         last;
@@ -389,6 +399,7 @@ method register-signal (
     # Set the handler for the specified signal
     state %shkeys = %( :&w0, :&w1, :&w2, :&w3, :&w4, :&w5, :&w6);
     my $no = self._get-native-object-no-reffing;
+#note "$?LINE $no.gist()";
     $handler-id = self._convert_g_signal_connect_object(
       $no, $signal-name, $sh, %shkeys{$signal-type}
     );
@@ -422,6 +433,7 @@ method _convert_g_signal_connect_object (
   # then process all parameters of the callback. Skip the first which is the
   # instance which is not needed in the argument list to the handler.
   for $user-handler.signature.params[1..*-1] -> $p {
+#note "$?LINE ", $p.name;
     # Named arguments are skipped. Also skip undefined names.
     next if $p.named;
     next if $p.name ~~ Nil;       # seems to be possible
@@ -514,6 +526,8 @@ method !convert-type ( Mu $type, Bool :$type-only = False --> Any ) {
     when 'Str' { $converted-type = gchar-ptr; }
     when /^ Gnome '::' / { $converted-type = N-Object; }
 
+    # Assume that all other class types have a Gnome class parent
+ #   default { $converted-type = N-Object; }
     default { $converted-type = $type; }
   }
 
