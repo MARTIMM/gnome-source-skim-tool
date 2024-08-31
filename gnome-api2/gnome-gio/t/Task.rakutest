@@ -1,0 +1,303 @@
+=comment Package: Gio, C-Source: task
+use v6.d;
+
+#TL:1:Gnome::Gio::Task:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+use Gnome::GObject::N-Value:api<2>;
+use Gnome::GObject::T-value:api<2>;
+use Gnome::Gio::Task:api<2>;
+use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::N-MainContext:api<2>;
+#use Gnome::Glib::N-Source:api<2>;
+use Gnome::Glib::T-error:api<2>;
+use Gnome::Glib::T-main:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gio::Task $task;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $task {
+    my gpointer $source-object;
+    my gpointer $callback-data;
+    my N-Object $cancellable;
+    sub callback ( N-Object $source-object, N-Object $res, gpointer $data ) {}
+
+#`{{
+    #TC:0:new-task()
+    $source-object = '…';
+    $cancellable = …;
+    $callback = …;
+    $callback-data = '…';
+    $task .= new-task( $source-object, $cancellable, $callback, $callback-data);
+    ok .is-valid, '.new-task( $source-object, $cancellable, $callback, $callback-data)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $task {
+    my  $result-destroy;
+    my  $task-data-destroy;
+    my gint $code;
+    my gboolean $check-cancellable;
+    my gint $priority;
+    my N-Object $result;
+    my gpointer $task-data;
+    my N-Object $value;
+    sub task-func ( N-Object $task, gpointer $source-object, gpointer $task-data, N-Object $cancellable ) {}
+    my  $callback;
+    my GQuark $domain;
+    my Str $format;
+    my gpointer $source-tag;
+    my gboolean $return-on-cancel;
+    my CArray[N-Error] $err;
+    my Str $message;
+    my N-Object $error;
+    my Str $name;
+    my N-Object $source;
+
+
+#`{{
+    #TM:0:attach-source()
+    ok .attach-source( $source, $callback), '.attach-source()';
+
+    #TM:0:get-cancellable()
+     .get-cancellable(), '…', '.get-cancellable()';
+
+    #TM:0:get-completed()
+     .get-completed(), '…', '.get-completed()';
+
+    #TM:0:get-context()
+     .get-context(), '…', '.get-context()';
+
+    #TM:0:get-source-object()
+     .get-source-object(), '…', '.get-source-object()';
+
+    #TM:0:had-error()
+    ok .had-error(), '.had-error()';
+
+    #TM:0:propagate-boolean()
+    ok .propagate-boolean( $err), '.propagate-boolean()';
+
+    #TM:0:propagate-int()
+    ok .propagate-int( $err), '.propagate-int()';
+
+    #TM:0:propagate-pointer()
+    ok .propagate-pointer( $err), '.propagate-pointer()';
+
+    #TM:0:propagate-value()
+    ok .propagate-value( $value, $err), '.propagate-value()';
+
+    #TM:0:return-boolean()
+    ok .return-boolean( $result), '.return-boolean()';
+
+    #TM:0:return-error()
+    ok .return-error( $error), '.return-error()';
+
+    #TM:0:return-error-if-cancelled()
+    ok .return-error-if-cancelled(), '.return-error-if-cancelled()';
+
+    #TM:0:return-int()
+    ok .return-int( $result), '.return-int()';
+
+    #TM:0:return-new-error()
+    ok .return-new-error( $domain, $code, $format), '.return-new-error()';
+
+    #TM:0:return-new-error-literal()
+    ok .return-new-error-literal( $domain, $code, $message), '.return-new-error-literal()';
+
+    #TM:0:return-pointer()
+    ok .return-pointer( $result, $result-destroy), '.return-pointer()';
+
+    #TM:0:return-prefixed-error()
+    ok .return-prefixed-error( $error, $format), '.return-prefixed-error()';
+
+    #TM:0:return-value()
+    ok .return-value( $result), '.return-value()';
+
+    #TM:0:run-in-thread()
+    ok .run-in-thread( $task-func), '.run-in-thread()';
+
+    #TM:0:run-in-thread-sync()
+    ok .run-in-thread-sync( $task-func), '.run-in-thread-sync()';
+
+    #TM:0:set-check-cancellable()
+    $check-cancellable = '…';
+    .set-check-cancellable( $check-cancellable);
+    #TM:0:get-check-cancellable()
+    is .get-check-cancellable(),  $check-cancellable, '.set-check-cancellable() / .get-check-cancellable()';
+
+    #TM:0:set-name()
+    $name = 'text';
+    .set-name( $name);
+    #TM:0:get-name()
+    is .get-name(),  $name, '.set-name() / .get-name()';
+
+    #TM:0:set-priority()
+    $priority = '…';
+    .set-priority( $priority);
+    #TM:0:get-priority()
+    is .get-priority(),  $priority, '.set-priority() / .get-priority()';
+
+    #TM:0:set-return-on-cancel()
+    $return-on-cancel = '…';
+    .set-return-on-cancel( $return-on-cancel);
+    #TM:0:get-return-on-cancel()
+    is .get-return-on-cancel(),  $return-on-cancel, '.set-return-on-cancel() / .get-return-on-cancel()';
+
+    #TM:0:set-source-tag()
+    $source-tag = '…';
+    .set-source-tag( $source-tag);
+    #TM:0:get-source-tag()
+    is .get-source-tag(),  $source-tag, '.set-source-tag() / .get-source-tag()';
+
+    #TM:0:set-static-name()
+    $name = 'text';
+    .set-static-name( $name);
+    ok True, '.set-static-name()';
+
+    #TM:0:set-task-data()
+    $task-data = '…';
+    $task-data-destroy = '…';
+    .set-task-data( $task-data, $task-data-destroy);
+    #TM:0:get-task-data()
+    is .get-task-data(),  $task-data, $task-data-destroy, '.set-task-data() / .get-task-data()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $task {
+    my gpointer $result;
+    my Int() $code;
+    my gpointer $source-object;
+    my Str $format;
+    my UInt $domain;
+    my gpointer $source-tag;
+    my N-Object $error;
+    sub callback ( N-Object $source-object, N-Object $res, gpointer $data ) {}
+    my gpointer $callback-data;
+
+
+#`{{
+    #TM:0:is-valid()
+    ok .is-valid( $result, $source-object), '.is-valid()';
+
+    #TM:0:report-error()
+    ok .report-error( $source-object, $callback, $callback-data, $source-tag, $error), '.report-error()';
+
+    #TM:0:report-new-error()
+    ok .report-new-error( $source-object, $callback, $callback-data, $source-tag, $domain, $code, $format), '.report-new-error()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gio::Task() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gio::Task;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gio::Task :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gio::Task $task .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $task.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+

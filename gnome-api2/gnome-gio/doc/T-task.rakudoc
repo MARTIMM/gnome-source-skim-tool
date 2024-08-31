@@ -1,0 +1,26 @@
+=comment Package: Gio, C-Source: task
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gio::T-task
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 TaskThreadFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $task, gpointer $source-object, gpointer $task-data, N-Object() $cancellable  )
+=end code
+
+=item task; the B<Gnome::Gio::Task>
+=item source-object; C<$task>'s source object
+=item task-data; C<$task>'s task data
+=item cancellable; C<$task>'s B<Gnome::Gio::Cancellable>, or undefined
+
+=end pod

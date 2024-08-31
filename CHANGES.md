@@ -66,7 +66,7 @@ find . -name '*.raku*' | xargs wc -l
 * No lists are returned to read veriables set by the native routines.
 * Some cases where text was provided as an argument where it also needed to give the length of the string. In the older versions it was hidden. In the new version it must be provided.
 * Possible and maybe for certain there will be no distributions for Gtk3 and Gdk3.
-* Gnome also have a fair share in braking compatibility between Gtk3 and Gtk4. Also a reason not to do Gtk3/Gdk3 in this new api. Luckily, the deprecated symbols, functions and classes were not suported in the old versions of mine. Much is to be read [here](https://docs.gtk.org/gtk4/migrating-3to4.html). A small list;
+* Gnome also have a fair share in braking compatibility between Gtk3 and Gtk4. Also a reason not to do Gtk3/Gdk3 in this new api. Luckily, the deprecated symbols, functions and classes were not supported in the old versions of mine. Much can be read [here](https://docs.gtk.org/gtk4/migrating-3to4.html). A small list;
   * Window manager control like `self.set-position()` and `self.set-keep-above()`;
 
 * TDDO Improve documentation. Make use of RakuDoc which is not yet available.

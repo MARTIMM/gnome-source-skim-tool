@@ -171,7 +171,7 @@ GObject                                         Gnome::GObject::Object
 │   │   ├── GtkGestureRotate
 │   │   ╰── GtkGestureZoom
 │   ├── GtkDropControllerMotion                 DropControllerMotion
-│   ├── GtkDropTargetAsync
+│   ├── GtkDropTargetAsync                      DropTargetAsync
 │   ├── GtkDropTarget                           DropTarget
 │   ├── GtkEventControllerKey
 │   ├── GtkEventControllerFocus

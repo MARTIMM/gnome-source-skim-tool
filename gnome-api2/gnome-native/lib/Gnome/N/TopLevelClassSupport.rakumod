@@ -803,7 +803,9 @@ Get and store the GType of the provided class name
 =end pod
 
 method _set-class-info ( Str:D $!class-name ) {
-  $!class-gtype = _from_name($!class-name)
+  $!class-gtype = _from_name($!class-name);
+
+  note "GValue for class $!class-name is $!class-gtype" if $Gnome::N::x-debug;
 }
 
 #-------------------------------------------------------------------------------

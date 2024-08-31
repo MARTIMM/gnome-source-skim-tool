@@ -1,0 +1,829 @@
+=comment Package: Gio, C-Source: simpleasyncresult
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Gnome::Gio::SimpleAsyncResult
+
+=head1 Description
+
+As of GLib 2.46, B<Gnome::Gio::SimpleAsyncResult> is deprecated in favor of
+B<Gnome::Gio::SimpleAsyncResult>, which provides a simpler API.
+
+B<Gnome::Gio::SimpleAsyncResult> implements B<Gnome::Gio::SimpleAsyncResult>.
+
+B<Gnome::Gio::SimpleAsyncResult> handles [type C<$Gio>.AsyncReadyCallback]s, error
+reporting, operation cancellation and the final state of an operation,
+completely transparent to the application. Results can be returned
+as a pointer e.g. for functions that return data that is collected
+asynchronously, a boolean value for checking the success or failure
+of an operation, or a B<gssize> for operations which return the number
+of bytes modified by the operation; all of the simple return cases
+are covered.
+
+Most of the time, an application will not need to know of the details
+of this API; it is handled transparently, and any necessary operations
+are handled by B<Gnome::Gio::SimpleAsyncResult>’s interface. However, if implementing
+a new GIO module, for writing language bindings, or for complex
+applications that need better control of how asynchronous operations
+are completed, it is important to understand this functionality.
+
+B<Gnome::Gio::SimpleAsyncResult>s are tagged with the calling function to ensure
+that asynchronous functions and their finishing functions are used
+together correctly.
+
+To create a new B<Gnome::Gio::SimpleAsyncResult>, call C<.newsimpleasyncresult()>.
+If the result needs to be created for a B<Gnome::Glib::N-Error>, use
+C<.new-from-error()> or
+C<.new-take-error()>. If a B<Gnome::Glib::N-Error> is not available
+(e.g. the asynchronous operation doesn’t take a B<Gnome::Glib::N-Error> argument),
+but the result still needs to be created for an error condition, use
+C<.new-error()> (or
+C<.set-error-va()> if your application or binding
+requires passing a variable argument list directly), and the error can then
+be propagated through the use of
+C<.propagate-error()>.
+
+An asynchronous operation can be made to ignore a cancellation event by
+calling C<.set-handle-cancellation()> with a
+B<Gnome::Gio::SimpleAsyncResult> for the operation and C<False>. This is useful for
+operations that are dangerous to cancel, such as close (which would
+cause a leak if cancelled before being run).
+
+B<Gnome::Gio::SimpleAsyncResult> can integrate into GLib’s event loop,
+[type C<$GLib>.MainLoop], or it can use [type C<$GLib>.Thread]s.
+C<.complete()> will finish an I/O task directly
+from the point where it is called.
+C<.complete-in-idle()> will finish it from an idle
+handler in the  thread-default main context (see
+C<.push-thread-default() in class Gnome::Gio::SimpleAsyncResult>) where the B<Gnome::Gio::SimpleAsyncResult>
+was created. C<.run-in-thread()> will run the job in
+a separate thread and then use
+C<.complete-in-idle()> to deliver the result.
+
+To set the results of an asynchronous function,
+C<.set-op-res-gpointer()>,
+C<.set-op-res-gboolean()>, and
+C<.set-op-res-gssize()>
+are provided, setting the operation's result to a B<gpointer>, B<gboolean>, or
+B<gssize>, respectively.
+
+Likewise, to get the result of an asynchronous function,
+C<.get-op-res-gpointer()>,
+C<.get-op-res-gboolean()>, and
+C<.get-op-res-gssize()> are
+provided, getting the operation’s result as a B<gpointer>, B<gboolean>, and
+B<gssize>, respectively.
+
+For the details of the requirements implementations must respect, see
+B<Gnome::Gio::SimpleAsyncResult>.  A typical implementation of an asynchronous
+operation using B<Gnome::Gio::SimpleAsyncResult> looks something like this:
+
+=begin comment
+static void
+baked_cb (Cake    *cake,
+          gpointer user_data)
+{
+  // In this example, this callback is not given a reference to the cake,
+  // so the GSimpleAsyncResult has to take a reference to it.
+  GSimpleAsyncResult *result = user_data;
+
+  if (cake == NULL)
+    g_simple_async_result_set_error (result,
+                                     BAKER_ERRORS,
+                                     BAKER_ERROR_NO_FLOUR,
+                                     "Go to the supermarket");
+  else
+    g_simple_async_result_set_op_res_gpointer (result,
+                                               g_object_ref (cake),
+                                               g_object_unref);
+
+  // In this example, we assume that baked_cb is called as a callback from
+  // the mainloop, so it's safe to complete the operation synchronously here.
+  // If, however, _baker_prepare_cake () might call its callback without
+  // first returning to the mainloop — inadvisable, but some APIs do so —
+  // we would need to use g_simple_async_result_complete_in_idle().
+  g_simple_async_result_complete (result);
+  g_object_unref (result);
+}
+
+void
+baker_bake_cake_async (Baker              *self,
+                       guint               radius,
+                       GAsyncReadyCallback callback,
+                       gpointer            user_data)
+{
+  GSimpleAsyncResult *simple;
+  Cake               *cake;
+
+  if (radius < 3)
+    {
+      g_simple_async_report_error_in_idle (G_OBJECT (self),
+                                           callback,
+                                           user_data,
+                                           BAKER_ERRORS,
+                                           BAKER_ERROR_TOO_SMALL,
+                                           "%ucm radius cakes are silly",
+                                           radius);
+      return;
+    }
+
+  simple = g_simple_async_result_new (G_OBJECT (self),
+                                      callback,
+                                      user_data,
+                                      baker_bake_cake_async);
+  cake = _baker_get_cached_cake (self, radius);
+
+  if (cake != NULL)
+    {
+      g_simple_async_result_set_op_res_gpointer (simple,
+                                                 g_object_ref (cake),
+                                                 g_object_unref);
+      g_simple_async_result_complete_in_idle (simple);
+      g_object_unref (simple);
+      // Drop the reference returned by _baker_get_cached_cake();
+      // the GSimpleAsyncResult has taken its own reference.
+      g_object_unref (cake);
+      return;
+    }
+
+  _baker_prepare_cake (self, radius, baked_cb, simple);
+}
+
+Cake *
+baker_bake_cake_finish (Baker        *self,
+                        GAsyncResult *result,
+                        GError      **error)
+{
+  GSimpleAsyncResult *simple;
+  Cake               *cake;
+
+  g_return_val_if_fail (g_simple_async_result_is_valid (result,
+                                                        G_OBJECT (self),
+                                                        baker_bake_cake_async),
+                        NULL);
+
+  simple = (GSimpleAsyncResult *) result;
+
+  if (g_simple_async_result_propagate_error (simple, error))
+    return NULL;
+
+  cake = CAKE (g_simple_async_result_get_op_res_gpointer (simple));
+  return g_object_ref (cake);
+}
+
+=end comment
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gio::SimpleAsyncResult
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-simpleasyncresult
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Creates a B<Gnome::Gio::SimpleAsyncResult>.
+
+The common convention is to create the B<Gnome::Gio::SimpleAsyncResult> in the
+function that starts the asynchronous operation and use that same
+function as the C<$source-tag>.
+
+If your operation supports cancellation with B<Gnome::Gio::Cancellable> (which it
+probably should) then you should provide the user's cancellable to
+C<.set-check-cancellable()> immediately after
+this function returns.
+
+=begin code
+method new-simpleasyncresult ( N-Object() $source-object, &callback, gpointer $user-data, gpointer $source-tag --> Gnome::Gio::SimpleAsyncResult \)
+=end code
+
+=item $source-object; a B<Gnome::GObject::Object>, or undefined..
+=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item $user-data; user data passed to C<$callback>..
+=item $source-tag; the asynchronous function..
+
+=begin comment
+
+=head2 Example
+# Example for new-simpleasyncresult
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-error
+This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Creates a new B<Gnome::Gio::SimpleAsyncResult> with a set error.
+
+=begin code
+method new-error ( N-Object() $source-object, &callback, gpointer $user-data, UInt $domain, Int() $code, Str $format, … --> Gnome::Gio::SimpleAsyncResult \)
+=end code
+
+=item $source-object; a B<Gnome::GObject::Object>, or undefined..
+=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item $user-data; user data passed to C<$callback>..
+=item $domain; a B<Gnome::Glib::SimpleAsyncResult>..
+=item $code; an error code..
+=item $format; a string with format characters..
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for new-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-from-error
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Creates a B<Gnome::Gio::SimpleAsyncResult> from an error condition.
+
+=begin code
+method new-from-error ( N-Object() $source-object, &callback, gpointer $user-data, N-Object $error --> Gnome::Gio::SimpleAsyncResult \)
+=end code
+
+=item $source-object; a B<Gnome::GObject::Object>, or undefined..
+=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item $user-data; user data passed to C<$callback>..
+=item $error; a B<Gnome::Glib::N-Error>
+
+=begin comment
+
+=head2 Example
+# Example for new-from-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-take-error
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Creates a B<Gnome::Gio::SimpleAsyncResult> from an error condition, and takes over the
+caller's ownership of C<$error>, so the caller does not need to free it anymore.
+
+=begin code
+method new-take-error ( N-Object() $source-object, &callback, gpointer $user-data, N-Object $error --> Gnome::Gio::SimpleAsyncResult \)
+=end code
+
+=item $source-object; a B<Gnome::GObject::Object>, or undefined.
+=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item $user-data; user data passed to C<$callback>..
+=item $error; a B<Gnome::Glib::N-Error>
+
+=begin comment
+
+=head2 Example
+# Example for new-take-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 complete
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Completes an asynchronous I/O job immediately. Must be called in
+the thread where the asynchronous result was to be delivered, as it
+invokes the callback directly. If you are in a different thread use
+C<.complete-in-idle()>.
+
+Calling this function takes a reference to C<$simple> for as long as
+is needed to complete the call.
+
+=begin code
+method complete ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for complete
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 complete-in-idle
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Completes an asynchronous function in an idle handler in the thread-default main context
+of the thread that C<$simple> was initially created in
+(and re-pushes that context around the invocation of the callback).
+
+Calling this function takes a reference to C<$simple> for as long as
+is needed to complete the call.
+
+=begin code
+method complete-in-idle ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for complete-in-idle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-op-res-gboolean
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Gets the operation result boolean from within the asynchronous result.
+
+=begin code
+method get-op-res-gboolean (--> Bool )
+=end code
+
+Return value; C<True> if the operation's result was C<True>, C<False>
+    if the operation's result was C<False>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-op-res-gboolean
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-op-res-gpointer
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Gets a pointer result as returned by the asynchronous function.
+
+=begin code
+method get-op-res-gpointer (--> gpointer )
+=end code
+
+Return value; a pointer from the result.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-op-res-gpointer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-op-res-gssize
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Gets a gssize from the asynchronous result.
+
+=begin code
+method get-op-res-gssize (--> Int )
+=end code
+
+Return value; a gssize returned from the asynchronous function.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-op-res-gssize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-source-tag
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46.>
+
+Gets the source tag for the B<Gnome::Gio::SimpleAsyncResult>.
+
+=begin code
+method get-source-tag (--> gpointer )
+=end code
+
+Return value; a #gpointer to the source object for the B<Gnome::Gio::SimpleAsyncResult>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-source-tag
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 propagate-error
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Propagates an error from within the simple asynchronous result to
+a given destination.
+
+If the B<Gnome::Gio::Cancellable> given to a prior call to
+C<.set-check-cancellable()> is cancelled then this
+function will return C<True> with C<$dest> set appropriately.
+
+=begin code
+method propagate-error ( CArray[N-Error] $err --> Bool )
+=end code
+
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; C<True> if the error was propagated to C<$dest>. C<False> otherwise.. 
+
+=begin comment
+
+=head2 Example
+# Example for propagate-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 run-in-thread
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Runs the asynchronous job in a separate thread and then calls
+C<.complete-in-idle()> on C<$simple> to return
+the result to the appropriate main loop.
+
+Calling this function takes a reference to C<$simple> for as long as
+is needed to run the job and report its completion.
+
+=begin code
+method run-in-thread ( &func, Int() $io-priority, N-Object() $cancellable )
+=end code
+
+=item &func; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $res, N-Object $object, N-Object $cancellable )>.
+=item $io-priority; the io priority of the request..
+=item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore..
+
+=begin comment
+
+=head2 Example
+# Example for run-in-thread
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-check-cancellable
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets a B<Gnome::Gio::Cancellable> to check before dispatching results.
+
+This function has one very specific purpose: the provided cancellable
+is checked at the time of C<.propagate-error()> If
+it is cancelled, these functions will return an "Operation was
+cancelled" error (C<G_IO_ERROR_CANCELLED>).
+
+Implementors of cancellable asynchronous functions should use this in
+order to provide a guarantee to their callers that cancelling an
+async operation will reliably result in an error being returned for
+that operation (even if a positive result for the operation has
+already been sent as an idle to the main context to be dispatched).
+
+The checking described above is done regardless of any call to the
+unrelated C<.set-handle-cancellation()> function.
+
+=begin code
+method set-check-cancellable ( N-Object() $check-cancellable )
+=end code
+
+=item $check-cancellable; a B<Gnome::Gio::Cancellable> to check, or undefined to unset.
+
+=begin comment
+
+=head2 Example
+# Example for set-check-cancellable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-error
+This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets an error within the asynchronous result without a B<Gnome::Glib::N-Error>.
+
+=begin code
+method set-error ( UInt $domain, Int() $code, Str $format, … )
+=end code
+
+=item $domain; a B<Gnome::Glib::SimpleAsyncResult> (usually C<G_IO_ERROR>)..
+=item $code; an error code..
+=item $format; a formatted error reporting string..
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-error-va
+This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets an error within the asynchronous result without a B<Gnome::Glib::N-Error>.
+Unless writing a binding, see C<.set-error()>.
+
+=begin code
+method set-error-va ( UInt $domain, Int() $code, Str $format, … )
+=end code
+
+=item $domain; a B<Gnome::Glib::SimpleAsyncResult> (usually C<G_IO_ERROR>)..
+=item $code; an error code..
+=item $format; a formatted error reporting string..
+=item args; va_list of arguments.. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-error-va
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-from-error
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets the result from a B<Gnome::Glib::N-Error>.
+
+=begin code
+method set-from-error ( N-Object $error )
+=end code
+
+=item $error; B<Gnome::Glib::N-Error>.
+
+=begin comment
+
+=head2 Example
+# Example for set-from-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-handle-cancellation
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets whether to handle cancellation within the asynchronous operation.
+
+This function has nothing to do with
+C<.set-check-cancellable()>.  It only refers to the
+B<Gnome::Gio::Cancellable> passed to C<.run-in-thread()>.
+
+=begin code
+method set-handle-cancellation ( Bool() $handle-cancellation )
+=end code
+
+=item $handle-cancellation; a #gboolean..
+
+=begin comment
+
+=head2 Example
+# Example for set-handle-cancellation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-op-res-gboolean
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets the operation result to a boolean within the asynchronous result.
+
+=begin code
+method set-op-res-gboolean ( Bool() $op-res )
+=end code
+
+=item $op-res; a #gboolean..
+
+=begin comment
+
+=head2 Example
+# Example for set-op-res-gboolean
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-op-res-gpointer
+This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets the operation result within the asynchronous result to a pointer.
+
+=begin code
+method set-op-res-gpointer ( gpointer $op-res, … )
+=end code
+
+=item $op-res; a pointer result from an asynchronous function..
+=item destroy-op-res; a B<Gnome::Glib::T-types> function.. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for set-op-res-gpointer
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-op-res-gssize
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets the operation result within the asynchronous result to
+the given C<$op-res>.
+
+=begin code
+method set-op-res-gssize ( Int() $op-res )
+=end code
+
+=item $op-res; a #gssize..
+
+=begin comment
+
+=head2 Example
+# Example for set-op-res-gssize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 take-error
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Sets the result from C<$error>, and takes over the caller's ownership
+of C<$error>, so the caller does not need to free it any more.
+
+=begin code
+method take-error ( N-Object $error )
+=end code
+
+=item $error; a B<Gnome::Glib::N-Error>
+
+=begin comment
+
+=head2 Example
+# Example for take-error
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-valid
+
+B<Note: The native version of this routine is deprecated in gio-lib() since version 2.46>
+
+Ensures that the data passed to the _finish function of an async
+operation is consistent.  Three checks are performed.
+
+First, C<$result> is checked to ensure that it is really a
+B<Gnome::Gio::SimpleAsyncResult>.  Second, C<$source> is checked to ensure that it
+matches the source object of C<$result>.  Third, C<$source-tag> is
+checked to ensure that it is equal to the C<$source-tag> argument given
+to C<.new-simpleasyncresult()> (which, by convention, is a pointer
+to the _async function corresponding to the _finish function from
+which this function is called).  (Alternatively, if either C<$source-tag> or C<$result>'s source tag is undefined, then the source tag
+check is skipped.)
+
+=begin code
+method is-valid ( N-Object() $result, N-Object() $source, gpointer $source-tag --> Bool )
+=end code
+
+=item $result; the B<Gnome::Gio::R-AsyncResult> passed to the _finish function..
+=item $source; the B<Gnome::GObject::Object> passed to the _finish function..
+=item $source-tag; the asynchronous function..
+
+Return value; #TRUE if all checks passed or #FALSE if any failed.. 
+
+=begin comment
+
+=head2 Example
+# Example for is-valid
+
+=end comment
+
+=end pod
+

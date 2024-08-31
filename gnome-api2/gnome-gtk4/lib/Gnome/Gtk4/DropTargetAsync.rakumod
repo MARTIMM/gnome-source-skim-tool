@@ -1,4 +1,4 @@
-=comment Package: Gdk4, C-Source: drop
+=comment Package: Gtk4, C-Source: droptargetasync
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -8,13 +8,10 @@ use v6.d;
 use NativeCall;
 
 
-use Gnome::GObject::N-Value:api<2>;
-use Gnome::GObject::Object:api<2>;
-use Gnome::GObject::T-value:api<2>;
 use Gnome::Gdk4::N-ContentFormats:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
 use Gnome::Gdk4::T-types:api<2>;
-use Gnome::Glib::T-error:api<2>;
+use Gnome::Gtk4::EventController:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -26,8 +23,8 @@ use Gnome::N::X:api<2>;
 #--[Class Declaration]----------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-unit class Gnome::Gdk4::Drop:auth<github:MARTIMM>:api<2>;
-also is Gnome::GObject::Object;
+unit class Gnome::Gtk4::DropTargetAsync:auth<github:MARTIMM>:api<2>;
+also is Gnome::Gtk4::EventController;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -36,24 +33,35 @@ also is Gnome::GObject::Object;
 # Define callable helper
 has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
+# Add signal registration helper
+my Bool $signals-added = False;
+
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
 
+  # Add signal administration info.
+  unless $signals-added {
+    self.add-signal-types( $?CLASS.^name,
+      :w1<accept drag-leave>,
+      :w3<drag-motion drop drag-enter>,
+    );
+    $signals-added = True;
+  }
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
   # Prevent creating wrong widgets
-  if self.^name eq 'Gnome::Gdk4::Drop' {
+  if self.^name eq 'Gnome::Gtk4::DropTargetAsync' {
     # If already initialized using ':$native-object', ':$build-id', or
     # any '.new*()' constructor, the object is valid.
     note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
 
     # only after creating the native-object, the gtype is known
-    self._set-class-info('GdkDrop');
+    self._set-class-info('GtkDropTargetAsync');
   }
 }
 
@@ -63,19 +71,15 @@ submethod BUILD ( *%options ) {
 
 my Hash $methods = %(
 
+  #--[Constructors]-------------------------------------------------------------
+  new-droptargetasync => %( :type(Constructor), :is-symbol<gtk_drop_target_async_new>, :returns(N-Object), :parameters([ N-Object, GFlag])),
+
   #--[Methods]------------------------------------------------------------------
-  finish => %(:is-symbol<gdk_drop_finish>,  :parameters([GFlag])),
-  get-actions => %(:is-symbol<gdk_drop_get_actions>,  :returns(GFlag), :cnv-return(GdkDragAction)),
-  get-device => %(:is-symbol<gdk_drop_get_device>,  :returns(N-Object)),
-  get-display => %(:is-symbol<gdk_drop_get_display>,  :returns(N-Object)),
-  get-drag => %(:is-symbol<gdk_drop_get_drag>,  :returns(N-Object)),
-  get-formats => %(:is-symbol<gdk_drop_get_formats>,  :returns(N-Object)),
-  get-surface => %(:is-symbol<gdk_drop_get_surface>,  :returns(N-Object)),
-  read-async => %(:is-symbol<gdk_drop_read_async>,  :parameters([gchar-pptr, gint, N-Object, :( N-Object, N-Object, gpointer), gpointer])),
-  read-finish => %(:is-symbol<gdk_drop_read_finish>,  :returns(N-Object), :parameters([N-Object, gchar-pptr, CArray[N-Error]])),
-  read-value-async => %(:is-symbol<gdk_drop_read_value_async>,  :parameters([GType, gint, N-Object, :( N-Object, N-Object, gpointer), gpointer])),
-  read-value-finish => %(:is-symbol<gdk_drop_read_value_finish>,  :returns(N-Object), :parameters([N-Object, CArray[N-Error]])),
-  status => %(:is-symbol<gdk_drop_status>,  :parameters([GFlag, GFlag])),
+  get-actions => %(:is-symbol<gtk_drop_target_async_get_actions>,  :returns(GFlag), :cnv-return(GdkDragAction)),
+  get-formats => %(:is-symbol<gtk_drop_target_async_get_formats>,  :returns(N-Object)),
+  reject-drop => %(:is-symbol<gtk_drop_target_async_reject_drop>,  :parameters([N-Object])),
+  set-actions => %(:is-symbol<gtk_drop_target_async_set_actions>,  :parameters([GFlag])),
+  set-formats => %(:is-symbol<gtk_drop_target_async_set_formats>,  :parameters([N-Object])),
 );
 
 #-------------------------------------------------------------------------------

@@ -1,0 +1,111 @@
+=comment Package: Gio, C-Source: simpleasyncresult
+use v6.d;
+
+=begin pod
+=head1 Gnome::Gio::T-simpleasyncresult
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 simple-async-report-error-in-idle
+This function is not yet available
+
+Reports an error in an asynchronous function in an idle function by
+directly setting the contents of the B<Gnome::Gio::R-AsyncResult> with the given error
+information.
+
+=begin code
+method simple-async-report-error-in-idle ( N-Object() $object, &callback, gpointer $user-data, UInt $domain, Int() $code, Str $format, … )
+=end code
+
+=item $object; a B<Gnome::GObject::Object>, or undefined..
+=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item $user-data; user data passed to C<$callback>..
+=item $domain; a B<Gnome::Glib::SimpleAsyncResult> containing the error domain (usually C<G_IO_ERROR>)..
+=item $code; a specific error code..
+=item $format; a formatted error reporting string..
+=item …; …. Note that each argument must be specified as a type followed by its value!
+
+=begin comment
+
+=head2 Example
+# Example for simple-async-report-error-in-idle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 simple-async-report-gerror-in-idle
+
+Reports an error in an idle function. Similar to
+g_simple_async_report_error_in_idle(), but takes a B<Gnome::Glib::N-Error> rather
+than building a new one.
+
+=begin code
+method simple-async-report-gerror-in-idle ( N-Object() $object, &callback, gpointer $user-data, N-Object $error )
+=end code
+
+=item $object; a B<Gnome::GObject::Object>, or undefined.
+=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item $user-data; user data passed to C<$callback>..
+=item $error; the B<Gnome::Glib::N-Error> to report
+
+=begin comment
+
+=head2 Example
+# Example for simple-async-report-gerror-in-idle
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 simple-async-report-take-gerror-in-idle
+
+Reports an error in an idle function. Similar to
+g_simple_async_report_gerror_in_idle(), but takes over the caller's
+ownership of C<$error>, so the caller does not have to free it any more.
+
+=begin code
+method simple-async-report-take-gerror-in-idle ( N-Object() $object, &callback, gpointer $user-data, N-Object $error )
+=end code
+
+=item $object; a B<Gnome::GObject::Object>, or undefined.
+=item &callback; a B<Gnome::Gio::T-iotypes>.. Tthe function must be specified with following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
+=item $user-data; user data passed to C<$callback>..
+=item $error; the B<Gnome::Glib::N-Error> to report
+
+=begin comment
+
+=head2 Example
+# Example for simple-async-report-take-gerror-in-idle
+
+=end comment
+
+=end pod
+

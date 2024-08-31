@@ -40,7 +40,7 @@ The `.gir` files are **XML** files holding all information one needs to understa
 ## Result Directories
 ```plantuml
 @startwbs
-* Project dir/gnome-api2/gnome-*/
+* `<Project dir>`/gnome-api2/gnome-*/
 ** lib/Gnome
 ** t
 ** doc

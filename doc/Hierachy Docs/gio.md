@@ -96,7 +96,7 @@ GObject                                         Gnome::GObject::Object
   SettingsBackend
   SimpleAction                                  *
   SimpleActionGroup                             *
-  SimpleAsyncResult
+  SimpleAsyncResult                             *
   SimpleProxyResolver
   Socket
   SocketClient
@@ -108,7 +108,7 @@ GObject                                         Gnome::GObject::Object
           ThreadedSocketService
   Subprocess
   SubprocessLauncher
-  Task
+  Task                                          *
   TestDBus
   ThemedIcon
   TlsCertificate
@@ -132,6 +132,7 @@ GInterface
 ├── GAction                                     R-Action
 ├── GActionGroup                                R-ActionGroup
 ├── GActionMap                                  R-ActionMap
+├── GAsyncResult                                R-AsyncResult
 ├── GListModel                                  R-ListModel
 ├── GFile                                       File  (created as if a class!)
 ├──
@@ -152,4 +153,6 @@ Gnome::N::TopLevelClassSupport
 ├── T-ioenums
 ├── T-menuattributeiter
 ├── T-menumodel
+├── T-simpleasyncresult
+
 ```
