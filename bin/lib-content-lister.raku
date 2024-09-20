@@ -8,7 +8,7 @@ use YAMLish;
 my Hash $list = %();
 
 my Str $api2 =
-  [~] $*HOME ~ '/Languages/Raku/Projects/gnome-api2/gnome-api2/';
+  [~] $*HOME ~ '/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2/';
 
 my ExternalModuleType $mod-type;
 

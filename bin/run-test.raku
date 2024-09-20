@@ -5,7 +5,7 @@ use YAMLish;
 use Gnome::SourceSkimTool::Prepare;
 
 #-------------------------------------------------------------------------------
-constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/genome-api2/gnome-api2';
+constant $API2MODS is export = '/home/marcel/Languages/Raku/Projects/gnome-source-skim-tool/gnome-api2';
 
 my Hash $test-location = %(
   :Atk<gnome-atk>,
