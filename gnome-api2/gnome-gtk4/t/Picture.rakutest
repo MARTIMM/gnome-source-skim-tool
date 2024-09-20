@@ -11,6 +11,7 @@ use Test;
 
 
 use Gnome::Gtk4::Picture:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -29,10 +30,10 @@ my Gnome::Gtk4::Picture $picture;
 
 subtest 'ISA test', {
   given $picture {
-    my N-Object $file;
-    my N-Object $paintable;
-    my Str $filename;
     my Str $resource-path;
+    my Str $filename;
+    my N-Object $paintable;
+    my N-Object $file;
     my N-Object $pixbuf;
 
 #`{{
@@ -82,14 +83,15 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $picture {
-    my Str $filename;
-    my Str $alternative-text;
-    my gboolean $keep-aspect-ratio;
     my gboolean $can-shrink;
-    my N-Object $file;
+    my GtkContentFit $content-fit;
+    my Str $filename;
     my N-Object $pixbuf;
-    my Str $resource-path;
+    my gboolean $keep-aspect-ratio;
     my N-Object $paintable;
+    my N-Object $file;
+    my Str $alternative-text;
+    my Str $resource-path;
 
 
 #`{{
@@ -104,6 +106,12 @@ subtest 'Method tests', {
     .set-can-shrink( $can-shrink);
     #TM:0:get-can-shrink()
     is .get-can-shrink(),  $can-shrink, '.set-can-shrink() / .get-can-shrink()';
+
+    #TM:0:set-content-fit()
+    $content-fit = …;
+    .set-content-fit( $content-fit);
+    #TM:0:get-content-fit()
+    is .get-content-fit(),  $content-fit, '.set-content-fit() / .get-content-fit()';
 
     #TM:0:set-file()
     $file = …;
