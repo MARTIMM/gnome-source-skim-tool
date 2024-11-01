@@ -1,5 +1,5 @@
 
-my $t0 = now;
+#my $t0 = now;
 
 use Gnome::Glib::N-MainLoop:api<2>;
 
@@ -9,13 +9,13 @@ use Gnome::Gtk4::Grid:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
-use Gnome::N::X:api<2>;
+#use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
 
-constant \Window = Gnome::Gtk4::Window;
-constant \Button = Gnome::Gtk4::Button;
-constant \Grid = Gnome::Gtk4::Grid;
+constant Window = Gnome::Gtk4::Window;
+constant Button = Gnome::Gtk4::Button;
+constant Grid = Gnome::Gtk4::Grid;
 
 
 my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop( N-Object, True);
@@ -28,7 +28,7 @@ class SH {
     0
   }
 
-  method b1-press ( Button :_widget($button1), Button :$button2 ) {
+  method b1-press ( Button() :_native-object($button1), Button :$button2 ) {
     say 'button1 pressed';
     $button2.set-sensitive(True);
     $button1.set-sensitive(False);
@@ -67,7 +67,7 @@ with my Window $window .= new-window {
   .show;
 }
 
-note "Set up time: ", now - $t0;          # 0.27102656
+#note "Set up time: ", now - $t0;          # 0.27102656
 $main-loop.run;
-say 'done it';
+#say 'done it';
 
