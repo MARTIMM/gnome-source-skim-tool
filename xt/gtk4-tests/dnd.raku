@@ -25,6 +25,7 @@ use Gnome::Gtk4::DragSource:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::Gtk4::Picture:api<2>;
 use Gnome::Gtk4::Grid:api<2>;
+use Gnome::Gtk4::T-enums:api<2>;
 
 use Gnome::Gdk4::Drag:api<2>;
 use Gnome::Gdk4::Drop:api<2>;
@@ -32,7 +33,7 @@ use Gnome::Gdk4::ContentProvider:api<2>;
 use Gnome::Gdk4::N-ContentFormats:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
 
-#use Gnome::Gio::File:api<2>;
+use Gnome::Gio::File:api<2>;
 #use Gnome::Gio::FileIcon:api<2>;
 
 use Gnome::GObject::T-type:api<2>;
@@ -47,6 +48,9 @@ use Gnome::Gio::Task:api<2>;
   https://docs.gtk.org/gdk4/struct.ContentFormats.html
   https://ssalewski.de/gtkprogramming.html#_drag_and_drop_dnd
 }}
+
+my Gnome::Gio::File $f .= new-for-path('abc.txt');
+note "$?LINE File gtype = $f.get-class-gtype()";
 
 #-------------------------------------------------------------------------------
 constant DATA_PATH =
@@ -96,6 +100,7 @@ class Helper {
     --> Bool
   ) {
     my Bool $accept-ok = False;
+#    $drop.set-gtypes( CArray[GType].new($f.get-class-gtype), 1);
 
     my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
     my $size = CArray[gsize].new(0);
@@ -236,17 +241,36 @@ sub set-drag-target ( Str $pic-file --> Gnome::Gtk4::Picture ) {
 #    CArray[Str].new(<text/plain>,), 1
 #  );
 
-  my Gnome::Gtk4::DropTarget $target;
-  $target .= new-droptarget( G_TYPE_STRING, GDK_ACTION_COPY +| GDK_ACTION_MOVE);
-note "Preload: ", $target.get-preload;
-  $target.set-preload(True);
-  $target.register-signal( $helper, 'drop', 'drop');
-  $target.register-signal( $helper, 'accept', 'accept');
-
   my Gnome::Gtk4::Picture $pic;
-  $pic .= new-for-filename(DATA_PATH ~ $pic-file);
-  $pic.add-controller($target);
-  $target.clear-object;
+  my Gnome::Gtk4::DropTarget $target;
+
+  with $target .= new-droptarget(
+    G_TYPE_STRING, GDK_ACTION_COPY +| GDK_ACTION_MOVE
+  ) {
+note "Preload: ", .get-preload;
+
+#    my Gnome::Gio::File $f .= new-for-path('abc.txt');
+note "$?LINE File gtype = $f.get-class-gtype()";
+    .set-gtypes( CArray[GType].new($f.get-class-gtype), 1);
+
+    my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
+    my $size = CArray[gsize].new(0);
+    my Array $mime-types = $formats.get-mime-types($size);
+note "$?LINE $size, $mime-types.elems()";
+    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
+
+      note "Mime type: ", $mime-types[$i];
+    }
+
+    .set-preload(True);
+    .set-propagation-limit(GTK_LIMIT_SAME_NATIVE);
+    .register-signal( $helper, 'drop', 'drop');
+    .register-signal( $helper, 'accept', 'accept');
+
+    $pic .= new-for-filename(DATA_PATH ~ $pic-file);
+    $pic.add-controller($target);
+    .clear-object;
+  }
 
   $pic
 }
