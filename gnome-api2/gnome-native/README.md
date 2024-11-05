@@ -1,13 +1,8 @@
 ![Gtk+ Raku logo][logo]
-![Gtk+ Raku logo]: http://martimm.github.io/doc/gtk-raku.png
-s
 
 # Gnome::N - Native Object and Raku - Gnome Interfacing
 
-![L][license-svg]
-
-[license-svg]: http://martimm.github.io/label/License-label.svg
-[licence-lnk]: http://www.perlfoundation.org/artistic_license_2_0
+![Artistic License 2.0][license-svg]
 
 
 # Description
@@ -48,8 +43,13 @@ There are always some problems! If you find one please help by filing an issue a
 
 [//]: # (---- [refs] ----------------------------------------------------------)
 [changes]: https://github.com/MARTIMM/gnome-source-skim-tool/blob/main/CHANGES.md
-[logo]: http://martimm.github.io/label/gtk-raku.png
-[issues]: https://github.com/MARTIMM/gnome-source-skim-tool/issues
+[issues]:  https://github.com/MARTIMM/gnome-source-skim-tool/issues
+
+[Zlogo]:   https://github.com/MARTIMM/martimm.github.io/blob/main/label/gtk-raku.png
+[Ylogo]:    https://martimm.github.io/content-docs/images/gtk-raku.png
+[logo]:   https://martimm.github.io/gnome-gtk3/content-docs/images/gtk-perl6.png
+[license-svg]:  https://martimm.github.io/label/License-label.svg
+[licence-lnk]:  https://www.perlfoundation.org/artistic_license_2_0
 
 
 
