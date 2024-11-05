@@ -1,14 +1,8 @@
 ![Gtk+ Raku logo][logo]
 
-# Gnome::N - Native Object and Raku - Gnome Interfacing
+# Gnome GObject - The base type system and object class
 
 ![Artistic License 2.0][license-svg]
-
-
-# Description
-
-This package holds the native object descriptions and types as well as the interface description to connect to the Gnome libraries. This set of modules will never act on their own. They will be used by other packages such as `Gnome::Gtk4` and the like.
-
 
 ## Documentation
 * [ 🔗 Website, entry point for all documents and blogs](https://martimm.github.io/)

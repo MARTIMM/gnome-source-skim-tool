@@ -1,14 +1,13 @@
 ![Gtk+ Raku logo][logo]
 
-# Gnome::N - Native Object and Raku - Gnome Interfacing
+# Gnome Glib - C-based object and type system
 
 ![Artistic License 2.0][license-svg]
 
 
 # Description
 
-This package holds the native object descriptions and types as well as the interface description to connect to the Gnome libraries. This set of modules will never act on their own. They will be used by other packages such as `Gnome::Gtk4` and the like.
-
+GLib is the low-level core library that forms the basis for projects such as GTK and GNOME. It provides data structure handling for C, portability wrappers, and interfaces for such runtime functionality as an event loop, threads, dynamic loading, and an object system. Note, however, that not everything is implemented.
 
 ## Documentation
 * [ 🔗 Website, entry point for all documents and blogs](https://martimm.github.io/)
