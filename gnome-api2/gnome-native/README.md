@@ -1,4 +1,6 @@
 ![Gtk+ Raku logo][logo]
+![Gtk+ Raku logo]: http://martimm.github.io/doc/gtk-raku.png
+s
 
 # Gnome::N - Native Object and Raku - Gnome Interfacing
 
@@ -46,7 +48,7 @@ There are always some problems! If you find one please help by filing an issue a
 
 [//]: # (---- [refs] ----------------------------------------------------------)
 [changes]: https://github.com/MARTIMM/gnome-source-skim-tool/blob/main/CHANGES.md
-[logo]: https://github.com/MARTIMM/martimm.github.io/doc/gtk-raku.png
+[logo]: http://martimm.github.io/label/gtk-raku.png
 [issues]: https://github.com/MARTIMM/gnome-source-skim-tool/issues
 
 
