@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::DrawingArea
-
-![](images/drawingarea.png)
-
+=TITLE Gnome::Gtk4::DrawingArea
 =head1 Description
 
 B<Gnome::Gtk4::DrawingArea> is a widget that allows drawing with cairo.
 
-![An example GtkDrawingArea](drawingarea.png)
+=for image :src<asset_files/images/drawingarea.png> :width<30%> :class<inline>
 
 It’s essentially a blank widget; you can draw on it. After
 creating a drawing area, the application may want to connect to:
@@ -125,12 +122,6 @@ creating your own B<Gnome::Gtk4::Widget> subclass.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -284,7 +275,7 @@ method set-draw-func ( &draw-func, gpointer $user-data, … )
 =end code
 
 =item &draw-func; callback that lets you draw
-  the drawing area's contents. Tthe function must be specified with following signature; C<:( N-Object $drawing-area, N-_t  $cr, gint $width, gint $height, gpointer $user-data ) >.
+  the drawing area's contents. Tthe function must be specified with following signature; C<:( N-Object $drawing-area, N-Object $cr, gint $width, gint $height, gpointer $user-data )>.
 =item $user-data; user data passed to C<$draw-func>.
 =item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
 

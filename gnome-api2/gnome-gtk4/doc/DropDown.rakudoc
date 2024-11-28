@@ -6,22 +6,25 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::DropDown
-
-![](images/dropdown.png)
-
+=TITLE Gnome::Gtk4::DropDown
 =head1 Description
 
 B<Gnome::Gtk4::DropDown> is a widget that allows the user to choose an item
 from a list of options.
 
-![An example GtkDropDown](drop-down.png)
+=for image :src<asset_files/images/drop-down.png> :width<30%> :class<inline>
 
-The B<Gnome::Gtk4::DropDown> displays the selected choice.
+The B<Gnome::Gtk4::DropDown> displays the [selected]I<selected>
+choice.
 
 The options are given to B<Gnome::Gtk4::DropDown> in the form of B<Gnome::Gio::R-ListModel>
 and how the individual options are represented is determined by
-a B<Gnome::Gtk4::ListItemFactory>. The default factory displays simple strings.
+a B<Gnome::Gtk4::ListItemFactory>. The default factory displays simple strings,
+and adds a checkmark to the selected item in the popup.
+
+To set your own factory, use C<.set-factory()>. It is
+possible to use a separate factory for the items in the popup, with
+C<.set-list-factory()>.
 
 B<Gnome::Gtk4::DropDown> knows how to obtain strings from the items in a
 B<Gnome::Gtk4::StringList>; for other models, you have to provide an expression
@@ -31,12 +34,21 @@ B<Gnome::Gtk4::DropDown> can optionally allow search in the popup, which is
 useful if the list of options is long. To enable the search entry,
 use C<.set-enable-search()>.
 
-=head2 CSS nodes
+Here is a UI definition example for B<Gnome::Gtk4::DropDown> with a simple model:
+
+If a B<Gnome::Gtk4::DropDown> is created in this manner, or with
+C<.new-from-strings()>, for instance, the object returned from
+C<.get-selected-item()> will be a B<Gnome::Gtk4::StringObject>.
+
+To learn more about the list widget framework, see the
+[overview](section-list-widget.html).
+
+=head3 CSS nodes
 
 B<Gnome::Gtk4::DropDown> has a single CSS node with name dropdown,
 with the button and popover nodes as children.
 
-=head2 Accessibility
+=head3 Accessibility
 
 B<Gnome::Gtk4::DropDown> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
 
@@ -70,12 +82,6 @@ B<Gnome::Gtk4::DropDown> uses the C<GTK_ACCESSIBLE_ROLE_COMBO_BOX> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -205,6 +211,27 @@ Return value; The factory in use.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-header-factory
+
+Gets the factory that's currently used to create header widgets for the popup.
+
+=begin code
+method get-header-factory (--> N-Object )
+=end code
+
+Return value; The factory in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-list-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-list-factory
 
 Gets the factory that's currently used to populate list items in the popup.
@@ -218,7 +245,7 @@ Return value; The factory in use.
 =begin comment
 
 =head2 Example
-# Example for get-list-factory
+# Example for get-model
 
 =end comment
 
@@ -239,7 +266,28 @@ Return value; The model in use.
 =begin comment
 
 =head2 Example
-# Example for get-model
+# Example for get-selected
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-search-match-mode
+
+Returns the match mode that the search filter is using.
+
+=begin code
+method get-search-match-mode (--> GtkStringFilterMatchMode )
+=end code
+
+Return value; the match mode of the search filter. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selected-item
 
 =end comment
 
@@ -261,7 +309,7 @@ Return value; the position of the selected item, or C<GTK_INVALID_LIST_POSITION>
 =begin comment
 
 =head2 Example
-# Example for get-selected
+# Example for get-show-arrow
 
 =end comment
 
@@ -282,7 +330,7 @@ Return value; The selected item.
 =begin comment
 
 =head2 Example
-# Example for get-selected-item
+# Example for set-enable-search
 
 =end comment
 
@@ -303,7 +351,7 @@ Return value; C<True> if an arrow will be shown..
 =begin comment
 
 =head2 Example
-# Example for get-show-arrow
+# Example for set-expression
 
 =end comment
 
@@ -328,7 +376,7 @@ method set-enable-search ( Bool() $enable-search )
 =begin comment
 
 =head2 Example
-# Example for set-enable-search
+# Example for set-factory
 
 =end comment
 
@@ -352,7 +400,7 @@ method set-expression ( N-Object() $expression )
 =begin comment
 
 =head2 Example
-# Example for set-expression
+# Example for set-list-factory
 
 =end comment
 
@@ -373,7 +421,28 @@ method set-factory ( N-Object() $factory )
 =begin comment
 
 =head2 Example
-# Example for set-factory
+# Example for set-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-header-factory
+
+Sets the B<Gnome::Gtk4::ListItemFactory> to use for creating header widgets for the popup.
+
+=begin code
+method set-header-factory ( N-Object() $factory )
+=end code
+
+=item $factory; the factory to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-selected
 
 =end comment
 
@@ -394,7 +463,7 @@ method set-list-factory ( N-Object() $factory )
 =begin comment
 
 =head2 Example
-# Example for set-list-factory
+# Example for set-show-arrow
 
 =end comment
 
@@ -415,9 +484,23 @@ method set-model ( N-List() $model )
 =begin comment
 
 =head2 Example
-# Example for set-model
+# Example for signal activate
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-search-match-mode
+
+Sets the match mode for the search filter.
+
+=begin code
+method set-search-match-mode ( GtkStringFilterMatchMode $search-match-mode )
+=end code
+
+=item $search-match-mode; the new match mode.
 
 =end pod
 
@@ -433,13 +516,6 @@ method set-selected ( UInt() $position )
 
 =item $position; the position of the item to select, or C<GTK_INVALID_LIST_POSITION>.
 
-=begin comment
-
-=head2 Example
-# Example for set-selected
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -453,13 +529,6 @@ method set-show-arrow ( Bool() $show-arrow )
 =end code
 
 =item $show-arrow; whether to show an arrow within the widget.
-
-=begin comment
-
-=head2 Example
-# Example for set-show-arrow
-
-=end comment
 
 =end pod
 
@@ -475,7 +544,7 @@ method set-show-arrow ( Bool() $show-arrow )
 
 Emitted to when the drop down is activated.
 
-The B<::activate> signal on B<Gnome::Gtk4::DropDown> is an action signal and
+The `::activate` signal on B<Gnome::Gtk4::DropDown> is an action signal and
 emitting it causes the drop down to pop up its dropdown.
 
 =begin code
@@ -491,13 +560,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::DropDown> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal activate
-
-=end comment
 
 =end pod
 

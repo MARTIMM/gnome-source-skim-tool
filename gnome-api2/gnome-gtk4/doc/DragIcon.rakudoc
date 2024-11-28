@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::DragIcon
-
-![](images/dragicon.png)
-
+=TITLE Gnome::Gtk4::DragIcon
 =head1 Description
 
 B<Gnome::Gtk4::DragIcon> is a B<Gnome::Gtk4::R-Root> implementation for drag icons.
@@ -54,12 +51,6 @@ Keep in mind that drag icons do not allow user input.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -136,10 +127,10 @@ operations started by B<Gnome::Gtk4::DragSource>, so you don't need to set
 a drag icon using this function there.
 
 =begin code
-method create-widget-for-value ( CArray[N-Value] $value --> N-Object )
+method create-widget-for-value ( N-Object $value --> N-Object )
 =end code
 
-=item $value; a B<Gnome::GObject::N-Value>.
+=item $value; a B<Gnome::GObject::N-Value>
 
 Return value; A new B<Gnome::Gtk4::Widget>
   for displaying C<$value> as a drag icon.. 

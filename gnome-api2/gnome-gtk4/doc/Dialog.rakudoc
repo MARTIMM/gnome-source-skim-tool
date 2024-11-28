@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Dialog
-
-![](images/dialog.png)
-
+=TITLE Gnome::Gtk4::Dialog
 =head1 Description
 
 Dialogs are a convenient way to prompt the user for a small amount
 of input.
 
-![An example GtkDialog](dialog.png)
+=for image :src<asset_files/images/dialog.png> :width<30%> :class<inline>
 
 Typical uses are to display a message, ask a question, or anything else
 that does not require extensive effort on the user’s part.
@@ -99,18 +96,18 @@ quick_message (GtkWindow *parent, char *message)
 
 The B<Gnome::Gtk4::Dialog> implementation of the B<Gnome::Gtk4::R-Buildable> interface exposes the C<$content-area> as an internal child with the name “content_area”.
 
-B<Gnome::Gtk4::Dialog> supports a custom B<<action-widgets>> element, which can contain
-multiple B<<action-widget>> elements. The “response” attribute specifies a
+B<Gnome::Gtk4::Dialog> supports a custom `<action-widgets>` element, which can contain
+multiple `<action-widget>` elements. The “response” attribute specifies a
 numeric response, and the content of the element is the id of widget
 (which should be a child of the dialogs C<$action-area>). To mark a response
-as default, set the “default” attribute of the B<<action-widget>> element
+as default, set the “default” attribute of the `<action-widget>` element
 to true.
 
 B<Gnome::Gtk4::Dialog> supports adding action widgets by specifying “action” as
-the “type” attribute of a B<<child>> element. The widget will be added
+the “type” attribute of a `<child>` element. The widget will be added
 either to the action area or the headerbar of the dialog, depending
 on the “use-header-bar” property. The response id has to be associated
-with the action widget using the B<<action-widgets>> element.
+with the action widget using the `<action-widgets>` element.
 
 An example of a B<Gnome::Gtk4::Dialog> UI definition fragment:
 
@@ -518,7 +515,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 
 A convenient way to sensitize/desensitize dialog buttons.
 
-Calls B<gtk_widget_set_sensitive (widget, C<$setting>)>
+Calls B<gtk_widget_set_sensitive> (widget, C<$setting>)`
 for each widget in the dialog’s action area with the given C<$response-id>.
 
 =begin code
