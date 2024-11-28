@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Entry
-
-![](images/entry.png)
-
+=TITLE Gnome::Gtk4::Entry
 =head1 Description
 
 B<Gnome::Gtk4::Entry> is a single line text entry widget.
 
-![An example GtkEntry](entry.png)
+=for image :src<asset_files/images/entry.png> :width<30%> :class<inline>
 
 A fairly large set of key bindings are supported by default. If the
 entered text is longer than the allocation of the widget, the widget
@@ -76,8 +73,8 @@ see B<Gnome::Gtk4::Text>.
 =head2 GtkEntry as GtkBuildable
 
 The B<Gnome::Gtk4::Entry> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports a
-custom <attributes> element, which supports any number of <attribute>
-elements. The <attribute> element has attributes named “name“, “value“,
+custom `<attributes>` element, which supports any number of `<attribute>`
+elements. The `<attribute>` element has attributes named “name“, “value“,
 “start“ and “end“ and allows you to specify B<Gnome::Pango::N-Attribute> values for
 this label.
 
@@ -132,12 +129,6 @@ B<Gnome::Gtk4::Entry> uses the C<GTK_ACCESSIBLE_ROLE_TEXT_BOX> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -236,14 +227,13 @@ Return value; the alignment.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-attributes
-This function is not yet available
 
 Gets the attribute list of the B<Gnome::Gtk4::Entry>.
 
 See C<.set-attributes()>.
 
 =begin code
-method get-attributes (--> CArray[N-AttrList]  )
+method get-attributes (--> N-Object )
 =end code
 
 Return value; the attribute list. 
@@ -282,6 +272,8 @@ Return value; A B<Gnome::Gtk4::EntryBuffer> object..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-completion
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the auxiliary completion object currently
 in use by C<$entry>.
@@ -404,11 +396,11 @@ position, C<$icon-area> is filled with zeros. Otherwise, C<$icon-area> will be f
 relative to C<$entry>'s allocation.
 
 =begin code
-method get-icon-area ( GtkEntryIconPosition $icon-pos, CArray[N-Rectangle] $icon-area )
+method get-icon-area ( GtkEntryIconPosition $icon-pos, N-Object $icon-area )
 =end code
 
 =item $icon-pos; Icon position.
-=item $icon-area; Return location for the icon’s area.
+=item $icon-area; Return location for the icon’s area
 
 =begin comment
 
@@ -810,12 +802,12 @@ Return value; a fraction from 0.0 to 1.0.
 =begin pod
 =head2 get-tabs
 
-Gets the tabstops of the B<GtkEntry.
+Gets the tabstops of the B<Gnome::Gtk4::Entry>.
 
 See C<.set-tabs()>.
 
 =begin code
-method get-tabs (--> CArray[N-TabArray] )
+method get-tabs (--> N-Object )
 =end code
 
 Return value; the tabstops. 
@@ -835,7 +827,7 @@ Return value; the tabstops.
 
 Retrieves the current length of the text in C<$entry>.
 
-This is equivalent to getting C<$entry>'s >GtkEntryBufferB<
+This is equivalent to getting C<$entry>'s B<Gnome::Gtk4::EntryBuffer>
 and calling C<.get-length() in class Gnome::Gtk4::EntryBuffer> on it.
 
 =begin code
@@ -843,7 +835,7 @@ method get-text-length (--> UInt )
 =end code
 
 Return value; the current number of characters
-  in >GtkEntryB<, or 0 if there are none.. 
+  in B<Gnome::Gtk4::Entry>, or 0 if there are none.. 
 
 =begin comment
 
@@ -1006,21 +998,20 @@ method set-alignment ( Num() $xalign )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attributes
-This function is not yet available
 
-Sets a >PangoAttrListB<.
+Sets a B<Gnome::Pango::N-AttrList>.
 
 The attributes in the list are applied to the entry text.
 
-Since the attributes will be applies to text that changes
+Since the attributes will be applied to text that changes
 as the user types, it makes most sense to use attributes
 with unlimited extent.
 
 =begin code
-method set-attributes ( CArray[N-AttrList]  $attrs )
+method set-attributes ( N-Object $attrs )
 =end code
 
-=item $attrs; a >PangoAttrListB<.
+=item $attrs; a B<Gnome::Pango::N-AttrList>
 
 =begin comment
 
@@ -1035,14 +1026,14 @@ method set-attributes ( CArray[N-AttrList]  $attrs )
 =begin pod
 =head2 set-buffer
 
-Set the >GtkEntryBufferB< object which holds the text for
+Set the B<Gnome::Gtk4::EntryBuffer> object which holds the text for
 this widget.
 
 =begin code
 method set-buffer ( N-Object() $buffer )
 =end code
 
-=item $buffer; a >GtkEntryBufferB<.
+=item $buffer; a B<Gnome::Gtk4::EntryBuffer>.
 
 =begin comment
 
@@ -1057,18 +1048,20 @@ method set-buffer ( N-Object() $buffer )
 =begin pod
 =head2 set-completion
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$completion> to be the auxiliary completion object
 to use with C<$entry>.
 
 All further configuration of the completion mechanism is
-done on C<$completion> using the >GtkEntryCompletionB< API.
+done on C<$completion> using the B<Gnome::Gtk4::EntryCompletion> API.
 Completion is disabled if C<$completion> is set to undefined.
 
 =begin code
 method set-completion ( N-Object() $completion )
 =end code
 
-=item $completion; The >GtkEntryCompletionB<.
+=item $completion; The B<Gnome::Gtk4::EntryCompletion>.
 
 =begin comment
 
@@ -1090,7 +1083,7 @@ the context menu for C<$entry>.
 method set-extra-menu ( N-Object() $model )
 =end code
 
-=item $model; a >GMenuModelB<.
+=item $model; a B<Gnome::Gio::MenuModel>.
 
 =begin comment
 
@@ -1158,7 +1151,7 @@ method set-icon-drag-source ( GtkEntryIconPosition $icon-pos, N-Object() $provid
 =end code
 
 =item $icon-pos; icon position.
-=item $provider; a >GdkContentProviderB<.
+=item $provider; a B<Gnome::Gdk4::ContentProvider>.
 =item $actions; a bitmask of the allowed drag actions.
 
 =begin comment
@@ -1232,7 +1225,7 @@ method set-icon-from-icon-name ( GtkEntryIconPosition $icon-pos, Str $icon-name 
 =begin pod
 =head2 set-icon-from-paintable
 
-Sets the icon shown in the specified position using a >GdkPaintableB<.
+Sets the icon shown in the specified position using a B<Gnome::Gdk4::R-Paintable>.
 
 If C<$paintable> is undefined, no icon will be shown in the specified position.
 
@@ -1241,7 +1234,7 @@ method set-icon-from-paintable ( GtkEntryIconPosition $icon-pos, N-Object() $pai
 =end code
 
 =item $icon-pos; Icon position.
-=item $paintable; A >GdkPaintableB<.
+=item $paintable; A B<Gnome::Gdk4::R-Paintable>.
 
 =begin comment
 
@@ -1423,9 +1416,9 @@ method set-invisible-char ( UInt() $ch )
 Sets the maximum allowed length of the contents of the widget.
 
 If the current contents are longer than the given length, then
-they will be truncated to fit. The length is is in characters.
+they will be truncated to fit. The length is in characters.
 
-This is equivalent to getting C<$entry>'s >GtkEntryBufferB< and
+This is equivalent to getting C<$entry>'s B<Gnome::Gtk4::EntryBuffer> and
 calling C<.set-max-length() in class Gnome::Gtk4::EntryBuffer> on it.
 
 =begin code
@@ -1449,7 +1442,7 @@ method set-max-length ( Int() $max )
 =begin pod
 =head2 set-overwrite-mode
 
-Sets whether the text is overwritten when typing in the >GtkEntryB<.
+Sets whether the text is overwritten when typing in the B<Gnome::Gtk4::Entry>.
 
 =begin code
 method set-overwrite-mode ( Bool() $overwrite )
@@ -1473,7 +1466,7 @@ method set-overwrite-mode ( Bool() $overwrite )
 Sets text to be displayed in C<$entry> when it is empty.
 
 This can be used to give a visual hint of the expected
-contents of the >GtkEntryB<.
+contents of the B<Gnome::Gtk4::Entry>.
 
 =begin code
 method set-placeholder-text ( Str $text )
@@ -1543,15 +1536,15 @@ method set-progress-pulse-step ( Num() $fraction )
 =begin pod
 =head2 set-tabs
 
-Sets a >PangoTabArrayB<.
+Sets a B<Gnome::Pango::N-TabArray>.
 
 The tabstops in the array are applied to the entry text.
 
 =begin code
-method set-tabs ( CArray[N-TabArray] $tabs )
+method set-tabs ( N-Object $tabs )
 =end code
 
-=item $tabs; a >PangoTabArray`.
+=item $tabs; a B<Gnome::Pango::N-TabArray>
 
 =begin comment
 

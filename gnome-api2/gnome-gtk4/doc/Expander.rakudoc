@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Expander
-
-![](images/expander.png)
-
+=TITLE Gnome::Gtk4::Expander
 =head1 Description
 
 B<Gnome::Gtk4::Expander> allows the user to reveal its child by clicking
 on an expander triangle.
 
-![An example GtkExpander](expander.png)
+=for image :src<asset_files/images/expander.png> :width<30%> :class<inline>
 
 This is similar to the triangles used in a B<Gnome::Gtk4::TreeView>.
 
@@ -70,8 +67,8 @@ create_expander (void)
 
 The B<Gnome::Gtk4::Expander> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
 placing a child in the label position by specifying “label” as the
-“type” attribute of a B<<child>> element. A normal content child can be
-specified without specifying a B<<child>> type attribute.
+“type” attribute of a `<child>` element. A normal content child can be
+specified without specifying a `<child>` type attribute.
 
 An example of a UI definition fragment with GtkExpander:
 
@@ -99,10 +96,10 @@ expander-widget
 
 =end comment
 
-B<Gnome::Gtk4::Expander> has a main node B<expander-widget>, and subnode B<box> containing
+B<Gnome::Gtk4::Expander> has a main node B<expander>-widget`, and subnode B<box> containing
 the title and child widget. The box subnode B<title> contains node B<expander>,
 i.e. the expand/collapse arrow; then the label widget if any. The arrow of an
-expander that is showing its child gets the B<:checked> pseudoclass set on it.
+expander that is showing its child gets the `:checked` pseudoclass set on it.
 
 =head2 Accessibility
 

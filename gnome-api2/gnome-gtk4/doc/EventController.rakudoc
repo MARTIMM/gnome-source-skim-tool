@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::EventController
-
-![](images/eventcontroller.png)
-
+=TITLE Gnome::Gtk4::EventController
 =head1 Description
 
 B<Gnome::Gtk4::EventController> is the base class for event controllers.
@@ -23,7 +20,7 @@ explicitly remove a controller with C<.remove-controller() in class Gnome::Gtk4:
 
 See the chapter on [input handling](input-handling.html) for
 an overview of the basic concepts, such as the capture and bubble
-phases of even propagation.
+phases of event propagation.
 
 =begin comment
 
@@ -187,12 +184,11 @@ Return value; The controller name.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-propagation-limit
-This function is not yet available
 
 Gets the propagation limit of the event controller.
 
 =begin code
-method get-propagation-limit (--> GtkPropagationLimit  )
+method get-propagation-limit (--> GtkPropagationLimit )
 =end code
 
 Return value; the propagation limit. 
@@ -209,12 +205,11 @@ Return value; the propagation limit.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-propagation-phase
-This function is not yet available
 
 Gets the propagation phase at which C<$controller> handles events.
 
 =begin code
-method get-propagation-phase (--> GtkPropagationPhase  )
+method get-propagation-phase (--> GtkPropagationPhase )
 =end code
 
 Return value; the propagation phase. 
@@ -292,7 +287,6 @@ method set-name ( Str $name )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-propagation-limit
-This function is not yet available
 
 Sets the event propagation limit on the event controller.
 
@@ -301,7 +295,7 @@ won't handle events that are targeted at widgets on a different
 surface, such as popovers.
 
 =begin code
-method set-propagation-limit ( GtkPropagationLimit  $limit )
+method set-propagation-limit ( GtkPropagationLimit $limit )
 =end code
 
 =item $limit; the propagation limit.
@@ -318,7 +312,6 @@ method set-propagation-limit ( GtkPropagationLimit  $limit )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-propagation-phase
-This function is not yet available
 
 Sets the propagation phase at which a controller handles events.
 
@@ -326,7 +319,7 @@ If C<$phase> is C<GTK_PHASE_NONE>, no automatic event handling will be
 performed, but other additional gesture maintenance will.
 
 =begin code
-method set-propagation-phase ( GtkPropagationPhase  $phase )
+method set-propagation-phase ( GtkPropagationPhase $phase )
 =end code
 
 =item $phase; a propagation phase.
@@ -337,6 +330,20 @@ method set-propagation-phase ( GtkPropagationPhase  $phase )
 # Example for set-propagation-phase
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-static-name
+
+Sets a name on the controller that can be used for debugging.
+
+=begin code
+method set-static-name ( Str $name )
+=end code
+
+=item $name; a name for C<$controller>, must be a static string.
 
 =end pod
 

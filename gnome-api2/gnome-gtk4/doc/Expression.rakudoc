@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Expression
-
-![](images/expression.png)
-
+=TITLE Gnome::Gtk4::Expression
 =head1 Description
 
 B<Gnome::Gtk4::Expression> provides a way to describe references to values.
@@ -64,10 +61,10 @@ B<Gnome::Gtk4::StringFilter> is using a B<Gnome::Gtk4::Expression> for similar r
 
 By default, expressions are not paying attention to changes and evaluation is
 just a snapshot of the current state at a given time. To get informed about
-changes, an expression needs to be "watched" via a  B<Gnome::Gtk4::T-expression> ,
+changes, an expression needs to be "watched" via a  B<Gnome::Gtk4::N-ExpressionWatch> ,
 which will cause a callback to be called whenever the value of the expression may
 have changed; C<.watch()> starts watching an expression, and
-C<.unwatch() in class Gnome::Gtk4::T-expression> stops.
+C<.unwatch() in class Gnome::Gtk4::N-ExpressionWatch> stops.
 
 Watches can be created for automatically updating the property of an object,
 similar to GObject's B<Gnome::GObject::Binding> mechanism, by using C<.bind()>.
@@ -75,7 +72,7 @@ similar to GObject's B<Gnome::GObject::Binding> mechanism, by using C<.bind()>.
 =head3 GtkExpression in GObject properties
 
 In order to use a B<Gnome::Gtk4::Expression> as a B<Gnome::GObject::Object> property, you must use the
-[id C<$gtk-param-spec-expression>] when creating a B<Gnome::GObject::ParamSpec> to install in the
+C<.param-spec-expression()> when creating a B<Gnome::GObject::ParamSpec> to install in the
 B<Gnome::GObject::Object> class being defined; for instance:
 
 =begin comment
@@ -89,9 +86,9 @@ obj_props[PROP_EXPRESSION] =
 
 =end comment
 
-When implementing the B<GObjectClass.set_property> and B<GObjectClass.get_property>
-virtual functions, you must use [id C<$gtk-value-get-expression>], to retrieve the
-stored B<Gnome::Gtk4::Expression> from the B<Gnome::GObject::N-Value> container, and [id C<$gtk-value-set-expression>],
+When implementing the B<GObjectClass>.set_property` and B<GObjectClass>.get_property`
+virtual functions, you must use C<.value-get-expression()>, to retrieve the
+stored B<Gnome::Gtk4::Expression> from the B<Gnome::GObject::N-Value> container, and C<.value-set-expression()>,
 to store the B<Gnome::Gtk4::Expression> into the B<Gnome::GObject::N-Value>; for instance:
 
 =begin comment
@@ -110,12 +107,12 @@ to store the B<Gnome::Gtk4::Expression> into the B<Gnome::GObject::N-Value>; for
 =head3 GtkExpression in .ui files
 
 B<Gnome::Gtk4::Builder> has support for creating expressions. The syntax here can be used where
-a B<Gnome::Gtk4::Expression> object is needed like in a B<<property>> tag for an expression
-property, or in a B<<binding name="property">> tag to bind a property to an expression.
+a B<Gnome::Gtk4::Expression> object is needed like in a `<property>` tag for an expression
+property, or in a `<binding name="property">` tag to bind a property to an expression.
 
-To create a property expression, use the B<<lookup>> element. It can have a B<type>
+To create a property expression, use the `<lookup>` element. It can have a B<type>
 attribute to specify the object type, and a B<name> attribute to specify the property
-to look up. The content of B<<lookup>> can either be an element specfiying the expression
+to look up. The content of `<lookup>` can either be an element specifying the expression
 to use the object, or a string that specifies the name of the object to use.
 
 Example:
@@ -125,7 +122,12 @@ Example:
 
 =end comment
 
-To create a constant expression, use the B<<constant>> element. If the type attribute
+Since the `<lookup>` element creates an expression and its element content can
+itself be an expression, this means that `<lookup>` tags can also be nested.
+This is a common idiom when dealing with B<Gnome::Gtk4::ListItem>s. See
+B<Gnome::Gtk4::BuilderListItemFactory> for an example of this technique.
+
+To create a constant expression, use the `<constant>` element. If the type attribute
 is specified, the element content is interpreted as a value of that type. Otherwise,
 it is assumed to be an object. For instance:
 
@@ -135,9 +137,10 @@ it is assumed to be an object. For instance:
 
 =end comment
 
-To create a closure expression, use the B<<closure>> element. The B<type> and B<function>
-attributes specify what function to use for the closure, the content of the element
-contains the expressions for the parameters. For instance:
+To create a closure expression, use the `<closure>` element. The B<function>
+attribute specifies what function to use for the closure, and the B<type>
+attribute specifies its return type. The content of the element contains the
+expressions for the parameters. For instance:
 
 =begin comment
   <closure type='gchararray' function='combine_args_somehow'>
@@ -146,6 +149,14 @@ contains the expressions for the parameters. For instance:
   </closure>
 
 =end comment
+
+To create a property binding, use the `<binding>` element in place of where a
+`<property>` tag would ordinarily be used. The B<name> and B<object> attributes are
+supported. The B<name> attribute is required, and pertains to the applicable property
+name. The B<object> attribute is optional. If provided, it will use the specified object
+as the B<this> object when the expression is evaluated. Here is an example in which the
+B<label> property of a B<Gnome::Gtk4::Label> is bound to the B<string> property of another arbitrary
+object:
 
 =begin comment
 
@@ -194,7 +205,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 Bind B<target>'s property named B<property> to B<self>.
 
-The value that B<self> evaluates to is set via B<g_object_set()> on
+The value that B<self> evaluates to is set via B<g_object_set>()` on
 B<target>. This is repeated whenever B<self> changes to ensure that
 the object's property stays synchronized with B<self>.
 
@@ -214,7 +225,7 @@ method bind ( gpointer $target, Str $property, gpointer $this --> N-Object )
 =item $this; the this argument for
   the evaluation of B<self>.
 
-Return value; a B<Gnome::Gtk4::T-expression>. 
+Return value; a B<Gnome::Gtk4::N-ExpressionWatch>. 
 
 =begin comment
 
@@ -379,7 +390,7 @@ method watch ( gpointer $this, &notify, gpointer $user-data, … --> N-Object )
 Return value; The newly installed watch. Note that the only
   reference held to the watch will be released when the watch is unwatched
   which can happen automatically, and not just via
-  C<.unwatch() in class Gnome::Gtk4::T-expression>. You should call C<.ref() in class Gnome::Gtk4::T-expression>
+  C<.unwatch() in class Gnome::Gtk4::N-ExpressionWatch>. You should call C<.ref() in class Gnome::Gtk4::N-ExpressionWatch>
   if you want to keep the watch around.. 
 
 =begin comment
