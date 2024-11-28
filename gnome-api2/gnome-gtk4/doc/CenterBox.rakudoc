@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CenterBox
-
-![](images/centerbox.png)
-
+=TITLE Gnome::Gtk4::CenterBox
 =head1 Description
 
 B<Gnome::Gtk4::CenterBox> arranges three children in a row, keeping the middle child
 centered as well as possible.
 
-![An example GtkCenterBox](centerbox.png)
+=for image :src<asset_files/images/centerbox.png> :width<30%> :class<inline>
 
 To add children to B<Gnome::Gtk4::CenterBox>, use C<.set-start-widget()>,
 C<.set-center-widget()> and
@@ -26,9 +23,9 @@ align and expand properties of the children.
 
 =head2 GtkCenterBox as GtkBuildable
 
-The B<Gnome::Gtk4::CenterBox> implementation of the U<Gnome::Gtk4::R-Buildable> interface
+The B<Gnome::Gtk4::CenterBox> implementation of the B<Gnome::Gtk4::R-Buildable> interface
 supports placing children in the 3 positions by specifying “start”, “center”
-or “end” as the “type” attribute of a <child> element.
+or “end” as the “type” attribute of a `<child>` element.
 
 =head2 CSS nodes
 
@@ -43,7 +40,9 @@ bottom.
 
 =head2 Accessibility
 
-B<Gnome::Gtk4::CenterBox> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
+Until GTK 4.10, B<Gnome::Gtk4::CenterBox> used the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+Starting from GTK 4.12, B<Gnome::Gtk4::CenterBox> uses the B<GTK_ACCESSIBLE_ROLE_GENERIC> role.
 
 =begin comment
 
@@ -75,12 +74,6 @@ B<Gnome::Gtk4::CenterBox> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -176,6 +169,27 @@ Return value; the end widget..
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-shrink-center-last
+
+Gets whether C<$self> shrinks the center widget after other children.
+
+=begin code
+method get-shrink-center-last (--> Bool )
+=end code
+
+Return value; whether to shrink the center widget after others. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-start-widget
 
 Gets the start widget, or undefined if there is none.
@@ -189,7 +203,7 @@ Return value; the start widget..
 =begin comment
 
 =head2 Example
-# Example for get-start-widget
+# Example for set-baseline-position
 
 =end comment
 
@@ -215,7 +229,7 @@ method set-baseline-position ( GtkBaselinePosition $position )
 =begin comment
 
 =head2 Example
-# Example for set-baseline-position
+# Example for set-center-widget
 
 =end comment
 
@@ -227,7 +241,7 @@ method set-baseline-position ( GtkBaselinePosition $position )
 
 Sets the center widget.
 
-To remove the existing center widget, pas undefined.
+To remove the existing center widget, pass undefined.
 
 =begin code
 method set-center-widget ( N-Object() $child )
@@ -238,7 +252,7 @@ method set-center-widget ( N-Object() $child )
 =begin comment
 
 =head2 Example
-# Example for set-center-widget
+# Example for set-end-widget
 
 =end comment
 
@@ -261,9 +275,30 @@ method set-end-widget ( N-Object() $child )
 =begin comment
 
 =head2 Example
-# Example for set-end-widget
+# Example for set-start-widget
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-shrink-center-last
+
+Sets whether to shrink the center widget after other children.
+
+By default, when there's no space to give all three children their
+natural widths, the start and end widgets start shrinking and the
+center child keeps natural width until they reach minimum width.
+
+If set to C<False>, start and end widgets keep natural width and the
+center widget starts shrinking instead.
+
+=begin code
+method set-shrink-center-last ( Bool() $shrink-center-last )
+=end code
+
+=item $shrink-center-last; whether to shrink the center widget after others.
 
 =end pod
 
@@ -280,13 +315,6 @@ method set-start-widget ( N-Object() $child )
 =end code
 
 =item $child; the new start widget.
-
-=begin comment
-
-=head2 Example
-# Example for set-start-widget
-
-=end comment
 
 =end pod
 

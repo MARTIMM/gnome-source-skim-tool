@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ColorChooserDialog
-
-![](images/colorchooserdialog.png)
-
+=TITLE Gnome::Gtk4::ColorChooserDialog
 =head1 Description
 
 A dialog for choosing a color.
 
-![An example GtkColorChooserDialog](colorchooser.png)
+=for image :src<asset_files/images/colorchooser.png> :width<30%> :class<inline>
 
 B<Gnome::Gtk4::ColorChooserDialog> implements the B<Gnome::Gtk4::R-ColorChooser> interface
 and does not provide much API of its own.
@@ -24,6 +21,13 @@ To create a B<Gnome::Gtk4::ColorChooserDialog>, use C<.newcolorchooserdialog()>.
 To change the initially selected color, use
 C<.set-rgba() in class Gnome::Gtk4::R-ColorChooser>. To get the selected color use
 C<.get-rgba() in class Gnome::Gtk4::R-ColorChooser>.
+
+B<Gnome::Gtk4::ColorChooserDialog> has been deprecated in favor of B<Gnome::Gtk4::ColorDialog>.
+
+=head3 CSS nodes
+
+B<Gnome::Gtk4::ColorChooserDialog> has a single CSS node with the name B<window> and style
+class `.colorchooser`.
 
 =begin comment
 
@@ -48,6 +52,8 @@ C<.get-rgba() in class Gnome::Gtk4::R-ColorChooser>.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -56,17 +62,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-colorchooserdialog
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::ColorChooserDialog>.
 

@@ -6,29 +6,26 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CellView
-
-![](images/cellview.png)
-
+=TITLE Gnome::Gtk4::CellView
 =head1 Description
 
 A widget displaying a single row of a GtkTreeModel
 
-A B<Gnome::Gtk4::CellView> displays a single row of a U<Gnome::Gtk4::R-TreeModel> using a B<Gnome::Gtk4::CellArea>
+A B<Gnome::Gtk4::CellView> displays a single row of a B<Gnome::Gtk4::R-TreeModel> using a B<Gnome::Gtk4::CellArea>
 and B<Gnome::Gtk4::CellAreaContext>. A B<Gnome::Gtk4::CellAreaContext> can be provided to the
 B<Gnome::Gtk4::CellView> at construction time in order to keep the cellview in context
 of a group of cell views, this ensures that the renderers displayed will
 be properly aligned with each other (like the aligned cells in the menus
 of B<Gnome::Gtk4::ComboBox>).
 
-B<Gnome::Gtk4::CellView> is U<Gnome::Gtk4::R-Orientable> in order to decide in which orientation
+B<Gnome::Gtk4::CellView> is B<Gnome::Gtk4::R-Orientable> in order to decide in which orientation
 the underlying B<Gnome::Gtk4::CellAreaContext> should be allocated. Taking the B<Gnome::Gtk4::ComboBox>
 menu as an example, cellviews should be oriented horizontally if the menus are
 listed top-to-bottom and thus all share the same width but may have separate
 individual heights (left-to-right menus should be allocated vertically since
 they all share the same height but may have variable widths).
 
-=head2 CSS nodes
+=head3 CSS nodes
 
 GtkCellView has a single CSS node with name cellview.
 
@@ -55,6 +52,8 @@ GtkCellView has a single CSS node with name cellview.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -63,17 +62,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-cellview
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::CellView> widget.
 
@@ -93,6 +88,8 @@ method new-cellview ( --> Gnome::Gtk4::CellView \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-context
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::CellView> widget with a specific B<Gnome::Gtk4::CellArea>
 to layout cells and a specific B<Gnome::Gtk4::CellAreaContext>.
@@ -122,6 +119,8 @@ method new-with-context ( N-Object() $area, N-Object() $context --> Gnome::Gtk4:
 =begin pod
 =head2 new-with-markup
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a new B<Gnome::Gtk4::CellView> widget, adds a B<Gnome::Gtk4::CellRendererText>
 to it, and makes it show C<$markup>. The text can be marked up with
 the [Pango text markup language](https://docs.gtk.org/Pango/pango_markup.html).
@@ -145,6 +144,8 @@ method new-with-markup ( Str $markup --> Gnome::Gtk4::CellView \)
 =begin pod
 =head2 new-with-text
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a new B<Gnome::Gtk4::CellView> widget, adds a B<Gnome::Gtk4::CellRendererText>
 to it, and makes it show C<$text>.
 
@@ -166,6 +167,8 @@ method new-with-text ( Str $text --> Gnome::Gtk4::CellView \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-texture
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::CellView> widget, adds a B<Gnome::Gtk4::CellRendererPixbuf>
 to it, and makes it show C<$texture>.
@@ -197,12 +200,14 @@ method new-with-texture ( N-Object() $texture --> Gnome::Gtk4::CellView \)
 =begin pod
 =head2 get-displayed-row
 
-Returns a U<Gnome::Gtk4::N-TreePath> referring to the currently
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns a B<Gnome::Gtk4::N-TreePath> referring to the currently
 displayed row. If no row is currently displayed,
 undefined is returned.
 
 =begin code
-method get-displayed-row (--> CArray[N-TreePath] )
+method get-displayed-row (--> N-Object )
 =end code
 
 Return value; the currently displayed row. 
@@ -220,14 +225,16 @@ Return value; the currently displayed row.
 =begin pod
 =head2 get-draw-sensitive
 
-Gets whether C<$cell_view> is configured to draw all of its
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Gets whether C<$cell-view> is configured to draw all of its
 cells in a sensitive state.
 
 =begin code
 method get-draw-sensitive (--> Bool )
 =end code
 
-Return value; whether C<$cell_view> draws all of its
+Return value; whether C<$cell-view> draws all of its
 cells in a sensitive state. 
 
 =begin comment
@@ -243,15 +250,17 @@ cells in a sensitive state.
 =begin pod
 =head2 get-fit-model
 
-Gets whether C<$cell_view> is configured to request space
-to fit the entire U<Gnome::Gtk4::R-TreeModel>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Gets whether C<$cell-view> is configured to request space
+to fit the entire B<Gnome::Gtk4::R-TreeModel>.
 
 =begin code
 method get-fit-model (--> Bool )
 =end code
 
-Return value; whether C<$cell_view> requests space to fit
-the entire U<Gnome::Gtk4::R-TreeModel>.. 
+Return value; whether C<$cell-view> requests space to fit
+the entire B<Gnome::Gtk4::R-TreeModel>.. 
 
 =begin comment
 
@@ -266,14 +275,16 @@ the entire U<Gnome::Gtk4::R-TreeModel>..
 =begin pod
 =head2 get-model
 
-Returns the model for C<$cell_view>. If no model is used undefined is
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns the model for C<$cell-view>. If no model is used undefined is
 returned.
 
 =begin code
 method get-model (--> N-Object )
 =end code
 
-Return value; a U<Gnome::Gtk4::R-TreeModel> used. 
+Return value; a B<Gnome::Gtk4::R-TreeModel> used. 
 
 =begin comment
 
@@ -288,6 +299,8 @@ Return value; a U<Gnome::Gtk4::R-TreeModel> used.
 =begin pod
 =head2 set-displayed-row
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the row of the model that is currently displayed
 by the B<Gnome::Gtk4::CellView>. If the path is unset, then the
 contents of the cellview “stick” at their last value;
@@ -296,10 +309,10 @@ a needed intermediate state if say, the model for
 the B<Gnome::Gtk4::CellView> becomes temporarily empty.
 
 =begin code
-method set-displayed-row ( CArray[N-TreePath] $path )
+method set-displayed-row ( N-Object $path )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> or undefined to unset..
+=item $path; a B<Gnome::Gtk4::N-TreePath> or undefined to unset.
 
 =begin comment
 
@@ -314,7 +327,9 @@ method set-displayed-row ( CArray[N-TreePath] $path )
 =begin pod
 =head2 set-draw-sensitive
 
-Sets whether C<$cell_view> should draw all of its
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Sets whether C<$cell-view> should draw all of its
 cells in a sensitive state, this is used by B<Gnome::Gtk4::ComboBox> menus
 to ensure that rows with insensitive cells that contain
 children appear sensitive in the parent menu item.
@@ -338,7 +353,9 @@ method set-draw-sensitive ( Bool() $draw-sensitive )
 =begin pod
 =head2 set-fit-model
 
-Sets whether C<$cell_view> should request space to fit the entire U<Gnome::Gtk4::R-TreeModel>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Sets whether C<$cell-view> should request space to fit the entire B<Gnome::Gtk4::R-TreeModel>.
 
 This is used by B<Gnome::Gtk4::ComboBox> to ensure that the cell view displayed on
 the combo box’s button always gets enough space and does not resize
@@ -348,7 +365,7 @@ when selection changes.
 method set-fit-model ( Bool() $fit-model )
 =end code
 
-=item $fit-model; whether C<$cell_view> should request space for the whole model..
+=item $fit-model; whether C<$cell-view> should request space for the whole model..
 
 =begin comment
 
@@ -363,7 +380,9 @@ method set-fit-model ( Bool() $fit-model )
 =begin pod
 =head2 set-model
 
-Sets the model for C<$cell_view>.  If C<$cell_view> already has a model
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Sets the model for C<$cell-view>.  If C<$cell-view> already has a model
 set, it will remove it before setting the new model.  If C<$model> is
 undefined, then it will unset the old model.
 
@@ -371,7 +390,7 @@ undefined, then it will unset the old model.
 method set-model ( N-Object() $model )
 =end code
 
-=item $model; a U<Gnome::Gtk4::R-TreeModel>.
+=item $model; a B<Gnome::Gtk4::R-TreeModel>.
 
 =begin comment
 

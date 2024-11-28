@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CellArea
-
-![](images/cellarea.png)
-
+=TITLE Gnome::Gtk4::CellArea
 =head1 Description
 
 An abstract class for laying out B<Gnome::Gtk4::CellRenderer>s
@@ -228,8 +225,8 @@ normal widget and then passing them to the C<.event()>
 API as they come in. Usually B<Gnome::Gtk4::CellArea> is only interested in
 button events, however some customized derived areas can be implemented
 who are interested in handling other events. Handling an event can
-trigger the [B<signal C<$Gtk>.CellArea::focus-changed>] signal to fire; as well
-as [B<signal C<$Gtk>.CellArea::add-editable>] in the case that an editable cell
+trigger the I<focus-changed> signal to fire; as well
+as I<add-editable> in the case that an editable cell
 was clicked and needs to start editing. You can call
 C<.stop-editing()> at any time to cancel any cell editing
 that is currently in progress.
@@ -377,7 +374,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 activate
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -410,7 +406,6 @@ Return value; Whether C<$area> was successfully activated..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 activate-cell
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -848,7 +843,6 @@ Return value; a newly created B<Gnome::Gtk4::CellArea>Context which can be used 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 event
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
@@ -1529,7 +1523,7 @@ B<Note: The native version of this routine is deprecated in gtk4-lib() since ver
 Explicitly sets the currently focused cell to C<$renderer>.
 
 This is generally called by implementations of
-B<GtkCellAreaClass.focus()> or B<GtkCellAreaClass.event()>,
+B<GtkCellAreaClass>.focus()` or B<GtkCellAreaClass>.event()`,
 however it can also be used to implement functions such
 as gtk_tree_view_set_cursor_on_cell().
 
@@ -1551,7 +1545,6 @@ method set-focus-cell ( N-Object() $renderer )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 snapshot
-This function is not yet available
 
 B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 

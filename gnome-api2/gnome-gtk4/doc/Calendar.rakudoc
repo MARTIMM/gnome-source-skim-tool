@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Calendar
-
-![](images/calendar.png)
-
+=TITLE Gnome::Gtk4::Calendar
 =head1 Description
 
 B<Gnome::Gtk4::Calendar> is a widget that displays a Gregorian calendar, one month
 at a time.
 
-![An example GtkCalendar](calendar.png)
+=for image :src<asset_files/images/calendar.png> :width<30%> :class<inline>
 
 A B<Gnome::Gtk4::Calendar> can be created with C<.newcalendar()>.
 
@@ -36,20 +33,6 @@ between 1582 and 1929. Display before these dates is likely to be
 historically incorrect.
 
 =head2 CSS nodes
-
-=begin comment
-calendar.view
-├── header
-│   ├── button
-│   ├── stack.month
-│   ├── button
-│   ├── button
-│   ├── label.year
-│   ╰── button
-╰── grid
-    ╰── label[.day-name][.week-number][.day-number][.other-month][.today]
-
-=end comment
 
 B<Gnome::Gtk4::Calendar> has a main node with name calendar. It contains a subnode
 called header containing the widgets for switching between years and months.
@@ -93,12 +76,6 @@ Marked day labels get the :selected state assigned.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -151,23 +128,43 @@ method clear-marks ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-date
-This function is not yet available
 
-Returns a U<Gnome::Glib::N-DateTime> representing the shown
+Returns a B<Gnome::Glib::N-DateTime> representing the shown
 year, month and the selected day.
 
 The returned date is in the local time zone.
 
 =begin code
-method get-date (--> CArray[N-DateTime]  )
+method get-date (--> N-Object )
 =end code
 
-Return value; the U<Gnome::Glib::N-Date> representing the shown date. 
+Return value; the B<Gnome::Glib::N-DateTime> representing the shown date. 
 
 =begin comment
 
 =head2 Example
 # Example for get-date
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-day
+
+Gets the day of the selected date.
+
+=begin code
+method get-day (--> Int )
+=end code
+
+Return value; the day of the selected date.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-day-is-marked
 
 =end comment
 
@@ -190,7 +187,28 @@ Return value; whether the day is marked..
 =begin comment
 
 =head2 Example
-# Example for get-day-is-marked
+# Example for get-show-day-names
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-month
+
+Gets the month of the selected date.
+
+=begin code
+method get-month (--> Int )
+=end code
+
+Return value; The month of the selected date (as a number between 0 and 11).. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-heading
 
 =end comment
 
@@ -215,7 +233,7 @@ Return value; Whether the calendar shows day names..
 =begin comment
 
 =head2 Example
-# Example for get-show-day-names
+# Example for get-show-week-numbers
 
 =end comment
 
@@ -239,7 +257,7 @@ Return value; Whether the calendar is showing a heading..
 =begin comment
 
 =head2 Example
-# Example for get-show-heading
+# Example for mark-day
 
 =end comment
 
@@ -264,7 +282,28 @@ Return value; Whether the calendar is showing week numbers..
 =begin comment
 
 =head2 Example
-# Example for get-show-week-numbers
+# Example for select-day
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-year
+
+Gets the year of the selected date.
+
+=begin code
+method get-year (--> Int )
+=end code
+
+Return value; the year of the selected date.. 
+
+=begin comment
+
+=head2 Example
+# Example for set-show-day-names
 
 =end comment
 
@@ -274,7 +313,7 @@ Return value; Whether the calendar is showing week numbers..
 =begin pod
 =head2 mark-day
 
-Places a visual marker on a particular day.
+Places a visual marker on a particular day of the current month.
 
 =begin code
 method mark-day ( UInt() $day )
@@ -285,7 +324,7 @@ method mark-day ( UInt() $day )
 =begin comment
 
 =head2 Example
-# Example for mark-day
+# Example for set-show-heading
 
 =end comment
 
@@ -294,20 +333,67 @@ method mark-day ( UInt() $day )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 select-day
-This function is not yet available
 
 Switches to C<$date>'s year and month and select its day.
 
 =begin code
-method select-day ( CArray[N-DateTime]  $date )
+method select-day ( N-Object $date )
 =end code
 
-=item $date; a U<Gnome::Glib::N-DateTime> representing the day to select.
+=item $date; a B<Gnome::Glib::N-DateTime> representing the day to select
 
 =begin comment
 
 =head2 Example
-# Example for select-day
+# Example for set-show-week-numbers
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-day
+
+Sets the day for the selected date.
+
+The new date must be valid. For example, setting 31 for the day when the
+month is February, fails.
+
+=begin code
+method set-day ( Int() $day )
+=end code
+
+=item $day; The desired day for the selected date (as a number between 1 and 31)..
+
+=begin comment
+
+=head2 Example
+# Example for unmark-day
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-month
+
+Sets the month for the selected date.
+
+The new date must be valid. For example, setting 1 (February) for the month
+when the day is 31, fails.
+
+=begin code
+method set-month ( Int() $month )
+=end code
+
+=item $month; The desired month for the selected date (as a number between 0 and 11)..
+
+=begin comment
+
+=head2 Example
+# Example for signal day-selected
 
 =end comment
 
@@ -328,7 +414,7 @@ method set-show-day-names ( Bool() $value )
 =begin comment
 
 =head2 Example
-# Example for set-show-day-names
+# Example for signal next-month
 
 =end comment
 
@@ -352,7 +438,7 @@ method set-show-heading ( Bool() $value )
 =begin comment
 
 =head2 Example
-# Example for set-show-heading
+# Example for signal next-year
 
 =end comment
 
@@ -373,7 +459,32 @@ method set-show-week-numbers ( Bool() $value )
 =begin comment
 
 =head2 Example
-# Example for set-show-week-numbers
+# Example for signal prev-month
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-year
+
+Sets the year for the selected date.
+
+The new date must be valid. For example, setting 2023 for the year when then
+the date is 2024-02-29, fails.
+
+=begin code
+method set-year ( Int() $year )
+=end code
+
+=item $year; The desired year for the selected date (within  B<DateTime> 
+  limits, i.e. from 0001 to 9999)..
+
+=begin comment
+
+=head2 Example
+# Example for signal prev-year
 
 =end comment
 
@@ -392,9 +503,16 @@ method unmark-day ( UInt() $day )
 =item $day; the day number to unmark between 1 and 31..
 
 =begin comment
-
-=head2 Example
-# Example for unmark-day
+calendar.view
+├── header
+│   ├── button
+│   ├── stack.month
+│   ├── button
+│   ├── button
+│   ├── label.year
+│   ╰── button
+╰── grid
+    ╰── label[.day-name][.week-number][.day-number][.other-month][.today]
 
 =end comment
 
@@ -426,13 +544,6 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=begin comment
-
-=head2 Example
-# Example for signal day-selected
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 next-month
 
@@ -451,13 +562,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Calendar> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal next-month
-
-=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 next-year
@@ -478,13 +582,6 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=begin comment
-
-=head2 Example
-# Example for signal next-year
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 prev-month
 
@@ -504,13 +601,6 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=begin comment
-
-=head2 Example
-# Example for signal prev-month
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 prev-year
 
@@ -529,13 +619,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Calendar> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal prev-year
-
-=end comment
 
 =end pod
 

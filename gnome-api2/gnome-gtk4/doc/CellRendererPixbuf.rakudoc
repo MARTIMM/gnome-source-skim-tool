@@ -6,25 +6,22 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CellRendererPixbuf
-
-![](images/cellrendererpixbuf.png)
-
+=TITLE Gnome::Gtk4::CellRendererPixbuf
 =head1 Description
 
 Renders a pixbuf in a cell
 
 A B<Gnome::Gtk4::CellRendererPixbuf> can be used to render an image in a cell. It allows
 to render either a given B<Gnome::GdkPixbuf::Pixbuf> (set via the
-B<GtkCellRendererPixbuf:pixbuf> property) or a named icon (set via the
-B<GtkCellRendererPixbuf:icon-name> property).
+B<Gnome::Gtk4::CellRendererPixbuf>:pixbuf` property) or a named icon (set via the
+B<Gnome::Gtk4::CellRendererPixbuf>:icon-name` property).
 
 To support the tree view, B<Gnome::Gtk4::CellRendererPixbuf> also supports rendering two
-alternative pixbufs, when the B<GtkCellRenderer:is-expander> property is C<True>.
-If the B<GtkCellRenderer:is-expanded property> is C<True> and the
-B<GtkCellRendererPixbuf:pixbuf-expander-open> property is set to a pixbuf, it
-renders that pixbuf, if the B<GtkCellRenderer:is-expanded> property is C<False>
-and the B<GtkCellRendererPixbuf:pixbuf-expander-closed> property is set to a
+alternative pixbufs, when the B<Gnome::Gtk4::CellRenderer>:is-expander` property is C<True>.
+If the B<Gnome::Gtk4::CellRenderer>:is-expanded property` is C<True> and the
+B<Gnome::Gtk4::CellRendererPixbuf>:pixbuf-expander-open` property is set to a pixbuf, it
+renders that pixbuf, if the B<Gnome::Gtk4::CellRenderer>:is-expanded` property is C<False>
+and the B<Gnome::Gtk4::CellRendererPixbuf>:pixbuf-expander-closed` property is set to a
 pixbuf, it renders that one.
 
 =begin comment

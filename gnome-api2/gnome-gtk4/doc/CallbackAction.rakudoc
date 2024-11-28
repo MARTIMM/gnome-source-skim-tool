@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CallbackAction
-
-![](images/callbackaction.png)
-
+=TITLE Gnome::Gtk4::CallbackAction
 =head1 Description
 
 A B<Gnome::Gtk4::ShortcutAction> that invokes a callback.
@@ -49,26 +46,27 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
 =head2 new-callbackaction
+This function is not yet available
 
 Create a custom action that calls the given C<$callback> when
 activated.
+
+=begin code
+method new-callbackaction ( &callback, gpointer $data, … --> Gnome::Gtk4::CallbackAction \)
+=end code
+
+=item &callback; the callback to call. Tthe function must be specified with following signature; C<:( N-Object $widget, N-Object $args, gpointer $user-data --> gboolean )>.
+=item $data; the data to be passed to C<$callback>.
+=item destroy; the function to be called when the
+  callback action is finalized. Note that each argument must be specified as a type followed by its value!
+
 =begin comment
 
 =head2 Example
 # Example for new-callbackaction
 
 =end comment
-
-=begin code
-method new-callbackaction ( &callback, gpointer $data, … --> Gnome::Gtk4::CallbackAction \)
-=end code
-
-=item &callback; the callback to call. Tthe function must be specified with following signature; C<:( N-Object $widget, N-Variant $args, gpointer $user-data --> gboolean )>.
-=item $data; the data to be passed to C<$callback>.
-=item destroy; the function to be called when the
-  callback action is finalized. Note that each argument must be specified as a type followed by its value!
 
 =end pod
 

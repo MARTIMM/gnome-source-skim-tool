@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: ColorButton
+=comment Package: Gtk4, C-Source: colorbutton
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ColorButton
-
-![](images/colorbutton.png)
-
+=TITLE Gnome::Gtk4::ColorButton
 =head1 Description
 
 The B<Gnome::Gtk4::ColorButton> allows to open a color chooser dialog to change
 the color.
 
-![An example GtkColorButton](color-button.png)
+=for image :src<asset_files/images/color-button.png> :width<30%> :class<inline>
 
 It is suitable widget for selecting a color in a preference dialog.
 
@@ -55,6 +52,8 @@ it gets the .color style class.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -63,17 +62,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-colorbutton
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new color button.
 
@@ -103,10 +98,10 @@ method new-colorbutton ( --> Gnome::Gtk4::ColorButton \)
 Creates a new color button showing the given color.
 
 =begin code
-method new-with-rgba ( CArray[N-RGBA] $rgba --> Gnome::Gtk4::ColorButton \)
+method new-with-rgba ( N-Object $rgba --> Gnome::Gtk4::ColorButton \)
 =end code
 
-=item $rgba; A U<Gnome::Gdk4::N-RGBA> to set the current color with.
+=item $rgba; A B<Gnome::Gdk4::N-RGBA> to set the current color with
 
 =begin comment
 
@@ -129,6 +124,8 @@ method new-with-rgba ( CArray[N-RGBA] $rgba --> Gnome::Gtk4::ColorButton \)
 =begin pod
 =head2 get-modal
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets whether the dialog is modal.
 
 =begin code
@@ -149,6 +146,8 @@ Return value; C<True> if the dialog is modal.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-title
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the title of the color chooser dialog.
 
@@ -171,6 +170,8 @@ Return value; An internal string, do not free the return value.
 =begin pod
 =head2 set-modal
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets whether the dialog should be modal.
 
 =begin code
@@ -191,6 +192,8 @@ method set-modal ( Bool() $modal )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-title
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the title for the color chooser dialog.
 
@@ -221,7 +224,7 @@ method set-title ( Str $title )
 
 Emitted to when the color button is activated.
 
-The B<::activate> signal on B<Gnome::Gtk4::MenuButton> is an action signal and
+The `::activate` signal on B<Gnome::Gtk4::MenuButton> is an action signal and
 emitting it causes the button to pop up its dialog.
 
 =begin code

@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CenterLayout
-
-![](images/centerlayout.png)
-
+=TITLE Gnome::Gtk4::CenterLayout
 =head1 Description
 
 B<Gnome::Gtk4::CenterLayout> is a layout manager that manages up to three children.
@@ -166,9 +163,30 @@ Return value; The current orientation of C<$self>.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-shrink-center-last
+
+Gets whether C<$self> shrinks the center widget after other children.
+
+=begin code
+method get-shrink-center-last (--> Bool )
+=end code
+
+Return value; whether to shrink the center widget after others. 
+
+=begin comment
+
+=head2 Example
+# Example for get-start-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-start-widget
 
-Returns the start widget fo the layout.
+Returns the start widget of the layout.
 
 =begin code
 method get-start-widget (--> N-Object )
@@ -179,7 +197,7 @@ Return value; The current start widget of C<$self>.
 =begin comment
 
 =head2 Example
-# Example for get-start-widget
+# Example for set-baseline-position
 
 =end comment
 
@@ -200,7 +218,7 @@ method set-baseline-position ( GtkBaselinePosition $baseline-position )
 =begin comment
 
 =head2 Example
-# Example for set-baseline-position
+# Example for set-center-widget
 
 =end comment
 
@@ -223,7 +241,7 @@ method set-center-widget ( N-Object() $widget )
 =begin comment
 
 =head2 Example
-# Example for set-center-widget
+# Example for set-end-widget
 
 =end comment
 
@@ -246,7 +264,7 @@ method set-end-widget ( N-Object() $widget )
 =begin comment
 
 =head2 Example
-# Example for set-end-widget
+# Example for set-orientation
 
 =end comment
 
@@ -267,9 +285,30 @@ method set-orientation ( GtkOrientation $orientation )
 =begin comment
 
 =head2 Example
-# Example for set-orientation
+# Example for set-start-widget
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-shrink-center-last
+
+Sets whether to shrink the center widget after other children.
+
+By default, when there's no space to give all three children their
+natural widths, the start and end widgets start shrinking and the
+center child keeps natural width until they reach minimum width.
+
+If set to C<False>, start and end widgets keep natural width and the
+center widget starts shrinking instead.
+
+=begin code
+method set-shrink-center-last ( Bool() $shrink-center-last )
+=end code
+
+=item $shrink-center-last; whether to shrink the center widget after others.
 
 =end pod
 
@@ -286,13 +325,6 @@ method set-start-widget ( N-Object() $widget )
 =end code
 
 =item $widget; the new start widget.
-
-=begin comment
-
-=head2 Example
-# Example for set-start-widget
-
-=end comment
 
 =end pod
 

@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CellRendererAccel
-
-![](images/cellrendereraccel.png)
-
+=TITLE Gnome::Gtk4::CellRendererAccel
 =head1 Description
 
 Renders a keyboard accelerator in a cell
 
 B<Gnome::Gtk4::CellRendererAccel> displays a keyboard accelerator (i.e. a key
-combination like B<Control + a>). If the cell renderer is editable,
+combination like B<Control> + a`). If the cell renderer is editable,
 the accelerator can be changed by simply typing the new combination.
 
 =begin comment
@@ -129,7 +126,7 @@ method handler (
 
 =item $path-string; the path identifying the row of the edited cell.
 =item $accel-key; the new accelerator keyval.
-=item $accel-mods; the new acclerator modifier mask.
+=item $accel-mods; the new accelerator modifier mask.
 =item $hardware-keycode; the keycode of the new accelerator.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CellRendererAccel> object.

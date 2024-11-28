@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CellRendererSpinner
-
-![](images/cellrendererspinner.png)
-
+=TITLE Gnome::Gtk4::CellRendererSpinner
 =head1 Description
 
 Renders a spinning animation in a cell
@@ -19,8 +16,8 @@ similar to B<Gnome::Gtk4::Spinner>. It can often be used as an alternative
 to a B<Gnome::Gtk4::CellRendererProgress> for displaying indefinite activity,
 instead of actual progress.
 
-To start the animation in a cell, set the B<GtkCellRendererSpinner:active>
-property to C<True> and increment the B<GtkCellRendererSpinner:pulse> property
+To start the animation in a cell, set the B<Gnome::Gtk4::CellRendererSpinner>:active`
+property to C<True> and increment the B<Gnome::Gtk4::CellRendererSpinner>:pulse` property
 at regular intervals. The usual way to set the cell renderer properties
 for each cell is to bind them to columns in your tree model using e.g.
 gtk_tree_view_column_add_attribute().
