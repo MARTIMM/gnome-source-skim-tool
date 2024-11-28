@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::AppChooserDialog
-
-![](images/appchooserdialog.png)
-
+=TITLE Gnome::Gtk4::AppChooserDialog
 =head1 Description
 
 B<Gnome::Gtk4::AppChooserDialog> shows a B<Gnome::Gtk4::AppChooserWidget> inside a B<Gnome::Gtk4::Dialog>.
 
-![An example GtkAppChooserDialog](appchooserdialog.png)
+=for image :src<asset_files/images/appchooserdialog.png> :width<30%> :class<inline>
 
 Note that B<Gnome::Gtk4::AppChooserDialog> does not have any interesting methods
 of its own. Instead, you should get the embedded B<Gnome::Gtk4::AppChooserWidget>
@@ -24,6 +21,11 @@ your needs.
 
 To set the heading that is shown above the B<Gnome::Gtk4::AppChooserWidget>,
 use C<.set-heading()>.
+
+=head3 CSS nodes
+
+B<Gnome::Gtk4::AppChooserDialog> has a single CSS node with the name B<window> and style
+class `.appchooser`.
 
 =begin comment
 
@@ -48,6 +50,8 @@ use C<.set-heading()>.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -56,19 +60,15 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-appchooserdialog
 
-Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided B<Gnome::Gio::File>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided B<Gnome::Gio::R-File>.
 
 The dialog will show applications that can open the file.
 
@@ -78,7 +78,7 @@ method new-appchooserdialog ( N-Object() $parent, UInt $flags, N-Object() $file 
 
 =item $parent; a B<Gnome::Gtk4::Window>.
 =item $flags; flags for this dialog.
-=item $file; a B<Gnome::Gio::File>.
+=item $file; a B<Gnome::Gio::R-File>.
 
 =begin comment
 
@@ -92,6 +92,8 @@ method new-appchooserdialog ( N-Object() $parent, UInt $flags, N-Object() $file 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-for-content-type
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::AppChooserDialog> for the provided content type.
 
@@ -126,6 +128,8 @@ method new-for-content-type ( N-Object() $parent, UInt $flags, Str $content-type
 =begin pod
 =head2 get-heading
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the text to display at the top of the dialog.
 
 =begin code
@@ -148,6 +152,8 @@ Return value; the text to display at the top of the dialog,
 =begin pod
 =head2 get-widget
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the B<Gnome::Gtk4::AppChooserWidget> of this dialog.
 
 =begin code
@@ -168,6 +174,8 @@ Return value; the B<Gnome::Gtk4::AppChooserWidget> of C<$self>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-heading
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the text to display at the top of the dialog.
 

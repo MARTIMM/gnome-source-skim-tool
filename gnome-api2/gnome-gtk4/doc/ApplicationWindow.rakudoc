@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ApplicationWindow
-
-![](images/applicationwindow.png)
-
+=TITLE Gnome::Gtk4::ApplicationWindow
 =head1 Description
 
 B<Gnome::Gtk4::ApplicationWindow> is a B<Gnome::Gtk4::Window> subclass that integrates with
@@ -17,7 +14,7 @@ B<Gnome::Gtk4::Application>.
 
 Notably, B<Gnome::Gtk4::ApplicationWindow> can handle an application menubar.
 
-This class implements the U<Gnome::Gio::R-ActionGroup> and U<Gnome::Gio::R-ActionMap> interfaces,
+This class implements the B<Gnome::Gio::R-ActionGroup> and B<Gnome::Gio::R-ActionMap> interfaces,
 to let you add window-specific actions that will be exported by the
 associated B<Gnome::Gtk4::Application>, together with its application-wide
 actions. Window-specific actions are prefixed with the “win.”
@@ -113,32 +110,26 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-applicationwindow
 
 Creates a new B<Gnome::Gtk4::ApplicationWindow>.
-=begin comment
-
-=head2 Example
-# Example for new-applicationwindow
-
-=end comment
 
 =begin code
 method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::ApplicationWindow \)
 =end code
 
 =item $application; a B<Gnome::Gtk4::Application>.
+
+=begin comment
+
+=head2 Example
+# Example for new-applicationwindow
+
+=end comment
 
 =end pod
 
@@ -152,18 +143,11 @@ method new-applicationwindow ( N-Object() $application --> Gnome::Gtk4::Applicat
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-help-overlay
 
 Gets the B<Gnome::Gtk4::ShortcutsWindow> that is associated with C<$window>.
 
 See C<.set-help-overlay()>.
-=begin comment
-
-=head2 Example
-# Example for get-help-overlay
-
-=end comment
 
 =begin code
 method get-help-overlay (--> N-Object )
@@ -172,22 +156,22 @@ method get-help-overlay (--> N-Object )
 Return value; the help overlay associated
   with C<$window>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-help-overlay
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-id
 
 Returns the unique ID of the window.
 
  If the window has not yet been added to a B<Gnome::Gtk4::Application>, returns B<0>.
-=begin comment
-
-=head2 Example
-# Example for get-id
-
-=end comment
 
 =begin code
 method get-id (--> UInt )
@@ -196,21 +180,21 @@ method get-id (--> UInt )
 Return value; the unique ID for C<$window>, or B<0> if the window
   has not yet been added to a B<Gnome::Gtk4::Application>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-id
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-show-menubar
 
 Returns whether the window will display a menubar for the app menu
 and menubar as needed.
-=begin comment
-
-=head2 Example
-# Example for get-show-menubar
-
-=end comment
 
 =begin code
 method get-show-menubar (--> Bool )
@@ -218,24 +202,24 @@ method get-show-menubar (--> Bool )
 
 Return value; C<True> if C<$window> will display a menubar when needed. 
 
+=begin comment
+
+=head2 Example
+# Example for get-show-menubar
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-help-overlay
 
 Associates a shortcuts window with the application window.
 
 Additionally, sets up an action with the name
 B<win.show-help-overlay> to present it.
- C<$window> takes responsibility for destroying C<$help_overlay>.
-=begin comment
-
-=head2 Example
-# Example for set-help-overlay
-
-=end comment
+ C<$window> takes responsibility for destroying C<$help-overlay>.
 
 =begin code
 method set-help-overlay ( N-Object() $help-overlay )
@@ -243,27 +227,34 @@ method set-help-overlay ( N-Object() $help-overlay )
 
 =item $help-overlay; a B<Gnome::Gtk4::ShortcutsWindow>.
 
+=begin comment
+
+=head2 Example
+# Example for set-help-overlay
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-show-menubar
 
 Sets whether the window will display a menubar for the app menu
 and menubar as needed.
-=begin comment
-
-=head2 Example
-# Example for set-show-menubar
-
-=end comment
 
 =begin code
 method set-show-menubar ( Bool() $show-menubar )
 =end code
 
 =item $show-menubar; whether to show a menubar when needed.
+
+=begin comment
+
+=head2 Example
+# Example for set-show-menubar
+
+=end comment
 
 =end pod
 

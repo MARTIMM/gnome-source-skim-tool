@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ActionBar
-
-![](images/actionbar.png)
-
+=TITLE Gnome::Gtk4::ActionBar
 =head1 Description
 
 B<Gnome::Gtk4::ActionBar> is designed to present contextual actions.
 
-![An example GtkActionBar](action-bar.png)
+=for image :src<asset_files/images/action-bar.png> :width<30%> :class<inline>
 
 It is expected to be displayed below the content and expand
 horizontally to fill the area.
@@ -23,6 +20,13 @@ It allows placing children at the start or the end. In addition, it
 contains an internal centered box which is centered with respect to
 the full width of the box, even if the children at either side take
 up different amounts of space.
+
+=head2 GtkActionBar as GtkBuildable
+
+The B<Gnome::Gtk4::ActionBar> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
+adding children at the start or end sides by specifying “start” or “end” as
+the “type” attribute of a `<child>` element, or setting the center widget
+by specifying “center” value.
 
 =head2 CSS nodes
 
@@ -40,7 +44,7 @@ actionbar
 
 A B<Gnome::Gtk4::ActionBar>'s CSS node is called B<actionbar>. It contains a B<revealer>
 subnode, which contains a B<box> subnode, which contains two B<box> subnodes at
-the start and end of the action bar, with B<start> and B<end style classes
+the start and end of the action bar, with B<start> and B<end> style classes
 respectively, as well as a center node that represents the center child.
 
 Each of the boxes contains children packed for that side.
@@ -76,19 +80,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-actionbar
 
-Creates a new >GtkActionBarB< widget.
+Creates a new B<Gnome::Gtk4::ActionBar> widget.
 
 =begin code
 method new-actionbar ( --> Gnome::Gtk4::ActionBar \)
@@ -121,7 +119,7 @@ Retrieves the center bar widget of the bar.
 method get-center-widget (--> N-Object )
 =end code
 
-Return value; the center >GtkWidgetB<. 
+Return value; the center B<Gnome::Gtk4::Widget>. 
 
 =begin comment
 
@@ -158,14 +156,14 @@ Return value; the current value of the I<revealed>
 =begin pod
 =head2 pack-end
 
-Adds C<$child> to C<$action_bar>, packed with reference to the
-end of the C<$action_bar>.
+Adds C<$child> to C<$action-bar>, packed with reference to the
+end of the C<$action-bar>.
 
 =begin code
 method pack-end ( N-Object() $child )
 =end code
 
-=item $child; the >GtkWidgetB< to be added to C<$action_bar>.
+=item $child; the B<Gnome::Gtk4::Widget> to be added to C<$action-bar>.
 
 =begin comment
 
@@ -180,14 +178,14 @@ method pack-end ( N-Object() $child )
 =begin pod
 =head2 pack-start
 
-Adds C<$child> to C<$action_bar>, packed with reference to the
-start of the C<$action_bar>.
+Adds C<$child> to C<$action-bar>, packed with reference to the
+start of the C<$action-bar>.
 
 =begin code
 method pack-start ( N-Object() $child )
 =end code
 
-=item $child; the >GtkWidgetB< to be added to C<$action_bar>.
+=item $child; the B<Gnome::Gtk4::Widget> to be added to C<$action-bar>.
 
 =begin comment
 
@@ -202,13 +200,13 @@ method pack-start ( N-Object() $child )
 =begin pod
 =head2 remove
 
-Removes a child from C<$action_bar>.
+Removes a child from C<$action-bar>.
 
 =begin code
 method remove ( N-Object() $child )
 =end code
 
-=item $child; the >GtkWidgetB< to be removed.
+=item $child; the B<Gnome::Gtk4::Widget> to be removed.
 
 =begin comment
 
@@ -223,7 +221,7 @@ method remove ( N-Object() $child )
 =begin pod
 =head2 set-center-widget
 
-Sets the center widget for the >GtkActionBar`.
+Sets the center widget for the B<Gnome::Gtk4::ActionBar>.
 
 =begin code
 method set-center-widget ( N-Object() $center-widget )
@@ -246,7 +244,7 @@ method set-center-widget ( N-Object() $center-widget )
 
 Reveals or conceals the content of the action bar.
 
-Note: this does not show or hide C<$action_bar> in the
+Note: this does not show or hide C<$action-bar> in the
 I<visible defined in Gnome::Gtk4::Widget> sense, so revealing has
 no effect if the action bar is hidden.
 

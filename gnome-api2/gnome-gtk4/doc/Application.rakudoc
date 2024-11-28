@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Application
-
-![](images/application.png)
-
+=TITLE Gnome::Gtk4::Application
 =head1 Description
 
 B<Gnome::Gtk4::Application> is a high-level API for writing applications.
@@ -36,6 +33,10 @@ menubar. Additional menus (most interesting submenus) can be named
 and accessed via C<.get-menu-by-id()> which allows for
 dynamic population of a part of the menu structure.
 
+Note that automatic resource loading uses the resource base path
+that is set at construction time and will not work if the resource
+base path is changed at a later time.
+
 It is also possible to provide the menubar manually using
 C<.set-menubar()>.
 
@@ -45,13 +46,13 @@ path. This allows your application to easily store its icons as
 resources. See C<.add-resource-path() in class Gnome::Gtk4::IconTheme> for more
 information.
 
-If there is a resource located at B<gtk/help-overlay.ui> which
+If there is a resource located at B<gtk>/help-overlay.ui` which
 defines a B<Gnome::Gtk4::ShortcutsWindow> with ID B<help_overlay> then
 B<Gnome::Gtk4::Application> associates an instance of this shortcuts window with
 each B<Gnome::Gtk4::ApplicationWindow> and sets up the keyboard accelerator
 <kbd>Control</kbd>+<kbd>?</kbd> to open it. To create a menu item that
 displays the shortcuts window, associate the item with the action
-B<win.show-help-overlay>.
+B<win>.show-help-overlay`.
 
 =head3 A simple application
 
@@ -111,7 +112,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-application
 
 Creates a new B<Gnome::Gtk4::Application> instance.
@@ -121,23 +121,17 @@ manually. It is called as soon as the application gets registered as
 the primary instance.
 
 Concretely, C<.init()> is called in the default handler for the
-B<GApplication::startup> signal. Therefore, B<Gnome::Gtk4::Application> subclasses should
-always chain up in their B<GApplication::startup> handler before using any GTK
+B<Gnome::Gio::Application>::startup` signal. Therefore, B<Gnome::Gtk4::Application> subclasses should
+always chain up in their B<Gnome::Gio::Application>::startup` handler before using any GTK
 API.
 
 Note that commandline arguments are not passed to C<.init()>.
 
 If B<application_id> is defined, then it must be valid. See
-B<g_application_id_is_valid()>.
+B<g_application_id_is_valid>()`.
 
 If no application ID is given then some features (most notably application
 uniqueness) will be disabled.
-=begin comment
-
-=head2 Example
-# Example for new-application
-
-=end comment
 
 =begin code
 method new-application ( Str $application-id, UInt $flags --> Gnome::Gtk4::Application \)
@@ -145,6 +139,13 @@ method new-application ( Str $application-id, UInt $flags --> Gnome::Gtk4::Appli
 
 =item $application-id; The application ID.
 =item $flags; the application flags.
+
+=begin comment
+
+=head2 Example
+# Example for new-application
+
+=end comment
 
 =end pod
 
@@ -158,14 +159,13 @@ method new-application ( Str $application-id, UInt $flags --> Gnome::Gtk4::Appli
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 add-window
 
 Adds a window to B<application>.
 
 This call can only happen after the B<application> has started;
 typically, you should add new application windows in response
-to the emission of the B<GApplication::activate> signal.
+to the emission of the B<Gnome::Gio::Application>::activate` signal.
 
 This call is equivalent to setting the I<application defined in Gnome::Gtk4::Window>
 property of B<window> to B<application>.
@@ -176,12 +176,6 @@ remove it with C<.remove-window()>.
 
 GTK will keep the B<application> running as long as it has
 any windows.
-=begin comment
-
-=head2 Example
-# Example for add-window
-
-=end comment
 
 =begin code
 method add-window ( N-Object() $window )
@@ -189,21 +183,21 @@ method add-window ( N-Object() $window )
 
 =item $window; a B<Gnome::Gtk4::Window>.
 
+=begin comment
+
+=head2 Example
+# Example for add-window
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-accels-for-action
 
 Gets the accelerators that are currently associated with
 the given action.
-=begin comment
-
-=head2 Example
-# Example for get-accels-for-action
-
-=end comment
 
 =begin code
 method get-accels-for-action ( Str $detailed-action-name --> Array[Str] )
@@ -215,11 +209,17 @@ method get-accels-for-action ( Str $detailed-action-name --> Array[Str] )
 Return value; 
   accelerators for B<detailed_action_name>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-accels-for-action
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-actions-for-accel
 
 Returns the list of actions (possibly empty) that B<accel> maps to.
@@ -239,12 +239,6 @@ is returned. undefined is never returned.
 It is a programmer error to pass an invalid accelerator string.
 
 If you are unsure, check it with C<.accelerator-parse()> first.
-=begin comment
-
-=head2 Example
-# Example for get-actions-for-accel
-
-=end comment
 
 =begin code
 method get-actions-for-accel ( Str $accel --> Array[Str] )
@@ -254,11 +248,17 @@ method get-actions-for-accel ( Str $accel --> Array[Str] )
 
 Return value; a actions array for B<accel>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-actions-for-accel
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-active-window
 
 Gets the “active” window for the application.
@@ -267,12 +267,6 @@ The active window is the one that was most recently focused (within
 the application).  This window may not have the focus at the moment
 if another application has it — this is just the most
 recently-focused window within this application.
-=begin comment
-
-=head2 Example
-# Example for get-active-window
-
-=end comment
 
 =begin code
 method get-active-window (--> N-Object )
@@ -280,23 +274,23 @@ method get-active-window (--> N-Object )
 
 Return value; the active window. 
 
+=begin comment
+
+=head2 Example
+# Example for get-active-window
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-menu-by-id
 
 Gets a menu from automatically loaded resources.
 
 See [the section on Automatic resources](class.Application.html#automatic-resources)
 for more information.
-=begin comment
-
-=head2 Example
-# Example for get-menu-by-id
-
-=end comment
 
 =begin code
 method get-menu-by-id ( Str $id --> N-Object )
@@ -307,21 +301,21 @@ method get-menu-by-id ( Str $id --> N-Object )
 Return value; Gets the menu with the
   given id from the automatically loaded resources. 
 
+=begin comment
+
+=head2 Example
+# Example for get-menu-by-id
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-menubar
 
 Returns the menu model that has been set with
 C<.set-menubar()>.
-=begin comment
-
-=head2 Example
-# Example for get-menubar
-
-=end comment
 
 =begin code
 method get-menubar (--> N-Object )
@@ -329,23 +323,23 @@ method get-menubar (--> N-Object )
 
 Return value; the menubar for windows of B<application>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-menubar
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-window-by-id
 
 Returns the B<Gnome::Gtk4::ApplicationWindow> with the given ID.
 
 The ID of a B<Gnome::Gtk4::ApplicationWindow> can be retrieved with
 C<.get-id() in class Gnome::Gtk4::ApplicationWindow>.
-=begin comment
-
-=head2 Example
-# Example for get-window-by-id
-
-=end comment
 
 =begin code
 method get-window-by-id ( UInt() $id --> N-Object )
@@ -355,11 +349,17 @@ method get-window-by-id ( UInt() $id --> N-Object )
 
 Return value; the window for the given B<id>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-window-by-id
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-windows
 
 Gets a list of the B<Gnome::Gtk4::Window> instances associated with B<application>.
@@ -371,6 +371,14 @@ for a transient window.)
 The list that is returned should not be modified in any way. It will
 only remain valid until the next focus change or window creation or
 deletion.
+
+=begin code
+method get-windows (--> N-List )
+=end code
+
+Return value; a B<Gnome::Glib::N-List> of B<Gnome::Gtk4::Window>
+  instances. 
+
 =begin comment
 
 =head2 Example
@@ -378,18 +386,10 @@ deletion.
 
 =end comment
 
-=begin code
-method get-windows (--> N-List )
-=end code
-
-Return value; a U<Gnome::Glib::N-List> of B<Gnome::Gtk4::Window>
-  instances. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 inhibit
 
 Inform the session manager that certain types of actions should be
@@ -415,12 +415,6 @@ The B<reason> message should be short and to the point.
 
 If B<window> is given, the session manager may point the user to
 this window to find out more about why the action is inhibited.
-=begin comment
-
-=head2 Example
-# Example for inhibit
-
-=end comment
 
 =begin code
 method inhibit ( N-Object() $window, UInt $flags, Str $reason --> UInt )
@@ -436,22 +430,22 @@ Return value; A non-zero cookie that is used to uniquely identify this
   in order to remove the request. If the platform does not support
   inhibiting or the request failed for some reason, 0 is returned.. 
 
+=begin comment
+
+=head2 Example
+# Example for inhibit
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 list-action-descriptions
 
 Lists the detailed action names which have associated accelerators.
 
 See C<.set-accels-for-action()>.
-=begin comment
-
-=head2 Example
-# Example for list-action-descriptions
-
-=end comment
 
 =begin code
 method list-action-descriptions (--> Array[Str] )
@@ -459,11 +453,17 @@ method list-action-descriptions (--> Array[Str] )
 
 Return value; the detailed action names. 
 
+=begin comment
+
+=head2 Example
+# Example for list-action-descriptions
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 remove-window
 
 Remove a window from B<application>.
@@ -474,12 +474,6 @@ undefined.
 
 The application may stop running as a result of a call to this
 function, if B<window> was the last window of the B<application>.
-=begin comment
-
-=head2 Example
-# Example for remove-window
-
-=end comment
 
 =begin code
 method remove-window ( N-Object() $window )
@@ -487,11 +481,17 @@ method remove-window ( N-Object() $window )
 
 =item $window; a B<Gnome::Gtk4::Window>.
 
+=begin comment
+
+=head2 Example
+# Example for remove-window
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-accels-for-action
 
 Sets zero or more keyboard accelerators that will trigger the
@@ -503,14 +503,8 @@ displayed in the UI.
 To remove all accelerators for an action, use an empty, zero-terminated
 array for B<accels>.
 
-For the B<detailed_action_name>, see B<g_action_parse_detailed_name()> and
-B<g_action_print_detailed_name()>.
-=begin comment
-
-=head2 Example
-# Example for set-accels-for-action
-
-=end comment
+For the B<detailed_action_name>, see B<Gnome::Gio::T-action>()` and
+B<Gnome::Gio::T-action>()`.
 
 =begin code
 method set-accels-for-action ( Str $detailed-action-name, Array[Str] $accels )
@@ -521,11 +515,17 @@ method set-accels-for-action ( Str $detailed-action-name, Array[Str] $accels )
 =item $accels; a list of accelerators in the format
   understood by C<.accelerator-parse()>.
 
+=begin comment
+
+=head2 Example
+# Example for set-accels-for-action
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 set-menubar
 
 Sets or unsets the menubar for windows of B<application>.
@@ -533,7 +533,7 @@ Sets or unsets the menubar for windows of B<application>.
 This is a menubar in the traditional sense.
 
 This can only be done in the primary instance of the application,
-after it has been registered. B<GApplication::startup> is a good place
+after it has been registered. B<Gnome::Gio::Application>::startup` is a good place
 to call this.
 
 Depending on the desktop environment, this may appear at the top of
@@ -544,14 +544,8 @@ Other environments treat the two as completely separate — for example,
 the application menu may be rendered by the desktop shell while the
 menubar (if set) remains in each individual window.
 
-Use the base U<Gnome::Gio::R-ActionMap> interface to add actions, to respond to the
+Use the base B<Gnome::Gio::R-ActionMap> interface to add actions, to respond to the
 user selecting these menu items.
-=begin comment
-
-=head2 Example
-# Example for set-menubar
-
-=end comment
 
 =begin code
 method set-menubar ( N-Object() $menubar )
@@ -559,11 +553,17 @@ method set-menubar ( N-Object() $menubar )
 
 =item $menubar; a B<Gnome::Gio::MenuModel>.
 
+=begin comment
+
+=head2 Example
+# Example for set-menubar
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 uninhibit
 
 Removes an inhibitor that has been previously established.
@@ -571,18 +571,19 @@ Removes an inhibitor that has been previously established.
 See C<.inhibit()>.
 
 Inhibitors are also cleared when the application exits.
-=begin comment
-
-=head2 Example
-# Example for uninhibit
-
-=end comment
 
 =begin code
 method uninhibit ( UInt() $cookie )
 =end code
 
 =item $cookie; a cookie that was returned by C<.inhibit()>.
+
+=begin comment
+
+=head2 Example
+# Example for uninhibit
+
+=end comment
 
 =end pod
 
@@ -602,12 +603,6 @@ This signal is only emitted if I<register-session>
 is C<True>. Applications can connect to this signal and call
 C<.inhibit()> with B<GTK_APPLICATION_INHIBIT_LOGOUT>
 to delay the end of the session until state has been saved.
-=begin comment
-
-=head2 Example
-# Example for signal query-end
-
-=end comment
 
 =begin code
 method handler (
@@ -623,17 +618,18 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
+=begin comment
+
+=head2 Example
+# Example for signal query-end
+
+=end comment
+
 =comment -----------------------------------------------------------------------
 =head3 window-added
 
 Emitted when a B<Gnome::Gtk4::Window> is added to B<application> through
 C<.add-window()>.
-=begin comment
-
-=head2 Example
-# Example for signal window-added
-
-=end comment
 
 =begin code
 method handler (
@@ -651,6 +647,13 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
+=begin comment
+
+=head2 Example
+# Example for signal window-added
+
+=end comment
+
 =comment -----------------------------------------------------------------------
 =head3 window-removed
 
@@ -658,12 +661,6 @@ Emitted when a B<Gnome::Gtk4::Window> is removed from B<application>.
 
 This can happen as a side-effect of the window being destroyed
 or explicitly through C<.remove-window()>.
-=begin comment
-
-=head2 Example
-# Example for signal window-removed
-
-=end comment
 
 =begin code
 method handler (
@@ -680,6 +677,13 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Application> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal window-removed
+
+=end comment
 
 =end pod
 

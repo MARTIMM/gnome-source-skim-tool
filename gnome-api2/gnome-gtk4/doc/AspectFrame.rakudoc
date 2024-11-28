@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::AspectFrame
-
-![](images/aspectframe.png)
-
+=TITLE Gnome::Gtk4::AspectFrame
 =head1 Description
 
 B<Gnome::Gtk4::AspectFrame> preserves the aspect ratio of its child.
@@ -20,6 +17,12 @@ or use its own aspect ratio.
 =head2 CSS nodes
 
 B<Gnome::Gtk4::AspectFrame> uses a CSS node with name B<frame>.
+
+=head2 Accessibility
+
+Until GTK 4.10, B<Gnome::Gtk4::AspectFrame> used the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+Starting from GTK 4.12, B<Gnome::Gtk4::AspectFrame> uses the B<GTK_ACCESSIBLE_ROLE_GENERIC> role.
 
 =begin comment
 
@@ -51,12 +54,6 @@ B<Gnome::Gtk4::AspectFrame> uses a CSS node with name B<frame>.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -105,7 +102,7 @@ Gets the child widget of C<$self>.
 method get-child (--> N-Object )
 =end code
 
-Return value; the child widget of self@. 
+Return value; the child widget of C<$self>. 
 
 =begin comment
 
@@ -238,7 +235,7 @@ method set-obey-child ( Bool() $obey-child )
 =end code
 
 =item $obey-child; If C<True>, C<$ratio> is ignored, and the aspect
-   ratio is taken from the requistion of the child..
+   ratio is taken from the requisition of the child..
 
 =begin comment
 

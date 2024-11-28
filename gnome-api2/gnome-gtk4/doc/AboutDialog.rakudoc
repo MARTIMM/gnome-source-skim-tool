@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::AboutDialog
-
-![](images/aboutdialog.png)
-
+=TITLE Gnome::Gtk4::AboutDialog
 =head1 Description
 
 The B<Gnome::Gtk4::AboutDialog> offers a simple way to display information about
@@ -22,10 +19,10 @@ documenters, translators and artists who have worked on the program.
 An about dialog is typically opened when the user selects the B<About>
 option from the B<Help> menu. All parts of the dialog are optional.
 
-![An example GtkAboutDialog](aboutdialog.png)
+=for image :src<asset_files/images/aboutdialog.png> :width<30%> :class<inline>
 
 About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog>
-displays these as clickable links. By default, it calls C<.show-uri()>
+displays these as clickable links. By default, it calls C<.launch() in class Gnome::Gtk4::FileLauncher>
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
@@ -44,13 +41,13 @@ set the title property explicitly when constructing a B<Gnome::Gtk4::AboutDialog
 as shown in the following example:
 
 =begin code
-use Gnome::Gtk3::Window;
-use Gnome::Gtk3::AboutDialog;
-use Gnome::Gtk3::T-AboutDialog;
+use Gnome::Gtk4::Window:api<2>;
+use Gnome::Gtk4::AboutDialog:api<2>;
+use Gnome::Gtk4::T-AboutDialog:api<2>;
 
-my Gnome::Gtk3::Window $window .= new-window;
+my Gnome::Gtk4::Window $window .= new-window;
 
-my Gnome::Gtk3::AboutDialog $about .= new-about-dialog;
+my Gnome::Gtk4::AboutDialog $about .= new-about-dialog;
 $about.set-transient-for($window);
 $about.set-version('0.21.4');
 $about.set-license-type(GTK_LICENSE_ARTISTIC);
@@ -760,7 +757,7 @@ Using B<gettext()>, a simple way to achieve that is to mark the
 string for translation:
 
 =begin comment
-my Gnome::Gtk3::AboutDialog $about .= new-about-dialog;
+my Gnome::Gtk4::AboutDialog $about .= new-about-dialog;
 $about.set-translator-credits("translator-credits"));
 =end comment
 
@@ -882,7 +879,7 @@ method set-wrap-license ( Bool() $wrap-license )
 Emitted every time a URL is activated.
 
 Applications may connect to it to override the default behaviour,
-which is to call C<.show-uri()>.
+which is to call C<.launch() in class Gnome::Gtk4::FileLauncher>.
 
 =begin code
 method handler (

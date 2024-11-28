@@ -6,23 +6,20 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Adjustment
-
-![](images/adjustment.png)
-
+=TITLE Gnome::Gtk4::Adjustment
 =head1 Description
 
 B<Gnome::Gtk4::Adjustment> is a model for a numeric value.
 
-The B<GtkAdjustment has an associated lower and upper bound.
+The B<Gnome::Gtk4::Adjustment> has an associated lower and upper bound.
 It also contains step and page increments, and a page size.
 
 Adjustments are used within several GTK widgets, including
 B<Gnome::Gtk4::SpinButton>, B<Gnome::Gtk4::Viewport>, B<Gnome::Gtk4::Scrollbar>
 and B<Gnome::Gtk4::Scale>.
 
-The >GtkAdjustmentB< object does not update the value itself. Instead
-it is left up to the owner of the >GtkAdjustmentB< to control the value.
+The B<Gnome::Gtk4::Adjustment> object does not update the value itself. Instead
+it is left up to the owner of the B<Gnome::Gtk4::Adjustment> to control the value.
 
 =begin comment
 
@@ -61,7 +58,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 new-adjustment
 
-Creates a new >GtkAdjustmentB<.
+Creates a new B<Gnome::Gtk4::Adjustment>.
 
 =begin code
 method new-adjustment ( Num() $value, Num() $lower, Num() $upper, Num() $step-increment, Num() $page-increment, Num() $page-size --> Gnome::Gtk4::Adjustment \)
@@ -98,7 +95,7 @@ method new-adjustment ( Num() $value, Num() $lower, Num() $upper, Num() $step-in
 Updates the value property to ensure that the range
 between C<$lower> and C<$upper> is in the current page.
 
-The current page goes from >valueB< to >valueB< + >page-sizeB<.
+The current page goes from B<value> to B<value> + B<page>-size`.
 If the range is larger than the page size, then only the
 start of it will be in the current page.
 
@@ -414,7 +411,7 @@ method set-step-increment ( Num() $step-increment )
 
 Sets the maximum value of the adjustment.
 
-Note that values will be restricted by >upper - page-sizeB<
+Note that values will be restricted by B<upper> - page-size`
 if the page-size property is nonzero.
 
 See C<.set-lower()> about how to compress
@@ -440,12 +437,12 @@ method set-upper ( Num() $upper )
 =begin pod
 =head2 set-value
 
-Sets the >GtkAdjustmentB< value.
+Sets the B<Gnome::Gtk4::Adjustment> value.
 
 The value is clamped to lie between I<lower>
 and I<upper>.
 
-Note that for adjustments which are used in a >GtkScrollbarB<,
+Note that for adjustments which are used in a B<Gnome::Gtk4::Scrollbar>,
 the effective range of allowed values goes from
 I<lower> to
 I<upper> - I<page-size>.
@@ -475,7 +472,7 @@ method set-value ( Num() $value )
 =comment -----------------------------------------------------------------------
 =head3 changed
 
-Emitted when one or more of the >GtkAdjustment` properties have been
+Emitted when one or more of the B<Gnome::Gtk4::Adjustment> properties have been
 changed.
 
 Note that the I<value> property is

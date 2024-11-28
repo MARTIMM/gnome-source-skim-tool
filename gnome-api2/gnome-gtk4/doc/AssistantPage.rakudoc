@@ -6,13 +6,10 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::AssistantPage
-
-![](images/assistantpage.png)
-
+=TITLE Gnome::Gtk4::AssistantPage
 =head1 Description
 
-B<Gnome::Gtk4::AssistantPage> is an auxiliary object used by B<Gnome::Gtk4::Assistant>.
+B<Gnome::Gtk4::AssistantPage> is an auxiliary object used by `GtkAssistant.
 
 =begin comment
 
@@ -37,6 +34,8 @@ B<Gnome::Gtk4::AssistantPage> is an auxiliary object used by B<Gnome::Gtk4::Assi
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -57,22 +56,24 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-child
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the child to which C<$page> belongs.
-=begin comment
-
-=head2 Example
-# Example for get-child
-
-=end comment
 
 =begin code
 method get-child (--> N-Object )
 =end code
 
 Return value; the child to which C<$page> belongs. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
 
 =end pod
 

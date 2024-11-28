@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::AlternativeTrigger
-
-![](images/alternativetrigger.png)
-
+=TITLE Gnome::Gtk4::AlternativeTrigger
 =head1 Description
 
 A B<Gnome::Gtk4::ShortcutTrigger> that combines two triggers.
@@ -53,7 +50,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-alternativetrigger
 
 Creates a B<Gnome::Gtk4::ShortcutTrigger> that will trigger whenever
@@ -61,12 +57,6 @@ either of the two given triggers gets triggered.
 
 Note that nesting is allowed, so if you want more than two
 alternative, create a new alternative trigger for each option.
-=begin comment
-
-=head2 Example
-# Example for new-alternativetrigger
-
-=end comment
 
 =begin code
 method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome::Gtk4::AlternativeTrigger \)
@@ -74,6 +64,13 @@ method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome:
 
 =item $first; (transfer ownership: full) The first trigger that may trigger.
 =item $second; (transfer ownership: full) The second trigger that may trigger.
+
+=begin comment
+
+=head2 Example
+# Example for new-alternativetrigger
+
+=end comment
 
 =end pod
 
@@ -87,7 +84,6 @@ method new-alternativetrigger ( N-Object() $first, N-Object() $second --> Gnome:
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-first
 
 Gets the first of the two alternative triggers that may
@@ -95,12 +91,6 @@ trigger C<$self>.
 
 C<.get-second()> will return
 the other one.
-=begin comment
-
-=head2 Example
-# Example for get-first
-
-=end comment
 
 =begin code
 method get-first (--> N-Object )
@@ -108,11 +98,17 @@ method get-first (--> N-Object )
 
 Return value; the first alternative trigger. 
 
+=begin comment
+
+=head2 Example
+# Example for get-first
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-second
 
 Gets the second of the two alternative triggers that may
@@ -120,18 +116,19 @@ trigger C<$self>.
 
 C<.get-first()> will return
 the other one.
-=begin comment
-
-=head2 Example
-# Example for get-second
-
-=end comment
 
 =begin code
 method get-second (--> N-Object )
 =end code
 
 Return value; the second alternative trigger. 
+
+=begin comment
+
+=head2 Example
+# Example for get-second
+
+=end comment
 
 =end pod
 
