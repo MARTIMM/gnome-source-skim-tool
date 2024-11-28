@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Button
-
-![](images/button.png)
-
+=TITLE Gnome::Gtk4::Button
 =head1 Description
 
 The B<Gnome::Gtk4::Button> widget is generally used to trigger a callback function that is
 called when the button is pressed.
 
-![An example GtkButton](button.png)
+=for image :src<asset_files/images/button.png> :width<30%> :class<inline>
 
 The B<Gnome::Gtk4::Button> widget can hold any valid child widget. That is, it can hold
 almost any other standard B<Gnome::Gtk4::Widget>. The most commonly used child is the
@@ -74,22 +71,20 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-button
 
 Creates a new B<Gnome::Gtk4::Button> widget.
 
 To add a child widget to the button, use C<.set-child()>.
+
+=begin code
+method new-button ( --> Gnome::Gtk4::Button \)
+=end code
+
 =begin comment
 
 =head2 Example
@@ -97,15 +92,10 @@ To add a child widget to the button, use C<.set-child()>.
 
 =end comment
 
-=begin code
-method new-button ( --> Gnome::Gtk4::Button \)
-=end code
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-from-icon-name
 
 Creates a new button containing an icon from the current icon theme.
@@ -113,12 +103,6 @@ Creates a new button containing an icon from the current icon theme.
 If the icon name isn’t known, a “broken image” icon will be
 displayed instead. If the current icon theme is changed, the icon
 will be updated appropriately.
-=begin comment
-
-=head2 Example
-# Example for new-from-icon-name
-
-=end comment
 
 =begin code
 method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Button \)
@@ -126,20 +110,20 @@ method new-from-icon-name ( Str $icon-name --> Gnome::Gtk4::Button \)
 
 =item $icon-name; an icon name.
 
+=begin comment
+
+=head2 Example
+# Example for new-from-icon-name
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-with-label
 
 Creates a B<Gnome::Gtk4::Button> widget with a B<Gnome::Gtk4::Label> child.
-=begin comment
-
-=head2 Example
-# Example for new-with-label
-
-=end comment
 
 =begin code
 method new-with-label ( Str $label --> Gnome::Gtk4::Button \)
@@ -147,11 +131,17 @@ method new-with-label ( Str $label --> Gnome::Gtk4::Button \)
 
 =item $label; The text you want the B<Gnome::Gtk4::Label> to hold.
 
+=begin comment
+
+=head2 Example
+# Example for new-with-label
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-with-mnemonic
 
 Creates a new B<Gnome::Gtk4::Button> containing a label.
@@ -159,13 +149,8 @@ Creates a new B<Gnome::Gtk4::Button> containing a label.
 If characters in C<$label> are preceded by an underscore, they are underlined.
 If you need a literal underscore character in a label, use “__” (two
 underscores). The first underlined character represents a keyboard
-accelerator called a mnemonic. Pressing Alt and that key activates the button.
-=begin comment
-
-=head2 Example
-# Example for new-with-mnemonic
-
-=end comment
+accelerator called a mnemonic. Pressing <kbd>Alt</kbd> and that key
+activates the button.
 
 =begin code
 method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Button \)
@@ -173,6 +158,13 @@ method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Button \)
 
 =item $label; The text of the button, with an underscore in front of the
   mnemonic character.
+
+=begin comment
+
+=head2 Example
+# Example for new-with-mnemonic
+
+=end comment
 
 =end pod
 
@@ -186,10 +178,17 @@ method new-with-mnemonic ( Str $label --> Gnome::Gtk4::Button \)
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-can-shrink
 
-=head2 get-child
+Retrieves whether the button can be smaller than the natural
+size of its contents.
 
-Gets the child widget of C<$button>.
+=begin code
+method get-can-shrink (--> Bool )
+=end code
+
+Return value; true if the button can shrink, and false otherwise. 
+
 =begin comment
 
 =head2 Example
@@ -197,20 +196,20 @@ Gets the child widget of C<$button>.
 
 =end comment
 
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-child
+
+Gets the child widget of C<$button>.
+
 =begin code
 method get-child (--> N-Object )
 =end code
 
 Return value; the child widget of C<$button>. 
 
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-
-=head2 get-has-frame
-
-Returns whether the button has a frame.
 =begin comment
 
 =head2 Example
@@ -218,24 +217,20 @@ Returns whether the button has a frame.
 
 =end comment
 
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-has-frame
+
+Returns whether the button has a frame.
+
 =begin code
 method get-has-frame (--> Bool )
 =end code
 
 Return value; C<True> if the button has a frame. 
 
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-
-=head2 get-icon-name
-
-Returns the icon name of the button.
-
-If the icon name has not been set with C<.set-icon-name()>
-the return value will be undefined. This will be the case if you create
-an empty button with C<.newbutton()> to use as a container.
 =begin comment
 
 =head2 Example
@@ -243,17 +238,35 @@ an empty button with C<.newbutton()> to use as a container.
 
 =end comment
 
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-icon-name
+
+Returns the icon name of the button.
+
+If the icon name has not been set with C<.set-icon-name()>
+the return value will be undefined. This will be the case if you create
+an empty button with C<.newbutton()> to use as a container.
+
 =begin code
 method get-icon-name (--> Str )
 =end code
 
 Return value; The icon name set via C<.set-icon-name()>. 
 
+=begin comment
+
+=head2 Example
+# Example for get-label
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-label
 
 Fetches the text from the label of the button.
@@ -261,12 +274,6 @@ Fetches the text from the label of the button.
 If the label text has not been set with C<.set-label()>
 the return value will be undefined. This will be the case if you create
 an empty button with C<.newbutton()> to use as a container.
-=begin comment
-
-=head2 Example
-# Example for get-label
-
-=end comment
 
 =begin code
 method get-label (--> Str )
@@ -275,22 +282,22 @@ method get-label (--> Str )
 Return value; The text of the label widget. This string is owned
 by the widget and must not be modified or freed.. 
 
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-
-=head2 get-use-underline
-
-gets whether underlines are interpreted as mnemonics.
-
-See C<.set-use-underline()>.
 =begin comment
 
 =head2 Example
 # Example for get-use-underline
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-use-underline
+
+gets whether underlines are interpreted as mnemonics.
+
+See C<.set-use-underline()>.
 
 =begin code
 method get-use-underline (--> Bool )
@@ -299,11 +306,43 @@ method get-use-underline (--> Bool )
 Return value; C<True> if an embedded underline in the button label
   indicates the mnemonic accelerator keys.. 
 
+=begin comment
+
+=head2 Example
+# Example for set-child
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 set-can-shrink
 
+Sets whether the button size can be smaller than the natural size of
+its contents.
+
+For text buttons, setting C<$can-shrink> to true will ellipsize the label.
+
+For icons and custom children, this function has no effect.
+
+=begin code
+method set-can-shrink ( Bool() $can-shrink )
+=end code
+
+=item $can-shrink; whether the button can shrink.
+
+=begin comment
+
+=head2 Example
+# Example for set-has-frame
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 set-child
 
 Sets the child widget of C<$button>.
@@ -313,12 +352,6 @@ up the proper accessibility label and description information for C<$button>.
 Most likely, you'll either set the accessibility label or description
 for C<$button> explicitly, or you'll set a labelled-by or described-by
 relations from C<$child> to C<$button>.
-=begin comment
-
-=head2 Example
-# Example for set-child
-
-=end comment
 
 =begin code
 method set-child ( N-Object() $child )
@@ -326,40 +359,6 @@ method set-child ( N-Object() $child )
 
 =item $child; the child widget.
 
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-
-=head2 set-has-frame
-
-Sets the style of the button.
-
-Buttons can has a flat appearance or have a frame drawn around them.
-=begin comment
-
-=head2 Example
-# Example for set-has-frame
-
-=end comment
-
-=begin code
-method set-has-frame ( Bool() $has-frame )
-=end code
-
-=item $has-frame; whether the button should have a visible frame.
-
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-
-=head2 set-icon-name
-
-Adds a B<Gnome::Gtk4::Image> with the given icon name as a child.
-
-If C<$button> already contains a child widget, that child widget will
-be removed and replaced with the image.
 =begin comment
 
 =head2 Example
@@ -367,22 +366,22 @@ be removed and replaced with the image.
 
 =end comment
 
-=begin code
-method set-icon-name ( Str $icon-name )
-=end code
-
-=item $icon-name; An icon name.
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 set-has-frame
 
-=head2 set-label
+Sets the style of the button.
 
-Sets the text of the label of the button to C<$label>.
+Buttons can have a flat appearance or have a frame drawn around them.
 
-This will also clear any previously set labels.
+=begin code
+method set-has-frame ( Bool() $has-frame )
+=end code
+
+=item $has-frame; whether the button should have a visible frame.
+
 =begin comment
 
 =head2 Example
@@ -390,23 +389,23 @@ This will also clear any previously set labels.
 
 =end comment
 
-=begin code
-method set-label ( Str $label )
-=end code
-
-=item $label; a string.
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 set-icon-name
 
-=head2 set-use-underline
+Adds a B<Gnome::Gtk4::Image> with the given icon name as a child.
 
-Sets whether to use underlines as mnemonics.
+If C<$button> already contains a child widget, that child widget will
+be removed and replaced with the image.
 
-If true, an underline in the text of the button label indicates
-the next character should be used for the mnemonic accelerator key.
+=begin code
+method set-icon-name ( Str $icon-name )
+=end code
+
+=item $icon-name; An icon name.
+
 =begin comment
 
 =head2 Example
@@ -414,11 +413,52 @@ the next character should be used for the mnemonic accelerator key.
 
 =end comment
 
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-label
+
+Sets the text of the label of the button to C<$label>.
+
+This will also clear any previously set labels.
+
+=begin code
+method set-label ( Str $label )
+=end code
+
+=item $label; a string.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-use-underline
+
+Sets whether to use underlines as mnemonics.
+
+If true, an underline in the text of the button label indicates
+the next character should be used for the mnemonic accelerator key.
+
 =begin code
 method set-use-underline ( Bool() $use-underline )
 =end code
 
 =item $use-underline; C<True> if underlines in the text indicate mnemonics.
+
+=begin comment
+
+=head2 Example
+# Example for signal clicked
+
+=end comment
 
 =end pod
 
@@ -436,12 +476,9 @@ Emitted to animate press then release.
 
 This is an action signal. Applications should never connect
 to this signal, but use the I<clicked> signal.
-=begin comment
 
-=head2 Example
-# Example for signal activate
-
-=end comment
+The default bindings for this signal are all forms of the
+<kbd>␣</kbd> and <kbd>Enter</kbd> keys.
 
 =begin code
 method handler (
@@ -461,12 +498,6 @@ method handler (
 =head3 clicked
 
 Emitted when the button has been activated (pressed and released).
-=begin comment
-
-=head2 Example
-# Example for signal clicked
-
-=end comment
 
 =begin code
 method handler (

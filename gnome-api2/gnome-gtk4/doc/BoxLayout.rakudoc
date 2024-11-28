@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::BoxLayout
-
-![](images/boxlayout.png)
-
+=TITLE Gnome::Gtk4::BoxLayout
 =head1 Description
 
 B<Gnome::Gtk4::BoxLayout> is a layout manager that arranges children in a single
@@ -91,6 +88,28 @@ method new-boxlayout ( GtkOrientation $orientation --> Gnome::Gtk4::BoxLayout \)
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-baseline-child
+
+Gets the value set by C<.set-baseline-child()>.
+
+=begin code
+method get-baseline-child (--> Int )
+=end code
+
+Return value; the index of the child that determines the baseline
+    in vertical layout, or -1. 
+
+=begin comment
+
+=head2 Example
+# Example for get-baseline-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-baseline-position
 
 Gets the value set by C<.set-baseline-position()>.
@@ -104,7 +123,7 @@ Return value; the baseline position.
 =begin comment
 
 =head2 Example
-# Example for get-baseline-position
+# Example for get-homogeneous
 
 =end comment
 
@@ -125,7 +144,7 @@ Return value; C<True> if the layout is homogeneous.
 =begin comment
 
 =head2 Example
-# Example for get-homogeneous
+# Example for get-spacing
 
 =end comment
 
@@ -146,7 +165,29 @@ Return value; the spacing of the layout.
 =begin comment
 
 =head2 Example
-# Example for get-spacing
+# Example for set-baseline-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-baseline-child
+
+Sets the index of the child that determines the baseline
+in vertical layout.
+
+=begin code
+method set-baseline-child ( Int() $child )
+=end code
+
+=item $child; the child position, or -1.
+
+=begin comment
+
+=head2 Example
+# Example for set-homogeneous
 
 =end comment
 
@@ -173,7 +214,7 @@ method set-baseline-position ( GtkBaselinePosition $position )
 =begin comment
 
 =head2 Example
-# Example for set-baseline-position
+# Example for set-spacing
 
 =end comment
 
@@ -192,13 +233,6 @@ method set-homogeneous ( Bool() $homogeneous )
 
 =item $homogeneous; C<True> to set the box layout as homogeneous.
 
-=begin comment
-
-=head2 Example
-# Example for set-homogeneous
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -212,13 +246,6 @@ method set-spacing ( UInt() $spacing )
 =end code
 
 =item $spacing; the spacing to apply between children.
-
-=begin comment
-
-=head2 Example
-# Example for set-spacing
-
-=end comment
 
 =end pod
 

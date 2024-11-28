@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::BuilderListItemFactory
-
-![](images/builderlistitemfactory.png)
-
+=TITLE Gnome::Gtk4::BuilderListItemFactory
 =head1 Description
 
 B<Gnome::Gtk4::BuilderListItemFactory> is a B<Gnome::Gtk4::ListItemFactory> that creates
@@ -73,17 +70,16 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-from-bytes
-This function is not yet available
 
 Creates a new B<Gnome::Gtk4::BuilderListItemFactory> that instantiates widgets
 using C<$bytes> as the data to pass to B<Gnome::Gtk4::Builder>.
 
 =begin code
-method new-from-bytes ( N-Object() $scope, CArray[N-Bytes]  $bytes --> Gnome::Gtk4::BuilderListItemFactory \)
+method new-from-bytes ( N-Object() $scope, N-Object $bytes --> Gnome::Gtk4::BuilderListItemFactory \)
 =end code
 
 =item $scope; A scope to use when instantiating.
-=item $bytes; the B<Gnome::Glib::N-Bytes> containing the ui file to instantiate.
+=item $bytes; the B<Gnome::Glib::N-Bytes> containing the ui file to instantiate
 
 =begin comment
 
@@ -128,13 +124,12 @@ method new-from-resource ( N-Object() $scope, Str $resource-path --> Gnome::Gtk4
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-bytes
-This function is not yet available
 
 Gets the data used as the B<Gnome::Gtk4::Builder> UI template for constructing
 listitems.
 
 =begin code
-method get-bytes (--> CArray[N-Bytes]  )
+method get-bytes (--> N-Object )
 =end code
 
 Return value; The B<Gnome::Gtk4::Builder> data. 
