@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ComboBoxText
-
-![](images/comboboxtext.png)
-
+=TITLE Gnome::Gtk4::ComboBoxText
 =head1 Description
 
 A B<Gnome::Gtk4::ComboBoxText> is a simple variant of B<Gnome::Gtk4::ComboBox> for text-only
 use cases.
 
-![An example GtkComboBoxText](combo-box-text.png)
+=for image :src<asset_files/images/combo-box-text.png> :width<30%> :class<inline>
 
 B<Gnome::Gtk4::ComboBoxText> hides the model-view complexity of B<Gnome::Gtk4::ComboBox>.
 
@@ -38,8 +35,8 @@ cells into this combo box via its B<Gnome::Gtk4::R-CellLayout> interface.
 =head3 GtkComboBoxText as GtkBuildable
 
 The B<Gnome::Gtk4::ComboBoxText> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
-adding items directly using the B<<items>> element and specifying B<<item>>
-elements for each item. Each B<<item>> element can specify the “id”
+adding items directly using the `<items>` element and specifying `<item>`
+elements for each item. Each `<item>` element can specify the “id”
 corresponding to the appended text and also supports the regular
 translation attributes “translatable”, “context” and “comments”.
 

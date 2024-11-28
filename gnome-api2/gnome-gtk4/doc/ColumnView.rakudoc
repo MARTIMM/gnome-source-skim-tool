@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ColumnView
-
-![](images/columnview.png)
-
+=TITLE Gnome::Gtk4::ColumnView
 =head1 Description
 
 B<Gnome::Gtk4::ColumnView> presents a large dynamic list of items using multiple columns
@@ -44,20 +41,6 @@ To learn more about the list widget framework, see the
 [overview](section-list-widget.html).
 
 =head2 CSS nodes
-
-=begin comment
-columnview[.column-separators][.rich-list][.navigation-sidebar][.data-table]
-├── header
-│   ├── <column header>
-┊   ┊
-│   ╰── <column header>
-│
-├── listview
-│
-┊
-╰── [rubberband]
-
-=end comment
 
 B<Gnome::Gtk4::ColumnView> uses a single CSS node named columnview. It may carry the
 .column-separators style class, when I<show-column-separators>
@@ -109,12 +92,6 @@ the C<GTK_ACCESSIBLE_ROLE_GRID_CELL> role
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -219,6 +196,27 @@ Return value; C<True> if rubberband selection is enabled.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-header-factory
+
+Gets the factory that's currently used to populate section headers.
+
+=begin code
+method get-header-factory (--> N-Object )
+=end code
+
+Return value; The factory in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-model
 
 Gets the model that's currently used to read the items displayed.
@@ -232,7 +230,7 @@ Return value; The model in use.
 =begin comment
 
 =head2 Example
-# Example for get-model
+# Example for get-reorderable
 
 =end comment
 
@@ -253,7 +251,28 @@ Return value; C<True> if columns are reorderable.
 =begin comment
 
 =head2 Example
-# Example for get-reorderable
+# Example for get-show-column-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-row-factory
+
+Gets the factory set via C<.set-row-factory()>.
+
+=begin code
+method get-row-factory (--> N-Object )
+=end code
+
+Return value; The factory. 
+
+=begin comment
+
+=head2 Example
+# Example for get-show-row-separators
 
 =end comment
 
@@ -275,7 +294,7 @@ Return value; C<True> if the list shows column separators.
 =begin comment
 
 =head2 Example
-# Example for get-show-column-separators
+# Example for get-single-click-activate
 
 =end comment
 
@@ -297,7 +316,7 @@ Return value; C<True> if the list shows separators.
 =begin comment
 
 =head2 Example
-# Example for get-show-row-separators
+# Example for get-sorter
 
 =end comment
 
@@ -319,7 +338,7 @@ Return value; C<True> if rows are activated on single click.
 =begin comment
 
 =head2 Example
-# Example for get-single-click-activate
+# Example for insert-column
 
 =end comment
 
@@ -340,15 +359,6 @@ See C<.set-sorter() in class Gnome::Gtk4::ColumnViewColumn> for setting up
 per-column sorting.
 
 Here is an example:
-=begin comment
-gtk_column_view_column_set_sorter (column, sorter);
-gtk_column_view_append_column (view, column);
-sorter = g_object_ref (gtk_column_view_get_sorter (view)));
-model = gtk_sort_list_model_new (store, sorter);
-selection = gtk_no_selection_new (model);
-gtk_column_view_set_model (view, selection);
-
-=end comment
 
 =begin code
 method get-sorter (--> N-Object )
@@ -359,7 +369,28 @@ Return value; the B<Gnome::Gtk4::Sorter> of C<$self>.
 =begin comment
 
 =head2 Example
-# Example for get-sorter
+# Example for remove-column
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tab-behavior
+
+Gets the behavior set for the <kbd>Tab</kbd> key.
+
+=begin code
+method get-tab-behavior (--> GtkListTabBehavior )
+=end code
+
+Return value; The behavior of the <kbd>Tab</kbd> key. 
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-rubberband
 
 =end comment
 
@@ -383,7 +414,7 @@ method insert-column ( UInt() $position, N-Object() $column )
 =begin comment
 
 =head2 Example
-# Example for insert-column
+# Example for set-model
 
 =end comment
 
@@ -404,7 +435,37 @@ method remove-column ( N-Object() $column )
 =begin comment
 
 =head2 Example
-# Example for remove-column
+# Example for set-reorderable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to
+
+Scroll to the row at the given position - or cell if a column is
+given - and performs the actions specified in C<$flags>.
+
+This function works no matter if the listview is shown or focused.
+If it isn't, then the changes will take effect once that happens.
+
+=begin code
+method scroll-to ( UInt() $pos, N-Object() $column, UInt $flags, N-Object $scroll )
+=end code
+
+=item $pos; position of the item.
+=item $column; The column to scroll to
+  or undefined to not scroll columns..
+=item $flags; actions to perform.
+=item $scroll; (transfer ownership: full) details of how to perform
+  the scroll operation or undefined to scroll into view
+
+=begin comment
+
+=head2 Example
+# Example for set-show-column-separators
 
 =end comment
 
@@ -425,7 +486,32 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 =begin comment
 
 =head2 Example
-# Example for set-enable-rubberband
+# Example for set-show-row-separators
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-header-factory
+
+Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating the
+B<Gnome::Gtk4::ListHeader> objects used in section headers.
+
+If this factory is set to undefined, the list will not show
+section headers.
+
+=begin code
+method set-header-factory ( N-Object() $factory )
+=end code
+
+=item $factory; the factory to use.
+
+=begin comment
+
+=head2 Example
+# Example for set-single-click-activate
 
 =end comment
 
@@ -448,7 +534,7 @@ method set-model ( N-Object() $model )
 =begin comment
 
 =head2 Example
-# Example for set-model
+# Example for sort-by-column
 
 =end comment
 
@@ -469,7 +555,41 @@ method set-reorderable ( Bool() $reorderable )
 =begin comment
 
 =head2 Example
-# Example for set-reorderable
+# Example for signal activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-row-factory
+
+Sets the factory used for configuring rows. The factory must be for configuring
+B<Gnome::Gtk4::ColumnViewRow> objects.
+
+If this factory is not set - which is the default - then the defaults will be used.
+
+This factory is not used to set the widgets displayed in the individual cells. For
+that see [method C<$GtkColumnViewColumn>.set_factory] and B<GtkColumnViewCell>.
+
+=begin code
+method set-row-factory ( N-Object() $factory )
+=end code
+
+=item $factory; The row factory.
+
+=begin comment
+columnview[.column-separators][.rich-list][.navigation-sidebar][.data-table]
+├── header
+│   ├── <column header>
+┊   ┊
+│   ╰── <column header>
+│
+├── listview
+│
+┊
+╰── [rubberband]
 
 =end comment
 
@@ -489,9 +609,12 @@ method set-show-column-separators ( Bool() $show-column-separators )
 =item $show-column-separators; C<True> to show column separators.
 
 =begin comment
-
-=head2 Example
-# Example for set-show-column-separators
+gtk_column_view_column_set_sorter (column, sorter);
+gtk_column_view_append_column (view, column);
+sorter = g_object_ref (gtk_column_view_get_sorter (view)));
+model = gtk_sort_list_model_new (store, sorter);
+selection = gtk_no_selection_new (model);
+gtk_column_view_set_model (view, selection);
 
 =end comment
 
@@ -510,13 +633,6 @@ method set-show-row-separators ( Bool() $show-row-separators )
 
 =item $show-row-separators; C<True> to show row separators.
 
-=begin comment
-
-=head2 Example
-# Example for set-show-row-separators
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -532,12 +648,19 @@ method set-single-click-activate ( Bool() $single-click-activate )
 
 =item $single-click-activate; C<True> to activate items on single click.
 
-=begin comment
+=end pod
 
-=head2 Example
-# Example for set-single-click-activate
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab-behavior
 
-=end comment
+Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
+
+=begin code
+method set-tab-behavior ( GtkListTabBehavior $tab-behavior )
+=end code
+
+=item $tab-behavior; The desired tab behavior.
 
 =end pod
 
@@ -564,13 +687,6 @@ method sort-by-column ( N-Object() $column, GtkSortType $direction )
 
 =item $column; the B<Gnome::Gtk4::ColumnViewColumn> to sort by.
 =item $direction; the direction to sort in.
-
-=begin comment
-
-=head2 Example
-# Example for sort-by-column
-
-=end comment
 
 =end pod
 
@@ -606,13 +722,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ColumnView> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal activate
-
-=end comment
 
 =end pod
 

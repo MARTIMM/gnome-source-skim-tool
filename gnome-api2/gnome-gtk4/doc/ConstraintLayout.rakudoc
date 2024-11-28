@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ConstraintLayout
-
-![](images/constraintlayout.png)
-
+=TITLE Gnome::Gtk4::ConstraintLayout
 =head1 Description
 
 A layout manager using constraints to describe relations between widgets.
@@ -288,7 +285,7 @@ C<.add-constraints-from-descriptionv()>, using
 variadic arguments to populate the view/target map.
 
 =begin code
-method add-constraints-from-description ( Array[Str] $lines, Int() $n-lines, Int() $hspacing, Int() $vspacing, CArray[N-Error] $error, Str $first-view, … --> N-List )
+method add-constraints-from-description ( Array[Str] $lines, Int() $n-lines, Int() $hspacing, Int() $vspacing, N-Object $error, Str $first-view, … --> N-List )
 =end code
 
 =item $lines; an array of Visual Format Language lines
@@ -296,7 +293,7 @@ method add-constraints-from-description ( Array[Str] $lines, Int() $n-lines, Int
 =item $n-lines; the number of lines.
 =item $hspacing; default horizontal spacing value, or -1 for the fallback value.
 =item $vspacing; default vertical spacing value, or -1 for the fallback value.
-=item $error; return location for a B<Gnome::Glib::N-Error>.
+=item $error; return location for a B<Gnome::Glib::N-Error>
 =item $first-view; the name of a view in the VFL description, followed by the
   B<Gnome::Gtk4::R-ConstraintTarget> to which it maps.
 =item …; …. Note that each argument must be specified as a type followed by its value!
@@ -316,7 +313,6 @@ Return value; the list of
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-constraints-from-descriptionv
-This function is not yet available
 
 Creates a list of constraints from a VFL description.
 
@@ -399,7 +395,7 @@ Examples of VFL descriptions are:
 =end comment
 
 =begin code
-method add-constraints-from-descriptionv ( Array[Str] $lines, Int() $n-lines, Int() $hspacing, Int() $vspacing, CArray[N-HashTable]  $views, CArray[N-Error] $err --> N-List )
+method add-constraints-from-descriptionv ( Array[Str] $lines, Int() $n-lines, Int() $hspacing, Int() $vspacing, N-Object $views, CArray[N-Error] $err --> N-List )
 =end code
 
 =item $lines; an array of Visual Format Language lines
@@ -407,10 +403,10 @@ method add-constraints-from-descriptionv ( Array[Str] $lines, Int() $n-lines, In
 =item $n-lines; the number of lines.
 =item $hspacing; default horizontal spacing value, or -1 for the fallback value.
 =item $vspacing; default vertical spacing value, or -1 for the fallback value.
-=item $views; a dictionary of B<[ name, target ]>
+=item $views; a dictionary of `[ name, target ]`
   pairs; the B<name> keys map to the view names in the VFL lines, while
   the B<target> values map to children of the widget using a B<Gnome::Gtk4::ConstraintLayout>,
-  or guides.
+  or guides
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .

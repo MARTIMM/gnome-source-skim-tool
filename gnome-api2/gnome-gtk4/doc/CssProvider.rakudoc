@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: CssProvider
+=comment Package: Gtk4, C-Source: cssprovider
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,13 +6,10 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CssProvider
-
-![](images/cssprovider.png)
-
+=TITLE Gnome::Gtk4::CssProvider
 =head1 Description
 
-B<Gnome::Gtk4::CssProvider> is an object implementing the U<Gnome::Gtk4::R-StyleProvider> interface
+B<Gnome::Gtk4::CssProvider> is an object implementing the B<Gnome::Gtk4::R-StyleProvider> interface
 for CSS.
 
 It is able to parse CSS-like input in order to style widgets.
@@ -24,12 +21,12 @@ and adding the provider with C<.add-provider() in class Gnome::Gtk4::StyleContex
 C<.StyleContext.add-provider-for-display()>.
 
 In addition, certain files will be read when GTK is initialized.
-First, the file B<$XDG_CONFIG_HOME/gtk-4.0/gtk.css> is loaded if it
+First, the file `$XDG_CONFIG_HOME/gtk-4.0/gtk.css` is loaded if it
 exists. Then, GTK loads the first existing file among
-B<XDG_DATA_HOME/themes/THEME/gtk-VERSION/gtk-VARIANT.css>,
-B<$HOME/.themes/THEME/gtk-VERSION/gtk-VARIANT.css>,
-B<$XDG_DATA_DIRS/themes/THEME/gtk-VERSION/gtk-VARIANT.css> and
-B<DATADIR/share/themes/THEME/gtk-VERSION/gtk-VARIANT.css>,
+B<XDG_DATA_HOME>/themes/THEME/gtk-VERSION/gtk-VARIANT.css`,
+`$HOME/.themes/THEME/gtk-VERSION/gtk-VARIANT.css`,
+`$XDG_DATA_DIRS/themes/THEME/gtk-VERSION/gtk-VARIANT.css` and
+B<DATADIR>/share/themes/THEME/gtk-VERSION/gtk-VARIANT.css`,
 where B<THEME> is the name of the current theme (see the
 I<gtk-theme-name defined in Gnome::Gtk4::Settings> setting), B<VARIANT> is the
 variant to load (see the
@@ -104,20 +101,17 @@ method new-cssprovider ( --> Gnome::Gtk4::CssProvider \)
 
 #-------------------------------------------------------------------------------
 =begin pod
-=head2 load-from-data
+=head2 load-from-bytes
 
-Loads C<$data> into C<$css_provider>.
+Loads C<$data> into C<$css-provider>.
 
 This clears any previously loaded information.
 
 =begin code
-method load-from-data ( Str $data, Int() $length )
+method load-from-bytes ( N-Object $data )
 =end code
 
-=item $data; CSS data loaded in memory.
-=item $length; the length of C<$data> in bytes, or -1 for NUL terminated strings. If
-  C<$length> is not -1, the code will assume it is not NUL terminated and will
-  potentially do a copy..
+=item $data; B<Gnome::Glib::N-Bytes> containing the data to load
 
 =begin comment
 
@@ -130,17 +124,20 @@ method load-from-data ( Str $data, Int() $length )
 
 #-------------------------------------------------------------------------------
 =begin pod
-=head2 load-from-file
+=head2 load-from-data
 
-Loads the data contained in C<$file> into C<$css_provider>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
+
+Loads C<$data> into C<$css-provider>.
 
 This clears any previously loaded information.
 
 =begin code
-method load-from-file ( N-Object() $file )
+method load-from-data ( Str $data, Int() $length )
 =end code
 
-=item $file; B<Gnome::Gio::File> pointing to a file to load.
+=item $data; CSS data to be parsed.
+=item $length; the length of C<$data> in bytes, or -1 for NUL terminated strings.
 
 =begin comment
 
@@ -153,17 +150,17 @@ method load-from-file ( N-Object() $file )
 
 #-------------------------------------------------------------------------------
 =begin pod
-=head2 load-from-path
+=head2 load-from-file
 
-Loads the data contained in C<$path> into C<$css_provider>.
+Loads the data contained in C<$file> into C<$css-provider>.
 
 This clears any previously loaded information.
 
 =begin code
-method load-from-path ( Str $path )
+method load-from-file ( N-Object() $file )
 =end code
 
-=item $path; the path of a filename to load, in the GLib filename encoding.
+=item $file; B<Gnome::Gio::R-File> pointing to a file to load.
 
 =begin comment
 
@@ -176,10 +173,33 @@ method load-from-path ( Str $path )
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 load-from-path
+
+Loads the data contained in C<$path> into C<$css-provider>.
+
+This clears any previously loaded information.
+
+=begin code
+method load-from-path ( Str $path )
+=end code
+
+=item $path; the path of a filename to load, in the GLib filename encoding.
+
+=begin comment
+
+=head2 Example
+# Example for load-from-resource
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 load-from-resource
 
-Loads the data contained in the resource at C<$resource_path> into
-the C<$css_provider>.
+Loads the data contained in the resource at C<$resource-path> into
+the C<$css-provider>.
 
 This clears any previously loaded information.
 
@@ -187,12 +207,35 @@ This clears any previously loaded information.
 method load-from-resource ( Str $resource-path )
 =end code
 
-=item $resource-path; a U<Gnome::Gio::N-Resource> resource path.
+=item $resource-path; a B<Gnome::Gio::N-Resource> resource path.
 
 =begin comment
 
 =head2 Example
-# Example for load-from-resource
+# Example for load-named
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 load-from-string
+
+Loads C<$string> into C<$css-provider>.
+
+This clears any previously loaded information.
+
+=begin code
+method load-from-string ( Str $string )
+=end code
+
+=item $string; the CSS to load.
+
+=begin comment
+
+=head2 Example
+# Example for to-string
 
 =end comment
 
@@ -219,7 +262,7 @@ method load-named ( Str $name, Str $variant )
 =begin comment
 
 =head2 Example
-# Example for load-named
+# Example for signal parsing-error
 
 =end comment
 
@@ -232,7 +275,7 @@ method load-named ( Str $name, Str $variant )
 Converts the C<$provider> into a string representation in CSS
 format.
 
-Using C<.load-from-data()> with the return
+Using C<.load-from-string()> with the return
 value from this function on a new provider created with
 C<.newcssprovider()> will basically create a duplicate
 of this C<$provider>.
@@ -242,13 +285,6 @@ method to-string (--> Str )
 =end code
 
 Return value; a new string representing the C<$provider>.. 
-
-=begin comment
-
-=head2 Example
-# Example for to-string
-
-=end comment
 
 =end pod
 
@@ -278,7 +314,7 @@ than when a loading function was called.
 
 =begin code
 method handler (
-  N-CssSection _UA_ $section,
+  N-Object $section,
    $error,
   Int :$_handle_id,
   N-GObject :$_native-object,
@@ -293,13 +329,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::CssProvider> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal parsing-error
-
-=end comment
 
 =end pod
 

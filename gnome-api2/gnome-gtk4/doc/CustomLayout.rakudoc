@@ -6,17 +6,14 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CustomLayout
-
-![](images/customlayout.png)
-
+=TITLE Gnome::Gtk4::CustomLayout
 =head1 Description
 
 B<Gnome::Gtk4::CustomLayout> uses closures for size negotiation.
 
-A B<GtkCustomLayout >uses closures matching to the old B<Gnome::Gtk4::Widget>
+A B<Gnome::Gtk4::CustomLayout> B<uses> closures matching to the old B<Gnome::Gtk4::Widget>
 virtual functions for size negotiation, as a convenience API to
-ease the porting towards the corresponding B<GtkLayoutManager
+ease the porting towards the corresponding B<Gnome::Gtk4::LayoutManager>
 virtual functions.
 
 =begin comment
@@ -58,7 +55,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 Creates a new legacy layout manager.
 
-Legacy layout managers map to the old >GtkWidgetB< size negotiation
+Legacy layout managers map to the old B<Gnome::Gtk4::Widget> size negotiation
 virtual functions, and are meant to be used during the transition
 from layout containers to layout manager delegates.
 
@@ -67,7 +64,7 @@ method new-customlayout ( &request-mode, &measure, &allocate --> Gnome::Gtk4::Cu
 =end code
 
 =item &request-mode; a function to retrieve
-  the >GtkSizeRequestMode` of the widget using the layout; the
+  the C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-enums> of the widget using the layout; the
   default request mode is C<GTK_SIZE_REQUEST_CONSTANT_SIZE>. Tthe function must be specified with following signature; C<:( N-Object $widget --> GEnum )>.
 =item &measure; a function to measure the widget using the layout manager. Tthe function must be specified with following signature; C<:( N-Object $widget, GEnum $orientation, gint $for-size, gint-ptr $minimum, gint-ptr $natural, gint-ptr $minimum-baseline, gint-ptr $natural-baseline )>.
 =item &allocate; a function to allocate the children of the widget using

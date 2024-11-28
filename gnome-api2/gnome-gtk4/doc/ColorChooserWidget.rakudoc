@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ColorChooserWidget
-
-![](images/colorchooserwidget.png)
-
+=TITLE Gnome::Gtk4::ColorChooserWidget
 =head1 Description
 
 The B<Gnome::Gtk4::ColorChooserWidget> widget lets the user select a color.
@@ -60,6 +57,8 @@ B<Gnome::Gtk4::ColorChooserWidget> has a single CSS node with name colorchooser.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -67,12 +66,6 @@ B<Gnome::Gtk4::ColorChooserWidget> has a single CSS node with name colorchooser.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 

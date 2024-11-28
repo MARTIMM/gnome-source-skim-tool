@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::CustomSorter
-
-![](images/customsorter.png)
-
+=TITLE Gnome::Gtk4::CustomSorter
 =head1 Description
 
 B<Gnome::Gtk4::CustomSorter> is a B<Gnome::Gtk4::Sorter> implementation that sorts via a callback
@@ -61,7 +58,7 @@ If C<$sort-func> is undefined, all items are considered equal.
 method new-customsorter ( …, gpointer $user-data, … --> Gnome::Gtk4::CustomSorter \)
 =end code
 
-=item sort-func; the B<Gnome::Glib::T-DoubleIEEE754> to use for sorting. Note that each argument must be specified as a type followed by its value!
+=item sort-func; the B<Gnome::Glib::T-types> to use for sorting. Note that each argument must be specified as a type followed by its value!
 =item $user-data; user data to pass to C<$sort-func>.
 =item user-destroy; destroy notify for C<$user-data>. Note that each argument must be specified as a type followed by its value!
 
