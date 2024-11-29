@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ShortcutsSection
-
-![](images/shortcutssection.png)
-
+=TITLE Gnome::Gtk4::ShortcutsSection
 =head1 Description
 
 A B<Gnome::Gtk4::ShortcutsSection> collects all the keyboard shortcuts and gestures
@@ -25,6 +22,15 @@ to influence how the groups in the section are distributed over pages
 and columns.
 
 This widget is only meant to be used with B<Gnome::Gtk4::ShortcutsWindow>.
+
+The recommended way to construct a B<Gnome::Gtk4::ShortcutsSection> is with
+B<Gnome::Gtk4::Builder>, by using the `<child>` tag to populate a
+B<Gnome::Gtk4::ShortcutsSection> with one or more B<Gnome::Gtk4::ShortcutsGroup>
+instances, which in turn contain one or more B<Gnome::Gtk4::ShortcutsShortcut>
+objects.
+
+If you need to add a group programmatically, use
+C<.add-group()>.
 
 =begin comment
 
@@ -57,11 +63,40 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
+=end pod
 
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
-  multi method new ( Str :$build-id! )
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-group
+
+Adds a group to the shortcuts section.
+
+This is the programmatic equivalent to using B<Gnome::Gtk4::Builder> and a
+`<child>` tag to add the child.
+
+Adding children with the B<Gnome::Gtk4::Box> API is not appropriate, as
+B<Gnome::Gtk4::ShortcutsSection> manages its children internally.
+
+=begin code
+method add-group ( N-Object() $group )
+=end code
+
+=item $group; the B<Gnome::Gtk4::ShortcutsGroup> to add.
+
+=begin comment
+
+=head2 Example
+# Example for signal change-current-page
+
+=end comment
 
 =end pod
 
@@ -93,13 +128,6 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 Return value; 
-
-=begin comment
-
-=head2 Example
-# Example for signal change-current-page
-
-=end comment
 
 =end pod
 

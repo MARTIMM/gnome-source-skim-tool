@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::SearchBar
-
-![](images/searchbar.png)
-
+=TITLE Gnome::Gtk4::SearchBar
 =head1 Description
 
 B<Gnome::Gtk4::SearchBar> is a container made to have a search entry.
 
-![An example GtkSearchBar](search-bar.png)
+=for image :src<asset_files/images/search-bar.png> :width<30%> :class<inline>
 
 It can also contain additional widgets, such as drop-down menus,
 or buttons.  The search bar would appear when a search is started
@@ -89,12 +86,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -131,7 +122,7 @@ method new-searchbar ( --> Gnome::Gtk4::SearchBar \)
 =begin pod
 =head2 connect-entry
 
-Connects the B<GtkEditable widget passed as the one to be used in
+Connects the B<Gnome::Gtk4::R-Editable> widget passed as the one to be used in
 this search bar.
 
 The entry should be a descendant of the search bar. Calling this
@@ -142,7 +133,7 @@ child of the search bar (as in our main example).
 method connect-entry ( N-Object() $entry )
 =end code
 
-=item $entry; a >GtkEditableB<.
+=item $entry; a B<Gnome::Gtk4::R-Editable>.
 
 =begin comment
 
@@ -279,7 +270,7 @@ C<.forward() in class Gnome::Gtk4::EventControllerKey>.
 method set-key-capture-widget ( N-Object() $widget )
 =end code
 
-=item $widget; a >GtkWidget`.
+=item $widget; a B<Gnome::Gtk4::Widget>.
 
 =begin comment
 

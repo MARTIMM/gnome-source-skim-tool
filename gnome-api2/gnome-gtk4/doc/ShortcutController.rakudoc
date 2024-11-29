@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ShortcutController
-
-![](images/shortcutcontroller.png)
-
+=TITLE Gnome::Gtk4::ShortcutController
 =head1 Description
 
 B<Gnome::Gtk4::ShortcutController> is an event controller that manages shortcuts.
@@ -22,12 +19,12 @@ to global actions using C<.set-accels-for-action() in class Gnome::Gtk4::Applica
 But it is possible to create your own shortcut controller, and add
 shortcuts to it.
 
-B<Gnome::Gtk4::ShortcutController> implements U<Gnome::Gio::R-ListModel> for querying the
+B<Gnome::Gtk4::ShortcutController> implements B<Gnome::Gtk4::ShortcutController> for querying the
 shortcuts that have been added to it.
 
-=head2 GtkShortcutController as a GtkBuildable
+=head2 GtkShortcutController as GtkBuildable
 
-B<GtkShortcutControllers> can be creates in ui files to set up
+B<Gnome::Gtk4::ShortcutController>s can be created in B<Gnome::Gtk4::Builder> ui files, to set up
 shortcuts in the same place as the widgets.
 
 An example of a UI definition fragment with B<Gnome::Gtk4::ShortcutController>:
@@ -121,7 +118,7 @@ but you can change the contents of the model.
 method new-for-model ( N-List() $model --> Gnome::Gtk4::ShortcutController \)
 =end code
 
-=item $model; a U<Gnome::Gio::R-ListModel> containing shortcuts.
+=item $model; a B<Gnome::Gio::R-ListModel> containing shortcuts.
 
 =begin comment
 

@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::SearchEntry
-
-![](images/searchentry.png)
-
+=TITLE Gnome::Gtk4::SearchEntry
 =head1 Description
 
 B<Gnome::Gtk4::SearchEntry> is an entry widget that has been tailored for use
@@ -18,7 +15,7 @@ as a search entry.
 The main API for interacting with a B<Gnome::Gtk4::SearchEntry> as entry
 is the B<Gnome::Gtk4::R-Editable> interface.
 
-![An example GtkSearchEntry](search-entry.png)
+=for image :src<asset_files/images/search-entry.png> :width<30%> :class<inline>
 
 It will show an inactive symbolic “find” icon when the search
 entry is empty, and a symbolic “clear” icon when there is text.
@@ -45,14 +42,8 @@ the B<Gnome::Gtk4::R-Editable> API.
 
 =head3 CSS Nodes
 
-=begin comment
-entry.search
-╰── text
-
-=end comment
-
 B<Gnome::Gtk4::SearchEntry> has a single CSS node with name entry that carries
-a B<.search> style class, and the text node is a child of that.
+a `.search` style class, and the text node is a child of that.
 
 =head3 Accessibility
 
@@ -89,12 +80,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -126,6 +111,48 @@ method new-searchentry ( --> Gnome::Gtk4::SearchEntry \)
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-input-hints
+
+Gets the input purpose for C<$entry>.
+
+=begin code
+method get-input-hints (--> UInt )
+=end code
+
+Return value; The input hints. 
+
+=begin comment
+
+=head2 Example
+# Example for get-key-capture-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-input-purpose
+
+Gets the input purpose of C<$entry>.
+
+=begin code
+method get-input-purpose (--> GtkInputPurpose )
+=end code
+
+Return value; The input hints. 
+
+=begin comment
+
+=head2 Example
+# Example for set-key-capture-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-key-capture-widget
 
 Gets the widget that C<$entry> is capturing key events from.
@@ -139,7 +166,92 @@ Return value; The key capture widget..
 =begin comment
 
 =head2 Example
-# Example for get-key-capture-widget
+# Example for signal activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-placeholder-text
+
+Gets the placeholder text associated with C<$entry>.
+
+=begin code
+method get-placeholder-text (--> Str )
+=end code
+
+Return value; The placeholder text.. 
+
+=begin comment
+
+=head2 Example
+# Example for signal next-match
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-search-delay
+
+Get the delay to be used between the last keypress and the
+I<search-changed> signal being emitted.
+
+=begin code
+method get-search-delay (--> UInt )
+=end code
+
+Return value; a delay in milliseconds.. 
+
+=begin comment
+
+=head2 Example
+# Example for signal previous-match
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-input-hints
+
+Sets the input hints for C<$entry>.
+
+=begin code
+method set-input-hints ( UInt $hints )
+=end code
+
+=item $hints; the new input hints.
+
+=begin comment
+
+=head2 Example
+# Example for signal search-changed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-input-purpose
+
+Sets the input purpose of C<$entry>.
+
+=begin code
+method set-input-purpose ( GtkInputPurpose $purpose )
+=end code
+
+=item $purpose; the new input purpose.
+
+=begin comment
+
+=head2 Example
+# Example for signal search-started
 
 =end comment
 
@@ -176,9 +288,44 @@ method set-key-capture-widget ( N-Object() $widget )
 =begin comment
 
 =head2 Example
-# Example for set-key-capture-widget
+# Example for signal stop-search
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-placeholder-text
+
+Sets the placeholder text associated with C<$entry>.
+
+=begin code
+method set-placeholder-text ( Str $text )
+=end code
+
+=item $text; the text to set as a placeholder.
+
+=begin comment
+entry.search
+╰── text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-search-delay
+
+Set the delay to be used between the last keypress and the
+I<search-changed> signal being emitted.
+
+=begin code
+method set-search-delay ( UInt() $delay )
+=end code
+
+=item $delay; a delay in milliseconds.
 
 =end pod
 
@@ -210,13 +357,6 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=begin comment
-
-=head2 Example
-# Example for signal activate
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 next-match
 
@@ -243,13 +383,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal next-match
-
-=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 previous-match
@@ -278,18 +411,12 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=begin comment
-
-=head2 Example
-# Example for signal previous-match
-
-=end comment
-
 =comment -----------------------------------------------------------------------
 =head3 search-changed
 
-Emitted with a short delay of 150 milliseconds after the
-last change to the entry text.
+Emitted with a delay. The length of the delay can be
+changed with the I<search-delay>
+property.
 
 =begin code
 method handler (
@@ -304,13 +431,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal search-changed
-
-=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 search-started
@@ -330,13 +450,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal search-started
-
-=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 stop-search
@@ -363,13 +476,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SearchEntry> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal stop-search
-
-=end comment
 
 =end pod
 

@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ShortcutsWindow
-
-![](images/shortcutswindow.png)
-
+=TITLE Gnome::Gtk4::ShortcutsWindow
 =head1 Description
 
 A B<Gnome::Gtk4::ShortcutsWindow> shows information about the keyboard shortcuts
@@ -22,13 +19,18 @@ Additionally, the shortcuts can be filtered by the current view, to avoid
 showing information that is not relevant in the current application context.
 
 The recommended way to construct a B<Gnome::Gtk4::ShortcutsWindow> is with
-B<Gnome::Gtk4::Builder>, by populating a B<Gnome::Gtk4::ShortcutsWindow> with one or
-more B<Gnome::Gtk4::ShortcutsSection> objects, which contain B<GtkShortcutsGroups>
-that in turn contain objects of class B<Gnome::Gtk4::ShortcutsShortcut>.
+B<Gnome::Gtk4::Builder>, by using the `<child>` tag to populate a
+B<Gnome::Gtk4::ShortcutsWindow> with one or more B<Gnome::Gtk4::ShortcutsSection> objects,
+which contain one or more B<Gnome::Gtk4::ShortcutsGroup> instances, which, in turn,
+contain B<Gnome::Gtk4::ShortcutsShortcut> instances.
+
+If you need to add a section programmatically, use C<.add-section()>
+instead of C<.set-child() in class Gnome::Gtk4::Window>, as the shortcuts window manages
+its children directly.
 
 =head2 A simple example:
 
-![](gedit-shortcuts.png)
+=for image :src<asset_files/images/gedit-shortcuts.png> :width<30%> :class<inline>
 
 This example has as single section. As you can see, the shortcut groups
 are arranged in columns, and spread across several pages if there are too
@@ -38,7 +40,7 @@ The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME
 
 =head2 An example with multiple views:
 
-![](clocks-shortcuts.png)
+=for image :src<asset_files/images/clocks-shortcuts.png> :width<30%> :class<inline>
 
 This example shows a B<Gnome::Gtk4::ShortcutsWindow> that has been configured to show only
 the shortcuts relevant to the "stopwatch" view.
@@ -47,12 +49,17 @@ The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME
 
 =head2 An example with multiple sections:
 
-![](builder-shortcuts.png)
+=for image :src<asset_files/images/builder-shortcuts.png> :width<30%> :class<inline>
 
 This example shows a B<Gnome::Gtk4::ShortcutsWindow> with two sections, "Editor Shortcuts"
 and "Terminal Shortcuts".
 
 The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-builder.ui).
+
+=head3 CSS nodes
+
+B<Gnome::Gtk4::ShortcutsWindow> has a single CSS node with the name B<window> and style
+class `.shortcuts`.
 
 =begin comment
 
@@ -85,11 +92,40 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
+=end pod
 
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
-  multi method new ( Str :$build-id! )
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 add-section
+
+Adds a section to the shortcuts window.
+
+This is the programmatic equivalent to using B<Gnome::Gtk4::Builder> and a
+`<child>` tag to add the child.
+
+Using C<.set-child() in class Gnome::Gtk4::Window> is not appropriate as the shortcuts
+window manages its children internally.
+
+=begin code
+method add-section ( N-Object() $section )
+=end code
+
+=item $section; the B<Gnome::Gtk4::ShortcutsSection> to add.
+
+=begin comment
+
+=head2 Example
+# Example for signal close
+
+=end comment
 
 =end pod
 
@@ -126,7 +162,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal close
+# Example for signal search
 
 =end comment
 
@@ -152,13 +188,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ShortcutsWindow> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal search
-
-=end comment
 
 =end pod
 

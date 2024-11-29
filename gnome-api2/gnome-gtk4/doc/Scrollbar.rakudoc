@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Scrollbar
-
-![](images/scrollbar.png)
-
+=TITLE Gnome::Gtk4::Scrollbar
 =head1 Description
 
 The B<Gnome::Gtk4::Scrollbar> widget is a horizontal or vertical scrollbar.
 
-![An example GtkScrollbar](scrollbar.png)
+=for image :src<asset_files/images/scrollbar.png> :width<30%> :class<inline>
 
 Its position and movement are controlled by the adjustment that is passed to
 or created by C<.newscrollbar()>. See B<Gnome::Gtk4::Adjustment> for more
@@ -86,12 +83,6 @@ B<Gnome::Gtk4::Scrollbar> uses the C<GTK_ACCESSIBLE_ROLE_SCROLLBAR> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 

@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Shortcut
-
-![](images/shortcut.png)
-
+=TITLE Gnome::Gtk4::Shortcut
 =head1 Description
 
 A B<Gnome::Gtk4::Shortcut> describes a keyboard shortcut.
@@ -89,7 +86,7 @@ method new-shortcut ( N-Object() $trigger, N-Object() $action --> Gnome::Gtk4::S
 =head2 new-with-arguments
 This function is not yet available
 
-Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action> with arguments given by C<$format_string>.
+Creates a new B<Gnome::Gtk4::Shortcut> that is triggered by C<$trigger> and then activates C<$action> with arguments given by C<$format-string>.
 
 =begin code
 method new-with-arguments ( N-Object() $trigger, N-Object() $action, Str $format-string, … --> Gnome::Gtk4::Shortcut \)
@@ -147,7 +144,7 @@ Return value; the action.
 Gets the arguments that are passed when activating the shortcut.
 
 =begin code
-method get-arguments (--> CArray[N-Variant] )
+method get-arguments (--> N-Object )
 =end code
 
 Return value; the arguments. 
@@ -211,10 +208,10 @@ method set-action ( N-Object() $action )
 Sets the arguments to pass when activating the shortcut.
 
 =begin code
-method set-arguments ( CArray[N-Variant] $args )
+method set-arguments ( N-Object $args )
 =end code
 
-=item $args; arguments to pass when activating C<$self>.
+=item $args; arguments to pass when activating C<$self>
 
 =begin comment
 

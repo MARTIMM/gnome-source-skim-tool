@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ScrolledWindow
-
-![](images/scrolledwindow.png)
-
+=TITLE Gnome::Gtk4::ScrolledWindow
 =head1 Description
 
 B<Gnome::Gtk4::ScrolledWindow> is a container that makes its child scrollable.
@@ -26,25 +23,7 @@ If it isn’t, then it wraps the child in a B<Gnome::Gtk4::Viewport>. Therefore,
 just add any child widget and not worry about the details.
 
 If C<.set-child()> has added a B<Gnome::Gtk4::Viewport> for you,
-you can remove both your added child widget from the B<Gnome::Gtk4::Viewport>, and the
-B<Gnome::Gtk4::Viewport> from the B<Gnome::Gtk4::ScrolledWindow>, like this:
-
-=begin comment
-GtkWidget *scrolled_window = gtk_scrolled_window_new ();
-GtkWidget *child_widget = gtk_button_new ();
-
-// GtkButton is not a GtkScrollable, so GtkScrolledWindow will automatically
-// add a GtkViewport.
-gtk_box_append (GTK_BOX (scrolled_window), child_widget);
-
-// Either of these will result in child_widget being unparented:
-gtk_box_remove (GTK_BOX (scrolled_window), child_widget);
-// or
-gtk_box_remove (GTK_BOX (scrolled_window),
-                      gtk_bin_get_child (GTK_BIN (scrolled_window)));
-
-=end comment
-
+it will be automatically removed when you unset the child.
 Unless I<hscrollbar-policy> and
 I<vscrollbar-policy> are C<GTK_POLICY_NEVER> or
 C<GTK_POLICY_EXTERNAL>, B<Gnome::Gtk4::ScrolledWindow> adds internal B<Gnome::Gtk4::Scrollbar> widgets
@@ -95,7 +74,9 @@ with a subnode named junction.
 
 =head2 Accessibility
 
-B<Gnome::Gtk4::ScrolledWindow> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
+Until GTK 4.10, B<Gnome::Gtk4::ScrolledWindow> used the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+Starting from GTK 4.12, B<Gnome::Gtk4::ScrolledWindow> uses the B<GTK_ACCESSIBLE_ROLE_GENERIC> role.
 
 =begin comment
 
@@ -127,12 +108,6 @@ B<Gnome::Gtk4::ScrolledWindow> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -168,6 +143,10 @@ method new-scrolledwindow ( --> Gnome::Gtk4::ScrolledWindow \)
 =head2 get-child
 
 Gets the child widget of C<$scrolled-window>.
+
+If the scrolled window automatically added a B<Gnome::Gtk4::Viewport>, this
+function will return the viewport widget, and you can retrieve its child
+using C<.get-child() in class Gnome::Gtk4::Viewport>.
 
 =begin code
 method get-child (--> N-Object )
@@ -518,6 +497,10 @@ Return value; the vertical scrollbar of the scrolled window..
 =head2 set-child
 
 Sets the child widget of C<$scrolled-window>.
+
+If C<$child> does not implement the B<Gnome::Gtk4::R-Scrollable> interface,
+the scrolled window will add C<$child> to a B<Gnome::Gtk4::Viewport> instance
+and then add the viewport as its child widget.
 
 =begin code
 method set-child ( N-Object() $child )
@@ -963,7 +946,7 @@ keybinding.
 This is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-B<Ctrl + Tab> to move forward and B<Ctrl + Shift + Tab> to
+B<Ctrl> + Tab` to move forward and B<Ctrl> + Shift + Tab` to
 move backward.
 
 =begin code

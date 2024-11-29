@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Range
-
-![](images/range.png)
-
+=TITLE Gnome::Gtk4::Range
 =head1 Description
 
 B<Gnome::Gtk4::Range> is the common base class for widgets which visualize an
@@ -52,12 +49,6 @@ B<Gnome::Gtk4::Range> provides properties and methods for setting a
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -167,10 +158,10 @@ in coordinates relative to C<$range>'s origin.
 This function is useful mainly for B<Gnome::Gtk4::Range> subclasses.
 
 =begin code
-method get-range-rect ( CArray[N-Rectangle] $range-rect )
+method get-range-rect ( N-Object $range-rect )
 =end code
 
-=item $range-rect; return location for the range rectangle.
+=item $range-rect; return location for the range rectangle
 
 =begin comment
 

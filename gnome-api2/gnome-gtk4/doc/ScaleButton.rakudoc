@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ScaleButton
-
-![](images/scalebutton.png)
-
+=TITLE Gnome::Gtk4::ScaleButton
 =head1 Description
 
 B<Gnome::Gtk4::ScaleButton> provides a button which pops up a scale widget.
@@ -20,15 +17,8 @@ is tailored for this use case.
 
 =head2 CSS nodes
 
-=begin comment
-scalebutton.scale
-╰── button.toggle
-    ╰── <icon>
-
-=end comment
-
-B<Gnome::Gtk4::ScaleButton> has a single CSS node with name scalebutton and B<.scale>
-style class, and contains a B<button> node with a B<.toggle> style class.
+B<Gnome::Gtk4::ScaleButton> has a single CSS node with name scalebutton and `.scale`
+style class, and contains a B<button> node with a `.toggle` style class.
 
 =begin comment
 
@@ -149,6 +139,27 @@ Return value; the adjustment associated with the scale.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-has-frame
+
+Returns whether the button has a frame.
+
+=begin code
+method get-has-frame (--> Bool )
+=end code
+
+Return value; C<True> if the button has a frame. 
+
+=begin comment
+
+=head2 Example
+# Example for get-minus-button
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-minus-button
 
 Retrieves the minus button of the B<Gnome::Gtk4::ScaleButton>.
@@ -163,7 +174,7 @@ Return value; the minus button
 =begin comment
 
 =head2 Example
-# Example for get-minus-button
+# Example for get-plus-button
 
 =end comment
 
@@ -173,7 +184,7 @@ Return value; the minus button
 =begin pod
 =head2 get-plus-button
 
-Retrieves the plus button of the B<GtkScaleButton.>
+Retrieves the plus button of the B<Gnome::Gtk4::ScaleButton>.`
 
 =begin code
 method get-plus-button (--> N-Object )
@@ -185,7 +196,7 @@ Return value; the plus button
 =begin comment
 
 =head2 Example
-# Example for get-plus-button
+# Example for get-popup
 
 =end comment
 
@@ -206,7 +217,7 @@ Return value; the popup of the B<Gnome::Gtk4::ScaleButton>.
 =begin comment
 
 =head2 Example
-# Example for get-popup
+# Example for get-value
 
 =end comment
 
@@ -227,7 +238,7 @@ Return value; current value of the scale button.
 =begin comment
 
 =head2 Example
-# Example for get-value
+# Example for set-adjustment
 
 =end comment
 
@@ -251,7 +262,28 @@ method set-adjustment ( N-Object() $adjustment )
 =begin comment
 
 =head2 Example
-# Example for set-adjustment
+# Example for set-icons
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-has-frame
+
+Sets the style of the button.
+
+=begin code
+method set-has-frame ( Bool() $has-frame )
+=end code
+
+=item $has-frame; whether the button should have a visible frame.
+
+=begin comment
+
+=head2 Example
+# Example for set-value
 
 =end comment
 
@@ -272,7 +304,7 @@ method set-icons ( Array[Str] $icons )
 =begin comment
 
 =head2 Example
-# Example for set-icons
+# Example for signal popdown
 
 =end comment
 
@@ -299,7 +331,7 @@ method set-value ( Num() $value )
 =begin comment
 
 =head2 Example
-# Example for set-value
+# Example for signal popup
 
 =end comment
 
@@ -338,7 +370,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal popdown
+# Example for signal value-changed
 
 =end comment
 
@@ -367,9 +399,9 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
-
-=head2 Example
-# Example for signal popup
+scalebutton.scale
+╰── button.toggle
+    ╰── <icon>
 
 =end comment
 
@@ -393,13 +425,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ScaleButton> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal value-changed
-
-=end comment
 
 =end pod
 
