@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::TreeSelection
-
-![](images/treeselection.png)
-
+=TITLE Gnome::Gtk4::TreeSelection
 =head1 Description
 
 The selection object for GtkTreeView
@@ -61,6 +58,8 @@ select_row on an already selected row).
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -83,6 +82,8 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 count-selected-rows
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the number of rows that have been selected in C<$tree>.
 
 =begin code
@@ -103,6 +104,8 @@ Return value; The number of rows selected..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-mode
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the selection mode for C<$selection>. See
 C<.set-mode()>.
@@ -126,6 +129,8 @@ Return value; the current selection mode.
 =begin pod
 =head2 get-select-function
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the current selection function.
 
 =begin code
@@ -147,6 +152,8 @@ Return value; The function..
 =begin pod
 =head2 get-selected
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$iter> to the currently selected node if C<$selection> is set to
 C<GTK_SELECTION_SINGLE> or C<GTK_SELECTION_BROWSE>.  C<$iter> may be NULL if you
 just want to test if C<$selection> has any selected nodes.  C<$model> is filled
@@ -154,11 +161,11 @@ with the current model as a convenience.  This function will not work if you
 use C<$selection> is C<GTK_SELECTION_MULTIPLE>.
 
 =begin code
-method get-selected ( N-Object() $model, CArray[N-TreeIter] $iter --> Bool )
+method get-selected ( N-Object() $model, N-Object $iter --> Bool )
 =end code
 
 =item $model; A pointer to set to the B<Gnome::Gtk4::R-TreeModel>.
-=item $iter; The B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; The B<Gnome::Gtk4::N-TreeIter>
 
 Return value; TRUE, if there is a selected node.. 
 
@@ -174,6 +181,8 @@ Return value; TRUE, if there is a selected node..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-selected-rows
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a list of path of all selected rows. Additionally, if you are
 planning on modifying the model after calling this function, you may
@@ -208,6 +217,8 @@ Return value; A B<Gnome::Glib::N-List> containing a B<Gnome::Gtk4::N-TreePath> f
 =begin pod
 =head2 get-tree-view
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the tree view associated with C<$selection>.
 
 =begin code
@@ -228,6 +239,8 @@ Return value; A B<Gnome::Gtk4::TreeView>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-user-data
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the user data for the selection function.
 
@@ -250,13 +263,15 @@ Return value; The user data..
 =begin pod
 =head2 iter-is-selected
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if the row at C<$iter> is currently selected.
 
 =begin code
-method iter-is-selected ( CArray[N-TreeIter] $iter --> Bool )
+method iter-is-selected ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; A valid B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; A valid B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True>, if C<$iter> is selected. 
 
@@ -273,14 +288,16 @@ Return value; C<True>, if C<$iter> is selected.
 =begin pod
 =head2 path-is-selected
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if the row pointed to by C<$path> is currently selected.  If C<$path>
 does not point to a valid location, C<False> is returned
 
 =begin code
-method path-is-selected ( CArray[N-TreePath] $path --> Bool )
+method path-is-selected ( N-Object $path --> Bool )
 =end code
 
-=item $path; A B<Gnome::Gtk4::N-TreePath> to check selection on..
+=item $path; A B<Gnome::Gtk4::N-TreePath> to check selection on.
 
 Return value; C<True> if C<$path> is selected.. 
 
@@ -296,6 +313,8 @@ Return value; C<True> if C<$path> is selected..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 select-all
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Selects all the nodes. C<$selection> must be set to C<GTK_SELECTION_MULTIPLE>
 mode.
@@ -317,13 +336,15 @@ method select-all ( )
 =begin pod
 =head2 select-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Selects the specified iterator.
 
 =begin code
-method select-iter ( CArray[N-TreeIter] $iter )
+method select-iter ( N-Object $iter )
 =end code
 
-=item $iter; The B<Gnome::Gtk4::N-TreeIter> to be selected..
+=item $iter; The B<Gnome::Gtk4::N-TreeIter> to be selected.
 
 =begin comment
 
@@ -338,13 +359,15 @@ method select-iter ( CArray[N-TreeIter] $iter )
 =begin pod
 =head2 select-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Select the row at C<$path>.
 
 =begin code
-method select-path ( CArray[N-TreePath] $path )
+method select-path ( N-Object $path )
 =end code
 
-=item $path; The B<Gnome::Gtk4::N-TreePath> to be selected..
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be selected.
 
 =begin comment
 
@@ -359,14 +382,16 @@ method select-path ( CArray[N-TreePath] $path )
 =begin pod
 =head2 select-range
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Selects a range of nodes, determined by C<$start-path> and C<$end-path> inclusive. C<$selection> must be set to C<GTK_SELECTION_MULTIPLE> mode.
 
 =begin code
-method select-range ( CArray[N-TreePath] $start-path, CArray[N-TreePath] $end-path )
+method select-range ( N-Object $start-path, N-Object $end-path )
 =end code
 
-=item $start-path; The initial node of the range..
-=item $end-path; The final node of the range..
+=item $start-path; The initial node of the range.
+=item $end-path; The final node of the range.
 
 =begin comment
 
@@ -381,6 +406,8 @@ method select-range ( CArray[N-TreePath] $start-path, CArray[N-TreePath] $end-pa
 =begin pod
 =head2 selected-foreach
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Calls a function for each selected node. Note that you cannot modify
 the tree or selection from within this function. As a result,
 C<.get-selected-rows()> might be more useful.
@@ -389,7 +416,7 @@ C<.get-selected-rows()> might be more useful.
 method selected-foreach ( &func, gpointer $data )
 =end code
 
-=item &func; The function to call for each selected node.. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreePath $path, N-TreeIter $iter, gpointer $data )>.
+=item &func; The function to call for each selected node.. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $path, N-Object $iter, gpointer $data )>.
 =item $data; user data to pass to the function..
 
 =begin comment
@@ -404,6 +431,8 @@ method selected-foreach ( &func, gpointer $data )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-mode
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the selection mode of the C<$selection>.  If the previous type was
 C<GTK_SELECTION_MULTIPLE>, then the anchor is kept selected, if it was
@@ -429,6 +458,8 @@ method set-mode ( GtkSelectionMode $type )
 =head2 set-select-function
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the selection function.
 
 If set, this function is called before any node is selected or unselected,
@@ -440,7 +471,7 @@ if the state of the node should be left unchanged.
 method set-select-function ( &func, gpointer $data, … )
 =end code
 
-=item &func; The selection function. May be undefined. Tthe function must be specified with following signature; C<:( N-Object $selection, N-Object $model, N-TreePath $path, gboolean $path-currently-selected, gpointer $data --> gboolean )>.
+=item &func; The selection function. May be undefined. Tthe function must be specified with following signature; C<:( N-Object $selection, N-Object $model, N-Object $path, gboolean $path-currently-selected, gpointer $data --> gboolean )>.
 =item $data; The selection function’s data. May be undefined.
 =item destroy; The destroy function for user data.  May be undefined. Note that each argument must be specified as a type followed by its value!
 
@@ -456,6 +487,8 @@ method set-select-function ( &func, gpointer $data, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unselect-all
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Unselects all the nodes.
 
@@ -476,13 +509,15 @@ method unselect-all ( )
 =begin pod
 =head2 unselect-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Unselects the specified iterator.
 
 =begin code
-method unselect-iter ( CArray[N-TreeIter] $iter )
+method unselect-iter ( N-Object $iter )
 =end code
 
-=item $iter; The B<Gnome::Gtk4::N-TreeIter> to be unselected..
+=item $iter; The B<Gnome::Gtk4::N-TreeIter> to be unselected.
 
 =begin comment
 
@@ -497,13 +532,15 @@ method unselect-iter ( CArray[N-TreeIter] $iter )
 =begin pod
 =head2 unselect-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Unselects the row at C<$path>.
 
 =begin code
-method unselect-path ( CArray[N-TreePath] $path )
+method unselect-path ( N-Object $path )
 =end code
 
-=item $path; The B<Gnome::Gtk4::N-TreePath> to be unselected..
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be unselected.
 
 =begin comment
 
@@ -518,15 +555,17 @@ method unselect-path ( CArray[N-TreePath] $path )
 =begin pod
 =head2 unselect-range
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Unselects a range of nodes, determined by C<$start-path> and C<$end-path>
 inclusive.
 
 =begin code
-method unselect-range ( CArray[N-TreePath] $start-path, CArray[N-TreePath] $end-path )
+method unselect-range ( N-Object $start-path, N-Object $end-path )
 =end code
 
-=item $start-path; The initial node of the range..
-=item $end-path; The initial node of the range..
+=item $start-path; The initial node of the range.
+=item $end-path; The initial node of the range.
 
 =begin comment
 

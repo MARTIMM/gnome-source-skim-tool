@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::TreeModelFilter
-
-![](images/treemodelfilter.png)
-
+=TITLE Gnome::Gtk4::TreeModelFilter
 =head1 Description
 
 A B<Gnome::Gtk4::R-TreeModel> which hides parts of an underlying tree model
@@ -103,6 +100,8 @@ yourself.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -124,6 +123,8 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 clear-cache
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 This function should almost never be called. It clears the C<$filter>
 of any cached iterators that haven’t been reffed with
@@ -149,16 +150,18 @@ method clear-cache ( )
 =begin pod
 =head2 convert-child-iter-to-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$filter-iter> to point to the row in C<$filter> that corresponds to the
 row pointed at by C<$child-iter>.  If C<$filter-iter> was not set, C<False> is
 returned.
 
 =begin code
-method convert-child-iter-to-iter ( CArray[N-TreeIter] $filter-iter, CArray[N-TreeIter] $child-iter --> Bool )
+method convert-child-iter-to-iter ( N-Object $filter-iter, N-Object $child-iter --> Bool )
 =end code
 
-=item $filter-iter; An uninitialized B<Gnome::Gtk4::N-TreeIter>.
-=item $child-iter; A valid B<Gnome::Gtk4::N-TreeIter> pointing to a row on the child model..
+=item $filter-iter; An uninitialized B<Gnome::Gtk4::N-TreeIter>
+=item $child-iter; A valid B<Gnome::Gtk4::N-TreeIter> pointing to a row on the child model.
 
 Return value; C<True>, if C<$filter-iter> was set, i.e. if C<$child-iter> is a
 valid iterator pointing to a visible row in child model.. 
@@ -176,6 +179,8 @@ valid iterator pointing to a visible row in child model..
 =begin pod
 =head2 convert-child-path-to-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Converts C<$child-path> to a path relative to C<$filter>. That is, C<$child-path>
 points to a path in the child model. The rerturned path will point to the
 same row in the filtered model. If C<$child-path> isn’t a valid path on the
@@ -183,10 +188,10 @@ child model or points to a row which is not visible in C<$filter>, then undefine
 is returned.
 
 =begin code
-method convert-child-path-to-path ( CArray[N-TreePath] $child-path --> CArray[N-TreePath] )
+method convert-child-path-to-path ( N-Object $child-path --> N-Object )
 =end code
 
-=item $child-path; A B<Gnome::Gtk4::N-TreePath> to convert..
+=item $child-path; A B<Gnome::Gtk4::N-TreePath> to convert.
 
 Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>. 
 
@@ -203,14 +208,16 @@ Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>.
 =begin pod
 =head2 convert-iter-to-child-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$child-iter> to point to the row pointed to by C<$filter-iter>.
 
 =begin code
-method convert-iter-to-child-iter ( CArray[N-TreeIter] $child-iter, CArray[N-TreeIter] $filter-iter )
+method convert-iter-to-child-iter ( N-Object $child-iter, N-Object $filter-iter )
 =end code
 
-=item $child-iter; An uninitialized B<Gnome::Gtk4::N-TreeIter>.
-=item $filter-iter; A valid B<Gnome::Gtk4::N-TreeIter> pointing to a row on C<$filter>..
+=item $child-iter; An uninitialized B<Gnome::Gtk4::N-TreeIter>
+=item $filter-iter; A valid B<Gnome::Gtk4::N-TreeIter> pointing to a row on C<$filter>.
 
 =begin comment
 
@@ -225,15 +232,17 @@ method convert-iter-to-child-iter ( CArray[N-TreeIter] $child-iter, CArray[N-Tre
 =begin pod
 =head2 convert-path-to-child-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Converts C<$filter-path> to a path on the child model of C<$filter>. That is, C<$filter-path> points to a location in C<$filter>. The returned path will
 point to the same location in the model not being filtered. If C<$filter-path>
 does not point to a location in the child model, undefined is returned.
 
 =begin code
-method convert-path-to-child-path ( CArray[N-TreePath] $filter-path --> CArray[N-TreePath] )
+method convert-path-to-child-path ( N-Object $filter-path --> N-Object )
 =end code
 
-=item $filter-path; A B<Gnome::Gtk4::N-TreePath> to convert..
+=item $filter-path; A B<Gnome::Gtk4::N-TreePath> to convert.
 
 Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>. 
 
@@ -249,6 +258,8 @@ Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-model
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns a pointer to the child model of C<$filter>.
 
@@ -271,6 +282,8 @@ Return value; A pointer to a B<Gnome::Gtk4::R-TreeModel>.
 =begin pod
 =head2 refilter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Emits I<row_changed> for each row in the child model, which causes
 the filter to re-evaluate whether a row is visible or not.
 
@@ -292,6 +305,8 @@ method refilter ( )
 =head2 set-modify-func
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 With the C<$n-columns> and C<$types> parameters, you give an array of column
 types for this model (which will be exposed to the parent model/view).
 The C<$func>, C<$data> and C<$destroy> parameters are for specifying the modify
@@ -309,7 +324,7 @@ method set-modify-func ( Int() $n-columns, …, &func, gpointer $data, … )
 
 =item $n-columns; The number of columns in the filter model..
 =item types; The B<Gnome::GObject::TreeModelFilter>s of the columns.. Note that each argument must be specified as a type followed by its value!
-=item &func; A B<Gnome::Gtk4::T-TreeModelFilter>. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreeIter $iter, N-Value $value, gint $column, gpointer $data )>.
+=item &func; A B<Gnome::Gtk4::T-treemodelfilter>. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $iter, N-Object $value, gint $column, gpointer $data )>.
 =item $data; User data to pass to the modify function.
 =item destroy; Destroy notifier of C<$data>. Note that each argument must be specified as a type followed by its value!
 
@@ -325,6 +340,8 @@ method set-modify-func ( Int() $n-columns, …, &func, gpointer $data, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-visible-column
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets C<$column> of the child_model to be the column where C<$filter> should
 look for visibility information. C<$columns> should be a column of type
@@ -354,6 +371,8 @@ method set-visible-column ( Int() $column )
 =begin pod
 =head2 set-visible-func
 This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the visible function used when filtering the C<$filter> to be C<$func>.
 The function should return C<True> if the given row should be visible and
@@ -397,7 +416,7 @@ once for a given filter model.
 method set-visible-func ( &func, gpointer $data, … )
 =end code
 
-=item &func; A B<Gnome::Gtk4::T-TreeModelFilter>, the visible function. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreeIter $iter, gpointer $data --> gboolean )>.
+=item &func; A B<Gnome::Gtk4::T-treemodelfilter>, the visible function. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $iter, gpointer $data --> gboolean )>.
 =item $data; User data to pass to the visible function.
 =item destroy; Destroy notifier of C<$data>. Note that each argument must be specified as a type followed by its value!
 

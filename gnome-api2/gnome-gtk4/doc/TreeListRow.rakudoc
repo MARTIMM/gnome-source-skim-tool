@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::TreeListRow
-
-![](images/treelistrow.png)
-
+=TITLE Gnome::Gtk4::TreeListRow
 =head1 Description
 
 B<Gnome::Gtk4::TreeListRow> is used by B<Gnome::Gtk4::TreeListModel> to represent items.
@@ -125,7 +122,8 @@ Rows that correspond to items in the root model have a depth
 of zero, rows corresponding to items of models of direct children
 of the root model have a depth of 1 and so on.
 
-The depth of a row never changes until the row is destroyed.
+The depth of a row never changes until the row is removed from its model
+at which point it will forever return 0.
 
 =begin code
 method get-depth (--> UInt )
@@ -169,15 +167,13 @@ Return value; C<True> if the row is expanded.
 
 Gets the item corresponding to this row,
 
-The value returned by this function never changes until the
-row is destroyed.
-
 =begin code
 method get-item (--> gpointer )
 =end code
 
 Return value; The item
-  of this row or undefined when the row was destroyed. 
+  of this row. This function is only marked as nullable for backwards
+  compatibility reasons.. 
 
 =begin comment
 
@@ -201,7 +197,8 @@ If C<$self> is a row corresponding to the root model,
 undefined is returned.
 
 The value returned by this function never changes
-until the row is destroyed.
+until the row is removed from its model at which point
+it will forever return undefined.
 
 =begin code
 method get-parent (--> N-Object )
@@ -249,7 +246,8 @@ Checks if a row can be expanded.
 This does not mean that the row is actually expanded,
 this can be checked with C<.get-expanded()>.
 
-If a row is expandable never changes until the row is destroyed.
+If a row is expandable never changes until the row is removed
+from its model at which point it will forever return C<False>.
 
 =begin code
 method is-expandable (--> Bool )

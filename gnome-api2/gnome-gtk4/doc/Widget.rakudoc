@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Widget
-
-![](images/widget.png)
-
+=TITLE Gnome::Gtk4::Widget
 =head1 Description
 
 The base class for all widgets.
@@ -52,13 +49,13 @@ in the  C<enumeration SizeRequestMode from Gnome::Gtk4::T-enums>  chosen by the 
 For example, when queried in the normal C<GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH> mode:
 
 First, the default minimum and natural width for each widget
-in the interface will be computed using [id C<$gtk-widget-measure>] with an
+in the interface will be computed using C<.measure()> with an
 orientation of C<GTK_ORIENTATION_HORIZONTAL> and a for_size of -1.
 Because the preferred widths for each widget depend on the preferred
 widths of their children, this information propagates up the hierarchy,
 and finally a minimum and natural width is determined for the entire
 toplevel. Next, the toplevel will use the minimum width to query for the
-minimum height contextual to that width using [id C<$gtk-widget-measure>] with an
+minimum height contextual to that width using C<.measure()> with an
 orientation of C<GTK_ORIENTATION_VERTICAL> and a for_size of the just computed
 width. This will also be a highly recursive operation. The minimum height
 for the minimum width is normally used to set the minimum size constraint
@@ -95,40 +92,12 @@ Here are some examples of how a C<GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH> widget
 generally deals with width-for-height requests:
 
 =begin comment
-static void
-foo_widget_measure (GtkWidget      *widget,
-                    GtkOrientation  orientation,
-                    int             for_size,
-                    int            *minimum_size,
-                    int            *natural_size,
-                    int            *minimum_baseline,
-                    int            *natural_baseline)
-{
-  if (orientation == GTK_ORIENTATION_HORIZONTAL)
-    {
-      // Calculate minimum and natural width
-    }
-  else // VERTICAL
-    {
-      if (i_am_in_height_for_width_mode)
-        {
-          int min_width, dummy;
-
-          // First, get the minimum width of our widget
-          GTK_WIDGET_GET_CLASS (widget)->measure (widget, GTK_ORIENTATION_HORIZONTAL, -1,
-                                                  &min_width, &dummy, &dummy, &dummy);
-
-          // Now use the minimum width to retrieve the minimum and natural height to display
-          // that width.
-          GTK_WIDGET_GET_CLASS (widget)->measure (widget, GTK_ORIENTATION_VERTICAL, min_width,
-                                                  minimum_size, natural_size, &dummy, &dummy);
-        }
-      else
-        {
-          // ... some widgets do both.
-        }
-    }
-}
+<object class="GtkButton" id="button1">
+  <accessibility>
+    <property name="label">Download</property>
+    <relation name="labelled-by">label1</relation>
+  </accessibility>
+</object>
 
 =end comment
 
@@ -150,14 +119,14 @@ twice. GTK therefore does not allow this and will warn if you try
 to do it.
 
 Of course if you are getting the size request for another widget, such
-as a child widget, you must use [id C<$gtk-widget-measure>]; otherwise, you
+as a child widget, you must use C<.measure()>; otherwise, you
 would not properly consider widget margins, B<Gnome::Gtk4::SizeGroup>, and
 so forth.
 
 GTK also supports baseline vertical alignment of widgets. This
 means that widgets are positioned such that the typographical baseline of
 widgets in the same row are aligned. This happens if a widget supports
-baselines, has a vertical alignment of C<GTK_ALIGN_BASELINE>, and is inside
+baselines, has a vertical alignment using baselines, and is inside
 a widget that supports baselines and has a natural “row” that it aligns to
 the baseline, or a baseline assigned to it by the grandparent.
 
@@ -167,7 +136,7 @@ both a minimum and natural size.
 
 If a widget ends up baseline aligned it will be allocated all the space in
 the parent as if it was C<GTK_ALIGN_FILL>, but the selected baseline can be
-found via [id C<$gtk-widget-get-allocated-baseline>]. If the baseline has a
+found via C<.get-baseline()>. If the baseline has a
 value other than -1 you need to align the widget such that the baseline
 appears at the position.
 
@@ -178,94 +147,7 @@ supports various custom elements to specify additional aspects of widgets
 that are not directly expressed as properties.
 
 If the widget uses a B<Gnome::Gtk4::LayoutManager>, B<Gnome::Gtk4::Widget> supports
-a custom B<<layout>> element, used to define layout properties:
-
-=begin comment
-<object class="GtkGrid" id="my_grid">
-  <child>
-    <object class="GtkLabel" id="label1">
-      <property name="label">Description</property>
-      <layout>
-        <property name="column">0</property>
-        <property name="row">0</property>
-        <property name="row-span">1</property>
-        <property name="column-span">1</property>
-      </layout>
-    </object>
-  </child>
-  <child>
-    <object class="GtkEntry" id="description_entry">
-      <layout>
-        <property name="column">1</property>
-        <property name="row">0</property>
-        <property name="row-span">1</property>
-        <property name="column-span">1</property>
-      </layout>
-    </object>
-  </child>
-</object>
-
-=end comment
-
-B<Gnome::Gtk4::Widget> allows style information such as style classes to
-be associated with widgets, using the custom B<<style>> element:
-
-=begin comment
-<object class="GtkButton" id="button1">
-  <style>
-    <class name="my-special-button-class"/>
-    <class name="dark-button"/>
-  </style>
-</object>
-
-=end comment
-
-B<Gnome::Gtk4::Widget> allows defining accessibility information, such as properties,
-relations, and states, using the custom B<<accessibility>> element:
-
-=begin comment
-<object class="GtkButton" id="button1">
-  <accessibility>
-    <property name="label">Download</property>
-    <relation name="labelled-by">label1</relation>
-  </accessibility>
-</object>
-
-=end comment
-
-=head4 Building composite widgets from template XML
-
-B<GtkWidget >exposes some facilities to automate the procedure
-of creating composite widgets using "templates".
-
-To create composite widgets with B<Gnome::Gtk4::Builder> XML, one must associate
-the interface description with the widget class at class initialization
-time using C<.set-template() in class Gnome::Gtk4::Widget>.
-
-The interface description semantics expected in composite template descriptions
-is slightly different from regular B<Gnome::Gtk4::Builder> XML.
-
-Unlike regular interface descriptions, C<.set-template() in class Gnome::Gtk4::Widget> will
-expect a B<<template>> tag as a direct child of the toplevel B<<interface>>
-tag. The B<<template>> tag must specify the “class” attribute which must be
-the type name of the widget. Optionally, the “parent” attribute may be
-specified to specify the direct parent type of the widget type, this is
-ignored by B<Gnome::Gtk4::Builder> but required for UI design tools like
-[Glade](https://glade.gnome.org/) to introspect what kind of properties and
-internal children exist for a given type when the actual type does not exist.
-
-The XML which is contained inside the B<<template>> tag behaves as if it were
-added to the B<<object>> tag defining the widget itself. You may set properties
-on a widget by inserting B<<property>> tags into the B<<template>> tag, and also
-add B<<child>> tags to add children and extend a widget in the normal way you
-would with B<<object>> tags.
-
-Additionally, B<<object>> tags can also be added before and after the initial
-B<<template>> tag in the normal way, allowing one to define auxiliary objects
-which might be referenced by other widgets declared as children of the
-B<<template>> tag.
-
-An example of a template definition:
+a custom `<layout>` element, used to define layout properties:
 
 =begin comment
 <interface>
@@ -288,10 +170,8 @@ An example of a template definition:
 
 =end comment
 
-Typically, you'll place the template fragment into a file that is
-bundled with your project, using B<Gnome::Gio::N-Resource>. In order to load the
-template, you need to call C<.set-template-from-resource() in class Gnome::Gtk4::Widget>
-from the class initialization of your B<Gnome::Gtk4::Widget> type:
+B<Gnome::Gtk4::Widget> allows style information such as style classes to
+be associated with widgets, using the custom `<style>` element:
 
 =begin comment
 static void
@@ -305,8 +185,8 @@ foo_widget_class_init (FooWidgetClass *klass)
 
 =end comment
 
-You will also need to call C<.init-template()> from the
-instance initialization function:
+B<Gnome::Gtk4::Widget> allows defining accessibility information, such as properties,
+relations, and states, using the custom `<accessibility>` element:
 
 =begin comment
 static void
@@ -318,13 +198,45 @@ foo_widget_init (FooWidget *self)
 
 =end comment
 
-You can access widgets defined in the template using the
-[id C<$gtk-widget-get-template-child>] function, but you will typically declare
-a pointer in the instance private data structure of your type using the same
-name as the widget in the template definition, and call
-C<.bind-template-child-full() in class Gnome::Gtk4::Widget> (or one of its wrapper macros
-C<.widget-class-bind-template-child()> and C<.widget-class-bind-template-child-private()>)
-with that name, e.g.
+=head4 Building composite widgets from template XML
+
+B<Gnome::Gtk4::Widget> B<exposes> some facilities to automate the procedure
+of creating composite widgets using "templates".
+
+To create composite widgets with B<Gnome::Gtk4::Builder> XML, one must associate
+the interface description with the widget class at class initialization
+time using C<.set-template() in class Gnome::Gtk4::Widget>.
+
+The interface description semantics expected in composite template descriptions
+is slightly different from regular B<Gnome::Gtk4::Builder> XML.
+
+Unlike regular interface descriptions, C<.set-template() in class Gnome::Gtk4::Widget>
+will expect a `<template>` tag as a direct child of the toplevel
+`<interface>` tag. The `<template>` tag must specify the “class” attribute
+which must be the type name of the widget. Optionally, the “parent”
+attribute may be specified to specify the direct parent type of the widget
+type; this is ignored by B<Gnome::Gtk4::Builder> but can be used by UI design tools to
+introspect what kind of properties and internal children exist for a given
+type when the actual type does not exist.
+
+The XML which is contained inside the `<template>` tag behaves as if it were
+added to the `<object>` tag defining the widget itself. You may set properties
+on a widget by inserting `<property>` tags into the `<template>` tag, and also
+add `<child>` tags to add children and extend a widget in the normal way you
+would with `<object>` tags.
+
+Additionally, `<object>` tags can also be added before and after the initial
+`<template>` tag in the normal way, allowing one to define auxiliary objects
+which might be referenced by other widgets declared as children of the
+`<template>` tag.
+
+Since, unlike the `<object>` tag, the `<template>` tag does not contain an
+“id” attribute, if you need to refer to the instance of the object itself that
+the template will create, simply refer to the template class name in an
+applicable element content.
+
+Here is an example of a template definition, which includes an example of
+this in the `<signal>` tag:
 
 =begin comment
 typedef struct {
@@ -354,10 +266,10 @@ foo_widget_init (FooWidget *widget)
 
 =end comment
 
-You can also use C<.bind-template-callback-full() in class Gnome::Gtk4::Widget> (or
-is wrapper macro C<.widget-class-bind-template-callback()>) to connect
-a signal callback defined in the template with a function visible in the
-scope of the class, e.g.
+Typically, you'll place the template fragment into a file that is
+bundled with your project, using B<Gnome::Gio::N-Resource>. In order to load the
+template, you need to call C<.set-template-from-resource() in class Gnome::Gtk4::Widget>
+from the class initialization of your B<Gnome::Gtk4::Widget> type:
 
 =begin comment
 // the signal handler has the instance and user data swapped
@@ -379,6 +291,25 @@ foo_widget_class_init (FooWidgetClass *klass)
 }
 
 =end comment
+
+You will also need to call C<.init-template()> from the
+instance initialization function:
+
+as well as calling C<.dispose-template()> from the dispose
+function:
+
+You can access widgets defined in the template using the
+C<.get-template-child()> function, but you will typically declare
+a pointer in the instance private data structure of your type using the same
+name as the widget in the template definition, and call
+C<.bind-template-child-full() in class Gnome::Gtk4::Widget> (or one of its wrapper macros
+C<.widget-class-bind-template-child()> and C<.widget-class-bind-template-child-private()>)
+with that name, e.g.
+
+You can also use C<.bind-template-callback-full() in class Gnome::Gtk4::Widget> (or
+is wrapper macro C<.widget-class-bind-template-callback()>) to connect
+a signal callback defined in the template with a function visible in the
+scope of the class, e.g.
 
 =begin comment
 
@@ -494,8 +425,7 @@ method activate-action ( Str $name, Str $format-string, … --> Bool )
 =end code
 
 =item $name; the name of the action to activate.
-=item $format-string; GVariant format string for arguments or undefined
-  for no arguments.
+=item $format-string; GVariant format string for arguments.
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 Return value; C<True> if the action was activated, C<False> if the action
@@ -522,14 +452,14 @@ to be prefixed with the prefix that was used when the group was
 inserted.
 
 The arguments must match the actions expected parameter type,
-as returned by B<g_action_get_parameter_type()>.
+as returned by B<g_action_get_parameter_type>()`.
 
 =begin code
-method activate-action-variant ( Str $name, CArray[N-Variant] $args --> Bool )
+method activate-action-variant ( Str $name, N-Object $args --> Bool )
 =end code
 
 =item $name; the name of the action to activate.
-=item $args; parameters to use.
+=item $args; parameters to use
 
 Return value; C<True> if the action was activated, C<False> if the
   action does not exist.. 
@@ -547,7 +477,7 @@ Return value; C<True> if the action was activated, C<False> if the
 =begin pod
 =head2 activate-default
 
-Activates the B<default.activate> action from C<$widget>.
+Activates the B<default>.activate` action from C<$widget>.
 
 =begin code
 method activate-default ( )
@@ -593,7 +523,7 @@ method add-controller ( N-Object() $controller )
 
 Adds a style class to C<$widget>.
 
-After calling this function, the widgets style will match
+After calling this function, the widget’s style will match
 for C<$css-class>, according to CSS matching rules.
 
 Use C<.remove-css-class()> to remove the
@@ -693,7 +623,6 @@ Return value; an id for the connection of this callback. Remove the callback
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 allocate
-This function is not yet available
 
 This function is only used by B<Gnome::Gtk4::Widget> subclasses, to
 assign a size, position and (optionally) baseline to their
@@ -707,13 +636,13 @@ For a version that does not take a transform, see
 C<.size-allocate()>.
 
 =begin code
-method allocate ( Int() $width, Int() $height, Int() $baseline, CArray[N-Transform]  $transform )
+method allocate ( Int() $width, Int() $height, Int() $baseline, N-Object $transform )
 =end code
 
 =item $width; New width of C<$widget>.
 =item $height; New height of C<$widget>.
 =item $baseline; New baseline of C<$widget>, or -1.
-=item $transform; (transfer ownership: full) Transformation to be applied to C<$widget>.
+=item $transform; (transfer ownership: full) Transformation to be applied to C<$widget>
 
 =begin comment
 
@@ -738,10 +667,10 @@ This function calls the [vfunc C<$Gtk>.Widget.focus] virtual function; widgets
 can override the virtual function in order to implement appropriate focus
 behavior.
 
-The default B<focus()> virtual function for a widget should return C<True> if
+The default B<focus>()` virtual function for a widget should return C<True> if
 moving in C<$direction> left the focus on a focusable location inside that
 widget, and C<False> if moving in C<$direction> moved the focus outside the
-widget. When returning C<True>, widgets normallycall C<.grab-focus()>
+widget. When returning C<True>, widgets normally call C<.grab-focus()>
 to place the focus accordingly; when returning C<False>, they don’t modify
 the current focus location.
 
@@ -769,11 +698,12 @@ Return value; C<True> if focus ended up inside C<$widget>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 compute-bounds
-This function is not yet available
 
 Computes the bounds for C<$widget> in the coordinate space of C<$target>.
 
-FIXME: Explain what "bounds" are.
+The bounds of widget are (the bounding box of) the region that it is
+expected to draw in. See the [coordinate system](coordinates.html)
+overview to learn more.
 
 If the operation is successful, C<True> is returned. If C<$widget> has no
 bounds or the bounds cannot be expressed in C<$target>'s coordinate space
@@ -783,11 +713,11 @@ returned and C<$bounds> is set to the zero rectangle.
 It is valid for C<$widget> and C<$target> to be the same widget.
 
 =begin code
-method compute-bounds ( N-Object() $target, … --> Bool )
+method compute-bounds ( N-Object() $target, N-Object $out-bounds --> Bool )
 =end code
 
 =item $target; the B<Gnome::Gtk4::Widget>.
-=item out-bounds; the rectangle taking the bounds. Note that each argument must be specified as a type followed by its value!
+=item $out-bounds; the rectangle taking the bounds
 
 Return value; C<True> if the bounds could be computed. 
 
@@ -838,7 +768,6 @@ Return value; whether widget tree rooted here should be expanded.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 compute-point
-This function is not yet available
 
 Translates the given C<$point> in C<$widget>'s coordinates to coordinates
 relative to C<$target>’s coordinate system.
@@ -847,13 +776,13 @@ In order to perform this operation, both widgets must share a
 common ancestor.
 
 =begin code
-method compute-point ( N-Object() $target, …, … --> Bool )
+method compute-point ( N-Object() $target, N-Object $point, N-Object $out-point --> Bool )
 =end code
 
 =item $target; the B<Gnome::Gtk4::Widget> to transform into.
-=item point; a point in C<$widget>'s coordinate system. Note that each argument must be specified as a type followed by its value!
-=item out-point; Set to the corresponding coordinates in
-  C<$target>'s coordinate system. Note that each argument must be specified as a type followed by its value!
+=item $point; a point in C<$widget>'s coordinate system
+=item $out-point; Set to the corresponding coordinates in
+  C<$target>'s coordinate system
 
 Return value; C<True> if the point could be determined, C<False> on failure.
   In this case, 0 is stored in C<$out-point>.. 
@@ -870,7 +799,6 @@ Return value; C<True> if the point could be determined, C<False> on failure.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 compute-transform
-This function is not yet available
 
 Computes a matrix suitable to describe a transformation from C<$widget>'s coordinate system into C<$target>'s coordinate system.
 
@@ -878,13 +806,16 @@ The transform can not be computed in certain cases, for example
 when C<$widget> and C<$target> do not share a common ancestor. In that
 case C<$out-transform> gets set to the identity matrix.
 
+To learn more about widget coordinate systems, see the coordinate
+system [overview](coordinates.html).
+
 =begin code
-method compute-transform ( N-Object() $target, … --> Bool )
+method compute-transform ( N-Object() $target, N-Object $out-transform --> Bool )
 =end code
 
 =item $target; the target widget that the matrix will transform to.
-=item out-transform; location to
-  store the final transformation. Note that each argument must be specified as a type followed by its value!
+=item $out-transform; location to
+  store the final transformation
 
 Return value; C<True> if the transform could be computed, C<False> otherwise. 
 
@@ -981,6 +912,38 @@ Return value; the new B<Gnome::Pango::Layout>.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 dispose-template
+
+Clears the template children for the given widget.
+
+This function is the opposite of C<.init-template()>, and
+it is used to clear all the template children from a widget instance.
+If you bound a template child to a field in the instance structure, or
+in the instance private data structure, the field will be set to undefined
+after this function returns.
+
+You should call this function inside the B<GObjectClass>.dispose()`
+implementation of any widget that called B<C><.init-template()>`.
+Typically, you will want to call this function last, right before
+chaining up to the parent type's dispose implementation, e.g.
+
+=begin code
+method dispose-template ( GType $widget-type )
+=end code
+
+=item $widget-type; the type of the widget to finalize the template for.
+
+=begin comment
+
+=head2 Example
+# Example for drag-check-threshold
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 drag-check-threshold
 
 Checks to see if a drag movement has passed the GTK drag threshold.
@@ -999,7 +962,7 @@ Return value; C<True> if the drag threshold has been passed..
 =begin comment
 
 =head2 Example
-# Example for drag-check-threshold
+# Example for error-bell
 
 =end comment
 
@@ -1025,7 +988,7 @@ method error-bell ( )
 =begin comment
 
 =head2 Example
-# Example for error-bell
+# Example for get-allocated-baseline
 
 =end comment
 
@@ -1034,6 +997,8 @@ method error-bell ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-allocated-baseline
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
 
 Returns the baseline that has currently been allocated to C<$widget>.
 
@@ -1050,7 +1015,7 @@ Return value; the baseline of the C<$widget>, or -1 if none.
 =begin comment
 
 =head2 Example
-# Example for get-allocated-baseline
+# Example for get-allocated-height
 
 =end comment
 
@@ -1060,34 +1025,18 @@ Return value; the baseline of the C<$widget>, or -1 if none.
 =begin pod
 =head2 get-allocated-height
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
+
 Returns the height that has currently been allocated to C<$widget>.
+
+To learn more about widget sizes, see the coordinate
+system [overview](coordinates.html).
 
 =begin code
 method get-allocated-height (--> Int )
 =end code
 
 Return value; the height of the C<$widget>. 
-
-=begin comment
-
-=head2 Example
-# Example for get-allocated-height
-
-=end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-=head2 get-allocated-width
-
-Returns the width that has currently been allocated to C<$widget>.
-
-=begin code
-method get-allocated-width (--> Int )
-=end code
-
-Return value; the width of the C<$widget>. 
 
 =begin comment
 
@@ -1100,8 +1049,36 @@ Return value; the width of the C<$widget>.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-allocated-width
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
+
+Returns the width that has currently been allocated to C<$widget>.
+
+To learn more about widget sizes, see the coordinate
+system [overview](coordinates.html).
+
+=begin code
+method get-allocated-width (--> Int )
+=end code
+
+Return value; the width of the C<$widget>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-allocation
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-allocation
 This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
 
 Retrieves the widget’s allocation.
 
@@ -1128,7 +1105,7 @@ method get-allocation ( … )
 =begin comment
 
 =head2 Example
-# Example for get-allocation
+# Example for get-ancestor
 
 =end comment
 
@@ -1140,7 +1117,7 @@ method get-allocation ( … )
 
 Gets the first ancestor of C<$widget> with type C<$widget-type>.
 
-For example, B<gtk_widget_get_ancestor (widget, GTK_TYPE_BOX)>
+For example, B<gtk_widget_get_ancestor> (widget, GTK_TYPE_BOX)`
 gets the first B<Gnome::Gtk4::Box> that’s an ancestor of C<$widget>. No
 reference will be added to the returned widget; it should
 not be unreferenced.
@@ -1159,7 +1136,32 @@ Return value; the ancestor widget.
 =begin comment
 
 =head2 Example
-# Example for get-ancestor
+# Example for get-can-focus
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-baseline
+
+Returns the baseline that has currently been allocated to C<$widget>.
+
+This function is intended to be used when implementing handlers
+for the B<Gnome::Gtk4::Widget>Class.snapshot() function, and when allocating
+child widgets in B<Gnome::Gtk4::Widget>Class.size_allocate().
+
+=begin code
+method get-baseline (--> Int )
+=end code
+
+Return value; the baseline of the C<$widget>, or -1 if none. 
+
+=begin comment
+
+=head2 Example
+# Example for get-can-target
 
 =end comment
 
@@ -1183,7 +1185,7 @@ Return value; C<True> if the input focus can enter C<$widget>, C<False> otherwis
 =begin comment
 
 =head2 Example
-# Example for get-can-focus
+# Example for get-child-visible
 
 =end comment
 
@@ -1204,7 +1206,7 @@ Return value; C<True> if C<$widget> can receive pointer events.
 =begin comment
 
 =head2 Example
-# Example for get-can-target
+# Example for get-clipboard
 
 =end comment
 
@@ -1231,7 +1233,7 @@ Return value; C<True> if the widget is mapped with the parent..
 =begin comment
 
 =head2 Example
-# Example for get-child-visible
+# Example for get-css-classes
 
 =end comment
 
@@ -1258,7 +1260,33 @@ Return value; the appropriate clipboard object.
 =begin comment
 
 =head2 Example
-# Example for get-clipboard
+# Example for get-css-name
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-color
+
+Gets the current foreground color for the widget’s
+CSS style.
+
+This function should only be used in snapshot
+implementations that need to do custom
+drawing with the foreground color.
+
+=begin code
+method get-color ( N-Object $color )
+=end code
+
+=item $color; return location for the color
+
+=begin comment
+
+=head2 Example
+# Example for get-cursor
 
 =end comment
 
@@ -1281,7 +1309,7 @@ Return value; a undefined-terminated list of
 =begin comment
 
 =head2 Example
-# Example for get-css-classes
+# Example for get-direction
 
 =end comment
 
@@ -1302,7 +1330,7 @@ Return value; the CSS name.
 =begin comment
 
 =head2 Example
-# Example for get-css-name
+# Example for get-display
 
 =end comment
 
@@ -1326,7 +1354,7 @@ Return value; the cursor
 =begin comment
 
 =head2 Example
-# Example for get-cursor
+# Example for get-first-child
 
 =end comment
 
@@ -1349,7 +1377,7 @@ Return value; the reading direction for the widget..
 =begin comment
 
 =head2 Example
-# Example for get-direction
+# Example for get-focus-child
 
 =end comment
 
@@ -1379,7 +1407,7 @@ Return value; the B<Gnome::Gdk4::Display> for the toplevel
 =begin comment
 
 =head2 Example
-# Example for get-display
+# Example for get-focus-on-click
 
 =end comment
 
@@ -1389,7 +1417,7 @@ Return value; the B<Gnome::Gdk4::Display> for the toplevel
 =begin pod
 =head2 get-first-child
 
-Returns the widgets first child.
+Returns the widget’s first child.
 
 This API is primarily meant for widget implementations.
 
@@ -1402,7 +1430,7 @@ Return value; The widget's first child.
 =begin comment
 
 =head2 Example
-# Example for get-first-child
+# Example for get-focusable
 
 =end comment
 
@@ -1424,7 +1452,7 @@ Return value; The current focus
 =begin comment
 
 =head2 Example
-# Example for get-focus-child
+# Example for get-font-map
 
 =end comment
 
@@ -1449,7 +1477,7 @@ Return value; C<True> if the widget should grab focus when it is
 =begin comment
 
 =head2 Example
-# Example for get-focus-on-click
+# Example for get-font-options
 
 =end comment
 
@@ -1472,7 +1500,7 @@ Return value; C<True> if C<$widget> can own the input focus, C<False> otherwise.
 =begin comment
 
 =head2 Example
-# Example for get-focusable
+# Example for get-frame-clock
 
 =end comment
 
@@ -1495,7 +1523,7 @@ Return value; A B<Gnome::Pango::FontMap>.
 =begin comment
 
 =head2 Example
-# Example for get-font-map
+# Example for get-halign
 
 =end comment
 
@@ -1504,14 +1532,13 @@ Return value; A B<Gnome::Pango::FontMap>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-font-options
-This function is not yet available
 
 Returns the B<Gnome::Cairo::N-Context> of widget.
 
 Seee C<.set-font-options()>.
 
 =begin code
-method get-font-options (--> CArray[N-_font_options_t]  )
+method get-font-options (--> N-Object )
 =end code
 
 Return value; the B<Gnome::Cairo::N-Context>
@@ -1520,7 +1547,7 @@ Return value; the B<Gnome::Cairo::N-Context>
 =begin comment
 
 =head2 Example
-# Example for get-font-options
+# Example for get-has-tooltip
 
 =end comment
 
@@ -1562,7 +1589,7 @@ Return value; a B<Gnome::Gdk4::FrameClock>.
 =begin comment
 
 =head2 Example
-# Example for get-frame-clock
+# Example for get-height
 
 =end comment
 
@@ -1575,9 +1602,10 @@ Return value; a B<Gnome::Gdk4::FrameClock>.
 Gets the horizontal alignment of C<$widget>.
 
 For backwards compatibility reasons this method will never return
-C<GTK_ALIGN_BASELINE>, but instead it will convert it to
-C<GTK_ALIGN_FILL>. Baselines are not supported for horizontal
-alignment.
+one of the baseline alignments, but instead it will convert it to
+B<GTK_ALIGN_FILL> or B<GTK_ALIGN_CENTER>.
+
+Baselines are not supported for horizontal alignment.
 
 =begin code
 method get-halign (--> GtkAlign )
@@ -1588,7 +1616,7 @@ Return value; the horizontal alignment of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-halign
+# Example for get-hexpand
 
 =end comment
 
@@ -1598,18 +1626,18 @@ Return value; the horizontal alignment of C<$widget>.
 =begin pod
 =head2 get-has-tooltip
 
-Returns the current value of the B<has-tooltip> property.
+Returns the current value of the B<has>-tooltip` property.
 
 =begin code
 method get-has-tooltip (--> Bool )
 =end code
 
-Return value; current value of B<has-tooltip> on C<$widget>.. 
+Return value; current value of B<has>-tooltip` on C<$widget>.. 
 
 =begin comment
 
 =head2 Example
-# Example for get-has-tooltip
+# Example for get-hexpand-set
 
 =end comment
 
@@ -1627,6 +1655,9 @@ should be using in [vfunc C<$Gtk>.Widget.snapshot].
 
 For pointer events, see C<.contains()>.
 
+To learn more about widget sizes, see the coordinate
+system [overview](coordinates.html).
+
 =begin code
 method get-height (--> Int )
 =end code
@@ -1636,7 +1667,7 @@ Return value; The height of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-height
+# Example for get-last-child
 
 =end comment
 
@@ -1672,7 +1703,7 @@ Return value; whether hexpand flag is set.
 =begin comment
 
 =head2 Example
-# Example for get-hexpand
+# Example for get-layout-manager
 
 =end comment
 
@@ -1702,7 +1733,7 @@ Return value; whether hexpand has been explicitly set.
 =begin comment
 
 =head2 Example
-# Example for get-hexpand-set
+# Example for get-mapped
 
 =end comment
 
@@ -1712,7 +1743,7 @@ Return value; whether hexpand has been explicitly set.
 =begin pod
 =head2 get-last-child
 
-Returns the widgets last child.
+Returns the widget’s last child.
 
 This API is primarily meant for widget implementations.
 
@@ -1725,7 +1756,7 @@ Return value; The widget's last child.
 =begin comment
 
 =head2 Example
-# Example for get-last-child
+# Example for get-margin-bottom
 
 =end comment
 
@@ -1748,7 +1779,7 @@ Return value; a B<Gnome::Gtk4::LayoutManager>.
 =begin comment
 
 =head2 Example
-# Example for get-layout-manager
+# Example for get-margin-end
 
 =end comment
 
@@ -1769,7 +1800,7 @@ Return value; C<True> if the widget is mapped, C<False> otherwise..
 =begin comment
 
 =head2 Example
-# Example for get-mapped
+# Example for get-margin-start
 
 =end comment
 
@@ -1790,7 +1821,7 @@ Return value; The bottom margin of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-margin-bottom
+# Example for get-margin-top
 
 =end comment
 
@@ -1811,7 +1842,7 @@ Return value; The end margin of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-margin-end
+# Example for get-name
 
 =end comment
 
@@ -1832,7 +1863,7 @@ Return value; The start margin of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-margin-start
+# Example for get-native
 
 =end comment
 
@@ -1853,7 +1884,7 @@ Return value; The top margin of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-margin-top
+# Example for get-next-sibling
 
 =end comment
 
@@ -1877,7 +1908,7 @@ Return value; name of the widget. This string is owned by GTK and
 =begin comment
 
 =head2 Example
-# Example for get-name
+# Example for get-opacity
 
 =end comment
 
@@ -1903,7 +1934,7 @@ Return value; the B<Gnome::Gtk4::R-Native> ancestor of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-native
+# Example for get-overflow
 
 =end comment
 
@@ -1913,7 +1944,7 @@ Return value; the B<Gnome::Gtk4::R-Native> ancestor of C<$widget>.
 =begin pod
 =head2 get-next-sibling
 
-Returns the widgets next sibling.
+Returns the widget’s next sibling.
 
 This API is primarily meant for widget implementations.
 
@@ -1926,7 +1957,7 @@ Return value; The widget's next sibling.
 =begin comment
 
 =head2 Example
-# Example for get-next-sibling
+# Example for get-pango-context
 
 =end comment
 
@@ -1949,7 +1980,7 @@ Return value; the requested opacity for this widget..
 =begin comment
 
 =head2 Example
-# Example for get-opacity
+# Example for get-parent
 
 =end comment
 
@@ -1959,7 +1990,7 @@ Return value; the requested opacity for this widget..
 =begin pod
 =head2 get-overflow
 
-Returns the widgets overflow value.
+Returns the widget’s overflow value.
 
 =begin code
 method get-overflow (--> GtkOverflow )
@@ -1970,7 +2001,7 @@ Return value; The widget's overflow..
 =begin comment
 
 =head2 Example
-# Example for get-overflow
+# Example for get-preferred-size
 
 =end comment
 
@@ -1999,7 +2030,7 @@ Return value; the B<Gnome::Pango::Context> for the widget..
 =begin comment
 
 =head2 Example
-# Example for get-pango-context
+# Example for get-prev-sibling
 
 =end comment
 
@@ -2020,7 +2051,7 @@ Return value; the parent widget of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-parent
+# Example for get-primary-clipboard
 
 =end comment
 
@@ -2043,19 +2074,19 @@ widget will generally be a smaller size than the minimum height, since
 the required height for the natural width is generally smaller than the
 required height for the minimum width.
 
-Use [id C<$gtk-widget-measure>] if you want to support baseline alignment.
+Use C<.measure()> if you want to support baseline alignment.
 
 =begin code
-method get-preferred-size ( CArray[N-Requisition] $minimum-size, CArray[N-Requisition] $natural-size )
+method get-preferred-size ( N-Object $minimum-size, N-Object $natural-size )
 =end code
 
-=item $minimum-size; location for storing the minimum size.
-=item $natural-size; location for storing the natural size.
+=item $minimum-size; location for storing the minimum size
+=item $natural-size; location for storing the natural size
 
 =begin comment
 
 =head2 Example
-# Example for get-preferred-size
+# Example for get-realized
 
 =end comment
 
@@ -2065,7 +2096,7 @@ method get-preferred-size ( CArray[N-Requisition] $minimum-size, CArray[N-Requis
 =begin pod
 =head2 get-prev-sibling
 
-Returns the widgets previous sibling.
+Returns the widget’s previous sibling.
 
 This API is primarily meant for widget implementations.
 
@@ -2078,7 +2109,7 @@ Return value; The widget's previous sibling.
 =begin comment
 
 =head2 Example
-# Example for get-prev-sibling
+# Example for get-receives-default
 
 =end comment
 
@@ -2105,7 +2136,7 @@ Return value; the appropriate clipboard object.
 =begin comment
 
 =head2 Example
-# Example for get-primary-clipboard
+# Example for get-request-mode
 
 =end comment
 
@@ -2126,7 +2157,7 @@ Return value; C<True> if C<$widget> is realized, C<False> otherwise.
 =begin comment
 
 =head2 Example
-# Example for get-realized
+# Example for get-root
 
 =end comment
 
@@ -2152,7 +2183,7 @@ Return value; C<True> if C<$widget> acts as the default widget when focused,
 =begin comment
 
 =head2 Example
-# Example for get-receives-default
+# Example for get-scale-factor
 
 =end comment
 
@@ -2179,7 +2210,7 @@ Return value; The C<enumeration GtkSizeRequestMode defined in Gnome::Gtk4::T-enu
 =begin comment
 
 =head2 Example
-# Example for get-request-mode
+# Example for get-sensitive
 
 =end comment
 
@@ -2205,7 +2236,7 @@ Return value; the root widget of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-root
+# Example for get-settings
 
 =end comment
 
@@ -2232,7 +2263,7 @@ Return value; the scale factor for C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-scale-factor
+# Example for get-size
 
 =end comment
 
@@ -2260,7 +2291,7 @@ Return value; C<True> if the widget is sensitive.
 =begin comment
 
 =head2 Example
-# Example for get-sensitive
+# Example for get-size-request
 
 =end comment
 
@@ -2275,7 +2306,7 @@ Gets the settings object holding the settings used for this widget.
 Note that this function can only be called when the B<Gnome::Gtk4::Widget>
 is attached to a toplevel, since the settings object is specific
 to a particular B<Gnome::Gdk4::Display>. If you want to monitor the widget for
-changes in its settings, connect to the B<notify::display> signal.
+changes in its settings, connect to the B<notify>::display` signal.
 
 =begin code
 method get-settings (--> N-Object )
@@ -2286,7 +2317,7 @@ Return value; the relevant B<Gnome::Gtk4::Settings> object.
 =begin comment
 
 =head2 Example
-# Example for get-settings
+# Example for get-state-flags
 
 =end comment
 
@@ -2306,6 +2337,9 @@ for C<GTK_ORIENTATION_VERTICAL>, but can be used when
 writing orientation-independent code, such as when
 implementing B<Gnome::Gtk4::R-Orientable> widgets.
 
+To learn more about widget sizes, see the coordinate
+system [overview](coordinates.html).
+
 =begin code
 method get-size ( GtkOrientation $orientation --> Int )
 =end code
@@ -2317,7 +2351,7 @@ Return value; The size of C<$widget> in C<$orientation>..
 =begin comment
 
 =head2 Example
-# Example for get-size
+# Example for get-style-context
 
 =end comment
 
@@ -2347,7 +2381,7 @@ method get-size-request ( Array[Int] $width, Array[Int] $height )
 =begin comment
 
 =head2 Example
-# Example for get-size-request
+# Example for get-template-child
 
 =end comment
 
@@ -2376,7 +2410,7 @@ Return value; The state flags for widget.
 =begin comment
 
 =head2 Example
-# Example for get-state-flags
+# Example for get-tooltip-markup
 
 =end comment
 
@@ -2385,6 +2419,8 @@ Return value; The state flags for widget.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-style-context
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the style context associated to C<$widget>.
 
@@ -2395,12 +2431,12 @@ for the lifetime of C<$widget>.
 method get-style-context (--> N-Object )
 =end code
 
-Return value; the widgets B<Gnome::Gtk4::StyleContext>. 
+Return value; the widget’s B<Gnome::Gtk4::StyleContext>. 
 
 =begin comment
 
 =head2 Example
-# Example for get-style-context
+# Example for get-tooltip-text
 
 =end comment
 
@@ -2434,7 +2470,7 @@ Return value; The object built in the template XML with
 =begin comment
 
 =head2 Example
-# Example for get-template-child
+# Example for get-valign
 
 =end comment
 
@@ -2459,7 +2495,7 @@ Return value; the tooltip text.
 =begin comment
 
 =head2 Example
-# Example for get-tooltip-markup
+# Example for get-vexpand
 
 =end comment
 
@@ -2484,7 +2520,7 @@ Return value; the tooltip text.
 =begin comment
 
 =head2 Example
-# Example for get-tooltip-text
+# Example for get-vexpand-set
 
 =end comment
 
@@ -2505,7 +2541,7 @@ Return value; the vertical alignment of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-valign
+# Example for get-visible
 
 =end comment
 
@@ -2529,7 +2565,7 @@ Return value; whether vexpand flag is set.
 =begin comment
 
 =head2 Example
-# Example for get-vexpand
+# Example for get-width
 
 =end comment
 
@@ -2553,7 +2589,7 @@ Return value; whether vexpand has been explicitly set.
 =begin comment
 
 =head2 Example
-# Example for get-vexpand-set
+# Example for grab-focus
 
 =end comment
 
@@ -2583,7 +2619,7 @@ Return value; C<True> if the widget is visible.
 =begin comment
 
 =head2 Example
-# Example for get-visible
+# Example for has-css-class
 
 =end comment
 
@@ -2601,6 +2637,9 @@ should be using in [vfunc C<$Gtk>.Widget.snapshot].
 
 For pointer events, see C<.contains()>.
 
+To learn more about widget sizes, see the coordinate
+system [overview](coordinates.html).
+
 =begin code
 method get-width (--> Int )
 =end code
@@ -2610,7 +2649,7 @@ Return value; The width of C<$widget>.
 =begin comment
 
 =head2 Example
-# Example for get-width
+# Example for has-default
 
 =end comment
 
@@ -2638,7 +2677,7 @@ Return value; C<True> if focus is now inside C<$widget>..
 =begin comment
 
 =head2 Example
-# Example for grab-focus
+# Example for has-focus
 
 =end comment
 
@@ -2663,7 +2702,7 @@ Return value; C<True> if C<$css-class> is currently applied to C<$widget>,
 =begin comment
 
 =head2 Example
-# Example for has-css-class
+# Example for has-visible-focus
 
 =end comment
 
@@ -2686,7 +2725,7 @@ Return value; C<True> if C<$widget> is the current default widget
 =begin comment
 
 =head2 Example
-# Example for has-default
+# Example for hide
 
 =end comment
 
@@ -2711,7 +2750,7 @@ Return value; C<True> if the widget has the global input focus..
 =begin comment
 
 =head2 Example
-# Example for has-focus
+# Example for in-destruction
 
 =end comment
 
@@ -2741,7 +2780,7 @@ Return value; C<True> if the widget should display a “focus rectangle”.
 =begin comment
 
 =head2 Example
-# Example for has-visible-focus
+# Example for init-template
 
 =end comment
 
@@ -2750,6 +2789,8 @@ Return value; C<True> if the widget should display a “focus rectangle”.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 hide
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Reverses the effects of C<.show()>.
 
@@ -2762,7 +2803,7 @@ method hide ( )
 =begin comment
 
 =head2 Example
-# Example for hide
+# Example for insert-action-group
 
 =end comment
 
@@ -2786,7 +2827,7 @@ Return value; C<True> if C<$widget> is being destroyed.
 =begin comment
 
 =head2 Example
-# Example for in-destruction
+# Example for insert-after
 
 =end comment
 
@@ -2803,15 +2844,15 @@ for any class which assigned itself a template using
 C<.set-template() in class Gnome::Gtk4::Widget>.
 
 It is important to call this function in the instance initializer
-of a B<Gnome::Gtk4::Widget> subclass and not in B<GObject.constructed()> or
-B<GObject.constructor()> for two reasons:
+of a B<Gnome::Gtk4::Widget> subclass and not in B<Gnome::GObject::Object>.constructed()` or
+B<Gnome::GObject::Object>.constructor()` for two reasons:
 
 =item derived widgets will assume that the composite widgets
    defined by its parent classes have been created in their
    relative instance initializers
-=item when calling B<g_object_new()> on a widget with composite templates,
+=item when calling B<g_object_new>()` on a widget with composite templates,
    it’s important to build the composite widgets before the construct
-   properties are set. Properties passed to B<g_object_new()> should
+   properties are set. Properties passed to B<g_object_new>()` should
    take precedence over properties set in the private template XML
 
 A good rule of thumb is to call this function as the first thing in
@@ -2824,7 +2865,7 @@ method init-template ( )
 =begin comment
 
 =head2 Example
-# Example for init-template
+# Example for insert-before
 
 =end comment
 
@@ -2838,7 +2879,7 @@ Inserts C<$group> into C<$widget>.
 
 Children of C<$widget> that implement B<Gnome::Gtk4::R-Actionable> can
 then be associated with actions in C<$group> by setting their
-“action-name” to C<$prefix>.B<action-name>.
+“action-name” to C<$prefix>.B<action>-name`.
 
 Note that inheritance is defined for individual actions. I.e.
 even if you insert a group with prefix C<$prefix>, actions with
@@ -2859,7 +2900,7 @@ method insert-action-group ( Str $name, N-Object() $group )
 =begin comment
 
 =head2 Example
-# Example for insert-action-group
+# Example for is-ancestor
 
 =end comment
 
@@ -2873,7 +2914,7 @@ Inserts C<$widget> into the child widget list of C<$parent>.
 
 It will be placed after C<$previous-sibling>, or at the beginning if C<$previous-sibling> is undefined.
 
-After calling this function, B<gtk_widget_get_prev_sibling(widget)>
+After calling this function, B<gtk_widget_get_prev_sibling>(widget)`
 will return C<$previous-sibling>.
 
 If C<$parent> is already set as the parent widget of C<$widget>, this
@@ -2893,7 +2934,7 @@ method insert-after ( N-Object() $parent, N-Object() $previous-sibling )
 =begin comment
 
 =head2 Example
-# Example for insert-after
+# Example for is-drawable
 
 =end comment
 
@@ -2907,7 +2948,7 @@ Inserts C<$widget> into the child widget list of C<$parent>.
 
 It will be placed before C<$next-sibling>, or at the end if C<$next-sibling> is undefined.
 
-After calling this function, B<gtk_widget_get_next_sibling(widget)>
+After calling this function, B<gtk_widget_get_next_sibling>(widget)`
 will return C<$next-sibling>.
 
 If C<$parent> is already set as the parent widget of C<$widget>, this function
@@ -2926,7 +2967,7 @@ method insert-before ( N-Object() $parent, N-Object() $next-sibling )
 =begin comment
 
 =head2 Example
-# Example for insert-before
+# Example for is-focus
 
 =end comment
 
@@ -2951,7 +2992,7 @@ Return value; C<True> if C<$ancestor> contains C<$widget> as a child,
 =begin comment
 
 =head2 Example
-# Example for is-ancestor
+# Example for is-sensitive
 
 =end comment
 
@@ -2974,7 +3015,7 @@ Return value; C<True> if C<$widget> is drawable, C<False> otherwise.
 =begin comment
 
 =head2 Example
-# Example for is-drawable
+# Example for is-visible
 
 =end comment
 
@@ -3001,7 +3042,7 @@ Return value; C<True> if the widget is the focus widget..
 =begin comment
 
 =head2 Example
-# Example for is-focus
+# Example for keynav-failed
 
 =end comment
 
@@ -3025,7 +3066,7 @@ Return value; C<True> if the widget is effectively sensitive.
 =begin comment
 
 =head2 Example
-# Example for is-sensitive
+# Example for list-mnemonic-labels
 
 =end comment
 
@@ -3052,7 +3093,7 @@ Return value; C<True> if the widget and all its parents are visible.
 =begin comment
 
 =head2 Example
-# Example for is-visible
+# Example for map
 
 =end comment
 
@@ -3062,7 +3103,7 @@ Return value; C<True> if the widget and all its parents are visible.
 =begin pod
 =head2 keynav-failed
 
-Emits the B<::keynav-failed> signal on the widget.
+Emits the `::keynav-failed` signal on the widget.
 
 This function should be called whenever keyboard navigation
 within a single widget hits a boundary.
@@ -3103,7 +3144,7 @@ Return value; C<True> if stopping keyboard navigation is fine, C<False>
 =begin comment
 
 =head2 Example
-# Example for keynav-failed
+# Example for measure
 
 =end comment
 
@@ -3122,7 +3163,7 @@ C<.set-mnemonic-widget() in class Gnome::Gtk4::Label>.
 The widgets in the list are not individually referenced.
 If you want to iterate through the list and perform actions
 involving callbacks that might destroy the widgets, you
-must call B<g_list_foreach (result, (GFunc)g_object_ref, NULL)>
+must call B<g_list_foreach> (result, (GFunc)g_object_ref, NULL)`
 first, and then unref all the widgets afterwards.
 
 =begin code
@@ -3136,7 +3177,7 @@ Return value; the list
 =begin comment
 
 =head2 Example
-# Example for list-mnemonic-labels
+# Example for mnemonic-activate
 
 =end comment
 
@@ -3157,7 +3198,7 @@ method map ( )
 =begin comment
 
 =head2 Example
-# Example for map
+# Example for observe-children
 
 =end comment
 
@@ -3174,7 +3215,7 @@ is 300, this functions will compute the minimum and natural width of C<$widget>
 if it is allocated at a height of 300 pixels.
 
 See [GtkWidget’s geometry management section](class.Widget.html#height-for-width-geometry-management) for
-a more details on implementing B<GtkWidgetClass.measure()>.
+a more details on implementing B<GtkWidgetClass>.measure()`.
 
 =begin code
 method measure ( GtkOrientation $orientation, Int() $for-size, Array[Int] $minimum, Array[Int] $natural, Array[Int] $minimum-baseline, Array[Int] $natural-baseline )
@@ -3196,7 +3237,7 @@ method measure ( GtkOrientation $orientation, Int() $for-size, Array[Int] $minim
 =begin comment
 
 =head2 Example
-# Example for measure
+# Example for observe-controllers
 
 =end comment
 
@@ -3221,7 +3262,7 @@ Return value; C<True> if the signal has been handled.
 =begin comment
 
 =head2 Example
-# Example for mnemonic-activate
+# Example for pick
 
 =end comment
 
@@ -3250,7 +3291,7 @@ Return value;
 =begin comment
 
 =head2 Example
-# Example for observe-children
+# Example for queue-allocate
 
 =end comment
 
@@ -3280,7 +3321,7 @@ Return value;
 =begin comment
 
 =head2 Example
-# Example for observe-controllers
+# Example for queue-draw
 
 =end comment
 
@@ -3319,7 +3360,7 @@ Return value; The widget descendant at
 =begin comment
 
 =head2 Example
-# Example for pick
+# Example for queue-resize
 
 =end comment
 
@@ -3347,7 +3388,7 @@ method queue-allocate ( )
 =begin comment
 
 =head2 Example
-# Example for queue-allocate
+# Example for realize
 
 =end comment
 
@@ -3370,7 +3411,7 @@ method queue-draw ( )
 =begin comment
 
 =head2 Example
-# Example for queue-draw
+# Example for remove-controller
 
 =end comment
 
@@ -3401,7 +3442,7 @@ method queue-resize ( )
 =begin comment
 
 =head2 Example
-# Example for queue-resize
+# Example for remove-css-class
 
 =end comment
 
@@ -3435,7 +3476,7 @@ method realize ( )
 =begin comment
 
 =head2 Example
-# Example for realize
+# Example for remove-mnemonic-label
 
 =end comment
 
@@ -3462,7 +3503,7 @@ method remove-controller ( N-Object() $controller )
 =begin comment
 
 =head2 Example
-# Example for remove-controller
+# Example for remove-tick-callback
 
 =end comment
 
@@ -3486,7 +3527,7 @@ method remove-css-class ( Str $css-class )
 =begin comment
 
 =head2 Example
-# Example for remove-css-class
+# Example for set-can-focus
 
 =end comment
 
@@ -3512,7 +3553,7 @@ method remove-mnemonic-label ( N-Object() $label )
 =begin comment
 
 =head2 Example
-# Example for remove-mnemonic-label
+# Example for set-can-target
 
 =end comment
 
@@ -3534,7 +3575,7 @@ method remove-tick-callback ( UInt() $id )
 =begin comment
 
 =head2 Example
-# Example for remove-tick-callback
+# Example for set-child-visible
 
 =end comment
 
@@ -3569,7 +3610,7 @@ method set-can-focus ( Bool() $can-focus )
 =begin comment
 
 =head2 Example
-# Example for set-can-focus
+# Example for set-css-classes
 
 =end comment
 
@@ -3591,7 +3632,7 @@ method set-can-target ( Bool() $can-target )
 =begin comment
 
 =head2 Example
-# Example for set-can-target
+# Example for set-cursor
 
 =end comment
 
@@ -3628,7 +3669,7 @@ method set-child-visible ( Bool() $child-visible )
 =begin comment
 
 =head2 Example
-# Example for set-child-visible
+# Example for set-cursor-from-name
 
 =end comment
 
@@ -3651,7 +3692,7 @@ method set-css-classes ( Array[Str] $classes )
 =begin comment
 
 =head2 Example
-# Example for set-css-classes
+# Example for set-direction
 
 =end comment
 
@@ -3676,7 +3717,7 @@ method set-cursor ( N-Object() $cursor )
 =begin comment
 
 =head2 Example
-# Example for set-cursor
+# Example for set-focus-child
 
 =end comment
 
@@ -3707,7 +3748,7 @@ method set-cursor-from-name ( Str $name )
 =begin comment
 
 =head2 Example
-# Example for set-cursor-from-name
+# Example for set-focus-on-click
 
 =end comment
 
@@ -3740,7 +3781,7 @@ method set-direction ( GtkTextDirection $dir )
 =begin comment
 
 =head2 Example
-# Example for set-direction
+# Example for set-focusable
 
 =end comment
 
@@ -3766,7 +3807,7 @@ method set-focus-child ( N-Object() $child )
 =begin comment
 
 =head2 Example
-# Example for set-focus-child
+# Example for set-font-map
 
 =end comment
 
@@ -3793,7 +3834,7 @@ method set-focus-on-click ( Bool() $focus-on-click )
 =begin comment
 
 =head2 Example
-# Example for set-focus-on-click
+# Example for set-font-options
 
 =end comment
 
@@ -3826,7 +3867,7 @@ method set-focusable ( Bool() $focusable )
 =begin comment
 
 =head2 Example
-# Example for set-focusable
+# Example for set-halign
 
 =end comment
 
@@ -3855,7 +3896,7 @@ method set-font-map ( N-Object() $font-map )
 =begin comment
 
 =head2 Example
-# Example for set-font-map
+# Example for set-has-tooltip
 
 =end comment
 
@@ -3864,7 +3905,6 @@ method set-font-map ( N-Object() $font-map )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-font-options
-This function is not yet available
 
 Sets the B<Gnome::Cairo::N-Context> used for Pango rendering
 in this widget.
@@ -3873,16 +3913,16 @@ When not set, the default font options for the B<Gnome::Gdk4::Display>
 will be used.
 
 =begin code
-method set-font-options ( CArray[N-_font_options_t]  $options )
+method set-font-options ( N-Object $options )
 =end code
 
 =item $options; a B<Gnome::Cairo::N-Context>
-  to unset any previously set default font options.
+  to unset any previously set default font options
 
 =begin comment
 
 =head2 Example
-# Example for set-font-options
+# Example for set-hexpand
 
 =end comment
 
@@ -3903,7 +3943,7 @@ method set-halign ( GtkAlign $align )
 =begin comment
 
 =head2 Example
-# Example for set-halign
+# Example for set-hexpand-set
 
 =end comment
 
@@ -3913,7 +3953,7 @@ method set-halign ( GtkAlign $align )
 =begin pod
 =head2 set-has-tooltip
 
-Sets the B<has-tooltip> property on C<$widget> to C<$has-tooltip>.
+Sets the B<has>-tooltip` property on C<$widget> to C<$has-tooltip>.
 
 =begin code
 method set-has-tooltip ( Bool() $has-tooltip )
@@ -3924,7 +3964,7 @@ method set-has-tooltip ( Bool() $has-tooltip )
 =begin comment
 
 =head2 Example
-# Example for set-has-tooltip
+# Example for set-layout-manager
 
 =end comment
 
@@ -3971,7 +4011,7 @@ method set-hexpand ( Bool() $expand )
 =begin comment
 
 =head2 Example
-# Example for set-hexpand
+# Example for set-margin-bottom
 
 =end comment
 
@@ -4005,7 +4045,7 @@ method set-hexpand-set ( Bool() $set )
 =begin comment
 
 =head2 Example
-# Example for set-hexpand-set
+# Example for set-margin-end
 
 =end comment
 
@@ -4027,7 +4067,7 @@ method set-layout-manager ( N-Object() $layout-manager )
 =begin comment
 
 =head2 Example
-# Example for set-layout-manager
+# Example for set-margin-start
 
 =end comment
 
@@ -4048,7 +4088,7 @@ method set-margin-bottom ( Int() $margin )
 =begin comment
 
 =head2 Example
-# Example for set-margin-bottom
+# Example for set-margin-top
 
 =end comment
 
@@ -4069,7 +4109,7 @@ method set-margin-end ( Int() $margin )
 =begin comment
 
 =head2 Example
-# Example for set-margin-end
+# Example for set-name
 
 =end comment
 
@@ -4090,7 +4130,7 @@ method set-margin-start ( Int() $margin )
 =begin comment
 
 =head2 Example
-# Example for set-margin-start
+# Example for set-opacity
 
 =end comment
 
@@ -4111,7 +4151,7 @@ method set-margin-top ( Int() $margin )
 =begin comment
 
 =head2 Example
-# Example for set-margin-top
+# Example for set-overflow
 
 =end comment
 
@@ -4142,7 +4182,7 @@ method set-name ( Str $name )
 =begin comment
 
 =head2 Example
-# Example for set-name
+# Example for set-parent
 
 =end comment
 
@@ -4184,7 +4224,7 @@ method set-opacity ( Num() $opacity )
 =begin comment
 
 =head2 Example
-# Example for set-opacity
+# Example for set-receives-default
 
 =end comment
 
@@ -4213,7 +4253,7 @@ method set-overflow ( GtkOverflow $overflow )
 =begin comment
 
 =head2 Example
-# Example for set-overflow
+# Example for set-sensitive
 
 =end comment
 
@@ -4241,7 +4281,7 @@ method set-parent ( N-Object() $parent )
 =begin comment
 
 =head2 Example
-# Example for set-parent
+# Example for set-size-request
 
 =end comment
 
@@ -4264,7 +4304,7 @@ method set-receives-default ( Bool() $receives-default )
 =begin comment
 
 =head2 Example
-# Example for set-receives-default
+# Example for set-state-flags
 
 =end comment
 
@@ -4290,7 +4330,7 @@ method set-sensitive ( Bool() $sensitive )
 =begin comment
 
 =head2 Example
-# Example for set-sensitive
+# Example for set-tooltip-markup
 
 =end comment
 
@@ -4346,7 +4386,7 @@ method set-size-request ( Int() $width, Int() $height )
 =begin comment
 
 =head2 Example
-# Example for set-size-request
+# Example for set-tooltip-text
 
 =end comment
 
@@ -4376,7 +4416,7 @@ method set-state-flags ( UInt $flags, Bool() $clear )
 =begin comment
 
 =head2 Example
-# Example for set-state-flags
+# Example for set-valign
 
 =end comment
 
@@ -4404,7 +4444,7 @@ method set-tooltip-markup ( Str $markup )
 =begin comment
 
 =head2 Example
-# Example for set-tooltip-markup
+# Example for set-vexpand
 
 =end comment
 
@@ -4434,7 +4474,7 @@ method set-tooltip-text ( Str $text )
 =begin comment
 
 =head2 Example
-# Example for set-tooltip-text
+# Example for set-vexpand-set
 
 =end comment
 
@@ -4455,7 +4495,7 @@ method set-valign ( GtkAlign $align )
 =begin comment
 
 =head2 Example
-# Example for set-valign
+# Example for set-visible
 
 =end comment
 
@@ -4479,7 +4519,7 @@ method set-vexpand ( Bool() $expand )
 =begin comment
 
 =head2 Example
-# Example for set-vexpand
+# Example for should-layout
 
 =end comment
 
@@ -4502,7 +4542,7 @@ method set-vexpand-set ( Bool() $set )
 =begin comment
 
 =head2 Example
-# Example for set-vexpand-set
+# Example for show
 
 =end comment
 
@@ -4517,10 +4557,6 @@ Sets the visibility state of C<$widget>.
 Note that setting this to C<True> doesn’t mean the widget is
 actually viewable, see C<.get-visible()>.
 
-This function simply calls C<.show()> or
-C<.hide()> but is nicer to use when the
-visibility of the widget depends on some condition.
-
 =begin code
 method set-visible ( Bool() $visible )
 =end code
@@ -4530,7 +4566,7 @@ method set-visible ( Bool() $visible )
 =begin comment
 
 =head2 Example
-# Example for set-visible
+# Example for size-allocate
 
 =end comment
 
@@ -4556,7 +4592,7 @@ Return value; C<True> if child should be included in
 =begin comment
 
 =head2 Example
-# Example for should-layout
+# Example for snapshot-child
 
 =end comment
 
@@ -4565,6 +4601,8 @@ Return value; C<True> if child should be included in
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 show
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Flags a widget to be displayed.
 
@@ -4584,7 +4622,7 @@ method show ( )
 =begin comment
 
 =head2 Example
-# Example for show
+# Example for translate-coordinates
 
 =end comment
 
@@ -4610,7 +4648,7 @@ method size-allocate ( …, Int() $baseline )
 =begin comment
 
 =head2 Example
-# Example for size-allocate
+# Example for trigger-tooltip-query
 
 =end comment
 
@@ -4646,7 +4684,7 @@ method snapshot-child ( N-Object() $child, N-Object() $snapshot )
 =begin comment
 
 =head2 Example
-# Example for snapshot-child
+# Example for unmap
 
 =end comment
 
@@ -4655,6 +4693,8 @@ method snapshot-child ( N-Object() $child, N-Object() $snapshot )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 translate-coordinates
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
 
 Translate coordinates relative to C<$src-widget>’s allocation
 to coordinates relative to C<$dest-widget>’s allocations.
@@ -4679,7 +4719,7 @@ Return value; C<False> if C<$src-widget> and C<$dest-widget> have no common
 =begin comment
 
 =head2 Example
-# Example for translate-coordinates
+# Example for unparent
 
 =end comment
 
@@ -4699,7 +4739,7 @@ method trigger-tooltip-query ( )
 =begin comment
 
 =head2 Example
-# Example for trigger-tooltip-query
+# Example for unrealize
 
 =end comment
 
@@ -4720,7 +4760,7 @@ method unmap ( )
 =begin comment
 
 =head2 Example
-# Example for unmap
+# Example for unset-state-flags
 
 =end comment
 
@@ -4742,7 +4782,7 @@ method unparent ( )
 =begin comment
 
 =head2 Example
-# Example for unparent
+# Example for get-default-direction
 
 =end comment
 
@@ -4764,7 +4804,7 @@ method unrealize ( )
 =begin comment
 
 =head2 Example
-# Example for unrealize
+# Example for set-default-direction
 
 =end comment
 
@@ -4789,7 +4829,7 @@ method unset-state-flags ( UInt $flags )
 =begin comment
 
 =head2 Example
-# Example for unset-state-flags
+# Example for signal destroy
 
 =end comment
 
@@ -4820,7 +4860,7 @@ Return value; the current default direction..
 =begin comment
 
 =head2 Example
-# Example for get-default-direction
+# Example for signal direction-changed
 
 =end comment
 
@@ -4843,7 +4883,7 @@ method set-default-direction ( GtkTextDirection $dir )
 =begin comment
 
 =head2 Example
-# Example for set-default-direction
+# Example for signal hide
 
 =end comment
 
@@ -4883,7 +4923,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal destroy
+# Example for signal keynav-failed
 
 =end comment
 
@@ -4911,7 +4951,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal direction-changed
+# Example for signal map
 
 =end comment
 
@@ -4937,7 +4977,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal hide
+# Example for signal mnemonic-activate
 
 =end comment
 
@@ -4972,7 +5012,7 @@ Return value; C<True> if stopping keyboard navigation is fine, C<False>
 =begin comment
 
 =head2 Example
-# Example for signal keynav-failed
+# Example for signal move-focus
 
 =end comment
 
@@ -5006,7 +5046,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal map
+# Example for signal query-tooltip
 
 =end comment
 
@@ -5041,7 +5081,7 @@ C<False> to propagate the event further.
 =begin comment
 
 =head2 Example
-# Example for signal mnemonic-activate
+# Example for signal realize
 
 =end comment
 
@@ -5049,6 +5089,11 @@ C<False> to propagate the event further.
 =head3 move-focus
 
 Emitted when the focus is moved.
+
+The I<move-focus> signal is a [keybinding signal](class.SignalAction.html).
+
+The default bindings for this signal are <kbd>Tab</kbd> to move forward,
+and <kbd>Shift</kbd>+<kbd>Tab</kbd> to move backward.
 
 =begin code
 method handler (
@@ -5069,14 +5114,14 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal move-focus
+# Example for signal show
 
 =end comment
 
 =comment -----------------------------------------------------------------------
 =head3 query-tooltip
 
-Emitted when the widgets tooltip is about to be shown.
+Emitted when the widget’s tooltip is about to be shown.
 
 This happens when the I<has-tooltip> property
 is C<True> and the hover timeout has expired with the cursor hovering
@@ -5120,7 +5165,7 @@ Return value; C<True> if C<$tooltip> should be shown right now, C<False> otherwi
 =begin comment
 
 =head2 Example
-# Example for signal query-tooltip
+# Example for signal state-flags-changed
 
 =end comment
 
@@ -5149,7 +5194,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal realize
+# Example for signal unmap
 
 =end comment
 
@@ -5175,7 +5220,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal show
+# Example for signal unrealize
 
 =end comment
 
@@ -5203,9 +5248,40 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
+static void
+foo_widget_measure (GtkWidget      *widget,
+                    GtkOrientation  orientation,
+                    int             for_size,
+                    int            *minimum_size,
+                    int            *natural_size,
+                    int            *minimum_baseline,
+                    int            *natural_baseline)
+{
+  if (orientation == GTK_ORIENTATION_HORIZONTAL)
+    {
+      // Calculate minimum and natural width
+    }
+  else // VERTICAL
+    {
+      if (i_am_in_height_for_width_mode)
+        {
+          int min_width, dummy;
 
-=head2 Example
-# Example for signal state-flags-changed
+          // First, get the minimum width of our widget
+          GTK_WIDGET_GET_CLASS (widget)->measure (widget, GTK_ORIENTATION_HORIZONTAL, -1,
+                                                  &min_width, &dummy, &dummy, &dummy);
+
+          // Now use the minimum width to retrieve the minimum and natural height to display
+          // that width.
+          GTK_WIDGET_GET_CLASS (widget)->measure (widget, GTK_ORIENTATION_VERTICAL, min_width,
+                                                  minimum_size, natural_size, &dummy, &dummy);
+        }
+      else
+        {
+          // ... some widgets do both.
+        }
+    }
+}
 
 =end comment
 
@@ -5235,9 +5311,29 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
-
-=head2 Example
-# Example for signal unmap
+<object class="GtkGrid" id="my_grid">
+  <child>
+    <object class="GtkLabel" id="label1">
+      <property name="label">Description</property>
+      <layout>
+        <property name="column">0</property>
+        <property name="row">0</property>
+        <property name="row-span">1</property>
+        <property name="column-span">1</property>
+      </layout>
+    </object>
+  </child>
+  <child>
+    <object class="GtkEntry" id="description_entry">
+      <layout>
+        <property name="column">1</property>
+        <property name="row">0</property>
+        <property name="row-span">1</property>
+        <property name="column-span">1</property>
+      </layout>
+    </object>
+  </child>
+</object>
 
 =end comment
 
@@ -5264,9 +5360,12 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
-
-=head2 Example
-# Example for signal unrealize
+<object class="GtkButton" id="button1">
+  <style>
+    <class name="my-special-button-class"/>
+    <class name="dark-button"/>
+  </style>
+</object>
 
 =end comment
 
