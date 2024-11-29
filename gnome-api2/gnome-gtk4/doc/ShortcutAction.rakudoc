@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ShortcutAction
-
-![](images/shortcutaction.png)
-
+=TITLE Gnome::Gtk4::ShortcutAction
 =head1 Description
 
 B<Gnome::Gtk4::ShortcutAction> encodes an action that can be triggered by a
@@ -75,7 +72,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 parse-string
 
 Tries to parse the given string into an action.
@@ -87,21 +83,22 @@ The accepted strings are:
 
 =item B<nothing>, for B<Gnome::Gtk4::NothingAction>
 =item B<activate>, for B<Gnome::Gtk4::ActivateAction>
-=item B<mnemonic-activate>, for B<Gnome::Gtk4::MnemonicAction>
-=item B<action(NAME)>, for a B<Gnome::Gtk4::NamedAction> for the action named B<NAME>
-=item B<signal(NAME)>, for a B<Gnome::Gtk4::SignalAction> for the signal B<NAME>
-=begin comment
-
-=head2 Example
-# Example for parse-string
-
-=end comment
+=item B<mnemonic>-activate`, for B<Gnome::Gtk4::MnemonicAction>
+=item B<action>(NAME)`, for a B<Gnome::Gtk4::NamedAction> for the action named B<NAME>
+=item B<signal>(NAME)`, for a B<Gnome::Gtk4::SignalAction> for the signal B<NAME>
 
 =begin code
 method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction \)
 =end code
 
 =item $string; the string to parse.
+
+=begin comment
+
+=head2 Example
+# Example for parse-string
+
+=end comment
 
 =end pod
 
@@ -115,7 +112,6 @@ method parse-string ( Str $string --> Gnome::Gtk4::ShortcutAction \)
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 activate
 
 Activates the action on the C<$widget> with the given C<$args>.
@@ -125,6 +121,17 @@ Note that some actions ignore the passed in C<$flags>, C<$widget> or C<$args>.
 Activation of an action can fail for various reasons. If the action
 is not supported by the C<$widget>, if the C<$args> don't match the action
 or if the activation otherwise had no effect, C<False> will be returned.
+
+=begin code
+method activate ( UInt $flags, N-Object() $widget, N-Object $args --> Bool )
+=end code
+
+=item $flags; flags to activate with.
+=item $widget; Target of the activation.
+=item $args; arguments to pass
+
+Return value; C<True> if this action was activated successfully. 
+
 =begin comment
 
 =head2 Example
@@ -132,22 +139,10 @@ or if the activation otherwise had no effect, C<False> will be returned.
 
 =end comment
 
-=begin code
-method activate ( UInt $flags, N-Object() $widget, CArray[N-Variant] $args --> Bool )
-=end code
-
-=item $flags; flags to activate with.
-=item $widget; Target of the activation.
-=item $args; arguments to pass.
-
-Return value; C<True> if this action was activated successfully. 
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-This function is not yet available
-
 =head2 print
 
 Prints the given action into a string for the developer.
@@ -156,6 +151,13 @@ This is meant for debugging and logging.
 
 The form of the representation may change at any time and is
 not guaranteed to stay identical.
+
+=begin code
+method print ( N-Object $string )
+=end code
+
+=item $string; a B<Gnome::Glib::N-String> to print into
+
 =begin comment
 
 =head2 Example
@@ -163,35 +165,29 @@ not guaranteed to stay identical.
 
 =end comment
 
-=begin code
-method print ( CArray[N-String]  $string )
-=end code
-
-=item $string; a U<Gnome::Glib::N-String> to print into.
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 to-string
 
 Prints the given action into a human-readable string.
 
 This is a small wrapper around C<.print()>
 to help when debugging.
-=begin comment
-
-=head2 Example
-# Example for to-string
-
-=end comment
 
 =begin code
 method to-string (--> Str )
 =end code
 
 Return value; a new string. 
+
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
 
 =end pod
 

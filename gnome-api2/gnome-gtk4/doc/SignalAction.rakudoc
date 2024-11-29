@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::SignalAction
-
-![](images/signalaction.png)
-
+=TITLE Gnome::Gtk4::SignalAction
 =head1 Description
 
 A B<Gnome::Gtk4::Shortcut>Action that emits a signal.
@@ -52,25 +49,25 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-signalaction
 
 Creates an action that when activated, emits the given action signal
 on the provided widget.
 
 It will also unpack the args into arguments passed to the signal.
-=begin comment
-
-=head2 Example
-# Example for new-signalaction
-
-=end comment
 
 =begin code
 method new-signalaction ( Str $signal-name --> Gnome::Gtk4::SignalAction \)
 =end code
 
 =item $signal-name; name of the signal to emit.
+
+=begin comment
+
+=head2 Example
+# Example for new-signalaction
+
+=end comment
 
 =end pod
 
@@ -84,22 +81,22 @@ method new-signalaction ( Str $signal-name --> Gnome::Gtk4::SignalAction \)
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-signal-name
 
 Returns the name of the signal that will be emitted.
-=begin comment
-
-=head2 Example
-# Example for get-signal-name
-
-=end comment
 
 =begin code
 method get-signal-name (--> Str )
 =end code
 
 Return value; the name of the signal to emit. 
+
+=begin comment
+
+=head2 Example
+# Example for get-signal-name
+
+=end comment
 
 =end pod
 
