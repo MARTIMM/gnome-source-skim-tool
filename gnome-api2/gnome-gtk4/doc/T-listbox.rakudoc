@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-listbox
+=TITLE Gnome::Gtk4::T-listbox
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -11,6 +11,16 @@ use v6.d;
 
 =begin pod
 =head1 Callback Functions
+=head2 ListBoxFilterFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $row, gpointer $user-data  )
+=end code
+
+=item row; the row that may be filtered
+=item user-data; user data
+
 =head2 ListBoxForeachFunc
 
 =head3 Signature
@@ -22,15 +32,15 @@ use v6.d;
 =item row; a B<Gnome::Gtk4::ListBoxRow>
 =item user-data; user data
 
-=head2 ListBoxSortFunc
+=head2 ListBoxUpdateHeaderFunc
 
 =head3 Signature
 =begin code
-:(  N-Object() $row1, N-Object() $row2, gpointer $user-data  )
+:(  N-Object() $row, N-Object() $before, gpointer $user-data  )
 =end code
 
-=item row1; the first row
-=item row2; the second row
+=item row; the row to update
+=item before; the row before C<$row>, or undefined if it is first
 =item user-data; user data
 
 =head2 ListBoxCreateWidgetFunc
@@ -43,25 +53,15 @@ use v6.d;
 =item item; the item from the model for which to create a widget for
 =item user-data; user data
 
-=head2 ListBoxFilterFunc
+=head2 ListBoxSortFunc
 
 =head3 Signature
 =begin code
-:(  N-Object() $row, gpointer $user-data  )
+:(  N-Object() $row1, N-Object() $row2, gpointer $user-data  )
 =end code
 
-=item row; the row that may be filtered
-=item user-data; user data
-
-=head2 ListBoxUpdateHeaderFunc
-
-=head3 Signature
-=begin code
-:(  N-Object() $row, N-Object() $before, gpointer $user-data  )
-=end code
-
-=item row; the row to update
-=item before; the row before C<$row>, or undefined if it is first
+=item row1; the first row
+=item row2; the second row
 =item user-data; user data
 
 =end pod

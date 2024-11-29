@@ -1,0 +1,54 @@
+=comment Package: Gtk4, C-Source: widget
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gtk4::T-widget
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Requisition
+
+  class N-Requisition:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gint $.width;
+    has gint $.height;
+  }
+
+=item width; the widget’s desired width
+=item height; the widget’s desired height
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 WidgetActionActivateFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $widget, Str $action-name, N-Object $parameter  )
+=end code
+
+=item widget; the widget to which the action belongs
+=item action-name; the action name
+=item parameter; parameter for activation
+
+=head2 TickCallback
+
+=head3 Signature
+=begin code
+:(  N-Object() $widget, N-Object() $frame-clock, gpointer $user-data  )
+=end code
+
+=item widget; the widget
+=item frame-clock; the frame clock for the widget (same as calling C<.get-frame-clock()>)
+=item user-data; user data passed to C<.add-tick-callback()>.
+
+=end pod

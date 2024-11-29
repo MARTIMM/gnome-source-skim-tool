@@ -1,8 +1,8 @@
-=comment Package: Gtk4, C-Source: menubutton
+=comment Package: Gtk4, C-Source: treelistmodel
 use v6.d;
 
 =begin pod
-=TITLE Gnome::Gtk4::T-menubutton
+=TITLE Gnome::Gtk4::T-treelistmodel
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -11,14 +11,14 @@ use v6.d;
 
 =begin pod
 =head1 Callback Functions
-=head2 MenuButtonCreatePopupFunc
+=head2 TreeListModelCreateModelFunc
 
 =head3 Signature
 =begin code
-:(  N-Object() $menu-button, gpointer $user-data  )
+:(  gpointer $item, gpointer $user-data  )
 =end code
 
-=item menu-button; the B<Gnome::Gtk4::MenuButton>
-=item user-data; User data passed to gtk_menu_button_set_create_popup_func()
+=item item; The item that is being expanded
+=item user-data; User data passed when registering the function
 
 =end pod

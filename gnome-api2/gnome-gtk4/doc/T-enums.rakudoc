@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-enums
+=TITLE Gnome::Gtk4::T-enums
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -39,6 +39,13 @@ value is undefined.
 
 =begin pod
 =head1 Enumerations
+
+=head2 GtkAccessibleAnnouncementPriority
+
+The priority of an accessibility announcement.
+=item C<GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_LOW>; 
+=item C<GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_MEDIUM>; 
+=item C<GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_HIGH>; 
 
 =head2 GtkAccessibleAutocomplete
 
@@ -278,12 +285,17 @@ developers must not use abstract roles in their code.
 =item C<GTK_ACCESSIBLE_ROLE_WIDGET>; Abstract role for interactive components of a
   graphical user interface
 =item C<GTK_ACCESSIBLE_ROLE_WINDOW>; Abstract role for windows.
-=item C<GTK_ACCESSIBLE_ROLE_TOGGLE_BUTTON>; A type of push button
-  which stays pressed until depressed by a second activation.
-  Since: 4.10
+=item C<GTK_ACCESSIBLE_ROLE_TOGGLE_BUTTON>; A type of push button which stays pressed until depressed by a second
+activation.
 =item C<GTK_ACCESSIBLE_ROLE_APPLICATION>; A toplevel element of a graphical user interface.
-  This is the role that GTK uses by default for windows.
-  Since: 4.12
+
+This is the role that GTK uses by default for windows.
+=item C<GTK_ACCESSIBLE_ROLE_PARAGRAPH>; A paragraph of content.
+=item C<GTK_ACCESSIBLE_ROLE_BLOCK_QUOTE>; A section of content that is quoted from another source.
+=item C<GTK_ACCESSIBLE_ROLE_ARTICLE>; A section of a page that consists of a composition that forms an independent
+part of a document, page, or site.
+=item C<GTK_ACCESSIBLE_ROLE_COMMENT>; A comment contains content expressing reaction to other content.
+=item C<GTK_ACCESSIBLE_ROLE_TERMINAL>; A virtual terminal.
 
 =head2 GtkAccessibleSort
 
@@ -319,9 +331,8 @@ The possible accessible states of a [iface C<$Accessible>].
   enumeration
 =item C<GTK_ACCESSIBLE_STATE_SELECTED>; A “selected” state; set when a widget
   is selected. Value type: boolean or undefined
-=item C<GTK_ACCESSIBLE_STATE_VISITED>; Indicates that a widget with the
-  GTK_ACCESSIBLE_ROLE_LINK has been visited. Value type: boolean.
-  Since: 4.12
+=item C<GTK_ACCESSIBLE_STATE_VISITED>; Indicates that a widget with the GTK_ACCESSIBLE_ROLE_LINK has been visited.
+Value type: boolean.
 
 =head2 GtkAccessibleTristate
 
@@ -350,18 +361,17 @@ Note that in horizontal context B<GTK_ALIGN_START> and B<GTK_ALIGN_END>
 are interpreted relative to text direction.
 
 Baseline support is optional for containers and widgets, and is only available
-for vertical alignment. B<GTK_ALIGN_BASELINE_CENTER and >GTK_ALIGN_BASELINE_FILLB<
-are treated similar to >GTK_ALIGN_CENTERB< and >GTK_ALIGN_FILLB<, except that it
+for vertical alignment. B<GTK_ALIGN_BASELINE_CENTER> and B<GTK_ALIGN_BASELINE_FILL>
+are treated similar to B<GTK_ALIGN_CENTER> and B<GTK_ALIGN_FILL>, except that it
 positions the widget to line up the baselines, where that is supported.
 =item C<GTK_ALIGN_FILL>; stretch to fill all space if possible, center if
   no meaningful way to stretch
 =item C<GTK_ALIGN_START>; snap to left or top side, leaving space on right or bottom
 =item C<GTK_ALIGN_END>; snap to right or bottom side, leaving space on left or top
 =item C<GTK_ALIGN_CENTER>; center natural width of widget inside the allocation
-=item C<GTK_ALIGN_BASELINE_FILL>; a different name for >GTK_ALIGN_BASELINEB<. Since 4.12
+=item C<GTK_ALIGN_BASELINE_FILL>; a different name for B<GTK_ALIGN_BASELINE>.
 =item C<GTK_ALIGN_BASELINE>; align the widget according to the baseline.
-  See B<Gnome::Gtk4::Widget>. Deprecated: 4.12: Use >GTK_ALIGN_BASELINE_FILLB< instead
-=item C<GTK_ALIGN_BASELINE_CENTER>; stretch to fill all space, but align the baseline. Since 4.12
+=item C<GTK_ALIGN_BASELINE_CENTER>; stretch to fill all space, but align the baseline.
 
 =head2 GtkArrowType
 
@@ -380,7 +390,7 @@ Whenever a container has some form of natural row it may align
 children in that row along a common typographical baseline. If
 the amount of vertical space in the row is taller than the total
 requested height of the baseline-aligned children then it can use a
->GtkBaselinePositionB< to select where to put the baseline inside the
+C<enumeration GtkBaselinePosition defined in Gnome::Gtk4::T-enums> to select where to put the baseline inside the
 extra available space.
 =item C<GTK_BASELINE_POSITION_TOP>; Align the baseline at the top
 =item C<GTK_BASELINE_POSITION_CENTER>; Center the baseline
@@ -513,10 +523,10 @@ Built-in icon sizes.
 Icon sizes default to being inherited. Where they cannot be
 inherited, text size is the default.
 
-All widgets which use >GtkIconSizeB< set the normal-icons or
+All widgets which use C<enumeration GtkIconSize defined in Gnome::Gtk4::T-enums> set the normal-icons or
 large-icons style classes correspondingly, and let themes
 determine the actual size to be used with the
->-gtk-icon-sizeB< CSS property.
+`-gtk-icon-size` CSS property.
 =item C<GTK_ICON_SIZE_INHERIT>; Keep the size of the parent element
 =item C<GTK_ICON_SIZE_NORMAL>; Size similar to text size
 =item C<GTK_ICON_SIZE_LARGE>; Large size, for example in an icon view
@@ -573,8 +583,8 @@ in the future.
 
 =head2 GtkListTabBehavior
 
-Used to configure the focus behavior in the >GTK_DIR_TAB_FORWARDB<
-and >GTK_DIR_TAB_BACKWARDB< direction, like the <kbd>Tab</kbd> key
+Used to configure the focus behavior in the B<GTK_DIR_TAB_FORWARD>
+and B<GTK_DIR_TAB_BACKWARD> direction, like the <kbd>Tab</kbd> key
 in a B<Gnome::Gtk4::ListView>.
 =item C<GTK_LIST_TAB_ALL>; Cycle through all focusable items of the list
 =item C<GTK_LIST_TAB_ITEM>; Cycle through a single list element, then move
@@ -584,11 +594,11 @@ in a B<Gnome::Gtk4::ListView>.
   move focus out of the list. Moving focus between cells needs to
   be done with the arrow keys. This is only relevant for
   cell-based widgets like B<Gnome::Gtk4::ColumnView>, otherwise it behaves
-  like >GTK_LIST_TAB_ITEMB<.
+  like B<GTK_LIST_TAB_ITEM>.
 
 =head2 GtkMessageType
 
-The type of message being displayed in a B<MessageDialog>.
+The type of message being displayed in a B<Gnome::Gtk4::MessageDialog>.
 =item C<GTK_MESSAGE_INFO>; Informational message
 =item C<GTK_MESSAGE_WARNING>; Non-fatal warning message
 =item C<GTK_MESSAGE_QUESTION>; Question requiring a choice
@@ -629,22 +639,22 @@ See for example the I<natural-wrap-mode defined in Gnome::Gtk4::Label> property.
 
 Used to determine the layout of pages on a sheet when printing
 multiple pages per sheet.
-=item C<GTK_NUMBER_UP_LAYOUT_LEFT_TO_RIGHT_TOP_TO_BOTTOM>; ![](layout-lrtb.png)
-=item C<GTK_NUMBER_UP_LAYOUT_LEFT_TO_RIGHT_BOTTOM_TO_TOP>; ![](layout-lrbt.png)
-=item C<GTK_NUMBER_UP_LAYOUT_RIGHT_TO_LEFT_TOP_TO_BOTTOM>; ![](layout-rltb.png)
-=item C<GTK_NUMBER_UP_LAYOUT_RIGHT_TO_LEFT_BOTTOM_TO_TOP>; ![](layout-rlbt.png)
-=item C<GTK_NUMBER_UP_LAYOUT_TOP_TO_BOTTOM_LEFT_TO_RIGHT>; ![](layout-tblr.png)
-=item C<GTK_NUMBER_UP_LAYOUT_TOP_TO_BOTTOM_RIGHT_TO_LEFT>; ![](layout-tbrl.png)
-=item C<GTK_NUMBER_UP_LAYOUT_BOTTOM_TO_TOP_LEFT_TO_RIGHT>; ![](layout-btlr.png)
-=item C<GTK_NUMBER_UP_LAYOUT_BOTTOM_TO_TOP_RIGHT_TO_LEFT>; ![](layout-btrl.png)
+=item C<GTK_NUMBER_UP_LAYOUT_LEFT_TO_RIGHT_TOP_TO_BOTTOM>; =for image :src<asset_files/images/layout-lrtb.png> :width<30%> :class<inline>
+=item C<GTK_NUMBER_UP_LAYOUT_LEFT_TO_RIGHT_BOTTOM_TO_TOP>; =for image :src<asset_files/images/layout-lrbt.png> :width<30%> :class<inline>
+=item C<GTK_NUMBER_UP_LAYOUT_RIGHT_TO_LEFT_TOP_TO_BOTTOM>; =for image :src<asset_files/images/layout-rltb.png> :width<30%> :class<inline>
+=item C<GTK_NUMBER_UP_LAYOUT_RIGHT_TO_LEFT_BOTTOM_TO_TOP>; =for image :src<asset_files/images/layout-rlbt.png> :width<30%> :class<inline>
+=item C<GTK_NUMBER_UP_LAYOUT_TOP_TO_BOTTOM_LEFT_TO_RIGHT>; =for image :src<asset_files/images/layout-tblr.png> :width<30%> :class<inline>
+=item C<GTK_NUMBER_UP_LAYOUT_TOP_TO_BOTTOM_RIGHT_TO_LEFT>; =for image :src<asset_files/images/layout-tbrl.png> :width<30%> :class<inline>
+=item C<GTK_NUMBER_UP_LAYOUT_BOTTOM_TO_TOP_LEFT_TO_RIGHT>; =for image :src<asset_files/images/layout-btlr.png> :width<30%> :class<inline>
+=item C<GTK_NUMBER_UP_LAYOUT_BOTTOM_TO_TOP_RIGHT_TO_LEFT>; =for image :src<asset_files/images/layout-btrl.png> :width<30%> :class<inline>
 
 =head2 GtkOrdering
 
 Describes the way two values can be compared.
 
 These values can be used with a [callback C<$GLib>.CompareFunc]. However,
-a >GCompareFuncB< is allowed to return any integer values.
-For converting such a value to a >GtkOrderingB< value, use
+a B<Gnome::Glib::T-types> is allowed to return any integer values.
+For converting such a value to a C<enumeration GtkOrdering defined in Gnome::Gtk4::T-enums> value, use
 C<.Ordering.from-cmpfunc()>.
 =item C<GTK_ORDERING_SMALLER>; the first value is smaller than the second
 =item C<GTK_ORDERING_EQUAL>; the two values are equal
@@ -983,6 +993,15 @@ Flags that influence the behavior of [method C<$Widget>.pick].
 =item C<GTK_PICK_INSENSITIVE>; Include widgets that are insensitive
 =item C<GTK_PICK_NON_TARGETABLE>; Include widgets that are marked as non-targetable. See [property C<$Widget>:can-target]
 
+=head2 GtkPopoverMenuFlags
+
+Flags that affect how B<Gnome::Gtk4::PopoverMenu> widgets built from
+a B<Gnome::Gtk4::enums> are created and displayed.
+
+=item C<GTK_POPOVER_MENU_SLIDING>; Submenus are presented as sliding submenus that replace the main menu.
+=item C<GTK_POPOVER_MENU_NESTED>; Submenus are presented as traditional, nested
+  popovers.
+
 =head2 GtkStateFlags
 
 Describes a widget state.
@@ -1021,8 +1040,8 @@ different names.
 =begin pod
 =head2 ordering-from-cmpfunc
 
-Converts the result of a >GCompareFuncB< like strcmp() to a
->GtkOrderingB< value.
+Converts the result of a B<Gnome::Glib::T-types> like strcmp() to a
+C<enumeration GtkOrdering defined in Gnome::Gtk4::T-enums> value.
 
 =begin code
 method ordering-from-cmpfunc ( Int() $cmpfunc-result --> GtkOrdering )
@@ -1030,7 +1049,7 @@ method ordering-from-cmpfunc ( Int() $cmpfunc-result --> GtkOrdering )
 
 =item $cmpfunc-result; Result of a comparison function.
 
-Return value; the corresponding >GtkOrdering`. 
+Return value; the corresponding C<enumeration GtkOrdering defined in Gnome::Gtk4::T-enums>. 
 
 =begin comment
 

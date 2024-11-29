@@ -1,36 +1,8 @@
 =comment Package: Gtk4, C-Source: expression
 use v6.d;
 
-#-------------------------------------------------------------------------------
-#--[Class Description]----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
 =begin pod
-=head1 Gnome::Gtk4::T-expression
-
-![](images/expressionwatch.png)
-
-=head1 Description
-
-An opaque structure representing a watched B<Gnome::Gtk4::Expression>.
-
-The contents of B<Gnome::Gtk4::T-expression> should only be accessed through the
-provided API.
-
-=begin comment
-
-=head2 Uml Diagram
-![](plantuml/….svg)
-
-=end comment
-
-=begin comment
-
-=head2 Example
-# Example use of module Gnome::Gtk4::ExpressionWatch
-
-=end comment
-
+=TITLE Gnome::Gtk4::T-expression
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -42,39 +14,114 @@ provided API.
 
 =head2 new
 
-=head3 :native-object
+Initialization of a type class is simple and only needed when the standalone functions are used.
 
-Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+  method new ( )
 
-  multi method new ( N-Object :$native-object! )
+=end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-ExpressionWatch
+
+This is an opaque type of which fields are not available.
+
+  class N-ExpressionWatch:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
 =end pod
 
 #-------------------------------------------------------------------------------
-#--[Methods]--------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Methods
-=end pod
+=head1 Callback Functions
+=head2 ExpressionNotify
 
-#-------------------------------------------------------------------------------
-=begin pod
-=head2 evaluate
-
-Evaluates the watched expression and on success stores the result
-in B<value>.
-
-This is equivalent to calling C<.evaluate() in class Gnome::Gtk4::Expression> with the
-expression and this pointer originally used to create B<watch>.
-
+=head3 Signature
 =begin code
-method evaluate ( N-Object $value --> Bool )
+:(  gpointer $user-data  )
 =end code
 
-=item $value; an empty B<Gnome::GObject::N-Value> to be set
+=item user-data; data passed to C<.watch()>
 
-Return value; C<True> if the expression could be evaluated and B<value> was set. 
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 param-spec-expression
+This function is not yet available
+
+Creates a new B<Gnome::GObject::ParamSpec> instance for a property holding a B<Gnome::Gtk4::Expression>.
+
+See B<g_param_spec_internal>()` for details on the property strings.
+
+=begin code
+method param-spec-expression ( Str $name, Str $nick, Str $blurb, UInt $flags --> N-Object )
+=end code
+
+=item $name; canonical name of the property.
+=item $nick; a user-readable name for the property.
+=item $blurb; a user-readable description of the property.
+=item $flags; flags for the property.
+
+Return value; a newly created property specification. 
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-dup-expression
+
+Retrieves the B<Gnome::Gtk4::Expression> stored inside the given B<value>, and acquires
+a reference to it.
+
+=begin code
+method value-dup-expression ( N-Object $value --> N-Object )
+=end code
+
+=item $value; a B<Gnome::GObject::N-Value> initialized with type B<GTK_TYPE_EXPRESSION>
+
+Return value; a B<Gnome::Gtk4::Expression>. 
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ExpressionWatch
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 value-get-expression
+
+Retrieves the B<Gnome::Gtk4::Expression> stored inside the given B<value>.
+
+=begin code
+method value-get-expression ( N-Object $value --> N-Object )
+=end code
+
+=item $value; a B<Gnome::GObject::N-Value> initialized with type B<GTK_TYPE_EXPRESSION>
+
+Return value; a B<Gnome::Gtk4::Expression>. 
 
 =begin comment
 
@@ -87,15 +134,18 @@ Return value; C<True> if the expression could be evaluated and B<value> was set.
 
 #-------------------------------------------------------------------------------
 =begin pod
-=head2 ref
+=head2 value-set-expression
 
-Acquires a reference on the given B<Gnome::Gtk4::T-expression>.
+Stores the given B<Gnome::Gtk4::Expression> inside B<value>.
+
+The B<Gnome::GObject::N-Value> will acquire a reference to the B<expression>.
 
 =begin code
-method ref (--> N-Object )
+method value-set-expression ( N-Object $value, N-Object() $expression )
 =end code
 
-Return value; the B<Gnome::Gtk4::T-expression> with an additional reference. 
+=item $value; a B<Gnome::GObject::N-Value> initialized with type B<GTK_TYPE_EXPRESSION>
+=item $expression; a B<Gnome::Gtk4::Expression>.
 
 =begin comment
 
@@ -108,43 +158,23 @@ Return value; the B<Gnome::Gtk4::T-expression> with an additional reference.
 
 #-------------------------------------------------------------------------------
 =begin pod
-=head2 unref
+=head2 value-take-expression
 
-Releases a reference on the given B<Gnome::Gtk4::T-expression>.
+Stores the given B<Gnome::Gtk4::Expression> inside B<value>.
 
-If the reference was the last, the resources associated to B<self> are
-freed.
+This function transfers the ownership of the B<expression> to the B<Gnome::GObject::N-Value>.
 
 =begin code
-method unref ( )
+method value-take-expression ( N-Object $value, N-Object() $expression )
 =end code
+
+=item $value; a B<Gnome::GObject::N-Value> initialized with type B<GTK_TYPE_EXPRESSION>
+=item $expression; (transfer ownership: full) a B<Gnome::Gtk4::Expression>.
 
 =begin comment
 
 =head2 Example
 # Example for unref
-
-=end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-=head2 unwatch
-
-Stops watching an expression.
-
-See C<.watch() in class Gnome::Gtk4::Expression> for how the watch
-was established.
-
-=begin code
-method unwatch ( )
-=end code
-
-=begin comment
-
-=head2 Example
-# Example for unwatch
 
 =end comment
 

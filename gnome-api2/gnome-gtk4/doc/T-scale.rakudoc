@@ -1,8 +1,8 @@
-=comment Package: Gtk4, C-Source: menubutton
+=comment Package: Gtk4, C-Source: scale
 use v6.d;
 
 =begin pod
-=TITLE Gnome::Gtk4::T-menubutton
+=TITLE Gnome::Gtk4::T-scale
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -11,14 +11,15 @@ use v6.d;
 
 =begin pod
 =head1 Callback Functions
-=head2 MenuButtonCreatePopupFunc
+=head2 ScaleFormatValueFunc
 
 =head3 Signature
 =begin code
-:(  N-Object() $menu-button, gpointer $user-data  )
+:(  N-Object() $scale, Num() $value, gpointer $user-data  )
 =end code
 
-=item menu-button; the B<Gnome::Gtk4::MenuButton>
-=item user-data; User data passed to gtk_menu_button_set_create_popup_func()
+=item scale; The B<Gnome::Gtk4::Scale>
+=item value; The numeric value to format
+=item user-data; user data
 
 =end pod
