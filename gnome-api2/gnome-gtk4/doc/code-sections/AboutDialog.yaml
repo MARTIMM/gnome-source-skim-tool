@@ -49,13 +49,13 @@
 
 "____EXAMPLE____037": |
   =begin code
-  use Gnome::Gtk3::Window;
-  use Gnome::Gtk3::AboutDialog;
-  use Gnome::Gtk3::T-AboutDialog;
+  use Gnome::Gtk4::Window:api<2>;
+  use Gnome::Gtk4::AboutDialog:api<2>;
+  use Gnome::Gtk4::T-AboutDialog:api<2>;
 
-  my Gnome::Gtk3::Window $window .= new-window;
+  my Gnome::Gtk4::Window $window .= new-window;
 
-  my Gnome::Gtk3::AboutDialog $about .= new-about-dialog;
+  my Gnome::Gtk4::AboutDialog $about .= new-about-dialog;
   $about.set-transient-for($window);
   $about.set-version('0.21.4');
   $about.set-license-type(GTK_LICENSE_ARTISTIC);
@@ -68,7 +68,7 @@
 
 "____EXAMPLE____038": |
   =begin comment
-  my Gnome::Gtk3::AboutDialog $about .= new-about-dialog;
+  my Gnome::Gtk4::AboutDialog $about .= new-about-dialog;
   $about.set-translator-credits("translator-credits"));
   =end comment
 ...
