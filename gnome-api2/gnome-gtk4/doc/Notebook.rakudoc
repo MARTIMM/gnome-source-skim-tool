@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Notebook
-
-![](images/notebook.png)
-
+=TITLE Gnome::Gtk4::Notebook
 =head1 Description
 
 B<Gnome::Gtk4::Notebook> is a container whose children are pages switched
 between using tabs.
 
-![An example GtkNotebook](notebook.png)
+=for image :src<asset_files/images/notebook.png> :width<30%> :class<inline>
 
 There are many configuration options for B<Gnome::Gtk4::Notebook>. Among
 other things, you can choose on which edge the tabs appear
@@ -29,14 +26,14 @@ there will be a popup menu allowing the users to switch pages.
 
 The B<Gnome::Gtk4::Notebook> implementation of the B<Gnome::Gtk4::R-Buildable> interface
 supports placing children into tabs by specifying “tab” as the
-“type” attribute of a <child> element. Note that the content
+“type” attribute of a `<child>` element. Note that the content
 of the tab must be created before the tab can be filled.
-A tab child can be specified without specifying a <child>
+A tab child can be specified without specifying a `<child>`
 type attribute.
 
 To add a child widget in the notebooks action area, specify
 "action-start" or “action-end” as the “type” attribute of the
-<child> element.
+`<child>` element.
 
 An example of a UI definition fragment with B<Gnome::Gtk4::Notebook>:
 
@@ -87,14 +84,14 @@ If action widgets are present, their CSS nodes are placed next
 to the B<tabs> node. If the notebook is scrollable, CSS nodes with
 name B<arrow> are placed as first and last child of the B<tabs> node.
 
-The main node gets the B<.frame> style class when the notebook
+The main node gets the `.frame` style class when the notebook
 has a border (see C<.set-show-border()>).
 
-The header node gets one of the style class B<.top>, B<.bottom>,
-B<.left> or B<.right>, depending on where the tabs are placed. For
-reorderable pages, the tab node gets the B<.reorderable-page> class.
+The header node gets one of the style class `.top`, `.bottom`,
+`.left` or `.right`, depending on where the tabs are placed. For
+reorderable pages, the tab node gets the `.reorderable-page` class.
 
-A B<tab> node gets the B<.dnd> style class while it is moved with drag-and-drop.
+A B<tab> node gets the `.dnd` style class while it is moved with drag-and-drop.
 
 The nodes are always arranged from left-to-right, regardless of text direction.
 
@@ -137,12 +134,6 @@ B<Gnome::Gtk4::Notebook> uses the following roles:
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -601,7 +592,7 @@ method get-tab-label-text ( N-Object() $child --> Str )
 =item $child; a widget contained in a page of C<$notebook>.
 
 Return value; the text of the tab label, or undefined if
-  the tab label idget is not a B<Gnome::Gtk4::Label>. The string is owned
+  the tab label widget is not a B<Gnome::Gtk4::Label>. The string is owned
   by the widget and must not be freed.. 
 
 =begin comment
@@ -1133,15 +1124,16 @@ method set-show-tabs ( Bool() $show-tabs )
 Sets whether the tab can be detached from C<$notebook> to another
 notebook or widget.
 
-Note that two notebooks must share a common group identificator
+Note that two notebooks must share a common group identifier
 (see C<.set-group-name()>) to allow automatic tabs
 interchange between them.
 
 If you want a widget to interact with a notebook through DnD
 (i.e.: accept dragged tabs from it) it must be set as a drop
-destination and accept the target “GTK_NOTEBOOK_TAB”. The notebook
-will fill the selection with a GtkWidget** pointing to the child
-widget that corresponds to the dropped tab.
+destination by adding to it a B<Gnome::Gtk4::DropTarget> controller that accepts
+the GType B<GTK_TYPE_NOTEBOOK_PAGE>. The `:value` of said drop target will be
+preloaded with a B<Gnome::Gtk4::NotebookPage> object that corresponds to the
+dropped tab, so you can process the value via `::accept` or `::drop` signals.
 
 Note that you should use C<.detach-tab()> instead
 of C<.remove-page()> if you want to remove the tab

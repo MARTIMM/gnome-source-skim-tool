@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::NoSelection
-
-![](images/noselection.png)
-
+=TITLE Gnome::Gtk4::NoSelection
 =head1 Description
 
 B<Gnome::Gtk4::NoSelection> is a B<Gnome::Gtk4::R-SelectionModel> that does not allow selecting
@@ -17,6 +14,8 @@ anything.
 
 This model is meant to be used as a simple wrapper around a B<Gnome::Gio::R-ListModel>
 when a B<Gnome::Gtk4::R-SelectionModel> is required.
+
+B<Gnome::Gtk4::NoSelection> passes through sections from the underlying model.
 
 =begin comment
 

@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::NamedAction
-
-![](images/namedaction.png)
-
+=TITLE Gnome::Gtk4::NamedAction
 =head1 Description
 
 A B<Gnome::Gtk4::ShortcutAction> that activates an action by name.
@@ -49,7 +46,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 new-namedaction
 
 Creates an action that when activated, activates
@@ -59,18 +55,19 @@ It also passes the given arguments to it.
 
 See C<.insert-action-group() in class Gnome::Gtk4::Widget> for
 how to add actions to widgets.
-=begin comment
-
-=head2 Example
-# Example for new-namedaction
-
-=end comment
 
 =begin code
 method new-namedaction ( Str $name --> Gnome::Gtk4::NamedAction \)
 =end code
 
 =item $name; the detailed name of the action.
+
+=begin comment
+
+=head2 Example
+# Example for new-namedaction
+
+=end comment
 
 =end pod
 
@@ -84,22 +81,22 @@ method new-namedaction ( Str $name --> Gnome::Gtk4::NamedAction \)
 
 #-------------------------------------------------------------------------------
 =begin pod
-
 =head2 get-action-name
 
 Returns the name of the action that will be activated.
-=begin comment
-
-=head2 Example
-# Example for get-action-name
-
-=end comment
 
 =begin code
 method get-action-name (--> Str )
 =end code
 
 Return value; the name of the action to activate. 
+
+=begin comment
+
+=head2 Example
+# Example for get-action-name
+
+=end comment
 
 =end pod
 
