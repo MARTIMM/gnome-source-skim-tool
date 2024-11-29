@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::FileChooserDialog
-
-![](images/filechooserdialog.png)
-
+=TITLE Gnome::Gtk4::FileChooserDialog
 =head1 Description
 
 B<Gnome::Gtk4::FileChooserDialog> is a dialog suitable for use with
 “File Open” or “File Save” commands.
 
-![An example GtkFileChooserDialog](filechooser.png)
+=for image :src<asset_files/images/filechooser.png> :width<30%> :class<inline>
 
 This widget works by putting a B<Gnome::Gtk4::FileChooserWidget>
 inside a B<Gnome::Gtk4::Dialog>. It exposes the B<Gnome::Gtk4::R-FileChooser>
@@ -183,6 +180,11 @@ be blocked if appropriate.
 To summarize, make sure you use a predefined response code
 when you use B<Gnome::Gtk4::FileChooserDialog> to ensure proper operation.
 
+=head3 CSS nodes
+
+B<Gnome::Gtk4::FileChooserDialog> has a single CSS node with the name B<window> and style
+class `.filechooser`.
+
 =begin comment
 
 =head2 Uml Diagram
@@ -206,6 +208,8 @@ when you use B<Gnome::Gtk4::FileChooserDialog> to ensure proper operation.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -214,12 +218,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -227,19 +225,21 @@ Create an object using a native object from a builder. See also B<Gnome::GObject
 =head2 new-filechooserdialog
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a new B<Gnome::Gtk4::FileChooserDialog>.
 
 This function is analogous to C<.new-with-buttons() in class Gnome::Gtk4::Dialog>.
 
 =begin code
-method new-filechooserdialog ( Str $title, N-Object() $parent, GtkFileChooserAction $action, Str $first-button-text --> Gnome::Gtk4::FileChooserDialog \)
+method new-filechooserdialog ( Str $title, N-Object() $parent, GtkFileChooserAction $action, Str $first-button-text, … --> Gnome::Gtk4::FileChooserDialog \)
 =end code
 
 =item $title; Title of the dialog.
 =item $parent; Transient parent of the dialog.
 =item $action; Open or save mode for the dialog.
 =item $first-button-text; text to go in the first button.
-=item $…; ….
+=item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
 

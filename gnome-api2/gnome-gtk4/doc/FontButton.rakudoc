@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::FontButton
-
-![](images/fontbutton.png)
-
+=TITLE Gnome::Gtk4::FontButton
 =head1 Description
 
 The B<Gnome::Gtk4::FontButton> allows to open a font chooser dialog to change
 the font.
 
-![An example GtkFontButton](font-button.png)
+=for image :src<asset_files/images/font-button.png> :width<30%> :class<inline>
 
 It is suitable widget for selecting a font in a preference dialog.
 
@@ -318,7 +315,7 @@ method set-use-size ( Bool() $use-size )
 
 Emitted to when the font button is activated.
 
-The B<::activate> signal on B<Gnome::Gtk4::FontButton> is an action signal and
+The `::activate` signal on B<Gnome::Gtk4::FontButton> is an action signal and
 emitting it causes the button to present its dialog.
 
 =begin code

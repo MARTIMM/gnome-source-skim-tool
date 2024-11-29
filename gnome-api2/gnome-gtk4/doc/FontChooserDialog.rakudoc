@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::FontChooserDialog
-
-![](images/fontchooserdialog.png)
-
+=TITLE Gnome::Gtk4::FontChooserDialog
 =head1 Description
 
 The B<Gnome::Gtk4::FontChooserDialog> widget is a dialog for selecting a font.
 
-![An example GtkFontChooserDialog](fontchooser.png)
+=for image :src<asset_files/images/fontchooser.png> :width<30%> :class<inline>
 
 B<Gnome::Gtk4::FontChooserDialog> implements the B<Gnome::Gtk4::R-FontChooser> interface
 and does not provide much API of its own.
@@ -23,9 +20,14 @@ To create a B<Gnome::Gtk4::FontChooserDialog>, use C<.newfontchooserdialog()>.
 
 =head2 GtkFontChooserDialog as GtkBuildable
 
-The B<Gnome::Gtk4::FontChooserDialog> implementation of the U<Gnome::Gtk4::R-Buildable>
+The B<Gnome::Gtk4::FontChooserDialog> implementation of the B<Gnome::Gtk4::R-Buildable>
 interface exposes the buttons with the names “select_button”
 and “cancel_button”.
+
+=head3 CSS nodes
+
+B<Gnome::Gtk4::FontChooserDialog> has a single CSS node with the name B<window> and style
+class `.fontchooser`.
 
 =begin comment
 
@@ -50,6 +52,8 @@ and “cancel_button”.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -58,17 +62,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-fontchooserdialog
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::FontChooserDialog>.
 

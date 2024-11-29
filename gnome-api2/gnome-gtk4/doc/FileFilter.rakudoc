@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::FileFilter
-
-![](images/filefilter.png)
-
+=TITLE Gnome::Gtk4::FileFilter
 =head1 Description
 
 B<Gnome::Gtk4::FileFilter> filters files by name or mime type.
@@ -33,9 +30,9 @@ B<Gnome::Gio::FileInfo> objects.
 =head2 GtkFileFilter as GtkBuildable
 
 The B<Gnome::Gtk4::FileFilter> implementation of the B<Gnome::Gtk4::R-Buildable> interface
-supports adding rules using the B<<mime-types>> and B<<patterns>> and
-B<<suffixes>> elements and listing the rules within. Specifying a
-B<<mime-type>> or B<<pattern>> or B<<suffix>> has the same effect as
+supports adding rules using the `<mime-types>` and `<patterns>` and
+`<suffixes>` elements and listing the rules within. Specifying a
+`<mime-type>` or `<pattern>` or `<suffix>` has the same effect as
 as calling
 C<.add-mime-type()> or
 C<.add-pattern()> or
@@ -139,7 +136,7 @@ C<.to-gvariant()>.
 method new-from-gvariant ( N-Object $variant --> Gnome::Gtk4::FileFilter \)
 =end code
 
-=item $variant; an B<a{sv}> B<Gnome::Glib::N-Variant>
+=item $variant; an B<a>{sv}` B<Gnome::Glib::N-Variant>
 
 =begin comment
 
@@ -332,7 +329,7 @@ method set-name ( Str $name )
 =begin pod
 =head2 to-gvariant
 
-Serialize a file filter to an B<a{sv}> variant.
+Serialize a file filter to an B<a>{sv}` variant.
 
 =begin code
 method to-gvariant (--> N-Object )

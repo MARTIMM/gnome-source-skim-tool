@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Frame
-
-![](images/frame.png)
-
+=TITLE Gnome::Gtk4::Frame
 =head1 Description
 
 B<Gnome::Gtk4::Frame> is a widget that surrounds its child with a decorative
 frame and an optional label.
 
-![An example GtkFrame](frame.png)
+=for image :src<asset_files/images/frame.png> :width<30%> :class<inline>
 
 If present, the label is drawn inside the top edge of the frame.
 The horizontal position of the label can be controlled with
@@ -28,8 +25,8 @@ to widgets, but be aware that it also cuts off shadows.
 
 The B<Gnome::Gtk4::Frame> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
 placing a child in the label position by specifying “label” as the
-“type” attribute of a <child> element. A normal content child can
-be specified without specifying a <child> type attribute.
+“type” attribute of a `<child>` element. A normal content child can
+be specified without specifying a `<child>` type attribute.
 
 An example of a UI definition fragment with GtkFrame:
 =begin comment
@@ -56,6 +53,10 @@ frame
 B<Gnome::Gtk4::Frame> has a main CSS node with name “frame”, which is used to draw the
 visible border. You can set the appearance of the border using CSS properties
 like “border-style” on this node.
+
+=head2 Accessibility
+
+B<Gnome::Gtk4::Frame> uses the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
 
 =begin comment
 
@@ -87,12 +88,6 @@ like “border-style” on this node.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 

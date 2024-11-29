@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::FileChooserWidget
-
-![](images/filechooserwidget.png)
-
+=TITLE Gnome::Gtk4::FileChooserWidget
 =head1 Description
 
 B<Gnome::Gtk4::FileChooserWidget> is a widget for choosing files.
@@ -45,6 +42,8 @@ B<Gnome::Gtk4::FileChooserWidget> has a single CSS node with name filechooser.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -53,17 +52,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-filechooserwidget
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::FileChooserWidget>.
 
@@ -208,8 +203,8 @@ the user can use to manually type the name of the file he wishes to select.
 
 The default bindings for this signal are <kbd>Control</kbd>-<kbd>L</kbd>
 with a C<$path> string of "" (the empty string). It is also bound to
-<kbd>/</kbd> with a C<$path> string of "B</>" (a slash):  this lets you
-type B</> and immediately type a path name. On Unix systems, this is
+<kbd>/</kbd> with a C<$path> string of "`/`" (a slash):  this lets you
+type `/` and immediately type a path name. On Unix systems, this is
 bound to <kbd>~</kbd> (tilde) with a C<$path> string of "~" itself for
 access to home directories.
 
@@ -343,7 +338,7 @@ Emitted when the user asks for it.
 This is a [keybinding signal](class.SignalAction.html).
 
 This is used to make the file chooser switch to the bookmark
-specified in the C<$bookmark_index> parameter. For example, if
+specified in the C<$bookmark-index> parameter. For example, if
 you have three bookmarks, you can pass 0, 1, 2 to this signal
 to switch to each of them, respectively.
 
