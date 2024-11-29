@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Popover
-
-![](images/popover.png)
-
+=TITLE Gnome::Gtk4::Popover
 =head1 Description
 
 B<Gnome::Gtk4::Popover> is a bubble-like context popup.
 
-![An example GtkPopover](popover.png)
+=for image :src<asset_files/images/popover.png> :width<30%> :class<inline>
 
 It is primarily meant to provide context-dependent information
 or options. Popovers are attached to a parent widget. By default,
@@ -71,12 +68,12 @@ popover.background[.menu]
 
 B<Gnome::Gtk4::Popover> has a main node with name B<popover>, an arrow with name B<arrow>,
 and another node for the content named B<contents>. The B<popover> node always
-gets the B<.background> style class. It also gets the B<.menu> style class
+gets the `.background` style class. It also gets the `.menu` style class
 if the popover is menu-like, e.g. is a B<Gnome::Gtk4::PopoverMenu>.
 
 Particular uses of B<Gnome::Gtk4::Popover>, such as touch selection popups or
 magnifiers in B<Gnome::Gtk4::Entry> or B<Gnome::Gtk4::TextView> get style classes like
-B<.touch-selection> or B<.magnifier> to differentiate from plain popovers.
+`.touch-selection` or `.magnifier` to differentiate from plain popovers.
 
 When styling a popover directly, the B<popover> node should usually
 not have any background. The visible part of the popover can have

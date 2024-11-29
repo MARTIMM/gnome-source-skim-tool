@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Paned
-
-![](images/paned.png)
-
+=TITLE Gnome::Gtk4::Paned
 =head1 Description
 
 A widget with two panes, arranged either horizontally or vertically.
 
-![An example GtkPaned](panes.png)
+=for image :src<asset_files/images/panes.png> :width<30%> :class<inline>
 
 The division between the two panes is adjustable by the user
 by dragging a handle.
@@ -112,12 +109,6 @@ gtk_widget_set_size_request (frame2, 50, -1);
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 

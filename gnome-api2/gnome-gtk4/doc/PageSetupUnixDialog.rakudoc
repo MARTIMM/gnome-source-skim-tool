@@ -6,20 +6,22 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::PageSetupUnixDialog
-
-![](images/pagesetupunixdialog.png)
-
+=TITLE Gnome::Gtk4::PageSetupUnixDialog
 =head1 Description
 
 B<Gnome::Gtk4::PageSetupUnixDialog> implements a page setup dialog for platforms
 which don’t provide a native page setup dialog, like Unix.
 
-![An example GtkPageSetupUnixDialog](pagesetupdialog.png)
+=for image :src<asset_files/images/pagesetupdialog.png> :width<30%> :class<inline>
 
 It can be used very much like any other GTK dialog, at the
 cost of the portability offered by the high-level printing
 API in B<Gnome::Gtk4::PrintOperation>.
+
+=head3 CSS nodes
+
+B<Gnome::Gtk4::PageSetupUnixDialog> has a single CSS node with the name B<window> and
+style class `.pagesetup`.
 
 =begin comment
 
@@ -51,12 +53,6 @@ API in B<Gnome::Gtk4::PrintOperation>.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
