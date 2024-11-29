@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::MenuButton
-
-![](images/menubutton.png)
-
+=TITLE Gnome::Gtk4::MenuButton
 =head1 Description
 
 The B<Gnome::Gtk4::MenuButton> widget is used to display a popup when clicked.
 
-![An example GtkMenuButton](menu-button.png)
+=for image :src<asset_files/images/menu-button.png> :width<30%> :class<inline>
 
 This popup can be provided either as a B<Gnome::Gtk4::Popover> or as an abstract
 B<Gnome::Gio::MenuModel>.
@@ -40,10 +37,10 @@ part of the menu offscreen, it is “pushed in”.
 
 |           | start                | center                | end                |
 | -         | ---                  | ---                   | ---                |
-| **down**  | ![](down-start.png)  | ![](down-center.png)  | ![](down-end.png)  |
-| **up**    | ![](up-start.png)    | ![](up-center.png)    | ![](up-end.png)    |
-| **left**  | ![](left-start.png)  | ![](left-center.png)  | ![](left-end.png)  |
-| **right** | ![](right-start.png) | ![](right-center.png) | ![](right-end.png) |
+| **down**  | =for image :src<asset_files/images/down-start.png> :width<30%> :class<inline>  | =for image :src<asset_files/images/down-center.png> :width<30%> :class<inline>  | =for image :src<asset_files/images/down-end.png> :width<30%> :class<inline>  |
+| **up**    | =for image :src<asset_files/images/up-start.png> :width<30%> :class<inline>    | =for image :src<asset_files/images/up-center.png> :width<30%> :class<inline>    | =for image :src<asset_files/images/up-end.png> :width<30%> :class<inline>    |
+| **left**  | =for image :src<asset_files/images/left-start.png> :width<30%> :class<inline>  | =for image :src<asset_files/images/left-center.png> :width<30%> :class<inline>  | =for image :src<asset_files/images/left-end.png> :width<30%> :class<inline>  |
+| **right** | =for image :src<asset_files/images/right-start.png> :width<30%> :class<inline> | =for image :src<asset_files/images/right-center.png> :width<30%> :class<inline> | =for image :src<asset_files/images/right-end.png> :width<30%> :class<inline> |
 
 =head2 CSS nodes
 
@@ -56,20 +53,20 @@ menubutton
 =end comment
 
 B<Gnome::Gtk4::MenuButton> has a single CSS node with name B<menubutton>
-which contains a B<button> node with a B<.toggle> style class.
+which contains a B<button> node with a `.toggle` style class.
 
-If the button contains an icon, it will have the B<.image-button> style class,
-if it contains text, it will have B<.text-button> style class. If an arrow is
+If the button contains an icon, it will have the `.image-button` style class,
+if it contains text, it will have `.text-button` style class. If an arrow is
 visible in addition to an icon, text or a custom child, it will also have
-B<.arrow-button> style class.
+`.arrow-button` style class.
 
 Inside the toggle button content, there is an B<arrow> node for
-the indicator, which will carry one of the B<.none>, B<.up>, B<.down>,
-B<.left> or B<.right> style classes to indicate the direction that
+the indicator, which will carry one of the `.none`, `.up`, `.down`,
+`.left` or `.right` style classes to indicate the direction that
 the menu will appear in. The CSS is expected to provide a suitable
-image for each of these cases using the B<-gtk-icon-source> property.
+image for each of these cases using the `-gtk-icon-source` property.
 
-Optionally, the B<menubutton> node can carry the B<.circular> style class
+Optionally, the B<menubutton> node can carry the `.circular` style class
 to request a round appearance.
 
 =head2 Accessibility
@@ -790,7 +787,7 @@ method set-use-underline ( Bool() $use-underline )
 
 Emitted to when the menu button is activated.
 
-The B<::activate> signal on B<Gnome::Gtk4::MenuButton> is an action signal and
+The `::activate` signal on B<Gnome::Gtk4::MenuButton> is an action signal and
 emitting it causes the button to pop up its menu.
 
 =begin code

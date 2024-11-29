@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::MessageDialog
-
-![](images/messagedialog.png)
-
+=TITLE Gnome::Gtk4::MessageDialog
 =head1 Description
 
 B<Gnome::Gtk4::MessageDialog> presents a dialog with some message text.
 
-![An example GtkMessageDialog](messagedialog.png)
+=for image :src<asset_files/images/messagedialog.png> :width<30%> :class<inline>
 
 It’s simply a convenience widget; you could construct the equivalent of
 B<Gnome::Gtk4::MessageDialog> from B<Gnome::Gtk4::Dialog> without too much effort, but
@@ -68,7 +65,7 @@ g_signal_connect (dialog, "response",
 
 =head2 GtkMessageDialog as GtkBuildable
 
-The B<Gnome::Gtk4::MessageDialog> implementation of the U<Gnome::Gtk4::R-Buildable> interface exposes
+The B<Gnome::Gtk4::MessageDialog> implementation of the B<Gnome::Gtk4::R-Buildable> interface exposes
 the message area as an internal child with the name “message_area”.
 
 =begin comment
@@ -94,6 +91,8 @@ the message area as an internal child with the name “message_area”.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -102,17 +101,14 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-messagedialog
+This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new message dialog.
 
@@ -122,7 +118,7 @@ response IDs from  C<enumeration ResponseType from Gnome::Gtk4::T-dialog> . See 
 for more details.
 
 =begin code
-method new-messagedialog ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType  $buttons, Str $message-format --> Gnome::Gtk4::MessageDialog \)
+method new-messagedialog ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType $buttons, Str $message-format, … --> Gnome::Gtk4::MessageDialog \)
 =end code
 
 =item $parent; transient parent.
@@ -130,7 +126,7 @@ method new-messagedialog ( N-Object() $parent, UInt $flags, GtkMessageType $type
 =item $type; type of message.
 =item $buttons; set of buttons to use.
 =item $message-format; printf()-style format string.
-=item $…; ….
+=item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
 
@@ -144,6 +140,9 @@ method new-messagedialog ( N-Object() $parent, UInt $flags, GtkMessageType $type
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-markup
+This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new message dialog.
 
@@ -176,7 +175,7 @@ gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog),
 =end comment
 
 =begin code
-method new-with-markup ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType  $buttons, Str $message-format --> Gnome::Gtk4::MessageDialog \)
+method new-with-markup ( N-Object() $parent, UInt $flags, GtkMessageType $type, GtkButtonsType $buttons, Str $message-format, … --> Gnome::Gtk4::MessageDialog \)
 =end code
 
 =item $parent; transient parent.
@@ -184,7 +183,7 @@ method new-with-markup ( N-Object() $parent, UInt $flags, GtkMessageType $type, 
 =item $type; type of message.
 =item $buttons; set of buttons to use.
 =item $message-format; printf()-style format string.
-=item $…; ….
+=item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
 
@@ -208,9 +207,11 @@ method new-with-markup ( N-Object() $parent, UInt $flags, GtkMessageType $type, 
 =head2 format-secondary-markup
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the secondary text of the message dialog.
 
-The C<$message_format> is assumed to contain Pango markup.
+The C<$message-format> is assumed to contain Pango markup.
 
 Due to an oversight, this function does not escape special
 XML characters like C<.new-with-markup()>
@@ -228,11 +229,11 @@ g_free (msg);
 =end comment
 
 =begin code
-method format-secondary-markup ( Str $message-format )
+method format-secondary-markup ( Str $message-format, … )
 =end code
 
 =item $message-format; printf()-style string with Pango markup.
-=item $…; ….
+=item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
 
@@ -248,14 +249,16 @@ method format-secondary-markup ( Str $message-format )
 =head2 format-secondary-text
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the secondary text of the message dialog.
 
 =begin code
-method format-secondary-text ( Str $message-format )
+method format-secondary-text ( Str $message-format, … )
 =end code
 
 =item $message-format; printf()-style format string.
-=item $…; ….
+=item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
 
@@ -270,6 +273,8 @@ method format-secondary-text ( Str $message-format )
 =begin pod
 =head2 get-message-area
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the message area of the dialog.
 
 This is the box where the dialog’s primary and secondary labels
@@ -282,7 +287,7 @@ method get-message-area (--> N-Object )
 =end code
 
 Return value; A B<Gnome::Gtk4::Box> corresponding to the
-  “message area” in the C<$message_dialog>. 
+  “message area” in the C<$message-dialog>. 
 
 =begin comment
 
@@ -296,6 +301,8 @@ Return value; A B<Gnome::Gtk4::Box> corresponding to the
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-markup
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the text of the message dialog.
 
