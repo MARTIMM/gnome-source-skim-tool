@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ListView
-
-![](images/listview.png)
-
+=TITLE Gnome::Gtk4::ListView
 =head1 Description
 
 B<Gnome::Gtk4::ListView> presents a large dynamic list of items.
@@ -31,76 +28,14 @@ To learn more about the list widget framework, see the
 [overview](section-list-widget.html).
 
 An example of using B<Gnome::Gtk4::ListView>:
-=begin comment
-static void
-setup_listitem_cb (GtkListItemFactory *factory,
-                   GtkListItem        *list_item)
-{
-  GtkWidget *image;
-
-  image = gtk_image_new ();
-  gtk_image_set_icon_size (GTK_IMAGE (image), GTK_ICON_SIZE_LARGE);
-  gtk_list_item_set_child (list_item, image);
-}
-
-static void
-bind_listitem_cb (GtkListItemFactory *factory,
-                  GtkListItem        *list_item)
-{
-  GtkWidget *image;
-  GAppInfo *app_info;
-
-  image = gtk_list_item_get_child (list_item);
-  app_info = gtk_list_item_get_item (list_item);
-  gtk_image_set_from_gicon (GTK_IMAGE (image), g_app_info_get_icon (app_info));
-}
-
-static void
-activate_cb (GtkListView  *list,
-             guint         position,
-             gpointer      unused)
-{
-  GAppInfo *app_info;
-
-  app_info = g_list_model_get_item (G_LIST_MODEL (gtk_list_view_get_model (list)), position);
-  g_app_info_launch (app_info, NULL, NULL, NULL);
-  g_object_unref (app_info);
-}
-
-...
-
-  model = create_application_list ();
-
-  factory = gtk_signal_list_item_factory_new ();
-  g_signal_connect (factory, "setup", G_CALLBACK (setup_listitem_cb), NULL);
-  g_signal_connect (factory, "bind", G_CALLBACK (bind_listitem_cb), NULL);
-
-  list = gtk_list_view_new (GTK_SELECTION_MODEL (gtk_single_selection_new (model)), factory);
-
-  g_signal_connect (list, "activate", G_CALLBACK (activate_cb), NULL);
-
-  gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (sw), list);
-
-=end comment
 
 =head2 CSS nodes
 
-=begin comment
-listview[.separators][.rich-list][.navigation-sidebar][.data-table]
-├── row[.activatable]
-│
-├── row[.activatable]
-│
-┊
-╰── [rubberband]
-
-=end comment
-
 B<Gnome::Gtk4::ListView> uses a single CSS node named B<listview>. It may carry the
-B<.separators> style class, when I<show-separators>
+`.separators` style class, when I<show-separators>
 property is set. Each child widget uses a single CSS node named B<row>.
 If the I<activatable defined in Gnome::Gtk4::ListItem> property is set, the
-corresponding row will have the B<.activatable> style class. For
+corresponding row will have the `.activatable` style class. For
 rubberband selection, a node with name B<rubberband> is used.
 
 The main listview node may also carry style classes to select
@@ -143,12 +78,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -160,11 +89,6 @@ mapping items to widgets.
 
 The function takes ownership of the
 arguments, so you can write code like
-=begin comment
-list_view = gtk_list_view_new (create_model (),
-  gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
-
-=end comment
 
 =begin code
 method new-listview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::ListView \)
@@ -234,6 +158,27 @@ Return value; The factory in use.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-header-factory
+
+Gets the factory that's currently used to populate section headers.
+
+=begin code
+method get-header-factory (--> N-Object )
+=end code
+
+Return value; The factory in use. 
+
+=begin comment
+
+=head2 Example
+# Example for get-model
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-model
 
 Gets the model that's currently used to read the items displayed.
@@ -247,7 +192,7 @@ Return value; The model in use.
 =begin comment
 
 =head2 Example
-# Example for get-model
+# Example for get-show-separators
 
 =end comment
 
@@ -269,7 +214,7 @@ Return value; C<True> if the list box shows separators.
 =begin comment
 
 =head2 Example
-# Example for get-show-separators
+# Example for get-single-click-activate
 
 =end comment
 
@@ -291,7 +236,56 @@ Return value; C<True> if rows are activated on single click.
 =begin comment
 
 =head2 Example
-# Example for get-single-click-activate
+# Example for set-enable-rubberband
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-tab-behavior
+
+Gets the behavior set for the <kbd>Tab</kbd> key.
+
+=begin code
+method get-tab-behavior (--> GtkListTabBehavior )
+=end code
+
+Return value; The behavior of the <kbd>Tab</kbd> key. 
+
+=begin comment
+
+=head2 Example
+# Example for set-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to
+
+Scrolls to the item at the given position and performs the actions
+specified in C<$flags>.
+
+This function works no matter if the listview is shown or focused.
+If it isn't, then the changes will take effect once that happens.
+
+=begin code
+method scroll-to ( UInt() $pos, UInt $flags, N-Object $scroll )
+=end code
+
+=item $pos; position of the item.
+=item $flags; actions to perform.
+=item $scroll; (transfer ownership: full) details of how to perform
+  the scroll operation or undefined to scroll into view
+
+=begin comment
+
+=head2 Example
+# Example for set-model
 
 =end comment
 
@@ -312,7 +306,7 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 =begin comment
 
 =head2 Example
-# Example for set-enable-rubberband
+# Example for set-show-separators
 
 =end comment
 
@@ -333,7 +327,31 @@ method set-factory ( N-Object() $factory )
 =begin comment
 
 =head2 Example
-# Example for set-factory
+# Example for set-single-click-activate
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-header-factory
+
+Sets the B<Gnome::Gtk4::ListItemFactory> to use for populating the
+B<Gnome::Gtk4::ListHeader> objects used in section headers.
+
+If this factory is set to undefined, the list will not show section headers.
+
+=begin code
+method set-header-factory ( N-Object() $factory )
+=end code
+
+=item $factory; the factory to use.
+
+=begin comment
+
+=head2 Example
+# Example for signal activate
 
 =end comment
 
@@ -354,9 +372,54 @@ method set-model ( N-Object() $model )
 =item $model; the model to use.
 
 =begin comment
+static void
+setup_listitem_cb (GtkListItemFactory *factory,
+                   GtkListItem        *list_item)
+{
+  GtkWidget *image;
 
-=head2 Example
-# Example for set-model
+  image = gtk_image_new ();
+  gtk_image_set_icon_size (GTK_IMAGE (image), GTK_ICON_SIZE_LARGE);
+  gtk_list_item_set_child (list_item, image);
+}
+
+static void
+bind_listitem_cb (GtkListItemFactory *factory,
+                  GtkListItem        *list_item)
+{
+  GtkWidget *image;
+  GAppInfo *app_info;
+
+  image = gtk_list_item_get_child (list_item);
+  app_info = gtk_list_item_get_item (list_item);
+  gtk_image_set_from_gicon (GTK_IMAGE (image), g_app_info_get_icon (app_info));
+}
+
+static void
+activate_cb (GtkListView  *list,
+             guint         position,
+             gpointer      unused)
+{
+  GAppInfo *app_info;
+
+  app_info = g_list_model_get_item (G_LIST_MODEL (gtk_list_view_get_model (list)), position);
+  g_app_info_launch (app_info, NULL, NULL, NULL);
+  g_object_unref (app_info);
+}
+
+...
+
+  model = create_application_list ();
+
+  factory = gtk_signal_list_item_factory_new ();
+  g_signal_connect (factory, "setup", G_CALLBACK (setup_listitem_cb), NULL);
+  g_signal_connect (factory, "bind", G_CALLBACK (bind_listitem_cb), NULL);
+
+  list = gtk_list_view_new (GTK_SELECTION_MODEL (gtk_single_selection_new (model)), factory);
+
+  g_signal_connect (list, "activate", G_CALLBACK (activate_cb), NULL);
+
+  gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (sw), list);
 
 =end comment
 
@@ -376,9 +439,13 @@ method set-show-separators ( Bool() $show-separators )
 =item $show-separators; C<True> to show separators.
 
 =begin comment
-
-=head2 Example
-# Example for set-show-separators
+listview[.separators][.rich-list][.navigation-sidebar][.data-table]
+├── row[.activatable]
+│
+├── row[.activatable]
+│
+┊
+╰── [rubberband]
 
 =end comment
 
@@ -398,11 +465,24 @@ method set-single-click-activate ( Bool() $single-click-activate )
 =item $single-click-activate; C<True> to activate items on single click.
 
 =begin comment
-
-=head2 Example
-# Example for set-single-click-activate
+list_view = gtk_list_view_new (create_model (),
+  gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab-behavior
+
+Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
+
+=begin code
+method set-tab-behavior ( GtkListTabBehavior $tab-behavior )
+=end code
+
+=item $tab-behavior; The desired tab behavior.
 
 =end pod
 
@@ -438,13 +518,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::ListView> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal activate
-
-=end comment
 
 =end pod
 

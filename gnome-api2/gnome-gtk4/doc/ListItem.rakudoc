@@ -6,19 +6,17 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ListItem
-
-![](images/listitem.png)
-
+=TITLE Gnome::Gtk4::ListItem
 =head1 Description
 
-B<Gnome::Gtk4::ListItem> is used by list widgets to represent items in a B<Gnome::Gio::R-ListModel>.
+B<Gnome::Gtk4::ListItem> is used by list widgets to represent items in a
+B<Gnome::Gtk4::ListItem>.
 
-The B<Gnome::Gtk4::ListItem>s are managed by the list widget (with its factory)
+B<Gnome::Gtk4::ListItem> objects are managed by the list widget (with its factory)
 and cannot be created by applications, but they need to be populated
 by application code. This is done by calling C<.set-child()>.
 
-B<Gnome::Gtk4::ListItem>s exist in 2 stages:
+B<Gnome::Gtk4::ListItem> objects exist in 2 stages:
 
 1. The unbound stage where the listitem is not currently connected to
    an item in the list. In that case, the I<item>
@@ -70,6 +68,48 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-accessible-description
+
+Gets the accessible description of C<$self>.
+
+=begin code
+method get-accessible-description (--> Str )
+=end code
+
+Return value; the accessible description. 
+
+=begin comment
+
+=head2 Example
+# Example for get-activatable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-accessible-label
+
+Gets the accessible label of C<$self>.
+
+=begin code
+method get-accessible-label (--> Str )
+=end code
+
+Return value; the accessible label. 
+
+=begin comment
+
+=head2 Example
+# Example for get-child
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-activatable
 
 Checks if a list item has been set to be activatable via
@@ -84,7 +124,7 @@ Return value; C<True> if the item is activatable.
 =begin comment
 
 =head2 Example
-# Example for get-activatable
+# Example for get-item
 
 =end comment
 
@@ -106,7 +146,29 @@ Return value; The child.
 =begin comment
 
 =head2 Example
-# Example for get-child
+# Example for get-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-focusable
+
+Checks if a list item has been set to be focusable via
+C<.set-focusable()>.
+
+=begin code
+method get-focusable (--> Bool )
+=end code
+
+Return value; C<True> if the item is focusable. 
+
+=begin comment
+
+=head2 Example
+# Example for get-selectable
 
 =end comment
 
@@ -129,7 +191,7 @@ Return value; The item displayed.
 =begin comment
 
 =head2 Example
-# Example for get-item
+# Example for get-selected
 
 =end comment
 
@@ -152,7 +214,7 @@ Return value; The position of this item.
 =begin comment
 
 =head2 Example
-# Example for get-position
+# Example for set-activatable
 
 =end comment
 
@@ -176,7 +238,7 @@ Return value; C<True> if the item is selectable.
 =begin comment
 
 =head2 Example
-# Example for get-selectable
+# Example for set-child
 
 =end comment
 
@@ -200,9 +262,39 @@ Return value; C<True> if the item is selected..
 =begin comment
 
 =head2 Example
-# Example for get-selected
+# Example for set-selectable
 
 =end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-accessible-description
+
+Sets the accessible description for the list item,
+which may be used by e.g. screen readers.
+
+=begin code
+method set-accessible-description ( Str $description )
+=end code
+
+=item $description; the description.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-accessible-label
+
+Sets the accessible label for the list item,
+which may be used by e.g. screen readers.
+
+=begin code
+method set-accessible-label ( Str $label )
+=end code
+
+=item $label; the label.
 
 =end pod
 
@@ -226,13 +318,6 @@ method set-activatable ( Bool() $activatable )
 
 =item $activatable; if the item should be activatable.
 
-=begin comment
-
-=head2 Example
-# Example for set-activatable
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -251,12 +336,27 @@ method set-child ( N-Object() $child )
 
 =item $child; The list item's child or undefined to unset.
 
-=begin comment
+=end pod
 
-=head2 Example
-# Example for set-child
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-focusable
 
-=end comment
+Sets C<$self> to be focusable.
+
+If an item is focusable, it can be focused using the keyboard.
+This works similar to C<.set-focusable() in class Gnome::Gtk4::Widget>.
+
+Note that if items are not focusable, the keyboard cannot be used to activate
+them and selecting only works if one of the listitem's children is focusable.
+
+By default, list items are focusable.
+
+=begin code
+method set-focusable ( Bool() $focusable )
+=end code
+
+=item $focusable; if the item should be focusable.
 
 =end pod
 
@@ -282,13 +382,6 @@ method set-selectable ( Bool() $selectable )
 =end code
 
 =item $selectable; if the item should be selectable.
-
-=begin comment
-
-=head2 Example
-# Example for set-selectable
-
-=end comment
 
 =end pod
 

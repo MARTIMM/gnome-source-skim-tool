@@ -6,40 +6,37 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::LockButton
-
-![](images/lockbutton.png)
-
+=TITLE Gnome::Gtk4::LockButton
 =head1 Description
 
 B<Gnome::Gtk4::LockButton> is a widget to obtain and revoke authorizations
 needed to operate the controls.
 
-![An example GtkLockButton](lock-button.png)
+=for image :src<asset_files/images/lock-button.png> :width<30%> :class<inline>
 
 It is typically used in preference dialogs or control panels.
 
 The required authorization is represented by a B<Gnome::Gio::Permission> object.
 Concrete implementations of B<Gnome::Gio::Permission> may use PolicyKit or some
 other authorization framework. To obtain a PolicyKit-based
-B<Gnome::Gio::Permission>, use B<polkit_permission_new()>.
+B<Gnome::Gio::Permission>, use B<polkit_permission_new>()`.
 
 If the user is not currently allowed to perform the action, but can
 obtain the permission, the widget looks like this:
 
-![](lockbutton-locked.png)
+=for image :src<asset_files/images/lockbutton-locked.png> :width<30%> :class<inline>
 
 and the user can click the button to request the permission. Depending
 on the platform, this may pop up an authentication dialog or ask the user
 to authenticate in some other way. Once the user has obtained the permission,
 the widget changes to this:
 
-![](lockbutton-unlocked.png)
+=for image :src<asset_files/images/lockbutton-unlocked.png> :width<30%> :class<inline>
 
 and the permission can be dropped again by clicking the button. If the user
 is not able to obtain the permission at all, the widget looks like this:
 
-![](lockbutton-sorry.png)
+=for image :src<asset_files/images/lockbutton-sorry.png> :width<30%> :class<inline>
 
 If the user has the permission and cannot drop it, the button is hidden.
 
@@ -73,6 +70,8 @@ I<tooltip-not-authorized> properties.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -81,17 +80,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-lockbutton
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new lock button which reflects the C<$permission>.
 
@@ -122,6 +117,8 @@ method new-lockbutton ( N-Object() $permission --> Gnome::Gtk4::LockButton \)
 =begin pod
 =head2 get-permission
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Obtains the B<Gnome::Gio::Permission> object that controls C<$button>.
 
 =begin code
@@ -142,6 +139,8 @@ Return value; the B<Gnome::Gio::Permission> of C<$button>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-permission
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the B<Gnome::Gio::Permission> object that controls C<$button>.
 

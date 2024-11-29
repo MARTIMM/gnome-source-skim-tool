@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::LinkButton
-
-![](images/linkbutton.png)
-
+=TITLE Gnome::Gtk4::LinkButton
 =head1 Description
 
 A B<Gnome::Gtk4::LinkButton> is a button with a hyperlink.
 
-![An example GtkLinkButton](link-button.png)
+=for image :src<asset_files/images/link-button.png> :width<30%> :class<inline>
 
 It is useful to show quick links to resources.
 
@@ -25,7 +22,7 @@ pass to the constructor is used as a label for the widget.
 The URI bound to a B<Gnome::Gtk4::LinkButton> can be set specifically using
 C<.set-uri()>.
 
-By default, B<Gnome::Gtk4::LinkButton> calls C<.show-uri()> when the button
+By default, B<Gnome::Gtk4::LinkButton> calls C<.launch() in class Gnome::Gtk4::FileLauncher> when the button
 is clicked. This behaviour can be overridden by connecting to the
 I<activate-link> signal and returning C<True> from
 the signal handler.
@@ -69,12 +66,6 @@ B<Gnome::Gtk4::LinkButton> uses the C<GTK_ACCESSIBLE_ROLE_LINK> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -235,7 +226,7 @@ method set-visited ( Bool() $visited )
 
 Emitted each time the B<Gnome::Gtk4::LinkButton> is clicked.
 
-The default handler will call C<.show-uri()> with the URI
+The default handler will call C<.launch() in class Gnome::Gtk4::FileLauncher> with the URI
 stored inside the I<uri> property.
 
 To override the default behavior, you can connect to the I<activate-link> signal and stop the propagation of the signal

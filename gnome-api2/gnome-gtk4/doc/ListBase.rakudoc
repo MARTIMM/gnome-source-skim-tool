@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ListBase
-
-![](images/listbase.png)
-
+=TITLE Gnome::Gtk4::ListBase
 =head1 Description
 
 B<Gnome::Gtk4::ListBase> is the abstract base class for GTK's list widgets.
@@ -29,3 +26,21 @@ B<Gnome::Gtk4::ListBase> is the abstract base class for GTK's list widgets.
 =end comment
 
 =end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+

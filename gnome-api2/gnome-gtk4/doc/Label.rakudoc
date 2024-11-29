@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Label
-
-![](images/label.png)
-
+=TITLE Gnome::Gtk4::Label
 =head1 Description
 
 The B<Gnome::Gtk4::Label> widget displays a small amount of text.
@@ -17,16 +14,15 @@ The B<Gnome::Gtk4::Label> widget displays a small amount of text.
 As the name implies, most labels are used to label another widget
 such as a B<Gnome::Gtk4::Button>.
 
-![An example GtkLabel](label.png)
+=for image :src<asset_files/images/label.png> :width<30%> :class<inline>
 
-=head2 CSS nodes
+=head3 CSS nodes
 
 =begin code
-label
-├── [selection]
-├── [link]
-┊
-╰── [link]
+# Pressing Alt+H will activate this button
+my Gnome::Gtk4::Button $button .= new-button;
+my Gnome::Gtk4::Label $label .= new-with-mnemonic("_Hello");
+$button.set-child($label);
 =end code
 
 B<Gnome::Gtk4::Label> has a single CSS node with the name label. A wide variety
@@ -40,22 +36,19 @@ If the label has links, there is one subnode per link. These subnodes
 carry the link or visited state depending on whether they have been
 visited. In this case, label node also gets a .link style class.
 
-=head2 GtkLabel as GtkBuildable
+=head3 GtkLabel as GtkBuildable
 
 The GtkLabel implementation of the GtkBuildable interface supports a
-custom <attributes> element, which supports any number of <attribute>
-elements. The <attribute> element has attributes named “name“, “value“,
+custom `<attributes>` element, which supports any number of `<attribute>`
+elements. The `<attribute>` element has attributes named “name“, “value“,
 “start“ and “end“ and allows you to specify  B<Gnome::Pango::N-Attribute> 
 values for this label.
 
 An example of a UI definition fragment specifying Pango attributes:
+
 =begin code
-<object class="GtkLabel">
-  <attributes>
-    <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
-    <attribute name="background" value="red" start="5" end="10"/>
-  </attributes>
-</object>
+# Pressing Alt+H will activate this button
+my Gnome::Gtk4::Button $button .= new_with_mnemonic("_Hello");
 =end code
 
 The start and end attributes specify the range of characters to which the
@@ -64,42 +57,24 @@ applied to the whole text. Note that specifying ranges does not make much
 sense with translatable attributes. Use markup embedded in the translatable
 content instead.
 
-=head2 Accessibility
+=head3 Accessibility
 
 B<Gnome::Gtk4::Label> uses the C<GTK_ACCESSIBLE_ROLE_LABEL> role.
 
-=head2 Mnemonics
+=head3 Mnemonics
 
 Labels may contain “mnemonics”. Mnemonics are underlined characters in the
 label, used for keyboard navigation. Mnemonics are created by providing a
-string with an underscore before the mnemonic character, such as B<"_File">,
+string with an underscore before the mnemonic character, such as `"_File"`,
 to the functions C<.new-with-mnemonic()> or
 C<.set-text-with-mnemonic()>.
 
 Mnemonics automatically activate any activatable widget the label is
 inside, such as a B<Gnome::Gtk4::Button>; if the label is not inside the
 mnemonic’s target widget, you have to tell the label about the target
-using C<.set-mnemonic-widget()>. Here’s a simple example where
-the label is inside a button:
+using C<.set-mnemonic-widget()>.
 
-=begin code
-# Pressing Alt+H will activate this button
-my Gnome::Gtk4::Button $button .= new-button;
-my Gnome::Gtk4::Label $label .= new-with-mnemonic("_Hello");
-$button.set-child($label);
-=end code
-
-There’s a convenience function to create buttons with a mnemonic label
-already inside:
-
-=begin code
-# Pressing Alt+H will activate this button
-my Gnome::Gtk4::Button $button .= new_with_mnemonic("_Hello");
-=end code
-
-To create a mnemonic for a widget alongside the label, such as a
-B<Gnome::Gtk4::Entry>, you have to point the label at the entry with
-C<.set-mnemonic-widget()>:
+Here’s a simple example where the label is inside a button:
 
 =begin code
 # Pressing Alt+H will focus the entry
@@ -108,26 +83,51 @@ my Gnome::Gtk4::Label $label .= new-with-mnemonic("_Hello");
 $label.set-mnemonic-widget($entry);
 =end code
 
-=head2 Markup (styled text)
+There’s a convenience function to create buttons with a mnemonic label
+already inside:
+
+=begin code
+my Gnome::Gtk4::Label $label .= new-label(Str);
+$label.set-markup("<small>Small text</small>");
+=end code
+
+To create a mnemonic for a widget alongside the label, such as a
+B<Gnome::Gtk4::Entry>, you have to point the label at the entry with
+C<.set-mnemonic-widget()>:
+
+=begin code
+my Str $text = [~] 'Go to the ',
+  '<a href="http://www.gtk.org" title="<i>Our</i> website">',
+  'GTK website', '</a>', ' for more...';
+my Gnome::Gtk4::Label $label .= new-label(Str);
+$label.set_markup($text);
+=end code
+
+=head3 Markup (styled text)
 
 To make it easy to format text in a label (changing colors,
 fonts, etc.), label text can be provided in a simple
 markup format:
 
 Here’s how to create a label with a small font:
-=begin code
+=begin comment
 my Gnome::Gtk4::Label $label .= new-label(Str);
-$label.set-markup("<small>Small text</small>");
-=end code
+my Str $txt = "this must become italic text";
+my Str $format = '<span style="italic">%s</span>';
+# !!! find proper package where routine is defined !!!
+my Str $markup = g_markup_printf_escaped( $format, $txt);
+$label.set-markup($markup);
+$markup.free;
+=end comment
 
 (See the Pango manual for complete documentation] of available
-tags, C<.parse-markup() in package Gnome::Pango>
+tags, C<.parse-markup() in package Gnome::Pango>)
 
 The markup passed to C<.set-markup()> must be valid; for example,
-literal <, > and & characters must be escaped as &lt;, &gt;, and &amp;.
+literal `<`, `>` and `&` characters must be escaped as `&lt;`, `&gt;`, and `&amp;`.
 If you pass text obtained from the user, file, or a network to
 C<.set-markup()>, you’ll want to escape it with
-g_markup_escape_text() or g_markup_printf_escaped().
+C<.markup-escape-text() in package Gnome::GLib> or C<.markup-printf-escaped() in package Gnome::GLib>.
 
 Markup strings are just a convenient way to set the  B<Gnome::Pango::N-AttrList> 
 on a label; C<.set-attributes()> may be a simpler way to set
@@ -138,14 +138,14 @@ to [0, C<G_MAXINT>)). The reason is that specifying the start_index and
 end_index for a  B<Gnome::Pango::N-Attribute>  requires knowledge of the exact
 string being displayed, so translations will cause problems.
 
-=head2 Selectable labels
+=head3 Selectable labels
 
 Labels can be made selectable with C<.set-selectable()>.
 Selectable labels allow the user to copy the label contents to
-the clipboard. Only labels that contain useful-to-copy information
-— such as error messages — should be made selectable.
+the clipboard. Only labels that contain useful-to-copy information—such
+as error messages—should be made selectable.
 
-=head2 Text layout
+=head3 Text layout
 
 A label can contain any number of paragraphs, but will have
 performance problems if it contains more than a small number.
@@ -168,24 +168,16 @@ width-chars is used as the minimum width, if specified, and max-width-chars
 is used as the natural width. Even if max-width-chars specified, wrapping
 labels will be rewrapped to use all of the available width.
 
-=head2 Links
+=head3 Links
 
 GTK supports markup for clickable hyperlinks in addition to regular Pango
-markup. The markup for links is borrowed from HTML, using the B<<a>> with
+markup. The markup for links is borrowed from HTML, using the `<a>` with
 “href“, “title“ and “class“ attributes. GTK renders links similar to the
 way they appear in web browsers, with colored, underlined text. The “title“
 attribute is displayed as a tooltip on the link. The “class“ attribute is
 used as style class on the CSS node for the link.
 
-An example looks like this:
-
-=begin code
-my Str $text = [~] 'Go to the ',
-  '<a href="http://www.gtk.org" title="<i>Our</i> website">',
-  'GTK website', '</a>', ' for more...';
-my Gnome::Gtk4::Label $label .= new-label(Str);
-$label.set_markup($text);
-=end code
+An example of inline links looks like this:
 
 It is possible to implement custom handling for links and their tooltips
 with the I<activate-link> signal and the
@@ -217,12 +209,6 @@ C<.get-current-uri()> function.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -295,19 +281,18 @@ method new-with-mnemonic ( Str $str --> Gnome::Gtk4::Label \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-attributes
-This function is not yet available
 
-Gets the labels attribute list.
+Gets the label's attribute list.
 
 This is the  B<Gnome::Pango::N-AttrList>  that was set on the label using
 C<.set-attributes()>, if any. This function does not
-reflect attributes that come from the labels markup (see
+reflect attributes that come from the label's markup (see
 C<.set-markup()>). If you want to get the effective
 attributes for the label, use
-B<pango_layout_get_attribute (gtk_label_get_layout (self))>.
+B<pango_layout_get_attributes> (gtk_label_get_layout (self))`.
 
 =begin code
-method get-attributes (--> CArray[N-AttrList]  )
+method get-attributes (--> N-Object )
 =end code
 
 Return value; the attribute list. 
@@ -361,7 +346,7 @@ See C<.set-ellipsize()>.
 method get-ellipsize (--> PangoEllipsizeMode )
 =end code
 
-Return value; C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-Layout>. 
+Return value; C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-layout>. 
 
 =begin comment
 
@@ -553,13 +538,13 @@ Return the mnemonic accelerator.
 
 If the label has been set so that it has a mnemonic key this function
 returns the keyval used for the mnemonic accelerator. If there is no
-mnemonic set up it returns U<Gnome::Gdk4::T-Keysyms>.
+mnemonic set up it returns B<Gnome::Gdk4::T-keysyms>.
 
 =begin code
 method get-mnemonic-keyval (--> UInt )
 =end code
 
-Return value; GDK keyval usable for accelerators, or U<Gnome::Gdk4::T-Keysyms>. 
+Return value; GDK keyval usable for accelerators, or B<Gnome::Gdk4::T-keysyms>. 
 
 =begin comment
 
@@ -686,6 +671,32 @@ Return value; C<True> when the label is in single line mode..
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-tabs
+
+Gets the tabs for C<$self>.
+
+The returned array will be undefined if “standard” (8-space) tabs are used.
+Free the return value with C<.free() in class Gnome::Pango::N-TabArray>.
+
+=begin code
+method get-tabs (--> N-Object )
+=end code
+
+Return value; copy of default tab array,
+  or undefined if standard tabs are used; must be freed with
+  C<.free() in class Gnome::Pango::N-TabArray>.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-text
 
 Fetches the text from a label.
@@ -704,7 +715,7 @@ Return value; the text in the label widget. This is the internal
 =begin comment
 
 =head2 Example
-# Example for get-text
+# Example for get-use-markup
 
 =end comment
 
@@ -727,7 +738,7 @@ Return value; C<True> if the label’s text will be parsed for markup..
 =begin comment
 
 =head2 Example
-# Example for get-use-markup
+# Example for get-use-underline
 
 =end comment
 
@@ -751,7 +762,7 @@ Return value; C<True> whether an embedded underline in the label indicates
 =begin comment
 
 =head2 Example
-# Example for get-use-underline
+# Example for get-width-chars
 
 =end comment
 
@@ -774,7 +785,7 @@ Return value; the width of the label in characters..
 =begin comment
 
 =head2 Example
-# Example for get-width-chars
+# Example for get-wrap
 
 =end comment
 
@@ -797,7 +808,7 @@ Return value; C<True> if the lines of the label are automatically wrapped..
 =begin comment
 
 =head2 Example
-# Example for get-wrap
+# Example for get-wrap-mode
 
 =end comment
 
@@ -820,7 +831,7 @@ Return value; the line wrap mode.
 =begin comment
 
 =head2 Example
-# Example for get-wrap-mode
+# Example for get-xalign
 
 =end comment
 
@@ -843,7 +854,7 @@ Return value; the xalign property.
 =begin comment
 
 =head2 Example
-# Example for get-xalign
+# Example for get-yalign
 
 =end comment
 
@@ -866,7 +877,7 @@ Return value; the yalign property.
 =begin comment
 
 =head2 Example
-# Example for get-yalign
+# Example for select-region
 
 =end comment
 
@@ -879,7 +890,7 @@ Return value; the yalign property.
 Selects a range of characters in the label, if the label is selectable.
 
 See C<.set-selectable()>. If the label is not selectable,
-this function has no effect. If C<$start_offset> or C<$end_offset> are -1, then the end of the label will be substituted.
+this function has no effect. If C<$start-offset> or C<$end-offset> are -1, then the end of the label will be substituted.
 
 =begin code
 method select-region ( Int() $start-offset, Int() $end-offset )
@@ -887,35 +898,6 @@ method select-region ( Int() $start-offset, Int() $end-offset )
 
 =item $start-offset; start offset (in characters not bytes).
 =item $end-offset; end offset (in characters not bytes).
-
-=begin comment
-
-=head2 Example
-# Example for select-region
-
-=end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-=head2 set-attributes
-This function is not yet available
-
-Apply attributes to the label text.
-
-The attributes set with this function will be applied and merged with
-any other attributes previously effected by way of the
-I<use-underline> or I<use-markup>
-properties. While it is not recommended to mix markup strings with
-manually set attributes, if you must; know that the attributes will
-be applied to the label after the markup string is parsed.
-
-=begin code
-method set-attributes ( CArray[N-AttrList]  $attrs )
-=end code
-
-=item $attrs; a  B<Gnome::Pango::N-AttrList> .
 
 =begin comment
 
@@ -928,9 +910,37 @@ method set-attributes ( CArray[N-AttrList]  $attrs )
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 set-attributes
+
+Apply attributes to the label text.
+
+The attributes set with this function will be applied and merged with
+any other attributes previously effected by way of the
+I<use-underline> or I<use-markup>
+properties. While it is not recommended to mix markup strings with
+manually set attributes, if you must; know that the attributes will
+be applied to the label after the markup string is parsed.
+
+=begin code
+method set-attributes ( N-Object $attrs )
+=end code
+
+=item $attrs; a  B<Gnome::Pango::N-AttrList> 
+
+=begin comment
+
+=head2 Example
+# Example for set-ellipsize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 set-ellipsize
 
-Sets the mode used to ellipsizei the text.
+Sets the mode used to ellipsize the text.
 
 The text will be ellipsized if there is not enough space
 to render the entire string.
@@ -939,12 +949,12 @@ to render the entire string.
 method set-ellipsize ( PangoEllipsizeMode $mode )
 =end code
 
-=item $mode; a C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-Layout>.
+=item $mode; a C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-layout>.
 
 =begin comment
 
 =head2 Example
-# Example for set-ellipsize
+# Example for set-extra-menu
 
 =end comment
 
@@ -966,7 +976,7 @@ method set-extra-menu ( N-Object() $model )
 =begin comment
 
 =head2 Example
-# Example for set-extra-menu
+# Example for set-justify
 
 =end comment
 
@@ -994,7 +1004,7 @@ method set-justify ( GtkJustification $jtype )
 =begin comment
 
 =head2 Example
-# Example for set-justify
+# Example for set-label
 
 =end comment
 
@@ -1019,7 +1029,7 @@ method set-label ( Str $str )
 =begin comment
 
 =head2 Example
-# Example for set-label
+# Example for set-lines
 
 =end comment
 
@@ -1044,7 +1054,7 @@ method set-lines ( Int() $lines )
 =begin comment
 
 =head2 Example
-# Example for set-lines
+# Example for set-markup
 
 =end comment
 
@@ -1061,16 +1071,6 @@ The string must be marked up with Pango markup
 
 If the C<$str> is external data, you may need to escape it
 with g_markup_escape_text() or g_markup_printf_escaped():
-
-=begin comment
-my Gnome::Gtk4::Label $label .= new-label(Str);
-my Str $txt = "this must become italic text";
-my Str $format = '<span style="italic">%s</span>';
-# !!! find proper package where routine is defined !!!
-my Str $markup = g_markup_printf_escaped( $format, $txt);
-$label.set-markup($markup);
-$markup.free;
-=end comment
 
 This function will set the I<use-markup> property
 to C<True> as a side effect.
@@ -1090,7 +1090,7 @@ method set-markup ( Str $str )
 =begin comment
 
 =head2 Example
-# Example for set-markup
+# Example for set-markup-with-mnemonic
 
 =end comment
 
@@ -1119,7 +1119,7 @@ method set-markup-with-mnemonic ( Str $str )
 =begin comment
 
 =head2 Example
-# Example for set-markup-with-mnemonic
+# Example for set-max-width-chars
 
 =end comment
 
@@ -1129,7 +1129,7 @@ method set-markup-with-mnemonic ( Str $str )
 =begin pod
 =head2 set-max-width-chars
 
-Sets the desired maximum width in characters of C<$label> to C<$n_chars>.
+Sets the desired maximum width in characters of C<$label> to C<$n-chars>.
 
 =begin code
 method set-max-width-chars ( Int() $n-chars )
@@ -1140,7 +1140,7 @@ method set-max-width-chars ( Int() $n-chars )
 =begin comment
 
 =head2 Example
-# Example for set-max-width-chars
+# Example for set-mnemonic-widget
 
 =end comment
 
@@ -1164,7 +1164,7 @@ widget, but sometimes (i.e. when the target is a B<Gnome::Gtk4::Entry> next to
 the label) you need to set it explicitly using this function.
 
 The target widget will be accelerated by emitting the
-[signal C<$GtkWidget>::mnemonic-activate] signal on it. The default handler for
+I<mnemonic-activate defined in Widget> signal on it. The default handler for
 this signal will activate the widget if there are no mnemonic collisions
 and toggle focus between the colliding widgets otherwise.
 
@@ -1177,7 +1177,7 @@ method set-mnemonic-widget ( N-Object() $widget )
 =begin comment
 
 =head2 Example
-# Example for set-mnemonic-widget
+# Example for set-natural-wrap-mode
 
 =end comment
 
@@ -1201,7 +1201,7 @@ method set-natural-wrap-mode ( GtkNaturalWrapMode $wrap-mode )
 =begin comment
 
 =head2 Example
-# Example for set-natural-wrap-mode
+# Example for set-selectable
 
 =end comment
 
@@ -1225,7 +1225,7 @@ method set-selectable ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-selectable
+# Example for set-single-line-mode
 
 =end comment
 
@@ -1246,7 +1246,28 @@ method set-single-line-mode ( Bool() $single-line-mode )
 =begin comment
 
 =head2 Example
-# Example for set-single-line-mode
+# Example for set-text
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tabs
+
+Sets the default tab stops for paragraphs in C<$self>.
+
+=begin code
+method set-tabs ( N-Object $tabs )
+=end code
+
+=item $tabs; tabs as a B<Gnome::Pango::N-TabArray>
+
+=begin comment
+
+=head2 Example
+# Example for set-text-with-mnemonic
 
 =end comment
 
@@ -1261,7 +1282,7 @@ Sets the text within the B<Gnome::Gtk4::Label> widget.
 It overwrites any text that was there before.
 
 This function will clear any previously set mnemonic accelerators,
-and set the I<use-underline property> to C<False> as
+and set the I<use-underline> property to C<False> as
 a side effect.
 
 This function will set the I<use-markup> property
@@ -1278,7 +1299,7 @@ method set-text ( Str $str )
 =begin comment
 
 =head2 Example
-# Example for set-text
+# Example for set-use-markup
 
 =end comment
 
@@ -1304,7 +1325,7 @@ method set-text-with-mnemonic ( Str $str )
 =begin comment
 
 =head2 Example
-# Example for set-text-with-mnemonic
+# Example for set-use-underline
 
 =end comment
 
@@ -1327,7 +1348,7 @@ method set-use-markup ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-use-markup
+# Example for set-width-chars
 
 =end comment
 
@@ -1348,7 +1369,7 @@ method set-use-underline ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-use-underline
+# Example for set-wrap
 
 =end comment
 
@@ -1358,7 +1379,7 @@ method set-use-underline ( Bool() $setting )
 =begin pod
 =head2 set-width-chars
 
-Sets the desired width in characters of C<$label> to C<$n_chars>.
+Sets the desired width in characters of C<$label> to C<$n-chars>.
 
 =begin code
 method set-width-chars ( Int() $n-chars )
@@ -1369,7 +1390,7 @@ method set-width-chars ( Int() $n-chars )
 =begin comment
 
 =head2 Example
-# Example for set-width-chars
+# Example for set-wrap-mode
 
 =end comment
 
@@ -1400,7 +1421,7 @@ method set-wrap ( Bool() $wrap )
 =begin comment
 
 =head2 Example
-# Example for set-wrap
+# Example for set-xalign
 
 =end comment
 
@@ -1428,7 +1449,7 @@ method set-wrap-mode ( PangoWrapMode $wrap-mode )
 =begin comment
 
 =head2 Example
-# Example for set-wrap-mode
+# Example for set-yalign
 
 =end comment
 
@@ -1451,7 +1472,7 @@ method set-xalign ( Num() $xalign )
 =begin comment
 
 =head2 Example
-# Example for set-xalign
+# Example for signal activate-current-link
 
 =end comment
 
@@ -1474,7 +1495,7 @@ method set-yalign ( Num() $yalign )
 =begin comment
 
 =head2 Example
-# Example for set-yalign
+# Example for signal activate-link
 
 =end comment
 
@@ -1497,71 +1518,7 @@ The I<activate-current-link> is a [keybinding signal](class.SignalAction.html).
 Applications may also emit the signal with g_signal_emit_by_name()
 if they need to control activation of URIs programmatically.
 
-The default bindings for this signal are all forms of the Enter key.
-
-=begin code
-method handler (
-  Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Label :$_widget,
-  *C<user>-options
-)
-=end code
-
-=item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal activate-current-link
-
-=end comment
-
-=comment -----------------------------------------------------------------------
-=head3 activate-link
-
-Gets emitted to activate a URI.
-
-Applications may connect to it to override the default behaviour,
-which is to call gtk_show_uri().
-
-=begin code
-method handler (
-  Str $uri,
-  Int :$_handle_id,
-  N-GObject :$_native-object,
-  Gnome::Gtk4::Label :$_widget,
-  *C<user>-options
-  --> gboolean
-)
-=end code
-
-=item $uri; the URI that is activated.
-=item $_handle_id; The registered event handler id.
-=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
-=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
-=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-Return value; C<True> if the link has been activated
-
-=begin comment
-
-=head2 Example
-# Example for signal activate-link
-
-=end comment
-
-=comment -----------------------------------------------------------------------
-=head3 copy-clipboard
-
-Gets emitted to copy the slection to the clipboard.
-
-The I<copy-clipboard> signal is a [keybinding signal](class.SignalAction.html).
-
-The default binding for this signal is Ctrl-c.
+The default bindings for this signal are all forms of the <kbd>Enter</kbd> key.
 
 =begin code
 method handler (
@@ -1585,6 +1542,71 @@ method handler (
 =end comment
 
 =comment -----------------------------------------------------------------------
+=head3 activate-link
+
+Gets emitted to activate a URI.
+
+Applications may connect to it to override the default behaviour,
+which is to call C<.launch() in class Gnome::Gtk4::FileLauncher>.
+
+=begin code
+method handler (
+  Str $uri,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Label :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $uri; the URI that is activated.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> if the link has been activated
+
+=begin comment
+
+=head2 Example
+# Example for signal move-cursor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 copy-clipboard
+
+Gets emitted to copy the selection to the clipboard.
+
+The I<copy-clipboard> signal is a [keybinding signal](class.SignalAction.html).
+
+The default binding for this signal is <kbd>Ctrl</kbd>+<kbd>c</kbd>.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::Label :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::Label> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin code
+label
+├── [selection]
+├── [link]
+┊
+╰── [link]
+=end code
+
+=comment -----------------------------------------------------------------------
 =head3 move-cursor
 
 Gets emitted when the user initiates a cursor movement.
@@ -1601,9 +1623,11 @@ The default bindings for this signal come in two variants,
 the variant with the Shift modifier extends the selection,
 the variant without the Shift modifier does not.
 There are too many key combinations to list them all here.
-=item Arrow keys move by individual characters/lines
-=item Ctrl-arrow key combinations move by words/paragraphs
-=item Home/End keys move to the ends of the buffer
+
+=item <kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd>
+  move by individual characters/lines
+=item <kbd>Ctrl</kbd>+<kbd>←</kbd>, etc. move by words/paragraphs
+=item <kbd>Home</kbd> and <kbd>End</kbd> move to the ends of the buffer
 
 =begin code
 method handler (
@@ -1625,12 +1649,14 @@ method handler (
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
-=begin comment
-
-=head2 Example
-# Example for signal move-cursor
-
-=end comment
+=begin code
+<object class="GtkLabel">
+  <attributes>
+    <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+    <attribute name="background" value="red" start="5" end="10"/>
+  </attributes>
+</object>
+=end code
 
 =end pod
 

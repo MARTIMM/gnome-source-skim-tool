@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ListStore
-
-![](images/liststore.png)
-
+=TITLE Gnome::Gtk4::ListStore
 =head1 Description
 
 A list-like data structure that can be used with the B<Gnome::Gtk4::TreeView>.
@@ -85,7 +82,11 @@ enum {
 
 =end comment
 
-=head2 Performance Considerations
+B<Gnome::Gtk4::ListStore> is deprecated since GTK 4.10, and should not be used in newly
+written code. You should use B<Gnome::Gtk4::ListStore> instead, and the various
+list models provided by GTK.
+
+=head3 Performance Considerations
 
 Internally, the B<Gnome::Gtk4::ListStore> was originally implemented with a linked list
 with a tail pointer.  As a result, it was fast at data insertion and deletion,
@@ -95,16 +96,16 @@ cached while the row exists.  Thus, if access to a particular row is needed
 often and your code is expected to run on older versions of GTK, it is worth
 keeping the iter around.
 
-=head2 Atomic Operations
+=head3 Atomic Operations
 
 It is important to note that only the methods
 C<.insert-with-values()> and C<.insert-with-valuesv()>
 are atomic, in the sense that the row is being appended to the store and the
 values filled in in a single operation with regard to B<Gnome::Gtk4::R-TreeModel> signaling.
 In contrast, using e.g. C<.append()> and then C<.set()>
-will first create a row, which triggers the B<GtkTreeModel::row-inserted> signal
+will first create a row, which triggers the B<Gnome::Gtk4::R-TreeModel>::row-inserted` signal
 on B<Gnome::Gtk4::ListStore>. The row, however, is still empty, and any signal handler
-connecting to B<GtkTreeModel::row-inserted> on this particular store should be prepared
+connecting to B<Gnome::Gtk4::R-TreeModel>::row-inserted` on this particular store should be prepared
 for the situation that the row might be empty. This is especially important
 if you are wrapping the B<Gnome::Gtk4::ListStore> inside a B<Gnome::Gtk4::R-TreeModel>Filter and are
 using a B<Gnome::Gtk4::R-TreeModel>FilterVisibleFunc. Using any of the non-atomic operations
@@ -112,17 +113,17 @@ to append rows to the B<Gnome::Gtk4::ListStore> will cause the
 B<Gnome::Gtk4::R-TreeModel>FilterVisibleFunc to be visited with an empty row first; the
 function must be prepared for that.
 
-=head2 GtkListStore as GtkBuildable
+=head3 GtkListStore as GtkBuildable
 
 The GtkListStore implementation of the B<Gnome::Gtk4::R-Buildable> interface allows
-to specify the model columns with a B<<columns>> element that may contain
-multiple B<<column>> elements, each specifying one model column. The “type”
+to specify the model columns with a `<columns>` element that may contain
+multiple `<column>` elements, each specifying one model column. The “type”
 attribute specifies the data type for the column.
 
 Additionally, it is possible to specify content for the list store
-in the UI definition, with the B<<data>> element. It can contain multiple
-B<<row>> elements, each specifying to content for one row of the list model.
-Inside a B<<row>>, the B<<col>> elements specify the content for individual cells.
+in the UI definition, with the `<data>` element. It can contain multiple
+`<row>` elements, each specifying to content for one row of the list model.
+Inside a `<row>`, the `<col>` elements specify the content for individual cells.
 
 Note that it is probably more common to define your models in the code,
 and one might consider it a layering violation to specify the content of
@@ -177,6 +178,8 @@ An example of a UI Definition fragment for a list store:
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -192,13 +195,36 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =head2 new-liststore
 This function is not yet available
 
-Creates a new list store as with C<$n-columns> columns each of the types passed
-in.  Note that only types derived from standard GObject fundamental types
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new list store.
+
+The list store will have C<$n-columns> columns, with each column using
+the given type passed to this function.
+
+Note that only types derived from standard GObject fundamental types
 are supported.
 
-As an example, B<gtk_list_store_new (3, G_TYPE_INT, G_TYPE_STRING,
-GDK_TYPE_TEXTURE);> will create a new B<Gnome::Gtk4::ListStore> with three columns, of type
-int, string and B<Gnome::Gdk4::Texture>, respectively.
+As an example:
+
+=begin comment
+<!-- language="C" -->
+static void
+insert_value (GtkListStore *list_store,
+              GtkTreeIter  *iter,
+              int           position)
+{
+  gtk_list_store_insert (list_store, iter, position);
+  gtk_list_store_set (list_store,
+                      iter
+                      // ...
+                      );
+}
+
+=end comment
+
+will create a new B<Gnome::Gtk4::ListStore> with three columns, of type B<int>,
+B<gchararray> and B<Gnome::Gdk4::Texture>, respectively.
 
 =begin code
 method new-liststore ( Int() $n-columns, … --> Gnome::Gtk4::ListStore \)
@@ -221,7 +247,11 @@ method new-liststore ( Int() $n-columns, … --> Gnome::Gtk4::ListStore \)
 =head2 newv
 This function is not yet available
 
-Non-vararg creation function.  Used primarily by language bindings.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::ListStore>.
+
+This function is meant to be used by language bindings.
 
 =begin code
 method newv ( Int() $n-columns, … --> Gnome::Gtk4::ListStore \)
@@ -251,15 +281,17 @@ method newv ( Int() $n-columns, … --> Gnome::Gtk4::ListStore \)
 =begin pod
 =head2 append
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Appends a new row to C<$list-store>.  C<$iter> will be changed to point to this new
 row.  The row will be empty after this function is called.  To fill in
 values, you need to call C<.set()> or C<.set-value()>.
 
 =begin code
-method append ( CArray[N-TreeIter] $iter )
+method append ( N-Object $iter )
 =end code
 
-=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the appended row.
+=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the appended row
 
 =begin comment
 
@@ -273,6 +305,8 @@ method append ( CArray[N-TreeIter] $iter )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 clear
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Removes all rows from the list store.
 
@@ -293,6 +327,8 @@ method clear ( )
 =begin pod
 =head2 insert
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a new row at C<$position>.  C<$iter> will be changed to point to this new
 row.  If C<$position> is -1 or is larger than the number of rows on the list,
 then the new row will be appended to the list. The row will be empty after
@@ -300,10 +336,10 @@ this function is called.  To fill in values, you need to call
 C<.set()> or C<.set-value()>.
 
 =begin code
-method insert ( CArray[N-TreeIter] $iter, Int() $position )
+method insert ( N-Object $iter, Int() $position )
 =end code
 
-=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row.
+=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row
 =item $position; position to insert the new row, or -1 for last.
 
 =begin comment
@@ -319,17 +355,19 @@ method insert ( CArray[N-TreeIter] $iter, Int() $position )
 =begin pod
 =head2 insert-after
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Inserts a new row after C<$sibling>. If C<$sibling> is undefined, then the row will be
 prepended to the beginning of the list. C<$iter> will be changed to point to
 this new row. The row will be empty after this function is called. To fill
 in values, you need to call C<.set()> or C<.set-value()>.
 
 =begin code
-method insert-after ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $sibling )
+method insert-after ( N-Object $iter, N-Object $sibling )
 =end code
 
-=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row.
-=item $sibling; A valid B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row
+=item $sibling; A valid B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 
@@ -344,17 +382,19 @@ method insert-after ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $sibling )
 =begin pod
 =head2 insert-before
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Inserts a new row before C<$sibling>. If C<$sibling> is undefined, then the row will
 be appended to the end of the list. C<$iter> will be changed to point to this
 new row. The row will be empty after this function is called. To fill in
 values, you need to call C<.set()> or C<.set-value()>.
 
 =begin code
-method insert-before ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $sibling )
+method insert-before ( N-Object $iter, N-Object $sibling )
 =end code
 
-=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row.
-=item $sibling; A valid B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row
+=item $sibling; A valid B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 
@@ -370,45 +410,31 @@ method insert-before ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $sibling )
 =head2 insert-with-values
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a new row at C<$position>. C<$iter> will be changed to point to this new
 row. If C<$position> is -1, or larger than the number of rows in the list, then
 the new row will be appended to the list. The row will be filled with the
 values given to this function.
 
 Calling
-B<gtk_list_store_insert_with_values (list_store, iter, position...)>
+B<gtk_list_store_insert_with_values> (list_store, iter, position...)`
 has the same effect as calling:
-
-=begin comment
-<!-- language="C" -->
-static void
-insert_value (GtkListStore *list_store,
-              GtkTreeIter  *iter,
-              int           position)
-{
-  gtk_list_store_insert (list_store, iter, position);
-  gtk_list_store_set (list_store,
-                      iter
-                      // ...
-                      );
-}
-
-=end comment
 
 with the difference that the former will only emit B<Gnome::Gtk4::R-TreeModel>::row-inserted
 once, while the latter will emit B<Gnome::Gtk4::R-TreeModel>::row-inserted,
 B<Gnome::Gtk4::R-TreeModel>::row-changed and, if the list store is sorted,
 B<Gnome::Gtk4::R-TreeModel>::rows-reordered for every inserted value.
 
-Since emitting the B<GtkTreeModel::rows-reordered> signal repeatedly can
+Since emitting the B<Gnome::Gtk4::R-TreeModel>::rows-reordered` signal repeatedly can
 affect the performance of the program, C<.insert-with-values()>
 should generally be preferred when inserting rows in a sorted list store.
 
 =begin code
-method insert-with-values ( CArray[N-TreeIter] $iter, Int() $position, … )
+method insert-with-values ( N-Object $iter, Int() $position, … )
 =end code
 
-=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row.
+=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row
 =item $position; position to insert the new row, or -1 to append after existing
    rows.
 =item …; …. Note that each argument must be specified as a type followed by its value!
@@ -426,6 +452,8 @@ method insert-with-values ( CArray[N-TreeIter] $iter, Int() $position, … )
 =begin pod
 =head2 insert-with-valuesv
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 A variant of C<.insert-with-values()> which
 takes the columns and values as two arrays, instead of
 varargs.
@@ -433,13 +461,13 @@ varargs.
 This function is mainly intended for language-bindings.
 
 =begin code
-method insert-with-valuesv ( CArray[N-TreeIter] $iter, Int() $position, Array[Int] $columns, CArray[N-Value] $values, Int() $n-values )
+method insert-with-valuesv ( N-Object $iter, Int() $position, Array[Int] $columns, N-Object $values, Int() $n-values )
 =end code
 
-=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row.
+=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the new row
 =item $position; position to insert the new row, or -1 for last.
 =item $columns; an array of column numbers.
-=item $values; an array of GValues.
+=item $values; an array of GValues
 =item $n-values; the length of the C<$columns> and C<$values> arrays.
 
 =begin comment
@@ -455,16 +483,18 @@ method insert-with-valuesv ( CArray[N-TreeIter] $iter, Int() $position, Array[In
 =begin pod
 =head2 iter-is-valid
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Checks if the given iter is a valid iter for this B<Gnome::Gtk4::ListStore>.
 
 This function is slow. Only use it for debugging and/or testing
 purposes.
 
 =begin code
-method iter-is-valid ( CArray[N-TreeIter] $iter --> Bool )
+method iter-is-valid ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; the iterator to check.
+=item $iter; the iterator to check
 
 Return value; C<True> if the iter is valid, C<False> if the iter is invalid.. 
 
@@ -481,16 +511,18 @@ Return value; C<True> if the iter is valid, C<False> if the iter is invalid..
 =begin pod
 =head2 move-after
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Moves C<$iter> in C<$store> to the position after C<$position>. Note that this
 function only works with unsorted stores. If C<$position> is undefined, C<$iter>
 will be moved to the start of the list.
 
 =begin code
-method move-after ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $position )
+method move-after ( N-Object $iter, N-Object $position )
 =end code
 
-=item $iter; A B<Gnome::Gtk4::N-TreeIter>.
-=item $position; A B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; A B<Gnome::Gtk4::N-TreeIter>
+=item $position; A B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 
@@ -505,16 +537,18 @@ method move-after ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $position )
 =begin pod
 =head2 move-before
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Moves C<$iter> in C<$store> to the position before C<$position>. Note that this
 function only works with unsorted stores. If C<$position> is undefined, C<$iter>
 will be moved to the end of the list.
 
 =begin code
-method move-before ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $position )
+method move-before ( N-Object $iter, N-Object $position )
 =end code
 
-=item $iter; A B<Gnome::Gtk4::N-TreeIter>.
-=item $position; A B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; A B<Gnome::Gtk4::N-TreeIter>
+=item $position; A B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 
@@ -529,15 +563,17 @@ method move-before ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $position )
 =begin pod
 =head2 prepend
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Prepends a new row to C<$list-store>. C<$iter> will be changed to point to this new
 row. The row will be empty after this function is called. To fill in
 values, you need to call C<.set()> or C<.set-value()>.
 
 =begin code
-method prepend ( CArray[N-TreeIter] $iter )
+method prepend ( N-Object $iter )
 =end code
 
-=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the prepend row.
+=item $iter; An unset B<Gnome::Gtk4::N-TreeIter> to set to the prepend row
 
 =begin comment
 
@@ -552,14 +588,16 @@ method prepend ( CArray[N-TreeIter] $iter )
 =begin pod
 =head2 remove
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Removes the given row from the list store.  After being removed, C<$iter> is set to be the next valid row, or invalidated if it pointed
 to the last row in C<$list-store>.
 
 =begin code
-method remove ( CArray[N-TreeIter] $iter --> Bool )
+method remove ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; A valid B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; A valid B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True> if C<$iter> is valid, C<False> if not.. 
 
@@ -576,6 +614,8 @@ Return value; C<True> if C<$iter> is valid, C<False> if not..
 =begin pod
 =head2 reorder
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Reorders C<$store> to follow the order indicated by C<$new-order>. Note that
 this function only works with unsorted stores.
 
@@ -585,7 +625,7 @@ method reorder ( Array[Int] $new-order )
 
 =item $new-order; an array of integers mapping the new
   position of each child to its old position before the re-ordering,
-  i.e. C<$new-orderB><[newpos] = oldpos>. It must have
+  i.e. C<$new-order>`[newpos] = oldpos`. It must have
   exactly as many items as the list store’s length..
 
 =begin comment
@@ -602,21 +642,23 @@ method reorder ( Array[Int] $new-order )
 =head2 set
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the value of one or more cells in the row referenced by C<$iter>.
 The variable argument list should contain integer column numbers,
 each column number followed by the value to be set.
 The list is terminated by a -1. For example, to set column 0 with type
-C<G_TYPE_STRING> to “Foo”, you would write B<gtk_list_store_set (store, iter,
-0, "Foo", -1)>.
+C<G_TYPE_STRING> to “Foo”, you would write B<gtk_list_store_set> (store, iter,
+0, "Foo", -1)`.
 
 The value will be referenced by the store if it is a C<G_TYPE_OBJECT>, and it
 will be copied if it is a C<G_TYPE_STRING> or C<G_TYPE_BOXED>.
 
 =begin code
-method set ( CArray[N-TreeIter] $iter, … )
+method set ( N-Object $iter, … )
 =end code
 
-=item $iter; row iterator.
+=item $iter; row iterator
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
@@ -633,10 +675,16 @@ method set ( CArray[N-TreeIter] $iter, … )
 =head2 set-column-types
 This function is not yet available
 
-This function is meant primarily for B<Gnome::GObject::Object>s that inherit from B<Gnome::Gtk4::ListStore>,
-and should only be used when constructing a new B<Gnome::Gtk4::ListStore>.  It will not
-function after a row has been added, or a method on the B<Gnome::Gtk4::R-TreeModel>
-interface is called.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Sets the types of the columns of a list store.
+
+This function is meant primarily for objects that inherit
+from B<Gnome::Gtk4::ListStore>, and should only be used when constructing
+a new instance.
+
+This function cannot be called after a row has been added, or
+a method on the B<Gnome::Gtk4::R-TreeModel> interface is called.
 
 =begin code
 method set-column-types ( Int() $n-columns, … )
@@ -659,14 +707,16 @@ method set-column-types ( Int() $n-columns, … )
 =head2 set-valist
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 See C<.set()>; this version takes a va_list for use by language
 bindings.
 
 =begin code
-method set-valist ( CArray[N-TreeIter] $iter, … )
+method set-valist ( N-Object $iter, … )
 =end code
 
-=item $iter; A valid B<Gnome::Gtk4::N-TreeIter> for the row being modified.
+=item $iter; A valid B<Gnome::Gtk4::N-TreeIter> for the row being modified
 =item var-args; va_list of column/value pairs. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
@@ -682,17 +732,19 @@ method set-valist ( CArray[N-TreeIter] $iter, … )
 =begin pod
 =head2 set-value
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the data in the cell specified by C<$iter> and C<$column>.
 The type of C<$value> must be convertible to the type of the
 column.
 
 =begin code
-method set-value ( CArray[N-TreeIter] $iter, Int() $column, CArray[N-Value] $value )
+method set-value ( N-Object $iter, Int() $column, N-Object $value )
 =end code
 
-=item $iter; A valid B<Gnome::Gtk4::N-TreeIter> for the row being modified.
+=item $iter; A valid B<Gnome::Gtk4::N-TreeIter> for the row being modified
 =item $column; column number to modify.
-=item $value; new value for the cell.
+=item $value; new value for the cell
 
 =begin comment
 
@@ -707,6 +759,8 @@ method set-value ( CArray[N-TreeIter] $iter, Int() $column, CArray[N-Value] $val
 =begin pod
 =head2 set-valuesv
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 A variant of C<.set-valist()> which
 takes the columns and values as two arrays, instead of
 varargs. This function is mainly intended for
@@ -714,12 +768,12 @@ language-bindings and in case the number of columns to
 change is not known until run-time.
 
 =begin code
-method set-valuesv ( CArray[N-TreeIter] $iter, Array[Int] $columns, CArray[N-Value] $values, Int() $n-values )
+method set-valuesv ( N-Object $iter, Array[Int] $columns, N-Object $values, Int() $n-values )
 =end code
 
-=item $iter; A valid B<Gnome::Gtk4::N-TreeIter> for the row being modified.
+=item $iter; A valid B<Gnome::Gtk4::N-TreeIter> for the row being modified
 =item $columns; an array of column numbers.
-=item $values; an array of GValues.
+=item $values; an array of GValues
 =item $n-values; the length of the C<$columns> and C<$values> arrays.
 
 =begin comment
@@ -735,15 +789,17 @@ method set-valuesv ( CArray[N-TreeIter] $iter, Array[Int] $columns, CArray[N-Val
 =begin pod
 =head2 swap
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Swaps C<$a> and C<$b> in C<$store>. Note that this function only works with
 unsorted stores.
 
 =begin code
-method swap ( CArray[N-TreeIter] $a, CArray[N-TreeIter] $b )
+method swap ( N-Object $a, N-Object $b )
 =end code
 
-=item $a; A B<Gnome::Gtk4::N-TreeIter>.
-=item $b; Another B<Gnome::Gtk4::N-TreeIter>.
+=item $a; A B<Gnome::Gtk4::N-TreeIter>
+=item $b; Another B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 

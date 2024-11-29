@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::LevelBar
-
-![](images/levelbar.png)
-
+=TITLE Gnome::Gtk4::LevelBar
 =head1 Description
 
 B<Gnome::Gtk4::LevelBar> is a widget that can be used as a level indicator.
@@ -17,7 +14,7 @@ B<Gnome::Gtk4::LevelBar> is a widget that can be used as a level indicator.
 Typical use cases are displaying the strength of a password, or
 showing the charge level of a battery.
 
-![An example GtkLevelBar](levelbar.png)
+=for image :src<asset_files/images/levelbar.png> :width<30%> :class<inline>
 
 Use C<.set-value()> to set the current value, and
 C<.add-offset-value()> to set the value offsets at which
@@ -82,8 +79,8 @@ indicator mode to discrete.
 =head2 GtkLevelBar as GtkBuildable
 
 The B<Gnome::Gtk4::LevelBar> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports a
-custom <offsets> element, which can contain any number of <offset> elements,
-each of which must have name and value attributes.
+custom `<offsets>` element, which can contain any number of `<offset>` elements,
+each of which must have "name" and "value" attributes.
 
 =head2 CSS nodes
 
@@ -142,12 +139,6 @@ B<Gnome::Gtk4::LevelBar> uses the C<GTK_ACCESSIBLE_ROLE_METER> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -208,7 +199,7 @@ Adds a new offset marker on C<$self> at the position specified by C<$value>.
 
 When the bar value is in the interval topped by C<$value> (or between C<$value>
 and I<max-value> in case the offset is the last one
-on the bar) a style class named B<level-> C<$name> will be applied
+on the bar) a style class named B<level>-` C<$name> will be applied
 when rendering the level bar fill.
 
 If another offset marker named C<$name> exists, its value will be
@@ -255,7 +246,7 @@ Return value; C<True> if the level bar is inverted.
 =begin pod
 =head2 get-max-value
 
-Returns the B<max-value> of the B<Gnome::Gtk4::LevelBar>.
+Returns the B<max>-value` of the B<Gnome::Gtk4::LevelBar>.
 
 =begin code
 method get-max-value (--> Num )
@@ -276,7 +267,7 @@ Return value; a positive value.
 =begin pod
 =head2 get-min-value
 
-Returns the B<min-value of the >GtkLevelBarB<.
+Returns the B<min>-value` of the B<Gnome::Gtk4::LevelBar>.
 
 =begin code
 method get-min-value (--> Num )
@@ -297,13 +288,13 @@ Return value; a positive value.
 =begin pod
 =head2 get-mode
 
-Returns the >modeB< of the >GtkLevelBarB<.
+Returns the B<mode> of the B<Gnome::Gtk4::LevelBar>.
 
 =begin code
 method get-mode (--> GtkLevelBarMode )
 =end code
 
-Return value; a >GtkLevelBarModeB<. 
+Return value; a C<enumeration GtkLevelBarMode defined in Gnome::Gtk4::T-enums>. 
 
 =begin comment
 
@@ -342,14 +333,14 @@ Return value; C<True> if the specified offset is found.
 =begin pod
 =head2 get-value
 
-Returns the >valueB< of the >GtkLevelBarB<.
+Returns the B<value> of the B<Gnome::Gtk4::LevelBar>.
 
 =begin code
 method get-value (--> Num )
 =end code
 
 Return value; a value in the interval between
-  I<min-value[ and I<max-value>. 
+  I<min-value> and I<max-value>. 
 
 =begin comment
 
@@ -364,10 +355,10 @@ Return value; a value in the interval between
 =begin pod
 =head2 remove-offset-value
 
-Removes an offset marker from a >GtkLevelBarB<.
+Removes an offset marker from a B<Gnome::Gtk4::LevelBar>.
 
 The marker must have been previously added with
-C<.add-offset-value>.
+C<.add-offset-value()>.
 
 =begin code
 method remove-offset-value ( Str $name )
@@ -375,14 +366,20 @@ method remove-offset-value ( Str $name )
 
 =item $name; the name of an offset in the bar.
 
-----EXAMPLE----011
+=begin comment
+
+=head2 Example
+# Example for remove-offset-value
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-inverted
 
-Sets whether the >GtkLevelBarB< is inverted.
+Sets whether the B<Gnome::Gtk4::LevelBar> is inverted.
 
 =begin code
 method set-inverted ( Bool() $inverted )
@@ -390,14 +387,20 @@ method set-inverted ( Bool() $inverted )
 
 =item $inverted; C<True> to invert the level bar.
 
-----EXAMPLE----012
+=begin comment
+
+=head2 Example
+# Example for set-inverted
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-max-value
 
-Sets the >max-valueB< of the >GtkLevelBarB<.
+Sets the B<max>-value` of the B<Gnome::Gtk4::LevelBar>.
 
 You probably want to update preexisting level offsets after calling
 this function.
@@ -408,14 +411,20 @@ method set-max-value ( Num() $value )
 
 =item $value; a positive value.
 
-----EXAMPLE----013
+=begin comment
+
+=head2 Example
+# Example for set-max-value
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-min-value
 
-Sets the >min-valueB< of the >GtkLevelBarB<.
+Sets the B<min>-value` of the B<Gnome::Gtk4::LevelBar>.
 
 You probably want to update preexisting level offsets after calling
 this function.
@@ -426,29 +435,41 @@ method set-min-value ( Num() $value )
 
 =item $value; a positive value.
 
-----EXAMPLE----014
+=begin comment
+
+=head2 Example
+# Example for set-min-value
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-mode
 
-Sets the >modeB< of the >GtkLevelBarB<.
+Sets the B<mode> of the B<Gnome::Gtk4::LevelBar>.
 
 =begin code
 method set-mode ( GtkLevelBarMode $mode )
 =end code
 
-=item $mode; a >GtkLevelBarModeB<.
+=item $mode; a C<enumeration GtkLevelBarMode defined in Gnome::Gtk4::T-enums>.
 
-----EXAMPLE----015
+=begin comment
+
+=head2 Example
+# Example for set-mode
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-value
 
-Sets the value of the >GtkLevelBar`.
+Sets the value of the B<Gnome::Gtk4::LevelBar>.
 
 =begin code
 method set-value ( Num() $value )
@@ -457,11 +478,17 @@ method set-value ( Num() $value )
 =item $value; a value in the interval between
   I<min-value> and I<max-value>.
 
-----EXAMPLE----016
+=begin comment
+
+=head2 Example
+# Example for set-value
+
+=end comment
+
 =end pod
 
 #-------------------------------------------------------------------------------
-#--[Signal Documentation()>-------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod

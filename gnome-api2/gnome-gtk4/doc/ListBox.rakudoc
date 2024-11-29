@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::ListBox
-
-![](images/listbox.png)
-
+=TITLE Gnome::Gtk4::ListBox
 =head1 Description
 
 B<Gnome::Gtk4::ListBox> is a vertical list.
@@ -39,22 +36,18 @@ as selected when the user tries to select it.
 
 The B<Gnome::Gtk4::ListBox> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
 setting a child as the placeholder by specifying “placeholder” as the “type”
-attribute of a <child> element. See C<.set-placeholder()>
+attribute of a `<child>` element. See C<.set-placeholder()>
 for info.
 
 =head2 CSS nodes
-
-=begin comment
-<!-- language="plain" -->
-list[.separators][.rich-list][.navigation-sidebar]
-╰── row[.activatable]
-
-=end comment
 
 B<Gnome::Gtk4::ListBox> uses a single CSS node named list. It may carry the .separators
 style class, when the I<show-separators> property is set.
 Each B<Gnome::Gtk4::ListBoxRow> uses a single CSS node named row. The row nodes get the
 .activatable style class added when appropriate.
+
+It may also carry the .boxed-list style class. In this case, the list will be
+automatically surrounded by a frame and have separators.
 
 The main list node may also carry style classes to select
 the style of [list presentation](section-list-widget.html#list-styles):
@@ -95,12 +88,6 @@ the C<GTK_ACCESSIBLE_ROLE_LIST_ITEM> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -572,6 +559,27 @@ method remove ( N-Object() $child )
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 remove-all
+
+Removes all rows from C<$box>.
+
+This function does nothing if C<$box> is backed by a model.
+
+=begin code
+method remove-all ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for select-all
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 select-all
 
 Select all children of C<$box>, if the selection mode allows it.
@@ -583,7 +591,7 @@ method select-all ( )
 =begin comment
 
 =head2 Example
-# Example for select-all
+# Example for select-row
 
 =end comment
 
@@ -604,7 +612,7 @@ method select-row ( N-Object() $row )
 =begin comment
 
 =head2 Example
-# Example for select-row
+# Example for selected-foreach
 
 =end comment
 
@@ -628,7 +636,7 @@ method selected-foreach ( &func, gpointer $data )
 =begin comment
 
 =head2 Example
-# Example for selected-foreach
+# Example for set-activate-on-single-click
 
 =end comment
 
@@ -650,7 +658,7 @@ method set-activate-on-single-click ( Bool() $single )
 =begin comment
 
 =head2 Example
-# Example for set-activate-on-single-click
+# Example for set-adjustment
 
 =end comment
 
@@ -680,7 +688,7 @@ method set-adjustment ( N-Object() $adjustment )
 =begin comment
 
 =head2 Example
-# Example for set-adjustment
+# Example for set-filter-func
 
 =end comment
 
@@ -716,7 +724,7 @@ method set-filter-func ( &filter-func, gpointer $user-data, … )
 =begin comment
 
 =head2 Example
-# Example for set-filter-func
+# Example for set-header-func
 
 =end comment
 
@@ -764,7 +772,7 @@ method set-header-func ( &update-header, gpointer $user-data, … )
 =begin comment
 
 =head2 Example
-# Example for set-header-func
+# Example for set-placeholder
 
 =end comment
 
@@ -786,7 +794,7 @@ method set-placeholder ( N-Object() $placeholder )
 =begin comment
 
 =head2 Example
-# Example for set-placeholder
+# Example for set-selection-mode
 
 =end comment
 
@@ -807,7 +815,7 @@ method set-selection-mode ( GtkSelectionMode $mode )
 =begin comment
 
 =head2 Example
-# Example for set-selection-mode
+# Example for set-show-separators
 
 =end comment
 
@@ -829,7 +837,7 @@ method set-show-separators ( Bool() $show-separators )
 =begin comment
 
 =head2 Example
-# Example for set-show-separators
+# Example for set-sort-func
 
 =end comment
 
@@ -864,7 +872,7 @@ method set-sort-func ( &sort-func, gpointer $user-data, … )
 =begin comment
 
 =head2 Example
-# Example for set-sort-func
+# Example for unselect-all
 
 =end comment
 
@@ -883,7 +891,7 @@ method unselect-all ( )
 =begin comment
 
 =head2 Example
-# Example for unselect-all
+# Example for unselect-row
 
 =end comment
 
@@ -899,12 +907,12 @@ Unselects a single row of C<$box>, if the selection mode allows it.
 method unselect-row ( N-Object() $row )
 =end code
 
-=item $row; the row to unselected.
+=item $row; the row to unselect.
 
 =begin comment
 
 =head2 Example
-# Example for unselect-row
+# Example for signal activate-cursor-row
 
 =end comment
 
@@ -937,7 +945,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal activate-cursor-row
+# Example for signal move-cursor
 
 =end comment
 
@@ -969,7 +977,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal move-cursor
+# Example for signal row-activated
 
 =end comment
 
@@ -997,7 +1005,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal row-activated
+# Example for signal row-selected
 
 =end comment
 
@@ -1030,7 +1038,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal row-selected
+# Example for signal select-all
 
 =end comment
 
@@ -1061,7 +1069,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal select-all
+# Example for signal selected-rows-changed
 
 =end comment
 
@@ -1087,7 +1095,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal selected-rows-changed
+# Example for signal toggle-cursor-row
 
 =end comment
 
@@ -1111,7 +1119,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal toggle-cursor-row
+# Example for signal unselect-all
 
 =end comment
 
@@ -1141,9 +1149,9 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
-
-=head2 Example
-# Example for signal unselect-all
+<!-- language="plain" -->
+list[.separators][.rich-list][.navigation-sidebar]
+╰── row[.activatable]
 
 =end comment
 
