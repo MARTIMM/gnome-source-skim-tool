@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-TreeSortable
-
-![](images/treesortable.png)
-
+=TITLE Gnome::Gtk4::R-TreeSortable
 =head1 Description
 
 The interface for sortable models used by GtkTreeView
@@ -45,6 +42,8 @@ to sort the model.
 =begin pod
 =head2 get-sort-column-id
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Fills in C<$sort-column-id> and C<$order> with the current sort column and the
 order. It returns C<True> unless the C<$sort-column-id> is
 C<GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID> or
@@ -73,6 +72,8 @@ Return value; C<True> if the sort column is not one of the special sort
 =begin pod
 =head2 has-default-sort-func
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if the model has a default sort function. This is used
 primarily by GtkTreeViewColumns in order to determine if a model can
 go back to the default state, or not.
@@ -97,6 +98,8 @@ Return value; C<True>, if the model has a default sort function.
 =head2 set-default-sort-func
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the default comparison function used when sorting to be C<$sort-func>.
 If the current sort column id of C<$sortable> is
 C<GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID>, then the model will sort using
@@ -111,7 +114,7 @@ is C<GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID>, the model will be unsorted.
 method set-default-sort-func ( &sort-func, gpointer $user-data, â€¦ )
 =end code
 
-=item &sort-func; The comparison function. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreeIter $a, N-TreeIter $b, gpointer $user-data --> gint )>.
+=item &sort-func; The comparison function. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $a, N-Object $b, gpointer $user-data --> gint )>.
 =item $user-data; User data to pass to C<$sort-func>.
 =item destroy; Destroy notifier of C<$user-data>. Note that each argument must be specified as a type followed by its value!
 
@@ -128,9 +131,11 @@ method set-default-sort-func ( &sort-func, gpointer $user-data, â€¦ )
 =begin pod
 =head2 set-sort-column-id
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the current sort column to be C<$sort-column-id>. The C<$sortable> will
 resort itself to reflect this change, after emitting a
-B<GtkTreeSortable::sort-column-changed> signal. C<$sort-column-id> may either be
+B<Gnome::Gtk4::R-TreeSortable>::sort-column-changed` signal. C<$sort-column-id> may either be
 a regular column id, or one of the following special values:
 
 =item C<GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID>: the default sort function
@@ -159,6 +164,8 @@ method set-sort-column-id ( Int() $sort-column-id, GtkSortType $order )
 =head2 set-sort-func
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the comparison function used when sorting to be C<$sort-func>. If the
 current sort column id of C<$sortable> is the same as C<$sort-column-id>, then
 the model will sort using this function.
@@ -168,7 +175,7 @@ method set-sort-func ( Int() $sort-column-id, &sort-func, gpointer $user-data, â
 =end code
 
 =item $sort-column-id; the sort column id to set the function for.
-=item &sort-func; The comparison function. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreeIter $a, N-TreeIter $b, gpointer $user-data --> gint )>.
+=item &sort-func; The comparison function. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $a, N-Object $b, gpointer $user-data --> gint )>.
 =item $user-data; User data to pass to C<$sort-func>.
 =item destroy; Destroy notifier of C<$user-data>. Note that each argument must be specified as a type followed by its value!
 
@@ -185,7 +192,9 @@ method set-sort-func ( Int() $sort-column-id, &sort-func, gpointer $user-data, â
 =begin pod
 =head2 sort-column-changed
 
-Emits a B<GtkTreeSortable::sort-column-changed> signal on C<$sortable>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Emits a B<Gnome::Gtk4::R-TreeSortable>::sort-column-changed` signal on C<$sortable>.
 
 =begin code
 method sort-column-changed ( )

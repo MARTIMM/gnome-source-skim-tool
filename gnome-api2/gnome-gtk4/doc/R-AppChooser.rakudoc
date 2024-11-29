@@ -6,20 +6,17 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-AppChooser
-
-![](images/appchooser.png)
-
+=TITLE Gnome::Gtk4::R-AppChooser
 =head1 Description
 
-U<Gnome::Gtk4::R-AppChooser> is an interface for widgets which allow the user to
+B<Gnome::Gtk4::R-AppChooser> is an interface for widgets which allow the user to
 choose an application.
 
 The main objects that implement this interface are
 B<Gnome::Gtk4::AppChooserWidget>,
 B<Gnome::Gtk4::AppChooserDialog> and B<Gnome::Gtk4::AppChooserButton>.
 
-Applications are represented by GIO U<Gnome::Gio::R-AppInfo> objects here.
+Applications are represented by GIO B<Gnome::Gio::R-AppInfo> objects here.
 GIO has a concept of recommended and fallback applications for a
 given content type. Recommended applications are those that claim
 to handle the content type itself, while fallback also includes
@@ -29,7 +26,7 @@ type. The B<Gnome::Gtk4::AppChooserWidget> provides detailed control over
 whether the shown list of applications should include default,
 recommended or fallback applications.
 
-To obtain the application that has been selected in a U<Gnome::Gtk4::R-AppChooser>,
+To obtain the application that has been selected in a B<Gnome::Gtk4::R-AppChooser>,
 use C<.get-app-info()>.
 
 =begin comment
@@ -59,13 +56,15 @@ use C<.get-app-info()>.
 =begin pod
 =head2 get-app-info
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the currently selected application.
 
 =begin code
 method get-app-info (--> N-Object )
 =end code
 
-Return value; a U<Gnome::Gio::R-AppInfo> for the
+Return value; a B<Gnome::Gio::R-AppInfo> for the
   currently selected application. 
 
 =begin comment
@@ -81,7 +80,9 @@ Return value; a U<Gnome::Gio::R-AppInfo> for the
 =begin pod
 =head2 get-content-type
 
-Returns the content type for which the U<Gnome::Gtk4::R-AppChooser>
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns the content type for which the B<Gnome::Gtk4::R-AppChooser>
 shows applications.
 
 =begin code
@@ -102,6 +103,8 @@ Return value; the content type of C<$self>. Free with g_free().
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 refresh
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Reloads the list of applications.
 

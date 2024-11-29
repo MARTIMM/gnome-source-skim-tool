@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-Editable
-
-![](images/editable.png)
-
+=TITLE Gnome::Gtk4::R-Editable
 =head1 Description
 
 B<Gnome::Gtk4::R-Editable> is an interface for text editing widgets.
@@ -27,26 +24,13 @@ into a widget into uppercase.
 =head3 Forcing entry to uppercase.
 
 =begin comment
-#include <ctype.h>
-
-void
-insert_text_handler (GtkEditable *editable,
-                     const char  *text,
-                     int          length,
-                     int         *position,
-                     gpointer     data)
+static void
+my_class_init (MyClass *class)
 {
-  char *result = g_utf8_strup (text, length);
-
-  g_signal_handlers_block_by_func (editable,
-                               (gpointer) insert_text_handler, data);
-  gtk_editable_insert_text (editable, result, length, position);
-  g_signal_handlers_unblock_by_func (editable,
-                                     (gpointer) insert_text_handler, data);
-
-  g_signal_stop_emission_by_name (editable, "insert_text");
-
-  g_free (result);
+  ...
+  g_object_class_install_properties (object_class, NUM_PROPERTIES, props);
+  gtk_editable_install_properties (object_clas, NUM_PROPERTIES);
+  ...
 }
 
 =end comment
@@ -60,21 +44,6 @@ provides some utility functions to make this easy.
 
 In your class_init function, call C<.Editable.install-properties()>,
 passing the first available property ID:
-
-=begin comment
-static void
-my_class_init (MyClass *class)
-{
-  ...
-  g_object_class_install_properties (object_class, NUM_PROPERTIES, props);
-  gtk_editable_install_properties (object_clas, NUM_PROPERTIES);
-  ...
-}
-
-=end comment
-
-In your interface_init function for the B<Gnome::Gtk4::R-Editable> interface, provide
-an implementation for the get_delegate vfunc that returns your text widget:
 
 =begin comment
 GtkEditable *
@@ -91,12 +60,8 @@ my_editable_init (GtkEditableInterface *iface)
 
 =end comment
 
-You don't need to provide any other vfuncs. The default implementations
-work by forwarding to the delegate that the GtkEditableInterface.get_delegate()
-vfunc returns.
-
-In your instance_init function, create your text widget, and then call
-C<.init-delegate()>:
+In your interface_init function for the B<Gnome::Gtk4::R-Editable> interface, provide
+an implementation for the get_delegate vfunc that returns your text widget:
 
 =begin comment
 static void
@@ -110,8 +75,12 @@ my_widget_init (MyWidget *self)
 
 =end comment
 
-In your dispose function, call C<.finish-delegate()> before
-destroying your text widget:
+You don't need to provide any other vfuncs. The default implementations
+work by forwarding to the delegate that the GtkEditableInterface.get_delegate()
+vfunc returns.
+
+In your instance_init function, create your text widget, and then call
+C<.init-delegate()>:
 
 =begin comment
 static void
@@ -125,8 +94,8 @@ my_widget_dispose (GObject *object)
 
 =end comment
 
-Finally, use C<.Editable.delegate-set-property()> in your B<set_property>
-function (and similar for B<get_property>), to set the editable properties:
+In your dispose function, call C<.finish-delegate()> before
+destroying your text widget:
 
 =begin comment
   ...
@@ -137,6 +106,9 @@ function (and similar for B<get_property>), to set the editable properties:
   ...
 
 =end comment
+
+Finally, use C<.Editable.delegate-set-property()> in your B<set_property>
+function (and similar for B<get_property>), to set the editable properties:
 
 It is important to note that if you create a B<Gnome::Gtk4::R-Editable> that uses
 a delegate, the low level I<insert-text> and
@@ -172,6 +144,36 @@ to them on the delegate obtained via C<.get-delegate()>.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 delegate-get-accessible-platform-state
+
+Retrieves the accessible platform state from the editable delegate.
+
+This is an helper function to retrieve the accessible state for
+B<Gnome::Gtk4::R-Editable> interface implementations using a delegate pattern.
+
+You should call this function in your editable widget implementation
+of the [vfunc C<$Gtk>.Accessible.get_platform_state] virtual function, for
+instance:
+
+=begin code
+method delegate-get-accessible-platform-state ( GtkAccessiblePlatformState $state --> Bool )
+=end code
+
+=item $state; what kind of accessible state to retrieve.
+
+Return value; No documentation about its value and use. 
+
+=begin comment
+
+=head2 Example
+# Example for delete-selection
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 delete-selection
 
 Deletes the currently selected text of the editable.
@@ -185,7 +187,7 @@ method delete-selection ( )
 =begin comment
 
 =head2 Example
-# Example for delete-selection
+# Example for delete-text
 
 =end comment
 
@@ -214,7 +216,7 @@ method delete-text ( Int() $start-pos, Int() $end-pos )
 =begin comment
 
 =head2 Example
-# Example for delete-text
+# Example for finish-delegate
 
 =end comment
 
@@ -236,7 +238,7 @@ method finish-delegate ( )
 =begin comment
 
 =head2 Example
-# Example for finish-delegate
+# Example for get-alignment
 
 =end comment
 
@@ -257,7 +259,7 @@ Return value; the alignment.
 =begin comment
 
 =head2 Example
-# Example for get-alignment
+# Example for get-chars
 
 =end comment
 
@@ -290,7 +292,7 @@ Return value; a pointer to the contents of the widget as a
 =begin comment
 
 =head2 Example
-# Example for get-chars
+# Example for get-delegate
 
 =end comment
 
@@ -314,7 +316,7 @@ Return value; the delegate B<Gnome::Gtk4::R-Editable>.
 =begin comment
 
 =head2 Example
-# Example for get-delegate
+# Example for get-editable
 
 =end comment
 
@@ -335,7 +337,7 @@ Return value; C<True> if C<$editable> is editable..
 =begin comment
 
 =head2 Example
-# Example for get-editable
+# Example for get-enable-undo
 
 =end comment
 
@@ -356,7 +358,7 @@ Return value; C<True> if undo is enabled.
 =begin comment
 
 =head2 Example
-# Example for get-enable-undo
+# Example for get-max-width-chars
 
 =end comment
 
@@ -377,7 +379,7 @@ Return value; the maximum width of the entry, in characters.
 =begin comment
 
 =head2 Example
-# Example for get-max-width-chars
+# Example for get-position
 
 =end comment
 
@@ -401,7 +403,7 @@ Return value; the cursor position.
 =begin comment
 
 =head2 Example
-# Example for get-position
+# Example for get-selection-bounds
 
 =end comment
 
@@ -429,7 +431,7 @@ Return value; C<True> if there is a non-empty selection, C<False> otherwise.
 =begin comment
 
 =head2 Example
-# Example for get-selection-bounds
+# Example for get-text
 
 =end comment
 
@@ -452,7 +454,7 @@ Return value; a pointer to the contents of the editable.
 =begin comment
 
 =head2 Example
-# Example for get-text
+# Example for get-width-chars
 
 =end comment
 
@@ -474,7 +476,7 @@ Return value; number of chars to request space for, or negative if unset.
 =begin comment
 
 =head2 Example
-# Example for get-width-chars
+# Example for init-delegate
 
 =end comment
 
@@ -499,7 +501,7 @@ method init-delegate ( )
 =begin comment
 
 =head2 Example
-# Example for init-delegate
+# Example for insert-text
 
 =end comment
 
@@ -520,14 +522,14 @@ inserted text.
 method insert-text ( Str $text, Int() $length, Array[Int] $position )
 =end code
 
-=item $text; the text to append.
+=item $text; the text to insert.
 =item $length; the length of the text in bytes, or -1.
 =item $position; (transfer ownership: full) location of the position text will be inserted at.
 
 =begin comment
 
 =head2 Example
-# Example for insert-text
+# Example for select-region
 
 =end comment
 
@@ -555,7 +557,7 @@ method select-region ( Int() $start-pos, Int() $end-pos )
 =begin comment
 
 =head2 Example
-# Example for select-region
+# Example for set-alignment
 
 =end comment
 
@@ -580,7 +582,7 @@ method set-alignment ( Num() $xalign )
 =begin comment
 
 =head2 Example
-# Example for set-alignment
+# Example for set-editable
 
 =end comment
 
@@ -602,7 +604,7 @@ method set-editable ( Bool() $is-editable )
 =begin comment
 
 =head2 Example
-# Example for set-editable
+# Example for set-enable-undo
 
 =end comment
 
@@ -628,7 +630,7 @@ method set-enable-undo ( Bool() $enable-undo )
 =begin comment
 
 =head2 Example
-# Example for set-enable-undo
+# Example for set-max-width-chars
 
 =end comment
 
@@ -649,7 +651,7 @@ method set-max-width-chars ( Int() $n-chars )
 =begin comment
 
 =head2 Example
-# Example for set-max-width-chars
+# Example for set-position
 
 =end comment
 
@@ -676,7 +678,7 @@ method set-position ( Int() $position )
 =begin comment
 
 =head2 Example
-# Example for set-position
+# Example for set-text
 
 =end comment
 
@@ -699,7 +701,7 @@ method set-text ( Str $text )
 =begin comment
 
 =head2 Example
-# Example for set-text
+# Example for set-width-chars
 
 =end comment
 
@@ -725,7 +727,7 @@ method set-width-chars ( Int() $n-chars )
 =begin comment
 
 =head2 Example
-# Example for set-width-chars
+# Example for delegate-get-property
 
 =end comment
 
@@ -750,12 +752,12 @@ function of your B<Gnome::Gtk4::R-Editable> implementation, before handling your
 own properties.
 
 =begin code
-method delegate-get-property ( N-Object() $object, UInt() $prop-id, CArray[N-Value] $value, N-Object() $pspec --> Bool )
+method delegate-get-property ( N-Object() $object, UInt() $prop-id, N-Object $value, N-Object() $pspec --> Bool )
 =end code
 
 =item $object; a B<Gnome::GObject::Object>.
 =item $prop-id; a property ID.
-=item $value; value to set.
+=item $value; value to set
 =item $pspec; the B<Gnome::GObject::ParamSpec> for the property.
 
 Return value; C<True> if the property was found. 
@@ -763,7 +765,7 @@ Return value; C<True> if the property was found.
 =begin comment
 
 =head2 Example
-# Example for delegate-get-property
+# Example for delegate-set-property
 
 =end comment
 
@@ -780,12 +782,12 @@ function of your B<Gnome::Gtk4::R-Editable> implementation, before handling your
 own properties.
 
 =begin code
-method delegate-set-property ( N-Object() $object, UInt() $prop-id, CArray[N-Value] $value, N-Object() $pspec --> Bool )
+method delegate-set-property ( N-Object() $object, UInt() $prop-id, N-Object $value, N-Object() $pspec --> Bool )
 =end code
 
 =item $object; a B<Gnome::GObject::Object>.
 =item $prop-id; a property ID.
-=item $value; value to set.
+=item $value; value to set
 =item $pspec; the B<Gnome::GObject::ParamSpec> for the property.
 
 Return value; C<True> if the property was found. 
@@ -793,7 +795,7 @@ Return value; C<True> if the property was found.
 =begin comment
 
 =head2 Example
-# Example for delegate-set-property
+# Example for install-properties
 
 =end comment
 
@@ -832,7 +834,7 @@ Return value; the number of properties that were installed.
 =begin comment
 
 =head2 Example
-# Example for install-properties
+# Example for signal changed
 
 =end comment
 
@@ -874,7 +876,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal changed
+# Example for signal delete-text
 
 =end comment
 
@@ -912,7 +914,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal delete-text
+# Example for signal insert-text
 
 =end comment
 
@@ -951,9 +953,27 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
+#include <ctype.h>
 
-=head2 Example
-# Example for signal insert-text
+void
+insert_text_handler (GtkEditable *editable,
+                     const char  *text,
+                     int          length,
+                     int         *position,
+                     gpointer     data)
+{
+  char *result = g_utf8_strup (text, length);
+
+  g_signal_handlers_block_by_func (editable,
+                               (gpointer) insert_text_handler, data);
+  gtk_editable_insert_text (editable, result, length, position);
+  g_signal_handlers_unblock_by_func (editable,
+                                     (gpointer) insert_text_handler, data);
+
+  g_signal_stop_emission_by_name (editable, "insert_text");
+
+  g_free (result);
+}
 
 =end comment
 

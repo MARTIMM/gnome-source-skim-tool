@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-Scrollable
-
-![](images/scrollable.png)
-
+=TITLE Gnome::Gtk4::R-Scrollable
 =head1 Description
 
 B<Gnome::Gtk4::R-Scrollable> is an interface for widgets with native scrolling ability.
@@ -76,10 +73,10 @@ this information to display overlaid graphics, like the
 overshoot indication, at the right position.
 
 =begin code
-method get-border ( CArray[N-Border] $border --> Bool )
+method get-border ( N-Object $border --> Bool )
 =end code
 
-=item $border; return location for the results.
+=item $border; return location for the results
 
 Return value; C<True> if C<$border> has been set. 
 

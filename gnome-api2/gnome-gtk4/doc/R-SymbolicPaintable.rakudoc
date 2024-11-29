@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-SymbolicPaintable
-
-![](images/symbolicpaintable.png)
-
+=TITLE Gnome::Gtk4::R-SymbolicPaintable
 =head1 Description
 
 B<Gnome::Gtk4::R-SymbolicPaintable> is an interface that support symbolic colors in
@@ -58,13 +55,13 @@ If less than 4 colors are provided, GTK will pad the array with default
 colors.
 
 =begin code
-method snapshot-symbolic ( N-Object() $snapshot, Num() $width, Num() $height, CArray[N-RGBA] $colors, Int() $n-colors )
+method snapshot-symbolic ( N-Object() $snapshot, Num() $width, Num() $height, N-Object $colors, Int() $n-colors )
 =end code
 
 =item $snapshot; a B<Gnome::Gdk4::Snapshot> to snapshot to.
 =item $width; width to snapshot in.
 =item $height; height to snapshot in.
-=item $colors; a pointer to an array of colors.
+=item $colors; a pointer to an array of colors
 =item $n-colors; The number of colors.
 
 =begin comment

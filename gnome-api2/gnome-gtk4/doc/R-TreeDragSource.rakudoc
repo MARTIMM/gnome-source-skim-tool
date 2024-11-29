@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-TreeDragSource
-
-![](images/treedragsource.png)
-
+=TITLE Gnome::Gtk4::R-TreeDragSource
 =head1 Description
 
 Interface for Drag-and-Drop destinations in B<Gnome::Gtk4::TreeView>.
@@ -41,6 +38,8 @@ Interface for Drag-and-Drop destinations in B<Gnome::Gtk4::TreeView>.
 =begin pod
 =head2 drag-data-delete
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Asks the B<Gnome::Gtk4::R-TreeDragSource> to delete the row at C<$path>, because
 it was moved somewhere else via drag-and-drop. Returns C<False>
 if the deletion fails because C<$path> no longer exists, or for
@@ -48,10 +47,10 @@ some model-specific reason. Should robustly handle a C<$path> no
 longer found in the model!
 
 =begin code
-method drag-data-delete ( CArray[N-TreePath] $path --> Bool )
+method drag-data-delete ( N-Object $path --> Bool )
 =end code
 
-=item $path; row that was being dragged.
+=item $path; row that was being dragged
 
 Return value; C<True> if the row was successfully deleted. 
 
@@ -68,15 +67,17 @@ Return value; C<True> if the row was successfully deleted.
 =begin pod
 =head2 drag-data-get
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Asks the B<Gnome::Gtk4::R-TreeDragSource> to return a B<Gnome::Gdk4::ContentProvider> representing
 the row at C<$path>. Should robustly handle a C<$path> no
 longer found in the model!
 
 =begin code
-method drag-data-get ( CArray[N-TreePath] $path --> N-Object )
+method drag-data-get ( N-Object $path --> N-Object )
 =end code
 
-=item $path; row that was dragged.
+=item $path; row that was dragged
 
 Return value; a B<Gnome::Gdk4::ContentProvider> for the
    given C<$path>. 
@@ -94,15 +95,17 @@ Return value; a B<Gnome::Gdk4::ContentProvider> for the
 =begin pod
 =head2 row-draggable
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Asks the B<Gnome::Gtk4::R-TreeDragSource> whether a particular row can be used as
 the source of a DND operation. If the source doesn’t implement
 this interface, the row is assumed draggable.
 
 =begin code
-method row-draggable ( CArray[N-TreePath] $path --> Bool )
+method row-draggable ( N-Object $path --> Bool )
 =end code
 
-=item $path; row on which user is initiating a drag.
+=item $path; row on which user is initiating a drag
 
 Return value; C<True> if the row can be dragged. 
 

@@ -1,4 +1,4 @@
-=comment Package: Gtk4, C-Source: ColorChooser
+=comment Package: Gtk4, C-Source: colorchooser
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,13 +6,10 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-ColorChooser
-
-![](images/colorchooser.png)
-
+=TITLE Gnome::Gtk4::R-ColorChooser
 =head1 Description
 
-U<Gnome::Gtk4::R-ColorChooser> is an interface that is implemented by widgets
+B<Gnome::Gtk4::R-ColorChooser> is an interface that is implemented by widgets
 for choosing colors.
 
 Depending on the situation, colors may be allowed to have alpha (translucency).
@@ -48,10 +45,12 @@ B<Gnome::Gtk4::ColorButton>.
 =begin pod
 =head2 add-palette
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds a palette to the color chooser.
 
 If C<$orientation> is horizontal, the colors are grouped in rows,
-with C<$colors_per_line> colors in each row. If C<$horizontal> is C<False>,
+with C<$colors-per-line> colors in each row. If C<$horizontal> is C<False>,
 the colors are grouped in columns instead.
 
 The default color palette of B<Gnome::Gtk4::ColorChooserWidget> has
@@ -67,14 +66,14 @@ of removing the default color palette from the color chooser.
 If C<$colors> is undefined, removes all previously added palettes.
 
 =begin code
-method add-palette ( GtkOrientation $orientation, Int() $colors-per-line, Int() $n-colors, CArray[N-RGBA] $colors )
+method add-palette ( GtkOrientation $orientation, Int() $colors-per-line, Int() $n-colors, N-Object $colors )
 =end code
 
 =item $orientation; C<GTK_ORIENTATION_HORIZONTAL> if the palette should
   be displayed in rows, C<GTK_ORIENTATION_VERTICAL> for columns.
 =item $colors-per-line; the number of colors to show in each row/column.
 =item $n-colors; the total number of elements in C<$colors>.
-=item $colors; the colors of the palette.
+=item $colors; the colors of the palette
 
 =begin comment
 
@@ -89,13 +88,15 @@ method add-palette ( GtkOrientation $orientation, Int() $colors-per-line, Int() 
 =begin pod
 =head2 get-rgba
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the currently-selected color.
 
 =begin code
-method get-rgba ( CArray[N-RGBA] $color )
+method get-rgba ( N-Object $color )
 =end code
 
-=item $color; a U<Gnome::Gdk4::N-RGBA> to fill in with the current color.
+=item $color; a B<Gnome::Gdk4::N-RGBA> to fill in with the current color
 
 =begin comment
 
@@ -109,6 +110,8 @@ method get-rgba ( CArray[N-RGBA] $color )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-use-alpha
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns whether the color chooser shows the alpha channel.
 
@@ -132,13 +135,15 @@ Return value; C<True> if the color chooser uses the alpha channel,
 =begin pod
 =head2 set-rgba
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the color.
 
 =begin code
-method set-rgba ( CArray[N-RGBA] $color )
+method set-rgba ( N-Object $color )
 =end code
 
-=item $color; the new color.
+=item $color; the new color
 
 =begin comment
 
@@ -152,6 +157,8 @@ method set-rgba ( CArray[N-RGBA] $color )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-use-alpha
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether or not the color chooser should use the alpha channel.
 

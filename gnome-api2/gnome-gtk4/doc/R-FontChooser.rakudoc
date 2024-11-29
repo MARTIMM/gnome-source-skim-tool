@@ -6,13 +6,10 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-FontChooser
-
-![](images/fontchooser.png)
-
+=TITLE Gnome::Gtk4::R-FontChooser
 =head1 Description
 
-U<Gnome::Gtk4::R-FontChooser> is an interface that can be implemented by widgets
+B<Gnome::Gtk4::R-FontChooser> is an interface that can be implemented by widgets
 for choosing fonts.
 
 In GTK, the main objects that implement this interface are
@@ -46,6 +43,8 @@ B<Gnome::Gtk4::FontButton>.
 =begin pod
 =head2 get-font
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the currently-selected font name.
 
 Note that this can be a different string than what you set with
@@ -76,7 +75,8 @@ Return value; A string with the name
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-font-desc
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the currently-selected font.
 
@@ -90,10 +90,10 @@ Use C<.equal() in class Gnome::Pango::N-FontDescription> if you want to compare 
 font descriptions.
 
 =begin code
-method get-font-desc (--> CArray[N-FontDescription]  )
+method get-font-desc (--> N-Object )
 =end code
 
-Return value; A U<Gnome::Pango::N-FontDescription> for the
+Return value; A B<Gnome::Pango::N-FontDescription> for the
   current font. 
 
 =begin comment
@@ -108,6 +108,8 @@ Return value; A U<Gnome::Pango::N-FontDescription> for the
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-font-face
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the B<Gnome::Pango::FontFace> representing the selected font group
 details (i.e. family, slant, weight, width, etc).
@@ -133,6 +135,8 @@ Return value; A B<Gnome::Pango::FontFace> representing the
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-font-family
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the B<Gnome::Pango::FontFamily> representing the selected font family.
 
@@ -160,7 +164,13 @@ Return value; A B<Gnome::Pango::FontFamily> representing the
 =begin pod
 =head2 get-font-features
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the currently-selected font features.
+
+The format of the returned string is compatible with the
+[CSS font-feature-settings property](https://www.w3.org/TR/css-fonts-4/#font-rend-desc).
+It can be passed to C<.AttrFontFeatures.new() in package Gnome::Pango>.
 
 =begin code
 method get-font-features (--> Str )
@@ -180,6 +190,8 @@ Return value; the currently selected font features.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-font-map
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the custom font map of this font chooser widget,
 or undefined if it does not have one.
@@ -203,6 +215,8 @@ Return value; a B<Gnome::Pango::FontMap>.
 =begin pod
 =head2 get-font-size
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 The selected font size.
 
 =begin code
@@ -225,6 +239,8 @@ Return value; A n integer representing the selected font size,
 =begin pod
 =head2 get-language
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the language that is used for font features.
 
 =begin code
@@ -245,7 +261,8 @@ Return value; the currently selected language.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-level
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the current level of granularity for selecting fonts.
 
@@ -268,6 +285,8 @@ Return value; the current granularity level.
 =begin pod
 =head2 get-preview-text
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the text displayed in the preview area.
 
 =begin code
@@ -288,6 +307,8 @@ Return value; the text displayed in the preview area.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-show-preview-entry
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns whether the preview entry is shown or not.
 
@@ -311,6 +332,8 @@ Return value; C<True> if the preview entry is shown or C<False> if it is hidden.
 =head2 set-filter-func
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds a filter function that decides which fonts to display
 in the font chooser.
 
@@ -318,7 +341,7 @@ in the font chooser.
 method set-filter-func ( &filter, gpointer $user-data, … )
 =end code
 
-=item &filter; a U<Gnome::Gtk4::T-fontchooser>. Tthe function must be specified with following signature; C<:( N-Object $family, N-Object $face, gpointer $data --> gboolean )>.
+=item &filter; a B<Gnome::Gtk4::T-fontchooser>. Tthe function must be specified with following signature; C<:( N-Object $family, N-Object $face, gpointer $data --> gboolean )>.
 =item $user-data; data to pass to C<$filter>.
 =item destroy; function to call to free C<$data> when it is no longer needed. Note that each argument must be specified as a type followed by its value!
 
@@ -334,6 +357,8 @@ method set-filter-func ( &filter, gpointer $user-data, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-font
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the currently-selected font.
 
@@ -355,15 +380,16 @@ method set-font ( Str $fontname )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-font-desc
-This function is not yet available
 
-Sets the currently-selected font from C<$font_desc>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Sets the currently-selected font from C<$font-desc>.
 
 =begin code
-method set-font-desc ( CArray[N-FontDescription]  $font-desc )
+method set-font-desc ( N-Object $font-desc )
 =end code
 
-=item $font-desc; a U<Gnome::Pango::N-FontDescription>.
+=item $font-desc; a B<Gnome::Pango::N-FontDescription>
 
 =begin comment
 
@@ -377,6 +403,8 @@ method set-font-desc ( CArray[N-FontDescription]  $font-desc )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-font-map
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets a custom font map to use for this font chooser widget.
 
@@ -425,6 +453,8 @@ method set-font-map ( N-Object() $fontmap )
 =begin pod
 =head2 set-language
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the language to use for font features.
 
 =begin code
@@ -445,7 +475,8 @@ method set-language ( Str $language )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-level
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the desired level of granularity for selecting fonts.
 
@@ -467,6 +498,8 @@ method set-level ( UInt $level )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-preview-text
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the text displayed in the preview area.
 
@@ -490,6 +523,8 @@ method set-preview-text ( Str $text )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-show-preview-entry
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Shows or hides the editable preview entry.
 

@@ -6,23 +6,20 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-ShortcutManager
-
-![](images/shortcutmanager.png)
-
+=TITLE Gnome::Gtk4::R-ShortcutManager
 =head1 Description
 
-The U<Gnome::Gtk4::R-ShortcutManager> interface is used to implement
+The B<Gnome::Gtk4::R-ShortcutManager> interface is used to implement
 shortcut scopes.
 
 This is important for B<Gnome::Gtk4::R-Native> widgets that have their
 own surface, since the event controllers that are used to implement
 managed and global scopes are limited to the same native.
 
-Examples for widgets implementing U<Gnome::Gtk4::R-ShortcutManager> are
+Examples for widgets implementing B<Gnome::Gtk4::R-ShortcutManager> are
 B<Gnome::Gtk4::Window> and B<Gnome::Gtk4::Popover>.
 
-Every widget that implements U<Gnome::Gtk4::R-ShortcutManager> will be used as a
+Every widget that implements B<Gnome::Gtk4::R-ShortcutManager> will be used as a
 C<GTK_SHORTCUT_SCOPE_MANAGED>.
 
 =begin comment

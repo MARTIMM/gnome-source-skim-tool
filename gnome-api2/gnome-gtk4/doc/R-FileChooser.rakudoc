@@ -6,23 +6,20 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-FileChooser
-
-![](images/filechooser.png)
-
+=TITLE Gnome::Gtk4::R-FileChooser
 =head1 Description
 
-U<Gnome::Gtk4::R-FileChooser> is an interface that can be implemented by file
+B<Gnome::Gtk4::R-FileChooser> is an interface that can be implemented by file
 selection widgets.
 
 In GTK, the main objects that implement this interface are
 B<Gnome::Gtk4::FileChooserWidget> and B<Gnome::Gtk4::FileChooserDialog>.
 
-You do not need to write an object that implements the U<Gnome::Gtk4::R-FileChooser>
+You do not need to write an object that implements the B<Gnome::Gtk4::R-FileChooser>
 interface unless you are trying to adapt an existing file selector to
 expose a standard programming interface.
 
-U<Gnome::Gtk4::R-FileChooser> allows for shortcuts to various places in the filesystem.
+B<Gnome::Gtk4::R-FileChooser> allows for shortcuts to various places in the filesystem.
 In the default implementation these are displayed in the left pane. It
 may be a bit confusing at first that these shortcuts come from various
 sources and in various flavours, so lets explain the terminology here:
@@ -40,8 +37,8 @@ sources and in various flavours, so lets explain the terminology here:
 
 =head2 File Names and Encodings
 
-When the user is finished selecting files in a U<Gnome::Gtk4::R-FileChooser>, your
-program can get the selected filenames as B<Gnome::Gio::File>s.
+When the user is finished selecting files in a B<Gnome::Gtk4::R-FileChooser>, your
+program can get the selected filenames as B<Gnome::Gio::R-File>s.
 
 =head2 Adding options
 
@@ -80,6 +77,8 @@ be rendered as a combo box.
 =begin pod
 =head2 add-choice
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds a 'choice' to the file chooser.
 
 This is typically implemented as a combobox or, for boolean choices,
@@ -111,6 +110,8 @@ method add-choice ( Str $id, Str $label, Array[Str] $options, Array[Str] $option
 =begin pod
 =head2 add-filter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds C<$filter> to the list of filters that the user can select between.
 
 When a filter is selected, only files that are passed by that
@@ -138,14 +139,19 @@ method add-filter ( N-Object() $filter )
 =begin pod
 =head2 add-shortcut-folder
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds a folder to be displayed with the shortcut folders
 in a file chooser.
 
 =begin code
-method add-shortcut-folder ( N-Object() $folder --> Bool )
+method add-shortcut-folder ( N-Object() $folder, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $folder; a B<Gnome::Gio::File> for the folder to add.
+=item $folder; a B<Gnome::Gio::R-File> for the folder to add.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
 
 Return value; C<True> if the folder could be added successfully,
   C<False> otherwise.. 
@@ -162,6 +168,8 @@ Return value; C<True> if the folder could be added successfully,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-action
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the type of operation that the file chooser is performing.
 
@@ -183,6 +191,8 @@ Return value; the action that the file selector is performing.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-choice
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the currently selected option in the 'choice' with the given ID.
 
@@ -207,6 +217,8 @@ Return value; the ID of the currently selected option.
 =begin pod
 =head2 get-create-folders
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets whether file chooser will offer to create new folders.
 
 =begin code
@@ -228,13 +240,15 @@ Return value; C<True> if the Create Folder button should be displayed..
 =begin pod
 =head2 get-current-folder
 
-Gets the current folder of C<$chooser> as B<Gnome::Gio::File>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Gets the current folder of C<$chooser> as B<Gnome::Gio::R-File>.
 
 =begin code
 method get-current-folder (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gio::File> for the current folder.. 
+Return value; the B<Gnome::Gio::R-File> for the current folder.. 
 
 =begin comment
 
@@ -248,6 +262,8 @@ Return value; the B<Gnome::Gio::File> for the current folder..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-current-name
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the current name in the file selector, as entered by the user.
 
@@ -277,7 +293,9 @@ Return value; The raw text from the file chooser’s “Name” entry. Free with
 =begin pod
 =head2 get-file
 
-Gets the B<Gnome::Gio::File> for the currently selected file in
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Gets the B<Gnome::Gio::R-File> for the currently selected file in
 the file selector.
 
 If multiple files are selected, one of the files will be
@@ -290,7 +308,7 @@ the selected folder.
 method get-file (--> N-Object )
 =end code
 
-Return value; a selected B<Gnome::Gio::File>. You own the
+Return value; a selected B<Gnome::Gio::R-File>. You own the
   returned file; use g_object_unref() to release it.. 
 
 =begin comment
@@ -306,14 +324,16 @@ Return value; a selected B<Gnome::Gio::File>. You own the
 =begin pod
 =head2 get-files
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Lists all the selected files and subfolders in the current folder
-of C<$chooser> as B<Gnome::Gio::File>.
+of C<$chooser> as B<Gnome::Gio::R-File>.
 
 =begin code
 method get-files (--> N-List )
 =end code
 
-Return value; a list model containing a B<Gnome::Gio::File> for each
+Return value; a list model containing a B<Gnome::Gio::R-File> for each
   selected file and subfolder in the current folder. Free the returned
   list with g_object_unref().. 
 
@@ -329,6 +349,8 @@ Return value; a list model containing a B<Gnome::Gio::File> for each
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-filter
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the current filter.
 
@@ -351,6 +373,8 @@ Return value; the current filter.
 =begin pod
 =head2 get-filters
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the current set of user-selectable filters, as a list model.
 
 See C<.add-filter()> and
@@ -362,7 +386,7 @@ You should not modify the returned list model. Future changes to C<$chooser> may
 method get-filters (--> N-List )
 =end code
 
-Return value; a U<Gnome::Gio::R-ListModel> containing the current set
+Return value; a B<Gnome::Gio::R-ListModel> containing the current set
   of user-selectable filters.. 
 
 =begin comment
@@ -377,6 +401,8 @@ Return value; a U<Gnome::Gio::R-ListModel> containing the current set
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-select-multiple
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets whether multiple files can be selected in the file
 chooser.
@@ -400,6 +426,8 @@ Return value; C<True> if multiple files can be selected..
 =begin pod
 =head2 get-shortcut-folders
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Queries the list of shortcut folders in the file chooser.
 
 You should not modify the returned list model. Future changes to C<$chooser> may or may not affect the returned model.
@@ -408,7 +436,7 @@ You should not modify the returned list model. Future changes to C<$chooser> may
 method get-shortcut-folders (--> N-List )
 =end code
 
-Return value; A list model of B<Gnome::Gio::File>s. 
+Return value; A list model of B<Gnome::Gio::R-File>s. 
 
 =begin comment
 
@@ -422,6 +450,8 @@ Return value; A list model of B<Gnome::Gio::File>s.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 remove-choice
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Removes a 'choice' that has been added with C<.add-choice()>.
 
@@ -444,6 +474,8 @@ method remove-choice ( Str $id )
 =begin pod
 =head2 remove-filter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Removes C<$filter> from the list of filters that the user can select between.
 
 =begin code
@@ -465,13 +497,18 @@ method remove-filter ( N-Object() $filter )
 =begin pod
 =head2 remove-shortcut-folder
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Removes a folder from the shortcut folders in a file chooser.
 
 =begin code
-method remove-shortcut-folder ( N-Object() $folder --> Bool )
+method remove-shortcut-folder ( N-Object() $folder, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $folder; a B<Gnome::Gio::File> for the folder to remove.
+=item $folder; a B<Gnome::Gio::R-File> for the folder to remove.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
 
 Return value; C<True> if the folder could be removed successfully,
   C<False> otherwise.. 
@@ -488,6 +525,8 @@ Return value; C<True> if the folder could be removed successfully,
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-action
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the type of operation that the chooser is performing.
 
@@ -516,6 +555,8 @@ method set-action ( GtkFileChooserAction $action )
 =begin pod
 =head2 set-choice
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Selects an option in a 'choice' that has been added with
 C<.add-choice()>.
 
@@ -541,6 +582,8 @@ method set-choice ( Str $id, Str $option )
 =begin pod
 =head2 set-create-folders
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets whether file chooser will offer to create new folders.
 
 This is only relevant if the action is not set to be
@@ -565,13 +608,18 @@ method set-create-folders ( Bool() $create-folders )
 =begin pod
 =head2 set-current-folder
 
-Sets the current folder for C<$chooser> from a B<Gnome::Gio::File>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Sets the current folder for C<$chooser> from a B<Gnome::Gio::R-File>.
 
 =begin code
-method set-current-folder ( N-Object() $file --> Bool )
+method set-current-folder ( N-Object() $file, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $file; the B<Gnome::Gio::File> for the new folder.
+=item $file; the B<Gnome::Gio::R-File> for the new folder.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
 
 Return value; C<True> if the folder could be changed successfully, C<False>
   otherwise.. 
@@ -588,6 +636,8 @@ Return value; C<True> if the folder could be changed successfully, C<False>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-current-name
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the current name in the file selector, as if entered
 by the user.
@@ -621,6 +671,8 @@ method set-current-name ( Str $name )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-file
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets C<$file> as the current filename for the file chooser.
 
@@ -667,10 +719,13 @@ prepare_file_chooser (GtkFileChooser *chooser,
 =end comment
 
 =begin code
-method set-file ( N-Object() $file --> Bool )
+method set-file ( N-Object() $file, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $file; the B<Gnome::Gio::File> to set as current.
+=item $file; the B<Gnome::Gio::R-File> to set as current.
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
 
 Return value; Not useful. 
 
@@ -686,6 +741,8 @@ Return value; Not useful.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-filter
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the current filter.
 
@@ -715,6 +772,8 @@ method set-filter ( N-Object() $filter )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-select-multiple
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether multiple files can be selected in the file chooser.
 

@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-SelectionModel
-
-![](images/selectionmodel.png)
-
+=TITLE Gnome::Gtk4::R-SelectionModel
 =head1 Description
 
 B<Gnome::Gtk4::R-SelectionModel> is an interface that add support for selection to list models.
@@ -76,7 +73,6 @@ when an item was selected is to listen to the signals that indicate selection.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-selection
-This function is not yet available
 
 Gets the set containing all currently selected items in the model.
 
@@ -85,7 +81,7 @@ consider using C<.is-selected()> or if you are only
 interested in a few, consider C<.get-selection-in-range()>.
 
 =begin code
-method get-selection (--> CArray[N-Bitset]  )
+method get-selection (--> N-Object )
 =end code
 
 Return value; a B<Gnome::Gtk4::N-Bitset> containing all the values currently
@@ -104,7 +100,6 @@ Return value; a B<Gnome::Gtk4::N-Bitset> containing all the values currently
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-selection-in-range
-This function is not yet available
 
 Gets the set of selected items in a range.
 
@@ -115,10 +110,10 @@ case is in response to the I<selection-changed>
 signal.
 
 =begin code
-method get-selection-in-range ( UInt() $position, UInt() $n-items --> CArray[N-Bitset]  )
+method get-selection-in-range ( UInt() $position, UInt() $n-items --> N-Object )
 =end code
 
-=item $position; start of the queired range.
+=item $position; start of the queried range.
 =item $n-items; number of items in the queried range.
 
 Return value; A B<Gnome::Gtk4::N-Bitset> that matches the selection state
@@ -236,7 +231,7 @@ Return value; C<True> if this action was supported and no fallback should be
 
 Helper function for implementations of B<Gnome::Gtk4::R-SelectionModel>.
 
-Call this when a the selection changes to emit the
+Call this when the selection changes to emit the
 I<selection-changed> signal.
 
 =begin code
@@ -258,7 +253,6 @@ method selection-changed ( UInt() $position, UInt() $n-items )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-selection
-This function is not yet available
 
 Make selection changes.
 
@@ -296,11 +290,11 @@ same bitset, which would mean that every item in the set should
 be selected.
 
 =begin code
-method set-selection ( CArray[N-Bitset]  $selected, CArray[N-Bitset]  $mask --> Bool )
+method set-selection ( N-Object $selected, N-Object $mask --> Bool )
 =end code
 
-=item $selected; bitmask specifying if items should be selected or unselected.
-=item $mask; bitmask specifying which items should be updated.
+=item $selected; bitmask specifying if items should be selected or unselected
+=item $mask; bitmask specifying which items should be updated
 
 Return value; C<True> if this action was supported and no fallback should be
   tried. This does not mean that all items were updated according

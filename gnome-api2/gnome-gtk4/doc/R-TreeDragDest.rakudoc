@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-TreeDragDest
-
-![](images/treedragdest.png)
-
+=TITLE Gnome::Gtk4::R-TreeDragDest
 =head1 Description
 
 Interface for Drag-and-Drop destinations in B<Gnome::Gtk4::TreeView>.
@@ -41,6 +38,8 @@ Interface for Drag-and-Drop destinations in B<Gnome::Gtk4::TreeView>.
 =begin pod
 =head2 drag-data-received
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Asks the B<Gnome::Gtk4::R-TreeDragDest> to insert a row before the path C<$dest>,
 deriving the contents of the row from C<$value>. If C<$dest> is
 outside the tree so that inserting before it is impossible, C<False>
@@ -49,11 +48,11 @@ not created for some model-specific reason.  Should robustly handle
 a C<$dest> no longer found in the model!
 
 =begin code
-method drag-data-received ( CArray[N-TreePath] $dest, CArray[N-Value] $value --> Bool )
+method drag-data-received ( N-Object $dest, N-Object $value --> Bool )
 =end code
 
-=item $dest; row to drop in front of.
-=item $value; data to drop.
+=item $dest; row to drop in front of
+=item $value; data to drop
 
 Return value; whether a new row was created before position C<$dest>. 
 
@@ -70,17 +69,19 @@ Return value; whether a new row was created before position C<$dest>.
 =begin pod
 =head2 row-drop-possible
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Determines whether a drop is possible before the given C<$dest-path>,
 at the same depth as C<$dest-path>. i.e., can we drop the data in C<$value> at that location. C<$dest-path> does not have to
 exist; the return value will almost certainly be C<False> if the
 parent of C<$dest-path> doesn’t exist, though.
 
 =begin code
-method row-drop-possible ( CArray[N-TreePath] $dest-path, CArray[N-Value] $value --> Bool )
+method row-drop-possible ( N-Object $dest-path, N-Object $value --> Bool )
 =end code
 
-=item $dest-path; destination row.
-=item $value; the data being dropped.
+=item $dest-path; destination row
+=item $value; the data being dropped
 
 Return value; C<True> if a drop is possible before C<$dest-path>. 
 
