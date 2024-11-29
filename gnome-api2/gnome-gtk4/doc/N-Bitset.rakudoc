@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::N-Bitset
-
-![](images/bitset.png)
-
+=TITLE Gnome::Gtk4::N-Bitset
 =head1 Description
 
 A B<Gnome::Gtk4::N-Bitset> represents a set of unsigned integers.
@@ -381,7 +378,7 @@ Gets the number of values that were added to the set.
 For example, if the set is empty, 0 is returned.
 
 Note that this function returns a B<guint64>, because when all
-values are set, the return value is B<G_MAXUINT + 1>. Unless you
+values are set, the return value is B<G_MAXUINT> + 1`. Unless you
 are sure this cannot happen (it can't with B<Gnome::Gio::R-ListModel>), be sure
 to use a 64bit type.
 
@@ -408,7 +405,7 @@ Gets the number of values that are part of the set from C<$first> to C<$last>
 (inclusive).
 
 Note that this function returns a B<guint64>, because when all values are
-set, the return value is B<G_MAXUINT + 1>. Unless you are sure this cannot
+set, the return value is B<G_MAXUINT> + 1`. Unless you are sure this cannot
 happen (it can't with B<Gnome::Gio::R-ListModel>), be sure to use a 64bit type.
 
 =begin code
@@ -507,7 +504,7 @@ Removes C<$value> from C<$self> if it was part of it before.
 method remove ( UInt() $value --> Bool )
 =end code
 
-=item $value; value to add.
+=item $value; value to remove.
 
 Return value; C<True> if C<$value> was part of C<$self> and C<$self>
   was changed. 
@@ -662,7 +659,7 @@ method shift-right ( UInt() $amount )
 =head2 splice
 
 This is a support function for B<Gnome::Gio::R-ListModel> handling, by mirroring
-the B<GlistModel::items-changed> signal.
+the B<GlistModel>::items-changed` signal.
 
 First, it "cuts" the values from C<$position> to C<$removed> from
 the bitset. That is, it removes all those values and shifts

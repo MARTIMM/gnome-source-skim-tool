@@ -1,0 +1,205 @@
+=comment Package: Gtk4, C-Source: types
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::N-ScrollInfo
+=head1 Description
+
+The B<Gnome::Gtk4::N-ScrollInfo> can be used to provide more accurate data on how a scroll
+operation should be performed.
+
+Scrolling functions usually allow passing a undefined scroll info which will cause
+the default values to be used and just scroll the element into view.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::ScrollInfo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-scrollinfo
+
+Creates a new scroll info for scrolling an element into view.
+
+=begin code
+method new-scrollinfo ( --> Gnome::Gtk4::ScrollInfo \)
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for new-scrollinfo
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-horizontal
+
+Checks if horizontal scrolling is enabled.
+
+=begin code
+method get-enable-horizontal (--> Bool )
+=end code
+
+Return value; C<True> if horizontal scrolling is enabled.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-horizontal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-enable-vertical
+
+Checks if vertical scrolling is enabled.
+
+=begin code
+method get-enable-vertical (--> Bool )
+=end code
+
+Return value; C<True> if vertical scrolling is enabled.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-enable-vertical
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Increases the reference count of a B<Gnome::Gtk4::N-ScrollInfo> by one.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the passed in B<Gnome::Gtk4::N-ScrollInfo>.. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-horizontal
+
+Turns horizontal scrolling on or off.
+
+=begin code
+method set-enable-horizontal ( Bool() $horizontal )
+=end code
+
+=item $horizontal; if scrolling in the horizontal direction
+    should happen.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-horizontal
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-enable-vertical
+
+Turns vertical scrolling on or off.
+
+=begin code
+method set-enable-vertical ( Bool() $vertical )
+=end code
+
+=item $vertical; if scrolling in the vertical direction
+    should happen.
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-vertical
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Decreases the reference count of a B<Gnome::Gtk4::N-ScrollInfo> by one.
+
+If the resulting reference count is zero, frees the self.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+

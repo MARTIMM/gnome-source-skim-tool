@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::N-Requisition
-
-![](images/requisition.png)
-
+=TITLE Gnome::Gtk4::N-Requisition
 =head1 Description
 
 A B<Gnome::Gtk4::N-Requisition> represents the desired size of a widget. See
@@ -29,24 +26,6 @@ more information.
 # Example use of module Gnome::Gtk4::Requisition
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-Requisition
-
-  class N-Requisition:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gint $.width;
-    has gint $.height;
-  }
-
-=item width; the widget’s desired width
-=item height; the widget’s desired height
 
 =end pod
 
@@ -103,7 +82,7 @@ method new-requisition ( --> Gnome::Gtk4::Requisition \)
 Copies a B<Gnome::Gtk4::N-Requisition>.
 
 =begin code
-method copy (--> CArray[N-Requisition] )
+method copy (--> N-Object )
 =end code
 
 Return value; a copy of C<$requisition>. 

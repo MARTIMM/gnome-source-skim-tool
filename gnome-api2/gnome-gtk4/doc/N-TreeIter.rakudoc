@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::N-TreeIter
-
-![](images/treeiter.png)
-
+=TITLE Gnome::Gtk4::N-TreeIter
 =head1 Description
 
-The U<Gnome::Gtk4::N-TreeIter> is the primary structure
-for accessing a U<Gnome::Gtk4::R-TreeModel>. Models are expected to put a unique
+The B<Gnome::Gtk4::N-TreeIter> is the primary structure
+for accessing a B<Gnome::Gtk4::R-TreeModel>. Models are expected to put a unique
 integer in the C<$stamp> member, and put
-model-specific data in the three C<$user_data>
+model-specific data in the three C<$user-data>
 members.
 
 =begin comment
@@ -35,33 +32,13 @@ members.
 =end pod
 
 #-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-TreeIter
-
-  class N-TreeIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gint $.stamp;
-    has gpointer $.user-data;
-    has gpointer $.user-data2;
-    has gpointer $.user-data3;
-  }
-
-=item stamp; a unique stamp to catch invalid iterators
-=item user-data; model-specific data
-=item user-data2; model-specific data
-=item user-data3; model-specific data
-
-=end pod
-
-#-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 =begin pod
 =head1 Class initialization
+
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
 
 =head2 new
 
@@ -85,15 +62,17 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 copy
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a dynamically allocated tree iterator as a copy of C<$iter>.
 
 This function is not intended for use in applications,
 because you can just copy the structs by value
-(B<GtkTreeIter new_iter = iter;>).
+(B<Gnome::Gtk4::N-TreeIter> new_iter = iter;`).
 You must free this iter with C<.free()>.
 
 =begin code
-method copy (--> CArray[N-TreeIter] )
+method copy (--> N-Object )
 =end code
 
 Return value; a newly-allocated copy of C<$iter>. 
@@ -110,6 +89,8 @@ Return value; a newly-allocated copy of C<$iter>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 free
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Frees an iterator that has been allocated by C<.copy()>.
 

@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::N-TreePath
-
-![](images/treepath.png)
-
+=TITLE Gnome::Gtk4::N-TreePath
 =head1 Description
 
 An opaque structure representing a path to a row in a model.
@@ -29,18 +26,6 @@ An opaque structure representing a path to a row in a model.
 =end comment
 
 =end pod
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-TreePath
-
-This is an opaque type of which fields are not available.
-
-  class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
-
-=end pod
 
 #-------------------------------------------------------------------------------
 #--[Class Initialization]-------------------------------------------------------
@@ -48,6 +33,8 @@ This is an opaque type of which fields are not available.
 
 =begin pod
 =head1 Class initialization
+
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
 
 =head2 new
 
@@ -63,7 +50,9 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =begin pod
 =head2 new-treepath
 
-Creates a new U<Gnome::Gtk4::N-TreePath>
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::N-TreePath>
 This refers to a row.
 
 =begin code
@@ -83,7 +72,9 @@ method new-treepath ( --> Gnome::Gtk4::TreePath \)
 =begin pod
 =head2 new-first
 
-Creates a new U<Gnome::Gtk4::N-TreePath>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::N-TreePath>.
 
 The string representation of this path is “0”.
 
@@ -105,7 +96,9 @@ method new-first ( --> Gnome::Gtk4::TreePath \)
 =head2 new-from-indices
 This function is not yet available
 
-Creates a new path with C<$first_index> and C<$varargs> as indices.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new path with C<$first-index> and C<$varargs> as indices.
 
 =begin code
 method new-from-indices ( Int() $first-index, … --> Gnome::Gtk4::TreePath \)
@@ -126,6 +119,8 @@ method new-from-indices ( Int() $first-index, … --> Gnome::Gtk4::TreePath \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-from-indicesv
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new path with the given C<$indices> array of C<$length>.
 
@@ -149,7 +144,9 @@ method new-from-indicesv ( Array[Int] $indices, Int() $length --> Gnome::Gtk4::T
 =begin pod
 =head2 new-from-string
 
-Creates a new U<Gnome::Gtk4::N-TreePath> initialized to C<$path>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::N-TreePath> initialized to C<$path>.
  C<$path> is expected to be a colon separated list of numbers.
 For example, the string “10:4:0” would create a path of depth
 3 pointing to the 11th child of the root node, the 5th
@@ -183,6 +180,8 @@ method new-from-string ( Str $path --> Gnome::Gtk4::TreePath \)
 =begin pod
 =head2 append-index
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Appends a new index to a path.
 
 As a result, the depth of the path is increased.
@@ -206,6 +205,8 @@ method append-index ( Int() $index )
 =begin pod
 =head2 compare
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Compares two paths.
 
 If C<$a> appears before C<$b> in a tree, then -1 is returned.
@@ -213,10 +214,10 @@ If C<$b> appears before C<$a>, then 1 is returned.
 If the two nodes are equal, then 0 is returned.
 
 =begin code
-method compare ( CArray[N-TreePath] $b --> Int )
+method compare ( N-Object $b --> Int )
 =end code
 
-=item $b; a U<Gnome::Gtk4::N-TreePath> to compare with.
+=item $b; a B<Gnome::Gtk4::N-TreePath> to compare with
 
 Return value; the relative positions of C<$a> and C<$b>. 
 
@@ -233,13 +234,15 @@ Return value; the relative positions of C<$a> and C<$b>.
 =begin pod
 =head2 copy
 
-Creates a new U<Gnome::Gtk4::N-TreePath> as a copy of C<$path>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::N-TreePath> as a copy of C<$path>.
 
 =begin code
-method copy (--> CArray[N-TreePath] )
+method copy (--> N-Object )
 =end code
 
-Return value; a new U<Gnome::Gtk4::N-TreePath>. 
+Return value; a new B<Gnome::Gtk4::N-TreePath>. 
 
 =begin comment
 
@@ -253,6 +256,8 @@ Return value; a new U<Gnome::Gtk4::N-TreePath>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 down
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Moves C<$path> to point to the first child of the current path.
 
@@ -273,6 +278,8 @@ method down ( )
 =begin pod
 =head2 free
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Frees C<$path>. If C<$path> is undefined, it simply returns.
 
 =begin code
@@ -291,6 +298,8 @@ method free ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-depth
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the current depth of C<$path>.
 
@@ -312,6 +321,8 @@ Return value; The depth of C<$path>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-indices
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the current indices of C<$path>.
 
@@ -338,6 +349,8 @@ Return value; The current indices.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-indices-with-depth
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the current indices of C<$path>.
 
@@ -368,13 +381,15 @@ Return value; The current
 =begin pod
 =head2 is-ancestor
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if C<$descendant> is a descendant of C<$path>.
 
 =begin code
-method is-ancestor ( CArray[N-TreePath] $descendant --> Bool )
+method is-ancestor ( N-Object $descendant --> Bool )
 =end code
 
-=item $descendant; another U<Gnome::Gtk4::N-TreePath>.
+=item $descendant; another B<Gnome::Gtk4::N-TreePath>
 
 Return value; C<True> if C<$descendant> is contained inside C<$path>. 
 
@@ -391,13 +406,15 @@ Return value; C<True> if C<$descendant> is contained inside C<$path>.
 =begin pod
 =head2 is-descendant
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if C<$path> is a descendant of C<$ancestor>.
 
 =begin code
-method is-descendant ( CArray[N-TreePath] $ancestor --> Bool )
+method is-descendant ( N-Object $ancestor --> Bool )
 =end code
 
-=item $ancestor; another U<Gnome::Gtk4::N-TreePath>.
+=item $ancestor; another B<Gnome::Gtk4::N-TreePath>
 
 Return value; C<True> if C<$ancestor> contains C<$path> somewhere below it. 
 
@@ -413,6 +430,8 @@ Return value; C<True> if C<$ancestor> contains C<$path> somewhere below it.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 next
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Moves the C<$path> to point to the next node at the current depth.
 
@@ -432,6 +451,8 @@ method next ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 prepend-index
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Prepends a new index to a path.
 
@@ -456,6 +477,8 @@ method prepend-index ( Int() $index )
 =begin pod
 =head2 prev
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Moves the C<$path> to point to the previous node at the
 current depth, if it exists.
 
@@ -478,6 +501,8 @@ Return value; C<True> if C<$path> has a previous node, and
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 to-string
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Generates a string representation of the path.
 
@@ -504,6 +529,8 @@ Return value; A newly-allocated string.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 up
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Moves the C<$path> to point to its parent node, if it has a parent.
 
