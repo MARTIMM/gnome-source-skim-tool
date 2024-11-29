@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-editable
+=TITLE Gnome::Gtk4::T-editable
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -62,12 +62,12 @@ function of your B<Gnome::Gtk4::R-Editable> implementation, before handling your
 own properties.
 
 =begin code
-method editable-delegate-get-property ( N-Object() $object, UInt() $prop-id, CArray[N-Value] $value, N-Object() $pspec --> Bool )
+method editable-delegate-get-property ( N-Object() $object, UInt() $prop-id, N-Object $value, N-Object() $pspec --> Bool )
 =end code
 
 =item $object; a B<Gnome::GObject::Object>.
 =item $prop-id; a property ID.
-=item $value; value to set.
+=item $value; value to set
 =item $pspec; the B<Gnome::GObject::ParamSpec> for the property.
 
 Return value; C<True> if the property was found. 
@@ -92,12 +92,12 @@ function of your B<Gnome::Gtk4::R-Editable> implementation, before handling your
 own properties.
 
 =begin code
-method editable-delegate-set-property ( N-Object() $object, UInt() $prop-id, CArray[N-Value] $value, N-Object() $pspec --> Bool )
+method editable-delegate-set-property ( N-Object() $object, UInt() $prop-id, N-Object $value, N-Object() $pspec --> Bool )
 =end code
 
 =item $object; a B<Gnome::GObject::Object>.
 =item $prop-id; a property ID.
-=item $value; value to set.
+=item $value; value to set
 =item $pspec; the B<Gnome::GObject::ParamSpec> for the property.
 
 Return value; C<True> if the property was found. 

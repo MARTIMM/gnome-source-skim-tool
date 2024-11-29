@@ -19,6 +19,18 @@ Initialization of a type class is simple and only needed when the standalone fun
   method new ( )
 
 =end pod
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-TreePath
+
+This is an opaque type of which fields are not available.
+
+  class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
 
 #-------------------------------------------------------------------------------
 #--[Record Structure Documentation]---------------------------------------------
@@ -52,19 +64,6 @@ Initialization of a type class is simple and only needed when the standalone fun
 This is an opaque type of which fields are not available.
 
   class N-TreeRowReference:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-TreePath
-
-This is an opaque type of which fields are not available.
-
-  class N-TreePath:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
 =end pod
 
@@ -104,8 +103,8 @@ this section.
 =end code
 
 =item model; the B<Gnome::Gtk4::R-TreeModel> being iterated
-=item path; the current B<Gnome::Gtk4::N-TreePath>
-=item iter; the current B<Gnome::Gtk4::T-treemodel>
+=item path; the current B<Gnome::Gtk4::T-treemodel>
+=item iter; the current B<Gnome::Gtk4::N-TreeIter>
 =item data; The user data passed to gtk_tree_model_foreach()
 
 =end pod

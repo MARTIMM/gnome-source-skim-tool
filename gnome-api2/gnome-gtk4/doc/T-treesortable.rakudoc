@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-treesortable
+=TITLE Gnome::Gtk4::T-treesortable
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -35,13 +35,13 @@ See also: C<.set-sort-column-id()>
 
 =head3 Signature
 =begin code
-:(  N-Object() $model, CArray[N-TreeIter] $a, CArray[N-TreeIter] $b, gpointer $user-data  )
+:(  N-Object() $model, N-Object $a, N-Object $b, gpointer $user-data  )
 =end code
 
 =item model; The B<Gnome::Gtk4::R-TreeModel> the comparison is within
 =item a; A B<Gnome::Gtk4::N-TreeIter> in C<$model>
 =item b; Another B<Gnome::Gtk4::N-TreeIter> in C<$model>
 =item user-data; Data passed when the compare func is assigned e.g. by
- C<.set-sort-func()>
+ gtk_tree_sortable_set_sort_func()
 
 =end pod

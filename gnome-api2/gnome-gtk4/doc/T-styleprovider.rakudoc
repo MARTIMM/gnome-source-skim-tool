@@ -1,8 +1,8 @@
-=comment Package: Gtk4, C-Source: StyleProvider
+=comment Package: Gtk4, C-Source: styleprovider
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-styleprovider
+=TITLE Gnome::Gtk4::T-styleprovider
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ use v6.d;
 
 =head2 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
 
-A priority that can be used when adding a U<Gnome::Gtk4::R-StyleProvider>
+A priority that can be used when adding a B<Gnome::Gtk4::R-StyleProvider>
 for application-specific style information.
 
 =head2 GTK_STYLE_PROVIDER_PRIORITY_FALLBACK
@@ -25,7 +25,7 @@ that is used in the absence of themes.
 Note that this is not very useful for providing default
 styling for custom style classes - themes are likely to
 override styling provided at this priority with
-catch-all B<* {...}> rules.
+catch-all `* {...}` rules.
 
 =head2 GTK_STYLE_PROVIDER_PRIORITY_SETTINGS
 
@@ -43,7 +43,7 @@ by themes.
 =head2 GTK_STYLE_PROVIDER_PRIORITY_USER
 
 The priority used for the style information from
-B<$XDG_CONFIG_HOME/gtk-4.0/gtk.css>.
+`$XDG_CONFIG_HOME/gtk-4.0/gtk.css`.
 
 You should not use priorities higher than this, to
 give the user the last word.

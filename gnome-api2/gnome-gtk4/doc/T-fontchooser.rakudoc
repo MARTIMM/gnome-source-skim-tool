@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-fontchooser
+=TITLE Gnome::Gtk4::T-fontchooser
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ use v6.d;
 =head2 GtkFontChooserLevel
 
 Specifies the granularity of font selection
-that is desired in a U<Gnome::Gtk4::R-FontChooser>.
+that is desired in a B<Gnome::Gtk4::R-FontChooser>.
 
 This enumeration may be extended in the future; applications should
 ignore unknown values.
@@ -42,6 +42,6 @@ ignore unknown values.
 
 =item family; a B<Gnome::Pango::FontFamily>
 =item face; a B<Gnome::Pango::FontFace> belonging to C<$family>
-=item data; user data passed to C<.set-filter-func()>
+=item data; user data passed to gtk_font_chooser_set_filter_func()
 
 =end pod

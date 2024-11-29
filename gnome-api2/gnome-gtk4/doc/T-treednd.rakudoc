@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-TreeDragDest
+=TITLE Gnome::Gtk4::T-treednd
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -34,11 +34,11 @@ Initialization of a type class is simple and only needed when the standalone fun
 Creates a content provider for dragging C<$path> from C<$tree-model>.
 
 =begin code
-method tree-create-row-drag-content ( N-Object() $tree-model, CArray[N-TreePath] $path --> N-Object )
+method tree-create-row-drag-content ( N-Object() $tree-model, N-Object $path --> N-Object )
 =end code
 
 =item $tree-model; a B<Gnome::Gtk4::R-TreeModel>.
-=item $path; a row in C<$tree-model>.
+=item $path; a row in C<$tree-model>
 
 Return value; a new B<Gnome::Gdk4::ContentProvider>. 
 
@@ -61,12 +61,12 @@ C<GTK_TYPE_TREE_ROW_DATA>.
 The returned path must be freed with gtk_tree_path_free().
 
 =begin code
-method tree-get-row-drag-data ( CArray[N-Value] $value, N-Object() $tree-model, CArray[N-TreePath] $path --> Bool )
+method tree-get-row-drag-data ( N-Object $value, N-Object() $tree-model, N-Object $path --> Bool )
 =end code
 
-=item $value; a B<Gnome::GObject::N-Value>.
+=item $value; a B<Gnome::GObject::N-Value>
 =item $tree-model; a B<Gnome::Gtk4::R-TreeModel>.
-=item $path; (transfer ownership: full) row in C<$tree-model>.
+=item $path; (transfer ownership: full) row in C<$tree-model>
 
 Return value; C<True> if C<$selection-data> had target type C<GTK_TYPE_TREE_ROW_DATA>
  is otherwise valid. 
