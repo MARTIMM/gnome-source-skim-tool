@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::IconTheme
-
-![](images/icontheme.png)
-
+=TITLE Gnome::Gtk4::IconTheme
 =head1 Description
 
 B<Gnome::Gtk4::IconTheme> provides a facility for loading themed icons.
@@ -359,6 +356,7 @@ Return value; C<True> if C<$self> includes an
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 lookup-by-gicon
+This function is not yet available
 
 Looks up a icon for a desired size and window scale.
 
@@ -390,6 +388,7 @@ Return value; a B<Gnome::Gtk4::IconPaintable> containing
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 lookup-icon
+This function is not yet available
 
 Looks up a named icon for a desired size and window scale,
 returning a B<Gnome::Gtk4::IconPaintable>.
@@ -440,8 +439,8 @@ looking for icons, similar to search paths.
 
 The resources are considered as part of the hicolor icon theme
 and must be located in subdirectories that are defined in the
-hicolor icon theme, such as B< C<$path>/16x16/actions/run.png>
-or B< C<$path>/scalable/actions/run.svg>.
+hicolor icon theme, such as ` C<$path>/16x16/actions/run.png`
+or ` C<$path>/scalable/actions/run.svg`.
 
 Icons that are directly placed in the resource path instead
 of a subdirectory are also considered as ultimate fallback,
@@ -577,7 +576,7 @@ Return value; A unique B<Gnome::Gtk4::IconTheme> associated with
 
 Emitted when the icon theme changes.
 
-This can happen becuase current icon theme is switched or
+This can happen because current icon theme is switched or
 because GTK detects that a change has occurred in the
 contents of the current icon theme.
 

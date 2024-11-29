@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::IconPaintable
-
-![](images/iconpaintable.png)
-
+=TITLE Gnome::Gtk4::IconPaintable
 =head1 Description
 
 Contains information found when looking up an icon in B<Gnome::Gtk4::IconTheme>.
@@ -61,7 +58,7 @@ The icon can then be rendered by using it as a B<Gnome::Gdk4::R-Paintable>.
 method new-for-file ( N-Object() $file, Int() $size, Int() $scale --> Gnome::Gtk4::IconPaintable \)
 =end code
 
-=item $file; a B<Gnome::Gio::File>.
+=item $file; a B<Gnome::Gio::R-File>.
 =item $size; desired icon size.
 =item $scale; the desired scale.
 
@@ -86,7 +83,7 @@ method new-for-file ( N-Object() $file, Int() $size, Int() $scale --> Gnome::Gtk
 =begin pod
 =head2 get-file
 
-Gets the B<Gnome::Gio::File> that was used to load the icon.
+Gets the B<Gnome::Gio::R-File> that was used to load the icon.
 
 Returns undefined if the icon was not loaded from a file.
 
@@ -94,7 +91,7 @@ Returns undefined if the icon was not loaded from a file.
 method get-file (--> N-Object )
 =end code
 
-Return value; the B<Gnome::Gio::File> for the icon. 
+Return value; the B<Gnome::Gio::R-File> for the icon. 
 
 =begin comment
 

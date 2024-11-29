@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::InfoBar
-
-![](images/infobar.png)
-
+=TITLE Gnome::Gtk4::InfoBar
 =head1 Description
 
-B<Gnome::Gtk4::InfoBar> can be show messages to the user without a dialog.
+B<Gnome::Gtk4::InfoBar> can be used to show messages to the user without a dialog.
 
-![An example GtkInfoBar](info-bar.png)
+=for image :src<asset_files/images/info-bar.png> :width<30%> :class<inline>
 
 It is often temporarily shown at the top or bottom of a document.
 In contrast to B<Gnome::Gtk4::Dialog>, which has an action area at the
@@ -69,15 +66,15 @@ gtk_widget_show (bar);
 
 =head2 GtkInfoBar as GtkBuildable
 
-B<Gnome::Gtk4::InfoBar> supports a custom B<<action-widgets>> element, which can contain
-multiple B<<action-widget>> elements. The “response” attribute specifies a
+B<Gnome::Gtk4::InfoBar> supports a custom `<action-widgets>` element, which can contain
+multiple `<action-widget>` elements. The “response” attribute specifies a
 numeric response, and the content of the element is the id of widget
 (which should be a child of the dialogs C<$action-area>).
 
 B<Gnome::Gtk4::InfoBar> supports adding action widgets by specifying “action” as
-the “type” attribute of a B<<child>> element. The widget will be added
+the “type” attribute of a `<child>` element. The widget will be added
 either to the action area. The response id has to be associated
-with the action widget using the B<<action-widgets>> element.
+with the action widget using the `<action-widgets>` element.
 
 =head2 CSS nodes
 
@@ -110,6 +107,8 @@ style class applied.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -118,17 +117,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-infobar
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::InfoBar> object.
 
@@ -149,6 +144,8 @@ method new-infobar ( --> Gnome::Gtk4::InfoBar \)
 =begin pod
 =head2 new-with-buttons
 This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::InfoBar> with buttons.
 
@@ -187,6 +184,8 @@ method new-with-buttons ( Str $first-button-text, … --> Gnome::Gtk4::InfoBar \
 =begin pod
 =head2 add-action-widget
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Add an activatable widget to the action area of a B<Gnome::Gtk4::InfoBar>.
 
 This also connects a signal handler that will emit the
@@ -214,11 +213,13 @@ method add-action-widget ( N-Object() $child, Int() $response-id )
 =begin pod
 =head2 add-button
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds a button with the given text.
 
 Clicking the button will emit the I<response>
 signal with the given response_id. The button is appended to the
-end of the info bars's action area. The button widget is returned,
+end of the info bar's action area. The button widget is returned,
 but usually you don't need it.
 
 =begin code
@@ -244,6 +245,8 @@ that was added.
 =begin pod
 =head2 add-buttons
 This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Adds multiple buttons.
 
@@ -272,6 +275,8 @@ method add-buttons ( Str $first-button-text, … )
 =begin pod
 =head2 add-child
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds a widget to the content area of the info bar.
 
 =begin code
@@ -292,6 +297,8 @@ method add-child ( N-Object() $widget )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-message-type
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the message type of the message area.
 
@@ -314,6 +321,8 @@ Return value; the message type of the message area..
 =begin pod
 =head2 get-revealed
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns whether the info bar is currently revealed.
 
 =begin code
@@ -335,6 +344,8 @@ Return value; the current value of the I<revealed> property.
 =begin pod
 =head2 get-show-close-button
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns whether the widget will display a standard close button.
 
 =begin code
@@ -355,6 +366,8 @@ Return value; C<True> if the widget displays standard close button.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 remove-action-widget
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Removes a widget from the action area of C<$info-bar>.
 
@@ -380,6 +393,8 @@ method remove-action-widget ( N-Object() $widget )
 =begin pod
 =head2 remove-child
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Removes a widget from the content area of the info bar.
 
 =begin code
@@ -401,6 +416,8 @@ method remove-child ( N-Object() $widget )
 =begin pod
 =head2 response
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Emits the “response” signal with the given C<$response-id>.
 
 =begin code
@@ -421,6 +438,8 @@ method response ( Int() $response-id )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-default-response
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the last widget in the info bar’s action area with
 the given response_id as the default widget for the dialog.
@@ -449,6 +468,8 @@ method set-default-response ( Int() $response-id )
 =begin pod
 =head2 set-message-type
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the message type of the message area.
 
 GTK uses this type to determine how the message is displayed.
@@ -472,9 +493,11 @@ method set-message-type ( GtkMessageType $message-type )
 =begin pod
 =head2 set-response-sensitive
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the sensitivity of action widgets for C<$response-id>.
 
-Calls B<gtk_widget_set_sensitive (widget, setting)> for each
+Calls B<gtk_widget_set_sensitive> (widget, setting)` for each
 widget in the info bars’s action area with the given C<$response-id>.
 A convenient way to sensitize/desensitize buttons.
 
@@ -497,6 +520,8 @@ method set-response-sensitive ( Int() $response-id, Bool() $setting )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-revealed
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets whether the B<Gnome::Gtk4::InfoBar> is revealed.
 
@@ -525,6 +550,8 @@ method set-revealed ( Bool() $revealed )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-show-close-button
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 If true, a standard close button is shown.
 

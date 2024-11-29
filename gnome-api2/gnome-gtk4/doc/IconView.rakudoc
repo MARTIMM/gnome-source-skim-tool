@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::IconView
-
-![](images/iconview.png)
-
+=TITLE Gnome::Gtk4::IconView
 =head1 Description
 
 B<Gnome::Gtk4::IconView> is a widget which displays data in a grid of icons.
@@ -26,7 +23,7 @@ opposed to a flat list where the mapping to icons is obvious),
 B<Gnome::Gtk4::IconView> will only display the first level of the tree and
 ignore the tree’s branches.
 
-=head2 CSS nodes
+=head3 CSS nodes
 
 =begin comment
 iconview.view
@@ -60,6 +57,8 @@ For rubberband selection, a subnode with name rubberband is used.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -68,17 +67,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-iconview
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::IconView> widget
 
@@ -98,6 +93,8 @@ method new-iconview ( --> Gnome::Gtk4::IconView \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-area
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::IconView> widget using the
 specified C<$area> to layout cells inside the icons.
@@ -120,6 +117,8 @@ method new-with-area ( N-Object() $area --> Gnome::Gtk4::IconView \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-model
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::IconView> widget with the model C<$model>.
 
@@ -150,14 +149,16 @@ method new-with-model ( N-Object() $model --> Gnome::Gtk4::IconView \)
 =begin pod
 =head2 create-drag-icon
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Creates a B<Gnome::Gdk4::R-Paintable> representation of the item at C<$path>.
 This image is used for a drag icon.
 
 =begin code
-method create-drag-icon ( CArray[N-TreePath] $path --> N-Object )
+method create-drag-icon ( N-Object $path --> N-Object )
 =end code
 
-=item $path; a B<Gnome::Gtk4::N-TreePath> in C<$icon-view>.
+=item $path; a B<Gnome::Gtk4::N-TreePath> in C<$icon-view>
 
 Return value; a newly-allocated B<Gnome::Gdk4::R-Paintable> of the drag icon.. 
 
@@ -173,16 +174,17 @@ Return value; a newly-allocated B<Gnome::Gdk4::R-Paintable> of the drag icon..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 enable-model-drag-dest
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Turns C<$icon-view> into a drop destination for automatic DND. Calling this
 method sets B<Gnome::Gtk4::IconView>:reorderable to C<False>.
 
 =begin code
-method enable-model-drag-dest ( CArray[N-ContentFormats]  $formats, UInt $actions )
+method enable-model-drag-dest ( N-Object $formats, UInt $actions )
 =end code
 
-=item $formats; the formats that the drag will support.
+=item $formats; the formats that the drag will support
 =item $actions; the bitmask of possible actions for a drag to this
    widget.
 
@@ -198,17 +200,18 @@ method enable-model-drag-dest ( CArray[N-ContentFormats]  $formats, UInt $action
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 enable-model-drag-source
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Turns C<$icon-view> into a drag source for automatic DND. Calling this
 method sets B<Gnome::Gtk4::IconView>:reorderable to C<False>.
 
 =begin code
-method enable-model-drag-source ( UInt $start-button-mask, CArray[N-ContentFormats]  $formats, UInt $actions )
+method enable-model-drag-source ( UInt $start-button-mask, N-Object $formats, UInt $actions )
 =end code
 
 =item $start-button-mask; Mask of allowed buttons to start drag.
-=item $formats; the formats that the drag will support.
+=item $formats; the formats that the drag will support
 =item $actions; the bitmask of possible actions for a drag from this
    widget.
 
@@ -224,6 +227,8 @@ method enable-model-drag-source ( UInt $start-button-mask, CArray[N-ContentForma
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-activate-on-single-click
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the setting set by C<.set-activate-on-single-click()>.
 
@@ -246,17 +251,19 @@ Return value; C<True> if item-activated will be emitted on a single click.
 =begin pod
 =head2 get-cell-rect
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Fills the bounding rectangle in widget coordinates for the cell specified by C<$path> and C<$cell>. If C<$cell> is undefined the main cell area is used.
 
 This function is only valid if C<$icon-view> is realized.
 
 =begin code
-method get-cell-rect ( CArray[N-TreePath] $path, N-Object() $cell, CArray[N-Rectangle] $rect --> Bool )
+method get-cell-rect ( N-Object $path, N-Object() $cell, N-Object $rect --> Bool )
 =end code
 
-=item $path; a B<Gnome::Gtk4::N-TreePath>.
+=item $path; a B<Gnome::Gtk4::N-TreePath>
 =item $cell; a B<Gnome::Gtk4::CellRenderer>.
-=item $rect; rectangle to fill with cell rect.
+=item $rect; rectangle to fill with cell rect
 
 Return value; C<False> if there is no such item, C<True> otherwise. 
 
@@ -272,6 +279,8 @@ Return value; C<False> if there is no such item, C<True> otherwise.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-column-spacing
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the value of the I<column-spacing> property.
 
@@ -294,6 +303,8 @@ Return value; the space between columns.
 =begin pod
 =head2 get-columns
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the value of the I<columns> property.
 
 =begin code
@@ -315,6 +326,8 @@ Return value; the number of columns, or -1.
 =begin pod
 =head2 get-cursor
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Fills in C<$path> and C<$cell> with the current cursor path and cell.
 If the cursor isn’t currently set, then * C<$path> will be undefined.
 If no cell currently has focus, then * C<$cell> will be undefined.
@@ -322,11 +335,11 @@ If no cell currently has focus, then * C<$cell> will be undefined.
 The returned B<Gnome::Gtk4::N-TreePath> must be freed with gtk_tree_path_free().
 
 =begin code
-method get-cursor ( CArray[N-TreePath] $path, N-Object() $cell --> Bool )
+method get-cursor ( N-Object $path, N-Object() $cell --> Bool )
 =end code
 
 =item $path; (transfer ownership: full) Return location for the current
-  cursor path.
+  cursor path
 =item $cell; Return location the current
   focus cell.
 
@@ -344,17 +357,18 @@ Return value; C<True> if the cursor is set..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-dest-item-at-pos
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Determines the destination item for a given position.
 
 =begin code
-method get-dest-item-at-pos ( Int() $drag-x, Int() $drag-y, CArray[N-TreePath] $path, GtkIconViewDropPosition  $pos --> Bool )
+method get-dest-item-at-pos ( Int() $drag-x, Int() $drag-y, N-Object $path, GtkIconViewDropPosition $pos --> Bool )
 =end code
 
 =item $drag-x; the position to determine the destination item for.
 =item $drag-y; the position to determine the destination item for.
-=item $path; (transfer ownership: full) Return location for the path of the item.
+=item $path; (transfer ownership: full) Return location for the path of the item
 =item $pos; (transfer ownership: full) Return location for the drop position.
 
 Return value; whether there is an item at the given position.. 
@@ -371,16 +385,17 @@ Return value; whether there is an item at the given position..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-drag-dest-item
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets information about the item that is highlighted for feedback.
 
 =begin code
-method get-drag-dest-item ( CArray[N-TreePath] $path, GtkIconViewDropPosition  $pos )
+method get-drag-dest-item ( N-Object $path, GtkIconViewDropPosition $pos )
 =end code
 
 =item $path; (transfer ownership: full) Return location for the path of
-  the highlighted item.
+  the highlighted item
 =item $pos; (transfer ownership: full) Return location for the drop position.
 
 =begin comment
@@ -396,15 +411,17 @@ method get-drag-dest-item ( CArray[N-TreePath] $path, GtkIconViewDropPosition  $
 =begin pod
 =head2 get-item-at-pos
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the path and cell for the icon at the given position.
 
 =begin code
-method get-item-at-pos ( Int() $x, Int() $y, CArray[N-TreePath] $path, N-Object() $cell --> Bool )
+method get-item-at-pos ( Int() $x, Int() $y, N-Object $path, N-Object() $cell --> Bool )
 =end code
 
 =item $x; The x position to be identified.
 =item $y; The y position to be identified.
-=item $path; (transfer ownership: full) Return location for the path.
+=item $path; (transfer ownership: full) Return location for the path
 =item $cell; Return location for the renderer
   responsible for the cell at ( C<$x>, C<$y>).
 
@@ -423,14 +440,16 @@ Return value; C<True> if an item exists at the specified position.
 =begin pod
 =head2 get-item-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the column in which the item C<$path> is currently
 displayed. Column numbers start at 0.
 
 =begin code
-method get-item-column ( CArray[N-TreePath] $path --> Int )
+method get-item-column ( N-Object $path --> Int )
 =end code
 
-=item $path; the B<Gnome::Gtk4::N-TreePath> of the item.
+=item $path; the B<Gnome::Gtk4::N-TreePath> of the item
 
 Return value; The column in which the item is displayed. 
 
@@ -446,6 +465,8 @@ Return value; The column in which the item is displayed.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-item-orientation
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the value of the I<item-orientation> property which determines
 whether the labels are drawn beside the icons instead of below.
@@ -469,6 +490,8 @@ Return value; the relative position of texts and icons.
 =begin pod
 =head2 get-item-padding
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the value of the I<item-padding> property.
 
 =begin code
@@ -490,14 +513,16 @@ Return value; the padding around items.
 =begin pod
 =head2 get-item-row
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the row in which the item C<$path> is currently
 displayed. Row numbers start at 0.
 
 =begin code
-method get-item-row ( CArray[N-TreePath] $path --> Int )
+method get-item-row ( N-Object $path --> Int )
 =end code
 
-=item $path; the B<Gnome::Gtk4::N-TreePath> of the item.
+=item $path; the B<Gnome::Gtk4::N-TreePath> of the item
 
 Return value; The row in which the item is displayed. 
 
@@ -513,6 +538,8 @@ Return value; The row in which the item is displayed.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-item-width
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the value of the I<item-width> property.
 
@@ -535,6 +562,8 @@ Return value; the width of a single item, or -1.
 =begin pod
 =head2 get-margin
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the value of the I<margin> property.
 
 =begin code
@@ -556,6 +585,8 @@ Return value; the space at the borders.
 =begin pod
 =head2 get-markup-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the column with markup text for C<$icon-view>.
 
 =begin code
@@ -576,6 +607,8 @@ Return value; the markup column, or -1 if it’s unset..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-model
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the model the B<Gnome::Gtk4::IconView> is based on.  Returns undefined if the
 model is unset.
@@ -599,10 +632,12 @@ Return value; The currently used B<Gnome::Gtk4::R-TreeModel>.
 =begin pod
 =head2 get-path-at-pos
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the path for the icon at the given position.
 
 =begin code
-method get-path-at-pos ( Int() $x, Int() $y --> CArray[N-TreePath] )
+method get-path-at-pos ( Int() $x, Int() $y --> N-Object )
 =end code
 
 =item $x; The x position to be identified.
@@ -624,6 +659,8 @@ to the icon or undefined if no icon exists at that position..
 =begin pod
 =head2 get-pixbuf-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the column with pixbufs for C<$icon-view>.
 
 =begin code
@@ -644,6 +681,8 @@ Return value; the pixbuf column, or -1 if it’s unset..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-reorderable
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Retrieves whether the user can reorder the list via drag-and-drop.
 See C<.set-reorderable()>.
@@ -667,6 +706,8 @@ Return value; C<True> if the list can be reordered..
 =begin pod
 =head2 get-row-spacing
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the value of the I<row-spacing> property.
 
 =begin code
@@ -687,6 +728,8 @@ Return value; the space between rows.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-selected-items
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a list of paths of all selected items. Additionally, if you are
 planning on modifying the model after calling this function, you may
@@ -726,6 +769,8 @@ Return value; A B<Gnome::Glib::N-List> containing a B<Gnome::Gtk4::N-TreePath> f
 =begin pod
 =head2 get-selection-mode
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the selection mode of the C<$icon-view>.
 
 =begin code
@@ -746,6 +791,8 @@ Return value; the current selection mode.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-spacing
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the value of the I<spacing> property.
 
@@ -768,6 +815,8 @@ Return value; the space between cells.
 =begin pod
 =head2 get-text-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the column with text for C<$icon-view>.
 
 =begin code
@@ -788,6 +837,8 @@ Return value; the text column, or -1 if it’s unset..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-tooltip-column
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the column of C<$icon-view>’s model which is being used for
 displaying tooltips on C<$icon-view>’s rows.
@@ -812,7 +863,9 @@ used, or -1 if this is disabled..
 =begin pod
 =head2 get-tooltip-context
 
-This function is supposed to be used in a B<GtkWidget::query-tooltip>
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+This function is supposed to be used in a B<Gnome::Gtk4::Widget>::query-tooltip`
 signal handler for B<Gnome::Gtk4::IconView>. The C<$x>, C<$y> and C<$keyboard-tip> values
 which are received in the signal handler, should be passed to this
 function without modification.
@@ -823,15 +876,15 @@ tooltips the item returned will be the cursor item. When C<True>, then any of C<
 that row and the corresponding model.
 
 =begin code
-method get-tooltip-context ( Int() $x, Int() $y, Bool() $keyboard-tip, N-Object() $model, CArray[N-TreePath] $path, CArray[N-TreeIter] $iter --> Bool )
+method get-tooltip-context ( Int() $x, Int() $y, Bool() $keyboard-tip, N-Object() $model, N-Object $path, N-Object $iter --> Bool )
 =end code
 
 =item $x; the x coordinate (relative to widget coordinates).
 =item $y; the y coordinate (relative to widget coordinates).
 =item $keyboard-tip; whether this is a keyboard tooltip or not.
 =item $model; a pointer to receive a B<Gnome::Gtk4::R-TreeModel>.
-=item $path; (transfer ownership: full) a pointer to receive a B<Gnome::Gtk4::N-TreePath>.
-=item $iter; a pointer to receive a B<Gnome::Gtk4::N-TreeIter>.
+=item $path; (transfer ownership: full) a pointer to receive a B<Gnome::Gtk4::N-TreePath>
+=item $iter; a pointer to receive a B<Gnome::Gtk4::N-TreeIter>
 
 Return value; whether or not the given tooltip context points to an item. 
 
@@ -848,17 +901,19 @@ Return value; whether or not the given tooltip context points to an item.
 =begin pod
 =head2 get-visible-range
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$start-path> and C<$end-path> to be the first and last visible path.
 Note that there may be invisible paths in between.
 
 Both paths should be freed with gtk_tree_path_free() after use.
 
 =begin code
-method get-visible-range ( CArray[N-TreePath] $start-path, CArray[N-TreePath] $end-path --> Bool )
+method get-visible-range ( N-Object $start-path, N-Object $end-path --> Bool )
 =end code
 
-=item $start-path; (transfer ownership: full) Return location for start of region.
-=item $end-path; (transfer ownership: full) Return location for end of region.
+=item $start-path; (transfer ownership: full) Return location for start of region
+=item $end-path; (transfer ownership: full) Return location for end of region
 
 Return value; C<True>, if valid paths were placed in C<$start-path> and C<$end-path>. 
 
@@ -875,13 +930,15 @@ Return value; C<True>, if valid paths were placed in C<$start-path> and C<$end-p
 =begin pod
 =head2 item-activated
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Activates the item determined by C<$path>.
 
 =begin code
-method item-activated ( CArray[N-TreePath] $path )
+method item-activated ( N-Object $path )
 =end code
 
-=item $path; The B<Gnome::Gtk4::N-TreePath> to be activated.
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be activated
 
 =begin comment
 
@@ -896,14 +953,16 @@ method item-activated ( CArray[N-TreePath] $path )
 =begin pod
 =head2 path-is-selected
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if the icon pointed to by C<$path> is currently
 selected. If C<$path> does not point to a valid location, C<False> is returned.
 
 =begin code
-method path-is-selected ( CArray[N-TreePath] $path --> Bool )
+method path-is-selected ( N-Object $path --> Bool )
 =end code
 
-=item $path; A B<Gnome::Gtk4::N-TreePath> to check selection on..
+=item $path; A B<Gnome::Gtk4::N-TreePath> to check selection on.
 
 Return value; C<True> if C<$path> is selected.. 
 
@@ -920,6 +979,8 @@ Return value; C<True> if C<$path> is selected..
 =begin pod
 =head2 scroll-to-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Moves the alignments of C<$icon-view> to the position specified by C<$path>. C<$row-align> determines where the row is placed, and C<$col-align> determines
 where C<$column> is placed.  Both are expected to be between 0.0 and 1.0.
 0.0 means left/top alignment, 1.0 means right/bottom alignment, 0.5 means
@@ -935,10 +996,10 @@ the model. If the model changes before the C<$icon-view> is realized, the
 centered path will be modified to reflect this change.
 
 =begin code
-method scroll-to-path ( CArray[N-TreePath] $path, Bool() $use-align, Num() $row-align, Num() $col-align )
+method scroll-to-path ( N-Object $path, Bool() $use-align, Num() $row-align, Num() $col-align )
 =end code
 
-=item $path; The path of the item to move to..
+=item $path; The path of the item to move to.
 =item $use-align; whether to use alignment arguments, or C<False>..
 =item $row-align; The vertical alignment of the item specified by C<$path>..
 =item $col-align; The horizontal alignment of the item specified by C<$path>..
@@ -955,6 +1016,8 @@ method scroll-to-path ( CArray[N-TreePath] $path, Bool() $use-align, Num() $row-
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 select-all
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Selects all the icons. C<$icon-view> must has its selection mode set
 to C<GTK_SELECTION_MULTIPLE>.
@@ -976,13 +1039,15 @@ method select-all ( )
 =begin pod
 =head2 select-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Selects the row at C<$path>.
 
 =begin code
-method select-path ( CArray[N-TreePath] $path )
+method select-path ( N-Object $path )
 =end code
 
-=item $path; The B<Gnome::Gtk4::N-TreePath> to be selected..
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be selected.
 
 =begin comment
 
@@ -997,6 +1062,8 @@ method select-path ( CArray[N-TreePath] $path )
 =begin pod
 =head2 selected-foreach
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Calls a function for each selected icon. Note that the model or
 selection cannot be modified from within this function.
 
@@ -1004,7 +1071,7 @@ selection cannot be modified from within this function.
 method selected-foreach ( &func, gpointer $data )
 =end code
 
-=item &func; The function to call for each selected icon.. Tthe function must be specified with following signature; C<:( N-Object $icon-view, N-TreePath $path, gpointer $data )>.
+=item &func; The function to call for each selected icon.. Tthe function must be specified with following signature; C<:( N-Object $icon-view, N-Object $path, gpointer $data )>.
 =item $data; User data to pass to the function..
 
 =begin comment
@@ -1019,6 +1086,8 @@ method selected-foreach ( &func, gpointer $data )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-activate-on-single-click
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Causes the B<Gnome::Gtk4::IconView>::item-activated signal to be emitted on
 a single click instead of a double click.
@@ -1042,6 +1111,8 @@ method set-activate-on-single-click ( Bool() $single )
 =begin pod
 =head2 set-column-spacing
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the I<column-spacing> property which specifies the space
 which is inserted between the columns of the icon view.
 
@@ -1063,6 +1134,8 @@ method set-column-spacing ( Int() $column-spacing )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-columns
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the I<columns> property which determines in how
 many columns the icons are arranged. If C<$columns> is
@@ -1088,21 +1161,23 @@ method set-columns ( Int() $columns )
 =begin pod
 =head2 set-cursor
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the current keyboard focus to be at C<$path>, and selects it.  This is
 useful when you want to focus the user’s attention on a particular item.
 If C<$cell> is defined, then focus is given to the cell specified by
 it. Additionally, if C<$start-editing> is C<True>, then editing should be
 started in the specified cell.
 
-This function is often followed by B<gtk_widget_grab_focus
-(icon_view)> in order to give keyboard focus to the widget.
+This function is often followed by B<gtk_widget_grab_focus>
+(icon_view)` in order to give keyboard focus to the widget.
 Please note that editing can only happen when the widget is realized.
 
 =begin code
-method set-cursor ( CArray[N-TreePath] $path, N-Object() $cell, Bool() $start-editing )
+method set-cursor ( N-Object $path, N-Object() $cell, Bool() $start-editing )
 =end code
 
-=item $path; A B<Gnome::Gtk4::N-TreePath>.
+=item $path; A B<Gnome::Gtk4::N-TreePath>
 =item $cell; One of the cell renderers of C<$icon-view>.
 =item $start-editing; C<True> if the specified cell should start being edited..
 
@@ -1118,15 +1193,16 @@ method set-cursor ( CArray[N-TreePath] $path, N-Object() $cell, Bool() $start-ed
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-drag-dest-item
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the item that is highlighted for feedback.
 
 =begin code
-method set-drag-dest-item ( CArray[N-TreePath] $path, GtkIconViewDropPosition  $pos )
+method set-drag-dest-item ( N-Object $path, GtkIconViewDropPosition $pos )
 =end code
 
-=item $path; The path of the item to highlight.
+=item $path; The path of the item to highlight
 =item $pos; Specifies where to drop, relative to the item.
 
 =begin comment
@@ -1141,6 +1217,8 @@ method set-drag-dest-item ( CArray[N-TreePath] $path, GtkIconViewDropPosition  $
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-item-orientation
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the I<item-orientation> property which determines whether the labels
 are drawn beside the icons instead of below.
@@ -1164,6 +1242,8 @@ method set-item-orientation ( GtkOrientation $orientation )
 =begin pod
 =head2 set-item-padding
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the B<Gnome::Gtk4::IconView>:item-padding property which specifies the padding
 around each of the icon view’s items.
 
@@ -1185,6 +1265,8 @@ method set-item-padding ( Int() $item-padding )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-item-width
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the I<item-width> property which specifies the width
 to use for each item. If it is set to -1, the icon view will
@@ -1209,6 +1291,8 @@ method set-item-width ( Int() $item-width )
 =begin pod
 =head2 set-margin
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the I<margin> property which specifies the space
 which is inserted at the top, bottom, left and right
 of the icon view.
@@ -1232,6 +1316,8 @@ method set-margin ( Int() $margin )
 =begin pod
 =head2 set-markup-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the column with markup information for C<$icon-view> to be C<$column>. The markup column must be of type B<G_TYPE_STRING>.
 If the markup column is set to something, it overrides
 the text column set by C<.set-text-column()>.
@@ -1254,6 +1340,8 @@ method set-markup-column ( Int() $column )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-model
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the model for a B<Gnome::Gtk4::IconView>.
 If the C<$icon-view> already has a model set, it will remove
@@ -1279,6 +1367,8 @@ method set-model ( N-Object() $model )
 =begin pod
 =head2 set-pixbuf-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the column with pixbufs for C<$icon-view> to be C<$column>. The pixbuf
 column must be of type B<GDK_TYPE_PIXBUF>
 
@@ -1300,6 +1390,8 @@ method set-pixbuf-column ( Int() $column )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-reorderable
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 This function is a convenience function to allow you to reorder models that
 support the B<GtkTreeDragSourceIface> and the B<GtkTreeDragDestIface>. Both
@@ -1333,6 +1425,8 @@ method set-reorderable ( Bool() $reorderable )
 =begin pod
 =head2 set-row-spacing
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the I<row-spacing> property which specifies the space
 which is inserted between the rows of the icon view.
 
@@ -1355,6 +1449,8 @@ method set-row-spacing ( Int() $row-spacing )
 =begin pod
 =head2 set-selection-mode
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the selection mode of the C<$icon-view>.
 
 =begin code
@@ -1375,6 +1471,8 @@ method set-selection-mode ( GtkSelectionMode $mode )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-spacing
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the I<spacing> property which specifies the space
 which is inserted between the cells (i.e. the icon and
@@ -1399,6 +1497,8 @@ method set-spacing ( Int() $spacing )
 =begin pod
 =head2 set-text-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the column with text for C<$icon-view> to be C<$column>. The text
 column must be of type B<G_TYPE_STRING>.
 
@@ -1421,17 +1521,19 @@ method set-text-column ( Int() $column )
 =begin pod
 =head2 set-tooltip-cell
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the tip area of C<$tooltip> to the area which C<$cell> occupies in
 the item pointed to by C<$path>. See also gtk_tooltip_set_tip_area().
 
 See also C<.set-tooltip-column()> for a simpler alternative.
 
 =begin code
-method set-tooltip-cell ( N-Object() $tooltip, CArray[N-TreePath] $path, N-Object() $cell )
+method set-tooltip-cell ( N-Object() $tooltip, N-Object $path, N-Object() $cell )
 =end code
 
 =item $tooltip; a B<Gnome::Gtk4::Tooltip>.
-=item $path; a B<Gnome::Gtk4::N-TreePath>.
+=item $path; a B<Gnome::Gtk4::N-TreePath>
 =item $cell; a B<Gnome::Gtk4::CellRenderer>.
 
 =begin comment
@@ -1447,12 +1549,14 @@ method set-tooltip-cell ( N-Object() $tooltip, CArray[N-TreePath] $path, N-Objec
 =begin pod
 =head2 set-tooltip-column
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 If you only plan to have simple (text-only) tooltips on full items, you
 can use this function to have B<Gnome::Gtk4::IconView> handle these automatically
 for you. C<$column> should be set to the column in C<$icon-view>’s model
 containing the tooltip texts, or -1 to disable this feature.
 
-When enabled, B<GtkWidget:has-tooltip> will be set to C<True> and C<$icon-view> will connect a B<GtkWidget::query-tooltip> signal handler.
+When enabled, B<Gnome::Gtk4::Widget>:has-tooltip` will be set to C<True> and C<$icon-view> will connect a B<Gnome::Gtk4::Widget>::query-tooltip` signal handler.
 
 Note that the signal handler sets the text with gtk_tooltip_set_markup(),
 so &, <, etc have to be escaped in the text.
@@ -1476,16 +1580,18 @@ method set-tooltip-column ( Int() $column )
 =begin pod
 =head2 set-tooltip-item
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the tip area of C<$tooltip> to be the area covered by the item at C<$path>.
 See also C<.set-tooltip-column()> for a simpler alternative.
 See also gtk_tooltip_set_tip_area().
 
 =begin code
-method set-tooltip-item ( N-Object() $tooltip, CArray[N-TreePath] $path )
+method set-tooltip-item ( N-Object() $tooltip, N-Object $path )
 =end code
 
 =item $tooltip; a B<Gnome::Gtk4::Tooltip>.
-=item $path; a B<Gnome::Gtk4::N-TreePath>.
+=item $path; a B<Gnome::Gtk4::N-TreePath>
 
 =begin comment
 
@@ -1499,6 +1605,8 @@ method set-tooltip-item ( N-Object() $tooltip, CArray[N-TreePath] $path )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unselect-all
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Unselects all the icons.
 
@@ -1519,13 +1627,15 @@ method unselect-all ( )
 =begin pod
 =head2 unselect-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Unselects the row at C<$path>.
 
 =begin code
-method unselect-path ( CArray[N-TreePath] $path )
+method unselect-path ( N-Object $path )
 =end code
 
-=item $path; The B<Gnome::Gtk4::N-TreePath> to be unselected..
+=item $path; The B<Gnome::Gtk4::N-TreePath> to be unselected.
 
 =begin comment
 
@@ -1539,6 +1649,8 @@ method unselect-path ( CArray[N-TreePath] $path )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unset-model-drag-dest
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Undoes the effect of C<.enable-model-drag-dest()>. Calling this
 method sets B<Gnome::Gtk4::IconView>:reorderable to C<False>.
@@ -1559,6 +1671,8 @@ method unset-model-drag-dest ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 unset-model-drag-source
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Undoes the effect of C<.enable-model-drag-source()>. Calling this
 method sets B<Gnome::Gtk4::IconView>:reorderable to C<False>.
@@ -1633,7 +1747,7 @@ Space, Return or Enter is pressed.
 
 =begin code
 method handler (
-  N-TreePath $path,
+  N-Object $path,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::IconView :$_widget,

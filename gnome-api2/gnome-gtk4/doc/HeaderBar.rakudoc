@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::HeaderBar
-
-![](images/headerbar.png)
-
+=TITLE Gnome::Gtk4::HeaderBar
 =head1 Description
 
 B<Gnome::Gtk4::HeaderBar> is a widget for creating custom title bars for windows.
 
-![An example GtkHeaderBar](headerbar.png)
+=for image :src<asset_files/images/headerbar.png> :width<30%> :class<inline>
 
 B<Gnome::Gtk4::HeaderBar> is similar to a horizontal B<Gnome::Gtk4::CenterBox>. It allows
 children to be placed at the start or the end. In addition, it allows
@@ -34,7 +31,7 @@ child widgets.
 
 The B<Gnome::Gtk4::HeaderBar> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
 adding children at the start or end sides by specifying “start” or “end” as
-the “type” attribute of a <child> element, or setting the title widget by
+the “type” attribute of a `<child>` element, or setting the title widget by
 specifying “title” value.
 
 By default the B<Gnome::Gtk4::HeaderBar> uses a B<Gnome::Gtk4::Label> displaying the title of the
@@ -116,12 +113,6 @@ B<Gnome::Gtk4::HeaderBar> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -307,7 +298,7 @@ A colon separates the buttons that should appear on the left
 from those on the right. Recognized button names are minimize,
 maximize, close and icon (the window icon).
 
-For example, “icon:minimize,maximize,close” specifies a icon
+For example, “icon:minimize,maximize,close” specifies an icon
 on the left, and minimize, maximize and close buttons on the right.
 
 =begin code

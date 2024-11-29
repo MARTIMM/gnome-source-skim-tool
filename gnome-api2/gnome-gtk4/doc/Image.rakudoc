@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Image
-
-![](images/image.png)
-
+=TITLE Gnome::Gtk4::Image
 =head1 Description
 
 The B<Gnome::Gtk4::Image> widget displays an image.
 
-![An example GtkImage](image.png)
+=for image :src<asset_files/images/image.png> :width<30%> :class<inline>
 
 Various kinds of object can be displayed as an image; most typically,
 you would load a B<Gnome::Gdk4::Texture> from a file, using the convenience function
@@ -34,7 +31,7 @@ C<.new-from-file() in class Gnome::Gdk4::Texture>, then create the B<Gnome::Gtk4
 C<.new-from-paintable()>.
 
 Sometimes an application will want to avoid depending on external data
-files, such as image files. See the documentation of U<Gnome::Gio::N-Resource> inside
+files, such as image files. See the documentation of B<Gnome::Gio::N-Resource> inside
 GIO, for details. In this case, I<resource>,
 C<.new-from-resource()>, and C<.set-from-resource()>
 should be used.
@@ -46,7 +43,7 @@ at is actual size.
 =head3 CSS nodes
 
 B<Gnome::Gtk4::Image> has a single CSS node with the name B<image>. The style classes
-B<.normal-icons> or B<.large-icons> may appear, depending on the
+`.normal-icons` or `.large-icons` may appear, depending on the
 I<icon-size> property.
 
 =head3 Accessibility
@@ -83,12 +80,6 @@ B<Gnome::Gtk4::Image> uses the B<GTK_ACCESSIBLE_ROLE_IMG> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -211,7 +202,7 @@ its size and contents in response to it.
 method new-from-paintable ( N-Object() $paintable --> Gnome::Gtk4::Image \)
 =end code
 
-=item $paintable; a U<Gnome::Gdk4::R-Paintable>.
+=item $paintable; a B<Gnome::Gdk4::R-Paintable>.
 
 =begin comment
 
@@ -225,7 +216,8 @@ method new-from-paintable ( N-Object() $paintable --> Gnome::Gtk4::Image \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-from-pixbuf
-This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
 
 Creates a new B<Gnome::Gtk4::Image> displaying C<$pixbuf>.
 
@@ -241,10 +233,10 @@ The B<Gnome::Gtk4::Image> created will not react to state changes. Should you
 want that, you should use C<.new-from-icon-name()>.
 
 =begin code
-method new-from-pixbuf ( … --> Gnome::Gtk4::Image \)
+method new-from-pixbuf ( N-Object() $pixbuf --> Gnome::Gtk4::Image \)
 =end code
 
-=item pixbuf; a B<GdkPixbuf>. Note that each argument must be specified as a type followed by its value!
+=item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf>.
 
 =begin comment
 
@@ -259,7 +251,7 @@ method new-from-pixbuf ( … --> Gnome::Gtk4::Image \)
 =begin pod
 =head2 new-from-resource
 
-Creates a new B<Gnome::Gtk4::Image> displaying the resource file C<$resource_path>.
+Creates a new B<Gnome::Gtk4::Image> displaying the resource file C<$resource-path>.
 
 If the file isn’t found or can’t be loaded, the resulting B<Gnome::Gtk4::Image> will
 display a “broken image” icon. This function never returns undefined,
@@ -319,18 +311,18 @@ method clear ( )
 =begin pod
 =head2 get-gicon
 
-Gets the U<Gnome::Gio::R-Icon> being displayed by the B<Gnome::Gtk4::Image>.
+Gets the B<Gnome::Gio::R-Icon> being displayed by the B<Gnome::Gtk4::Image>.
 
 The storage type of the image must be C<GTK_IMAGE_EMPTY> or
 C<GTK_IMAGE_GICON> (see C<.get-storage-type()>).
 The caller of this function does not own a reference to the
-returned U<Gnome::Gio::R-Icon>.
+returned B<Gnome::Gio::R-Icon>.
 
 =begin code
 method get-gicon (--> N-Object )
 =end code
 
-Return value; a U<Gnome::Gio::R-Icon>. 
+Return value; a B<Gnome::Gio::R-Icon>. 
 
 =begin comment
 
@@ -392,7 +384,7 @@ Return value; the image size used by icons.
 =begin pod
 =head2 get-paintable
 
-Gets the image U<Gnome::Gdk4::R-Paintable> being displayed by the B<Gnome::Gtk4::Image>.
+Gets the image B<Gnome::Gdk4::R-Paintable> being displayed by the B<Gnome::Gtk4::Image>.
 
 The storage type of the image must be C<GTK_IMAGE_EMPTY> or
 C<GTK_IMAGE_PAINTABLE> (see C<.get-storage-type()>).
@@ -487,7 +479,7 @@ method set-from-file ( Str $filename )
 =begin pod
 =head2 set-from-gicon
 
-Sets a B<Gnome::Gtk4::Image> to show a U<Gnome::Gio::R-Icon>.
+Sets a B<Gnome::Gtk4::Image> to show a B<Gnome::Gio::R-Icon>.
 
 See C<.new-from-gicon()> for details.
 
@@ -533,7 +525,7 @@ method set-from-icon-name ( Str $icon-name )
 =begin pod
 =head2 set-from-paintable
 
-Sets a B<Gnome::Gtk4::Image> to show a U<Gnome::Gdk4::R-Paintable>.
+Sets a B<Gnome::Gtk4::Image> to show a B<Gnome::Gdk4::R-Paintable>.
 
 See C<.new-from-paintable()> for details.
 
@@ -541,7 +533,7 @@ See C<.new-from-paintable()> for details.
 method set-from-paintable ( N-Object() $paintable )
 =end code
 
-=item $paintable; a U<Gnome::Gdk4::R-Paintable>.
+=item $paintable; a B<Gnome::Gdk4::R-Paintable>.
 
 =begin comment
 
@@ -555,9 +547,10 @@ method set-from-paintable ( N-Object() $paintable )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-from-pixbuf
-This function is not yet available
 
-Sets a B<Gnome::Gtk4::Image> to show a B<GdkPixbuf>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.12>
+
+Sets a B<Gnome::Gtk4::Image> to show a B<Gnome::GdkPixbuf::Pixbuf>.
 
 See C<.new-from-pixbuf()> for details.
 
@@ -566,10 +559,10 @@ and you can't get back the exact pixbuf once this is called,
 only a paintable.
 
 =begin code
-method set-from-pixbuf ( … )
+method set-from-pixbuf ( N-Object() $pixbuf )
 =end code
 
-=item pixbuf; a B<GdkPixbuf> or undefined. Note that each argument must be specified as a type followed by its value!
+=item $pixbuf; a B<Gnome::GdkPixbuf::Pixbuf> or undefined.
 
 =begin comment
 
