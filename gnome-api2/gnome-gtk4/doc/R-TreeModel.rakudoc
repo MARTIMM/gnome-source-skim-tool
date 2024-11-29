@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::R-TreeModel
-
-![](images/treemodel.png)
-
+=TITLE Gnome::Gtk4::R-TreeModel
 =head1 Description
 
 The tree interface used by GtkTreeView
 
-The U<Gnome::Gtk4::R-TreeModel> interface defines a generic tree interface for
+The B<Gnome::Gtk4::R-TreeModel> interface defines a generic tree interface for
 use by the B<Gnome::Gtk4::TreeView> widget. It is an abstract interface, and
 is designed to be usable with any appropriate data structure. The
 programmer just has to implement this interface on their own data
@@ -52,7 +49,7 @@ model. A  B<Gnome::Gtk4::N-TreePath>  can be converted into either an
 array of unsigned integers or a string. The string form is a list
 of numbers separated by a colon. Each number refers to the offset
 at that level. Thus, the path B<0> refers to the root
-node and the path B<2:4> refers to the fifth child of
+node and the path B<2>:4` refers to the fifth child of
 the third node.
 
 By contrast, a  B<Gnome::Gtk4::N-TreeIter>  is a reference to a specific node on
@@ -68,7 +65,7 @@ a set of operations using them for navigating the model.
 It is expected that models fill in the iterator with private data.
 For example, the B<Gnome::Gtk4::ListStore> model, which is internally a simple
 linked list, stores a list node in one of the pointers. The
-U<Gnome::Gtk4::R-TreeModel>Sort stores an array and an offset in two of the
+B<Gnome::Gtk4::R-TreeModel>Sort stores an array and an offset in two of the
 pointers. Additionally, there is an integer field. This field is
 generally filled with a unique stamp per model. This stamp is for
 catching errors resulting from using invalid iterators with a model.
@@ -88,11 +85,11 @@ indicate this behavior.
 
 To help show some common operation of a model, some examples are
 provided. The first example shows three ways of getting the iter at
-the location B<3:2:5>. While the first method shown is
+the location B<3>:2:5`. While the first method shown is
 easier, the second is much more common, as you often get paths from
 callbacks.
 
-=head3 Acquiring a U<Gnome::Gtk4::N-TreeIter>
+=head3 Acquiring a B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 // Three ways of getting the iter pointing to the location
@@ -128,7 +125,7 @@ populate_model() function used below is not
 shown, as it is specific to the B<Gnome::Gtk4::ListStore>. For information on
 how to write such a function, see the B<Gnome::Gtk4::ListStore> documentation.
 
-=head3 Reading data from a U<Gnome::Gtk4::R-TreeModel>
+=head3 Reading data from a B<Gnome::Gtk4::R-TreeModel>
 
 =begin comment
 enum
@@ -181,7 +178,7 @@ while (valid)
 
 =end comment
 
-The U<Gnome::Gtk4::R-TreeModel> interface contains two methods for reference
+The B<Gnome::Gtk4::R-TreeModel> interface contains two methods for reference
 counting: C<.ref-node()> and C<.unref-node()>.
 These two methods are optional to implement. The reference counting
 is meant as a way for views to let models know when nodes are being
@@ -238,16 +235,18 @@ into account:
 =begin pod
 =head2 filter-new
 
-Creates a new U<Gnome::Gtk4::R-TreeModel>, with C<$child_model> as the child_model
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Creates a new B<Gnome::Gtk4::R-TreeModel>, with C<$child-model> as the child_model
 and C<$root> as the virtual root.
 
 =begin code
-method filter-new ( CArray[N-TreePath] $root --> N-Object )
+method filter-new ( N-Object $root --> N-Object )
 =end code
 
-=item $root; A U<Gnome::Gtk4::N-TreePath>.
+=item $root; A B<Gnome::Gtk4::N-TreePath>
 
-Return value; A new U<Gnome::Gtk4::R-TreeModel>.. 
+Return value; A new B<Gnome::Gtk4::R-TreeModel>.. 
 
 =begin comment
 
@@ -262,6 +261,8 @@ Return value; A new U<Gnome::Gtk4::R-TreeModel>..
 =begin pod
 =head2 foreach
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Calls C<$func> on each node in model in a depth-first fashion.
 
 If C<$func> returns C<True>, then the tree ceases to be walked,
@@ -271,7 +272,7 @@ and C<.foreach()> returns.
 method foreach ( &func, gpointer $user-data )
 =end code
 
-=item &func; a function to be called on each row. Tthe function must be specified with following signature; C<:( N-Object $model, N-TreePath $path, N-TreeIter $iter, gpointer $data --> gboolean )>.
+=item &func; a function to be called on each row. Tthe function must be specified with following signature; C<:( N-Object $model, N-Object $path, N-Object $iter, gpointer $data --> gboolean )>.
 =item $user-data; user data to passed to C<$func>.
 
 =begin comment
@@ -288,13 +289,15 @@ method foreach ( &func, gpointer $user-data )
 =head2 get
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the value of one or more cells in the row referenced by C<$iter>.
 
 The variable argument list should contain integer column numbers,
 each column number followed by a place to store the value being
 retrieved.  The list is terminated by a -1. For example, to get a
 value from column 0 with type C<G_TYPE_STRING>, you would
-write: B<gtk_tree_model_get (model, iter, 0, &place_string_here, -1)>,
+write: B<gtk_tree_model_get> (model, iter, 0, &place_string_here, -1)`,
 where B<place_string_here> is a #gchararray
 to be filled with the string.
 
@@ -303,10 +306,10 @@ values with type C<G_TYPE_STRING> or C<G_TYPE_BOXED> have to be freed.
 Other values are passed by value.
 
 =begin code
-method get ( CArray[N-TreeIter] $iter, … )
+method get ( N-Object $iter, … )
 =end code
 
-=item $iter; a row in C<$tree_model>.
+=item $iter; a row in C<$tree-model>
 =item …; …. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
@@ -321,6 +324,8 @@ method get ( CArray[N-TreeIter] $iter, … )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-column-type
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the type of the column.
 
@@ -344,12 +349,15 @@ Return value; the type of the column.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-flags
+This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns a set of flags supported by this interface.
 
-The flags are a bitwise combination of U<Gnome::Gtk4::R-TreeModel>Flags.
+The flags are a bitwise combination of B<Gnome::Gtk4::R-TreeModel>Flags.
 The flags supported should not change during the lifetime
-of the C<$tree_model>.
+of the C<$tree-model>.
 
 =begin code
 method get-flags (--> UInt )
@@ -370,17 +378,19 @@ Return value; the flags supported by this interface.
 =begin pod
 =head2 get-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$iter> to a valid iterator pointing to C<$path>.
 
 If C<$path> does not exist, C<$iter> is set to an invalid
 iterator and C<False> is returned.
 
 =begin code
-method get-iter ( CArray[N-TreeIter] $iter, CArray[N-TreePath] $path --> Bool )
+method get-iter ( N-Object $iter, N-Object $path --> Bool )
 =end code
 
-=item $iter; the uninitialized U<Gnome::Gtk4::N-TreeIter>.
-=item $path; the U<Gnome::Gtk4::N-TreePath>.
+=item $iter; the uninitialized B<Gnome::Gtk4::N-TreeIter>
+=item $path; the B<Gnome::Gtk4::N-TreePath>
 
 Return value; C<True>, if C<$iter> was set. 
 
@@ -397,16 +407,18 @@ Return value; C<True>, if C<$iter> was set.
 =begin pod
 =head2 get-iter-first
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Initializes C<$iter> with the first iterator in the tree
 (the one at the path "0").
 
 Returns C<False> if the tree is empty, C<True> otherwise.
 
 =begin code
-method get-iter-first ( CArray[N-TreeIter] $iter --> Bool )
+method get-iter-first ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; the uninitialized U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the uninitialized B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True>, if C<$iter> was set. 
 
@@ -423,17 +435,19 @@ Return value; C<True>, if C<$iter> was set.
 =begin pod
 =head2 get-iter-from-string
 
-Sets C<$iter> to a valid iterator pointing to C<$path_string>, if it
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Sets C<$iter> to a valid iterator pointing to C<$path-string>, if it
 exists.
 
 Otherwise, C<$iter> is left invalid and C<False> is returned.
 
 =begin code
-method get-iter-from-string ( CArray[N-TreeIter] $iter, Str $path-string --> Bool )
+method get-iter-from-string ( N-Object $iter, Str $path-string --> Bool )
 =end code
 
-=item $iter; an uninitialized U<Gnome::Gtk4::N-TreeIter>.
-=item $path-string; a string representation of a U<Gnome::Gtk4::N-TreePath>.
+=item $iter; an uninitialized B<Gnome::Gtk4::N-TreeIter>
+=item $path-string; a string representation of a B<Gnome::Gtk4::N-TreePath>.
 
 Return value; C<True>, if C<$iter> was set. 
 
@@ -450,7 +464,9 @@ Return value; C<True>, if C<$iter> was set.
 =begin pod
 =head2 get-n-columns
 
-Returns the number of columns supported by C<$tree_model>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns the number of columns supported by C<$tree-model>.
 
 =begin code
 method get-n-columns (--> Int )
@@ -471,17 +487,19 @@ Return value; the number of columns.
 =begin pod
 =head2 get-path
 
-Returns a newly-created U<Gnome::Gtk4::N-TreePath> referenced by C<$iter>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Returns a newly-created B<Gnome::Gtk4::N-TreePath> referenced by C<$iter>.
 
 This path should be freed with gtk_tree_path_free().
 
 =begin code
-method get-path ( CArray[N-TreeIter] $iter --> CArray[N-TreePath] )
+method get-path ( N-Object $iter --> N-Object )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter>
 
-Return value; a newly-created U<Gnome::Gtk4::N-TreePath>. 
+Return value; a newly-created B<Gnome::Gtk4::N-TreePath>. 
 
 =begin comment
 
@@ -496,6 +514,8 @@ Return value; a newly-created U<Gnome::Gtk4::N-TreePath>.
 =begin pod
 =head2 get-string-from-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Generates a string representation of the iter.
 
 This string is a “:” separated list of numbers.
@@ -503,10 +523,10 @@ For example, “4:10:0:3” would be an acceptable
 return value for this string.
 
 =begin code
-method get-string-from-iter ( CArray[N-TreeIter] $iter --> Str )
+method get-string-from-iter ( N-Object $iter --> Str )
 =end code
 
-=item $iter; a U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; a B<Gnome::Gtk4::N-TreeIter>
 
 Return value; a newly-allocated string. 
 
@@ -524,16 +544,18 @@ Return value; a newly-allocated string.
 =head2 get-valist
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the value of one or more cells in the row referenced by C<$iter>.
 
 See C<.get()>, this version takes a va_list
 for language bindings to use.
 
 =begin code
-method get-valist ( CArray[N-TreeIter] $iter, … )
+method get-valist ( N-Object $iter, … )
 =end code
 
-=item $iter; a row in C<$tree_model>.
+=item $iter; a row in C<$tree-model>
 =item var-args; va_list of column/return location pairs. Note that each argument must be specified as a type followed by its value!
 
 =begin comment
@@ -549,18 +571,20 @@ method get-valist ( CArray[N-TreeIter] $iter, … )
 =begin pod
 =head2 get-value
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Initializes and sets C<$value> to that at C<$column>.
 
 When done with C<$value>, g_value_unset() needs to be called
 to free any allocated memory.
 
 =begin code
-method get-value ( CArray[N-TreeIter] $iter, Int() $column, CArray[N-Value] $value )
+method get-value ( N-Object $iter, Int() $column, N-Object $value )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter>
 =item $column; the column to lookup the value at.
-=item $value; an empty U<Gnome::GObject::N-Value> to set.
+=item $value; an empty B<Gnome::GObject::N-Value> to set
 
 =begin comment
 
@@ -575,6 +599,8 @@ method get-value ( CArray[N-TreeIter] $iter, Int() $column, CArray[N-Value] $val
 =begin pod
 =head2 iter-children
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$iter> to point to the first child of C<$parent>.
 
 If C<$parent> has no children, C<False> is returned and C<$iter> is
@@ -582,14 +608,14 @@ set to be invalid. C<$parent> will remain a valid node after this
 function has been called.
 
 If C<$parent> is undefined returns the first node, equivalent to
-B<gtk_tree_model_get_iter_first (tree_model, iter);>
+B<gtk_tree_model_get_iter_first> (tree_model, iter);`
 
 =begin code
-method iter-children ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $parent --> Bool )
+method iter-children ( N-Object $iter, N-Object $parent --> Bool )
 =end code
 
-=item $iter; the new U<Gnome::Gtk4::N-TreeIter> to be set to the child.
-=item $parent; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the new B<Gnome::Gtk4::N-TreeIter> to be set to the child
+=item $parent; the B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True>, if C<$iter> has been set to the first child. 
 
@@ -606,13 +632,15 @@ Return value; C<True>, if C<$iter> has been set to the first child.
 =begin pod
 =head2 iter-has-child
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if C<$iter> has children, C<False> otherwise.
 
 =begin code
-method iter-has-child ( CArray[N-TreeIter] $iter --> Bool )
+method iter-has-child ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter> to test for children.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter> to test for children
 
 Return value; C<True> if C<$iter> has children. 
 
@@ -629,16 +657,18 @@ Return value; C<True> if C<$iter> has children.
 =begin pod
 =head2 iter-n-children
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the number of children that C<$iter> has.
 
 As a special case, if C<$iter> is undefined, then the number
 of toplevel nodes is returned.
 
 =begin code
-method iter-n-children ( CArray[N-TreeIter] $iter --> Int )
+method iter-n-children ( N-Object $iter --> Int )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter>
 
 Return value; the number of children of C<$iter>. 
 
@@ -655,16 +685,18 @@ Return value; the number of children of C<$iter>.
 =begin pod
 =head2 iter-next
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$iter> to point to the node following it at the current level.
 
 If there is no next C<$iter>, C<False> is returned and C<$iter> is set
 to be invalid.
 
 =begin code
-method iter-next ( CArray[N-TreeIter] $iter --> Bool )
+method iter-next ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True> if C<$iter> has been changed to the next node. 
 
@@ -681,6 +713,8 @@ Return value; C<True> if C<$iter> has been changed to the next node.
 =begin pod
 =head2 iter-nth-child
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$iter> to be the child of C<$parent>, using the given index.
 
 The first index is 0. If C<$n> is too big, or C<$parent> has no children, C<$iter> is set to an invalid iterator and C<False> is returned. C<$parent>
@@ -689,11 +723,11 @@ special case, if C<$parent> is undefined, then the C<$n>-th root node
 is set.
 
 =begin code
-method iter-nth-child ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $parent, Int() $n --> Bool )
+method iter-nth-child ( N-Object $iter, N-Object $parent, Int() $n --> Bool )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter> to set to the nth child.
-=item $parent; the U<Gnome::Gtk4::N-TreeIter> to get the child from.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter> to set to the nth child
+=item $parent; the B<Gnome::Gtk4::N-TreeIter> to get the child from
 =item $n; the index of the desired child.
 
 Return value; C<True>, if C<$parent> has an C<$n>-th child. 
@@ -711,6 +745,8 @@ Return value; C<True>, if C<$parent> has an C<$n>-th child.
 =begin pod
 =head2 iter-parent
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$iter> to be the parent of C<$child>.
 
 If C<$child> is at the toplevel, and doesn’t have a parent, then C<$iter> is set to an invalid iterator and C<False> is returned. C<$child> will remain a valid node after this function has been
@@ -719,11 +755,11 @@ called.
 and C<$iter> cannot point to the same memory location.
 
 =begin code
-method iter-parent ( CArray[N-TreeIter] $iter, CArray[N-TreeIter] $child --> Bool )
+method iter-parent ( N-Object $iter, N-Object $child --> Bool )
 =end code
 
-=item $iter; the new U<Gnome::Gtk4::N-TreeIter> to set to the parent.
-=item $child; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the new B<Gnome::Gtk4::N-TreeIter> to set to the parent
+=item $child; the B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True>, if C<$iter> is set to the parent of C<$child>. 
 
@@ -740,16 +776,18 @@ Return value; C<True>, if C<$iter> is set to the parent of C<$child>.
 =begin pod
 =head2 iter-previous
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$iter> to point to the previous node at the current level.
 
 If there is no previous C<$iter>, C<False> is returned and C<$iter> is
 set to be invalid.
 
 =begin code
-method iter-previous ( CArray[N-TreeIter] $iter --> Bool )
+method iter-previous ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True> if C<$iter> has been changed to the previous node. 
 
@@ -765,6 +803,8 @@ Return value; C<True> if C<$iter> has been changed to the previous node.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 ref-node
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Lets the tree ref the node.
 
@@ -785,10 +825,10 @@ A model should be expected to be able to get an iter independent
 of its reffed state.
 
 =begin code
-method ref-node ( CArray[N-TreeIter] $iter )
+method ref-node ( N-Object $iter )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 
@@ -803,16 +843,18 @@ method ref-node ( CArray[N-TreeIter] $iter )
 =begin pod
 =head2 row-changed
 
-Emits the I<row-changed> signal on C<$tree_model>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Emits the I<row-changed> signal on C<$tree-model>.
 
 See I<row-changed>.
 
 =begin code
-method row-changed ( CArray[N-TreePath] $path, CArray[N-TreeIter] $iter )
+method row-changed ( N-Object $path, N-Object $iter )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> pointing to the changed row.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the changed row.
+=item $path; a B<Gnome::Gtk4::N-TreePath> pointing to the changed row
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the changed row
 
 =begin comment
 
@@ -827,7 +869,9 @@ method row-changed ( CArray[N-TreePath] $path, CArray[N-TreeIter] $iter )
 =begin pod
 =head2 row-deleted
 
-Emits the I<row-deleted> signal on C<$tree_model>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Emits the I<row-deleted> signal on C<$tree-model>.
 
 See I<row-deleted>.
 
@@ -839,11 +883,11 @@ Nodes that are deleted are not unreffed, this means that any
 outstanding references on the deleted node should not be released.
 
 =begin code
-method row-deleted ( CArray[N-TreePath] $path )
+method row-deleted ( N-Object $path )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> pointing to the previous location of
-  the deleted row.
+=item $path; a B<Gnome::Gtk4::N-TreePath> pointing to the previous location of
+  the deleted row
 
 =begin comment
 
@@ -858,7 +902,9 @@ method row-deleted ( CArray[N-TreePath] $path )
 =begin pod
 =head2 row-has-child-toggled
 
-Emits the I<row-has-child-toggled> signal on C<$tree_model>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Emits the I<row-has-child-toggled> signal on C<$tree-model>.
 
 See I<row-has-child-toggled>.
 
@@ -866,11 +912,11 @@ This should be called by models after the child
 state of a node changes.
 
 =begin code
-method row-has-child-toggled ( CArray[N-TreePath] $path, CArray[N-TreeIter] $iter )
+method row-has-child-toggled ( N-Object $path, N-Object $iter )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> pointing to the changed row.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the changed row.
+=item $path; a B<Gnome::Gtk4::N-TreePath> pointing to the changed row
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the changed row
 
 =begin comment
 
@@ -885,16 +931,18 @@ method row-has-child-toggled ( CArray[N-TreePath] $path, CArray[N-TreeIter] $ite
 =begin pod
 =head2 row-inserted
 
-Emits the I<row-inserted> signal on C<$tree_model>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Emits the I<row-inserted> signal on C<$tree-model>.
 
 See I<row-inserted>.
 
 =begin code
-method row-inserted ( CArray[N-TreePath] $path, CArray[N-TreeIter] $iter )
+method row-inserted ( N-Object $path, N-Object $iter )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> pointing to the inserted row.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the inserted row.
+=item $path; a B<Gnome::Gtk4::N-TreePath> pointing to the inserted row
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the inserted row
 
 =begin comment
 
@@ -909,7 +957,9 @@ method row-inserted ( CArray[N-TreePath] $path, CArray[N-TreeIter] $iter )
 =begin pod
 =head2 rows-reordered
 
-Emits the I<rows-reordered> signal on C<$tree_model>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Emits the I<rows-reordered> signal on C<$tree-model>.
 
 See I<rows-reordered>.
 
@@ -917,16 +967,16 @@ This should be called by models when their rows have been
 reordered.
 
 =begin code
-method rows-reordered ( CArray[N-TreePath] $path, CArray[N-TreeIter] $iter, Array[Int] $new-order )
+method rows-reordered ( N-Object $path, N-Object $iter, Array[Int] $new-order )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> pointing to the tree node whose children
-  have been reordered.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the node whose children
-  have been reordered, or undefined if the depth of C<$path> is 0.
+=item $path; a B<Gnome::Gtk4::N-TreePath> pointing to the tree node whose children
+  have been reordered
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the node whose children
+  have been reordered, or undefined if the depth of C<$path> is 0
 =item $new-order; an array of integers mapping the current position of
   each child to its old position before the re-ordering,
-  i.e. C<$new_orderB><[newpos] = oldpos>.
+  i.e. C<$new-order>`[newpos] = oldpos`.
 
 =begin comment
 
@@ -941,7 +991,9 @@ method rows-reordered ( CArray[N-TreePath] $path, CArray[N-TreeIter] $iter, Arra
 =begin pod
 =head2 rows-reordered-with-length
 
-Emits the I<rows-reordered> signal on C<$tree_model>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Emits the I<rows-reordered> signal on C<$tree-model>.
 
 See I<rows-reordered>.
 
@@ -949,19 +1001,19 @@ This should be called by models when their rows have been
 reordered.
 
 =begin code
-method rows-reordered-with-length ( CArray[N-TreePath] $path, CArray[N-TreeIter] $iter, Array[Int] $new-order, Int() $length )
+method rows-reordered-with-length ( N-Object $path, N-Object $iter, Array[Int] $new-order, Int() $length )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> pointing to the tree node whose children
-  have been reordered.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the node
+=item $path; a B<Gnome::Gtk4::N-TreePath> pointing to the tree node whose children
+  have been reordered
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the node
   whose children have been reordered, or undefined if the depth
-  of C<$path> is 0.
+  of C<$path> is 0
 =item $new-order; an array of integers
   mapping the current position of each child to its old
   position before the re-ordering,
-  i.e. C<$new_orderB><[newpos] = oldpos>.
-=item $length; length of C<$new_order> array.
+  i.e. C<$new-order>`[newpos] = oldpos`.
+=item $length; length of C<$new-order> array.
 
 =begin comment
 
@@ -976,6 +1028,8 @@ method rows-reordered-with-length ( CArray[N-TreePath] $path, CArray[N-TreeIter]
 =begin pod
 =head2 unref-node
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Lets the tree unref the node.
 
 This is an optional method for models to implement.
@@ -986,10 +1040,10 @@ this means, see C<.ref-node()>.
 Please note that nodes that are deleted are not unreffed.
 
 =begin code
-method unref-node ( CArray[N-TreeIter] $iter )
+method unref-node ( N-Object $iter )
 =end code
 
-=item $iter; the U<Gnome::Gtk4::N-TreeIter>.
+=item $iter; the B<Gnome::Gtk4::N-TreeIter>
 
 =begin comment
 
@@ -1014,8 +1068,8 @@ This signal is emitted when a row in the model has changed.
 
 =begin code
 method handler (
-  N-TreePath $path,
-  N-TreeIter $iter,
+  N-Object $path,
+  N-Object $iter,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
@@ -1023,8 +1077,8 @@ method handler (
 )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> identifying the changed row.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the changed row.
+=item $path; a B<Gnome::Gtk4::N-TreePath> identifying the changed row.
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the changed row.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -1051,7 +1105,7 @@ the row previously was at. It may not be a valid location anymore.
 
 =begin code
 method handler (
-  N-TreePath $path,
+  N-Object $path,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
@@ -1059,7 +1113,7 @@ method handler (
 )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> identifying the row.
+=item $path; a B<Gnome::Gtk4::N-TreePath> identifying the row.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -1080,8 +1134,8 @@ row or lost its last child row.
 
 =begin code
 method handler (
-  N-TreePath $path,
-  N-TreeIter $iter,
+  N-Object $path,
+  N-Object $iter,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
@@ -1089,8 +1143,8 @@ method handler (
 )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> identifying the row.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the row.
+=item $path; a B<Gnome::Gtk4::N-TreePath> identifying the row.
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the row.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -1115,8 +1169,8 @@ then fill it with the desired values.
 
 =begin code
 method handler (
-  N-TreePath $path,
-  N-TreeIter $iter,
+  N-Object $path,
+  N-Object $iter,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TreeModel :$_widget,
@@ -1124,8 +1178,8 @@ method handler (
 )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> identifying the new row.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the new row.
+=item $path; a B<Gnome::Gtk4::N-TreePath> identifying the new row.
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the new row.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -1142,7 +1196,7 @@ method handler (
 =head3 rows-reordered
 
 This signal is emitted when the children of a node in the
-U<Gnome::Gtk4::R-TreeModel> have been reordered.
+B<Gnome::Gtk4::R-TreeModel> have been reordered.
 
 Note that this signal is not emitted
 when rows are reordered by DND, since this is implemented
@@ -1150,8 +1204,8 @@ by removing and then reinserting the row.
 
 =begin code
 method handler (
-  N-TreePath $path,
-  N-TreeIter $iter,
+  N-Object $path,
+  N-Object $iter,
   gpointer $new-order,
   Int :$_handle_id,
   N-GObject :$_native-object,
@@ -1160,13 +1214,13 @@ method handler (
 )
 =end code
 
-=item $path; a U<Gnome::Gtk4::N-TreePath> identifying the tree node whose children
+=item $path; a B<Gnome::Gtk4::N-TreePath> identifying the tree node whose children
     have been reordered.
-=item $iter; a valid U<Gnome::Gtk4::N-TreeIter> pointing to the node whose children
+=item $iter; a valid B<Gnome::Gtk4::N-TreeIter> pointing to the node whose children
     have been reordered, or undefined if the depth of C<$path> is 0.
 =item $new-order; an array of integers mapping the current position
     of each child to its old position before the re-ordering,
-    i.e. C<$new_orderB><[newpos] = oldpos>.
+    i.e. C<$new-order>`[newpos] = oldpos`.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::TreeModel> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
