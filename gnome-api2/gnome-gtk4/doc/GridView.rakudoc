@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::GridView
-
-![](images/gridview.png)
-
+=TITLE Gnome::Gtk4::GridView
 =head1 Description
 
 B<Gnome::Gtk4::GridView> presents a large dynamic grid of items.
@@ -28,20 +25,9 @@ To learn more about the list widget framework, see the
 
 =head2 CSS nodes
 
-=begin comment
-gridview
-├── child[.activatable]
-│
-├── child[.activatable]
-│
-┊
-╰── [rubberband]
-
-=end comment
-
 B<Gnome::Gtk4::GridView> uses a single CSS node with name B<gridview>. Each child uses
 a single CSS node with name B<child>. If the I<activatable defined in Gnome::Gtk4::ListItem>
-property is set, the corresponding row will have the B<.activatable> style
+property is set, the corresponding row will have the `.activatable` style
 class. For rubberband selection, a subnode with name B<rubberband> is used.
 
 =head2 Accessibility
@@ -80,12 +66,6 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -97,11 +77,6 @@ mapping items to widgets.
 
 The function takes ownership of the
 arguments, so you can write code like
-=begin comment
-grid_view = gtk_grid_view_new (create_model (),
-  gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
-
-=end comment
 
 =begin code
 method new-gridview ( N-Object() $model, N-Object() $factory --> Gnome::Gtk4::GridView \)
@@ -256,6 +231,55 @@ Return value; C<True> if items are activated on single click.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-tab-behavior
+
+Gets the behavior set for the <kbd>Tab</kbd> key.
+
+=begin code
+method get-tab-behavior (--> GtkListTabBehavior )
+=end code
+
+Return value; The behavior of the <kbd>Tab</kbd> key. 
+
+=begin comment
+
+=head2 Example
+# Example for set-enable-rubberband
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 scroll-to
+
+Scrolls to the item at the given position and performs the actions
+specified in C<$flags>.
+
+This function works no matter if the gridview is shown or focused.
+If it isn't, then the changes will take effect once that happens.
+
+=begin code
+method scroll-to ( UInt() $pos, UInt $flags, N-Object $scroll )
+=end code
+
+=item $pos; position of the item.
+=item $flags; actions to perform.
+=item $scroll; (transfer ownership: full) details of how to perform
+  the scroll operation or undefined to scroll into view
+
+=begin comment
+
+=head2 Example
+# Example for set-factory
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 set-enable-rubberband
 
 Sets whether selections can be changed by dragging with the mouse.
@@ -269,7 +293,7 @@ method set-enable-rubberband ( Bool() $enable-rubberband )
 =begin comment
 
 =head2 Example
-# Example for set-enable-rubberband
+# Example for set-max-columns
 
 =end comment
 
@@ -290,7 +314,7 @@ method set-factory ( N-Object() $factory )
 =begin comment
 
 =head2 Example
-# Example for set-factory
+# Example for set-min-columns
 
 =end comment
 
@@ -316,7 +340,7 @@ method set-max-columns ( UInt() $max-columns )
 =begin comment
 
 =head2 Example
-# Example for set-max-columns
+# Example for set-model
 
 =end comment
 
@@ -342,7 +366,7 @@ method set-min-columns ( UInt() $min-columns )
 =begin comment
 
 =head2 Example
-# Example for set-min-columns
+# Example for set-single-click-activate
 
 =end comment
 
@@ -352,7 +376,7 @@ method set-min-columns ( UInt() $min-columns )
 =begin pod
 =head2 set-model
 
-Sets the imodel to use.
+Sets the model to use.
 
 This must be a B<Gnome::Gtk4::R-SelectionModel>.
 
@@ -365,7 +389,7 @@ method set-model ( N-Object() $model )
 =begin comment
 
 =head2 Example
-# Example for set-model
+# Example for signal activate
 
 =end comment
 
@@ -385,9 +409,33 @@ method set-single-click-activate ( Bool() $single-click-activate )
 =item $single-click-activate; C<True> to activate items on single click.
 
 =begin comment
+gridview
+├── child[.activatable]
+│
+├── child[.activatable]
+│
+┊
+╰── [rubberband]
 
-=head2 Example
-# Example for set-single-click-activate
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-tab-behavior
+
+Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
+
+=begin code
+method set-tab-behavior ( GtkListTabBehavior $tab-behavior )
+=end code
+
+=item $tab-behavior; The desired tab behavior.
+
+=begin comment
+grid_view = gtk_grid_view_new (create_model (),
+  gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
 
 =end comment
 
@@ -425,13 +473,6 @@ method handler (
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::GridView> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
-
-=begin comment
-
-=head2 Example
-# Example for signal activate
-
-=end comment
 
 =end pod
 

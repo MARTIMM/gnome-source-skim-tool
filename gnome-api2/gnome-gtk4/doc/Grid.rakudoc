@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Grid
-
-![](images/grid.png)
-
+=TITLE Gnome::Gtk4::Grid
 =head1 Description
 
 B<Gnome::Gtk4::Grid> is a container which arranges its child widgets in
 rows and columns.
 
-![An example GtkGrid](grid.png)
+=for image :src<asset_files/images/grid.png> :width<30%> :class<inline>
 
 It supports arbitrary positions and horizontal/vertical spans.
 
@@ -30,8 +27,8 @@ cell is undefined.
 =head2 GtkGrid as GtkBuildable
 
 Every child in a B<Gnome::Gtk4::Grid> has access to a custom B<Gnome::Gtk4::R-Buildable>
-element, called B<<layout>>. It can by used to specify a position in the
-grid and optionally spans. All properties that can be used in the B<<layout>>
+element, called `<layout>`. It can by used to specify a position in the
+grid and optionally spans. All properties that can be used in the `<layout>`
 element are implemented by B<Gnome::Gtk4::GridLayoutChild>.
 
 It is implemented by B<Gnome::Gtk4::Widget> using B<Gnome::Gtk4::LayoutManager>.
@@ -84,9 +81,9 @@ To showcase it, here is a simple example:
 
 It organizes the first two buttons side-by-side in one cell each.
 The third button is in the last column but spans across two rows.
-This is defined by the B<row-span> property. The last button is
+This is defined by the B<row>-span` property. The last button is
 located in the second row and spans across two columns, which is
-defined by the B<column-span> property.
+defined by the B<column>-span` property.
 
 =head2 CSS nodes
 
@@ -94,7 +91,9 @@ B<Gnome::Gtk4::Grid> uses a single CSS node with name B<grid>.
 
 =head2 Accessibility
 
-B<Gnome::Gtk4::Grid> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
+Until GTK 4.10, B<Gnome::Gtk4::Grid> used the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+Starting from GTK 4.12, B<Gnome::Gtk4::Grid> uses the B<GTK_ACCESSIBLE_ROLE_GENERIC> role.
 
 =begin comment
 
@@ -126,12 +125,6 @@ B<Gnome::Gtk4::Grid> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -201,8 +194,8 @@ The widget is placed next to C<$sibling>, on the side determined by C<$side>. Wh
 left or right placement) or column 0 (for top or bottom placement),
 at the end indicated by C<$side>.
 
-Attaching widgets labeled B<[1]>, B<[2]>, B<[3]> with B< C<$sibling> == undefined> and
-B< C<$side> == C<GTK_POS_LEFT>> yields a layout of B<[3][2][1]>.
+Attaching widgets labeled `[1]`, `[2]`, `[3]` with ` C<$sibling> == undefined` and
+` C<$side> == C<GTK_POS_LEFT>` yields a layout of `[3][2][1]`.
 
 =begin code
 method attach-next-to ( N-Object() $child, N-Object() $sibling, GtkPositionType $side, Int() $width, Int() $height )
