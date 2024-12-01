@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Video
-
-![](images/video.png)
-
+=TITLE Gnome::Gtk4::Video
 =head1 Description
 
 B<Gnome::Gtk4::Video> is a widget to show a B<Gnome::Gtk4::MediaStream> with media controls.
 
-![An example GtkVideo](video.png)
+=for image :src<asset_files/images/video.png> :width<30%> :class<inline>
 
 The controls are available separately as B<Gnome::Gtk4::MediaControls>.
 If you just want to display a video without controls, you can treat it
@@ -222,6 +219,30 @@ Return value; The file played by C<$self>.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-graphics-offload
+This function is not yet available
+
+Returns whether graphics offload is enabled.
+
+See B<Gnome::Gtk4::GraphicsOffload> for more information on graphics offload.
+
+=begin code
+method get-graphics-offload (--> GtkGraphicsOffloadEnabled  )
+=end code
+
+Return value; the graphics offload status. 
+
+=begin comment
+
+=head2 Example
+# Example for get-loop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-loop
 
 Returns C<True> if videos have been set to loop.
@@ -235,7 +256,7 @@ Return value; C<True> if streams should loop.
 =begin comment
 
 =head2 Example
-# Example for get-loop
+# Example for get-media-stream
 
 =end comment
 
@@ -256,7 +277,7 @@ Return value; The media stream managed by C<$self>.
 =begin comment
 
 =head2 Example
-# Example for get-media-stream
+# Example for set-autoplay
 
 =end comment
 
@@ -278,7 +299,7 @@ method set-autoplay ( Bool() $autoplay )
 =begin comment
 
 =head2 Example
-# Example for set-autoplay
+# Example for set-file
 
 =end comment
 
@@ -299,7 +320,7 @@ method set-file ( N-Object() $file )
 =begin comment
 
 =head2 Example
-# Example for set-file
+# Example for set-filename
 
 =end comment
 
@@ -322,7 +343,31 @@ method set-filename ( Str $filename )
 =begin comment
 
 =head2 Example
-# Example for set-filename
+# Example for set-loop
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-graphics-offload
+This function is not yet available
+
+Sets whether to enable graphics offload.
+
+See B<Gnome::Gtk4::GraphicsOffload> for more information on graphics offload.
+
+=begin code
+method set-graphics-offload ( GtkGraphicsOffloadEnabled  $enabled )
+=end code
+
+=item $enabled; the new graphics offload status.
+
+=begin comment
+
+=head2 Example
+# Example for set-media-stream
 
 =end comment
 
@@ -343,7 +388,7 @@ method set-loop ( Bool() $loop )
 =begin comment
 
 =head2 Example
-# Example for set-loop
+# Example for set-resource
 
 =end comment
 
@@ -367,13 +412,6 @@ method set-media-stream ( N-Object() $stream )
 
 =item $stream; The media stream to play or undefined to unset.
 
-=begin comment
-
-=head2 Example
-# Example for set-media-stream
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -389,13 +427,6 @@ method set-resource ( Str $resource-path )
 =end code
 
 =item $resource-path; the resource to set.
-
-=begin comment
-
-=head2 Example
-# Example for set-resource
-
-=end comment
 
 =end pod
 

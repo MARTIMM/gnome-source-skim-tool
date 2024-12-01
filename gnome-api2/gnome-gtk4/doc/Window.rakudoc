@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Window
-
-![](images/window.png)
-
+=TITLE Gnome::Gtk4::Window
 =head1 Description
 
 A B<Gnome::Gtk4::Window> is a toplevel window which can contain other widgets.
 
-![An example GtkWindow](window.png)
+=for image :src<asset_files/images/window.png> :width<30%> :class<inline>
 
 Windows normally have decorations that are under the control
 of the windowing system and allow the user to manipulate the window
@@ -24,16 +21,9 @@ of the windowing system and allow the user to manipulate the window
 
 The B<Gnome::Gtk4::Window> implementation of the B<Gnome::Gtk4::R-Buildable> interface supports
 setting a child as the titlebar by specifying “titlebar” as the “type”
-attribute of a <child> element.
+attribute of a `<child>` element.
 
 =head2 CSS nodes
-
-=begin comment
-window.background [.csd / .solid-csd / .ssd] [.maximized / .fullscreen / .tiled]
-├── <child>
-╰── <titlebar child>.titlebar [.default-decoration]
-
-=end comment
 
 B<Gnome::Gtk4::Window> has a main CSS node with name window and style class .background.
 
@@ -59,15 +49,17 @@ widget that is added as a titlebar child.
 
 =head2 Accessibility
 
-B<Gnome::Gtk4::Window> uses the C<GTK_ACCESSIBLE_ROLE_WINDOW> role.
+Until GTK 4.10, B<Gnome::Gtk4::Window> used the B<GTK_ACCESSIBLE_ROLE_WINDOW> role.
+
+Since GTK 4.12, B<Gnome::Gtk4::Window> uses the B<GTK_ACCESSIBLE_ROLE_APPLICATION> role.
 
 =head2 Actions
 
 B<Gnome::Gtk4::Window> defines a set of built-in actions:
-=item B<default.activate>: Activate the default widget.
-=item B<window.minimize>: Minimize the window.
-=item B<window.toggle-maximized>: Maximize or restore the window.
-=item B<window.close>: Close the window.
+=item B<default>.activate`: Activate the default widget.
+=item B<window>.minimize`: Minimize the window.
+=item B<window>.toggle-maximized`: Maximize or restore the window.
+=item B<window>.close`: Close the window.
 
 =begin comment
 
@@ -99,12 +91,6 @@ B<Gnome::Gtk4::Window> defines a set of built-in actions:
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -197,7 +183,7 @@ method destroy ( )
 Asks to place C<$window> in the fullscreen state.
 
 Note that you shouldn’t assume the window is definitely fullscreen
-afterward, because other entities (e.g. the user or window manager
+afterward, because other entities (e.g. the user or window manager)
 unfullscreen it again, and not all window managers honor requests
 to fullscreen windows.
 
@@ -320,6 +306,9 @@ A value of 0 for the width or height indicates that a default
 size has not been explicitly set for that dimension, so the
 “natural” size of the window will be used.
 
+This function is the recommended way for [saving window state
+across restarts of applications](https://developer.gnome.org/documentation/tutorials/save-state.html).
+
 =begin code
 method get-default-size ( Array[Int] $width, Array[Int] $height )
 =end code
@@ -407,7 +396,7 @@ Retrieves the current focused widget within the window.
 
 Note that this is the widget that would have the focus
 if the toplevel window focused; if the toplevel window
-is not focused then B<gtk_widget_has_focus (widget)> will
+is not focused then B<gtk_widget_has_focus> (widget)` will
 not be C<True> for the widget.
 
 =begin code
@@ -774,12 +763,36 @@ Return value; whether the window has a maximized state..
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 is-suspended
+
+Retrieves the current suspended state of C<$window>.
+
+A window being suspended means it's currently not visible to the user, for
+example by being on a inactive workspace, minimized, obstructed.
+
+=begin code
+method is-suspended (--> Bool )
+=end code
+
+Return value; whether the window is suspended.. 
+
+=begin comment
+
+=head2 Example
+# Example for maximize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 maximize
 
 Asks to maximize C<$window>, so that it fills the screen.
 
 Note that you shouldn’t assume the window is definitely maximized
-afterward, because other entities (e.g. the user or window manager
+afterward, because other entities (e.g. the user or window manager)
 could unmaximize it again, and not all window managers support
 maximization.
 
@@ -799,7 +812,7 @@ method maximize ( )
 =begin comment
 
 =head2 Example
-# Example for maximize
+# Example for minimize
 
 =end comment
 
@@ -813,7 +826,7 @@ Asks to minimize the specified C<$window>.
 
 Note that you shouldn’t assume the window is definitely minimized
 afterward, because the windowing system might not support this
-functionality; other entities (e.g. the user or the window manager
+functionality; other entities (e.g. the user or the window manager)
 could unminimize it again, or there may not be a window manager in
 which case minimization isn’t possible, etc.
 
@@ -831,7 +844,7 @@ method minimize ( )
 =begin comment
 
 =head2 Example
-# Example for minimize
+# Example for present
 
 =end comment
 
@@ -843,9 +856,12 @@ method minimize ( )
 
 Presents a window to the user.
 
-This function should not be used as when it is called,
-it is too late to gather a valid timestamp to allow focus
-stealing prevention to work correctly.
+This may mean raising the window in the stacking order,
+unminimizing it, moving it to the current desktop and/or
+giving it the keyboard focus (possibly dependent on the user’s
+platform, window manager and preferences).
+
+If C<$window> is hidden, this function also makes it visible.
 
 =begin code
 method present ( )
@@ -854,7 +870,7 @@ method present ( )
 =begin comment
 
 =head2 Example
-# Example for present
+# Example for present-with-time
 
 =end comment
 
@@ -864,23 +880,12 @@ method present ( )
 =begin pod
 =head2 present-with-time
 
-Presents a window to the user.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.14>
 
-This may mean raising the window in the stacking order,
-unminimizing it, moving it to the current desktop, and/or
-giving it the keyboard focus, possibly dependent on the user’s
-platform, window manager, and preferences.
+Presents a window to the user in response to an user interaction.
 
-If C<$window> is hidden, this function calls C<.show() in class Gnome::Gtk4::Widget>
-as well.
+See C<.present()> for more details.
 
-This function should be used when the user tries to open a window
-that’s already open. Say for example the preferences dialog is
-currently open, and the user chooses Preferences from the menu
-a second time; use C<.present()> to move the
-already-open dialog where the user can see it.
-
-Presents a window to the user in response to a user interaction.
 The timestamp should be gathered when the window was requested
 to be shown (when clicking a link for example), rather than once
 the window is ready to be shown.
@@ -895,7 +900,7 @@ method present-with-time ( UInt() $timestamp )
 =begin comment
 
 =head2 Example
-# Example for present-with-time
+# Example for set-application
 
 =end comment
 
@@ -928,7 +933,7 @@ method set-application ( N-Object() $application )
 =begin comment
 
 =head2 Example
-# Example for set-application
+# Example for set-child
 
 =end comment
 
@@ -949,7 +954,7 @@ method set-child ( N-Object() $child )
 =begin comment
 
 =head2 Example
-# Example for set-child
+# Example for set-decorated
 
 =end comment
 
@@ -982,7 +987,7 @@ method set-decorated ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-decorated
+# Example for set-default-size
 
 =end comment
 
@@ -994,8 +999,19 @@ method set-decorated ( Bool() $setting )
 
 Sets the default size of a window.
 
-If the window’s “natural” size (its size request) is larger than
+The default size of a window is the size that will be used if no other constraints apply.
+
+The default size will be updated whenever the window is resized
+to reflect the new size, unless the window is forced to a size,
+like when it is maximized or fullscreened.
+
+If the window’s minimum size request is larger than
 the default, the default will be ignored.
+
+Setting the default size to a value <= 0 will cause it to be
+ignored and the natural size request will be used instead. It
+is possible to do this while the window is showing to "reset"
+it to its initial size.
 
 Unlike C<.set-size-request() in class Gnome::Gtk4::Widget>, which sets a size
 request for a widget and thus would keep users from shrinking
@@ -1004,13 +1020,6 @@ if the user had resized the window themselves. Users can still
 shrink the window again as they normally would. Setting a default
 size of -1 means to use the “natural” default size (the size request
 of the window).
-
-The default size of a window only affects the first time a window is
-shown; if a window is hidden and re-shown, it will remember the size
-it had prior to hiding, rather than using the default size.
-
-Windows can’t actually be 0x0 in size, they must be at least 1x1, but
-passing 0 for C<$width> and C<$height> is OK, resulting in a 1x1 default size.
 
 If you use this function to reestablish a previously saved window size,
 note that the appropriate size to save is the one returned by
@@ -1028,7 +1037,7 @@ method set-default-size ( Int() $width, Int() $height )
 =begin comment
 
 =head2 Example
-# Example for set-default-size
+# Example for set-default-widget
 
 =end comment
 
@@ -1053,7 +1062,7 @@ method set-default-widget ( N-Object() $default-widget )
 =begin comment
 
 =head2 Example
-# Example for set-default-widget
+# Example for set-deletable
 
 =end comment
 
@@ -1085,7 +1094,7 @@ method set-deletable ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-deletable
+# Example for set-destroy-with-parent
 
 =end comment
 
@@ -1110,7 +1119,7 @@ method set-destroy-with-parent ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-destroy-with-parent
+# Example for set-display
 
 =end comment
 
@@ -1134,7 +1143,7 @@ method set-display ( N-Object() $display )
 =begin comment
 
 =head2 Example
-# Example for set-display
+# Example for set-focus
 
 =end comment
 
@@ -1162,7 +1171,7 @@ method set-focus ( N-Object() $focus )
 =begin comment
 
 =head2 Example
-# Example for set-focus
+# Example for set-focus-visible
 
 =end comment
 
@@ -1174,6 +1183,9 @@ method set-focus ( N-Object() $focus )
 
 Sets whether “focus rectangles” are supposed to be visible.
 
+This property is maintained by GTK based on user input,
+and should not be set by applications.
+
 =begin code
 method set-focus-visible ( Bool() $setting )
 =end code
@@ -1183,7 +1195,7 @@ method set-focus-visible ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-focus-visible
+# Example for set-handle-menubar-accel
 
 =end comment
 
@@ -1205,7 +1217,7 @@ method set-handle-menubar-accel ( Bool() $handle-menubar-accel )
 =begin comment
 
 =head2 Example
-# Example for set-handle-menubar-accel
+# Example for set-hide-on-close
 
 =end comment
 
@@ -1227,7 +1239,7 @@ method set-hide-on-close ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-hide-on-close
+# Example for set-icon-name
 
 =end comment
 
@@ -1254,7 +1266,7 @@ method set-icon-name ( Str $name )
 =begin comment
 
 =head2 Example
-# Example for set-icon-name
+# Example for set-mnemonics-visible
 
 =end comment
 
@@ -1266,6 +1278,9 @@ method set-icon-name ( Str $name )
 
 Sets whether mnemonics are supposed to be visible.
 
+This property is maintained by GTK based on user input,
+and should not be set by applications.
+
 =begin code
 method set-mnemonics-visible ( Bool() $setting )
 =end code
@@ -1275,7 +1290,7 @@ method set-mnemonics-visible ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-mnemonics-visible
+# Example for set-modal
 
 =end comment
 
@@ -1302,7 +1317,7 @@ method set-modal ( Bool() $modal )
 =begin comment
 
 =head2 Example
-# Example for set-modal
+# Example for set-resizable
 
 =end comment
 
@@ -1325,7 +1340,7 @@ method set-resizable ( Bool() $resizable )
 =begin comment
 
 =head2 Example
-# Example for set-resizable
+# Example for set-startup-id
 
 =end comment
 
@@ -1359,7 +1374,7 @@ method set-startup-id ( Str $startup-id )
 =begin comment
 
 =head2 Example
-# Example for set-startup-id
+# Example for set-title
 
 =end comment
 
@@ -1389,7 +1404,7 @@ method set-title ( Str $title )
 =begin comment
 
 =head2 Example
-# Example for set-title
+# Example for set-titlebar
 
 =end comment
 
@@ -1420,7 +1435,7 @@ method set-titlebar ( N-Object() $titlebar )
 =begin comment
 
 =head2 Example
-# Example for set-titlebar
+# Example for set-transient-for
 
 =end comment
 
@@ -1451,7 +1466,7 @@ method set-transient-for ( N-Object() $parent )
 =begin comment
 
 =head2 Example
-# Example for set-transient-for
+# Example for unfullscreen
 
 =end comment
 
@@ -1466,7 +1481,7 @@ its previous state.
 
 Note that you shouldn’t assume the window is definitely not
 fullscreen afterward, because other entities (e.g. the user or
-window manager could fullscreen it again, and not all window
+window manager) could fullscreen it again, and not all window
 managers honor requests to unfullscreen windows; normally the
 window will end up restored to its normal state. Just don’t
 write code that crashes if not.
@@ -1482,7 +1497,7 @@ method unfullscreen ( )
 =begin comment
 
 =head2 Example
-# Example for unfullscreen
+# Example for unmaximize
 
 =end comment
 
@@ -1495,7 +1510,7 @@ method unfullscreen ( )
 Asks to unmaximize C<$window>.
 
 Note that you shouldn’t assume the window is definitely unmaximized
-afterward, because other entities (e.g. the user or window manager
+afterward, because other entities (e.g. the user or window manager)
 maximize it again, and not all window managers honor requests to
 unmaximize.
 
@@ -1510,7 +1525,7 @@ method unmaximize ( )
 =begin comment
 
 =head2 Example
-# Example for unmaximize
+# Example for unminimize
 
 =end comment
 
@@ -1524,7 +1539,7 @@ Asks to unminimize the specified C<$window>.
 
 Note that you shouldn’t assume the window is definitely unminimized
 afterward, because the windowing system might not support this
-functionality; other entities (e.g. the user or the window manager
+functionality; other entities (e.g. the user or the window manager)
 could minimize it again, or there may not be a window manager in
 which case minimization isn’t possible, etc.
 
@@ -1538,7 +1553,7 @@ method unminimize ( )
 =begin comment
 
 =head2 Example
-# Example for unminimize
+# Example for get-default-icon-name
 
 =end comment
 
@@ -1571,7 +1586,7 @@ Return value; the fallback icon name for windows.
 =begin comment
 
 =head2 Example
-# Example for get-default-icon-name
+# Example for get-toplevels
 
 =end comment
 
@@ -1597,7 +1612,7 @@ Return value; the list
 =begin comment
 
 =head2 Example
-# Example for get-toplevels
+# Example for list-toplevels
 
 =end comment
 
@@ -1612,7 +1627,7 @@ Returns a list of all existing toplevel windows.
 The widgets in the list are not individually referenced.
 If you want to iterate through the list and perform actions
 involving callbacks that might destroy the widgets, you must
-call B<g_list_foreach (result, (GFunc)g_object_ref, NULL)> first,
+call B<g_list_foreach> (result, (GFunc)g_object_ref, NULL)` first,
 and then unref all the widgets afterwards.
 
 =begin code
@@ -1625,7 +1640,7 @@ Return value; list of
 =begin comment
 
 =head2 Example
-# Example for list-toplevels
+# Example for set-auto-startup-notification
 
 =end comment
 
@@ -1638,7 +1653,7 @@ Return value; list of
 Sets whether the window should request startup notification.
 
 By default, after showing the first B<Gnome::Gtk4::Window>, GTK calls
-C<.notify-startup-complete() in class Gnome::Gdk4::Display>. Call this function
+C<.set-startup-id() in class Gnome::Gdk4::R-Toplevel>. Call this function
 to disable the automatic startup notification. You might do this
 if your first window is a splash screen, and you want to delay
 notification until after your real main window has been shown,
@@ -1657,7 +1672,7 @@ method set-auto-startup-notification ( Bool() $setting )
 =begin comment
 
 =head2 Example
-# Example for set-auto-startup-notification
+# Example for set-default-icon-name
 
 =end comment
 
@@ -1682,7 +1697,7 @@ method set-default-icon-name ( Str $name )
 =begin comment
 
 =head2 Example
-# Example for set-default-icon-name
+# Example for set-interactive-debugging
 
 =end comment
 
@@ -1697,6 +1712,14 @@ Opens or closes the [interactive debugger](running.html#interactive-debugging).
 The debugger offers access to the widget hierarchy of the application
 and to useful debugging tools.
 
+This function allows applications that already use
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>
+(or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd>)
+for their own key shortcuts to add a different shortcut to open the Inspector.
+
+If you are not overriding the default key shortcuts for the Inspector,
+you should not use this function.
+
 =begin code
 method set-interactive-debugging ( Bool() $enable )
 =end code
@@ -1706,7 +1729,7 @@ method set-interactive-debugging ( Bool() $enable )
 =begin comment
 
 =head2 Example
-# Example for set-interactive-debugging
+# Example for signal activate-default
 
 =end comment
 
@@ -1744,7 +1767,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal activate-default
+# Example for signal activate-focus
 
 =end comment
 
@@ -1773,7 +1796,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal activate-focus
+# Example for signal close-request
 
 =end comment
 
@@ -1802,7 +1825,7 @@ Return value; C<True> to stop other handlers from being invoked for the signal
 =begin comment
 
 =head2 Example
-# Example for signal close-request
+# Example for signal enable-debugging
 
 =end comment
 
@@ -1842,7 +1865,7 @@ Return value; C<True> if the key binding was handled
 =begin comment
 
 =head2 Example
-# Example for signal enable-debugging
+# Example for signal keys-changed
 
 =end comment
 
@@ -1867,9 +1890,9 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
-
-=head2 Example
-# Example for signal keys-changed
+window.background [.csd / .solid-csd / .ssd] [.maximized / .fullscreen / .tiled]
+├── <child>
+╰── <titlebar child>.titlebar [.default-decoration]
 
 =end comment
 
