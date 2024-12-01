@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::StringSorter
-
-![](images/stringsorter.png)
-
+=TITLE Gnome::Gtk4::StringSorter
 =head1 Description
 
 B<Gnome::Gtk4::StringSorter> is a B<Gnome::Gtk4::Sorter> that compares strings.
@@ -88,6 +85,28 @@ method new-stringsorter ( N-Object() $expression --> Gnome::Gtk4::StringSorter \
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-collation
+This function is not yet available
+
+Gets which collation method the sorter uses.
+
+=begin code
+method get-collation (--> GtkCollation  )
+=end code
+
+Return value; The collation method. 
+
+=begin comment
+
+=head2 Example
+# Example for get-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-expression
 
 Gets the expression that is evaluated to obtain strings from items.
@@ -101,7 +120,7 @@ Return value; a B<Gnome::Gtk4::Expression>.
 =begin comment
 
 =head2 Example
-# Example for get-expression
+# Example for get-ignore-case
 
 =end comment
 
@@ -122,7 +141,29 @@ Return value; C<True> if C<$self> is ignoring case differences.
 =begin comment
 
 =head2 Example
-# Example for get-ignore-case
+# Example for set-expression
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-collation
+This function is not yet available
+
+Sets the collation method to use for sorting.
+
+=begin code
+method set-collation ( GtkCollation  $collation )
+=end code
+
+=item $collation; the collation method.
+
+=begin comment
+
+=head2 Example
+# Example for set-ignore-case
 
 =end comment
 
@@ -142,13 +183,6 @@ method set-expression ( N-Object() $expression )
 
 =item $expression; a B<Gnome::Gtk4::Expression>.
 
-=begin comment
-
-=head2 Example
-# Example for set-expression
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -162,13 +196,6 @@ method set-ignore-case ( Bool() $ignore-case )
 =end code
 
 =item $ignore-case; C<True> to ignore case differences.
-
-=begin comment
-
-=head2 Example
-# Example for set-ignore-case
-
-=end comment
 
 =end pod
 

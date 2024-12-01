@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::StyleContext
-
-![](images/stylecontext.png)
-
+=TITLE Gnome::Gtk4::StyleContext
 =head1 Description
 
 B<Gnome::Gtk4::StyleContext> stores styling information affecting a widget.
@@ -26,7 +23,7 @@ C<.get-style-context() in class Gnome::Gtk4::Widget> will already have a B<Gnome
 and RTL/LTR information set. The style context will also be updated
 automatically if any of these settings change on the widget.
 
-=head2 Style Classes
+=head3 Style Classes
 
 Widgets can add style classes to their context, which can be used to associate
 different styles by class. The documentation for individual widgets lists
@@ -36,17 +33,17 @@ applications to affect their appearance.
 =head2 Custom styling in UI libraries and applications
 
 If you are developing a library with custom widgets that render differently
-than standard components, you may need to add a U<Gnome::Gtk4::R-StyleProvider> yourself
+than standard components, you may need to add a B<Gnome::Gtk4::R-StyleProvider> yourself
 with the C<GTK_STYLE_PROVIDER_PRIORITY_FALLBACK> priority, either a
-B<Gnome::Gtk4::CssProvider> or a custom object implementing the U<Gnome::Gtk4::R-StyleProvider>
+B<Gnome::Gtk4::CssProvider> or a custom object implementing the B<Gnome::Gtk4::R-StyleProvider>
 interface. This way themes may still attempt to style your UI elements in
 a different way if needed so.
 
 If you are using custom styling on an applications, you probably want then
 to make your style information prevail to the theme’s, so you must use
-a U<Gnome::Gtk4::R-StyleProvider> with the C<GTK_STYLE_PROVIDER_PRIORITY_APPLICATION>
+a B<Gnome::Gtk4::R-StyleProvider> with the C<GTK_STYLE_PROVIDER_PRIORITY_APPLICATION>
 priority, keep in mind that the user settings in
-B<XDG_CONFIG_HOME/gtk-4.0/gtk.css> will
+B<XDG_CONFIG_HOME>/gtk-4.0/gtk.css` will
 still take precedence over your changes, as it uses the
 C<GTK_STYLE_PROVIDER_PRIORITY_USER> priority.
 
@@ -73,6 +70,8 @@ C<GTK_STYLE_PROVIDER_PRIORITY_USER> priority.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -94,6 +93,8 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 add-class
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Adds a style class to C<$context>, so later uses of the
 style context will make use of this new class for styling.
@@ -132,6 +133,8 @@ method add-class ( Str $class-name )
 =begin pod
 =head2 add-provider
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds a style provider to C<$context>, to be used in style construction.
 
 Note that a style provider added by this function only affects
@@ -139,7 +142,7 @@ the style of the widget to which C<$context> belongs. If you want
 to affect the style of all widgets, use
 C<.StyleContext.add-provider-for-display()>.
 
-Note: If both priorities are the same, a U<Gnome::Gtk4::R-StyleProvider>
+Note: If both priorities are the same, a B<Gnome::Gtk4::R-StyleProvider>
 added through this function takes precedence over another added
 through C<.StyleContext.add-provider-for-display()>.
 
@@ -147,7 +150,7 @@ through C<.StyleContext.add-provider-for-display()>.
 method add-provider ( N-Object() $provider, UInt() $priority )
 =end code
 
-=item $provider; a U<Gnome::Gtk4::R-StyleProvider>.
+=item $provider; a B<Gnome::Gtk4::R-StyleProvider>.
 =item $priority; the priority of the style provider. The lower
   it is, the earlier it will be used in the style construction.
   Typically this will be in the range between
@@ -167,13 +170,15 @@ method add-provider ( N-Object() $provider, UInt() $priority )
 =begin pod
 =head2 get-border
 
-Gets the border for a given state as a U<Gnome::Gtk4::N-Border>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Gets the border for a given state as a B<Gnome::Gtk4::N-Border>.
 
 =begin code
-method get-border ( CArray[N-Border] $border )
+method get-border ( N-Object $border )
 =end code
 
-=item $border; return value for the border settings.
+=item $border; return value for the border settings
 
 =begin comment
 
@@ -188,13 +193,15 @@ method get-border ( CArray[N-Border] $border )
 =begin pod
 =head2 get-color
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the foreground color for a given state.
 
 =begin code
-method get-color ( CArray[N-RGBA] $color )
+method get-color ( N-Object $color )
 =end code
 
-=item $color; return value for the foreground color.
+=item $color; return value for the foreground color
 
 =begin comment
 
@@ -208,6 +215,8 @@ method get-color ( CArray[N-RGBA] $color )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-display
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the B<Gnome::Gdk4::Display> to which C<$context> is attached.
 
@@ -230,13 +239,15 @@ Return value; a B<Gnome::Gdk4::Display>..
 =begin pod
 =head2 get-margin
 
-Gets the margin for a given state as a U<Gnome::Gtk4::N-Border>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Gets the margin for a given state as a B<Gnome::Gtk4::N-Border>.
 
 =begin code
-method get-margin ( CArray[N-Border] $margin )
+method get-margin ( N-Object $margin )
 =end code
 
-=item $margin; return value for the margin settings.
+=item $margin; return value for the margin settings
 
 =begin comment
 
@@ -251,13 +262,15 @@ method get-margin ( CArray[N-Border] $margin )
 =begin pod
 =head2 get-padding
 
-Gets the padding for a given state as a U<Gnome::Gtk4::N-Border>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Gets the padding for a given state as a B<Gnome::Gtk4::N-Border>.
 
 =begin code
-method get-padding ( CArray[N-Border] $padding )
+method get-padding ( N-Object $padding )
 =end code
 
-=item $padding; return value for the padding settings.
+=item $padding; return value for the padding settings
 
 =begin comment
 
@@ -271,6 +284,8 @@ method get-padding ( CArray[N-Border] $padding )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-scale
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the scale used for assets.
 
@@ -292,6 +307,8 @@ Return value; the scale.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-state
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the state used for style matching.
 
@@ -320,6 +337,8 @@ Return value; the state flags.
 =begin pod
 =head2 has-class
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if C<$context> currently has defined the
 given class name.
 
@@ -329,7 +348,7 @@ method has-class ( Str $class-name --> Bool )
 
 =item $class-name; a class name.
 
-Return value; C<True> if C<$context> has C<$class_name> defined. 
+Return value; C<True> if C<$context> has C<$class-name> defined. 
 
 =begin comment
 
@@ -344,16 +363,18 @@ Return value; C<True> if C<$context> has C<$class_name> defined.
 =begin pod
 =head2 lookup-color
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Looks up and resolves a color name in the C<$context> color map.
 
 =begin code
-method lookup-color ( Str $color-name, CArray[N-RGBA] $color --> Bool )
+method lookup-color ( Str $color-name, N-Object $color --> Bool )
 =end code
 
 =item $color-name; color name to lookup.
-=item $color; Return location for the looked up color.
+=item $color; Return location for the looked up color
 
-Return value; C<True> if C<$color_name> was found and resolved, C<False> otherwise. 
+Return value; C<True> if C<$color-name> was found and resolved, C<False> otherwise. 
 
 =begin comment
 
@@ -368,7 +389,9 @@ Return value; C<True> if C<$color_name> was found and resolved, C<False> otherwi
 =begin pod
 =head2 remove-class
 
-Removes C<$class_name> from C<$context>.
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
+Removes C<$class-name> from C<$context>.
 
 =begin code
 method remove-class ( Str $class-name )
@@ -389,13 +412,15 @@ method remove-class ( Str $class-name )
 =begin pod
 =head2 remove-provider
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Removes C<$provider> from the style providers list in C<$context>.
 
 =begin code
 method remove-provider ( N-Object() $provider )
 =end code
 
-=item $provider; a U<Gnome::Gtk4::R-StyleProvider>.
+=item $provider; a B<Gnome::Gtk4::R-StyleProvider>.
 
 =begin comment
 
@@ -409,6 +434,8 @@ method remove-provider ( N-Object() $provider )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 restore
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Restores C<$context> state to a previous stage.
 
@@ -430,6 +457,8 @@ method restore ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 save
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Saves the C<$context> state.
 
@@ -459,6 +488,8 @@ method save ( )
 =begin pod
 =head2 set-display
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Attaches C<$context> to the given display.
 
 The display is used to add style information from “global”
@@ -487,6 +518,8 @@ method set-display ( N-Object() $display )
 =begin pod
 =head2 set-scale
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the scale to use when getting image assets for the style.
 
 =begin code
@@ -508,6 +541,8 @@ method set-scale ( Int() $scale )
 =begin pod
 =head2 set-state
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the state to be used for style matching.
 
 =begin code
@@ -528,6 +563,8 @@ method set-state ( UInt $flags )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 to-string
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Converts the style context into a string representation.
 
@@ -575,7 +612,7 @@ in style construction for all B<GtkStyleContexts> under C<$display>.
 GTK uses this to make styling information from B<Gnome::Gtk4::Settings>
 available.
 
-Note: If both priorities are the same, A U<Gnome::Gtk4::R-StyleProvider>
+Note: If both priorities are the same, A B<Gnome::Gtk4::R-StyleProvider>
 added through C<.add-provider()> takes
 precedence over another added through this function.
 
@@ -584,7 +621,7 @@ method add-provider-for-display ( N-Object() $display, N-Object() $provider, UIn
 =end code
 
 =item $display; a B<Gnome::Gdk4::Display>.
-=item $provider; a U<Gnome::Gtk4::R-StyleProvider>.
+=item $provider; a B<Gnome::Gtk4::R-StyleProvider>.
 =item $priority; the priority of the style provider. The lower
   it is, the earlier it will be used in the style construction.
   Typically this will be in the range between
@@ -611,7 +648,7 @@ method remove-provider-for-display ( N-Object() $display, N-Object() $provider )
 =end code
 
 =item $display; a B<Gnome::Gdk4::Display>.
-=item $provider; a U<Gnome::Gtk4::R-StyleProvider>.
+=item $provider; a B<Gnome::Gtk4::R-StyleProvider>.
 
 =begin comment
 

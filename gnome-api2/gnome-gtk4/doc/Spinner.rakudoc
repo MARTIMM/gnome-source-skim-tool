@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Spinner
-
-![](images/spinner.png)
-
+=TITLE Gnome::Gtk4::Spinner
 =head1 Description
 
 A B<Gnome::Gtk4::Spinner> widget displays an icon-size spinning animation.
@@ -17,7 +14,7 @@ A B<Gnome::Gtk4::Spinner> widget displays an icon-size spinning animation.
 It is often used as an alternative to a B<Gnome::Gtk4::ProgressBar>
 for displaying indefinite activity, instead of actual progress.
 
-![An example GtkSpinner](spinner.png)
+=for image :src<asset_files/images/spinner.png> :width<30%> :class<inline>
 
 To start the animation, use C<.start()>, to stop it
 use C<.stop()>.
@@ -58,12 +55,6 @@ added to this node.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 

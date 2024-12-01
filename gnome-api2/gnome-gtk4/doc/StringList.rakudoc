@@ -6,24 +6,22 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::StringList
-
-![](images/stringlist.png)
-
+=TITLE Gnome::Gtk4::StringList
 =head1 Description
 
 B<Gnome::Gtk4::StringList> is a list model that wraps an array of strings.
 
-The objects in the model have a "string" property.
+The objects in the model are of type B<Gnome::Gtk4::StringObject> and have
+a "string" property that can be used inside expressions.
 
 B<Gnome::Gtk4::StringList> is well-suited for any place where you would
-typically use a B<char*[]>, but need a list model.
+typically use a B<char>*[]`, but need a list model.
 
-=head2 GtkStringList as GtkBuildable
+=head3 GtkStringList as GtkBuildable
 
 The B<Gnome::Gtk4::StringList> implementation of the B<Gnome::Gtk4::R-Buildable> interface
-supports adding items directly using the <items> element and
-specifying <item> elements for each item. Each <item> element
+supports adding items directly using the `<items>` element and
+specifying `<item>` elements for each item. Each `<item>` element
 supports the regular translation attributes “translatable”,
 “context” and “comments”.
 

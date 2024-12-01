@@ -6,21 +6,25 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Switch
-
-![](images/switch.png)
-
+=TITLE Gnome::Gtk4::Switch
 =head1 Description
 
 B<Gnome::Gtk4::Switch> is a "light switch" that has two states: on or off.
 
-![An example GtkSwitch](switch.png)
+=for image :src<asset_files/images/switch.png> :width<30%> :class<inline>
 
 The user can control which state should be active by clicking the
-empty area, or by dragging the handle.
+empty area, or by dragging the slider.
 
-B<Gnome::Gtk4::Switch> can also handle situations where the underlying state
-changes with a delay. See [signal C<$GtkSwitch>::state-set] for details.
+B<Gnome::Gtk4::Switch> can also express situations where the underlying state changes
+with a delay. In this case, the slider position indicates the user's recent
+change (represented by the I<active> property), while the
+trough color indicates the present underlying state (represented by the
+I<state> property).
+
+=for image :src<asset_files/images/switch-state.png> :width<30%> :class<inline>
+
+See I<state-set> for details.
 
 =head2 CSS nodes
 
@@ -33,7 +37,7 @@ switch
 =end comment
 
 B<Gnome::Gtk4::Switch> has four css nodes, the main node with the name switch and
-subnodes for the slider and the on and off labels. Neither of them is
+subnodes for the slider and the on and off images. Neither of them is
 using any style classes.
 
 =head2 Accessibility
@@ -70,12 +74,6 @@ B<Gnome::Gtk4::Switch> uses the C<GTK_ACCESSIBLE_ROLE_SWITCH> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -175,9 +173,8 @@ method set-active ( Bool() $is-active )
 
 Sets the underlying state of the B<Gnome::Gtk4::Switch>.
 
-Normally, this is the same as I<active>, unless
-the switch is set up for delayed state changes. This function is
-typically called from a I<state-set> signal handler.
+This function is typically called from a I<state-set>
+signal handler in order to set up delayed state changes.
 
 See I<state-set> for details.
 
@@ -238,18 +235,14 @@ method handler (
 Emitted to change the underlying state.
 
 The I<state-set> signal is emitted when the user changes the switch
-position. The default handler keeps the state in sync with the
-I<active> property.
+position. The default handler calls C<.set-state()> with the
+value of C<$state>.
 
 To implement delayed state change, applications can connect to this
 signal, initiate the change of the underlying state, and call
 C<.set-state()> when the underlying state change is
 complete. The signal handler should return C<True> to prevent the
 default handler from running.
-
-Visually, the underlying state is represented by the trough color of
-the switch, while the I<active> property is
-represented by the position of the switch.
 
 =begin code
 method handler (

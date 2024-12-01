@@ -6,14 +6,11 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::SignalListItemFactory
-
-![](images/signallistitemfactory.png)
-
+=TITLE Gnome::Gtk4::SignalListItemFactory
 =head1 Description
 
 B<Gnome::Gtk4::SignalListItemFactory> is a B<Gnome::Gtk4::ListItemFactory> that emits signals
-to to manage listitems.
+to manage listitems.
 
 Signals are emitted for every listitem in the same order:
 
@@ -45,10 +42,10 @@ the effects of I<setup>. After this signal
 was emitted on a listitem, the listitem will be destroyed and not be used again.
 
 Note that during the signal emissions, changing properties on the
-B<Gnome::Gtk4::ListItem>s passed will not trigger notify signals as the listitem's
+listitems passed will not trigger notify signals as the listitem's
 notifications are frozen. See g_object_freeze_notify() for details.
 
-For tracking changes in other properties in the B<Gnome::Gtk4::ListItem>, the I<notify> signal is recommended. The signal can be connected in the
+For tracking changes in other properties in the listitem, the I<notify> signal is recommended. The signal can be connected in the
 I<setup> signal and removed again during
 I<teardown>.
 
@@ -116,11 +113,12 @@ method new-signallistitemfactory ( --> Gnome::Gtk4::SignalListItemFactory \)
 =comment -----------------------------------------------------------------------
 =head3 bind
 
-Emitted when a new I<item defined in Gnome::Gtk4::ListItem> has been set
-on the C<$listitem> and should be bound for use.
+Emitted when an object has been bound, for example when a
+new I<item defined in Gnome::Gtk4::ListItem> has been set on a
+listitem and should be bound for use.
 
-After this signal was emitted, the listitem might be shown in
-a B<Gnome::Gtk4::ListView> or other list widget.
+After this signal was emitted, the object might be shown in
+a B<Gnome::Gtk4::ListView> or other widget.
 
 The I<unbind> signal is the
 opposite of this signal and can be used to undo everything done
@@ -128,7 +126,7 @@ in this signal.
 
 =begin code
 method handler (
-  N-Object $listitem,
+   $object,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SignalListItemFactory :$_widget,
@@ -136,7 +134,7 @@ method handler (
 )
 =end code
 
-=item $listitem; The B<Gnome::Gtk4::ListItem> to bind.
+=item $object; The B<Gnome::GObject::Object> to bind.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -161,7 +159,7 @@ of this signal and can be used to undo everything done in this signal.
 
 =begin code
 method handler (
-  N-Object $listitem,
+   $object,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SignalListItemFactory :$_widget,
@@ -169,7 +167,7 @@ method handler (
 )
 =end code
 
-=item $listitem; The B<Gnome::Gtk4::ListItem> to set up.
+=item $object; The B<Gnome::GObject::Object> to set up.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -185,16 +183,16 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 teardown
 
-Emitted when a listitem is about to be destroyed.
+Emitted when an object is about to be destroyed.
 
-It is the last signal ever emitted for this C<$listitem>.
+It is the last signal ever emitted for this C<$object>.
 
 This signal is the opposite of the I<setup>
 signal and should be used to undo everything done in that signal.
 
 =begin code
 method handler (
-  N-Object $listitem,
+   $object,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SignalListItemFactory :$_widget,
@@ -202,7 +200,7 @@ method handler (
 )
 =end code
 
-=item $listitem; The B<Gnome::Gtk4::ListItem> to teardown.
+=item $object; The B<Gnome::GObject::Object> to tear down.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.
@@ -218,15 +216,16 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 unbind
 
-Emitted when a listitem has been removed from use in a list widget
-and its new I<item defined in Gnome::Gtk4::ListItem> is about to be unset.
+Emitted when an object has been unbound from its item, for example when
+a listitem was removed from use in a list widget
+and its I<item defined in Gnome::Gtk4::ListItem> is about to be unset.
 
 This signal is the opposite of the I<bind>
 signal and should be used to undo everything done in that signal.
 
 =begin code
 method handler (
-  N-Object $listitem,
+   $object,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::SignalListItemFactory :$_widget,
@@ -234,7 +233,7 @@ method handler (
 )
 =end code
 
-=item $listitem; The B<Gnome::Gtk4::ListItem> to unbind.
+=item $object; The B<Gnome::GObject::Object> to unbind.
 =item $_handle_id; The registered event handler id.
 =item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SignalListItemFactory> object.
 =item $_widget; The object which registered the signal. User code may have left the object going out of scope.

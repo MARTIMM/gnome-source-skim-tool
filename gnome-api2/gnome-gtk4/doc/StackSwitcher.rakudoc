@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::StackSwitcher
-
-![](images/stackswitcher.png)
-
+=TITLE Gnome::Gtk4::StackSwitcher
 =head1 Description
 
 The B<Gnome::Gtk4::StackSwitcher> shows a row of buttons to switch between B<Gnome::Gtk4::Stack>
 pages.
 
-![An example GtkStackSwitcher](stackswitcher.png)
+=for image :src<asset_files/images/stackswitcher.png> :width<30%> :class<inline>
 
 It acts as a controller for the associated B<Gnome::Gtk4::Stack>.
 
@@ -44,7 +41,7 @@ and uses the C<GTK_ACCESSIBLE_ROLE_TAB> for its buttons.
 
 Since GTK 4.4, B<Gnome::Gtk4::StackSwitcher> implements B<Gnome::Gtk4::R-Orientable> allowing
 the stack switcher to be made vertical with
-B<gtk_orientable_set_orientation()>.
+B<gtk_orientable_set_orientation>()`.
 
 =begin comment
 
@@ -76,12 +73,6 @@ B<gtk_orientable_set_orientation()>.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 

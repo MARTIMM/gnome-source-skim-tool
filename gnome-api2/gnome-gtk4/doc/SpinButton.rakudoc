@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::SpinButton
-
-![](images/spinbutton.png)
-
+=TITLE Gnome::Gtk4::SpinButton
 =head1 Description
 
 A B<Gnome::Gtk4::SpinButton> is an ideal way to allow the user to set the
 value of some attribute.
 
-![An example GtkSpinButton](spinbutton.png)
+=for image :src<asset_files/images/spinbutton.png> :width<30%> :class<inline>
 
 Rather than having to directly type a number into a B<Gnome::Gtk4::Entry>,
 B<Gnome::Gtk4::SpinButton> allows the user to click on one of two arrows
@@ -35,81 +32,6 @@ setting I<width-chars defined in Gnome::Gtk4::R-Editable> to a value != -1.
 =head3 Using a GtkSpinButton to get an integer
 
 =begin comment
-// Provides a function to retrieve an integer value from a GtkSpinButton
-// and creates a spin button to model percentage values.
-
-int
-grab_int_value (GtkSpinButton *button,
-                gpointer       user_data)
-{
-  return gtk_spin_button_get_value_as_int (button);
-}
-
-void
-create_integer_spin_button (void)
-{
-
-  GtkWidget *window, *button;
-  GtkAdjustment *adjustment;
-
-  adjustment = gtk_adjustment_new (50.0, 0.0, 100.0, 1.0, 5.0, 0.0);
-
-  window = gtk_window_new ();
-
-  // creates the spinbutton, with no decimal places
-  button = gtk_spin_button_new (adjustment, 1.0, 0);
-  gtk_window_set_child (GTK_WINDOW (window), button);
-
-  gtk_widget_show (window);
-}
-
-=end comment
-
-=head3 Using a GtkSpinButton to get a floating point value
-
-=begin comment
-// Provides a function to retrieve a floating point value from a
-// GtkSpinButton, and creates a high precision spin button.
-
-float
-grab_float_value (GtkSpinButton *button,
-                  gpointer       user_data)
-{
-  return gtk_spin_button_get_value (button);
-}
-
-void
-create_floating_spin_button (void)
-{
-  GtkWidget *window, *button;
-  GtkAdjustment *adjustment;
-
-  adjustment = gtk_adjustment_new (2.500, 0.0, 5.0, 0.001, 0.1, 0.0);
-
-  window = gtk_window_new ();
-
-  // creates the spinbutton, with three decimal places
-  button = gtk_spin_button_new (adjustment, 0.001, 3);
-  gtk_window_set_child (GTK_WINDOW (window), button);
-
-  gtk_widget_show (window);
-}
-
-=end comment
-
-=head2 CSS nodes
-
-=begin comment
-spinbutton.horizontal
-├── text
-│    ├── undershoot.left
-│    ╰── undershoot.right
-├── button.down
-╰── button.up
-
-=end comment
-
-=begin comment
 spinbutton.vertical
 ├── button.up
 ├── text
@@ -119,13 +41,38 @@ spinbutton.vertical
 
 =end comment
 
+=head3 Using a GtkSpinButton to get a floating point value
+
+=begin comment
+// show leading zeros
+static gboolean
+on_output (GtkSpinButton *spin,
+           gpointer       data)
+{
+   GtkAdjustment *adjustment;
+   char *text;
+   int value;
+
+   adjustment = gtk_spin_button_get_adjustment (spin);
+   value = (int)gtk_adjustment_get_value (adjustment);
+   text = g_strdup_printf ("%02d", value);
+   gtk_spin_button_set_text (spin, text):
+   g_free (text);
+
+   return TRUE;
+}
+
+=end comment
+
+=head2 CSS nodes
+
 B<Gnome::Gtk4::SpinButton>s main CSS node has the name spinbutton. It creates subnodes
 for the entry and the two buttons, with these names. The button nodes have
 the style classes .up and .down. The B<Gnome::Gtk4::Text> subnodes (if present) are put
 below the text node. The orientation of the spin button is reflected in
 the .vertical or .horizontal style class on the main node.
 
-=head2 Accessiblity
+=head2 Accessibility
 
 B<Gnome::Gtk4::SpinButton> uses the C<GTK_ACCESSIBLE_ROLE_SPIN_BUTTON> role.
 
@@ -159,12 +106,6 @@ B<Gnome::Gtk4::SpinButton> uses the C<GTK_ACCESSIBLE_ROLE_SPIN_BUTTON> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -264,6 +205,27 @@ method configure ( N-Object() $adjustment, Num() $climb-rate, UInt() $digits )
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-activates-default
+
+Retrieves the value set by C<.set-activates-default()>.
+
+=begin code
+method get-activates-default (--> Bool )
+=end code
+
+Return value; C<True> if the spin button will activate the default widget. 
+
+=begin comment
+
+=head2 Example
+# Example for get-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-adjustment
 
 Get the adjustment associated with a B<Gnome::Gtk4::SpinButton>.
@@ -277,7 +239,7 @@ Return value; the B<Gnome::Gtk4::Adjustment> of C<$spin-button>.
 =begin comment
 
 =head2 Example
-# Example for get-adjustment
+# Example for get-climb-rate
 
 =end comment
 
@@ -298,7 +260,7 @@ Return value; the acceleration rate.
 =begin comment
 
 =head2 Example
-# Example for get-climb-rate
+# Example for get-digits
 
 =end comment
 
@@ -319,7 +281,7 @@ Return value; the current precision.
 =begin comment
 
 =head2 Example
-# Example for get-digits
+# Example for get-increments
 
 =end comment
 
@@ -344,7 +306,7 @@ method get-increments ( Num() $step, Num() $page )
 =begin comment
 
 =head2 Example
-# Example for get-increments
+# Example for get-numeric
 
 =end comment
 
@@ -365,7 +327,7 @@ Return value; C<True> if only numeric text can be entered.
 =begin comment
 
 =head2 Example
-# Example for get-numeric
+# Example for get-range
 
 =end comment
 
@@ -389,7 +351,7 @@ method get-range ( Num() $min, Num() $max )
 =begin comment
 
 =head2 Example
-# Example for get-range
+# Example for get-snap-to-ticks
 
 =end comment
 
@@ -410,7 +372,7 @@ Return value; C<True> if values are snapped to the nearest step.
 =begin comment
 
 =head2 Example
-# Example for get-snap-to-ticks
+# Example for get-update-policy
 
 =end comment
 
@@ -419,14 +381,13 @@ Return value; C<True> if values are snapped to the nearest step.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-update-policy
-This function is not yet available
 
 Gets the update behavior of a spin button.
 
 See C<.set-update-policy()>.
 
 =begin code
-method get-update-policy (--> GtkSpinButtonUpdatePolicy  )
+method get-update-policy (--> GtkSpinButtonUpdatePolicy )
 =end code
 
 Return value; the current update policy. 
@@ -434,7 +395,7 @@ Return value; the current update policy.
 =begin comment
 
 =head2 Example
-# Example for get-update-policy
+# Example for get-value
 
 =end comment
 
@@ -455,7 +416,7 @@ Return value; the value of C<$spin-button>.
 =begin comment
 
 =head2 Example
-# Example for get-value
+# Example for get-value-as-int
 
 =end comment
 
@@ -476,7 +437,7 @@ Return value; the value of C<$spin-button>.
 =begin comment
 
 =head2 Example
-# Example for get-value-as-int
+# Example for get-wrap
 
 =end comment
 
@@ -499,7 +460,31 @@ Return value; C<True> if the spin button wraps around.
 =begin comment
 
 =head2 Example
-# Example for get-wrap
+# Example for set-adjustment
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-activates-default
+
+Sets whether activating the spin button will activate the default
+widget for the window containing the spin button.
+
+See I<activate> for what counts as activation.
+
+=begin code
+method set-activates-default ( Bool() $activates-default )
+=end code
+
+=item $activates-default; C<True> to activate window’s default widget on activation.
+
+=begin comment
+
+=head2 Example
+# Example for set-climb-rate
 
 =end comment
 
@@ -520,7 +505,7 @@ method set-adjustment ( N-Object() $adjustment )
 =begin comment
 
 =head2 Example
-# Example for set-adjustment
+# Example for set-digits
 
 =end comment
 
@@ -542,7 +527,7 @@ method set-climb-rate ( Num() $climb-rate )
 =begin comment
 
 =head2 Example
-# Example for set-climb-rate
+# Example for set-increments
 
 =end comment
 
@@ -566,7 +551,7 @@ method set-digits ( UInt() $digits )
 =begin comment
 
 =head2 Example
-# Example for set-digits
+# Example for set-numeric
 
 =end comment
 
@@ -591,7 +576,7 @@ method set-increments ( Num() $step, Num() $page )
 =begin comment
 
 =head2 Example
-# Example for set-increments
+# Example for set-range
 
 =end comment
 
@@ -613,7 +598,7 @@ method set-numeric ( Bool() $numeric )
 =begin comment
 
 =head2 Example
-# Example for set-numeric
+# Example for set-snap-to-ticks
 
 =end comment
 
@@ -638,7 +623,7 @@ method set-range ( Num() $min, Num() $max )
 =begin comment
 
 =head2 Example
-# Example for set-range
+# Example for set-update-policy
 
 =end comment
 
@@ -661,7 +646,7 @@ method set-snap-to-ticks ( Bool() $snap-to-ticks )
 =begin comment
 
 =head2 Example
-# Example for set-snap-to-ticks
+# Example for set-value
 
 =end comment
 
@@ -670,7 +655,6 @@ method set-snap-to-ticks ( Bool() $snap-to-ticks )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-update-policy
-This function is not yet available
 
 Sets the update behavior of a spin button.
 
@@ -678,7 +662,7 @@ This determines whether the spin button is always
 updated or only when a valid value is set.
 
 =begin code
-method set-update-policy ( GtkSpinButtonUpdatePolicy  $policy )
+method set-update-policy ( GtkSpinButtonUpdatePolicy $policy )
 =end code
 
 =item $policy; a C<enumeration GtkSpinButtonUpdatePolicy defined in Gnome::Gtk4::T-spinbutton> value.
@@ -686,7 +670,7 @@ method set-update-policy ( GtkSpinButtonUpdatePolicy  $policy )
 =begin comment
 
 =head2 Example
-# Example for set-update-policy
+# Example for set-wrap
 
 =end comment
 
@@ -707,7 +691,7 @@ method set-value ( Num() $value )
 =begin comment
 
 =head2 Example
-# Example for set-value
+# Example for spin
 
 =end comment
 
@@ -730,7 +714,7 @@ method set-wrap ( Bool() $wrap )
 =begin comment
 
 =head2 Example
-# Example for set-wrap
+# Example for update
 
 =end comment
 
@@ -739,13 +723,12 @@ method set-wrap ( Bool() $wrap )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 spin
-This function is not yet available
 
 Increment or decrement a spin button’s value in a specified
 direction by a specified amount.
 
 =begin code
-method spin ( GtkSpinType  $direction, Num() $increment )
+method spin ( GtkSpinType $direction, Num() $increment )
 =end code
 
 =item $direction; a C<enumeration GtkSpinType defined in Gnome::Gtk4::T-spinbutton> indicating the direction to spin.
@@ -754,7 +737,7 @@ method spin ( GtkSpinType  $direction, Num() $increment )
 =begin comment
 
 =head2 Example
-# Example for spin
+# Example for signal change-value
 
 =end comment
 
@@ -773,7 +756,7 @@ method update ( )
 =begin comment
 
 =head2 Example
-# Example for update
+# Example for signal input
 
 =end comment
 
@@ -785,6 +768,38 @@ method update ( )
 
 =begin pod
 =head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 activate
+
+Emitted when the spin button is activated.
+
+The keybindings for this signal are all forms of the <kbd>Enter</kbd> key.
+
+If the <kbd>Enter</kbd> key results in the value being committed to the
+spin button, then activation does not occur until <kbd>Enter</kbd> is
+pressed again.
+
+=begin code
+method handler (
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gtk4::SpinButton :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gtk4::SpinButton> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal output
+
+=end comment
 
 =comment -----------------------------------------------------------------------
 =head3 change-value
@@ -818,7 +833,7 @@ method handler (
 =begin comment
 
 =head2 Example
-# Example for signal change-value
+# Example for signal value-changed
 
 =end comment
 
@@ -856,7 +871,7 @@ Return value; C<True> for a successful conversion, C<False> if the input
 =begin comment
 
 =head2 Example
-# Example for signal input
+# Example for signal wrapped
 
 =end comment
 
@@ -864,27 +879,6 @@ Return value; C<True> for a successful conversion, C<False> if the input
 =head3 output
 
 Emitted to tweak the formatting of the value for display.
-
-=begin comment
-// show leading zeros
-static gboolean
-on_output (GtkSpinButton *spin,
-           gpointer       data)
-{
-   GtkAdjustment *adjustment;
-   char *text;
-   int value;
-
-   adjustment = gtk_spin_button_get_adjustment (spin);
-   value = (int)gtk_adjustment_get_value (adjustment);
-   text = g_strdup_printf ("%02d", value);
-   gtk_spin_button_set_text (spin, text):
-   g_free (text);
-
-   return TRUE;
-}
-
-=end comment
 
 =begin code
 method handler (
@@ -904,9 +898,33 @@ method handler (
 Return value; C<True> if the value has been displayed
 
 =begin comment
+// Provides a function to retrieve an integer value from a GtkSpinButton
+// and creates a spin button to model percentage values.
 
-=head2 Example
-# Example for signal output
+int
+grab_int_value (GtkSpinButton *button,
+                gpointer       user_data)
+{
+  return gtk_spin_button_get_value_as_int (button);
+}
+
+void
+create_integer_spin_button (void)
+{
+
+  GtkWidget *window, *button;
+  GtkAdjustment *adjustment;
+
+  adjustment = gtk_adjustment_new (50.0, 0.0, 100.0, 1.0, 5.0, 0.0);
+
+  window = gtk_window_new ();
+
+  // creates the spinbutton, with no decimal places
+  button = gtk_spin_button_new (adjustment, 1.0, 0);
+  gtk_window_set_child (GTK_WINDOW (window), button);
+
+  gtk_widget_show (window);
+}
 
 =end comment
 
@@ -932,9 +950,32 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
+// Provides a function to retrieve a floating point value from a
+// GtkSpinButton, and creates a high precision spin button.
 
-=head2 Example
-# Example for signal value-changed
+float
+grab_float_value (GtkSpinButton *button,
+                  gpointer       user_data)
+{
+  return gtk_spin_button_get_value (button);
+}
+
+void
+create_floating_spin_button (void)
+{
+  GtkWidget *window, *button;
+  GtkAdjustment *adjustment;
+
+  adjustment = gtk_adjustment_new (2.500, 0.0, 5.0, 0.001, 0.1, 0.0);
+
+  window = gtk_window_new ();
+
+  // creates the spinbutton, with three decimal places
+  button = gtk_spin_button_new (adjustment, 0.001, 3);
+  gtk_window_set_child (GTK_WINDOW (window), button);
+
+  gtk_widget_show (window);
+}
 
 =end comment
 
@@ -959,9 +1000,12 @@ method handler (
 =item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
 
 =begin comment
-
-=head2 Example
-# Example for signal wrapped
+spinbutton.horizontal
+├── text
+│    ├── undershoot.left
+│    ╰── undershoot.right
+├── button.down
+╰── button.up
 
 =end comment
 

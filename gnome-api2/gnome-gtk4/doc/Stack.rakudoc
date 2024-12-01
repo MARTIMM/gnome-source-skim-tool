@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Stack
-
-![](images/stack.png)
-
+=TITLE Gnome::Gtk4::Stack
 =head1 Description
 
 B<Gnome::Gtk4::Stack> is a container which only shows one of its children
@@ -91,12 +88,6 @@ pages, which are the accessible parent objects of the child widgets.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -277,9 +268,7 @@ Return value; C<True> if child sizes are interpolated.
 =begin pod
 =head2 get-page
 
-Retrieves the stack page for the given C<$child>.
-
-If the given C<$child> is not a child widget of the stack, this function will return undefined.
+Returns the B<Gnome::Gtk4::StackPage> object for C<$child>.
 
 =begin code
 method get-page ( N-Object() $child --> N-Object )
@@ -287,7 +276,7 @@ method get-page ( N-Object() $child --> N-Object )
 
 =item $child; a child of C<$stack>.
 
-Return value; the stack page object. 
+Return value; the B<Gnome::Gtk4::StackPage> for C<$child>. 
 
 =begin comment
 

@@ -6,16 +6,13 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Statusbar
-
-![](images/statusbar.png)
-
+=TITLE Gnome::Gtk4::Statusbar
 =head1 Description
 
 A B<Gnome::Gtk4::Statusbar> widget is usually placed along the bottom of an application's
 main B<Gnome::Gtk4::Window>.
 
-![An example GtkStatusbar](statusbar.png)
+=for image :src<asset_files/images/statusbar.png> :width<30%> :class<inline>
 
 A B<GtkStatusBar> may provide a regular commentary of the application's
 status (as is usually the case in a web browser, for example), or may be
@@ -72,6 +69,8 @@ B<Gnome::Gtk4::Statusbar> has a single CSS node with name B<statusbar>.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -80,17 +79,13 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 
   multi method new ( N-Object :$native-object! )
 
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
-
 =end pod
 
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-statusbar
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::Statusbar> ready for messages.
 
@@ -119,6 +114,8 @@ method new-statusbar ( --> Gnome::Gtk4::Statusbar \)
 =begin pod
 =head2 get-context-id
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns a new context identifier, given a description
 of the actual context.
 
@@ -146,6 +143,8 @@ Return value; an integer id.
 =begin pod
 =head2 pop
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Removes the first message in the B<Gnome::Gtk4::Statusbar>’s stack
 with the given context id.
 
@@ -171,6 +170,8 @@ method pop ( UInt() $context-id )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 push
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Pushes a new message onto a statusbar’s stack.
 
@@ -198,6 +199,8 @@ Return value; a message id that can be used with
 =begin pod
 =head2 remove
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Forces the removal of a message from a statusbar’s stack.
 The exact C<$context-id> and C<$message-id> must be specified.
 
@@ -220,6 +223,8 @@ method remove ( UInt() $context-id, UInt() $message-id )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 remove-all
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Forces the removal of all messages from a statusbar's
 stack with the exact C<$context-id>.
