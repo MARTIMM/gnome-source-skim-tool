@@ -11,18 +11,6 @@ use v6.d;
 
 =begin pod
 =head1 Callback Functions
-=head2 TreeSelectionForeachFunc
-
-=head3 Signature
-=begin code
-:(  N-Object() $model, N-Object $path, N-Object $iter, gpointer $data  )
-=end code
-
-=item model; The B<Gnome::Gtk4::R-TreeModel> being viewed
-=item path; The B<Gnome::Gtk4::N-TreePath> of a selected row
-=item iter; A B<Gnome::Gtk4::N-TreeIter> pointing to a selected row
-=item data; user data
-
 =head2 TreeSelectionFunc
 
 =head3 Signature
@@ -34,6 +22,18 @@ use v6.d;
 =item model; A B<Gnome::Gtk4::R-TreeModel> being viewed
 =item path; The B<Gnome::Gtk4::N-TreePath> of the row in question
 =item path-currently-selected; C<True>, if the path is currently selected
+=item data; user data
+
+=head2 TreeSelectionForeachFunc
+
+=head3 Signature
+=begin code
+:(  N-Object() $model, N-Object $path, N-Object $iter, gpointer $data  )
+=end code
+
+=item model; The B<Gnome::Gtk4::R-TreeModel> being viewed
+=item path; The B<Gnome::Gtk4::N-TreePath> of a selected row
+=item iter; A B<Gnome::Gtk4::N-TreeIter> pointing to a selected row
 =item data; user data
 
 =end pod

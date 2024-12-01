@@ -6,15 +6,12 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::TextView
-
-![](images/textview.png)
-
+=TITLE Gnome::Gtk4::TextView
 =head1 Description
 
 A widget that displays the contents of a B<Gnome::Gtk4::TextBuffer>.
 
-![An example GtkTextview](multiline-text.png)
+=for image :src<asset_files/images/multiline-text.png> :width<30%> :class<inline>
 
 You may wish to begin by reading the [conceptual overview](section-text-widget.html),
 which gives an overview of all the objects and data types related to the
@@ -78,12 +75,6 @@ B<Gnome::Gtk4::TextView> uses the C<GTK_ACCESSIBLE_ROLE_TEXT_BOX> role.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -201,7 +192,6 @@ method add-overlay ( N-Object() $child, Int() $xpos, Int() $ypos )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 backward-display-line
-This function is not yet available
 
 Moves the given C<$iter> backward by one display (wrapped) line.
 
@@ -214,10 +204,10 @@ they depend on the view’s width; paragraphs are the same in all
 views, since they depend on the contents of the B<Gnome::Gtk4::TextBuffer>.
 
 =begin code
-method backward-display-line ( CArray[N-TextIter]  $iter --> Bool )
+method backward-display-line ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 
 Return value; C<True> if C<$iter> was moved and is not on the end iterator. 
 
@@ -233,7 +223,6 @@ Return value; C<True> if C<$iter> was moved and is not on the end iterator.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 backward-display-line-start
-This function is not yet available
 
 Moves the given C<$iter> backward to the next display line start.
 
@@ -246,10 +235,10 @@ they depend on the view’s width; paragraphs are the same in all
 views, since they depend on the contents of the B<Gnome::Gtk4::TextBuffer>.
 
 =begin code
-method backward-display-line-start ( CArray[N-TextIter]  $iter --> Bool )
+method backward-display-line-start ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 
 Return value; C<True> if C<$iter> was moved and is not on the end iterator. 
 
@@ -265,12 +254,11 @@ Return value; C<True> if C<$iter> was moved and is not on the end iterator.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 buffer-to-window-coords
-This function is not yet available
 
 Converts buffer coordinates to window coordinates.
 
 =begin code
-method buffer-to-window-coords ( GtkTextWindowType  $win, Int() $buffer-x, Int() $buffer-y, Array[Int] $window-x, Array[Int] $window-y )
+method buffer-to-window-coords ( GtkTextWindowType $win, Int() $buffer-x, Int() $buffer-y, Array[Int] $window-x, Array[Int] $window-y )
 =end code
 
 =item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-textview>.
@@ -291,7 +279,6 @@ method buffer-to-window-coords ( GtkTextWindowType  $win, Int() $buffer-x, Int()
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 forward-display-line
-This function is not yet available
 
 Moves the given C<$iter> forward by one display (wrapped) line.
 
@@ -304,10 +291,10 @@ they depend on the view’s width; paragraphs are the same in all
 views, since they depend on the contents of the B<Gnome::Gtk4::TextBuffer>.
 
 =begin code
-method forward-display-line ( CArray[N-TextIter]  $iter --> Bool )
+method forward-display-line ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 
 Return value; C<True> if C<$iter> was moved and is not on the end iterator. 
 
@@ -323,7 +310,6 @@ Return value; C<True> if C<$iter> was moved and is not on the end iterator.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 forward-display-line-end
-This function is not yet available
 
 Moves the given C<$iter> forward to the next display line end.
 
@@ -336,10 +322,10 @@ they depend on the view’s width; paragraphs are the same in all
 views, since they depend on the contents of the B<Gnome::Gtk4::TextBuffer>.
 
 =begin code
-method forward-display-line-end ( CArray[N-TextIter]  $iter --> Bool )
+method forward-display-line-end ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 
 Return value; C<True> if C<$iter> was moved and is not on the end iterator. 
 
@@ -424,7 +410,6 @@ Return value; a B<Gnome::Gtk4::TextBuffer>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-cursor-locations
-This function is not yet available
 
 Determine the positions of the strong and weak cursors if the
 insertion point is at C<$iter>.
@@ -448,12 +433,12 @@ C<.buffer-to-window-coords()> to convert these
 coordinates to coordinates for one of the windows in the text view.
 
 =begin code
-method get-cursor-locations ( CArray[N-TextIter]  $iter, CArray[N-Rectangle] $strong, CArray[N-Rectangle] $weak )
+method get-cursor-locations ( N-Object $iter, N-Object $strong, N-Object $weak )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
-=item $strong; location to store the strong cursor position.
-=item $weak; location to store the weak cursor position.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
+=item $strong; location to store the strong cursor position
+=item $weak; location to store the weak cursor position
 
 =begin comment
 
@@ -533,7 +518,6 @@ Return value; the menu model.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-gutter
-This function is not yet available
 
 Gets a B<Gnome::Gtk4::Widget> that has previously been set as gutter.
 
@@ -542,7 +526,7 @@ See C<.set-gutter()>.
 C<GTK_TEXT_WINDOW_TOP>, or C<GTK_TEXT_WINDOW_BOTTOM>.
 
 =begin code
-method get-gutter ( GtkTextWindowType  $win --> N-Object )
+method get-gutter ( GtkTextWindowType $win --> N-Object )
 =end code
 
 =item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-textview>.
@@ -586,7 +570,7 @@ Return value; number of pixels of indentation.
 =begin pod
 =head2 get-input-hints
 
-Gets the B<input-hints> of the B<Gnome::Gtk4::TextView>.
+Gets the B<input>-hints` of the B<Gnome::Gtk4::TextView>.
 
 =begin code
 method get-input-hints (--> UInt )
@@ -607,7 +591,7 @@ Return value; No documentation about its value and use.
 =begin pod
 =head2 get-input-purpose
 
-Gets the B<input-purpose> of the B<Gnome::Gtk4::TextView>.
+Gets the B<input>-purpose` of the B<Gnome::Gtk4::TextView>.
 
 =begin code
 method get-input-purpose (--> GtkInputPurpose )
@@ -627,7 +611,6 @@ Return value; No documentation about its value and use.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-iter-at-location
-This function is not yet available
 
 Retrieves the iterator at buffer coordinates C<$x> and C<$y>.
 
@@ -637,10 +620,10 @@ event, you have to convert those to buffer coordinates with
 C<.window-to-buffer-coords()>.
 
 =begin code
-method get-iter-at-location ( CArray[N-TextIter]  $iter, Int() $x, Int() $y --> Bool )
+method get-iter-at-location ( N-Object $iter, Int() $x, Int() $y --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 =item $x; x position, in buffer coordinates.
 =item $y; y position, in buffer coordinates.
 
@@ -658,7 +641,6 @@ Return value; C<True> if the position is over text.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-iter-at-position
-This function is not yet available
 
 Retrieves the iterator pointing to the character at buffer
 coordinates C<$x> and C<$y>.
@@ -672,10 +654,10 @@ Note that this is different from C<.get-iter-at-location()>,
 which returns cursor locations, i.e. positions between characters.
 
 =begin code
-method get-iter-at-position ( CArray[N-TextIter]  $iter, Array[Int] $trailing, Int() $x, Int() $y --> Bool )
+method get-iter-at-position ( N-Object $iter, Array[Int] $trailing, Int() $x, Int() $y --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 =item $trailing; (transfer ownership: full) if non-undefined, location to store
    an integer indicating where in the grapheme the user clicked.
    It will either be zero, or the number of characters in the grapheme.
@@ -697,7 +679,6 @@ Return value; C<True> if the position is over text.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-iter-location
-This function is not yet available
 
 Gets a rectangle which roughly contains the character at C<$iter>.
 
@@ -706,11 +687,11 @@ C<.buffer-to-window-coords()> to convert these
 coordinates to coordinates for one of the windows in the text view.
 
 =begin code
-method get-iter-location ( CArray[N-TextIter]  $iter, CArray[N-Rectangle] $location )
+method get-iter-location ( N-Object $iter, N-Object $location )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
-=item $location; bounds of the character at C<$iter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
+=item $location; bounds of the character at C<$iter>
 
 =begin comment
 
@@ -770,7 +751,6 @@ Return value; left margin in pixels.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-line-at-y
-This function is not yet available
 
 Gets the B<Gnome::Gtk4::N-TextIter> at the start of the line containing
 the coordinate C<$y>.
@@ -779,10 +759,10 @@ C<.window-to-buffer-coords()>. If non-undefined, C<$line-top> will be filled wit
 of the line.
 
 =begin code
-method get-line-at-y ( CArray[N-TextIter]  $target-iter, Int() $y, Array[Int] $line-top )
+method get-line-at-y ( N-Object $target-iter, Int() $y, Array[Int] $line-top )
 =end code
 
-=item $target-iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $target-iter; a B<Gnome::Gtk4::N-TextIter>
 =item $y; a y coordinate.
 =item $line-top; (transfer ownership: full) return location for top coordinate of the line.
 
@@ -798,7 +778,6 @@ method get-line-at-y ( CArray[N-TextIter]  $target-iter, Int() $y, Array[Int] $l
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-line-yrange
-This function is not yet available
 
 Gets the y coordinate of the top of the line containing C<$iter>,
 and the height of the line.
@@ -807,10 +786,10 @@ The coordinate is a buffer coordinate; convert to window
 coordinates with C<.buffer-to-window-coords()>.
 
 =begin code
-method get-line-yrange ( CArray[N-TextIter]  $iter, Array[Int] $y, Array[Int] $height )
+method get-line-yrange ( N-Object $iter, Array[Int] $y, Array[Int] $height )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 =item $y; (transfer ownership: full) return location for a y coordinate.
 =item $height; (transfer ownership: full) return location for a height.
 
@@ -1017,7 +996,7 @@ will be undefined if “standard” (8-space) tabs are used. Free the
 return value with C<.free() in class Gnome::Pango::N-TabArray>.
 
 =begin code
-method get-tabs (--> CArray[N-TabArray] )
+method get-tabs (--> N-Object )
 =end code
 
 Return value; copy of default tab array,
@@ -1065,10 +1044,10 @@ Convert to window coordinates with
 C<.buffer-to-window-coords()>.
 
 =begin code
-method get-visible-rect ( CArray[N-Rectangle] $visible-rect )
+method get-visible-rect ( N-Object $visible-rect )
 =end code
 
-=item $visible-rect; rectangle to fill.
+=item $visible-rect; rectangle to fill
 
 =begin comment
 
@@ -1206,7 +1185,6 @@ method move-overlay ( N-Object() $child, Int() $xpos, Int() $ypos )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 move-visually
-This function is not yet available
 
 Move the iterator a given number of characters visually, treating
 it as the strong cursor position.
@@ -1222,10 +1200,10 @@ of the current run, and there may be jumps when the cursor
 is moved off of the end of a run.
 
 =begin code
-method move-visually ( CArray[N-TextIter]  $iter, Int() $count --> Bool )
+method move-visually ( N-Object $iter, Int() $count --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 =item $count; number of characters to move (negative moves left,
    positive moves right).
 
@@ -1356,7 +1334,6 @@ method scroll-mark-onscreen ( N-Object() $mark )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 scroll-to-iter
-This function is not yet available
 
 Scrolls C<$text-view> so that C<$iter> is on the screen in the position
 indicated by C<$xalign> and C<$yalign>.
@@ -1375,10 +1352,10 @@ using C<.scroll-to-mark()> which saves a point to be
 scrolled to after line validation.
 
 =begin code
-method scroll-to-iter ( CArray[N-TextIter]  $iter, Num() $within-margin, Bool() $use-align, Num() $xalign, Num() $yalign --> Bool )
+method scroll-to-iter ( N-Object $iter, Num() $within-margin, Bool() $use-align, Num() $xalign, Num() $yalign --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 =item $within-margin; margin as a [0.0,0.5) fraction of screen size.
 =item $use-align; whether to use alignment arguments (if C<False>,
    just get the mark onscreen).
@@ -1438,6 +1415,8 @@ Sets the behavior of the text widget when the <kbd>Tab</kbd> key is pressed.
 If C<$accepts-tab> is C<True>, a tab character is inserted. If C<$accepts-tab>
 is C<False> the keyboard focus is moved to the next widget in the focus
 chain.
+
+Focus can always be moved using <kbd>Ctrl</kbd>+<kbd>Tab</kbd>.
 
 =begin code
 method set-accepts-tab ( Bool() $accepts-tab )
@@ -1516,7 +1495,7 @@ A buffer with no editable text probably shouldn’t have a visible
 cursor, so you may want to turn the cursor off.
 
 Note that this property may be overridden by the
-[property C<$GtkSettings>:gtk-keynav-use-caret] setting.
+I<gtk-keynav-use-caret defined in Gnome::Gtk4::Settings> setting.
 
 =begin code
 method set-cursor-visible ( Bool() $setting )
@@ -1584,14 +1563,13 @@ method set-extra-menu ( N-Object() $model )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-gutter
-This function is not yet available
 
 Places C<$widget> into the gutter specified by C<$win>.
  C<$win> must be one of C<GTK_TEXT_WINDOW_LEFT>, C<GTK_TEXT_WINDOW_RIGHT>,
 C<GTK_TEXT_WINDOW_TOP>, or C<GTK_TEXT_WINDOW_BOTTOM>.
 
 =begin code
-method set-gutter ( GtkTextWindowType  $win, N-Object() $widget )
+method set-gutter ( GtkTextWindowType $win, N-Object() $widget )
 =end code
 
 =item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-textview>.
@@ -1633,9 +1611,9 @@ method set-indent ( Int() $indent )
 =begin pod
 =head2 set-input-hints
 
-Sets the B<input-hints> of the B<Gnome::Gtk4::TextView>.
+Sets the B<input>-hints` of the B<Gnome::Gtk4::TextView>.
 
-The B<input-hints> allow input methods to fine-tune
+The B<input>-hints` allow input methods to fine-tune
 their behaviour.
 
 =begin code
@@ -1657,9 +1635,9 @@ method set-input-hints ( UInt $hints )
 =begin pod
 =head2 set-input-purpose
 
-Sets the B<input-purpose> of the B<Gnome::Gtk4::TextView>.
+Sets the B<input>-purpose` of the B<Gnome::Gtk4::TextView>.
 
-The B<input-purpose> can be used by on-screen keyboards
+The B<input>-purpose` can be used by on-screen keyboards
 and other input methods to adjust their behaviour.
 
 =begin code
@@ -1875,10 +1853,10 @@ Sets the default tab stops for paragraphs in C<$text-view>.
 Tags in the buffer may override the default.
 
 =begin code
-method set-tabs ( CArray[N-TabArray] $tabs )
+method set-tabs ( N-Object $tabs )
 =end code
 
-=item $tabs; tabs as a B<Gnome::Pango::N-TabArray>.
+=item $tabs; tabs as a B<Gnome::Pango::N-TabArray>
 
 =begin comment
 
@@ -1937,7 +1915,6 @@ method set-wrap-mode ( GtkWrapMode $wrap-mode )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 starts-display-line
-This function is not yet available
 
 Determines whether C<$iter> is at the start of a display line.
 
@@ -1945,10 +1922,10 @@ See C<.forward-display-line()> for an
 explanation of display lines vs. paragraphs.
 
 =begin code
-method starts-display-line ( CArray[N-TextIter]  $iter --> Bool )
+method starts-display-line ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; a B<Gnome::Gtk4::N-TextIter>.
+=item $iter; a B<Gnome::Gtk4::N-TextIter>
 
 Return value; C<True> if C<$iter> begins a wrapped line. 
 
@@ -1964,13 +1941,12 @@ Return value; C<True> if C<$iter> begins a wrapped line.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 window-to-buffer-coords
-This function is not yet available
 
 Converts coordinates on the window identified by C<$win> to buffer
 coordinates.
 
 =begin code
-method window-to-buffer-coords ( GtkTextWindowType  $win, Int() $window-x, Int() $window-y, Array[Int] $buffer-x, Array[Int] $buffer-y )
+method window-to-buffer-coords ( GtkTextWindowType $win, Int() $window-x, Int() $window-y, Array[Int] $buffer-x, Array[Int] $buffer-y )
 =end code
 
 =item $win; a C<enumeration GtkTextWindowType defined in Gnome::Gtk4::T-textview>.
@@ -2003,7 +1979,7 @@ Gets emitted when the user asks for it.
 The I<backspace> signal is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Backspace</kbd> and <kbd>Shift</kbd>-<kbd>Backspace</kbd>.
+<kbd>Backspace</kbd> and <kbd>Shift</kbd>+<kbd>Backspace</kbd>.
 
 =begin code
 method handler (
@@ -2034,8 +2010,8 @@ Gets emitted to copy the selection to the clipboard.
 The I<copy-clipboard> signal is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>c</kbd> and
-<kbd>Ctrl</kbd>-<kbd>Insert</kbd>.
+<kbd>Ctrl</kbd>+<kbd>c</kbd> and
+<kbd>Ctrl</kbd>+<kbd>Insert</kbd>.
 
 =begin code
 method handler (
@@ -2066,8 +2042,8 @@ Gets emitted to cut the selection to the clipboard.
 The I<cut-clipboard> signal is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>x</kbd> and
-<kbd>Shift</kbd>-<kbd>Delete</kbd>.
+<kbd>Ctrl</kbd>+<kbd>x</kbd> and
+<kbd>Shift</kbd>+<kbd>Delete</kbd>.
 
 =begin code
 method handler (
@@ -2102,8 +2078,8 @@ if there is one, otherwise it deletes the requested number
 of characters.
 
 The default bindings for this signal are <kbd>Delete</kbd> for
-deleting a character, <kbd>Ctrl</kbd>-<kbd>Delete</kbd> for
-deleting a word and <kbd>Ctrl</kbd>-<kbd>Backspace</kbd> for
+deleting a character, <kbd>Ctrl</kbd>+<kbd>Delete</kbd> for
+deleting a word and <kbd>Ctrl</kbd>+<kbd>Backspace</kbd> for
 deleting a word backwards.
 
 =begin code
@@ -2139,9 +2115,9 @@ Emitted when the selection needs to be extended at C<$location>.
 =begin code
 method handler (
    $granularity,
-  N-TextIter _UA_ $location,
-  N-TextIter _UA_ $start,
-  N-TextIter _UA_ $end,
+  N-Object $location,
+  N-Object $start,
+  N-Object $end,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextView :$_widget,
@@ -2210,8 +2186,8 @@ Gets emitted to present the Emoji chooser for the C<$text-view>.
 The I<insert-emoji> signal is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>.</kbd> and
-<kbd>Ctrl</kbd>-<kbd>;</kbd>
+<kbd>Ctrl</kbd>+<kbd>.</kbd> and
+<kbd>Ctrl</kbd>+<kbd>;</kbd>
 
 =begin code
 method handler (
@@ -2254,10 +2230,10 @@ There are too many key combinations to list them all here.
 
 =item <kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd>
   move by individual characters/lines
-=item <kbd>Ctrl</kbd>-<kbd>→</kbd>, etc. move by words/paragraphs
-=item <kbd>Home</kbd>, <kbd>End</kbd> move to the ends of the buffer
-=item <kbd>PgUp</kbd>, <kbd>PgDn</kbd> move vertically by pages
-=item <kbd>Ctrl</kbd>-<kbd>PgUp</kbd>, <kbd>Ctrl</kbd>-<kbd>PgDn</kbd>
+=item <kbd>Ctrl</kbd>+<kbd>←</kbd>, etc. move by words/paragraphs
+=item <kbd>Home</kbd> and <kbd>End</kbd> move to the ends of the buffer
+=item <kbd>PgUp</kbd> and <kbd>PgDn</kbd> move vertically by pages
+=item <kbd>Ctrl</kbd>+<kbd>PgUp</kbd> and <kbd>Ctrl</kbd>+<kbd>PgDn</kbd>
   move horizontally by pages
 
 =begin code
@@ -2333,8 +2309,8 @@ into the text view.
 The I<paste-clipboard> signal is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>v</kbd> and
-<kbd>Shift</kbd>-<kbd>Insert</kbd>.
+<kbd>Ctrl</kbd>+<kbd>v</kbd> and
+<kbd>Shift</kbd>+<kbd>Insert</kbd>.
 
 =begin code
 method handler (
@@ -2400,10 +2376,10 @@ Gets emitted to select or unselect the complete contents of the text view.
 The I<select-all> signal is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>a</kbd> and
-<kbd>Ctrl</kbd>-<kbd>/</kbd> for selecting and
-<kbd>Shift</kbd>-<kbd>Ctrl</kbd>-<kbd>a</kbd> and
-<kbd>Ctrl</kbd>-<kbd>\</kbd> for unselecting.
+<kbd>Ctrl</kbd>+<kbd>a</kbd> and
+<kbd>Ctrl</kbd>+<kbd>/</kbd> for selecting and
+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>a</kbd> and
+<kbd>Ctrl</kbd>+<kbd>\</kbd> for unselecting.
 
 =begin code
 method handler (
@@ -2464,7 +2440,7 @@ method handler (
 =comment -----------------------------------------------------------------------
 =head3 toggle-cursor-visible
 
-Gets emitted to toggle the B<cursor-visible> property.
+Gets emitted to toggle the B<cursor>-visible` property.
 
 The I<toggle-cursor-visible> signal is a
 [keybinding signal](class.SignalAction.html).

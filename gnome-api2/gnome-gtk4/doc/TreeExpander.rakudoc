@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::TreeExpander
-
-![](images/treeexpander.png)
-
+=TITLE Gnome::Gtk4::TreeExpander
 =head1 Description
 
 B<Gnome::Gtk4::TreeExpander> is a widget that provides an expander for a list.
@@ -23,6 +20,11 @@ On top of this, the "listitem.expand", "listitem.collapse" and
 "listitem.toggle-expand" actions are provided to allow adding custom
 UI for managing expanded state.
 
+It is important to mention that you want to set the
+I<focusable defined in Gnome::Gtk4::ListItem> property to FALSE when using this
+widget, as you want the keyboard focus to be in the treexpander, and not
+inside the list to make use of the keybindings.
+
 The B<Gnome::Gtk4::TreeListModel> must be set to not be passthrough. Then it
 will provide B<Gnome::Gtk4::TreeListRow> items which can be set via
 C<.set-list-row()> on the expander.
@@ -30,28 +32,30 @@ The expander will then watch that row item automatically.
 C<.set-child()> sets the widget that displays
 the actual row contents.
 
-=head2 CSS nodes
+B<Gnome::Gtk4::TreeExpander> can be modified with properties such as
+I<indent-for-icon>,
+I<indent-for-depth>, and
+I<hide-expander> to achieve a different appearance.
+This can even be done to influence individual rows, for example by binding
+the I<hide-expander> property to the item count of
+the model of the treelistrow, to hide the expander for rows without children,
+even if the row is expandable.
 
-=begin comment
-treeexpander
-├── [indent]*
-├── [expander]
-╰── <child>
-
-=end comment
+=head3 CSS nodes
 
 B<Gnome::Gtk4::TreeExpander> has zero or one CSS nodes with the name "expander" that
-should display the expander icon. The node will be B<:checked> when it
+should display the expander icon. The node will be `:checked` when it
 is expanded. If the node is not expandable, an "indent" node will be
 displayed instead.
 
 For every level of depth, another "indent" node is prepended.
 
-=head2 Accessibility
+=head3 Accessibility
 
-B<Gnome::Gtk4::TreeExpander> uses the C<GTK_ACCESSIBLE_ROLE_GROUP> role. The expander icon
-is represented as a C<GTK_ACCESSIBLE_ROLE_BUTTON>, labelled by the expander's
-child, and toggling it will change the C<GTK_ACCESSIBLE_STATE_EXPANDED> state.
+Until GTK 4.10, B<Gnome::Gtk4::TreeExpander> used the B<GTK_ACCESSIBLE_ROLE_GROUP> role.
+
+Since GTK 4.12, B<Gnome::Gtk4::TreeExpander> uses the B<GTK_ACCESSIBLE_ROLE_BUTTON> role.
+Toggling it will change the B<GTK_ACCESSIBLE_STATE_EXPANDED> state.
 
 =begin comment
 
@@ -83,12 +87,6 @@ child, and toggling it will change the C<GTK_ACCESSIBLE_STATE_EXPANDED> state.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -142,6 +140,48 @@ Return value; The child displayed by C<$self>.
 
 #-------------------------------------------------------------------------------
 =begin pod
+=head2 get-hide-expander
+
+Gets whether the TreeExpander should be hidden in a GtkTreeListRow.
+
+=begin code
+method get-hide-expander (--> Bool )
+=end code
+
+Return value; TRUE if the expander icon should be hidden. Otherwise FALSE.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-indent-for-icon
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-indent-for-depth
+
+TreeExpander indents each level of depth with an additional indent.
+
+=begin code
+method get-indent-for-depth (--> Bool )
+=end code
+
+Return value; TRUE if the child should be indented . Otherwise FALSE.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-item
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
 =head2 get-indent-for-icon
 
 TreeExpander indents the child by the width of an expander-icon if it is not expandable.
@@ -155,7 +195,7 @@ Return value; TRUE if the child should be indented when not expandable. Otherwis
 =begin comment
 
 =head2 Example
-# Example for get-indent-for-icon
+# Example for get-list-row
 
 =end comment
 
@@ -169,11 +209,6 @@ Forwards the item set on the B<Gnome::Gtk4::TreeListRow> that C<$self> is managi
 
 This call is essentially equivalent to calling:
 
-=begin comment
-gtk_tree_list_row_get_item (gtk_tree_expander_get_list_row (@self));
-
-=end comment
-
 =begin code
 method get-item (--> gpointer )
 =end code
@@ -183,7 +218,7 @@ Return value; The item of the row.
 =begin comment
 
 =head2 Example
-# Example for get-item
+# Example for set-child
 
 =end comment
 
@@ -204,7 +239,7 @@ Return value; The list row displayed by C<$self>.
 =begin comment
 
 =head2 Example
-# Example for get-list-row
+# Example for set-indent-for-icon
 
 =end comment
 
@@ -225,7 +260,48 @@ method set-child ( N-Object() $child )
 =begin comment
 
 =head2 Example
-# Example for set-child
+# Example for set-list-row
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-hide-expander
+
+Sets whether the expander icon should be visible in a GtkTreeListRow.
+
+=begin code
+method set-hide-expander ( Bool() $hide-expander )
+=end code
+
+=item $hide-expander; TRUE if the expander should be hidden. Otherwise FALSE..
+
+=begin comment
+treeexpander
+├── [indent]*
+├── [expander]
+╰── <child>
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-indent-for-depth
+
+Sets if the TreeExpander should indent the child according to its depth.
+
+=begin code
+method set-indent-for-depth ( Bool() $indent-for-depth )
+=end code
+
+=item $indent-for-depth; TRUE if the child should be indented. Otherwise FALSE..
+
+=begin comment
+gtk_tree_list_row_get_item (gtk_tree_expander_get_list_row (@self));
 
 =end comment
 
@@ -243,13 +319,6 @@ method set-indent-for-icon ( Bool() $indent-for-icon )
 
 =item $indent-for-icon; TRUE if the child should be indented without expander. Otherwise FALSE..
 
-=begin comment
-
-=head2 Example
-# Example for set-indent-for-icon
-
-=end comment
-
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -263,13 +332,6 @@ method set-list-row ( N-Object() $list-row )
 =end code
 
 =item $list-row; a B<Gnome::Gtk4::TreeListRow>.
-
-=begin comment
-
-=head2 Example
-# Example for set-list-row
-
-=end comment
 
 =end pod
 

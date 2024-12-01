@@ -1,0 +1,26 @@
+=comment Package: Gtk4, C-Source: stringsorter
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gtk4::T-stringsorter
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Enumerations]---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Enumerations
+
+=head2 GtkCollation
+
+Describes how a B<Gnome::Gtk4::StringSorter> turns strings into sort keys to
+compare them.
+
+Note that the result of sorting will in general depend on the current locale
+unless the mode is C<$GTK-COLLATION-NONE>.
+=item C<GTK_COLLATION_NONE>; Don't do any collation
+=item C<GTK_COLLATION_UNICODE>; Use C<.utf8-collate-key() in package Gnome::GLib>
+=item C<GTK_COLLATION_FILENAME>; Use C<.utf8-collate-key-for-filename() in package Gnome::GLib>
+=end pod
+

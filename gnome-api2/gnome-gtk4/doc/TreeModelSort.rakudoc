@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::TreeModelSort
-
-![](images/treemodelsort.png)
-
+=TITLE Gnome::Gtk4::TreeModelSort
 =head1 Description
 
 A GtkTreeModel which makes an underlying tree model sortable
@@ -63,7 +60,7 @@ sort the second.
 
 To demonstrate how to access the underlying child model from the sort
 model, the next example will be a callback for the B<Gnome::Gtk4::TreeSelection>
-B<GtkTreeSelection::changed> signal.  In this callback, we get a string
+B<Gnome::Gtk4::TreeSelection>::changed` signal.  In this callback, we get a string
 from COLUMN_1 of the model.  We then modify the string, find the same
 selected row on the child model, and change the row there.
 
@@ -136,6 +133,8 @@ selection_changed (GtkTreeSelection *selection, gpointer data)
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -179,6 +178,8 @@ method new-with-model ( N-Object() $child-model --> Gnome::Gtk4::TreeModelSort \
 =begin pod
 =head2 clear-cache
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 This function should almost never be called.  It clears the C<$tree-model-sort>
 of any cached iterators that haven’t been reffed with
 gtk_tree_model_ref_node().  This might be useful if the child model being
@@ -203,16 +204,18 @@ method clear-cache ( )
 =begin pod
 =head2 convert-child-iter-to-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$sort-iter> to point to the row in C<$tree-model-sort> that corresponds to
 the row pointed at by C<$child-iter>.  If C<$sort-iter> was not set, C<False>
 is returned.  Note: a boolean is only returned since 2.14.
 
 =begin code
-method convert-child-iter-to-iter ( CArray[N-TreeIter] $sort-iter, CArray[N-TreeIter] $child-iter --> Bool )
+method convert-child-iter-to-iter ( N-Object $sort-iter, N-Object $child-iter --> Bool )
 =end code
 
-=item $sort-iter; An uninitialized B<Gnome::Gtk4::N-TreeIter>.
-=item $child-iter; A valid B<Gnome::Gtk4::N-TreeIter> pointing to a row on the child model.
+=item $sort-iter; An uninitialized B<Gnome::Gtk4::N-TreeIter>
+=item $child-iter; A valid B<Gnome::Gtk4::N-TreeIter> pointing to a row on the child model
 
 Return value; C<True>, if C<$sort-iter> was set, i.e. if C<$sort-iter> is a
 valid iterator pointer to a visible row in the child model.. 
@@ -230,15 +233,17 @@ valid iterator pointer to a visible row in the child model..
 =begin pod
 =head2 convert-child-path-to-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Converts C<$child-path> to a path relative to C<$tree-model-sort>.  That is, C<$child-path> points to a path in the child model.  The returned path will
 point to the same row in the sorted model.  If C<$child-path> isn’t a valid
 path on the child model, then undefined is returned.
 
 =begin code
-method convert-child-path-to-path ( CArray[N-TreePath] $child-path --> CArray[N-TreePath] )
+method convert-child-path-to-path ( N-Object $child-path --> N-Object )
 =end code
 
-=item $child-path; A B<Gnome::Gtk4::N-TreePath> to convert.
+=item $child-path; A B<Gnome::Gtk4::N-TreePath> to convert
 
 Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>. 
 
@@ -255,14 +260,16 @@ Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>.
 =begin pod
 =head2 convert-iter-to-child-iter
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets C<$child-iter> to point to the row pointed to by C<$sorted-iter>.
 
 =begin code
-method convert-iter-to-child-iter ( CArray[N-TreeIter] $child-iter, CArray[N-TreeIter] $sorted-iter )
+method convert-iter-to-child-iter ( N-Object $child-iter, N-Object $sorted-iter )
 =end code
 
-=item $child-iter; An uninitialized B<Gnome::Gtk4::N-TreeIter>.
-=item $sorted-iter; A valid B<Gnome::Gtk4::N-TreeIter> pointing to a row on C<$tree-model-sort>..
+=item $child-iter; An uninitialized B<Gnome::Gtk4::N-TreeIter>
+=item $sorted-iter; A valid B<Gnome::Gtk4::N-TreeIter> pointing to a row on C<$tree-model-sort>.
 
 =begin comment
 
@@ -277,6 +284,8 @@ method convert-iter-to-child-iter ( CArray[N-TreeIter] $child-iter, CArray[N-Tre
 =begin pod
 =head2 convert-path-to-child-path
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Converts C<$sorted-path> to a path on the child model of C<$tree-model-sort>.
 That is, C<$sorted-path> points to a location in C<$tree-model-sort>.  The
 returned path will point to the same location in the model not being
@@ -284,10 +293,10 @@ sorted.  If C<$sorted-path> does not point to a location in the child model,
 undefined is returned.
 
 =begin code
-method convert-path-to-child-path ( CArray[N-TreePath] $sorted-path --> CArray[N-TreePath] )
+method convert-path-to-child-path ( N-Object $sorted-path --> N-Object )
 =end code
 
-=item $sorted-path; A B<Gnome::Gtk4::N-TreePath> to convert.
+=item $sorted-path; A B<Gnome::Gtk4::N-TreePath> to convert
 
 Return value; A newly allocated B<Gnome::Gtk4::N-TreePath>. 
 
@@ -325,16 +334,18 @@ Return value; the "child model" being sorted.
 =begin pod
 =head2 iter-is-valid
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 > This function is slow. Only use it for debugging and/or testing
 > purposes.
 
 Checks if the given iter is a valid iter for this B<Gnome::Gtk4::TreeModelSort>.
 
 =begin code
-method iter-is-valid ( CArray[N-TreeIter] $iter --> Bool )
+method iter-is-valid ( N-Object $iter --> Bool )
 =end code
 
-=item $iter; A B<Gnome::Gtk4::N-TreeIter>.
+=item $iter; A B<Gnome::Gtk4::N-TreeIter>
 
 Return value; C<True> if the iter is valid, C<False> if the iter is invalid.. 
 
@@ -350,6 +361,8 @@ Return value; C<True> if the iter is valid, C<False> if the iter is invalid..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 reset-default-sort-func
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 This resets the default sort function to be in the “unsorted” state.  That
 is, it is in the same order as the child model. It will re-sort the model

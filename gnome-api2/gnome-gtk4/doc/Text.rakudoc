@@ -6,18 +6,15 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::Text
-
-![](images/text.png)
-
+=TITLE Gnome::Gtk4::Text
 =head1 Description
 
 The B<Gnome::Gtk4::Text> widget is a single-line text entry widget.
 
 B<Gnome::Gtk4::Text> is the common implementation of single-line text editing
-that is shared between B<Gnome::Gtk4::Entry>, B<Gnome::Gtk4::PasswordEntry>, B<Gnome::Gtk4::SpinButton>
-and other widgets. In all of these, B<Gnome::Gtk4::Text> is used as the delegate
-for the B<Gnome::Gtk4::R-Editable> implementation.
+that is shared between B<Gnome::Gtk4::Entry>, B<Gnome::Gtk4::PasswordEntry>,
+B<Gnome::Gtk4::SpinButton>, and other widgets. In all of these, B<Gnome::Gtk4::Text> is
+used as the delegate for the B<Gnome::Gtk4::R-Editable> implementation.
 
 A fairly large set of key bindings are supported by default. If the
 entered text is longer than the allocation of the widget, the widget
@@ -31,8 +28,8 @@ in the current font, but it can be changed with
 C<.set-invisible-char()>.
 
 If you are looking to add icons or progress display in an entry, look
-at B<Gnome::Gtk4::Entry>. There other alternatives for more specialized use cases,
-such as B<Gnome::Gtk4::SearchEntry>.
+at B<Gnome::Gtk4::Entry>. There other alternatives for more specialized use
+cases, such as B<Gnome::Gtk4::SearchEntry>.
 
 If you need multi-line editable text, look at B<Gnome::Gtk4::TextView>.
 
@@ -49,25 +46,25 @@ text[.read-only]
 
 =end comment
 
-B<Gnome::Gtk4::Text> has a main node with the name text. Depending on the properties
-of the widget, the .read-only style class may appear.
+B<Gnome::Gtk4::Text> has a main node with the name B<text>. Depending on the properties
+of the widget, the `.read-only` style class may appear.
 
-When the entry has a selection, it adds a subnode with the name selection.
+When the entry has a selection, it adds a subnode with the name B<selection>.
 
 When the entry is in overwrite mode, it adds a subnode with the name
-block-cursor that determines how the block cursor is drawn.
+B<block>-cursor` that determines how the block cursor is drawn.
 
-The CSS node for a context menu is added as a subnode below text as well.
+The CSS node for a context menu is added as a subnode with the name B<popup>.
 
-The undershoot nodes are used to draw the underflow indication when content
-is scrolled out of view. These nodes get the .left and .right style classes
+The B<undershoot> nodes are used to draw the underflow indication when content
+is scrolled out of view. These nodes get the `.left` or `.right` style class
 added depending on where the indication is drawn.
 
 When touch is used and touch selection handles are shown, they are using
-CSS nodes with name cursor-handle. They get the .top or .bottom style class
-depending on where they are shown in relation to the selection. If there is
-just a single handle for the text cursor, it gets the style class
-.insertion-cursor.
+CSS nodes with name B<cursor>-handle`. They get the `.top` or `.bottom` style
+class depending on where they are shown in relation to the selection. If
+there is just a single handle for the text cursor, it gets the style class
+`.insertion-cursor`.
 
 =head2 Accessibility
 
@@ -106,12 +103,6 @@ to accessibility.
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=head3 :build-id
-
-Create an object using a native object from a builder. See also B<Gnome::GObject::Object>.
-
-  multi method new ( Str :$build-id! )
 
 =end pod
 
@@ -166,7 +157,6 @@ method new-with-buffer ( N-Object() $buffer --> Gnome::Gtk4::Text \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 compute-cursor-extents
-This function is not yet available
 
 Determine the positions of the strong and weak cursors if the
 insertion point in the layout is at C<$position>.
@@ -180,12 +170,12 @@ the directionality opposite to the base direction are inserted.
 The rectangle positions are in widget coordinates.
 
 =begin code
-method compute-cursor-extents ( Int() $position, …, … )
+method compute-cursor-extents ( Int() $position, N-Object $strong, N-Object $weak )
 =end code
 
 =item $position; the character position.
-=item strong; location to store the strong cursor position. Note that each argument must be specified as a type followed by its value!
-=item weak; location to store the weak cursor position. Note that each argument must be specified as a type followed by its value!
+=item $strong; location to store the strong cursor position
+=item $weak; location to store the weak cursor position
 
 =begin comment
 
@@ -223,14 +213,13 @@ Return value; C<True> if the B<Gnome::Gtk4::Text> will activate the default widg
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-attributes
-This function is not yet available
 
 Gets the attribute list that was set on the B<Gnome::Gtk4::Text>.
 
 See C<.set-attributes()>.
 
 =begin code
-method get-attributes (--> CArray[N-AttrList]  )
+method get-attributes (--> N-Object )
 =end code
 
 Return value; the attribute list. 
@@ -483,7 +472,7 @@ Gets the tabstops that were set on the B<Gnome::Gtk4::Text>.
 See C<.set-tabs()>.
 
 =begin code
-method get-tabs (--> CArray[N-TabArray] )
+method get-tabs (--> N-Object )
 =end code
 
 Return value; the tabstops. 
@@ -621,15 +610,14 @@ method set-activates-default ( Bool() $activates )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attributes
-This function is not yet available
 
 Sets attributes that are applied to the text.
 
 =begin code
-method set-attributes ( CArray[N-AttrList]  $attrs )
+method set-attributes ( N-Object $attrs )
 =end code
 
-=item $attrs; a B<Gnome::Pango::N-AttrList>.
+=item $attrs; a B<Gnome::Pango::N-AttrList>
 
 =begin comment
 
@@ -885,10 +873,10 @@ method set-propagate-text-width ( Bool() $propagate-text-width )
 Sets tabstops that are applied to the text.
 
 =begin code
-method set-tabs ( CArray[N-TabArray] $tabs )
+method set-tabs ( N-Object $tabs )
 =end code
 
-=item $tabs; a B<Gnome::Pango::N-TabArray>.
+=item $tabs; a B<Gnome::Pango::N-TabArray>
 
 =begin comment
 
@@ -988,7 +976,7 @@ method unset-invisible-char ( )
 =comment -----------------------------------------------------------------------
 =head3 activate
 
-Emitted when the user hits the Enter key.
+Emitted when the user hits the <kbd>Enter</kbd> key.
 
 The default bindings for this signal are all forms
 of the <kbd>Enter</kbd> key.
@@ -1022,7 +1010,7 @@ Emitted when the user asks for it.
 This is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Backspace</kbd> and <kbd>Shift</kbd>-<kbd>Backspace</kbd>.
+<kbd>Backspace</kbd> and <kbd>Shift</kbd>+<kbd>Backspace</kbd>.
 
 =begin code
 method handler (
@@ -1053,8 +1041,8 @@ Emitted to copy the selection to the clipboard.
 This is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>c</kbd> and
-<kbd>Ctrl</kbd>-<kbd>Insert</kbd>.
+<kbd>Ctrl</kbd>+<kbd>c</kbd> and
+<kbd>Ctrl</kbd>+<kbd>Insert</kbd>.
 
 =begin code
 method handler (
@@ -1085,8 +1073,8 @@ Emitted to cut the selection to the clipboard.
 This is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>x</kbd> and
-<kbd>Shift</kbd>-<kbd>Delete</kbd>.
+<kbd>Ctrl</kbd>+<kbd>x</kbd> and
+<kbd>Shift</kbd>+<kbd>Delete</kbd>.
 
 =begin code
 method handler (
@@ -1121,7 +1109,7 @@ if there is one, otherwise it deletes the requested number
 of characters.
 
 The default bindings for this signal are <kbd>Delete</kbd>
-for deleting a character and <kbd>Ctrl</kbd>-<kbd>Delete</kbd>
+for deleting a character and <kbd>Ctrl</kbd>+<kbd>Delete</kbd>
 for deleting a word.
 
 =begin code
@@ -1190,8 +1178,8 @@ Emitted to present the Emoji chooser for the widget.
 This is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>.</kbd> and
-<kbd>Ctrl</kbd>-<kbd>;</kbd>
+<kbd>Ctrl</kbd>+<kbd>.</kbd> and
+<kbd>Ctrl</kbd>+<kbd>;</kbd>
 
 =begin code
 method handler (
@@ -1235,8 +1223,8 @@ There are too many key combinations to list them all here.
 
 =item <kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd>
   move by individual characters/lines
-=item <kbd>Ctrl</kbd>-<kbd>→</kbd>, etc. move by words/paragraphs
-=item <kbd>Home</kbd>, <kbd>End</kbd> move to the ends of the buffer
+=item <kbd>Ctrl</kbd>+<kbd>←</kbd>, etc. move by words/paragraphs
+=item <kbd>Home</kbd> and <kbd>End</kbd> move to the ends of the buffer
 
 =begin code
 method handler (
@@ -1273,7 +1261,7 @@ Emitted to paste the contents of the clipboard.
 This is a [keybinding signal](class.SignalAction.html).
 
 The default bindings for this signal are
-<kbd>Ctrl</kbd>-<kbd>v</kbd> and <kbd>Shift</kbd>-<kbd>Insert</kbd>.
+<kbd>Ctrl</kbd>+<kbd>v</kbd> and <kbd>Shift</kbd>+<kbd>Insert</kbd>.
 
 =begin code
 method handler (

@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-treeview
+=TITLE Gnome::Gtk4::T-treeview
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -31,26 +31,26 @@ An enum for determining where a dropped row goes.
 
 =head3 Signature
 =begin code
-:(  N-Object() $model, Int() $column, Str $key, CArray[N-TreeIter] $iter, gpointer $search-data  )
+:(  N-Object() $model, Int() $column, Str $key, N-Object $iter, gpointer $search-data  )
 =end code
 
 =item model; the B<Gnome::Gtk4::R-TreeModel> being searched
-=item column; the search column set by C<.set-search-column()>
+=item column; the search column set by gtk_tree_view_set_search_column()
 =item key; the key string to compare with
 =item iter; a B<Gnome::Gtk4::N-TreeIter> pointing the row of C<$model> that should be compared
  with C<$key>.
-=item search-data; user data from C<.set-search-equal-func()>
+=item search-data; user data from gtk_tree_view_set_search_equal_func()
 
-=head2 TreeViewRowSeparatorFunc
+=head2 TreeViewMappingFunc
 
 =head3 Signature
 =begin code
-:(  N-Object() $model, CArray[N-TreeIter] $iter, gpointer $data  )
+:(  N-Object() $tree-view, N-Object $path, gpointer $user-data  )
 =end code
 
-=item model; the B<Gnome::Gtk4::R-TreeModel>
-=item iter; a B<Gnome::Gtk4::N-TreeIter> pointing at a row in C<$model>
-=item data; user data
+=item tree-view; A B<Gnome::Gtk4::TreeView>
+=item path; The path that’s expanded
+=item user-data; user data
 
 =head2 TreeViewColumnDropFunc
 
@@ -65,15 +65,15 @@ An enum for determining where a dropped row goes.
 =item next-column; A B<Gnome::Gtk4::TreeViewColumn> on the other side of C<$column>
 =item data; user data
 
-=head2 TreeViewMappingFunc
+=head2 TreeViewRowSeparatorFunc
 
 =head3 Signature
 =begin code
-:(  N-Object() $tree-view, CArray[N-TreePath] $path, gpointer $user-data  )
+:(  N-Object() $model, N-Object $iter, gpointer $data  )
 =end code
 
-=item tree-view; A B<Gnome::Gtk4::TreeView>
-=item path; The path that’s expanded
-=item user-data; user data
+=item model; the B<Gnome::Gtk4::R-TreeModel>
+=item iter; a B<Gnome::Gtk4::N-TreeIter> pointing at a row in C<$model>
+=item data; user data
 
 =end pod

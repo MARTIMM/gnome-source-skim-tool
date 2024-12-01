@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::TreeViewColumn
-
-![](images/treeviewcolumn.png)
-
+=TITLE Gnome::Gtk4::TreeViewColumn
 =head1 Description
 
 A visible column in a B<Gnome::Gtk4::TreeView> widget
@@ -46,6 +43,8 @@ about the CSS node structure for treeviews and their headers.
 =begin pod
 =head1 Class initialization
 
+B<Note: The native version of this class is deprecated in gtk4-lib() since version 4.10>
+
 =head2 new
 
 =head3 :native-object
@@ -59,6 +58,8 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-treeviewcolumn
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::TreeViewColumn>.
 
@@ -78,6 +79,8 @@ method new-treeviewcolumn ( --> Gnome::Gtk4::TreeViewColumn \)
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 new-with-area
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::TreeViewColumn> using C<$area> to render its cells.
 
@@ -100,6 +103,8 @@ method new-with-area ( N-Object() $area --> Gnome::Gtk4::TreeViewColumn \)
 =begin pod
 =head2 new-with-attributes
 This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Creates a new B<Gnome::Gtk4::TreeViewColumn> with a number of default values.
 This is equivalent to calling C<.set-title()>,
@@ -153,6 +158,8 @@ method new-with-attributes ( Str $title, N-Object() $cell, … --> Gnome::Gtk4::
 =begin pod
 =head2 add-attribute
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Adds an attribute mapping to the list in C<$tree-column>.
 
 The C<$column> is the
@@ -183,6 +190,8 @@ method add-attribute ( N-Object() $cell-renderer, Str $attribute, Int() $column 
 =begin pod
 =head2 cell-get-position
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Obtains the horizontal position and size of a cell in a column.
 
 If the  cell is not found in the column, C<$start-pos> and C<$width>
@@ -212,6 +221,8 @@ Return value; C<True> if C<$cell> belongs to C<$tree-column>.
 =begin pod
 =head2 cell-get-size
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Obtains the width and height needed to render the column.  This is used
 primarily by the B<Gnome::Gtk4::TreeView>.
 
@@ -237,6 +248,8 @@ method cell-get-size ( Array[Int] $x-offset, Array[Int] $y-offset, Array[Int] $w
 =begin pod
 =head2 cell-is-visible
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if any of the cells packed into the C<$tree-column> are visible.
 For this to be meaningful, you must first initialize the cells with
 C<.cell-set-cell-data()>
@@ -260,17 +273,19 @@ Return value; C<True>, if any of the cells packed into the C<$tree-column> are c
 =begin pod
 =head2 cell-set-cell-data
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the cell renderer based on the C<$tree-model> and C<$iter>.  That is, for
 every attribute mapping in C<$tree-column>, it will get a value from the set
 column on the C<$iter>, and use that value to set the attribute on the cell
 renderer.  This is used primarily by the B<Gnome::Gtk4::TreeView>.
 
 =begin code
-method cell-set-cell-data ( N-Object() $tree-model, CArray[N-TreeIter] $iter, Bool() $is-expander, Bool() $is-expanded )
+method cell-set-cell-data ( N-Object() $tree-model, N-Object $iter, Bool() $is-expander, Bool() $is-expanded )
 =end code
 
 =item $tree-model; The B<Gnome::Gtk4::R-TreeModel> to get the cell renderers attributes from..
-=item $iter; The B<Gnome::Gtk4::N-TreeIter> to get the cell renderer’s attributes from..
+=item $iter; The B<Gnome::Gtk4::N-TreeIter> to get the cell renderer’s attributes from.
 =item $is-expander; C<True>, if the row has children.
 =item $is-expanded; C<True>, if the row has visible children.
 
@@ -286,6 +301,8 @@ method cell-set-cell-data ( N-Object() $tree-model, CArray[N-TreeIter] $iter, Bo
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 clear
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Unsets all the mappings on all renderers on the C<$tree-column>.
 
@@ -305,6 +322,8 @@ method clear ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 clear-attributes
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Clears all existing attributes previously set with
 C<.set-attributes()>.
@@ -328,6 +347,8 @@ method clear-attributes ( N-Object() $cell-renderer )
 =begin pod
 =head2 clicked
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Emits the “clicked” signal on the column.  This function will only work if C<$tree-column> is clickable.
 
 =begin code
@@ -346,6 +367,8 @@ method clicked ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 focus-cell
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the current keyboard focus to be at C<$cell>, if the column contains
 2 or more editable and activatable cells.
@@ -369,6 +392,8 @@ method focus-cell ( N-Object() $cell )
 =begin pod
 =head2 get-alignment
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the current x alignment of C<$tree-column>.  This value can range
 between 0.0 and 1.0.
 
@@ -391,6 +416,8 @@ Return value; The current alignent of C<$tree-column>..
 =begin pod
 =head2 get-button
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the button used in the treeview column header
 
 =begin code
@@ -411,6 +438,8 @@ Return value; The button for the column header..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-clickable
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns C<True> if the user can click on the header for the column.
 
@@ -433,6 +462,8 @@ Return value; C<True> if user can click the column header..
 =begin pod
 =head2 get-expand
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if the column expands to fill available space.
 
 =begin code
@@ -453,6 +484,8 @@ Return value; C<True> if the column expands to fill available space..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-fixed-width
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the fixed width of the column.  This may not be the actual displayed
 width of the column; for that, use C<.get-width()>.
@@ -476,6 +509,8 @@ Return value; The fixed width of the column..
 =begin pod
 =head2 get-max-width
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the maximum width in pixels of the C<$tree-column>, or -1 if no maximum
 width is set.
 
@@ -497,6 +532,8 @@ Return value; The maximum width of the C<$tree-column>..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-min-width
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the minimum width in pixels of the C<$tree-column>, or -1 if no minimum
 width is set.
@@ -520,6 +557,8 @@ Return value; The minimum width of the C<$tree-column>..
 =begin pod
 =head2 get-reorderable
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if the C<$tree-column> can be reordered by the user.
 
 =begin code
@@ -540,6 +579,8 @@ Return value; C<True> if the C<$tree-column> can be reordered by the user..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-resizable
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns C<True> if the C<$tree-column> can be resized by the end user.
 
@@ -562,6 +603,8 @@ Return value; C<True>, if the C<$tree-column> can be resized..
 =begin pod
 =head2 get-sizing
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the current type of C<$tree-column>.
 
 =begin code
@@ -582,6 +625,8 @@ Return value; The type of C<$tree-column>..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-sort-column-id
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the logical C<$sort-column-id> that the model sorts on
 when this column is selected for sorting.
@@ -608,6 +653,8 @@ Return value; the current C<$sort-column-id> for this column, or -1 if
 =begin pod
 =head2 get-sort-indicator
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Gets the value set by C<.set-sort-indicator()>.
 
 =begin code
@@ -628,6 +675,8 @@ Return value; whether the sort indicator arrow is displayed.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-sort-order
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Gets the value set by C<.set-sort-order()>.
 
@@ -650,6 +699,8 @@ Return value; the sort order the sort indicator is indicating.
 =begin pod
 =head2 get-spacing
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the spacing of C<$tree-column>.
 
 =begin code
@@ -670,6 +721,8 @@ Return value; the spacing of C<$tree-column>..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-title
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the title of the widget.
 
@@ -692,6 +745,8 @@ modified or freed..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-tree-view
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the B<Gnome::Gtk4::TreeView> wherein C<$tree-column> has been inserted.
 If C<$column> is currently not inserted in any tree view, undefined is
@@ -717,6 +772,8 @@ Return value; The tree view wherein C<$column>
 =begin pod
 =head2 get-visible
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns C<True> if C<$tree-column> is visible.
 
 =begin code
@@ -738,6 +795,8 @@ the tree will show the column..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-widget
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Returns the B<Gnome::Gtk4::Widget> in the button on the column header.
 
@@ -762,6 +821,8 @@ Return value; The B<Gnome::Gtk4::Widget> in the column header.
 =begin pod
 =head2 get-width
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the current size of C<$tree-column> in pixels.
 
 =begin code
@@ -783,6 +844,8 @@ Return value; The current width of C<$tree-column>..
 =begin pod
 =head2 get-x-offset
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Returns the current X offset of C<$tree-column> in pixels.
 
 =begin code
@@ -803,6 +866,8 @@ Return value; The current X offset of C<$tree-column>..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 pack-end
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Adds the C<$cell> to end of the column. If C<$expand> is C<False>, then the C<$cell>
 is allocated no more space than it needs. Any unused space is divided
@@ -828,6 +893,8 @@ method pack-end ( N-Object() $cell, Bool() $expand )
 =begin pod
 =head2 pack-start
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Packs the C<$cell> into the beginning of the column. If C<$expand> is C<False>, then
 the C<$cell> is allocated no more space than it needs. Any unused space is divided
 evenly between cells for which C<$expand> is C<True>.
@@ -852,6 +919,8 @@ method pack-start ( N-Object() $cell, Bool() $expand )
 =begin pod
 =head2 queue-resize
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Flags the column, and the cell renderers added to this column, to have
 their sizes renegotiated.
 
@@ -871,6 +940,8 @@ method queue-resize ( )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-alignment
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the alignment of the title or custom widget inside the column header.
 The alignment determines its location inside the button -- 0.0 for left, 0.5
@@ -895,6 +966,8 @@ method set-alignment ( Num() $xalign )
 =begin pod
 =head2 set-attributes
 This function is not yet available
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the attributes in the list as the attributes of C<$tree-column>.
 
@@ -923,6 +996,8 @@ method set-attributes ( N-Object() $cell-renderer, … )
 =head2 set-cell-data-func
 This function is not yet available
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the B<Gnome::Gtk4::T-treeviewcolumn> to use for the column.
 
 This
@@ -936,7 +1011,7 @@ method set-cell-data-func ( N-Object() $cell-renderer, &func, gpointer $func-dat
 =end code
 
 =item $cell-renderer; A B<Gnome::Gtk4::CellRenderer>.
-=item &func; The B<Gnome::Gtk4::T-treeviewcolumn> to use.. Tthe function must be specified with following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-TreeIter $iter, gpointer $data )>.
+=item &func; The B<Gnome::Gtk4::T-treeviewcolumn> to use.. Tthe function must be specified with following signature; C<:( N-Object $tree-column, N-Object $cell, N-Object $tree-model, N-Object $iter, gpointer $data )>.
 =item $func-data; The user data for C<$func>..
 =item destroy; The destroy notification for C<$func-data>. Note that each argument must be specified as a type followed by its value!
 
@@ -952,6 +1027,8 @@ method set-cell-data-func ( N-Object() $cell-renderer, &func, gpointer $func-dat
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-clickable
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the header to be active if C<$clickable> is C<True>.  When the header is
 active, then it can take keyboard focus, and can be clicked.
@@ -974,6 +1051,8 @@ method set-clickable ( Bool() $clickable )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-expand
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the column to take available extra space.  This space is shared equally
 amongst all columns that have the expand set to C<True>.  If no column has this
@@ -1001,6 +1080,8 @@ method set-expand ( Bool() $expand )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-fixed-width
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 If C<$fixed-width> is not -1, sets the fixed width of C<$tree-column>; otherwise
 unsets it.  The effective value of C<$fixed-width> is clamped between the
@@ -1032,6 +1113,8 @@ method set-fixed-width ( Int() $fixed-width )
 =begin pod
 =head2 set-max-width
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the maximum width of the C<$tree-column>.  If C<$max-width> is -1, then the
 maximum width is unset.  Note, the column can actually be wider than max
 width if it’s the last column in a view.  In this case, the column expands to
@@ -1056,6 +1139,8 @@ method set-max-width ( Int() $max-width )
 =begin pod
 =head2 set-min-width
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the minimum width of the C<$tree-column>.  If C<$min-width> is -1, then the
 minimum width is unset.
 
@@ -1078,6 +1163,8 @@ method set-min-width ( Int() $min-width )
 =begin pod
 =head2 set-reorderable
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 If C<$reorderable> is C<True>, then the column can be reordered by the end user
 dragging the header.
 
@@ -1099,6 +1186,8 @@ method set-reorderable ( Bool() $reorderable )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-resizable
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 If C<$resizable> is C<True>, then the user can explicitly resize the column by
 grabbing the outer edge of the column button.
@@ -1126,6 +1215,8 @@ method set-resizable ( Bool() $resizable )
 =begin pod
 =head2 set-sizing
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the growth behavior of C<$tree-column> to C<$type>.
 
 =begin code
@@ -1146,6 +1237,8 @@ method set-sizing ( GtkTreeViewColumnSizing $type )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-sort-column-id
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the logical C<$sort-column-id> that this column sorts on when this column
 is selected for sorting.  Doing so makes the column header clickable.
@@ -1168,6 +1261,8 @@ method set-sort-column-id ( Int() $sort-column-id )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-sort-indicator
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Call this function with a C<$setting> of C<True> to display an arrow in
 the header button indicating the column is sorted. Call
@@ -1192,6 +1287,8 @@ method set-sort-indicator ( Bool() $setting )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-sort-order
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Changes the appearance of the sort indicator.
 
@@ -1224,6 +1321,8 @@ method set-sort-order ( GtkSortType $order )
 =begin pod
 =head2 set-spacing
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the spacing field of C<$tree-column>, which is the number of pixels to
 place between cell renderers packed into it.
 
@@ -1245,6 +1344,8 @@ method set-spacing ( Int() $spacing )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-title
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the title of the C<$tree-column>.  If a custom widget has been set, then
 this value is ignored.
@@ -1268,6 +1369,8 @@ method set-title ( Str $title )
 =begin pod
 =head2 set-visible
 
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
+
 Sets the visibility of C<$tree-column>.
 
 =begin code
@@ -1288,6 +1391,8 @@ method set-visible ( Bool() $visible )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-widget
+
+B<Note: The native version of this routine is deprecated in gtk4-lib() since version 4.10>
 
 Sets the widget in the header to be C<$widget>.  If widget is undefined, then the
 header button is set with a B<Gnome::Gtk4::Label> set to the title of C<$tree-column>.

@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gtk4::T-spinbutton
+=TITLE Gnome::Gtk4::T-spinbutton
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ use v6.d;
 Constant to return from a signal handler for the I<input>
 signal in case of conversion failure.
 
-See I<input>.
+See I<input defined in SpinButton>.
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ See C<.set-update-policy()>.
 =head2 GtkSpinType
 
 The values of the GtkSpinType enumeration are used to specify the
-change to make in C<.spin()>.
+change to make in gtk_spin_button_spin().
 =item C<GTK_SPIN_STEP_FORWARD>; Increment by the adjustments step increment.
 =item C<GTK_SPIN_STEP_BACKWARD>; Decrement by the adjustments step increment.
 =item C<GTK_SPIN_PAGE_FORWARD>; Increment by the adjustments page increment.

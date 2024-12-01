@@ -6,10 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gtk4::TextBuffer
-
-![](images/textbuffer.png)
-
+=TITLE Gnome::Gtk4::TextBuffer
 =head1 Description
 
 Stores text and attributes for display in a B<Gnome::Gtk4::TextView>.
@@ -98,11 +95,11 @@ Emits the I<mark-set> signal as notification
 of the mark's initial placement.
 
 =begin code
-method add-mark ( N-Object() $mark, CArray[N-TextIter] $where )
+method add-mark ( N-Object() $mark, N-Object $where )
 =end code
 
 =item $mark; the mark to add.
-=item $where; location to place mark.
+=item $where; location to place mark
 
 =begin comment
 
@@ -148,12 +145,12 @@ The default handler for the signal applies C<$tag> to the given range. C<$start>
 not have to be in order.
 
 =begin code
-method apply-tag ( N-Object() $tag, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+method apply-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 =end code
 
 =item $tag; a B<Gnome::Gtk4::TextTag>.
-=item $start; one bound of range to be tagged.
-=item $end; other bound of range to be tagged.
+=item $start; one bound of range to be tagged
+=item $end; other bound of range to be tagged
 
 =begin comment
 
@@ -175,12 +172,12 @@ tag table to get a B<Gnome::Gtk4::TextTag>, then calls
 C<.apply-tag()>.
 
 =begin code
-method apply-tag-by-name ( Str $name, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+method apply-tag-by-name ( Str $name, N-Object $start, N-Object $end )
 =end code
 
 =item $name; name of a named B<Gnome::Gtk4::TextTag>.
-=item $start; one bound of range to be tagged.
-=item $end; other bound of range to be tagged.
+=item $start; one bound of range to be tagged
+=item $end; other bound of range to be tagged
 
 =begin comment
 
@@ -208,10 +205,10 @@ invalid after calling this function; however, the C<$iter> will be
 re-initialized to point to the location where text was deleted.
 
 =begin code
-method backspace ( CArray[N-TextIter] $iter, Bool() $interactive, Bool() $default-editable --> Bool )
+method backspace ( N-Object $iter, Bool() $interactive, Bool() $default-editable --> Bool )
 =end code
 
-=item $iter; a position in C<$buffer>.
+=item $iter; a position in C<$buffer>
 =item $interactive; whether the deletion is caused by user interaction.
 =item $default-editable; whether the buffer is editable by default.
 
@@ -326,10 +323,10 @@ The new anchor is owned by the buffer; no reference count is
 returned to the caller of this function.
 
 =begin code
-method create-child-anchor ( CArray[N-TextIter] $iter --> N-Object )
+method create-child-anchor ( N-Object $iter --> N-Object )
 =end code
 
-=item $iter; location in the buffer.
+=item $iter; location in the buffer
 
 Return value; the created child anchor. 
 
@@ -367,11 +364,11 @@ Emits the I<mark-set> signal as notification
 of the mark's initial placement.
 
 =begin code
-method create-mark ( Str $mark-name, CArray[N-TextIter] $where, Bool() $left-gravity --> N-Object )
+method create-mark ( Str $mark-name, N-Object $where, Bool() $left-gravity --> N-Object )
 =end code
 
 =item $mark-name; name for mark.
-=item $where; location to place mark.
+=item $where; location to place mark
 =item $left-gravity; whether the mark has left gravity.
 
 Return value; the new B<Gnome::Gtk4::TextMark> object. 
@@ -462,11 +459,11 @@ calling this function; however, the C<$start> and C<$end> will be
 re-initialized to point to the location where text was deleted.
 
 =begin code
-method delete ( CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+method delete ( N-Object $start, N-Object $end )
 =end code
 
-=item $start; a position in C<$buffer>.
-=item $end; another position in C<$buffer>.
+=item $start; a position in C<$buffer>
+=item $end; another position in C<$buffer>
 
 =begin comment
 
@@ -489,11 +486,11 @@ to point to the location of the last deleted range, or left
 untouched if no text was deleted.
 
 =begin code
-method delete-interactive ( CArray[N-TextIter] $start-iter, CArray[N-TextIter] $end-iter, Bool() $default-editable --> Bool )
+method delete-interactive ( N-Object $start-iter, N-Object $end-iter, Bool() $default-editable --> Bool )
 =end code
 
-=item $start-iter; start of range to delete.
-=item $end-iter; end of range.
+=item $start-iter; start of range to delete
+=item $end-iter; end of range
 =item $default-editable; whether the buffer is editable by default.
 
 Return value; whether some text was actually deleted. 
@@ -650,11 +647,11 @@ Retrieves the first and last iterators in the buffer, i.e. the
 entire buffer lies within the range [ C<$start>, C<$end>).
 
 =begin code
-method get-bounds ( CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+method get-bounds ( N-Object $start, N-Object $end )
 =end code
 
-=item $start; iterator to initialize with first position in the buffer.
-=item $end; iterator to initialize with the end iterator.
+=item $start; iterator to initialize with first position in the buffer
+=item $end; iterator to initialize with the end iterator
 
 =begin comment
 
@@ -675,7 +672,7 @@ Gets whether there is a redoable action in the history.
 method get-can-redo (--> Bool )
 =end code
 
-Return value; C<True> if there is an redoable action. 
+Return value; C<True> if there is a redoable action. 
 
 =begin comment
 
@@ -749,7 +746,7 @@ changes to the buffer that cannot be undone.
 method get-enable-undo (--> Bool )
 =end code
 
-Return value; No documentation about its value and use. 
+Return value; C<True> if undoing and redoing changes to the buffer is allowed.. 
 
 =begin comment
 
@@ -774,10 +771,10 @@ the buffer (call C<.get-start-iter()> to get
 character position 0) to the end iterator.
 
 =begin code
-method get-end-iter ( CArray[N-TextIter] $iter )
+method get-end-iter ( N-Object $iter )
 =end code
 
-=item $iter; iterator to initialize.
+=item $iter; iterator to initialize
 
 =begin comment
 
@@ -841,10 +838,10 @@ Return value; insertion point mark.
 Obtains the location of C<$anchor> within C<$buffer>.
 
 =begin code
-method get-iter-at-child-anchor ( CArray[N-TextIter] $iter, N-Object() $anchor )
+method get-iter-at-child-anchor ( N-Object $iter, N-Object() $anchor )
 =end code
 
-=item $iter; an iterator to be initialized.
+=item $iter; an iterator to be initialized
 =item $anchor; a child anchor that appears in C<$buffer>.
 
 =begin comment
@@ -866,10 +863,10 @@ If C<$line-number> is greater than or equal to the number of lines
 in the C<$buffer>, the end iterator is returned.
 
 =begin code
-method get-iter-at-line ( CArray[N-TextIter] $iter, Int() $line-number --> Bool )
+method get-iter-at-line ( N-Object $iter, Int() $line-number --> Bool )
 =end code
 
-=item $iter; iterator to initialize.
+=item $iter; iterator to initialize
 =item $line-number; line number counting from 0.
 
 Return value; whether the exact position has been found. 
@@ -896,10 +893,10 @@ the end iterator is returned. And if C<$byte-index> is off the
 end of the line, the iterator at the end of the line is returned.
 
 =begin code
-method get-iter-at-line-index ( CArray[N-TextIter] $iter, Int() $line-number, Int() $byte-index --> Bool )
+method get-iter-at-line-index ( N-Object $iter, Int() $line-number, Int() $byte-index --> Bool )
 =end code
 
-=item $iter; iterator to initialize.
+=item $iter; iterator to initialize
 =item $line-number; line number counting from 0.
 =item $byte-index; byte index from start of line.
 
@@ -928,10 +925,10 @@ the end iterator is returned. And if C<$char-offset> is off the
 end of the line, the iterator at the end of the line is returned.
 
 =begin code
-method get-iter-at-line-offset ( CArray[N-TextIter] $iter, Int() $line-number, Int() $char-offset --> Bool )
+method get-iter-at-line-offset ( N-Object $iter, Int() $line-number, Int() $char-offset --> Bool )
 =end code
 
-=item $iter; iterator to initialize.
+=item $iter; iterator to initialize
 =item $line-number; line number counting from 0.
 =item $char-offset; char offset from start of line.
 
@@ -953,10 +950,10 @@ Return value; whether the exact position has been found.
 Initializes C<$iter> with the current position of C<$mark>.
 
 =begin code
-method get-iter-at-mark ( CArray[N-TextIter] $iter, N-Object() $mark )
+method get-iter-at-mark ( N-Object $iter, N-Object() $mark )
 =end code
 
-=item $iter; iterator to initialize.
+=item $iter; iterator to initialize
 =item $mark; a B<Gnome::Gtk4::TextMark> in C<$buffer>.
 
 =begin comment
@@ -980,10 +977,10 @@ of characters in the buffer, C<$iter> is initialized to the end iterator,
 the iterator one past the last valid character in the buffer.
 
 =begin code
-method get-iter-at-offset ( CArray[N-TextIter] $iter, Int() $char-offset )
+method get-iter-at-offset ( N-Object $iter, Int() $char-offset )
 =end code
 
-=item $iter; iterator to initialize.
+=item $iter; iterator to initialize
 =item $char-offset; char offset from start of buffer, counting from 0, or -1.
 
 =begin comment
@@ -1056,7 +1053,7 @@ copy of the inserted or removed text within the text buffer.
 method get-max-undo-levels (--> UInt )
 =end code
 
-Return value; No documentation about its value and use. 
+Return value; The max number of undo levels allowed (0 indicates unlimited).. 
 
 =begin comment
 
@@ -1137,11 +1134,11 @@ If C<$start> and C<$end> are undefined, then they are not filled in, but the
 return value still indicates whether text is selected.
 
 =begin code
-method get-selection-bounds ( CArray[N-TextIter] $start, CArray[N-TextIter] $end --> Bool )
+method get-selection-bounds ( N-Object $start, N-Object $end --> Bool )
 =end code
 
-=item $start; iterator to initialize with selection start.
-=item $end; iterator to initialize with selection end.
+=item $start; iterator to initialize with selection start
+=item $end; iterator to initialize with selection end
 
 Return value; whether the selection has nonzero length. 
 
@@ -1194,11 +1191,11 @@ Note that 0xFFFC can occur in normal text as well, so it is not a
 reliable indicator that a paintable or widget is in the buffer.
 
 =begin code
-method get-slice ( CArray[N-TextIter] $start, CArray[N-TextIter] $end, Bool() $include-hidden-chars --> Str )
+method get-slice ( N-Object $start, N-Object $end, Bool() $include-hidden-chars --> Str )
 =end code
 
-=item $start; start of a range.
-=item $end; end of a range.
+=item $start; start of a range
+=item $end; end of a range
 =item $include-hidden-chars; whether to include invisible text.
 
 Return value; an allocated UTF-8 string. 
@@ -1222,10 +1219,10 @@ This is the same as using C<.get-iter-at-offset()>
 to get the iter at character offset 0.
 
 =begin code
-method get-start-iter ( CArray[N-TextIter] $iter )
+method get-start-iter ( N-Object $iter )
 =end code
 
-=item $iter; iterator to initialize.
+=item $iter; iterator to initialize
 
 =begin comment
 
@@ -1271,11 +1268,11 @@ correspond to byte and character indexes into the buffer.
 Contrast with C<.get-slice()>.
 
 =begin code
-method get-text ( CArray[N-TextIter] $start, CArray[N-TextIter] $end, Bool() $include-hidden-chars --> Str )
+method get-text ( N-Object $start, N-Object $end, Bool() $include-hidden-chars --> Str )
 =end code
 
-=item $start; start of a range.
-=item $end; end of a range.
+=item $start; start of a range
+=item $end; end of a range
 =item $include-hidden-chars; whether to include invisible text.
 
 Return value; an allocated UTF-8 string. 
@@ -1303,10 +1300,10 @@ default signal handler revalidates it to point to the end of the
 inserted text.
 
 =begin code
-method insert ( CArray[N-TextIter] $iter, Str $text, Int() $len )
+method insert ( N-Object $iter, Str $text, Int() $len )
 =end code
 
-=item $iter; a position in the buffer.
+=item $iter; a position in the buffer
 =item $text; text in UTF-8 format.
 =item $len; length of text in bytes, or -1.
 
@@ -1363,10 +1360,10 @@ convenient alternative to this function. The buffer will add a
 reference to the anchor, so you can unref it after insertion.
 
 =begin code
-method insert-child-anchor ( CArray[N-TextIter] $iter, N-Object() $anchor )
+method insert-child-anchor ( N-Object $iter, N-Object() $anchor )
 =end code
 
-=item $iter; location to insert the anchor.
+=item $iter; location to insert the anchor
 =item $anchor; a B<Gnome::Gtk4::TextChildAnchor>.
 
 =begin comment
@@ -1393,10 +1390,10 @@ have a tag affecting editability applied to it. Typically the
 result of C<.get-editable() in class Gnome::Gtk4::TextView> is appropriate here.
 
 =begin code
-method insert-interactive ( CArray[N-TextIter] $iter, Str $text, Int() $len, Bool() $default-editable --> Bool )
+method insert-interactive ( N-Object $iter, Str $text, Int() $len, Bool() $default-editable --> Bool )
 =end code
 
-=item $iter; a position in C<$buffer>.
+=item $iter; a position in C<$buffer>
 =item $text; some UTF-8 text.
 =item $len; length of text in bytes, or -1.
 =item $default-editable; default editability of buffer.
@@ -1454,10 +1451,10 @@ possibly multiple times; insertion actually occurs in the default handler
 for the signal. C<$iter> will point to the end of the inserted text on return.
 
 =begin code
-method insert-markup ( CArray[N-TextIter] $iter, Str $markup, Int() $len )
+method insert-markup ( N-Object $iter, Str $markup, Int() $len )
 =end code
 
-=item $iter; location to insert the markup.
+=item $iter; location to insert the markup
 =item $markup; a nul-terminated UTF-8 string containing Pango markup.
 =item $len; length of C<$markup> in bytes, or -1.
 
@@ -1485,10 +1482,10 @@ variants do not. e.g. see C<.get-slice()> and
 C<.get-text()>.
 
 =begin code
-method insert-paintable ( CArray[N-TextIter] $iter, N-Object() $paintable )
+method insert-paintable ( N-Object $iter, N-Object() $paintable )
 =end code
 
-=item $iter; location to insert the paintable.
+=item $iter; location to insert the paintable
 =item $paintable; a B<Gnome::Gdk4::R-Paintable>.
 
 =begin comment
@@ -1516,12 +1513,12 @@ Implemented via emissions of the I<insert-text> and I<apply-tag> signals,
 so expect those.
 
 =begin code
-method insert-range ( CArray[N-TextIter] $iter, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+method insert-range ( N-Object $iter, N-Object $start, N-Object $end )
 =end code
 
-=item $iter; a position in C<$buffer>.
-=item $start; a position in a B<Gnome::Gtk4::TextBuffer>.
-=item $end; another position in the same buffer as C<$start>.
+=item $iter; a position in C<$buffer>
+=item $start; a position in a B<Gnome::Gtk4::TextBuffer>
+=item $end; another position in the same buffer as C<$start>
 
 =begin comment
 
@@ -1546,12 +1543,12 @@ no tags enclosing C<$iter> affect editability. Typically the result
 of C<.get-editable() in class Gnome::Gtk4::TextView> is appropriate here.
 
 =begin code
-method insert-range-interactive ( CArray[N-TextIter] $iter, CArray[N-TextIter] $start, CArray[N-TextIter] $end, Bool() $default-editable --> Bool )
+method insert-range-interactive ( N-Object $iter, N-Object $start, N-Object $end, Bool() $default-editable --> Bool )
 =end code
 
-=item $iter; a position in C<$buffer>.
-=item $start; a position in a B<Gnome::Gtk4::TextBuffer>.
-=item $end; another position in the same buffer as C<$start>.
+=item $iter; a position in C<$buffer>
+=item $start; a position in a B<Gnome::Gtk4::TextBuffer>
+=item $end; another position in the same buffer as C<$start>
 =item $default-editable; default editability of the buffer.
 
 Return value; whether an insertion was possible at C<$iter>. 
@@ -1579,10 +1576,10 @@ then C<.apply-tag()> on the inserted text;
 this is just a convenience function.
 
 =begin code
-method insert-with-tags ( CArray[N-TextIter] $iter, Str $text, Int() $len, N-Object() $first-tag, … )
+method insert-with-tags ( N-Object $iter, Str $text, Int() $len, N-Object() $first-tag, … )
 =end code
 
-=item $iter; an iterator in C<$buffer>.
+=item $iter; an iterator in C<$buffer>
 =item $text; UTF-8 text.
 =item $len; length of C<$text>, or -1.
 =item $first-tag; first tag to apply to C<$text>.
@@ -1609,10 +1606,10 @@ Same as C<.insert-with-tags()>, but allows you
 to pass in tag names instead of tag objects.
 
 =begin code
-method insert-with-tags-by-name ( CArray[N-TextIter] $iter, Str $text, Int() $len, Str $first-tag-name, … )
+method insert-with-tags-by-name ( N-Object $iter, Str $text, Int() $len, Str $first-tag-name, … )
 =end code
 
-=item $iter; position in C<$buffer>.
+=item $iter; position in C<$buffer>
 =item $text; UTF-8 text.
 =item $len; length of C<$text>, or -1.
 =item $first-tag-name; name of a tag to apply to C<$text>.
@@ -1637,11 +1634,11 @@ Emits the I<mark-set> signal
 as notification of the move.
 
 =begin code
-method move-mark ( N-Object() $mark, CArray[N-TextIter] $where )
+method move-mark ( N-Object() $mark, N-Object $where )
 =end code
 
 =item $mark; a B<Gnome::Gtk4::TextMark>.
-=item $where; new location for C<$mark> in C<$buffer>.
+=item $where; new location for C<$mark> in C<$buffer>
 
 =begin comment
 
@@ -1661,11 +1658,11 @@ Moves the mark named C<$name> (which must exist) to location C<$where>.
 See C<.move-mark()> for details.
 
 =begin code
-method move-mark-by-name ( Str $name, CArray[N-TextIter] $where )
+method move-mark-by-name ( Str $name, N-Object $where )
 =end code
 
 =item $name; name of a mark.
-=item $where; new location for mark.
+=item $where; new location for mark
 
 =begin comment
 
@@ -1691,11 +1688,11 @@ and return, and at some point later after the main loop runs, the paste
 data will be inserted.
 
 =begin code
-method paste-clipboard ( N-Object() $clipboard, CArray[N-TextIter] $override-location, Bool() $default-editable )
+method paste-clipboard ( N-Object() $clipboard, N-Object $override-location, Bool() $default-editable )
 =end code
 
 =item $clipboard; the B<Gnome::Gdk4::Clipboard> to paste from.
-=item $override-location; location to insert pasted text.
+=item $override-location; location to insert pasted text
 =item $default-editable; whether the buffer is editable by default.
 
 =begin comment
@@ -1722,10 +1719,10 @@ to be recalculated. This function moves them as a unit, which can
 be optimized.
 
 =begin code
-method place-cursor ( CArray[N-TextIter] $where )
+method place-cursor ( N-Object $where )
 =end code
 
-=item $where; where to put the cursor.
+=item $where; where to put the cursor
 
 =begin comment
 
@@ -1767,11 +1764,11 @@ function is probably a bad idea if you have two or more unrelated
 code sections that add tags.
 
 =begin code
-method remove-all-tags ( CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+method remove-all-tags ( N-Object $start, N-Object $end )
 =end code
 
-=item $start; one bound of range to be untagged.
-=item $end; other bound of range to be untagged.
+=item $start; one bound of range to be untagged
+=item $end; other bound of range to be untagged
 
 =begin comment
 
@@ -1787,7 +1784,7 @@ method remove-all-tags ( CArray[N-TextIter] $start, CArray[N-TextIter] $end )
 =head2 remove-selection-clipboard
 
 Removes a B<Gnome::Gdk4::Clipboard> added with
-C<.add-selection-clipboard()>.
+C<.add-selection-clipboard()>
 
 =begin code
 method remove-selection-clipboard ( N-Object() $clipboard )
@@ -1816,12 +1813,12 @@ of C<$tag> from the given range. C<$start> and C<$end> don’t have
 to be in order.
 
 =begin code
-method remove-tag ( N-Object() $tag, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+method remove-tag ( N-Object() $tag, N-Object $start, N-Object $end )
 =end code
 
 =item $tag; a B<Gnome::Gtk4::TextTag>.
-=item $start; one bound of range to be untagged.
-=item $end; other bound of range to be untagged.
+=item $start; one bound of range to be untagged
+=item $end; other bound of range to be untagged
 
 =begin comment
 
@@ -1843,12 +1840,12 @@ tag table to get a B<Gnome::Gtk4::TextTag>, then calls
 C<.remove-tag()>.
 
 =begin code
-method remove-tag-by-name ( Str $name, CArray[N-TextIter] $start, CArray[N-TextIter] $end )
+method remove-tag-by-name ( Str $name, N-Object $start, N-Object $end )
 =end code
 
 =item $name; name of a B<Gnome::Gtk4::TextTag>.
-=item $start; one bound of range to be untagged.
-=item $end; other bound of range to be untagged.
+=item $start; one bound of range to be untagged
+=item $end; other bound of range to be untagged
 
 =begin comment
 
@@ -1874,11 +1871,11 @@ to be recalculated. This function moves them as a unit, which can
 be optimized.
 
 =begin code
-method select-range ( CArray[N-TextIter] $ins, CArray[N-TextIter] $bound )
+method select-range ( N-Object $ins, N-Object $bound )
 =end code
 
-=item $ins; where to put the “insert” mark.
-=item $bound; where to put the “selection_bound” mark.
+=item $ins; where to put the “insert” mark
+=item $bound; where to put the “selection_bound” mark
 
 =begin comment
 
@@ -1953,9 +1950,9 @@ Used to keep track of whether the buffer has been
 modified since the last time it was saved.
 
 Whenever the buffer is saved to disk, call
-B<gtk_text_buffer_set_modified ( C<$buffer>, FALSE)>.
+B<gtk_text_buffer_set_modified> ( C<$buffer>, FALSE)`.
 When the buffer is modified, it will automatically
-toggled on the modified bit again. When the modified
+toggle on the modified bit again. When the modified
 bit flips, the buffer emits the
 I<modified-changed> signal.
 
@@ -1978,7 +1975,10 @@ method set-modified ( Bool() $setting )
 =begin pod
 =head2 set-text
 
-Deletes current contents of C<$buffer>, and inserts C<$text> instead.
+Deletes current contents of C<$buffer>, and inserts C<$text> instead. This is
+automatically marked as an irreversible action in the undo stack. If you
+wish to mark this action as part of a larger undo operation, call
+[method C<$TextBuffer>.delete] and [method C<$TextBuffer>.insert] directly instead.
 
 If C<$len> is -1, C<$text> must be nul-terminated. C<$text> must be valid UTF-8.
 
@@ -2043,8 +2043,8 @@ C<.insert-range()>.
 =begin code
 method handler (
   N-Object $tag,
-  N-TextIter $start,
-  N-TextIter $end,
+  N-Object $start,
+  N-Object $end,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
@@ -2145,8 +2145,8 @@ See also: C<.delete()>.
 
 =begin code
 method handler (
-  N-TextIter $start,
-  N-TextIter $end,
+  N-Object $start,
+  N-Object $end,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
@@ -2220,7 +2220,7 @@ See also: C<.insert-child-anchor()>.
 
 =begin code
 method handler (
-  N-TextIter $location,
+  N-Object $location,
   N-Object $anchor,
   Int :$_handle_id,
   N-GObject :$_native-object,
@@ -2259,7 +2259,7 @@ See also: C<.insert-paintable()>.
 
 =begin code
 method handler (
-  N-TextIter $location,
+  N-Object $location,
    $paintable,
   Int :$_handle_id,
   N-GObject :$_native-object,
@@ -2299,7 +2299,7 @@ C<.insert-range()>.
 
 =begin code
 method handler (
-  N-TextIter $location,
+  N-Object $location,
   Str $text,
   gint $len,
   Int :$_handle_id,
@@ -2365,7 +2365,7 @@ C<.move-mark()>.
 
 =begin code
 method handler (
-  N-TextIter $location,
+  N-Object $location,
   N-Object $mark,
   Int :$_handle_id,
   N-GObject :$_native-object,
@@ -2492,8 +2492,8 @@ See also: C<.remove-tag()>.
 =begin code
 method handler (
   N-Object $tag,
-  N-TextIter $start,
-  N-TextIter $end,
+  N-Object $start,
+  N-Object $end,
   Int :$_handle_id,
   N-GObject :$_native-object,
   Gnome::Gtk4::TextBuffer :$_widget,
