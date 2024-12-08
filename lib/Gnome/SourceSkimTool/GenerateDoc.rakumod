@@ -126,7 +126,7 @@ method generate-doc ( ) {
 #  my Bool $first = True;
   my Hash $types-doc = %();
   my Gnome::SourceSkimTool::Prepare $t-prep; # .= new;
-  for $!filedata.keys -> $gir-type {
+  for $!filedata.keys.sort -> $gir-type {
     # Records and unions must be seen here to generate a type file when
     # only one of those are available
     next if $gir-type ~~ any(<class interface>);
@@ -237,7 +237,7 @@ $t-prep.display-hash( $data, :label('type file data'));
       use v6.d;
 
       =begin pod
-      =head1 $class-name
+      =TITLE $class-name
       =end pod
       
       EODOC
