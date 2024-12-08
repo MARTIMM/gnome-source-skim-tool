@@ -431,6 +431,8 @@ method !modify-v4enum ( Str $text is copy --> Str ) {
   my token enumname { <-[\]]>+ }
   my regex enum { '[enum@' <prefix> '.' <enumname> ']' }
   while $text ~~ m/ <enum> / {
+#note "$?LINE $/";
+
     my Str $prefix = $/<enum><prefix>.Str;
     my Str $enumname = $/<enum><enumname>.Str;
     my Hash $h = $!solve.search-name($prefix ~ $enumname);
@@ -745,8 +747,8 @@ method !modify-rest ( Str $text is copy --> Str ) {
   # Gnome seems to use markdown directly too to say it is a class like
   # `GtkShortcutTrigger` or an enumeration like `PangoEllipsizeMode` and
   # maybe more of that mumbo jumbo.
-  my token name { <-[`]>+ }
-  my regex name-regex { '`' <name> '`' }
+  my token name { [<alnum> | '_' ]+ }
+  my regex name-regex { '`' <name> '`'? }
   while $text ~~ m/ <name-regex> / {
 #note "$?LINE $/.gist()" if $text ~~ /NULL/;
     my Str $name = $/<name-regex><name>.Str;
@@ -777,6 +779,16 @@ method !modify-rest ( Str $text is copy --> Str ) {
       $text ~~ s/ <name-regex> /B<$name>/;
     }
   }
+
+  # Images a la markdown
+  my regex image-regex { '![' $<alt-text> = [.*?] '](' $<url-text> = [.*?] ')' };
+  while $text ~~ m/ <image-regex> / {
+    my Str $alt-text = $/<image-regex><alt-text>.Str;
+    my Str $url-text = $/<image-regex><url-text>.Str;
+#note "$?LINE $/.gist()";
+    $text ~~ s/ <image-regex> /=for image :src<asset_files\/images\/$url-text> :width<30%> :class<inline>/;
+  }
+
   # types
   #$text ~~ s:g/ '#' (\w+) /C<$0>/;
 
