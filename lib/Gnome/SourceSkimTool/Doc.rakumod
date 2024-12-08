@@ -36,8 +36,8 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 #    $!dtxt.modify-text();
 
   my Str $widget-picture = '';
-  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
-    if $*gnome-package ~~ any( Gtk3, Gtk4);
+#  $widget-picture = "\n!\[\]\(images/{$*gnome-class.lc}.png\)\n\n"
+#    if $*gnome-package ~~ any( Gtk3, Gtk4);
 
 
 #  $doc ~= self!set-declaration;
@@ -52,9 +52,9 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
     {pod-header('Class Description')}
     =begin pod
-    =head1 $class-name
-    $widget-picture
+    =TITLE $class-name
     =head1 Description
+    $widget-picture
 
     $doc
 
@@ -846,7 +846,7 @@ method document-enumerations ( @enum-names --> Str ) {
     if $package ~~ / Glib || GObject || Gio / {
       $package = 'G';
     }
-    
+
     elsif $package ~~ / GdkPixbuf / {
       $package = 'Gdk';
     }
@@ -874,6 +874,9 @@ method document-enumerations ( @enum-names --> Str ) {
       $doc ~= $xpath.find( 'doc/text()', :start($m), :!to-list).Str // '';
       $doc ~= "\n";
     }
+#note "\n$?LINE\n$doc";
+#exit if $enum-name eq 'GtkAlign';
+
   }
 
   $doc ~= "=end pod\n\n";
