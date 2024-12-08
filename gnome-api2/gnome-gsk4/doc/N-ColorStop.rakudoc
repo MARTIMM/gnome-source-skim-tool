@@ -1,4 +1,4 @@
-=comment Package: Gsk4, C-Source: glrenderer
+=comment Package: Gsk4, C-Source: rendernode
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,13 +6,15 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=TITLE Gnome::Gsk4::GLRenderer
+=TITLE Gnome::Gsk4::N-ColorStop
 =head1 Description
+
+A color stop in a gradient node.
 
 =begin comment
 
 =head2 Example
-# Example use of module Gnome::Gsk4::GLRenderer
+# Example use of module Gnome::Gsk4::ColorStop
 
 =end comment
 
@@ -32,25 +34,6 @@ use v6.d;
 Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
 
   multi method new ( N-Object :$native-object! )
-
-=end pod
-
-#-------------------------------------------------------------------------------
-=begin pod
-=head2 new-glrenderer
-
-Creates a new B<Gnome::Gsk4::Renderer> using the new OpenGL renderer.
-
-=begin code
-method new-glrenderer ( --> Gnome::Gsk4::GLRenderer \)
-=end code
-
-=begin comment
-
-=head2 Example
-# Example for new-glrenderer
-
-=end comment
 
 =end pod
 

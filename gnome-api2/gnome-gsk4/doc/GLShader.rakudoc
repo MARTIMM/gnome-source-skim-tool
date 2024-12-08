@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gsk4::GLShader
-
+=TITLE Gnome::Gsk4::GLShader
 =head1 Description
 
 A B<Gnome::Gsk4::GLShader> is a snippet of GLSL that is meant to run in the
@@ -276,7 +275,7 @@ values into the shader.
 
 The argument list is a list of pairs of names, and values for the types
 that match the declared uniforms (i.e. double/int/guint/gboolean for
-primitive values and B<graphene_vecN_t *> for vecN uniforms).
+primitive values and B<graphene_vecN_t> *` for vecN uniforms).
 
 Any uniforms of the shader that are not included in the argument list
 are zero-initialized.
@@ -309,7 +308,7 @@ values into the shader.
 
 The argument list is a list of pairs of names, and values for the
 types that match the declared uniforms (i.e. double/int/guint/gboolean
-for primitive values and B<graphene_vecN_t *> for vecN uniforms).
+for primitive values and B<graphene_vecN_t> *` for vecN uniforms).
 
 It is an error to pass a uniform name that is not declared by the shader.
 

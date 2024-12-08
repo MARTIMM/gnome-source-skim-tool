@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gsk4::T-enums
+=TITLE Gnome::Gsk4::T-enums
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -65,6 +65,16 @@ code, and what the corresponding C type is on the Gtk side.
 =item C<GSK_GL_UNIFORM_TYPE_VEC3>; A GLSL vec3 / graphene_vec3_t uniform
 =item C<GSK_GL_UNIFORM_TYPE_VEC4>; A GLSL vec4 / graphene_vec4_t uniform
 
+=head2 GskMaskMode
+
+The mask modes available for mask nodes.
+=item C<GSK_MASK_MODE_ALPHA>; Use the alpha channel of the mask
+=item C<GSK_MASK_MODE_INVERTED_ALPHA>; Use the inverted alpha channel of the mask
+=item C<GSK_MASK_MODE_LUMINANCE>; Use the luminance of the mask,
+    multiplied by mask alpha
+=item C<GSK_MASK_MODE_INVERTED_LUMINANCE>; Use the inverted luminance of the mask,
+    multiplied by mask alpha
+
 =head2 GskRenderNodeType
 
 The type of a node determines what the node is rendering.
@@ -94,6 +104,8 @@ The type of a node determines what the node is rendering.
 =item C<GSK_BLUR_NODE>; A node that applies a blur
 =item C<GSK_DEBUG_NODE>; Debug information that does not affect the rendering
 =item C<GSK_GL_SHADER_NODE>; A node that uses OpenGL fragment shaders to render
+=item C<GSK_TEXTURE_SCALE_NODE>; A node drawing a B<Gnome::Gdk4::Texture> scaled and filtered (Since: 4.10)
+=item C<GSK_MASK_NODE>; A node that masks one child with another (Since: 4.10)
 
 =head2 GskScalingFilter
 
@@ -122,12 +134,12 @@ The categories of matrices relevant for GSK and GTK.
 
 Note that any category includes matrices of all later categories.
 So if you want to for example check if a matrix is a 2D matrix,
-B<category >= GSK_TRANSFORM_CATEGORY_2D> is the way to do this.
+B<category> >= GSK_TRANSFORM_CATEGORY_2D` is the way to do this.
 
 Also keep in mind that rounding errors may cause matrices to not
 conform to their categories. Otherwise, matrix operations done via
 multiplication will not worsen categories. So for the matrix
-multiplication B<C = A * B>, B<category(C) = MIN (category(A), category(B))>.
+multiplication B<C> = A * B`, B<category>(C) = MIN (category(A), category(B))`.
 =item C<GSK_TRANSFORM_CATEGORY_UNKNOWN>; The category of the matrix has not been
   determined.
 =item C<GSK_TRANSFORM_CATEGORY_ANY>; Analyzing the matrix concluded that it does
