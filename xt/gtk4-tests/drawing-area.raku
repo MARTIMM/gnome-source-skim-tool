@@ -35,6 +35,7 @@ class SH {
 #-------------------------------------------------------------------------------
 with my DrawingArea $draw .= new-drawingarea {
 Gnome::N::debug(:on);
+#  .set-draw-func( &drawit, Pointer, &notify-function);
   .set-draw-func( &drawit, Pointer, &notify-function);
 }
 
@@ -50,21 +51,36 @@ $main-loop.run;
 say 'done it';
 
 #-------------------------------------------------------------------------------
-sub drawit ( N-Object $d, cairo_t $cr is rw, int $w, int $h, Pointer $p ) {
-return;
-  my Cairo::Image $image .= create(Cairo::FORMAT_ARGB32, 128, 128);
-
-  with my Cairo::Context $context .= new($image) {
+sub drawit ( N-Object $d, Cairo::cairo_t $cr, gint $w, gint $h, gpointer $p ) {
+  with my Cairo::Context $context .= new($cr) {
     .rgb(0, 0.7, 0.9);
     .rectangle(10, 10, 50, 50);
-    .fill :preserve; .rgb(1, 1, 1);
-    .stroke
-  };
+    .fill :preserve;
+    .rgb(1, 1, 1);
+    .stroke;
 
-#  $draw
+    .rgb(0.5, 0.0, 0.9);
+    .rectangle(90, 35, 110, 110);
+    .fill :preserve;
+    .rgb(1, 1, 1);
+    .stroke;
+
+    .rgb(0.8, 0.8, 0);
+    .rectangle(20, 70, 120, 170);
+    .fill :preserve;
+    .rgb(1, 1, 1);
+    .stroke;
+
+    .rgb(0, 0.7, 0.0);
+    .rectangle(130, 130, 150, 150);
+    .fill :preserve;
+    .rgb(1, 1, 1);
+    .stroke;
+  };
 }
 
 #-------------------------------------------------------------------------------
-sub notify-function(Pointer $data) {
-  return;
+# Does not seem to be called when pointer to user data is undefined
+sub notify-function(gpointer $data) {
+note '===';
 }
