@@ -22,20 +22,20 @@ option from the B<Help> menu. All parts of the dialog are optional.
 =for image :src<asset_files/images/aboutdialog.png> :width<30%> :class<inline>
 
 About dialogs often contain links and email addresses. B<Gnome::Gtk4::AboutDialog>
-displays these as clickable links. By default, it calls C<.launch() in class Gnome::Gtk4::FileLauncher>
+displays these as clickable links. By default, it calls C<.launch()> in class C<Gnome::Gtk4::FileLauncher>
 when a user clicks one. The behaviour can be overridden with the
 I<activate-link> signal.
 
 To specify a person with an email address, use a string like
-B<Edgar Allan Poe <edgar C<$poe>.com>>. To specify a website with a title,
-use a string like B<GTK team https://www.gtk.org>.
+B<Edgar> Allan Poe <edgar C<$poe>.com>`. To specify a website with a title,
+use a string like B<GTK> team https://www.gtk.org`.
 
 To make constructing a B<Gnome::Gtk4::AboutDialog> as convenient as possible, you can
 use the function C<.show-about-dialog()> which constructs and shows
 a dialog and keeps it around so that it can be shown again.
 
-Note that GTK sets a default title of B<_("About C<s>")> on the dialog
-window (where B<C<s>> is replaced by the name of the application, but in
+Note that GTK sets a default title of B<_>("About C<s>")` on the dialog
+window (where B<C><s>` is replaced by the name of the application, but in
 order to ensure proper translation of the title, applications should
 set the title property explicitly when constructing a B<Gnome::Gtk4::AboutDialog>,
 as shown in the following example:
@@ -61,7 +61,7 @@ $about.hide;  # application returns here when buttons
 =head3 CSS nodes
 
 B<Gnome::Gtk4::AboutDialog> has a single CSS node with the name B<window> and style
-class B<.aboutdialog>.
+class `.aboutdialog`.
 
 =begin comment
 =head2 Uml Diagram
@@ -283,7 +283,7 @@ Retrieves the license type.
 method get-license-type (--> GtkLicense )
 =end code
 
-Return value; a  C<enumeration License from Gnome::Gtk4::T-aboutdialog>  value. 
+Return value; a  enumeration C<License> from C<Gnome::Gtk4::T-aboutdialog>  value. 
 
 =begin comment
 
@@ -700,7 +700,7 @@ method set-logo-icon-name ( Str $icon-name )
 Sets the name to display in the about dialog.
 
 If B<name> is not set, the string returned
-by B<g_get_application_name()> is used.
+by B<Gnome::Glib::T-utils>()` is used.
 
 =begin code
 method set-program-name ( Str $name )
@@ -753,7 +753,7 @@ the credits page.
 
 The intended use for this string is to display the translator
 of the language which is currently used in the user interface.
-Using B<gettext()>, a simple way to achieve that is to mark the
+Using B<gettext>()`, a simple way to achieve that is to mark the
 string for translation:
 
 =begin comment
@@ -812,7 +812,7 @@ Sets the URL to use for the website link.
 method set-website ( Str $website )
 =end code
 
-=item $website; a URL string starting with B<http://>.
+=item $website; a URL string starting with B<http>://`.
 
 =begin comment
 
@@ -879,7 +879,7 @@ method set-wrap-license ( Bool() $wrap-license )
 Emitted every time a URL is activated.
 
 Applications may connect to it to override the default behaviour,
-which is to call C<.launch() in class Gnome::Gtk4::FileLauncher>.
+which is to call C<.launch()> in class C<Gnome::Gtk4::FileLauncher>.
 
 =begin code
 method handler (

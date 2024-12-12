@@ -282,7 +282,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     else {
       my Hash $h = $!solve.search-name($package ~ $class);
       my $classname = $!solve.set-object-name($h);
-      $text ~~ s/ <mfunc-regex> /C<.$funcname\(\) in class $classname>/;
+      $text ~~ s/ <mfunc-regex> /C<.$funcname\(\)> in class C<$classname>/;
     }
   }
 
@@ -303,7 +303,7 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     else {
       my Hash $h = $!solve.search-name($package ~ $class);
       my $classname = $!solve.set-object-name($h);
-      $text ~~ s/ <cfunc-regex> /C<.$funcname\(\) in class $classname>/;
+      $text ~~ s/ <cfunc-regex> /C<.$funcname\(\)> in class C<$classname>/;
     }
   }
 
@@ -438,11 +438,11 @@ method !modify-v4enum ( Str $text is copy --> Str ) {
     my Hash $h = $!solve.search-name($prefix ~ $enumname);
     if ?$h {
       my $classname = $!solve.set-object-name($h);
-      $text ~~ s/ <enum> / C<enumeration $enumname from $classname> /;
+      $text ~~ s/ <enum> / enumeration C<$enumname> from C<$classname> /;
     }
     
     else {
-      $text ~~ s/ <enum> / C<enumeration $enumname> /;
+      $text ~~ s/ <enum> / enumeration C<$enumname> /;
     }
   }
 
@@ -464,7 +464,7 @@ method !modify-v4structure ( Str $text is copy --> Str ) {
       my $classname = $!solve.set-object-name($h);
       $text ~~ s/ <struct> / B<$classname> /;
     }
-    
+
     else {
       $text ~~ s/ <struct> / B<$structname> /;
     }
@@ -534,7 +534,7 @@ method !modify-signals ( Str $text is copy --> Str ) {
 
     elsif $classname {
       $text ~~ s/ <signal> 
-                / I<$signal-name defined in $*work-data<raku-class-name>>/;
+                / I<$signal-name> defined in C<$*work-data<raku-class-name>>/;
     }
 
     else {
