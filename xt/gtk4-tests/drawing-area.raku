@@ -24,11 +24,9 @@ my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop;
 
 #-------------------------------------------------------------------------------
 class SH {
-  method stopit ( --> gboolean ) {
+  method stopit () {
     say 'close request';
     $main-loop.quit;
-
-    0
   }
 }
 
