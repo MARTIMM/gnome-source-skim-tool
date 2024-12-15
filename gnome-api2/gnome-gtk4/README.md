@@ -1,7 +1,8 @@
 ![Gtk+ Raku logo][logo]
 
 
-# Gnome::Gtk4:api<2> - Raku interface to the GTK toolkit
+# Gnome::Gtk4 - Raku interface to the GTK toolkit
+
 ![L][license-svg]
 
 # Description
