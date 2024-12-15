@@ -6,7 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=TITLE Gnome::GdkPixbuf::Pixbuf
+=TITLE Gnome::Gtk4::Snapshot
 =head1 Description
 
 B<Gnome::Gtk4::Snapshot> assists in creating B<Gnome::Gsk4::RenderNode>s for widgets.
@@ -113,7 +113,7 @@ method append-border ( N-Object $outline, Num() $border-width, N-Object $border-
 =begin pod
 =head2 append-cairo
 
-Creates a new B<Gnome::Gsk4::CairoNode> and appends it to the current
+Creates a new B<Cairo::cairo_t> and appends it to the current
 render node of C<$snapshot>, without changing the current node.
 
 =begin code
