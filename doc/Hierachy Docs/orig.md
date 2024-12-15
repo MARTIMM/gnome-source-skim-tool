@@ -600,7 +600,7 @@ GInterface
 ## Type modules
 
 Types, constants, standalone functions, etc. generated from gnome sources
-`Gnome::Gtk4::\*`
+`Gnome::Gio::\*`
 
 ```
 Gnome::N::TopLevelClassSupport
