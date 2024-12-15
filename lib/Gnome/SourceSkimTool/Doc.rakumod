@@ -28,7 +28,8 @@ submethod BUILD ( ) {
 #-------------------------------------------------------------------------------
 # Get the description at the start of a class, record or union.
 method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
-  my Str $ctype = $element.attribs<c:type>//'';
+  my Str $ctype =
+    $element.attribs<c:type> // $element.attribs<glib:type-name> // '';
   my Hash $h = $!solve.search-name($ctype)//%();
   my Str $class-name = $!solve.set-object-name($h);
 
@@ -187,6 +188,12 @@ method document-constructors (
     # remove first comma
     $raku-list ~~ s/^ . //;
 
+    # Sometimes names of function have a digit after the underscore. Examples
+    # are found in Gsk4 'gtk_snapshot_rotate_3d'. It is translated into
+    # 'rotate-3d' which is not a legal Raku function name. So, need an extra
+    # test here.
+    $method-name ~~ s:g/ '-' (\d) /$0/ if $method-name ~~ m/ '-' \d /;
+
     # add-example-code() returns a key
     my Str $ex-key = $!dtxt.add-example-code(Q:s:to/EOEX/);
 
@@ -273,7 +280,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
       }
 
       $result = self!get-types( $parameter, @rv-list);
-#note "$?LINE \n$parameter.gist()\n$result.gist()" if $native-sub eq 'domain-register';
+note "$?LINE \n$parameter.gist()\n$result.gist()" if $native-sub eq 'append-cairo';
       $raku-list ~= $result<raku-list> // '';
       $items-doc ~= $result<items-doc> // '';
       $returns-doc ~= $result<returns-doc> // '';
@@ -313,6 +320,12 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
 
     # remove first comma
     $raku-list ~~ s/^ . //;
+
+    # Sometimes names of function have a digit after the underscore. Examples
+    # are found in Gsk4 'gtk_snapshot_rotate_3d'. It is translated into
+    # 'rotate-3d' which is not a legal Raku function name. So, need an extra
+    # test here.
+    $native-sub ~~ s:g/ '-' (\d) /$0/ if $native-sub ~~ m/ '-' \d /;
 
 #note "$?LINE $curr-function<missing-type>, {$curr-function<missing-type> ?? "\n#`\{\{\n" !! ''}";
     # add-example-code() returns a key

@@ -35,7 +35,10 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
 
   my Bool $available;
   my Str $also = '';
-  my Str $ctype = $element.attribs<c:type> // '';
+  
+  # Try glib:type-name if c:type is missing
+  my Str $ctype =
+    $element.attribs<c:type> // $element.attribs<glib:type-name> // '';
   my Hash $h = $!solve.search-name($ctype) // %();
 
   # Parenting is only for classes
@@ -78,6 +81,7 @@ method set-unit ( XML::Element $element, Bool :$callables = True --> Str ) {
   self.add-import('Gnome::N::GnomeRoutineCaller') if ?$callables;
 
   my Str $classname = $!solve.set-object-name( $h, :name-type(ClassnameType));
+
   my Str $unit-header = '';
   my Str $unit-type = '';
 
@@ -537,12 +541,9 @@ method get-native-subs (
   my @subs = $xpath.find( $routine-type, :start($element), :to-list);
 
   for @subs -> $native-sub {
-    # Skip deprecated methods
-    #next if $native-sub.attribs<deprecated>:exists and
-    #        $native-sub.attribs<deprecated> eq '1';
-
     my ( $function-name, %h) =
       self!get-method-data( $native-sub, :$xpath, :$user-side);
+
     # Function names which are returned emptied, are assumably internal
     next unless ?$function-name and ?%h;
 
@@ -573,12 +574,10 @@ method !generate-methods ( Hash $hcs --> Str ) {
     {SEPARATOR( 'Methods', 2);}
     EOSUB
 
-  for $hcs.keys.sort -> $function-name {
+  for $hcs.keys.sort -> $function-name is copy {
     my Str $cnv-return = '';
     my Hash $curr-function := $hcs{$function-name};
     $temp-inhibit = ?$curr-function<missing-type> ?? '#' !! '';
-
-#note "$?LINE $function-name" if $curr-function<missing-type>;
 
     #$pattern = $curr-function<variable-list> ?? ':pattern([' !! '';
     $variable-list = $curr-function<variable-list> ?? ':variable-list, ' !! '';
@@ -596,9 +595,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     my Str $par-list = '';
     my Bool $first-param = True;
 
-#    my Str $pattern-starter = '';
     for @($curr-function<parameters>) -> $parameter {
-#note "  $?LINE $parameter<name> $parameter<raku-type>";
       last if $parameter<raku-type> eq '…';
 
       # Get a list of types for the arguments but skip the first native type
@@ -613,7 +610,6 @@ method !generate-methods ( Hash $hcs --> Str ) {
         # Signatures have a colon at the first char followed by '('
         if $xtype ~~ m/^ ':(' / {
           $par-list ~= ", $xtype";
-#note "  $?LINE $par-list";
         }
 
         else {
@@ -627,30 +623,31 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
     # Remove first comma and space
     $par-list ~~ s/^ .. //;
-#    $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
     $par-list = ?$par-list ?? [~] ' :parameters([', $par-list, ']),' !! '';
 
     # Return type
     my $xtype = $curr-function<return-raku-type>;
     my Str $returns = '';
 
-    # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-    my ( $rnt0, $rnt1) = $xtype.split(':');
-    if ?$rnt1 {
-      $returns = " :returns\($rnt0\),";
-      $cnv-return = " :cnv-return\($rnt1\),";
-    }
+    if $xtype ~~ m/ ':' / and $xtype !~~ m/ '::' / {
+      # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+      my ( $rnt0, $rnt1) = $xtype.split(':');
+      if ?$rnt1 {
+        $returns = " :returns\($rnt0\),";
+        $cnv-return = " :cnv-return\($rnt1\),";
+      }
 
-    elsif ?$rnt0 and $xtype ne 'void' {
-      $returns = " :returns\($rnt0\),";
-      if $xtype eq 'gboolean' {
-        $cnv-return = ' :cnv-return(Bool),';
+      elsif ?$rnt0 and $xtype ne 'void' {
+        $returns = " :returns\($rnt0\),";
+        if $xtype eq 'gboolean' {
+          $cnv-return = ' :cnv-return(Bool),';
+        }
       }
     }
 
-#note "$?LINE $function-name";
-#note "$?LINE $returns";
-#note "$?LINE $par-list";
+    elsif ?$xtype {
+      $returns = ":returns\($xtype)";
+    }
 
     # Set the full native subroutine name
     my Str $sub-prefix = $*work-data<sub-prefix>;
@@ -664,6 +661,12 @@ method !generate-methods ( Hash $hcs --> Str ) {
       $dep-str = [~] ':deprecated', ', :deprecated-version<',
                      $curr-function<deprecated-version>, '>, ';
     }
+
+    # Sometimes names of function have a digit after the underscore. Examples
+    # are found in Gsk4 'gtk_snapshot_rotate_3d'. It is translated into
+    # 'rotate-3d' which is not a legal Raku function name. So, need an extra
+    # convertion here.
+    $function-name ~~ s:g/ '-' (\d) /$0/ if $function-name ~~ m/ '-' \d /;
 
     $code ~= [~] '  ', $temp-inhibit, $function-name, ' => %(', $is-symbol,
              $variable-list, $returns, $cnv-return, $par-list, $dep-str, "),\n";
@@ -730,19 +733,24 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
       last if $parameter<raku-type> eq '…';
 
       my Str $xtype = $parameter<raku-type>;
-      if $xtype ~~ m/^ ':(' / {
-        $par-list ~= ", $xtype";
-      }
-
-      elsif $xtype ~~ m/ ':' / {
-        # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-        my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
-        if $rnt0 eq 'GEnum' {
-          $par-list ~= ", $rnt1";
+note "$?LINE $xtype";
+      if $xtype ~~ m/ ':' / and $xtype !~~ m/ '::' /  {
+        # Test for callback routine spec
+        if $xtype ~~ m/^ ':(' / {
+          $par-list ~= ", $xtype";
         }
 
-        else { # ≡ GFlag
-          $par-list = ', UInt';
+        # Test for single colon
+        elsif $xtype ~~ m/ ':' / {
+          # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+          my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
+          if $rnt0 eq 'GEnum' {
+            $par-list ~= ", $rnt1";
+          }
+
+          else { # ≡ GFlag
+            $par-list = ', UInt';
+          }
         }
       }
 
@@ -1590,10 +1598,12 @@ method add-import ( Str $import --> Bool ) {
 
   # Add only when $import is not in the hash.
   if $*external-modules{$import}:exists {
+#note "\n$?LINE $*external-modules{$import}";
     $available = True unless $*external-modules{$import} == EMTNotImplemented;
   }
 
   else {
+#note "\n$?LINE $*external-modules{$import}";
     $available = True;
     if $*lib-content-list-file{$import}:exists {
       $*external-modules{$import} = ExternalModuleType(
@@ -1637,7 +1647,7 @@ method substitute-MODULE-IMPORTS (
 
   $import ~= "\n";
 
-#note "\n$?LINE ex: @exceptclasses.join(', ')";
+#note "\n$?LINE ex: $*external-modules.join(', ')";
   for $*external-modules.keys.sort -> $m {
 #note " $?LINE use $m, $*external-modules{$m}";
     next if $skip-n-mods and $m !~~ m/ '::N-Object' / and $m ~~ m/ '::N-' /;
@@ -1687,6 +1697,7 @@ method !get-method-data (
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
 #note "$?LINE rv: $return-raku-type, $missing-type";
+
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
   my @parameters = ();
@@ -1826,7 +1837,8 @@ method get-type ( XML::Element $e, Bool :$user-side = False --> List ) {
       }
 
       when 'array' {
-        # Sometimes there is no 'c:type', assume an array of strings
+        # Sometimes there is no 'c:type', assume an array of strings because
+        # that once has happened in the XML description
         $ctype = $n.attribs<c:type> // 'gchar**';
         $raku-type = $user-side
                    ?? self.convert-rtype($ctype)
@@ -1847,7 +1859,7 @@ method convert-ntype (
 #  Str $ctype is copy, Bool :$return-type = False --> Str
 ) {
   return '' unless ?$ctype;
-#note "\n$?LINE convert-ntype ctype: $ctype";
+#note "\n$?LINE convert-ntype ctype: $ctype" if $ctype ~~ m:i/ cairo /;
 
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
@@ -1857,6 +1869,12 @@ method convert-ntype (
 
   my Str $raku-type = '';
   with $ctype {
+
+    # Make packages depending on Cairo of Timo
+    when /cairo_t '*'/ {
+      $raku-type = 'Cairo::cairo_t';
+      self.add-import('Cairo');
+    }
 
     # ignore const
     when /g? char '**'/       { $raku-type = 'gchar-pptr'; }
@@ -1911,7 +1929,7 @@ method convert-ntype (
       $ctype ~~ s:g/ '*' //;
 
       my Hash $h = $!solve.search-name($ctype);
-#note "  $?LINE $is-pointer, $ctype, $h<gir-type>";
+#note "  $?LINE $is-pointer, $ctype, $h<gir-type>" if $ctype ~~ m:i/ cairo /;
       given $h<gir-type> // '-' {
         when 'class' {
           $raku-type = 'N-Object';
@@ -1994,6 +2012,7 @@ method convert-ntype (
   }
 
 #note "\n$?LINE convert $ctype --> $raku-type";
+#note "\n$?LINE $ctype, $raku-type" if $ctype ~~ m:i/ cairo /;
   $raku-type
 }
 
@@ -2003,6 +2022,7 @@ method convert-rtype (
 ) {
   return '' unless ?$ctype;
 #note "$?LINE convert-rtype $ctype";
+#note "\n$?LINE convert-rtype ctype: $ctype" if $ctype ~~ m:i/ cairo /;
 
   # ignore const and spaces
   my Str $orig-ctype = $ctype;
@@ -2012,6 +2032,12 @@ method convert-rtype (
 
   my Str $raku-type = '';
   with $ctype {
+
+    # Make packages depending on Cairo of Timo
+    when /cairo_t '*'/ {
+      $raku-type = 'Cairo::cairo_t';
+      self.add-import('Cairo');
+    }
 
 #TODO int/num/pointers as '$x is rw'
     when /g? char '**'/         { $raku-type = 'Array[Str]'; }
@@ -2027,7 +2053,7 @@ method convert-rtype (
     # Graphene
     when / _Bool /              { $raku-type = 'gboolean'; }
 
-    # Other packages like those from Cairo or Pango might not have
+    # Other packages like those from Pango might not have
     # the 'g' prefixed
     when / g? boolean / {
       $raku-type = 'Bool';
@@ -2171,7 +2197,7 @@ method convert-rtype (
       }
     }
   }
-#note "\n$?LINE $ctype, $raku-type";
+#note "\n$?LINE $ctype, $raku-type" if $ctype ~~ m:i/ cairo /;
 
   $raku-type
 }
@@ -2485,7 +2511,7 @@ method get-functions (
     # Function names which are returned emptied, are assumably internal
     next unless ?$function-name and ?%h;
 
-    # Add to hash with functionname as its
+    # Add to hash with functionname as its key
     $hms{$function-name} = %h;
   }
 
@@ -2511,7 +2537,7 @@ method get-methods (
     # Function names which are returned emptied, are assumably internal
     next unless ?$function-name and ?%h;
 
-    # Add to hash with functionname as its
+    # Add to hash with functionname as its key
     $hms{$function-name} = %h;
   }
 
