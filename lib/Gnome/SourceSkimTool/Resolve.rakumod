@@ -31,8 +31,6 @@ method set-object-name (
     $object-name = $object-map-entry<type-name>;
   }
 
-#note "$?LINE $object-name, $object-map-entry.gist()" if $object-map-entry<source-filename> eq 'box';
-
   given $name-type {
     when ClassnameType {
 #say Backtrace.new.nice if $object-map-entry<package-name>:!exists;
@@ -60,7 +58,6 @@ method set-object-name (
       }
 
       when FilenameGirType {
-#note "\n$?LINE $type-letter, $object-map-entry.gist()";
         # Recalculate typeletter and add other ones, they have been made
         # different in the gir data environment
         given $type-letter {
