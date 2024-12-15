@@ -1,31 +1,36 @@
 ### TODO list
 
 <!-- -->
-* TODO modify markdown links in text or in Raku links when it shows use of url
+* TODO
+  * [ ] Modify markdown links in text or in Raku links when it uses urls.
+  * Add explanations of module documentation layout in the references of the documentation on site.
+    * [ ] Add info about the glib types used and what it means in Raku.
+    * [ ] That properties are mostly not needed because of their getters and setters.
+    * [ ] What does a function, constructor and method mean for gnome and how it is translated.
+    * [ ] Referencing, dereferencing and floating references.
+    * [ ] Naming the classes, structures, unions, enumerations and the modules where they are defined.
+    * [ ] C-examples and converting to Raku
 
-* TODO Add explanations of module documentation layout in the references of the documentation on site.
-  * Add info about the glib types used and what it means in Raku.
-  * That properties are mostly not needed because of their getters and setters.
-  * What does a function, constructor and method mean for gnome and how is translated.
-  * Referencing, dereferencing and floating references.
-  * Naming the classes, structures, unions, enumerations and the modules where they are defined.
-  * C-examples and converting to Raku
+  * Some types need to be implemented
+    * [ ] Unknown gir type to convert to native raku type 'record' for ctype 'GtkRecentInfo'
+    * [ ] Unknown gir type to convert to raku type 'record' for ctype 'GtkRecentInfo', '(Any)'
+    * [ ] Unknown gir type to convert to native raku type 'callback' for ctype 'GtkRecentSortFunc'
+    * [ ] Unknown gir type to convert to raku type 'callback' for ctype 'GtkRecentSortFunc', '(Any)'
+    * [ ] Unknown gir type to convert to raku type '-' for ctype 'gpointer', '(Any)'
+    * [ ] Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
+    * [ ] Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
 
-* TODO Some types need to be implemented
-  Unknown gir type to convert to native raku type 'record' for ctype 'GtkRecentInfo'
-  Unknown gir type to convert to raku type 'record' for ctype 'GtkRecentInfo', '(Any)'
-   Unknown gir type to convert to native raku type 'callback' for ctype 'GtkRecentSortFunc'
-  Unknown gir type to convert to raku type 'callback' for ctype 'GtkRecentSortFunc', '(Any)'
-  Unknown gir type to convert to raku type '-' for ctype 'gpointer', '(Any)'
-  Unknown gir type to convert to native raku type 'callback' for ctype 'GDestroyNotify'
-  Unknown gir type to convert to raku type 'callback' for ctype 'GDestroyNotify', '(Any)'
+  * [x] Find out if `:api<2>` is a good enough separation from the old packages. It is ok now that the old set has been tagged with `:api<1>`.
+    * See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
+    * https://docs.raku.org/language/compilation#$*REPO
 
-* TODO Find out if :api<2> is a good enough separation from the old packages
-  * See https://stackoverflow.com/questions/55671684/how-does-raku-decide-which-version-of-a-module-gets-loaded
-  * https://docs.raku.org/language/compilation#$*REPO
+  * [x] `GdkPixdata` is deprecated. Not needed to implement.
 
-* GdkPixdata is deprecated. Not needed to implement.
+  * [x] `Gnome::Cairo` distribution in the old setup is not available in the new api. It is possible to use Timo's **Cairo** distro.
 
+  * [ ] Changes in documentation to be used with modern pod doc called Rakudoc using **RakuDoc::To::HTML**. Now still depending on **Pod::To::HTML2**.
+
+<!--
 ### Testing command with timing -o for dump to file
 * With some options
 ```
@@ -45,16 +50,16 @@
 ```
 find . -name '*.raku*' | xargs wc -l
 ```
-
-##
+-->
 
 
 ### List of backward compatibility breaks 😭 😭
 * Importing the modules must be done with `:api<2>` attached to prevent loading modules from older packages if they are still installed.
 * Instanciating a class or record is done using positional arguments instead of named arguments. The names of these methods will not be `new()` anymore but something like `new-*()`. E.g. `new-label($text)` or `new-grid()`.
-* The `new()` call is only used for specific work. I.e.
+* The `new()` call is only used for specific work. I.E.
   * Providing a native object from elsewhere with `:$native-object`.
   * Using an id with `:$build-id` to get a native object from an XML description.
+  * Instanciating structures, those with the `N-` prefix.
 * Inheriting mechanism is changed.
 * Code is split into more separate files.
   * **Gnome::\<package>::\<class>**. Class names are as before.
@@ -72,6 +77,11 @@ find . -name '*.raku*' | xargs wc -l
 * TDDO Improve documentation. Make use of RakuDoc which is not yet available.
 
 # Release notes
+* 2024-12-14 0.17.0
+  * Start to make Gtk4 depending on Timo's **Cairo**
+  * Changes added to cope with function names `*_<digit>*` which would generate an illegal Raku name `*-<digit>*`. Examples are found in Snapshot e.g. `.scale3d()` which has a .
+  * There are changes made in generated documentation to be able to use the **Pod::To::HTML2** module. All docs are regenerated.
+
 * 2024-08-19 0.16.5
   * Changes in **Gnome::N::GObjectSupport** to handle signal names with a detail added. E.g. 'notify::selected'.
 
