@@ -1,0 +1,53 @@
+=comment Package: Gsk4, C-Source: stroke
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gsk4::T-stroke
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 stroke-equal
+
+Checks if 2 strokes are identical.
+
+=begin code
+method stroke-equal ( gpointer $stroke1, gpointer $stroke2 --> Bool )
+=end code
+
+=item $stroke1; the first B<Gnome::Gsk4::N-Stroke>.
+=item $stroke2; the second B<Gnome::Gsk4::N-Stroke>.
+
+Return value; C<True> if the 2 strokes are equal, C<False> otherwise. 
+
+=begin comment
+
+=head2 Example
+# Example for stroke-equal
+
+=end comment
+
+=end pod
+
