@@ -9,25 +9,39 @@ use v6.d;
 use NativeCall;
 use Test;
 
-#use Gnome::Cairo::N-Context:api<2>;
 
+use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
-
-#use Gnome::Glib::N-Bytes:api<2>;
-
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::Graphene::N-Matrix:api<2>;
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Point3D:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::N-Size:api<2>;
+use Gnome::Graphene::N-Vec3:api<2>;
+use Gnome::Graphene::N-Vec4:api<2>;
+use Gnome::Graphene::T-matrix:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-point3d:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Graphene::T-size:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
 #use Gnome::Gsk4::N-ColorStop:api<2>;
+#use Gnome::Gsk4::N-Path:api<2>;
 #use Gnome::Gsk4::N-RoundedRect:api<2>;
 #use Gnome::Gsk4::N-Shadow:api<2>;
-#use Gnome::Gsk4::N-Transform:api<2>;
-#use Gnome::Gsk4::T-Enums:api<2>;
-
+#use Gnome::Gsk4::N-Stroke:api<2>;
+use Gnome::Gsk4::N-Transform:api<2>;
+use Gnome::Gsk4::T-enums:api<2>;
+use Gnome::Gsk4::T-rendernode:api<2>;
+#use Gnome::Gsk4::T-roundedrect:api<2>;
+use Gnome::Gsk4::T-types:api<2>;
 use Gnome::Gtk4::Snapshot:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
-
 use Gnome::Pango::T-direction:api<2>;
 
 #-------------------------------------------------------------------------------
@@ -66,57 +80,62 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $snapshot {
-    my gfloat $hradius;
-    my N-Object $layout;
-    my  $axis;
-    my N-RGBA $border-color;
-    my gfloat $vradius;
-    my gfloat $dy;
-#    my N-Bytes  $take-args;
-    my gsize $n-stops;
-    my gfloat $end;
-    my gfloat $blur-radius;
-    my N-Object $node;
-    my N-Object $context;
-    my  $center;
-    my gfloat $dx;
-    my  $size;
-    my  $color-offset;
-#    my N-ColorStop  $stops;
-    my gdouble $width;
-#    my N-RoundedRect  $outline;
-    my  $end-point;
-#    my N-RoundedRect  $bounds;
-    my N-Object $shader;
-    my gint $index;
-    my  $start-point;
-    my gdouble $radius;
-#    my N-Shadow  $shadow;
-    my gfloat $angle;
-    my gdouble $opacity;
-    my gfloat $rotation;
-    my gdouble $x;
-    my N-RGBA $color;
-#    my N-Transform  $transform;
-    my  $color-matrix;
-    my N-Object $texture;
-    my gdouble $y;
-    my  $child-bounds;
-    my gfloat $factor-y;
-#    my GskBlendMode  $blend-mode;
-    my gsize $n-shadows;
-    my gdouble $progress;
-    my gdouble $height;
-    my Str $message;
-    my  $border-width;
-    my gfloat $depth;
-    my  $matrix;
-    my gfloat $factor-x;
-    my gfloat $factor-z;
-    my  $point;
     my PangoDirection $direction;
-    my gfloat $spread;
+    my gint $index;
     my gfloat $start;
+    my gfloat $rotation;
+    my N-Object $stops;
+    my N-Object $node;
+    my N-Object $layout;
+    my gdouble $radius;
+    my gfloat $dx;
+    my N-Object $shader;
+    my gdouble $opacity;
+    my N-Object $border-color;
+    my N-Object $shadow;
+    my N-Object $size;
+    my GskFillRule $fill-rule;
+    my N-Object $bounds;
+    my N-Object $stroke;
+    my CArray[gfloat] $border-width;
+    my gfloat $factor-y;
+    my N-Object $take-args;
+    my gfloat $factor-z;
+    my N-Object $transform;
+    my N-Object $outline;
+    my gfloat $vradius;
+    my gdouble $y;
+    my gfloat $blur-radius;
+    my N-Object $color-matrix;
+    my N-Object $child-bounds;
+    my gdouble $height;
+    my gdouble $width;
+    my N-Object $axis;
+    my N-Object $end-point;
+    my gfloat $end;
+    my gfloat $hradius;
+    my gfloat $spread;
+    my N-Object $color;
+    my N-Object $start-point;
+    my N-Object $path;
+    my gsize $n-shadows;
+    my N-Object $matrix;
+    my GskBlendMode $blend-mode;
+    my gfloat $angle;
+    my gfloat $dy;
+    my gfloat $factor-x;
+    my N-Object $color-offset;
+    my gdouble $x;
+    my GskMaskMode $mask-mode;
+    my gfloat $depth;
+    my GskScalingFilter $filter;
+    my N-Object $context;
+    my gsize $n-stops;
+    my gdouble $progress;
+    my N-Object $texture;
+    my Str $message;
+    my N-Object $center;
+    my N-Object $point;
 
 
 #`{{
@@ -131,6 +150,9 @@ subtest 'Method tests', {
 
     #TM:0:append-conic-gradient()
     ok .append-conic-gradient( $bounds, $center, $rotation, $stops, $n-stops), '.append-conic-gradient()';
+
+    #TM:0:append-fill()
+    ok .append-fill( $path, $fill-rule, $color), '.append-fill()';
 
     #TM:0:append-inset-shadow()
     ok .append-inset-shadow( $outline, $color, $dx, $dy, $spread, $blur-radius), '.append-inset-shadow()';
@@ -155,6 +177,12 @@ subtest 'Method tests', {
 
     #TM:0:append-repeating-radial-gradient()
     ok .append-repeating-radial-gradient( $bounds, $center, $hradius, $vradius, $start, $end, $stops, $n-stops), '.append-repeating-radial-gradient()';
+
+    #TM:0:append-scaled-texture()
+    ok .append-scaled-texture( $texture, $filter, $bounds), '.append-scaled-texture()';
+
+    #TM:0:append-stroke()
+    ok .append-stroke( $path, $stroke, $color), '.append-stroke()';
 
     #TM:0:append-texture()
     ok .append-texture( $texture, $bounds), '.append-texture()';
@@ -192,8 +220,14 @@ subtest 'Method tests', {
     #TM:0:push-debug()
     ok .push-debug( $message), '.push-debug()';
 
+    #TM:0:push-fill()
+    ok .push-fill( $path, $fill-rule), '.push-fill()';
+
     #TM:0:push-gl-shader()
     ok .push-gl-shader( $shader, $bounds, $take-args), '.push-gl-shader()';
+
+    #TM:0:push-mask()
+    ok .push-mask( $mask-mode), '.push-mask()';
 
     #TM:0:push-opacity()
     ok .push-opacity( $opacity), '.push-opacity()';
@@ -206,6 +240,9 @@ subtest 'Method tests', {
 
     #TM:0:push-shadow()
     ok .push-shadow( $shadow, $n-shadows), '.push-shadow()';
+
+    #TM:0:push-stroke()
+    ok .push-stroke( $path, $stroke), '.push-stroke()';
 
     #TM:0:render-background()
     ok .render-background( $context, $x, $y, $width, $height), '.render-background()';
@@ -228,7 +265,7 @@ subtest 'Method tests', {
     #TM:0:rotate()
     ok .rotate( $angle), '.rotate()';
 
-    #TM:0:rotate-()
+    #TM:0:rotate3d()
     ok .rotate3d( $angle, $axis), '.rotate3d()';
 
     #TM:0:save()
