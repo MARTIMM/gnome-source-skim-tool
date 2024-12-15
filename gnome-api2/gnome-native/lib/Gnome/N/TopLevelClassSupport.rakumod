@@ -33,6 +33,9 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 unit class Gnome::N::TopLevelClassSupport;
 also is Mu;
 
+#===============================================================================
+#multi method append ( $p1 where $p1.^name ~~ m/ 'N-SList' /, gpointer ) { ... }
+
 #-------------------------------------------------------------------------------
 # this native object is used by the toplevel class and its descendent classes.
 # the native type is always the same as set by all classes inheriting from
