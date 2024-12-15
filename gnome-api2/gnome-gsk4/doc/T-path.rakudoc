@@ -1,0 +1,119 @@
+=comment Package: Gsk4, C-Source: path
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gsk4::T-path
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+Initialization of a type class is simple and only needed when the standalone functions are used.
+
+  method new ( )
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GskPathForeachFlags
+
+Flags that can be passed to C<.foreach()> to influence what
+kinds of operations the path is decomposed into.
+
+By default, C<.foreach()> will only emit a path with all
+operations flattened to straight lines to allow for maximum compatibility.
+The only operations emitted will be B<GSK_PATH_MOVE>, B<GSK_PATH_LINE> and
+B<GSK_PATH_CLOSE>.
+
+=item C<GSK_PATH_FOREACH_ALLOW_ONLY_LINES>; The default behavior, only allow lines.
+=item C<GSK_PATH_FOREACH_ALLOW_QUAD>; Allow emission of B<GSK_PATH_QUAD> operations
+=item C<GSK_PATH_FOREACH_ALLOW_CUBIC>; Allow emission of B<GSK_PATH_CUBIC> operations.
+=item C<GSK_PATH_FOREACH_ALLOW_CONIC>; Allow emission of B<GSK_PATH_CONIC> operations.
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Callback Functions]---------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Callback Functions
+=head2 PathForeachFunc
+
+=head3 Signature
+=begin code
+:(  GEnum $op, N-Object $pts, Int() $n-pts, Num() $weight, gpointer $user-data  )
+=end code
+
+=item op; The operation
+=item pts; The points of the operation
+=item n-pts; The number of points
+=item weight; The weight for conic curves, or unused if not a conic curve
+=item user-data; The user data provided with the function
+
+=end pod
+#-------------------------------------------------------------------------------
+#--[Standalone Functions]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Standalone Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 path-parse
+
+This is a convenience function that constructs a B<Gnome::Gsk4::N-Path>
+from a serialized form.
+
+The string is expected to be in (a superset of)
+[SVG path syntax](https://www.w3.org/TR/SVG11/paths.html#PathData),
+as e.g. produced by C<.to-string()>.
+
+A high-level summary of the syntax:
+
+=item B<M> x y` Move to `(x, y)`
+=item B<L> x y` Add a line from the current point to `(x, y)`
+=item B<Q> x1 y1 x2 y2` Add a quadratic Bézier from the current point to `(x2, y2)`, with control point `(x1, y1)`
+=item B<C> x1 y1 x2 y2 x3 y3` Add a cubic Bézier from the current point to `(x3, y3)`, with control points `(x1, y1)` and `(x2, y2)`
+=item B<Z> Close the contour by drawing a line back to the start point
+=item B<H> x` Add a horizontal line from the current point to the given x value
+=item B<V> y` Add a vertical line from the current point to the given y value
+=item B<T> x2 y2` Add a quadratic Bézier, using the reflection of the previous segments' control point as control point
+=item B<S> x2 y2 x3 y3` Add a cubic Bézier, using the reflection of the previous segments' second control point as first control point
+=item B<A> rx ry r l s x y` Add an elliptical arc from the current point to `(x, y)` with radii rx and ry. See the SVG documentation for how the other parameters influence the arc.
+=item B<O> x1 y1 x2 y2 w` Add a rational quadratic Bézier from the current point to `(x2, y2)` with control point `(x1, y1)` and weight B<w>.
+
+All the commands have lowercase variants that interpret coordinates
+relative to the current point.
+
+The B<O> command is an extension that is not supported in SVG.
+
+=begin code
+method path-parse ( Str $string --> N-Object )
+=end code
+
+=item $string; a string.
+
+Return value; a new B<Gnome::Gsk4::N-Path>, or undefined if C<$string> could not be parsed. 
+
+=begin comment
+
+=head2 Example
+# Example for path-parse
+
+=end comment
+
+=end pod
+

@@ -1,0 +1,59 @@
+=comment Package: Gsk4, C-Source: path
+use v6.d;
+
+#TL:1:Gnome::Gsk4::T-path:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+#use Gnome::Gsk4::N-Path:api<2>;
+use Gnome::Gsk4::T-path:api<2>;
+use Gnome::Gsk4::T-types:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+
+my Gnome::Gsk4::T-path $path .= new;
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $path {
+    my Str $string;
+
+
+#`{{
+    #TM:0:path-parse()
+    ok .path-parse( $string), '.path-parse()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GskPathForeachFlags
+subtest 'GskPathForeachFlags', {
+  is GSK_PATH_FOREACH_ALLOW_ONLY_LINES.value, 0, 'bitfield GSK_PATH_FOREACH_ALLOW_ONLY_LINES = 0';
+
+  is GSK_PATH_FOREACH_ALLOW_QUAD.value, 1, 'bitfield GSK_PATH_FOREACH_ALLOW_QUAD = 1';
+
+  is GSK_PATH_FOREACH_ALLOW_CUBIC.value, 2, 'bitfield GSK_PATH_FOREACH_ALLOW_CUBIC = 2';
+
+  is GSK_PATH_FOREACH_ALLOW_CONIC.value, 4, 'bitfield GSK_PATH_FOREACH_ALLOW_CONIC = 4';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+
