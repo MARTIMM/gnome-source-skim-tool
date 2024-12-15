@@ -275,6 +275,12 @@ method !modify-v4methods ( Str $text is copy --> Str ) {
     $funcname = $/<mfunc-regex><funcname>.Str;
     $funcname ~~ s:g/ '_' /-/;
 
+    # Sometimes names of function have a digit after the underscore. Examples
+    # are found in Gsk4 'gtk_snapshot_rotate_3d'. It is translated into
+    # 'rotate-3d' which is not a legal Raku function name. So, need an extra
+    # test here.
+    $funcname ~~ s:g/ '-' (\d) /$0/ if $funcname ~~ m/ '-' \d /;
+
     if "$package$class".lc eq $*work-data<gnome-name>.lc {
       $text ~~ s/ <mfunc-regex> /C<.$funcname\(\)>/;
     }
@@ -384,6 +390,14 @@ method !modify-v4functions ( Str $text is copy --> Str ) {
 # Convert classes [class@Gtk.Entry] also found [class@Button]
 # and interfaces [iface@Gtk.TreeSortable]
 method !modify-v4classes ( Str $text is copy --> Str ) {
+
+  # Exception [class@Gsk.CairoNode]. This must be changed in B<Cairo::cairo_t>
+  my regex exception { '[' class \@ Gsk \. CairoNode ']' }
+  while $text ~~ m/ <exception> / {
+    my Str $classname = 'Cairo::cairo_t';
+    $text ~~ s/ <exception> /B<$classname>/;
+  }
+
 
   # [class@Gtk.Entry]
   my token prefix { <-[\.\]]>+ }

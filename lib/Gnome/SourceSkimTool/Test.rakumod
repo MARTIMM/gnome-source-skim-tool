@@ -123,6 +123,12 @@ method make-function-test (
 #  $hash-fname ~~ s/^ $symbol-prefix //;
 #  $hash-fname ~~ s:g/ '_' /-/;
 
+  # Sometimes names of function have a digit after the underscore. Examples
+  # are found in Gsk4 'gtk_snapshot_rotate_3d'. It is translated into
+  # 'rotate-3d' which is not a legal Raku function name. So, need an extra
+  # test here.
+  $hash-fname ~~ s:g/ '-' (\d) /$0/ if $hash-fname ~~ m/ '-' \d /;
+
   my Bool $isnew = ($hash-fname ~~ m/^ new /).Bool;
 
   my Bool $first-param = True;
