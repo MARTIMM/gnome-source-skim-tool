@@ -280,7 +280,6 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
       }
 
       $result = self!get-types( $parameter, @rv-list);
-note "$?LINE \n$parameter.gist()\n$result.gist()" if $native-sub eq 'append-cairo';
       $raku-list ~= $result<raku-list> // '';
       $items-doc ~= $result<items-doc> // '';
       $returns-doc ~= $result<returns-doc> // '';
@@ -290,8 +289,9 @@ note "$?LINE \n$parameter.gist()\n$result.gist()" if $native-sub eq 'append-cair
     if ?$xtype and $xtype ne 'void' {
 
       my Str ( $l, $d ) = self.check-special( $xtype, '', '');
-      # Drop coercion mark from return value
+      # Drop coercion mark from return value if any
       $l ~~ s/ '()' //;
+note "$?LINE $xtype {$curr-function<rv-doc> // '-'}" if $native-sub eq 'append-cairo';
 
       $raku-list ~= " --> $l";
       $own = '';
@@ -575,29 +575,35 @@ method check-special ( Str $type, Str $name, Str $doc is copy --> List ) {
   return ( $list, $doc) unless ?$type;
   
   # Test for callback signature to not get it be seen as a GEnum or GFlag.
-  if $type ~~ m/^ ':(' / {
+  if $type ~~ m/ ':' / and $type !~~ m/ '::' / {
+    if $type ~~ m/^ ':(' / {
 
+    }
+
+    # Test for enumerations or bitmaps
+    elsif $type ~~ m/ ':' / {
+      my ( $t0, $t1) = $type.split(':');
+      if $t0 eq 'GEnum' {
+        $list = ?$name ?? ", $t1 \$$name" !! $t1;
+  #      $doc ~= " An enumeration.\n"; 
+      }
+
+      else { # GFlag
+        $list = ?$name ?? ', UInt $' ~ $name !! 'UInt';
+  #      $doc ~= " A bitmap.\n"; 
+      }
+    }
   }
 
-  # Test for enumerations or bitmaps
-  elsif $type ~~ m/ ':' / {
-    my ( $t0, $t1) = $type.split(':');
-    if $t0 eq 'GEnum' {
-      $list = ?$name ?? ", $t1 \$$name" !! $t1;
-#      $doc ~= " An enumeration.\n"; 
-    }
-
-    else { # GFlag
-      $list = ?$name ?? ', UInt $' ~ $name !! 'UInt';
-#      $doc ~= " A bitmap.\n"; 
-    }
+  elsif $type ~~ m/ '::' / {
+    $list = $type;
   }
 
   else {
     $list = ?$name ?? ", $type \$$name" !! $type;
 #    $doc ~= "\n"; 
   }
-
+#note "$?LINE $type, $list";
   ( $list, $doc)
 }
 

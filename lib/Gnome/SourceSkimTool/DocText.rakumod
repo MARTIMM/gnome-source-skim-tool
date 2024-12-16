@@ -766,31 +766,38 @@ method !modify-rest ( Str $text is copy --> Str ) {
   while $text ~~ m/ <name-regex> / {
 #note "$?LINE $/.gist()" if $text ~~ /NULL/;
     my Str $name = $/<name-regex><name>.Str;
-    my Hash $h = $!solve.search-name($name);
-#note "$?LINE $name, $h.gist()";
-    if ?$h {
-      my Str $classname = $!solve.set-object-name($h);
-      given $h<gir-type> {
-        when 'class' {
-          $text ~~ s/ <name-regex> /B<$classname>/;
-        }
-
-        when 'enumeration' {
-          $text ~~ s/ <name-regex> /C<enumeration $name defined in $classname>/;
-        }
-
-        when 'bitfield' {
-          $text ~~ s/ <name-regex> /C<bit field $name defined in $classname>/;
-        }
-
-        default {
-          $text ~~ s/ <name-regex> /B<$classname>/;
-        }
-      }
+    # Exception when external like cairo_t is used
+    if $name eq 'cairo_t' {
+      $text ~~ s/ <name-regex> /B<Cairo::cairo_t>/;
     }
 
     else {
-      $text ~~ s/ <name-regex> /B<$name>/;
+      my Hash $h = $!solve.search-name($name);
+  #note "$?LINE $name, $h.gist()";
+      if ?$h {
+        my Str $classname = $!solve.set-object-name($h);
+        given $h<gir-type> {
+          when 'class' {
+            $text ~~ s/ <name-regex> /B<$classname>/;
+          }
+
+          when 'enumeration' {
+            $text ~~ s/ <name-regex> /C<enumeration $name defined in $classname>/;
+          }
+
+          when 'bitfield' {
+            $text ~~ s/ <name-regex> /C<bit field $name defined in $classname>/;
+          }
+
+          default {
+            $text ~~ s/ <name-regex> /B<$classname>/;
+          }
+        }
+      }
+
+      else {
+        $text ~~ s/ <name-regex> /B<$name>/;
+      }
     }
   }
 
