@@ -117,12 +117,12 @@ Creates a new B<Cairo::cairo_t> and appends it to the current
 render node of C<$snapshot>, without changing the current node.
 
 =begin code
-method append-cairo ( N-Object $bounds --> UInt )
+method append-cairo ( N-Object $bounds --> Cairo::cairo_t )
 =end code
 
 =item $bounds; the bounds for the new node
 
-Return value; a B<Gnome::Cairo::N-Context> suitable for drawing the contents of
+Return value; a B<Cairo::cairo_t> suitable for drawing the contents of
   the newly created render node. 
 
 =begin comment
