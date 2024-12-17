@@ -607,16 +607,23 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
       else {
         my Str $xtype = $parameter<raku-type>;
-        # Signatures have a colon at the first char followed by '('
-        if $xtype ~~ m/^ ':(' / {
-          $par-list ~= ", $xtype";
+
+        if $xtype ~~ m/ ':' / and $xtype !~~ m/ '::' / {
+          # Signatures have a colon at the first char followed by '('
+          if $xtype ~~ m/^ ':(' / {
+            $par-list ~= ", $xtype";
+          }
+
+          else {
+            # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
+            # Here we only need the type.
+            my ( $rnt0, $rnt1) = $xtype.split(':');
+            $par-list ~= ", $rnt0";
+          }
         }
 
         else {
-          # Enumerations and bitfields are returned as GEnum:Name and GFlag:Name
-          # Here we only need the type.
-          my ( $rnt0, $rnt1) = $xtype.split(':');
-          $par-list ~= ", $rnt0";
+          $par-list ~= ", $xtype";
         }
       }
     }
@@ -733,7 +740,7 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
       last if $parameter<raku-type> eq '…';
 
       my Str $xtype = $parameter<raku-type>;
-note "$?LINE $xtype";
+#note "$?LINE $xtype";
       if $xtype ~~ m/ ':' / and $xtype !~~ m/ '::' /  {
         # Test for callback routine spec
         if $xtype ~~ m/^ ':(' / {
@@ -929,28 +936,41 @@ method generate-callback ( Hash $cb-data --> Str ) {
   my Bool $available = True;
   my Str $par-list = '';
   for @($cb-data<parameters>) -> $parameter {
-    my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
-    if $rnt0 ~~ / _UA_ $/ {
-      $available = False;
-      $rnt0 ~~ s/ _UA_ $//;
-    }
+    my Str $xtype = $parameter<raku-type>;
     my Str $parameter-name = $parameter<name>;
-    $parameter-name ~~ s/ '-' $//;
-    $par-list ~= ", $rnt0 \$$parameter-name";
+    if $xtype ~~ m/ ':' / and $xtype !~~ m/ '::' / {
+      my ( $rnt0, $rnt1) = $xtype.split(':');
+      if $rnt0 ~~ / _UA_ $/ {
+        $available = False;
+        $rnt0 ~~ s/ _UA_ $//;
+      }
+      $parameter-name ~~ s/ '-' $//;
+      $par-list ~= ", $rnt0 \$$parameter-name";
+    }
+
+    else {
+      $par-list ~= ", $xtype \$$parameter-name";
+    }
   }
 
   # Remove first comma and space when there is only one parameter
   $par-list ~~ s/^ . //;
 
   my Str $returns = '';
-  my $xtype = $cb-data<return-raku-type>;
-  my ( $rnt0, $rnt1) = $xtype.split(':');
-  if ?$rnt0 and $rnt0 ne 'void' {
-    if $rnt0 ~~ / _UA_ $/ {
-      $available = False;
-      $rnt0 ~~ s/ _UA_ $//;
+  my Str $xtype = $cb-data<return-raku-type>;
+  if $xtype ~~ m/ ':' / and $xtype !~~ m/ '::' / {
+    my ( $rnt0, $rnt1) = $xtype.split(':');
+    if ?$rnt0 and $rnt0 ne 'void' {
+      if $rnt0 ~~ / _UA_ $/ {
+        $available = False;
+        $rnt0 ~~ s/ _UA_ $//;
+      }
+      $returns = $rnt0;
     }
-    $returns = $rnt0;
+
+    else {
+      $par-list ~= ", $xtype";
+    }
   }
 
 #  my $code = [~] $cb-data<function-name>, '=:(', $par-list, ?$returns ?? " --> $returns \)" !! ' )';
