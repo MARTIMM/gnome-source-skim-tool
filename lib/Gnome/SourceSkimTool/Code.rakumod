@@ -1640,6 +1640,13 @@ method substitute-MODULE-IMPORTS (
 
   $import ~= "\n";
 
+  # External module dependencies
+  for $*external-modules.kv -> $m, $s {
+    $import ~= "use $m;\n" if $s ~~ EMTExtDep;
+  }
+
+  $import ~= "\n";
+
   for $*external-modules.kv -> $m, $s {
     next if $skip-n-mods and $m !~~ m/ '::N-Object' / and $m ~~ m/ '::N-' /;
     $import ~= "use $m;\n" if $s ~~ EMTInApi1;
@@ -1871,8 +1878,14 @@ method convert-ntype (
   with $ctype {
 
     # Make packages depending on Cairo of Timo
-    when /cairo_t '*'/ {
-      $raku-type = 'Cairo::cairo_t';
+    when / 'cairo_content_t' / {
+      $raku-type = "GEnum:Content"; #'UInt';
+      self.add-import('Cairo');
+    }
+
+    when / cairo [ '_' <alnum>+ ]? '_t' '*' / {
+      $ctype ~~ s:g/ '*' //;
+      $raku-type = "Cairo::$ctype";
       self.add-import('Cairo');
     }
 
@@ -2034,8 +2047,14 @@ method convert-rtype (
   with $ctype {
 
     # Make packages depending on Cairo of Timo
-    when /cairo_t '*'/ {
-      $raku-type = 'Cairo::cairo_t';
+    when / 'cairo_content_t' / {
+      $raku-type = "GEnum:Content";
+      self.add-import('Cairo');
+    }
+
+    when / cairo [ '_' <alnum>+ ]? '_t' '*' / {
+      $ctype ~~ s:g/ '*' //;
+      $raku-type = "Cairo::$ctype";
       self.add-import('Cairo');
     }
 

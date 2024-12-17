@@ -767,8 +767,8 @@ method !modify-rest ( Str $text is copy --> Str ) {
 #note "$?LINE $/.gist()" if $text ~~ /NULL/;
     my Str $name = $/<name-regex><name>.Str;
     # Exception when external like cairo_t is used
-    if $name eq 'cairo_t' {
-      $text ~~ s/ <name-regex> /B<Cairo::cairo_t>/;
+    if $name ~~ m/ cairo [ '_' <alnum>+ ]? '_t' '*'? / {
+      $text ~~ s/ <name-regex> /B<Cairo::$name>/;
     }
 
     else {

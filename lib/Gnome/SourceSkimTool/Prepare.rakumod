@@ -14,7 +14,9 @@ submethod BUILD ( ) {
 
   if $*generate-code {
     $*external-modules = %(
-      :NativeCall(EMTRakudo), 'Gnome::N::NativeLib' => EMTInApi2,
+      :NativeCall(EMTRakudo),
+      :Cairo(EMTExtDep),
+      'Gnome::N::NativeLib' => EMTInApi2,
       'Gnome::N::N-Object' => EMTInApi2,
       'Gnome::N::GlibToRakuTypes' => EMTInApi2,
     );

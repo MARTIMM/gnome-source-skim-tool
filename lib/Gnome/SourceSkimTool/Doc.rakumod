@@ -291,7 +291,7 @@ method _document-native-subs ( Hash $hcs, Str :$routine-type --> Str ) {
       my Str ( $l, $d ) = self.check-special( $xtype, '', '');
       # Drop coercion mark from return value if any
       $l ~~ s/ '()' //;
-note "$?LINE $xtype {$curr-function<rv-doc> // '-'}" if $native-sub eq 'append-cairo';
+#note "$?LINE $xtype {$curr-function<rv-doc> // '-'}" if $native-sub eq 'create-similar-surface';
 
       $raku-list ~= " --> $l";
       $own = '';
@@ -506,6 +506,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
   $missing-type = True if !$return-raku-type or $return-raku-type ~~ /_UA_ $/;
   $return-raku-type ~~ s/ _UA_ $//;
   $return-raku-type ~~ s/ '()' //;
+#note "$?LINE $rv-type, $return-raku-type, $missing-type";
 
   # Get all parameters. Mostly the instance parameters come first
   # but I am not certain.
@@ -645,6 +646,8 @@ method get-doc-type (
       }
     }
   }
+
+#note "$?LINE $ctype, $raku-type";
 
   ( $doc, $ctype, $raku-type)
 }

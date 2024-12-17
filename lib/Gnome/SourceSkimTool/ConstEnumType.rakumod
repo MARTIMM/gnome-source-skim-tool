@@ -51,7 +51,6 @@ constant lib-content-list-file is export =
     If you are dealing with pixbufs, you can use gdk_texture_new_for_pixbuf() to convert them to texture objects where needed.
 }}
 
-# SkimSource Gdk3Pixbuf not interesting anymore
 enum SkimSource is export <
   Atk
   Cairo
@@ -65,7 +64,7 @@ enum SkimSource is export <
 >;
 
 enum ExternalModuleType is export <
-  EMTRakudo EMTNotImplemented EMTInApi1 EMTInApi2
+  EMTRakudo EMTNotImplemented EMTInApi1 EMTInApi2 EMTExtDep
 >;
 
 # Used to get proper name strings from a word.
