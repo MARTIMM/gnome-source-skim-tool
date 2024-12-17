@@ -1,0 +1,906 @@
+=comment Package: Gdk4, C-Source: surface
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::Surface
+=head1 Description
+
+A B<Gnome::Gdk4::Surface> is a rectangular region on the screen.
+
+It’s a low-level object, used to implement high-level objects
+such as B<Gnome::Gtk4::Window> or B<Gnome::Gtk4::Dialog> in GTK.
+
+The surfaces you see in practice are either B<Gnome::Gdk4::R-Toplevel> or
+B<Gnome::Gdk4::R-Popup>, and those interfaces provide much of the required
+API to interact with these surfaces. Other, more specialized surface
+types exist, but you will rarely interact with them directly.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::Surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-popup
+
+Create a new popup surface.
+
+The surface will be attached to C<$parent> and can be positioned
+relative to it using C<.present()> in class C<Gnome::Gdk4::R-Popup>.
+
+=begin code
+method new-popup ( N-Object() $parent, Bool() $autohide --> Gnome::Gdk4::Surface \)
+=end code
+
+=item $parent; the parent surface to attach the surface to.
+=item $autohide; whether to hide the surface on outside clicks.
+
+=begin comment
+
+=head2 Example
+# Example for new-popup
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-toplevel
+
+Creates a new toplevel surface.
+
+=begin code
+method new-toplevel ( N-Object() $display --> Gnome::Gdk4::Surface \)
+=end code
+
+=item $display; the display to create the surface on.
+
+=begin comment
+
+=head2 Example
+# Example for new-toplevel
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 beep
+
+Emits a short beep associated to C<$surface>.
+
+If the display of C<$surface> does not support per-surface beeps,
+emits a short beep on the display just as C<.beep()> in class C<Gnome::Gdk4::Display>.
+
+=begin code
+method beep ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for beep
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-cairo-context
+
+Creates a new B<Gnome::Gdk4::CairoContext> for rendering on C<$surface>.
+
+=begin code
+method create-cairo-context (--> N-Object )
+=end code
+
+Return value; the newly created B<Gnome::Gdk4::CairoContext>. 
+
+=begin comment
+
+=head2 Example
+# Example for create-cairo-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-gl-context
+
+Creates a new B<Gnome::Gdk4::GLContext> for the B<Gnome::Gdk4::Surface>.
+
+The context is disconnected from any particular surface or surface.
+If the creation of the B<Gnome::Gdk4::GLContext> failed, C<$error> will be set.
+Before using the returned B<Gnome::Gdk4::GLContext>, you will need to
+call C<.make-current()> in class C<Gnome::Gdk4::GLContext> or C<.realize()> in class C<Gnome::Gdk4::GLContext>.
+
+=begin code
+method create-gl-context ( CArray[N-Error] $err --> N-Object )
+=end code
+
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; the newly created B<Gnome::Gdk4::GLContext>. 
+
+=begin comment
+
+=head2 Example
+# Example for create-gl-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-similar-surface
+
+Create a new Cairo surface that is as compatible as possible with the
+given C<$surface>.
+
+For example the new surface will have the same fallback resolution
+and font options as C<$surface>. Generally, the new surface will also
+use the same backend as C<$surface>, unless that is not possible for
+some reason. The type of the returned surface may be examined with
+cairo_surface_get_type().
+
+Initially the surface contents are all 0 (transparent if contents
+have transparency, black otherwise.)
+
+This function always returns a valid pointer, but it will return a
+pointer to a “nil” surface if C<$other> is already in an error state
+or any other error occurs.
+
+=begin code
+method create-similar-surface ( Content $content, Int() $width, Int() $height --> Cairo::cairo_surface_t )
+=end code
+
+=item $content; the content for the new surface.
+=item $width; width of the new surface.
+=item $height; height of the new surface.
+
+Return value; a pointer to the newly allocated surface. The caller
+  owns the surface and should call cairo_surface_destroy() when done
+  with it.. 
+
+=begin comment
+
+=head2 Example
+# Example for create-similar-surface
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 create-vulkan-context
+
+Creates a new B<Gnome::Gdk4::VulkanContext> for rendering on C<$surface>.
+
+If the creation of the B<Gnome::Gdk4::VulkanContext> failed, C<$error> will be set.
+
+=begin code
+method create-vulkan-context ( CArray[N-Error] $err --> N-Object )
+=end code
+
+=item $err; Error object. When defined, an error can be returned when there is one.
+Use C<Pointer> when you want to ignore the error.
+.
+
+Return value; the newly created B<Gnome::Gdk4::VulkanContext>, or
+  undefined on error. 
+
+=begin comment
+
+=head2 Example
+# Example for create-vulkan-context
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 destroy
+
+Destroys the window system resources associated with C<$surface> and
+decrements C<$surface>'s reference count.
+
+The window system resources for all children of C<$surface> are also
+destroyed, but the children’s reference counts are not decremented.
+
+Note that a surface will not be destroyed automatically when its
+reference count reaches zero. You must call this function yourself
+before that happens.
+
+=begin code
+method destroy ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for destroy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-cursor
+
+Retrieves a B<Gnome::Gdk4::Cursor> pointer for the cursor currently set on the
+B<Gnome::Gdk4::Surface>.
+
+If the return value is undefined then there is no custom cursor set on
+the surface, and it is using the cursor for its parent surface.
+
+Use C<.set-cursor()> to unset the cursor of the surface.
+
+=begin code
+method get-cursor (--> N-Object )
+=end code
+
+Return value; a B<Gnome::Gdk4::Cursor>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-device-cursor
+
+Retrieves a B<Gnome::Gdk4::Cursor> pointer for the C<$device> currently set on the
+specified B<Gnome::Gdk4::Surface>.
+
+If the return value is undefined then there is no custom cursor set on the
+specified surface, and it is using the cursor for its parent surface.
+
+Use C<.set-cursor()> to unset the cursor of the surface.
+
+=begin code
+method get-device-cursor ( N-Object() $device --> N-Object )
+=end code
+
+=item $device; a pointer B<Gnome::Gdk4::Device>.
+
+Return value; a B<Gnome::Gdk4::Cursor>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-device-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-device-position
+
+Obtains the current device position and modifier state.
+
+The position is given in coordinates relative to the upper
+left corner of C<$surface>.
+
+=begin code
+method get-device-position ( N-Object() $device, Num() $x, Num() $y, UInt $mask --> Bool )
+=end code
+
+=item $device; pointer B<Gnome::Gdk4::Device> to query to.
+=item $x; (transfer ownership: full) return location for the X coordinate of C<$device>.
+=item $y; (transfer ownership: full) return location for the Y coordinate of C<$device>.
+=item $mask; (transfer ownership: full) return location for the modifier mask.
+
+Return value; C<True> if the device is over the surface. 
+
+=begin comment
+
+=head2 Example
+# Example for get-device-position
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-display
+
+Gets the B<Gnome::Gdk4::Display> associated with a B<Gnome::Gdk4::Surface>.
+
+=begin code
+method get-display (--> N-Object )
+=end code
+
+Return value; the B<Gnome::Gdk4::Display> associated with C<$surface>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-display
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-frame-clock
+
+Gets the frame clock for the surface.
+
+The frame clock for a surface never changes unless the surface is
+reparented to a new toplevel surface.
+
+=begin code
+method get-frame-clock (--> N-Object )
+=end code
+
+Return value; the frame clock. 
+
+=begin comment
+
+=head2 Example
+# Example for get-frame-clock
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-height
+
+Returns the height of the given C<$surface>.
+
+Surface size is reported in ”application pixels”, not
+”device pixels” (see C<.get-scale-factor()>).
+
+=begin code
+method get-height (--> Int )
+=end code
+
+Return value; The height of C<$surface>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-height
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mapped
+
+Checks whether the surface has been mapped.
+
+A surface is mapped with C<.present()> in class C<Gnome::Gdk4::R-Toplevel>
+or C<.present()> in class C<Gnome::Gdk4::R-Popup>.
+
+=begin code
+method get-mapped (--> Bool )
+=end code
+
+Return value; C<True> if the surface is mapped. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mapped
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-scale-factor
+
+Returns the internal scale factor that maps from surface coordinates
+to the actual device pixels.
+
+On traditional systems this is 1, but on very high density outputs
+this can be a higher value (often 2). A higher value means that drawing
+is automatically scaled up to a higher resolution, so any code doing
+drawing will automatically look nicer. However, if you are supplying
+pixel-based data the scale value can be used to determine whether to
+use a pixel resource with higher resolution data.
+
+The scale of a surface may change during runtime.
+
+=begin code
+method get-scale-factor (--> Int )
+=end code
+
+Return value; the scale factor. 
+
+=begin comment
+
+=head2 Example
+# Example for get-scale-factor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-width
+
+Returns the width of the given C<$surface>.
+
+Surface size is reported in ”application pixels”, not
+”device pixels” (see C<.get-scale-factor()>).
+
+=begin code
+method get-width (--> Int )
+=end code
+
+Return value; The width of C<$surface>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-width
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 hide
+
+Hide the surface.
+
+For toplevel surfaces, withdraws them, so they will no longer be
+known to the window manager; for all surfaces, unmaps them, so
+they won’t be displayed. Normally done automatically as
+part of C<.hide()> in class C<Gnome::Gtk4::Widget>.
+
+=begin code
+method hide ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for hide
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-destroyed
+
+Check to see if a surface is destroyed.
+
+=begin code
+method is-destroyed (--> Bool )
+=end code
+
+Return value; C<True> if the surface is destroyed. 
+
+=begin comment
+
+=head2 Example
+# Example for is-destroyed
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 queue-render
+
+Forces a I<render> signal emission for C<$surface>
+to be scheduled.
+
+This function is useful for implementations that track invalid
+regions on their own.
+
+=begin code
+method queue-render ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for queue-render
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 request-layout
+
+Request a layout phase from the surface's frame clock.
+
+See C<.request-phase()> in class C<Gnome::Gdk4::FrameClock>.
+
+=begin code
+method request-layout ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for request-layout
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-cursor
+
+Sets the default mouse pointer for a B<Gnome::Gdk4::Surface>.
+
+Passing undefined for the C<$cursor> argument means that C<$surface> will use
+the cursor of its parent surface. Most surfaces should use this default.
+Note that C<$cursor> must be for the same display as C<$surface>.
+
+Use C<.new-from-name()> in class C<Gnome::Gdk4::Cursor> or C<.new-from-texture()> in class C<Gnome::Gdk4::Cursor>
+to create the cursor. To make the cursor invisible, use C<GDK_BLANK_CURSOR>.
+
+=begin code
+method set-cursor ( N-Object() $cursor )
+=end code
+
+=item $cursor; a B<Gnome::Gdk4::Cursor>.
+
+=begin comment
+
+=head2 Example
+# Example for set-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-device-cursor
+
+Sets a specific B<Gnome::Gdk4::Cursor> for a given device when it gets inside C<$surface>.
+
+Passing undefined for the C<$cursor> argument means that C<$surface> will use the
+cursor of its parent surface. Most surfaces should use this default.
+
+Use C<.new-from-name()> in class C<Gnome::Gdk4::Cursor> or C<.new-from-texture()> in class C<Gnome::Gdk4::Cursor>
+to create the cursor. To make the cursor invisible, use C<GDK_BLANK_CURSOR>.
+
+=begin code
+method set-device-cursor ( N-Object() $device, N-Object() $cursor )
+=end code
+
+=item $device; a pointer B<Gnome::Gdk4::Device>.
+=item $cursor; a B<Gnome::Gdk4::Cursor>.
+
+=begin comment
+
+=head2 Example
+# Example for set-device-cursor
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-input-region
+
+Apply the region to the surface for the purpose of event
+handling.
+
+Mouse events which happen while the pointer position corresponds
+to an unset bit in the mask will be passed on the surface below C<$surface>.
+
+An input region is typically used with RGBA surfaces. The alpha
+channel of the surface defines which pixels are invisible and
+allows for nicely antialiased borders, and the input region
+controls where the surface is “clickable”.
+
+Use C<.supports-input-shapes()> in class C<Gnome::Gdk4::Display> to find out if
+a particular backend supports input regions.
+
+=begin code
+method set-input-region (airo::cairo_region_t )
+=end code
+
+=item $region; region of surface to be reactive.
+
+=begin comment
+
+=head2 Example
+# Example for set-input-region
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-opaque-region
+
+Marks a region of the B<Gnome::Gdk4::Surface> as opaque.
+
+For optimisation purposes, compositing window managers may
+like to not draw obscured regions of surfaces, or turn off blending
+during for these regions. With RGB windows with no transparency,
+this is just the shape of the window, but with ARGB32 windows, the
+compositor does not know what regions of the window are transparent
+or not.
+
+This function only works for toplevel surfaces.
+
+GTK will update this property automatically if the C<$surface> background
+is opaque, as we know where the opaque regions are. If your surface
+background is not opaque, please update this property in your
+[vfunc C<$Gtk>.Widget.css_changed] handler.
+
+=begin code
+method set-opaque-region (airo::cairo_region_t )
+=end code
+
+=item $region; a region, or undefined to make the entire
+  surface opaque.
+
+=begin comment
+
+=head2 Example
+# Example for set-opaque-region
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 translate-coordinates
+
+Translates coordinates between two surfaces.
+
+Note that this only works if C<$to> and C<$from> are popups or
+transient-for to the same toplevel (directly or indirectly).
+
+=begin code
+method translate-coordinates ( N-Object() $to, Num() $x, Num() $y --> Bool )
+=end code
+
+=item $to; the target surface.
+=item $x; (transfer ownership: full) coordinates to translate.
+=item $y; (transfer ownership: full) coordinates to translate.
+
+Return value; C<True> if the coordinates were successfully translated. 
+
+=begin comment
+
+=head2 Example
+# Example for translate-coordinates
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Signal Documentation]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Signals
+
+=comment -----------------------------------------------------------------------
+=head3 enter-monitor
+
+Emitted when C<$surface> starts being present on the monitor.
+
+=begin code
+method handler (
+  N-Object $monitor,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Surface :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $monitor; the monitor.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Surface> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal enter-monitor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 event
+
+Emitted when GDK receives an input event for C<$surface>.
+
+=begin code
+method handler (
+  gpointer $event,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Surface :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $event; an input event.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Surface> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> to indicate that the event has been handled
+
+=begin comment
+
+=head2 Example
+# Example for signal event
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 layout
+
+Emitted when the size of C<$surface> is changed, or when relayout should
+be performed.
+
+Surface size is reported in ”application pixels”, not
+”device pixels” (see C<.get-scale-factor()>).
+
+=begin code
+method handler (
+  gint $width,
+  gint $height,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Surface :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $width; the current width.
+=item $height; the current height.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Surface> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal layout
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 leave-monitor
+
+Emitted when C<$surface> stops being present on the monitor.
+
+=begin code
+method handler (
+  N-Object $monitor,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Surface :$_widget,
+  *C<user>-options
+)
+=end code
+
+=item $monitor; the monitor.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Surface> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+=begin comment
+
+=head2 Example
+# Example for signal leave-monitor
+
+=end comment
+
+=comment -----------------------------------------------------------------------
+=head3 render
+
+Emitted when part of the surface needs to be redrawn.
+
+=begin code
+method handler (
+   $region,
+  Int :$_handle_id,
+  N-GObject :$_native-object,
+  Gnome::Gdk4::Surface :$_widget,
+  *C<user>-options
+  --> gboolean
+)
+=end code
+
+=item $region; the region that needs to be redrawn.
+=item $_handle_id; The registered event handler id.
+=item $_native-object; The native object provided by the Raku object which registered this event. This a native B<Gnome::Gdk4::Surface> object.
+=item $_widget; The object which registered the signal. User code may have left the object going out of scope.
+=item C<user>-options; A list of named arguments provided at the C<.register-signal()> method from B<Gnome::GObject::Object>.
+
+Return value; C<True> to indicate that the signal has been handled
+
+=begin comment
+
+=head2 Example
+# Example for signal render
+
+=end comment
+
+=end pod
+

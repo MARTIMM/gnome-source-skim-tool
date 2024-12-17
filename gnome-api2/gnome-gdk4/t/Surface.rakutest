@@ -1,0 +1,248 @@
+=comment Package: Gdk4, C-Source: surface
+use v6.d;
+
+#TL:1:Gnome::Gdk4::Surface:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+#use Gnome::Cairo::N-Context:api<2>;
+#use Gnome::Cairo::T-undefined-module-name:api<2>;
+use Gnome::Gdk4::Surface:api<2>;
+use Gnome::Gdk4::T-enums:api<2>;
+use Gnome::Glib::T-error:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gdk4::Surface $surface;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $surface {
+    my N-Object $display;
+    my gboolean $autohide;
+    my N-Object $parent;
+
+#`{{
+    #TC:0:new-popup()
+    $parent = …;
+    $autohide = '…';
+    $surface .= new-popup( $parent, $autohide);
+    ok .is-valid, '.new-popup( $parent, $autohide)';
+
+    #TC:0:new-toplevel()
+    $display = …;
+    $surface .= new-toplevel( $display);
+    ok .is-valid, '.new-toplevel( $display)';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $surface {
+    my N-Object $cursor;
+    my CArray[N-Error] $err;
+    my N-Object $region;
+    my gint $height;
+    my GFlag $mask;
+    my CArray[gdouble] $y;
+    my N-Object $to;
+    my CArray[gdouble] $x;
+    my gint $width;
+    my cairo_content_t  $content;
+    my N-Object $device;
+
+
+#`{{
+    #TM:0:beep()
+    ok .beep(), '.beep()';
+
+    #TM:0:create-cairo-context()
+    ok .create-cairo-context(), '.create-cairo-context()';
+
+    #TM:0:create-gl-context()
+    ok .create-gl-context( $err), '.create-gl-context()';
+
+    #TM:0:create-similar-surface()
+    ok .create-similar-surface( $content, $width, $height), '.create-similar-surface()';
+
+    #TM:0:create-vulkan-context()
+    ok .create-vulkan-context( $err), '.create-vulkan-context()';
+
+    #TM:0:destroy()
+    ok .destroy(), '.destroy()';
+
+    #TM:0:get-device-position()
+    is .get-device-position( $device, $x, $y, $mask), '…', '.get-device-position()';
+
+    #TM:0:get-display()
+     .get-display(), '…', '.get-display()';
+
+    #TM:0:get-frame-clock()
+     .get-frame-clock(), '…', '.get-frame-clock()';
+
+    #TM:0:get-height()
+     .get-height(), '…', '.get-height()';
+
+    #TM:0:get-mapped()
+     .get-mapped(), '…', '.get-mapped()';
+
+    #TM:0:get-scale-factor()
+     .get-scale-factor(), '…', '.get-scale-factor()';
+
+    #TM:0:get-width()
+     .get-width(), '…', '.get-width()';
+
+    #TM:0:hide()
+    ok .hide(), '.hide()';
+
+    #TM:0:is-destroyed()
+    ok .is-destroyed(), '.is-destroyed()';
+
+    #TM:0:queue-render()
+    ok .queue-render(), '.queue-render()';
+
+    #TM:0:request-layout()
+    ok .request-layout(), '.request-layout()';
+
+    #TM:0:set-cursor()
+    $cursor = …;
+    .set-cursor( $cursor);
+    #TM:0:get-cursor()
+    is .get-cursor(),  $cursor, '.set-cursor() / .get-cursor()';
+
+    #TM:0:set-device-cursor()
+    $device = …;
+    $cursor = …;
+    .set-device-cursor( $device, $cursor);
+    #TM:0:get-device-cursor()
+    is .get-device-cursor(),  $device, $cursor, '.set-device-cursor() / .get-device-cursor()';
+
+    #TM:0:set-input-region()
+    $region = …;
+    .set-input-region( $region);
+    ok True, '.set-input-region()';
+
+    #TM:0:set-opaque-region()
+    $region = …;
+    .set-opaque-region( $region);
+    ok True, '.set-opaque-region()';
+
+    #TM:0:translate-coordinates()
+    ok .translate-coordinates( $to, $x, $y), '.translate-coordinates()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $surface {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
+#-------------------------------------------------------------------------------
+subtest 'Signals …', {
+  use Gnome::Gtk3::Main;
+
+  my Gnome::Gtk3::Main $main .= new;
+
+  class SignalHandlers {
+    has Bool $!signal-processed = False;
+
+    method … (
+      'any-args',
+      Gnome::Gdk4::Surface() :$_native-object, gulong :$_handler-id
+      # --> …
+    ) {
+
+      isa-ok $_native-object, Gnome::Gdk4::Surface;
+      $!signal-processed = True;
+    }
+
+    method signal-emitter ( Gnome::Gdk4::Surface :$_widget --> Str ) {
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      $_widget.emit-by-name(
+        'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      );
+      is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+
+      #$!signal-processed = False;
+      #$_widget.emit-by-name(
+      #  'signal',
+      #  'any-args',
+      #  :return-type(int32),
+      #  :parameters([int32,])
+      #);
+      #is $!signal-processed, True, ''…' signal processed';
+
+      while $main.gtk-events-pending() { $main.iteration-do(False); }
+      sleep(0.4);
+      $main.gtk-main-quit;
+
+      'done'
+    }
+  }
+
+  my Gnome::Gdk4::Surface $surface .= new;
+
+  #my Gnome::Gtk3::Window $w .= new;
+  #$w.add($m);
+
+  my SignalHandlers $sh .= new;
+  $surface.register-signal( $sh, 'method', 'signal');
+
+  my Promise $p = $i.start-thread(
+    $sh, 'signal-emitter',
+    # :!new-context,
+    # :start-time(now + 1)
+  );
+
+  is $main.gtk-main-level, 0, "loop level 0";
+  $main.gtk-main;
+  #is $main.gtk-main-level, 0, "loop level is 0 again";
+
+  is $p.result, 'done', 'emitter finished';
+}
+
