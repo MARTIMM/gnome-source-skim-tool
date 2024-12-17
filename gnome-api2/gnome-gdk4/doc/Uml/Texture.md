@@ -1,5 +1,5 @@
  
-'```plantuml
+```plantuml
 @startuml
 
 skinparam packageStyle rectangle
@@ -64,4 +64,4 @@ Gnome::GObject::Object <|-- Gnome::Gdk4::Texture
 'Some hidden connections
 'Gnome::GObject <--[hidden]- Gnome::Gtk3
 @enduml
-'```
+```
