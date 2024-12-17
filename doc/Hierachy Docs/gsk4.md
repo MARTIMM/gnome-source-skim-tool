@@ -1,4 +1,4 @@
-# Administration of Gsk types and classes
+# Administration of Gsk 4 types and classes
 
 Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelClassSupport**
 
@@ -6,7 +6,7 @@ Class **Gnome::GObject::Object** is inheriting from class **Gnome::N::TopLevelCl
 
 ```
 GObject                                         Gnome::GObject::Object
-|                                               Gnome::Gsk::*
+|                                               Gnome::Gsk4::*
 ├── GskRenderer                                 Renderer
 │   ├── GskCairoRenderer                        CairoRenderer
 │   ├── GskGLRenderer                           GLRenderer
