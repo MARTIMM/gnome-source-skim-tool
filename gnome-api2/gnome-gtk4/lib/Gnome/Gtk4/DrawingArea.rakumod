@@ -75,9 +75,9 @@ my Hash $methods = %(
   #--[Methods]------------------------------------------------------------------
   get-content-height => %(:is-symbol<gtk_drawing_area_get_content_height>, :returns(gint)),
   get-content-width => %(:is-symbol<gtk_drawing_area_get_content_width>, :returns(gint)),
-  set-content-height => %(:is-symbol<gtk_drawing_area_set_content_height>, :returns(void) :parameters([gint])),
-  set-content-width => %(:is-symbol<gtk_drawing_area_set_content_width>, :returns(void) :parameters([gint])),
-  #set-draw-func => %(:is-symbol<gtk_drawing_area_set_draw_func>, :returns(void) :parameters([:( N-Object $drawing-area, Cairo::cairo_t $cr, gint $width, gint $height, gpointer $user-data ), gpointer, ])),
+  set-content-height => %(:is-symbol<gtk_drawing_area_set_content_height>,  :parameters([gint])),
+  set-content-width => %(:is-symbol<gtk_drawing_area_set_content_width>,  :parameters([gint])),
+  set-draw-func => %(:is-symbol<gtk_drawing_area_set_draw_func>,  :parameters([:( N-Object $drawing-area, Cairo::cairo_t $cr, gint $width, gint $height, gpointer $user-data ), gpointer, :( gpointer $data )])),
 );
 
 #-------------------------------------------------------------------------------

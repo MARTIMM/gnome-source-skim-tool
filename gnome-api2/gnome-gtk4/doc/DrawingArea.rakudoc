@@ -76,7 +76,7 @@ main (int argc, char **argv)
 The draw function is normally called when a drawing area first comes
 onscreen, or when it’s covered by another window and then uncovered.
 You can also force a redraw by adding to the “damage region” of the
-drawing area’s window using C<.queue-draw() in class Gnome::Gtk4::Widget>.
+drawing area’s window using C<.queue-draw()> in class C<Gnome::Gtk4::Widget>.
 This will cause the drawing area to call the draw function again.
 
 The available routines for drawing are documented in the
@@ -203,7 +203,7 @@ Sets the desired height of the contents of the drawing area.
 Note that because widgets may be allocated larger sizes than they
 requested, it is possible that the actual height passed to your draw
 function is larger than the height set here. You can use
-C<.set-valign() in class Gnome::Gtk4::Widget> to avoid that.
+C<.set-valign()> in class C<Gnome::Gtk4::Widget> to avoid that.
 
 If the height is set to 0 (the default), the drawing area may disappear.
 
@@ -231,7 +231,7 @@ Sets the desired width of the contents of the drawing area.
 Note that because widgets may be allocated larger sizes than they
 requested, it is possible that the actual width passed to your draw
 function is larger than the width set here. You can use
-C<.set-halign() in class Gnome::Gtk4::Widget> to avoid that.
+C<.set-halign()> in class C<Gnome::Gtk4::Widget> to avoid that.
 
 If the width is set to 0 (the default), the drawing area may disappear.
 
@@ -253,7 +253,6 @@ method set-content-width ( Int() $width )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-draw-func
-This function is not yet available
 
 Setting a draw function is the main thing you want to do when using
 a drawing area.
@@ -267,17 +266,17 @@ GTK widgets or call any functions that would cause any properties
 to be changed. You should restrict yourself exclusively to drawing
 your contents in the draw function.
 
-If what you are drawing does change, call C<.queue-draw() in class Gnome::Gtk4::Widget>
+If what you are drawing does change, call C<.queue-draw()> in class C<Gnome::Gtk4::Widget>
 on the drawing area. This will cause a redraw and will call C<$draw-func> again.
 
 =begin code
-method set-draw-func ( &draw-func, gpointer $user-data, … )
+method set-draw-func ( GtkDrawingAreaDrawFunc &draw-func, gpointer $user-data, GDestroyNotify &destroy )
 =end code
 
-=item &draw-func; callback that lets you draw
-  the drawing area's contents. Tthe function must be specified with following signature; C<:( N-Object $drawing-area, N-Object $cr, gint $width, gint $height, gpointer $user-data )>.
+=item GtkDrawingAreaDrawFunc &draw-func; callback that lets you draw
+  the drawing area's contents. The function must be specified with the following signature; C<:( N-Object $drawing-area, Cairo::cairo_t $cr, gint $width, gint $height, gpointer $user-data )>.
 =item $user-data; user data passed to C<$draw-func>.
-=item destroy; destroy notifier for C<$user-data>. Note that each argument must be specified as a type followed by its value!
+=item GDestroyNotify &destroy; destroy notifier for C<$user-data>. The function must be specified with the following signature; C<:( gpointer $data )>.
 
 =begin comment
 

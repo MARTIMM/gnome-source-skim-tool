@@ -15,15 +15,15 @@ use v6.d;
 
 =head3 Signature
 =begin code
-:(  N-Object() $drawing-area, N-Object $cr, Int() $width, Int() $height, gpointer $user-data  )
+:(  N-Object() $drawing-area, Cairo::cairo_t $cr, Int() $width, Int() $height, gpointer $user-data  )
 =end code
 
-=item drawing-area; the B<Gnome::Gtk4::DrawingArea> to redraw
-=item cr; the context to draw to
-=item width; the actual width of the contents. This value will be at least
+=item $drawing-area; the B<Gnome::Gtk4::DrawingArea> to redraw
+=item $cr; the context to draw to
+=item $width; the actual width of the contents. This value will be at least
   as wide as GtkDrawingArea:width.
-=item height; the actual height of the contents. This value will be at least
+=item $height; the actual height of the contents. This value will be at least
   as wide as GtkDrawingArea:height.
-=item user-data; user data
+=item $user-data; user data
 
 =end pod
