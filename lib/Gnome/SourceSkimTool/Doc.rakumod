@@ -522,6 +522,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
     $missing-type = True if !$raku-type or $raku-type ~~ /_UA_ $/;
     $raku-type //= '';
     $raku-type ~~ s/ _UA_ $//;
+#note "$?LINE $doc, $type, $raku-type, $missing-type" if $function-name eq 'set-draw-func';
 
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = $!mod.cleanup-id($attribs<name>);
@@ -572,6 +573,7 @@ method !get-method-data ( XML::Element $e, XML::XPath :$xpath --> List ) {
 #-------------------------------------------------------------------------------
 # Check on GEnum, GFlag, or callback and change doc
 method check-special ( Str $type, Str $name, Str $doc is copy --> List ) {
+#note "$?LINE $type, $name";
   my Str $list = '';
   return ( $list, $doc) unless ?$type;
   
@@ -604,7 +606,7 @@ method check-special ( Str $type, Str $name, Str $doc is copy --> List ) {
     $list = ?$name ?? ", $type \$$name" !! $type;
 #    $doc ~= "\n"; 
   }
-#note "$?LINE $type, $list";
+#note "$?LINE $type, $list, $doc";
   ( $list, $doc)
 }
 
@@ -647,7 +649,7 @@ method get-doc-type (
     }
   }
 
-#note "$?LINE $ctype, $raku-type";
+note "$?LINE $ctype, $raku-type";
 
   ( $doc, $ctype, $raku-type)
 }
@@ -1107,12 +1109,19 @@ method !document-cb ( Str $callback-name, Hash $cb-data --> Str ) {
 #  my Bool $available = True;
   my Str $par-list = '';
   for @($cb-data<parameters>) -> $parameter {
-    my ( $rnt0, $rnt1) = $parameter<raku-type>.split(':');
     my Str $parameter-name = $parameter<name>;
     $parameter-name ~~ s/ '-' $//;
-    $par-list ~= ", $rnt0 \$$parameter-name";
+    my $xtype = $parameter<raku-type>;
+    if $xtype ~~ m/ ':' / and $xtype !~~ m/ '::' / {
+      my ( $rnt0, $rnt1) = $xtype.split(':');
+      $par-list ~= ", $rnt0 \$$parameter-name";
+    }
 
-    $items ~= "=item $parameter-name; $parameter<pdoc>\n";
+    else {
+      $par-list ~= ", $xtype \$$parameter-name";
+    }
+
+    $items ~= "=item \$$parameter-name; $parameter<pdoc>\n";
   }
 
   # Remove first comma and space when there is only one parameter
@@ -1120,9 +1129,15 @@ method !document-cb ( Str $callback-name, Hash $cb-data --> Str ) {
 
   my Str $returns = '';
   my $xtype = $cb-data<return-raku-type>;
-  my ( $rnt0, $rnt1) = $xtype.split(':');
-  if ?$rnt0 and $rnt0 ne 'void' {
-    $returns = $rnt0;
+  if $xtype ~~ m/ ':' / and $xtype !~~ m/ '::' / {
+    my ( $rnt0, $rnt1) = $xtype.split(':');
+    if ?$rnt0 and $rnt0 ne 'void' {
+      $returns = $rnt0;
+    }
+  }
+
+  else {
+    $returns = $xtype;
   }
 
   $doc ~= qq:to/EOCB/;
@@ -1140,6 +1155,8 @@ method !document-cb ( Str $callback-name, Hash $cb-data --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !get-types ( Hash $parameter, @rv-list --> Hash ) {
+
+#note "$?LINE $parameter.gist()";
 
   my Str $own = '';
 #  my Int $a-count = 0;
@@ -1190,9 +1207,9 @@ method !get-types ( Hash $parameter, @rv-list --> Hash ) {
 #      my Str $func-name = $/<func-name>.Str;
 #      $xtype ~~ s/ $func-name '=' //;
 
-      $doc ~= '. Tthe function must be specified with following signature; C<' ~ $xtype ~ '>.';
-      $result<raku-list> = ", \&$parameter<name>";
-      $result<items-doc> = "=item \&$parameter<name>; $doc\n";
+      $doc ~= '. The function must be specified with the following signature; C<' ~ $xtype ~ '>.';
+      $result<raku-list> = ", $parameter<type> \&$parameter<name>";
+      $result<items-doc> = "=item $parameter<type> \&$parameter<name>; $doc\n";
     }
 
     # Variable argument lists

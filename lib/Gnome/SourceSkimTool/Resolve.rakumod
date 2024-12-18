@@ -117,7 +117,7 @@ method get-data-from-filename ( Str $filename --> Hash ) {
 #-------------------------------------------------------------------------------
 method search-name ( Str $name is copy --> Hash ) {
 
-#note "$?LINE search-name $name";
+#note "$?LINE search-name $name" if $name ~~ m/GDestroyNotify | destroy/;
 
   self!check-search-list;
 

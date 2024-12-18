@@ -653,7 +653,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     }
 
     elsif ?$xtype {
-      $returns = ":returns\($xtype)";
+      $returns = ":returns\($xtype)" unless $xtype eq 'void';
     }
 
     # Set the full native subroutine name
@@ -880,21 +880,16 @@ method get-standalone-functions (
 
   my @methods = ();
   for @$function-names -> $name {
-#note "\n$?LINE $name";
     my XML::Element $element =
       $xpath.find( '//function[@name="' ~ $name ~ '"]', :!to-list);
-#note "$?LINE ", '//function[@name="' ~ $name ~ '"] ', ($element//'-').Str;
 
     # Skip empty elements deprecated functions
     next unless ?$element;
-    #next if $element.attribs<deprecated>:exists and
-    #        $element.attribs<deprecated> eq '1';
 
     @methods.push: $element
   }
 
   for @methods -> $cn {
-#note "\n$?LINE $cn";
     my ( $function-name, %h) = self!get-method-data( $cn, :$xpath, :$user-side);
 
     # Function names which are returned emptied, are assumably internal
@@ -910,8 +905,10 @@ method get-standalone-functions (
 #-------------------------------------------------------------------------------
 # Get a callback function pattern. This is used as a type in function arguments
 # and other places
-method get-callback-function ( Str $function-name --> Hash ) {
-  my Str $file = $*work-data<gir-module-path> ~ 'repo-callback.gir';
+method !get-callback-function ( Hash $callback-data --> Hash ) {
+  my Str $function-name = $callback-data<callback-name>;
+  my Str $file = self.get-repo-data-path($callback-data<class-name>) ~
+                 'repo-callback.gir';
   my XML::XPath $xpath .= new(:$file);
 
   my XML::Element $element =
@@ -919,14 +916,40 @@ method get-callback-function ( Str $function-name --> Hash ) {
 
   # Skip empty elements deprecated functions
   return %() unless ?$element;
-  #return %() if $element.attribs<deprecated>:exists and
-  #              $element.attribs<deprecated> eq '1';
-
-#  my Hash $h = self!get-callback-data( $element, :$xpath);
-#  $h<function-name> = $function-name;
-#  $h
 
   self!get-callback-data( $element, :$xpath)
+}
+ 
+#-------------------------------------------------------------------------------
+method get-repo-data-path ( Str $class-name --> Str ) {
+  my Str $path = SKIMTOOLDATA;
+  given $class-name {
+    when m/ Gtk4 / {
+      $path ~= 'Gtk4/';
+    }
+
+    when m/ Gsk4 / {
+      $path ~= 'Gsk4/';
+    }
+
+    when m/ Gdk4 / {
+      $path ~= 'Gdk4/';
+    }
+
+    when m/ Gio / {
+      $path ~= 'Gio/';
+    }
+
+    when m/ Glib / {
+      $path ~= 'Glib/';
+    }
+
+    when m/ GObject / {
+      $path ~= 'GObject/';
+    }
+  }
+
+  $path
 }
 
 #-------------------------------------------------------------------------------
@@ -1815,7 +1838,6 @@ method !get-callback-data (
 
 #  my Bool $variable-list = False;
   for @prmtrs -> $p {
-
     my Str ( $type, $raku-type) = self.get-type( $p, :$user-side);
     my Hash $attribs = $p.attribs;
     my Str $parameter-name = self.cleanup-id($attribs<name>);
@@ -2033,7 +2055,7 @@ method convert-ntype (
         when 'alias' { }
 
         when 'callback' {
-          my %cb = self.get-callback-function($h<callback-name>);
+          my %cb = self!get-callback-function($h);
           $raku-type = self.generate-callback(%cb);
         }
 
@@ -2223,9 +2245,10 @@ method convert-rtype (
         when 'alias' { }
 
         when 'callback' {
-          my %cb = self.get-callback-function($h<callback-name>);
+          my %cb = self!get-callback-function($h);
+note "$?LINE $h<callback-name>";
           $raku-type = self.generate-callback(%cb);
-#note "$?LINE     callback $raku-type";
+note "$?LINE $raku-type";
         }
 
         default {
