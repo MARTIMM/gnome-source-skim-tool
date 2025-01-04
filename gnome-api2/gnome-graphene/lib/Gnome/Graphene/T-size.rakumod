@@ -46,7 +46,7 @@ class N-Size:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   has gfloat $.height;
 
   submethod BUILD (
-    gfloat :$!width, gfloat :$!height, 
+    Num()  :$!width, Num()  :$!height, 
   ) {
   }
 
