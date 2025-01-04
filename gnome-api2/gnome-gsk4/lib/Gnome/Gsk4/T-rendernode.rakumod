@@ -6,8 +6,10 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
 
-#use Gnome::GObject::T-value:api<2>;
+
+use Gnome::GObject::T-value:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -46,9 +48,7 @@ class N-ColorStop:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   has gfloat $.offset;
   has N-Object $.color;
 
-  submethod BUILD (
-    gfloat :$!offset, 
-  ) {
+  submethod BUILD ( Num() :$!offset ) {
   }
 
   submethod TWEAK (
@@ -115,10 +115,10 @@ class N-ParseLocation:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  value-dup-render-node => %( :type(Function), :is-symbol<gsk_value_dup_render_node>,  :returns(N-Object), :parameters([N-Object])),
-  value-get-render-node => %( :type(Function), :is-symbol<gsk_value_get_render_node>,  :returns(N-Object), :parameters([N-Object])),
-  value-set-render-node => %( :type(Function), :is-symbol<gsk_value_set_render_node>,  :parameters([ N-Object, N-Object])),
-  value-take-render-node => %( :type(Function), :is-symbol<gsk_value_take_render_node>,  :parameters([ N-Object, N-Object])),
+  value-dup-render-node => %( :type(Function), :is-symbol<gsk_value_dup_render_node>, :returns(N-Object), :parameters([N-Object]), ),
+  value-get-render-node => %( :type(Function), :is-symbol<gsk_value_get_render_node>, :returns(N-Object), :parameters([N-Object]), ),
+  value-set-render-node => %( :type(Function), :is-symbol<gsk_value_set_render_node>, :parameters([ N-Object, N-Object]), ),
+  value-take-render-node => %( :type(Function), :is-symbol<gsk_value_take_render_node>, :parameters([ N-Object, N-Object]), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.

@@ -7,25 +7,25 @@ use v6.d;
 
 use NativeCall;
 
-#use Gnome::Cairo::N-Context:api<2>;
-#use Gnome::Cairo::T-undefined-module-name:api<2>;
+use Cairo;
 
-#use Gnome::Glib::N-Bytes:api<2>;
+
+#use :api<2>;
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::N-Error:api<2>;
+use Gnome::Glib::T-array:api<2>;
 use Gnome::Glib::T-error:api<2>;
-#use Gnome::Glib::T-array:api<2>;
-
 use Gnome::Graphene::N-Rect:api<2>;
 use Gnome::Graphene::T-rect:api<2>;
-
 #use Gnome::Gsk4::N-ParseLocation:api<2>;
 use Gnome::Gsk4::T-enums:api<2>;
 use Gnome::Gsk4::T-rendernode:api<2>;
-
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+use Gnome::N::TopLevelClassSupport:api<2>;
 
 
 #-------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Gsk4::RenderNode:auth<github:MARTIMM>:api<2>;
-#also is ;
+also is Gnome::N::TopLevelClassSupport;
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -47,6 +47,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
@@ -68,7 +69,7 @@ method native-object-ref ( $n-native-object ) {
 }
 
 method native-object-unref ( $n-native-object ) {
-  self._fallback-v2( 'unref', my Bool $x);
+#  self._fallback-v2( 'free', my Bool $x);
 }
 
 #-------------------------------------------------------------------------------
@@ -78,16 +79,16 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  draw => %(:is-symbol<gsk_render_node_draw>,  :parameters([N-Object])),
-  get-bounds => %(:is-symbol<gsk_render_node_get_bounds>,  :parameters([N-Object])),
+  draw => %(:is-symbol<gsk_render_node_draw>, :parameters([Cairo::cairo_t]), ),
+  get-bounds => %(:is-symbol<gsk_render_node_get_bounds>, :parameters([N-Object]), ),
   get-node-type => %(:is-symbol<gsk_render_node_get_node_type>,  :returns(GEnum), :cnv-return(GskRenderNodeType)),
-  ref => %(:is-symbol<gsk_render_node_ref>,  :returns(N-Object)),
-  serialize => %(:is-symbol<gsk_render_node_serialize>,  :returns(N-Object)),
+  ref => %(:is-symbol<gsk_render_node_ref>, :returns(N-Object), ),
+  serialize => %(:is-symbol<gsk_render_node_serialize>, :returns(N-Object), ),
   unref => %(:is-symbol<gsk_render_node_unref>, ),
-  write-to-file => %(:is-symbol<gsk_render_node_write_to_file>,  :returns(gboolean), :cnv-return(Bool), :parameters([Str, CArray[N-Error]])),
+  write-to-file => %(:is-symbol<gsk_render_node_write_to_file>, :returns(gboolean), :parameters([Str, CArray[N-Error]]), ),
 
   #--[Functions]----------------------------------------------------------------
-  deserialize => %( :type(Function), :is-symbol<gsk_render_node_deserialize>,  :returns(N-Object), :parameters([ N-Object, :( N-Object $start, N-Object $end, N-Object $error, gpointer $user-data ), gpointer])),
+  deserialize => %( :type(Function), :is-symbol<gsk_render_node_deserialize>, :returns(N-Object), :parameters([ N-Object, :( N-Object $start, N-Object $end, N-Object $error, gpointer $user-data ), gpointer]), ),
 );
 
 #-------------------------------------------------------------------------------
