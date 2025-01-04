@@ -20,6 +20,7 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
+#Gnome::N::debug(:on);
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
@@ -64,7 +65,7 @@ subtest 'Method tests', {
 
 #Gnome::N::debug(:on);
     #TM:1:init()
-    $rect.init( $x, $y, $width, $height);
+    $n-rect = $rect.init( $x, $y, $width, $height);
 
     #TM:1:get-x()
     is $rect.get-x(), $x, '.get-x()';

@@ -7,9 +7,9 @@ use v6.d;
 
 use NativeCall;
 
-#use Gnome::Graphene::T-point:api<2>;
-#use Gnome::Graphene::T-rect:api<2>;
-#use Gnome::Graphene::T-vec:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Graphene::T-vec:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -71,6 +71,39 @@ my Hash $methods = %(
   alloc => %( :type(Constructor), :is-symbol<graphene_rect_alloc>,  :returns(N-Object)),
 
   #--[Methods]------------------------------------------------------------------
+  contains-point => %(:is-symbol<graphene_rect_contains_point>, :returns(gboolean), :parameters([N-Object]), ),
+  contains-rect => %(:is-symbol<graphene_rect_contains_rect>, :returns(gboolean), :parameters([N-Object]), ),
+  equal => %(:is-symbol<graphene_rect_equal>, :returns(gboolean), :parameters([N-Object]), ),
+  expand => %(:is-symbol<graphene_rect_expand>, :parameters([N-Object, N-Object]), ),
+  free => %(:is-symbol<graphene_rect_free>, ),
+  get-area => %(:is-symbol<graphene_rect_get_area>, :returns(gfloat), ),
+  get-bottom-left => %(:is-symbol<graphene_rect_get_bottom_left>, :parameters([N-Object]), ),
+  get-bottom-right => %(:is-symbol<graphene_rect_get_bottom_right>, :parameters([N-Object]), ),
+  get-center => %(:is-symbol<graphene_rect_get_center>, :parameters([N-Object]), ),
+  get-height => %(:is-symbol<graphene_rect_get_height>, :returns(gfloat), ),
+  get-top-left => %(:is-symbol<graphene_rect_get_top_left>, :parameters([N-Object]), ),
+  get-top-right => %(:is-symbol<graphene_rect_get_top_right>, :parameters([N-Object]), ),
+  get-vertices => %(:is-symbol<graphene_rect_get_vertices>, :parameters([N-Object]), ),
+  get-width => %(:is-symbol<graphene_rect_get_width>, :returns(gfloat), ),
+  get-x => %(:is-symbol<graphene_rect_get_x>, :returns(gfloat), ),
+  get-y => %(:is-symbol<graphene_rect_get_y>, :returns(gfloat), ),
+  init => %(:is-symbol<graphene_rect_init>, :returns(N-Object), :parameters([gfloat, gfloat, gfloat, gfloat]), ),
+  init-from-rect => %(:is-symbol<graphene_rect_init_from_rect>, :returns(N-Object), :parameters([N-Object]), ),
+  inset => %(:is-symbol<graphene_rect_inset>, :returns(N-Object), :parameters([gfloat, gfloat]), ),
+  inset-r => %(:is-symbol<graphene_rect_inset_r>, :parameters([gfloat, gfloat, N-Object]), ),
+  interpolate => %(:is-symbol<graphene_rect_interpolate>, :parameters([N-Object, gdouble, N-Object]), ),
+  intersection => %(:is-symbol<graphene_rect_intersection>, :returns(gboolean), :parameters([N-Object, N-Object]), ),
+  normalize => %(:is-symbol<graphene_rect_normalize>, :returns(N-Object), ),
+  normalize-r => %(:is-symbol<graphene_rect_normalize_r>, :parameters([N-Object]), ),
+  offset => %(:is-symbol<graphene_rect_offset>, :returns(N-Object), :parameters([gfloat, gfloat]), ),
+  offset-r => %(:is-symbol<graphene_rect_offset_r>, :parameters([gfloat, gfloat, N-Object]), ),
+  round => %(:is-symbol<graphene_rect_round>, :parameters([N-Object]), :deprecated, :deprecated-version<1.10>, ),
+  round-extents => %(:is-symbol<graphene_rect_round_extents>, :parameters([N-Object]), ),
+  round-to-pixel => %(:is-symbol<graphene_rect_round_to_pixel>, :returns(N-Object), :deprecated, :deprecated-version<1.4>, ),
+  scale => %(:is-symbol<graphene_rect_scale>, :parameters([gfloat, gfloat, N-Object]), ),
+  union => %(:is-symbol<graphene_rect_union>, :parameters([N-Object, N-Object]), ),
+
+#`{{
   contains-point => %(:is-symbol<graphene_rect_contains_point>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   contains-rect => %(:is-symbol<graphene_rect_contains_rect>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
   equal => %(:is-symbol<graphene_rect_equal>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
@@ -100,6 +133,7 @@ my Hash $methods = %(
   round-extents => %(:is-symbol<graphene_rect_round_extents>,  :parameters([N-Object])),
   scale => %(:is-symbol<graphene_rect_scale>,  :parameters([gfloat, gfloat, N-Object])),
   union => %(:is-symbol<graphene_rect_union>,  :parameters([N-Object, N-Object])),
+}}
 
   #--[Functions]----------------------------------------------------------------
   zero => %( :type(Function), :is-symbol<graphene_rect_zero>,  :returns(N-Object)),

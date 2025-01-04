@@ -5,7 +5,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 use NativeCall;
-
+ 
 use Gnome::Graphene::T-size:api<2>;
 use Gnome::Graphene::T-point:api<2>;
 
@@ -67,8 +67,8 @@ class N-Rect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
 my Hash $methods = %(
   
   #--[Functions]----------------------------------------------------------------
-  rect-alloc => %( :type(Function), :is-symbol<graphene_rect_alloc>,  :returns(N-Object)),
-  rect-zero => %( :type(Function), :is-symbol<graphene_rect_zero>,  :returns(N-Object)),
+  rect-alloc => %( :type(Function), :is-symbol<graphene_rect_alloc>, :returns(N-Object), ),
+  rect-zero => %( :type(Function), :is-symbol<graphene_rect_zero>, :returns(N-Object), ),
 
 );
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
