@@ -1,0 +1,136 @@
+=comment Package: Gtk4, C-Source: widgetpaintable
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gtk4::WidgetPaintable
+=head1 Description
+
+B<Gnome::Gtk4::WidgetPaintable> is a B<Gnome::Gdk4::R-Paintable> that displays the contents
+of a widget.
+
+B<Gnome::Gtk4::WidgetPaintable> will also take care of the widget not being in a
+state where it can be drawn (like when it isn't shown) and just draw
+nothing or where it does not have a size (like when it is hidden) and
+report no size in that case.
+
+Of course, B<Gnome::Gtk4::WidgetPaintable> allows you to monitor widgets for size
+changes by emitting the [signal C<$Gdk>.Paintable::invalidate-size] signal
+whenever the size of the widget changes as well as for visual changes by
+emitting the [signal C<$Gdk>.Paintable::invalidate-contents] signal whenever
+the widget changes.
+
+You can use a B<Gnome::Gtk4::WidgetPaintable> everywhere a B<Gnome::Gdk4::R-Paintable> is allowed,
+including using it on a B<Gnome::Gtk4::Picture> (or one of its parents) that it was
+set on itself via gtk_picture_set_paintable(). The paintable will take care
+of recursion when this happens. If you do this however, ensure that the
+I<can-shrink defined in Gnome::Gtk4::Picture> property is set to C<True> or you might
+end up with an infinitely growing widget.
+
+=begin comment
+
+=head2 Uml Diagram
+![](plantuml/….svg)
+
+=end comment
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gtk4::WidgetPaintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-widgetpaintable
+
+Creates a new widget paintable observing the given widget.
+
+=begin code
+method new-widgetpaintable ( N-Object() $widget --> Gnome::Gtk4::WidgetPaintable \)
+=end code
+
+=item $widget; a B<Gnome::Gtk4::Widget>.
+
+=begin comment
+
+=head2 Example
+# Example for new-widgetpaintable
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-widget
+
+Returns the widget that is observed or undefined if none.
+
+=begin code
+method get-widget (--> N-Object )
+=end code
+
+Return value; the observed widget.. 
+
+=begin comment
+
+=head2 Example
+# Example for get-widget
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 set-widget
+
+Sets the widget that should be observed.
+
+=begin code
+method set-widget ( N-Object() $widget )
+=end code
+
+=item $widget; the widget to observe.
+
+=begin comment
+
+=head2 Example
+# Example for set-widget
+
+=end comment
+
+=end pod
+
