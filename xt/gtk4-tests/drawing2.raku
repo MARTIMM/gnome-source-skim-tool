@@ -20,7 +20,7 @@ use Gnome::Gtk4::Grid:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
-#use Gnome::N::X:api<2>;
+use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
 #-------------------------------------------------------------------------------
@@ -42,46 +42,44 @@ class SH {
   method press ( ) {
     say 'button pressed';
   }
+
+  #-----------------------------------------------------------------------------
+  method add-col-rect(
+    Gnome::Gtk4::Snapshot $snapshot,
+    Num() $x, Num() $y, Num() $w, Num() $h,
+    Num() $red, Num() $green, Num() $blue, Num() $alpha
+  ) {
+note "\n$?LINE $x, $y, $w, $h";
+    my N-Rect() $r .= new(
+      :origin(N-Point.new( :$x, :$y)),
+      :size( N-Size.new( :width($w), :height($h))),
+    );
+
+note "$?LINE x, y: $r.origin.x(), $r.origin.y()";
+note "$?LINE w, h: $r.size.width(), $r.size.height()";
+
+#    my Gnome::Graphene::N-Rect $r .= alloc;
+#    $r.init( $x, $y, $w, $h);
+    my N-RGBA $c .= new( :$red, :$green, :$blue, :$alpha);
+note "$?LINE c: $c.red(), $c.green(), $c.blue(), $c.alpha()";
+    $snapshot.append-color( $c, $r);
+  }
 }
 
+my SH $sh .= new;
 #-------------------------------------------------------------------------------
 my Num() $width = 100;
 my Num() $height = 100;
 my Num() $w = $width/2;
 my Num() $h = $height/2;
 
-# Doing rectangles more low level
-my N-Rect() $n-rect1 .= new(
-  :origin(N-Point.new( :x(0), :y(0))),
-  :size( N-Size.new( :width($w), :height($h)))
-);
-
-my N-Rect() $n-rect2 .= new(
-  :origin(N-Point.new( :x($w), :y(0))),
-  :size( N-Size.new( :width($w), :height($h)))
-);
-
-my N-Rect() $n-rect3 .= new(
-  :origin(N-Point.new( :x(0), :y($h))),
-  :size( N-Size.new( :width($w), :height($h)))
-);
-
-my N-Rect() $n-rect4 .= new(
-  :origin(N-Point.new( :x($w), :y($h))),
-  :size( N-Size.new( :width($w), :height($h)))
-);
-
-my N-RGBA ( $r, $g, $b, $y);
-$r .= new( :red(1e0), :green(0e0), :blue(0e0), :alpha(0.2e0));
-$g .= new( :red(0e0), :green(1e0), :blue(0e0), :alpha(0.2e0));
-$b .= new( :red(0e0), :green(0e0), :blue(1e0), :alpha(0.2e0));
-$y .= new( :red(1e0), :green(1e0), :blue(0e0), :alpha(0.2e0));
+Gnome::N::debug(:on);
 
 my Gnome::Gtk4::Snapshot $snapshot .= new-snapshot;
-$snapshot.append-color( $r, $n-rect1);
-$snapshot.append-color( $g, $n-rect2);
-$snapshot.append-color( $b, $n-rect3);
-$snapshot.append-color( $y, $n-rect4);
+$sh.add-col-rect( $snapshot, 0,  0,  $w, $h, 1, 0, 1, 0.5);
+$sh.add-col-rect( $snapshot, $w, 0,  $w, $h, 0, 1, 0, 0.5);
+$sh.add-col-rect( $snapshot, 0,  $h, $w, $h, 0, 0, 1, 0.5);
+$sh.add-col-rect( $snapshot, $w, $h, $w, $h, 1, 1, 0, 0.5);
 
 my Gnome::Graphene::N-Rect $rect-pic .= alloc;
 $rect-pic.init( 0, 0, $width, $height);
@@ -93,9 +91,7 @@ constant radius = 50.0;
 constant angle1 = 45.0  * (pi/180.0);   # angles are specified
 constant angle2 = 180.0 * (pi/180.0);   # in radians
 
-my Cairo::cairo_t $arc-pic = nativecast(
-  Cairo::cairo_t, $snapshot.append-cairo($rect-pic)
-);
+my Cairo::cairo_t $arc-pic = nativecast(Cairo::cairo_t,$snapshot.append-cairo($rect-pic));
 
 with Cairo::Context.new($arc-pic) {
   .line_width = 10.0;
