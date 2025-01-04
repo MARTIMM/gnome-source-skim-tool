@@ -30,6 +30,7 @@ class N-RGBA:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
   has gfloat $.alpha;
 
   submethod BUILD (
+#    Num()  :$!red, Num()  :$!green, Num()  :$!blue, Num()  :$!alpha, 
     gfloat :$!red, gfloat :$!green, gfloat :$!blue, gfloat :$!alpha, 
   ) {
   }
