@@ -490,7 +490,7 @@ method !generate-constructors ( Hash $hcs --> Str ) {
 
     # Remove first comma
     $par-list ~~ s/^ . //;
-    my Str $parameters = ?$par-list ?? ":parameters\(\[$par-list\]\)," !! '';
+    my Str $parameters = ?$par-list ?? ":parameters\(\[$par-list\]\), " !! '';
 
     # Save as a user recognizable name. This makes it possible
     # to postpone the translation as late as possible at run time
@@ -630,7 +630,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
 
     # Remove first comma and space
     $par-list ~~ s/^ .. //;
-    $par-list = ?$par-list ?? [~] ' :parameters([', $par-list, ']),' !! '';
+    $par-list = ?$par-list ?? [~] ':parameters([', $par-list, ']), ' !! '';
 
     # Return type
     my $xtype = $curr-function<return-raku-type>;
@@ -653,7 +653,7 @@ method !generate-methods ( Hash $hcs --> Str ) {
     }
 
     elsif ?$xtype {
-      $returns = ":returns\($xtype)" unless $xtype eq 'void';
+      $returns = ":returns\($xtype), " unless $xtype eq 'void';
     }
 
     # Set the full native subroutine name
@@ -770,7 +770,7 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
     $par-list ~~ s/^ . //;
     $par-list ~~ s/^ . // unless $par-list ~~ m/ \, /;
     $par-list = ?$par-list
-              ?? [~] ' :parameters([', $par-list, ']),'
+              ?? [~] ':parameters([', $par-list, ']), '
               !! '';
 
 #`{{
@@ -832,14 +832,14 @@ method generate-functions ( Hash $hcs, Bool :$standalone = False --> Str ) {
     my $xtype = $curr-function<return-raku-type>;
     my ( $rnt0, $rnt1) = $xtype.split(':');
     if ?$rnt1 {
-      $returns = " :returns\($rnt0\)";
-      $cnv-return = " :cnv-return\($rnt1\),";
+      $returns = ":returns\($rnt0\), ";
+      $cnv-return = ":cnv-return\($rnt1\), ";
     }
 
     elsif ?$rnt0 and $xtype ne 'void' {
-      $returns = " :returns\($rnt0\),";
+      $returns = ":returns\($rnt0\), ";
       if $xtype eq 'gboolean' {
-        $cnv-return = ' :cnv-return(Bool),';
+        $cnv-return = ':cnv-return(Bool), ';
       }
     }
 
