@@ -6,10 +6,12 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
+
+#use Cairo:api<2>;
 use Gnome::Gdk4::N-RGBA:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::Glib::N-Bytes:api<2>;
@@ -80,62 +82,62 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $snapshot {
-    my PangoDirection $direction;
-    my gint $index;
-    my gfloat $start;
-    my gfloat $rotation;
-    my N-Object $stops;
+    my N-Object $bounds;
     my N-Object $node;
     my N-Object $layout;
-    my gdouble $radius;
-    my gfloat $dx;
-    my N-Object $shader;
-    my gdouble $opacity;
-    my N-Object $border-color;
-    my N-Object $shadow;
-    my N-Object $size;
-    my GskFillRule $fill-rule;
-    my N-Object $bounds;
-    my N-Object $stroke;
-    my CArray[gfloat] $border-width;
-    my gfloat $factor-y;
-    my N-Object $take-args;
-    my gfloat $factor-z;
-    my N-Object $transform;
-    my N-Object $outline;
-    my gfloat $vradius;
-    my gdouble $y;
-    my gfloat $blur-radius;
-    my N-Object $color-matrix;
     my N-Object $child-bounds;
-    my gdouble $height;
-    my gdouble $width;
-    my N-Object $axis;
-    my N-Object $end-point;
+    my gfloat $vradius;
     my gfloat $end;
-    my gfloat $hradius;
-    my gfloat $spread;
-    my N-Object $color;
-    my N-Object $start-point;
-    my N-Object $path;
-    my gsize $n-shadows;
-    my N-Object $matrix;
-    my GskBlendMode $blend-mode;
-    my gfloat $angle;
     my gfloat $dy;
-    my gfloat $factor-x;
-    my N-Object $color-offset;
-    my gdouble $x;
-    my GskMaskMode $mask-mode;
-    my gfloat $depth;
-    my GskScalingFilter $filter;
-    my N-Object $context;
-    my gsize $n-stops;
-    my gdouble $progress;
-    my N-Object $texture;
+    my gdouble $height;
+    my N-Object $outline;
     my Str $message;
-    my N-Object $center;
+    my gdouble $progress;
+    my N-Object $stroke;
+    my N-Object $border-color;
+    my N-Object $context;
+    my N-Object $shader;
+    my N-Object $end-point;
+    my N-Object $transform;
+    my PangoDirection $direction;
+    my gdouble $y;
+    my gdouble $x;
+    my N-Object $texture;
+    my N-Object $stops;
+    my GskScalingFilter $filter;
+    my N-Object $color;
+    my gfloat $rotation;
+    my gdouble $opacity;
+    my CArray[gfloat] $border-width;
+    my gfloat $start;
+    my gdouble $radius;
+    my N-Object $matrix;
+    my gfloat $angle;
     my N-Object $point;
+    my gdouble $width;
+    my gfloat $hradius;
+    my GskMaskMode $mask-mode;
+    my N-Object $color-offset;
+    my gfloat $factor-y;
+    my N-Object $size;
+    my N-Object $take-args;
+    my gfloat $spread;
+    my gint $index;
+    my gfloat $factor-z;
+    my gfloat $dx;
+    my GskFillRule $fill-rule;
+    my gsize $n-stops;
+    my gfloat $blur-radius;
+    my gfloat $factor-x;
+    my N-Object $path;
+    my N-Object $shadow;
+    my N-Object $axis;
+    my GskBlendMode $blend-mode;
+    my N-Object $center;
+    my gsize $n-shadows;
+    my N-Object $start-point;
+    my N-Object $color-matrix;
+    my gfloat $depth;
 
 
 #`{{
