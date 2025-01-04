@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::Gtk4::T-enums:api<2>;
 use Gnome::Gtk4::T-image:api<2>;
@@ -38,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 
 submethod BUILD ( *%options ) {
 
+
   # Initialize helper
   $!routine-caller .= new(:library(gtk4-lib()));
 
@@ -60,29 +63,29 @@ my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
   new-image => %( :type(Constructor), :is-symbol<gtk_image_new>, :returns(N-Object), ),
-  new-from-file => %( :type(Constructor), :is-symbol<gtk_image_new_from_file>, :returns(N-Object), :parameters([ Str])),
-  new-from-gicon => %( :type(Constructor), :is-symbol<gtk_image_new_from_gicon>, :returns(N-Object), :parameters([ N-Object])),
-  new-from-icon-name => %( :type(Constructor), :is-symbol<gtk_image_new_from_icon_name>, :returns(N-Object), :parameters([ Str])),
-  new-from-paintable => %( :type(Constructor), :is-symbol<gtk_image_new_from_paintable>, :returns(N-Object), :parameters([ N-Object])),
-  #new-from-pixbuf => %( :type(Constructor), :is-symbol<gtk_image_new_from_pixbuf>, :returns(N-Object), :parameters([ ])),
-  new-from-resource => %( :type(Constructor), :is-symbol<gtk_image_new_from_resource>, :returns(N-Object), :parameters([ Str])),
+  new-from-file => %( :type(Constructor), :is-symbol<gtk_image_new_from_file>, :returns(N-Object), :parameters([ Str]), ),
+  new-from-gicon => %( :type(Constructor), :is-symbol<gtk_image_new_from_gicon>, :returns(N-Object), :parameters([ N-Object]), ),
+  new-from-icon-name => %( :type(Constructor), :is-symbol<gtk_image_new_from_icon_name>, :returns(N-Object), :parameters([ Str]), ),
+  new-from-paintable => %( :type(Constructor), :is-symbol<gtk_image_new_from_paintable>, :returns(N-Object), :parameters([ N-Object]), ),
+  new-from-pixbuf => %( :type(Constructor), :is-symbol<gtk_image_new_from_pixbuf>, :returns(N-Object), :deprecated, :deprecated-version<4.12>, :parameters([ N-Object]), ),
+  new-from-resource => %( :type(Constructor), :is-symbol<gtk_image_new_from_resource>, :returns(N-Object), :parameters([ Str]), ),
 
   #--[Methods]------------------------------------------------------------------
   clear => %(:is-symbol<gtk_image_clear>, ),
-  get-gicon => %(:is-symbol<gtk_image_get_gicon>,  :returns(N-Object)),
-  get-icon-name => %(:is-symbol<gtk_image_get_icon_name>,  :returns(Str)),
+  get-gicon => %(:is-symbol<gtk_image_get_gicon>, :returns(N-Object), ),
+  get-icon-name => %(:is-symbol<gtk_image_get_icon_name>, :returns(Str), ),
   get-icon-size => %(:is-symbol<gtk_image_get_icon_size>,  :returns(GEnum), :cnv-return(GtkIconSize)),
-  get-paintable => %(:is-symbol<gtk_image_get_paintable>,  :returns(N-Object)),
-  get-pixel-size => %(:is-symbol<gtk_image_get_pixel_size>,  :returns(gint)),
+  get-paintable => %(:is-symbol<gtk_image_get_paintable>, :returns(N-Object), ),
+  get-pixel-size => %(:is-symbol<gtk_image_get_pixel_size>, :returns(gint), ),
   get-storage-type => %(:is-symbol<gtk_image_get_storage_type>,  :returns(GEnum), :cnv-return(GtkImageType)),
-  set-from-file => %(:is-symbol<gtk_image_set_from_file>,  :parameters([Str])),
-  set-from-gicon => %(:is-symbol<gtk_image_set_from_gicon>,  :parameters([N-Object])),
-  set-from-icon-name => %(:is-symbol<gtk_image_set_from_icon_name>,  :parameters([Str])),
-  set-from-paintable => %(:is-symbol<gtk_image_set_from_paintable>,  :parameters([N-Object])),
-  #set-from-pixbuf => %(:is-symbol<gtk_image_set_from_pixbuf>, ),
-  set-from-resource => %(:is-symbol<gtk_image_set_from_resource>,  :parameters([Str])),
-  set-icon-size => %(:is-symbol<gtk_image_set_icon_size>,  :parameters([GEnum])),
-  set-pixel-size => %(:is-symbol<gtk_image_set_pixel_size>,  :parameters([gint])),
+  set-from-file => %(:is-symbol<gtk_image_set_from_file>, :parameters([Str]), ),
+  set-from-gicon => %(:is-symbol<gtk_image_set_from_gicon>, :parameters([N-Object]), ),
+  set-from-icon-name => %(:is-symbol<gtk_image_set_from_icon_name>, :parameters([Str]), ),
+  set-from-paintable => %(:is-symbol<gtk_image_set_from_paintable>, :parameters([N-Object]), ),
+  set-from-pixbuf => %(:is-symbol<gtk_image_set_from_pixbuf>, :parameters([N-Object]), :deprecated, :deprecated-version<4.12>, ),
+  set-from-resource => %(:is-symbol<gtk_image_set_from_resource>, :parameters([Str]), ),
+  set-icon-size => %(:is-symbol<gtk_image_set_icon_size>, :parameters([GEnum]), ),
+  set-pixel-size => %(:is-symbol<gtk_image_set_pixel_size>, :parameters([gint]), ),
 );
 
 #-------------------------------------------------------------------------------
