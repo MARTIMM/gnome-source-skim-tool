@@ -477,7 +477,8 @@ note "$?LINE $c.gist()";
           # If the provided argument is a structure or union object other
           # than a N-Object, we must convert it.
           if !$v.defined {
-            $c = N-Object;
+            #$c = N-Object;
+            $c = nativecast( N-Object, $v);
           }
 
           elsif $v.^name !~~ / 'N-Object' / {
@@ -516,7 +517,7 @@ multi method convert-return ( $v, Hash $routine ) {
   my $c;
   my $p = $routine<returns>;
 
-  note "$?LINE Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
+  note "Returned: type: $p.^name(), value: $v.gist()" if $Gnome::N::x-debug;
 
   # Use 'given' because $p is a type and is always undefined
   given $p {
@@ -543,6 +544,10 @@ multi method convert-return ( $v, Hash $routine ) {
     # gboolean is an int32 so it is not visible if it should be a boolean
     when gboolean {
       $c = $v[0].Bool if $routine<cnv-return> ~~ Bool;
+    }
+
+    when N-Object {
+      $c = nativecast( N-Object, $v);
     }
 
     when .^name ~~ / CArray / {
@@ -581,6 +586,10 @@ multi method convert-return ( $v, $p ) {
 
     when gint-ptr {
       $c = $v[0];
+    }
+
+    when N-Object {
+      $c = nativecast( N-Object, $v);
     }
 
     when .^name ~~ / CArray / {

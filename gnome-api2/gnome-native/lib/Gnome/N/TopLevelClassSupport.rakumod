@@ -30,7 +30,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 
 #-------------------------------------------------------------------------------
-unit class Gnome::N::TopLevelClassSupport;
+unit class Gnome::N::TopLevelClassSupport:auth<github:MARTIMM>:api<2>;
 also is Mu;
 
 #===============================================================================
