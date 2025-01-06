@@ -84,8 +84,8 @@ method get-classes-from-gir ( ) {
       when 'class' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>C-$name.gir";
-        unless
-          !$xml-file.IO.e or $xml-file.IO.modified > $!gir-modification-time
+        if ($xml-file.IO ~~ :!e) or
+           ($xml-file.IO.modified > $!gir-modification-time)
         {
           my Str $xml = qq:to/EOXML/;
             <?xml version="1.0"?>
@@ -118,8 +118,9 @@ method get-classes-from-gir ( ) {
       when 'record' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
-        unless
-          !$xml-file.IO.e or $xml-file.IO.modified > $!gir-modification-time
+note "$?LINE record file: $name, $xml-file, $*work-data<name-prefix>, ",($xml-file.IO ~~ :!e) or ($xml-file.IO.modified > $!gir-modification-time);
+        if ($xml-file.IO ~~ :!e) or
+           ($xml-file.IO.modified > $!gir-modification-time)
         {
           my Str $name-prefix = $*work-data<name-prefix>;
           $name ~~ s:i/^ $name-prefix //;
@@ -152,8 +153,8 @@ method get-classes-from-gir ( ) {
           $name ~~ s:i/^ $name-prefix //;
 
           my $xml-file = "$*work-data<gir-module-path>U-$name.gir";
-          unless
-            !$xml-file.IO.e or $xml-file.IO.modified > $!gir-modification-time
+          if ($xml-file.IO ~~ :!e) or
+            ($xml-file.IO.modified > $!gir-modification-time)
           {
             my Str $xml = qq:to/EOXML/;
               <?xml version="1.0"?>
@@ -180,8 +181,8 @@ method get-classes-from-gir ( ) {
       when 'interface' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>I-$name.gir";
-        unless
-          !$xml-file.IO.e or $xml-file.IO.modified > $!gir-modification-time
+        if ($xml-file.IO ~~ :!e) or
+           ($xml-file.IO.modified > $!gir-modification-time)
         {
           my Str $xml = qq:to/EOXML/;
             <?xml version="1.0"?>
@@ -378,7 +379,9 @@ method !map-element (
                   $attrs<name> // ''          # Doc sections
                   ;
   # Return when an element ends in specific words. Most of those are records.
-  return True if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
+# Maybe we need xxxClass types to access/modify virtual functions of a class
+#  return True if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
+  return True if $ctype ~~ m/ [ Private || Iface || Interface ] $/;
 
   # Check for this id. If undefined make some noise and return
   unless ?$ctype {
