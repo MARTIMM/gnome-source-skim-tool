@@ -123,7 +123,7 @@ sub _init_check_v4 ( --> gboolean )
 multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
 #say Backtrace.new.nice;
 
-  printf "\n\ncalling $name" if $Gnome::N::x-debug;
+  printf "\n\n$?LINE calling $name" if $Gnome::N::x-debug;
 
   my Hash $routine := $methods{$name};
 
@@ -175,7 +175,7 @@ multi method call-native-sub ( Str $name, @arguments, Hash $methods ) {
     $routine<function-address>{$func-pattern} = $c;
   }
 
-  note "Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
+  note "$?LINE Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
     if $Gnome::N::x-debug;
 
   self.convert-return( $c(|$native-args), $routine)
@@ -189,7 +189,7 @@ multi method call-native-sub (
 ) {
 #say Backtrace.new.nice;
 
-  printf "\n\ncalling $name, $native-object" if $Gnome::N::x-debug;
+  printf "\n\n$?LINE calling $name, $native-object" if $Gnome::N::x-debug;
 
   my Hash $routine := $methods{$name};
 
@@ -244,7 +244,7 @@ multi method call-native-sub (
     $routine<function-address>{$func-pattern} = $c;
   }
 
-  note "Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
+  note "$?LINE Function: $func-pattern\({$native-args>>.gist.join(', ')}\)"
     if $Gnome::N::x-debug;
 
   self.convert-return( $c(|$native-args), $routine)
@@ -299,7 +299,6 @@ multi method native-parameters (
 method !native-function (
   Str $name, Array $parameters, Hash $routine --> Callable
 ) {
-
   # Create list of parameter types and start with inserting fixed arguments
   my @parameterList = ();
 
