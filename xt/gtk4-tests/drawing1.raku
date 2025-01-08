@@ -11,12 +11,14 @@ use Gnome::Graphene::N-Rect:api<2>;
 use Gnome::Glib::N-MainLoop:api<2>;
 
 use Gnome::Gdk4::Texture:api<2>;
+use Gnome::Gdk4::Texture:api<2>;
 use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::Gdk4::N-RGBA:api<2>;
 
 #use Gnome::Gtk4::Native:api<2>;
 use Gnome::Gtk4::Snapshot:api<2>;
 use Gnome::Gtk4::Image:api<2>;
+use Gnome::Gtk4::Picture:api<2>;
 use Gnome::Gtk4::Window:api<2>;
 use Gnome::Gtk4::Grid:api<2>;
 
@@ -52,19 +54,36 @@ class SH {
   }
 }}
   #-----------------------------------------------------------------------------
-  method make-snapshot (
-    Gnome::Gtk4::Image() $image,
-    Gnome::Gtk4::Snapshot() $snapshot
-  ) {
+  method set-image ( Gnome::Gtk4::Image $image ) {
 
-#    Gnome::N::debug(:on);
-
-    #my Gnome::Gtk4::Snapshot $snapshot .= new-snapshot;
+    my Gnome::Gtk4::Snapshot $snapshot .= new-snapshot;
     self.add-col-rect( $snapshot, 0,   0,   $!w, $!h, 1, 0, 1, 0.9);
     self.add-col-rect( $snapshot, $!w, 0,   $!w, $!h, 0, 1, 0, 0.8);
     self.add-col-rect( $snapshot, 0,   $!h, $!w, $!h, 0, 0, 1, 1);
     self.add-col-rect( $snapshot, $!w, $!h, $!w, $!h, 1, 1, 0, 1);
-  }
+
+#    $snapshot.save;
+
+    # Now we are finished drawing and create a texture to be able to set
+    # an image. A texture has the paintable role.
+#    my N-Size() $n-size .= new( :$!width, :$!height);
+#    my Gnome::Gdk4::Texture() $texture = $snapshot.to-paintable($n-size);
+
+#    Gnome::N::debug(:on);
+    $image.set-from-paintable($snapshot.to-paintable(N-Size));
+#    Gnome::N::debug(:off);
+
+#    my Gnome::Gdk4::Texture() $texture = $image.get-paintable;
+#    $texture.snapshot( $snapshot, $!width, $!height);
+
+
+#`{{
+    with my Gnome::Gtk4::Image $image .= new-from-paintable($texture) {
+      .set-size-request( $!width, $!height);
+    }
+
+    $image
+}}  }
 
   #-----------------------------------------------------------------------------
   method add-col-rect(
@@ -72,14 +91,10 @@ class SH {
     Num() $x, Num() $y, Num() $w, Num() $h,
     Num() $red, Num() $green, Num() $blue, Num() $alpha
   ) {
-note "\n$?LINE $x, $y, $w, $h";
     my N-Rect() $r .= new(
       :origin(N-Point.new( :$x, :$y)),
       :size( N-Size.new( :width($w), :height($h))),
     );
-
-note "$?LINE x, y: $r.origin.x(), $r.origin.y()";
-note "$?LINE w, h: $r.size.width(), $r.size.height()";
 
 #    my Gnome::Graphene::N-Rect $r .= alloc;
 #    $r.init( $x, $y, $w, $h);
@@ -119,13 +134,13 @@ $snapshot.append-node($render-node);
 #my N-Size() $n-size .= new( :$width, :$height);
 #my Gnome::Gdk4::Texture() $texture = $snapshot.free-to-paintable($n-size);
 #my Gnome::Gdk4::Texture() $texture = $snapshot.free-to-paintable(N-Size);
-Gnome::N::debug(:on);
+#Gnome::N::debug(:on);
 
 #with my Gnome::Gtk4::Image $image .= new-from-paintable($texture) {
-my Gnome::Gtk4::Window $window .= new-window;
+#my Gnome::Gtk4::Image $image = $sh.make-image;
+
 with my Gnome::Gtk4::Image $image .= new-image {
   .set-size-request( $sh.width, $sh.height);
-  .register-signal( $sh, 'make-snapshot', 'snapshot');
 }
 
 with my Gnome::Gtk4::Grid $grid .= new-grid {
@@ -136,15 +151,15 @@ with my Gnome::Gtk4::Grid $grid .= new-grid {
   .attach( $image, 0, 0, 1, 1);
 }
 
-with $window {
-  .snapshot-child( $window, $image);
-  .register-signal( $sh, 'make-snapshot', 'snapshot');
-
+with my Gnome::Gtk4::Window $window .= new-window {
   .register-signal( $sh, 'stopit', 'close-request');
   .set-title('My new window');
   .set-child($grid);
   .set-size-request( 200, 200);
-  .show;
+  
+  $sh.set-image($image);
+  
+  .present;
 }
 
 $main-loop.run;
