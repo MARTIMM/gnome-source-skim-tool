@@ -49,19 +49,19 @@ class SH {
     Num() $x, Num() $y, Num() $w, Num() $h,
     Num() $red, Num() $green, Num() $blue, Num() $alpha
   ) {
-note "\n$?LINE $x, $y, $w, $h";
+#note "\n$?LINE $x, $y, $w, $h";
     my N-Rect() $r .= new(
       :origin(N-Point.new( :$x, :$y)),
       :size( N-Size.new( :width($w), :height($h))),
     );
 
-note "$?LINE x, y: $r.origin.x(), $r.origin.y()";
-note "$?LINE w, h: $r.size.width(), $r.size.height()";
+#note "$?LINE x, y: $r.origin.x(), $r.origin.y()";
+#note "$?LINE w, h: $r.size.width(), $r.size.height()";
 
 #    my Gnome::Graphene::N-Rect $r .= alloc;
 #    $r.init( $x, $y, $w, $h);
     my N-RGBA $c .= new( :$red, :$green, :$blue, :$alpha);
-note "$?LINE c: $c.red(), $c.green(), $c.blue(), $c.alpha()";
+#note "$?LINE c: $c.red(), $c.green(), $c.blue(), $c.alpha()";
     $snapshot.append-color( $c, $r);
   }
 }
@@ -73,7 +73,7 @@ my Num() $height = 100;
 my Num() $w = $width/2;
 my Num() $h = $height/2;
 
-Gnome::N::debug(:on);
+#Gnome::N::debug(:on);
 
 my Gnome::Gtk4::Snapshot $snapshot .= new-snapshot;
 $sh.add-col-rect( $snapshot, 0,  0,  $w, $h, 1, 0, 1, 0.5);
