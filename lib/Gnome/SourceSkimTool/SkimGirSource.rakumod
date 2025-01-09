@@ -118,7 +118,6 @@ method get-classes-from-gir ( ) {
       when 'record' {
         my Str $name = self!check-pixbuf($attrs<name>);
         my $xml-file = "$*work-data<gir-module-path>R-$name.gir";
-note "$?LINE record file: $name, $xml-file, $*work-data<name-prefix>, ",($xml-file.IO ~~ :!e) or ($xml-file.IO.modified > $!gir-modification-time);
         if ($xml-file.IO ~~ :!e) or
            ($xml-file.IO.modified > $!gir-modification-time)
         {
@@ -380,8 +379,8 @@ method !map-element (
                   ;
   # Return when an element ends in specific words. Most of those are records.
 # Maybe we need xxxClass types to access/modify virtual functions of a class
-#  return True if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
-  return True if $ctype ~~ m/ [ Private || Iface || Interface ] $/;
+  return True if $ctype ~~ m/ [ Private || Class || Iface || Interface ] $/;
+#  return True if $ctype ~~ m/ [ Private || Iface || Interface ] $/;
 
   # Check for this id. If undefined make some noise and return
   unless ?$ctype {
