@@ -12,6 +12,7 @@ use NativeCall;
 
 use Gnome::Gtk4::Assistant:api<2>;
 use Gnome::Gtk4::AssistantPage:api<2>;
+use Gnome::Gtk4::Frame:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -22,7 +23,7 @@ use Gnome::N::X:api<2>;
 #-------------------------------------------------------------------------------
 
 #Gnome::N::debug(:on);
-my Gnome::Gtk4::AssistantPage $assistantpage;
+my Gnome::Gtk4::AssistantPage() $assistantpage;
 my Gnome::Gtk4::Assistant $assistant;
 #-------------------------------------------------------------------------------
 #--[Class init tests]-----------------------------------------------------------
@@ -30,7 +31,9 @@ my Gnome::Gtk4::Assistant $assistant;
 
 subtest 'ISA test', {
   $assistant .= new-assistant;
-  $assistantpage .= new(:native-object($assistant.get-page));
+  my N-Object $p .= new;
+  $assistant.get-page($p);
+  $assistantpage = $p;
   given $assistantpage {
     nok .is-valid, '$assistant.get-page(): no page set';
   }

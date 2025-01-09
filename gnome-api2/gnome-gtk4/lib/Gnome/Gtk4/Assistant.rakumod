@@ -7,9 +7,9 @@ use v6.d;
 
 use NativeCall;
 
-
 use Gnome::Gtk4::T-assistant:api<2>;
 use Gnome::Gtk4::Window:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -39,10 +39,17 @@ my Bool $signals-added = False;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
+  Gnome::N::deprecate(
+    'Gnome::Gtk4::Assistant', ', Str, ',
+    '4.10', Str,
+    :class, :gnome-lib(gtk4-lib())  
+  );
+
   # Add signal administration info.
   unless $signals-added {
     self.add-signal-types( $?CLASS.^name,
-      :w0<cancel apply escape close>,
+      :w0<apply close escape cancel>,
       :w1<prepare>,
     );
     $signals-added = True;
@@ -69,32 +76,32 @@ submethod BUILD ( *%options ) {
 my Hash $methods = %(
 
   #--[Constructors]-------------------------------------------------------------
-  new-assistant => %( :type(Constructor), :is-symbol<gtk_assistant_new>, :returns(N-Object), ),
+  new-assistant => %( :type(Constructor), :is-symbol<gtk_assistant_new>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
 
   #--[Methods]------------------------------------------------------------------
-  add-action-widget => %(:is-symbol<gtk_assistant_add_action_widget>,  :parameters([N-Object])),
-  append-page => %(:is-symbol<gtk_assistant_append_page>,  :returns(gint), :parameters([N-Object])),
-  commit => %(:is-symbol<gtk_assistant_commit>, ),
-  get-current-page => %(:is-symbol<gtk_assistant_get_current_page>,  :returns(gint)),
-  get-n-pages => %(:is-symbol<gtk_assistant_get_n_pages>,  :returns(gint)),
-  get-nth-page => %(:is-symbol<gtk_assistant_get_nth_page>,  :returns(N-Object), :parameters([gint])),
-  get-page => %(:is-symbol<gtk_assistant_get_page>,  :returns(N-Object), :parameters([N-Object])),
-  get-page-complete => %(:is-symbol<gtk_assistant_get_page_complete>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object])),
-  get-page-title => %(:is-symbol<gtk_assistant_get_page_title>,  :returns(Str), :parameters([N-Object])),
-  get-page-type => %(:is-symbol<gtk_assistant_get_page_type>,  :returns(GEnum), :cnv-return(GtkAssistantPageType), :parameters([N-Object])),
-  get-pages => %(:is-symbol<gtk_assistant_get_pages>,  :returns(N-Object)),
-  insert-page => %(:is-symbol<gtk_assistant_insert_page>,  :returns(gint), :parameters([N-Object, gint])),
-  next-page => %(:is-symbol<gtk_assistant_next_page>, ),
-  prepend-page => %(:is-symbol<gtk_assistant_prepend_page>,  :returns(gint), :parameters([N-Object])),
-  previous-page => %(:is-symbol<gtk_assistant_previous_page>, ),
-  remove-action-widget => %(:is-symbol<gtk_assistant_remove_action_widget>,  :parameters([N-Object])),
-  remove-page => %(:is-symbol<gtk_assistant_remove_page>,  :parameters([gint])),
-  set-current-page => %(:is-symbol<gtk_assistant_set_current_page>,  :parameters([gint])),
-  #set-forward-page-func => %(:is-symbol<gtk_assistant_set_forward_page_func>,  :parameters([:( gint $current-page, gpointer $data --> gint ), gpointer, ])),
-  set-page-complete => %(:is-symbol<gtk_assistant_set_page_complete>,  :parameters([N-Object, gboolean])),
-  set-page-title => %(:is-symbol<gtk_assistant_set_page_title>,  :parameters([N-Object, Str])),
-  set-page-type => %(:is-symbol<gtk_assistant_set_page_type>,  :parameters([N-Object, GEnum])),
-  update-buttons-state => %(:is-symbol<gtk_assistant_update_buttons_state>, ),
+  add-action-widget => %(:is-symbol<gtk_assistant_add_action_widget>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  append-page => %(:is-symbol<gtk_assistant_append_page>, :returns(gint), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  commit => %(:is-symbol<gtk_assistant_commit>, :deprecated, :deprecated-version<4.10>, ),
+  get-current-page => %(:is-symbol<gtk_assistant_get_current_page>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-n-pages => %(:is-symbol<gtk_assistant_get_n_pages>, :returns(gint), :deprecated, :deprecated-version<4.10>, ),
+  get-nth-page => %(:is-symbol<gtk_assistant_get_nth_page>, :returns(N-Object), :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  get-page => %(:is-symbol<gtk_assistant_get_page>, :returns(N-Object), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-page-complete => %(:is-symbol<gtk_assistant_get_page_complete>, :returns(gboolean), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-page-title => %(:is-symbol<gtk_assistant_get_page_title>, :returns(Str), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-page-type => %(:is-symbol<gtk_assistant_get_page_type>,  :returns(GEnum), :cnv-return(GtkAssistantPageType),:parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  get-pages => %(:is-symbol<gtk_assistant_get_pages>, :returns(N-Object), :deprecated, :deprecated-version<4.10>, ),
+  insert-page => %(:is-symbol<gtk_assistant_insert_page>, :returns(gint), :parameters([N-Object, gint]), :deprecated, :deprecated-version<4.10>, ),
+  next-page => %(:is-symbol<gtk_assistant_next_page>, :deprecated, :deprecated-version<4.10>, ),
+  prepend-page => %(:is-symbol<gtk_assistant_prepend_page>, :returns(gint), :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  previous-page => %(:is-symbol<gtk_assistant_previous_page>, :deprecated, :deprecated-version<4.10>, ),
+  remove-action-widget => %(:is-symbol<gtk_assistant_remove_action_widget>, :parameters([N-Object]), :deprecated, :deprecated-version<4.10>, ),
+  remove-page => %(:is-symbol<gtk_assistant_remove_page>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-current-page => %(:is-symbol<gtk_assistant_set_current_page>, :parameters([gint]), :deprecated, :deprecated-version<4.10>, ),
+  set-forward-page-func => %(:is-symbol<gtk_assistant_set_forward_page_func>, :parameters([:( gint $current-page, gpointer $data ), gpointer, :( gpointer $data )]), :deprecated, :deprecated-version<4.10>, ),
+  set-page-complete => %(:is-symbol<gtk_assistant_set_page_complete>, :parameters([N-Object, gboolean]), :deprecated, :deprecated-version<4.10>, ),
+  set-page-title => %(:is-symbol<gtk_assistant_set_page_title>, :parameters([N-Object, Str]), :deprecated, :deprecated-version<4.10>, ),
+  set-page-type => %(:is-symbol<gtk_assistant_set_page_type>, :parameters([N-Object, GEnum]), :deprecated, :deprecated-version<4.10>, ),
+  update-buttons-state => %(:is-symbol<gtk_assistant_update_buttons_state>, :deprecated, :deprecated-version<4.10>, ),
 );
 
 #-------------------------------------------------------------------------------
@@ -109,7 +116,6 @@ method _fallback-v2 (
         :library(gtk4-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
