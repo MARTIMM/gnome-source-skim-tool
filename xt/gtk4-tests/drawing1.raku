@@ -19,7 +19,7 @@ use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 
 #-------------------------------------------------------------------------------
-class SH {
+class DrawingColors {
   has Gnome::Glib::N-MainLoop $!main-loop;
 
   has Num() $!width;
@@ -29,29 +29,27 @@ class SH {
 
   submethod BUILD ( ) {
     $!main-loop .= new-mainloop( N-Object, True);
-    $!width = 100;
-    $!height = 100;
+    $!width = 200;
+    $!height = 200;
     $!w = $!width/2;
     $!h = $!height/2;
 
     #---------------------------------------------------------------------------
-    with my Gnome::Gtk4::Image $image .= new-image {
-      .set-size-request( $!width, $!height);
-    }
-
-    with my Gnome::Gtk4::Frame $grid .= new-frame {
-      .set-margin-start($!w);
-      .set-margin-end($!w);
-      .set-margin-top($!h);
-      .set-margin-bottom($!h);
+    my Gnome::Gtk4::Image $image .= new-image;
+    $image.set-size-request( $!width, $!height);
+  
+    with my Gnome::Gtk4::Frame $frame .= new-frame('My Drawing') {
+      .set-margin-start(50);
+      .set-margin-end(50);
+      .set-margin-top(50);
+      .set-margin-bottom(50);
       .set-child($image);
     }
 
     with my Gnome::Gtk4::Window $window .= new-window {
       .register-signal( self, 'stopit', 'close-request');
       .set-title('My new window');
-      .set-child($grid);
-      .set-size-request( 200, 200);
+      .set-child($frame);
 
       self.set-image($image);
 
@@ -79,7 +77,7 @@ class SH {
     self.add-col-rect( $snapshot, 0,   $!h, $!w, $!h, 0, 0, 1, 1);
     self.add-col-rect( $snapshot, $!w, $!h, $!w, $!h, 1, 1, 0, 1);
 
-    $image.set-from-paintable($snapshot.to-paintable(N-Size));
+    $image.set-from-paintable($snapshot.free-to-paintable(N-Size));
   }
 
   #-----------------------------------------------------------------------------
@@ -88,7 +86,7 @@ class SH {
     Num() $x, Num() $y, Num() $w, Num() $h,
     Num() $red, Num() $green, Num() $blue, Num() $alpha
   ) {
-   my N-Rect() $r .= new(
+    my N-Rect() $r .= new(
       :origin(N-Point.new( :$x, :$y)),
       :size( N-Size.new( :width($w), :height($h))),
     );
@@ -98,4 +96,4 @@ class SH {
   }
 }
 
-my SH $sh .= new;
+DrawingColors.new;

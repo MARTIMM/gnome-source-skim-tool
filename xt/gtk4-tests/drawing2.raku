@@ -16,7 +16,7 @@ use Gnome::Gdk4::T-rgba:api<2>;
 use Gnome::Gtk4::Snapshot:api<2>;
 use Gnome::Gtk4::Image:api<2>;
 use Gnome::Gtk4::Window:api<2>;
-use Gnome::Gtk4::Grid:api<2>;
+use Gnome::Gtk4::Frame:api<2>;
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -68,26 +68,26 @@ class SH {
 
 my SH $sh .= new;
 #-------------------------------------------------------------------------------
-my Num() $width = 100;
-my Num() $height = 100;
+my Num() $width = 200;
+my Num() $height = 200;
 my Num() $w = $width/2;
 my Num() $h = $height/2;
 
 #Gnome::N::debug(:on);
 
 my Gnome::Gtk4::Snapshot $snapshot .= new-snapshot;
-$sh.add-col-rect( $snapshot, 0,  0,  $w, $h, 1, 0, 1, 0.5);
-$sh.add-col-rect( $snapshot, $w, 0,  $w, $h, 0, 1, 0, 0.5);
+$sh.add-col-rect( $snapshot, 0,  0,  $w, $h, 0.8, 0.6, 0, 0.9);
+$sh.add-col-rect( $snapshot, $w, 0,  $w, $h, 0, 1, 0, 0.7);
 $sh.add-col-rect( $snapshot, 0,  $h, $w, $h, 0, 0, 1, 0.5);
-$sh.add-col-rect( $snapshot, $w, $h, $w, $h, 1, 1, 0, 0.5);
+$sh.add-col-rect( $snapshot, $w, $h, $w, $h, 1, 1, 0, 0.3);
 
 my Gnome::Graphene::N-Rect $rect-pic .= alloc;
 $rect-pic.init( 0, 0, $width, $height);
 
 # Next is one of the examples found in the Cairo distro of Time
-constant xc = 50.0;
-constant yc = 50.0;
-constant radius = 50.0;
+constant xc = 100.0;
+constant yc = 100.0;
+constant radius = 100.0;
 constant angle1 = 45.0  * (pi/180.0);   # angles are specified
 constant angle2 = 180.0 * (pi/180.0);   # in radians
 
@@ -121,10 +121,12 @@ with my Gnome::Gtk4::Image $image .= new-from-paintable($texture) {
   .set-size-request( $width, $height);
 }
 
-with my Gnome::Gtk4::Grid $grid .= new-grid {
-  .set-margin-start($w);
-  .set-margin-top($h);
-  .attach( $image, 0, 0, 1, 1);
+with my Gnome::Gtk4::Frame $grid .= new-frame('My Drawing') {
+  .set-margin-start(50);
+  .set-margin-end(50);
+  .set-margin-top(50);
+  .set-margin-bottom(50);
+  .set-child($image);
 }
 
 with my Window $window .= new-window {
@@ -132,7 +134,8 @@ with my Window $window .= new-window {
   .set-title('My new window');
   .set-child($grid);
   .set-size-request( 200, 200);
-  .show;
+
+  .present;
 }
 
 $main-loop.run;
