@@ -14,7 +14,7 @@ use Gnome::N::N-Object:api<2>;
 constant Window = Gnome::Gtk4::Window;
 constant DrawingArea = Gnome::Gtk4::DrawingArea;
 
-my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop;
+my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop( N-Object, True);
 
 #-------------------------------------------------------------------------------
 class SH {
@@ -34,7 +34,8 @@ with my Window $window .= new-window {
   .set-title('My Rectangles');
   .set-size-request( 300, 300);
   .set-child($draw);
-  .show;
+
+  .present;
 }
 
 $main-loop.run;
