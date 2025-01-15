@@ -27,14 +27,12 @@ constant Label = Gnome::Gtk4::Label;
 
 class ToggleDisplay {
   has Gnome::Glib::N-MainLoop $!main-loop;
-  has Gnome::Gtk4::Box $!widget;
 
   submethod BUILD ( ) {
     $!main-loop .= new-mainloop( N-Object, True);
 
     with my ToggleButton $toggle-button .= new-togglebutton {
-      $!widget = self.make-led-text-widget( 'Busy', True);
-      .set-child($!widget);
+      .set-child(self.make-led-text-widget( 'Busy', True));
       .register-signal( self, 'toggle', 'toggled');
       .set-active(True);
     }
@@ -50,13 +48,12 @@ class ToggleDisplay {
 
     with my Window $window .= new-window {
       .register-signal( self, 'stopit', 'close-request');
-      .set-title('Test Toggle Display!');
+      .set-title('Toggle Display!');
       .set-child($frame);
 
       .present;
     }
 
-    #note "Set up time: ", now - $t0;          # 0.27102656
     $!main-loop.run;
   }
 
@@ -78,21 +75,19 @@ class ToggleDisplay {
   }
 
   method stopit ( --> gboolean ) {
-    say 'close request';
     $!main-loop.quit;
 
     0
   }
 
   method toggle ( ToggleButton() :_native-object($toggle-button) ) {
-    note 'button toggled: ', my Bool $state = $toggle-button.get-active;
-    $!widget = self.make-led-text-widget(
+    my Bool $state = $toggle-button.get-active;
+    my Gnome::Gtk4::Box $widget = self.make-led-text-widget(
       $state ?? 'Busy' !! 'not Busy', $state
     );
-    $toggle-button.set-child($!widget);
+    $toggle-button.set-child($widget);
   }
 }
 
-my ToggleDisplay $sh .= new;
-say 'done it';
+ToggleDisplay.new;
 
