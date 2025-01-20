@@ -6,21 +6,20 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gdk4::N-Rectangle
-
+=TITLE Gnome::Gdk4::N-Rectangle
 =head1 Description
 
-A U<Gnome::Gdk4::N-Rectangle> data type for representing rectangles.
+A B<Gnome::Gdk4::N-Rectangle> data type for representing rectangles.
 
-U<Gnome::Gdk4::N-Rectangle> is identical to U<Gnome::Cairo::N-Context>. Together with Cairo’s
-U<Gnome::Cairo::N-Context> data type, these are the central types for representing
+B<Gnome::Gdk4::N-Rectangle> is identical to B<Cairo::cairo_rectangle_t>. Together with Cairo’s
+B<Cairo::cairo_region_t> data type, these are the central types for representing
 sets of pixels.
 
 The intersection of two rectangles can be computed with
 C<.intersect()>; to find the union of two rectangles use
 C<.union()>.
 
-The U<Gnome::Cairo::N-Context> type provided by Cairo is usually used for managing
+The B<Cairo::cairo_region_t> type provided by Cairo is usually used for managing
 non-rectangular clipping of graphical operations.
 
 The Graphene library has a number of other data types for regions and
@@ -32,28 +31,6 @@ volumes in 2D and 3D.
 # Example use of module Gnome::Gdk4::Rectangle
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-Rectangle
-
-  class N-Rectangle:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has gint $.x;
-    has gint $.y;
-    has gint $.width;
-    has gint $.height;
-  }
-
-=item x; the x coordinate of the top left corner
-=item y; the y coordinate of the top left corner
-=item width; the width of the rectangle
-=item height; the height of the rectangle
 
 =end pod
 
@@ -113,10 +90,10 @@ Return value; C<True> if C<$rect> contains the point.
 Checks if the two given rectangles are equal.
 
 =begin code
-method equal ( CArray[N-Rectangle] $rect2 --> Bool )
+method equal ( N-Object $rect2 --> Bool )
 =end code
 
-=item $rect2; a U<Gnome::Gdk4::N-Rectangle>.
+=item $rect2; a B<Gnome::Gdk4::N-Rectangle>
 
 Return value; C<True> if the rectangles are equal.. 
 
@@ -142,12 +119,12 @@ in whether the rectangles intersect, but not in the intersecting area
 itself, pass undefined for C<$dest>.
 
 =begin code
-method intersect ( CArray[N-Rectangle] $src2, CArray[N-Rectangle] $dest --> Bool )
+method intersect ( N-Object $src2, N-Object $dest --> Bool )
 =end code
 
-=item $src2; a U<Gnome::Gdk4::N-Rectangle>.
+=item $src2; a B<Gnome::Gdk4::N-Rectangle>
 =item $dest; return location for the
-  intersection of C<$src1> and C<$src2>.
+  intersection of C<$src1> and C<$src2>
 
 Return value; C<True> if the rectangles intersect.. 
 
@@ -174,11 +151,11 @@ Note that this function does not ignore 'empty' rectangles (ie. with
 zero width or height).
 
 =begin code
-method union ( CArray[N-Rectangle] $src2, CArray[N-Rectangle] $dest )
+method union ( N-Object $src2, N-Object $dest )
 =end code
 
-=item $src2; a U<Gnome::Gdk4::N-Rectangle>.
-=item $dest; return location for the union of C<$src1> and C<$src2>.
+=item $src2; a B<Gnome::Gdk4::N-Rectangle>
+=item $dest; return location for the union of C<$src1> and C<$src2>
 
 =begin comment
 

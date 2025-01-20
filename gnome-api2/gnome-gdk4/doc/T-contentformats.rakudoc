@@ -2,7 +2,7 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Gdk4::T-contentformats
+=TITLE Gnome::Gdk4::T-contentformats
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -24,11 +24,11 @@ Initialization of a type class is simple and only needed when the standalone fun
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Record N-FileList
+=head1 Record N-ContentFormatsBuilder
 
 This is an opaque type of which fields are not available.
 
-  class N-FileList:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+  class N-ContentFormatsBuilder:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
 =end pod
 
@@ -37,11 +37,11 @@ This is an opaque type of which fields are not available.
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Record N-ContentFormatsBuilder
+=head1 Record N-FileList
 
 This is an opaque type of which fields are not available.
 
-  class N-ContentFormatsBuilder:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+  class N-FileList:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
 
 =end pod
 
@@ -60,7 +60,7 @@ This is an opaque type of which fields are not available.
 Parses the given C<$string> into B<Gnome::Gdk4::N-ContentFormats> and
 returns the formats.
 
-Strings printed via C<.to-string() in class Gnome::Gdk4::N-ContentFormats>
+Strings printed via C<.to-string()> in class C<Gnome::Gdk4::N-ContentFormats>
 can be read in again successfully using this function.
 
 If C<$string> does not describe valid content formats, undefined

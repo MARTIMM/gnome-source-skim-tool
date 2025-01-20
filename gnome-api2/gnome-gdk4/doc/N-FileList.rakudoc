@@ -1,4 +1,4 @@
-=comment Package: Gdk4, C-Source: memorytexture
+=comment Package: Gdk4, C-Source: contentformats
 use v6.d;
 
 #-------------------------------------------------------------------------------
@@ -6,15 +6,15 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=TITLE Gnome::Gdk4::MemoryTexture
+=TITLE Gnome::Gdk4::N-FileList
 =head1 Description
 
-A B<Gnome::Gdk4::Texture> representing image data in memory.
+An opaque type representing a list of files.
 
 =begin comment
 
 =head2 Example
-# Example use of module Gnome::Gdk4::MemoryTexture
+# Example use of module Gnome::Gdk4::FileList
 
 =end comment
 
@@ -38,28 +38,31 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 =end pod
 
 #-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
 =begin pod
-=head2 new-memorytexture
+=head1 Methods
+=end pod
 
-Creates a new texture for a blob of image data.
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-files
 
-The B<Gnome::Glib::N-Bytes> must contain C<$stride> × C<$height> pixels
-in the given format.
+Retrieves the list of files inside a B<Gnome::Gdk4::N-FileList>.
+
+This function is meant for language bindings.
 
 =begin code
-method new-memorytexture ( Int() $width, Int() $height, GdkMemoryFormat $format, N-Object $bytes, Int() $stride --> Gnome::Gdk4::MemoryTexture \)
+method get-files (--> N-SList )
 =end code
 
-=item $width; the width of the texture.
-=item $height; the height of the texture.
-=item $format; the format of the data.
-=item $bytes; the B<Gnome::Glib::N-Bytes> containing the pixel data
-=item $stride; rowstride for the data.
+Return value; the files inside the list. 
 
 =begin comment
 
 =head2 Example
-# Example for new-memorytexture
+# Example for get-files
 
 =end comment
 

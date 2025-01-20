@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gdk4::Texture
-
+=TITLE Gnome::Gdk4::Texture
 =head1 Description
 
 B<Gnome::Gdk4::Texture> is the basic element used to refer to pixel data.
@@ -23,7 +22,7 @@ instance; you can only make a copy of it, via C<.download()>.
 
 B<Gnome::Gdk4::Texture> is an immutable object: That means you cannot change
 anything about it other than increasing the reference count via
-C<.ref() in class Gnome::GObject::Object>, and consequently, it is a thread-safe object.
+C<.ref()> in class C<Gnome::GObject::Object>, and consequently, it is a thread-safe object.
 
 =begin comment
 
@@ -58,7 +57,7 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 Creates a new texture object representing the B<Gnome::GdkPixbuf::Pixbuf>.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread() in class Gnome::Gio::Task> to avoid blocking the main thread
+and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
@@ -88,7 +87,7 @@ are PNG and JPEG, though more formats might be available.
 If undefined is returned, then C<$error> will be set.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread() in class Gnome::Gio::Task> to avoid blocking the main thread
+and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
@@ -121,14 +120,14 @@ are PNG and JPEG, though more formats might be available.
 If undefined is returned, then C<$error> will be set.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread() in class Gnome::Gio::Task> to avoid blocking the main thread
+and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
 method new-from-file ( N-Object() $file, CArray[N-Error] $err --> Gnome::Gdk4::Texture \)
 =end code
 
-=item $file; B<Gnome::Gio::File> to load.
+=item $file; B<Gnome::Gio::R-File> to load.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
@@ -154,7 +153,7 @@ are PNG and JPEG, though more formats might be available.
 If undefined is returned, then C<$error> will be set.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread() in class Gnome::Gio::Task> to avoid blocking the main thread
+and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
 while loading a big image.
 
 =begin code
@@ -190,7 +189,7 @@ If you are unsure about the validity of a resource, use
 C<.new-from-file()> to load it.
 
 This function is threadsafe, so that you can e.g. use GTask
-and C<.run-in-thread() in class Gnome::Gio::Task> to avoid blocking the main thread
+and C<.run-in-thread()> in class C<Gnome::Gio::Task> to avoid blocking the main thread
 while loading a big image.
 
 =begin code

@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gdk4::ContentProvider
-
+=TITLE Gnome::Gdk4::ContentProvider
 =head1 Description
 
 A B<Gnome::Gdk4::ContentProvider> is used to provide content for the clipboard or
@@ -263,7 +262,6 @@ Return value; The storable formats of the provider.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 write-mime-type-async
-This function is not yet available
 
 Asynchronously writes the contents of C<$provider> to C<$stream> in the given C<$mime-type>.
 
@@ -278,14 +276,14 @@ not supported, B<G_IO_ERROR_NOT_SUPPORTED> will be reported.
 The given C<$stream> will not be closed.
 
 =begin code
-method write-mime-type-async ( Str $mime-type, N-Object() $stream, Int() $io-priority, N-Object() $cancellable, …, gpointer $user-data )
+method write-mime-type-async ( Str $mime-type, N-Object() $stream, Int() $io-priority, N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $user-data )
 =end code
 
 =item $mime-type; the mime type to provide the data in.
 =item $stream; the B<Gnome::Gio::OutputStream> to write to.
 =item $io-priority; I/O priority of the request..
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore..
-=item callback; callback to call when the request is satisfied. Note that each argument must be specified as a type followed by its value!
+=item GAsyncReadyCallback &callback; callback to call when the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the data to pass to callback function.
 
 =begin comment

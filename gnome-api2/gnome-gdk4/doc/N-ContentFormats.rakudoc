@@ -1,0 +1,544 @@
+=comment Package: Gdk4, C-Source: types
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gdk4::N-ContentFormats
+=head1 Description
+
+The B<Gnome::Gdk4::N-ContentFormats> structure is used to advertise and negotiate the
+format of content.
+
+You will encounter B<Gnome::Gdk4::N-ContentFormats> when interacting with objects
+controlling operations that pass data between different widgets, window
+or application, like B<Gnome::Gdk4::Drag>, B<Gnome::Gdk4::Drop>,
+B<Gnome::Gdk4::Clipboard> or B<Gnome::Gdk4::ContentProvider>.
+
+GDK supports content in 2 forms: B<Gnome::GObject::ContentFormats> and mime type.
+Using B<GTypes> is meant only for in-process content transfers. Mime types
+are meant to be used for data passing both in-process and out-of-process.
+The details of how data is passed is described in the documentation of
+the actual implementations. To transform between the two forms,
+B<Gnome::Gdk4::ContentSerializer> and B<Gnome::Gdk4::ContentDeserializer> are used.
+
+A B<Gnome::Gdk4::N-ContentFormats> describes a set of possible formats content can be
+exchanged in. It is assumed that this set is ordered. B<GTypes> are more
+important than mime types. Order between different B<GTypes> or mime types
+is the order they were added in, most important first. Functions that
+care about order, such as C<.union()>, will describe
+in their documentation how they interpret that order, though in general the
+order of the first argument is considered the primary order of the result,
+followed by the order of further arguments.
+
+For debugging purposes, the function C<.to-string()>
+exists. It will print a comma-separated list of formats from most important
+to least important.
+
+B<Gnome::Gdk4::N-ContentFormats> is an immutable struct. After creation, you cannot change
+the types it represents. Instead, new B<Gnome::Gdk4::N-ContentFormats> have to be created.
+The  B<Gnome::Gdk4::N-ContentFormatsBuilder>  structure is meant to help in this
+endeavor.
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gdk4::ContentFormats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-contentformats
+
+Creates a new B<Gnome::Gdk4::N-ContentFormats> from an array of mime types.
+
+The mime types must be valid and different from each other or the
+behavior of the return value is undefined. If you cannot guarantee
+this, use  B<Gnome::Gdk4::N-ContentFormatsBuilder>  instead.
+
+=begin code
+method new-contentformats ( Array[Str] $mime-types, UInt() $n-mime-types --> Gnome::Gdk4::ContentFormats \)
+=end code
+
+=item $mime-types; Pointer to an
+  array of mime types.
+=item $n-mime-types; number of entries in C<$mime-types>..
+
+=begin comment
+
+=head2 Example
+# Example for new-contentformats
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 new-for-gtype
+
+Creates a new B<Gnome::Gdk4::N-ContentFormats> for a given B<Gnome::GObject::ContentFormats>.
+
+=begin code
+method new-for-gtype ( GType $type --> Gnome::Gdk4::ContentFormats \)
+=end code
+
+=item $type; a B<Gnome::GObject::ContentFormats>.
+
+=begin comment
+
+=head2 Example
+# Example for new-for-gtype
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contain-gtype
+
+Checks if a given B<Gnome::GObject::ContentFormats> is part of the given C<$formats>.
+
+=begin code
+method contain-gtype ( GType $type --> Bool )
+=end code
+
+=item $type; the B<Gnome::GObject::ContentFormats> to search for.
+
+Return value; C<True> if the B<Gnome::GObject::ContentFormats> was found. 
+
+=begin comment
+
+=head2 Example
+# Example for contain-gtype
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contain-mime-type
+
+Checks if a given mime type is part of the given C<$formats>.
+
+=begin code
+method contain-mime-type ( Str $mime-type --> Bool )
+=end code
+
+=item $mime-type; the mime type to search for.
+
+Return value; C<True> if the mime_type was found. 
+
+=begin comment
+
+=head2 Example
+# Example for contain-mime-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-gtypes
+This function is not yet available
+
+Gets the B<Gnome::GObject::ContentFormats>s included in C<$formats>.
+
+Note that C<$formats> may not contain any B<Gnome::GObject::ContentFormats>s, in particular when
+they are empty. In that case undefined will be returned.
+
+=begin code
+method get-gtypes ( Array[gsize] $n-gtypes )
+=end code
+
+=item $n-gtypes; (transfer ownership: full) optional pointer to take the
+  number of B<Gnome::GObject::ContentFormats>s contained in the return value.
+
+=begin comment
+
+=head2 Example
+# Example for get-gtypes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 get-mime-types
+
+Gets the mime types included in C<$formats>.
+
+Note that C<$formats> may not contain any mime types, in particular
+when they are empty. In that case undefined will be returned.
+
+=begin code
+method get-mime-types ( Array[gsize] $n-mime-types --> Array[Str] )
+=end code
+
+=item $n-mime-types; (transfer ownership: full) optional pointer to take the
+  number of mime types contained in the return value.
+
+Return value; 
+  interned array strings of mime types included
+  in C<$formats>. 
+
+=begin comment
+
+=head2 Example
+# Example for get-mime-types
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 match
+
+Checks if C<$first> and C<$second> have any matching formats.
+
+=begin code
+method match ( N-Object $second --> Bool )
+=end code
+
+=item $second; the B<Gnome::Gdk4::N-ContentFormats> to intersect with
+
+Return value; C<True> if a matching format was found.. 
+
+=begin comment
+
+=head2 Example
+# Example for match
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 match-gtype
+
+Finds the first B<Gnome::GObject::ContentFormats> from C<$first> that is also contained
+in C<$second>.
+
+If no matching B<Gnome::GObject::ContentFormats> is found, C<G_TYPE_INVALID> is returned.
+
+=begin code
+method match-gtype ( N-Object $second --> GType )
+=end code
+
+=item $second; the B<Gnome::Gdk4::N-ContentFormats> to intersect with
+
+Return value; The first common B<Gnome::GObject::ContentFormats> or C<G_TYPE_INVALID> if none.. 
+
+=begin comment
+
+=head2 Example
+# Example for match-gtype
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 match-mime-type
+
+Finds the first mime type from C<$first> that is also contained
+in C<$second>.
+
+If no matching mime type is found, undefined is returned.
+
+=begin code
+method match-mime-type ( N-Object $second --> Str )
+=end code
+
+=item $second; the B<Gnome::Gdk4::N-ContentFormats> to intersect with
+
+Return value; The first common mime type or undefined if none. 
+
+=begin comment
+
+=head2 Example
+# Example for match-mime-type
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 print
+
+Prints the given C<$formats> into a string for human consumption.
+
+The result of this function can later be parsed with
+C<.ContentFormats.parse()>.
+
+=begin code
+method print ( N-Object $string )
+=end code
+
+=item $string; a B<Gnome::Glib::N-String> to print into
+
+=begin comment
+
+=head2 Example
+# Example for print
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 ref
+
+Increases the reference count of a B<Gnome::Gdk4::N-ContentFormats> by one.
+
+=begin code
+method ref (--> N-Object )
+=end code
+
+Return value; the passed in B<Gnome::Gdk4::N-ContentFormats>.. 
+
+=begin comment
+
+=head2 Example
+# Example for ref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 to-string
+
+Prints the given C<$formats> into a human-readable string.
+
+The resulting string can be parsed with C<.ContentFormats.parse()>.
+
+This is a small wrapper around C<.print()>
+to help when debugging.
+
+=begin code
+method to-string (--> Str )
+=end code
+
+Return value; a new string. 
+
+=begin comment
+
+=head2 Example
+# Example for to-string
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 union
+
+Append all missing types from C<$second> to C<$first>, in the order
+they had in C<$second>.
+
+=begin code
+method union ( N-Object $second --> N-Object )
+=end code
+
+=item $second; the B<Gnome::Gdk4::N-ContentFormats> to merge from
+
+Return value; a new B<Gnome::Gdk4::N-ContentFormats>. 
+
+=begin comment
+
+=head2 Example
+# Example for union
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 union-deserialize-gtypes
+
+Add GTypes for mime types in C<$formats> for which deserializers are
+registered.
+
+=begin code
+method union-deserialize-gtypes (--> N-Object )
+=end code
+
+Return value; a new B<Gnome::Gdk4::N-ContentFormats>. 
+
+=begin comment
+
+=head2 Example
+# Example for union-deserialize-gtypes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 union-deserialize-mime-types
+
+Add mime types for GTypes in C<$formats> for which deserializers are
+registered.
+
+=begin code
+method union-deserialize-mime-types (--> N-Object )
+=end code
+
+Return value; a new B<Gnome::Gdk4::N-ContentFormats>. 
+
+=begin comment
+
+=head2 Example
+# Example for union-deserialize-mime-types
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 union-serialize-gtypes
+
+Add GTypes for the mime types in C<$formats> for which serializers are
+registered.
+
+=begin code
+method union-serialize-gtypes (--> N-Object )
+=end code
+
+Return value; a new B<Gnome::Gdk4::N-ContentFormats>. 
+
+=begin comment
+
+=head2 Example
+# Example for union-serialize-gtypes
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 union-serialize-mime-types
+
+Add mime types for GTypes in C<$formats> for which serializers are
+registered.
+
+=begin code
+method union-serialize-mime-types (--> N-Object )
+=end code
+
+Return value; a new B<Gnome::Gdk4::N-ContentFormats>. 
+
+=begin comment
+
+=head2 Example
+# Example for union-serialize-mime-types
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 unref
+
+Decreases the reference count of a B<Gnome::Gdk4::N-ContentFormats> by one.
+
+If the resulting reference count is zero, frees the formats.
+
+=begin code
+method unref ( )
+=end code
+
+=begin comment
+
+=head2 Example
+# Example for unref
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Functions]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Functions
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 parse
+
+Parses the given C<$string> into B<Gnome::Gdk4::N-ContentFormats> and
+returns the formats.
+
+Strings printed via C<.to-string()>
+can be read in again successfully using this function.
+
+If C<$string> does not describe valid content formats, undefined
+is returned.
+
+=begin code
+method parse ( Str $string --> N-Object )
+=end code
+
+=item $string; the string to parse.
+
+Return value; the content formats if C<$string> is valid. 
+
+=begin comment
+
+=head2 Example
+# Example for parse
+
+=end comment
+
+=end pod
+

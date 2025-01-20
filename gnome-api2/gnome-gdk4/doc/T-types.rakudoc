@@ -1,0 +1,83 @@
+=comment Package: Gdk4, C-Source: types
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gdk4::T-types
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-KeymapKey
+
+  class N-KeymapKey:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has guint $.keycode;
+    has gint $.group;
+    has gint $.level;
+  }
+
+=item keycode; the hardware keycode. This is an identifying number for a
+  physical key.
+=item group; indicates movement in a horizontal direction. Usually groups are used
+  for two different languages. In group 0, a key might have two English
+  characters, and in group 1 it might have two Hebrew characters. The Hebrew
+  characters will be printed on the key next to the English characters.
+=item level; indicates which symbol on the key will be used, in a vertical direction.
+  So on a standard US keyboard, the key with the number “1” on it also has the
+  exclamation point ("!") character on it. The level indicates whether to use
+  the “1” or the “!” symbol. The letter keys are considered to have a lowercase
+  letter at level 0, and an uppercase letter at level 1, though only the
+  uppercase letter is printed.
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-ContentFormats
+
+This is an opaque type of which fields are not available.
+
+  class N-ContentFormats:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Rectangle
+
+  class N-Rectangle:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gint $.x;
+    has gint $.y;
+    has gint $.width;
+    has gint $.height;
+  }
+
+=item x; the x coordinate of the top left corner
+=item y; the y coordinate of the top left corner
+=item width; the width of the rectangle
+=item height; the height of the rectangle
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Constants]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Constants
+
+=head2 GDK_CURRENT_TIME
+
+Represents the current time, and can be used anywhere a time is expected.
+=end pod
+

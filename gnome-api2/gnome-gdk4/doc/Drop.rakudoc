@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Gdk4::Drop
-
+=TITLE Gnome::Gdk4::Drop
 =head1 Description
 
 The B<Gnome::Gdk4::Drop> object represents the target of an ongoing DND operation.
@@ -15,7 +14,7 @@ The B<Gnome::Gdk4::Drop> object represents the target of an ongoing DND operatio
 Possible drop sites get informed about the status of the ongoing drag
 operation with events of type C<GDK_DRAG_ENTER>, C<GDK_DRAG_LEAVE>,
 C<GDK_DRAG_MOTION> and C<GDK_DROP_START>. The B<Gnome::Gdk4::Drop> object can be obtained
-from these B<Gnome::Gdk4::Event> types using C<.get-drop() in class Gnome::Gdk4::DNDEvent>.
+from these B<Gnome::Gdk4::Event> types using C<.get-drop()> in class C<Gnome::Gdk4::DNDEvent>.
 
 The actual data transfer is initiated from the target side via an async
 read, using one of the B<Gnome::Gdk4::Drop> methods for this purpose:
@@ -229,21 +228,20 @@ Return value; The B<Gnome::Gdk4::Surface> performing the drop..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 read-async
-This function is not yet available
 
 Asynchronously read the dropped data from a B<Gnome::Gdk4::Drop>
 in a format that complies with one of the mime types.
 
 =begin code
-method read-async ( Array[Str] $mime-types, Int() $io-priority, N-Object() $cancellable, …, gpointer $user-data )
+method read-async ( Array[Str] $mime-types, Int() $io-priority, N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $user-data )
 =end code
 
 =item $mime-types; 
   pointer to an array of mime types.
 =item $io-priority; the I/O priority for the read operation.
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object.
-=item callback; a B<Gnome::Gio::T-iotypes> to call when
-  the request is satisfied. Note that each argument must be specified as a type followed by its value!
+=item GAsyncReadyCallback &callback; a B<Gnome::Gio::T-iotypes> to call when
+  the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the data to pass to C<$callback>.
 
 =begin comment
@@ -292,7 +290,6 @@ Return value; the B<Gnome::Gio::InputStream>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 read-value-async
-This function is not yet available
 
 Asynchronously request the drag operation's contents converted
 to the given C<$type>.
@@ -306,13 +303,13 @@ B<Gnome::GObject::Drop>, the value will be copied directly. Otherwise, GDK will
 try to use C<.content-deserialize-async()> to convert the data.
 
 =begin code
-method read-value-async ( GType $type, Int() $io-priority, N-Object() $cancellable, …, gpointer $user-data )
+method read-value-async ( GType $type, Int() $io-priority, N-Object() $cancellable, GAsyncReadyCallback &callback, gpointer $user-data )
 =end code
 
 =item $type; a B<Gnome::GObject::Drop> to read.
 =item $io-priority; the I/O priority of the request..
 =item $cancellable; optional B<Gnome::Gio::Cancellable> object, undefined to ignore..
-=item callback; callback to call when the request is satisfied. Note that each argument must be specified as a type followed by its value!
+=item GAsyncReadyCallback &callback; callback to call when the request is satisfied. The function must be specified with the following signature; C<:( N-Object $source-object, N-Object $res, gpointer $data )>.
 =item $user-data; the data to pass to callback function.
 
 =begin comment
