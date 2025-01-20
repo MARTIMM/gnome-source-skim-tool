@@ -144,7 +144,7 @@ CONTROL {
 #  $text = self!modify-v4rest($text);
   $text = self!modify-rest($text);
 
-  # Classes can not be processed before signals, properties and other stuf
+  # Classes can not be processed before signals, properties and other stuff
   # because of used '::' and ':'
   say "Convert class text" if  $*verbose;
   $text = self!modify-v4classes($text);
