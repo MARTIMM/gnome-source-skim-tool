@@ -19,7 +19,7 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
 #Gnome::N::debug(:on);
 
-#use Gnome::Gtk4::DropTargetAsync:api<2>;
+use Gnome::Gtk4::DropTargetAsync:api<2>;
 use Gnome::Gtk4::DropTarget:api<2>;
 use Gnome::Gtk4::DragSource:api<2>;
 use Gnome::Gtk4::Window:api<2>;
@@ -58,11 +58,13 @@ constant DATA_PATH =
 
 my Gnome::Glib::N-MainLoop $main-loop .= new-mainloop( N-Object, True);
 
+#-------------------------------------------------------------------------------
 class Helper {
   method exit ( ) {
     $main-loop.quit;
   }
 
+  #-----------------------------------------------------------------------------
   method prepare (
     Rat() $x, Rat() $y,
     Gnome::Gtk4::DragSource() :_native-object($ds),
@@ -85,19 +87,21 @@ class Helper {
     $cp.get-native-object-no-reffing
   }
 
+  #-----------------------------------------------------------------------------
   method drag-begin (
     Gnome::Gdk4::Drag() $drag,
     Gnome::Gtk4::DragSource() :_native-object($ds),
     Gnome::Gtk4::Picture :$pic,
   ) {
-    note "$?LINE drag-begin: $drag, $pic.gist()";
+note "$?LINE drag-begin: $drag, $pic.gist()";
     $ds.set-icon( $pic.get-paintable, -20, 20);
   }
 
+  #-----------------------------------------------------------------------------
   method accept (
     Gnome::Gdk4::Drop() $drop, 
-    Gnome::Gtk4::DropTarget() :_native-object($dt),
-    --> Bool
+    Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
+    --> gboolean
   ) {
     my Bool $accept-ok = False;
 #    $drop.set-gtypes( CArray[GType].new($f.get-class-gtype), 1);
@@ -105,99 +109,191 @@ class Helper {
     my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
     my $size = CArray[gsize].new(0);
     my Array $mime-types = $formats.get-mime-types($size);
-note "$?LINE $size, $mime-types.elems()";
+note "$?LINE $size.gist(), $mime-types.elems()";
     loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
       note "Mime type: ", $mime-types[$i];
       $accept-ok = True if $mime-types[$i] ~~ m/ text /;
     }
 
-Gnome::N::debug(:on);
+#Gnome::N::debug(:on);
     note "accept: $accept-ok";
     $accept-ok
   }
 
-  method drop (
+  #-----------------------------------------------------------------------------
+  method drop1 (
+#    Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y,
     N-Value() $n-value, Rat() $x, Rat() $y,
+#    Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
     Gnome::Gtk4::DropTarget() :_native-object($dt),
-#    Gnome::Gtk4::Picture :$pic
-    --> Bool
+    Gnome::Gtk4::Picture :$pic
+    --> gboolean
   ) {
-    note "\n$?LINE drop: $x, $y";
+note "\n$?LINE drop: $x, $y";
 
 #Gnome::N::debug(:on);
-#    my Bool $drop-ok = False;
-
-note $n-value.gist();
-    my Gnome::GObject::N-Value $value .= new(:native-object($n-value));
-note $value.get-string;;
+    my Bool $drop-ok = False;
 
     my Gnome::Gdk4::Drop() $drop = $dt.get-current-drop;
-    my Gnome::Gdk4::Drag() $drag = $drop.get-drag;
-    if $drag.is-valid {
-      note 'inside job';
-    }
-
-    else {
-      note 'package from abroad';
-    }
-
-#    my Gnome::Gdk4::ContentFormats() $cf = $dt.get-formats;
-#    note "$?LINE ", 
-
-    my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
+    my Gnome::Gdk4::N-ContentFormats() $formats = $dt.get-formats;
     my $size = CArray[gsize].new(0);
     my Array $mime-types = $formats.get-mime-types($size);
-note "$?LINE $size, $mime-types.elems()";
+#note "$?LINE $size.gist(), $mime-types.elems()";
     loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
       note "Mime type: ", $mime-types[$i];
     }
 
-#`{{
-    sub get-data (
-      Gnome::Gdk4::Drop() $source, Gnome::Gio::Task() $result, gpointer $
-    ) {
-note "$?LINE $source.gist()";
-#note "a: ", $source.get-actions.base(2);
-      my $e = CArray[N-Error].new(N-Error);
-      my $n-v = CArray[N-Value].new(N-Value);
-      my Bool $is-ok = $result.propagate-value( $n-v, $e);
-note "Error: $e[0].message()" unless $is-ok;
-      my Gnome::GObject::N-Value $v .= new(:native-object($n-v[0]));
+    my Gnome::Gdk4::Drag() $drag = $drop.get-drag;
+    if $drag.is-valid {
+      note 'inside job';
 
-note "ok: $is-ok, $n-v.gist(), $e.gist()";
-note "v: $v.gist()";
-note "v: $v.get-string()";
+note $n-value.gist();
+    my Gnome::GObject::N-Value $value .= new(:native-object($n-value));
+note $value.get-string;
+
+      # Select one of the set flags from get-actions()
+#      $drop.finish(GDK_ACTION_COPY);
     }
 
-note $?LINE;
+    else {
+      note 'package from abroad';
+
+#      $drop.read-async( [|@$mime-types], 0, gpointer, &get-data, gpointer);
+
+      if $formats.contain-mime-type('text/plain') {
+        note "text ";
+        $drop-ok = True;
+      }
+
+      # Select one of the set flags from get-actions()
+#      $drop.finish(GDK_ACTION_COPY);
+    }
+
+#    my Gnome::Gdk4::N-ContentFormats() $cf = $dt.get-formats;
+#    note "$?LINE ", 
+
+#`{{
+    my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
+    my $size = CArray[gsize].new(0);
+    my Array $mime-types = $formats.get-mime-types($size);
+note "$?LINE $size.gist(), $mime-types.elems()";
+    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
+      note "Mime type: ", $mime-types[$i];
+    }
+}}
+
 #    my $a = CArray[Str].new(| @$mime-types, Str);
 #note "$?LINE $a[0], ", $a.WHAT;
+#Gnome::N::debug(:off);
+#`{{
+}}
 
-    $drop.read-async( [|@$mime-types], 1, N-Object, &get-data, gpointer);
-note $?LINE;
+    True; #$drop-ok;
+  }
 
-    if $formats.contain-mime-type('text/plain') {
-      note "text ";
-      $drop-ok = True;
+  #-----------------------------------------------------------------------------
+  method drop2 (
+    Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y,
+#    N-Value() $n-value, Rat() $x, Rat() $y,
+    Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
+#    Gnome::Gtk4::Picture :$pic
+    --> gboolean
+  ) {
+note "\n$?LINE drop: $x, $y";
+
+#Gnome::N::debug(:on);
+    my Bool $drop-ok = False;
+
+#note $n-value.gist();
+#    my Gnome::GObject::N-Value $value .= new(:native-object($n-value));
+#note $value.get-string;;
+
+    my Gnome::Gdk4::N-ContentFormats() $formats = $dt.get-formats;
+    my $size = CArray[gsize].new(0);
+    my Array $mime-types = $formats.get-mime-types($size);
+#note "$?LINE $size.gist(), $mime-types.elems()";
+    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
+      note "Mime type: ", $mime-types[$i];
     }
 
-    # Select one of the set flags from get-actions()
-    $drop.finish(GDK_ACTION_COPY);
+    my Gnome::Gdk4::Drag() $drag = $drop.get-drag;
+    if $drag.is-valid {
+      note 'inside job';
+
+      # Select one of the set flags from get-actions()
+      $drop.finish(GDK_ACTION_COPY);
+    }
+
+    else {
+      note 'package from abroad';
+
+      $drop.read-async( [|@$mime-types], 0, gpointer, &get-data, gpointer);
+      
+
+      if $formats.contain-mime-type('text/plain') {
+        note "text ";
+        $drop-ok = True;
+      }
+
+      # Select one of the set flags from get-actions()
+#      $drop.finish(GDK_ACTION_COPY);
+    }
+
+#    my Gnome::Gdk4::N-ContentFormats() $cf = $dt.get-formats;
+#    note "$?LINE ", 
+
+#`{{
+    my Gnome::Gdk4::Drop() $drop = $dt.get-current-drop;
+    my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
+    my $size = CArray[gsize].new(0);
+    my Array $mime-types = $formats.get-mime-types($size);
+note "$?LINE $size.gist(), $mime-types.elems()";
+    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
+      note "Mime type: ", $mime-types[$i];
+    }
+}}
+
+#    my $a = CArray[Str].new(| @$mime-types, Str);
+#note "$?LINE $a[0], ", $a.WHAT;
 #Gnome::N::debug(:off);
+#`{{
 }}
 
     True; #$drop-ok;
   }
 }
 
-my Helper $helper .= new;
+
+sub get-data (
+  Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
+) {
+note "$?LINE $drop.gist()";
+#note "a: ", $drop.get-actions.base(2);
+  my $e = CArray[N-Error].new();
+  my $n-v = CArray[N-Value].new(N-Value);
+  my Bool $is-ok = $result.propagate-value( $n-v, $e);
+note "$?LINE $is-ok, $e.gist()";
+note "Error: $e[0].message()" unless $is-ok;
+  my Gnome::GObject::N-Value $v .= new(:native-object($n-v[0]));
+
+note "ok: $is-ok, $n-v.gist(), $e.gist()";
+note "v: $v.gist()";
+note "v: $v.get-string()";
+      $drop.finish(GDK_ACTION_COPY);
+
+      # Select one of the set flags from get-actions()
+#      $drop.finish(GDK_ACTION_COPY);
+}
+
 
 #-------------------------------------------------------------------------------
+my Helper $helper .= new;
 my Gnome::Gtk4::Picture $red = set-drag-source('red-on-256.png');
 my Gnome::Gtk4::Picture $amber = set-drag-source('amber-on-256.png');
 my Gnome::Gtk4::Picture $green = set-drag-source('green-on-256.png');
 
-my Gnome::Gtk4::Picture $bullseye = set-drag-target('bullseye.jpg');
+my Gnome::Gtk4::Picture $bullseye = set-drag-target1('bullseye.jpg');
+#my Gnome::Gtk4::Picture $bullseye = set-drag-target2('bullseye.jpg');
 
 with my Gnome::Gtk4::Grid $grid .= new-grid {
   .attach( $red,      0, 0, 1, 1);
@@ -235,36 +331,29 @@ sub set-drag-source ( Str $pic-file --> Gnome::Gtk4::Picture ) {
 }
 
 #-------------------------------------------------------------------------------
-sub set-drag-target ( Str $pic-file --> Gnome::Gtk4::Picture ) {
-
-#  my Gnome::Gdk4::N-ContentFormats $formats .= new-contentformats(
-#    CArray[Str].new(<text/plain>,), 1
-#  );
+sub set-drag-target1 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
 
   my Gnome::Gtk4::Picture $pic;
   my Gnome::Gtk4::DropTarget $target;
+
+  my Gnome::Gdk4::N-ContentFormats $formats .= new-contentformats(
+    CArray[Str].new(<text/plain>,), 1
+  );
 
   with $target .= new-droptarget(
     G_TYPE_STRING, GDK_ACTION_COPY +| GDK_ACTION_MOVE
   ) {
 note "Preload: ", .get-preload;
 
-#    my Gnome::Gio::File $f .= new-for-path('abc.txt');
-note "$?LINE File gtype = $f.get-class-gtype()";
-    .set-gtypes( CArray[GType].new($f.get-class-gtype), 1);
-
     my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
     my $size = CArray[gsize].new(0);
     my Array $mime-types = $formats.get-mime-types($size);
-note "$?LINE $size, $mime-types.elems()";
+note "$?LINE $size.gist(), $mime-types.elems()";
     loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-
       note "Mime type: ", $mime-types[$i];
     }
 
-    .set-preload(True);
-    .set-propagation-limit(GTK_LIMIT_SAME_NATIVE);
-    .register-signal( $helper, 'drop', 'drop');
+    .register-signal( $helper, 'drop1', 'drop');
     .register-signal( $helper, 'accept', 'accept');
 
     $pic .= new-for-filename(DATA_PATH ~ $pic-file);
@@ -275,3 +364,90 @@ note "$?LINE $size, $mime-types.elems()";
   $pic
 }
 
+#-------------------------------------------------------------------------------
+sub set-drag-target2 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
+
+  my Gnome::Gtk4::Picture $pic;
+  my Gnome::Gtk4::DropTargetAsync $target;
+
+  my Gnome::Gdk4::N-ContentFormats $formats .= new-contentformats(
+    CArray[Str].new(<text/plain>,), 1
+  );
+
+  with $target .= new-droptargetasync(
+    $formats, GDK_ACTION_COPY +| GDK_ACTION_MOVE
+  ) {
+
+    my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
+    my $size = CArray[gsize].new(0);
+    my Array $mime-types = $formats.get-mime-types($size);
+note "$?LINE $size.gist(), $mime-types.elems()";
+    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
+      note "Mime type: ", $mime-types[$i];
+    }
+
+    .register-signal( $helper, 'drop2', 'drop');
+    .register-signal( $helper, 'accept', 'accept');
+
+    $pic .= new-for-filename(DATA_PATH ~ $pic-file);
+    $pic.add-controller($target);
+    .clear-object;
+  }
+
+  $pic
+}
+
+
+
+
+
+=finish
+https://www.reddit.com/r/GTK/comments/w8ai6j/how_to_make_drag_and_drop_in_gtk4/
+
+--------------------------------------------------------------------------------
+#include <gtk/gtk.h>
+
+static gboolean drop(GtkDropTarget *target,
+                     const GValue  *value,
+                     double         x,
+                     double         y,
+                     gpointer       data){
+    printf("test\n");
+    return TRUE;
+}
+
+static void
+activate (GtkApplication* app,
+          gpointer        user_data)
+{
+    GtkWidget *window;
+
+    window = gtk_application_window_new (app);
+    gtk_window_set_title (GTK_WINDOW (window), "Window");
+    gtk_window_set_default_size (GTK_WINDOW (window), 200, 200);
+
+    GtkDropTarget* dnd = gtk_drop_target_new(GDK_TYPE_FILE_LIST,GDK_ACTION_COPY);
+
+    g_signal_connect (dnd, "drop", G_CALLBACK (drop), NULL);
+    gtk_widget_add_controller(window,GTK_EVENT_CONTROLLER(dnd));
+
+    gtk_widget_show (window);
+}
+
+int
+main (int    argc,
+      char **argv)
+{
+    GtkApplication *app;
+    int status;
+
+    app = gtk_application_new ("org.gtk.example", G_APPLICATION_FLAGS_NONE);
+    g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
+    status = g_application_run (G_APPLICATION (app), argc, argv);
+    g_object_unref (app);
+
+    return status;
+}
+
+
+--------------------------------------------------------------------------------
