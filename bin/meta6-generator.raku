@@ -22,10 +22,10 @@ check-modules( 'Pango',     "$api2/gnome-pango/lib");
 check-modules( 'GdkPixbuf', "$api2/gnome-gdkpixbuf/lib");
 
 check-modules( 'N',         "$api2/gnome-native/lib");
-check-modules( 'Cairo',     "$api2/gnome-cairo/lib");
 check-modules( 'Graphene',  "$api2/gnome-graphene/lib");
 
 #`{{
+check-modules( 'Cairo',     "$api2/gnome-cairo/lib");
 
 check-modules( "$api2/gnome-gtk3/lib");
 check-modules( "$api2/gnome-gdk3/lib");
