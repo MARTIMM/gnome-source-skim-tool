@@ -115,7 +115,7 @@ method _fallback-v2 (
         |%options
       );
 
-#      self._set-builder($builder);
+      self._set-builder($builder);
 
       return $builder
     }
