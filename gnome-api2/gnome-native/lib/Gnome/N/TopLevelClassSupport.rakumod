@@ -52,7 +52,7 @@ has Str $!class-name-of-sub;
 
 # type is Gnome::Gtk3::Builder. Cannot load module because of circular dep.
 # value is set by GtkBuilder via _set-builder(). There might be more than one.
-#my Array $builders = [];
+my Array $builders = [];
 
 # When a builder is set with a name set to ___Test_Builder__ it means that
 # the Gnome::T module is used and the builder is created there.
@@ -365,6 +365,7 @@ method clear-object ( ) {
     $!n-native-object = N-Object;
 
 #`{{
+}}
     if self.^name ~~ m/ '::' Builder $/ {
       loop ( my Int $i; $i < $builders.elems; $i++ ) {
         next if $builders.is-valid;
@@ -373,7 +374,6 @@ method clear-object ( ) {
         last;
       }
     }
-}}
   }
 
   note 'Object cleared' if $Gnome::N::x-debug;
@@ -581,6 +581,7 @@ method set-native-object ( $native-object ) {
 }
 
 #`{{
+}}
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 _set-builder
@@ -613,7 +614,6 @@ Used by B<Gnome::GObject::Object> to search for an object id.
 method _get-builders ( --> Array ) {
   $builders
 }
-}}
 
 #-------------------------------------------------------------------------------
 =begin pod
