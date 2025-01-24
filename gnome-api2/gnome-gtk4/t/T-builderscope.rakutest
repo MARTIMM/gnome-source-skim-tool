@@ -1,0 +1,36 @@
+=comment Package: Gtk4, C-Source: builderscope
+use v6.d;
+
+#TL:1:Gnome::Gtk4::T-builderscope:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use Test;
+use NativeCall;
+
+
+
+use Gnome::Gtk4::T-builderscope:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#TE:1:GtkBuilderClosureFlags
+subtest 'GtkBuilderClosureFlags', {
+  is GTK_BUILDER_CLOSURE_SWAPPED.value, 1, 'bitfield GTK_BUILDER_CLOSURE_SWAPPED = 1';
+
+};
+
+
+
+#-------------------------------------------------------------------------------
+done-testing;
+=finish
+

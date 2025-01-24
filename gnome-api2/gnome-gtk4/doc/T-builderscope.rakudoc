@@ -1,0 +1,27 @@
+=comment Package: Gtk4, C-Source: builderscope
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gtk4::T-builderscope
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Bitfields]------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Bitfields
+
+=head2 GtkBuilderClosureFlags
+
+The list of flags that can be passed to gtk_builder_create_closure().
+
+New values may be added in the future for new features, so external
+implementations of B<Gnome::Gtk4::R-BuilderScope> should test the flags
+for unknown values and raise a C<GTK_BUILDER_ERROR_INVALID_ATTRIBUTE> error
+when they encounter one.
+
+=item C<GTK_BUILDER_CLOSURE_SWAPPED>; The closure should be created swapped. See
+  g_cclosure_new_swap() for details.
+=end pod
+
