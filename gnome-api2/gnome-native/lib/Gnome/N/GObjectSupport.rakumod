@@ -46,6 +46,16 @@ method native-object-unref ( $n-native-object ) {
 
 #-------------------------------------------------------------------------------
 # no pod. user does not have to know about it.
+# Called from Build's in widgets who have signals to process. Structure is
+#
+# self.add-signal-types( $?CLASS.^name,
+#   :w0<signal names>,
+#   :w1<signal names>,
+#   …
+# );
+#
+# where wo, w1, … is the number of parameters an event handler gets
+#
 method add-signal-types ( Str $module-name, *%signal-descriptions --> Bool ) {
 
   # must store signal names under the class name because I found the use of
