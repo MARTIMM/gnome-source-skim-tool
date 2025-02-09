@@ -9,12 +9,15 @@ use v6.d;
 use Test;
 use NativeCall;
 
+use Cairo;
+
+use Gnome::Glib::T-error:api<2>;
 
 #use Gnome::Cairo::N-Context:api<2>;
 #use Gnome::Cairo::T-undefined-module-name:api<2>;
-use Gnome::Gdk4::Surface:api<2>;
 use Gnome::Gdk4::T-enums:api<2>;
-use Gnome::Glib::T-error:api<2>;
+use Gnome::Gdk4::Surface:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
@@ -74,7 +77,7 @@ subtest 'Method tests', {
     my N-Object $to;
     my CArray[gdouble] $x;
     my gint $width;
-    my cairo_content_t  $content;
+#    my cairo_content_t  $content;
     my N-Object $device;
 
 
