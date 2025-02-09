@@ -128,15 +128,43 @@ note "$?LINE $function-name, @c.raku()";
     $!builder
   }
 
-  method load-ui ( Str:D $file ) {
+  method load-ui ( Str:D $file --> Str ) {
     my XML::XPath $xpath .= new(:$file);
-
+    self.find-signal-info($xpath)
   }
 
-  method find-objects ( XML::XPath $xpath ) {
-    my @elements = $xpath.find('//object');
-    for @elements -> XML::Element $element {
+  has Hash $!signal-info = %();
+  method find-signal-info ( XML::XPath $xpath --> Str ) {
+    my Seq $o-elements = $xpath.find( '//object', :to-list);
+    for @$o-elements -> XML::Element $o-element {
+      my Hash $o-attrs = $o-element.attribs;
+      note "\n", $o-attrs.gist;
+      my Str $id;
+      if $o-attrs<id>:exists {
+        $id = $o-attrs<id>;
+        $!signal-info{$id} = %();
+        my Str $class = $o-attrs<class>;
+        $class ~~ s/^ Gtk /Gnome::Gtk4::/;
+        $!signal-info{$id}<class> = $class;
+      }
+
+      my Seq $s-elements = $xpath.find( 'signal', :start($o-element), :to-list);
+      #$!signal-info{$id}<cb> = %() if $s-elements.elems;
+      for @$s-elements -> XML::Element $s-element {
+        my Hash $s-attrs = $s-element.attribs;
+        $!signal-info{$id}<cb> = {
+          :handler($s-attrs<handler>),
+          :event-name($s-attrs<name>),
+        };
+        note $s-attrs.gist;
+
+        $o-element.removeChild($s-element);
+      }
     }
+
+note "\nsignal info: ", $!signal-info.gist;
+
+    $xpath.find('/').Str
   }
 
   method set-handler (
@@ -158,11 +186,16 @@ sub _name_from_instance ( N-Object $instance --> Str )
 my SH $sh .= new;
  
 #-------------------------------------------------------------------------------
+my Str $path = "$*HOME/Languages/Raku/Projects/gnome-source-skim-tool";
+my Str $ui = $sh.load-ui("$path/xt/Other/Cambalache/t1.ui");
+my Builder $builder .= new-from-string( $ui, $ui.chars);
+
+
+
+#`{{
 my BuilderScope $builder-scope .= new-buildercscope;
 my Builder $builder .= new-builder;
 
-##`{{
-my Str $path = "$*HOME/Languages/Raku/Projects/gnome-source-skim-tool";
 $sh.set-handler( $sh, 'stopit', 'close-request');
 $sh.load-ui-old(
   "$path/xt/Other/Cambalache/t1.ui", %(
@@ -176,7 +209,7 @@ $sh.load-ui-old(
     :b2-press( $sh, %()),
   )
 );
-#}}
+}}
 
 
 
