@@ -16,7 +16,8 @@
         <child>
           <object class="GtkButton" id="HelloButton">
             <property name="label">Hello World</property>
-            <signal name="clicked" handler="b1-press"/>
+            <signal name="clicked" handler="b1-press" object="HelloButton"/>
+            <signal name="query-tooltip" handler="query"/>
             <layout>
               <property name="column">0</property>
               <property name="column-span">1</property>

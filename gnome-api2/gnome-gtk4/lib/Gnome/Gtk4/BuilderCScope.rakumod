@@ -63,7 +63,7 @@ my Hash $methods = %(
   new-buildercscope => %( :type(Constructor), :is-symbol<gtk_builder_cscope_new>, :returns(N-Object), ),
 
   #--[Methods]------------------------------------------------------------------
-  add-callback-symbol => %(:is-symbol<gtk_builder_cscope_add_callback_symbol>, :parameters([Str, :( )]), ),
+  add-callback-symbol => %(:is-symbol<gtk_builder_cscope_add_callback_symbol>, :parameters([Str, :( N-Object )]), ),
   add-callback-symbols => %(:is-symbol<gtk_builder_cscope_add_callback_symbols>, :variable-list, :parameters([Str, :( )]), ),
   lookup-callback-symbol => %(:is-symbol<gtk_builder_cscope_lookup_callback_symbol>,  :returns(), :cnv-return(( )),:parameters([Str]), ),
 );

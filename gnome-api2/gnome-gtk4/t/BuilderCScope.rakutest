@@ -6,8 +6,8 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
 
@@ -53,9 +53,9 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $buildercscope {
-    sub callback-symbol ( ) {}
     my Str $first-callback-name;
     my Str $callback-name;
+    sub callback-symbol ( ) {}
     sub first-callback-symbol ( ) {}
 
 
