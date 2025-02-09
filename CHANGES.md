@@ -77,6 +77,9 @@ find . -name '*.raku*' | xargs wc -l
 * TDDO Improve documentation. Make use of RakuDoc which is not yet available.
 
 # Release notes
+* 2025-02-09 0.17.1
+  * Start testing DND and Builder classes.
+  
 * 2024-12-14 0.17.0
   * Start to make Gtk4 depending on Timo's **Cairo**
   * Changes added to cope with function names `*_<digit>*` which would generate an illegal Raku name `*-<digit>*`. Examples are found in Snapshot e.g. `.scale3d()` which has a .
