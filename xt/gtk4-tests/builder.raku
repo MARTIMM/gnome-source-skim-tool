@@ -65,12 +65,102 @@ class SH {
 
 
 
-  has Gnome::Gtk4::BuilderCScope $!builder-scope;
+  #has Gnome::Gtk4::BuilderCScope $!builder-scope;
   has Gnome::Gtk4::Builder $!builder;
+  method load-ui ( Str:D $file ) {
+    my XML::XPath $xpath .= new(:$file);
+    my Str $ui = self.find-signal-info($xpath);
+    $!builder .= new-from-string( $ui, $ui.chars);
+  }
+
+  has Hash $!signal-info = %();
+  method find-signal-info ( XML::XPath $xpath --> Str ) {
+    my Seq $o-elements = $xpath.find( '//object', :to-list);
+    for @$o-elements -> XML::Element $o-element {
+      my Hash $o-attrs = $o-element.attribs;
+#      note "\n", $o-attrs.gist;
+      my Str $id;
+      if $o-attrs<id>:exists {
+        $id = $o-attrs<id>;
+        $!signal-info{$id} = %();
+        my Str $class = $o-attrs<class>;
+        $class ~~ s/^ Gtk /Gnome::Gtk4::/;
+
+        # _class_ to prevent clashes with handler and event names
+        $!signal-info{$id}<_class_> = $class;
+      }
+
+      my Seq $s-elements = $xpath.find( 'signal', :start($o-element), :to-list);
+      #$!signal-info{$id}<cb> = %() if $s-elements.elems;
+      for @$s-elements -> XML::Element $s-element {
+        my Hash $s-attrs = $s-element.attribs;
+        $!signal-info{$id}{$s-attrs<name>} = $s-attrs<handler>;
+#        note $s-attrs.gist;
+
+        $o-element.removeChild($s-element);
+      }
+    }
+
+#note "\nsignal info: ", $!signal-info.gist;
+    $xpath.find('/').Str
+  }
+
+  method set-handler (
+    Str $build-id, Mu $handler-object, Str $event-name, *%options
+  ) {
+Gnome::N::debug(:on);
+    my Hash $info = $!signal-info{$build-id};
+    return unless ?$info;
+
+    my $class = $info<_class_>;
+    my Str $handler-name = $info{$event-name};
+
+note "$?LINE ---";
+    my $o = ::($class).new(:$build-id);
+note "$?LINE ---";
+note "$?LINE $!builder.get-object('MyWindow')";
+note "$?LINE $class, $build-id, $o.gist()";
+    $o.register-signal( $handler-object, $handler-name, $event-name, |%options);
+  }
+}
+
+my SH $sh .= new;
+
+#-------------------------------------------------------------------------------
+my Str $path = "$*HOME/Languages/Raku/Projects/gnome-source-skim-tool";
+$sh.load-ui("$path/xt/Other/Cambalache/t1.ui");
+
+$sh.set-handler( 'MyWindow', $sh, 'close-request');
+$sh.set-handler(
+  'HelloButton', $sh, 'clicked',
+  :button2(Button.new(:build-id<GoodByeButton>)),
+  :new-label<Have a nice day>,
+);
+$sh.set-handler( 'HelloButton', $sh, 'query-tooltip');
+$sh.set-handler( 'GoodByeButton', $sh, 'clicked');
+
+with my Window $window .= new(:build-id<MyWindow>) {
+  .present;
+}
+
+#Gnome::N::debug(:on);
+$main-loop.run;
+
+
+
+
+
+
+
+
+
+
+=finish
+
+
   submethod BUILD ( ) {
     $!builder-scope .= new-buildercscope;
   }
-
 #TODO need to remove first and last argument from |c
 #TODO must be able to handle more types in named arguments instead of only
 #     the [ type, build-id] construction
@@ -128,50 +218,7 @@ note "$?LINE $function-name, @c.raku()";
     $!builder
   }
 
-  method load-ui ( Str:D $file --> Str ) {
-    my XML::XPath $xpath .= new(:$file);
-    self.find-signal-info($xpath)
-  }
 
-  has Hash $!signal-info = %();
-  method find-signal-info ( XML::XPath $xpath --> Str ) {
-    my Seq $o-elements = $xpath.find( '//object', :to-list);
-    for @$o-elements -> XML::Element $o-element {
-      my Hash $o-attrs = $o-element.attribs;
-      note "\n", $o-attrs.gist;
-      my Str $id;
-      if $o-attrs<id>:exists {
-        $id = $o-attrs<id>;
-        $!signal-info{$id} = %();
-        my Str $class = $o-attrs<class>;
-        $class ~~ s/^ Gtk /Gnome::Gtk4::/;
-        $!signal-info{$id}<class> = $class;
-      }
-
-      my Seq $s-elements = $xpath.find( 'signal', :start($o-element), :to-list);
-      #$!signal-info{$id}<cb> = %() if $s-elements.elems;
-      for @$s-elements -> XML::Element $s-element {
-        my Hash $s-attrs = $s-element.attribs;
-        $!signal-info{$id}<cb> = {
-          :handler($s-attrs<handler>),
-          :event-name($s-attrs<name>),
-        };
-        note $s-attrs.gist;
-
-        $o-element.removeChild($s-element);
-      }
-    }
-
-note "\nsignal info: ", $!signal-info.gist;
-
-    $xpath.find('/').Str
-  }
-
-  method set-handler (
-    Mu $handler-object, Str $method, Str $signal-name, *%options
-  ) {
-  }
-}
 
 sub _from_name ( Str $name --> GType )
   is native(&gobject-lib)
@@ -182,17 +229,8 @@ sub _name_from_instance ( N-Object $instance --> Str )
   is native(&gobject-lib)
   is symbol('g_type_name_from_instance')
   { * }
+}}
 
-my SH $sh .= new;
- 
-#-------------------------------------------------------------------------------
-my Str $path = "$*HOME/Languages/Raku/Projects/gnome-source-skim-tool";
-my Str $ui = $sh.load-ui("$path/xt/Other/Cambalache/t1.ui");
-my Builder $builder .= new-from-string( $ui, $ui.chars);
-
-
-
-#`{{
 my BuilderScope $builder-scope .= new-buildercscope;
 my Builder $builder .= new-builder;
 
@@ -209,13 +247,13 @@ $sh.load-ui-old(
     :b2-press( $sh, %()),
   )
 );
-}}
 
 
 
 
 
-#`{{
+
+
 my $e;
 my Str $path = "$*HOME/Languages/Raku/Projects/gnome-source-skim-tool";
 
@@ -245,11 +283,3 @@ if !$r {
   note "Error: $e[0].message()";
   exit;
 }
-#}}
-
-with my Window $window .= new(:build-id<MyWindow>) {
-  .present;
-}
-
-#Gnome::N::debug(:on);
-$main-loop.run;
