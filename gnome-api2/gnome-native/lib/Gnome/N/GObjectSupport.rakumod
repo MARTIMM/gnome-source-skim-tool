@@ -6,7 +6,7 @@ use NativeCall;
 use Gnome::N::X;
 use Gnome::N::NativeLib;
 use Gnome::N::N-Object;
-use Gnome::N::TopLevelClassSupport;
+#use Gnome::N::TopLevelClassSupport;
 use Gnome::N::GlibToRakuTypes;
 
 #-------------------------------------------------------------------------------
