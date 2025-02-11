@@ -74,11 +74,14 @@ find . -name '*.raku*' | xargs wc -l
 * Gnome also have a fair share in braking compatibility between Gtk3 and Gtk4. Also a reason not to do Gtk3/Gdk3 in this new api. Luckily, the deprecated symbols, functions and classes were not supported in the old versions of mine. Much can be read [here](https://docs.gtk.org/gtk4/migrating-3to4.html). A small list;
   * Window manager control like `self.set-position()` and `self.set-keep-above()`;
 
-* TDDO Improve documentation. Make use of RakuDoc which is not yet available.
+* [x] Improve documentation.
 
 # Release notes
+* 2025-02-11 0.17.2
+  * Loading a UI XML file with signal information works now using a few added methods in the **Gnome::Gtk4::Builder** class.
+
 * 2025-02-09 0.17.1
-  * Start testing DND and Builder classes.
+  * Start testing DND and Builder classes. In the mean time, :build-id attribute works already.
   
 * 2024-12-14 0.17.0
   * Start to make Gtk4 depending on Timo's **Cairo**
