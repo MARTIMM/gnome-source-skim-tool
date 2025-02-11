@@ -56,20 +56,9 @@ submethod BUILD ( *%options ) {
   # Initialize helper
   $!routine-caller .= new(:library(gobject-lib()));
 
-#`{{
-  # Prevent creating wrong widgets
-  if self.^name eq 'Gnome::GObject::Object' {
-    # If already initialized using ':$native-object', ':$build-id', or
-    # any '.new*()' constructor, the object is valid.
-    note "Native object not defined, .is-valid() will return False" if $Gnome::N::x-debug and !self.is-valid;
-
-    # only after creating the native-object, the gtype is known
-    self._set-class-info('GObject');
-  }
-}}
-
+  # Do not do anything when there is already a valid native object.
   if self.is-valid { }
-    elsif %options<native-object>:exists { }
+  elsif %options<native-object>:exists { }
 
   #`{{
     note: thought about moving this test to Widget because the interface
@@ -80,8 +69,6 @@ submethod BUILD ( *%options ) {
     inherits from Widget, otherwise it uses the g_object_set_data_full() to set
     the id onto the native object. This means that every object inheriting from
     here (=Object) can have an id set and thus retrieved here.
-  }}
-  #`{{
   }}
   elsif ? %options<build-id> {
     my N-Object $native-object;
@@ -116,17 +103,6 @@ submethod BUILD ( *%options ) {
     }
   }
 }
-
-#`{{ Already in role Gnome::N::GObjectSupport
-# Next two methods need checks for proper referencing or cleanup 
-method native-object-ref ( $n-native-object ) {
-  $n-native-object
-}
-
-method native-object-unref ( $n-native-object ) {
-#  self._fallback-v2( 'free', my Bool $x);
-}
-}}
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
