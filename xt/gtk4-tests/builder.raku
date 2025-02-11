@@ -2,14 +2,8 @@
 use v6.d;
 use NativeCall;
 
-use XML;
-use XML::XPath;
-
 use Gnome::Glib::N-MainLoop:api<2>;
-use Gnome::Glib::N-Error:api<2>;
-use Gnome::Glib::T-error:api<2>;
 
-use Gnome::N::NativeLib:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::X:api<2>;
@@ -17,9 +11,9 @@ use Gnome::N::X:api<2>;
 
 
 use Gnome::Gtk4::Builder:api<2>;
-use Gnome::Gtk4::BuilderCScope:api<2>;
 use Gnome::Gtk4::Button:api<2>;
 use Gnome::Gtk4::Window:api<2>;
+use Gnome::Gtk4::Tooltip:api<2>;
 
 #-------------------------------------------------------------------------------
 constant MainLoop = Gnome::Glib::N-MainLoop;
@@ -27,7 +21,7 @@ constant MainLoop = Gnome::Glib::N-MainLoop;
 constant Window = Gnome::Gtk4::Window;
 constant Button = Gnome::Gtk4::Button;
 constant Builder = Gnome::Gtk4::Builder;
-constant BuilderScope = Gnome::Gtk4::BuilderCScope;
+
 #-------------------------------------------------------------------------------
 my MainLoop $main-loop .= new-mainloop( N-Object, True);
 
@@ -55,72 +49,12 @@ class SH {
   }
 
   method query (
-    gint $x, gint $y, gboolean $kmode, N-Object $tooltip
+    gint $x, gint $y, gboolean $kmode, Gnome::Gtk4::Tooltip() $tooltip
     --> gboolean
   ) {
-    note "X & Y: $x, $y";
-    False;
-  }
+    $tooltip.set-text("tooltip text at ($x,$y)");
 
-
-
-
-  #has Gnome::Gtk4::BuilderCScope $!builder-scope;
-  has Gnome::Gtk4::Builder $!builder;
-  method load-ui ( Str:D $file ) {
-    my XML::XPath $xpath .= new(:$file);
-    my Str $ui = self.find-signal-info($xpath);
-    $!builder .= new-from-string( $ui, $ui.chars);
-  }
-
-  has Hash $!signal-info = %();
-  method find-signal-info ( XML::XPath $xpath --> Str ) {
-    my Seq $o-elements = $xpath.find( '//object', :to-list);
-    for @$o-elements -> XML::Element $o-element {
-      my Hash $o-attrs = $o-element.attribs;
-#      note "\n", $o-attrs.gist;
-      my Str $id;
-      if $o-attrs<id>:exists {
-        $id = $o-attrs<id>;
-        $!signal-info{$id} = %();
-        my Str $class = $o-attrs<class>;
-        $class ~~ s/^ Gtk /Gnome::Gtk4::/;
-
-        # _class_ to prevent clashes with handler and event names
-        $!signal-info{$id}<_class_> = $class;
-      }
-
-      my Seq $s-elements = $xpath.find( 'signal', :start($o-element), :to-list);
-      #$!signal-info{$id}<cb> = %() if $s-elements.elems;
-      for @$s-elements -> XML::Element $s-element {
-        my Hash $s-attrs = $s-element.attribs;
-        $!signal-info{$id}{$s-attrs<name>} = $s-attrs<handler>;
-#        note $s-attrs.gist;
-
-        $o-element.removeChild($s-element);
-      }
-    }
-
-#note "\nsignal info: ", $!signal-info.gist;
-    $xpath.find('/').Str
-  }
-
-  method set-handler (
-    Str $build-id, Mu $handler-object, Str $event-name, *%options
-  ) {
-Gnome::N::debug(:on);
-    my Hash $info = $!signal-info{$build-id};
-    return unless ?$info;
-
-    my $class = $info<_class_>;
-    my Str $handler-name = $info{$event-name};
-
-note "$?LINE ---";
-    my $o = ::($class).new(:$build-id);
-note "$?LINE ---";
-note "$?LINE $!builder.get-object('MyWindow')";
-note "$?LINE $class, $build-id, $o.gist()";
-    $o.register-signal( $handler-object, $handler-name, $event-name, |%options);
+    True;
   }
 }
 
@@ -128,22 +62,23 @@ my SH $sh .= new;
 
 #-------------------------------------------------------------------------------
 my Str $path = "$*HOME/Languages/Raku/Projects/gnome-source-skim-tool";
-$sh.load-ui("$path/xt/Other/Cambalache/t1.ui");
+my Builder $builder .= new-builder;
+$builder.load-user-interface("$path/xt/gtk4-tests/Cambalache/t1.ui");
 
-$sh.set-handler( 'MyWindow', $sh, 'close-request');
-$sh.set-handler(
+$builder.connect-callback-handler( 'MyWindow', $sh, 'close-request');
+$builder.connect-callback-handler(
   'HelloButton', $sh, 'clicked',
   :button2(Button.new(:build-id<GoodByeButton>)),
   :new-label<Have a nice day>,
 );
-$sh.set-handler( 'HelloButton', $sh, 'query-tooltip');
-$sh.set-handler( 'GoodByeButton', $sh, 'clicked');
+
+$builder.connect-callback-handler( 'HelloButton', $sh, 'query-tooltip');
+$builder.connect-callback-handler( 'GoodByeButton', $sh, 'clicked');
 
 with my Window $window .= new(:build-id<MyWindow>) {
   .present;
 }
 
-#Gnome::N::debug(:on);
 $main-loop.run;
 
 
@@ -157,6 +92,7 @@ $main-loop.run;
 
 =finish
 
+  has Gnome::Gtk4::BuilderCScope $!builder-scope;
 
   submethod BUILD ( ) {
     $!builder-scope .= new-buildercscope;

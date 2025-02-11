@@ -7,16 +7,21 @@ use v6.d;
 
 use NativeCall;
 
+use XML;
+use XML::XPath;
 
 #use Gnome::GObject::N-Closure:api<2>;
 use Gnome::GObject::T-value:api<2>;
 use Gnome::GObject::Object:api<2>;
 #use Gnome::GObject::T-closure:api<2>;
 #use Gnome::GObject::T-value:api<2>;
+
 use Gnome::Glib::T-error:api<2>;
 use Gnome::Glib::N-SList:api<2>;
 use Gnome::Glib::T-slist:api<2>;
+
 #use Gnome::Gtk4::T-builderscope:api<2>;
+
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
 use Gnome::N::N-Object:api<2>;
@@ -37,11 +42,11 @@ also is Gnome::GObject::Object;
 
 # Define callable helper
 has Gnome::N::GnomeRoutineCaller $!routine-caller;
+has Hash $!signal-info = %();
 
 #-------------------------------------------------------------------------------
 #--[BUILD submethod]------------------------------------------------------------
 #-------------------------------------------------------------------------------
-
 submethod BUILD ( *%options ) {
 
   # Initialize helper
@@ -57,6 +62,59 @@ submethod BUILD ( *%options ) {
     self._set-class-info('GtkBuilder');
   }
 }
+
+#-------------------------------------------------------------------------------
+method load-user-interface ( Str:D $file ) {
+  my Str $ui = self!find-signal-info($file);
+
+  my $e = CArray[N-Error].new(N-Error);
+  die "Error adding UI: ", $e[0].message
+    unless self.add-from-string( $ui, $ui.chars, $e);
+}
+
+#-------------------------------------------------------------------------------
+method !find-signal-info ( Str $file --> Str ) {
+  my XML::XPath $xpath .= new(:$file);
+  
+  my Seq $o-elements = $xpath.find( '//object', :to-list);
+  for @$o-elements -> XML::Element $o-element {
+    my Hash $o-attrs = $o-element.attribs;
+    my Str $id;
+    if $o-attrs<id>:exists {
+      $id = $o-attrs<id>;
+      $!signal-info{$id} = %();
+      my Str $class = $o-attrs<class>;
+      $class ~~ s/^ Gtk /Gnome::Gtk4::/;
+
+      # _class_ to prevent clashes with handler and event names
+      $!signal-info{$id}<_class_> = $class;
+    }
+
+    my Seq $s-elements = $xpath.find( 'signal', :start($o-element), :to-list);
+    for @$s-elements -> XML::Element $s-element {
+      my Hash $s-attrs = $s-element.attribs;
+      $!signal-info{$id}{$s-attrs<name>} = $s-attrs<handler>;
+      $o-element.removeChild($s-element);
+    }
+  }
+
+  $xpath.find('/').Str
+}
+
+#-------------------------------------------------------------------------------
+method connect-callback-handler (
+  Str $build-id, Mu $handler-object, Str $event-name, *%options
+) {
+  my Hash $info = $!signal-info{$build-id};
+  return unless ?$info;
+
+  my $class = $info<_class_>;
+  my Str $handler-name = $info{$event-name};
+
+  my $o = ::($class).new(:$build-id);
+  $o.register-signal( $handler-object, $handler-name, $event-name, |%options);
+}
+
 
 #-------------------------------------------------------------------------------
 #--[Native Routine Definitions]-------------------------------------------------
