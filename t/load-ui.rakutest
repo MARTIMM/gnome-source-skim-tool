@@ -1,0 +1,41 @@
+
+# Successfully loads UI from valid XML file with proper signal handlers
+use Test;
+use Gnome::Gtk4::Builder;
+use Gnome::Glib::N-Error;
+use Gnome::Glib::T-error;
+
+sub test_load_ui_from_valid_file() {
+  my Gnome::Gtk4::Builder $builder .= new-builder;
+
+  my $test-file = 't/data/valid-ui.xml';
+  spurt $test-file, q:to/END/;
+  <interface>
+    <object class="GtkButton" id="button1">
+      <signal name="clicked" handler="on_button1_clicked"/>
+    </object>
+  </interface>
+  END
+
+  lives-ok { $builder.load-user-interface($test-file) },
+    'UI loads successfully from valid XML file';
+
+  unlink $test-file;
+}
+
+# File does not exist or is not accessible
+
+sub test_load_ui_from_nonexistent_file() {
+  my Gnome::Gtk4::Builder $builder .= new-builder;
+
+  throws-like 
+    { $builder.load-user-interface('nonexistent.xml') },
+    X::AdHoc,
+    message => /:s file nonexistent\.xml is not readable/,
+    'Throws error when file does not exist';
+}
+
+subtest 'load ui', {
+  test_load_ui_from_valid_file;
+  test_load_ui_from_nonexistent_file;
+}
