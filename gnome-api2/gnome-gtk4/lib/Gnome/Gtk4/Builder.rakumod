@@ -75,7 +75,7 @@ method load-user-interface ( Str:D $file ) {
 #-------------------------------------------------------------------------------
 method !find-signal-info ( Str $file --> Str ) {
   my XML::XPath $xpath .= new(:$file);
-  
+
   my Seq $o-elements = $xpath.find( '//object', :to-list);
   for @$o-elements -> XML::Element $o-element {
     my Hash $o-attrs = $o-element.attribs;
