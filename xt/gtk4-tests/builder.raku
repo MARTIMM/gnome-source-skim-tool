@@ -1,6 +1,5 @@
 
 use v6.d;
-use NativeCall;
 
 use Gnome::Glib::N-MainLoop:api<2>;
 
@@ -35,7 +34,7 @@ class SH {
   }
 
   method b1-press (
-    Button() :_native-object($button1), Button :$button2, :$new-label
+    Button() :_native-object($button1), Button :$button2, Str :$new-label
   ) {
     say 'button1 pressed';
     $button1.set-label($new-label);
@@ -69,7 +68,7 @@ $builder.connect-callback-handler( 'MyWindow', $sh, 'close-request');
 $builder.connect-callback-handler(
   'HelloButton', $sh, 'clicked',
   :button2(Button.new(:build-id<GoodByeButton>)),
-  :new-label<Have a nice day>,
+  :new-label('Have a nice day'),
 );
 
 $builder.connect-callback-handler( 'HelloButton', $sh, 'query-tooltip');
