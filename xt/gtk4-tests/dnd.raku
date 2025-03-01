@@ -109,15 +109,15 @@ note "$?LINE drag-begin: $drag, $pic.gist()";
     my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
     my $size = CArray[gsize].new(0);
     my Array $mime-types = $formats.get-mime-types($size);
-note "$?LINE $size.gist(), $mime-types.elems()";
+note "\n\n$?LINE accept1: $size.gist(), $mime-types.elems()";
     loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
       note "Mime type: ", $mime-types[$i];
       $accept-ok = True if $mime-types[$i] ~~ m/ text /;
     }
 
 #Gnome::N::debug(:on);
-    note "accept: $accept-ok";
-    $dt.set-preload($accept-ok);
+    note "accept1: $accept-ok";
+    $dt.set-preload(False);
     $accept-ok
   }
 
@@ -127,7 +127,7 @@ note "$?LINE $size.gist(), $mime-types.elems()";
     Gnome::Gtk4::DropTarget() :_native-object($dt),
     --> gboolean
   ) {
-note "\n$?LINE drop: $x, $y";
+note "\n$?LINE drop1: $x, $y";
 
 #Gnome::N::debug(:on);
     my Bool $drop-ok = False;
@@ -138,7 +138,7 @@ note "\n$?LINE drop: $x, $y";
     my Array $mime-types = $formats.get-mime-types($size);
 #note "$?LINE $size.gist(), $mime-types.elems()";
     loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-      note "Mime type: ", $mime-types[$i];
+      note "drop1: Mime type: ", $mime-types[$i];
     }
 
 note "$?LINE $drop.gist()";
@@ -146,7 +146,7 @@ note "$?LINE $drop.gist()";
     my Gnome::Gdk4::Drag() $drag = $drop.get-drag;
 note "$?LINE $drag.gist()";
     if $drag.is-valid {
-      note 'inside job';
+      note 'drop1: inside job';
 
 note $?LINE, ', ', $n-value.gist();
     my Gnome::GObject::N-Value $value .= new(:native-object($n-value));
@@ -157,7 +157,7 @@ note $?LINE, ', ', $value.get-string;
     }
 
     else {
-      note 'package from abroad';
+      note 'drop1: package from abroad';
 
 note $?LINE, ', ', $n-value.gist();
     my Gnome::GObject::N-Value $value .= new(:native-object($n-value));
@@ -169,29 +169,7 @@ note $?LINE, ', ', $value.get-string;
         note "text ";
         $drop-ok = True;
       }
-
-      # Select one of the set flags from get-actions()
-#      $drop.finish(GDK_ACTION_COPY);
     }
-
-#    my Gnome::Gdk4::N-ContentFormats() $cf = $dt.get-formats;
-#    note "$?LINE ", 
-
-#`{{
-    my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
-    my $size = CArray[gsize].new(0);
-    my Array $mime-types = $formats.get-mime-types($size);
-note "$?LINE $size.gist(), $mime-types.elems()";
-    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-      note "Mime type: ", $mime-types[$i];
-    }
-}}
-
-#    my $a = CArray[Str].new(| @$mime-types, Str);
-#note "$?LINE $a[0], ", $a.WHAT;
-#Gnome::N::debug(:off);
-#`{{
-}}
 
     True; #$drop-ok;
   }
@@ -202,20 +180,29 @@ note "$?LINE $size.gist(), $mime-types.elems()";
     Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
     --> gboolean
   ) {
-    my Bool $accept-ok = False;
+#    my Bool $accept-ok = False;
 #    $drop.set-gtypes( CArray[GType].new($f.get-class-gtype), 1);
 
-    my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
-    my $size = CArray[gsize].new(0);
-    my Array $mime-types = $formats.get-mime-types($size);
-note "$?LINE $size.gist(), $mime-types.elems()";
-    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-      note "Mime type: ", $mime-types[$i];
-      $accept-ok = True if $mime-types[$i] ~~ m/ text /;
+    my Array $mime-types = self.get-mimetypes($drop);
+    if my Bool $accept-ok = self.check-mimetype( 'text/plain', $mime-types) {
+      self.show-mimetypes($mime-types);
+
+#    my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
+#    my $size = CArray[gsize].new(0);
+#    my Array $mime-types = $formats.get-mime-types($size);
+#note "\n\n$?LINE accept2: $size.gist(), $mime-types.elems()";
+#    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
+#      note "accept2: Mime type: ", $mime-types[$i];
+#      if $mime-types[$i] ~~ m/ text / {
+#        my GFlag $flags = $drop.get-actions;
+#        $accept-ok = True if $flags ?& GDK_ACTION_COPY;
+#        last;
+#      }
     }
 
 #Gnome::N::debug(:on);
-    note "accept: $accept-ok";
+    note "accept2: $accept-ok";
+#    $dt.set-preload(True);
     $accept-ok
   }
 
@@ -225,122 +212,188 @@ note "$?LINE $size.gist(), $mime-types.elems()";
     Gnome::Gtk4::DropTargetAsync() :_native-object($dt),
     --> gboolean
   ) {
-note "\n$?LINE drop: $x, $y";
+note "\n$?LINE drop2: $x, $y";
 
-#Gnome::N::debug(:on);
-    my Bool $drop-ok = False;
+    my Array $mime-types = self.get-mimetypes($drop);
+    if my Bool $drop-ok = self.check-mimetype( 'text/plain', $mime-types) {
+      self.show-mimetypes($mime-types);
 
-#note $n-value.gist();
-#    my Gnome::GObject::N-Value $value .= new(:native-object($n-value));
-#note $value.get-string;;
-
-    my Gnome::Gdk4::N-ContentFormats() $formats = $dt.get-formats;
-    my $size = CArray[gsize].new(0);
-    my Array $mime-types = $formats.get-mime-types($size);
-#note "$?LINE $size.gist(), $mime-types.elems()";
-    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-      note "Mime type: ", $mime-types[$i];
-    }
-
-    $drop-ok = True if $formats.contain-mime-type('text/plain');
-
-    my Gnome::Gdk4::Drag() $drag = $drop.get-drag;
-    if $drag.is-valid {
-      note 'inside job';
-
-Gnome::N::debug(:on);
-
-      $drop.read-value-async(
-        G_TYPE_STRING, 0, gpointer, &get-data, gpointer
-      );
-
-      # Select one of the set flags from get-actions()
-#      $drop.finish(GDK_ACTION_COPY);
-    }
-
-    else {
-      note 'package from abroad';
-#      $drop.status( GDK_ACTION_COPY, GDK_ACTION_COPY);
-Gnome::N::debug(:on);
-
-      $drop.read-value-async(
-        G_TYPE_STRING, 0, gpointer, &get-data, gpointer
-      );
- 
- #`{{
-      my Gnome::Gio::Task $task .= new-task(
-        $drop, gpointer, &get-data, gpointer
-      );
-      $task.set-source-tag(nativecast( gpointer, &get-data));
-      my $e = CArray[N-Error].new();
-      my N-Value() $n-value = $drop.read-value-finish(
-        $task, $e
-      );
-
-      if $e[0].defined {
-        note "Error: $e.message()";
+      my Gnome::Gdk4::Drag() $drag = $drop.get-drag;
+note "$?LINE $drag.gist()";
+      if $drag.is-valid {
+        note 'drop2: inside job';
+        $drop.read-value-async(
+          G_TYPE_STRING, 1, gpointer, &get-data-value-async, gpointer
+        );
       }
-note "$?LINE $n-value.gist()";
-      my Gnome::GObject::N-Value $value .= new(:native-object($n-value));
-note "$?LINE $value.get-string()";
-    }}
-#      $drop.finish(GDK_ACTION_COPY);
 
-      # Select one of the set flags from get-actions()
-#      $drop.finish(GDK_ACTION_COPY);
+      else {
+        note 'drop2: package from abroad';
+#        $drop.read-value-async(
+#          G_TYPE_STRING, 1, gpointer, &get-data-value-async, gpointer
+#        );
+        $drop.read-async(
+          CArray[Str].new('text/plain'), 1, gpointer, &get-data-async, gpointer
+        );
+      }
     }
 
-#    my Gnome::Gdk4::N-ContentFormats() $cf = $dt.get-formats;
-#    note "$?LINE ", 
+    # Select one of the set flags from get-actions()
+#    $drop.finish(GDK_ACTION_COPY);
+    note "$?LINE 'drop2: $drop-ok";
 
-#`{{
-    my Gnome::Gdk4::Drop() $drop = $dt.get-current-drop;
+    $drop-ok
+  }
+
+  #-----------------------------------------------------------------------------
+  method get-mimetypes ( Gnome::Gdk4::Drop $drop --> Array ) {
     my Gnome::Gdk4::N-ContentFormats() $formats = $drop.get-formats;
     my $size = CArray[gsize].new(0);
     my Array $mime-types = $formats.get-mime-types($size);
-note "$?LINE $size.gist(), $mime-types.elems()";
-    loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
-      note "Mime type: ", $mime-types[$i];
-    }
-}}
 
-#    my $a = CArray[Str].new(| @$mime-types, Str);
-#note "$?LINE $a[0], ", $a.WHAT;
-#Gnome::N::debug(:off);
-#`{{
-}}
-
-    $drop-ok;
+    $mime-types
   }
+
+  #-----------------------------------------------------------------------------
+  method show-mimetypes ( Array $mime-types ) {
+
+    for @$mime-types -> $mime-type {
+      note "show-mimetypes: Mime type: $mime-type";
+    }
+  }
+
+  #-----------------------------------------------------------------------------
+  method show-actions ( GFlag $actions ) {
+    for GDK_ACTION_COPY, GDK_ACTION_MOVE, GDK_ACTION_LINK -> $action {
+      note "Action $action found" if $actions &? $action;
+    }
+  }
+
+  #-----------------------------------------------------------------------------
+  method check-mimetype (
+    Str $lookfor, Array $mime-types --> Bool
+  ) {
+    my Bool $ok = False;
+    for @$mime-types -> $mime-type {
+      if $mime-types ~~ m/ $lookfor / {
+        $ok = True;
+        last;
+      }
+    }
+
+    $ok
+  }
+
+##`{{
+  #-----------------------------------------------------------------------------
+  method enter ( Rat() $x, Rat() $y --> GFlag ) {
+    note "Enter at $x, $y";
+    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+  }
+
+  #-----------------------------------------------------------------------------
+  method leave ( ) {
+    note "Left";
+  }
+
+  #-----------------------------------------------------------------------------
+  method motion ( Rat() $x, Rat() $y --> GFlag ) {
+    note "move to $x, $y";
+    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+  }
+#}}
+
+##`{{
+  #-----------------------------------------------------------------------------
+  method drag-enter (
+    Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
+  ) {
+    note "Enter at $x, $y";
+    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+  }
+
+  #-----------------------------------------------------------------------------
+  method drag-leave ( Gnome::Gdk4::Drop() $drop ) {
+    note "Left";
+  }
+
+  #-----------------------------------------------------------------------------
+  method drag-motion (
+    Gnome::Gdk4::Drop() $drop, Rat() $x, Rat() $y --> GFlag
+  ) {
+    note "move to $x, $y";
+    GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
+  }
+#}}
 }
 
 
 #-------------------------------------------------------------------------------
-sub get-data (
+sub get-data-value-async (
+  Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
+) {
+  CONTROL { when CX::Warn {  note .gist; #`{{.resume;}} } }
+  CATCH { default { .message.note; .backtrace.concise.note } }
+
+note "$?LINE $drop.gist()";
+note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
+note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
+
+  my $e = CArray[N-Error].new(N-Error);
+#  my $n-v = CArray[N-Value].new(N-Value);
+#  my Bool $is-ok = $result.propagate-value( $n-v, $e);
+#note "$?LINE $is-ok, $e.gist()";
+#note "Error: $e[0].message()" unless $is-ok;
+#  my Gnome::GObject::N-Value $v .= new(:native-object($n-v[0]));
+
+  my gpointer $p = $result.propagate-pointer($e);
+note "Error: $e[0].message()" unless ?$p;
+
+  my Gnome::GObject::N-Value $v .= new(
+    :native-object(nativecast( N-Object, $p))
+  );
+
+#note "$?LINE $n-v.gist()";
+note "$?LINE v: $v.gist()";
+note "$?LINE v: $v.get-string()";
+#  $drop.read-value-finish( $result, $e);
+note "Error: $e[0].message()" unless ?$p;
+}
+
+#-------------------------------------------------------------------------------
+sub get-data-async (
   Gnome::Gdk4::Drop() $drop, Gnome::Gio::Task() $result, gpointer $
 ) {
   CONTROL { when CX::Warn {  note .gist; .resume; } }
   CATCH { default { .message.note; .backtrace.concise.note } }
 
 note "$?LINE $drop.gist()";
-#note "a: ", $drop.get-actions.base(2);
+note "get-data actions: ", $drop.get-actions.fmt('0x%04x');
+note "get-data is COPY: ", $drop.get-actions.fmt('0x%04x') ?& GDK_ACTION_COPY;
+
   my $e = CArray[N-Error].new(N-Error);
-  my N-Value $n-v .= new; # = CArray[N-Value].new(N-Value);
-  my Bool $is-ok = $result.propagate-value( $n-v, $e);
+#  my $n-v = CArray[N-Value].new(N-Value);
+#  my Bool $is-ok = $result.propagate-value( $n-v, $e);
 #note "$?LINE $is-ok, $e.gist()";
 #note "Error: $e[0].message()" unless $is-ok;
+#  my Gnome::GObject::N-Value $v .= new(:native-object($n-v[0]));
 
-  my Gnome::GObject::N-Value $v .= new(:native-object($n-v[0]));
+  my gpointer $p = $result.propagate-pointer($e);
+note "Error: $e[0].message()" unless ?$p;
 
-note "$?LINE $n-v.gist()";
+  my Gnome::GObject::N-Value $v .= new(
+    :native-object(nativecast( N-Object, $p))
+  );
+
+
+#note "$?LINE $n-v.gist()";
 note "$?LINE v: $v.gist()";
 note "$?LINE v: $v.get-string()";
-      $drop.finish(GDK_ACTION_COPY);
 
-      # Select one of the set flags from get-actions()
-#      $drop.finish(GDK_ACTION_COPY);
+#  my $rm = CArray[Str];
+#  $drop.read-finish( $result, $rm, $e);
+#note "Error: $e[0].message()" unless ?$p;
 }
-
 
 #-------------------------------------------------------------------------------
 my Helper $helper .= new;
@@ -348,8 +401,8 @@ my Gnome::Gtk4::Picture $red = set-drag-source('red-on-256.png');
 my Gnome::Gtk4::Picture $amber = set-drag-source('amber-on-256.png');
 my Gnome::Gtk4::Picture $green = set-drag-source('green-on-256.png');
 
-my Gnome::Gtk4::Picture $bullseye = set-drag-target1('bullseye.jpg');
-#my Gnome::Gtk4::Picture $bullseye = set-drag-target2('bullseye.jpg');
+#my Gnome::Gtk4::Picture $bullseye = set-drag-target1('bullseye.jpg');
+my Gnome::Gtk4::Picture $bullseye = set-drag-target2('bullseye.jpg');
 
 with my Gnome::Gtk4::Grid $grid .= new-grid {
   .attach( $red,      0, 0, 1, 1);
@@ -392,18 +445,20 @@ sub set-drag-target1 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   my Gnome::Gtk4::Picture $pic;
   my Gnome::Gtk4::DropTarget $target;
 
-  my Gnome::Gdk4::N-ContentFormats $formats .= new-contentformats(
-    CArray[Str].new(<text/plain>,), 1
-  );
+  my Gnome::Gio::File $file .= new-for-path('./x.txt');
+  note "$?LINE File gtype = $file.get-class-gtype()";
 
   with $target .= new-droptarget(
-    G_TYPE_STRING, GDK_ACTION_COPY +| GDK_ACTION_MOVE
+    G_TYPE_STRING, GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   ) {
-note "Preload: ", .get-preload;
+    my $gtypes = CArray[GType].new( G_TYPE_STRING, $file.get-class-gtype);
+    .set-gtypes( $gtypes, 2);
+note "$?LINE Preload: ", .get-preload;
 
     my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
     my $size = CArray[gsize].new(0);
     my Array $mime-types = $formats.get-mime-types($size);
+
 note "$?LINE $size.gist(), $mime-types.elems()";
     loop ( my Int $i = 0; $i < $size[0]; $i++ ) {
       note "Mime type: ", $mime-types[$i];
@@ -411,6 +466,9 @@ note "$?LINE $size.gist(), $mime-types.elems()";
 
     .register-signal( $helper, 'drop1', 'drop');
     .register-signal( $helper, 'accept1', 'accept');
+#    .register-signal( $helper, 'enter', 'enter');
+#    .register-signal( $helper, 'leave', 'leave');
+#    .register-signal( $helper, 'motion', 'motion');
 
     $pic .= new-for-filename(DATA_PATH ~ $pic-file);
     $pic.add-controller($target);
@@ -431,7 +489,7 @@ sub set-drag-target2 ( Str $pic-file --> Gnome::Gtk4::Picture ) {
   );
 
   with $target .= new-droptargetasync(
-    $formats, GDK_ACTION_COPY +| GDK_ACTION_MOVE
+    $formats, GDK_ACTION_COPY +| GDK_ACTION_MOVE +| GDK_ACTION_LINK
   ) {
 
     my Gnome::Gdk4::N-ContentFormats() $formats = .get-formats;
@@ -444,10 +502,13 @@ note "$?LINE $size.gist(), $mime-types.elems()";
 
     .register-signal( $helper, 'drop2', 'drop');
     .register-signal( $helper, 'accept2', 'accept');
+#    .register-signal( $helper, 'drag-enter', 'drag-enter');
+#    .register-signal( $helper, 'drag-leave', 'drag-leave');
+#    .register-signal( $helper, 'drag-motion', 'drag-motion');
 
     $pic .= new-for-filename(DATA_PATH ~ $pic-file);
     $pic.add-controller($target);
-    .clear-object;
+#    .clear-object;
   }
 
   $pic
