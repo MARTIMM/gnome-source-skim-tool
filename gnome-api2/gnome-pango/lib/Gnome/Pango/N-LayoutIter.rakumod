@@ -7,6 +7,8 @@ use v6.d;
 
 use NativeCall;
 
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -14,23 +16,16 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
-use Gnome::Pango::N-LayoutLine:api<2>;
-use Gnome::Pango::N-Rectangle:api<2>;
+use Gnome::Pango::T-layout:api<2>;
+#use Gnome::Pango::T-types:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Pango::N-LayoutIter:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-# This is an opaque type of which fields are not available.
-class N-LayoutIter:auth<github:MARTIMM>:api<2> is export is repr('CPointer') { }
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -44,6 +39,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(pango-lib()));
@@ -75,32 +71,34 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  at-last-line => %(:is-symbol<pango_layout_iter_at_last_line>,  :returns(gboolean), :cnv-return(Bool)),
-  copy => %(:is-symbol<pango_layout_iter_copy>,  :returns(N-LayoutIter)),
+  at-last-line => %(:is-symbol<pango_layout_iter_at_last_line>, :returns(gboolean), ),
+  copy => %(:is-symbol<pango_layout_iter_copy>, :returns(N-Object), ),
   free => %(:is-symbol<pango_layout_iter_free>, ),
-  get-baseline => %(:is-symbol<pango_layout_iter_get_baseline>,  :returns(gint)),
-  get-char-extents => %(:is-symbol<pango_layout_iter_get_char_extents>,  :parameters([N-Rectangle ])),
-  get-cluster-extents => %(:is-symbol<pango_layout_iter_get_cluster_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
-  get-index => %(:is-symbol<pango_layout_iter_get_index>,  :returns(gint)),
-  get-layout => %(:is-symbol<pango_layout_iter_get_layout>,  :returns(N-Object)),
-  get-layout-extents => %(:is-symbol<pango_layout_iter_get_layout_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
-  get-line => %(:is-symbol<pango_layout_iter_get_line>,  :returns(N-LayoutLine)),
-  get-line-extents => %(:is-symbol<pango_layout_iter_get_line_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
-  get-line-readonly => %(:is-symbol<pango_layout_iter_get_line_readonly>,  :returns(N-LayoutLine)),
-  get-line-yrange => %(:is-symbol<pango_layout_iter_get_line_yrange>,  :parameters([gint-ptr, gint-ptr])),
+  get-baseline => %(:is-symbol<pango_layout_iter_get_baseline>, :returns(gint), ),
+  get-char-extents => %(:is-symbol<pango_layout_iter_get_char_extents>, :parameters([N-Object]), ),
+  get-cluster-extents => %(:is-symbol<pango_layout_iter_get_cluster_extents>, :parameters([N-Object, N-Object]), ),
+  get-index => %(:is-symbol<pango_layout_iter_get_index>, :returns(gint), ),
+  get-layout => %(:is-symbol<pango_layout_iter_get_layout>, :returns(N-Object), ),
+  get-layout-extents => %(:is-symbol<pango_layout_iter_get_layout_extents>, :parameters([N-Object, N-Object]), ),
+  get-line => %(:is-symbol<pango_layout_iter_get_line>, :returns(N-Object), ),
+  get-line-extents => %(:is-symbol<pango_layout_iter_get_line_extents>, :parameters([N-Object, N-Object]), ),
+  get-line-readonly => %(:is-symbol<pango_layout_iter_get_line_readonly>, :returns(N-Object), ),
+  get-line-yrange => %(:is-symbol<pango_layout_iter_get_line_yrange>, :parameters([gint-ptr, gint-ptr]), ),
   #get-run => %(:is-symbol<pango_layout_iter_get_run>, ),
-  get-run-baseline => %(:is-symbol<pango_layout_iter_get_run_baseline>,  :returns(gint)),
-  get-run-extents => %(:is-symbol<pango_layout_iter_get_run_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  get-run-baseline => %(:is-symbol<pango_layout_iter_get_run_baseline>, :returns(gint), ),
+  get-run-extents => %(:is-symbol<pango_layout_iter_get_run_extents>, :parameters([N-Object, N-Object]), ),
   #get-run-readonly => %(:is-symbol<pango_layout_iter_get_run_readonly>, ),
-  next-char => %(:is-symbol<pango_layout_iter_next_char>,  :returns(gboolean), :cnv-return(Bool)),
-  next-cluster => %(:is-symbol<pango_layout_iter_next_cluster>,  :returns(gboolean), :cnv-return(Bool)),
-  next-line => %(:is-symbol<pango_layout_iter_next_line>,  :returns(gboolean), :cnv-return(Bool)),
-  next-run => %(:is-symbol<pango_layout_iter_next_run>,  :returns(gboolean), :cnv-return(Bool)),
+  next-char => %(:is-symbol<pango_layout_iter_next_char>, :returns(gboolean), ),
+  next-cluster => %(:is-symbol<pango_layout_iter_next_cluster>, :returns(gboolean), ),
+  next-line => %(:is-symbol<pango_layout_iter_next_line>, :returns(gboolean), ),
+  next-run => %(:is-symbol<pango_layout_iter_next_run>, :returns(gboolean), ),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+method _fallback-v2 (
+  Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -108,11 +106,11 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
         :library(pango-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
-        )
+        ),
+        |%options
       );
     }
 

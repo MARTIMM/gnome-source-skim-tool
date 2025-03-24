@@ -7,8 +7,8 @@ use v6.d;
 
 use NativeCall;
 
-use Gnome::Glib::N-SList:api<2>;
-use Gnome::Glib::T-slist:api<2>;
+use Cairo;
+
 
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::GnomeRoutineCaller:api<2>;
@@ -16,47 +16,17 @@ use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
-use Gnome::Pango::N-Rectangle:api<2>;
 use Gnome::Pango::T-direction:api<2>;
+use Gnome::Pango::T-layout:api<2>;
+#use Gnome::Pango::T-types:api<2>;
 
 
 #-------------------------------------------------------------------------------
-#--[Class Declaration]----------------------------------------------------------
+#--[Structure Declaration]------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 unit class Gnome::Pango::N-LayoutLine:auth<github:MARTIMM>:api<2>;
 also is Gnome::N::TopLevelClassSupport;
-
-
-#-------------------------------------------------------------------------------
-#--[Record Structure]-----------------------------------------------------------
-#-------------------------------------------------------------------------------
-
-class N-LayoutLine:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-  has N-Object $.layout;
-  has gint $.start-index;
-  has gint $.length;
-  has N-SList $.runs;
-  has guint $.is-paragraph-start;
-  has guint $.resolved-dir;
-
-  submethod BUILD (
-    gint :$!start-index, gint :$!length, N-SList :$!runs, guint :$!is-paragraph-start, guint :$!resolved-dir, 
-  ) {
-  }
-
-  submethod TWEAK (
-    N-Object :$layout, 
-  ) {
-    $!layout := $layout if ?$layout;
-}
-
-  method COERCE ( $no --> N-LayoutLine ) {
-    note "Coercing from {$no.^name} to ", self.^name if $Gnome::N::x-debug;
-    nativecast( N-LayoutLine, $no)
-  }
-}
 
 #-------------------------------------------------------------------------------
 #--[BUILD variables]------------------------------------------------------------
@@ -70,6 +40,7 @@ has Gnome::N::GnomeRoutineCaller $!routine-caller;
 #-------------------------------------------------------------------------------
 
 submethod BUILD ( *%options ) {
+
 
   # Initialize helper
   $!routine-caller .= new(:library(pango-lib()));
@@ -101,23 +72,25 @@ method native-object-unref ( $n-native-object ) {
 my Hash $methods = %(
 
   #--[Methods]------------------------------------------------------------------
-  get-extents => %(:is-symbol<pango_layout_line_get_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
-  get-height => %(:is-symbol<pango_layout_line_get_height>,  :parameters([gint-ptr])),
-  get-length => %(:is-symbol<pango_layout_line_get_length>,  :returns(gint)),
-  get-pixel-extents => %(:is-symbol<pango_layout_line_get_pixel_extents>,  :parameters([N-Rectangle , N-Rectangle ])),
+  get-extents => %(:is-symbol<pango_layout_line_get_extents>, :parameters([N-Object, N-Object]), ),
+  get-height => %(:is-symbol<pango_layout_line_get_height>, :parameters([gint-ptr]), ),
+  get-length => %(:is-symbol<pango_layout_line_get_length>, :returns(gint), ),
+  get-pixel-extents => %(:is-symbol<pango_layout_line_get_pixel_extents>, :parameters([N-Object, N-Object]), ),
   get-resolved-direction => %(:is-symbol<pango_layout_line_get_resolved_direction>,  :returns(GEnum), :cnv-return(PangoDirection)),
-  get-start-index => %(:is-symbol<pango_layout_line_get_start_index>,  :returns(gint)),
-  get-x-ranges => %(:is-symbol<pango_layout_line_get_x_ranges>,  :parameters([gint, gint, gint-ptr, gint-ptr])),
-  index-to-x => %(:is-symbol<pango_layout_line_index_to_x>,  :parameters([gint, gboolean, gint-ptr])),
-  is-paragraph-start => %(:is-symbol<pango_layout_line_is_paragraph_start>,  :returns(gboolean), :cnv-return(Bool)),
-  ref => %(:is-symbol<pango_layout_line_ref>,  :returns(N-LayoutLine)),
+  get-start-index => %(:is-symbol<pango_layout_line_get_start_index>, :returns(gint), ),
+  get-x-ranges => %(:is-symbol<pango_layout_line_get_x_ranges>, :parameters([gint, gint, gint-ptr, gint-ptr]), ),
+  index-to-x => %(:is-symbol<pango_layout_line_index_to_x>, :parameters([gint, gboolean, gint-ptr]), ),
+  is-paragraph-start => %(:is-symbol<pango_layout_line_is_paragraph_start>, :returns(gboolean), ),
+  ref => %(:is-symbol<pango_layout_line_ref>, :returns(N-Object), ),
   unref => %(:is-symbol<pango_layout_line_unref>, ),
-  x-to-index => %(:is-symbol<pango_layout_line_x_to_index>,  :returns(gboolean), :cnv-return(Bool), :parameters([gint, gint-ptr, gint-ptr])),
+  x-to-index => %(:is-symbol<pango_layout_line_x_to_index>, :returns(gboolean), :parameters([gint, gint-ptr, gint-ptr]), ),
 );
 
 #-------------------------------------------------------------------------------
 # This method is recognized in class Gnome::N::TopLevelClassSupport.
-method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
+method _fallback-v2 (
+  Str $name, Bool $_fallback-v2-ok is rw, *@arguments, *%options
+) {
   if $methods{$name}:exists {
     $_fallback-v2-ok = True;
     if $methods{$name}<type>:exists and $methods{$name}<type> eq 'Constructor' {
@@ -125,11 +98,11 @@ method _fallback-v2 ( Str $name, Bool $_fallback-v2-ok is rw, *@arguments ) {
         :library(pango-lib())
       );
 
-      # Check the function name. 
       return self.bless(
         :native-object(
           $routine-caller.call-native-sub( $name, @arguments, $methods)
-        )
+        ),
+        |%options
       );
     }
 

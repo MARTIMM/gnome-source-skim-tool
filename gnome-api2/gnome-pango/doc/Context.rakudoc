@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Pango::Context
-
+=TITLE Gnome::Pango::Context
 =head1 Description
 
 A B<Gnome::Pango::Context> stores global information used to control the
@@ -17,7 +16,7 @@ The information stored by B<Gnome::Pango::Context> includes the fontmap used
 to look up fonts, and default values such as the default language,
 default gravity, or default font.
 
-To obtain a B<Gnome::Pango::Context>, use C<.create-context() in class Gnome::Pango::FontMap>.
+To obtain a B<Gnome::Pango::Context>, use C<.create-context()> in class C<Gnome::Pango::FontMap>.
 
 =begin comment
 
@@ -53,13 +52,13 @@ Creates a new B<Gnome::Pango::Context> initialized to default values.
 
 This function is not particularly useful as it should always
 be followed by a C<.set-font-map()> call, and the
-function C<.create-context() in class Gnome::Pango::FontMap> does these two steps
+function C<.create-context()> in class C<Gnome::Pango::FontMap> does these two steps
 together and hence users are recommended to use that.
 
 If you are using Pango as part of a higher-level system,
 that system may have it's own way of create a B<Gnome::Pango::Context>.
 For instance, the GTK toolkit has, among others,
-B<gtk_widget_get_pango_context()>. Use those instead.
+B<gtk_widget_get_pango_context>()`. Use those instead.
 
 =begin code
 method new-context ( --> Gnome::Pango::Context \)
@@ -156,12 +155,11 @@ Return value; the base gravity for the context..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-font-description
-This function is not yet available
 
 Retrieve the default font description for the context.
 
 =begin code
-method get-font-description (--> CArray[N-FontDescription]  )
+method get-font-description (--> N-Object )
 =end code
 
 Return value; a pointer to the context's default font
@@ -251,12 +249,11 @@ Return value; the gravity hint for the context..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-language
-This function is not yet available
 
 Retrieves the global language tag for the context.
 
 =begin code
-method get-language (--> CArray[N-Language]  )
+method get-language (--> N-Object )
 =end code
 
 Return value; the global language tag.. 
@@ -273,7 +270,6 @@ Return value; the global language tag..
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-matrix
-This function is not yet available
 
 Gets the transformation matrix that will be applied when
 rendering with this context.
@@ -281,7 +277,7 @@ rendering with this context.
 See C<.set-matrix()>.
 
 =begin code
-method get-matrix (--> CArray[N-Matrix]  )
+method get-matrix (--> N-Object )
 =end code
 
 Return value; the matrix, or undefined if no
@@ -301,7 +297,6 @@ Return value; the matrix, or undefined if no
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-metrics
-This function is not yet available
 
 Get overall metric information for a particular font description.
 
@@ -309,26 +304,26 @@ Since the metrics may be substantially different for different scripts,
 a language tag can be provided to indicate that the metrics should be
 retrieved that correspond to the script(s) used by that language.
 
-The U<Gnome::Pango::N-FontDescription> is interpreted in the same way as by [func C<$itemize>],
+The B<Gnome::Pango::N-FontDescription> is interpreted in the same way as by [func C<$itemize>],
 and the family name may be a comma separated list of names. If characters
 from multiple of these families would be used to render the string, then
 the returned fonts would be a composite of the metrics for the fonts loaded
 for the individual families.
 
 =begin code
-method get-metrics ( CArray[N-FontDescription]  $desc, CArray[N-Language]  $language --> CArray[N-FontMetrics]  )
+method get-metrics ( N-Object $desc, N-Object $language --> N-Object )
 =end code
 
-=item $desc; a U<Gnome::Pango::N-FontDescription> structure. undefined means that the
-  font description from the context will be used..
+=item $desc; a B<Gnome::Pango::N-FontDescription> structure. undefined means that the
+  font description from the context will be used.
 =item $language; language tag used to determine which script to get
   the metrics for. undefined means that the language tag from the context
   will be used. If no language tag is set on the context, metrics
   for the default language (as determined by C<.Language.get-default()>
-  will be returned..
+  will be returned.
 
-Return value; a U<Gnome::Pango::N-FontMetrics> object. The caller must call
-  C<.unref() in class Gnome::Pango::N-FontMetrics> when finished using the object.. 
+Return value; a B<Gnome::Pango::N-FontMetrics> object. The caller must call
+  C<.unref()> in class C<Gnome::Pango::N-FontMetrics> when finished using the object.. 
 
 =begin comment
 
@@ -420,16 +415,15 @@ method list-families ( N-Object() $families, Array[Int] $n-families )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 load-font
-This function is not yet available
 
 Loads the font in one of the fontmaps in the context
 that is the closest match for C<$desc>.
 
 =begin code
-method load-font ( CArray[N-FontDescription]  $desc --> N-Object )
+method load-font ( N-Object $desc --> N-Object )
 =end code
 
-=item $desc; a U<Gnome::Pango::N-FontDescription> describing the font to load.
+=item $desc; a B<Gnome::Pango::N-FontDescription> describing the font to load
 
 Return value; the newly allocated B<Gnome::Pango::Font>
   that was loaded, or undefined if no font matched.. 
@@ -446,17 +440,16 @@ Return value; the newly allocated B<Gnome::Pango::Font>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 load-fontset
-This function is not yet available
 
 Load a set of fonts in the context that can be used to render
 a font matching C<$desc>.
 
 =begin code
-method load-fontset ( CArray[N-FontDescription]  $desc, CArray[N-Language]  $language --> N-Object )
+method load-fontset ( N-Object $desc, N-Object $language --> N-Object )
 =end code
 
-=item $desc; a U<Gnome::Pango::N-FontDescription> describing the fonts to load.
-=item $language; a U<Gnome::Pango::N-Language> the fonts will be used for.
+=item $desc; a B<Gnome::Pango::N-FontDescription> describing the fonts to load
+=item $language; a B<Gnome::Pango::N-Language> the fonts will be used for
 
 Return value; the newly allocated
   B<Gnome::Pango::Fontset> loaded, or undefined if no font matched.. 
@@ -524,15 +517,14 @@ method set-base-gravity ( PangoGravity $gravity )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-font-description
-This function is not yet available
 
 Set the default font description for the context
 
 =begin code
-method set-font-description ( CArray[N-FontDescription]  $desc )
+method set-font-description ( N-Object $desc )
 =end code
 
-=item $desc; the new pango font description.
+=item $desc; the new pango font description
 
 =begin comment
 
@@ -598,7 +590,6 @@ method set-gravity-hint ( PangoGravityHint $hint )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-language
-This function is not yet available
 
 Sets the global language tag for the context.
 
@@ -606,10 +597,10 @@ The default language for the locale of the running process
 can be found using C<.Language.get-default()>.
 
 =begin code
-method set-language ( CArray[N-Language]  $language )
+method set-language ( N-Object $language )
 =end code
 
-=item $language; the new language tag..
+=item $language; the new language tag.
 
 =begin comment
 
@@ -623,7 +614,6 @@ method set-language ( CArray[N-Language]  $language )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-matrix
-This function is not yet available
 
 Sets the transformation matrix that will be applied when rendering
 with this context.
@@ -635,11 +625,11 @@ they may change slightly for different matrices, depending on how the
 text is fit to the pixel grid.
 
 =begin code
-method set-matrix ( CArray[N-Matrix]  $matrix )
+method set-matrix ( N-Object $matrix )
 =end code
 
-=item $matrix; a U<Gnome::Pango::N-Matrix>, or undefined to unset any existing
-matrix. (No matrix set is the same as setting the identity matrix.).
+=item $matrix; a B<Gnome::Pango::N-Matrix>, or undefined to unset any existing
+matrix. (No matrix set is the same as setting the identity matrix.)
 
 =begin comment
 

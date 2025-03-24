@@ -1,4 +1,4 @@
-# Command to generate: generate.raku -c -t Pango Layout
+=comment Package: Pango, C-Source: layout
 use v6.d;
 
 #TL:1:Gnome::Pango::Layout:
@@ -6,18 +6,33 @@ use v6.d;
 #--[Module Imports]-------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-use NativeCall;
 use Test;
+use NativeCall;
 
 
+
+use Gnome::Glib::N-Bytes:api<2>;
+use Gnome::Glib::N-SList:api<2>;
+use Gnome::Glib::T-array:api<2>;
+use Gnome::Glib::T-error:api<2>;
+use Gnome::Glib::T-slist:api<2>;
 use Gnome::N::GlibToRakuTypes:api<2>;
 use Gnome::N::N-Object:api<2>;
 use Gnome::N::NativeLib:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::Layout:api<2>;
-use Gnome::Pango::Context:api<2>;
+#use Gnome::Pango::N-AttrList:api<2>;
+#use Gnome::Pango::N-FontDescription:api<2>;
+#use Gnome::Pango::N-LogAttr:api<2>;
+use Gnome::Pango::N-Rectangle:api<2>;
+use Gnome::Pango::N-TabArray:api<2>;
+#use Gnome::Pango::T-attributes:api<2>;
+#use Gnome::Pango::T-break:api<2>;
 use Gnome::Pango::T-direction:api<2>;
+#use Gnome::Pango::T-font:api<2>;
 use Gnome::Pango::T-layout:api<2>;
+#use Gnome::Pango::T-tabs:api<2>;
+#use Gnome::Pango::T-types:api<2>;
 
 #-------------------------------------------------------------------------------
 #--[Test preparation]-----------------------------------------------------------
@@ -32,12 +47,15 @@ my Gnome::Pango::Layout $layout;
 
 subtest 'ISA test', {
   given $layout {
-    my Gnome::Pango::Context $context;
+    my N-Object $context;
 
-    #TC:1:new-layout()
-    $context .= new-context;
-    $layout .= new-layout($context);
-    ok .is-valid, '.new-layout($context)';
+#`{{
+    #TC:0:new-layout()
+    $context = …;
+    $layout .= new-layout( $context);
+    ok .is-valid, '.new-layout( $context)';
+
+}}
   }
 };
 
@@ -53,45 +71,46 @@ unless %*ENV<raku_test_all>:exists {
 #-------------------------------------------------------------------------------
 subtest 'Method tests', {
   with $layout {
-    my N-Object $ink-rect;
-    my Bool() $justify;
-    my PangoEllipsizeMode $ellipsize;
-    my Bool() $strong;
+    my gint-ptr $line;
+    my gint $height;
+    my gint $old-index;
+    my gint $indent;
+    my gboolean $strong;
+    my gint $spacing;
+    my gint $length;
     my N-Object $desc;
-    my Str $markup;
-    my N-Object $attrs;
-    my Int() $x;
     my N-Object $tabs;
-    my Int() $indent;
-    my N-Object $strong-pos;
-    my PangoWrapMode $wrap;
-    my PangoAlignment $alignment;
-    my Int() $width;
+    my gint-ptr $trailing;
+    my CArray[N-Error] $err;
+    my GFlag $flags;
+    my gboolean $auto-dir;
+    my gint $old-trailing;
+    my N-Object $attrs;
+    my gint $x;
+    my gfloat $factor;
+    my gint-ptr $new-index;
+    my Str $markup;
+    my gint-ptr $n-attrs;
     my N-Object $logical-rect;
-    my Num() $factor;
-    my Array[Int] $line;
-    my Array[Int] $x-pos;
-    my Int() $old-index;
-    my N-Object $pos;
-    my Int() $length;
-    my Bool() $auto-dir;
-    my Str $accel-char;
-    my Array[Int] $index;
-    my Str $filename;
-    my Int() $height;
-    my Array[Int] $new-trailing;
-    my Array[Int] $new-index;
-    my Int() $direction;
-    my Array[Int] $n-attrs;
-    my UInt $flags;
-    my UInt() $accel-marker;
+    my N-Object $strong-pos;
     my N-Object $weak-pos;
-    my Int() $spacing;
-    my Bool() $setting;
+    my gint-ptr $new-trailing;
+    my PangoWrapMode $wrap;
+    my N-Object $pos;
+    my gint $y;
+    my PangoEllipsizeMode $ellipsize;
+    my gint-ptr $index;
+    my gint $direction;
+    my gboolean $setting;
+    my Str $filename;
+    my PangoAlignment $alignment;
     my Str $text;
-    my Array[Int] $trailing;
-    my Int() $old-trailing;
-    my Int() $y;
+    my N-Object $ink-rect;
+    my Str $accel-char;
+    my gint-ptr $x-pos;
+    my gunichar $accel-marker;
+    my gint $width;
+    my gboolean $justify;
 
 
 #`{{
@@ -180,121 +199,138 @@ subtest 'Method tests', {
     ok .serialize( $flags), '.serialize()';
 
     #TM:0:set-alignment()
-    $alignment = …;  # an enum or fla
+    $alignment = …;
     .set-alignment( $alignment);
     #TM:0:get-alignment()
     is .get-alignment(),  $alignment, '.set-alignment() / .get-alignment()';
 
     #TM:0:set-attributes()
-    $attrs = …
+    $attrs = …;
     .set-attributes( $attrs);
     #TM:0:get-attributes()
     is .get-attributes(),  $attrs, '.set-attributes() / .get-attributes()';
 
     #TM:0:set-auto-dir()
-    $auto-dir = True;
+    $auto-dir = '…';
     .set-auto-dir( $auto-dir);
     #TM:0:get-auto-dir()
     is .get-auto-dir(),  $auto-dir, '.set-auto-dir() / .get-auto-dir()';
 
     #TM:0:set-ellipsize()
-    $ellipsize = …;  # an enum or fla
+    $ellipsize = …;
     .set-ellipsize( $ellipsize);
     #TM:0:get-ellipsize()
     is .get-ellipsize(),  $ellipsize, '.set-ellipsize() / .get-ellipsize()';
 
     #TM:0:set-font-description()
-    $desc = …
+    $desc = …;
     .set-font-description( $desc);
     #TM:0:get-font-description()
     is .get-font-description(),  $desc, '.set-font-description() / .get-font-description()';
 
     #TM:0:set-height()
-    $height = -42;
+    $height = '…';
     .set-height( $height);
     #TM:0:get-height()
     is .get-height(),  $height, '.set-height() / .get-height()';
 
     #TM:0:set-indent()
-    $indent = -42;
+    $indent = '…';
     .set-indent( $indent);
     #TM:0:get-indent()
     is .get-indent(),  $indent, '.set-indent() / .get-indent()';
 
     #TM:0:set-justify()
-    $justify = True;
+    $justify = '…';
     .set-justify( $justify);
     #TM:0:get-justify()
     is .get-justify(),  $justify, '.set-justify() / .get-justify()';
 
     #TM:0:set-justify-last-line()
-    $justify = True;
+    $justify = '…';
     .set-justify-last-line( $justify);
     #TM:0:get-justify-last-line()
     is .get-justify-last-line(),  $justify, '.set-justify-last-line() / .get-justify-last-line()';
 
     #TM:0:set-line-spacing()
-    $factor = 42.42;
+    $factor = '…';
     .set-line-spacing( $factor);
     #TM:0:get-line-spacing()
-    is-approx .get-line-spacing(),  $factor, '.set-line-spacing() / .get-line-spacing()';
+    is .get-line-spacing(),  $factor, '.set-line-spacing() / .get-line-spacing()';
 
     #TM:0:set-markup()
     $markup = 'text';
-    $length = -42;
+    $length = '…';
     .set-markup( $markup, $length);
     ok True, '.set-markup()';
 
     #TM:0:set-markup-with-accel()
     $markup = 'text';
-    $length = -42;
-    $accel-marker = 42;
+    $length = '…';
+    $accel-marker = '…';
     $accel-char = 'text';
     .set-markup-with-accel( $markup, $length, $accel-marker, $accel-char);
     ok True, '.set-markup-with-accel()';
 
     #TM:0:set-single-paragraph-mode()
-    $setting = True;
+    $setting = '…';
     .set-single-paragraph-mode( $setting);
     #TM:0:get-single-paragraph-mode()
     is .get-single-paragraph-mode(),  $setting, '.set-single-paragraph-mode() / .get-single-paragraph-mode()';
 
     #TM:0:set-spacing()
-    $spacing = -42;
+    $spacing = '…';
     .set-spacing( $spacing);
     #TM:0:get-spacing()
     is .get-spacing(),  $spacing, '.set-spacing() / .get-spacing()';
 
     #TM:0:set-tabs()
-    $tabs = …
+    $tabs = …;
     .set-tabs( $tabs);
     #TM:0:get-tabs()
     is .get-tabs(),  $tabs, '.set-tabs() / .get-tabs()';
 
     #TM:0:set-text()
     $text = 'text';
-    $length = -42;
+    $length = '…';
     .set-text( $text, $length);
     #TM:0:get-text()
     is .get-text(),  $text, $length, '.set-text() / .get-text()';
 
     #TM:0:set-width()
-    $width = -42;
+    $width = '…';
     .set-width( $width);
     #TM:0:get-width()
     is .get-width(),  $width, '.set-width() / .get-width()';
 
     #TM:0:set-wrap()
-    $wrap = …;  # an enum or fla
+    $wrap = …;
     .set-wrap( $wrap);
     #TM:0:get-wrap()
     is .get-wrap(),  $wrap, '.set-wrap() / .get-wrap()';
 
     #TM:0:write-to-file()
-    ok .write-to-file( $flags, $filename), '.write-to-file()';
+    ok .write-to-file( $flags, $filename, $err), '.write-to-file()';
 
     #TM:0:xy-to-index()
     ok .xy-to-index( $x, $y, $index, $trailing), '.xy-to-index()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $layout {
+    my UInt $flags;
+    my N-Object $bytes;
+    my CArray[N-Error] $err;
+    my N-Object() $context;
+
+
+#`{{
+    #TM:0:deserialize()
+    ok .deserialize( $context, $bytes, $flags, $err), '.deserialize()';
 
 }}
   }

@@ -6,8 +6,7 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Pango::Layout
-
+=TITLE Gnome::Pango::Layout
 =head1 Description
 
 A B<Gnome::Pango::Layout> structure represents an entire paragraph of text.
@@ -41,9 +40,9 @@ justification on the layout of text:
 
 | | |
 | --- | --- |
-| ![align=left](align-left.png) | ![align=left, justify](align-left-justify.png) |
-| ![align=center](align-center.png) | ![align=center, justify](align-center-justify.png) |
-| ![align=right](align-right.png) | ![align=right, justify](align-right-justify.png) |
+| =for image :src<asset_files/images/align-left.png> :width<30%> :class<inline> | =for image :src<asset_files/images/align-left-justify.png> :width<30%> :class<inline> |
+| =for image :src<asset_files/images/align-center.png> :width<30%> :class<inline> | =for image :src<asset_files/images/align-center-justify.png> :width<30%> :class<inline> |
+| =for image :src<asset_files/images/align-right.png> :width<30%> :class<inline> | =for image :src<asset_files/images/align-right-justify.png> :width<30%> :class<inline> |
 
 It is possible, as well, to ignore the 2-D setup,
 and simply treat the results of a B<Gnome::Pango::Layout> as a list of lines.
@@ -176,15 +175,14 @@ Return value; the alignment.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-attributes
-This function is not yet available
 
 Gets the attribute list for the layout, if any.
 
 =begin code
-method get-attributes (--> CArray[N-AttrList]  )
+method get-attributes (--> N-Object )
 =end code
 
-Return value; a U<Gnome::Pango::N-AttrList>. 
+Return value; a B<Gnome::Pango::N-AttrList>. 
 
 =begin comment
 
@@ -244,7 +242,6 @@ Return value; baseline of first line, from top of C<$layout>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-caret-pos
-This function is not yet available
 
 Given an index within a layout, determines the positions that of the
 strong and weak cursors if the insertion point is at that index.
@@ -259,12 +256,12 @@ it returns.
 </picture>
 
 =begin code
-method get-caret-pos ( Int() $index, CArray[N-Rectangle]  $strong-pos, CArray[N-Rectangle]  $weak-pos )
+method get-caret-pos ( Int() $index, N-Object $strong-pos, N-Object $weak-pos )
 =end code
 
 =item $index; the byte index of the cursor.
-=item $strong-pos; location to store the strong cursor position.
-=item $weak-pos; location to store the weak cursor position.
+=item $strong-pos; location to store the strong cursor position
+=item $weak-pos; location to store the weak cursor position
 
 =begin comment
 
@@ -322,7 +319,6 @@ Return value; the B<Gnome::Pango::Context> for the layout.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-cursor-pos
-This function is not yet available
 
 Given an index within a layout, determines the positions that of the
 strong and weak cursors if the insertion point is at that index.
@@ -353,12 +349,12 @@ character after the 'b', and typing another Hebrew character, like 'ג',
 will insert it at the end.
 
 =begin code
-method get-cursor-pos ( Int() $index, CArray[N-Rectangle]  $strong-pos, CArray[N-Rectangle]  $weak-pos )
+method get-cursor-pos ( Int() $index, N-Object $strong-pos, N-Object $weak-pos )
 =end code
 
 =item $index; the byte index of the cursor.
-=item $strong-pos; location to store the strong cursor position.
-=item $weak-pos; location to store the weak cursor position.
+=item $strong-pos; location to store the strong cursor position
+=item $weak-pos; location to store the weak cursor position
 
 =begin comment
 
@@ -421,7 +417,6 @@ Return value; the current ellipsization mode for C<$layout>.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-extents
-This function is not yet available
 
 Computes the logical and ink extents of C<$layout>.
 
@@ -435,13 +430,13 @@ The extents are given in layout coordinates and in Pango units; layout
 coordinates begin at the top left corner of the layout.
 
 =begin code
-method get-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
+method get-extents ( N-Object $ink-rect, N-Object $logical-rect )
 =end code
 
 =item $ink-rect; rectangle used to store the extents of the
-  layout as drawn.
+  layout as drawn
 =item $logical-rect; rectangle used to store the logical
-  extents of the layout.
+  extents of the layout
 
 =begin comment
 
@@ -455,12 +450,11 @@ method get-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logic
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-font-description
-This function is not yet available
 
 Gets the font description for the layout, if any.
 
 =begin code
-method get-font-description (--> CArray[N-FontDescription]  )
+method get-font-description (--> N-Object )
 =end code
 
 Return value; a pointer to the
@@ -530,10 +524,10 @@ Return value; the indent in Pango units.
 Returns an iterator to iterate over the visual extents of the layout.
 
 =begin code
-method get-iter (--> CArray[N-LayoutIter] )
+method get-iter (--> N-Object )
 =end code
 
-Return value; the new U<Gnome::Pango::N-LayoutIter>. 
+Return value; the new B<Gnome::Pango::T-layout>. 
 
 =begin comment
 
@@ -598,13 +592,13 @@ Use the faster C<.get-line-readonly()> if you do not
 plan to modify the contents of the line (glyphs, glyph widths, etc.).
 
 =begin code
-method get-line ( Int() $line --> CArray[N-LayoutLine] )
+method get-line ( Int() $line --> N-Object )
 =end code
 
 =item $line; the index of a line, which must be between 0 and
-  B<pango_layout_get_line_count(layout) - 1>, inclusive..
+  B<pango_layout_get_line_count>(layout) - 1`, inclusive..
 
-Return value; the requested U<Gnome::Pango::N-LayoutLine>,
+Return value; the requested B<Gnome::Pango::N-LayoutLine>,
   or undefined if the index is out of range. This layout line can be ref'ed
   and retained, but will become invalid if changes are made to the
   B<Gnome::Pango::Layout>.. 
@@ -650,13 +644,13 @@ but the user is not expected to modify the contents of the line
 (glyphs, glyph widths, etc.).
 
 =begin code
-method get-line-readonly ( Int() $line --> CArray[N-LayoutLine] )
+method get-line-readonly ( Int() $line --> N-Object )
 =end code
 
 =item $line; the index of a line, which must be between 0 and
-  B<pango_layout_get_line_count(layout) - 1>, inclusive..
+  B<pango_layout_get_line_count>(layout) - 1`, inclusive..
 
-Return value; the requested U<Gnome::Pango::N-LayoutLine>,
+Return value; the requested B<Gnome::Pango::N-LayoutLine>,
   or undefined if the index is out of range. This layout line can be ref'ed
   and retained, but will become invalid if changes are made to the
   B<Gnome::Pango::Layout>. No changes should be made to the line.. 
@@ -706,7 +700,7 @@ plan to modify the contents of the lines (glyphs, glyph widths, etc.).
 method get-lines (--> N-SList )
 =end code
 
-Return value; a U<Gnome::Glib::N-SList>
+Return value; a B<Gnome::Glib::N-SList>
   containing the lines in the layout. This points to internal data of the
   B<Gnome::Pango::Layout> and must be used with care. It will become invalid on any
   change to the layout's text or properties.. 
@@ -734,7 +728,7 @@ but the user is not expected to modify the contents of the lines
 method get-lines-readonly (--> N-SList )
 =end code
 
-Return value; a U<Gnome::Glib::N-SList>
+Return value; a B<Gnome::Glib::N-SList>
   containing the lines in the layout. This points to internal data of the
   B<Gnome::Pango::Layout> and must be used with care. It will become invalid on any
   change to the layout's text or properties. No changes should be made to
@@ -752,18 +746,17 @@ Return value; a U<Gnome::Glib::N-SList>
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-log-attrs
-This function is not yet available
 
 Retrieves an array of logical attributes for each character in
 the C<$layout>.
 
 =begin code
-method get-log-attrs ( CArray[N-LogAttr]  $attrs, Array[Int] $n-attrs )
+method get-log-attrs ( N-Object $attrs, Array[Int] $n-attrs )
 =end code
 
 =item $attrs; (transfer ownership: container) 
   location to store a pointer to an array of logical attributes.
-  This value must be freed with g_free()..
+  This value must be freed with g_free().
 =item $n-attrs; (transfer ownership: full) location to store the number of the attributes in the
   array. (The stored value will be one more than the total number
   of characters in the layout, since there need to be attributes
@@ -782,7 +775,6 @@ method get-log-attrs ( CArray[N-LogAttr]  $attrs, Array[Int] $n-attrs )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-log-attrs-readonly
-This function is not yet available
 
 Retrieves an array of logical attributes for each character in
 the C<$layout>.
@@ -791,13 +783,13 @@ This is a faster alternative to C<.get-log-attrs()>.
 The returned array is part of C<$layout> and must not be modified.
 Modifying the layout will invalidate the returned array.
 
-The number of attributes returned in C<$n_attrs> will be one more
+The number of attributes returned in C<$n-attrs> will be one more
 than the total number of characters in the layout, since there
 need to be attributes corresponding to both the position before
 the first character and the position after the last character.
 
 =begin code
-method get-log-attrs-readonly ( Array[Int] $n-attrs --> CArray[N-LogAttr]  )
+method get-log-attrs-readonly ( Array[Int] $n-attrs --> N-Object )
 =end code
 
 =item $n-attrs; (transfer ownership: full) location to store the number of the attributes in
@@ -817,23 +809,22 @@ Return value; an array of logical attributes.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-pixel-extents
-This function is not yet available
 
 Computes the logical and ink extents of C<$layout> in device units.
 
 This function just calls C<.get-extents()> followed by
-two [func C<$extents_to_pixels>] calls, rounding C<$ink_rect> and C<$logical_rect>
+two [func C<$extents-to-pixels>] calls, rounding C<$ink-rect> and C<$logical-rect>
 such that the rounded rectangles fully contain the unrounded one (that is,
 passes them as first argument to C<.extents-to-pixels()>).
 
 =begin code
-method get-pixel-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
+method get-pixel-extents ( N-Object $ink-rect, N-Object $logical-rect )
 =end code
 
 =item $ink-rect; rectangle used to store the extents of the
-  layout as drawn.
+  layout as drawn
 =item $logical-rect; rectangle used to store the logical
-  extents of the layout.
+  extents of the layout
 
 =begin comment
 
@@ -976,17 +967,16 @@ Return value; the spacing in Pango units.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-tabs
-This function is not yet available
 
-Gets the current U<Gnome::Pango::N-TabArray> used by this layout.
+Gets the current B<Gnome::Pango::N-TabArray> used by this layout.
 
-If no U<Gnome::Pango::N-TabArray> has been set, then the default tabs are
+If no B<Gnome::Pango::N-TabArray> has been set, then the default tabs are
 in use and undefined is returned. Default tabs are every 8 spaces.
 
-The return value should be freed with C<.free() in class Gnome::Pango::N-TabArray>.
+The return value should be freed with C<.free()> in class C<Gnome::Pango::N-TabArray>.
 
 =begin code
-method get-tabs (--> CArray[N-TabArray]  )
+method get-tabs (--> N-Object )
 =end code
 
 Return value; a copy of the tabs for this layout. 
@@ -1098,7 +1088,7 @@ Return value; active wrap mode..
 =begin pod
 =head2 index-to-line-x
 
-Converts from byte C<$index_> within the C<$layout> to line and X position.
+Converts from byte C<$index-> within the C<$layout> to line and X position.
 
 The X position is measured from the left edge of the line.
 
@@ -1127,22 +1117,21 @@ method index-to-line-x ( Int() $index, Bool() $trailing, Array[Int] $line, Array
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 index-to-pos
-This function is not yet available
 
 Converts from an index within a B<Gnome::Pango::Layout> to the onscreen position
 corresponding to the grapheme at that index.
 
-The returns is represented as rectangle. Note that B<pos->x> is
-always the leading edge of the grapheme and B<pos->x + pos->width> the
+The returns is represented as rectangle. Note that B<pos>->x` is
+always the leading edge of the grapheme and B<pos>->x + pos->width` the
 trailing edge of the grapheme. If the directionality of the grapheme
-is right-to-left, then B<pos->width> will be negative.
+is right-to-left, then B<pos>->width` will be negative.
 
 =begin code
-method index-to-pos ( Int() $index, CArray[N-Rectangle]  $pos )
+method index-to-pos ( Int() $index, N-Object $pos )
 =end code
 
 =item $index; byte index within C<$layout>.
-=item $pos; rectangle in which to store the position of the grapheme.
+=item $pos; rectangle in which to store the position of the grapheme
 
 =begin comment
 
@@ -1236,7 +1225,7 @@ method move-cursor-visually ( Bool() $strong, Int() $old-index, Int() $old-trail
   to text insertion in the base direction for the layout..
 =item $old-index; the byte index of the current cursor position.
 =item $old-trailing; if 0, the cursor was at the leading edge of the
-  grapheme indicated by C<$old_index>, if > 0, the cursor
+  grapheme indicated by C<$old-index>, if > 0, the cursor
   was at the trailing edge..
 =item $direction; direction to move cursor. A negative
   value indicates motion to the left.
@@ -1245,10 +1234,10 @@ method move-cursor-visually ( Bool() $strong, Int() $old-index, Int() $old-trail
   beginning of the layout. A value of C<G_MAXINT> indicates that
   the cursor has been moved off the end of the layout..
 =item $new-trailing; (transfer ownership: full) number of characters to move forward from
-  the location returned for C<$new_index> to get the position where
+  the location returned for C<$new-index> to get the position where
   the cursor should be displayed. This allows distinguishing the
   position at the beginning of one line from the position at the
-  end of the preceding line. C<$new_index> is always on the line where
+  end of the preceding line. C<$new-index> is always on the line where
   the cursor should be displayed..
 
 =begin comment
@@ -1263,7 +1252,6 @@ method move-cursor-visually ( Bool() $strong, Int() $old-index, Int() $old-trail
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 serialize
-This function is not yet available
 
 Serializes the C<$layout> for later deserialization via C<.Layout.deserialize()>.
 
@@ -1275,12 +1263,12 @@ The intended use of this function is testing, benchmarking and debugging.
 The format is not meant as a permanent storage format.
 
 =begin code
-method serialize ( UInt $flags --> CArray[N-Bytes]  )
+method serialize ( UInt $flags --> N-Object )
 =end code
 
-=item $flags; C<bit field PangoLayoutSerializeFlags defined in Gnome::Pango::T-Layout>.
+=item $flags; C<bit field PangoLayoutSerializeFlags defined in Gnome::Pango::T-layout>.
 
-Return value; a U<Gnome::Glib::N-Bytes> containing the serialized form of C<$layout>. 
+Return value; a B<Gnome::Glib::N-Bytes> containing the serialized form of C<$layout>. 
 
 =begin comment
 
@@ -1318,17 +1306,16 @@ method set-alignment ( PangoAlignment $alignment )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-attributes
-This function is not yet available
 
 Sets the text attributes for a layout object.
 
 References C<$attrs>, so the caller can unref its reference.
 
 =begin code
-method set-attributes ( CArray[N-AttrList]  $attrs )
+method set-attributes ( N-Object $attrs )
 =end code
 
-=item $attrs; a U<Gnome::Pango::N-AttrList>.
+=item $attrs; a B<Gnome::Pango::N-AttrList>
 
 =begin comment
 
@@ -1354,7 +1341,7 @@ get their direction from the surrounding paragraphs.
 
 When C<False>, the choice between left-to-right and right-to-left
 layout is done according to the base direction of the layout's
-B<Gnome::Pango::Context>. (See C<.set-base-dir() in class Gnome::Pango::Context>).
+B<Gnome::Pango::Context>. (See C<.set-base-dir()> in class C<Gnome::Pango::Context>).
 
 When the auto-computed direction of a paragraph differs from the
 base direction of the context, the interpretation of
@@ -1414,7 +1401,6 @@ method set-ellipsize ( PangoEllipsizeMode $ellipsize )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-font-description
-This function is not yet available
 
 Sets the default font description for the layout.
 
@@ -1422,11 +1408,11 @@ If no font description is set on the layout, the
 font description from the layout's context is used.
 
 =begin code
-method set-font-description ( CArray[N-FontDescription]  $desc )
+method set-font-description ( N-Object $desc )
 =end code
 
-=item $desc; the new U<Gnome::Pango::N-FontDescription>
-  to unset the current font description.
+=item $desc; the new B<Gnome::Pango::N-FontDescription>
+  to unset the current font description
 
 =begin comment
 
@@ -1652,13 +1638,13 @@ See [Pango Markup](pango_markup.html)).
 
 Replaces the current text and attribute list.
 
-If C<$accel_marker> is nonzero, the given character will mark the
-character following it as an accelerator. For example, C<$accel_marker>
+If C<$accel-marker> is nonzero, the given character will mark the
+character following it as an accelerator. For example, C<$accel-marker>
 might be an ampersand or underscore. All characters marked
 as an accelerator will receive a C<PANGO_UNDERLINE_LOW> attribute,
-and the first character so marked will be returned in C<$accel_char>.
-Two C<$accel_marker> characters following each other produce a single
-literal C<$accel_marker> character.
+and the first character so marked will be returned in C<$accel-char>.
+Two C<$accel-marker> characters following each other produce a single
+literal C<$accel-marker> character.
 
 =begin code
 method set-markup-with-accel ( Str $markup, Int() $length, UInt() $accel-marker, Str $accel-char )
@@ -1747,7 +1733,6 @@ method set-spacing ( Int() $spacing )
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 set-tabs
-This function is not yet available
 
 Sets the tabs to use for C<$layout>, overriding the default tabs.
 
@@ -1764,10 +1749,10 @@ positions. The same is true for alignments other than
 C<PANGO_ALIGN_LEFT>.
 
 =begin code
-method set-tabs ( CArray[N-TabArray]  $tabs )
+method set-tabs ( N-Object $tabs )
 =end code
 
-=item $tabs; a U<Gnome::Pango::N-TabArray>.
+=item $tabs; a B<Gnome::Pango::N-TabArray>
 
 =begin comment
 
@@ -1882,7 +1867,7 @@ a layout to a file for later inspection.
 method write-to-file ( UInt $flags, Str $filename, CArray[N-Error] $err --> Bool )
 =end code
 
-=item $flags; C<bit field PangoLayoutSerializeFlags defined in Gnome::Pango::T-Layout>.
+=item $flags; C<bit field PangoLayoutSerializeFlags defined in Gnome::Pango::T-layout>.
 =item $filename; the file to save it to.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
@@ -1909,7 +1894,7 @@ character at that logical position.
 If the Y position is not inside the layout, the closest position is
 chosen (the position will be clamped inside the layout). If the X position
 is not within the layout, then the start or the end of the line is
-chosen as described for C<.x-to-index() in class Gnome::Pango::N-LayoutLine>. If either
+chosen as described for C<.x-to-index()> in class C<Gnome::Pango::N-LayoutLine>. If either
 the X or Y positions were not inside the layout, then the function returns
 C<False>; on an exact hit, it returns C<True>.
 
@@ -1947,7 +1932,6 @@ Return value; C<True> if the coordinates were inside text, C<False> otherwise.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 deserialize
-This function is not yet available
 
 Loads data previously created via C<.serialize()>.
 
@@ -1958,12 +1942,12 @@ the one that was serialized, you can compare C<$bytes> to the
 result of serializing the layout again.
 
 =begin code
-method deserialize ( N-Object() $context, CArray[N-Bytes]  $bytes, UInt $flags, CArray[N-Error] $err --> N-Object )
+method deserialize ( N-Object() $context, N-Object $bytes, UInt $flags, CArray[N-Error] $err --> N-Object )
 =end code
 
 =item $context; a B<Gnome::Pango::Context>.
-=item $bytes; the bytes containing the data.
-=item $flags; C<bit field PangoLayoutDeserializeFlags defined in Gnome::Pango::T-Layout>.
+=item $bytes; the bytes containing the data
+=item $flags; C<bit field PangoLayoutDeserializeFlags defined in Gnome::Pango::T-layout>.
 =item $err; Error object. When defined, an error can be returned when there is one.
 Use C<Pointer> when you want to ignore the error.
 .
