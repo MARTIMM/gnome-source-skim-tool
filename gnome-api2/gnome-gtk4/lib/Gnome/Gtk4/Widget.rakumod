@@ -14,7 +14,7 @@ use Gnome::Glib::N-List:api<2>;
 use Gnome::Glib::T-list:api<2>;
 use Gnome::Glib::N-Variant:api<2>;
 use Gnome::Glib::T-variant:api<2>;
-#use Gnome::Gsk4::N-Transform:api<2>;
+use Gnome::Gsk4::N-Transform:api<2>;
 use Gnome::Gtk4::N-Requisition:api<2>;
 use Gnome::Gtk4::R-Accessible:api<2>;
 use Gnome::Gtk4::R-Buildable:api<2>;
@@ -100,7 +100,7 @@ my Hash $methods = %(
   add-css-class => %(:is-symbol<gtk_widget_add_css_class>,  :parameters([Str])),
   add-mnemonic-label => %(:is-symbol<gtk_widget_add_mnemonic_label>,  :parameters([N-Object])),
   #add-tick-callback => %(:is-symbol<gtk_widget_add_tick_callback>,  :returns(guint), :parameters([:( N-Object $widget, N-Object $frame-clock, gpointer $user-data --> gboolean ), gpointer, ])),
-  #allocate => %(:is-symbol<gtk_widget_allocate>,  :parameters([gint, gint, gint, N-Transform ])),
+  allocate => %(:is-symbol<gtk_widget_allocate>,  :parameters([gint, gint, gint, N-Object ])),
   child-focus => %(:is-symbol<gtk_widget_child_focus>,  :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
   #compute-bounds => %(:is-symbol<gtk_widget_compute_bounds>,  :returns(gboolean), :cnv-return(Bool), :parameters([N-Object, ])),
   compute-expand => %(:is-symbol<gtk_widget_compute_expand>,  :returns(gboolean), :cnv-return(Bool), :parameters([GEnum])),
