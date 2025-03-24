@@ -6,15 +6,14 @@ use v6.d;
 #-------------------------------------------------------------------------------
 
 =begin pod
-=head1 Gnome::Pango::N-LayoutLine
-
+=TITLE Gnome::Pango::N-LayoutLine
 =head1 Description
 
-A U<Gnome::Pango::N-LayoutLine> represents one of the lines resulting from laying
+A B<Gnome::Pango::N-LayoutLine> represents one of the lines resulting from laying
 out a paragraph via B<Gnome::Pango::Layout>.
 
-U<Gnome::Pango::N-LayoutLine> structures are obtained by calling
-C<.get-line() in class Gnome::Pango::Layout> and are only valid until the text,
+B<Gnome::Pango::N-LayoutLine> structures are obtained by calling
+C<.get-line()> in class C<Gnome::Pango::Layout> and are only valid until the text,
 attributes, or settings of the parent B<Gnome::Pango::Layout> are modified.
 
 =begin comment
@@ -23,33 +22,6 @@ attributes, or settings of the parent B<Gnome::Pango::Layout> are modified.
 # Example use of module Gnome::Pango::LayoutLine
 
 =end comment
-
-=end pod
-
-#-------------------------------------------------------------------------------
-#--[Record Structure Documentation]---------------------------------------------
-#-------------------------------------------------------------------------------
-
-=begin pod
-=head1 Record N-LayoutLine
-
-  class N-LayoutLine:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
-
-    has N-Object $.layout;
-    has gint $.start-index;
-    has gint $.length;
-    has N-SList $.runs;
-    has guint $.is-paragraph-start;
-    has guint $.resolved-dir;
-  }
-
-=item layout; the layout this line belongs to, might be undefined
-=item start-index; start of line as byte index into layout->text
-=item length; length of line in bytes
-=item runs; list of runs in the
-  line, from left to right
-=item is-paragraph-start; #TRUE if this is the first line of the paragraph
-=item resolved-dir; #Resolved PangoDirection of line
 
 =end pod
 
@@ -81,21 +53,20 @@ Create an object using a native object from elsewhere. See also B<Gnome::N::TopL
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-extents
-This function is not yet available
 
 Computes the logical and ink extents of a layout line.
 
-See C<.get-glyph-extents() in class Gnome::Pango::Font> for details
+See C<.get-glyph-extents()> in class C<Gnome::Pango::Font> for details
 about the interpretation of the rectangles.
 
 =begin code
-method get-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
+method get-extents ( N-Object $ink-rect, N-Object $logical-rect )
 =end code
 
 =item $ink-rect; rectangle used to store the extents of
-  the glyph string as drawn.
+  the glyph string as drawn
 =item $logical-rect; rectangle used to store the logical
-  extents of the glyph string.
+  extents of the glyph string
 
 =begin comment
 
@@ -115,8 +86,8 @@ of fonts used in this line.
 
 Note that the actual baseline-to-baseline distance between lines
 of text is influenced by other factors, such as
-C<.set-spacing() in class Gnome::Pango::Layout> and
-C<.set-line-spacing() in class Gnome::Pango::Layout>.
+C<.set-spacing()> in class C<Gnome::Pango::Layout> and
+C<.set-line-spacing()> in class C<Gnome::Pango::Layout>.
 
 =begin code
 method get-height ( Array[Int] $height )
@@ -157,23 +128,22 @@ Return value; the length of the line.
 #-------------------------------------------------------------------------------
 =begin pod
 =head2 get-pixel-extents
-This function is not yet available
 
-Computes the logical and ink extents of C<$layout_line> in device units.
+Computes the logical and ink extents of C<$layout-line> in device units.
 
 This function just calls C<.get-extents()> followed by
-two [func C<$extents_to_pixels>] calls, rounding C<$ink_rect> and C<$logical_rect>
+two [func C<$extents-to-pixels>] calls, rounding C<$ink-rect> and C<$logical-rect>
 such that the rounded rectangles fully contain the unrounded one (that is,
-passes them as first argument to [func C<$extents_to_pixels>]).
+passes them as first argument to [func C<$extents-to-pixels>]).
 
 =begin code
-method get-pixel-extents ( CArray[N-Rectangle]  $ink-rect, CArray[N-Rectangle]  $logical-rect )
+method get-pixel-extents ( N-Object $ink-rect, N-Object $logical-rect )
 =end code
 
 =item $ink-rect; rectangle used to store the extents of
-  the glyph string as drawn.
+  the glyph string as drawn
 =item $logical-rect; rectangle used to store the logical
-  extents of the glyph string.
+  extents of the glyph string
 
 =begin comment
 
@@ -252,8 +222,8 @@ method get-x-ranges ( Int() $start-index, Int() $end-index, Array[Int] $ranges, 
   it will end at the trailing edge of the last character..
 =item $ranges; (transfer ownership: full) location to
   store a pointer to an array of ranges. The array will be of length
-  B<2*n_ranges>, with each range starting at B<(*ranges)[2*n]> and of
-  width B<(*ranges)[2*n + 1] - (*ranges)[2*n]>. This array must be freed
+  B<2>*n_ranges`, with each range starting at `(*ranges)[2*n]` and of
+  width `(*ranges)[2*n + 1] - (*ranges)[2*n]`. This array must be freed
   with g_free(). The coordinates are relative to the layout and are in
   Pango units..
 =item $n-ranges; (transfer ownership: full) The number of ranges stored in C<$ranges>.
@@ -317,10 +287,10 @@ Return value; C<True> if this is the first line.
 =begin pod
 =head2 ref
 
-Increase the reference count of a U<Gnome::Pango::N-LayoutLine> by one.
+Increase the reference count of a B<Gnome::Pango::N-LayoutLine> by one.
 
 =begin code
-method ref (--> CArray[N-LayoutLine] )
+method ref (--> N-Object )
 =end code
 
 Return value; the line passed in.. 
@@ -338,7 +308,7 @@ Return value; the line passed in..
 =begin pod
 =head2 unref
 
-Decrease the reference count of a U<Gnome::Pango::N-LayoutLine> by one.
+Decrease the reference count of a B<Gnome::Pango::N-LayoutLine> by one.
 
 If the result is zero, the line and all associated memory
 will be freed.
@@ -363,12 +333,12 @@ method unref ( )
 Converts from x offset to the byte index of the corresponding character
 within the text of the layout.
 
-If C<$x_pos> is outside the line, C<$index_> and C<$trailing> will point to the very
+If C<$x-pos> is outside the line, C<$index-> and C<$trailing> will point to the very
 first or very last position in the line. This determination is based on the
 resolved direction of the paragraph; for example, if the resolved direction
 is right-to-left, then an X position to the right of the line (after it)
-results in 0 being stored in C<$index_> and C<$trailing>. An X position to the
-left of the line results in C<$index_> pointing to the (logical) last grapheme
+results in 0 being stored in C<$index-> and C<$trailing>. An X position to the
+left of the line results in C<$index-> pointing to the (logical) last grapheme
 in the line and C<$trailing> being set to the number of characters in that
 grapheme. The reverse is true for a left-to-right line.
 
@@ -383,7 +353,7 @@ method x-to-index ( Int() $x-pos, Array[Int] $index, Array[Int] $trailing --> Bo
   grapheme the user clicked. It will either be zero, or the number of
   characters in the grapheme. 0 represents the leading edge of the grapheme..
 
-Return value; C<False> if C<$x_pos> was outside the line, C<True> if inside. 
+Return value; C<False> if C<$x-pos> was outside the line, C<True> if inside. 
 
 =begin comment
 

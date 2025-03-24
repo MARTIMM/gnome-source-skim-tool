@@ -2,7 +2,47 @@
 use v6.d;
 
 =begin pod
-=head1 Gnome::Pango::T-Layout
+=TITLE Gnome::Pango::T-layout
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-LayoutLine
+
+  class N-LayoutLine:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Object $.layout;
+    has gint $.start-index;
+    has gint $.length;
+    has N-Object $.runs;
+    has guint $.is-paragraph-start;
+    has guint $.resolved-dir;
+  }
+
+=item layout; the layout this line belongs to, might be undefined
+=item start-index; start of line as byte index into layout->text
+=item length; length of line in bytes
+=item runs; list of runs in the
+  line, from left to right
+=item is-paragraph-start; #TRUE if this is the first line of the paragraph
+=item resolved-dir; #Resolved PangoDirection of line
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-LayoutIter
+
+This is an opaque type of which fields are not available.
+
+  class N-LayoutIter:auth<github:MARTIMM>:api<2> is export is repr('CStruct') { }
+
 =end pod
 
 #-------------------------------------------------------------------------------
@@ -14,21 +54,21 @@ use v6.d;
 
 =head2 PangoAlignment
 
-C<enumeration PangoAlignment defined in Gnome::Pango::T-Layout> describes how to align the lines of a B<Gnome::Pango::Layout>
+C<enumeration PangoAlignment defined in Gnome::Pango::T-layout> describes how to align the lines of a B<Gnome::Pango::Layout>
 within the available space.
 
 If the B<Gnome::Pango::Layout> is set to justify using C<.set-justify()>,
 this only affects partial lines.
 
 See C<.set-auto-dir()> for how text direction affects
-the interpretation of C<enumeration PangoAlignment defined in Gnome::Pango::T-Layout> values.
+the interpretation of C<enumeration PangoAlignment defined in Gnome::Pango::T-layout> values.
 =item C<PANGO_ALIGN_LEFT>; Put all available space on the right
 =item C<PANGO_ALIGN_CENTER>; Center the line within the available space
 =item C<PANGO_ALIGN_RIGHT>; Put all available space on the left
 
 =head2 PangoEllipsizeMode
 
-C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-Layout> describes what sort of ellipsization
+C<enumeration PangoEllipsizeMode defined in Gnome::Pango::T-layout> describes what sort of ellipsization
 should be applied to text.
 
 In the ellipsization process characters are removed from the
@@ -50,11 +90,11 @@ Errors that can be returned by C<.Layout.deserialize()>.
 
 =head2 PangoWrapMode
 
-C<enumeration PangoWrapMode defined in Gnome::Pango::T-Layout> describes how to wrap the lines of a B<Gnome::Pango::Layout>
+C<enumeration PangoWrapMode defined in Gnome::Pango::T-layout> describes how to wrap the lines of a B<Gnome::Pango::Layout>
 to the desired width.
 
-For C<$PANGO_WRAP_WORD>, Pango uses break opportunities that are determined
-by the Unicode line breaking algorithm. For C<$PANGO_WRAP_CHAR>, Pango allows
+For C<$PANGO-WRAP-WORD>, Pango uses break opportunities that are determined
+by the Unicode line breaking algorithm. For C<$PANGO-WRAP-CHAR>, Pango allows
 breaking at grapheme boundaries that are determined by the Unicode text
 segmentation algorithm.
 =item C<PANGO_WRAP_WORD>; wrap lines at word boundaries.
