@@ -128,8 +128,8 @@ Set a deprecation message whith the Raku trait 'is DEPRECATED' on classes and me
 
   # if this object ends throw out the deprecation messages if any
   END {
-    if ?$x-deprecated {
-      note '=' x 80; #, '  Deprecations found at';
+    if ?$x-deprecated and $x-deprecated.keys {
+      note '=' x 80;
       for $x-deprecated.keys.sort -> $file {
         for $x-deprecated{$file}.keys.sort -> $m {
           my %message-data := $x-deprecated{$file}{$m};
