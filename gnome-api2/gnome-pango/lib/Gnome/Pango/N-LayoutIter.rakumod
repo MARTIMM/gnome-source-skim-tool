@@ -17,7 +17,7 @@ use Gnome::N::NativeLib:api<2>;
 use Gnome::N::TopLevelClassSupport:api<2>;
 use Gnome::N::X:api<2>;
 use Gnome::Pango::T-layout:api<2>;
-#use Gnome::Pango::T-types:api<2>;
+use Gnome::Pango::T-types:api<2>;
 
 
 #-------------------------------------------------------------------------------
