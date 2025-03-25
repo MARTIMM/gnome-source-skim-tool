@@ -1,0 +1,25 @@
+=comment Package: Gsk4, C-Source: roundedrect
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Gsk4::T-roundedrect
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-RoundedRect
+
+  class N-RoundedRect:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has N-Object $.bounds;
+    has gchar-pptr $.corner;
+  }
+
+=item bounds; the bounds of the rectangle
+=item corner; the size of the 4 rounded corners
+
+=end pod
+

@@ -1,0 +1,318 @@
+=comment Package: Gsk4, C-Source: roundedrect
+use v6.d;
+
+#-------------------------------------------------------------------------------
+#--[Class Description]----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=TITLE Gnome::Gsk4::N-RoundedRect
+=head1 Description
+
+A rectangular region with rounded corners.
+
+Application code should normalize rectangles using
+C<.normalize()>; this function will ensure that
+the bounds of the rectangle are normalized and ensure that the corner
+values are positive and the corners do not overlap.
+
+All functions taking a B<Gnome::Gsk4::N-RoundedRect> as an argument will internally
+operate on a normalized copy; all functions returning a B<Gnome::Gsk4::N-RoundedRect>
+will always return a normalized one.
+
+The algorithm used for normalizing corner sizes is described in
+[the CSS specification](https://drafts.csswg.org/css-backgrounds-3/#border-radius).
+
+=begin comment
+
+=head2 Example
+# Example use of module Gnome::Gsk4::RoundedRect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Class Initialization]-------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Class initialization
+
+=head2 new
+
+=head3 :native-object
+
+Create an object using a native object from elsewhere. See also B<Gnome::N::TopLevelSupportClass>.
+
+  multi method new ( N-Object :$native-object! )
+
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Methods]--------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Methods
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains-point
+
+Checks if the given C<$point> is inside the rounded rectangle.
+
+=begin code
+method contains-point ( N-Object $point --> Bool )
+=end code
+
+=item $point; the point to check
+
+Return value; C<True> if the C<$point> is inside the rounded rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-point
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 contains-rect
+
+Checks if the given C<$rect> is contained inside the rounded rectangle.
+
+=begin code
+method contains-rect ( N-Object $rect --> Bool )
+=end code
+
+=item $rect; the rectangle to check
+
+Return value; C<True> if the C<$rect> is fully contained inside the rounded rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for contains-rect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init
+
+Initializes the given B<Gnome::Gsk4::N-RoundedRect> with the given values.
+
+This function will implicitly normalize the B<Gnome::Gsk4::N-RoundedRect>
+before returning.
+
+=begin code
+method init ( N-Object $bounds, N-Object $top-left, N-Object $top-right, N-Object $bottom-right, N-Object $bottom-left --> N-Object )
+=end code
+
+=item $bounds; a B<Gnome::Graphene::N-Rect> describing the bounds
+=item $top-left; the rounding radius of the top left corner
+=item $top-right; the rounding radius of the top right corner
+=item $bottom-right; the rounding radius of the bottom right corner
+=item $bottom-left; the rounding radius of the bottom left corner
+
+Return value; the initialized rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for init
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-copy
+
+Initializes C<$self> using the given C<$src> rectangle.
+
+This function will not normalize the B<Gnome::Gsk4::N-RoundedRect>,
+so make sure the source is normalized.
+
+=begin code
+method init-copy ( N-Object $src --> N-Object )
+=end code
+
+=item $src; a B<Gnome::Gsk4::N-RoundedRect>
+
+Return value; the initialized rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for init-copy
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 init-from-rect
+
+Initializes C<$self> to the given C<$bounds> and sets the radius
+of all four corners to C<$radius>.
+
+=begin code
+method init-from-rect ( N-Object $bounds, Num() $radius --> N-Object )
+=end code
+
+=item $bounds; a B<Gnome::Graphene::N-Rect>
+=item $radius; the border radius.
+
+Return value; the initialized rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for init-from-rect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 intersects-rect
+
+Checks if part of the given C<$rect> is contained inside the rounded rectangle.
+
+=begin code
+method intersects-rect ( N-Object $rect --> Bool )
+=end code
+
+=item $rect; the rectangle to check
+
+Return value; C<True> if the C<$rect> intersects with the rounded rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for intersects-rect
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 is-rectilinear
+
+Checks if all corners of C<$self> are right angles and the
+rectangle covers all of its bounds.
+
+This information can be used to decide if C<.newroundedrect()> in class C<Gnome::Gsk4::ClipNode>
+or C<.newroundedrect()> in class C<Gnome::Gsk4::RoundedClipNode> should be called.
+
+=begin code
+method is-rectilinear (--> Bool )
+=end code
+
+Return value; C<True> if the rectangle is rectilinear. 
+
+=begin comment
+
+=head2 Example
+# Example for is-rectilinear
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 normalize
+
+Normalizes the passed rectangle.
+
+This function will ensure that the bounds of the rectangle
+are normalized and ensure that the corner values are positive
+and the corners do not overlap.
+
+=begin code
+method normalize (--> N-Object )
+=end code
+
+Return value; the normalized rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for normalize
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 offset
+
+Offsets the bound's origin by C<$dx> and C<$dy>.
+
+The size and corners of the rectangle are unchanged.
+
+=begin code
+method offset ( Num() $dx, Num() $dy --> N-Object )
+=end code
+
+=item $dx; the horizontal offset.
+=item $dy; the vertical offset.
+
+Return value; the offset rectangle. 
+
+=begin comment
+
+=head2 Example
+# Example for offset
+
+=end comment
+
+=end pod
+
+#-------------------------------------------------------------------------------
+=begin pod
+=head2 shrink
+
+Shrinks (or grows) the given rectangle by moving the 4 sides
+according to the offsets given.
+
+The corner radii will be changed in a way that tries to keep
+the center of the corner circle intact. This emulates CSS behavior.
+
+This function also works for growing rectangles if you pass
+negative values for the C<$top>, C<$right>, C<$bottom> or C<$left>.
+
+=begin code
+method shrink ( Num() $top, Num() $right, Num() $bottom, Num() $left --> N-Object )
+=end code
+
+=item $top; How far to move the top side downwards.
+=item $right; How far to move the right side to the left.
+=item $bottom; How far to move the bottom side upwards.
+=item $left; How far to move the left side to the right.
+
+Return value; the resized B<Gnome::Gsk4::N-RoundedRect>. 
+
+=begin comment
+
+=head2 Example
+# Example for shrink
+
+=end comment
+
+=end pod
+

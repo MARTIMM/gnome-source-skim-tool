@@ -1,0 +1,123 @@
+=comment Package: Gsk4, C-Source: roundedrect
+use v6.d;
+
+#TL:1:Gnome::Gsk4::T-roundedrect:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+
+use Gnome::Graphene::N-Point:api<2>;
+use Gnome::Graphene::N-Rect:api<2>;
+use Gnome::Graphene::N-Size:api<2>;
+use Gnome::Graphene::T-point:api<2>;
+use Gnome::Graphene::T-rect:api<2>;
+use Gnome::Graphene::T-size:api<2>;
+use Gnome::Gsk4::T-roundedrect:api<2>;
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Gsk4::T-roundedrect $t-roundedrect;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $t-roundedrect {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $t-roundedrect {
+    my Num() $dy;
+    my N-Object $bounds;
+    my Num() $bottom;
+    my N-Object $bottom-left;
+    my N-Object $rect;
+    my Num() $radius;
+    my N-Object $top-right;
+    my Num() $top;
+    my N-Object $point;
+    my Num() $right;
+    my Num() $dx;
+    my N-Object $bottom-right;
+    my Num() $left;
+    my N-Object $src;
+    my N-Object $top-left;
+
+
+#`{{
+    #TM:0:contains-point()
+    ok .contains-point( $point), '.contains-point()';
+
+    #TM:0:contains-rect()
+    ok .contains-rect( $rect), '.contains-rect()';
+
+    #TM:0:init()
+    ok .init( $bounds, $top-left, $top-right, $bottom-right, $bottom-left), '.init()';
+
+    #TM:0:init-copy()
+    ok .init-copy( $src), '.init-copy()';
+
+    #TM:0:init-from-rect()
+    ok .init-from-rect( $bounds, $radius), '.init-from-rect()';
+
+    #TM:0:intersects-rect()
+    ok .intersects-rect( $rect), '.intersects-rect()';
+
+    #TM:0:is-rectilinear()
+    ok .is-rectilinear(), '.is-rectilinear()';
+
+    #TM:0:normalize()
+    ok .normalize(), '.normalize()';
+
+    #TM:0:offset()
+    ok .offset( $dx, $dy), '.offset()';
+
+    #TM:0:shrink()
+    ok .shrink( $top, $right, $bottom, $left), '.shrink()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $t-roundedrect {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
