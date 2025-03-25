@@ -416,7 +416,7 @@ with my Gnome::Gtk4::Window $window .= new-window {
   .set-child($grid);
 
   .register-signal( $helper, 'exit', 'close-request');
-  .show;
+  .present;
 }
 
 #Gnome::N::debug(:on);
