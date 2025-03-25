@@ -1,0 +1,33 @@
+=comment Package: Pango, C-Source: matrix
+use v6.d;
+
+=begin pod
+=TITLE Gnome::Pango::T-matrix
+=end pod
+
+#-------------------------------------------------------------------------------
+#--[Record Structure Documentation]---------------------------------------------
+#-------------------------------------------------------------------------------
+
+=begin pod
+=head1 Record N-Matrix
+
+  class N-Matrix:auth<github:MARTIMM>:api<2> is export is repr('CStruct') {
+
+    has gdouble $.xx;
+    has gdouble $.xy;
+    has gdouble $.yx;
+    has gdouble $.yy;
+    has gdouble $.x0;
+    has gdouble $.y0;
+  }
+
+=item xx; 1st component of the transformation matrix
+=item xy; 2nd component of the transformation matrix
+=item yx; 3rd component of the transformation matrix
+=item yy; 4th component of the transformation matrix
+=item x0; x translation
+=item y0; y translation
+
+=end pod
+

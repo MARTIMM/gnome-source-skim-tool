@@ -1,0 +1,126 @@
+=comment Package: Pango, C-Source: matrix
+use v6.d;
+
+#TL:1:Gnome::Pango::T-matrix:
+#-------------------------------------------------------------------------------
+#--[Module Imports]-------------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+use NativeCall;
+use Test;
+
+
+
+use Gnome::N::GlibToRakuTypes:api<2>;
+use Gnome::N::N-Object:api<2>;
+use Gnome::N::NativeLib:api<2>;
+use Gnome::N::X:api<2>;
+use Gnome::Pango::N-Rectangle:api<2>;
+use Gnome::Pango::T-matrix:api<2>;
+#use Gnome::Pango::T-types:api<2>;
+
+#-------------------------------------------------------------------------------
+#--[Test preparation]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#Gnome::N::debug(:on);
+my Gnome::Pango::T-matrix $t-matrix;
+
+#-------------------------------------------------------------------------------
+#--[Class init tests]-----------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+subtest 'ISA test', {
+  given $t-matrix {
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# set environment variable 'raku-test-all' if rest must be tested too.
+unless %*ENV<raku_test_all>:exists {
+  done-testing;
+  exit;
+}
+
+#-------------------------------------------------------------------------------
+subtest 'Method tests', {
+  with $t-matrix {
+    my Num() $yscale;
+    my N-Object $new-matrix;
+    my N-Object $rect;
+    my Num() $x;
+    my Num() $xscale;
+    my Num() $scale-y;
+    my Num() $ty;
+    my Num() $scale-x;
+    my Num() $degrees;
+    my Num() $dx;
+    my Num() $dy;
+    my Num() $tx;
+    my Num() $y;
+
+
+#`{{
+    #TM:0:concat()
+    ok .concat( $new-matrix), '.concat()';
+
+    #TM:0:copy()
+    ok .copy(), '.copy()';
+
+    #TM:0:free()
+    ok .free(), '.free()';
+
+    #TM:0:get-font-scale-factor()
+     .get-font-scale-factor(), '…', '.get-font-scale-factor()';
+
+    #TM:0:get-font-scale-factors()
+    is-approx .get-font-scale-factors( $xscale, $yscale), '…', '.get-font-scale-factors()';
+
+    #TM:0:get-slant-ratio()
+     .get-slant-ratio(), '…', '.get-slant-ratio()';
+
+    #TM:0:rotate()
+    ok .rotate( $degrees), '.rotate()';
+
+    #TM:0:scale()
+    ok .scale( $scale-x, $scale-y), '.scale()';
+
+    #TM:0:transform-distance()
+    ok .transform-distance( $dx, $dy), '.transform-distance()';
+
+    #TM:0:transform-pixel-rectangle()
+    ok .transform-pixel-rectangle( $rect), '.transform-pixel-rectangle()';
+
+    #TM:0:transform-point()
+    ok .transform-point( $x, $y), '.transform-point()';
+
+    #TM:0:transform-rectangle()
+    ok .transform-rectangle( $rect), '.transform-rectangle()';
+
+    #TM:0:translate()
+    ok .translate( $tx, $ty), '.translate()';
+
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+subtest 'Function tests', {
+  with $t-matrix {
+
+
+#`{{
+}}
+  }
+};
+
+#-------------------------------------------------------------------------------
+done-testing;
+
+=finish
+
