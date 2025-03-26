@@ -77,6 +77,9 @@ find . -name '*.raku*' | xargs wc -l
 * [x] Improve documentation.
 
 # Release notes
+* 2025-03-26 0.17.3
+  * Add some new modules to Gsk4
+  * There is a bug when one wants to rotate a label using css. The space occupied by the label after rotation is wrong. For the time being, a test program is made to rotate a text as an image using Gsk4, Gdk4 and Graphene. The text becomes an image however. ![vertical text](./doc/vertical-text.png).
 * 2025-02-11 0.17.2
   * Loading a UI XML file with signal information works now using a few added methods in the **Gnome::Gtk4::Builder** class.
 
