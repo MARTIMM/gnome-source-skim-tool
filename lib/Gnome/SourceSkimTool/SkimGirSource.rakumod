@@ -767,7 +767,7 @@ method !get-source-file( XML::Element:D $element --> List ) {
         # prefixed. Graphene has 'graphene-' and GdkPixbuf has 'gdk-pixbuf-'.
         if $*gnome-package.Str ~~ any(<
           Gtk3 Gdk3 Gtk4 Gdk4 Gsk4 Glib GObject Gio Atk
-          Graphene Pango
+          Graphene Pango PangoCairo
         >) {
           my $name-prefix = $*work-data<name-prefix>;
           $module-filename ~~ s/^ $name-prefix <[_-]>? //;

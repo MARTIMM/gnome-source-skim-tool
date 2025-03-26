@@ -296,7 +296,6 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
       );
     }
 
-#`{{
     when PangoCairo {
       $work-data = %(
         :library<pango-lib()>,
@@ -311,6 +310,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
       );
     }
 
+#`{{
     when GIRepo {
       $work-data = %(
         :library('libgirepository-1.0.so'),
