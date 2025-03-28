@@ -68,16 +68,21 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
 #-------------------------------------------------------------------------------
 method !set-uml ( --> Str ) {
-  return '' unless $*gnome-package ~~ any( Gtk3, Gtk4, Gio);
+  return '' unless $*gnome-package ~~ any( Gtk3, Gtk4, Gio, Gsk4);
 
   # Using a markdown link not a Raku pod link. Old pod does not know about image
   # New pod does but is not yet ready.
   # add-example-code() returns a key and is text to be returned
-  $!dtxt.add-example-code(q:to/EOEX/);
+  my Str $png-file = $*gnome-package;
+  $png-file ~~ s/^ Gnome '::' <-[:]>* '::' //;
+  $png-file = 'plantuml/' ~ $png-file ~ '.png';
+  if "./doc/$png-file".IO.r" {
+    Q:qq:to/EOUML/
 
-    =head2 Uml Diagram
-    ![](plantuml/….svg)
-    EOEX
+      =head2 Uml Diagram
+      =for image :src<plantuml/> :width<50%> :class<inline>
+      EOUML
+  }
 }
 
 #-------------------------------------------------------------------------------
