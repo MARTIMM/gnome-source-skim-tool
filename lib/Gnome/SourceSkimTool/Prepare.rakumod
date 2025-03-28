@@ -254,6 +254,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
       );
     }
 
+#`{{
     when Cairo {
       $work-data = %(
         :library<cairo-lib()>,
@@ -281,7 +282,7 @@ submethod prepare-work-data ( SkimSource $source --> Hash ) {
         :result-docs(API2MODS ~ 'gnome-atk/doc/'),
       );
     }
-
+}}
     when Pango {
       $work-data = %(
         :library<pango-lib()>,
