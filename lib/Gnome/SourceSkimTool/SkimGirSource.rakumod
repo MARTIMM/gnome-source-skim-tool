@@ -242,7 +242,7 @@ method get-classes-from-gir ( ) {
   for $!map.keys -> $entry-name {
     next unless $!map{$entry-name}<gir-type>:exists;
 
-#`{{
+##`{{
     # A type name is the bare name of an object without any prefixes of gnome.
     # Those are found on class, interface, record and union. The rest of the
     # gir types must read it from the filename map created above while
@@ -256,15 +256,15 @@ method get-classes-from-gir ( ) {
     if $!map{$entry-name}<gir-type> ~~ any(
          <function constant enumeration bitfield docsection callback>
        ) {
-      $!map{$entry-name}<type-name> = $type-name;
-      $!map{$entry-name}<type-letter> = 'T';
+      $!map{$entry-name}<type-name> //= $type-name;
+      $!map{$entry-name}<type-letter> //= 'T';
     }
 
     elsif $!map{$entry-name}<gir-type> eq 'class' {
       $!map{$entry-name}<inheritable> = self!is-inheritable($entry-name);
       self!set-real-role-user($entry-name) if $!map{$entry-name}<roles>;
     }
-}}
+#}}
 
     if $!map{$entry-name}<gir-type> ~~ any(
          <function constant enumeration bitfield docsection callback>
@@ -297,6 +297,7 @@ method !set-real-role-user( Str $entry-name ) {
 #-------------------------------------------------------------------------------
 method !check-parent-role ( Str $entry-name, Str $role-class-name ) {
   my $parent-entry = $!map{$entry-name}<parent-gnome-name>;
+#note "$?LINE check-parent-role $entry-name, Str $role-class-name";
 
   # Stop when parent is GObject or GInitiallyUnowned. They have
   # no roles implemented
@@ -320,6 +321,7 @@ method !check-parent-role ( Str $entry-name, Str $role-class-name ) {
 #-------------------------------------------------------------------------------
 # Add role to be implemented by this class
 method implement-role ( Str $entry-name, Str $role-class-name) {
+#note "$?LINE implement-role $entry-name, $role-class-name";
   # Add array unless it exists
   $!map{$entry-name}<implement-roles> = []
     unless $!map{$entry-name}<implement-roles>:exists;
