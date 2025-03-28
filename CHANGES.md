@@ -30,6 +30,8 @@
 
   * [ ] Changes in documentation to be used with modern pod doc called Rakudoc using **RakuDoc::To::HTML**. Now still depending on **Pod::To::HTML2**.
 
+  * [ ] GtkExpression does not have a parent. Must become TopLevelSupport. In the docs it seems to be a `GObject.TypeInstance`.
+
 <!--
 ### Testing command with timing -o for dump to file
 * With some options
