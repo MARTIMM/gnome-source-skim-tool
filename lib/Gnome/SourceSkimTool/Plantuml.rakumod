@@ -18,18 +18,17 @@ loop over objects
           'Interface $role-name <Interface>'
           'class $role-name <<(R,#80ffff)>>'
           '$class-name ..|> $role-name'
-  
+
     repeat
       get $parent-name      - "parent-gnome-name": "GtkLayoutManager"
       write '$parent-name <|--- $class-name'
-      
+
       when $parent-name is GInitiallyUnowned
         write classes above GInitiallyUnowned
 
       end repeat when parent is "GInitiallyUnowned"
 
       find parent hash entry, go to start repeat
-
 
 =end code
 
@@ -44,7 +43,7 @@ has Hash $!work-data;
 submethod BUILD ( SkimSource :package($source) ) {
   # Set $!work-data
   self.prepare-work-data($source);
-  
+
   # Set $!object-map
   self!load-map($!work-data<gir-module-path>);
 }
@@ -54,8 +53,11 @@ method generate-plantuml-files ( ) {
 
   my Str $plantuml;
   for $!object-map.keys -> $g-object {
-    $plantuml = '';
+
 #note "$?LINE $g-object";
+#next unless $g-object ~~ m/ ShortcutController /;
+
+    $plantuml = '';
     if $!object-map{$g-object}<gir-type> eq 'class' {
       $plantuml = self!plantuml-prefix;
 
@@ -68,17 +70,32 @@ method generate-plantuml-files ( ) {
       repeat until $parent-gname ~~ / GInitiallyUnowned | GObject / {
         $parent-name = $!object-map{$pg-object}<parent-raku-name>;
         my Str $raku-package = $!work-data<raku-package>;
+#note "$?LINE $pg-object, $parent-name";
+
+        # Some parent names are empty im the repo-object-map.
+        # Assuming the Gnome::N::TopLevelClassSupport
         if !$parent-name {
           #TODO might be linked to Object
           $plantuml ~= "Gnome::N::TopLevelClassSupport <|-- $class-name\n";
           last;
         }
-        
+
+        # When the parent point to a module outside the current distro,
+        # assume that it is an object inheriting from Gnome::GObject::Object
+        # which is often the case when outside Gtk*
         elsif $parent-name !~~ m/^ $raku-package / {
-          $plantuml ~= Q:qq:to/EOPUML/;
-            $!object-map{$pg-object}<parent-raku-name> <|-- $class-name
-            Gnome::GObject::Object <|-- $parent-name
-            EOPUML
+          if $parent-name ~~ m/ '::' Object $/ {
+            $plantuml ~= Q:qq:to/EOPUML/;
+              $!object-map{$pg-object}<parent-raku-name> <|-- $class-name
+              EOPUML
+          }
+
+          else {
+            $plantuml ~= Q:qq:to/EOPUML/;
+              $!object-map{$pg-object}<parent-raku-name> <|-- $class-name
+              Gnome::GObject::Object <|-- $parent-name
+              EOPUML
+          }
 
           last;
         }
@@ -97,7 +114,7 @@ method generate-plantuml-files ( ) {
       }
 
       $plantuml ~= self!plantuml-postfix($parent-gname);
-
+#note "$?LINE $plantuml";
 
       say "Generate uml file for $!object-map{$g-object}<class-name>"
         if $*verbose;

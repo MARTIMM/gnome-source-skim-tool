@@ -59,7 +59,7 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 
     $doc
 
-    {self!set-uml if $*gnome-package ~~ any( Gtk3, Gtk4, Gio)}
+    {self!set-uml($class-name) if $*gnome-package ~~ any( Gtk3, Gtk4, Gio)}
     {self!set-example}
 
     =end pod
@@ -67,20 +67,27 @@ method get-description ( XML::Element $element, XML::XPath $xpath --> Str ) {
 }
 
 #-------------------------------------------------------------------------------
-method !set-uml ( --> Str ) {
+method !set-uml ( Str $class-name --> Str ) {
   return '' unless $*gnome-package ~~ any( Gtk3, Gtk4, Gio, Gsk4);
 
   # Using a markdown link not a Raku pod link. Old pod does not know about image
   # New pod does but is not yet ready.
   # add-example-code() returns a key and is text to be returned
-  my Str $png-file = $*gnome-package;
+  
+  # This example is skipped now that there are uml images
+  $!dtxt.add-example-code(q:to/EOEX/);
+    =comment replaced uml image
+    EOEX
+
+  my Str $png-file = $class-name;
   $png-file ~~ s/^ Gnome '::' <-[:]>* '::' //;
   $png-file = 'plantuml/' ~ $png-file ~ '.png';
-  if "./doc/$png-file".IO.r" {
+  if "$*work-data<result-docs>/$png-file".IO.r {
+    $png-file = 'asset_files/images/' ~ $png-file;
     Q:qq:to/EOUML/
 
       =head2 Uml Diagram
-      =for image :src<plantuml/> :width<50%> :class<inline>
+      =for image :src<$png-file> :width<50%> :class<inline>
       EOUML
   }
 }
@@ -654,7 +661,7 @@ method get-doc-type (
     }
   }
 
-note "$?LINE $ctype, $raku-type";
+#Sonote "$?LINE $ctype, $raku-type";
 
   ( $doc, $ctype, $raku-type)
 }
